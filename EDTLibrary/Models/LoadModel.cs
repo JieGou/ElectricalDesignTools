@@ -129,8 +129,7 @@ namespace EDTLibrary.Models {
                 this.PowerFactor = 0;
                 try {
                     string motorKey = this.Unit + this.Voltage.ToString() + this.Size.ToString() + "1800";
-                    this.PowerFactor = GlobalConfig.motorDict[motorKey].PowerFactor;
-                    this.Efficiency = GlobalConfig.motorDict[motorKey].Efficiency;
+                    
                 }
                 catch (Exception) {
                     //do nothing and leave value at 0 if motor doesn't exist
@@ -139,25 +138,24 @@ namespace EDTLibrary.Models {
 
             //----NON-MOTOR LOADS
             else {
-                //gets default PF and Eff for other load types (Panel, Heater, Transformer, Welding, Others..)
-                List<LoadData> defaultLoadData = DbManager.dataDb.GetRecords<LoadData>(GlobalConfig.loadDataTable);
+                ////gets default PF and Eff for other load types (Panel, Heater, Transformer, Welding, Others..)
 
-                foreach (var loadType in defaultLoadData) {
-                    if (loadType.Type == this.Type) {
-                        this.PowerFactor = loadType.DefaultPowerFactor;
-                        this.Efficiency = loadType.DefaultEfficiency;
-                    }
-                }
+                //foreach (var loadType in defaultLoadData) {
+                //    if (loadType.Type == this.Type) {
+                //        this.PowerFactor = loadType.DefaultPowerFactor;
+                //        this.Efficiency = loadType.DefaultEfficiency;
+                //    }
+                //}
 
-                // linq query that gets list of records that have the same Size,Voltage,Unit as this load 
-                var returnedRecords = from record in defaultLoadData
-                                      where record.Type == this.Type
-                                      select record;
+                //// linq query that gets list of records that have the same Size,Voltage,Unit as this load 
+                //var returnedRecords = from record in defaultLoadData
+                //                      where record.Type == this.Type
+                //                      select record;
 
-                foreach (var item in returnedRecords) {
-                    this.PowerFactor = item.DefaultPowerFactor;
-                    this.Efficiency = item.DefaultEfficiency;
-                }
+                //foreach (var item in returnedRecords) {
+                //    this.PowerFactor = item.DefaultPowerFactor;
+                //    this.Efficiency = item.DefaultEfficiency;
+                //}
             }
         }
         public void SizeComponents() {
