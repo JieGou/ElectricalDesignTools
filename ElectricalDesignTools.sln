@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDTLibrary", "EDTLibrary\ED
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{91E6A307-6BF1-46A1-9D64-6E72466452D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLiteLibrary", "SQLiteLibrary\SQLiteLibrary.csproj", "{37A104EF-4224-4912-996B-C4E0B26B61CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{91E6A307-6BF1-46A1-9D64-6E72466452D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91E6A307-6BF1-46A1-9D64-6E72466452D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91E6A307-6BF1-46A1-9D64-6E72466452D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
