@@ -8,13 +8,14 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>ConsoleUI</RootNamespace>
     <AssemblyName>ConsoleUI</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -53,6 +54,10 @@
     <ProjectReference Include="..\EDTLibrary\EDTLibrary.csproj">
       <Project>{49ba6586-11f5-4c44-ad83-ffa6b5be27c7}</Project>
       <Name>EDTLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SQLiteLibrary\SQLiteLibrary.csproj">
+      <Project>{37a104ef-4224-4912-996b-c4e0b26b61ce}</Project>
+      <Name>SQLiteLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

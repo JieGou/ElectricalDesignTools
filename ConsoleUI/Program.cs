@@ -8,14 +8,20 @@ using System.Threading.Tasks;
 using EDTLibrary;
 using EDTLibrary.Models;
 using LM = EDTLibrary.ListManager;
+using SQLiteLibrary;
 
 namespace ConsoleUI {
     class Program {
+
+        SQLiteDapperConnector sqldc;
         static void Main(string[] args) {
-            CreateSampleData(); //
+            //CreateSampleData();
+
+            string dbPath = "C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\EDT SQLite DB Files\\EDTProjectTemplate1.0.db";
             Stopwatch timer = new Stopwatch();
 
             timer.Start();
+            LM.loadList = new SQLiteDapperConnector(dbPath).GetRecords<LoadModel>("loads");
 
             LM.CalculateLoads(LM.loadList);
             LM.AssignLoadsToDteq(LM.dteqList, LM.loadList);
