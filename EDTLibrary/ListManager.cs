@@ -27,6 +27,7 @@ namespace EDTLibrary {
         }
 
         public static void CreateDteqDict() {
+            dteqDict.Clear();
             foreach (var dteq in dteqList) {
                 dteqDict.Add(dteq.Tag, dteq);
             }
@@ -115,6 +116,9 @@ namespace EDTLibrary {
         #endregion
 
         #region Lists
+        /// <summary>
+        /// Creates a list of ILoadModel for all equipment (not components)
+        /// </summary>
         public static void CreateMasterLoadList() {
             foreach (var dteq in dteqList) {
                 masterLoadList.Add(dteq);
@@ -133,6 +137,9 @@ namespace EDTLibrary {
             }
             return masterLoadList;
         }
+        /// <summary>
+        /// Creates a list of ComponentModel
+        /// </summary>
         public static void CreateComponentList() {
             foreach (var load in loadList) {
                 load.SizeComponents();
@@ -148,8 +155,12 @@ namespace EDTLibrary {
             }
             return compList;
         }
-
+        /// <summary>
+        /// Creteas a list of CableModel for all equipment and components based on the masterLoadList
+        /// </summary>
         public static void CreateCableList() {
+            CreateMasterLoadList();
+
             foreach (var load in masterLoadList) {
                 //No Components
                 if (load.InLineComponents.Count == 0) {

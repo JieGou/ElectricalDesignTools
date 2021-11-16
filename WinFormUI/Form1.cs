@@ -32,7 +32,7 @@ namespace WinFormUI {
             ShowDteq();
             RefreshLoads();
             FillDteqListBox();
-            LM.CreateDteqDict();
+            //LM.CreateDteqDict();
             UpdateStatus();            
         }
         
@@ -111,6 +111,7 @@ namespace WinFormUI {
 
         //Dteq
         private void btnDteqList_Click(object sender, EventArgs e) {
+            //LM.CreateDteqDict();
             ShowDteq();
         }
         private void btnAssignLoads_Click(object sender, EventArgs e) {
@@ -118,6 +119,7 @@ namespace WinFormUI {
             SaveDteq();
             RefreshLoads();
             ShowDteq();
+            LM.AssignLoadsToDteq();
         }
         private void btnSaveDteq_Click(object sender, EventArgs e) {
             SaveDteq();
@@ -151,8 +153,9 @@ namespace WinFormUI {
         }
 
         private void lstDteq_SelectedIndexChanged(object sender, EventArgs e) {
-            LM.AssignLoadsToDteq();
-            DistributionEquipmentModel dteq = LM.dteqDict[lstDteq.SelectedItem.ToString()];
+            string selectedEq = lstDteq.SelectedItem.ToString();
+            DistributionEquipmentModel dteq;
+            dteq = LM.dteqList.FirstOrDefault(t => t.Tag == selectedEq);
             dgvMain.DataSource = dteq.AssignedLoads;
         }
     }
