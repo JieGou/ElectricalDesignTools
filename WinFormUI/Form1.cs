@@ -44,12 +44,14 @@ namespace WinFormUI {
         }
 
         //DB and Datagrid Refresh
+
+        //Loads
         private void SaveLoads() {
             Tuple<bool, string> update;
             bool error = false;
             string message = "";
             foreach (var load in LM.loadList) {
-                update = sqldc.UpdateRecord<LoadModel>(load, "Loads");
+                update = sqldc.UpdateRecord(load, "Loads");
                 if (update.Item1 == false) {
                     error = true;
                     message = update.Item2;
@@ -66,12 +68,14 @@ namespace WinFormUI {
             RefreshLoads();
             dgvMain.DataSource = LM.loadList;
         }
+
+        //Dteq
         private void SaveDteq() {
             Tuple<bool, string> update;
             bool error = false;
             string message = "";
             foreach (var dteq in LM.dteqList) {
-                update = sqldc.UpdateRecord<DistributionEquipmentModel>(dteq, "DistributionEquipment");
+                update = sqldc.UpdateRecord(dteq, "DistributionEquipment");
                 if (update.Item1 == false) {
                     error = true;
                     message = update.Item2;
@@ -83,11 +87,36 @@ namespace WinFormUI {
         }
         private void RefreshDteq() {
             LM.dteqList = sqldc.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
+            LM.AssignLoadsToDteq();
         }
         private void ShowDteq() {
             RefreshDteq();
             dgvMain.DataSource = LM.dteqList;
 
+        }
+
+        //Cables
+        private void SaveCables() {
+            Tuple<bool, string> update;
+            bool error = false;
+            string message = "";
+            foreach (var cable in LM.cableList) {
+                update = sqldc.UpdateRecord(cable, "Cables");
+                if (update.Item1 == false) {
+                    error = true;
+                    message = update.Item2;
+                }
+            }
+            if (error) {
+                MessageBox.Show(message);
+            }
+        }
+        private void RefreshCables() {
+            LM.cableList = sqldc.GetRecords<CableModel>("Cables");
+        }
+        private void ShowCables() {
+            RefreshCables();
+            dgvMain.DataSource = LM.cableList;
         }
 
         ///Loads
@@ -111,13 +140,9 @@ namespace WinFormUI {
 
         //Dteq
         private void btnDteqList_Click(object sender, EventArgs e) {
-            //LM.CreateDteqDict();
             ShowDteq();
         }
         private void btnAssignLoads_Click(object sender, EventArgs e) {
-            LM.AssignLoadsToDteq();
-            SaveDteq();
-            RefreshLoads();
             ShowDteq();
             LM.AssignLoadsToDteq();
         }
@@ -151,18 +176,45 @@ namespace WinFormUI {
         private void dgdMain_CellContentClick(object sender, DataGridViewCellEventArgs e) {
             stsLabel3.Text = dgvMain.SelectedRows.Count.ToString();
         }
-
         private void lstDteq_SelectedIndexChanged(object sender, EventArgs e) {
             string selectedEq = lstDteq.SelectedItem.ToString();
             DistributionEquipmentModel dteq;
             dteq = LM.dteqList.FirstOrDefault(t => t.Tag == selectedEq);
             dgvMain.DataSource = dteq.AssignedLoads;
         }
+
+        //Cables
+        private void btnCables_Click(object sender, EventArgs e) {
+            ShowCables();
+        }
+        private void btnSaveCables_Click(object sender, EventArgs e) {
+            SaveCables();
+        }
+        private void btnCreateCableList_Click(object sender, EventArgs e) {
+            Tuple<bool, string> update;
+            bool error = false;
+            string message = "";
+
+            sqldc.DeleteAllRecords("Cables");
+            LM.CreateCableList();
+            dgvMain.DataSource = LM.cableList;
+
+            foreach (var cable in LM.cableList) {
+                update = sqldc.InsertRecord(cable, "Cables");
+                if (update.Item1 == false) {
+                    error = true;
+                    message = update.Item2;
+                }
+            }
+            if (error) {
+                MessageBox.Show(message);
+            }
+            LM.cableList = sqldc.GetRecords<CableModel>("Cables");
+            dgvMain.DataSource = LM.cableList;
+        }
+
+
     }
-
-
-
-
 
 
     public static class ExtensionMethods {

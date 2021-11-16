@@ -48,44 +48,52 @@ namespace SQLiteLibrary
                 }
             }
         }
-
-        //Builds an SQL command string with Dynamic parameters to insert an obejct as a record. 
-        //Takes in the object instance and Database tablename
+        /// <summary>
+        /// Builds an SQL command string with Dynamic parameters to insert an obejct as a record. 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="classObject"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
         public Tuple<bool, string> InsertRecord<T>(T classObject, string tableName) where T : class, new() {
             using (IDbConnection cnn = new SQLiteConnection(conString)) {
                 StringBuilder sb = new StringBuilder();
                 var props = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
 
-                //Build command string: 
+                //Build query string: 
                 //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
                 sb.Append($"INSERT INTO {tableName} (");
 
                 //Column Names
                 foreach (var prop in props) {
-                    sb.Append($"{prop.Name},");
-                    cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
+                    sb.Append($"{prop.Name}, ");
+                    //cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
                 sb.Replace("Id,", "");
-                sb.Remove(sb.Length - 1, 1);
+                sb.Replace(",", "", sb.Length - 2, 2);
+                sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(") VALUES (");
 
                 //Parameters (@ColumnNames)
                 foreach (var prop in props) {
-                    sb.Append($"@{prop.Name},");
+                    sb.Append($"@{prop.Name}, ");
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
                 sb.Replace("@Id,", "");
-                sb.Remove(sb.Length - 1, 1);
+                sb.Replace(",", "", sb.Length - 2, 2);
+                sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(")");
 
                 try {
-                    cnn.Execute(sb.ToString(), classObject);
+                    cnn.Execute(sb.ToString()+";", classObject);
                     return new Tuple<bool, string>(true, "");
                 }
                 catch (Exception ex) {
                     //throw new Exception("Could not add record");
-                    return new Tuple<bool, string>(false, $"Exception thrown: \n\n{ex}");
+                    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
+                        $"Query: \n{sb}\n\n" +
+                        $"Details: \n\n {ex}"); ;
                 }
             }
         }
@@ -96,7 +104,7 @@ namespace SQLiteLibrary
                 var props = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
 
-                //Build command string: 
+                //Build query string: 
                 //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
                 sb.Append($"UPDATE {tableName} SET ");
 
@@ -117,9 +125,9 @@ namespace SQLiteLibrary
                 }
                 catch (Exception ex) {
                     //throw new Exception("Could not add record");
-                    return new Tuple<bool, string>(false, $"Error: \n\n" +
-                        $"{ex.Message}\n\n" +
-                        $"Details: \n\n {ex}");
+                    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
+                        $"Query: \n{sb}\n\n"+
+                        $"Details: \n\n {ex}"); ;
                 }
             }
         }
@@ -131,6 +139,20 @@ namespace SQLiteLibrary
                     con.Open();
                     cmd.CommandText = ($"DELETE FROM {tableName} WHERE Id = @Id");
                     cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex) {
+                    throw new Exception("Error thrown from SqLiteDataAccess: DeleteRecord: " + ex);
+                }
+            }
+        }
+
+        public void DeleteAllRecords(string tableName) {
+            using (SQLiteConnection con = new SQLiteConnection(conString)) {
+                try {
+                    SQLiteCommand cmd = new SQLiteCommand(con);
+                    con.Open();
+                    cmd.CommandText = ($"DELETE FROM {tableName}");
                     cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex) {

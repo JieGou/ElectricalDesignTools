@@ -160,7 +160,7 @@ namespace EDTLibrary {
         /// </summary>
         public static void CreateCableList() {
             CreateMasterLoadList();
-
+            cableList.Clear();
             foreach (var load in masterLoadList) {
                 //No Components
                 if (load.InLineComponents.Count == 0) {
@@ -182,6 +182,9 @@ namespace EDTLibrary {
                         }
                     }
                 }
+            }
+            foreach (var cable in cableList) {
+                cable.Tag = $"{cable.From}-{cable.To}";
             }
         }
 

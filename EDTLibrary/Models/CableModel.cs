@@ -16,16 +16,17 @@ namespace EDTLibrary.Models
         public string Tag { get; set; }
         public string Category { get; set; }
         public string Type { get; set; }
-        public string ParallelRuns { get; set; }
+        public int Conductors { get; set; }
         public string Size { get; set; }
-        public int RatedAmps { get; set; }
         public double DesignAmps { get; set; }
+        public int RatedVoltage { get; set; }
+        public double Derating { get; set; }
+        public double RatedAmps { get; set; }
         public string From { get; set; }
         public string To { get; set; }
-        public double Derating { get; set; }
-        public double Spacing { get; set; }
+        //public double Spacing { get; set; }
 
-        public List<string> Trays { get; set; } = new List<string>();
+        //public List<string> Trays { get; set; } = new List<string>();
 
         public void CreateCableTag() {
             Tag = From.Replace("-", "") + "-" + To.Replace("-", "");
