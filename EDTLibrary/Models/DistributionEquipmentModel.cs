@@ -15,7 +15,7 @@ namespace EDTLibrary.Models {
 
         #region IEquipmentModel
 
-        //[System.ComponentModel.Browsable(false)]
+        [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; } //was private beo
         public string Tag { get; set; }
         public string Category { get; set; } //dteq, load, component, cable,
@@ -54,7 +54,7 @@ namespace EDTLibrary.Models {
 
         #region Lists
         public List<ComponentModel> InLineComponents { get; set; } = new List<ComponentModel>();
-        public List<CableModel> Cables { get; set; } = new List<CableModel>();
+        //public List<CableModel> Cables { get; set; } = new List<CableModel>();
         #endregion
 
         #region ILoadModel Interface Un-used

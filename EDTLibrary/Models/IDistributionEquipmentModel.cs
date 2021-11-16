@@ -44,7 +44,7 @@ namespace EDTLibrary.Models {
 
         #region Lists
         List<ComponentModel> InLineComponents { get; set; }
-        List<CableModel> Cables { get; set; }
+        //List<CableModel> Cables { get; set; }
         #endregion
 
         #region ILoadModel Interface Un-used

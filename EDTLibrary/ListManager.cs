@@ -44,14 +44,16 @@ namespace EDTLibrary {
         {
             foreach (DistributionEquipmentModel dteq in dteqList) {
                 dteq.AssignedLoads.Clear();
-                dteq.LoadCount = 0;
+                dteq.LoadCount = 0;    
+
+                //Adds Dteq as Loads
                 foreach (DistributionEquipmentModel dteqAsLoad in dteqList) {
                     if (dteqAsLoad.FedFrom == dteq.Tag) {
                         dteq.AssignedLoads.Add(dteqAsLoad);
                         dteq.LoadCount += 1;
                     }
                 }
-
+                //Adds loads as loads
                 foreach (LoadModel load in loadList) {
                     if (load.FedFrom == dteq.Tag) {
                         load.CalculateLoading();
@@ -60,6 +62,7 @@ namespace EDTLibrary {
                     }
                 }
             }
+            //Calculates the loading of each load. Recursive for dteq
             foreach (DistributionEquipmentModel dteq in dteqList) {
                 dteq.CalculateLoading();
             }
@@ -69,7 +72,7 @@ namespace EDTLibrary {
         {
             foreach (DistributionEquipmentModel dteq in dteqList) {
                 dteq.AssignedLoads.Clear();
-                dteq.LoadCount = 0;
+                dteq.LoadCount = 0;                
                 foreach (DistributionEquipmentModel dteqAsLoad in dteqList) {
                     if (dteqAsLoad.FedFrom == dteq.Tag) {
                         dteq.AssignedLoads.Add(dteqAsLoad);

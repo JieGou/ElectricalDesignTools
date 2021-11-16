@@ -32,7 +32,7 @@ namespace EDTLibrary.Models {
         string CableSize { get; set; }
 
         List<ComponentModel> InLineComponents { get; set; }
-        List<CableModel> Cables { get; set; }
+        //List<CableModel> Cables { get; set; }
 
         //Methods
         void CalculateLoading();

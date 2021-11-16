@@ -17,6 +17,7 @@ namespace EDTLibrary.Models {
         //Properties
 
         #region EquipmentModel
+
         [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; }
         public string Tag { get; set; }
@@ -29,11 +30,15 @@ namespace EDTLibrary.Models {
         public int Voltage { get; set; }
         public double Size { get; set; }
         public string Unit { get; set; }
-        public double LoadFactor { get; set; }
         public string FedFrom { get; set; }
+        public double LoadFactor { get; set; }
         public List<ComponentModel> InLineComponents { get; set; } = new List<ComponentModel>();
-        public List<CableModel> Cables { get; set; } = new List<CableModel>();
+        //public List<CableModel> Cables { get; set; } = new List<CableModel>();
 
+        #endregion
+        #region Lookups
+        public double PowerFactor { get; set; }
+        public double Efficiency { get; set; }
         #endregion
 
         #region ILoadModel - Privately Calculated Values
@@ -52,10 +57,7 @@ namespace EDTLibrary.Models {
         public string PdStarter { get; set; }
         #endregion
 
-        #region Lookups
-        public double PowerFactor { get; set; }
-        public double Efficiency { get; set; }
-        #endregion
+       
 
 
         //Methods

@@ -16,7 +16,7 @@ namespace SQLiteLibrary
 
         public SQLiteDapperConnector(string dbFileName) {
             try {
-                conString = $"DataSource= {dbFileName}; PRAGMA foreign_keys = ON;";
+                conString = $"DataSource= {dbFileName}; foreign keys=true; PRAGMA foreign_keys = ON;";
             }
             catch (ArgumentException e) {
             }
@@ -91,7 +91,7 @@ namespace SQLiteLibrary
         }
 
         public Tuple<bool, string> UpdateRecord<T>(T classObject, string tableName) where T : class, new() {
-            using (IDbConnection cnn = new SQLiteConnection(conString)) {
+            using (IDbConnection cnn = new SQLiteConnection(conString).OpenAndReturn()) {
                 StringBuilder sb = new StringBuilder();
                 var props = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
@@ -106,16 +106,20 @@ namespace SQLiteLibrary
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
                 sb.Replace("Id = @Id,", "");
+                sb.Replace("AssignedLoads = @AssignedLoads,", "");
+                sb.Replace("InLineComponents = @InLineComponents,", "");
                 sb.Remove(sb.Length - 2, 2); //, and last space
                 sb.Append(" WHERE Id = @Id");
 
                 try {
-                    cnn.Execute(sb.ToString(), classObject);
+                    cnn.Execute("" + sb.ToString(), classObject);
                     return new Tuple<bool, string>(true, "");
                 }
                 catch (Exception ex) {
                     //throw new Exception("Could not add record");
-                    return new Tuple<bool, string>(false, $"Exception thrown: \n\n{ex}");
+                    return new Tuple<bool, string>(false, $"Error: \n\n" +
+                        $"{ex.Message}\n\n" +
+                        $"Details: \n\n {ex}");
                 }
             }
         }
