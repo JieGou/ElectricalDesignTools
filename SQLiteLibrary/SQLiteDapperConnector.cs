@@ -97,6 +97,49 @@ namespace SQLiteLibrary
                 }
             }
         }
+        public Tuple<bool, string> InsertRecord<T>(T classObject, string tableName, List<string> propertyList) where T : class, new() {
+            using (IDbConnection cnn = new SQLiteConnection(conString)) {
+                StringBuilder sb = new StringBuilder();
+                var props = classObject.GetType().GetProperties();
+                SQLiteCommand cmd = new SQLiteCommand();
+
+                //Build query string: 
+                //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
+                sb.Append($"INSERT INTO {tableName} (");
+
+                //Column Names
+                foreach (var prop in propertyList) {
+                    sb.Append($"{prop}, ");
+                    //cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
+                }
+                sb.Replace(", ", "", sb.Length - 2, 2);
+                sb.Append(") VALUES (");
+
+                //Parameters (@ColumnNames)
+                foreach (var prop in propertyList) {
+                    sb.Append($"@{prop}, ");
+                    foreach (var p in props) {
+                        if (prop==p.Name) {
+                            cmd.Parameters.AddWithValue($"@{prop}", p.GetValue(classObject));
+                        }
+                    }
+                }
+                sb.Replace(", ", "", sb.Length - 2, 2);
+                sb.Append(")");
+
+                try {
+                    cnn.Execute(sb.ToString() + ";", classObject);
+                    return new Tuple<bool, string>(true, "");
+                }
+                catch (Exception ex) {
+                    //throw new Exception("Could not add record");
+                    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
+                        $"Query: \n{sb}\n\n" +
+                        $"Details: \n\n {ex}"); ;
+                }
+            }
+        }
+
 
         public Tuple<bool, string> UpdateRecord<T>(T classObject, string tableName) where T : class, new() {
             using (IDbConnection cnn = new SQLiteConnection(conString).OpenAndReturn()) {

@@ -102,6 +102,7 @@ namespace EDTLibrary {
         }
         #endregion
 
+        //Loads
         #region Loads
         public static void CalculateLoads() {
             foreach (var load in loadList) {
@@ -115,11 +116,13 @@ namespace EDTLibrary {
         }
         #endregion
 
+        //Lists
         #region Lists
         /// <summary>
         /// Creates a list of ILoadModel for all equipment (not components)
         /// </summary>
         public static void CreateMasterLoadList() {
+            masterLoadList.Clear();
             foreach (var dteq in dteqList) {
                 masterLoadList.Add(dteq);
             }
@@ -129,6 +132,7 @@ namespace EDTLibrary {
         }
         public static List<ILoadModel> CreateMasterLoadList(List<DistributionEquipmentModel> dteqList, List<LoadModel> loadList) {
             List<ILoadModel> masterLoadList = new List<ILoadModel>();
+            masterLoadList.Clear();
             foreach (var dteq in dteqList) {
                 masterLoadList.Add(dteq);
             }
@@ -141,6 +145,7 @@ namespace EDTLibrary {
         /// Creates a list of ComponentModel
         /// </summary>
         public static void CreateComponentList() {
+            compList.Clear();
             foreach (var load in loadList) {
                 load.SizeComponents();
                 compList.AddRange(load.InLineComponents);
@@ -148,7 +153,7 @@ namespace EDTLibrary {
         }
         public static List<ComponentModel> CreateComponentList(List<LoadModel> loadList) {
             List<ComponentModel> compList = new List<ComponentModel>();
-
+            compList.Clear();
             foreach (var load in loadList) {
                 load.SizeComponents();
                 compList.AddRange(load.InLineComponents);
@@ -164,27 +169,27 @@ namespace EDTLibrary {
             foreach (var load in masterLoadList) {
                 //No Components
                 if (load.InLineComponents.Count == 0) {
-                    cableList.Add(new CableModel { From = load.FedFrom, To = load.Tag });
+                    cableList.Add(new CableModel { Conn1 = load.FedFrom, Conn2 = load.Tag });
                 }
                 //Has Components
                 else {
                     for (int i = 0; i < load.InLineComponents.Count; i++) {
                         //First cable = FedFrom to component[0]
                         if (i == 0) {
-                            cableList.Add(new CableModel { From = load.FedFrom, To = load.InLineComponents[i].Tag });
+                            cableList.Add(new CableModel { Conn1 = load.FedFrom, Conn2 = load.InLineComponents[i].Tag });
                         }
                         //Last cable = component[n] to Load
                         else if (i == load.InLineComponents.Count - 1) {
-                            cableList.Add(new CableModel { From = load.InLineComponents[i].Tag, To = load.Tag });
+                            cableList.Add(new CableModel { Conn1 = load.InLineComponents[i].Tag, Conn2 = load.Tag });
                         }
                         else {
-                            cableList.Add(new CableModel { From = load.InLineComponents[i - 1].Tag, To = load.InLineComponents[i].Tag });
+                            cableList.Add(new CableModel { Conn1 = load.InLineComponents[i - 1].Tag, Conn2 = load.InLineComponents[i].Tag });
                         }
                     }
                 }
             }
             foreach (var cable in cableList) {
-                cable.Tag = $"{cable.From}-{cable.To}";
+                cable.Tag = $"{cable.Conn1}-{cable.Conn2}";
             }
         }
 
@@ -195,21 +200,21 @@ namespace EDTLibrary {
             foreach (var load in masterLoadList) {
                 //No Components
                 if (load.InLineComponents.Count == 0) {
-                    cableList.Add(new CableModel { From = load.FedFrom, To = load.Tag });
+                    cableList.Add(new CableModel { Conn1 = load.FedFrom, Conn2 = load.Tag });
                 }
                 //Has Components
                 else {
                     for (int i = 0; i < load.InLineComponents.Count; i++) {
                         //First cable = FedFrom to component[0]
                         if (i == 0) {
-                            cableList.Add(new CableModel { From = load.FedFrom, To = load.InLineComponents[i].Tag });
+                            cableList.Add(new CableModel { Conn1 = load.FedFrom, Conn2 = load.InLineComponents[i].Tag });
                         }
                         //Last cable = component[n] to Load
                         else if (i == load.InLineComponents.Count - 1) {
-                            cableList.Add(new CableModel { From = load.InLineComponents[i].Tag, To = load.Tag });
+                            cableList.Add(new CableModel { Conn1 = load.InLineComponents[i].Tag, Conn2 = load.Tag });
                         }
                         else {
-                            cableList.Add(new CableModel { From = load.InLineComponents[i - 1].Tag, To = load.InLineComponents[i].Tag });
+                            cableList.Add(new CableModel { Conn1 = load.InLineComponents[i - 1].Tag, Conn2 = load.InLineComponents[i].Tag });
                         }
                     }
                 }

@@ -199,6 +199,7 @@ namespace WinFormUI {
             LM.CreateCableList();
             dgvMain.DataSource = LM.cableList;
 
+            List<string> properties = new List<string> { "Tag", "Category", "Conn1", "Conn2"};
             foreach (var cable in LM.cableList) {
                 update = sqldc.InsertRecord(cable, "Cables");
                 if (update.Item1 == false) {
@@ -209,6 +210,7 @@ namespace WinFormUI {
             if (error) {
                 MessageBox.Show(message);
             }
+            LM.cableList.Clear();
             LM.cableList = sqldc.GetRecords<CableModel>("Cables");
             dgvMain.DataSource = LM.cableList;
         }

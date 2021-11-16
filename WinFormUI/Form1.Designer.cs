@@ -24,8 +24,8 @@ namespace WinFormUI {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.stsMain = new System.Windows.Forms.StatusStrip();
             this.stsLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -199,23 +199,23 @@ namespace WinFormUI {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvMain.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvMain.ColumnHeadersHeight = 35;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvMain.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvMain.DefaultCellStyle = dataGridViewCellStyle4;
             this.dgvMain.EnableHeadersVisualStyles = false;
             this.dgvMain.Location = new System.Drawing.Point(421, 142);
             this.dgvMain.Name = "dgvMain";
@@ -236,7 +236,7 @@ namespace WinFormUI {
             // 
             // btnSaveCables
             // 
-            this.btnSaveCables.Location = new System.Drawing.Point(231, 673);
+            this.btnSaveCables.Location = new System.Drawing.Point(231, 627);
             this.btnSaveCables.Name = "btnSaveCables";
             this.btnSaveCables.Size = new System.Drawing.Size(148, 28);
             this.btnSaveCables.TabIndex = 9;
@@ -246,7 +246,7 @@ namespace WinFormUI {
             // 
             // btnAddCable
             // 
-            this.btnAddCable.Location = new System.Drawing.Point(231, 605);
+            this.btnAddCable.Location = new System.Drawing.Point(231, 559);
             this.btnAddCable.Name = "btnAddCable";
             this.btnAddCable.Size = new System.Drawing.Size(148, 28);
             this.btnAddCable.TabIndex = 11;
@@ -255,7 +255,7 @@ namespace WinFormUI {
             // 
             // btnCables
             // 
-            this.btnCables.Location = new System.Drawing.Point(231, 571);
+            this.btnCables.Location = new System.Drawing.Point(231, 525);
             this.btnCables.Name = "btnCables";
             this.btnCables.Size = new System.Drawing.Size(148, 28);
             this.btnCables.TabIndex = 10;
@@ -265,7 +265,7 @@ namespace WinFormUI {
             // 
             // btnDeleteCable
             // 
-            this.btnDeleteCable.Location = new System.Drawing.Point(231, 639);
+            this.btnDeleteCable.Location = new System.Drawing.Point(231, 593);
             this.btnDeleteCable.Name = "btnDeleteCable";
             this.btnDeleteCable.Size = new System.Drawing.Size(148, 28);
             this.btnDeleteCable.TabIndex = 12;

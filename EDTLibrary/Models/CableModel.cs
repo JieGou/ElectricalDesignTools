@@ -22,14 +22,14 @@ namespace EDTLibrary.Models
         public int RatedVoltage { get; set; }
         public double Derating { get; set; }
         public double RatedAmps { get; set; }
-        public string From { get; set; }
-        public string To { get; set; }
+        public string Conn1 { get; set; }
+        public string Conn2 { get; set; }
         //public double Spacing { get; set; }
 
         //public List<string> Trays { get; set; } = new List<string>();
 
         public void CreateCableTag() {
-            Tag = From.Replace("-", "") + "-" + To.Replace("-", "");
+            Tag = Conn1.Replace("-", "") + "-" + Conn2.Replace("-", "");
         }
 
         public void CalculateLoading() {

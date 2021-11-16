@@ -77,9 +77,16 @@ namespace EDTLibrary.Models {
             Voltage = LineVoltage;
 
             ConnectedKva = (from x in AssignedLoads select x.ConnectedKva).Sum();
+            ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
+
             DemandKva = (from x in AssignedLoads select x.DemandKva).Sum();
+            DemandKva = Math.Round(DemandKva, GlobalConfig.SigFigs);
+
             DemandKw = (from x in AssignedLoads select x.DemandKw).Sum();
+            DemandKw = Math.Round(DemandKw, GlobalConfig.SigFigs);
+
             DemandKvar = (from x in AssignedLoads select x.DemandKvar).Sum();
+            DemandKvar = Math.Round(DemandKvar, GlobalConfig.SigFigs);
 
             PowerFactor = DemandKw / DemandKva;
             PowerFactor = Math.Round(PowerFactor, GlobalConfig.SigFigs);

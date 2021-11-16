@@ -67,6 +67,10 @@ namespace EDTLibrary.Models {
             if (PowerFactor > 1)
                 PowerFactor = PowerFactor / 100;
 
+            Efficiency = Math.Round(Efficiency, 2);
+            PowerFactor = Math.Round(PowerFactor, 2);
+
+
             if (this.Type == "HEATER") {
                 Unit = "kW";
                 Efficiency = GlobalConfig.HeaterEff;
@@ -119,10 +123,10 @@ namespace EDTLibrary.Models {
                 Fla = Math.Round(Fla, GlobalConfig.SigFigs);
             }
 
-            ConnectedKva = double.Parse(ConnectedKva.ToString("N2"));
-            DemandKva = double.Parse((ConnectedKva * LoadFactor).ToString("N2"));
-            DemandKw = double.Parse((DemandKva * PowerFactor).ToString("N2"));
-            DemandKvar = double.Parse(Math.Sqrt((DemandKva * DemandKva) - (DemandKw * DemandKw)).ToString("N2"));
+            ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
+            DemandKva = Math.Round(DemandKva, GlobalConfig.SigFigs);
+            DemandKw = Math.Round(DemandKw, GlobalConfig.SigFigs);
+            DemandKvar = Math.Round(DemandKvar, GlobalConfig.SigFigs);
         }
         public void LookupPfAndEff() {
             //------MOTOR LOADS
