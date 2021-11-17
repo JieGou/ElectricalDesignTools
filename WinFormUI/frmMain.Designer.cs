@@ -24,8 +24,8 @@ namespace WinFormUI {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.stsMain = new System.Windows.Forms.StatusStrip();
             this.stsLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.stsLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -47,11 +47,13 @@ namespace WinFormUI {
             this.btnAddCable = new System.Windows.Forms.Button();
             this.btnCables = new System.Windows.Forms.Button();
             this.btnDeleteCable = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.pnlMenu = new System.Windows.Forms.Panel();
             this.btnCreateCableList = new System.Windows.Forms.Button();
+            this.pnlChildForm = new System.Windows.Forms.Panel();
             this.stsMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.pnlMenu.SuspendLayout();
+            this.pnlChildForm.SuspendLayout();
             this.SuspendLayout();
             // 
             // stsMain
@@ -60,9 +62,9 @@ namespace WinFormUI {
             this.stsLabel1,
             this.stsLabel2,
             this.stsLabel3});
-            this.stsMain.Location = new System.Drawing.Point(0, 823);
+            this.stsMain.Location = new System.Drawing.Point(0, 797);
             this.stsMain.Name = "stsMain";
-            this.stsMain.Size = new System.Drawing.Size(1834, 22);
+            this.stsMain.Size = new System.Drawing.Size(1725, 22);
             this.stsMain.TabIndex = 1;
             this.stsMain.Text = "statusStrip1";
             // 
@@ -87,16 +89,16 @@ namespace WinFormUI {
             // lstDteq
             // 
             this.lstDteq.FormattingEnabled = true;
-            this.lstDteq.Location = new System.Drawing.Point(20, 220);
+            this.lstDteq.Location = new System.Drawing.Point(20, 254);
             this.lstDteq.Name = "lstDteq";
-            this.lstDteq.Size = new System.Drawing.Size(150, 173);
+            this.lstDteq.Size = new System.Drawing.Size(150, 108);
             this.lstDteq.TabIndex = 2;
             this.lstDteq.SelectedIndexChanged += new System.EventHandler(this.lstDteq_SelectedIndexChanged);
             // 
             // btnSelectLibraryDb
             // 
             this.btnSelectLibraryDb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSelectLibraryDb.Location = new System.Drawing.Point(20, 779);
+            this.btnSelectLibraryDb.Location = new System.Drawing.Point(20, 753);
             this.btnSelectLibraryDb.Name = "btnSelectLibraryDb";
             this.btnSelectLibraryDb.Size = new System.Drawing.Size(150, 30);
             this.btnSelectLibraryDb.TabIndex = 1;
@@ -107,7 +109,7 @@ namespace WinFormUI {
             // btnSelectProjectDb
             // 
             this.btnSelectProjectDb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSelectProjectDb.Location = new System.Drawing.Point(20, 743);
+            this.btnSelectProjectDb.Location = new System.Drawing.Point(20, 717);
             this.btnSelectProjectDb.Name = "btnSelectProjectDb";
             this.btnSelectProjectDb.Size = new System.Drawing.Size(150, 30);
             this.btnSelectProjectDb.TabIndex = 0;
@@ -118,7 +120,7 @@ namespace WinFormUI {
             // 
             // btnDeleteDteq
             // 
-            this.btnDeleteDteq.Location = new System.Drawing.Point(231, 233);
+            this.btnDeleteDteq.Location = new System.Drawing.Point(33, 237);
             this.btnDeleteDteq.Name = "btnDeleteDteq";
             this.btnDeleteDteq.Size = new System.Drawing.Size(148, 28);
             this.btnDeleteDteq.TabIndex = 2;
@@ -127,7 +129,7 @@ namespace WinFormUI {
             // 
             // btnSaveLoads
             // 
-            this.btnSaveLoads.Location = new System.Drawing.Point(231, 463);
+            this.btnSaveLoads.Location = new System.Drawing.Point(33, 467);
             this.btnSaveLoads.Name = "btnSaveLoads";
             this.btnSaveLoads.Size = new System.Drawing.Size(148, 28);
             this.btnSaveLoads.TabIndex = 3;
@@ -137,7 +139,7 @@ namespace WinFormUI {
             // 
             // btnCalculateLoads
             // 
-            this.btnCalculateLoads.Location = new System.Drawing.Point(231, 429);
+            this.btnCalculateLoads.Location = new System.Drawing.Point(33, 433);
             this.btnCalculateLoads.Name = "btnCalculateLoads";
             this.btnCalculateLoads.Size = new System.Drawing.Size(148, 28);
             this.btnCalculateLoads.TabIndex = 8;
@@ -147,7 +149,7 @@ namespace WinFormUI {
             // 
             // btnAddDteq
             // 
-            this.btnAddDteq.Location = new System.Drawing.Point(231, 199);
+            this.btnAddDteq.Location = new System.Drawing.Point(33, 203);
             this.btnAddDteq.Name = "btnAddDteq";
             this.btnAddDteq.Size = new System.Drawing.Size(148, 28);
             this.btnAddDteq.TabIndex = 1;
@@ -156,7 +158,7 @@ namespace WinFormUI {
             // 
             // btnAddLoad
             // 
-            this.btnAddLoad.Location = new System.Drawing.Point(231, 361);
+            this.btnAddLoad.Location = new System.Drawing.Point(33, 365);
             this.btnAddLoad.Name = "btnAddLoad";
             this.btnAddLoad.Size = new System.Drawing.Size(148, 28);
             this.btnAddLoad.TabIndex = 6;
@@ -165,7 +167,7 @@ namespace WinFormUI {
             // 
             // btnLoadList
             // 
-            this.btnLoadList.Location = new System.Drawing.Point(231, 327);
+            this.btnLoadList.Location = new System.Drawing.Point(33, 331);
             this.btnLoadList.Name = "btnLoadList";
             this.btnLoadList.Size = new System.Drawing.Size(148, 28);
             this.btnLoadList.TabIndex = 5;
@@ -175,7 +177,7 @@ namespace WinFormUI {
             // 
             // btnSaveDteq
             // 
-            this.btnSaveDteq.Location = new System.Drawing.Point(231, 267);
+            this.btnSaveDteq.Location = new System.Drawing.Point(33, 271);
             this.btnSaveDteq.Name = "btnSaveDteq";
             this.btnSaveDteq.Size = new System.Drawing.Size(148, 28);
             this.btnSaveDteq.TabIndex = 4;
@@ -185,7 +187,7 @@ namespace WinFormUI {
             // 
             // btnDeleteLoad
             // 
-            this.btnDeleteLoad.Location = new System.Drawing.Point(231, 395);
+            this.btnDeleteLoad.Location = new System.Drawing.Point(33, 399);
             this.btnDeleteLoad.Name = "btnDeleteLoad";
             this.btnDeleteLoad.Size = new System.Drawing.Size(148, 28);
             this.btnDeleteLoad.TabIndex = 7;
@@ -199,34 +201,34 @@ namespace WinFormUI {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvMain.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvMain.ColumnHeadersHeight = 35;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvMain.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvMain.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvMain.EnableHeadersVisualStyles = false;
-            this.dgvMain.Location = new System.Drawing.Point(421, 142);
+            this.dgvMain.Location = new System.Drawing.Point(215, 119);
             this.dgvMain.Name = "dgvMain";
             this.dgvMain.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvMain.Size = new System.Drawing.Size(1379, 652);
+            this.dgvMain.Size = new System.Drawing.Size(1255, 650);
             this.dgvMain.TabIndex = 0;
             this.dgvMain.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgdMain_CellContentClick);
             // 
             // btnDteqList
             // 
-            this.btnDteqList.Location = new System.Drawing.Point(231, 165);
+            this.btnDteqList.Location = new System.Drawing.Point(33, 169);
             this.btnDteqList.Name = "btnDteqList";
             this.btnDteqList.Size = new System.Drawing.Size(148, 28);
             this.btnDteqList.TabIndex = 0;
@@ -236,7 +238,7 @@ namespace WinFormUI {
             // 
             // btnSaveCables
             // 
-            this.btnSaveCables.Location = new System.Drawing.Point(231, 627);
+            this.btnSaveCables.Location = new System.Drawing.Point(33, 631);
             this.btnSaveCables.Name = "btnSaveCables";
             this.btnSaveCables.Size = new System.Drawing.Size(148, 28);
             this.btnSaveCables.TabIndex = 9;
@@ -246,7 +248,7 @@ namespace WinFormUI {
             // 
             // btnAddCable
             // 
-            this.btnAddCable.Location = new System.Drawing.Point(231, 559);
+            this.btnAddCable.Location = new System.Drawing.Point(33, 563);
             this.btnAddCable.Name = "btnAddCable";
             this.btnAddCable.Size = new System.Drawing.Size(148, 28);
             this.btnAddCable.TabIndex = 11;
@@ -255,7 +257,7 @@ namespace WinFormUI {
             // 
             // btnCables
             // 
-            this.btnCables.Location = new System.Drawing.Point(231, 525);
+            this.btnCables.Location = new System.Drawing.Point(33, 529);
             this.btnCables.Name = "btnCables";
             this.btnCables.Size = new System.Drawing.Size(148, 28);
             this.btnCables.TabIndex = 10;
@@ -265,28 +267,28 @@ namespace WinFormUI {
             // 
             // btnDeleteCable
             // 
-            this.btnDeleteCable.Location = new System.Drawing.Point(231, 593);
+            this.btnDeleteCable.Location = new System.Drawing.Point(33, 597);
             this.btnDeleteCable.Name = "btnDeleteCable";
             this.btnDeleteCable.Size = new System.Drawing.Size(148, 28);
             this.btnDeleteCable.TabIndex = 12;
             this.btnDeleteCable.Text = "Delete Cable";
             this.btnDeleteCable.UseVisualStyleBackColor = true;
             // 
-            // panel1
+            // pnlMenu
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.panel1.Controls.Add(this.lstDteq);
-            this.panel1.Controls.Add(this.btnSelectLibraryDb);
-            this.panel1.Controls.Add(this.btnSelectProjectDb);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(191, 823);
-            this.panel1.TabIndex = 14;
+            this.pnlMenu.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pnlMenu.Controls.Add(this.lstDteq);
+            this.pnlMenu.Controls.Add(this.btnSelectLibraryDb);
+            this.pnlMenu.Controls.Add(this.btnSelectProjectDb);
+            this.pnlMenu.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlMenu.Location = new System.Drawing.Point(0, 0);
+            this.pnlMenu.Name = "pnlMenu";
+            this.pnlMenu.Size = new System.Drawing.Size(196, 797);
+            this.pnlMenu.TabIndex = 14;
             // 
             // btnCreateCableList
             // 
-            this.btnCreateCableList.Location = new System.Drawing.Point(231, 743);
+            this.btnCreateCableList.Location = new System.Drawing.Point(45, 738);
             this.btnCreateCableList.Name = "btnCreateCableList";
             this.btnCreateCableList.Size = new System.Drawing.Size(148, 28);
             this.btnCreateCableList.TabIndex = 15;
@@ -294,28 +296,38 @@ namespace WinFormUI {
             this.btnCreateCableList.UseVisualStyleBackColor = true;
             this.btnCreateCableList.Click += new System.EventHandler(this.btnCreateCableList_Click);
             // 
+            // pnlChildForm
+            // 
+            this.pnlChildForm.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.pnlChildForm.Controls.Add(this.btnDteqList);
+            this.pnlChildForm.Controls.Add(this.btnCreateCableList);
+            this.pnlChildForm.Controls.Add(this.btnAddLoad);
+            this.pnlChildForm.Controls.Add(this.btnAddDteq);
+            this.pnlChildForm.Controls.Add(this.btnDeleteCable);
+            this.pnlChildForm.Controls.Add(this.btnLoadList);
+            this.pnlChildForm.Controls.Add(this.btnCables);
+            this.pnlChildForm.Controls.Add(this.btnCalculateLoads);
+            this.pnlChildForm.Controls.Add(this.btnAddCable);
+            this.pnlChildForm.Controls.Add(this.btnSaveDteq);
+            this.pnlChildForm.Controls.Add(this.btnSaveLoads);
+            this.pnlChildForm.Controls.Add(this.btnSaveCables);
+            this.pnlChildForm.Controls.Add(this.btnDeleteLoad);
+            this.pnlChildForm.Controls.Add(this.btnDeleteDteq);
+            this.pnlChildForm.Controls.Add(this.dgvMain);
+            this.pnlChildForm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlChildForm.Location = new System.Drawing.Point(196, 0);
+            this.pnlChildForm.Name = "pnlChildForm";
+            this.pnlChildForm.Size = new System.Drawing.Size(1529, 797);
+            this.pnlChildForm.TabIndex = 16;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1834, 845);
-            this.Controls.Add(this.btnCreateCableList);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.btnDeleteCable);
-            this.Controls.Add(this.btnCables);
-            this.Controls.Add(this.btnAddCable);
+            this.ClientSize = new System.Drawing.Size(1725, 819);
+            this.Controls.Add(this.pnlChildForm);
+            this.Controls.Add(this.pnlMenu);
             this.Controls.Add(this.stsMain);
-            this.Controls.Add(this.btnSaveCables);
-            this.Controls.Add(this.btnDteqList);
-            this.Controls.Add(this.dgvMain);
-            this.Controls.Add(this.btnDeleteDteq);
-            this.Controls.Add(this.btnDeleteLoad);
-            this.Controls.Add(this.btnSaveLoads);
-            this.Controls.Add(this.btnSaveDteq);
-            this.Controls.Add(this.btnCalculateLoads);
-            this.Controls.Add(this.btnLoadList);
-            this.Controls.Add(this.btnAddDteq);
-            this.Controls.Add(this.btnAddLoad);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -324,7 +336,8 @@ namespace WinFormUI {
             this.stsMain.ResumeLayout(false);
             this.stsMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).EndInit();
-            this.panel1.ResumeLayout(false);
+            this.pnlMenu.ResumeLayout(false);
+            this.pnlChildForm.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -352,8 +365,9 @@ namespace WinFormUI {
         private System.Windows.Forms.Button btnCalculateLoads;
         private System.Windows.Forms.Button btnSaveLoads;
         private System.Windows.Forms.Button btnDeleteDteq;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel pnlMenu;
         private System.Windows.Forms.Button btnCreateCableList;
+        private System.Windows.Forms.Panel pnlChildForm;
     }
 }
 

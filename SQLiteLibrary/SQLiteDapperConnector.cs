@@ -97,6 +97,14 @@ namespace SQLiteLibrary
                 }
             }
         }
+        /// <summary>
+        /// Insters a record from an object with a list of properties
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="classObject"></param>
+        /// <param name="tableName"></param>
+        /// <param name="propertyList"></param>
+        /// <returns></returns>
         public Tuple<bool, string> InsertRecord<T>(T classObject, string tableName, List<string> propertyList) where T : class, new() {
             using (IDbConnection cnn = new SQLiteConnection(conString)) {
                 StringBuilder sb = new StringBuilder();

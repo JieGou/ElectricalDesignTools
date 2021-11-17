@@ -93,6 +93,12 @@ namespace EDTLibrary {
                 dteq.CalculateLoading();
             }
         }
+        //public static List<ILoadModel> GetAssignedLoads(string dteqTag {
+        //    List<ILoadModel> assignedLoads;
+        //    assignedLoads = masterLoadList.Select(load => load.FedFrom == dteqTag);
+        //    return assignedLoads;
+        //}
+
         public static List<string> GetDteqTags(List<DistributionEquipmentModel> list) {
             List<string> output = new List<string>();
             foreach (DistributionEquipmentModel item in list) {
@@ -171,7 +177,9 @@ namespace EDTLibrary {
                 if (load.InLineComponents.Count == 0) {
                     cableList.Add(new CableModel { Conn1 = load.FedFrom, Conn2 = load.Tag });
                 }
-                //Has Components
+
+                //Inline Components
+                //TODO - Change this to read from Component list directly with component count                 
                 else {
                     for (int i = 0; i < load.InLineComponents.Count; i++) {
                         //First cable = FedFrom to component[0]
@@ -188,6 +196,7 @@ namespace EDTLibrary {
                     }
                 }
             }
+
             foreach (var cable in cableList) {
                 cable.Tag = $"{cable.Conn1}-{cable.Conn2}";
             }

@@ -12,6 +12,7 @@ namespace EDTLibrary.Models
             Derating = 1;
         }
 
+        [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; }
         public string Tag { get; set; }
         public string Category { get; set; }
@@ -33,9 +34,9 @@ namespace EDTLibrary.Models
         }
 
         public void CalculateLoading() {
-            //algorithm to find derating
+            //TODO - algorithm to find derating
 
-            //algorithm to find parallel runs & size
+            //TODO - algorithm to find parallel runs & size
         }
 
     }

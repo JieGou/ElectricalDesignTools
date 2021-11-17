@@ -57,8 +57,6 @@ namespace EDTLibrary.Models {
         public string PdStarter { get; set; }
         #endregion
 
-       
-
 
         //Methods
         public void CalculateLoading() {

@@ -30,7 +30,7 @@ namespace WinFormUI {
 
             //RefreshDteq();
             ShowDteq();
-            RefreshLoads();
+            GetLoads();
             FillDteqListBox();
             //LM.CreateDteqDict();
             UpdateStatus();            
@@ -46,6 +46,14 @@ namespace WinFormUI {
         //DB and Datagrid Refresh
 
         //Loads
+        
+        private void GetLoads() {
+            LM.loadList = sqldc.GetRecords<LoadModel>("Loads");
+        }
+        private void ShowLoads() {
+            GetLoads();
+            dgvMain.DataSource = LM.loadList;
+        }
         private void SaveLoads() {
             Tuple<bool, string> update;
             bool error = false;
@@ -61,15 +69,17 @@ namespace WinFormUI {
                 MessageBox.Show(message);
             }
         }
-        private void RefreshLoads() {
-            LM.loadList = sqldc.GetRecords<LoadModel>("Loads");
-        }
-        private void ShowLoads() {
-            RefreshLoads();
-            dgvMain.DataSource = LM.loadList;
-        }
 
         //Dteq
+        private void GetDteq() {
+            LM.dteqList = sqldc.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
+            LM.AssignLoadsToDteq();
+        }
+        private void ShowDteq() {
+            GetDteq();
+            dgvMain.DataSource = LM.dteqList;
+
+        }
         private void SaveDteq() {
             Tuple<bool, string> update;
             bool error = false;
@@ -85,16 +95,7 @@ namespace WinFormUI {
                 MessageBox.Show(message);
             }
         }
-        private void RefreshDteq() {
-            LM.dteqList = sqldc.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
-            LM.AssignLoadsToDteq();
-        }
-        private void ShowDteq() {
-            RefreshDteq();
-            dgvMain.DataSource = LM.dteqList;
-
-        }
-
+       
         //Cables
         private void SaveCables() {
             Tuple<bool, string> update;
@@ -121,7 +122,7 @@ namespace WinFormUI {
 
         ///Loads
         private void btnLoadList_Click(object sender, EventArgs e) {
-            RefreshLoads();
+            GetLoads();
             ShowLoads();
         }
         private void btnDeleteLoad_Click(object sender, EventArgs e) {
@@ -182,7 +183,7 @@ namespace WinFormUI {
             dteq = LM.dteqList.FirstOrDefault(t => t.Tag == selectedEq);
             dgvMain.DataSource = dteq.AssignedLoads;
         }
-
+        
         //Cables
         private void btnCables_Click(object sender, EventArgs e) {
             ShowCables();
@@ -201,7 +202,7 @@ namespace WinFormUI {
 
             List<string> properties = new List<string> { "Tag", "Category", "Conn1", "Conn2"};
             foreach (var cable in LM.cableList) {
-                update = sqldc.InsertRecord(cable, "Cables");
+                update = sqldc.InsertRecord(cable, "Cablesj");
                 if (update.Item1 == false) {
                     error = true;
                     message = update.Item2;
@@ -218,7 +219,7 @@ namespace WinFormUI {
 
     }
 
-
+    //DoubleBuffering
     public static class ExtensionMethods {
         public static void DoubleBuffered(this DataGridView dgv, bool setting) {
             Type dgvType = dgv.GetType();
