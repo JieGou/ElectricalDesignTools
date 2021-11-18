@@ -106,7 +106,7 @@ namespace WinFormUI {
             this.dgvDataTable.Location = new System.Drawing.Point(16, 188);
             this.dgvDataTable.Name = "dgvDataTable";
             this.dgvDataTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvDataTable.Size = new System.Drawing.Size(1540, 680);
+            this.dgvDataTable.Size = new System.Drawing.Size(1540, 658);
             this.dgvDataTable.TabIndex = 0;
             // 
             // lstDataTables

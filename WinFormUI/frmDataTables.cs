@@ -18,7 +18,7 @@ namespace WinFormUI {
         }
 
         private void frmDataTables_Load(object sender, EventArgs e) {
-            this.WindowState = FormWindowState.Maximized;
+            dgvDataTable.DoubleBuffered(true);
 
         }
 
