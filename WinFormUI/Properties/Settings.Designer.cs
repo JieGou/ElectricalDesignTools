@@ -34,5 +34,17 @@ namespace WinFormUI.Properties {
                 this["ProjectDb"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LibraryDb {
+            get {
+                return ((string)(this["LibraryDb"]));
+            }
+            set {
+                this["LibraryDb"] = value;
+            }
+        }
     }
 }

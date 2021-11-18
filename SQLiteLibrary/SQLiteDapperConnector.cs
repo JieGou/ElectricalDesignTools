@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SQLite;
@@ -226,6 +227,48 @@ namespace SQLiteLibrary
                 dataAdapter.Fill(dt);
                 dt.TableName = tablename;
                 return dt;
+            }
+        }
+
+        public ArrayList GetDbTables() {
+            ArrayList list = new ArrayList();
+
+            // executes query that select names of all tables in master table of the database
+            String query = "SELECT name FROM sqlite_master " +
+                    "WHERE type = 'table' " +
+                    "ORDER BY 1";
+            try {
+
+                DataTable table = QueryToDataTable(query);
+
+                // Return all table names in the ArrayList
+
+                foreach (DataRow row in table.Rows) {
+                    list.Add(row.ItemArray[0].ToString());
+                }
+            }
+            catch (Exception e) {
+                Console.WriteLine(e.Message);
+            }
+            return list;
+        }
+
+        public DataTable QueryToDataTable(string query) {
+            try {
+                DataTable dt = new DataTable();
+                using (SQLiteConnection cnn = new SQLiteConnection(conString)) {
+                    cnn.Open();
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, cnn)) {
+                        using (SQLiteDataReader rdr = cmd.ExecuteReader()) {
+                            dt.Load(rdr);
+                            return dt;
+                        }
+                    }
+                }
+            }
+            catch (Exception e) {
+                Console.WriteLine(e.Message);
+                return null;
             }
         }
     }

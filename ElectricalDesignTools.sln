@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLiteLibrary", "SQLiteLibr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormUI", "WinFormUI\WinFormUI.csproj", "{531661A6-E489-4D7F-B428-A84461E771F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelLibrary", "ExcelLibrary\ExcelLibrary.csproj", "{469FAF00-16A0-42A9-89D1-EC478CC96FD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{531661A6-E489-4D7F-B428-A84461E771F2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{531661A6-E489-4D7F-B428-A84461E771F2}.Release|x86.ActiveCfg = Release|Any CPU
 		{531661A6-E489-4D7F-B428-A84461E771F2}.Release|x86.Build.0 = Release|Any CPU
+		{469FAF00-16A0-42A9-89D1-EC478CC96FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{469FAF00-16A0-42A9-89D1-EC478CC96FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{469FAF00-16A0-42A9-89D1-EC478CC96FD3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{469FAF00-16A0-42A9-89D1-EC478CC96FD3}.Debug|x86.Build.0 = Debug|Any CPU
+		{469FAF00-16A0-42A9-89D1-EC478CC96FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{469FAF00-16A0-42A9-89D1-EC478CC96FD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{469FAF00-16A0-42A9-89D1-EC478CC96FD3}.Release|x86.ActiveCfg = Release|Any CPU
+		{469FAF00-16A0-42A9-89D1-EC478CC96FD3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
