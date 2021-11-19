@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models {
     public class LoadModel: ILoadModel {
         public LoadModel() {
-            Category = Categories.LOAD.ToString();
+            Category = Categories.LOAD3P.ToString();
             LoadFactor = 0.8;
         }
 

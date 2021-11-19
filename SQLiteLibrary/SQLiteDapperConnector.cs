@@ -19,7 +19,7 @@ namespace SQLiteLibrary
             try {
                 conString = $"DataSource= {dbFileName}; foreign keys=true; PRAGMA foreign_keys = ON;";
             }
-            catch (ArgumentException e) {
+            catch (ArgumentException) {
             }
         }
         /// <summary>

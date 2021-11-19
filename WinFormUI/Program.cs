@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SQLiteLibrary;
+using EDTLibrary;
 
 namespace WinFormUI {
     static class Program {
@@ -13,7 +15,10 @@ namespace WinFormUI {
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             Application.Run(new frmMain());
         }
+
+        
     }
 }

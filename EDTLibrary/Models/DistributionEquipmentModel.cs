@@ -11,8 +11,10 @@ namespace EDTLibrary.Models {
             Voltage = LineVoltage;
         }
 
-        //Properties
+        //Fields
+        public double _derating = 0;
 
+        //Properties
         #region IEquipmentModel
 
         [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
@@ -93,6 +95,22 @@ namespace EDTLibrary.Models {
 
             Fla = ConnectedKva * 1000 / Voltage / Math.Sqrt(3);
             Fla = Math.Round(Fla, GlobalConfig.SigFigs);
+
+            if (LoadCount*3>=43) {
+                _derating = 0.5;
+            }
+            else if (LoadCount*3 >=25){
+                _derating = 0.6;
+            }
+            else if (LoadCount*3 >= 7) {
+                _derating = 0.7;
+            }
+            else if (LoadCount * 3 >= 4) {
+                _derating = 0.8;
+            }
+            else {
+                _derating = 1;
+            }
         }
     }
 }

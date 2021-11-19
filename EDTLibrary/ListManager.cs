@@ -16,8 +16,10 @@ namespace EDTLibrary {
         public static List<CableModel> cableList = new List<CableModel>();
         public static List<ComponentModel> compList = new List<ComponentModel>();
 
-
+        public static void CreateEqList() {
+        }
         public static void CreateEqDict() {
+            CreateMasterLoadList();
             foreach (var eq in masterLoadList) {
                 eqDict.Add(eq.Tag, eq);
             }
@@ -25,7 +27,7 @@ namespace EDTLibrary {
                 eqDict.Add(comp.Tag, comp);
             }
         }
-
+        
         public static void CreateDteqDict() {
             dteqDict.Clear();
             foreach (var dteq in dteqList) {
@@ -175,7 +177,7 @@ namespace EDTLibrary {
             foreach (var load in masterLoadList) {
                 //No Components
                 if (load.InLineComponents.Count == 0) {
-                    cableList.Add(new CableModel { Conn1 = load.FedFrom, Conn2 = load.Tag });
+                    cableList.Add(new CableModel { Source = load.FedFrom, Destination = load.Tag });
                 }
 
                 //Inline Components
@@ -184,21 +186,21 @@ namespace EDTLibrary {
                     for (int i = 0; i < load.InLineComponents.Count; i++) {
                         //First cable = FedFrom to component[0]
                         if (i == 0) {
-                            cableList.Add(new CableModel { Conn1 = load.FedFrom, Conn2 = load.InLineComponents[i].Tag });
+                            cableList.Add(new CableModel { Source = load.FedFrom, Destination = load.InLineComponents[i].Tag });
                         }
                         //Last cable = component[n] to Load
                         else if (i == load.InLineComponents.Count - 1) {
-                            cableList.Add(new CableModel { Conn1 = load.InLineComponents[i].Tag, Conn2 = load.Tag });
+                            cableList.Add(new CableModel { Source = load.InLineComponents[i].Tag, Destination = load.Tag });
                         }
                         else {
-                            cableList.Add(new CableModel { Conn1 = load.InLineComponents[i - 1].Tag, Conn2 = load.InLineComponents[i].Tag });
+                            cableList.Add(new CableModel { Source = load.InLineComponents[i - 1].Tag, Destination = load.InLineComponents[i].Tag });
                         }
                     }
                 }
             }
-
             foreach (var cable in cableList) {
-                cable.Tag = $"{cable.Conn1}-{cable.Conn2}";
+                cable.CreateTag();
+                cable.CalculateLoading();
             }
         }
 
@@ -209,24 +211,28 @@ namespace EDTLibrary {
             foreach (var load in masterLoadList) {
                 //No Components
                 if (load.InLineComponents.Count == 0) {
-                    cableList.Add(new CableModel { Conn1 = load.FedFrom, Conn2 = load.Tag });
+                    cableList.Add(new CableModel { Source = load.FedFrom, Destination = load.Tag });
                 }
                 //Has Components
                 else {
                     for (int i = 0; i < load.InLineComponents.Count; i++) {
                         //First cable = FedFrom to component[0]
                         if (i == 0) {
-                            cableList.Add(new CableModel { Conn1 = load.FedFrom, Conn2 = load.InLineComponents[i].Tag });
+                            cableList.Add(new CableModel { Source = load.FedFrom, Destination = load.InLineComponents[i].Tag });
                         }
                         //Last cable = component[n] to Load
                         else if (i == load.InLineComponents.Count - 1) {
-                            cableList.Add(new CableModel { Conn1 = load.InLineComponents[i].Tag, Conn2 = load.Tag });
+                            cableList.Add(new CableModel { Source = load.InLineComponents[i].Tag, Destination = load.Tag });
                         }
                         else {
-                            cableList.Add(new CableModel { Conn1 = load.InLineComponents[i - 1].Tag, Conn2 = load.InLineComponents[i].Tag });
+                            cableList.Add(new CableModel { Source = load.InLineComponents[i - 1].Tag, Destination = load.InLineComponents[i].Tag });
                         }
                     }
                 }
+            }
+            foreach (var cable in cableList) {
+                cable.Tag = $"{cable.Source}-{cable.Destination}";
+                cable.CalculateLoading();
             }
             return cableList;
         }

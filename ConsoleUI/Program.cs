@@ -52,7 +52,7 @@ namespace ConsoleUI {
             Console.WriteLine();
             foreach (var cable in LM.cableList) {
                 //Console.WriteLine(cable.From.Replace("-","") + GlobalConfig.Separator + cable.To.Replace("-", ""));
-                cable.CreateCableTag();
+                cable.CreateTag();
                 Console.WriteLine(cable.Tag);
             }
 

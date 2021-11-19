@@ -15,7 +15,8 @@ namespace EDTLibrary {
 
     public enum Categories {
         DIST,
-        LOAD,
+        LOAD3P,
+        LOAD1P,
         COMP,
         CABLE,
     }
@@ -25,6 +26,6 @@ namespace EDTLibrary {
         HEATER,
         WELDING,
         TRANSFORMER,
-        OHTER,
+        OTHER,
     }
 }

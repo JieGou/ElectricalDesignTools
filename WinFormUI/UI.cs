@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using EDTLibrary;
 using SQLiteLibrary;
 
 namespace WinFormUI {
@@ -55,10 +57,15 @@ namespace WinFormUI {
                 }
             }
         }
+        public static void GetDataTables() {
+            Type type = typeof(DataTables); // MyClass is static class with static properties
+            DataTable dt = new DataTable();
+            foreach (var prop in type.GetProperties()) {
+                prop.SetValue(dt, UI.libDb.GetDataTable(prop.Name)); // static classes cannot be instanced, so use null...
 
+            }
+        }
 
-
-        
         public static void OpenChildForm(Form childForm, Panel pnlChildForm) {
             activeForm = childForm;
             childForm.TopLevel = false;
@@ -70,7 +77,5 @@ namespace WinFormUI {
             childForm.Show();
             childForm.Activate();
         }
-
-
     }
 }
