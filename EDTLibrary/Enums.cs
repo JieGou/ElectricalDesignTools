@@ -28,4 +28,10 @@ namespace EDTLibrary {
         TRANSFORMER,
         OTHER,
     }
+
+    public enum CableUsageTypes {
+        Power
+    }
+
+
 }

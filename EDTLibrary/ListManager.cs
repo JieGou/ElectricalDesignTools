@@ -9,6 +9,8 @@ namespace EDTLibrary {
         public static Dictionary<string, IEquipmentModel> eqDict = new Dictionary<string, IEquipmentModel>();
 
         public static List<ILoadModel> masterLoadList = new List<ILoadModel>();
+        public static Dictionary<string, ILoadModel> iLoadDict = new Dictionary<string, ILoadModel>();
+
         public static Dictionary<string, DistributionEquipmentModel> dteqDict = new Dictionary<string, DistributionEquipmentModel>();
 
         public static List<DistributionEquipmentModel> dteqList = new List<DistributionEquipmentModel>();
@@ -19,7 +21,7 @@ namespace EDTLibrary {
         public static void CreateEqList() {
         }
         public static void CreateEqDict() {
-            CreateMasterLoadList();
+            eqDict.Clear();
             foreach (var eq in masterLoadList) {
                 eqDict.Add(eq.Tag, eq);
             }
@@ -27,14 +29,18 @@ namespace EDTLibrary {
                 eqDict.Add(comp.Tag, comp);
             }
         }
-        
+        public static void CreateILoadDict() {
+            iLoadDict.Clear();
+            foreach (var eq in masterLoadList) {
+                iLoadDict.Add(eq.Tag, eq);
+            }
+        }
         public static void CreateDteqDict() {
             dteqDict.Clear();
             foreach (var dteq in dteqList) {
                 dteqDict.Add(dteq.Tag, dteq);
             }
         }
-
         public static bool CheckDuplicateTags(string Tag) {
             if (eqDict.ContainsKey(Tag)) {
                 return true;
@@ -70,7 +76,7 @@ namespace EDTLibrary {
                 dteq.CalculateLoading();
             }
         }
-        //takes in List of LoadModel and Matches Tags to each MajorEquipment in an dteqList
+        //takes in List of LoadModel and Matches Tags to each MajorEquipment in a dteqList
         public static void AssignLoadsToDteq(List<DistributionEquipmentModel> dteqList, List<LoadModel> loadList) // LoadList Manager
         {
             foreach (DistributionEquipmentModel dteq in dteqList) {
@@ -137,6 +143,9 @@ namespace EDTLibrary {
             foreach (var load in loadList) {
                 masterLoadList.Add(load);
             }
+            AssignLoadsToDteq();
+            CreateEqDict();
+            CreateILoadDict();
         }
         public static List<ILoadModel> CreateMasterLoadList(List<DistributionEquipmentModel> dteqList, List<LoadModel> loadList) {
             List<ILoadModel> masterLoadList = new List<ILoadModel>();
@@ -203,7 +212,6 @@ namespace EDTLibrary {
                 cable.CalculateLoading();
             }
         }
-
         public static List<CableModel> CreateCableList(List<ILoadModel> masterLoadList) {
             List<CableModel> cableList = new List<CableModel>();
             List<string> trays = new List<string>();

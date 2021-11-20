@@ -26,17 +26,20 @@ namespace WinFormUI {
             dgvEquipment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lblListName.Text = "";
             lblSelectedTag.Text = "";
+
             if (OpenDb()) {
                 //RefreshDteq();
                 ShowDteq();
                 GetLoads();
+                LM.CalculateLoads();
                 FillDteqListBox();
                 //LM.CreateDteqDict();
+
+                //TODO - Move to UI/startup class and load all data
             }
 
-
-            dgvEquipment.DataSource = DataTables.Breakers;
-
+            //Testing
+            dgvEquipment.DataSource = DataTables.CableTypes;
         }
 
         private bool OpenDb() {
@@ -57,8 +60,6 @@ namespace WinFormUI {
                 lstDteq.Items.Add(dteq.Tag);
             }
         }
-
-
 
         //Loads
         private void GetLoads() {

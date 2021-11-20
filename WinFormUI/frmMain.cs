@@ -17,7 +17,7 @@ namespace WinFormUI {
         private void frmMain_Load(object sender, EventArgs e) {
             this.WindowState = FormWindowState.Maximized;
             UI.GetDataTables();
-
+            //TODO - Load all data
 
 
 
