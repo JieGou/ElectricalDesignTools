@@ -16,13 +16,11 @@ namespace WinFormUI {
         }
         private void frmMain_Load(object sender, EventArgs e) {
             this.WindowState = FormWindowState.Maximized;
-            UI.GetDataTables();
-            //TODO - Load all data
-
-
+            UI.LoadProjectTables();
+            UI.LoadProjectSettings();
+            UI.LoadLibraryTables();
 
             UI.OpenChildForm(UI.frmEquipment, pnlChildForm);
-
         }
 
         
@@ -30,21 +28,21 @@ namespace WinFormUI {
         private void btnEquipment_Click(object sender, EventArgs e) {
             UI.OpenChildForm(UI.frmEquipment, pnlChildForm);
         }
-        private void btnCableSettings_Click(object sender, EventArgs e) {
-
-        }
         private void btnDataTables_Click(object sender, EventArgs e) {
             UI.OpenChildForm(UI.frmDataTables, pnlChildForm);
         }
 
-
-        private void btnSelectProjectDb_Click(object sender, EventArgs e) {
-            UI.SelectProject();
-        }
         private void btnSelectLibraryDb_Click(object sender, EventArgs e) {
             UI.SelectLibrary();
         }
 
-        
+        private void btnSelectProject_Click(object sender, EventArgs e) {
+            UI.SelectProject();
+
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e) {
+            UI.OpenChildForm(UI.frmSettings, pnlChildForm);
+        }
     }
 }

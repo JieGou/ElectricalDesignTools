@@ -96,6 +96,15 @@ namespace EDTLibrary.Models {
             Fla = ConnectedKva * 1000 / Voltage / Math.Sqrt(3);
             Fla = Math.Round(Fla, GlobalConfig.SigFigs);
 
+
+            //Derating
+
+            foreach(var load in AssignedLoads) {
+                //_totalLoadConductors += 3
+                // if(Spacing != 100loadCable.QtyParallel)
+            }
+
+
             if (LoadCount*3>=43) {
                 _derating = 0.5;
             }

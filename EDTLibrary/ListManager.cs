@@ -77,30 +77,30 @@ namespace EDTLibrary {
             }
         }
         //takes in List of LoadModel and Matches Tags to each MajorEquipment in a dteqList
-        public static void AssignLoadsToDteq(List<DistributionEquipmentModel> dteqList, List<LoadModel> loadList) // LoadList Manager
-        {
-            foreach (DistributionEquipmentModel dteq in dteqList) {
-                dteq.AssignedLoads.Clear();
-                dteq.LoadCount = 0;                
-                foreach (DistributionEquipmentModel dteqAsLoad in dteqList) {
-                    if (dteqAsLoad.FedFrom == dteq.Tag) {
-                        dteq.AssignedLoads.Add(dteqAsLoad);
-                        dteq.LoadCount += 1;
-                    }
-                }
+        //public static void AssignLoadsToDteq(List<DistributionEquipmentModel> dteqList, List<LoadModel> loadList) // LoadList Manager
+        //{
+        //    foreach (DistributionEquipmentModel dteq in dteqList) {
+        //        dteq.AssignedLoads.Clear();
+        //        dteq.LoadCount = 0;                
+        //        foreach (DistributionEquipmentModel dteqAsLoad in dteqList) {
+        //            if (dteqAsLoad.FedFrom == dteq.Tag) {
+        //                dteq.AssignedLoads.Add(dteqAsLoad);
+        //                dteq.LoadCount += 1;
+        //            }
+        //        }
 
-                foreach (LoadModel load in loadList) {
-                    if (load.FedFrom == dteq.Tag) {
-                        load.CalculateLoading();
-                        dteq.AssignedLoads.Add(load);
-                        dteq.LoadCount += 1;
-                    }
-                }
-            }
-            foreach (DistributionEquipmentModel dteq in dteqList) {
-                dteq.CalculateLoading();
-            }
-        }
+        //        foreach (LoadModel load in loadList) {
+        //            if (load.FedFrom == dteq.Tag) {
+        //                load.CalculateLoading();
+        //                dteq.AssignedLoads.Add(load);
+        //                dteq.LoadCount += 1;
+        //            }
+        //        }
+        //    }
+        //    foreach (DistributionEquipmentModel dteq in dteqList) {
+        //        dteq.CalculateLoading();
+        //    }
+        //}
         //public static List<ILoadModel> GetAssignedLoads(string dteqTag {
         //    List<ILoadModel> assignedLoads;
         //    assignedLoads = masterLoadList.Select(load => load.FedFrom == dteqTag);
@@ -145,19 +145,20 @@ namespace EDTLibrary {
             }
             AssignLoadsToDteq();
             CreateEqDict();
+            CreateDteqDict();
             CreateILoadDict();
         }
-        public static List<ILoadModel> CreateMasterLoadList(List<DistributionEquipmentModel> dteqList, List<LoadModel> loadList) {
-            List<ILoadModel> masterLoadList = new List<ILoadModel>();
-            masterLoadList.Clear();
-            foreach (var dteq in dteqList) {
-                masterLoadList.Add(dteq);
-            }
-            foreach (var load in loadList) {
-                masterLoadList.Add(load);
-            }
-            return masterLoadList;
-        }
+        //public static List<ILoadModel> CreateMasterLoadList(List<DistributionEquipmentModel> dteqList, List<LoadModel> loadList) {
+        //    List<ILoadModel> masterLoadList = new List<ILoadModel>();
+        //    masterLoadList.Clear();
+        //    foreach (var dteq in dteqList) {
+        //        masterLoadList.Add(dteq);
+        //    }
+        //    foreach (var load in loadList) {
+        //        masterLoadList.Add(load);
+        //    }
+        //    return masterLoadList;
+        //}
         /// <summary>
         /// Creates a list of ComponentModel
         /// </summary>
@@ -168,15 +169,15 @@ namespace EDTLibrary {
                 compList.AddRange(load.InLineComponents);
             }
         }
-        public static List<ComponentModel> CreateComponentList(List<LoadModel> loadList) {
-            List<ComponentModel> compList = new List<ComponentModel>();
-            compList.Clear();
-            foreach (var load in loadList) {
-                load.SizeComponents();
-                compList.AddRange(load.InLineComponents);
-            }
-            return compList;
-        }
+        //public static List<ComponentModel> CreateComponentList(List<LoadModel> loadList) {
+        //    List<ComponentModel> compList = new List<ComponentModel>();
+        //    compList.Clear();
+        //    foreach (var load in loadList) {
+        //        load.SizeComponents();
+        //        compList.AddRange(load.InLineComponents);
+        //    }
+        //    return compList;
+        //}
         /// <summary>
         /// Creteas a list of CableModel for all equipment and components based on the masterLoadList
         /// </summary>
@@ -212,38 +213,38 @@ namespace EDTLibrary {
                 cable.CalculateLoading();
             }
         }
-        public static List<CableModel> CreateCableList(List<ILoadModel> masterLoadList) {
-            List<CableModel> cableList = new List<CableModel>();
-            List<string> trays = new List<string>();
+        //public static List<CableModel> CreateCableList(List<ILoadModel> masterLoadList) {
+        //    List<CableModel> cableList = new List<CableModel>();
+        //    List<string> trays = new List<string>();
 
-            foreach (var load in masterLoadList) {
-                //No Components
-                if (load.InLineComponents.Count == 0) {
-                    cableList.Add(new CableModel { Source = load.FedFrom, Destination = load.Tag });
-                }
-                //Has Components
-                else {
-                    for (int i = 0; i < load.InLineComponents.Count; i++) {
-                        //First cable = FedFrom to component[0]
-                        if (i == 0) {
-                            cableList.Add(new CableModel { Source = load.FedFrom, Destination = load.InLineComponents[i].Tag });
-                        }
-                        //Last cable = component[n] to Load
-                        else if (i == load.InLineComponents.Count - 1) {
-                            cableList.Add(new CableModel { Source = load.InLineComponents[i].Tag, Destination = load.Tag });
-                        }
-                        else {
-                            cableList.Add(new CableModel { Source = load.InLineComponents[i - 1].Tag, Destination = load.InLineComponents[i].Tag });
-                        }
-                    }
-                }
-            }
-            foreach (var cable in cableList) {
-                cable.Tag = $"{cable.Source}-{cable.Destination}";
-                cable.CalculateLoading();
-            }
-            return cableList;
-        }
+        //    foreach (var load in masterLoadList) {
+        //        //No Components
+        //        if (load.InLineComponents.Count == 0) {
+        //            cableList.Add(new CableModel { Source = load.FedFrom, Destination = load.Tag });
+        //        }
+        //        //Has Components
+        //        else {
+        //            for (int i = 0; i < load.InLineComponents.Count; i++) {
+        //                //First cable = FedFrom to component[0]
+        //                if (i == 0) {
+        //                    cableList.Add(new CableModel { Source = load.FedFrom, Destination = load.InLineComponents[i].Tag });
+        //                }
+        //                //Last cable = component[n] to Load
+        //                else if (i == load.InLineComponents.Count - 1) {
+        //                    cableList.Add(new CableModel { Source = load.InLineComponents[i].Tag, Destination = load.Tag });
+        //                }
+        //                else {
+        //                    cableList.Add(new CableModel { Source = load.InLineComponents[i - 1].Tag, Destination = load.InLineComponents[i].Tag });
+        //                }
+        //            }
+        //        }
+        //    }
+        //    foreach (var cable in cableList) {
+        //        cable.Tag = $"{cable.Source}-{cable.Destination}";
+        //        cable.CalculateLoading();
+        //    }
+        //    return cableList;
+        //}
         #endregion
         
     }

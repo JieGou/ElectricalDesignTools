@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary {
-    public static class ElectricalSettings {
+    public static class ProjectSettings {
         public static string Code { get; set; }
         public static string CableType3C1kV { get; set; }
 

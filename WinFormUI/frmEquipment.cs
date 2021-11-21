@@ -15,7 +15,6 @@ using System.Windows.Forms;
 
 namespace WinFormUI {
     public partial class frmEquipment: Form {
-        SQLiteDapperConnector sqldc;
 
         public frmEquipment() {
             InitializeComponent();
@@ -27,33 +26,17 @@ namespace WinFormUI {
             lblListName.Text = "";
             lblSelectedTag.Text = "";
 
-            if (OpenDb()) {
-                //RefreshDteq();
+            if (UI.ProjectLoaded == true) {
                 ShowDteq();
-                GetLoads();
-                LM.CalculateLoads();
                 FillDteqListBox();
-                //LM.CreateDteqDict();
-
-                //TODO - Move to UI/startup class and load all data
             }
 
             //Testing
             dgvEquipment.DataSource = DataTables.CableTypes;
         }
 
-        private bool OpenDb() {
-            string dbFilename = Properties.Settings.Default.ProjectDb;
-            if (File.Exists(dbFilename)) {
-                sqldc = new SQLiteDapperConnector(dbFilename);
-                return true;
-            }
-            else {
-                MessageBox.Show($"The selected file \n\n{dbFilename} cannot be found. Please select another project file.");
-                return false;
-            }
+        
 
-        }
         //Dteq Listbox
         private void FillDteqListBox() {
             foreach (var dteq in LM.dteqList) {
@@ -63,7 +46,7 @@ namespace WinFormUI {
 
         //Loads
         private void GetLoads() {
-            LM.loadList = sqldc.GetRecords<LoadModel>("Loads");
+            LM.loadList = UI.prjDb.GetRecords<LoadModel>("Loads");
         }
         private void ShowLoads() {
             GetLoads();
@@ -74,7 +57,7 @@ namespace WinFormUI {
             bool error = false;
             string message = "";
             foreach (var load in LM.loadList) {
-                update = sqldc.UpdateRecord(load, "Loads");
+                update = UI.prjDb.UpdateRecord(load, "Loads");
                 if (update.Item1 == false) {
                     error = true;
                     message = update.Item2;
@@ -87,7 +70,7 @@ namespace WinFormUI {
 
         //Dteq
         private void GetDteq() {
-            LM.dteqList = sqldc.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
+            LM.dteqList = UI.prjDb.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
             LM.AssignLoadsToDteq();
         }
         private void ShowDteq() {
@@ -100,7 +83,7 @@ namespace WinFormUI {
             bool error = false;
             string message = "";
             foreach (var dteq in LM.dteqList) {
-                update = sqldc.UpdateRecord(dteq, "DistributionEquipment");
+                update = UI.prjDb.UpdateRecord(dteq, "DistributionEquipment");
                 if (update.Item1 == false) {
                     error = true;
                     message = update.Item2;
@@ -110,14 +93,17 @@ namespace WinFormUI {
                 MessageBox.Show(message);
             }
         }
-       
+
         //Cables
+        private void GetCables() {
+            LM.cableList = UI.prjDb.GetRecords<CableModel>("Cables");
+        }
         private void SaveCables() {
             Tuple<bool, string> update;
             bool error = false;
             string message = "";
             foreach (var cable in LM.cableList) {
-                update = sqldc.UpdateRecord(cable, "Cables");
+                update = UI.prjDb.UpdateRecord(cable, "Cables");
                 if (update.Item1 == false) {
                     error = true;
                     message = update.Item2;
@@ -127,25 +113,23 @@ namespace WinFormUI {
                 MessageBox.Show(message);
             }
         }
-        private void RefreshCables() {
-            LM.cableList = sqldc.GetRecords<CableModel>("Cables");
-        }
         private void ShowCables() {
-            RefreshCables();
+            GetCables();
             dgvEquipment.DataSource = LM.cableList;
         }
+
         private void CreateCableList() {
             Tuple<bool, string> update;
             bool error = false;
             string message = "";
 
-            sqldc.DeleteAllRecords("Cables");
+            UI.prjDb.DeleteAllRecords("Cables");
             LM.CreateCableList();
             dgvEquipment.DataSource = LM.cableList;
 
             List<string> properties = new List<string> { "Tag", "Category", "Source", "Destination" };
             foreach (var cable in LM.cableList) {
-                update = sqldc.InsertRecord(cable, "Cables");
+                update = UI.prjDb.InsertRecord(cable, "Cables");
                 if (update.Item1 == false) {
                     error = true;
                     message = update.Item2;
@@ -155,7 +139,7 @@ namespace WinFormUI {
                 MessageBox.Show(message);
             }
             LM.cableList.Clear();
-            LM.cableList = sqldc.GetRecords<CableModel>("Cables");
+            LM.cableList = UI.prjDb.GetRecords<CableModel>("Cables");
             dgvEquipment.DataSource = LM.cableList;
         }
 
@@ -170,7 +154,7 @@ namespace WinFormUI {
         }
         private void btnDeleteLoad_Click(object sender, EventArgs e) {
             LoadModel load = dgvEquipment.SelectedRows[0].DataBoundItem as LoadModel;
-            sqldc.DeleteRecord("Loads", load.Id);
+            UI.prjDb.DeleteRecord("Loads", load.Id);
             ShowLoads();
         }
         private void btnCalculateLoads_Click(object sender, EventArgs e) {
@@ -233,6 +217,7 @@ namespace WinFormUI {
 
         }
         private void btnCreateCableList_Click_1(object sender, EventArgs e) {
+            lblListName.Text = "CABLE LIST";
             CreateCableList();
         }
     }

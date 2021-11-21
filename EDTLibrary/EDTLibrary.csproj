@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTables.cs" />
-    <Compile Include="ElectricalSettings.cs" />
+    <Compile Include="ProjectSettings.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="ListManager.cs" />

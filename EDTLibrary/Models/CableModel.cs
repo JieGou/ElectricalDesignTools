@@ -4,12 +4,14 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LM = EDTLibrary.ListManager;
 
 namespace EDTLibrary.Models
 {
     public class CableModel
     {
         public CableModel() {
+            QtyParallel = 1;
             Derating = 1;
             Conductors = 3;
         }
@@ -20,6 +22,7 @@ namespace EDTLibrary.Models
         public string Category { get; set; }
         public string UsageType { get; set; }
         public string Type { get; set; }
+        public int QtyParallel { get; set; }
         public int Conductors { get; set; }
         public string Size { get; set; }
         public double DesignAmps { get; set; }
@@ -39,32 +42,38 @@ namespace EDTLibrary.Models
             
         // TODO - Move "CalculatePowerCableSize to ILoadModel
         public void CalculateLoading() {
-            DistributionEquipmentModel dteq;
-            dteq = ListManager.dteqList.FirstOrDefault(eq => eq.Tag == Source);
-            if (dteq!=null) {
-                Derating = dteq._derating;
+            if (LM.dteqDict.ContainsKey(Source)) {
+                Derating = ListManager.dteqDict[Source]._derating;
             }
+            if (LM.iLoadDict.ContainsKey(Destination)) {
+                DesignAmps = ListManager.iLoadDict[Destination].Fla;
+            }
+            Conductors = 3;
+            UsageType = "Power";
+            Insulation = 100;
+
+            //DesignAmps
             ILoadModel load;
-            load = ListManager.masterLoadList.FirstOrDefault(l => l.Tag == Destination);
+            load = ListManager.iLoadDict[Destination];
+
             if (load!=null) {
                 DesignAmps = load.Fla;
                 if (load.Category==Categories.LOAD1P.ToString()) {
                     //TODO - algorithm to determine condutor count for 1Phase loads
                 }
+                if (load.Type == LoadTypes.MOTOR.ToString() | load.Type == LoadTypes.TRANSFORMER.ToString()) {
+                    DesignAmps *= 1.25;
+                }
+                if (load.Category== Categories.LOAD3P.ToString()) {
+                    Conductors = 3;
+                    UsageType = "Power";
+                }
             }
 
-            
-            //Conductors
-            Conductors = 3;
-
-            //UsageType
-            UsageType = "Power";
-
-            //Insulation
-            Insulation = 100;
-            int voltage = ListManager.iLoadDict[Destination].Voltage;
             //Type
-            DataTable cableType = DataTables.CableTypes.Select($"VoltageClass >= {voltage}").CopyToDataTable();
+            int _voltage = ListManager.iLoadDict[Destination].Voltage;
+
+            DataTable cableType = DataTables.CableTypes.Select($"VoltageClass >= {_voltage}").CopyToDataTable();
             cableType = cableType.Select($"VoltageClass = MIN(VoltageClass) " +
                 $"AND Conductors ={Conductors}" +
                 $"AND Insulation ={Insulation}" +
@@ -74,17 +83,12 @@ namespace EDTLibrary.Models
 
             RatedVoltage = Int32.Parse(cableType.Rows[0]["VoltageClass"].ToString());
 
-            //Design Amps
-            DesignAmps = ListManager.iLoadDict[Destination].Fla;
-            if (ListManager.iLoadDict[Destination].Type == LoadTypes.MOTOR.ToString()
-                            | ListManager.iLoadDict[Destination].Type == LoadTypes.TRANSFORMER.ToString()){
-                DesignAmps = DesignAmps * 1.25;
-            }
-
             //Temporary
-            ElectricalSettings.Code = "CEC";
+            ProjectSettings.Code = "CEC";
+
+
             double requiredAmps = DesignAmps / Derating;
-            DataTable cableAmps = DataTables.CableAmpacities.Select($"Code = '{ElectricalSettings.Code}' " +
+            DataTable cableAmps = DataTables.CableAmpacities.Select($"Code = '{ProjectSettings.Code}' " +
                 $"AND Amps75 >= {requiredAmps}").CopyToDataTable();
             cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
 

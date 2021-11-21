@@ -149,7 +149,6 @@ namespace SQLiteLibrary
             }
         }
 
-
         public Tuple<bool, string> UpdateRecord<T>(T classObject, string tableName) where T : class, new() {
             using (IDbConnection cnn = new SQLiteConnection(conString).OpenAndReturn()) {
                 StringBuilder sb = new StringBuilder();
@@ -166,6 +165,7 @@ namespace SQLiteLibrary
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
                 sb.Replace("Id = @Id,", "");
+                //TODO - need to create a specific save query for each ModelType
                 sb.Replace("AssignedLoads = @AssignedLoads,", "");
                 sb.Replace("InLineComponents = @InLineComponents,", "");
                 sb.Remove(sb.Length - 2, 2); //, and last space
@@ -179,6 +179,32 @@ namespace SQLiteLibrary
                     //throw new Exception("Could not add record");
                     return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
                         $"Query: \n{sb}\n\n"+
+                        $"Details: \n\n {ex}"); ;
+                }
+            }
+        }
+
+        public Tuple<bool, string> UpdateSetting(string settingName, string settingValue){
+            using (IDbConnection cnn = new SQLiteConnection(conString).OpenAndReturn()) {
+                StringBuilder sb = new StringBuilder();
+                SQLiteCommand cmd = new SQLiteCommand();
+
+                //Build query string: 
+                //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
+                sb.Append($"UPDATE ProjectSettings SET Value = @Value");
+                cmd.Parameters.AddWithValue($"@Value", settingValue);
+                
+                sb.Append(" WHERE Name = @Name");
+                cmd.Parameters.AddWithValue($"@Name", settingName);
+
+                try {
+                    cnn.Execute("" + sb.ToString());
+                    return new Tuple<bool, string>(true, "");
+                }
+                catch (Exception ex) {
+                    //throw new Exception("Could not add record");
+                    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
+                        $"Query: \n{sb}\n\n" +
                         $"Details: \n\n {ex}"); ;
                 }
             }
