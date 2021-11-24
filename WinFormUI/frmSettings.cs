@@ -24,6 +24,32 @@ namespace WinFormUI {
             }
 
             txtPropertyValue.Text = "";
+
+            ProjectSettings.CablesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
+            dgvCablesInProject.DataSource = EDTLibrary.ProjectSettings.CablesUsedInProject;
+            dgvCablesInProject.Columns["Id"].Visible = false;
+            dgvCablesInProject.Columns["Size"].SortMode = DataGridViewColumnSortMode.NotSortable;
+            dgvCablesInProject.Columns["Size"].ReadOnly = true;
+            dgvCablesInProject.Columns["UsedInProject"].HeaderText = "Use In Project";
+            dgvCablesInProject.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dgvCablesInProject.Columns["Size"].Width += 130;
+            ScaleDataGridView(dgvCablesInProject);
+        }
+
+        private void ScaleDataGridView(DataGridView dataGridView) {
+            double totalWidth = 0;
+            foreach (DataGridViewColumn col in dataGridView.Columns) {
+                if (col.Visible==true) {
+                    totalWidth += col.Width;
+                }
+            }
+            double totalHeight = 0;
+            foreach (DataGridViewRow row in dataGridView.Rows) {
+                totalHeight += row.Height;
+            }
+            totalHeight += dataGridView.ColumnHeadersHeight;
+            dataGridView.Width = (int)totalWidth  ;
+            dataGridView.Height = (int)totalHeight ;
         }
 
         private void lstProperties_SelectedIndexChanged(object sender, EventArgs e) {
@@ -31,8 +57,15 @@ namespace WinFormUI {
         }
 
         private void btnSaveProperty_Click(object sender, EventArgs e) {
-            UI.SaveProperty(lstProperties.SelectedItem.ToString(), txtPropertyValue.Text);
+            UI.SaveSetting(lstProperties.SelectedItem.ToString(), txtPropertyValue.Text);
             UI.SaveProjectSettings();
+        }
+
+        private void dgvCablesInProject_CellContentClick(object sender, DataGridViewCellEventArgs e) {
+
+        }
+
+        private void dgvCablesInProject_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
         }
     }
 }

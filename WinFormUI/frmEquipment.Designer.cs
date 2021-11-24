@@ -24,9 +24,9 @@ namespace WinFormUI {
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lstDteq = new System.Windows.Forms.ListBox();
             this.btnDeleteDteq = new System.Windows.Forms.Button();
             this.btnSaveLoads = new System.Windows.Forms.Button();
@@ -39,6 +39,7 @@ namespace WinFormUI {
             this.dgvEquipment = new System.Windows.Forms.DataGridView();
             this.btnDteqList = new System.Windows.Forms.Button();
             this.pnlQuickButtons = new System.Windows.Forms.Panel();
+            this.btnCreateCableList = new System.Windows.Forms.Button();
             this.lblAssignedLoads = new System.Windows.Forms.Label();
             this.lblSelectedTag = new System.Windows.Forms.Label();
             this.lblListName = new System.Windows.Forms.Label();
@@ -46,7 +47,7 @@ namespace WinFormUI {
             this.pnlFooter = new System.Windows.Forms.Panel();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlCenter = new System.Windows.Forms.Panel();
-            this.btnCreateCableList = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEquipment)).BeginInit();
             this.pnlQuickButtons.SuspendLayout();
             this.pnlCenter.SuspendLayout();
@@ -69,6 +70,7 @@ namespace WinFormUI {
             this.btnDeleteDteq.TabIndex = 2;
             this.btnDeleteDteq.Text = "Delete Selected";
             this.btnDeleteDteq.UseVisualStyleBackColor = true;
+            this.btnDeleteDteq.Click += new System.EventHandler(this.btnDeleteDteq_Click);
             // 
             // btnSaveLoads
             // 
@@ -98,6 +100,7 @@ namespace WinFormUI {
             this.btnAddDteq.TabIndex = 1;
             this.btnAddDteq.Text = "Add Equipment";
             this.btnAddDteq.UseVisualStyleBackColor = true;
+            this.btnAddDteq.Click += new System.EventHandler(this.btnAddDteq_Click);
             // 
             // btnAddLoad
             // 
@@ -144,28 +147,28 @@ namespace WinFormUI {
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvEquipment.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvEquipment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvEquipment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
             this.dgvEquipment.ColumnHeadersHeight = 35;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvEquipment.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvEquipment.DefaultCellStyle = dataGridViewCellStyle11;
             this.dgvEquipment.EnableHeadersVisualStyles = false;
             this.dgvEquipment.Location = new System.Drawing.Point(18, 80);
             this.dgvEquipment.Name = "dgvEquipment";
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
-            this.dgvEquipment.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle12.BackColor = System.Drawing.Color.White;
+            this.dgvEquipment.RowsDefaultCellStyle = dataGridViewCellStyle12;
             this.dgvEquipment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvEquipment.Size = new System.Drawing.Size(1607, 541);
             this.dgvEquipment.TabIndex = 0;
@@ -182,6 +185,7 @@ namespace WinFormUI {
             // 
             // pnlQuickButtons
             // 
+            this.pnlQuickButtons.Controls.Add(this.listBox1);
             this.pnlQuickButtons.Controls.Add(this.btnCreateCableList);
             this.pnlQuickButtons.Controls.Add(this.lblAssignedLoads);
             this.pnlQuickButtons.Controls.Add(this.lstDteq);
@@ -199,6 +203,16 @@ namespace WinFormUI {
             this.pnlQuickButtons.Name = "pnlQuickButtons";
             this.pnlQuickButtons.Size = new System.Drawing.Size(200, 884);
             this.pnlQuickButtons.TabIndex = 16;
+            // 
+            // btnCreateCableList
+            // 
+            this.btnCreateCableList.Location = new System.Drawing.Point(26, 757);
+            this.btnCreateCableList.Name = "btnCreateCableList";
+            this.btnCreateCableList.Size = new System.Drawing.Size(148, 31);
+            this.btnCreateCableList.TabIndex = 10;
+            this.btnCreateCableList.Text = "Create Cable List";
+            this.btnCreateCableList.UseVisualStyleBackColor = true;
+            this.btnCreateCableList.Click += new System.EventHandler(this.btnCreateCableList_Click_1);
             // 
             // lblAssignedLoads
             // 
@@ -270,15 +284,13 @@ namespace WinFormUI {
             this.pnlCenter.Size = new System.Drawing.Size(1631, 643);
             this.pnlCenter.TabIndex = 23;
             // 
-            // btnCreateCableList
+            // listBox1
             // 
-            this.btnCreateCableList.Location = new System.Drawing.Point(26, 757);
-            this.btnCreateCableList.Name = "btnCreateCableList";
-            this.btnCreateCableList.Size = new System.Drawing.Size(148, 31);
-            this.btnCreateCableList.TabIndex = 10;
-            this.btnCreateCableList.Text = "Create Cable List";
-            this.btnCreateCableList.UseVisualStyleBackColor = true;
-            this.btnCreateCableList.Click += new System.EventHandler(this.btnCreateCableList_Click_1);
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(26, 17);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(148, 147);
+            this.listBox1.TabIndex = 11;
             // 
             // frmEquipment
             // 
@@ -325,6 +337,7 @@ namespace WinFormUI {
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.Panel pnlCenter;
         private System.Windows.Forms.Button btnCreateCableList;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

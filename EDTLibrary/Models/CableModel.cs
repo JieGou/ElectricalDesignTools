@@ -87,6 +87,8 @@ namespace EDTLibrary.Models
             ProjectSettings.Code = "CEC";
 
 
+            //Size
+            //TODO - figure out how to filter by cables only in the database. Join on CableXTable and Cables in project
             double requiredAmps = DesignAmps / Derating;
             DataTable cableAmps = DataTables.CableAmpacities.Select($"Code = '{ProjectSettings.Code}' " +
                 $"AND Amps75 >= {requiredAmps}").CopyToDataTable();

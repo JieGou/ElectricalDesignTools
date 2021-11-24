@@ -20,7 +20,8 @@ namespace EDTLibrary.Models {
 
         [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; }
-        public string Tag { get; set; }
+        public string Tag { get; 
+            set; }
         public string Category { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }

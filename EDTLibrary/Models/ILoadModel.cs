@@ -3,8 +3,10 @@
 namespace EDTLibrary.Models {
     public interface ILoadModel: IEquipmentModel {
         //Primary
+        [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
         new int Id { get; set; }
-        new string Tag { get; set; }
+        new string Tag { get; 
+            set; }
         new string Category { get; set; }
         new string Type { get; set; }
         string Description { get; set; }

@@ -15,6 +15,8 @@ namespace WinFormUI {
     public static class UI {
 
         public static bool ProjectLoaded { get; set; }
+        public static bool LibraryLoaded { get; set; }
+
 
         //Forms
         public static Form activeForm;
@@ -42,10 +44,11 @@ namespace WinFormUI {
                     filePath = openFileDialog.FileName;
                     Properties.Settings.Default.ProjectDb = filePath;
                     Properties.Settings.Default.Save();
+                    LoadProjectTables();
+                    LoadProjectSettings();
                 }
             }
-            LoadProjectTables();
-            LoadProjectSettings();
+            
         }
         public static void LoadProjectTables() {
             string dbFilename = Properties.Settings.Default.ProjectDb;
@@ -59,6 +62,7 @@ namespace WinFormUI {
                 LM.CreateMasterLoadList();
                 LM.cableList = prjDb.GetRecords<CableModel>("Cables");
 
+                LoadProjectSettings();
 
 
                 ProjectLoaded = true;
@@ -79,13 +83,14 @@ namespace WinFormUI {
                         //MessageBox.Show(prop.Name + ": " + prop.GetValue(propValue).ToString());
                     }
                 }
-            }                
+            }
+            ProjectSettings.CablesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
         }
         public static void SaveProjectSettings() {
-            Type type = typeof(ProjectSettings); // MyClass is static class with static properties
+            Type type = typeof(ProjectSettings); // ProjectSettings is a static class
             string propValue;
             foreach (var prop in type.GetProperties()) {
-                propValue = prop.GetValue(null).ToString();
+                propValue = prop.GetValue(null).ToString(); //null for static class
                 UI.prjDb.UpdateSetting(prop.Name, propValue);
             }
 
@@ -100,7 +105,7 @@ namespace WinFormUI {
             }
             return settingValue;
         }
-        public static void SaveProperty(string settingName, string settingValue) {
+        public static void SaveSetting(string settingName, string settingValue) {
             Type type = typeof(ProjectSettings); // MyClass is static class with static properties
             foreach (var prop in type.GetProperties()) {
                 if (settingName == prop.Name) {
@@ -132,8 +137,17 @@ namespace WinFormUI {
         public static void LoadLibraryTables() {
             Type type = typeof(DataTables); // MyClass is static class with static properties
             DataTable dt = new DataTable();
-            foreach (var prop in type.GetProperties()) {
+
+            string dbFilename = Properties.Settings.Default.ProjectDb;
+            if (File.Exists(dbFilename)) {
+                foreach (var prop in type.GetProperties()) {
                 prop.SetValue(dt, UI.libDb.GetDataTable(prop.Name));
+                }
+                LibraryLoaded = true;
+            }
+            else {
+                MessageBox.Show($"The selected file \n\n{dbFilename} cannot be found. Please select another project file.");
+                LibraryLoaded = false;
             }
         }
 
