@@ -25,8 +25,8 @@ namespace WinFormUI {
 
             txtPropertyValue.Text = "";
 
-            ProjectSettings.CablesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
-            dgvCablesInProject.DataSource = EDTLibrary.ProjectSettings.CablesUsedInProject;
+            //Styling dgvCablesInProject
+            dgvCablesInProject.DataSource = EDTLibrary.ProjectSettings.CableSizesUsedInProject;
             dgvCablesInProject.Columns["Id"].Visible = false;
             dgvCablesInProject.Columns["Size"].SortMode = DataGridViewColumnSortMode.NotSortable;
             dgvCablesInProject.Columns["Size"].ReadOnly = true;

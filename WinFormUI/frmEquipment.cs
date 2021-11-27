@@ -47,6 +47,7 @@ namespace WinFormUI {
             //lstDteq.DisplayMember = "Tag";
         }
 
+        //TODO - move generic methods to DataAccess
         //Loads
         private void GetLoads() {
             LM.loadList = UI.prjDb.GetRecords<LoadModel>("Loads");
@@ -234,7 +235,9 @@ namespace WinFormUI {
         }
         private void btnCreateCableList_Click_1(object sender, EventArgs e) {
             lblListName.Text = "CABLE LIST";
+            ProjectSettings.CreateCableAmpsUsedInProject();
             CreateCableList();
+            
         }
 
         private void btnAddDteq_Click(object sender, EventArgs e) {
@@ -264,6 +267,11 @@ namespace WinFormUI {
             //    }
             //}
             
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            ProjectSettings.CreateCableAmpsUsedInProject();
+            dgvEquipment.DataSource = ProjectSettings.CableAmpsUsedInProject;
         }
     }
 }

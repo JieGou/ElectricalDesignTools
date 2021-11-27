@@ -83,17 +83,31 @@ namespace EDTLibrary.Models
 
             RatedVoltage = Int32.Parse(cableType.Rows[0]["VoltageClass"].ToString());
 
-            //Temporary
-            ProjectSettings.Code = "CEC";
 
 
             //Size
-            //TODO - figure out how to filter by cables only in the database. Join on CableXTable and Cables in project
-            double requiredAmps = DesignAmps / Derating;
-            DataTable cableAmps = DataTables.CableAmpacities.Select($"Code = '{ProjectSettings.Code}' " +
-                $"AND Amps75 >= {requiredAmps}").CopyToDataTable();
-            cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
 
+            //Temporary
+            //TODO - determine which table/Rule is used
+            string codeTable = "Table2";
+            double requiredAmps = DesignAmps / Derating;
+            int qtyParallel = 0;
+
+            //TODO - figure out how to filter by cablesUsedInProject. Join on CableXTable and Cables in project
+            DataTable cablesInProject = ProjectSettings.CableSizesUsedInProject.Select($"UsedInProject = 'true'").CopyToDataTable();
+            
+            DataTable cableAmps = ProjectSettings.CableAmpsUsedInProject;
+
+            //select by cable criteria            
+            
+            cableAmps = cableAmps.Select(
+            $"Code = '{ProjectSettings.Code}' " +
+            $"AND Amps75 >= {requiredAmps} " +
+            $"AND CodeTable = '{codeTable}'").CopyToDataTable();
+
+            //select smallest of 
+            cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
+                        
             RatedAmps = Double.Parse(cableAmps.Rows[0]["Amps75"].ToString());
             Size = cableAmps.Rows[0]["Size"].ToString();
 

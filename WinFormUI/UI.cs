@@ -62,8 +62,7 @@ namespace WinFormUI {
                 LM.CreateMasterLoadList();
                 LM.cableList = prjDb.GetRecords<CableModel>("Cables");
 
-                LoadProjectSettings();
-
+                LoadProjectSettings();         
 
                 ProjectLoaded = true;
             }
@@ -84,7 +83,7 @@ namespace WinFormUI {
                     }
                 }
             }
-            ProjectSettings.CablesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
+            ProjectSettings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
         }
         public static void SaveProjectSettings() {
             Type type = typeof(ProjectSettings); // ProjectSettings is a static class
