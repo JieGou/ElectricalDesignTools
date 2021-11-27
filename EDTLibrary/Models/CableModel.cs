@@ -100,16 +100,28 @@ namespace EDTLibrary.Models
 
             //select by cable criteria            
             
-            cableAmps = cableAmps.Select(
-            $"Code = '{ProjectSettings.Code}' " +
-            $"AND Amps75 >= {requiredAmps} " +
-            $"AND CodeTable = '{codeTable}'").CopyToDataTable();
+            //cableAmps = cableAmps.Select(
+            //$"Code = '{ProjectSettings.Code}' " +
+            //$"AND Amps75 >= {requiredAmps} " +
+            //$"AND CodeTable = '{codeTable}'").CopyToDataTable();
 
-            //select smallest of 
-            cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
-                        
-            RatedAmps = Double.Parse(cableAmps.Rows[0]["Amps75"].ToString());
-            Size = cableAmps.Rows[0]["Size"].ToString();
+            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == ProjectSettings.Code
+                                                          && x.Field<double>("Amps75") >= requiredAmps
+                                                          && x.Field<string>("CodeTable") == codeTable);
+            if (cables.Any()) {
+                cableAmps = null;
+                cableAmps = cables.CopyToDataTable();
+
+                //select smallest of 
+                cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
+
+                RatedAmps = Double.Parse(cableAmps.Rows[0]["Amps75"].ToString());
+                Size = cableAmps.Rows[0]["Size"].ToString();
+            }
+
+
+
+            
 
             //TODO - algorithm to find parallel runs & size
         }

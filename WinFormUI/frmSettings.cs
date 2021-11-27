@@ -62,10 +62,10 @@ namespace WinFormUI {
         }
 
         private void dgvCablesInProject_CellContentClick(object sender, DataGridViewCellEventArgs e) {
-
         }
 
         private void dgvCablesInProject_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
+            ProjectSettings.CreateCableAmpsUsedInProject();
         }
     }
 }

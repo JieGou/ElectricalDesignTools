@@ -235,7 +235,6 @@ namespace WinFormUI {
         }
         private void btnCreateCableList_Click_1(object sender, EventArgs e) {
             lblListName.Text = "CABLE LIST";
-            ProjectSettings.CreateCableAmpsUsedInProject();
             CreateCableList();
             
         }
@@ -270,7 +269,6 @@ namespace WinFormUI {
         }
 
         private void button1_Click(object sender, EventArgs e) {
-            ProjectSettings.CreateCableAmpsUsedInProject();
             dgvEquipment.DataSource = ProjectSettings.CableAmpsUsedInProject;
         }
     }
