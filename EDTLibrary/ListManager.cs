@@ -210,7 +210,7 @@ namespace EDTLibrary {
             }
             foreach (var cable in cableList) {
                 cable.CreateTag();
-                cable.CalculateLoading();
+                cable.CalculateCableSize();
             }
         }
         //public static List<CableModel> CreateCableList(List<ILoadModel> masterLoadList) {

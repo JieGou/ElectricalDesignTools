@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary {
-    public enum DistributionEquipment {
+    public enum DteqTypes {
         XFR,
         SWG,
         MCC,
@@ -33,5 +33,11 @@ namespace EDTLibrary {
         Power
     }
 
+    public enum Units {
+        kVA,
+        kW,
+        AMPS,
+        HP
+    }
 
 }

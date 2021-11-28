@@ -35,6 +35,10 @@ namespace WinFormUI {
             dgvCablesInProject.Columns["Size"].Width += 130;
             ScaleDataGridView(dgvCablesInProject);
         }
+        
+        private void AutoSizeDataGrid(DataGridView dgv) {
+
+        }
 
         private void ScaleDataGridView(DataGridView dataGridView) {
             double totalWidth = 0;
@@ -54,6 +58,7 @@ namespace WinFormUI {
 
         private void lstProperties_SelectedIndexChanged(object sender, EventArgs e) {
             txtPropertyValue.Text = UI.GetSetting(lstProperties.SelectedItem.ToString());
+            dgvSetting.DataSource = ProjectSettings.CableAmpsUsedInProject;
         }
 
         private void btnSaveProperty_Click(object sender, EventArgs e) {
@@ -65,7 +70,7 @@ namespace WinFormUI {
         }
 
         private void dgvCablesInProject_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
-            ProjectSettings.CreateCableAmpsUsedInProject();
+            ProjectSettings.InitializeSettings();
         }
     }
 }

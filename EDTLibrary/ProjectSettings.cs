@@ -10,6 +10,9 @@ namespace EDTLibrary {
     public static class ProjectSettings {
         public static string Code { get; set; }
         public static string CableType3C1kV { get; set; }
+        public static string DteqMaxPercentLoaded { get; set; }
+        public static string DteqDefaultPdType { get; set; }
+
         public static DataTable CableSizesUsedInProject { get; set; }
         public static DataTable CableAmpsUsedInProject { get; set; }
 
@@ -35,18 +38,22 @@ namespace EDTLibrary {
         public static void CreateCableAmpsUsedInProject2() { //creates an IEnumerable of anonymous type that can't be used as a dataTable
             DataTable cablesInPrj = CableSizesUsedInProject.Select($"UsedInProject = 'true'").CopyToDataTable();
             DataTable cableAmpsInPrj = DataTables.CableAmpacities;
+            DataTable cableAmps = new DataTable();
 
             var cableAmpsInProject = from cableAmp in cableAmpsInPrj.AsEnumerable()
                                      join cablePrj in cablesInPrj.AsEnumerable()
                                      on cableAmp.Field<string>("Size") equals cablePrj.Field<string>("Size")
-                                     select new {
-                                         Size = cablePrj["Size"],
-                                         Amps60 = cableAmp["Amps60"],
-                                         Amps75 = cableAmp["Amps75"],
-                                         Amps90 = cableAmp["Amps90"],
-                                         Code = cableAmp["Code"],
-                                         CodeTable = cableAmp["CodeTable"]
-                                     };
+                                     where cablePrj.Field<bool>("UsedInProject") == true
+                                     select cableAmps.LoadDataRow(new object[] {
+                                         cablePrj["Size"],
+                                         cableAmp["Amps60"],
+                                         cableAmp["Amps75"],
+                                         cableAmp["Amps90"],
+                                         cableAmp["Code"],
+                                         cableAmp["CodeTable"]
+                                     }, false);
+
+            CableAmpsUsedInProject = cableAmps;
         }
     }
 }

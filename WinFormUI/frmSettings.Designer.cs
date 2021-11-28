@@ -27,18 +27,23 @@ namespace WinFormUI {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lstProperties = new System.Windows.Forms.ListBox();
             this.txtPropertyValue = new System.Windows.Forms.TextBox();
             this.btnSaveProperty = new System.Windows.Forms.Button();
             this.dgvCablesInProject = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
+            this.dgvSetting = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCablesInProject)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSetting)).BeginInit();
             this.SuspendLayout();
             // 
             // lstProperties
             // 
             this.lstProperties.FormattingEnabled = true;
-            this.lstProperties.Location = new System.Drawing.Point(97, 108);
+            this.lstProperties.Location = new System.Drawing.Point(77, 56);
             this.lstProperties.Name = "lstProperties";
             this.lstProperties.Size = new System.Drawing.Size(131, 251);
             this.lstProperties.TabIndex = 0;
@@ -46,14 +51,14 @@ namespace WinFormUI {
             // 
             // txtPropertyValue
             // 
-            this.txtPropertyValue.Location = new System.Drawing.Point(266, 108);
+            this.txtPropertyValue.Location = new System.Drawing.Point(246, 56);
             this.txtPropertyValue.Name = "txtPropertyValue";
             this.txtPropertyValue.Size = new System.Drawing.Size(213, 20);
             this.txtPropertyValue.TabIndex = 1;
             // 
             // btnSaveProperty
             // 
-            this.btnSaveProperty.Location = new System.Drawing.Point(297, 149);
+            this.btnSaveProperty.Location = new System.Drawing.Point(277, 97);
             this.btnSaveProperty.Name = "btnSaveProperty";
             this.btnSaveProperty.Size = new System.Drawing.Size(143, 32);
             this.btnSaveProperty.TabIndex = 2;
@@ -81,7 +86,7 @@ namespace WinFormUI {
             this.dgvCablesInProject.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvCablesInProject.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCablesInProject.GridColor = System.Drawing.Color.White;
-            this.dgvCablesInProject.Location = new System.Drawing.Point(644, 108);
+            this.dgvCablesInProject.Location = new System.Drawing.Point(1388, 83);
             this.dgvCablesInProject.MultiSelect = false;
             this.dgvCablesInProject.Name = "dgvCablesInProject";
             this.dgvCablesInProject.RowHeadersVisible = false;
@@ -99,17 +104,51 @@ namespace WinFormUI {
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(641, 78);
+            this.label1.Location = new System.Drawing.Point(1385, 53);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(114, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "Cables Used in Project";
             // 
+            // dgvSetting
+            // 
+            this.dgvSetting.AllowUserToAddRows = false;
+            this.dgvSetting.AllowUserToDeleteRows = false;
+            this.dgvSetting.AllowUserToResizeColumns = false;
+            this.dgvSetting.AllowUserToResizeRows = false;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.dgvSetting.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            this.dgvSetting.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvSetting.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvSetting.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            this.dgvSetting.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvSetting.GridColor = System.Drawing.Color.White;
+            this.dgvSetting.Location = new System.Drawing.Point(277, 195);
+            this.dgvSetting.MultiSelect = false;
+            this.dgvSetting.Name = "dgvSetting";
+            this.dgvSetting.RowHeadersVisible = false;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgvSetting.RowsDefaultCellStyle = dataGridViewCellStyle6;
+            this.dgvSetting.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.dgvSetting.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvSetting.Size = new System.Drawing.Size(933, 542);
+            this.dgvSetting.TabIndex = 5;
+            // 
             // frmSettings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1342, 714);
+            this.ClientSize = new System.Drawing.Size(1792, 872);
+            this.Controls.Add(this.dgvSetting);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvCablesInProject);
             this.Controls.Add(this.btnSaveProperty);
@@ -119,6 +158,7 @@ namespace WinFormUI {
             this.Text = "Project Settings";
             this.Load += new System.EventHandler(this.frmSettings_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCablesInProject)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvSetting)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -131,5 +171,6 @@ namespace WinFormUI {
         private System.Windows.Forms.Button btnSaveProperty;
         private System.Windows.Forms.DataGridView dgvCablesInProject;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridView dgvSetting;
     }
 }

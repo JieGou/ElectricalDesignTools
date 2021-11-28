@@ -26,10 +26,11 @@ namespace EDTLibrary.Models
         public int Conductors { get; set; }
         public string Size { get; set; }
         public double DesignAmps { get; set; }
-        public int RatedVoltage { get; set; }
-        public int Insulation { get; set; }
+        public double DeratedAmps { get; set; }
         public double Derating { get; set; }
         public double RatedAmps { get; set; }
+        public int RatedVoltage { get; set; }
+        public int Insulation { get; set; }
         public string Source { get; set; }
         public string Destination { get; set; }
         //public double Spacing { get; set; }
@@ -41,7 +42,7 @@ namespace EDTLibrary.Models
         }
             
         // TODO - Move "CalculatePowerCableSize to ILoadModel
-        public void CalculateLoading() {
+        public void CalculateCableSize() {
             if (LM.dteqDict.ContainsKey(Source)) {
                 Derating = ListManager.dteqDict[Source]._derating;
             }
@@ -53,6 +54,7 @@ namespace EDTLibrary.Models
             Insulation = 100;
 
             //DesignAmps
+            //TODO - coordinate DesignAmps vs RequiredAmps
             ILoadModel load;
             load = ListManager.iLoadDict[Destination];
 
@@ -91,37 +93,47 @@ namespace EDTLibrary.Models
             //TODO - determine which table/Rule is used
             string codeTable = "Table2";
             double requiredAmps = DesignAmps / Derating;
-            int qtyParallel = 0;
 
-            //TODO - figure out how to filter by cablesUsedInProject. Join on CableXTable and Cables in project
-            DataTable cablesInProject = ProjectSettings.CableSizesUsedInProject.Select($"UsedInProject = 'true'").CopyToDataTable();
             
-            DataTable cableAmps = ProjectSettings.CableAmpsUsedInProject;
+            DataTable cableAmps = ProjectSettings.CableAmpsUsedInProject.Copy();
 
-            //select by cable criteria            
-            
-            //cableAmps = cableAmps.Select(
-            //$"Code = '{ProjectSettings.Code}' " +
-            //$"AND Amps75 >= {requiredAmps} " +
-            //$"AND CodeTable = '{codeTable}'").CopyToDataTable();
-
+            //filter cables larger than RequiredAmps          
             var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == ProjectSettings.Code
                                                           && x.Field<double>("Amps75") >= requiredAmps
                                                           && x.Field<string>("CodeTable") == codeTable);
-            if (cables.Any()) {
-                cableAmps = null;
-                cableAmps = cables.CopyToDataTable();
 
-                //select smallest of 
-                cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
 
-                RatedAmps = Double.Parse(cableAmps.Rows[0]["Amps75"].ToString());
-                Size = cableAmps.Rows[0]["Size"].ToString();
+            GetCableQtySize(QtyParallel);
+
+            void GetCableQtySize(int cableQty) {
+                if (cables.Any()) {
+                        cableAmps = null;
+                        cableAmps = cables.CopyToDataTable();                    
+
+                    //select smallest of 
+                    cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
+
+                    RatedAmps = Double.Parse(cableAmps.Rows[0]["Amps75"].ToString());
+                    DeratedAmps = RatedAmps * Derating;
+                    Size = cableAmps.Rows[0]["Size"].ToString();
+                    QtyParallel = cableQty;
+                }
+                else {
+                    QtyParallel += 1;
+                    cableAmps = ProjectSettings.CableAmpsUsedInProject.Copy();
+                    foreach (DataRow row in cableAmps.Rows) {
+                        double amps75 = (double)row["Amps75"];
+                        string size = row["Size"].ToString();
+                        amps75 *= QtyParallel;
+                        row["Amps75"] = amps75;
+                        cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == ProjectSettings.Code
+                                                          && x.Field<double>("Amps75") >= requiredAmps
+                                                          && x.Field<string>("CodeTable") == codeTable);
+                    }
+                    GetCableQtySize(QtyParallel);
+                }
             }
 
-
-
-            
 
             //TODO - algorithm to find parallel runs & size
         }

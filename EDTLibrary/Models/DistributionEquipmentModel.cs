@@ -9,6 +9,7 @@ namespace EDTLibrary.Models {
         public DistributionEquipmentModel() {
             Category = Categories.DIST.ToString();
             Voltage = LineVoltage;
+            PdType = ProjectSettings.DteqDefaultPdType;
         }
 
         //Fields
@@ -35,7 +36,7 @@ namespace EDTLibrary.Models {
         public int LineVoltage { get; set; }
         public int LoadVoltage { get; set; }
 
-
+        //Loading
         #region ILoadModel - Privately Calculated Values
         public double Fla { get; set; }
         public double ConnectedKva { get; set; }
@@ -44,6 +45,12 @@ namespace EDTLibrary.Models {
         public double DemandKvar { get; set; }
         public double PowerFactor { get; set; }
         public double RunningAmps { get; set; }
+
+        //Sizing
+        public double MinCableAmps { get; set; }
+        public double PercentLoaded { get; set; }
+        public string PdType { get; set; }
+        public double PdSize { get; set; }
 
         public int CableQty { get; set; }
         public string CableSize { get; set; }
@@ -75,35 +82,50 @@ namespace EDTLibrary.Models {
                 }
             }
 
-            //Sums all Assinged loads
             Voltage = LineVoltage;
 
-            ConnectedKva = (from x in AssignedLoads select x.ConnectedKva).Sum();
-            ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
+            //Sums values from Assinged loads
+                ConnectedKva = (from x in AssignedLoads select x.ConnectedKva).Sum();
+                ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
 
-            DemandKva = (from x in AssignedLoads select x.DemandKva).Sum();
-            DemandKva = Math.Round(DemandKva, GlobalConfig.SigFigs);
+                DemandKva = (from x in AssignedLoads select x.DemandKva).Sum();
+                DemandKva = Math.Round(DemandKva, GlobalConfig.SigFigs);
 
-            DemandKw = (from x in AssignedLoads select x.DemandKw).Sum();
-            DemandKw = Math.Round(DemandKw, GlobalConfig.SigFigs);
+                DemandKw = (from x in AssignedLoads select x.DemandKw).Sum();
+                DemandKw = Math.Round(DemandKw, GlobalConfig.SigFigs);
 
-            DemandKvar = (from x in AssignedLoads select x.DemandKvar).Sum();
-            DemandKvar = Math.Round(DemandKvar, GlobalConfig.SigFigs);
+                DemandKvar = (from x in AssignedLoads select x.DemandKvar).Sum();
+                DemandKvar = Math.Round(DemandKvar, GlobalConfig.SigFigs);
 
-            PowerFactor = DemandKw / DemandKva;
-            PowerFactor = Math.Round(PowerFactor, GlobalConfig.SigFigs);
+            //calculates
+                PowerFactor = DemandKw / DemandKva;
+                PowerFactor = Math.Round(PowerFactor, GlobalConfig.SigFigs);
 
-            Fla = ConnectedKva * 1000 / Voltage / Math.Sqrt(3);
-            Fla = Math.Round(Fla, GlobalConfig.SigFigs);
+                RunningAmps = ConnectedKva * 1000 / Voltage / Math.Sqrt(3);
+                RunningAmps = Math.Round(RunningAmps, GlobalConfig.SigFigs);
 
+            //Full Load / Max operating Amps
+                if (Unit == Units.kVA.ToString()) {
+                    Fla = Size * 1000 / Voltage / Math.Sqrt(3);
+                    Fla = Math.Round(Fla, GlobalConfig.SigFigs);
+                }
+                else if (Unit == Units.AMPS.ToString()) {
+                    Fla = Size;
+                }
+
+            PercentLoaded = 100 * RunningAmps / Fla;
+            PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
+
+            MinCableAmps = Math.Max(Fla, RunningAmps);
+            if (Type == DteqTypes.XFR.ToString()) {
+                MinCableAmps *= 1.25;
+            }
 
             //Derating
-
-            foreach(var load in AssignedLoads) {
+            foreach (var load in AssignedLoads) {
                 //_totalLoadConductors += 3
                 // if(Spacing != 100loadCable.QtyParallel)
             }
-
 
             if (LoadCount*3>=43) {
                 _derating = 0.5;
@@ -120,6 +142,14 @@ namespace EDTLibrary.Models {
             else {
                 _derating = 1;
             }
+        }
+
+        public void GetMinimumPdSize() {
+            
+        }
+
+        public void CalculateMinimumCableSize() {
+
         }
     }
 }

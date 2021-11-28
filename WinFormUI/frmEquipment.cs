@@ -54,6 +54,8 @@ namespace WinFormUI {
         }
         private void ShowLoads() {
             dgvEquipment.DataSource = LM.loadList;
+
+            
         }
         private void SaveLoads() {
             Tuple<bool, string> update;
@@ -78,9 +80,18 @@ namespace WinFormUI {
             LM.AssignLoadsToDteq();
         }
         private void ShowDteq() {
-            //GetDteq();
             dgvEquipment.DataSource = LM.dteqList;
 
+            //Red Highlight PercentLoaded and Size Cells
+            double _dteqMaxLoadingPercentage;
+            foreach (DataGridViewRow row in dgvEquipment.Rows) {
+                if (double.TryParse(ProjectSettings.DteqMaxPercentLoaded, out _dteqMaxLoadingPercentage)) {
+                    if (double.Parse(row.Cells["PercentLoaded"].Value.ToString()) > _dteqMaxLoadingPercentage) {
+                        row.Cells["PercentLoaded"].Style.BackColor = Color.FromArgb(250, 150, 150);
+                        row.Cells["Size"].Style.BackColor = Color.FromArgb(250, 150, 150);
+                    }
+                }
+            }
         }
         private void SaveDteq() {
             Tuple<bool, string> update;
@@ -178,6 +189,8 @@ namespace WinFormUI {
             ShowDteq();
             lblSelectedTag.Text = "";
             lblListName.Text = "Distribution Equipment";
+
+            
         }
         
         private void btnSaveDteq_Click(object sender, EventArgs e) {
