@@ -35,14 +35,18 @@ namespace EDTLibrary.Models
         public string Destination { get; set; }
         //public double Spacing { get; set; }
 
-        //public List<string> Trays { get; set; } = new List<string>();
+        //Fields
+        int _voltage;
+        double _requiredAmps;
+        string _codeTable;
+
+
 
         public void CreateTag() {
             Tag = Source.Replace("-", "") + "-" + Destination.Replace("-", "");
         }
-            
-        // TODO - Move "CalculatePowerCableSize to ILoadModel
-        public void CalculateCableSize() {
+        
+        public void GetCableParameters() {
             if (LM.dteqDict.ContainsKey(Source)) {
                 Derating = ListManager.dteqDict[Source]._derating;
             }
@@ -58,22 +62,24 @@ namespace EDTLibrary.Models
             ILoadModel load;
             load = ListManager.iLoadDict[Destination];
 
-            if (load!=null) {
+            if (load != null) {
                 DesignAmps = load.Fla;
-                if (load.Category==Categories.LOAD1P.ToString()) {
+                if (load.Category == Categories.LOAD1P.ToString()) {
                     //TODO - algorithm to determine condutor count for 1Phase loads
                 }
                 if (load.Type == LoadTypes.MOTOR.ToString() | load.Type == LoadTypes.TRANSFORMER.ToString()) {
                     DesignAmps *= 1.25;
                 }
-                if (load.Category== Categories.LOAD3P.ToString()) {
+                if (load.Category == Categories.LOAD3P.ToString()) {
                     Conductors = 3;
                     UsageType = "Power";
                 }
             }
 
-            //Type
-            int _voltage = ListManager.iLoadDict[Destination].Voltage;
+            _voltage = ListManager.iLoadDict[Destination].Voltage;
+            _requiredAmps = DesignAmps / Derating;
+            _codeTable = "Table2";
+
 
             DataTable cableType = DataTables.CableTypes.Select($"VoltageClass >= {_voltage}").CopyToDataTable();
             cableType = cableType.Select($"VoltageClass = MIN(VoltageClass) " +
@@ -85,38 +91,32 @@ namespace EDTLibrary.Models
 
             RatedVoltage = Int32.Parse(cableType.Rows[0]["VoltageClass"].ToString());
 
+        }
 
+        // TODO - Move "CalculatePowerCableSize to ILoadModel
+        public void CalculateCableQtySize() {
 
-            //Size
-
-            //Temporary
-            //TODO - determine which table/Rule is used
-            string codeTable = "Table2";
-            double requiredAmps = DesignAmps / Derating;
-
-            
             DataTable cableAmps = ProjectSettings.CableAmpsUsedInProject.Copy();
 
             //filter cables larger than RequiredAmps          
             var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == ProjectSettings.Code
-                                                          && x.Field<double>("Amps75") >= requiredAmps
-                                                          && x.Field<string>("CodeTable") == codeTable);
+                                                          && x.Field<double>("Amps75") >= _requiredAmps
+                                                          && x.Field<string>("CodeTable") == _codeTable);
 
+            GetCableQty(QtyParallel);
 
-            GetCableQtySize(QtyParallel);
-
-            void GetCableQtySize(int cableQty) {
+            void GetCableQty(int cableQty) {
                 if (cables.Any()) {
-                        cableAmps = null;
-                        cableAmps = cables.CopyToDataTable();                    
+                    cableAmps = null;
+                    cableAmps = cables.CopyToDataTable();                    
 
                     //select smallest of 
                     cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
 
                     RatedAmps = Double.Parse(cableAmps.Rows[0]["Amps75"].ToString());
-                    DeratedAmps = RatedAmps * Derating;
-                    Size = cableAmps.Rows[0]["Size"].ToString();
+                    DeratedAmps = RatedAmps * Derating;                    
                     QtyParallel = cableQty;
+                    Size = cableAmps.Rows[0]["Size"].ToString();
                 }
                 else {
                     QtyParallel += 1;
@@ -127,15 +127,29 @@ namespace EDTLibrary.Models
                         amps75 *= QtyParallel;
                         row["Amps75"] = amps75;
                         cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == ProjectSettings.Code
-                                                          && x.Field<double>("Amps75") >= requiredAmps
-                                                          && x.Field<string>("CodeTable") == codeTable);
+                                                          && x.Field<double>("Amps75") >= _requiredAmps
+                                                          && x.Field<string>("CodeTable") == _codeTable);
                     }
-                    GetCableQtySize(QtyParallel);
+                    GetCableQty(QtyParallel);
                 }
             }
+        }
 
+        public void CalculateAmpacity() {
+            GetCableParameters();
 
-            //TODO - algorithm to find parallel runs & size
+            DataTable cableAmps = ProjectSettings.CableAmpsUsedInProject.Copy();
+
+            //filter cables larger than RequiredAmps          
+            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == ProjectSettings.Code
+                                                          && x.Field<string>("CodeTable") == _codeTable
+                                                          && x.Field<string>("Size") == Size);
+
+            cableAmps = null;
+            cableAmps = cables.CopyToDataTable();
+            //select smallest of 
+            RatedAmps = Double.Parse(cableAmps.Rows[0]["Amps75"].ToString()) * QtyParallel;
+            DeratedAmps = RatedAmps * Derating;
         }
     }
 }

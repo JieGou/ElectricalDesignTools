@@ -136,10 +136,12 @@ namespace WinFormUI {
             bool error = false;
             string message = "";
 
+            //deletes all cables in Db
             UI.prjDb.DeleteAllRecords("Cables");
             LM.CreateCableList();
-            dgvEquipment.DataSource = LM.cableList;
+            //dgvEquipment.DataSource = LM.cableList;
 
+            //creates a new Db Cable List
             List<string> properties = new List<string> { "Tag", "Category", "Source", "Destination" };
             foreach (var cable in LM.cableList) {
                 update = UI.prjDb.InsertRecord(cable, "Cables");
@@ -282,7 +284,10 @@ namespace WinFormUI {
         }
 
         private void button1_Click(object sender, EventArgs e) {
-            dgvEquipment.DataSource = ProjectSettings.CableAmpsUsedInProject;
+            LM.CalculateCableAmps();
+            //dgvEquipment.Update();
+            dgvEquipment.DataSource = null;
+            dgvEquipment.DataSource = LM.cableList;
         }
     }
 }
