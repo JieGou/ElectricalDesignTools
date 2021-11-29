@@ -1,7 +1,6 @@
 ﻿using EDTLibrary;
 using EDTLibrary.Models;
 using LM = EDTLibrary.ListManager;
-using SQLiteLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -55,10 +55,6 @@
       <Project>{49ba6586-11f5-4c44-ad83-ffa6b5be27c7}</Project>
       <Name>EDTLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SQLiteLibrary\SQLiteLibrary.csproj">
-      <Project>{37a104ef-4224-4912-996b-c4e0b26b61ce}</Project>
-      <Name>SQLiteLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

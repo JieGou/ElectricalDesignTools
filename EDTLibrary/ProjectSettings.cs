@@ -20,7 +20,6 @@ namespace EDTLibrary {
             CreateCableAmpsUsedInProject();
         }
         
-        //TODO - create a class for CableAmpsUsedInProject
         public static void CreateCableAmpsUsedInProject() {
             CableAmpsUsedInProject = DataTables.CableAmpacities;
             foreach (DataRow cablePrj in CableSizesUsedInProject.Rows) {              

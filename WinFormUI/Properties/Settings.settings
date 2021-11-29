@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="ProjectDb" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\EDTProjectTemplate1.1.db</Value>
     </Setting>
     <Setting Name="LibraryDb" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\EDTDataLibrary.db</Value>
     </Setting>
   </Settings>
 </SettingsFile>

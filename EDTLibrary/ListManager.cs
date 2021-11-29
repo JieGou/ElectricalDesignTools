@@ -211,7 +211,7 @@ namespace EDTLibrary {
             foreach (var cable in cableList) {
                 cable.CreateTag();
                 cable.GetCableParameters();
-                cable.CalculateCableQtySize();
+                cable.CalculateQtySize();
             }
         }
 

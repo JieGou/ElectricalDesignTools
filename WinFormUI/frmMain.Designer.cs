@@ -27,14 +27,14 @@ namespace WinFormUI {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.pnlChildForm = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnEquipment = new System.Windows.Forms.Button();
-            this.btnSettings = new System.Windows.Forms.Button();
-            this.btnSelectLibraryDb = new System.Windows.Forms.Button();
             this.pnlMenu = new System.Windows.Forms.Panel();
-            this.btnDataTables = new System.Windows.Forms.Button();
-            this.btnCostSettings = new System.Windows.Forms.Button();
-            this.stsMain = new System.Windows.Forms.StatusStrip();
             this.btnSelectProject = new System.Windows.Forms.Button();
+            this.btnDataTables = new System.Windows.Forms.Button();
+            this.btnSettings = new System.Windows.Forms.Button();
+            this.btnCostSettings = new System.Windows.Forms.Button();
+            this.btnEquipment = new System.Windows.Forms.Button();
+            this.btnSelectLibraryDb = new System.Windows.Forms.Button();
+            this.stsMain = new System.Windows.Forms.StatusStrip();
             this.stsLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlChildForm.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -49,51 +49,22 @@ namespace WinFormUI {
             this.pnlChildForm.Controls.Add(this.pnlMenu);
             this.pnlChildForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlChildForm.Location = new System.Drawing.Point(0, 0);
+            this.pnlChildForm.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pnlChildForm.Name = "pnlChildForm";
-            this.pnlChildForm.Size = new System.Drawing.Size(1855, 861);
+            this.pnlChildForm.Size = new System.Drawing.Size(1840, 843);
             this.pnlChildForm.TabIndex = 18;
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(891, 291);
+            this.pictureBox1.Location = new System.Drawing.Point(871, 275);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(269, 263);
+            this.pictureBox1.Size = new System.Drawing.Size(263, 263);
             this.pictureBox1.TabIndex = 12;
             this.pictureBox1.TabStop = false;
-            // 
-            // btnEquipment
-            // 
-            this.btnEquipment.Location = new System.Drawing.Point(25, 238);
-            this.btnEquipment.Name = "btnEquipment";
-            this.btnEquipment.Size = new System.Drawing.Size(148, 28);
-            this.btnEquipment.TabIndex = 0;
-            this.btnEquipment.Text = "Equipment and Cables";
-            this.btnEquipment.UseVisualStyleBackColor = true;
-            this.btnEquipment.Click += new System.EventHandler(this.btnEquipment_Click);
-            // 
-            // btnSettings
-            // 
-            this.btnSettings.Location = new System.Drawing.Point(26, 123);
-            this.btnSettings.Name = "btnSettings";
-            this.btnSettings.Size = new System.Drawing.Size(148, 28);
-            this.btnSettings.TabIndex = 10;
-            this.btnSettings.Text = "Project Settings";
-            this.btnSettings.UseVisualStyleBackColor = true;
-            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
-            // 
-            // btnSelectLibraryDb
-            // 
-            this.btnSelectLibraryDb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnSelectLibraryDb.Location = new System.Drawing.Point(25, 771);
-            this.btnSelectLibraryDb.Name = "btnSelectLibraryDb";
-            this.btnSelectLibraryDb.Size = new System.Drawing.Size(148, 28);
-            this.btnSelectLibraryDb.TabIndex = 1;
-            this.btnSelectLibraryDb.TabStop = false;
-            this.btnSelectLibraryDb.Text = "Select Library Database";
-            this.btnSelectLibraryDb.UseVisualStyleBackColor = true;
-            this.btnSelectLibraryDb.Click += new System.EventHandler(this.btnSelectLibraryDb_Click);
             // 
             // pnlMenu
             // 
@@ -106,48 +77,89 @@ namespace WinFormUI {
             this.pnlMenu.Controls.Add(this.btnSelectLibraryDb);
             this.pnlMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlMenu.Location = new System.Drawing.Point(0, 0);
+            this.pnlMenu.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pnlMenu.Name = "pnlMenu";
-            this.pnlMenu.Size = new System.Drawing.Size(196, 861);
+            this.pnlMenu.Size = new System.Drawing.Size(229, 843);
             this.pnlMenu.TabIndex = 17;
+            // 
+            // btnSelectProject
+            // 
+            this.btnSelectProject.Location = new System.Drawing.Point(29, 103);
+            this.btnSelectProject.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnSelectProject.Name = "btnSelectProject";
+            this.btnSelectProject.Size = new System.Drawing.Size(173, 32);
+            this.btnSelectProject.TabIndex = 14;
+            this.btnSelectProject.Text = "SelectProject";
+            this.btnSelectProject.UseVisualStyleBackColor = true;
+            this.btnSelectProject.Click += new System.EventHandler(this.btnSelectProject_Click);
             // 
             // btnDataTables
             // 
-            this.btnDataTables.Location = new System.Drawing.Point(26, 737);
+            this.btnDataTables.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDataTables.Location = new System.Drawing.Point(29, 716);
+            this.btnDataTables.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnDataTables.Name = "btnDataTables";
-            this.btnDataTables.Size = new System.Drawing.Size(148, 28);
+            this.btnDataTables.Size = new System.Drawing.Size(173, 32);
             this.btnDataTables.TabIndex = 12;
             this.btnDataTables.Text = "Data Tables";
             this.btnDataTables.UseVisualStyleBackColor = true;
             this.btnDataTables.Click += new System.EventHandler(this.btnDataTables_Click);
             // 
+            // btnSettings
+            // 
+            this.btnSettings.Location = new System.Drawing.Point(30, 142);
+            this.btnSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(173, 32);
+            this.btnSettings.TabIndex = 10;
+            this.btnSettings.Text = "Project Settings";
+            this.btnSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
             // btnCostSettings
             // 
-            this.btnCostSettings.Location = new System.Drawing.Point(25, 272);
+            this.btnCostSettings.Location = new System.Drawing.Point(29, 314);
+            this.btnCostSettings.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnCostSettings.Name = "btnCostSettings";
-            this.btnCostSettings.Size = new System.Drawing.Size(148, 28);
+            this.btnCostSettings.Size = new System.Drawing.Size(173, 32);
             this.btnCostSettings.TabIndex = 11;
             this.btnCostSettings.Text = "Cost Settings";
             this.btnCostSettings.UseVisualStyleBackColor = true;
+            // 
+            // btnEquipment
+            // 
+            this.btnEquipment.Location = new System.Drawing.Point(29, 275);
+            this.btnEquipment.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnEquipment.Name = "btnEquipment";
+            this.btnEquipment.Size = new System.Drawing.Size(173, 32);
+            this.btnEquipment.TabIndex = 0;
+            this.btnEquipment.Text = "Equipment and Cables";
+            this.btnEquipment.UseVisualStyleBackColor = true;
+            this.btnEquipment.Click += new System.EventHandler(this.btnEquipment_Click);
+            // 
+            // btnSelectLibraryDb
+            // 
+            this.btnSelectLibraryDb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSelectLibraryDb.Location = new System.Drawing.Point(28, 758);
+            this.btnSelectLibraryDb.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.btnSelectLibraryDb.Name = "btnSelectLibraryDb";
+            this.btnSelectLibraryDb.Size = new System.Drawing.Size(173, 32);
+            this.btnSelectLibraryDb.TabIndex = 1;
+            this.btnSelectLibraryDb.TabStop = false;
+            this.btnSelectLibraryDb.Text = "Select Library Database";
+            this.btnSelectLibraryDb.UseVisualStyleBackColor = true;
+            this.btnSelectLibraryDb.Click += new System.EventHandler(this.btnSelectLibraryDb_Click);
             // 
             // stsMain
             // 
             this.stsMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.stsLabel1});
-            this.stsMain.Location = new System.Drawing.Point(0, 839);
+            this.stsMain.Location = new System.Drawing.Point(0, 821);
             this.stsMain.Name = "stsMain";
-            this.stsMain.Size = new System.Drawing.Size(1855, 22);
+            this.stsMain.Padding = new System.Windows.Forms.Padding(1, 0, 16, 0);
+            this.stsMain.Size = new System.Drawing.Size(1840, 22);
             this.stsMain.TabIndex = 19;
             this.stsMain.Text = "statusStrip1";
-            // 
-            // btnSelectProject
-            // 
-            this.btnSelectProject.Location = new System.Drawing.Point(25, 89);
-            this.btnSelectProject.Name = "btnSelectProject";
-            this.btnSelectProject.Size = new System.Drawing.Size(148, 28);
-            this.btnSelectProject.TabIndex = 14;
-            this.btnSelectProject.Text = "SelectProject";
-            this.btnSelectProject.UseVisualStyleBackColor = true;
-            this.btnSelectProject.Click += new System.EventHandler(this.btnSelectProject_Click);
             // 
             // stsLabel1
             // 
@@ -157,11 +169,12 @@ namespace WinFormUI {
             // 
             // frmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1855, 861);
+            this.ClientSize = new System.Drawing.Size(1840, 843);
             this.Controls.Add(this.stsMain);
             this.Controls.Add(this.pnlChildForm);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "frmMain";
             this.Text = "Electrical Design Tool";
             this.Load += new System.EventHandler(this.frmMain_Load);

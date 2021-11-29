@@ -1,7 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using EDTLibrary.DataAccess;
+using System.Collections.Generic;
 
 namespace EDTLibrary {
     public static class GlobalConfig {
+
+        public static List<IDataConnector> ProjectConnections { get; private set; } = new List<IDataConnector>();
+        public static List<IDataConnector> LibraryConnections { get; private set; } = new List<IDataConnector>();
+
+        public static void InitializeConnections(bool sqLite)
+        {
+            if (sqLite)
+            {
+                //SQLiteConnector prjDb = new SQLiteConnector(Properties.Settings.Default.ProjectDb);
+                //ProjectConnections.Add(prjDb);
+                //SQLiteConnector libDb = new SQLiteConnector(Properties.Settings.Default.ProjectDb);
+                //LibraryConnections.Add(libDb);
+            }
+
+        }
 
         //Constants
         public const int SigFigs = 1;

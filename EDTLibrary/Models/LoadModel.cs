@@ -160,9 +160,9 @@ namespace EDTLibrary.Models {
             }
 
             ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
-            DemandKva = Math.Round(DemandKva, GlobalConfig.SigFigs);
-            DemandKw = Math.Round(DemandKw, GlobalConfig.SigFigs);
-            DemandKvar = Math.Round(DemandKvar, GlobalConfig.SigFigs);
+            DemandKva = Math.Round(ConnectedKva*LoadFactor, GlobalConfig.SigFigs);
+            DemandKw = Math.Round(DemandKva*PowerFactor, GlobalConfig.SigFigs);
+            DemandKvar = Math.Round(DemandKva*(1-PowerFactor), GlobalConfig.SigFigs);
         }
         public void LookupPfAndEff() {
             //TODO - Implement motor Eff & Pf

@@ -7,9 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EDTLibrary;
+using EDTLibrary.DataAccess;
 using EDTLibrary.Models;
 using LM = EDTLibrary.ListManager;
-using SQLiteLibrary;
+//using SQLiteLibrary;
 
 namespace WinFormUI {
     public static class UI {
@@ -25,8 +26,8 @@ namespace WinFormUI {
         public static Form frmDataTables = new frmDataTables();
 
         //DB Connections
-        public static SQLiteDapperConnector prjDb = new SQLiteDapperConnector(Properties.Settings.Default.ProjectDb);
-        public static SQLiteDapperConnector libDb = new SQLiteDapperConnector(Properties.Settings.Default.LibraryDb);
+        public static SQLiteConnector prjDb = new SQLiteConnector(Properties.Settings.Default.ProjectDb);
+        public static SQLiteConnector libDb = new SQLiteConnector(Properties.Settings.Default.LibraryDb);
 
         //Project
         public static void SelectProject() {
@@ -53,7 +54,7 @@ namespace WinFormUI {
         public static void LoadProjectTables() {
             string dbFilename = Properties.Settings.Default.ProjectDb;
             if (File.Exists(dbFilename)) {
-                prjDb = new SQLiteDapperConnector(dbFilename);
+                prjDb = new SQLiteConnector(dbFilename);
 
                 LM.dteqList = prjDb.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
                 LM.CreateDteqDict();

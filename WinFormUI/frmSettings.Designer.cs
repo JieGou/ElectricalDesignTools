@@ -43,24 +43,28 @@ namespace WinFormUI {
             // lstProperties
             // 
             this.lstProperties.FormattingEnabled = true;
-            this.lstProperties.Location = new System.Drawing.Point(77, 56);
+            this.lstProperties.ItemHeight = 15;
+            this.lstProperties.Location = new System.Drawing.Point(90, 65);
+            this.lstProperties.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.lstProperties.Name = "lstProperties";
-            this.lstProperties.Size = new System.Drawing.Size(131, 251);
+            this.lstProperties.Size = new System.Drawing.Size(152, 289);
             this.lstProperties.TabIndex = 0;
             this.lstProperties.SelectedIndexChanged += new System.EventHandler(this.lstProperties_SelectedIndexChanged);
             // 
             // txtPropertyValue
             // 
-            this.txtPropertyValue.Location = new System.Drawing.Point(246, 56);
+            this.txtPropertyValue.Location = new System.Drawing.Point(287, 65);
+            this.txtPropertyValue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.txtPropertyValue.Name = "txtPropertyValue";
-            this.txtPropertyValue.Size = new System.Drawing.Size(213, 20);
+            this.txtPropertyValue.Size = new System.Drawing.Size(248, 23);
             this.txtPropertyValue.TabIndex = 1;
             // 
             // btnSaveProperty
             // 
-            this.btnSaveProperty.Location = new System.Drawing.Point(277, 97);
+            this.btnSaveProperty.Location = new System.Drawing.Point(323, 112);
+            this.btnSaveProperty.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnSaveProperty.Name = "btnSaveProperty";
-            this.btnSaveProperty.Size = new System.Drawing.Size(143, 32);
+            this.btnSaveProperty.Size = new System.Drawing.Size(167, 37);
             this.btnSaveProperty.TabIndex = 2;
             this.btnSaveProperty.Text = "Save";
             this.btnSaveProperty.UseVisualStyleBackColor = true;
@@ -78,7 +82,7 @@ namespace WinFormUI {
             this.dgvCablesInProject.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -86,7 +90,8 @@ namespace WinFormUI {
             this.dgvCablesInProject.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvCablesInProject.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCablesInProject.GridColor = System.Drawing.Color.White;
-            this.dgvCablesInProject.Location = new System.Drawing.Point(1388, 83);
+            this.dgvCablesInProject.Location = new System.Drawing.Point(1417, 112);
+            this.dgvCablesInProject.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dgvCablesInProject.MultiSelect = false;
             this.dgvCablesInProject.Name = "dgvCablesInProject";
             this.dgvCablesInProject.RowHeadersVisible = false;
@@ -96,7 +101,7 @@ namespace WinFormUI {
             this.dgvCablesInProject.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvCablesInProject.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvCablesInProject.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvCablesInProject.Size = new System.Drawing.Size(212, 491);
+            this.dgvCablesInProject.Size = new System.Drawing.Size(247, 567);
             this.dgvCablesInProject.TabIndex = 3;
             this.dgvCablesInProject.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCablesInProject_CellContentClick);
             this.dgvCablesInProject.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCablesInProject_CellEndEdit);
@@ -104,9 +109,10 @@ namespace WinFormUI {
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1385, 53);
+            this.label1.Location = new System.Drawing.Point(1414, 77);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(114, 13);
+            this.label1.Size = new System.Drawing.Size(124, 15);
             this.label1.TabIndex = 4;
             this.label1.Text = "Cables Used in Project";
             // 
@@ -122,7 +128,7 @@ namespace WinFormUI {
             this.dgvSetting.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -130,7 +136,8 @@ namespace WinFormUI {
             this.dgvSetting.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvSetting.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvSetting.GridColor = System.Drawing.Color.White;
-            this.dgvSetting.Location = new System.Drawing.Point(277, 195);
+            this.dgvSetting.Location = new System.Drawing.Point(323, 225);
+            this.dgvSetting.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dgvSetting.MultiSelect = false;
             this.dgvSetting.Name = "dgvSetting";
             this.dgvSetting.RowHeadersVisible = false;
@@ -140,20 +147,21 @@ namespace WinFormUI {
             this.dgvSetting.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.dgvSetting.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dgvSetting.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvSetting.Size = new System.Drawing.Size(933, 542);
+            this.dgvSetting.Size = new System.Drawing.Size(883, 625);
             this.dgvSetting.TabIndex = 5;
             // 
             // frmSettings
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1792, 872);
+            this.ClientSize = new System.Drawing.Size(1787, 893);
             this.Controls.Add(this.dgvSetting);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvCablesInProject);
             this.Controls.Add(this.btnSaveProperty);
             this.Controls.Add(this.txtPropertyValue);
             this.Controls.Add(this.lstProperties);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "frmSettings";
             this.Text = "Project Settings";
             this.Load += new System.EventHandler(this.frmSettings_Load);

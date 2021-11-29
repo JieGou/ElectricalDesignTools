@@ -1,15 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31829.152
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDTLibrary", "EDTLibrary\EDTLibrary.csproj", "{49BA6586-11F5-4C44-AD83-FFA6B5BE27C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EDTLibrary", "EDTLibrary\EDTLibrary.csproj", "{49BA6586-11F5-4C44-AD83-FFA6B5BE27C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{91E6A307-6BF1-46A1-9D64-6E72466452D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLiteLibrary", "SQLiteLibrary\SQLiteLibrary.csproj", "{37A104EF-4224-4912-996B-C4E0B26B61CE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormUI", "WinFormUI\WinFormUI.csproj", "{531661A6-E489-4D7F-B428-A84461E771F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormUI", "WinFormUI\WinFormUI.csproj", "{531661A6-E489-4D7F-B428-A84461E771F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelLibrary", "ExcelLibrary\ExcelLibrary.csproj", "{469FAF00-16A0-42A9-89D1-EC478CC96FD3}"
 EndProject
@@ -37,14 +35,6 @@ Global
 		{91E6A307-6BF1-46A1-9D64-6E72466452D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{91E6A307-6BF1-46A1-9D64-6E72466452D3}.Release|x86.ActiveCfg = Release|Any CPU
 		{91E6A307-6BF1-46A1-9D64-6E72466452D3}.Release|x86.Build.0 = Release|Any CPU
-		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Debug|x86.ActiveCfg = Debug|x86
-		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Debug|x86.Build.0 = Debug|x86
-		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Release|x86.ActiveCfg = Release|x86
-		{37A104EF-4224-4912-996B-C4E0B26B61CE}.Release|x86.Build.0 = Release|x86
 		{531661A6-E489-4D7F-B428-A84461E771F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{531661A6-E489-4D7F-B428-A84461E771F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{531661A6-E489-4D7F-B428-A84461E771F2}.Debug|x86.ActiveCfg = Debug|Any CPU

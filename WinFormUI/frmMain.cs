@@ -14,13 +14,19 @@ namespace WinFormUI {
         public frmMain() {
             InitializeComponent();
         }
+
+        public bool Loaded { get; set; }
         private void frmMain_Load(object sender, EventArgs e) {
             this.WindowState = FormWindowState.Maximized;
             UI.LoadLibraryTables();
             UI.LoadProjectTables();
             ProjectSettings.InitializeSettings();
+            if (UI.ProjectLoaded && UI.LibraryLoaded) {
+                Loaded = true;
 
-            UI.OpenChildForm(UI.frmEquipment, pnlChildForm);
+
+                //UI.OpenChildForm(UI.frmEquipment, pnlChildForm);
+            }
         }
 
         

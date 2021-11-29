@@ -94,7 +94,7 @@ namespace EDTLibrary.Models
         }
 
         // TODO - Move "CalculatePowerCableSize to ILoadModel
-        public void CalculateCableQtySize() {
+        public void CalculateQtySize() {
 
             DataTable cableAmps = ProjectSettings.CableAmpsUsedInProject.Copy();
 
