@@ -29,7 +29,7 @@ namespace WinFormUI {
 
         private void btnGetTables_Click(object sender, EventArgs e) {
             lstDataTables.Items.Clear();
-            ArrayList tables = UI.libDb.GetDbTables();
+            ArrayList tables = UI.libDb.GetAllTablesInDb();
 
             foreach (string item in tables) {
                 lstDataTables.Items.Add(item);

@@ -14,6 +14,8 @@ namespace EDTLibrary {
         public static string DteqMaxPercentLoaded { get; set; }
         public static string DteqDefaultPdType { get; set; }
 
+
+        //TODO - Mode to Table Properties and Implement Interface
         public static DataTable CableSizesUsedInProject { get; set; }
         public static DataTable CableAmpsUsedInProject { get; set; }
 

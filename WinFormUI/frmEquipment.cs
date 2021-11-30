@@ -21,6 +21,7 @@ namespace WinFormUI {
         private void frmEquipment_Load(object sender, EventArgs e) {
 
             dgvEquipment.DoubleBuffered(true);
+
             dgvEquipment.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lblListName.Text = "";
             lblSelectedTag.Text = "";
@@ -34,52 +35,10 @@ namespace WinFormUI {
             //dgvEquipment.DataSource = DataTables.CableTypes;
         }
 
-        
 
-        //Dteq Listbox
-        private void FillDteqListBox() {
-            lstDteq.Items.Clear();
-            foreach (var dteq in LM.dteqList) {
-                lstDteq.Items.Add(dteq.Tag);
-            }
-            //lstDteq.DataSource = LM.dteqList;
-            //lstDteq.DisplayMember = "Tag";
-        }
-
-        //TODO - move generic methods to DataAccess
-        //Loads
-        private void GetLoads() {
-            LM.loadList = UI.prjDb.GetRecords<LoadModel>("Loads");
-        }
-        private void ShowLoads() {
-            dgvEquipment.DataSource = LM.loadList;
-
-            
-        }
-        private void SaveLoads() {
-            Tuple<bool, string> update;
-            bool error = false;
-            string message = "";
-            foreach (var load in LM.loadList) {
-                update = UI.prjDb.UpdateRecord(load, "Loads");
-                if (update.Item1 == false) {
-                    error = true;
-                    message = update.Item2;
-                }
-            }
-            if (error) {
-                MessageBox.Show(message);
-            }
-        }
-
-        //Dteq
-        private void GetDteq() {
-            LM.dteqList = UI.prjDb.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
-            LM.CreateMasterLoadList();
-            LM.AssignLoadsToDteq();
-        }
+        //UI
         private void ShowDteq() {
-            dgvEquipment.DataSource = LM.dteqList;
+            dgvEquipment.DataSource = ListManager.dteqList;
 
             //Red Highlight PercentLoaded and Size Cells
             double _dteqMaxLoadingPercentage;
@@ -92,12 +51,56 @@ namespace WinFormUI {
                 }
             }
         }
+        private void ShowLoads() {
+            dgvEquipment.DataSource = ListManager.loadList;
+        }
+        private void ShowCables() {
+            dgvEquipment.DataSource = ListManager.cableList;
+        }
+        private void FillDteqListBox() {
+            lstDteq.Items.Clear();
+            foreach (var dteq in ListManager.dteqList) {
+                lstDteq.Items.Add(dteq.Tag);
+            }
+            //lstDteq.DataSource = ListManager.dteqList;
+            //lstDteq.DisplayMember = "Tag";
+        }
+
+
+        //TODO - move generic methods to DataAccess
+
+        //Dteq
+        private void GetDteq() {
+            ListManager.dteqList = UI.prjDb.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
+            ListManager.CreateMasterLoadList();
+            ListManager.AssignLoadsToDteq();
+        }
         private void SaveDteq() {
             Tuple<bool, string> update;
             bool error = false;
             string message = "";
-            foreach (var dteq in LM.dteqList) {
+            foreach (var dteq in ListManager.dteqList) {
                 update = UI.prjDb.UpdateRecord(dteq, "DistributionEquipment");
+                if (update.Item1 == false) {
+                    error = true;
+                    message = update.Item2;
+                }
+            }
+            if (error) {
+                MessageBox.Show(message);
+            }
+        }
+
+        //Loads
+        private void GetLoads() {
+            ListManager.loadList = UI.prjDb.GetRecords<LoadModel>("Loads");
+        }
+        private void SaveLoads() {
+            Tuple<bool, string> update;
+            bool error = false;
+            string message = "";
+            foreach (var load in ListManager.loadList) {
+                update = UI.prjDb.UpdateRecord(load, "Loads");
                 if (update.Item1 == false) {
                     error = true;
                     message = update.Item2;
@@ -110,16 +113,14 @@ namespace WinFormUI {
 
         //Cables
         private void GetCables() {
-            LM.cableList = UI.prjDb.GetRecords<CableModel>("Cables");
+            ListManager.cableList = UI.prjDb.GetRecords<CableModel>("Cables");
         }
-        private void ShowCables() {
-            dgvEquipment.DataSource = LM.cableList;
-        }
+        
         private void SaveCables() {
             Tuple<bool, string> update;
             bool error = false;
             string message = "";
-            foreach (var cable in LM.cableList) {
+            foreach (var cable in ListManager.cableList) {
                 update = UI.prjDb.UpdateRecord(cable, "Cables");
                 if (update.Item1 == false) {
                     error = true;
@@ -137,12 +138,12 @@ namespace WinFormUI {
 
             //deletes all cables in Db
             UI.prjDb.DeleteAllRecords("Cables");
-            LM.CreateCableList();
-            //dgvEquipment.DataSource = LM.cableList;
+            ListManager.CreateCableList();
+            //dgvEquipment.DataSource = ListManager.cableList;
 
             //creates a new Db Cable List
             List<string> properties = new List<string> { "Tag", "Category", "Source", "Destination" };
-            foreach (var cable in LM.cableList) {
+            foreach (var cable in ListManager.cableList) {
                 update = UI.prjDb.InsertRecord(cable, "Cables");
                 if (update.Item1 == false) {
                     error = true;
@@ -152,18 +153,18 @@ namespace WinFormUI {
             if (error) {
                 MessageBox.Show(message);
             }
-            LM.cableList.Clear();
-            LM.cableList = UI.prjDb.GetRecords<CableModel>("Cables");
-            dgvEquipment.DataSource = LM.cableList;
+            ListManager.cableList.Clear();
+            ListManager.cableList = UI.prjDb.GetRecords<CableModel>("Cables");
+            dgvEquipment.DataSource = ListManager.cableList;
         }
 
-        //Buttons
+
+
+        //BUTTONS
+
         //Loads
         private void btnLoadList_Click(object sender, EventArgs e) {
             SaveLoads();
-            //GetLoads();
-            //LM.AssignLoadsToDteq();
-            //LM.CreateMasterLoadList();
             ShowLoads();
             lblSelectedTag.Text = "";
             lblListName.Text = "Loads";
@@ -175,7 +176,7 @@ namespace WinFormUI {
             ShowLoads();
         }
         private void btnCalculateLoads_Click(object sender, EventArgs e) {
-            LM.CalculateLoads();
+            ListManager.CalculateLoads();
             SaveLoads();
             ShowLoads();
         }
@@ -219,7 +220,7 @@ namespace WinFormUI {
             string selectedEq = lstDteq.SelectedItem.ToString();
             DistributionEquipmentModel dteq;
             dteq = lstDteq.SelectedItem as DistributionEquipmentModel;
-            dteq = LM.dteqList.FirstOrDefault(t => t.Tag == selectedEq);            
+            dteq = ListManager.dteqList.FirstOrDefault(t => t.Tag == selectedEq);            
 
             lblSelectedTag.Text = dteq.Tag;
             lblListName.Text = $"Assigned Loads";
@@ -227,7 +228,7 @@ namespace WinFormUI {
 
             //testing
             listBox1.Items.Clear();
-            foreach (var load in LM.masterLoadList) {
+            foreach (var load in ListManager.masterLoadList) {
                 listBox1.Items.Add(load.Tag);
             }
         }
@@ -262,31 +263,20 @@ namespace WinFormUI {
             
         }
 
-        List<CablesUsedInProject> cablesUsedInProjects = new List<CablesUsedInProject>();
-        public class CablesUsedInProject {
-            public CablesUsedInProject() {
-                UsedInProject = true;
-            }
-            public int Id { get; set; }
-            public string Size { get; set; }
-            public bool UsedInProject { get; set; }
+        //List<CablesUsedInProject> cablesUsedInProjects = new List<CablesUsedInProject>();
+        //public class CablesUsedInProject {
+        //    public CablesUsedInProject() {
+        //        UsedInProject = true;
+        //    }
+        //    public int Id { get; set; }
+        //    public string Size { get; set; }
+        //    public bool UsedInProject { get; set; }
+        //}
 
-            //public void CreateUsedCableList() {
-            //    for (int i = 0; i < DataTables.CableSizes.Rows.Count; i++) {
-            //        cablesUsedInProjects.Add(new CablesUsedInProject { Size = DataTables.CableSizes.Rows[i]["Size"].ToString() });
-            //    }
-            //    foreach (var line in cablesUsedInProjects) {
-            //        UI.prjDb.InsertRecord(line, "CablesUsedInProject");
-            //    }
-            //}
-            
-        }
-
-        private void button1_Click(object sender, EventArgs e) {
-            LM.CalculateCableAmps();
-            //dgvEquipment.Update();
+        private void btnEquipmentTest_Click(object sender, EventArgs e) {
+            ListManager.CalculateCableAmps();
             dgvEquipment.DataSource = null;
-            dgvEquipment.DataSource = LM.cableList;
+            dgvEquipment.DataSource = ListManager.cableList;
         }
     }
 }

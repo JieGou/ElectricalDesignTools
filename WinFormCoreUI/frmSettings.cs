@@ -17,7 +17,7 @@ namespace WinFormCoreUI {
         }
 
         private void frmSettings_Load(object sender, EventArgs e) {
-            ExtensionMethods.DoubleBuffered(dgvTableSettingValue, true);
+            ExtensionMethods.DoubleBufferDataGridViews(this);
 
             Type prjStringSettings = typeof(StringSettings);
 
@@ -33,8 +33,10 @@ namespace WinFormCoreUI {
         }
 
         private void lstStringSettings_SelectedIndexChanged(object sender, EventArgs e) {
-            txtStringSettingValue.Text = SettingManager.GetStringSetting(lstStringSettings.SelectedItem.ToString());
-            
+            if (lstStringSettings.SelectedItem != null) {
+                txtStringSettingValue.Text = SettingManager.GetStringSetting(lstStringSettings.SelectedItem.ToString());
+            }
+
         }
 
         private void btnSaveSetting_Click(object sender, EventArgs e) {
@@ -43,7 +45,9 @@ namespace WinFormCoreUI {
         }
 
         private void lstTableSettings_SelectedIndexChanged(object sender, EventArgs e) {
-            dgvTableSettingValue.DataSource = SettingManager.GetTableSetting(lstTableSettings.SelectedItem.ToString());
+            if (lstTableSettings.SelectedItem != null) {
+                dgvTableSettingValue.DataSource = SettingManager.GetTableSetting(lstTableSettings.SelectedItem.ToString());
+            }
         }
 
         private void dgvTableSettingValue_DataSourceChanged(object sender, EventArgs e) {

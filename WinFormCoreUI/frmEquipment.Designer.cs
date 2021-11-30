@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.pnlQuickButtons = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnCalculateCables = new System.Windows.Forms.Button();
             this.lblAssignedLoads = new System.Windows.Forms.Label();
             this.btnCreateCableList = new System.Windows.Forms.Button();
             this.btnSaveLoads = new System.Windows.Forms.Button();
@@ -51,7 +51,7 @@
             // 
             // pnlQuickButtons
             // 
-            this.pnlQuickButtons.Controls.Add(this.button1);
+            this.pnlQuickButtons.Controls.Add(this.btnCalculateCables);
             this.pnlQuickButtons.Controls.Add(this.lblAssignedLoads);
             this.pnlQuickButtons.Controls.Add(this.btnCreateCableList);
             this.pnlQuickButtons.Controls.Add(this.btnSaveLoads);
@@ -69,16 +69,16 @@
             this.pnlQuickButtons.Name = "pnlQuickButtons";
             this.pnlQuickButtons.Size = new System.Drawing.Size(204, 861);
             this.pnlQuickButtons.TabIndex = 0;
-            this.pnlQuickButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlQuickButtons_Paint);
             // 
-            // button1
+            // btnCalculateCables
             // 
-            this.button1.Location = new System.Drawing.Point(31, 734);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(150, 30);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "Create Cable List";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnCalculateCables.Location = new System.Drawing.Point(31, 734);
+            this.btnCalculateCables.Name = "btnCalculateCables";
+            this.btnCalculateCables.Size = new System.Drawing.Size(150, 30);
+            this.btnCalculateCables.TabIndex = 12;
+            this.btnCalculateCables.Text = "Calculate Cables";
+            this.btnCalculateCables.UseVisualStyleBackColor = true;
+            this.btnCalculateCables.Click += new System.EventHandler(this.btnCalculateCables_Click);
             // 
             // lblAssignedLoads
             // 
@@ -98,6 +98,7 @@
             this.btnCreateCableList.TabIndex = 10;
             this.btnCreateCableList.Text = "Create Cable List";
             this.btnCreateCableList.UseVisualStyleBackColor = true;
+            this.btnCreateCableList.Click += new System.EventHandler(this.btnCreateCableList_Click);
             // 
             // btnSaveLoads
             // 
@@ -107,6 +108,7 @@
             this.btnSaveLoads.TabIndex = 9;
             this.btnSaveLoads.Text = "Save Loads";
             this.btnSaveLoads.UseVisualStyleBackColor = true;
+            this.btnSaveLoads.Click += new System.EventHandler(this.btnSaveLoads_Click);
             // 
             // btnDeleteLoad
             // 
@@ -116,6 +118,7 @@
             this.btnDeleteLoad.TabIndex = 8;
             this.btnDeleteLoad.Text = "Delete Load";
             this.btnDeleteLoad.UseVisualStyleBackColor = true;
+            this.btnDeleteLoad.Click += new System.EventHandler(this.btnDeleteLoad_Click);
             // 
             // btnAddLoad
             // 
@@ -125,6 +128,7 @@
             this.btnAddLoad.TabIndex = 7;
             this.btnAddLoad.Text = "Add Load";
             this.btnAddLoad.UseVisualStyleBackColor = true;
+            this.btnAddLoad.Click += new System.EventHandler(this.btnAddLoad_Click);
             // 
             // btnDeleteDteq
             // 
@@ -134,6 +138,7 @@
             this.btnDeleteDteq.TabIndex = 6;
             this.btnDeleteDteq.Text = "Delete Selected Dteq";
             this.btnDeleteDteq.UseVisualStyleBackColor = true;
+            this.btnDeleteDteq.Click += new System.EventHandler(this.btnDeleteDteq_Click);
             // 
             // btnCalculateLoads
             // 
@@ -143,6 +148,7 @@
             this.btnCalculateLoads.TabIndex = 5;
             this.btnCalculateLoads.Text = "Calculate Loads";
             this.btnCalculateLoads.UseVisualStyleBackColor = true;
+            this.btnCalculateLoads.Click += new System.EventHandler(this.btnCalculateLoads_Click);
             // 
             // btnLoadList
             // 
@@ -152,6 +158,7 @@
             this.btnLoadList.TabIndex = 4;
             this.btnLoadList.Text = "Load List";
             this.btnLoadList.UseVisualStyleBackColor = true;
+            this.btnLoadList.Click += new System.EventHandler(this.btnLoadList_Click);
             // 
             // btnSaveDteq
             // 
@@ -161,6 +168,7 @@
             this.btnSaveDteq.TabIndex = 3;
             this.btnSaveDteq.Text = "Save Dist. Equipment";
             this.btnSaveDteq.UseVisualStyleBackColor = true;
+            this.btnSaveDteq.Click += new System.EventHandler(this.btnSaveDteq_Click);
             // 
             // lstDteq
             // 
@@ -170,6 +178,7 @@
             this.lstDteq.Name = "lstDteq";
             this.lstDteq.Size = new System.Drawing.Size(150, 94);
             this.lstDteq.TabIndex = 2;
+            this.lstDteq.SelectedIndexChanged += new System.EventHandler(this.lstDteq_SelectedIndexChanged);
             // 
             // btnAddDteqEq
             // 
@@ -188,6 +197,7 @@
             this.btnDistributionEquipment.TabIndex = 0;
             this.btnDistributionEquipment.Text = "Distribution Equipment";
             this.btnDistributionEquipment.UseVisualStyleBackColor = true;
+            this.btnDistributionEquipment.Click += new System.EventHandler(this.btnDistributionEquipment_Click);
             // 
             // pnlHeader
             // 
@@ -299,6 +309,6 @@
         private Label lblAssignedLoads;
         private Label lblSelectedTag;
         private Label lblListName;
-        private Button button1;
+        private Button btnCalculateCables;
     }
 }

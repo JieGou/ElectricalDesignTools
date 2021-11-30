@@ -8,23 +8,36 @@ using System.Threading.Tasks;
 namespace WinFormCoreUI {
     //DoubleBuffering
     public static class ExtensionMethods {
-        public static void DoubleBuffered(this DataGridView dgv, bool setting) {
+        public static void DoubleBuffer(this DataGridView dgv) {
             Type dgvType = dgv.GetType();
             PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-            pi.SetValue(dgv, setting, null);
+            pi.SetValue(dgv, true, null);
         }
 
-        public static void EnumerateChildren(this Control root) {
-            foreach (Control control in root.Controls) {
-                MessageBox.Show($"Control {control.Name} - Parent {root.Name}");
+        public static void DoubleBufferDataGridViews(this Control parent) {
+            foreach (Control control in parent.Controls) {
+                string n = control.Name;
+                if (control is DataGridView) {
+                    DoubleBuffer(control as DataGridView);
+                }
+                if (control.Controls != null) {
+                    DoubleBufferDataGridViews(control);
+                }
+            }
+        }
+
+
+        public static void EnumerateChildren(this Control parent) {
+            foreach (Control control in parent.Controls) {
+                MessageBox.Show($"Control {control.Name} - Parent {parent.Name}");
                 if (control.Controls != null) {
                     EnumerateChildren(control);
                 }
             }
         }
 
-        public static void DisableButtons(this Control root) {
-            foreach (Control control in root.Controls) {
+        public static void DisableButtons(this Control parent) {
+            foreach (Control control in parent.Controls) {
                 if (control is Button) {
                     control.Enabled = false;
                 }
@@ -34,8 +47,8 @@ namespace WinFormCoreUI {
             }
         }
 
-        public static void EnableButtons(this Control root) {
-            foreach (Control control in root.Controls) {
+        public static void EnableButtons(this Control parent) {
+            foreach (Control control in parent.Controls) {
                 if (control is Button) {
                     control.Enabled = true;
                 }

@@ -23,7 +23,7 @@ namespace EDTLibrary.DataAccess
             {
             }
         }
-
+        #region GeneralSQLite Calls
         /// <summary>
         ///Maps a SQLite table to a list of Class objects
         /// </summary>
@@ -296,7 +296,7 @@ namespace EDTLibrary.DataAccess
             }
         }
 
-        public ArrayList GetDbTables()
+        public ArrayList GetAllTablesInDb()
         {
             ArrayList list = new ArrayList();
 
@@ -335,7 +335,7 @@ namespace EDTLibrary.DataAccess
                     {
                         using (SQLiteDataReader rdr = cmd.ExecuteReader())
                         {
-                            dt.Load(rdr);
+                            dt.Load(rdr);//loads into DataTable
                             return dt;
                         }
                     }
@@ -347,5 +347,13 @@ namespace EDTLibrary.DataAccess
                 return null;
             }
         }
+
+        #endregion
+
+        #region Distribution Equipment
+
+
+        #endregion
+
     }
 }

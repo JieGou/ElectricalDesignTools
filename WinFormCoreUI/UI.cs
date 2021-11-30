@@ -74,6 +74,7 @@ namespace WinFormCoreUI {
             }
         }
 
+
         //Settings
         public static void LoadProjectSettings() {
             DataTable settings = UI.prjDb.GetDataTable("ProjectSettings");
@@ -185,5 +186,8 @@ namespace WinFormCoreUI {
             childForm.Show();
             childForm.Activate();
         }
+
+
+
     }
 }
