@@ -16,23 +16,30 @@ namespace WinFormUI {
         }
 
         private void frmSettings_Load(object sender, EventArgs e) {
-            Type prjSettings = typeof(ProjectSettings);
+            Type prjStringSettings = typeof(StringSettings);
 
-            lstProperties.Items.Clear();
-            foreach (var prop in prjSettings.GetProperties()) {
-                lstProperties.Items.Add(prop.Name);
+            lstStringSettings.Items.Clear();
+            foreach (var prop in prjStringSettings.GetProperties()) {
+                if (prop.PropertyType.Name =="String") {
+                    lstStringSettings.Items.Add(prop.Name);
+                }
+                else if(prop.PropertyType.Name == "DataTable") {
+                    lstTableSettings.Items.Add(prop.Name);
+                }
             }
 
-            txtPropertyValue.Text = "";
+            txtStringSettingValue.Text = "";
 
             //Styling dgvCablesInProject
-            dgvCablesInProject.DataSource = EDTLibrary.ProjectSettings.CableSizesUsedInProject;
+            dgvCablesInProject.DataSource = EDTLibrary.StringSettings.CableSizesUsedInProject;
             dgvCablesInProject.Columns["Id"].Visible = false;
+            dgvCablesInProject.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+
             dgvCablesInProject.Columns["Size"].SortMode = DataGridViewColumnSortMode.NotSortable;
             dgvCablesInProject.Columns["Size"].ReadOnly = true;
             dgvCablesInProject.Columns["UsedInProject"].HeaderText = "Use In Project";
-            dgvCablesInProject.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             dgvCablesInProject.Columns["Size"].Width += 130;
+
             ScaleDataGridView(dgvCablesInProject);
         }
         
@@ -57,12 +64,12 @@ namespace WinFormUI {
         }
 
         private void lstProperties_SelectedIndexChanged(object sender, EventArgs e) {
-            txtPropertyValue.Text = UI.GetSetting(lstProperties.SelectedItem.ToString());
-            dgvSetting.DataSource = ProjectSettings.CableAmpsUsedInProject;
+            txtStringSettingValue.Text = UI.GetSetting(lstStringSettings.SelectedItem.ToString());
+            dgvTableSettingValue.DataSource = StringSettings.CableAmpsUsedInProject;
         }
 
         private void btnSaveProperty_Click(object sender, EventArgs e) {
-            UI.SaveSetting(lstProperties.SelectedItem.ToString(), txtPropertyValue.Text);
+            UI.SaveSetting(lstStringSettings.SelectedItem.ToString(), txtStringSettingValue.Text);
             UI.SaveProjectSettings();
         }
 
@@ -70,7 +77,7 @@ namespace WinFormUI {
         }
 
         private void dgvCablesInProject_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
-            ProjectSettings.InitializeSettings();
+            StringSettings.InitializeSettings();
         }
     }
 }

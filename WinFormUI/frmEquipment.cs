@@ -84,7 +84,7 @@ namespace WinFormUI {
             //Red Highlight PercentLoaded and Size Cells
             double _dteqMaxLoadingPercentage;
             foreach (DataGridViewRow row in dgvEquipment.Rows) {
-                if (double.TryParse(ProjectSettings.DteqMaxPercentLoaded, out _dteqMaxLoadingPercentage)) {
+                if (double.TryParse(StringSettings.DteqMaxPercentLoaded, out _dteqMaxLoadingPercentage)) {
                     if (double.Parse(row.Cells["PercentLoaded"].Value.ToString()) > _dteqMaxLoadingPercentage) {
                         row.Cells["PercentLoaded"].Style.BackColor = Color.FromArgb(250, 150, 150);
                         row.Cells["Size"].Style.BackColor = Color.FromArgb(250, 150, 150);

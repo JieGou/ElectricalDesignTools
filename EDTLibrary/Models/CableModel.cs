@@ -96,10 +96,10 @@ namespace EDTLibrary.Models
         // TODO - Move "CalculatePowerCableSize to ILoadModel
         public void CalculateQtySize() {
 
-            DataTable cableAmps = ProjectSettings.CableAmpsUsedInProject.Copy();
+            DataTable cableAmps = StringSettings.CableAmpsUsedInProject.Copy();
 
             //filter cables larger than RequiredAmps          
-            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == ProjectSettings.Code
+            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == StringSettings.Code
                                                           && x.Field<double>("Amps75") >= _requiredAmps
                                                           && x.Field<string>("CodeTable") == _codeTable);
 
@@ -120,13 +120,13 @@ namespace EDTLibrary.Models
                 }
                 else {
                     QtyParallel += 1;
-                    cableAmps = ProjectSettings.CableAmpsUsedInProject.Copy();
+                    cableAmps = StringSettings.CableAmpsUsedInProject.Copy();
                     foreach (DataRow row in cableAmps.Rows) {
                         double amps75 = (double)row["Amps75"];
                         string size = row["Size"].ToString();
                         amps75 *= QtyParallel;
                         row["Amps75"] = amps75;
-                        cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == ProjectSettings.Code
+                        cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == StringSettings.Code
                                                           && x.Field<double>("Amps75") >= _requiredAmps
                                                           && x.Field<string>("CodeTable") == _codeTable);
                     }
@@ -138,10 +138,10 @@ namespace EDTLibrary.Models
         public void CalculateAmpacity() {
             GetCableParameters();
 
-            DataTable cableAmps = ProjectSettings.CableAmpsUsedInProject.Copy();
+            DataTable cableAmps = StringSettings.CableAmpsUsedInProject.Copy();
 
             //filter cables larger than RequiredAmps          
-            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == ProjectSettings.Code
+            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == StringSettings.Code
                                                           && x.Field<string>("CodeTable") == _codeTable
                                                           && x.Field<string>("Size") == Size);
 

@@ -74,7 +74,7 @@ namespace WinFormUI {
         }
         public static void LoadProjectSettings() {
             DataTable settings = UI.prjDb.GetDataTable("ProjectSettings");
-            Type prjSettings = typeof(ProjectSettings);
+            Type prjSettings = typeof(StringSettings);
             string propValue = "";
             for (int i = 0; i < settings.Rows.Count; i++) {
                 foreach (var prop in prjSettings.GetProperties()) {
@@ -84,10 +84,10 @@ namespace WinFormUI {
                     }
                 }
             }
-            ProjectSettings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
+            StringSettings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
         }
         public static void SaveProjectSettings() {
-            Type type = typeof(ProjectSettings); // ProjectSettings is a static class
+            Type type = typeof(StringSettings); // ProjectSettings is a static class
             string propValue;
             foreach (var prop in type.GetProperties()) {
                 propValue = prop.GetValue(null).ToString(); //null for static class
@@ -97,7 +97,7 @@ namespace WinFormUI {
         }
         public static string GetSetting(string settingName) {
             string settingValue="";
-            Type type = typeof(ProjectSettings); // MyClass is static class with static properties
+            Type type = typeof(StringSettings); // MyClass is static class with static properties
             foreach (var prop in type.GetProperties()) {
                 if (settingName == prop.Name) {
                     settingValue = prop.GetValue(null).ToString();
@@ -106,7 +106,7 @@ namespace WinFormUI {
             return settingValue;
         }
         public static void SaveSetting(string settingName, string settingValue) {
-            Type type = typeof(ProjectSettings); // MyClass is static class with static properties
+            Type type = typeof(StringSettings); // MyClass is static class with static properties
             foreach (var prop in type.GetProperties()) {
                 if (settingName == prop.Name) {
                     prop.SetValue(settingValue, settingValue);

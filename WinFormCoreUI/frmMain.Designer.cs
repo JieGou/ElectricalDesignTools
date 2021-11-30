@@ -53,7 +53,7 @@
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(567, 274);
+            this.pictureBox1.Location = new System.Drawing.Point(651, 274);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(263, 263);
@@ -102,6 +102,7 @@
             // 
             // btnDataTables
             // 
+            this.btnDataTables.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnDataTables.Location = new System.Drawing.Point(26, 711);
             this.btnDataTables.Name = "btnDataTables";
             this.btnDataTables.Size = new System.Drawing.Size(160, 32);
@@ -111,6 +112,7 @@
             // 
             // btnSelectLibrary
             // 
+            this.btnSelectLibrary.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.btnSelectLibrary.Location = new System.Drawing.Point(26, 751);
             this.btnSelectLibrary.Name = "btnSelectLibrary";
             this.btnSelectLibrary.Size = new System.Drawing.Size(160, 32);

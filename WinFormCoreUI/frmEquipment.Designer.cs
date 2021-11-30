@@ -24,6 +24,16 @@
         /// </summary>
         private void InitializeComponent() {
             this.pnlQuickButtons = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.lblAssignedLoads = new System.Windows.Forms.Label();
+            this.btnCreateCableList = new System.Windows.Forms.Button();
+            this.btnSaveLoads = new System.Windows.Forms.Button();
+            this.btnDeleteLoad = new System.Windows.Forms.Button();
+            this.btnAddLoad = new System.Windows.Forms.Button();
+            this.btnDeleteDteq = new System.Windows.Forms.Button();
+            this.btnCalculateLoads = new System.Windows.Forms.Button();
+            this.btnLoadList = new System.Windows.Forms.Button();
+            this.btnSaveDteq = new System.Windows.Forms.Button();
             this.lstDteq = new System.Windows.Forms.ListBox();
             this.btnAddDteqEq = new System.Windows.Forms.Button();
             this.btnDistributionEquipment = new System.Windows.Forms.Button();
@@ -31,19 +41,9 @@
             this.pnlFooter = new System.Windows.Forms.Panel();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.pnlCenter = new System.Windows.Forms.Panel();
-            this.dgvEquipment = new System.Windows.Forms.DataGridView();
-            this.btnSaveDteq = new System.Windows.Forms.Button();
-            this.btnLoadList = new System.Windows.Forms.Button();
-            this.btnCalculateLoads = new System.Windows.Forms.Button();
-            this.btnDeleteDteq = new System.Windows.Forms.Button();
-            this.btnAddLoad = new System.Windows.Forms.Button();
-            this.btnDeleteLoad = new System.Windows.Forms.Button();
-            this.btnSaveLoads = new System.Windows.Forms.Button();
-            this.btnCreateCableList = new System.Windows.Forms.Button();
-            this.lblAssignedLoads = new System.Windows.Forms.Label();
             this.lblSelectedTag = new System.Windows.Forms.Label();
             this.lblListName = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.dgvEquipment = new System.Windows.Forms.DataGridView();
             this.pnlQuickButtons.SuspendLayout();
             this.pnlCenter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEquipment)).BeginInit();
@@ -70,6 +70,97 @@
             this.pnlQuickButtons.Size = new System.Drawing.Size(204, 861);
             this.pnlQuickButtons.TabIndex = 0;
             this.pnlQuickButtons.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlQuickButtons_Paint);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(31, 734);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(150, 30);
+            this.button1.TabIndex = 12;
+            this.button1.Text = "Create Cable List";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // lblAssignedLoads
+            // 
+            this.lblAssignedLoads.AutoSize = true;
+            this.lblAssignedLoads.Location = new System.Drawing.Point(31, 189);
+            this.lblAssignedLoads.Name = "lblAssignedLoads";
+            this.lblAssignedLoads.Size = new System.Drawing.Size(82, 15);
+            this.lblAssignedLoads.TabIndex = 11;
+            this.lblAssignedLoads.Text = "Show Loading";
+            // 
+            // btnCreateCableList
+            // 
+            this.btnCreateCableList.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCreateCableList.Location = new System.Drawing.Point(31, 698);
+            this.btnCreateCableList.Name = "btnCreateCableList";
+            this.btnCreateCableList.Size = new System.Drawing.Size(150, 30);
+            this.btnCreateCableList.TabIndex = 10;
+            this.btnCreateCableList.Text = "Create Cable List";
+            this.btnCreateCableList.UseVisualStyleBackColor = true;
+            // 
+            // btnSaveLoads
+            // 
+            this.btnSaveLoads.Location = new System.Drawing.Point(31, 594);
+            this.btnSaveLoads.Name = "btnSaveLoads";
+            this.btnSaveLoads.Size = new System.Drawing.Size(150, 30);
+            this.btnSaveLoads.TabIndex = 9;
+            this.btnSaveLoads.Text = "Save Loads";
+            this.btnSaveLoads.UseVisualStyleBackColor = true;
+            // 
+            // btnDeleteLoad
+            // 
+            this.btnDeleteLoad.Location = new System.Drawing.Point(31, 506);
+            this.btnDeleteLoad.Name = "btnDeleteLoad";
+            this.btnDeleteLoad.Size = new System.Drawing.Size(150, 30);
+            this.btnDeleteLoad.TabIndex = 8;
+            this.btnDeleteLoad.Text = "Delete Load";
+            this.btnDeleteLoad.UseVisualStyleBackColor = true;
+            // 
+            // btnAddLoad
+            // 
+            this.btnAddLoad.Location = new System.Drawing.Point(31, 470);
+            this.btnAddLoad.Name = "btnAddLoad";
+            this.btnAddLoad.Size = new System.Drawing.Size(150, 30);
+            this.btnAddLoad.TabIndex = 7;
+            this.btnAddLoad.Text = "Add Load";
+            this.btnAddLoad.UseVisualStyleBackColor = true;
+            // 
+            // btnDeleteDteq
+            // 
+            this.btnDeleteDteq.Location = new System.Drawing.Point(31, 359);
+            this.btnDeleteDteq.Name = "btnDeleteDteq";
+            this.btnDeleteDteq.Size = new System.Drawing.Size(150, 30);
+            this.btnDeleteDteq.TabIndex = 6;
+            this.btnDeleteDteq.Text = "Delete Selected Dteq";
+            this.btnDeleteDteq.UseVisualStyleBackColor = true;
+            // 
+            // btnCalculateLoads
+            // 
+            this.btnCalculateLoads.Location = new System.Drawing.Point(31, 558);
+            this.btnCalculateLoads.Name = "btnCalculateLoads";
+            this.btnCalculateLoads.Size = new System.Drawing.Size(150, 30);
+            this.btnCalculateLoads.TabIndex = 5;
+            this.btnCalculateLoads.Text = "Calculate Loads";
+            this.btnCalculateLoads.UseVisualStyleBackColor = true;
+            // 
+            // btnLoadList
+            // 
+            this.btnLoadList.Location = new System.Drawing.Point(31, 434);
+            this.btnLoadList.Name = "btnLoadList";
+            this.btnLoadList.Size = new System.Drawing.Size(150, 30);
+            this.btnLoadList.TabIndex = 4;
+            this.btnLoadList.Text = "Load List";
+            this.btnLoadList.UseVisualStyleBackColor = true;
+            // 
+            // btnSaveDteq
+            // 
+            this.btnSaveDteq.Location = new System.Drawing.Point(31, 321);
+            this.btnSaveDteq.Name = "btnSaveDteq";
+            this.btnSaveDteq.Size = new System.Drawing.Size(150, 30);
+            this.btnSaveDteq.TabIndex = 3;
+            this.btnSaveDteq.Text = "Save Dist. Equipment";
+            this.btnSaveDteq.UseVisualStyleBackColor = true;
             // 
             // lstDteq
             // 
@@ -133,97 +224,6 @@
             this.pnlCenter.Size = new System.Drawing.Size(1553, 669);
             this.pnlCenter.TabIndex = 4;
             // 
-            // dgvEquipment
-            // 
-            this.dgvEquipment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEquipment.Location = new System.Drawing.Point(18, 79);
-            this.dgvEquipment.Name = "dgvEquipment";
-            this.dgvEquipment.RowTemplate.Height = 25;
-            this.dgvEquipment.Size = new System.Drawing.Size(1529, 568);
-            this.dgvEquipment.TabIndex = 0;
-            // 
-            // btnSaveDteq
-            // 
-            this.btnSaveDteq.Location = new System.Drawing.Point(31, 321);
-            this.btnSaveDteq.Name = "btnSaveDteq";
-            this.btnSaveDteq.Size = new System.Drawing.Size(150, 30);
-            this.btnSaveDteq.TabIndex = 3;
-            this.btnSaveDteq.Text = "Save Dist. Equipment";
-            this.btnSaveDteq.UseVisualStyleBackColor = true;
-            // 
-            // btnLoadList
-            // 
-            this.btnLoadList.Location = new System.Drawing.Point(31, 434);
-            this.btnLoadList.Name = "btnLoadList";
-            this.btnLoadList.Size = new System.Drawing.Size(150, 30);
-            this.btnLoadList.TabIndex = 4;
-            this.btnLoadList.Text = "Load List";
-            this.btnLoadList.UseVisualStyleBackColor = true;
-            // 
-            // btnCalculateLoads
-            // 
-            this.btnCalculateLoads.Location = new System.Drawing.Point(31, 558);
-            this.btnCalculateLoads.Name = "btnCalculateLoads";
-            this.btnCalculateLoads.Size = new System.Drawing.Size(150, 30);
-            this.btnCalculateLoads.TabIndex = 5;
-            this.btnCalculateLoads.Text = "Calculate Loads";
-            this.btnCalculateLoads.UseVisualStyleBackColor = true;
-            // 
-            // btnDeleteDteq
-            // 
-            this.btnDeleteDteq.Location = new System.Drawing.Point(31, 359);
-            this.btnDeleteDteq.Name = "btnDeleteDteq";
-            this.btnDeleteDteq.Size = new System.Drawing.Size(150, 30);
-            this.btnDeleteDteq.TabIndex = 6;
-            this.btnDeleteDteq.Text = "Delete Selected Dteq";
-            this.btnDeleteDteq.UseVisualStyleBackColor = true;
-            // 
-            // btnAddLoad
-            // 
-            this.btnAddLoad.Location = new System.Drawing.Point(31, 470);
-            this.btnAddLoad.Name = "btnAddLoad";
-            this.btnAddLoad.Size = new System.Drawing.Size(150, 30);
-            this.btnAddLoad.TabIndex = 7;
-            this.btnAddLoad.Text = "Add Load";
-            this.btnAddLoad.UseVisualStyleBackColor = true;
-            // 
-            // btnDeleteLoad
-            // 
-            this.btnDeleteLoad.Location = new System.Drawing.Point(31, 506);
-            this.btnDeleteLoad.Name = "btnDeleteLoad";
-            this.btnDeleteLoad.Size = new System.Drawing.Size(150, 30);
-            this.btnDeleteLoad.TabIndex = 8;
-            this.btnDeleteLoad.Text = "Delete Load";
-            this.btnDeleteLoad.UseVisualStyleBackColor = true;
-            // 
-            // btnSaveLoads
-            // 
-            this.btnSaveLoads.Location = new System.Drawing.Point(31, 594);
-            this.btnSaveLoads.Name = "btnSaveLoads";
-            this.btnSaveLoads.Size = new System.Drawing.Size(150, 30);
-            this.btnSaveLoads.TabIndex = 9;
-            this.btnSaveLoads.Text = "Save Loads";
-            this.btnSaveLoads.UseVisualStyleBackColor = true;
-            // 
-            // btnCreateCableList
-            // 
-            this.btnCreateCableList.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCreateCableList.Location = new System.Drawing.Point(31, 698);
-            this.btnCreateCableList.Name = "btnCreateCableList";
-            this.btnCreateCableList.Size = new System.Drawing.Size(150, 30);
-            this.btnCreateCableList.TabIndex = 10;
-            this.btnCreateCableList.Text = "Create Cable List";
-            this.btnCreateCableList.UseVisualStyleBackColor = true;
-            // 
-            // lblAssignedLoads
-            // 
-            this.lblAssignedLoads.AutoSize = true;
-            this.lblAssignedLoads.Location = new System.Drawing.Point(31, 189);
-            this.lblAssignedLoads.Name = "lblAssignedLoads";
-            this.lblAssignedLoads.Size = new System.Drawing.Size(82, 15);
-            this.lblAssignedLoads.TabIndex = 11;
-            this.lblAssignedLoads.Text = "Show Loading";
-            // 
             // lblSelectedTag
             // 
             this.lblSelectedTag.AutoSize = true;
@@ -246,14 +246,14 @@
             this.lblListName.Text = "List Name";
             this.lblListName.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
-            // button1
+            // dgvEquipment
             // 
-            this.button1.Location = new System.Drawing.Point(31, 734);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(150, 30);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "Create Cable List";
-            this.button1.UseVisualStyleBackColor = true;
+            this.dgvEquipment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvEquipment.Location = new System.Drawing.Point(18, 79);
+            this.dgvEquipment.Name = "dgvEquipment";
+            this.dgvEquipment.RowTemplate.Height = 25;
+            this.dgvEquipment.Size = new System.Drawing.Size(1529, 568);
+            this.dgvEquipment.TabIndex = 0;
             // 
             // frmEquipment
             // 
@@ -267,6 +267,7 @@
             this.Controls.Add(this.pnlQuickButtons);
             this.Name = "frmEquipment";
             this.Text = "frmEquipment";
+            this.Load += new System.EventHandler(this.frmEquipment_Load);
             this.pnlQuickButtons.ResumeLayout(false);
             this.pnlQuickButtons.PerformLayout();
             this.pnlCenter.ResumeLayout(false);

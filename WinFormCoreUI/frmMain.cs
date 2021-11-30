@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,8 +15,20 @@ namespace WinFormCoreUI {
             InitializeComponent();
         }
 
+        public bool Loaded { get; set; }
+
         private void frmMain_Load(object sender, EventArgs e) {
 
+            this.WindowState = FormWindowState.Maximized;
+            UI.LoadLibraryTables();
+            UI.LoadProjectTables();
+            StringSettings.InitializeSettings();
+            if (UI.ProjectLoaded && UI.LibraryLoaded) {
+                Loaded = true;
+
+
+                //UI.OpenChildForm(UI.frmEquipment, pnlChildForm);
+            }
         }
 
         private void btnSettings_Click(object sender, EventArgs e) {

@@ -21,9 +21,13 @@ namespace WinFormCoreUI {
         public static Form frmSettings = new frmSettings();
         //public static Form frmDataTables = new frmDataTables();
 
+        //Files
+        public static string ProjectFile = Properties.Settings.Default.ProjectDb;
+        public static string LibraryFile = Properties.Settings.Default.LibraryDb;
+
         //DB Connections
-        public static SQLiteConnector prjDb = new SQLiteConnector(Properties.Settings.Default.ProjectDb);
-        public static SQLiteConnector libDb = new SQLiteConnector(Properties.Settings.Default.LibraryDb);
+        public static SQLiteConnector prjDb = new SQLiteConnector(ProjectFile);
+        public static SQLiteConnector libDb = new SQLiteConnector(LibraryFile);
 
         //Project
         public static void SelectProject() {
@@ -40,6 +44,7 @@ namespace WinFormCoreUI {
                     //Get the path of specified file
                     filePath = openFileDialog.FileName;
                     Properties.Settings.Default.ProjectDb = filePath;
+                    ProjectFile = filePath;
                     Properties.Settings.Default.Save();
                     LoadProjectTables();
                     LoadProjectSettings();
@@ -48,7 +53,7 @@ namespace WinFormCoreUI {
 
         }
         public static void LoadProjectTables() {
-            string dbFilename = Properties.Settings.Default.ProjectDb;
+            string dbFilename = ProjectFile;
             if (File.Exists(dbFilename)) {
                 prjDb = new SQLiteConnector(dbFilename);
 
@@ -68,9 +73,11 @@ namespace WinFormCoreUI {
                 ProjectLoaded = false;
             }
         }
+
+        //Settings
         public static void LoadProjectSettings() {
             DataTable settings = UI.prjDb.GetDataTable("ProjectSettings");
-            Type prjSettings = typeof(ProjectSettings);
+            Type prjSettings = typeof(StringSettings);
             string propValue = "";
             for (int i = 0; i < settings.Rows.Count; i++) {
                 foreach (var prop in prjSettings.GetProperties()) {
@@ -80,10 +87,10 @@ namespace WinFormCoreUI {
                     }
                 }
             }
-            ProjectSettings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
+            StringSettings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
         }
         public static void SaveProjectSettings() {
-            Type type = typeof(ProjectSettings); // ProjectSettings is a static class
+            Type type = typeof(StringSettings); // ProjectSettings is a static class
             string propValue;
             foreach (var prop in type.GetProperties()) {
                 propValue = prop.GetValue(null).ToString(); //null for static class
@@ -91,9 +98,9 @@ namespace WinFormCoreUI {
             }
 
         }
-        public static string GetSetting(string settingName) {
+        public static string GetStringSetting(string settingName) {
             string settingValue = "";
-            Type type = typeof(ProjectSettings); // MyClass is static class with static properties
+            Type type = typeof(StringSettings); // MyClass is static class with static properties
             foreach (var prop in type.GetProperties()) {
                 if (settingName == prop.Name) {
                     settingValue = prop.GetValue(null).ToString();
@@ -101,8 +108,8 @@ namespace WinFormCoreUI {
             }
             return settingValue;
         }
-        public static void SaveSetting(string settingName, string settingValue) {
-            Type type = typeof(ProjectSettings); // MyClass is static class with static properties
+        public static void SaveStringSetting(string settingName, string settingValue) {
+            Type type = typeof(StringSettings); // MyClass is static class with static properties
             foreach (var prop in type.GetProperties()) {
                 if (settingName == prop.Name) {
                     prop.SetValue(settingValue, settingValue);
@@ -125,6 +132,7 @@ namespace WinFormCoreUI {
                     //Get the path of specified file
                     filePath = openFileDialog.FileName;
                     Properties.Settings.Default.LibraryDb = filePath;
+                    LibraryFile = filePath;
                     Properties.Settings.Default.Save();
                 }
             }
@@ -134,7 +142,7 @@ namespace WinFormCoreUI {
             Type type = typeof(DataTables); // MyClass is static class with static properties
             DataTable dt = new DataTable();
 
-            string dbFilename = Properties.Settings.Default.ProjectDb;
+            string dbFilename = LibraryFile;
             if (File.Exists(dbFilename)) {
                 foreach (var prop in type.GetProperties()) {
                     prop.SetValue(dt, UI.libDb.GetDataTable(prop.Name));
@@ -145,6 +153,25 @@ namespace WinFormCoreUI {
                 MessageBox.Show($"The selected file \n\n{dbFilename} cannot be found. Please select another project file.");
                 LibraryLoaded = false;
             }
+        }
+        public static void ScaleDataGridView(DataGridView dataGridView) {
+            double totalWidth = 0;
+            foreach (DataGridViewColumn col in dataGridView.Columns) {
+                if (col.Visible == true) {
+                    totalWidth += col.Width;
+                }
+            }
+            double totalHeight = 0;
+            foreach (DataGridViewRow row in dataGridView.Rows) {
+                totalHeight += row.Height;
+            }
+            totalHeight += dataGridView.ColumnHeadersHeight;
+            dataGridView.Width = (int)totalWidth + 15;
+            dataGridView.Height = (int)totalHeight + 15;
+
+
+            dataGridView.Columns["Id"].Visible = false;
+            dataGridView.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
         }
 
         public static void OpenChildForm(Form childForm, Panel pnlChildForm) {

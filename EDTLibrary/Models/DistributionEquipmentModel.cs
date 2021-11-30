@@ -9,7 +9,7 @@ namespace EDTLibrary.Models {
         public DistributionEquipmentModel() {
             Category = Categories.DIST.ToString();
             Voltage = LineVoltage;
-            PdType = ProjectSettings.DteqDefaultPdType;
+            PdType = StringSettings.DteqDefaultPdType;
         }
 
         //Fields

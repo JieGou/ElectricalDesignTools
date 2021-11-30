@@ -20,7 +20,7 @@ namespace WinFormUI {
             this.WindowState = FormWindowState.Maximized;
             UI.LoadLibraryTables();
             UI.LoadProjectTables();
-            ProjectSettings.InitializeSettings();
+            StringSettings.InitializeSettings();
             if (UI.ProjectLoaded && UI.LibraryLoaded) {
                 Loaded = true;
 

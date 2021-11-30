@@ -17,5 +17,9 @@ namespace WinFormCoreUI {
         private void pnlQuickButtons_Paint(object sender, PaintEventArgs e) {
 
         }
+
+        private void frmEquipment_Load(object sender, EventArgs e) {
+
+        }
     }
 }

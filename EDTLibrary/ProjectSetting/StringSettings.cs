@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 
 namespace EDTLibrary {
-    public static class ProjectSettings {
+    public class StringSettings 
+        {
         public static string Code { get; set; }
         public static string CableType3C1kV { get; set; }
         public static string DteqMaxPercentLoaded { get; set; }
@@ -52,7 +53,7 @@ namespace EDTLibrary {
                                          cableAmp["CodeTable"]
                                      }, false);
 
-            CableAmpsUsedInProject = cableAmps;
+            cableAmps = CableAmpsUsedInProject;
         }
     }
 }
