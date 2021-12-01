@@ -36,7 +36,7 @@ namespace EDTLibrary.Models
         //public double Spacing { get; set; }
 
         //Fields
-        int _voltage;
+        double _voltage;
         double _requiredAmps;
         string _codeTable;
 
@@ -150,6 +150,7 @@ namespace EDTLibrary.Models
             //select smallest of 
             RatedAmps = Double.Parse(cableAmps.Rows[0]["Amps75"].ToString()) * QtyParallel;
             DeratedAmps = RatedAmps * Derating;
+            DeratedAmps = Math.Round(DeratedAmps, GlobalConfig.SigFigs);
         }
     }
 }

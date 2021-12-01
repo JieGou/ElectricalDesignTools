@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Reflection;
 
 namespace WinFormCoreUI {
     public static class UI {
@@ -15,19 +16,43 @@ namespace WinFormCoreUI {
         public static bool LibraryLoaded { get; set; }
 
 
+        //DB Connections and Db Files
+        public static string ProjectFile { get; set; }
+        public static string LibraryFile { get; set; }
+
+        public static SQLiteConnector prjDb { get; set; }
+        public static SQLiteConnector libDb { get; set; }
+
+        //public static string ProjectFile = Properties.Settings.Default.ProjectDb;
+        //public static string LibraryFile = Properties.Settings.Default.LibraryDb;
+        //public static SQLiteConnector prjDb = new SQLiteConnector(ProjectFile);
+        //public static SQLiteConnector libDb = new SQLiteConnector(LibraryFile);
+
+
         //Forms
         public static Form? activeForm;
         public static Form frmEquipment = new frmEquipment();
         public static Form frmSettings = new frmSettings();
-        //public static Form frmDataTables = new frmDataTables();
+        public static Form frmDataTables = new frmDataTables();
 
-        //Files
-        public static string ProjectFile = Properties.Settings.Default.ProjectDb;
-        public static string LibraryFile = Properties.Settings.Default.LibraryDb;
+        
 
-        //DB Connections
-        public static SQLiteConnector prjDb = new SQLiteConnector(ProjectFile);
-        public static SQLiteConnector libDb = new SQLiteConnector(LibraryFile);
+        public static void Initialize() {
+            ProjectFile = Properties.Settings.Default.ProjectDb;
+            //LibraryFile = Properties.Settings.Default.LibraryDb;
+
+#if (DEBUG)
+            LibraryFile = Properties.Settings.Default.LibraryDb;
+            //LibraryFile = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\ContentFiles\\EDTDataLibrary.db";
+#else
+            LibraryFile = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\ContentFiles\\EDTDataLibrary.db";
+            LibraryFile = Properties.Settings.Default.LibraryDb;
+#endif
+            prjDb = new SQLiteConnector(ProjectFile);
+            libDb = new SQLiteConnector(LibraryFile);
+        }
+
+
 
         //Project
         public static void SelectProject() {
@@ -74,42 +99,41 @@ namespace WinFormCoreUI {
             }
         }
 
-
-        //Settings
-        public static void LoadProjectSettings() {
-            DataTable settings = UI.prjDb.GetDataTable("ProjectSettings");
-            Type prjSettings = typeof(StringSettings);
-            string propValue = "";
-            for (int i = 0; i < settings.Rows.Count; i++) {
-                foreach (var prop in prjSettings.GetProperties()) {
-                    if (settings.Rows[i]["Name"].ToString() == prop.Name) {
-                        prop.SetValue(propValue, settings.Rows[i]["Value"].ToString());
-                        //MessageBox.Show(prop.Name + ": " + prop.GetValue(propValue).ToString());
+            //Settings
+            public static void LoadProjectSettings() {
+                DataTable settings = UI.prjDb.GetDataTable("ProjectSettings");
+                Type prjSettings = typeof(StringSettings);
+                string propValue = "";
+                for (int i = 0; i < settings.Rows.Count; i++) {
+                    foreach (var prop in prjSettings.GetProperties()) {
+                        if (settings.Rows[i]["Name"].ToString() == prop.Name) {
+                            prop.SetValue(propValue, settings.Rows[i]["Value"].ToString());
+                            //MessageBox.Show(prop.Name + ": " + prop.GetValue(propValue).ToString());
+                        }
                     }
                 }
+                StringSettings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
             }
-            StringSettings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
-        }
-        public static void SaveProjectSettings() {
-            Type type = typeof(StringSettings); // ProjectSettings is a static class
-            string propValue;
-            foreach (var prop in type.GetProperties()) {
-                propValue = prop.GetValue(null).ToString(); //null for static class
-                UI.prjDb.UpdateSetting(prop.Name, propValue);
-            }
-
-        }
-        public static string GetStringSetting(string settingName) {
-            string settingValue = "";
-            Type type = typeof(StringSettings); // MyClass is static class with static properties
-            foreach (var prop in type.GetProperties()) {
-                if (settingName == prop.Name) {
-                    settingValue = prop.GetValue(null).ToString();
+            public static void SaveProjectSettings() {
+                Type type = typeof(StringSettings); // ProjectSettings is a static class
+                string propValue;
+                foreach (var prop in type.GetProperties()) {
+                    propValue = prop.GetValue(null).ToString(); //null for static class
+                    UI.prjDb.UpdateSetting(prop.Name, propValue);
                 }
+
             }
-            return settingValue;
-        }
-        public static void SaveStringSetting(string settingName, string settingValue) {
+            public static string GetStringSetting(string settingName) {
+                string settingValue = "";
+                Type type = typeof(StringSettings); // MyClass is static class with static properties
+                foreach (var prop in type.GetProperties()) {
+                    if (settingName == prop.Name) {
+                        settingValue = prop.GetValue(null).ToString();
+                    }
+                }
+                return settingValue;
+            }
+            public static void SaveStringSetting(string settingName, string settingValue) {
             Type type = typeof(StringSettings); // MyClass is static class with static properties
             foreach (var prop in type.GetProperties()) {
                 if (settingName == prop.Name) {
@@ -140,12 +164,12 @@ namespace WinFormCoreUI {
             LoadLibraryTables();
         }
         public static void LoadLibraryTables() {
-            Type type = typeof(DataTables); // MyClass is static class with static properties
+            Type dataTablesClass = typeof(DataTables); // MyClass is static class with static properties
             DataTable dt = new DataTable();
 
             string dbFilename = LibraryFile;
             if (File.Exists(dbFilename)) {
-                foreach (var prop in type.GetProperties()) {
+                foreach (var prop in dataTablesClass.GetProperties()) {
                     prop.SetValue(dt, UI.libDb.GetDataTable(prop.Name));
                 }
                 LibraryLoaded = true;

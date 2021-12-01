@@ -18,6 +18,7 @@ namespace WinFormCoreUI {
         public bool Loaded { get; set; }
 
         private void frmMain_Load(object sender, EventArgs e) {
+            UI.Initialize();
 
             this.WindowState = FormWindowState.Maximized;
             UI.LoadLibraryTables();
@@ -44,11 +45,15 @@ namespace WinFormCoreUI {
         }
 
         private void btnMainTest_Click(object sender, EventArgs e) {
-
+            MessageBox.Show(UI.LibraryFile);
         }
 
         private void btnSelectLibrary_Click(object sender, EventArgs e) {
             UI.SelectLibrary();
+        }
+
+        private void btnDataTables_Click(object sender, EventArgs e) {
+            UI.OpenChildForm(UI.frmDataTables, pnlChildForm);
         }
     }
 }

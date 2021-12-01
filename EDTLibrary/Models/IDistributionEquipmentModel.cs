@@ -14,14 +14,14 @@ namespace EDTLibrary.Models {
         #endregion
 
         #region ILoadModel - User inputs
-        int Voltage { get; set; }
+        double Voltage { get; set; }
         double Size { get; set; }
         string Unit { get; set; }
         string FedFrom { get; set; }
         #endregion
 
-        int LineVoltage { get; set; }
-        int LoadVoltage { get; set; }
+        double LineVoltage { get; set; }
+        double LoadVoltage { get; set; }
 
 
         #region ILoadModel - Privately Calculated Values

@@ -11,9 +11,9 @@ namespace EDTLibrary.Models {
         public string Category { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
-        public int Voltage { get; set; }
-        public int LineVoltage { get; set; }
-        public int LoadVoltage { get; set; }
+        public double Voltage { get; set; }
+        public double LineVoltage { get; set; }
+        public double LoadVoltage { get; set; }
         public double Size { get; set; }
         public string Unit { get; set; }
         public double LoadFactor { get; set; }

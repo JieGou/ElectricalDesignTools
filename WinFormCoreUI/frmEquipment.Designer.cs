@@ -262,6 +262,7 @@
             this.dgvEquipment.Location = new System.Drawing.Point(18, 79);
             this.dgvEquipment.Name = "dgvEquipment";
             this.dgvEquipment.RowTemplate.Height = 25;
+            this.dgvEquipment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvEquipment.Size = new System.Drawing.Size(1529, 568);
             this.dgvEquipment.TabIndex = 0;
             // 

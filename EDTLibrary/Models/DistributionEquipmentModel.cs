@@ -9,7 +9,7 @@ namespace EDTLibrary.Models {
         public DistributionEquipmentModel() {
             Category = Categories.DIST.ToString();
             Voltage = LineVoltage;
-            PdType = StringSettings.DteqDefaultPdType;
+            PdType = StringSettings.DteqDefaultPdTypeLV;
         }
 
         //Fields
@@ -27,14 +27,14 @@ namespace EDTLibrary.Models {
         #endregion
 
         #region ILoadModel - User inputs
-        public int Voltage { get; set; }
+        public double Voltage { get; set; }
         public double Size { get; set; }
         public string Unit { get; set; }
         public string FedFrom { get; set; }
         #endregion
 
-        public int LineVoltage { get; set; }
-        public int LoadVoltage { get; set; }
+        public double LineVoltage { get; set; }
+        public double LoadVoltage { get; set; }
 
         //Loading
         #region ILoadModel - Privately Calculated Values

@@ -296,7 +296,11 @@ namespace EDTLibrary.DataAccess
             }
         }
 
-        public ArrayList GetAllTablesInDb()
+        /// <summary>
+        /// Puts all the name of each table in the Db into an ArrayList
+        /// </summary>
+        /// <returns></returns>
+        public ArrayList GetListOfTablesNamesInDb()
         {
             ArrayList list = new ArrayList();
 
@@ -304,26 +308,21 @@ namespace EDTLibrary.DataAccess
             String query = "SELECT name FROM sqlite_master " +
                     "WHERE type = 'table' " +
                     "ORDER BY 1";
-            try
-            {
-
+            try{
                 DataTable table = QueryToDataTable(query);
 
                 // Return all table names in the ArrayList
 
-                foreach (DataRow row in table.Rows)
-                {
-                    list.Add(row.ItemArray[0].ToString());
+                foreach (DataRow row in table.Rows){
+                    list.Add(row.ItemArray[0].ToString()); //ItemArray[0] is the name of the table
                 }
             }
-            catch (Exception e)
-            {
+            catch (Exception e){
                 Console.WriteLine(e.Message);
             }
             return list;
         }
-
-        public DataTable QueryToDataTable(string query)
+            public DataTable QueryToDataTable(string query)
         {
             try
             {

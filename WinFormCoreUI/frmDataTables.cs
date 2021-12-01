@@ -9,25 +9,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
-namespace WinFormUI {
-    public partial class frmDataTables: Form {
-
+namespace WinFormCoreUI {
+    public partial class frmDataTables : Form {
         public frmDataTables() {
             InitializeComponent();
         }
-
         private void frmDataTables_Load(object sender, EventArgs e) {
-            dgvDataTable.DoubleBuffered(true);
-
+            ExtensionMethods.DoubleBufferDataGridViews(this);
+            GetDataTables();
         }
 
-        private void lstDataTables_SelectedIndexChanged(object sender, EventArgs e) {
-            DataTable dt = UI.libDb.GetDataTable(lstDataTables.SelectedItem.ToString());
-            dgvDataTable.DataSource = dt;
-        }
-
-        private void btnGetTables_Click(object sender, EventArgs e) {
+        private void GetDataTables() {
             lstDataTables.Items.Clear();
             ArrayList tables = UI.libDb.GetListOfTablesNamesInDb();
 
@@ -35,7 +27,16 @@ namespace WinFormUI {
                 lstDataTables.Items.Add(item);
             }
         }
+
+        private void btnGetTables_Click(object sender, EventArgs e) {
+            
+        }
+
+        private void lstDataTables_SelectedIndexChanged(object sender, EventArgs e) {
+            DataTable dt = UI.libDb.GetDataTable(lstDataTables.SelectedItem.ToString());
+            dgvDataTable.DataSource = dt;
+        }
+
+       
     }
-
-
 }

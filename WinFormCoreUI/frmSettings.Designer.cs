@@ -95,7 +95,7 @@
             this.dgvTableSettingValue.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvTableSettingValue.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgvTableSettingValue.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvTableSettingValue.Size = new System.Drawing.Size(900, 575);
+            this.dgvTableSettingValue.Size = new System.Drawing.Size(900, 540);
             this.dgvTableSettingValue.TabIndex = 6;
             this.dgvTableSettingValue.DataSourceChanged += new System.EventHandler(this.dgvTableSettingValue_DataSourceChanged);
             // 
@@ -113,7 +113,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1834, 911);
+            this.ClientSize = new System.Drawing.Size(1784, 861);
             this.Controls.Add(this.lstTableSettings);
             this.Controls.Add(this.dgvTableSettingValue);
             this.Controls.Add(this.btnSaveSetting);

@@ -5,12 +5,11 @@ namespace EDTLibrary.Models {
         //Primary
         [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
         new int Id { get; set; }
-        new string Tag { get; 
-            set; }
+        new string Tag { get; set; }
         new string Category { get; set; }
         new string Type { get; set; }
         string Description { get; set; }
-        int Voltage { get; set; }
+        double Voltage { get; set; }
         double Size { get; set; }
         string Unit { get; set; }
 

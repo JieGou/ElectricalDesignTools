@@ -45,7 +45,7 @@
             this.pnlChildForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlChildForm.Location = new System.Drawing.Point(213, 0);
             this.pnlChildForm.Name = "pnlChildForm";
-            this.pnlChildForm.Size = new System.Drawing.Size(1571, 811);
+            this.pnlChildForm.Size = new System.Drawing.Size(1621, 861);
             this.pnlChildForm.TabIndex = 1;
             // 
             // pictureBox1
@@ -53,7 +53,7 @@
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(651, 274);
+            this.pictureBox1.Location = new System.Drawing.Point(676, 299);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(263, 263);
@@ -109,6 +109,7 @@
             this.btnDataTables.TabIndex = 4;
             this.btnDataTables.Text = "Data Tables";
             this.btnDataTables.UseVisualStyleBackColor = true;
+            this.btnDataTables.Click += new System.EventHandler(this.btnDataTables_Click);
             // 
             // btnSelectLibrary
             // 
@@ -133,14 +134,14 @@
             this.pnlMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlMenu.Location = new System.Drawing.Point(0, 0);
             this.pnlMenu.Name = "pnlMenu";
-            this.pnlMenu.Size = new System.Drawing.Size(213, 811);
+            this.pnlMenu.Size = new System.Drawing.Size(213, 861);
             this.pnlMenu.TabIndex = 0;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1784, 811);
+            this.ClientSize = new System.Drawing.Size(1834, 861);
             this.Controls.Add(this.pnlChildForm);
             this.Controls.Add(this.pnlMenu);
             this.Name = "frmMain";

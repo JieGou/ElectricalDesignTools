@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.LibraryData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace EDTLibrary.Models {
         public LoadModel() {
             Category = Categories.LOAD3P.ToString();
             LoadFactor = 0.8;
+            PdType = StringSettings.LoadDefaultPdTypeLV;
         }
 
 
@@ -20,15 +22,14 @@ namespace EDTLibrary.Models {
 
         [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; }
-        public string Tag { get; 
-            set; }
+        public string Tag { get; set; }
         public string Category { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
         #endregion
 
         #region ILoadModel - User Inputs Primary
-        public int Voltage { get; set; }
+        public double Voltage { get; set; }
         public double Size { get; set; }
         public string Unit { get; set; }
         public string FedFrom { get; set; }
@@ -54,8 +55,14 @@ namespace EDTLibrary.Models {
         //Sizing
         public double MinCableAmps { get; set; }
         //public double PercentLoaded { get; set; }
+
+        [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
+        public double PdFactor { get; set; }
         public string PdType { get; set; }
-        public double PdSize { get; set; }
+        public double PdSizeTrip { get; set; }
+        public double PdSizeFrame { get; set; }
+        
+
 
         public int CableQty { get; set; }
         public string CableSize { get; set; }
@@ -68,6 +75,24 @@ namespace EDTLibrary.Models {
 
         //Methods
         public void CalculateLoading() {
+            
+
+        //PowerFactor and Efficiency
+            if (Type == LoadTypes.HEATER.ToString()) {
+                Unit = Units.kW.ToString();
+                Efficiency = GlobalConfig.DefaultHeaterEfficiency;
+                PowerFactor = GlobalConfig.DefaultHeaterPowerFactor;
+            }
+            else if (Type == LoadTypes.TRANSFORMER.ToString()) {
+                Unit = Units.kW.ToString();
+                Efficiency = GlobalConfig.DefaultTransformerEfficiency;
+                PowerFactor = GlobalConfig.DefaultTransformerPowerFactor;
+            }
+            else if (Type == LoadTypes.MOTOR.ToString()) {
+                Efficiency = DataTableManager.GetMotorEfficiency(this);
+                PowerFactor = DataTableManager.GetMotorPowerFactor(this);
+            }
+
             if (Efficiency > 1)
                 Efficiency = Efficiency / 100;
             if (PowerFactor > 1)
@@ -76,19 +101,10 @@ namespace EDTLibrary.Models {
             Efficiency = Math.Round(Efficiency, 2);
             PowerFactor = Math.Round(PowerFactor, 2);
 
-            //Non-Motor Eff & PF
-            if (Type == LoadTypes.HEATER.ToString()) {
-                Unit = Units.kW.ToString();
-                Efficiency = GlobalConfig.HeaterEff;
-                PowerFactor = GlobalConfig.HeaterPf;
-            }
-            else if (Type == LoadTypes.TRANSFORMER.ToString()) {
-                Unit = Units.kW.ToString();
-                Efficiency = GlobalConfig.XfrEff;
-                PowerFactor = GlobalConfig.XfrPf;
-            }
+            PdFactor = 1;
 
             //if (Type == LoadTypes.MOTOR.ToString()) {
+            //    PdFactor = 1.25
             //    if (Unit == Units.HP.ToString()) {
             //        ConnectedKva = Size * 0.746 / Efficiency / PowerFactor;
             //    }
@@ -98,6 +114,8 @@ namespace EDTLibrary.Models {
             //}
             //else if (Type == LoadTypes.TRANSFORMER.ToString()) {
             //    ConnectedKva = Size;
+            //    PdFactor = 1.25
+
             //}
             //else if (Type == LoadTypes.HEATER.ToString()) {
             //    ConnectedKva = Size / Efficiency / PowerFactor;
@@ -119,6 +137,7 @@ namespace EDTLibrary.Models {
 
             switch (Type) {
             case "MOTOR":
+                    PdFactor = 1.25;
                 switch (Unit) {
                     case "HP":
                         ConnectedKva = Size * 0.746 / Efficiency / PowerFactor;
@@ -130,7 +149,8 @@ namespace EDTLibrary.Models {
                 break;
 
             case "TRANSFORMER":
-                ConnectedKva = Size;
+                    PdFactor = 1.25;
+                    ConnectedKva = Size;
                 break;
 
             case "HEATER":
@@ -153,7 +173,8 @@ namespace EDTLibrary.Models {
                 break;
             }
 
-            //calculates FLA if the load unit is not FLA
+
+        //FLA and Power
             if (Unit != "A") {
                 Fla = ConnectedKva * 1000 / Voltage / Math.Sqrt(3);
                 Fla = Math.Round(Fla, GlobalConfig.SigFigs);
@@ -163,23 +184,13 @@ namespace EDTLibrary.Models {
             DemandKva = Math.Round(ConnectedKva*LoadFactor, GlobalConfig.SigFigs);
             DemandKw = Math.Round(DemandKva*PowerFactor, GlobalConfig.SigFigs);
             DemandKvar = Math.Round(DemandKva*(1-PowerFactor), GlobalConfig.SigFigs);
-        }
-        public void LookupPfAndEff() {
-            //TODO - Implement motor Eff & Pf
-            //------MOTOR LOADS
-            if (Type == "MOTOR") {
-                Efficiency = 0;
-                PowerFactor = 0;
 
-                try {
-                    string motorKey = Unit + Voltage.ToString() + Size.ToString() + "1800";
-                    
-                }
-                catch (Exception) {
-                    //do nothing and leave value at 0 if motor doesn't exist
-                }
-            }
+
+            //PD and Starter
+            PdSizeFrame = DataTableManager.GetBreakerFrame(this);
+            PdSizeTrip = DataTableManager.GetBreakerTrip(this);
         }
+
         public void SizeComponents() {
             //TODO - create Components
 
@@ -188,6 +199,5 @@ namespace EDTLibrary.Models {
             //size the component via lookups
             //this might be better in list manager
         }
-
     }
 }

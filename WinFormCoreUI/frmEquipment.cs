@@ -191,9 +191,7 @@ namespace WinFormCoreUI {
             SaveLoads();
         }
 
-        private void btnCalculateCables_Click(object sender, EventArgs e) {
-
-        }
+        
 
         private void lstDteq_SelectedIndexChanged(object sender, EventArgs e) {
             string selectedEq = lstDteq.SelectedItem.ToString();
@@ -211,5 +209,10 @@ namespace WinFormCoreUI {
             CreateCableList();
             ShowCables();
         }
+        private void btnCalculateCables_Click(object sender, EventArgs e) {
+            ListManager.CalculateCableAmps();
+            dgvEquipment.Refresh();
+        }
+
     }
 }

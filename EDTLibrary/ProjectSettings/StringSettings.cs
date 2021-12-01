@@ -12,7 +12,10 @@ namespace EDTLibrary {
         public static string Code { get; set; }
         public static string CableType3C1kV { get; set; }
         public static string DteqMaxPercentLoaded { get; set; }
-        public static string DteqDefaultPdType { get; set; }
+        public static string DteqDefaultPdTypeLV { get; set; }
+        public static string LoadDefaultPdTypeLV { get; set; }
+
+
 
 
         //TODO - Mode to Table Properties and Implement Interface
