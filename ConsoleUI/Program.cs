@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using EDTLibrary;
 using EDTLibrary.Models;
 using LM = EDTLibrary.ListManager;
-using SQLiteLibrary;
 
 namespace ConsoleUI {
     class Program {

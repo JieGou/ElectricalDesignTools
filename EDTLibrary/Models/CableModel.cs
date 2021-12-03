@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -20,15 +21,26 @@ namespace EDTLibrary.Models
         public int Id { get; set; }
         public string Tag { get; set; }
         public string Category { get; set; }
+
+        [DisplayName("Usage\nType")]
         public string UsageType { get; set; }
         public string Type { get; set; }
+
+        [DisplayName("Qty")]
         public int QtyParallel { get; set; }
         public int Conductors { get; set; }
         public string Size { get; set; }
+
+        [DisplayName("Design\nAmps")]
         public double DesignAmps { get; set; }
+
+        [DisplayName("Derated\nAmps")]
         public double DeratedAmps { get; set; }
         public double Derating { get; set; }
+
+        [DisplayName("Rated\nAmps")]
         public double RatedAmps { get; set; }
+        [DisplayName("Rated\nVoltage")]
         public int RatedVoltage { get; set; }
         public int Insulation { get; set; }
         public string Source { get; set; }

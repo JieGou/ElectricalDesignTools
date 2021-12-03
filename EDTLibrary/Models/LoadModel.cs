@@ -1,6 +1,8 @@
 ﻿using EDTLibrary.LibraryData;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,8 +22,9 @@ namespace EDTLibrary.Models {
 
         #region EquipmentModel
 
-        [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
+        [Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; }
+        [Description("Main")]
         public string Tag { get; set; }
         public string Category { get; set; }
         public string Type { get; set; }
@@ -32,7 +35,11 @@ namespace EDTLibrary.Models {
         public double Voltage { get; set; }
         public double Size { get; set; }
         public string Unit { get; set; }
+
+        [DisplayName("Fed\nFrom")]
         public string FedFrom { get; set; }
+
+        [DisplayName("Load\nFactor")]
         public double LoadFactor { get; set; }
 
         public List<ComponentModel> InLineComponents { get; set; } = new List<ComponentModel>();
@@ -40,31 +47,52 @@ namespace EDTLibrary.Models {
 
         #endregion
         #region Lookups
+
+        [DisplayName("PF")]
         public double PowerFactor { get; set; }
+
+        [DisplayName("Eff")]
         public double Efficiency { get; set; }
         #endregion
 
         #region ILoadModel - Privately Calculated Values
         public double Fla { get; set; }
+
+        [DisplayName("Conn\nkVa")]
         public double ConnectedKva { get; set; }
+
+        [DisplayName("Dem\nkVA")]
         public double DemandKva { get; set; }
+
+        [DisplayName("Dem\nkW")]
         public double DemandKw { get; set; }
+
+        [DisplayName("Dem\nkVAR")]
         public double DemandKvar { get; set; }
+
+        [DisplayName("Running\nAmps")]
         public double RunningAmps { get; set; }
 
         //Sizing
+        [DisplayName("Min Cable Amps")]
         public double MinCableAmps { get; set; }
         //public double PercentLoaded { get; set; }
 
         [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
         public double PdFactor { get; set; }
+
+        [DisplayName("OCPD\nType")]
         public string PdType { get; set; }
+
+        [DisplayName("Trip\nAmps")]
         public double PdSizeTrip { get; set; }
+        [DisplayName("Frame\nAmps")]
         public double PdSizeFrame { get; set; }
-        
 
 
+        [DisplayName("Cable\nQty")]
         public int CableQty { get; set; }
+        [DisplayName("Cable\nSize")]
         public string CableSize { get; set; }
         #endregion
 

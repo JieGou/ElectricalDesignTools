@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,14 @@ namespace EDTLibrary.Models {
         public double RunningAmps { get; set; }
         public int CableQty { get; set; }
         public string CableSize { get; set; }
+
+        [DisplayName("OCPD\nType")]
+        public string PdType { get; set; }
+
+        [DisplayName("Trip\nAmps")]
+        public double PdSizeTrip { get; set; }
+        [DisplayName("Frame\nAmps")]
+        public double PdSizeFrame { get; set; }
         public List<ComponentModel> InLineComponents { get; set; }
         public List<CableModel> Cables { get; set; }
 

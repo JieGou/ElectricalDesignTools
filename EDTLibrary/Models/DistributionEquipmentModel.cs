@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,29 +31,60 @@ namespace EDTLibrary.Models {
         public double Voltage { get; set; }
         public double Size { get; set; }
         public string Unit { get; set; }
+
+        [DisplayName("Fed From")]
         public string FedFrom { get; set; }
         #endregion
 
+        [DisplayName("Line\nVoltage")]
         public double LineVoltage { get; set; }
+
+        [DisplayName("Load\nVoltage")]
         public double LoadVoltage { get; set; }
 
         //Loading
         #region ILoadModel - Privately Calculated Values
+        [DisplayName("FLA")]
+
         public double Fla { get; set; }
-        public double ConnectedKva { get; set; }
-        public double DemandKw { get; set; }
-        public double DemandKva { get; set; }
-        public double DemandKvar { get; set; }
-        public double PowerFactor { get; set; }
+        [DisplayName("Running\nAmps")]
         public double RunningAmps { get; set; }
+
+
+        [DisplayName("Conn\nkVa")]
+        public double ConnectedKva { get; set; }
+
+        [DisplayName("Dem\nkVA")]
+        public double DemandKva { get; set; }
+
+        [DisplayName("Dem\nkW")]
+        public double DemandKw { get; set; }
+
+        [DisplayName("Dem\nkVAR")]
+        public double DemandKvar { get; set; }
+
+        
+
+        [DisplayName("PF")]
+        public double PowerFactor { get; set; }
+
 
         //Sizing
         public double MinCableAmps { get; set; }
         public double PercentLoaded { get; set; }
-        public string PdType { get; set; }
-        public double PdSize { get; set; }
 
+        [DisplayName("OCPD\nType")]
+        public string PdType { get; set; }
+
+        [DisplayName("Trip\nAmps")]
+        public double PdSizeTrip { get; set; }
+        [DisplayName("Frame\nAmps")]
+        public double PdSizeFrame { get; set; }
+
+
+        [DisplayName("Cable\nQty")]
         public int CableQty { get; set; }
+        [DisplayName("Cable\nSize")]
         public string CableSize { get; set; }
         #endregion
 
@@ -68,6 +100,8 @@ namespace EDTLibrary.Models {
 
         #region ILoadModel Interface Un-used
         public double LoadFactor { get; set; }
+
+        [DisplayName("Eff")]
         public double Efficiency { get; set; }
 
         #endregion

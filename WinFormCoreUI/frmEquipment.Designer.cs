@@ -204,7 +204,7 @@
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(204, 0);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1580, 100);
+            this.pnlHeader.Size = new System.Drawing.Size(1646, 100);
             this.pnlHeader.TabIndex = 1;
             // 
             // pnlFooter
@@ -212,13 +212,13 @@
             this.pnlFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlFooter.Location = new System.Drawing.Point(204, 769);
             this.pnlFooter.Name = "pnlFooter";
-            this.pnlFooter.Size = new System.Drawing.Size(1580, 92);
+            this.pnlFooter.Size = new System.Drawing.Size(1646, 92);
             this.pnlFooter.TabIndex = 2;
             // 
             // pnlRight
             // 
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(1757, 100);
+            this.pnlRight.Location = new System.Drawing.Point(1823, 100);
             this.pnlRight.Name = "pnlRight";
             this.pnlRight.Size = new System.Drawing.Size(27, 669);
             this.pnlRight.TabIndex = 3;
@@ -231,7 +231,7 @@
             this.pnlCenter.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlCenter.Location = new System.Drawing.Point(204, 100);
             this.pnlCenter.Name = "pnlCenter";
-            this.pnlCenter.Size = new System.Drawing.Size(1553, 669);
+            this.pnlCenter.Size = new System.Drawing.Size(1619, 669);
             this.pnlCenter.TabIndex = 4;
             // 
             // lblSelectedTag
@@ -258,19 +258,23 @@
             // 
             // dgvEquipment
             // 
+            this.dgvEquipment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvEquipment.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvEquipment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvEquipment.Location = new System.Drawing.Point(18, 79);
             this.dgvEquipment.Name = "dgvEquipment";
             this.dgvEquipment.RowTemplate.Height = 25;
             this.dgvEquipment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvEquipment.Size = new System.Drawing.Size(1529, 568);
+            this.dgvEquipment.Size = new System.Drawing.Size(1584, 568);
             this.dgvEquipment.TabIndex = 0;
             // 
             // frmEquipment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1784, 861);
+            this.ClientSize = new System.Drawing.Size(1850, 861);
             this.Controls.Add(this.pnlCenter);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.pnlFooter);
