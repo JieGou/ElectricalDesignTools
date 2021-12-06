@@ -55,5 +55,9 @@ namespace WinFormCoreUI {
         private void btnDataTables_Click(object sender, EventArgs e) {
             UI.OpenChildForm(UI.frmDataTables, pnlChildForm);
         }
+
+        private void btnLoads_Click(object sender, EventArgs e) {
+            UI.OpenChildForm(UI.frmLoads, pnlChildForm);
+        }
     }
 }

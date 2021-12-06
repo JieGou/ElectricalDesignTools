@@ -40,8 +40,15 @@ namespace WinFormCoreUI {
         }
 
         private void btnSaveSetting_Click(object sender, EventArgs e) {
-            SettingManager.SaveStringSetting(lstStringSettings.SelectedItem.ToString(), txtStringSettingValue.Text);
-            UI.SaveProjectSettings();
+            StringSettings.InitializeSettings();
+            if (lstStringSettings.SelectedItem!=null) {
+                try {
+                    SettingManager.SaveStringSetting(lstStringSettings.SelectedItem.ToString(), txtStringSettingValue.Text);
+                    UI.SaveProjectSettings();
+                }
+            catch { };
+            }
+            
         }
 
         private void lstTableSettings_SelectedIndexChanged(object sender, EventArgs e) {

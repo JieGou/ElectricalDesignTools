@@ -37,6 +37,8 @@ namespace WinFormCoreUI {
             dgvDataTable.DataSource = dt;
         }
 
-       
+        private void pnlCenter_Paint(object sender, PaintEventArgs e) {
+
+        }
     }
 }

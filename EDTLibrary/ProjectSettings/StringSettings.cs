@@ -14,6 +14,7 @@ namespace EDTLibrary {
         public static string DteqMaxPercentLoaded { get; set; }
         public static string DteqDefaultPdTypeLV { get; set; }
         public static string LoadDefaultPdTypeLV { get; set; }
+        public static string VoltageDefaultLV { get; set; }
 
 
 

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -18,6 +19,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using EDTLibrary;
+using WinFormCoreUI;
+using EDTLibrary.DataAccess;
 
 namespace WpfUI {
     /// <summary>
@@ -25,15 +29,32 @@ namespace WpfUI {
     /// </summary>
     ///
     public partial class MainWindow : Window {
-        public MainWindow() {
-            InitializeComponent();
-            ListManager.loadList.Add(new EDTLibrary.Models.LoadModel { Tag = "Test", PowerFactor = 0.8 });
-            ObservableCollection<LoadModel> loadList = new ObservableCollection<LoadModel>();
-            dgdTest.ItemsSource = loadList;
-            dgdTest.ItemsSource = ListManager.loadList;
-            //dgdTest.ItemsSource = ListManager.loadList;
-        }
 
+        static ListManager listManager = new ListManager();
+        public ObservableCollection<DistributionEquipmentModel> DteqList { get; set; }
+        public ObservableCollection<LoadModel> LoadList { get; set; }
+    public MainWindow() {
+            InitializeComponent();
+            this.DataContext = this;
+
+            UI.prjDb = new SQLiteConnector("C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB Files\\EDTProjectTemplate1.1.db");
+            //ListManager.loadList.Add(new EDTLibrary.Models.LoadModel { Tag = "Test", PowerFactor = 0.8 });
+
+            ListManager.loadList = UI.prjDb.GetRecords<LoadModel>("Loads");
+            ListManager.dteqList = UI.prjDb.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
+
+            DteqList = new ObservableCollection<DistributionEquipmentModel>(ListManager.dteqList);
+            dgdDteqOC.ItemsSource = DteqList;
+            LoadList = new ObservableCollection<LoadModel>(ListManager.loadList);
+            dgdLoadsOC.ItemsSource = LoadList;
+
+            dgdDteqLM.ItemsSource = ListManager.dteqList;            
+            dgdLoadsLM.ItemsSource = ListManager.loadList;
+        }
+        private void TestEvent(object sender, EventArgs e) {
+            MessageBox.Show("event Fired");
+            ListManager.CreateEqDict();
+        }
         private void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e) {
             //Browsable = false
             if (((PropertyDescriptor)e.PropertyDescriptor).IsBrowsable == false) {
@@ -43,17 +64,85 @@ namespace WpfUI {
             if (((PropertyDescriptor)e.PropertyDescriptor).Description == "GroupName") {
                 e.Cancel = true;
             }
-            if ((e.PropertyName) == "Tye") {
+            if ((e.PropertyName) == "Type") {
                 var cb = new DataGridComboBoxColumn();
-                cb.ItemsSource = new List<string> { "test", "test2" };               
-                e.Column = cb;
+                cb.ItemsSource = new List<string> { "ADD LOAD TYPES" };               
+                //e.Column = cb;
             }
             //Display name
             e.Column.Header = ((PropertyDescriptor)e.PropertyDescriptor).DisplayName;
-            e.Column.MinWidth = 50;       
-            
+            e.Column.MinWidth = 50;
+
+            e.Column.HeaderStyle = new Style(typeof(DataGridColumnHeader));
+            e.Column.HeaderStyle.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Center));
+
+            e.Column.CellStyle = new Style(typeof(DataGridCell));
+            e.Column.CellStyle.Setters.Add(new Setter(HorizontalContentAlignmentProperty, HorizontalAlignment.Center));
+
+
+            if (e.PropertyName == "FedFrom") {
+                var cb = new DataGridComboBoxColumn();
+                cb.ItemsSource = DteqList;
+                cb.SelectedValuePath = "Tag";
+                cb.DisplayMemberPath = "Tag";
+                cb.SelectedValueBinding = new Binding("FedFrom"); //allows binding to the property
+
+                cb.CellStyle  = new Style(typeof(DataGridCell));
+                cb.CellStyle.Setters.Add(new Setter(BackgroundProperty, Brushes.Transparent));
+                cb.CellStyle.Setters.Add(new Setter(ForegroundProperty, Brushes.Black));
+                cb.Header = ((PropertyDescriptor)e.PropertyDescriptor).DisplayName;
+                e.Column = cb;
+            }
         }
 
-        
+        //BUTTONS
+
+        //OC
+        private void addDteqOC_Click(object sender, RoutedEventArgs e) {
+            DteqList.Add(new DistributionEquipmentModel() { Tag = "MCC-99" });
+        }
+        private void addLoad_Click(object sender, RoutedEventArgs e) {
+            LoadList.Add(new LoadModel() { Tag = "MTR-99" });
+        }
+        private void SDOC_Click(object sender, RoutedEventArgs e) {
+            foreach (var item in DteqList) {
+                MessageBox.Show($"{item.Tag} {item.FedFrom}");
+            }
+        }
+        private void SLOC_Click(object sender, RoutedEventArgs e) {
+            foreach (var item in LoadList) {
+                MessageBox.Show($"{item.Tag} {item.FedFrom}");
+            }
+        }
+        private void CLOC_Click(object sender, RoutedEventArgs e) {
+            LoadList[1].Tag = "TEST";
+        }
+
+
+        //List
+        private void addDteqLM_Click(object sender, RoutedEventArgs e) {
+            ListManager.dteqList.Add(new DistributionEquipmentModel() { Tag = "MCC-99" });
+        }
+        private void addLM_Click(object sender, RoutedEventArgs e) {
+            ListManager.loadList.Add(new LoadModel() { Tag = "MTR-99" });
+        }
+        private void SDLM_Click(object sender, RoutedEventArgs e) {
+            dgdDteqLM.ItemsSource = null;
+            dgdDteqLM.ItemsSource = ListManager.dteqList;
+            foreach (var item in ListManager.dteqList) {
+                MessageBox.Show($"{item.Tag} {item.FedFrom}");
+            }
+        }
+        private void SLLM_Click(object sender, RoutedEventArgs e) {
+            dgdLoadsLM.ItemsSource = null;
+            dgdLoadsLM.ItemsSource = ListManager.loadList;
+            foreach (var item in ListManager.loadList) {
+                MessageBox.Show($"{item.Tag} {item.FedFrom}");
+            }
+        }
+
+        private void CLLM_Click(object sender, RoutedEventArgs e) {
+            ListManager.loadList[1].Tag = "TEST";
+        }
     }    
 }

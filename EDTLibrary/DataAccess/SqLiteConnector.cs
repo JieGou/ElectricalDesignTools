@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
@@ -51,6 +52,26 @@ namespace EDTLibrary.DataAccess
                 {
                     output = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
                     return output.ToList();
+                }
+            }
+        }
+        public ObservableCollection<T> GetRecordsOC<T>(string tableName, string columnName = "", string filterText = "") //where T : class, new()
+        {
+            DynamicParameters dP = new DynamicParameters();
+            ObservableCollection<T> output = new ObservableCollection<T>();
+            List<T> outputList = new List<T>();
+            using (SQLiteConnection cnn = new SQLiteConnection(conString)) {
+
+                //returns all columns from table with column filter
+                if (columnName != "" && filterText != "") {
+                    dP.Add("@filterText", $"%{filterText}%");
+                    outputList = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName} WHERE {columnName} LIKE @filterText", dP);
+                    return output = new ObservableCollection<T>(outputList);
+                }
+                //returns entire table
+                else {
+                    outputList = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
+                    return output = new ObservableCollection<T>(outputList);
                 }
             }
         }
@@ -110,7 +131,7 @@ namespace EDTLibrary.DataAccess
             }
         }
         /// <summary>
-        /// Insters a record from an object with a list of properties
+        /// Inserts a record from an object with a list of properties
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="classObject"></param>
@@ -177,7 +198,7 @@ namespace EDTLibrary.DataAccess
                 SQLiteCommand cmd = new SQLiteCommand();
 
                 //Build query string: 
-                //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
+                //UPSERT INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
                 sb.Append($"UPDATE {tableName} SET ");
 
                 //Column Names
@@ -190,7 +211,7 @@ namespace EDTLibrary.DataAccess
                 //TODO - need to create a specific save query for each ModelType
                 sb.Replace("AssignedLoads = @AssignedLoads,", "");
                 sb.Replace("InLineComponents = @InLineComponents,", "");
-                sb.Remove(sb.Length - 2, 2); //, and last space
+                sb.Replace(", ", "", sb.Length - 2, 2);
                 sb.Append(" WHERE Id = @Id");
 
                 try

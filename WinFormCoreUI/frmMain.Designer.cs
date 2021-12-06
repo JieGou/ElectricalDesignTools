@@ -33,6 +33,8 @@
             this.btnDataTables = new System.Windows.Forms.Button();
             this.btnSelectLibrary = new System.Windows.Forms.Button();
             this.pnlMenu = new System.Windows.Forms.Panel();
+            this.btnLoads = new System.Windows.Forms.Button();
+            this.btnCables = new System.Windows.Forms.Button();
             this.pnlChildForm.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.pnlMenu.SuspendLayout();
@@ -82,11 +84,11 @@
             // 
             // btnEquipment
             // 
-            this.btnEquipment.Location = new System.Drawing.Point(26, 213);
+            this.btnEquipment.Location = new System.Drawing.Point(26, 251);
             this.btnEquipment.Name = "btnEquipment";
             this.btnEquipment.Size = new System.Drawing.Size(160, 32);
             this.btnEquipment.TabIndex = 2;
-            this.btnEquipment.Text = "Equipment and Cables";
+            this.btnEquipment.Text = "Distribution Equipment";
             this.btnEquipment.UseVisualStyleBackColor = true;
             this.btnEquipment.Click += new System.EventHandler(this.btnEquipment_Click);
             // 
@@ -125,6 +127,8 @@
             // pnlMenu
             // 
             this.pnlMenu.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pnlMenu.Controls.Add(this.btnCables);
+            this.pnlMenu.Controls.Add(this.btnLoads);
             this.pnlMenu.Controls.Add(this.btnSelectLibrary);
             this.pnlMenu.Controls.Add(this.btnDataTables);
             this.pnlMenu.Controls.Add(this.btnMainTest);
@@ -136,6 +140,25 @@
             this.pnlMenu.Name = "pnlMenu";
             this.pnlMenu.Size = new System.Drawing.Size(213, 861);
             this.pnlMenu.TabIndex = 0;
+            // 
+            // btnLoads
+            // 
+            this.btnLoads.Location = new System.Drawing.Point(26, 299);
+            this.btnLoads.Name = "btnLoads";
+            this.btnLoads.Size = new System.Drawing.Size(160, 32);
+            this.btnLoads.TabIndex = 6;
+            this.btnLoads.Text = "Loads";
+            this.btnLoads.UseVisualStyleBackColor = true;
+            this.btnLoads.Click += new System.EventHandler(this.btnLoads_Click);
+            // 
+            // btnCables
+            // 
+            this.btnCables.Location = new System.Drawing.Point(26, 350);
+            this.btnCables.Name = "btnCables";
+            this.btnCables.Size = new System.Drawing.Size(160, 32);
+            this.btnCables.TabIndex = 7;
+            this.btnCables.Text = "Cables";
+            this.btnCables.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
@@ -164,5 +187,7 @@
         private Button btnDataTables;
         private Button btnSelectLibrary;
         private Panel pnlMenu;
+        private Button btnCables;
+        private Button btnLoads;
     }
 }

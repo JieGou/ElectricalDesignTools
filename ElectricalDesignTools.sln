@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelLibrary", "ExcelLibrar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormCoreUI", "WinFormCoreUI\WinFormCoreUI.csproj", "{32074012-53F4-4E39-9388-39A2E6895084}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfUI", "WpfUI\WpfUI.csproj", "{4BF24413-4E32-4AFB-83D0-1272A63CECDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfUI", "WpfUI\WpfUI.csproj", "{4BF24413-4E32-4AFB-83D0-1272A63CECDE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

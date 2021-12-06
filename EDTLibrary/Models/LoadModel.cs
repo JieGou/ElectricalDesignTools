@@ -8,24 +8,40 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.Models {
-    public class LoadModel: ILoadModel {
+    public class LoadModel : INotifyPropertyChanged, ILoadModel {
         public LoadModel() {
             Category = Categories.LOAD3P.ToString();
             LoadFactor = 0.8;
             PdType = StringSettings.LoadDefaultPdTypeLV;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(PropertyChangedEventArgs e) {
+            PropertyChangedEventHandler handler = PropertyChanged;
 
-        //Fields
-        private string _tag;
+            if (handler != null) {
+                handler(this, e);
+            }
+
+            if (e.PropertyName=="Tag") {
+                ListManager.CreateMasterLoadList();
+            }
+        }
+
         //Properties
 
         #region EquipmentModel
 
         [Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; }
-        [Description("Main")]
-        public string Tag { get; set; }
+
+
+        private string _tag;
+        public string Tag { 
+            get { return _tag; }
+            set { _tag = value; OnPropertyChanged(new PropertyChangedEventArgs("Tag")); }
+        }
+
         public string Category { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
@@ -41,7 +57,7 @@ namespace EDTLibrary.Models {
 
         [DisplayName("Load\nFactor")]
         public double LoadFactor { get; set; }
-
+        [Browsable(false)]
         public List<ComponentModel> InLineComponents { get; set; } = new List<ComponentModel>();
         //public List<CableModel> Cables { get; set; } = new List<CableModel>();
 
@@ -78,7 +94,7 @@ namespace EDTLibrary.Models {
         public double MinCableAmps { get; set; }
         //public double PercentLoaded { get; set; }
 
-        [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
+        [Browsable(false)] // make this property non-visisble by grids/databindings
         public double PdFactor { get; set; }
 
         [DisplayName("OCPD\nType")]
@@ -98,6 +114,8 @@ namespace EDTLibrary.Models {
 
         #region LoadModel       
         public string PdStarter { get; set; }
+
+        
         #endregion
 
 
@@ -122,9 +140,9 @@ namespace EDTLibrary.Models {
             }
 
             if (Efficiency > 1)
-                Efficiency = Efficiency / 100;
+                Efficiency /= 100;
             if (PowerFactor > 1)
-                PowerFactor = PowerFactor / 100;
+                PowerFactor /= 100;
 
             Efficiency = Math.Round(Efficiency, 2);
             PowerFactor = Math.Round(PowerFactor, 2);
@@ -157,7 +175,7 @@ namespace EDTLibrary.Models {
             //            ConnectedKva = Size / Efficiency / PowerFactor;
             //            break;
             //        case "AMPS":
-            //            ConnectedKva = Size * Voltage * Math.Sqrt(3); //   / Efficiency / PowerFactor;
+            //            ConnectedKva = Size * Vol_tage * Math.Sqrt(3); //   / Efficiency / PowerFactor;
             //            Fla = Size;
             //            break;
             //    }

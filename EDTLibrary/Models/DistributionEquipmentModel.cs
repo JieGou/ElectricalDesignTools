@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace EDTLibrary.Models {
         //Properties
         #region IEquipmentModel
 
-        [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
+        [Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; } //was private beo
         public string Tag { get; set; }
         public string Category { get; set; } //dteq, load, component, cable,
@@ -89,11 +90,15 @@ namespace EDTLibrary.Models {
         #endregion
 
         #region Publicly Calculated Values
+        [Browsable(false)]
         public List<ILoadModel> AssignedLoads { get; set; } = new List<ILoadModel>();
+        public ObservableCollection<ILoadModel> AssignedLoadsOC { get; set; } = new ObservableCollection<ILoadModel>();
+
         public int LoadCount { get; set; }
         #endregion
 
         #region Lists
+        [Browsable(false)]
         public List<ComponentModel> InLineComponents { get; set; } = new List<ComponentModel>();
         //public List<CableModel> Cables { get; set; } = new List<CableModel>();
         #endregion
@@ -105,7 +110,6 @@ namespace EDTLibrary.Models {
         public double Efficiency { get; set; }
 
         #endregion
-
 
         //Methods
         public void CalculateLoading() {

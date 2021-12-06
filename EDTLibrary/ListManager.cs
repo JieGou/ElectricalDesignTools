@@ -2,24 +2,32 @@
 using System.Linq;
 using System.Collections.Generic;
 using EDTLibrary.Models;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace EDTLibrary {
-    public static partial class ListManager {
-        public static List<IEquipmentModel> eqList = new List<IEquipmentModel>();
-        public static Dictionary<string, IEquipmentModel> eqDict = new Dictionary<string, IEquipmentModel>();
-
-        public static List<ILoadModel> masterLoadList = new List<ILoadModel>();
-        public static Dictionary<string, ILoadModel> iLoadDict = new Dictionary<string, ILoadModel>();
-
-        public static Dictionary<string, DistributionEquipmentModel> dteqDict = new Dictionary<string, DistributionEquipmentModel>();
+    public class ListManager {
 
         public static List<DistributionEquipmentModel> dteqList = new List<DistributionEquipmentModel>();
         public static List<LoadModel> loadList = new List<LoadModel>();
         public static List<CableModel> cableList = new List<CableModel>();
         public static List<ComponentModel> compList = new List<ComponentModel>();
+        public static ObservableCollection<LoadModel> loadListOC = new ObservableCollection<LoadModel>();
 
-        public static void CreateEqList() {
+        public static List<IEquipmentModel> eqList = new List<IEquipmentModel>();
+        public static List<ILoadModel> masterLoadList = new List<ILoadModel>();
+        public static ObservableCollection<ILoadModel> masterLoadListOC = new ObservableCollection<ILoadModel>();
+
+        public static Dictionary<string, DistributionEquipmentModel> dteqDict = new Dictionary<string, DistributionEquipmentModel>();
+        public static Dictionary<string, IEquipmentModel> eqDict = new Dictionary<string, IEquipmentModel>();
+        public static Dictionary<string, ILoadModel> iLoadDict = new Dictionary<string, ILoadModel>();
+
+        public static void TagChanged_Event(object sender, NotifyCollectionChangedEventArgs e) {
+            foreach (var item in ListManager.loadListOC) {
+                CreateMasterLoadList();
+            }
         }
+        
         public static void CreateEqDict() {
             eqDict.Clear();
             foreach (var eq in masterLoadList) {
@@ -41,10 +49,11 @@ namespace EDTLibrary {
                 dteqDict.Add(dteq.Tag, dteq);
             }
         }
-        public static bool CheckDuplicateTags(string Tag) {
-            if (eqDict.ContainsKey(Tag)) {
-                return true;
-            }
+        public static bool IsTagAvailable(string tag) {
+            var tagCheck = masterLoadList.Where(e => e.Tag == tag );
+                if (tagCheck == null) {
+                    return true;
+                }
             return false;
         }
 
@@ -76,36 +85,7 @@ namespace EDTLibrary {
                 dteq.CalculateLoading();
             }
         }
-        //takes in List of LoadModel and Matches Tags to each MajorEquipment in a dteqList
-        //public static void AssignLoadsToDteq(List<DistributionEquipmentModel> dteqList, List<LoadModel> loadList) // LoadList Manager
-        //{
-        //    foreach (DistributionEquipmentModel dteq in dteqList) {
-        //        dteq.AssignedLoads.Clear();
-        //        dteq.LoadCount = 0;                
-        //        foreach (DistributionEquipmentModel dteqAsLoad in dteqList) {
-        //            if (dteqAsLoad.FedFrom == dteq.Tag) {
-        //                dteq.AssignedLoads.Add(dteqAsLoad);
-        //                dteq.LoadCount += 1;
-        //            }
-        //        }
-
-        //        foreach (LoadModel load in loadList) {
-        //            if (load.FedFrom == dteq.Tag) {
-        //                load.CalculateLoading();
-        //                dteq.AssignedLoads.Add(load);
-        //                dteq.LoadCount += 1;
-        //            }
-        //        }
-        //    }
-        //    foreach (DistributionEquipmentModel dteq in dteqList) {
-        //        dteq.CalculateLoading();
-        //    }
-        //}
-        //public static List<ILoadModel> GetAssignedLoads(string dteqTag {
-        //    List<ILoadModel> assignedLoads;
-        //    assignedLoads = masterLoadList.Select(load => load.FedFrom == dteqTag);
-        //    return assignedLoads;
-        //}
+     
 
         public static List<string> GetDteqTags(List<DistributionEquipmentModel> list) {
             List<string> output = new List<string>();
@@ -137,31 +117,21 @@ namespace EDTLibrary {
         /// </summary>
         public static void CreateMasterLoadList() {
             masterLoadList.Clear();
+            masterLoadListOC.Clear();
             foreach (var dteq in dteqList) {
                 masterLoadList.Add(dteq);
+                masterLoadListOC.Add(dteq);
             }
-            foreach (var load in loadList) {
+            foreach (var load in loadListOC) {
                 masterLoadList.Add(load);
+                masterLoadListOC.Add(load);
             }
             AssignLoadsToDteq();
             CreateEqDict();
             CreateDteqDict();
             CreateILoadDict();
         }
-        //public static List<ILoadModel> CreateMasterLoadList(List<DistributionEquipmentModel> dteqList, List<LoadModel> loadList) {
-        //    List<ILoadModel> masterLoadList = new List<ILoadModel>();
-        //    masterLoadList.Clear();
-        //    foreach (var dteq in dteqList) {
-        //        masterLoadList.Add(dteq);
-        //    }
-        //    foreach (var load in loadList) {
-        //        masterLoadList.Add(load);
-        //    }
-        //    return masterLoadList;
-        //}
-        /// <summary>
-        /// Creates a list of ComponentModel
-        /// </summary>
+       
         public static void CreateComponentList() {
             compList.Clear();
             foreach (var load in loadList) {
@@ -219,39 +189,7 @@ namespace EDTLibrary {
             foreach (var cable in cableList) {
                 cable.CalculateAmpacity();
             }
-        }
-        //public static List<CableModel> CreateCableList(List<ILoadModel> masterLoadList) {
-        //    List<CableModel> cableList = new List<CableModel>();
-        //    List<string> trays = new List<string>();
-
-        //    foreach (var load in masterLoadList) {
-        //        //No Components
-        //        if (load.InLineComponents.Count == 0) {
-        //            cableList.Add(new CableModel { Source = load.FedFrom, Destination = load.Tag });
-        //        }
-        //        //Has Components
-        //        else {
-        //            for (int i = 0; i < load.InLineComponents.Count; i++) {
-        //                //First cable = FedFrom to component[0]
-        //                if (i == 0) {
-        //                    cableList.Add(new CableModel { Source = load.FedFrom, Destination = load.InLineComponents[i].Tag });
-        //                }
-        //                //Last cable = component[n] to Load
-        //                else if (i == load.InLineComponents.Count - 1) {
-        //                    cableList.Add(new CableModel { Source = load.InLineComponents[i].Tag, Destination = load.Tag });
-        //                }
-        //                else {
-        //                    cableList.Add(new CableModel { Source = load.InLineComponents[i - 1].Tag, Destination = load.InLineComponents[i].Tag });
-        //                }
-        //            }
-        //        }
-        //    }
-        //    foreach (var cable in cableList) {
-        //        cable.Tag = $"{cable.Source}-{cable.Destination}";
-        //        cable.CalculateLoading();
-        //    }
-        //    return cableList;
-        //}
+        }        
         #endregion
         
     }

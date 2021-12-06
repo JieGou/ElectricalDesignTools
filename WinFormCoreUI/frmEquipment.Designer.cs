@@ -23,7 +23,10 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            this.pnlQuickButtons = new System.Windows.Forms.Panel();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.pnlDteqButtons = new System.Windows.Forms.Panel();
             this.btnCalculateCables = new System.Windows.Forms.Button();
             this.lblAssignedLoads = new System.Windows.Forms.Label();
             this.btnCreateCableList = new System.Windows.Forms.Button();
@@ -43,32 +46,32 @@
             this.pnlCenter = new System.Windows.Forms.Panel();
             this.lblSelectedTag = new System.Windows.Forms.Label();
             this.lblListName = new System.Windows.Forms.Label();
-            this.dgvEquipment = new System.Windows.Forms.DataGridView();
-            this.pnlQuickButtons.SuspendLayout();
+            this.dgvMain = new System.Windows.Forms.DataGridView();
+            this.pnlDteqButtons.SuspendLayout();
             this.pnlCenter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvEquipment)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).BeginInit();
             this.SuspendLayout();
             // 
-            // pnlQuickButtons
+            // pnlDteqButtons
             // 
-            this.pnlQuickButtons.Controls.Add(this.btnCalculateCables);
-            this.pnlQuickButtons.Controls.Add(this.lblAssignedLoads);
-            this.pnlQuickButtons.Controls.Add(this.btnCreateCableList);
-            this.pnlQuickButtons.Controls.Add(this.btnSaveLoads);
-            this.pnlQuickButtons.Controls.Add(this.btnDeleteLoad);
-            this.pnlQuickButtons.Controls.Add(this.btnAddLoad);
-            this.pnlQuickButtons.Controls.Add(this.btnDeleteDteq);
-            this.pnlQuickButtons.Controls.Add(this.btnCalculateLoads);
-            this.pnlQuickButtons.Controls.Add(this.btnLoadList);
-            this.pnlQuickButtons.Controls.Add(this.btnSaveDteq);
-            this.pnlQuickButtons.Controls.Add(this.lstDteq);
-            this.pnlQuickButtons.Controls.Add(this.btnAddDteqEq);
-            this.pnlQuickButtons.Controls.Add(this.btnDistributionEquipment);
-            this.pnlQuickButtons.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlQuickButtons.Location = new System.Drawing.Point(0, 0);
-            this.pnlQuickButtons.Name = "pnlQuickButtons";
-            this.pnlQuickButtons.Size = new System.Drawing.Size(204, 861);
-            this.pnlQuickButtons.TabIndex = 0;
+            this.pnlDteqButtons.Controls.Add(this.btnCalculateCables);
+            this.pnlDteqButtons.Controls.Add(this.lblAssignedLoads);
+            this.pnlDteqButtons.Controls.Add(this.btnCreateCableList);
+            this.pnlDteqButtons.Controls.Add(this.btnSaveLoads);
+            this.pnlDteqButtons.Controls.Add(this.btnDeleteLoad);
+            this.pnlDteqButtons.Controls.Add(this.btnAddLoad);
+            this.pnlDteqButtons.Controls.Add(this.btnDeleteDteq);
+            this.pnlDteqButtons.Controls.Add(this.btnCalculateLoads);
+            this.pnlDteqButtons.Controls.Add(this.btnLoadList);
+            this.pnlDteqButtons.Controls.Add(this.btnSaveDteq);
+            this.pnlDteqButtons.Controls.Add(this.lstDteq);
+            this.pnlDteqButtons.Controls.Add(this.btnAddDteqEq);
+            this.pnlDteqButtons.Controls.Add(this.btnDistributionEquipment);
+            this.pnlDteqButtons.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pnlDteqButtons.Location = new System.Drawing.Point(0, 0);
+            this.pnlDteqButtons.Name = "pnlDteqButtons";
+            this.pnlDteqButtons.Size = new System.Drawing.Size(200, 861);
+            this.pnlDteqButtons.TabIndex = 0;
             // 
             // btnCalculateCables
             // 
@@ -202,36 +205,36 @@
             // pnlHeader
             // 
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlHeader.Location = new System.Drawing.Point(204, 0);
+            this.pnlHeader.Location = new System.Drawing.Point(200, 0);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1646, 100);
+            this.pnlHeader.Size = new System.Drawing.Size(1659, 100);
             this.pnlHeader.TabIndex = 1;
             // 
             // pnlFooter
             // 
             this.pnlFooter.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlFooter.Location = new System.Drawing.Point(204, 769);
+            this.pnlFooter.Location = new System.Drawing.Point(200, 786);
             this.pnlFooter.Name = "pnlFooter";
-            this.pnlFooter.Size = new System.Drawing.Size(1646, 92);
+            this.pnlFooter.Size = new System.Drawing.Size(1659, 75);
             this.pnlFooter.TabIndex = 2;
             // 
             // pnlRight
             // 
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Right;
-            this.pnlRight.Location = new System.Drawing.Point(1823, 100);
+            this.pnlRight.Location = new System.Drawing.Point(1832, 100);
             this.pnlRight.Name = "pnlRight";
-            this.pnlRight.Size = new System.Drawing.Size(27, 669);
+            this.pnlRight.Size = new System.Drawing.Size(27, 686);
             this.pnlRight.TabIndex = 3;
             // 
             // pnlCenter
             // 
             this.pnlCenter.Controls.Add(this.lblSelectedTag);
             this.pnlCenter.Controls.Add(this.lblListName);
-            this.pnlCenter.Controls.Add(this.dgvEquipment);
+            this.pnlCenter.Controls.Add(this.dgvMain);
             this.pnlCenter.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlCenter.Location = new System.Drawing.Point(204, 100);
+            this.pnlCenter.Location = new System.Drawing.Point(200, 100);
             this.pnlCenter.Name = "pnlCenter";
-            this.pnlCenter.Size = new System.Drawing.Size(1619, 669);
+            this.pnlCenter.Size = new System.Drawing.Size(1632, 686);
             this.pnlCenter.TabIndex = 4;
             // 
             // lblSelectedTag
@@ -258,49 +261,64 @@
             // 
             // dgvEquipment
             // 
-            this.dgvEquipment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(248)))), ((int)(((byte)(248)))));
+            this.dgvMain.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvMain.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvEquipment.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvEquipment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEquipment.Location = new System.Drawing.Point(18, 79);
-            this.dgvEquipment.Name = "dgvEquipment";
-            this.dgvEquipment.RowTemplate.Height = 25;
-            this.dgvEquipment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvEquipment.Size = new System.Drawing.Size(1584, 568);
-            this.dgvEquipment.TabIndex = 0;
+            this.dgvMain.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvMain.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.NullValue = null;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvMain.Location = new System.Drawing.Point(20, 80);
+            this.dgvMain.Name = "dgvEquipment";
+            this.dgvMain.RowHeadersVisible = false;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(88)))), ((int)(((byte)(159)))), ((int)(((byte)(224)))));
+            this.dgvMain.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            this.dgvMain.RowTemplate.Height = 25;
+            this.dgvMain.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvMain.Size = new System.Drawing.Size(1588, 592);
+            this.dgvMain.TabIndex = 0;
             // 
             // frmEquipment
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1850, 861);
+            this.ClientSize = new System.Drawing.Size(1859, 861);
             this.Controls.Add(this.pnlCenter);
             this.Controls.Add(this.pnlRight);
             this.Controls.Add(this.pnlFooter);
             this.Controls.Add(this.pnlHeader);
-            this.Controls.Add(this.pnlQuickButtons);
+            this.Controls.Add(this.pnlDteqButtons);
             this.Name = "frmEquipment";
             this.Text = "frmEquipment";
             this.Load += new System.EventHandler(this.frmEquipment_Load);
-            this.pnlQuickButtons.ResumeLayout(false);
-            this.pnlQuickButtons.PerformLayout();
+            this.pnlDteqButtons.ResumeLayout(false);
+            this.pnlDteqButtons.PerformLayout();
             this.pnlCenter.ResumeLayout(false);
             this.pnlCenter.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvEquipment)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvMain)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private Panel pnlQuickButtons;
+        private Panel pnlDteqButtons;
         private Panel pnlHeader;
         private Panel pnlFooter;
         private Panel pnlRight;
         private Panel pnlCenter;
         private Button btnDistributionEquipment;
-        private DataGridView dgvEquipment;
+        private DataGridView dgvMain;
         private Button btnAddDteqEq;
         private ListBox lstDteq;
         private Button btnCalculateLoads;

@@ -1,16 +1,4 @@
-﻿using EDTLibrary;
-using EDTLibrary.Models;
-using EDTLibrary.DataAccess;
-using LM = EDTLibrary.ListManager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
-
-namespace WinFormCoreUI {
+﻿namespace UIHelper {
     public static class UI {
         public static bool ProjectLoaded { get; set; }
         public static bool LibraryLoaded { get; set; }
@@ -29,9 +17,9 @@ namespace WinFormCoreUI {
         //public static SQLiteConnector libDb = new SQLiteConnector(LibraryFile);
 
 
-        
 
-        
+
+
 
         public static void Initialize() {
             ProjectFile = Properties.Settings.Default.ProjectDb;
@@ -79,9 +67,9 @@ namespace WinFormCoreUI {
                 prjDb = new SQLiteConnector(dbFilename);
 
                 LM.dteqList = prjDb.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
+                LM.CreateDteqDict();
                 LM.AssignLoadsToDteq();
                 LM.loadList = prjDb.GetRecords<LoadModel>("Loads");
-                LM.loadListOC = prjDb.GetRecordsOC<LoadModel>("Loads");
                 LM.CreateMasterLoadList();
                 LM.cableList = prjDb.GetRecords<CableModel>("Cables");
 
@@ -95,41 +83,41 @@ namespace WinFormCoreUI {
             }
         }
 
-            //Settings
-            public static void LoadProjectSettings() {
-                DataTable settings = UI.prjDb.GetDataTable("ProjectSettings");
-                Type prjSettings = typeof(StringSettings);
-                string propValue = "";
-                for (int i = 0; i < settings.Rows.Count; i++) {
-                    foreach (var prop in prjSettings.GetProperties()) {
-                        if (settings.Rows[i]["Name"].ToString() == prop.Name) {
-                            prop.SetValue(propValue, settings.Rows[i]["Value"].ToString());
-                            //MessageBox.Show(prop.Name + ": " + prop.GetValue(propValue).ToString());
-                        }
+        //Settings
+        public static void LoadProjectSettings() {
+            DataTable settings = UI.prjDb.GetDataTable("ProjectSettings");
+            Type prjSettings = typeof(StringSettings);
+            string propValue = "";
+            for (int i = 0; i < settings.Rows.Count; i++) {
+                foreach (var prop in prjSettings.GetProperties()) {
+                    if (settings.Rows[i]["Name"].ToString() == prop.Name) {
+                        prop.SetValue(propValue, settings.Rows[i]["Value"].ToString());
+                        //MessageBox.Show(prop.Name + ": " + prop.GetValue(propValue).ToString());
                     }
                 }
-                StringSettings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
             }
-            public static void SaveProjectSettings() {
-                Type type = typeof(StringSettings); // ProjectSettings is a static class
-                string propValue;
-                foreach (var prop in type.GetProperties()) {
-                    propValue = prop.GetValue(null).ToString(); //null for static class
-                    UI.prjDb.UpdateSetting(prop.Name, propValue);
-                }
+            StringSettings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
+        }
+        public static void SaveProjectSettings() {
+            Type type = typeof(StringSettings); // ProjectSettings is a static class
+            string propValue;
+            foreach (var prop in type.GetProperties()) {
+                propValue = prop.GetValue(null).ToString(); //null for static class
+                UI.prjDb.UpdateSetting(prop.Name, propValue);
+            }
 
-            }
-            public static string GetStringSetting(string settingName) {
-                string settingValue = "";
-                Type type = typeof(StringSettings); // MyClass is static class with static properties
-                foreach (var prop in type.GetProperties()) {
-                    if (settingName == prop.Name) {
-                        settingValue = prop.GetValue(null).ToString();
-                    }
+        }
+        public static string GetStringSetting(string settingName) {
+            string settingValue = "";
+            Type type = typeof(StringSettings); // MyClass is static class with static properties
+            foreach (var prop in type.GetProperties()) {
+                if (settingName == prop.Name) {
+                    settingValue = prop.GetValue(null).ToString();
                 }
-                return settingValue;
             }
-            public static void SaveStringSetting(string settingName, string settingValue) {
+            return settingValue;
+        }
+        public static void SaveStringSetting(string settingName, string settingValue) {
             Type type = typeof(StringSettings); // MyClass is static class with static properties
             foreach (var prop in type.GetProperties()) {
                 if (settingName == prop.Name) {
@@ -175,7 +163,7 @@ namespace WinFormCoreUI {
                 LibraryLoaded = false;
             }
         }
-                
+
         public static void ScaleDataGridView(DataGridView dataGridView) {
             double totalWidth = 0;
             foreach (DataGridViewColumn col in dataGridView.Columns) {

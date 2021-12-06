@@ -53,6 +53,7 @@ namespace WinFormCoreUI {
         //Loads
         private void GetLoads() {
             ListManager.loadList = UI.prjDb.GetRecords<LoadModel>("Loads");
+            ListManager.loadListOC = UI.prjDb.GetRecordsOC<LoadModel>("Loads");
         }
         private void SaveLoads() {
             Tuple<bool, string> update;
@@ -118,11 +119,11 @@ namespace WinFormCoreUI {
 
     //---PRESENTERS (UI for this form)
         private void ShowDteq() {
-            dgvEquipment.DataSource = ListManager.dteqList;
+            dgvMain.DataSource = ListManager.dteqList;
 
             //Red Highlight PercentLoaded and Size Cells
             double _dteqMaxLoadingPercentage;
-            foreach (DataGridViewRow row in dgvEquipment.Rows) {
+            foreach (DataGridViewRow row in dgvMain.Rows) {
                 if (double.TryParse(StringSettings.DteqMaxPercentLoaded, out _dteqMaxLoadingPercentage)) {
                     if (double.Parse(row.Cells["PercentLoaded"].Value.ToString()) > _dteqMaxLoadingPercentage) {
                         row.Cells["PercentLoaded"].Style.BackColor = Color.FromArgb(250, 150, 150);
@@ -132,10 +133,10 @@ namespace WinFormCoreUI {
             }
         }
         private void ShowLoads() {
-            dgvEquipment.DataSource = ListManager.loadList;
+            dgvMain.DataSource = ListManager.loadListOC;
         }
         private void ShowCables() {
-            dgvEquipment.DataSource = ListManager.cableList;
+            dgvMain.DataSource = ListManager.cableList;
         }
         private void FillDteqListBox() {
             lstDteq.Items.Clear();
@@ -175,7 +176,7 @@ namespace WinFormCoreUI {
         }
 
         private void btnDeleteLoad_Click(object sender, EventArgs e) {
-            LoadModel load = dgvEquipment.SelectedRows[0].DataBoundItem as LoadModel;
+            LoadModel load = dgvMain.SelectedRows[0].DataBoundItem as LoadModel;
             UI.prjDb.DeleteRecord("Loads", load.Id);
             ShowLoads();
         }
@@ -200,18 +201,19 @@ namespace WinFormCoreUI {
 
             lblSelectedTag.Text = dteq.Tag;
             lblListName.Text = $"Assigned Loads";
-            dgvEquipment.DataSource = dteq.AssignedLoads;
+            dgvMain.DataSource = dteq.AssignedLoads;
         }
 
         private void btnCreateCableList_Click(object sender, EventArgs e) {
+            //TODO - Save Cables
             lblListName.Text = "CABLE LIST";
             CreateCableList();
             ShowCables();
         }
         private void btnCalculateCables_Click(object sender, EventArgs e) {
-            ListManager.CalculateCableAmps();
-            dgvEquipment.Refresh();
-        }
 
+            ListManager.CalculateCableAmps();
+            dgvMain.Refresh();
+        }
     }
 }

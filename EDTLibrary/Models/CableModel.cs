@@ -116,7 +116,7 @@ namespace EDTLibrary.Models
                                                           && x.Field<string>("CodeTable") == _codeTable);
 
             GetCableQty(QtyParallel);
-
+            StringSettings.InitializeSettings();
             void GetCableQty(int cableQty) {
                 if (cables.Any()) {
                     cableAmps = null;
@@ -126,7 +126,9 @@ namespace EDTLibrary.Models
                     cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
 
                     RatedAmps = Double.Parse(cableAmps.Rows[0]["Amps75"].ToString());
-                    DeratedAmps = RatedAmps * Derating;                    
+                    RatedAmps = Math.Round(RatedAmps, 2);
+                    DeratedAmps = RatedAmps * Derating;
+                    DeratedAmps = Math.Round(DeratedAmps, 2);
                     QtyParallel = cableQty;
                     Size = cableAmps.Rows[0]["Size"].ToString();
                 }
@@ -148,6 +150,7 @@ namespace EDTLibrary.Models
         }
 
         public void CalculateAmpacity() {
+            //TODO - if cables are already created and calbe size is removed it causes an error
             GetCableParameters();
 
             DataTable cableAmps = StringSettings.CableAmpsUsedInProject.Copy();
