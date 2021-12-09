@@ -21,7 +21,7 @@ namespace WinFormCoreUI {
             string[] loadTypes = Enum.GetNames(typeof(LoadTypes));
             cbxLoadTypeToAdd.Items.AddRange(loadTypes);
             cbxLoadTypeToAdd.SelectedItem = loadTypes[0];
-            dgvMain.DataSource = ListManager.loadList;
+            dgvMain.DataSource = ListManager.list;
             HideFooter();
             loadsLoaded = true;
             ExtensionMethods.DoubleBufferDataGridViews(this);

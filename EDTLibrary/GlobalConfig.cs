@@ -1,11 +1,10 @@
 ﻿using EDTLibrary.DataAccess;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace EDTLibrary {
     public static class GlobalConfig {
 
-        public static List<IDataConnector> ProjectConnections { get; private set; } = new List<IDataConnector>();
-        public static List<IDataConnector> LibraryConnections { get; private set; } = new List<IDataConnector>();
 
         public static void InitializeConnections(bool sqLite)
         {

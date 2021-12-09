@@ -5,15 +5,30 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PropertyChanged;
 
 namespace EDTLibrary.Models {
-    public class DistributionEquipmentModel: ILoadModel, IDistributionEquipmentModel {
-        public DistributionEquipmentModel() {
+
+    [AddINotifyPropertyChangedInterface]
+    public class DteqModel : INotifyPropertyChanged, ILoadModel, IDistributionEquipmentModel {
+        public DteqModel() {
             Category = Categories.DIST.ToString();
             Voltage = LineVoltage;
             PdType = StringSettings.DteqDefaultPdTypeLV;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(PropertyChangedEventArgs e) {
+            PropertyChangedEventHandler handler = PropertyChanged;
+
+            if (handler != null) {
+                handler(this, e);
+            }
+
+            if (e.PropertyName == "Tag") {
+                //TODO reactivate this to update tags
+            }
+        }
         //Fields
         public double _derating = 0;
 
@@ -22,7 +37,16 @@ namespace EDTLibrary.Models {
 
         [Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; } //was private beo
-        public string Tag { get; set; }
+
+        private string _tag;
+        public string Tag {
+            get { return _tag; }
+            set {
+                if (value == _tag || String.IsNullOrEmpty(value)) return;
+                _tag = value;
+                OnPropertyChanged(new PropertyChangedEventArgs("Tag"));
+            }
+        }
         public string Category { get; set; } //dteq, load, component, cable,
         public string Type { get; set; }
         public string Description { get; set; }
@@ -92,7 +116,6 @@ namespace EDTLibrary.Models {
         #region Publicly Calculated Values
         [Browsable(false)]
         public List<ILoadModel> AssignedLoads { get; set; } = new List<ILoadModel>();
-        public ObservableCollection<ILoadModel> AssignedLoadsOC { get; set; } = new ObservableCollection<ILoadModel>();
 
         public int LoadCount { get; set; }
         #endregion

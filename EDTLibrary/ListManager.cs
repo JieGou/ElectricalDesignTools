@@ -4,30 +4,39 @@ using System.Collections.Generic;
 using EDTLibrary.Models;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using EDTLibrary.DataAccess;
 
 namespace EDTLibrary {
     public class ListManager {
 
-        public static List<DistributionEquipmentModel> dteqList = new List<DistributionEquipmentModel>();
-        public static List<LoadModel> loadList = new List<LoadModel>();
-        public static List<CableModel> cableList = new List<CableModel>();
-        public static List<ComponentModel> compList = new List<ComponentModel>();
-        public static ObservableCollection<LoadModel> loadListOC = new ObservableCollection<LoadModel>();
+        public static List<DteqModel> dteqList { get; set; } = new List<DteqModel>();
+        public static List<LoadModel> list { get; set; } = new List<LoadModel>();
+        public static List<CableModel> cableList { get; set; } = new List<CableModel>();
+        public static List<ComponentModel> compList { get; set; } = new List<ComponentModel>();
+        public static List<LoadModel> loadListOC { get; set; } = new List<LoadModel>();
+           
+        public static List<IEquipmentModel> eqList { get; set; } = new List<IEquipmentModel>();
+        public static List<ILoadModel> masterLoadList { get; set; } = new List<ILoadModel>();
+        public static List<string> tagList { get; set; } = new List<string>();
 
-        public static List<IEquipmentModel> eqList = new List<IEquipmentModel>();
-        public static List<ILoadModel> masterLoadList = new List<ILoadModel>();
-        public static ObservableCollection<ILoadModel> masterLoadListOC = new ObservableCollection<ILoadModel>();
+        public static Dictionary<string, DteqModel> dteqDict { get; set; } = new Dictionary<string, DteqModel>();
+        public static Dictionary<string, IEquipmentModel> eqDict { get; set; } = new Dictionary<string, IEquipmentModel>();
+        public static Dictionary<string, ILoadModel> iLoadDict { get; set; } = new Dictionary<string, ILoadModel>();
 
-        public static Dictionary<string, DistributionEquipmentModel> dteqDict = new Dictionary<string, DistributionEquipmentModel>();
-        public static Dictionary<string, IEquipmentModel> eqDict = new Dictionary<string, IEquipmentModel>();
-        public static Dictionary<string, ILoadModel> iLoadDict = new Dictionary<string, ILoadModel>();
 
-        public static void TagChanged_Event(object sender, NotifyCollectionChangedEventArgs e) {
-            foreach (var item in ListManager.loadListOC) {
-                CreateMasterLoadList();
-            }
+
+        public static List<DteqModel> GetDteq() {
+            return DbManager.prjDb.GetRecords<DteqModel>("DistributionEquipment");
         }
-        
+
+        public static List<LoadModel> GetLoads() {     
+            return DbManager.prjDb.GetRecords<LoadModel>("Loads");
+        }
+
+
+
+        #region WinFormCoreUI
+
         public static void CreateEqDict() {
             eqDict.Clear();
             foreach (var eq in masterLoadList) {
@@ -60,19 +69,19 @@ namespace EDTLibrary {
         #region MajorEquipment
         public static void AssignLoadsToDteq() // LoadList Manager
         {
-            foreach (DistributionEquipmentModel dteq in dteqList) {
+            foreach (DteqModel dteq in dteqList) {
                 dteq.AssignedLoads.Clear();
                 dteq.LoadCount = 0;    
 
                 //Adds Dteq as Loads
-                foreach (DistributionEquipmentModel dteqAsLoad in dteqList) {
+                foreach (DteqModel dteqAsLoad in dteqList) {
                     if (dteqAsLoad.FedFrom == dteq.Tag) {
                         dteq.AssignedLoads.Add(dteqAsLoad);
                         dteq.LoadCount += 1;
                     }
                 }
                 //Adds loads as loads
-                foreach (LoadModel load in loadList) {
+                foreach (LoadModel load in list) {
                     if (load.FedFrom == dteq.Tag) {
                         load.CalculateLoading();
                         dteq.AssignedLoads.Add(load);
@@ -81,15 +90,15 @@ namespace EDTLibrary {
                 }
             }
             //Calculates the loading of each load. Recursive for dteq
-            foreach (DistributionEquipmentModel dteq in dteqList) {
+            foreach (DteqModel dteq in dteqList) {
                 dteq.CalculateLoading();
             }
         }
      
 
-        public static List<string> GetDteqTags(List<DistributionEquipmentModel> list) {
+        public static List<string> GetDteqTags(List<DteqModel> list) {
             List<string> output = new List<string>();
-            foreach (DistributionEquipmentModel item in list) {
+            foreach (DteqModel item in list) {
                 output.Add(item.Tag.ToString());
             }
             return output;
@@ -99,7 +108,7 @@ namespace EDTLibrary {
         //Loads
         #region Loads
         public static void CalculateLoads() {
-            foreach (var load in loadList) {
+            foreach (var load in list) {
                 load.CalculateLoading();
             }
         }
@@ -117,14 +126,11 @@ namespace EDTLibrary {
         /// </summary>
         public static void CreateMasterLoadList() {
             masterLoadList.Clear();
-            masterLoadListOC.Clear();
             foreach (var dteq in dteqList) {
                 masterLoadList.Add(dteq);
-                masterLoadListOC.Add(dteq);
             }
             foreach (var load in loadListOC) {
                 masterLoadList.Add(load);
-                masterLoadListOC.Add(load);
             }
             AssignLoadsToDteq();
             CreateEqDict();
@@ -134,9 +140,11 @@ namespace EDTLibrary {
        
         public static void CreateComponentList() {
             compList.Clear();
-            foreach (var load in loadList) {
+            foreach (var load in list) {
                 load.SizeComponents();
-                compList.AddRange(load.InLineComponents);
+                foreach (var comp in load.InLineComponents) {
+                    compList.Add(comp);
+                }
             }
         }
         //public static List<ComponentModel> CreateComponentList(List<LoadModel> loadList) {
@@ -189,8 +197,9 @@ namespace EDTLibrary {
             foreach (var cable in cableList) {
                 cable.CalculateAmpacity();
             }
-        }        
+        }
         #endregion
-        
+        #endregion
+
     }
 }

@@ -41,7 +41,7 @@
 
                 <DataGrid x:Name="dgdDteqOC" HorizontalAlignment="Left" Height="212" Width="1216" 
                           AutoGeneratingColumn="OnAutoGeneratingColumn"
-                          Margin=" 10 10 10 10">
+                          Margin=" 10 10 10 10" Loaded="dgdDteqOC_Loaded" Unloaded="dgdDteqOC_Unloaded">
                     <DataGrid.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
                    Color="#11aaff"/>
@@ -65,11 +65,16 @@
                     </DataGrid.Resources>
                 </DataGrid>
 
-               
+                <!--<DataGrid x:Name="dgdLoadsTest" HorizontalAlignment="Left" Height="172" 
+                          Width="1216" 
+                          AutoGenerateColumns="True"
+                          AutoGeneratingColumn="OnAutoGeneratingColumn"
+                          Margin=" 10 10 10 10">
+                </DataGrid>-->
 
                 <DataGrid x:Name="dgdLoadsLM" HorizontalAlignment="Left" Height="172" 
-                            Width="1216" 
-                            AutoGeneratingColumn="OnAutoGeneratingColumn"
+                          Width="1216"                           
+                          AutoGeneratingColumn="OnAutoGeneratingColumn"
                           Margin=" 10 10 10 10">
                 </DataGrid>
 

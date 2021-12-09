@@ -10,7 +10,7 @@ using System.Text;
 
 namespace EDTLibrary.DataAccess
 {
-    public class SQLiteConnector : IDataConnector
+    public class SQLiteConnector
     {
         public string conString { get; set; }
 
@@ -30,51 +30,31 @@ namespace EDTLibrary.DataAccess
         /// </summary>
         /// <typeparam name="T">Maps a SQLite table to type T objects </typeparam>
         /// <param name="tableName">SQLIte table name to map</param>
-        /// <param name="columnName">Optional column name to apply filter to w""</param>
+        /// <param name="columnName">Optional column name to apply filter </param>
         /// <param name="filterText">Optional filter to apply to column </param>
         /// <returns>List of Type T with properties from tableName</returns>
+       
+        
         public List<T> GetRecords<T>(string tableName, string columnName = "", string filterText = "") //where T : class, new()
         {
             DynamicParameters dP = new DynamicParameters();
             List<T> output = new List<T>();
-            using (SQLiteConnection cnn = new SQLiteConnection(conString))
-            {
-
-                //returns all columns from table with column filter
-                if (columnName != "" && filterText != "")
-                {
-                    dP.Add("@filterText", $"%{filterText}%");
-                    output = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName} WHERE {columnName} LIKE @filterText", dP);
-                    return output.ToList();
-                }
-                //returns entire table
-                else
-                {
-                    output = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
-                    return output.ToList();
-                }
-            }
-        }
-        public ObservableCollection<T> GetRecordsOC<T>(string tableName, string columnName = "", string filterText = "") //where T : class, new()
-        {
-            DynamicParameters dP = new DynamicParameters();
-            ObservableCollection<T> output = new ObservableCollection<T>();
-            List<T> outputList = new List<T>();
             using (SQLiteConnection cnn = new SQLiteConnection(conString)) {
 
                 //returns all columns from table with column filter
                 if (columnName != "" && filterText != "") {
                     dP.Add("@filterText", $"%{filterText}%");
-                    outputList = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName} WHERE {columnName} LIKE @filterText", dP);
-                    return output = new ObservableCollection<T>(outputList);
+                    output = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName} WHERE {columnName} LIKE @filterText", dP);
+                    return output;
                 }
                 //returns entire table
                 else {
-                    outputList = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
-                    return output = new ObservableCollection<T>(outputList);
+                    output = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
+                    return output;
                 }
             }
         }
+
         /// <summary>
         /// Builds an SQL command string with Dynamic parameters to insert an obejct as a record. 
         /// </summary>

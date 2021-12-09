@@ -78,10 +78,9 @@ namespace WinFormCoreUI {
             if (File.Exists(dbFilename)) {
                 prjDb = new SQLiteConnector(dbFilename);
 
-                LM.dteqList = prjDb.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
+                LM.dteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
                 LM.AssignLoadsToDteq();
-                LM.loadList = prjDb.GetRecords<LoadModel>("Loads");
-                LM.loadListOC = prjDb.GetRecordsOC<LoadModel>("Loads");
+                LM.list = prjDb.GetRecords<LoadModel>("Loads");
                 LM.CreateMasterLoadList();
                 LM.cableList = prjDb.GetRecords<CableModel>("Cables");
 

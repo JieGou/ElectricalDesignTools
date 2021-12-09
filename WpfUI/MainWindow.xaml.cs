@@ -28,10 +28,9 @@ namespace WpfUI {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     ///
-    public partial class MainWindow : Window {
 
-        static ListManager listManager = new ListManager();
-        public ObservableCollection<DistributionEquipmentModel> DteqList { get; set; }
+    public partial class MainWindow : Window {
+        public ObservableCollection<DteqModel> DteqList { get; set; }
         public ObservableCollection<LoadModel> LoadList { get; set; }
     public MainWindow() {
             InitializeComponent();
@@ -40,16 +39,17 @@ namespace WpfUI {
             UI.prjDb = new SQLiteConnector("C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB Files\\EDTProjectTemplate1.1.db");
             //ListManager.loadList.Add(new EDTLibrary.Models.LoadModel { Tag = "Test", PowerFactor = 0.8 });
 
-            ListManager.loadList = UI.prjDb.GetRecords<LoadModel>("Loads");
-            ListManager.dteqList = UI.prjDb.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
+            ListManager.list = UI.prjDb.GetRecords<LoadModel>("Loads");
+            ListManager.dteqList = UI.prjDb.GetRecords<DteqModel>("DistributionEquipment");
 
-            DteqList = new ObservableCollection<DistributionEquipmentModel>(ListManager.dteqList);
+            DteqList = new ObservableCollection<DteqModel>(ListManager.dteqList);
+            LoadList = new ObservableCollection<LoadModel>(ListManager.list);
+
             dgdDteqOC.ItemsSource = DteqList;
-            LoadList = new ObservableCollection<LoadModel>(ListManager.loadList);
             dgdLoadsOC.ItemsSource = LoadList;
 
             dgdDteqLM.ItemsSource = ListManager.dteqList;            
-            dgdLoadsLM.ItemsSource = ListManager.loadList;
+            dgdLoadsLM.ItemsSource = ListManager.list;
         }
         private void TestEvent(object sender, EventArgs e) {
             MessageBox.Show("event Fired");
@@ -81,8 +81,9 @@ namespace WpfUI {
 
 
             if (e.PropertyName == "FedFrom") {
+
                 var cb = new DataGridComboBoxColumn();
-                cb.ItemsSource = DteqList;
+                cb.ItemsSource = ListManager.dteqList;
                 cb.SelectedValuePath = "Tag";
                 cb.DisplayMemberPath = "Tag";
                 cb.SelectedValueBinding = new Binding("FedFrom"); //allows binding to the property
@@ -99,7 +100,7 @@ namespace WpfUI {
 
         //OC
         private void addDteqOC_Click(object sender, RoutedEventArgs e) {
-            DteqList.Add(new DistributionEquipmentModel() { Tag = "MCC-99" });
+            DteqList.Add(new DteqModel() { Tag = "MCC-99" });
         }
         private void addLoad_Click(object sender, RoutedEventArgs e) {
             LoadList.Add(new LoadModel() { Tag = "MTR-99" });
@@ -121,10 +122,10 @@ namespace WpfUI {
 
         //List
         private void addDteqLM_Click(object sender, RoutedEventArgs e) {
-            ListManager.dteqList.Add(new DistributionEquipmentModel() { Tag = "MCC-99" });
+            ListManager.dteqList.Add(new DteqModel() { Tag = "MCC-99" });
         }
         private void addLM_Click(object sender, RoutedEventArgs e) {
-            ListManager.loadList.Add(new LoadModel() { Tag = "MTR-99" });
+            ListManager.list.Add(new LoadModel() { Tag = "MTR-99" });
         }
         private void SDLM_Click(object sender, RoutedEventArgs e) {
             dgdDteqLM.ItemsSource = null;
@@ -134,15 +135,24 @@ namespace WpfUI {
             }
         }
         private void SLLM_Click(object sender, RoutedEventArgs e) {
-            dgdLoadsLM.ItemsSource = null;
-            dgdLoadsLM.ItemsSource = ListManager.loadList;
-            foreach (var item in ListManager.loadList) {
+            dgdLoadsLM.Items.Refresh();
+            //dgdLoadsLM.ItemsSource = ListManager.loadList;
+            foreach (var item in ListManager.list) {
                 MessageBox.Show($"{item.Tag} {item.FedFrom}");
             }
         }
 
         private void CLLM_Click(object sender, RoutedEventArgs e) {
-            ListManager.loadList[1].Tag = "TEST";
+            ListManager.list[1].Tag = "TEST";
+        }
+
+        private void dgdDteqOC_Loaded(object sender, RoutedEventArgs e) {
+            dgdDteqOC.CommitEdit();
+
+        }
+
+        private void dgdDteqOC_Unloaded(object sender, RoutedEventArgs e) {
+            dgdDteqOC.CancelEdit();
         }
     }    
 }

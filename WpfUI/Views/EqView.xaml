@@ -1,0 +1,97 @@
+﻿<Window x:Class="WpfUI.Views.EqView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfUI.Views"
+        mc:Ignorable="d"
+        Title="EqView" Height="905" Width="1000">
+    <Window.Resources>
+        <CollectionViewSource x:Key="fedFrom" Source="{Binding DteqList}"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+            
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Path=Test, Mode=TwoWay}" Margin="10,18,10,0"/>
+                <TextBox Text="{Binding Path=Test, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,18,10,0"/>
+                
+                <Button Name ="addDtOC" Content="Add Dteq" Height="27" Margin="10,18,10,0" Width="125" Click="addDteqOC_Click"/>
+                <ListBox Name="lstDteq" ItemsSource="{Binding DteqList, Mode=TwoWay}"
+                         Height=" 100"
+                         Margin="10,18,10,0"
+                         DisplayMemberPath="Tag"/>
+                
+                <Button Name ="addLoad" Content="Add Load" Height="27" Margin="10,18,10,0" Width="125" Click="addLoad_Click"/>
+                
+                
+                <Button Name ="ShowDteqOC" Content="Show Dteq" Height="27" Margin="10,18,10,0" Width="125" Click="SDOC_Click"/>
+                <Button Name ="ShowLoadsOC" Content="Show Loads" Height="27" Margin="10,18,10,0" Width="125" Click="SLOC_Click"/>
+                <Button Name ="ChangeLoadOC" Content="Change Load" Height="27" Margin="10,18,10,0" Width="125" Click="CLOC_Click"/>
+                
+                <StackPanel Height=" 300">
+
+                </StackPanel>
+
+                <!--<Button Name ="addDtOLM" Content="Add Dteq to LM" Height="27" Margin="10,18,10,0" Width="125" Click="addDteqLM_Click"/>
+                <Button Name ="addLM" Content="Add to LM" Height="27" Margin="10,18,10,0" Width="125" Click="addLM_Click"/>
+                <Button Name ="ShowDteqLM" Content="Show LM Dteq" Height="27" Margin="10,18,10,0" Width="125" Click="SDLM_Click"/>
+                <Button Name ="ShowLoadsLM" Content="Show LM Loads" Height="27" Margin="10,18,10,0" Width="125" Click="SLLM_Click"/>
+                <Button Name ="ChangeLoadLM" Content="Change Load" Height="27" Margin="10,18,10,0" Width="125" Click="CLLM_Click"/>-->
+               
+            </StackPanel>
+            <StackPanel Width="25"></StackPanel>
+
+            <StackPanel Orientation="Vertical">
+
+                
+
+                <DataGrid x:Name="dgdDteqOC" HorizontalAlignment="Left"
+                          CanUserAddRows="False"
+                          ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Height="200" 
+                          Width="750" 
+                          Margin=" 10 10 10 10">
+                    <DataGrid.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
+                                         Color="#11aaff"/>
+                    </DataGrid.Resources>
+                </DataGrid>
+
+                <DataGrid x:Name="dgdDteq" HorizontalAlignment="Left"
+                          CanUserAddRows="False"
+                          Height="200" 
+                          Width="750"
+                          Margin=" 10 10 10 10"
+                          ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Tag" Binding="{Binding Path=Tag}" Width="75"/>
+                        <DataGridComboBoxColumn Header="FedFrom" Width="75" 
+                                                ItemsSource="{Binding Source={StaticResource fedFrom}}"
+                                                DisplayMemberPath="Tag" 
+                                                SelectedValuePath="Tag" 
+                                                SelectedValueBinding="{Binding Path=FedFrom}"/><!--//value it saves to-->
+                    </DataGrid.Columns>
+                    
+                </DataGrid>
+                <DataGrid x:Name="dgdAssignedLoads" HorizontalAlignment="Left"
+                          CanUserAddRows="False"
+                          Height="200" 
+                          Width="750"
+                          Margin=" 10 10 10 10"
+                          DataContext="{Binding ElementName=lstDteq}"
+                          ItemsSource="{Binding Path=SelectedItem.AssignedLoads}"
+                          AutoGenerateColumns="True">
+                    <DataGrid.Columns>
+                        <!--//value it saves to-->
+                    </DataGrid.Columns>
+                </DataGrid>
+                
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

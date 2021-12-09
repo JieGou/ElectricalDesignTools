@@ -30,7 +30,7 @@ namespace WinFormCoreUI {
 
         //Dteq
         private void GetDteq() {
-            ListManager.dteqList = UI.prjDb.GetRecords<DistributionEquipmentModel>("DistributionEquipment");
+            ListManager.dteqList = UI.prjDb.GetRecords<DteqModel>("DistributionEquipment");
             ListManager.CreateMasterLoadList();
             ListManager.AssignLoadsToDteq();
         }
@@ -52,14 +52,13 @@ namespace WinFormCoreUI {
 
         //Loads
         private void GetLoads() {
-            ListManager.loadList = UI.prjDb.GetRecords<LoadModel>("Loads");
-            ListManager.loadListOC = UI.prjDb.GetRecordsOC<LoadModel>("Loads");
+            ListManager.list = UI.prjDb.GetRecords<LoadModel>("Loads");
         }
         private void SaveLoads() {
             Tuple<bool, string> update;
             bool error = false;
             string message = "";
-            foreach (var load in ListManager.loadList) {
+            foreach (var load in ListManager.list) {
                 update = UI.prjDb.UpdateRecord(load, "Loads");
                 if (update.Item1 == false) {
                     error = true;
@@ -133,7 +132,7 @@ namespace WinFormCoreUI {
             }
         }
         private void ShowLoads() {
-            dgvMain.DataSource = ListManager.loadListOC;
+            dgvMain.DataSource = ListManager.list;
         }
         private void ShowCables() {
             dgvMain.DataSource = ListManager.cableList;
@@ -195,8 +194,8 @@ namespace WinFormCoreUI {
 
         private void lstDteq_SelectedIndexChanged(object sender, EventArgs e) {
             string selectedEq = lstDteq.SelectedItem.ToString();
-            DistributionEquipmentModel dteq;
-            dteq = lstDteq.SelectedItem as DistributionEquipmentModel;
+            DteqModel dteq;
+            dteq = lstDteq.SelectedItem as DteqModel;
             dteq = ListManager.dteqList.FirstOrDefault(t => t.Tag == selectedEq);
 
             lblSelectedTag.Text = dteq.Tag;

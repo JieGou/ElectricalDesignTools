@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.LibraryData;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -23,9 +24,17 @@ namespace EDTLibrary.Models {
                 handler(this, e);
             }
 
-            if (e.PropertyName=="Tag") {
-                ListManager.CreateMasterLoadList();
-            }
+            //if (e.PropertyName=="Tag") {
+            //    //TODO reactivate this to update tags
+            //    ListManager.CreateMasterLoadList();
+            //    ListManager.tagList.Clear();
+            //    foreach (var item in ListManager.loadList) {
+            //       // ListManager.tagList.Add(item.Tag);
+            //    }
+            //    foreach (var item in ListManager.dteqList) {
+            //        ListManager.tagList.Add(item.Tag);
+            //    }
+            //}
         }
 
         //Properties
@@ -39,7 +48,11 @@ namespace EDTLibrary.Models {
         private string _tag;
         public string Tag { 
             get { return _tag; }
-            set { _tag = value; OnPropertyChanged(new PropertyChangedEventArgs("Tag")); }
+            set {
+                //if (value == _tag || String.IsNullOrEmpty(value) || ListManager.IsTagAvailable(value)==false ) return;
+                _tag = value; 
+                OnPropertyChanged(new PropertyChangedEventArgs("Tag")); 
+            }
         }
 
         public string Category { get; set; }
