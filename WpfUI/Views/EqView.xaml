@@ -4,22 +4,51 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUI.Views"
+        xmlns:rules="clr-namespace:WpfUI.ValidationRules"
         mc:Ignorable="d"
         Title="EqView" Height="905" Width="1000">
     <Window.Resources>
-        <CollectionViewSource x:Key="fedFrom" Source="{Binding DteqList}"/>
+        <CollectionViewSource x:Key="dteqList" Source="{Binding DteqList}"/>
     </Window.Resources>
     <Grid>
+        
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
             
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding Path=Test, Mode=TwoWay}" Margin="10,18,10,0"/>
-                <TextBox Text="{Binding Path=Test, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,18,10,0"/>
+            <StackPanel Grid.Column="0" Orientation="Vertical">
                 
-                <Button Name ="addDtOC" Content="Add Dteq" Height="27" Margin="10,18,10,0" Width="125" Click="addDteqOC_Click"/>
+                <TextBox x:Name ="txtTag"
+                         Text="{Binding DteqTagToAdd, 
+                                        Mode=TwoWay, 
+                                        UpdateSourceTrigger=PropertyChanged}"
+                         Margin="10,50,10,10">
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <!-- Align text box and error list vertically -->
+                            <StackPanel Orientation="Vertical">
+                                <AdornedElementPlaceholder x:Name="textBox"/>
+                                <ItemsControl ItemsSource="{Binding}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                </TextBox>
+                
+                <Button Name ="addDteq" Content="Add Dteq" Height="27" 
+                        Margin="10,10,10,10" Width="125" Click="addDteqOC_Click"
+                        Command="{Binding Path=AddDteqCommand}"/>
+                
                 <ListBox Name="lstDteq" ItemsSource="{Binding DteqList, Mode=TwoWay}"
                          Height=" 100"
                          Margin="10,18,10,0"
@@ -43,45 +72,52 @@
                 <Button Name ="ChangeLoadLM" Content="Change Load" Height="27" Margin="10,18,10,0" Width="125" Click="CLLM_Click"/>-->
                
             </StackPanel>
-            <StackPanel Width="25"></StackPanel>
 
-            <StackPanel Orientation="Vertical">
-
+            <StackPanel Grid.Column="1" Orientation="Vertical">
                 
-
-                <DataGrid x:Name="dgdDteqOC" HorizontalAlignment="Left"
-                          CanUserAddRows="False"
+                <!--DTEQ-->
+                <DataGrid x:Name="dgdDteq" 
                           ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          Height="200" 
-                          Width="750" 
-                          Margin=" 10 10 10 10">
-                    <DataGrid.Resources>
-                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" 
-                                         Color="#11aaff"/>
-                    </DataGrid.Resources>
-                </DataGrid>
-
-                <DataGrid x:Name="dgdDteq" HorizontalAlignment="Left"
                           CanUserAddRows="False"
+                          HorizontalAlignment="Left"
+                          AutoGenerateColumns="False"
                           Height="200" 
-                          Width="750"
-                          Margin=" 10 10 10 10"
-                          ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          AutoGenerateColumns="False">
+                          Margin=" 10 10 10 10">                    
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Tag" Binding="{Binding Path=Tag}" Width="75"/>
-                        <DataGridComboBoxColumn Header="FedFrom" Width="75" 
-                                                ItemsSource="{Binding Source={StaticResource fedFrom}}"
-                                                DisplayMemberPath="Tag" 
-                                                SelectedValuePath="Tag" 
-                                                SelectedValueBinding="{Binding Path=FedFrom}"/><!--//value it saves to-->
-                    </DataGrid.Columns>
-                    
+                    <!--Basic-->
+                    <DataGridTextColumn Header="Tag" x:Name="Tag" Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <!--Type to ComboBox-->
+                    <DataGridTextColumn Header="Type" x:Name="Type" Binding="{Binding Path=Type, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="Description" x:Name="Description" MinWidth="50" Binding="{Binding Path=Description, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridComboBoxColumn Header="Fed From" ItemsSource="{Binding Source={StaticResource dteqList}}" DisplayMemberPath="Tag" SelectedValuePath="Tag" SelectedValueBinding="{Binding Path=FedFrom}"/>
+                    <DataGridTextColumn Header="Voltage" x:Name="Voltage" Binding="{Binding Path=Voltage, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="Size" x:Name="Size" Binding="{Binding Path=Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="Unit" x:Name="Unit" Binding="{Binding Path=Unit, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="Line Voltage" x:Name="LineVoltageype"  Binding="{Binding Path=LineVoltage, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="Load Voltage" x:Name="LoadVoltage" Binding="{Binding Path=LoadVoltage, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <!--Loading-->
+                    <DataGridTextColumn Header="FLA" x:Name="Fla" Binding="{Binding Path=Fla, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="Running Amps" x:Name="RunningAmps" Binding="{Binding Path=RunningAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="Conn kVA" x:Name="ConnectedKva" Binding="{Binding Path=ConnectedKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="Dem kVA" x:Name="DemandKva" Binding="{Binding Path=DemandKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="Dem kW" x:Name="DemandKw" Binding="{Binding Path=DemandKw, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="Dem kVAR" x:Name="DemandKvar" Binding="{Binding Path=DemandKvar, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="PF" x:Name="PowerFactor" Binding="{Binding Path=PowerFactor, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+
+
+
+                </DataGrid.Columns>
+                <DataGrid.RowValidationRules>
+                    <rules:InvalidFedFromRule ValidatesOnTargetUpdated="True" ValidationStep="CommittedValue"/>
+                </DataGrid.RowValidationRules>
                 </DataGrid>
+                
+                
+                
+                <!--ASSIGNED LOADS-->
                 <DataGrid x:Name="dgdAssignedLoads" HorizontalAlignment="Left"
                           CanUserAddRows="False"
                           Height="200" 
-                          Width="750"
                           Margin=" 10 10 10 10"
                           DataContext="{Binding ElementName=lstDteq}"
                           ItemsSource="{Binding Path=SelectedItem.AssignedLoads}"
@@ -90,8 +126,25 @@
                         <!--//value it saves to-->
                     </DataGrid.Columns>
                 </DataGrid>
-                
+
+                <!--MASTER LOAD LIST-->
+                <DataGrid x:Name="dgdMasterLoadList" HorizontalAlignment="Left"
+                          CanUserAddRows="False"
+                          Height="200" 
+                          Margin=" 10 10 10 10"
+                          ItemsSource="{Binding MasterLoadList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                    <DataGridTextColumn Header="Tag" Binding="{Binding Path=Tag}" MinWidth="50"/>
+                        <DataGridComboBoxColumn Header="FedFrom" Width="75" 
+                                                ItemsSource="{Binding Source={StaticResource dteqList}}"
+                                                DisplayMemberPath="Tag" 
+                                                SelectedValuePath="Tag" 
+                                                SelectedValueBinding="{Binding Path=FedFrom}"/>
+                        <!--//value it saves to-->
+                    </DataGrid.Columns>
+                </DataGrid>
+
             </StackPanel>
-        </StackPanel>
     </Grid>
 </Window>

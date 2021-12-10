@@ -41,15 +41,10 @@ namespace WpfUI.Views {
 
         //OC
         private void addDteqOC_Click(object sender, RoutedEventArgs e) {
-            DteqModel dteq = new DteqModel() { Tag="Test"};
-            //EqViewModel.AddDteq(dteq);
-            _viewModel.AddDteq(dteq);
         }
         private void addLoad_Click(object sender, RoutedEventArgs e) {
         }
         private void SDOC_Click(object sender, RoutedEventArgs e) {
-            //EqViewModel.DteqList[0].Tag = "Test";
-            _viewModel.DteqList[0].Tag = "Test";
         }
         private void SLOC_Click(object sender, RoutedEventArgs e) {
 
