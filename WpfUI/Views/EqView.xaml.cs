@@ -23,7 +23,7 @@ namespace WpfUI.Views {
     /// <summary>
     /// Interaction logic for EqView.xaml
     /// </summary>
-    public partial class EqView : Window {
+    public partial class EqView : UserControl {
         private readonly EqViewModel _viewModel;
 
         public EqView() {

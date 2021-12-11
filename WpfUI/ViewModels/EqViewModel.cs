@@ -45,7 +45,6 @@ namespace WpfUI.ViewModels {
         private void OnErrorsChanged(string? propertyName) {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
-
         #endregion
 
         #region PrivateMembers
@@ -137,6 +136,7 @@ namespace WpfUI.ViewModels {
             if (IsTagAvailable(_dteqTagToAdd) && _dteqTagToAdd != "" && _dteqTagToAdd !=null) {
                 DteqList.Add(new DteqModel() { Tag = _dteqTagToAdd });
                 CreateMasterLoadList();
+                Dictionaries.CreateDteqDict(DteqList);
             }
         }
 

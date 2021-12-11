@@ -14,10 +14,13 @@ namespace WpfUI {
     /// </summary>
     public partial class App : Application {
         protected override void OnStartup(StartupEventArgs e) {
-            base.OnStartup(e);
-            EqView window = new EqView();
-            window.Show();
-        }
+            MainWindow = new MainWindow() { 
+                DataContext = new MainViewModel() 
+            };
 
+            MainWindow.Show();
+
+            base.OnStartup(e);
+        }
     }
 }

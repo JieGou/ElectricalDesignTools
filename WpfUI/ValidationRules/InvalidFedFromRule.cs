@@ -25,6 +25,7 @@ namespace WpfUI.ValidationRules {
          
         private bool CheckCircularReference(DteqModel startDteq, string nextDteq, int counter =1) {
             var dteqDict = Dictionaries.dteqDict;
+            if (nextDteq == null) return false;
             if (nextDteq == "" & counter == 1) { // sets the initial FedFrom
                 nextDteq = startDteq.FedFrom;
             }

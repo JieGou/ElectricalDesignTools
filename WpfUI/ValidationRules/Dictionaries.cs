@@ -10,12 +10,13 @@ namespace WpfUI.ValidationRules
 {
     public class Dictionaries
     {
-        public static Dictionary<string, DteqModel> dteqDict { get; set; }
+        public static Dictionary<string, DteqModel> dteqDict { get; set; } = new Dictionary<string, DteqModel>();
 
 
 
         public static void CreateDteqDict(ObservableCollection<DteqModel> dteqOc) {
-            dteqDict = dteqOc.ToList().ToDictionary(x => x.Tag);
+            dteqDict.Clear();
+            dteqDict = dteqOc.ToList().Distinct().ToDictionary(x => x.Tag);
         }
     }
 }
