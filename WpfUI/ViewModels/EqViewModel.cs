@@ -12,11 +12,51 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WinFormCoreUI;
+using WpfUI.Commands;
+using WpfUI.Stores;
 using WpfUI.ValidationRules;
 
 namespace WpfUI.ViewModels {
 
-    public class EqViewModel : BaseViewModel, INotifyDataErrorInfo{
+    public class EqViewModel : ViewModelBase, INotifyDataErrorInfo{
+
+        #region Navigatoin
+        public ICommand NavigateCommand { get; }
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        public EqViewModel(NavigationStore navigationStore)
+        {
+            NavigateCommand = new NavigateCommand<ProjectSettingsViewModel>(navigationStore, () => new ProjectSettingsViewModel(navigationStore));
+
+            DbManager.SetProjectDb(Settings.Default.ProjectDb);
+            DbManager.SetLibraryDb(Settings.Default.LibraryDb);
+
+            // Create commands
+            this.AddDteqCommand = new RelayCommand(AddDteq);
+
+            //Instatiates the required properties
+            MasterLoadList = new ObservableCollection<ILoadModel>();
+
+            //Gets data from Project Database
+            DteqList = new ObservableCollection<DteqModel>(ListManager.GetDteq());
+            LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
+
+
+            //Assign Loads sample
+            int i = 0;
+            foreach (var item in DteqList) {
+                i += 1;
+                item.AssignedLoads.Add(new LoadModel() { Tag = "Load" + i.ToString() });
+            }
+
+        }
+
+        #endregion
+        
 
         #region Error Validation
 
@@ -67,7 +107,7 @@ namespace WpfUI.ViewModels {
                 if (IsTagAvailable(value) == false) {
                     AddError(nameof(DteqTagToAdd), "Tag already exists");
                 }
-                else if (value == "") {
+                else if (value == "") { // TODO - create method for invalid tags
                     AddError(nameof(DteqTagToAdd), "Tag cannot be empty");
                 }
             }
@@ -102,37 +142,11 @@ namespace WpfUI.ViewModels {
         
         #endregion
 
-        #region Constructor
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public EqViewModel() {
-
-            // Create commands
-            this.AddDteqCommand = new RelayCommand(AddDteq);
-            
-            //Instatiates the required properties
-            MasterLoadList = new ObservableCollection<ILoadModel>();
-
-            //Gets data from Project Database
-            DteqList = new ObservableCollection<DteqModel>(ListManager.GetDteq());
-            LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
-
-
-            //Assign Loads sample
-            int i = 0;
-            foreach (var item in DteqList) {
-                i += 1;
-                item.AssignedLoads.Add(new LoadModel() { Tag = "Load" + i.ToString() });
-            }
-
-        }
-
-        #endregion
+        
 
         #region Helper Methods
 
-        private void AddDteq() {
+        private void AddDteq() { // TODO - methods for invalid tags
             if (IsTagAvailable(_dteqTagToAdd) && _dteqTagToAdd != "" && _dteqTagToAdd !=null) {
                 DteqList.Add(new DteqModel() { Tag = _dteqTagToAdd });
                 CreateMasterLoadList();
@@ -156,20 +170,6 @@ namespace WpfUI.ViewModels {
             foreach (var load in _loadList) {
                 MasterLoadList.Add(load);
             }
-        }
-
-        #endregion
-                
-        #region OldCommands
-
-        public void AddDteqOld(DteqModel dteq) {
-            DteqList.Add(dteq);
-            int i = 0;
-            foreach (var item in DteqList) {
-                i += 1;
-                item.AssignedLoads.Add(new LoadModel() { Tag = "Load" + i.ToString() });
-            }
-
         }
 
         #endregion
