@@ -20,8 +20,7 @@ namespace WpfUI.ViewModels {
 
     public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo{
 
-        #region Navigatoin
-        public ICommand NavigateCommand { get; }
+        #region Navigation
         #endregion
 
         #region Constructor
@@ -38,9 +37,11 @@ namespace WpfUI.ViewModels {
             // Create commands
             this.AddDteqCommand = new RelayCommand(AddDteq);
 
+
             //Instatiates the required properties
             MasterLoadList = new ObservableCollection<ILoadModel>();
 
+            //TODO - move to service
             //Gets data from Project Database
             DteqList = new ObservableCollection<DteqModel>(ListManager.GetDteq());
             LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
@@ -136,6 +137,8 @@ namespace WpfUI.ViewModels {
         #endregion
 
         #region Public Commands
+        public ICommand NavigateCommand { get; }
+
         public ICommand AddDteqCommand { get; set; }
         public string Error { get; }
 
