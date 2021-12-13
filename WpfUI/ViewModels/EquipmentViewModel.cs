@@ -18,7 +18,7 @@ using WpfUI.ValidationRules;
 
 namespace WpfUI.ViewModels {
 
-    public class EqViewModel : ViewModelBase, INotifyDataErrorInfo{
+    public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo{
 
         #region Navigatoin
         public ICommand NavigateCommand { get; }
@@ -28,7 +28,7 @@ namespace WpfUI.ViewModels {
         /// <summary>
         /// Default Constructor
         /// </summary>
-        public EqViewModel(NavigationStore navigationStore)
+        public EquipmentViewModel(NavigationStore navigationStore)
         {
             NavigateCommand = new NavigateCommand<ProjectSettingsViewModel>(navigationStore, () => new ProjectSettingsViewModel(navigationStore));
 
