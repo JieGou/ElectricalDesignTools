@@ -33,6 +33,11 @@ namespace EDTLibrary {
             return DbManager.prjDb.GetRecords<LoadModel>("Loads");
         }
 
+        public static List<CableModel> GetCableList()
+        {
+            return DbManager.prjDb.GetRecords<CableModel>("Cables");
+        }
+
 
 
         #region WinFormCoreUI

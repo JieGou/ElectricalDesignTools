@@ -3,32 +3,166 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:commands="clr-namespace:WpfUI.Commands"
         xmlns:local="clr-namespace:WpfUI.Views"
-        mc:Ignorable="d" 
-        d:DesignHeight="800" d:DesignWidth="1200" d:Background="White">
-    <Grid>
+        xmlns:commands="clr-namespace:WpfUI.Commands"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"      d:Width="1200"  
+        Background="AliceBlue">
+    <UserControl.Resources>
+        <sys:Int32 x:Key="col1">1</sys:Int32>
+        <sys:Int32 x:Key="col2">2</sys:Int32>
+        <sys:Int32 x:Key="col3">3</sys:Int32>
+        <sys:Int32 x:Key="col4">4</sys:Int32>
+        <sys:Int32 x:Key="col5">5</sys:Int32>
+
+        <sys:Int32 x:Key="row1">1</sys:Int32>
+        <sys:Int32 x:Key="row2">2</sys:Int32>
+        <sys:Int32 x:Key="row3">3</sys:Int32>
+        <sys:Int32 x:Key="row5">5</sys:Int32>
+        <sys:Int32 x:Key="row6">6</sys:Int32>
+        <sys:Int32 x:Key="row7">7</sys:Int32>
+
+    </UserControl.Resources>
+
+    <Grid HorizontalAlignment="Left">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="10" />
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="50"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="btnSelectProject" Content="Select Project" 
-                Grid.Column="1"
+        <!--NAVIGATION-->
+        <Border Grid.Column="1" Grid.ColumnSpan="3"
                 Grid.Row="1"
-                Height="27"
-                Command="{Binding Path=SelectProjectCommand}"/>
-        <ListBox x:Name="lstStringSettings" Grid.Column="2" 
-                 Grid.Row="1"
-                 Width="100" Height="100"/>
+                Padding="10 10 10 10">
+
+            <DockPanel Grid.Column="1" Grid.ColumnSpan="2"
+                       Grid.Row="{StaticResource row1}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       Height="35"  Width="500">
+
+                <Button Name ="btnProjectSettings" Content="Project Settings" Height="27" 
+                        Margin="10,0,10,0" Width="125" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        DockPanel.Dock="Left"
+                        Command="{Binding NavigatePSCommand}"/>
+
+                <Button Name ="btnCableList" Content="Cable List" Height="27" 
+                        Margin="10,0,10,0" Width="125" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        DockPanel.Dock="Left"
+                        Command="{Binding NavigateCableCommand}"/>
+
+            </DockPanel>
+        </Border>
+
+
+        <!--SELECT PROJECT-->
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="{StaticResource row2}" Grid.Column="1">
+            <Button x:Name="btnSelectProject" Content="Select Project" 
+                    Height="27"
+                    Command="{Binding Path=SelectProjectCommand}"/>
+        </StackPanel>
+        <Label x:Name="lblProject" Content="Project Name" 
+               Grid.Column="2" Grid.ColumnSpan="10"
+               Grid.Row="2" HorizontalAlignment="Center"/>
+
+        
+        <!--BASIC SETTINGS-->
+        <!--Buttons-->
+        
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="4" Grid.Column="1">
+            <Label Content="" HorizontalAlignment="Center"/>
+
+            <Button x:Name="btnSaveSettings" Content="Save Settings" 
+                    Height="27"
+                    Command="{Binding Path=SelectProjectCommand}"/>
+            <Button x:Name="btnRestoreDefaults" Content="Restore Defaults" 
+                    Height="27"
+                    Command="{Binding Path=SelectProjectCommand}"/>
+        </StackPanel>
+
+        
+        <!--Settings-->
+        <Label Content="Basic Settings" VerticalAlignment="Bottom"
+               HorizontalAlignment="Center"
+               Grid.Row="3" Grid.Column="{StaticResource col3}"/>
+        
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top"
+                    Grid.Row="4" Grid.Column="{StaticResource col3}" Grid.ColumnSpan="1">
+
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                <Label Content="Select Setting:"/>
+                <ListBox x:Name="lstStringSettings"
+                         Width="150" Height="150"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                <Label Content="Setting Value:"/>
+
+                <TextBox x:Name="txtSettingValue" Text="Value"
+                         TextAlignment="Left"
+                         Width="150" Height="27"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!--TABLE SETTINGS-->
+        <!--Buttons-->
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="6" Grid.Column="1">
+            <!--<Label Content="Table Settings" HorizontalAlignment="Center"/>
+
+            <Button x:Name="btnSaveSettings" Content="Save Settings" 
+                    Height="27"
+                    Command="{Binding Path=SelectProjectCommand}"/>
+            <Button x:Name="btnRestoreDefaults" Content="Restore Defaults" 
+                    Height="27"
+                    Command="{Binding Path=SelectProjectCommand}"/>-->
+        </StackPanel>
+
+
+        <!--Settings-->
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top"
+                    Grid.Row="6" Grid.Column="{StaticResource col3}" Grid.ColumnSpan="1">
+
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+                <Label Content="Select Setting:"/>
+                <ListBox x:Name="lstTableSettings"
+                         Width="150" Height="150"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top"
+                        Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="1">
+                <Label Content="Setting Value:"/>
+                <DataGrid AutoGenerateColumns="True"
+                          Width="300" Height="350"/>
+
+
+            </StackPanel>
+        </StackPanel>
+
+
+
+
 
     </Grid>
 </UserControl>

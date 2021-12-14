@@ -14,7 +14,7 @@ namespace EDTLibrary.Models
         public CableModel() {
             QtyParallel = 1;
             Derating = 1;
-            Conductors = 3;
+            QtyConductors = 3;
         }
 
         [System.ComponentModel.Browsable(false)] // make this property non-visisble by grids/databindings
@@ -28,7 +28,7 @@ namespace EDTLibrary.Models
 
         [DisplayName("Qty")]
         public int QtyParallel { get; set; }
-        public int Conductors { get; set; }
+        public int QtyConductors { get; set; }
         public string Size { get; set; }
 
         [DisplayName("Design\nAmps")]
@@ -65,7 +65,7 @@ namespace EDTLibrary.Models
             if (LM.iLoadDict.ContainsKey(Destination)) {
                 DesignAmps = ListManager.iLoadDict[Destination].Fla;
             }
-            Conductors = 3;
+            QtyConductors = 3;
             UsageType = "Power";
             Insulation = 100;
 
@@ -83,7 +83,7 @@ namespace EDTLibrary.Models
                     DesignAmps *= 1.25;
                 }
                 if (load.Category == Categories.LOAD3P.ToString()) {
-                    Conductors = 3;
+                    QtyConductors = 3;
                     UsageType = "Power";
                 }
             }
@@ -95,7 +95,7 @@ namespace EDTLibrary.Models
 
             DataTable cableType = DataTables.CableTypes.Select($"VoltageClass >= {_voltage}").CopyToDataTable();
             cableType = cableType.Select($"VoltageClass = MIN(VoltageClass) " +
-                $"AND Conductors ={Conductors}" +
+                $"AND Conductors ={QtyConductors}" +
                 $"AND Insulation ={Insulation}" +
                 $"AND UsageType = '{UsageType}'").CopyToDataTable();
 

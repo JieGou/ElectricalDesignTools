@@ -17,7 +17,11 @@ namespace WpfUI.ViewModels
             this.SelectProjectCommand = new RelayCommand(SelectProject);
         }
 
-        # region Commands
+        #region Properties
+        public string CurrentProject { get; set; }
+        #endregion
+
+        #region Commands
         public ICommand SelectProjectCommand { get; set; }
         #endregion
 

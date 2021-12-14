@@ -29,7 +29,9 @@ namespace WpfUI.ViewModels {
         /// </summary>
         public EquipmentViewModel(NavigationStore navigationStore)
         {
-            NavigateCommand = new NavigateCommand<ProjectSettingsViewModel>(navigationStore, () => new ProjectSettingsViewModel(navigationStore));
+            NavigatePSCommand = new NavigateCommand<ProjectSettingsViewModel>(navigationStore, () => new ProjectSettingsViewModel(navigationStore));
+
+            NavigateCableCommand = new NavigateCommand<CableListViewModel>(navigationStore, () => new CableListViewModel(navigationStore));
 
             DbManager.SetProjectDb(Settings.Default.ProjectDb);
             DbManager.SetLibraryDb(Settings.Default.LibraryDb);
@@ -132,14 +134,18 @@ namespace WpfUI.ViewModels {
         }
 
         public ObservableCollection<ILoadModel> MasterLoadList { get; set; }
-        public ObservableCollection<CableModel> CableList { get; set; }
 
         #endregion
 
         #region Public Commands
-        public ICommand NavigateCommand { get; }
 
-        public ICommand AddDteqCommand { get; set; }
+        //Navigation
+        public ICommand NavigatePSCommand { get; }
+        public ICommand NavigateCableCommand { get; }
+
+
+        //Equipment Commands
+        public ICommand AddDteqCommand { get; }
         public string Error { get; }
 
         
