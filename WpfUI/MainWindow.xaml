@@ -7,19 +7,28 @@
         xmlns:viewmodels="clr-namespace:WpfUI.ViewModels"
         xmlns:views="clr-namespace:WpfUI.Views"
         mc:Ignorable="d"
-        Title="MainWindow">
+        Title="Electrical Design Tools"
+        d:Width="600" d:Height="350">
     
     <ContentControl Content="{Binding CurrentViewModel}">
         <ContentControl.Resources>
-            <DataTemplate DataType="{x:Type viewmodels:EquipmentViewModel}">
-                <views:EquipmentView/>
+            
+            <DataTemplate DataType="{x:Type viewmodels:StartupViewModel}">
+                <views:StartupView/>
             </DataTemplate>
+            
             <DataTemplate DataType="{x:Type viewmodels:ProjectSettingsViewModel}">
                 <views:ProjectSettingsView/>
             </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type viewmodels:EquipmentViewModel}">
+                <views:EquipmentView/>
+            </DataTemplate>
+            
             <DataTemplate DataType="{x:Type viewmodels:CableListViewModel}">
                 <views:CableListView/>
             </DataTemplate>
+            
         </ContentControl.Resources>
     </ContentControl>
     

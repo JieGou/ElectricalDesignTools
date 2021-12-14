@@ -1,5 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                    >
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:Double x:Key="buttonHeight">27</sys:Double>
 
     <!--ALL CONTROLS DEFAULT-->
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
@@ -53,11 +56,11 @@
                     <Border x:Name="border"
                             SnapsToDevicePixels="True"
                             Margin="0 0 0 10"
-                             Padding="15,5,15,5"
-                             BorderBrush="black"
-                             BorderThickness="2,2,2,2"
-                             CornerRadius="0"
-                             Background="{TemplateBinding Background}">
+                            Padding="15,5,15,5"
+                            BorderBrush="black"
+                            BorderThickness="2,2,2,2"
+                            CornerRadius="0"
+                            Background="{TemplateBinding Background}">
                         <Grid>
                             <ContentPresenter 
                                 Margin="0"
@@ -101,7 +104,7 @@
 
 
     <!--BUTTON Round Button-->
-    <Style x:Key="Round_Buttons" TargetType="{x:Type Button}">
+    <Style x:Key="Round_Buttons" TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultStyle}">
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Foreground">
             <Setter.Value>
@@ -120,12 +123,13 @@
                 <ControlTemplate TargetType="{x:Type Button}">
 
                     <Border x:Name="border"
+                            Height="{StaticResource buttonHeight}"
                             SnapsToDevicePixels="True"
                             Margin="0 0 0 0"
-                            Padding="15,5,15,5"
+                            Padding="0"
                             BorderBrush="#FF215968"
                             BorderThickness="2,2,2,2"
-                            CornerRadius="17"
+                            CornerRadius="13"
                             Background="{TemplateBinding Background}">
                         <Grid>
                             <ContentPresenter 

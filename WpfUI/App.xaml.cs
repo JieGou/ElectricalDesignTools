@@ -17,7 +17,7 @@ namespace WpfUI {
         protected override void OnStartup(StartupEventArgs e) {
 
             NavigationStore navigationStore = new NavigationStore();
-            navigationStore.CurrentViewModel = new EquipmentViewModel(navigationStore);
+            navigationStore.CurrentViewModel = new StartupViewModel(navigationStore);
 
             MainWindow = new MainWindow() { 
                 DataContext = new MainViewModel(navigationStore) 

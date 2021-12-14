@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WpfUI.Views
 {
     /// <summary>
-    /// Interaction logic for SelectProjectView.xaml
+    /// Interaction logic for StartupView.xaml
     /// </summary>
-    public partial class SelectProjectView : UserControl
+    public partial class StartupView : UserControl
     {
-        public SelectProjectView()
+        public StartupView()
         {
             InitializeComponent();
         }

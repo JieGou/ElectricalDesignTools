@@ -18,11 +18,8 @@ using WpfUI.ValidationRules;
 
 namespace WpfUI.ViewModels {
 
-    public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo{
-
-        #region Navigation
-        #endregion
-
+    public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
+    {
         #region Constructor
         /// <summary>
         /// Default Constructor
@@ -55,11 +52,8 @@ namespace WpfUI.ViewModels {
                 i += 1;
                 item.AssignedLoads.Add(new LoadModel() { Tag = "Load" + i.ToString() });
             }
-
         }
-
         #endregion
-        
 
         #region Error Validation
 
@@ -116,8 +110,6 @@ namespace WpfUI.ViewModels {
             }
         }
 
-        
-
         //TODO = FigureOut MasterLoad List
         public ObservableCollection<DteqModel> DteqList
         {
@@ -132,10 +124,9 @@ namespace WpfUI.ViewModels {
             get { return _loadList; }
             set { _loadList = value; CreateMasterLoadList(); }
         }
-
         public ObservableCollection<ILoadModel> MasterLoadList { get; set; }
-
         #endregion
+
 
         #region Public Commands
 
@@ -147,8 +138,6 @@ namespace WpfUI.ViewModels {
         //Equipment Commands
         public ICommand AddDteqCommand { get; }
         public string Error { get; }
-
-        
         #endregion
 
         

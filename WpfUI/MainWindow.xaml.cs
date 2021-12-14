@@ -35,12 +35,6 @@ namespace WpfUI {
                 InitializeComponent();
             }
 
-            private void TestEvent(object sender, EventArgs e) {
-                MessageBox.Show("event Fired");
-                ListManager.CreateEqDict();
-            }
-
-
             private void OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e) {
                 //Browsable = false
                 if (((PropertyDescriptor)e.PropertyDescriptor).IsBrowsable == false) {

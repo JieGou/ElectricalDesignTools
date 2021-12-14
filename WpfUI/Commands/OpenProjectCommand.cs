@@ -9,12 +9,12 @@ using WpfUI.Stores;
 
 namespace WpfUI.Commands
 {
-    class SelectProjectCommand : CommandBase
+    class OpenProjectCommand : CommandBase
     {
-        private readonly ProjectSettingsViewModel? _viewModel;
+        private readonly StartupViewModel? _viewModel;
         private readonly NavigationStore? _navigationsStore;
 
-        public SelectProjectCommand(ProjectSettingsViewModel? viewModel, NavigationStore? navigationsStore)
+        public OpenProjectCommand(StartupViewModel? viewModel, NavigationStore? navigationsStore)
         {
             _viewModel = viewModel;
             _navigationsStore = navigationsStore;
@@ -22,7 +22,9 @@ namespace WpfUI.Commands
 
         public override void Execute(object? parameter)
         {
-            MessageBox.Show($"Selected Project: {_viewModel.CurrentProject}");
+            MessageBox.Show($"Opening Project: {_viewModel.SelectedProject}");
+            
+            //Navigate to Poject Settings page
             _navigationsStore.CurrentViewModel = new ProjectSettingsViewModel(_navigationsStore);
         }
     }
