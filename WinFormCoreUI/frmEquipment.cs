@@ -52,13 +52,13 @@ namespace WinFormCoreUI {
 
         //Loads
         private void GetLoads() {
-            ListManager.list = UI.prjDb.GetRecords<LoadModel>("Loads");
+            ListManager.loadList = UI.prjDb.GetRecords<LoadModel>("Loads");
         }
         private void SaveLoads() {
             Tuple<bool, string> update;
             bool error = false;
             string message = "";
-            foreach (var load in ListManager.list) {
+            foreach (var load in ListManager.loadList) {
                 update = UI.prjDb.UpdateRecord(load, "Loads");
                 if (update.Item1 == false) {
                     error = true;
@@ -123,7 +123,7 @@ namespace WinFormCoreUI {
             //Red Highlight PercentLoaded and Size Cells
             double _dteqMaxLoadingPercentage;
             foreach (DataGridViewRow row in dgvMain.Rows) {
-                if (double.TryParse(StringSettings.DteqMaxPercentLoaded, out _dteqMaxLoadingPercentage)) {
+                if (double.TryParse(EDTLibrary.ProjectSettings.Settings.DteqMaxPercentLoaded, out _dteqMaxLoadingPercentage)) {
                     if (double.Parse(row.Cells["PercentLoaded"].Value.ToString()) > _dteqMaxLoadingPercentage) {
                         row.Cells["PercentLoaded"].Style.BackColor = Color.FromArgb(250, 150, 150);
                         row.Cells["Size"].Style.BackColor = Color.FromArgb(250, 150, 150);
@@ -132,7 +132,7 @@ namespace WinFormCoreUI {
             }
         }
         private void ShowLoads() {
-            dgvMain.DataSource = ListManager.list;
+            dgvMain.DataSource = ListManager.loadList;
         }
         private void ShowCables() {
             dgvMain.DataSource = ListManager.cableList;

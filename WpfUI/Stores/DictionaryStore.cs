@@ -6,13 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfUI.ValidationRules
+namespace WpfUI.Stores
 {
-    public class Dictionaries
+    public class DictionaryStore
     {
         public static Dictionary<string, DteqModel> dteqDict { get; set; } = new Dictionary<string, DteqModel>();
-
-
 
         public static void CreateDteqDict(ObservableCollection<DteqModel> dteqOc) {
             dteqDict.Clear();

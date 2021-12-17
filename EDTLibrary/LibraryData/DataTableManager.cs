@@ -6,9 +6,13 @@ using System.Text;
 
 namespace EDTLibrary.LibraryData {
     public static class DataTableManager {
+
+
+
+
         public static double GetMotorEfficiency(LoadModel load) {
             double result = GlobalConfig.NoValueDouble;
-            DataTable dt = DataTables.Motors.Copy();
+            DataTable dt = LibraryTables.Motors.Copy();
             DataTable dtFiltered;
 
             var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (int)load.Voltage
@@ -25,7 +29,7 @@ namespace EDTLibrary.LibraryData {
 
         public static double GetMotorPowerFactor(LoadModel load) {
             double result = GlobalConfig.NoValueDouble;
-            DataTable dt = DataTables.Motors.Copy();
+            DataTable dt = LibraryTables.Motors.Copy();
             DataTable dtFiltered;
 
             var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (int)load.Voltage
@@ -41,7 +45,7 @@ namespace EDTLibrary.LibraryData {
 
         public static double GetBreakerFrame(ILoadModel load) {
             double result = GlobalConfig.NoValueDouble;
-            DataTable dt = DataTables.Breakers.Copy();
+            DataTable dt = LibraryTables.Breakers.Copy();
             DataTable dtFiltered;
 
             var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)load.Fla * 1.25);
@@ -55,7 +59,7 @@ namespace EDTLibrary.LibraryData {
 
         public static double GetBreakerTrip(ILoadModel load) {
             double result = GlobalConfig.NoValueDouble;
-            DataTable dt = DataTables.Breakers.Copy();
+            DataTable dt = LibraryTables.Breakers.Copy();
             DataTable dtFiltered;
 
             var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("TripAmps") >= (int)load.Fla * 1.25);

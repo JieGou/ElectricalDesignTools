@@ -4,32 +4,101 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUI"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:viewmodels="clr-namespace:WpfUI.ViewModels"
         xmlns:views="clr-namespace:WpfUI.Views"
         mc:Ignorable="d"
         Title="Electrical Design Tools"
-        d:Width="600" d:Height="350">
-    
-    <ContentControl Content="{Binding CurrentViewModel}">
-        <ContentControl.Resources>
+        d:Width="1600" d:Height="950"
+        Background="LightBlue">
+
+    <Window.DataContext>
+        <viewmodels:MainViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <sys:Int32 x:Key="col1">1</sys:Int32>
+        <sys:Int32 x:Key="col2">2</sys:Int32>
+        <sys:Int32 x:Key="listCol">3</sys:Int32>
+        <sys:Int32 x:Key="col4">4</sys:Int32>
+        <sys:Int32 x:Key="col5">5</sys:Int32>
+
+        <sys:Int32 x:Key="menuRow">1</sys:Int32>
+        <sys:Int32 x:Key="contentRow">2</sys:Int32>
+        <sys:Int32 x:Key="row3">3</sys:Int32>
+        <sys:Int32 x:Key="row5">5</sys:Int32>
+        <sys:Int32 x:Key="row6">6</sys:Int32>
+        <sys:Int32 x:Key="row7">7</sys:Int32>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="{StaticResource menuRow}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="1"  Text="Menu" FontSize="24" Margin="0,5,0,10"/>
+
+            <Button Grid.Column="3" VerticalAlignment="Top"
+                    x:Name="btnStartup"
+                    Content="Startup"
+                    Command="{Binding NavigateStartupCommand}" Margin="10,10,10,0" Height="27" Click="btnStartup_Click"/>
+
+            <Button Grid.Column="4" VerticalAlignment="Top"
+                    x:Name="btnProjectSettings"
+                    Content="Project Settings"
+                    Command="{Binding NavigateProjectSettingsCommand}" Margin="10,10,10,0" Height="27" Click="btnProjectSettings_Click"/>
+
+            <Button Grid.Column="5"
+                    x:Name="btnEquipment"
+                    Content="Equipment"
+                    Command="{Binding NavigateEquipmentCommand}" Margin="10,10,10,10" Height="Auto" Click="btnEquipment_Click"/>
+
+            <Button Grid.Column="6" VerticalAlignment="Top"
+                    x:Name="btnCableList"
+                    Content="Cable List"
+                    Command="{Binding NavigateCableListCommand}" Margin="10,10,10,0" Height="27"/>
+        </Grid>
+
+        <!--Conten Control-->
+        <ContentControl x:Name="ccMain"
+                        Grid.Row="{StaticResource contentRow}"
+                        Content="{Binding CurrentViewModel}">
+
+            <ContentControl.Resources>
+
+                <DataTemplate DataType="{x:Type viewmodels:StartupViewModel}">
+                    <views:StartupView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewmodels:ProjectSettingsViewModel}">
+                    <views:ProjectSettingsView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewmodels:EquipmentViewModel}">
+                    <views:EquipmentView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewmodels:CableListViewModel}">
+                    <views:CableListView/>
+                </DataTemplate>
+
+            </ContentControl.Resources>
             
-            <DataTemplate DataType="{x:Type viewmodels:StartupViewModel}">
-                <views:StartupView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type viewmodels:ProjectSettingsViewModel}">
-                <views:ProjectSettingsView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type viewmodels:EquipmentViewModel}">
-                <views:EquipmentView/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type viewmodels:CableListViewModel}">
-                <views:CableListView/>
-            </DataTemplate>
-            
-        </ContentControl.Resources>
-    </ContentControl>
-    
+        </ContentControl>
+    </Grid>
+
 </Window>

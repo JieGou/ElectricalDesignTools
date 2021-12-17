@@ -6,26 +6,42 @@ using System.Threading.Tasks;
 using System.Windows;
 using WpfUI.ViewModels;
 using WpfUI.Stores;
+using WpfUI.Services;
+using WpfUI.Models;
 
 namespace WpfUI.Commands
 {
     class OpenProjectCommand : CommandBase
     {
         private readonly StartupViewModel? _viewModel;
-        private readonly NavigationStore? _navigationsStore;
+        private readonly ProjectFileStore _projectFileStore;
+        private readonly NavigationService<ProjectSettingsViewModel> _navigationService;
 
-        public OpenProjectCommand(StartupViewModel? viewModel, NavigationStore? navigationsStore)
+        public OpenProjectCommand(StartupViewModel? viewModel, ProjectFileStore projectFileStore, NavigationService<ProjectSettingsViewModel> navigationService)
         {
             _viewModel = viewModel;
-            _navigationsStore = navigationsStore;
+            _projectFileStore = projectFileStore;
+            _navigationService = navigationService;
         }
+
+        //public OpenProjectCommand(StartupViewModel? viewModel, NavigationService<ProjectSettingsViewModel> navigationService)
+        //{
+        //    _viewModel = viewModel;
+        //    _navigationService = navigationService;
+        //}
+
 
         public override void Execute(object? parameter)
         {
-            MessageBox.Show($"Opening Project: {_viewModel.SelectedProject}");
-            
+            ProjectFile projectFile = new ProjectFile() {
+                Name = _viewModel.ProjectName,
+                Path = _viewModel.ProjectPath
+            };
+            MessageBox.Show($"Opening Project: {_viewModel.ProjectName}");
+
+            _projectFileStore.SelectedProject = projectFile;
             //Navigate to Poject Settings page
-            _navigationsStore.CurrentViewModel = new ProjectSettingsViewModel(_navigationsStore);
+            _navigationService.Navigate();
         }
     }
 }

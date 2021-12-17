@@ -21,7 +21,7 @@ namespace WinFormCoreUI {
             string[] loadTypes = Enum.GetNames(typeof(LoadTypes));
             cbxLoadTypeToAdd.Items.AddRange(loadTypes);
             cbxLoadTypeToAdd.SelectedItem = loadTypes[0];
-            dgvMain.DataSource = ListManager.list;
+            dgvMain.DataSource = ListManager.loadList;
             HideFooter();
             loadsLoaded = true;
             ExtensionMethods.DoubleBufferDataGridViews(this);
@@ -60,7 +60,7 @@ namespace WinFormCoreUI {
                 Size = 5,
                 //Unit = "HP",
                 LoadFactor = 0.8,
-                Voltage = double.Parse(StringSettings.VoltageDefaultLV)
+                Voltage = double.Parse(EDTLibrary.ProjectSettings.Settings.VoltageDefaultLV)
             });
             dgvEditor.DataSource = editLoad;
         }

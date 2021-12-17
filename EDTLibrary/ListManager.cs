@@ -10,7 +10,7 @@ namespace EDTLibrary {
     public class ListManager {
 
         public static List<DteqModel> dteqList { get; set; } = new List<DteqModel>();
-        public static List<LoadModel> list { get; set; } = new List<LoadModel>();
+        public static List<LoadModel> loadList { get; set; } = new List<LoadModel>();
         public static List<CableModel> cableList { get; set; } = new List<CableModel>();
         public static List<ComponentModel> compList { get; set; } = new List<ComponentModel>();
         public static List<LoadModel> loadListOC { get; set; } = new List<LoadModel>();
@@ -86,7 +86,7 @@ namespace EDTLibrary {
                     }
                 }
                 //Adds loads as loads
-                foreach (LoadModel load in list) {
+                foreach (LoadModel load in loadList) {
                     if (load.FedFrom == dteq.Tag) {
                         load.CalculateLoading();
                         dteq.AssignedLoads.Add(load);
@@ -99,7 +99,35 @@ namespace EDTLibrary {
                 dteq.CalculateLoading();
             }
         }
-     
+
+        public static void AssignLoadsToDteq(ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) // LoadList Manager
+        {
+            foreach (DteqModel dteq in dteqList) {
+                dteq.AssignedLoads.Clear();
+                dteq.LoadCount = 0;
+
+                //Adds Dteq as Loads
+                foreach (DteqModel dteqAsLoad in dteqList) {
+                    if (dteqAsLoad.FedFrom == dteq.Tag) {
+                        dteq.AssignedLoads.Add(dteqAsLoad);
+                        dteq.LoadCount += 1;
+                    }
+                }
+                //Adds loads as loads
+                foreach (LoadModel load in loadList) {
+                    if (load.FedFrom == dteq.Tag) {
+                        load.CalculateLoading();
+                        dteq.AssignedLoads.Add(load);
+                        dteq.LoadCount += 1;
+                    }
+                }
+            }
+            //Calculates the loading of each load. Recursive for dteq
+            foreach (DteqModel dteq in dteqList) {
+                dteq.CalculateLoading();
+            }
+        }
+
 
         public static List<string> GetDteqTags(List<DteqModel> list) {
             List<string> output = new List<string>();
@@ -113,7 +141,7 @@ namespace EDTLibrary {
         //Loads
         #region Loads
         public static void CalculateLoads() {
-            foreach (var load in list) {
+            foreach (var load in loadList) {
                 load.CalculateLoading();
             }
         }
@@ -145,7 +173,7 @@ namespace EDTLibrary {
        
         public static void CreateComponentList() {
             compList.Clear();
-            foreach (var load in list) {
+            foreach (var load in loadList) {
                 load.SizeComponents();
                 foreach (var comp in load.InLineComponents) {
                     compList.Add(comp);

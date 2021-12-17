@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfUI.Commands;
+using WpfUI.Services;
 
 namespace WpfUI.ViewModels
 {
-    internal class NavigationBarViewModel : ViewModelBase
+    public class NavigationBarViewModel : ViewModelBase
     {
        
+        public ICommand? NavigateStartupCommand { get; }
         public ICommand? NavigateProjectSettingsCommand { get; }
         public ICommand? NavigateEquipmentCommand { get; }
         public ICommand? NavigateCablesCommand { get; }
@@ -18,9 +20,25 @@ namespace WpfUI.ViewModels
 
         public NavigationBarViewModel()
         {
-            //NavigateEquipmentCommand = new NavigateCommand<EquipmentViewModel>
+            NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings);
         }
 
+        private void NavigateProjectSettings()
+        {
+
+        }
+
+        public NavigationBarViewModel(NavigationService<StartupViewModel> startupNavigationService ,
+            NavigationService<ProjectSettingsViewModel> projectSettingsNavigationService,
+            NavigationService<EquipmentViewModel> eqNavigationService
+            )
+        {
+            NavigateStartupCommand = new NavigateCommand<StartupViewModel>(startupNavigationService);
+            NavigateProjectSettingsCommand = new NavigateCommand<ProjectSettingsViewModel>(projectSettingsNavigationService);
+            NavigateEquipmentCommand = new NavigateCommand<EquipmentViewModel>(eqNavigationService);
+        }
+
+        
     }
 
 }

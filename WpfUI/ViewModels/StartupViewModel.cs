@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.HelpMethods;
+using WpfUI.Models;
+using WpfUI.Services;
 using WpfUI.Stores;
 
 namespace WpfUI.ViewModels
@@ -13,45 +16,50 @@ namespace WpfUI.ViewModels
     public class StartupViewModel :ViewModelBase
     {
         #region Properties and Backing Fields
+        private readonly ProjectFile _projectFile;
+        public string? ProjectName { get; set; }
+        public string? ProjectPath { get; set; }
 
         private string _selectedProject;
-        public string SelectedProject
-        {
-            get { return _selectedProject; }
-            set
-            {
-                _selectedProject = value;
-            }
-        }
+
         #endregion
 
-        public StartupViewModel(NavigationStore navigationStore)
+        public StartupViewModel()
         {
-            SetSelctedProject();
-
-            OpenProjectCommand = new OpenProjectCommand(this, navigationStore);
+            SetSelectedProject();
             SelectProjectCommand = new RelayCommand(SelectProject);
         }
-        
-        public ICommand OpenProjectCommand { get; }
-        public ICommand SelectProjectCommand { get; set; }
 
+        public StartupViewModel(NavigationBarViewModel navigationBarViewModel, ProjectFileStore projectFileStore, NavigationService<ProjectSettingsViewModel> projectSettingsNavigationService)
+        {
+            SetSelectedProject();
+            _projectFile = new ProjectFile() { Name = ProjectName, Path = ProjectPath, };
+
+            NavigationBarViewModel = navigationBarViewModel;
+
+            OpenProjectCommand = new OpenProjectCommand(this, projectFileStore, projectSettingsNavigationService);
+
+            SelectProjectCommand = new RelayCommand(SelectProject);
+        }
+
+       
+
+        public ICommand OpenProjectCommand { get; }
+        public ICommand SelectProjectCommand { get; }
+        public NavigationBarViewModel NavigationBarViewModel { get; }
 
         public void SelectProject()
         {
-            FileSystemHelper fs = new FileSystemHelper();
-            string selectedProject = fs.SelectFile();
-
-            Settings.Default.ProjectDb = selectedProject;
-            Settings.Default.Save();
-            SetSelctedProject();
-
+            DataBaseService.SelectProject();
+            SetSelectedProject();            
         }
 
-        public void SetSelctedProject()
+        public void SetSelectedProject()
         {
-            _selectedProject = Settings.Default.ProjectDb;
-            SelectedProject = Settings.Default.ProjectDb;
+            _selectedProject = Settings.Default.ProjectDb; 
+            ProjectName = Path.GetFileName(_selectedProject).Replace(".db", "");
+            ProjectPath = Path.GetFullPath(_selectedProject).Replace(Path.GetFileName(_selectedProject), "");
+            
         }
     }
 }

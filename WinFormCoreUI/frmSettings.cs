@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EDTLibrary;
-using EDTLibrary.ProjectSetting;
+using EDTLibrary.ProjectSettings;
 
 namespace WinFormCoreUI {
     public partial class frmSettings : Form {
@@ -19,9 +19,10 @@ namespace WinFormCoreUI {
         private void frmSettings_Load(object sender, EventArgs e) {
             ExtensionMethods.DoubleBufferDataGridViews(this);
 
-            Type prjStringSettings = typeof(StringSettings);
+            Type prjStringSettings = typeof(Settings);
 
             lstStringSettings.Items.Clear();
+            lstTableSettings.Items.Clear();
             foreach (var prop in prjStringSettings.GetProperties()) {
                 if (prop.PropertyType.Name == "String") {
                     lstStringSettings.Items.Add(prop.Name);
@@ -40,7 +41,7 @@ namespace WinFormCoreUI {
         }
 
         private void btnSaveSetting_Click(object sender, EventArgs e) {
-            StringSettings.InitializeSettings();
+            Settings.InitializeSettings();
             if (lstStringSettings.SelectedItem!=null) {
                 try {
                     SettingManager.SaveStringSetting(lstStringSettings.SelectedItem.ToString(), txtStringSettingValue.Text);

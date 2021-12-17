@@ -36,7 +36,7 @@
 
 
     <!--BUTTON Main Menu Animation-->
-    <Style x:Key="MainMenu_Buttons" TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultStyle}">
+    <Style x:Key="MainMenu_Buttons" TargetType="{x:Type Button}">
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Foreground">
             <Setter.Value>
@@ -56,11 +56,11 @@
                     <Border x:Name="border"
                             SnapsToDevicePixels="True"
                             Margin="0 0 0 10"
-                            Padding="15,5,15,5"
-                            BorderBrush="black"
-                            BorderThickness="2,2,2,2"
-                            CornerRadius="0"
-                            Background="{TemplateBinding Background}">
+                             Padding="15,5,15,5"
+                             BorderBrush="black"
+                             BorderThickness="2,2,2,2"
+                             CornerRadius="0"
+                             Background="{TemplateBinding Background}">
                         <Grid>
                             <ContentPresenter 
                                 Margin="0"
@@ -101,7 +101,6 @@
 
         </Style.Triggers>
     </Style>
-
 
     <!--BUTTON Round Button-->
     <Style x:Key="Round_Buttons" TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultStyle}">
@@ -171,11 +170,15 @@
     </Style>
 
     <!--TITLE Label Style-->
-    <Style TargetType="Label" x:Key="TitleLabelStyle" BasedOn="{StaticResource DefaultStyle}">
+    <Style TargetType="Label" x:Key="TitleLabelStyle">
         <Setter Property ="FontSize" Value="20"/>
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
         <!--<Setter Property="Background" Value="#FF22275B"/>-->
+        <Setter Property="Background" Value="#FF215967"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property= "Margin" Value="0,0,0,0"/>
+        <Setter Property="Padding" Value="10, 7, 10, 7"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="0,0,0,2"/>
         <Setter Property= "HorizontalAlignment" Value="stretch"/>
@@ -255,7 +258,7 @@
     <Style TargetType="DataGrid" BasedOn="{StaticResource DefaultStyle}">
         <Setter Property="Background" Value="white"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="RowHeaderWidth" Value="10"/>
+        <Setter Property="RowHeaderWidth" Value="20"/>
         <Setter Property="CanUserAddRows" Value="False"/>
         <Setter Property="SelectionUnit" Value="FullRow"/>
         <Setter Property="MinRowHeight" Value="18"/>

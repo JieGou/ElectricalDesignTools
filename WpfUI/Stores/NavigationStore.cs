@@ -7,12 +7,11 @@ using WpfUI.ViewModels;
 
 namespace WpfUI.Stores
 {
-    public class NavigationStore: ViewModelBase
-    {
+    public class NavigationStore: ViewModelBase    {
+
         public event Action? CurrentViewModelChanged;
 
         private ViewModelBase? _currentViewModel;
-
         public ViewModelBase CurrentViewModel
         {
             get => _currentViewModel;

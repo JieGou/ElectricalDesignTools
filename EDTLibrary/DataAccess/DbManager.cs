@@ -15,5 +15,6 @@ namespace EDTLibrary.DataAccess {
         public static void SetLibraryDb(string conString) {
             libDb = new SQLiteConnector(conString);
         }
+
     }
 }

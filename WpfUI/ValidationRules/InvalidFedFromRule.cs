@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using WpfUI.Stores;
 using WpfUI.ViewModels;
 
 namespace WpfUI.ValidationRules {
@@ -24,7 +25,7 @@ namespace WpfUI.ValidationRules {
         }
          
         private bool CheckCircularReference(DteqModel startDteq, string nextDteq, int counter =1) {
-            var dteqDict = Dictionaries.dteqDict;
+            var dteqDict = DictionaryStore.dteqDict;
             if (nextDteq == null) return false;
             if (nextDteq == "" & counter == 1) { // sets the initial FedFrom
                 nextDteq = startDteq.FedFrom;

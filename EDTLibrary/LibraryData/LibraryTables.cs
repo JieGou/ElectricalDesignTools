@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary {
-    public static class DataTables {
+    public static class LibraryTables {
         public static DataTable CableAmpacities { get; set; }
         public static DataTable CableDimensions { get; set; }
         public static DataTable CableInsulationLevels { get; set; }        

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WinFormCoreUI;
 using WpfUI.Commands;
+using WpfUI.Services;
 using WpfUI.Stores;
 using WpfUI.ValidationRules;
 
@@ -20,22 +21,56 @@ namespace WpfUI.ViewModels {
 
     public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     {
-        #region Constructor
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public EquipmentViewModel(NavigationStore navigationStore)
+
+        #region Properties
+        public NavigationBarViewModel NavigationBarViewModel { get; }
+
+        private DteqModel _selectedDteq;
+
+
+        private string _dteqTagToAdd;
+        public DteqModel SelectedDteq { get => _selectedDteq; set => _selectedDteq = value; }
+
+        public string DteqTagToAdd
         {
-            NavigatePSCommand = new NavigateCommand<ProjectSettingsViewModel>(navigationStore, () => new ProjectSettingsViewModel(navigationStore));
+            get { return _dteqTagToAdd; }
+            set
+            {
+                _dteqTagToAdd = value;
 
-            NavigateCableCommand = new NavigateCommand<CableListViewModel>(navigationStore, () => new CableListViewModel(navigationStore));
+                ClearErrors(nameof(DteqTagToAdd));
+                if (IsTagAvailable(value) == false) {
+                    AddError(nameof(DteqTagToAdd), "Tag already exists");
+                }
+                else if (value == "") { // TODO - create method for invalid tags
+                    AddError(nameof(DteqTagToAdd), "Tag cannot be empty");
+                }
+            }
+        }
 
+        //TODO = FigureOut MasterLoad List
+        public ObservableCollection<DteqModel> DteqList
+        {
+            get { return _dteqList; }
+            set
+            {
+                _dteqList = value;
+                CreateMasterLoadList();
+                DictionaryStore.CreateDteqDict(DteqList);
+            }
+        }
+        public ObservableCollection<LoadModel> LoadList
+        {
+            get { return _loadList; }
+            set { _loadList = value; CreateMasterLoadList(); }
+        }
+        public ObservableCollection<ILoadModel> MasterLoadList { get; set; }
+        #endregion
+
+        private void Initialize()
+        {
             DbManager.SetProjectDb(Settings.Default.ProjectDb);
             DbManager.SetLibraryDb(Settings.Default.LibraryDb);
-
-            // Create commands
-            this.AddDteqCommand = new RelayCommand(AddDteq);
-
 
             //Instatiates the required properties
             MasterLoadList = new ObservableCollection<ILoadModel>();
@@ -45,14 +80,36 @@ namespace WpfUI.ViewModels {
             DteqList = new ObservableCollection<DteqModel>(ListManager.GetDteq());
             LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
 
-
-            //Assign Loads sample
-            int i = 0;
-            foreach (var item in DteqList) {
-                i += 1;
-                item.AssignedLoads.Add(new LoadModel() { Tag = "Load" + i.ToString() });
-            }
+            //ListManager.AssignLoadsToDteq(DteqList, LoadList);
         }
+
+        #region Constructor
+        public EquipmentViewModel()
+        {
+            // Create commands
+            AddDteqCommand = new RelayCommand(AddDteq);
+            CalculateDteqCommand = new RelayCommand(CalculateDteq);
+
+            Initialize();
+
+        }
+
+
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        public EquipmentViewModel(NavigationBarViewModel navigationBarViewModel, NavigationStore navigationStore)
+        {
+            NavigationBarViewModel = navigationBarViewModel;
+
+            // Create commands
+            AddDteqCommand = new RelayCommand(AddDteq);
+            CalculateDteqCommand = new RelayCommand(CalculateDteq);
+
+            Initialize();
+        }
+
+
         #endregion
 
         #region Error Validation
@@ -86,61 +143,23 @@ namespace WpfUI.ViewModels {
 
         #region PrivateMembers
 
-        private string _dteqTagToAdd;
         private ObservableCollection<DteqModel> _dteqList = new ObservableCollection<DteqModel>();
         private ObservableCollection<LoadModel> _loadList = new ObservableCollection<LoadModel>();
         #endregion
 
-        #region Properties
-
-        public string DteqTagToAdd 
-        {
-            get { return _dteqTagToAdd; }
-            set
-            {
-                _dteqTagToAdd = value;
-
-                ClearErrors(nameof(DteqTagToAdd));
-                if (IsTagAvailable(value) == false) {
-                    AddError(nameof(DteqTagToAdd), "Tag already exists");
-                }
-                else if (value == "") { // TODO - create method for invalid tags
-                    AddError(nameof(DteqTagToAdd), "Tag cannot be empty");
-                }
-            }
-        }
-
-        //TODO = FigureOut MasterLoad List
-        public ObservableCollection<DteqModel> DteqList
-        {
-            get { return _dteqList; }
-            set { _dteqList = value; 
-                CreateMasterLoadList();
-                Dictionaries.CreateDteqDict(DteqList);
-            }
-        }
-        public ObservableCollection<LoadModel> LoadList
-        {
-            get { return _loadList; }
-            set { _loadList = value; CreateMasterLoadList(); }
-        }
-        public ObservableCollection<ILoadModel> MasterLoadList { get; set; }
-        #endregion
+        
 
 
         #region Public Commands
 
-        //Navigation
-        public ICommand NavigatePSCommand { get; }
-        public ICommand NavigateCableCommand { get; }
-
 
         //Equipment Commands
         public ICommand AddDteqCommand { get; }
+        public ICommand CalculateDteqCommand { get; }
         public string Error { get; }
         #endregion
 
-        
+
 
         #region Helper Methods
 
@@ -148,7 +167,15 @@ namespace WpfUI.ViewModels {
             if (IsTagAvailable(_dteqTagToAdd) && _dteqTagToAdd != "" && _dteqTagToAdd !=null) {
                 DteqList.Add(new DteqModel() { Tag = _dteqTagToAdd });
                 CreateMasterLoadList();
-                Dictionaries.CreateDteqDict(DteqList);
+                DictionaryStore.CreateDteqDict(DteqList);
+            }
+        }
+
+        private void CalculateDteq()
+        {
+            ListManager.AssignLoadsToDteq(DteqList, LoadList);
+            foreach (var dteq in DteqList) {
+                dteq.CalculateLoading();
             }
         }
 

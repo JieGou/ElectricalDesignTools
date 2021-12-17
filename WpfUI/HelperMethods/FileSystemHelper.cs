@@ -9,7 +9,7 @@ namespace WpfUI.HelpMethods
 {
     public class FileSystemHelper
     {
-        public string SelectFile(string initialDirectory = "c:\\", string filterText= "EDT files (*.db)|*.db|All files (*.*)|*.*")
+        public static string SelectFile(string initialDirectory = "c:\\", string filterText= "EDT files (*.db)|*.db|All files (*.*)|*.*")
         {
             var filePath = string.Empty;
 

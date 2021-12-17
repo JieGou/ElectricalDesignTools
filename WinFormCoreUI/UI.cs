@@ -80,7 +80,7 @@ namespace WinFormCoreUI {
 
                 LM.dteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
                 LM.AssignLoadsToDteq();
-                LM.list = prjDb.GetRecords<LoadModel>("Loads");
+                LM.loadList = prjDb.GetRecords<LoadModel>("Loads");
                 LM.CreateMasterLoadList();
                 LM.cableList = prjDb.GetRecords<CableModel>("Cables");
 
@@ -97,7 +97,7 @@ namespace WinFormCoreUI {
             //Settings
             public static void LoadProjectSettings() {
                 DataTable settings = UI.prjDb.GetDataTable("ProjectSettings");
-                Type prjSettings = typeof(StringSettings);
+                Type prjSettings = typeof(EDTLibrary.ProjectSettings.Settings);
                 string propValue = "";
                 for (int i = 0; i < settings.Rows.Count; i++) {
                     foreach (var prop in prjSettings.GetProperties()) {
@@ -107,10 +107,10 @@ namespace WinFormCoreUI {
                         }
                     }
                 }
-                StringSettings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
+            EDTLibrary.ProjectSettings.Settings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
             }
             public static void SaveProjectSettings() {
-                Type type = typeof(StringSettings); // ProjectSettings is a static class
+                Type type = typeof(EDTLibrary.ProjectSettings.Settings); // ProjectSettings is a static class
                 string propValue;
                 foreach (var prop in type.GetProperties()) {
                     propValue = prop.GetValue(null).ToString(); //null for static class
@@ -120,7 +120,7 @@ namespace WinFormCoreUI {
             }
             public static string GetStringSetting(string settingName) {
                 string settingValue = "";
-                Type type = typeof(StringSettings); // MyClass is static class with static properties
+                Type type = typeof(EDTLibrary.ProjectSettings.Settings); // MyClass is static class with static properties
                 foreach (var prop in type.GetProperties()) {
                     if (settingName == prop.Name) {
                         settingValue = prop.GetValue(null).ToString();
@@ -129,7 +129,7 @@ namespace WinFormCoreUI {
                 return settingValue;
             }
             public static void SaveStringSetting(string settingName, string settingValue) {
-            Type type = typeof(StringSettings); // MyClass is static class with static properties
+            Type type = typeof(EDTLibrary.ProjectSettings.Settings); // MyClass is static class with static properties
             foreach (var prop in type.GetProperties()) {
                 if (settingName == prop.Name) {
                     prop.SetValue(settingValue, settingValue);
@@ -159,7 +159,7 @@ namespace WinFormCoreUI {
             LoadLibraryTables();
         }
         public static void LoadLibraryTables() {
-            Type dataTablesClass = typeof(DataTables); // MyClass is static class with static properties
+            Type dataTablesClass = typeof(LibraryTables); // MyClass is static class with static properties
             DataTable dt = new DataTable();
 
             string dbFilename = LibraryFile;
@@ -170,7 +170,7 @@ namespace WinFormCoreUI {
                 LibraryLoaded = true;
             }
             else {
-                MessageBox.Show($"The selected file \n\n{dbFilename} cannot be found. Please select another project file.");
+                MessageBox.Show($"The selected file \n\n{dbFilename} cannot be found. Please select another Library file.");
                 LibraryLoaded = false;
             }
         }
