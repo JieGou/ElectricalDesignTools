@@ -148,8 +148,8 @@ namespace EDTLibrary.Models {
                 PowerFactor = GlobalConfig.DefaultTransformerPowerFactor;
             }
             else if (Type == LoadTypes.MOTOR.ToString()) {
-                Efficiency = DataTableManager.GetMotorEfficiency(this);
-                PowerFactor = DataTableManager.GetMotorPowerFactor(this);
+                Efficiency = LibraryManager.GetMotorEfficiency(this);
+                PowerFactor = LibraryManager.GetMotorPowerFactor(this);
             }
 
             if (Efficiency > 1)
@@ -246,8 +246,8 @@ namespace EDTLibrary.Models {
 
 
             //PD and Starter
-            PdSizeFrame = DataTableManager.GetBreakerFrame(this);
-            PdSizeTrip = DataTableManager.GetBreakerTrip(this);
+            PdSizeFrame = LibraryManager.GetBreakerFrame(this);
+            PdSizeTrip = LibraryManager.GetBreakerTrip(this);
         }
 
         public void SizeComponents() {

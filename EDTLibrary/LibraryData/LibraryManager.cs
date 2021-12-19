@@ -5,10 +5,7 @@ using System.Data;
 using System.Text;
 
 namespace EDTLibrary.LibraryData {
-    public static class DataTableManager {
-
-
-
+    public static class LibraryManager {
 
         public static double GetMotorEfficiency(LoadModel load) {
             double result = GlobalConfig.NoValueDouble;

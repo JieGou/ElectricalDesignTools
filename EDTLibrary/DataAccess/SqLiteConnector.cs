@@ -285,15 +285,27 @@ namespace EDTLibrary.DataAccess
             }
         }
 
-        public DataTable GetDataTable(string tablename)
+        public DataTable GetDataTable(string tableName)
         {
-            using (IDbConnection cnn = new SQLiteConnection(conString))
-            {
-                SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tablename}", conString);
+            using (IDbConnection cnn = new SQLiteConnection(conString)) {
+                SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", conString);
                 DataTable dt = new DataTable();
                 dataAdapter.Fill(dt);
-                dt.TableName = tablename;
+                dt.TableName = tableName;
                 return dt;
+            }
+        }
+
+        public void SaveDataTable(DataTable dataTable, string tableName)
+        {
+            int numRowsUpdated = 0;
+
+            using (IDbConnection cnn = new SQLiteConnection(conString)) {
+
+                SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", conString);
+                SQLiteCommandBuilder scb = new SQLiteCommandBuilder(dataAdapter);
+                DataTable dt = new DataTable();
+                dataAdapter.Update(dataTable);
             }
         }
 
@@ -325,8 +337,7 @@ namespace EDTLibrary.DataAccess
         }
             public DataTable QueryToDataTable(string query)
         {
-            try
-            {
+            try {
                 DataTable dt = new DataTable();
                 using (SQLiteConnection cnn = new SQLiteConnection(conString))
                 {

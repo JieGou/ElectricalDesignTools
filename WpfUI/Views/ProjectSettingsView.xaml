@@ -7,19 +7,18 @@
         xmlns:commands="clr-namespace:WpfUI.Commands"
         xmlns:viewComponents="clr-namespace:WpfUI.ViewComponents"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d" d:Width="1200" d:Height="900" 
+        mc:Ignorable="d" d:Width="1350" d:Height="900" 
         Background="AliceBlue">
     
     <UserControl.Resources>
         <sys:Int32 x:Key="col1">1</sys:Int32>
         <sys:Int32 x:Key="col2">2</sys:Int32>
         <sys:Int32 x:Key="listCol">3</sys:Int32>
-        <sys:Int32 x:Key="col4">4</sys:Int32>
-        <sys:Int32 x:Key="editCol">5</sys:Int32>
-        <sys:Int32 x:Key="listColOC">6</sys:Int32>
-        <sys:Int32 x:Key="editColOC">7</sys:Int32>
+        <sys:Int32 x:Key="editCol">6</sys:Int32>
+        <sys:Int32 x:Key="listCol2">8</sys:Int32>
+        <sys:Int32 x:Key="editCol2">10</sys:Int32>
 
-        <sys:Int32 x:Key="row1">1</sys:Int32>
+        <sys:Int32 x:Key="headerRow">1</sys:Int32>
         <sys:Int32 x:Key="row2">2</sys:Int32>
         <sys:Int32 x:Key="row3">3</sys:Int32>
         <sys:Int32 x:Key="basicRow">4</sys:Int32>
@@ -41,14 +40,18 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="25"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="25"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            
             <Grid.RowDefinitions>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="50"/>
@@ -59,7 +62,11 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-           
+
+            <Label Content="Project Settings"
+                   Grid.Column="0" Grid.ColumnSpan="50" HorizontalAlignment="Center"
+                   Grid.Row="{StaticResource headerRow}"/>
+            
             <!--SELECT PROJECT-->
             <StackPanel Orientation="Vertical"
                     Grid.Row="{StaticResource row2}" Grid.Column="1">
@@ -80,16 +87,14 @@
             </StackPanel>
 
 
-            <!--BASIC SETTINGS-->
             <!--Buttons-->
-
             <StackPanel Orientation="Vertical"
                     Grid.Row="4" Grid.Column="1">
                 <Label Content="" HorizontalAlignment="Center"/>
 
-                <Button x:Name="btnSaveSettings" Content="Save Settings" 
+                <Button x:Name="btnReLoadSettings" Content="Reload Settings" 
                     Height="27"
-                    Command="{Binding Path=SelectProjectCommand}"/>
+                    Command="{Binding Path=ReloadSettingsCommand}"/>
                 <Button x:Name="btnRestoreDefaults" Content="Restore Defaults" 
                     Height="27"
                     Command="{Binding Path=SelectProjectCommand}"/>
@@ -104,85 +109,81 @@
            
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left"
                         Grid.Row="{StaticResource basicRow}" Grid.Column="{StaticResource listCol}" Grid.ColumnSpan="1">
-                <Label Content="Select Setting:"/>
+                <Label Content="Select Setting"/>
                 <ListBox x:Name="lstStringSettings"
                          Width="150" Height="150"
                          ItemsSource="{Binding StringSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         DisplayMemberPath="Name"
                          SelectedItem="{Binding SelectedStringSetting}"/>
             </StackPanel>
-
+            
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left"
                         Grid.Row="{StaticResource basicRow}" Grid.Column="{StaticResource editCol}" Grid.ColumnSpan="1">
-                <Label Content="Setting Value:"/>
-
-                <TextBox x:Name="txtSettingValue" d:Text="Value"
-                         Text="{Binding SelectedStringValue}"
-                         TextAlignment="Left"
-                         Width="150" Height="27"/>
-            </StackPanel>
-
-            <!--OC-->
-            <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left"
-                        Grid.Row="{StaticResource basicRow}" Grid.Column="{StaticResource listColOC}" Grid.ColumnSpan="1">
-                <Label Content="Select Setting OC:"/>
-                <ListBox x:Name="lstStringSettingsOC"
-                         Width="150" Height="150"
-                         ItemsSource="{Binding StringSettingsOC, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         DisplayMemberPath="DisplayName"
-                         SelectedItem="{Binding SelectedStringSettingOC}"/>
-            </StackPanel>
-            <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left"
-                        Grid.Row="{StaticResource basicRow}" Grid.Column="{StaticResource editColOC}" Grid.ColumnSpan="1">
-                <Label Content="Description:"/>
-                <TextBlock d:Text="Description"
-                           DataContext="{Binding ElementName=lstStringSettingsOC}"
-                           Text="{Binding SelectedItem.Description}"
-                           TextAlignment="Left"
-                           d:Width="150" d:Height="27"/>
                 
-                <Label Content="Setting Value OC:"/>
-                <TextBox x:Name="txtSettingValueOC" d:Text="Value"
-                         DataContext="{Binding ElementName=lstStringSettingsOC}"
+                <Label Content="Setting Value"/>
+                <TextBox x:Name="txtSettingValue" d:Text="Value" HorizontalAlignment="Left"
+                         DataContext="{Binding ElementName=lstStringSettings}"
                          Text="{Binding SelectedItem.Value}"
                          TextAlignment="Left"
                          Width="150" Height="27"/>
+
+                <Button x:Name="btnSaveStringSettings" Content="Save" 
+                    Height="27" Width="150"
+                    Command="{Binding Path=SaveStringSettingCommand}"/>
+                
+                <TextBlock d:Text="Description" HorizontalAlignment="Left"
+                           DataContext="{Binding ElementName=lstStringSettings}"
+                           Text="{Binding SelectedItem.Description}"
+                           TextAlignment="Left"
+                           d:Width="150" d:Height="27"
+                           TextWrapping="Wrap" MaxWidth="150"
+                           Margin="10 10"/>
+                
+                
+                
             </StackPanel>
             
-
-            <!--TABLE SETTINGS-->
-            <!--Buttons-->
-            <StackPanel Orientation="Vertical"
-                    Grid.Row="6" Grid.Column="1">
-                <!--<Label Content="Table Settings" HorizontalAlignment="Center"/>
-
-            <Button x:Name="btnSaveSettings" Content="Save Settings" 
-                    Height="27"
-                    Command="{Binding Path=SelectProjectCommand}"/>
-            <Button x:Name="btnRestoreDefaults" Content="Restore Defaults" 
-                    Height="27"
-                    Command="{Binding Path=SelectProjectCommand}"/>-->
-            </StackPanel>
-
-
-            <!--Settings-->
-
+            
+            <!--TABLE Settings-->
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left"
-                        Grid.Row="{StaticResource tableRow}" 
-                        Grid.Column="{StaticResource listCol}" Grid.ColumnSpan="1">
-                <Label Content="Select Setting:"/>
+                        Grid.Row="{StaticResource basicRow}" 
+                        Grid.Column="{StaticResource listCol2}" Grid.ColumnSpan="1">
+                <Label Content="Select Setting"/>
                 <ListBox x:Name="lstTableSettings"
                          Width="150" Height="150"
-                         ItemsSource="{Binding TableSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                         ItemsSource="{Binding TableSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         DisplayMemberPath="Name"
+                         SelectedItem="{Binding SelectedTableSetting}"/>
+                
+                <Button x:Name="btnSaveTableSettings" Content="Save" 
+                    Height="27"
+                    Command="{Binding Path=SaveTableSettingCommand}"/>
+
+                <Button x:Name="btnTest" Content="test" 
+                    Height="27"
+                    Command="{Binding Path=TestCommand}"/>
+
+                <!--TEST-->
+                <TextBlock x:Name="test" d:Text="teststring" LineStackingStrategy="BlockLineHeight" LineHeight="10"
+                           Text="{Binding TestString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
             </StackPanel>
 
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left"
-                        Grid.Row="{StaticResource tableRow}"
-                        Grid.Column="{StaticResource editCol}" Grid.ColumnSpan="1">
-                <Label Content="Setting Value:"/>
-                
-                <DataGrid AutoGenerateColumns="True"
+                        Grid.Row="{StaticResource basicRow}"
+                        Grid.Column="{StaticResource editCol2}" Grid.ColumnSpan="1">
+                <Label Content="Setting Value" Margin="0"/>
+
+                <DataGrid x:Name="dgdTableSetting" AutoGenerateColumns="True"
                           d:Width="150" d:Height="300"
-                          ItemsSource="{Binding TableSetting.DefaultView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                          RowHeaderWidth="0"
+                          SelectionUnit="Cell"
+                          DataContext="{Binding SelectedTableSetting}"
+                          ItemsSource="{Binding Path=TableValue, Mode=TwoWay, UpdateSourceTrigger=Explicit, IsAsync=True}" MouseLeave="dgdTableSetting_MouseLeave">
+                    
+                </DataGrid>
+
+                
             </StackPanel>
            
 

@@ -9,14 +9,77 @@ namespace EDTLibrary.ProjectSettings {
     public class SettingManager {
 
         public static List<SettingModel> SettingList = new List<SettingModel>();
-        public static Dictionary<string,SettingModel> SettingDict = new Dictionary<string, SettingModel>();
+        public static List<SettingModel> StringSettingList = new List<SettingModel>();
+        public static List<SettingModel> TableSettingList = new List<SettingModel>();
+
+        public static Dictionary<string,SettingModel> StringSettingDict = new Dictionary<string, SettingModel>();
+
         public static void GetSettings()
         {
+            SettingList.Clear();
             SettingList = DbManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
-            SettingDict = SettingList.ToDictionary(x => x.Name);
+            foreach (var setting in SettingList) {
+
+               // String Settings
+                if (setting.Type != "DataTable") {
+                    StringSettingList.Add(setting);
+                }
+
+                // Table Settings
+                else if (setting.Type == "DataTable") { 
+                    setting.TableValue = DbManager.prjDb.GetDataTable(setting.Name);
+                    TableSettingList.Add(setting);
+                }
+
+            }
+            StringSettingDict.Clear();
+            StringSettingDict = StringSettingList.ToDictionary(x => x.Name);
         }
-       
-        //String Settings
+
+        public static List<SettingModel> GetStringSettings()
+        {
+            List<SettingModel> settingList = new List<SettingModel>();
+            SettingList = DbManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
+            foreach (var setting in SettingList) {
+
+                // String Settings
+                if (setting.Type != "DataTable") {
+                    settingList.Add(setting);
+                }
+
+            }
+            StringSettingDict = settingList.ToDictionary(x => x.Name);
+            return settingList;
+        }
+
+        public static List<SettingModel> GetTableSettings()
+        {
+            List<SettingModel> settingList = new List<SettingModel>();
+            SettingList = DbManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
+            foreach (var setting in SettingList) {
+
+                // String Settings
+                if (setting.Type == "DataTable") {
+                    setting.TableValue = DbManager.prjDb.GetDataTable(setting.Name);
+                    settingList.Add(setting);
+                }
+
+            }            
+            return settingList;
+        }
+
+        public static void SaveStringSetting(SettingModel setting)
+        {
+            DbManager.prjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
+        }
+
+        public static void SaveTableSetting(SettingModel tableSetting)
+        {
+            DbManager.prjDb.SaveDataTable(tableSetting.TableValue, tableSetting.Name);
+        }
+
+        // OLD WAY
+        // String Settings
         public static string GetStringSetting(string settingName) {
             string settingValue = "";
             Type type = typeof(Settings); // MyClass is static class with static properties
@@ -35,7 +98,6 @@ namespace EDTLibrary.ProjectSettings {
                     prop.SetValue(settingValue, settingValue);
                 }
             }
-
         }
 
         //Table Settings

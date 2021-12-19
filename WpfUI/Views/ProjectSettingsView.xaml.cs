@@ -23,5 +23,10 @@ namespace WpfUI.Views
         public ProjectSettingsView() {
             InitializeComponent();
         }
+
+        private void dgdTableSetting_MouseLeave(object sender, MouseEventArgs e)
+        {
+            dgdTableSetting.CommitEdit();
+        }
     }
 }

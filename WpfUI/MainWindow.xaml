@@ -10,25 +10,18 @@
         mc:Ignorable="d"
         Title="Electrical Design Tools"
         d:Width="1600" d:Height="950"
-        Background="LightBlue">
+        Background="LightBlue"
+        WindowState="Maximized">
 
     <Window.DataContext>
         <viewmodels:MainViewModel/>
     </Window.DataContext>
 
     <Window.Resources>
-        <sys:Int32 x:Key="col1">1</sys:Int32>
-        <sys:Int32 x:Key="col2">2</sys:Int32>
-        <sys:Int32 x:Key="listCol">3</sys:Int32>
-        <sys:Int32 x:Key="col4">4</sys:Int32>
-        <sys:Int32 x:Key="col5">5</sys:Int32>
+        <sys:Int32 x:Key="button1">1</sys:Int32>
 
         <sys:Int32 x:Key="menuRow">1</sys:Int32>
         <sys:Int32 x:Key="contentRow">2</sys:Int32>
-        <sys:Int32 x:Key="row3">3</sys:Int32>
-        <sys:Int32 x:Key="row5">5</sys:Int32>
-        <sys:Int32 x:Key="row6">6</sys:Int32>
-        <sys:Int32 x:Key="row7">7</sys:Int32>
 
     </Window.Resources>
 

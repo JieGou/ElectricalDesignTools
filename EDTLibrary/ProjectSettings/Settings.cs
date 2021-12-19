@@ -27,11 +27,16 @@ namespace EDTLibrary.ProjectSettings {
             CreateCableAmpsUsedInProject();
         }
         
+        /// <summary>
+        /// Creates the Cable Ampacities table for the project based on the selected cable sizes used in the project
+        /// </summary>
         public static void CreateCableAmpsUsedInProject() {
             CableAmpsUsedInProject = LibraryTables.CableAmpacities;
+
             foreach (DataRow cablePrj in CableSizesUsedInProject.Rows) {              
                 if (cablePrj.Field<bool>("UsedInProject") == false) {
                     string size = cablePrj.Field<string>("Size");
+
                     for (int i = CableAmpsUsedInProject.Rows.Count-1; i >= 0; i--) {
                         DataRow cable = CableAmpsUsedInProject.Rows[i];
                         if (cable["Size"].ToString() == size) {

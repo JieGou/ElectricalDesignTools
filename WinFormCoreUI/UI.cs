@@ -116,8 +116,8 @@ namespace WinFormCoreUI {
                     propValue = prop.GetValue(null).ToString(); //null for static class
                     UI.prjDb.UpdateSetting(prop.Name, propValue);
                 }
-
             }
+
             public static string GetStringSetting(string settingName) {
                 string settingValue = "";
                 Type type = typeof(EDTLibrary.ProjectSettings.Settings); // MyClass is static class with static properties
@@ -128,14 +128,15 @@ namespace WinFormCoreUI {
                 }
                 return settingValue;
             }
+
             public static void SaveStringSetting(string settingName, string settingValue) {
-            Type type = typeof(EDTLibrary.ProjectSettings.Settings); // MyClass is static class with static properties
-            foreach (var prop in type.GetProperties()) {
-                if (settingName == prop.Name) {
-                    prop.SetValue(settingValue, settingValue);
+                Type type = typeof(EDTLibrary.ProjectSettings.Settings); // MyClass is static class with static properties
+                foreach (var prop in type.GetProperties()) {
+                    if (settingName == prop.Name) {
+                        prop.SetValue(settingValue, settingValue);
+                    }
                 }
             }
-        }
 
         //Library
         public static void SelectLibrary() {

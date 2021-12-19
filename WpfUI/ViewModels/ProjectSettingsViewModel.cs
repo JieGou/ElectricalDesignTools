@@ -19,33 +19,17 @@ namespace WpfUI.ViewModels
     public class ProjectSettingsViewModel : ViewModelBase
     {
 
-        private string _selectedStringSetting;
-        public string SelectedStringSetting 
-        {
-            get { return _selectedStringSetting;  }
-            set 
-            { 
-                _selectedStringSetting = value;
-                SelectedStringValue = SettingManager.GetStringSetting(_selectedStringSetting);
-            }
-        }
-        public string SelectedStringValue { get; set; }
-           
-
-
-        public ObservableCollection<string> StringSettings { get; set; }
-        public ObservableCollection<string> TableSettings { get; set; }
-
-        public ObservableCollection<SettingModel> StringSettingsOC { get; set; }
-
-        private SettingModel _selectedStringSettingOC;
-        public SettingModel SelectedStringSettingOC { get; set; }
-                   
-
-        public string SelectedTableSetting { get; set; }
-
-
         #region Properties and Backing Fields
+
+        public string TestString { get; set; }
+        public ObservableCollection<SettingModel> StringSettings { get; set; }
+        public SettingModel SelectedStringSetting { get; set; }
+
+
+        public ObservableCollection<SettingModel> TableSettings { get; set; }
+        public SettingModel SelectedTableSetting { get; set; }
+
+
         private readonly ProjectFileStore _projectStore;
 
         //public string? ProjectName => _projectStore.SelectedProject?.Name;
@@ -56,21 +40,41 @@ namespace WpfUI.ViewModels
 
 
         #region Commands
+        public ICommand TestCommand { get; }
+
+
         public ICommand NavigateStartupCommand { get; }
         public ICommand OpenProjectCommand { get; }
+
         public ICommand SelectProjectCommand { get; }
+        public ICommand ReloadSettingsCommand { get; }
+
+        public ICommand SaveStringSettingCommand { get; }
+        public ICommand SaveTableSettingCommand { get; }
+
         #endregion
 
 
         public ProjectSettingsViewModel()
         {
             LoadSettings();
-            LoadSettingsOG();
             // Create commands
+
             SelectProjectCommand = new RelayCommand(SelectProject);
+
+            ReloadSettingsCommand = new RelayCommand(LoadSettings);
+
+            SaveStringSettingCommand = new RelayCommand(SaveStringSetting);
+            SaveTableSettingCommand = new RelayCommand(SaveTableSetting);
+
+            TestCommand = new RelayCommand(Test);
 
         }
 
+        private void Test()
+        {
+            SelectedTableSetting.TableValue.Rows[0][2] = false;
+        }
 
         public ProjectSettingsViewModel(NavigationBarViewModel navigationBarViewModel, ProjectFileStore projectFileStore, NavigationService<StartupViewModel> startupNavigationService)
         {
@@ -93,29 +97,32 @@ namespace WpfUI.ViewModels
 
         public void LoadSettings()
         {
-            SettingManager.GetSettings();
-            StringSettingsOC = new ObservableCollection<SettingModel>(SettingManager.SettingList);
+            //SettingManager.GetSettings();
+            //StringSettings = new ObservableCollection<SettingModel>(SettingManager.StringSettingList);
+            //TableSettings = new ObservableCollection<SettingModel>(SettingManager.TableSettingList);
+
+            StringSettings = new ObservableCollection<SettingModel>(SettingManager.GetStringSettings());
+            TableSettings = new ObservableCollection<SettingModel>(SettingManager.GetTableSettings());
         }
-
-
-        public void LoadSettingsOG()
+        private void SaveStringSetting()
         {
-            Type prjStringSettings = typeof(EDTLibrary.ProjectSettings.Settings);
-
-            StringSettings = new ObservableCollection<string>();
-            TableSettings = new ObservableCollection<string>();
-            StringSettings.Clear();
-            TableSettings.Clear();
-
-            foreach (var prop in prjStringSettings.GetProperties()) {
-                if (prop.PropertyType.Name == "String") {
-                    StringSettings.Add(prop.Name);
-                }
-                else if (prop.PropertyType.Name == "DataTable") {
-                    TableSettings.Add(prop.Name);
-                }
-            }
+            SettingManager.SaveStringSetting(SelectedStringSetting);
         }
+        private void SaveTableSetting()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (DataRow row in SelectedTableSetting.TableValue.Rows) {
+                foreach (var item in row.ItemArray) {
+                   sb.Append($"{item.ToString()} ");
+                }            
+                sb.AppendLine("\n");
+            }
+            TestString = sb.ToString();
+            SettingManager.SaveTableSetting(SelectedTableSetting);
+        }
+
+
+
         #endregion
     }
 }
