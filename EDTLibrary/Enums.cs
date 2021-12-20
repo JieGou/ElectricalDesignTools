@@ -33,11 +33,28 @@ namespace EDTLibrary {
         Power
     }
 
+    public enum Voltages
+    {
+        SixHundred = 600,
+        kW,
+        AMPS,
+        HP
+    }
     public enum Units {
         kVA,
         kW,
         AMPS,
         HP
     }
+
+    public enum OCPDTypes
+    {
+        VCB,
+        MCCB,
+        FUSE, 
+        MCP       
+    }
+
+
 
 }

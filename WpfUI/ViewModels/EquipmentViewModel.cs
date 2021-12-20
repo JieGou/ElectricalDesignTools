@@ -27,6 +27,8 @@ namespace WpfUI.ViewModels {
 
         private DteqModel _selectedDteq;
 
+        public List<string> DteqTypes { get; set; } = new List<string>();
+
 
         private string _dteqTagToAdd;
         public DteqModel SelectedDteq { get => _selectedDteq; set => _selectedDteq = value; }
@@ -69,8 +71,12 @@ namespace WpfUI.ViewModels {
 
         private void Initialize()
         {
-            DbManager.SetProjectDb(Settings.Default.ProjectDb);
-            DbManager.SetLibraryDb(Settings.Default.LibraryDb);
+            foreach (var item in Enum.GetNames(typeof(EDTLibrary.DteqTypes))) {
+                DteqTypes.Add(item.ToString());
+            }
+
+            DbManager.SetProjectDb(AppSettings.Default.ProjectDb);
+            DbManager.SetLibraryDb(AppSettings.Default.LibraryDb);
 
             //Instatiates the required properties
             MasterLoadList = new ObservableCollection<ILoadModel>();
@@ -86,6 +92,7 @@ namespace WpfUI.ViewModels {
         #region Constructor
         public EquipmentViewModel()
         {
+            
             // Create commands
             AddDteqCommand = new RelayCommand(AddDteq);
             CalculateDteqCommand = new RelayCommand(CalculateDteq);
@@ -173,6 +180,7 @@ namespace WpfUI.ViewModels {
 
         private void CalculateDteq()
         {
+
             ListManager.AssignLoadsToDteq(DteqList, LoadList);
             foreach (var dteq in DteqList) {
                 dteq.CalculateLoading();
@@ -180,7 +188,7 @@ namespace WpfUI.ViewModels {
         }
 
         private bool IsTagAvailable(string tag) {
-            var val = MasterLoadList.FirstOrDefault(t => t.Tag == tag);
+            var val = MasterLoadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
             if (val!=null) {
                 return false;
             }

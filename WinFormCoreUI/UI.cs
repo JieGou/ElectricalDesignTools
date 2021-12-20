@@ -107,7 +107,7 @@ namespace WinFormCoreUI {
                         }
                     }
                 }
-            EDTLibrary.ProjectSettings.Settings.CableSizesUsedInProject = UI.prjDb.GetDataTable("CablesUsedInProject");
+            EDTLibrary.ProjectSettings.Settings.CableSizesUsedInProject3CLV = UI.prjDb.GetDataTable("CablesUsedInProject");
             }
             public static void SaveProjectSettings() {
                 Type type = typeof(EDTLibrary.ProjectSettings.Settings); // ProjectSettings is a static class

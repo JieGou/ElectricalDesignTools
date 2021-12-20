@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfUI.Commands;
-using WpfUI.HelpMethods;
+using WpfUI.Helpers;
 using WpfUI.Models;
 using WpfUI.Services;
 using WpfUI.Stores;
@@ -56,7 +56,7 @@ namespace WpfUI.ViewModels
 
         public void SetSelectedProject()
         {
-            _selectedProject = Settings.Default.ProjectDb; 
+            _selectedProject = AppSettings.Default.ProjectDb; 
             ProjectName = Path.GetFileName(_selectedProject).Replace(".db", "");
             ProjectPath = Path.GetFullPath(_selectedProject).Replace(Path.GetFileName(_selectedProject), "");
             

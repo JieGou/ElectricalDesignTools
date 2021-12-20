@@ -35,7 +35,7 @@ namespace WinFormCoreUI {
 
         private void lstStringSettings_SelectedIndexChanged(object sender, EventArgs e) {
             if (lstStringSettings.SelectedItem != null) {
-                txtStringSettingValue.Text = SettingManager.GetStringSetting(lstStringSettings.SelectedItem.ToString());
+                txtStringSettingValue.Text = SettingManager.GetStringSettingOld(lstStringSettings.SelectedItem.ToString());
             }
 
         }
@@ -44,7 +44,7 @@ namespace WinFormCoreUI {
             Settings.InitializeSettings();
             if (lstStringSettings.SelectedItem!=null) {
                 try {
-                    SettingManager.SaveStringSetting(lstStringSettings.SelectedItem.ToString(), txtStringSettingValue.Text);
+                    SettingManager.SaveStringSettingOld(lstStringSettings.SelectedItem.ToString(), txtStringSettingValue.Text);
                     UI.SaveProjectSettings();
                 }
             catch { };
@@ -54,7 +54,7 @@ namespace WinFormCoreUI {
 
         private void lstTableSettings_SelectedIndexChanged(object sender, EventArgs e) {
             if (lstTableSettings.SelectedItem != null) {
-                dgvTableSettingValue.DataSource = SettingManager.GetTableSetting(lstTableSettings.SelectedItem.ToString());
+                dgvTableSettingValue.DataSource = SettingManager.GetTableSettingOld(lstTableSettings.SelectedItem.ToString());
             }
         }
 

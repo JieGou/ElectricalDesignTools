@@ -20,7 +20,7 @@ namespace EDTLibrary.ProjectSettings {
 
 
         //TODO - Model to Table Properties and Implement Interface
-        public static DataTable CableSizesUsedInProject { get; set; }
+        public static DataTable CableSizesUsedInProject3CLV { get; set; }
         public static DataTable CableAmpsUsedInProject { get; set; }
 
         public static void InitializeSettings() {
@@ -33,7 +33,7 @@ namespace EDTLibrary.ProjectSettings {
         public static void CreateCableAmpsUsedInProject() {
             CableAmpsUsedInProject = LibraryTables.CableAmpacities;
 
-            foreach (DataRow cablePrj in CableSizesUsedInProject.Rows) {              
+            foreach (DataRow cablePrj in CableSizesUsedInProject3CLV.Rows) {              
                 if (cablePrj.Field<bool>("UsedInProject") == false) {
                     string size = cablePrj.Field<string>("Size");
 

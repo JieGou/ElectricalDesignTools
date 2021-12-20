@@ -1,5 +1,7 @@
-﻿using EDTLibrary.ProjectSettings;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.ProjectSettings;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using WpfUI.Commands;
-using WpfUI.HelpMethods;
+using WpfUI.Helpers;
 using WpfUI.Models;
 using WpfUI.Services;
 using WpfUI.Stores;
@@ -87,6 +89,8 @@ namespace WpfUI.ViewModels
             SelectProjectCommand = new RelayCommand(SelectProject);
         }
 
+
+
         #region Helper Methods
         public void SelectProject()
         {
@@ -97,12 +101,13 @@ namespace WpfUI.ViewModels
 
         public void LoadSettings()
         {
-            //SettingManager.GetSettings();
-            //StringSettings = new ObservableCollection<SettingModel>(SettingManager.StringSettingList);
-            //TableSettings = new ObservableCollection<SettingModel>(SettingManager.TableSettingList);
+            SettingManager.InitializeSettings();
+            StringSettings = new ObservableCollection<SettingModel>(SettingManager.StringSettingList);
+            TableSettings = new ObservableCollection<SettingModel>(SettingManager.TableSettingList);
 
-            StringSettings = new ObservableCollection<SettingModel>(SettingManager.GetStringSettings());
-            TableSettings = new ObservableCollection<SettingModel>(SettingManager.GetTableSettings());
+            //StringSettings = new ObservableCollection<SettingModel>(SettingManager.GetStringSettings());
+            //TableSettings = new ObservableCollection<SettingModel>(SettingManager.GetTableSettings());
+            //SettingManager.CreateCableAmpsUsedInProject();
         }
         private void SaveStringSetting()
         {
@@ -110,19 +115,25 @@ namespace WpfUI.ViewModels
         }
         private void SaveTableSetting()
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (DataRow row in SelectedTableSetting.TableValue.Rows) {
-                foreach (var item in row.ItemArray) {
-                   sb.Append($"{item.ToString()} ");
-                }            
-                sb.AppendLine("\n");
+            ArrayList tables = DbManager.prjDb.GetListOfTablesNamesInDb();
+
+            //only saves to Db if Db table exists
+            if (tables.Contains(SelectedTableSetting.Name)) {
+                SettingManager.SaveTableSetting(SelectedTableSetting);
+                SettingManager.CreateCableAmpsUsedInProject();
+
+
+                //debugging
+                StringBuilder sb = new StringBuilder();
+                foreach (DataRow row in SelectedTableSetting.TableValue.Rows) {
+                    sb.Append(row[2].ToString());
+                    sb.AppendLine("\n");
+                }
+                TestString = sb.ToString();
+
             }
-            TestString = sb.ToString();
-            SettingManager.SaveTableSetting(SelectedTableSetting);
+
         }
-
-
-
         #endregion
     }
 }
