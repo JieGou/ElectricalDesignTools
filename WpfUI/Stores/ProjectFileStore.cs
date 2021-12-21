@@ -15,17 +15,15 @@ namespace WpfUI.Stores
             get { return _selectedProject; }
             set { _selectedProject = value; }
         }
+
+        public void AddToPreviouslyOpenedList()
+        {
+            
+        }
+
     }
 
-    public class LibraryFileStore
-    {
-        private LibraryFile? _selectedProject;
-        public LibraryFile SelectedProject
-        {
-            get { return _selectedProject; }
-            set { _selectedProject = value; }
-        }
-    }
+
 
 
 }

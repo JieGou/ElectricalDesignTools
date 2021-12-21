@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EDTLibrary.LibraryData;
 using PropertyChanged;
 
 namespace EDTLibrary.Models {
@@ -184,10 +185,13 @@ namespace EDTLibrary.Models {
             else {
                 _derating = 1;
             }
+            GetMinimumPdSize();
         }
 
         public void GetMinimumPdSize() {
-            
+            //PD and Starter
+            PdSizeFrame = LibraryManager.GetBreakerFrame(this);
+            PdSizeTrip = LibraryManager.GetBreakerTrip(this);
         }
 
         public void CalculateMinimumCableSize() {

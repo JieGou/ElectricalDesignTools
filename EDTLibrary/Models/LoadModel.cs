@@ -23,18 +23,6 @@ namespace EDTLibrary.Models {
             if (handler != null) {
                 handler(this, e);
             }
-
-            //if (e.PropertyName=="Tag") {
-            //    //TODO reactivate this to update tags
-            //    ListManager.CreateMasterLoadList();
-            //    ListManager.tagList.Clear();
-            //    foreach (var item in ListManager.loadList) {
-            //       // ListManager.tagList.Add(item.Tag);
-            //    }
-            //    foreach (var item in ListManager.dteqList) {
-            //        ListManager.tagList.Add(item.Tag);
-            //    }
-            //}
         }
 
         //Properties

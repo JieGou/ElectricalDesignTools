@@ -150,20 +150,21 @@
                     
                     <!--Fed From-->
                     <DataGridTemplateColumn Header=" Fed&#x0a;From" MinWidth="75">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
                                     <ComboBox ItemsSource="{Binding Source={StaticResource dteqList}}"
                                               SelectedValue="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                              Text="{Binding FedFrom, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                              DisplayMemberPath="Tag"
-                                              SelectedValuePath="{Binding Tag, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                              Text="{Binding FedFrom}"  
+                                        DisplayMemberPath="Tag"
+                                              SelectedValuePath="{Binding FedFrom}"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="True" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"/>
                                 </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
                     <!--Voltage-->
                     <DataGridTemplateColumn Header="Voltage">
