@@ -19,7 +19,7 @@ namespace WinFormCoreUI {
         private void frmSettings_Load(object sender, EventArgs e) {
             ExtensionMethods.DoubleBufferDataGridViews(this);
 
-            Type prjStringSettings = typeof(Settings);
+            Type prjStringSettings = typeof(EdtSettings);
 
             lstStringSettings.Items.Clear();
             lstTableSettings.Items.Clear();
@@ -41,7 +41,7 @@ namespace WinFormCoreUI {
         }
 
         private void btnSaveSetting_Click(object sender, EventArgs e) {
-            Settings.InitializeSettings();
+            EdtSettings.InitializeSettings();
             if (lstStringSettings.SelectedItem!=null) {
                 try {
                     SettingManager.SaveStringSettingOld(lstStringSettings.SelectedItem.ToString(), txtStringSettingValue.Text);

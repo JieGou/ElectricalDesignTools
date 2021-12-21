@@ -22,15 +22,17 @@ namespace EDTLibrary.ProjectSettings {
             SettingList.Clear();
             SettingList = DbManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
 
-            //STRING Settings
+            // LISTS
+            // -Strings
             StringSettingList.Clear();
             foreach (var setting in SettingList) {
                 if (setting.Type != "DataTable") {
                     StringSettingList.Add(setting);
+
                 }
             }
 
-            //TABLE Settings
+            // -Tables
             ArrayList tables = DbManager.prjDb.GetListOfTablesNamesInDb();
             TableSettingList.Clear();
             foreach (var setting in SettingList) {
@@ -43,9 +45,40 @@ namespace EDTLibrary.ProjectSettings {
                 }
             }
 
+
+            // PROPERTIES
+            // -Strings
+            DataTable settings = DbManager.prjDb.GetDataTable("ProjectSettings");
+            Type prjSettings = typeof(EdtSettings);
+            string propValue = "";
+
+            for (int i = 0; i < settings.Rows.Count; i++) {
+                foreach (var prop in prjSettings.GetProperties()) {
+                    if (settings.Rows[i]["Name"].ToString() == prop.Name && settings.Rows[i]["Type"].ToString() != "DataTable") {
+                        prop.SetValue(propValue, settings.Rows[i]["Value"].ToString());
+                    }
+                }
+            }
+
+            // -Tables
+            for (int i = 0; i < settings.Rows.Count; i++) {
+                foreach (var prop in prjSettings.GetProperties()) {
+
+                    if (settings.Rows[i]["Name"].ToString() == prop.Name 
+                        && settings.Rows[i]["Type"].ToString() == "DataTable"
+                        && tables.Contains(prop.Name))
+                    {
+                        prop.SetValue(propValue, DbManager.prjDb.GetDataTable(prop.Name));
+                    }
+                }
+            }
+        
             SettingDict.Clear();
             SettingDict = SettingList.ToDictionary(x => x.Name);
+
+            CreateCableAmpsUsedInProject();
         }
+
 
         public static List<SettingModel> GetStringSettings()
         {
@@ -86,6 +119,7 @@ namespace EDTLibrary.ProjectSettings {
             return settingList;
         }
 
+
         public static void SaveStringSetting(SettingModel setting)
         {
             DbManager.prjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
@@ -104,25 +138,29 @@ namespace EDTLibrary.ProjectSettings {
             DataTable dtAmps = new DataTable();
             DataTable dtCables = new DataTable();
 
-            SettingDict["CableAmpsUsedInProject"].TableValue = LibraryTables.CableAmpacities.Copy();
-            dtAmps = SettingDict["CableAmpsUsedInProject"].TableValue;
+            if (LibraryTables.CableAmpacities != null) {
+            
+                SettingDict["CableAmpsUsedInProject"].TableValue = LibraryTables.CableAmpacities.Copy();
+                dtAmps = SettingDict["CableAmpsUsedInProject"].TableValue;
 
-            dtCables = SettingDict["CableSizesUsedInProject3CLV"].TableValue;
+                dtCables = SettingDict["CableSizesUsedInProject3CLV"].TableValue;
 
-            foreach (DataRow cablePrj in dtCables.Rows) {
-                if (cablePrj.Field<bool>("UsedInProject") == false) {
-                    string size = cablePrj.Field<string>("Size");
+                foreach (DataRow cablePrj in dtCables.Rows) {
+                    if (cablePrj.Field<bool>("UsedInProject") == false) {
+                        string size = cablePrj.Field<string>("Size");
 
-                    for (int i = dtAmps.Rows.Count - 1; i >= 0; i--) {
-                        DataRow cable = dtAmps.Rows[i];
-                        if (cable["Size"].ToString() == size) {
-                            dtAmps.Rows.Remove(cable);
+                        for (int i = dtAmps.Rows.Count - 1; i >= 0; i--) {
+                            DataRow cable = dtAmps.Rows[i];
+                            if (cable["Size"].ToString() == size) {
+                                dtAmps.Rows.Remove(cable);
+                            }
                         }
                     }
                 }
+                dtAmps.AcceptChanges();
             }
-            dtAmps.AcceptChanges();
         }
+
         #endregion
 
 
@@ -142,7 +180,7 @@ namespace EDTLibrary.ProjectSettings {
         // String Settings
         public static string GetStringSettingOld(string settingName) {
             string settingValue = "";
-            Type type = typeof(Settings); // MyClass is static class with static properties
+            Type type = typeof(EdtSettings); // MyClass is static class with static properties
             foreach (var prop in type.GetProperties()) {
                 if (settingName == prop.Name) {
                     settingValue = prop.GetValue(null).ToString();
@@ -152,7 +190,7 @@ namespace EDTLibrary.ProjectSettings {
         }
 
         public static void SaveStringSettingOld(string settingName, string settingValue) {
-            Type type = typeof(Settings); // MyClass is static class with static properties
+            Type type = typeof(EdtSettings); // MyClass is static class with static properties
             foreach (var prop in type.GetProperties()) {
                 if (settingName == prop.Name) {
                     prop.SetValue(settingValue, settingValue);
@@ -164,7 +202,7 @@ namespace EDTLibrary.ProjectSettings {
 
         public static DataTable GetTableSettingOld(string settingName) {
             DataTable dt = new DataTable();
-            Type type = typeof(Settings); // MyClass is static class with static properties
+            Type type = typeof(EdtSettings); // MyClass is static class with static properties
             foreach (var prop in type.GetProperties()) {
                 if (settingName == prop.Name) {
                     dt = (DataTable)prop.GetValue(null);

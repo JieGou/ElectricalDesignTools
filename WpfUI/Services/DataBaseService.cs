@@ -90,13 +90,11 @@ namespace WpfUI.Services
                 ProjectLoaded = false;
                
             }
-            else if (LibraryLoaded ==false) {
+            else if (LibraryLoaded == false) {
                 MessageBox.Show($"The library file is not loaded.");
                 ProjectLoaded = false;
             }
             else {
-
-                //prjDb = new SQLiteConnector(dbFilename);
 
                 //TODO - Update to List Stores??
                 ListManager.dteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
@@ -115,31 +113,14 @@ namespace WpfUI.Services
         public static void LoadProjectSettings()
         {
             string dbFilename = AppSettings.Default.ProjectDb;
-            if (File.Exists(dbFilename)) {
-                //prjDb = new SQLiteConnector(dbFilename);
 
-                DataTable settings = prjDb.GetDataTable("ProjectSettings");
-                Type prjSettings = typeof(EDTLibrary.ProjectSettings.Settings);
-                string propValue = "";
-                for (int i = 0; i < settings.Rows.Count; i++) {
-                    foreach (var prop in prjSettings.GetProperties()) {
-                        if (settings.Rows[i]["Name"].ToString() == prop.Name && settings.Rows[i]["Type"].ToString() != "DataTable") {
-                            prop.SetValue(propValue, settings.Rows[i]["Value"].ToString());
-                        }
-                    }
-                }
-
-                //DataTables
-                Settings.CableSizesUsedInProject3CLV = prjDb.GetDataTable("CableSizesUsedInProject3CLV");
-                Settings.CreateCableAmpsUsedInProject();
-
-                SettingManager.CreateCableAmpsUsedInProject();
-            }
+            SettingManager.InitializeSettings();
+ 
         }
 
         public static void SaveProjectSettings()
         {
-            Type type = typeof(EDTLibrary.ProjectSettings.Settings); // ProjectSettings is a static class
+            Type type = typeof(EdtSettings); // ProjectSettings is a static class
             string propValue;
             foreach (var prop in type.GetProperties()) {
                 propValue = prop.GetValue(null).ToString(); //null for static class

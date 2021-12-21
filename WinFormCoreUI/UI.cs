@@ -97,7 +97,7 @@ namespace WinFormCoreUI {
             //Settings
             public static void LoadProjectSettings() {
                 DataTable settings = UI.prjDb.GetDataTable("ProjectSettings");
-                Type prjSettings = typeof(EDTLibrary.ProjectSettings.Settings);
+                Type prjSettings = typeof(EDTLibrary.ProjectSettings.EdtSettings);
                 string propValue = "";
                 for (int i = 0; i < settings.Rows.Count; i++) {
                     foreach (var prop in prjSettings.GetProperties()) {
@@ -107,10 +107,10 @@ namespace WinFormCoreUI {
                         }
                     }
                 }
-            EDTLibrary.ProjectSettings.Settings.CableSizesUsedInProject3CLV = UI.prjDb.GetDataTable("CablesUsedInProject");
+            EDTLibrary.ProjectSettings.EdtSettings.CableSizesUsedInProject3CLV = UI.prjDb.GetDataTable("CablesUsedInProject");
             }
             public static void SaveProjectSettings() {
-                Type type = typeof(EDTLibrary.ProjectSettings.Settings); // ProjectSettings is a static class
+                Type type = typeof(EDTLibrary.ProjectSettings.EdtSettings); // ProjectSettings is a static class
                 string propValue;
                 foreach (var prop in type.GetProperties()) {
                     propValue = prop.GetValue(null).ToString(); //null for static class
@@ -120,7 +120,7 @@ namespace WinFormCoreUI {
 
             public static string GetStringSetting(string settingName) {
                 string settingValue = "";
-                Type type = typeof(EDTLibrary.ProjectSettings.Settings); // MyClass is static class with static properties
+                Type type = typeof(EDTLibrary.ProjectSettings.EdtSettings); // MyClass is static class with static properties
                 foreach (var prop in type.GetProperties()) {
                     if (settingName == prop.Name) {
                         settingValue = prop.GetValue(null).ToString();
@@ -130,7 +130,7 @@ namespace WinFormCoreUI {
             }
 
             public static void SaveStringSetting(string settingName, string settingValue) {
-                Type type = typeof(EDTLibrary.ProjectSettings.Settings); // MyClass is static class with static properties
+                Type type = typeof(EDTLibrary.ProjectSettings.EdtSettings); // MyClass is static class with static properties
                 foreach (var prop in type.GetProperties()) {
                     if (settingName == prop.Name) {
                         prop.SetValue(settingValue, settingValue);

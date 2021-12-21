@@ -60,7 +60,7 @@ namespace WinFormCoreUI {
                 Size = 5,
                 //Unit = "HP",
                 LoadFactor = 0.8,
-                Voltage = double.Parse(EDTLibrary.ProjectSettings.Settings.VoltageDefaultLV)
+                Voltage = double.Parse(EDTLibrary.ProjectSettings.EdtSettings.VoltageDefaultLV)
             });
             dgvEditor.DataSource = editLoad;
         }

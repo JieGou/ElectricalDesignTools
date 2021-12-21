@@ -13,7 +13,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <viewComponents:NavigationBar Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>
+        <!--<viewComponents:NavigationBar Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>-->
 
 
         <Grid Grid.Row="1">

@@ -30,9 +30,14 @@ namespace EDTLibrary {
     }
 
     public enum CableUsageTypes {
-        Power
+        Power,
+        Control,
+        Instrument,
+        Communication
+        
     }
 
+    //TODO - voltage to types tables from Db
     public enum Voltages
     {
         SixHundred = 600,
@@ -41,10 +46,11 @@ namespace EDTLibrary {
         HP
     }
     public enum Units {
-        kVA,
+        HP,
         kW,
-        AMPS,
-        HP
+        kVA,        
+        AMPS
+        
     }
 
     public enum OCPDTypes
@@ -54,6 +60,7 @@ namespace EDTLibrary {
         FUSE, 
         MCP       
     }
+
 
 
 

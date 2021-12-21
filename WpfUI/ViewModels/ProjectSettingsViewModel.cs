@@ -33,6 +33,7 @@ namespace WpfUI.ViewModels
 
 
         private readonly ProjectFileStore _projectStore;
+        private readonly LibraryFileStore _libraryStore;
 
         //public string? ProjectName => _projectStore.SelectedProject?.Name;
         //public string? ProjectPath => _projectStore.SelectedProject?.Path;
@@ -121,16 +122,6 @@ namespace WpfUI.ViewModels
             if (tables.Contains(SelectedTableSetting.Name)) {
                 SettingManager.SaveTableSetting(SelectedTableSetting);
                 SettingManager.CreateCableAmpsUsedInProject();
-
-
-                //debugging
-                StringBuilder sb = new StringBuilder();
-                foreach (DataRow row in SelectedTableSetting.TableValue.Rows) {
-                    sb.Append(row[2].ToString());
-                    sb.AppendLine("\n");
-                }
-                TestString = sb.ToString();
-
             }
 
         }

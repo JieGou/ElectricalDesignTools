@@ -16,4 +16,16 @@ namespace WpfUI.Stores
             set { _selectedProject = value; }
         }
     }
+
+    public class LibraryFileStore
+    {
+        private LibraryFile? _selectedProject;
+        public LibraryFile SelectedProject
+        {
+            get { return _selectedProject; }
+            set { _selectedProject = value; }
+        }
+    }
+
+
 }

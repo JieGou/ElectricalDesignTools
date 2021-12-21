@@ -14,7 +14,7 @@ namespace EDTLibrary.Models {
         public DteqModel() {
             Category = Categories.DIST.ToString();
             Voltage = LineVoltage;
-            PdType = EDTLibrary.ProjectSettings.Settings.DteqDefaultPdTypeLV;
+            PdType = EDTLibrary.ProjectSettings.EdtSettings.DteqDefaultPdTypeLV;
         }
 
        

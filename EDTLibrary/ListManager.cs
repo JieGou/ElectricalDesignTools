@@ -192,6 +192,7 @@ namespace EDTLibrary {
         /// <summary>
         /// Creteas a list of CableModel for all equipment and components based on the masterLoadList
         /// </summary>
+        /// 
         public static void CreateCableList() {
             CreateMasterLoadList();
             cableList.Clear();

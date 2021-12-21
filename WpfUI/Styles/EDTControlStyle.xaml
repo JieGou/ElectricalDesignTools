@@ -13,9 +13,10 @@
     <!--Base Button Style-->
     <Style TargetType="Button" BasedOn="{StaticResource DefaultStyle}">
         <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderThickness" Value="2,2,2,2"/>
+        <Setter Property="BorderThickness" Value="0.5"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="Height" Value="27"/>
+        <Setter Property="Background" Value="Transparent"/>
 
         <!--<Setter Property="Template">
             <Setter.Value>

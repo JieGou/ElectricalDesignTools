@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.ProjectSettings;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -58,6 +59,9 @@ namespace EDTLibrary.Models
             Tag = Source.Replace("-", "") + "-" + Destination.Replace("-", "");
         }
         
+        /// <summary>
+        /// Gets the Source Eq Derating, Destination Eq FLA
+        /// </summary>
         public void GetCableParameters() {
             if (LM.dteqDict.ContainsKey(Source)) {
                 Derating = ListManager.dteqDict[Source]._derating;
@@ -66,7 +70,7 @@ namespace EDTLibrary.Models
                 DesignAmps = ListManager.iLoadDict[Destination].Fla;
             }
             QtyConductors = 3;
-            UsageType = "Power";
+            UsageType = CableUsageTypes.Power.ToString();
             Insulation = 100;
 
             //DesignAmps
@@ -108,15 +112,15 @@ namespace EDTLibrary.Models
         // TODO - Move "CalculatePowerCableSize to ILoadModel
         public void CalculateQtySize() {
 
-            DataTable cableAmps = EDTLibrary.ProjectSettings.Settings.CableAmpsUsedInProject.Copy();
+            DataTable cableAmps = EDTLibrary.ProjectSettings.EdtSettings.CableAmpsUsedInProject.Copy();
 
             //filter cables larger than RequiredAmps          
-            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EDTLibrary.ProjectSettings.Settings.Code
+            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
                                                           && x.Field<double>("Amps75") >= _requiredAmps
                                                           && x.Field<string>("CodeTable") == _codeTable);
 
             GetCableQty(QtyParallel);
-            EDTLibrary.ProjectSettings.Settings.InitializeSettings();
+            EDTLibrary.ProjectSettings.EdtSettings.InitializeSettings();
             void GetCableQty(int cableQty) {
                 if (cables.Any()) {
                     cableAmps = null;
@@ -134,13 +138,13 @@ namespace EDTLibrary.Models
                 }
                 else {
                     QtyParallel += 1;
-                    cableAmps = EDTLibrary.ProjectSettings.Settings.CableAmpsUsedInProject.Copy();
+                    cableAmps = EDTLibrary.ProjectSettings.EdtSettings.CableAmpsUsedInProject.Copy();
                     foreach (DataRow row in cableAmps.Rows) {
                         double amps75 = (double)row["Amps75"];
                         string size = row["Size"].ToString();
                         amps75 *= QtyParallel;
                         row["Amps75"] = amps75;
-                        cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EDTLibrary.ProjectSettings.Settings.Code
+                        cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EDTLibrary.ProjectSettings.EdtSettings.Code
                                                           && x.Field<double>("Amps75") >= _requiredAmps
                                                           && x.Field<string>("CodeTable") == _codeTable);
                     }
@@ -153,10 +157,10 @@ namespace EDTLibrary.Models
             //TODO - if cables are already created and calbe size is removed it causes an error
             GetCableParameters();
 
-            DataTable cableAmps = EDTLibrary.ProjectSettings.Settings.CableAmpsUsedInProject.Copy();
+            DataTable cableAmps = EDTLibrary.ProjectSettings.EdtSettings.CableAmpsUsedInProject.Copy();
 
             //filter cables larger than RequiredAmps          
-            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EDTLibrary.ProjectSettings.Settings.Code
+            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EDTLibrary.ProjectSettings.EdtSettings.Code
                                                           && x.Field<string>("CodeTable") == _codeTable
                                                           && x.Field<string>("Size") == Size);
 

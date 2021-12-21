@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 
 namespace EDTLibrary.ProjectSettings {
-    public class Settings 
+    public class EdtSettings 
         {
         public static string Code { get; set; }
         public static string CableType3C1kV { get; set; }
@@ -31,7 +31,7 @@ namespace EDTLibrary.ProjectSettings {
         /// Creates the Cable Ampacities table for the project based on the selected cable sizes used in the project
         /// </summary>
         public static void CreateCableAmpsUsedInProject() {
-            CableAmpsUsedInProject = LibraryTables.CableAmpacities;
+            CableAmpsUsedInProject = LibraryTables.CableAmpacities.Copy();
 
             foreach (DataRow cablePrj in CableSizesUsedInProject3CLV.Rows) {              
                 if (cablePrj.Field<bool>("UsedInProject") == false) {

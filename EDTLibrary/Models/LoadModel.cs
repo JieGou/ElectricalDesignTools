@@ -13,7 +13,7 @@ namespace EDTLibrary.Models {
         public LoadModel() {
             Category = Categories.LOAD3P.ToString();
             LoadFactor = 0.8;
-            PdType = ProjectSettings.Settings.LoadDefaultPdTypeLV;
+            PdType = ProjectSettings.EdtSettings.LoadDefaultPdTypeLV;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

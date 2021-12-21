@@ -23,7 +23,7 @@ namespace WinFormCoreUI {
             this.WindowState = FormWindowState.Maximized;
             UI.LoadLibraryTables();
             UI.LoadProjectTables();
-            EDTLibrary.ProjectSettings.Settings.InitializeSettings();
+            EDTLibrary.ProjectSettings.EdtSettings.InitializeSettings();
             if (UI.ProjectLoaded && UI.LibraryLoaded) {
                 Loaded = true;
 
