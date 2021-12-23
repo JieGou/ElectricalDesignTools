@@ -45,16 +45,8 @@ namespace EDTLibrary {
 
         #region Database Table Quick Names
         public const string loadListTable = "Loads";
-        public static string dteqListTable = "DistributionEquipmentList";
-
-        public static string loadTypeTable = "LoadTypes";
-        public static string dteqTypeTable = "DistributionEquipmentTypes";
-
-        public static string unitsTable = "Units";
-        public static string voltage3PTable = "Voltage3P";
-
-        public static string motorDataTable = "MotorData2";
-        public static string loadDataTable = "LoadData";
+        public static string dteqListTable = "DistributionEquipment";
+        
         #endregion
 
         #region SQLite Data

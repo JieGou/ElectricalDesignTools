@@ -7,6 +7,7 @@
         xmlns:rules="clr-namespace:WpfUI.ValidationRules"
         xmlns:commands="clr-namespace:WpfUI.Commands"
         mc:Ignorable="d"
+        d:Width="1400" d:Height="800"
         Background="Lavender">
     <UserControl.Resources>
         <ResourceDictionary>

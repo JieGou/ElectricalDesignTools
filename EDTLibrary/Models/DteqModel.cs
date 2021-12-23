@@ -27,7 +27,7 @@ namespace EDTLibrary.Models {
 
         [Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; } //was private beo
-
+        public string Location { get; set; }
         public string Tag { get; set; }
         public string Category { get; set; } //dteq, load, component, cable,
         public string Type { get; set; }

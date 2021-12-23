@@ -81,7 +81,7 @@ namespace EDTLibrary.Models
             if (load != null) {
                 DesignAmps = load.Fla;
                 if (load.Category == Categories.LOAD1P.ToString()) {
-                    //TODO - algorithm to determine condutor count for 1Phase loads
+                    //TODO - algorithm to determine conductor count for 1Phase loads
                 }
                 if (load.Type == LoadTypes.MOTOR.ToString() | load.Type == LoadTypes.TRANSFORMER.ToString()) {
                     DesignAmps *= 1.25;
@@ -96,17 +96,16 @@ namespace EDTLibrary.Models
             _requiredAmps = DesignAmps / Derating;
             _codeTable = "Table2";
 
-
+            // selects the cabletype based on VoltageClass, Conuctors, Insulation and UsageType
             DataTable cableType = LibraryTables.CableTypes.Select($"VoltageClass >= {_voltage}").CopyToDataTable();
             cableType = cableType.Select($"VoltageClass = MIN(VoltageClass) " +
-                $"AND Conductors ={QtyConductors}" +
-                $"AND Insulation ={Insulation}" +
-                $"AND UsageType = '{UsageType}'").CopyToDataTable();
+                                         $"AND Conductors ={QtyConductors}" +
+                                         $"AND Insulation ={Insulation}" +
+                                         $"AND UsageType = '{UsageType}'").CopyToDataTable();
 
             Type = cableType.Rows[0]["Type"].ToString();
 
             RatedVoltage = Int32.Parse(cableType.Rows[0]["VoltageClass"].ToString());
-
         }
 
         // TODO - Move "CalculatePowerCableSize to ILoadModel

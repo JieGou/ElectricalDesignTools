@@ -17,8 +17,8 @@ namespace WpfUI.Services
     public class DataBaseService
     {
 
-        public static bool ProjectLoaded { get; set; }
-        public static bool LibraryLoaded { get; set; }
+        public static bool IsProjectLoaded { get; set; }
+        public static bool IsLibraryLoaded { get; set; }
 
 
         //DB Connections
@@ -29,20 +29,29 @@ namespace WpfUI.Services
 
 
 
-        public static void Initialize()
+        public static void InitializeLibrary()
         {
-            prjDb = new SQLiteConnector(AppSettings.Default.ProjectDb);
-            libDb = new SQLiteConnector(AppSettings.Default.LibraryDb);
+            if (File.Exists(AppSettings.Default.LibraryDb)) {
+                libDb = new SQLiteConnector(AppSettings.Default.LibraryDb);
+                DbManager.SetLibraryDb(AppSettings.Default.LibraryDb);
 
-            DbManager.SetProjectDb(AppSettings.Default.ProjectDb);
-            DbManager.SetLibraryDb(AppSettings.Default.LibraryDb);
+                LoadLibraryTables();
 
-            LoadLibraryTables();
-            LoadProjectTables();
-            LoadProjectSettings();
+            }
+        }
+        public static void InitializeProject()
+        {
+            if (File.Exists(AppSettings.Default.ProjectDb)) {
+                prjDb = new SQLiteConnector(AppSettings.Default.ProjectDb);
+                DbManager.SetProjectDb(AppSettings.Default.ProjectDb);
+
+                LoadProjectTables();
+                LoadProjectSettings();
+            }
+
         }
 
-        //Library
+        // SELECT
         public static void SelectLibrary()
         {
             string selectedFile = FileSystemHelper.SelectFile();
@@ -50,28 +59,10 @@ namespace WpfUI.Services
                 AppSettings.Default.LibraryDb = selectedFile;
                 AppSettings.Default.Save();
 
-                LoadLibraryTables();
+                InitializeLibrary();
             }
         }
-        public static void LoadLibraryTables()
-        {
-            Type libTablesClass = typeof(LibraryTables); // MyClass is static class with static properties
-            DataTable dt = new DataTable();
-
-            string dbFilename = AppSettings.Default.LibraryDb;
-            if (File.Exists(dbFilename)) {
-                foreach (var prop in libTablesClass.GetProperties()) {
-                    prop.SetValue(dt, libDb.GetDataTable(prop.Name));
-                }
-                LibraryLoaded = true;
-            }
-            else {
-                MessageBox.Show($"The selected file \n\n{dbFilename} cannot be found. Please select another Library file.");
-                LibraryLoaded = false;
-            }
-        }
-
-        //Project
+        
         public static void SelectProject()
         {
             string selectedFile = FileSystemHelper.SelectFile();
@@ -79,9 +70,22 @@ namespace WpfUI.Services
                 AppSettings.Default.ProjectDb = selectedFile;
                 AppSettings.Default.Save();
 
-                prjDb = new SQLiteConnector(AppSettings.Default.ProjectDb);
-                LoadProjectSettings();
-                LoadProjectTables();
+                InitializeProject();
+            }
+        }
+
+
+        // LOAD
+
+        public static void LoadLibraryTables()
+        {
+            string dbFilename = AppSettings.Default.LibraryDb;
+            if (File.Exists(dbFilename)) {
+                IsLibraryLoaded = DbManager.LoadLibraryTables();
+            }
+            else {
+                MessageBox.Show($"The selected Library file \n\n{dbFilename} cannot be found,it may have been moved or deleted. Please select another Library file.");
+                IsLibraryLoaded = false;
             }
         }
 
@@ -89,13 +93,12 @@ namespace WpfUI.Services
         {
             string dbFilename = AppSettings.Default.ProjectDb;
             if (File.Exists(dbFilename) == false) {
-                MessageBox.Show($"The selected file \n\n{dbFilename} cannot be found. Please select another project file.");
-                ProjectLoaded = false;
-               
+                MessageBox.Show($"The selected Project file \n\n{dbFilename} cannot be found, it may have been moved or deleted. Please select another Project file.");
+                IsProjectLoaded = false;
             }
-            else if (LibraryLoaded == false) {
+            else if (IsLibraryLoaded == false) {
                 MessageBox.Show($"The library file is not loaded.");
-                ProjectLoaded = false;
+                IsProjectLoaded = false;
             }
             else {
 
@@ -104,21 +107,16 @@ namespace WpfUI.Services
                 ListManager.loadList = prjDb.GetRecords<LoadModel>("Loads");
                 ListManager.cableList = prjDb.GetRecords<CableModel>("Cables");
                 ListManager.CreateMasterLoadList();
-                ListManager.AssignLoadsToDteq();
 
-                ProjectLoaded = true;
+                IsProjectLoaded = true;
             }
         }
 
-        //Settings
+        // SETTINGS
 
-        //TODO update load project settings to new style
         public static void LoadProjectSettings()
         {
-            string dbFilename = AppSettings.Default.ProjectDb;
-
-            SettingManager.InitializeSettings();
- 
+            SettingManager.LoadProjectSettings();
         }
 
         public static void SaveProjectSettings()

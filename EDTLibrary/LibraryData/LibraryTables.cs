@@ -23,6 +23,17 @@ namespace EDTLibrary {
         public static DataTable Transformers { get; set; }
         public static DataTable VFDHeatLoss { get; set; }
 
+        public static DataTable VoltageTypes { get; set; }
+        public static DataTable NemaTypes { get; set; }
+
+
+
+
+        //ArrayList tables = UI.libDb.GetListOfTablesNamesInDb();
+
+        //    foreach (string item in tables) {
+        //        lstDataTables.Items.Add(item);
+        //    }
 
 
 
@@ -32,12 +43,6 @@ namespace EDTLibrary {
 
 
 
-
-
-
-
-
-
-    }
+}
 
 }

@@ -134,7 +134,6 @@ namespace EDTLibrary.DataAccess
                 foreach (var prop in propertyList)
                 {
                     sb.Append($"{prop}, ");
-                    //cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
                 sb.Replace(", ", "", sb.Length - 2, 2);
                 sb.Append(") VALUES (");
@@ -161,6 +160,60 @@ namespace EDTLibrary.DataAccess
                 }
                 catch (Exception ex)
                 {
+                    //throw new Exception("Could not add record");
+                    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
+                        $"Query: \n{sb}\n\n" +
+                        $"Details: \n\n {ex}"); ;
+                }
+            }
+        }
+
+        public Tuple<bool, string> UpsertRecord<T>(T classObject, string tableName, List<string> propertyList) where T: class, new()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(conString).OpenAndReturn()) 
+            {
+                StringBuilder sb = new StringBuilder();
+                var props = classObject.GetType().GetProperties();
+                SQLiteCommand cmd = new SQLiteCommand();
+
+
+
+                //Column Names
+                foreach (var prop in propertyList) {
+                    sb.Append($"{prop}, ");
+                }
+                sb.Replace(", ", "", sb.Length - 2, 2);
+                sb.Append(") VALUES (");
+
+                //Parameters (@ColumnNames)
+                foreach (var prop in propertyList) {
+                    sb.Append($"@{prop}, ");
+                    foreach (var p in props) {
+                        if (prop == p.Name) {
+                            cmd.Parameters.AddWithValue($"@{prop}", p.GetValue(classObject));
+                        }
+                    }
+                }
+                sb.Replace(", ", "", sb.Length - 2, 2);
+                sb.Append(")");
+
+
+                sb.Append($" ON CONFLICT DO UPDATE SET ");
+
+                foreach (var prop in props) {
+                    sb.Append($"{prop.Name} = @{prop.Name}, ");
+                    cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
+                }
+                sb.Replace("Id = @Id,", "");
+                sb.Replace(", ", "", sb.Length - 2, 2);
+                sb.Append(" WHERE Id = @Id");
+
+
+                try {
+                    cnn.Execute("" + sb.ToString(), classObject);
+                    return new Tuple<bool, string>(true, "");
+                }
+                catch (Exception ex) {
                     //throw new Exception("Could not add record");
                     return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
                         $"Query: \n{sb}\n\n" +

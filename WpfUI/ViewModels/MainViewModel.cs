@@ -22,6 +22,7 @@ namespace WpfUI.ViewModels
         private readonly ProjectSettingsViewModel _projectSettingsViewModel = new ProjectSettingsViewModel();
         private readonly EquipmentViewModel _equipmentViewModel = new EquipmentViewModel();
         private readonly CableListViewModel _cableListViewModel = new CableListViewModel();
+        private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
         public MainViewModel()
         {
@@ -29,19 +30,24 @@ namespace WpfUI.ViewModels
             NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings);
             NavigateEquipmentCommand = new RelayCommand(NavigateEquipment);
             NavigateCableListCommand = new RelayCommand(NavigateCableList);
+            NavigateDataTablesCommand = new RelayCommand(NavigateDataTables);
 
             //Gets data from Project Database
-            DataBaseService.Initialize();
+            DataBaseService.InitializeLibrary();
+            DataBaseService.InitializeProject();
 
             _equipmentViewModel.DteqList = new ObservableCollection<DteqModel>(ListManager.GetDteq());
             _equipmentViewModel.LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
         }
+
+        
 
         #region Navigation
         public ICommand NavigateStartupCommand { get; }
         public ICommand NavigateProjectSettingsCommand { get; }
         public ICommand NavigateEquipmentCommand { get; }
         public ICommand NavigateCableListCommand { get; }
+        public ICommand NavigateDataTablesCommand { get; }
         private void NavigateStartup()
         {
             CurrentViewModel = _startupViewModel;
@@ -58,6 +64,10 @@ namespace WpfUI.ViewModels
         private void NavigateCableList()
         {
             CurrentViewModel = _cableListViewModel;
+        }
+        private void NavigateDataTables()
+        {
+            CurrentViewModel = _dataTablesViewModel;
         }
         #endregion
 

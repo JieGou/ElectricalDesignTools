@@ -17,7 +17,7 @@ namespace EDTLibrary.ProjectSettings {
         public static Dictionary<string, SettingModel> StringSettingDict { get; set; } = new Dictionary<string, SettingModel>();
         public static Dictionary<string, SettingModel> TableSettingDict { get; set; } = new Dictionary<string, SettingModel>();
 
-        public static void InitializeSettings()
+        public static void LoadProjectSettings()
         {
             SettingList.Clear();
             SettingList = DbManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
@@ -28,7 +28,6 @@ namespace EDTLibrary.ProjectSettings {
             foreach (var setting in SettingList) {
                 if (setting.Type != "DataTable") {
                     StringSettingList.Add(setting);
-
                 }
             }
 
@@ -122,7 +121,16 @@ namespace EDTLibrary.ProjectSettings {
 
         public static void SaveStringSetting(SettingModel setting)
         {
+            //SettingsModel
             DbManager.prjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
+
+            //SettingProperty
+            Type type = typeof(EdtSettings); // MyClass is static class with static properties
+            foreach (var prop in type.GetProperties()) {
+                if (setting.Name == prop.Name) {
+                    prop.SetValue(setting.Value, setting.Value);
+                }
+            }
         }
 
         public static void SaveTableSetting(SettingModel tableSetting)
@@ -198,8 +206,8 @@ namespace EDTLibrary.ProjectSettings {
             }
         }
 
-        //Table Settings
 
+        //Table Settings
         public static DataTable GetTableSettingOld(string settingName) {
             DataTable dt = new DataTable();
             Type type = typeof(EdtSettings); // MyClass is static class with static properties

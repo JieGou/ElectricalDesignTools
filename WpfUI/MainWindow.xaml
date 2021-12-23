@@ -20,50 +20,53 @@
     <Window.Resources>
         <sys:Int32 x:Key="button1">1</sys:Int32>
 
-        <sys:Int32 x:Key="menuRow">1</sys:Int32>
+        <sys:Int32 x:Key="menuRow">0</sys:Int32>
         <sys:Int32 x:Key="contentRow">2</sys:Int32>
 
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="{StaticResource menuRow}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
+                       
+            <StackPanel Orientation="Horizontal" Grid.Row="{StaticResource menuRow}">
+               <TextBlock Grid.Column="1"  Text="Menu" FontSize="24" Margin="0,5,50,10"/> 
+                
+                <Button VerticalAlignment="Top"
+                        x:Name="btnStartup"
+                        Content="Startup"
+                        Command="{Binding NavigateStartupCommand}" Margin="10,10,10,0" Height="27"/>
 
-            <TextBlock Grid.Column="1"  Text="Menu" FontSize="24" Margin="0,5,0,10"/>
+                <Button VerticalAlignment="Top"
+                        x:Name="btnProjectSettings"
+                        Content="Project Settings"
+                        Command="{Binding NavigateProjectSettingsCommand}" Margin="10,10,10,0" Height="27"/>
 
-            <Button Grid.Column="3" VerticalAlignment="Top"
-                    x:Name="btnStartup"
-                    Content="Startup"
-                    Command="{Binding NavigateStartupCommand}" Margin="10,10,10,0" Height="27" Click="btnStartup_Click"/>
+                <Button VerticalAlignment="Top"
+                        x:Name="btnLoadList"
+                        Content="Load List"
+                        Command="{Binding NavigateLoadListCommand}" Margin="10,10,10,10" Height="27" />
+                
+                <Button VerticalAlignment="Top"
+                        x:Name="btnDteq"
+                        Content="Major Equipment"
+                        Command="{Binding NavigateEquipmentCommand}" Margin="10,10,10,10" Height="27" />
 
-            <Button Grid.Column="4" VerticalAlignment="Top"
-                    x:Name="btnProjectSettings"
-                    Content="Project Settings"
-                    Command="{Binding NavigateProjectSettingsCommand}" Margin="10,10,10,0" Height="27" Click="btnProjectSettings_Click"/>
-
-            <Button Grid.Column="5"
-                    x:Name="btnEquipment"
-                    Content="Equipment"
-                    Command="{Binding NavigateEquipmentCommand}" Margin="10,10,10,10" Height="Auto" Click="btnEquipment_Click"/>
-
-            <Button Grid.Column="6" VerticalAlignment="Top"
+                <Button  VerticalAlignment="Top"
                     x:Name="btnCableList"
                     Content="Cable List"
                     Command="{Binding NavigateCableListCommand}" Margin="10,10,10,0" Height="27"/>
+                
+                <Button  VerticalAlignment="Top"
+                    x:Name="btnDataTables"
+                    Content="Data Tables"
+                    Command="{Binding NavigateDataTablesCommand}" Margin="10,10,10,0" Height="27"/>
+                
+            </StackPanel>
         </Grid>
 
         <!--Conten Control-->
@@ -88,6 +91,12 @@
                 <DataTemplate DataType="{x:Type viewmodels:CableListViewModel}">
                     <views:CableListView/>
                 </DataTemplate>
+
+
+                <DataTemplate DataType="{x:Type viewmodels:DataTablesViewModel}">
+                    <views:DataTablesView/>
+                </DataTemplate>
+
 
             </ContentControl.Resources>
             

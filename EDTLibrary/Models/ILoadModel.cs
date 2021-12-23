@@ -6,10 +6,10 @@ namespace EDTLibrary.Models {
     public interface ILoadModel: IEquipmentModel {
         //Primary
         [Browsable(false)] // make this property non-visisble by grids/databindings
-        new int Id { get; set; }
-        new string Tag { get; set; }
-        new string Category { get; set; }
-        new string Type { get; set; }
+        int Id { get; set; }
+        string Tag { get; set; }
+        string Category { get; set; }
+        string Type { get; set; }
         string Description { get; set; }
         double Voltage { get; set; }
         double Size { get; set; }

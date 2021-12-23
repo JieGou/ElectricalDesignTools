@@ -101,7 +101,7 @@ namespace WpfUI.ViewModels
 
         public void LoadSettings()
         {
-            SettingManager.InitializeSettings();
+            SettingManager.LoadProjectSettings();
             StringSettings = new ObservableCollection<SettingModel>(SettingManager.StringSettingList);
             TableSettings = new ObservableCollection<SettingModel>(SettingManager.TableSettingList);
 
