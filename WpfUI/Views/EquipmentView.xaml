@@ -36,6 +36,22 @@
                 </Style.Triggers>
             </Style>
 
+            
+            <!--Is EDITING-->
+            
+            <!--<Style TargetType="DataGridCell">
+                <Style.Triggers>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="IsReadOnly" Value="False" />
+                            <Condition Property="IsMouseOver" Value="True" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="IsEditing" Value="True" />
+                    </MultiTrigger>
+                </Style.Triggers>
+            </Style>-->
+
+            
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -90,8 +106,20 @@
             <Button Name ="btnAddDteq" Content="Add Dteq" 
                     Margin="10,10,10,10"
                     Command="{Binding Path=AddDteqCommand}"/>
-            
-            <Button Name ="btnCalculate" Content="Calculate Dteq" Command="{Binding CalculateDteqCommand}"/>
+
+                <ComboBox Name="cbxFedFrom" ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding ElementName=dgdDteq,Path=SelectedItem.FedFrom, ValidatesOnDataErrors=True}"
+                          SelectedValue="{Binding ElementName=dgdDteq,Path=SelectedItem.FedFrom}"
+                          Margin="10"/>
+
+                <ComboBox Name="cbxFedFrom2" 
+                          SelectedItem="{Binding Test}"
+                          ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Margin=" 10"/>
+
+                <TextBlock Text="{Binding Test}" Background="white"/>
+
+                <Button Name ="btnCalculate" Content="Calculate Dteq" Command="{Binding CalculateDteqCommand}"/>
 
 
             <ListBox Name="lstDteq" ItemsSource="{Binding DteqList, Mode=TwoWay}"
@@ -111,25 +139,18 @@
                       ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       CanUserAddRows="False"
                       HorizontalAlignment="Left" 
-                      AutoGenerateColumns="False"
-                      SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
-                <DataGrid.Columns>
+                      AutoGenerateColumns="False">
+                   
+                    <DataGrid.Columns>
                     <!--Basic-->  <!--Textblock cell padding style in this.resources Move to ResDict-->
                     <DataGridTextColumn Header="Tag" x:Name="Tag" Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" ElementStyle="{StaticResource ColumnElementStyle}" />
                         <!--Type-->
-                    <DataGridTemplateColumn Header="Type">
+                    <DataGridTemplateColumn Header="Type" x:Name="dteqType">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                    <!--<ComboBox ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
+                                    <ComboBox ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
                                               SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               Text="{Binding Type, ValidatesOnDataErrors=True}"
-                                              HorizontalContentAlignment="Center"
-                                              IsEditable="True" IsTextSearchEnabled="True"
-                                              IsSynchronizedWithCurrentItem="False"/>-->
-                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.DteqTypes}"
-                                              SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                              SelectedValuePath="{Binding Type}"
-                                              Text="{Binding Type}"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="True" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
@@ -153,17 +174,37 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
-                                    <ComboBox ItemsSource="{Binding Source={StaticResource dteqList}}"
+                                    <!--<ComboBox ItemsSource="{Binding Source={StaticResource dteqList}}"
                                               SelectedValue="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                               Text="{Binding FedFrom}"  
-                                        DisplayMemberPath="Tag"
-                                              SelectedValuePath="{Binding FedFrom}"
+                                              DisplayMemberPath="Tag"
+                                              SelectedValuePath="{Binding Tag}"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="True" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"/>
+                                              BorderThickness="0"/>-->
+                                    <!--<ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedItem="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                              Text="{Binding FedFrom}"  
+                                              HorizontalContentAlignment="Center"
+                                              IsEditable="True" IsTextSearchEnabled="True" IsReadOnly="False" TextSearch.Text=""
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0" />-->
+                                    <TextBlock Text="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedItem="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                              Text="{Binding FedFrom}"  
+                                              HorizontalContentAlignment="Center"
+                                              IsEditable="True" IsTextSearchEnabled="True" IsReadOnly="False" TextSearch.Text=""
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0" 
+                                              IsDropDownOpen="False"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
                     <!--Voltage-->
@@ -191,7 +232,7 @@
                         </DataGridTextColumn>
                     
                     <!--Unit-->
-                        <DataGridTemplateColumn Header="Unit">
+                    <DataGridTemplateColumn Header="Unit">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
@@ -207,7 +248,7 @@
                     <DataGridTextColumn Header="  Line &#x0a;Voltage" x:Name="LineVoltageype"  Binding="{Binding Path=LineVoltage, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <DataGridTextColumn Header="  Load &#x0a;Voltage" x:Name="LoadVoltage" Binding="{Binding Path=LoadVoltage, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <!--Loading-->
-                        <DataGridTextColumn Header="FLA" x:Name="Fla" Binding="{Binding Path=Fla, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" IsReadOnly="True" />
+                    <DataGridTextColumn Header="FLA" x:Name="Fla" Binding="{Binding Path=Fla, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" IsReadOnly="True" />
                     <DataGridTextColumn Header="Running &#x0a;   Amps" x:Name="RunningAmps" Binding="{Binding Path=RunningAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <DataGridTextColumn Header="Conn &#x0a; kVA" x:Name="ConnectedKva" Binding="{Binding Path=ConnectedKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <DataGridTextColumn Header="Dem &#x0a; kVA" x:Name="DemandKva" Binding="{Binding Path=DemandKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
@@ -316,11 +357,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Tag" Binding="{Binding Path=Tag}" MinWidth="50"/>
                     <DataGridTextColumn Header="Type" Binding="{Binding Path=Type}" MinWidth="50"/>
-                    <DataGridComboBoxColumn Header="FedFrom" Width="75" 
-                                            ItemsSource="{Binding Source={StaticResource dteqList}}"
-                                            DisplayMemberPath="Tag" 
-                                            SelectedValuePath="Tag" 
-                                            SelectedValueBinding="{Binding Path=FedFrom}"/>
+                    <DataGridTextColumn Header="Fed From" Binding="{Binding Path=FedFrom}" MinWidth="50"/>
                         <!--//value it saves to-->
                 </DataGrid.Columns>
             </DataGrid>

@@ -17,7 +17,7 @@ namespace WpfUI.ViewModels
 
         public CableListViewModel()
         {
-            CableList = new ObservableCollection<CableModel>(ListManager.GetCableList());
+            //CableList = new ObservableCollection<CableModel>(ListManager.GetCableList());
         }
 
 

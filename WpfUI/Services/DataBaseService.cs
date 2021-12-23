@@ -34,6 +34,9 @@ namespace WpfUI.Services
             prjDb = new SQLiteConnector(AppSettings.Default.ProjectDb);
             libDb = new SQLiteConnector(AppSettings.Default.LibraryDb);
 
+            DbManager.SetProjectDb(AppSettings.Default.ProjectDb);
+            DbManager.SetLibraryDb(AppSettings.Default.LibraryDb);
+
             LoadLibraryTables();
             LoadProjectTables();
             LoadProjectSettings();

@@ -1,6 +1,9 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EDTLibrary;
+using EDTLibrary.DataAccess;
+using EDTLibrary.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +29,12 @@ namespace WpfUI.ViewModels
             NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings);
             NavigateEquipmentCommand = new RelayCommand(NavigateEquipment);
             NavigateCableListCommand = new RelayCommand(NavigateCableList);
+
+            //Gets data from Project Database
             DataBaseService.Initialize();
+
+            _equipmentViewModel.DteqList = new ObservableCollection<DteqModel>(ListManager.GetDteq());
+            _equipmentViewModel.LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
         }
 
         #region Navigation
@@ -44,6 +52,7 @@ namespace WpfUI.ViewModels
         }
         private void NavigateEquipment()
         {
+            
             CurrentViewModel = _equipmentViewModel;
         }
         private void NavigateCableList()
@@ -58,14 +67,6 @@ namespace WpfUI.ViewModels
             get { return _currentViewModel; }
             set { _currentViewModel = value; }
         }
-
-        private UserControl _currentView;
-        public UserControl CurrentView
-        {
-            get { return _currentView; }
-            set { _currentView = value; }
-        }
-
 
         //private readonly NavigationStore _navigationStore;
         //public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;

@@ -33,7 +33,9 @@ namespace WpfUI.ViewModels
         public StartupViewModel(NavigationBarViewModel navigationBarViewModel, ProjectFileStore projectFileStore, NavigationService<ProjectSettingsViewModel> projectSettingsNavigationService)
         {
             SetSelectedProject();
-            _projectFile = new ProjectFile() { Name = ProjectName, Path = ProjectPath, };
+
+            //string filePath = string.Empty;
+            //_projectFile = new ProjectFile(filePath) { FileName = ProjectName, FilePath = ProjectPath, };
 
             NavigationBarViewModel = navigationBarViewModel;
 
@@ -57,8 +59,8 @@ namespace WpfUI.ViewModels
         public void SetSelectedProject()
         {
             _selectedProject = AppSettings.Default.ProjectDb; 
-            ProjectName = Path.GetFileName(_selectedProject).Replace(".db", "");
-            ProjectPath = Path.GetFullPath(_selectedProject).Replace(Path.GetFileName(_selectedProject), "");
+            ProjectName = Path.GetFileNameWithoutExtension(_selectedProject);
+            ProjectPath = Path.GetDirectoryName(_selectedProject);
             
         }
     }

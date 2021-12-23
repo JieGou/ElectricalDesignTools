@@ -225,7 +225,8 @@
                           RowHeaderWidth="0"
                           SelectionUnit="Cell"
                           DataContext="{Binding SelectedTableSetting}"
-                          ItemsSource="{Binding Path=TableValue, Mode=TwoWay, UpdateSourceTrigger=Explicit, IsAsync=True}">
+                          ItemsSource="{Binding Path=TableValue, Mode=TwoWay, UpdateSourceTrigger=Explicit, IsAsync=True}"
+                          AutoGeneratingColumn="dgdTableSetting_AutoGeneratingColumn">
                     
                 </DataGrid>
             </StackPanel>

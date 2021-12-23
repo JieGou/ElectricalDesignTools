@@ -29,6 +29,17 @@ namespace WpfUI.ViewModels {
 
         public List<string> DteqTypes { get; set; } = new List<string>();
 
+        private ObservableCollection<string> _fedFromList;
+        public ObservableCollection<string> FedFromList
+        {
+            get
+            {
+                _fedFromList = new ObservableCollection<string>(DteqList.Select(dteq => dteq.Tag).ToList());
+                _fedFromList.Insert(0, "UTILITY");
+                return _fedFromList;
+            }
+            set { }
+        }
 
         private string _dteqTagToAdd;
         public DteqModel SelectedDteq { get => _selectedDteq; set => _selectedDteq = value; }
@@ -49,23 +60,11 @@ namespace WpfUI.ViewModels {
                 }
             }
         }
-
+        public string Test { get; set; }
         //TODO = FigureOut MasterLoad List
-        public ObservableCollection<DteqModel> DteqList
-        {
-            get { return _dteqList; }
-            set
-            {
-                _dteqList = value;
-                CreateMasterLoadList();
-                DictionaryStore.CreateDteqDict(DteqList);
-            }
-        }
-        public ObservableCollection<LoadModel> LoadList
-        {
-            get { return _loadList; }
-            set { _loadList = value; CreateMasterLoadList(); }
-        }
+        public ObservableCollection<DteqModel> DteqList { get; set; }
+        
+        public ObservableCollection<LoadModel> LoadList { get; set; }
         public ObservableCollection<ILoadModel> MasterLoadList { get; set; }
         #endregion
 
@@ -74,17 +73,14 @@ namespace WpfUI.ViewModels {
             foreach (var item in Enum.GetNames(typeof(EDTLibrary.DteqTypes))) {
                 DteqTypes.Add(item.ToString());
             }
-
-            DbManager.SetProjectDb(AppSettings.Default.ProjectDb);
-            DbManager.SetLibraryDb(AppSettings.Default.LibraryDb);
+            //BuildFedFromList();
 
             //Instatiates the required properties
             MasterLoadList = new ObservableCollection<ILoadModel>();
 
             //TODO - move to service
-            //Gets data from Project Database
-            DteqList = new ObservableCollection<DteqModel>(ListManager.GetDteq());
-            LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
+            
+            
 
             //ListManager.AssignLoadsToDteq(DteqList, LoadList);
         }
@@ -173,12 +169,20 @@ namespace WpfUI.ViewModels {
         private void AddDteq() { // TODO - methods for invalid tags
             if (IsTagAvailable(_dteqTagToAdd) && _dteqTagToAdd != "" && _dteqTagToAdd !=null) {
                 DteqList.Add(new DteqModel() { Tag = _dteqTagToAdd });
+
                 CreateMasterLoadList();
                 DictionaryStore.CreateDteqDict(DteqList);
+
+                BuildFedFromList();
             }
         }
 
-        private void CalculateDteq()
+        private void BuildFedFromList()
+        {
+            FedFromList = new ObservableCollection<string>(DteqList.Select(dteq => dteq.Tag).ToList());
+            FedFromList.Insert(0, "UTILITY");
+        }
+            private void CalculateDteq()
         {
 
             ListManager.AssignLoadsToDteq(DteqList, LoadList);
@@ -197,10 +201,10 @@ namespace WpfUI.ViewModels {
 
         private void CreateMasterLoadList() {
             MasterLoadList.Clear();
-            foreach (var dteq in _dteqList) {
+            foreach (var dteq in DteqList) {
                 MasterLoadList.Add(dteq);
             }
-            foreach (var load in _loadList) {
+            foreach (var load in LoadList) {
                 MasterLoadList.Add(load);
             }
         }

@@ -32,6 +32,8 @@ namespace EDTLibrary.Models {
         public string Category { get; set; } //dteq, load, component, cable,
         public string Type { get; set; }
         public string Description { get; set; }
+        public string LocationTag { get; set; }
+
         #endregion
 
         #region ILoadModel - User inputs
@@ -40,7 +42,9 @@ namespace EDTLibrary.Models {
         public string Unit { get; set; }
 
         [DisplayName("Fed From")]
-        public string FedFrom { get; set; }
+        public string FedFrom { 
+            get;
+            set; }
         #endregion
 
         [DisplayName("Line\nVoltage")]

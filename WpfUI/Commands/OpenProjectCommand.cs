@@ -33,15 +33,15 @@ namespace WpfUI.Commands
 
         public override void Execute(object? parameter)
         {
-            ProjectFile projectFile = new ProjectFile() {
-                Name = _viewModel.ProjectName,
-                Path = _viewModel.ProjectPath
-            };
-            MessageBox.Show($"Opening Project: {_viewModel.ProjectName}");
+            //ProjectFile projectFile = new ProjectFile() {
+            //    Name = _viewModel.ProjectName,
+            //    Path = _viewModel.ProjectPath
+            //};
+            //MessageBox.Show($"Opening Project: {_viewModel.ProjectName}");
 
-            _projectFileStore.SelectedProject = projectFile;
-            //Navigate to Poject Settings page
-            _navigationService.Navigate();
+            //_projectFileStore.SelectedProject = projectFile;
+            ////Navigate to Poject Settings page
+            //_navigationService.Navigate();
         }
     }
 }

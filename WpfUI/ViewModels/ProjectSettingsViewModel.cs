@@ -33,7 +33,6 @@ namespace WpfUI.ViewModels
 
 
         private readonly ProjectFileStore _projectStore;
-        private readonly LibraryFileStore _libraryStore;
 
         //public string? ProjectName => _projectStore.SelectedProject?.Name;
         //public string? ProjectPath => _projectStore.SelectedProject?.Path;
@@ -60,7 +59,7 @@ namespace WpfUI.ViewModels
 
         public ProjectSettingsViewModel()
         {
-            LoadSettings();
+            //LoadSettings();
             // Create commands
 
             SelectProjectCommand = new RelayCommand(SelectProject);

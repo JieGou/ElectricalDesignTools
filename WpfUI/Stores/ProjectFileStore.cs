@@ -9,21 +9,26 @@ namespace WpfUI.Stores
 {
     public class ProjectFileStore
     {
-        private ProjectFile? _selectedProject;
-        public ProjectFile SelectedProject
+        private static ProjectFile? _selectedProject;
+        public static ProjectFile SelectedProject
         {
             get { return _selectedProject; }
             set { _selectedProject = value; }
         }
 
-        public void AddToPreviouslyOpenedList()
+        public static void AddToPreviouslyOpenedList()
         {
-            
+
         }
 
+
+        private static ProjectFile? _selectedLibrary;
+        public static ProjectFile SelectedLibrary
+        {
+            get { return _selectedLibrary; }
+            set { _selectedLibrary = value; }
+        }
+
+
     }
-
-
-
-
 }

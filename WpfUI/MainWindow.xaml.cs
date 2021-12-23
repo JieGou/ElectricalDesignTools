@@ -88,7 +88,25 @@ namespace WpfUI {
             }
         }
 
-         private void btnStartup_Click(object sender, RoutedEventArgs e)
+        private void OnAutoGeneratingColumn2(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column is DataGridCheckBoxColumn && !e.Column.IsReadOnly) {
+                var checkboxFactory = new FrameworkElementFactory(typeof(CheckBox));
+                checkboxFactory.SetValue(FrameworkElement.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+                checkboxFactory.SetValue(FrameworkElement.VerticalAlignmentProperty, VerticalAlignment.Center);
+                checkboxFactory.SetBinding(ToggleButton.IsCheckedProperty, new Binding(e.PropertyName) { UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
+
+                e.Column = new DataGridTemplateColumn {
+                    Header = e.Column.Header,
+                    CellTemplate = new DataTemplate {
+                        VisualTree = checkboxFactory
+                    },
+                    SortMemberPath = e.Column.SortMemberPath
+                };
+            }
+        }
+
+        private void btnStartup_Click(object sender, RoutedEventArgs e)
         {
 
         }
