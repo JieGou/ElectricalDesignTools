@@ -25,9 +25,40 @@ namespace WpfUI.ViewModels {
         #region Properties
         public NavigationBarViewModel NavigationBarViewModel { get; }
 
+
+
+        // DTEQ
+        private ObservableCollection<DteqModel> _dteqList = new ObservableCollection<DteqModel>();
+        public ObservableCollection<DteqModel> DteqList
+        {
+            get { return _dteqList;  }
+
+            set
+            {
+                _dteqList = value;
+            }
+        }
+
+
         private DteqModel _selectedDteq;
+        public DteqModel SelectedDteq
+        {
+            get { return _selectedDteq; }
+            set
+            {
+                _selectedDteq = value;
+                LoadListLoaded = false;
+
+                if (_selectedDteq != null) {
+                    AssignedLoads = new ObservableCollection<ILoadModel>(_selectedDteq.AssignedLoads);
+                }
+
+            }
+        }
 
         public List<string> DteqTypes { get; set; } = new List<string>();
+
+
 
         private ObservableCollection<string> _fedFromList;
         public ObservableCollection<string> FedFromList
@@ -42,15 +73,6 @@ namespace WpfUI.ViewModels {
         }
 
         private string _dteqTagToAdd;
-        public DteqModel SelectedDteq
-        {
-            get { return _selectedDteq; }
-            set
-            {
-                _selectedDteq = value;
-                AssignedLoads = new ObservableCollection<ILoadModel>(_selectedDteq.AssignedLoads);
-            }
-        }
         public ObservableCollection<ILoadModel> AssignedLoads { get; set; } = new ObservableCollection<ILoadModel> { };
 
         public string DteqTagToAdd
@@ -70,14 +92,14 @@ namespace WpfUI.ViewModels {
             }
         }
         public string Test { get; set; }
-        //TODO = FigureOut MasterLoad List
 
-        private ObservableCollection<DteqModel> _dteqList = new ObservableCollection<DteqModel>();
-        public ObservableCollection<DteqModel> DteqList { get; set; }
+       
 
-
+        // LOADS
         private ObservableCollection<LoadModel> _loadList = new ObservableCollection<LoadModel>();
         public ObservableCollection<LoadModel> LoadList { get; set; }
+
+        public bool LoadListLoaded { get; set; }
 
 
         public ObservableCollection<ILoadModel> MasterLoadList { get; set; }
@@ -88,33 +110,60 @@ namespace WpfUI.ViewModels {
             foreach (var item in Enum.GetNames(typeof(EDTLibrary.DteqTypes))) {
                 DteqTypes.Add(item.ToString());
             }
-            //BuildFedFromList();
 
             //Instatiates the required properties
+            //TODO = FigureOut MasterLoad List
+
             MasterLoadList = new ObservableCollection<ILoadModel>();
-
-            //TODO - move to service
-            
-            
-
-            //ListManager.AssignLoadsToDteq(DteqList, LoadList);
         }
+
+
+
+
+        #region Public Commands
+
+        // Equipment Commands
+        public ICommand GetDteqCommand { get; }
+        public ICommand CalculateDteqCommand { get; }
+        public ICommand SaveDteqListCommand { get; }
+        public ICommand DeleteDteqListCommand { get; }
+
+
+        public ICommand AddDteqCommand { get; }
+
+
+        // Load Commands
+        public ICommand ShowLoadListCommand { get; }
+        public ICommand SaveLoadListCommand { get; }
+
+        #endregion
+
 
         #region Constructor
         public EquipmentViewModel()
         {
             
             // Create commands
-            AddDteqCommand = new RelayCommand(AddDteq);
+            GetDteqCommand = new RelayCommand(GetDteq);
             CalculateDteqCommand = new RelayCommand(CalculateDteq);
             SaveDteqListCommand = new RelayCommand(SaveDteq);
+            DeleteDteqListCommand = new RelayCommand(DeleteDteq);
+            AddDteqCommand = new RelayCommand(AddDteq);
+
+
             ShowLoadListCommand = new RelayCommand(ShowLoadList);
+            SaveLoadListCommand = new RelayCommand(SaveLoadList);
 
             Initialize();
 
         }
 
        
+
+
+
+
+
 
 
 
@@ -163,28 +212,54 @@ namespace WpfUI.ViewModels {
         private void OnErrorsChanged(string? propertyName) {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
-        #endregion
-
-        
-        #region Public Commands
-
-
-        //Equipment Commands
-        public ICommand AddDteqCommand { get; }
-        public ICommand CalculateDteqCommand { get; }
-        public ICommand SaveDteqListCommand { get; }
-        public ICommand ShowLoadListCommand { get; }
-
-
         public string Error { get; }
+
         #endregion
 
 
+       
 
-        #region Helper Methods
 
-        private void AddDteq() { // TODO - methods for invalid tags
-            if (IsTagAvailable(_dteqTagToAdd) && _dteqTagToAdd != "" && _dteqTagToAdd !=null) {
+
+        #region Command Methods
+
+        // Dteq
+        private void GetDteq() {
+            DteqList = new ObservableCollection<DteqModel>(DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.dteqListTable));
+        }
+        private void CalculateDteq()
+        {
+
+            ListManager.AssignLoadsToDteq(DteqList, LoadList);
+            foreach (var dteq in DteqList) {
+                dteq.CalculateLoading();
+            }
+        }
+        private void SaveDteq()
+        {
+            //if (DteqList.Count !=0) {
+            //    DbManager.prjDb.DeleteAllRecords(GlobalConfig.dteqListTable);
+            //    foreach (var dteq in DteqList) {
+            //        DbManager.prjDb.InsertRecord<DteqModel>(dteq, GlobalConfig.dteqListTable, SaveLists.DteqSaveList);
+            //    }
+            //}
+
+            foreach (var dteq in DteqList) {
+                DbManager.prjDb.UpsertRecord<DteqModel>(dteq, GlobalConfig.dteqListTable, SaveLists.DteqSaveList);
+            }
+            CalculateDteq();
+        }
+        private void DeleteDteq()
+        {
+            if (_selectedDteq !=null) {
+                DbManager.prjDb.DeleteRecord(GlobalConfig.dteqListTable, _selectedDteq.Id);
+                DteqList.Remove(_selectedDteq);
+            }
+        }
+        private void AddDteq()
+        {
+            // TODO - methods for invalid tags
+            if (IsTagAvailable(_dteqTagToAdd) && _dteqTagToAdd != "" && _dteqTagToAdd != " " && _dteqTagToAdd != null) {
                 DteqList.Add(new DteqModel() { Tag = _dteqTagToAdd });
 
                 CreateMasterLoadList();
@@ -194,55 +269,50 @@ namespace WpfUI.ViewModels {
             }
         }
 
-        private void BuildFedFromList()
-        {
-            FedFromList = new ObservableCollection<string>(DteqList.Select(dteq => dteq.Tag).ToList());
-            FedFromList.Insert(0, "UTILITY");
-        }
 
-        private void CalculateDteq()
-        {
-
-            ListManager.AssignLoadsToDteq(DteqList, LoadList);
-            foreach (var dteq in DteqList) {
-                dteq.CalculateLoading();
-            }
-        }
-
-        private void SaveDteq()
-        {
-            List<string> dteqColumnList = new List<string>() {
-                "Tag",
-                "Type",
-                "Description",
-                "FedFrom",
-                "Voltage",
-                "Size",
-                "Unit"
-                //"LineVoltage",
-                //"LoadVoltage"
-            };
-
-            DbManager.prjDb.DeleteAllRecords(GlobalConfig.dteqListTable);
-            foreach (var dteq in DteqList) {
-                DbManager.prjDb.InsertRecord<DteqModel>(dteq, GlobalConfig.dteqListTable, dteqColumnList);
-            }
-        }
-
+        // Loads
         private void ShowLoadList()
         {
+            LoadListLoaded = true;
+            //LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.loadListTable));
+
             AssignedLoads.Clear();
             foreach (var load in LoadList) {
                 AssignedLoads.Add(load);
             }
         }
+        private void SaveLoadList()
+        {
+            if (LoadList.Count != 0 && LoadListLoaded==true) {
+                DbManager.prjDb.DeleteAllRecords(GlobalConfig.loadListTable);
+                foreach (var load in LoadList) {
+                    DbManager.prjDb.InsertRecord<LoadModel>(load, GlobalConfig.loadListTable, SaveLists.LoadSaveList);
+                }
+            }
+            CalculateDteq();
+        }
 
+        #endregion
+
+        #region Helper Methods
+        private void BuildFedFromList()
+        {
+            _fedFromList = new ObservableCollection<string>(DteqList.Select(dteq => dteq.Tag).ToList());
+            _fedFromList.Insert(0, "UTILITY");
+        }
 
         private bool IsTagAvailable(string tag) {
-            var val = MasterLoadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
-            if (val!=null) {
+            if (tag == null) {
                 return false;
             }
+            var dteqTag = DteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
+            var loadTag = LoadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
+
+            if (dteqTag != null || 
+                loadTag != null) {
+                return false;
+            }
+            
             return true;
         }
 

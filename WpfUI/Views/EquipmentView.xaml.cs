@@ -34,9 +34,12 @@ namespace WpfUI.Views
 
         private void txtTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (txtTag.Text == "") txtTag.Text = "";
+            if (txtTag.Text == "" || txtTag.Text == " ") txtTag.Text = "";
         }
 
-
+        private void txtTag_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtTag.Text == "") txtTag.Text = " ";
+        }
     }
 }

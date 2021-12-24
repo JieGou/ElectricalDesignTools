@@ -22,30 +22,23 @@ namespace EDTLibrary.Models {
         //Fields
         public double _derating = 0;
 
-        //Properties
-        #region IEquipmentModel
+        #region Properties
 
         [Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; } //was private beo
-        public string Location { get; set; }
         public string Tag { get; set; }
         public string Category { get; set; } //dteq, load, component, cable,
         public string Type { get; set; }
         public string Description { get; set; }
-        public string LocationTag { get; set; }
+        public string Location { get; set; }
 
-        #endregion
 
-        #region ILoadModel - User inputs
         public double Voltage { get; set; }
         public double Size { get; set; }
         public string Unit { get; set; }
 
         [DisplayName("Fed From")]
-        public string FedFrom { 
-            get;
-            set; }
-        #endregion
+        public string FedFrom { get; set; }
 
         [DisplayName("Line\nVoltage")]
         public double LineVoltage { get; set; }
@@ -54,9 +47,7 @@ namespace EDTLibrary.Models {
         public double LoadVoltage { get; set; }
 
         //Loading
-        #region ILoadModel - Privately Calculated Values
         [DisplayName("FLA")]
-
         public double Fla { get; set; }
         [DisplayName("Running\nAmps")]
         public double RunningAmps { get; set; }
@@ -97,22 +88,17 @@ namespace EDTLibrary.Models {
         public int CableQty { get; set; }
         [DisplayName("Cable\nSize")]
         public string CableSize { get; set; }
-        #endregion
 
-        #region Publicly Calculated Values
+  
         [Browsable(false)]
         public List<ILoadModel> AssignedLoads { get; set; } = new List<ILoadModel>();
 
         public int LoadCount { get; set; }
-        #endregion
 
-        #region Lists
         [Browsable(false)]
         public List<ComponentModel> InLineComponents { get; set; } = new List<ComponentModel>();
         //public List<CableModel> Cables { get; set; } = new List<CableModel>();
-        #endregion
 
-        #region ILoadModel Interface Un-used
         public double LoadFactor { get; set; }
 
         [DisplayName("Eff")]

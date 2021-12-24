@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUI.Views"
+        xmlns:root="clr-namespace:WpfUI"
+        xmlns:styles="clr-namespace:WpfUI.asdf"
         xmlns:rules="clr-namespace:WpfUI.ValidationRules"
         xmlns:h="clr-namespace:WpfUI.Helpers"
         xmlns:commands="clr-namespace:WpfUI.Commands"
@@ -13,9 +15,10 @@
         Background="#FFDAEEF3"
         d:Width="1600" d:Height="800">
     <UserControl.Resources>
+        
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="Resources/EDTTealStyle.xaml"/>-->
+                <ResourceDictionary Source="Styles/EDTBlueStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
@@ -73,12 +76,15 @@
               
                 <Button Name ="btnGetDteq" Content="Get Dteq List" 
                     Margin="10,10,10,10"
-                    Command="{Binding Path=AddDteqCommand}"/>
+                    Command="{Binding Path=GetDteqCommand}"/>
 
                 <Button Name ="btnCalculate" Content="Calculate Dteq" Command="{Binding CalculateDteqCommand}"/>
                 
                 <Button Name ="btnSaveDteq" Content="Save Equipment" Height="27" Width="125"
                     Command="{Binding SaveDteqListCommand}"/>
+                
+                <Button Name ="btnDeleteDteq" Content="Delete Equipment" Height="27" Width="125"
+                    Command="{Binding DeleteDteqListCommand}"/>
 
             </StackPanel>
 
@@ -96,19 +102,23 @@
 
                 <Button Name ="btnLoadList" Content="Load List" Height="27" Width="125"
                     Command="{Binding ShowLoadListCommand}"/>
+                
+                <Button Name ="btnSaveLoadList" Content="Save Load List" Height="27" Width="125"
+                    Command="{Binding SaveLoadListCommand}"/>
 
             </StackPanel>
 
 
             <!--DTEQ Datagrid-->
             <DataGrid x:Name="dgdDteq" RowDetailsVisibilityMode="Collapsed"
-                          Grid.Row="1" Grid.Column="3"
-                          Height="200" Margin="10"
-                          ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
-                          CanUserAddRows="False"
-                          HorizontalAlignment="Left" 
-                          AutoGenerateColumns="False">
+                      Grid.Row="1" Grid.Column="3"
+                      Height="200" Margin="10"
+                      ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      HorizontalAlignment="Left" 
+                      AutoGenerateColumns="False">
 
                 <DataGrid.Columns>
                     <!--Basic-->
@@ -119,12 +129,12 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <ComboBox ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
-                                              SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Text="{Binding Type, ValidatesOnDataErrors=True}"
-                                              HorizontalContentAlignment="Center"
-                                              IsEditable="True" IsTextSearchEnabled="True"
-                                              IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"/>
+                                          SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Text="{Binding Type, ValidatesOnDataErrors=True}"
+                                          HorizontalContentAlignment="Center"
+                                          IsEditable="True" IsTextSearchEnabled="True"
+                                          IsSynchronizedWithCurrentItem="False"
+                                          BorderThickness="0"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -291,7 +301,7 @@
                          Width="75"
                          Margin="10"
                      Text="{Binding DteqTagToAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     PreviewMouseDown="txtTag_PreviewMouseDown">
+                     PreviewMouseDown="txtTag_PreviewMouseDown" LostFocus="txtTag_LostFocus">
 
                     <Validation.ErrorTemplate>
                         <ControlTemplate>
@@ -312,8 +322,7 @@
                 <ComboBox x:Name ="txtType" Grid.Column="2" Grid.Row="1"
                           Width="75"
                           Margin="10"
-                          ItemsSource="{Binding FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          PreviewMouseDown="txtTag_PreviewMouseDown">
+                          ItemsSource="{Binding FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
                     <Validation.ErrorTemplate>
                         <ControlTemplate>

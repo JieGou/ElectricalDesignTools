@@ -6,7 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/EDTControlStyle.xaml"/>
+                <ResourceDictionary Source="Styles/EDTBaseStyle.xaml"/>
+                <!--<ResourceDictionary Source="Styles/EDTBlueStyle.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

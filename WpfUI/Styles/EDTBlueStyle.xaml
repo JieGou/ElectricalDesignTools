@@ -2,34 +2,38 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <sys:Double x:Key="buttonHeight">27</sys:Double>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="EDTBaseStyle.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <!--ALL CONTROLS DEFAULT-->
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
         <Setter Property="Margin" Value="10 10 10 10 "/>
     </Style>
+
     <Style TargetType="ListBox" BasedOn="{StaticResource DefaultStyle}"/>
 
+
     <!--Base Button Style-->
-    <Style TargetType="Button" BasedOn="{StaticResource DefaultStyle}">
+    <Style TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="0.5"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="Height" Value="27"/>
-        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Background" Value="Purple"/>
 
-        <!--<Setter Property="Template">
+        <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border CornerRadius="0" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="2">
+                    <Border CornerRadius="7" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="1">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter>-->
+        </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#FF0A6f9f"/>
+                <Setter Property="Background" Value="LightSeaGreen"/>
                 <Setter Property="Foreground" Value="black"/>
             </Trigger>
         </Style.Triggers>
@@ -294,7 +298,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">

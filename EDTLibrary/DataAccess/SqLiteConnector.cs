@@ -110,6 +110,7 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
+
         /// <summary>
         /// Inserts a record from an object with a list of properties
         /// </summary>
@@ -120,8 +121,7 @@ namespace EDTLibrary.DataAccess
         /// <returns></returns>
         public Tuple<bool, string> InsertRecord<T>(T classObject, string tableName, List<string> propertyList) where T : class, new()
         {
-            using (IDbConnection cnn = new SQLiteConnection(conString))
-            {
+            using (IDbConnection cnn = new SQLiteConnection(conString)) {
                 StringBuilder sb = new StringBuilder();
                 var props = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
@@ -131,35 +131,40 @@ namespace EDTLibrary.DataAccess
                 sb.Append($"INSERT INTO {tableName} (");
 
                 //Column Names
-                foreach (var prop in propertyList)
-                {
-                    sb.Append($"{prop}, ");
+                foreach (var prop in props) {
+                    sb.Append($"{prop.Name}, ");
                 }
-                sb.Replace(", ", "", sb.Length - 2, 2);
+
+                // removes any properties in prop list
+                foreach (var prop in propertyList) {
+                    sb.Replace($"{prop}, ", "");
+                }
+
+                sb.Replace("Id,", "");
+                sb.Replace(",", "", sb.Length - 2, 2);
+                sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(") VALUES (");
 
                 //Parameters (@ColumnNames)
-                foreach (var prop in propertyList)
-                {
-                    sb.Append($"@{prop}, ");
-                    foreach (var p in props)
-                    {
-                        if (prop == p.Name)
-                        {
-                            cmd.Parameters.AddWithValue($"@{prop}", p.GetValue(classObject));
-                        }
-                    }
+                foreach (var prop in props) {
+                    sb.Append($"@{prop.Name}, ");
+                    cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
-                sb.Replace(", ", "", sb.Length - 2, 2);
+
+                // removes any properties in prop list
+                foreach (var prop in propertyList) {
+                    sb.Replace($"@{prop}, ", "");
+                }
+                sb.Replace("@Id,", "");
+                sb.Replace(",", "", sb.Length - 2, 2);
+                sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(")");
 
-                try
-                {
+                try {
                     cnn.Execute(sb.ToString() + ";", classObject);
                     return new Tuple<bool, string>(true, "");
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     //throw new Exception("Could not add record");
                     return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
                         $"Query: \n{sb}\n\n" +
@@ -170,32 +175,48 @@ namespace EDTLibrary.DataAccess
 
         public Tuple<bool, string> UpsertRecord<T>(T classObject, string tableName, List<string> propertyList) where T: class, new()
         {
-            using (IDbConnection cnn = new SQLiteConnection(conString).OpenAndReturn()) 
-            {
+            using (IDbConnection cnn = new SQLiteConnection(conString)) {
                 StringBuilder sb = new StringBuilder();
                 var props = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
 
-
-
-                //Column Names
-                foreach (var prop in propertyList) {
-                    sb.Append($"{prop}, ");
-                }
-                sb.Replace(", ", "", sb.Length - 2, 2);
-                sb.Append(") VALUES (");
-
-                //Parameters (@ColumnNames)
-                foreach (var prop in propertyList) {
-                    sb.Append($"@{prop}, ");
-                    foreach (var p in props) {
-                        if (prop == p.Name) {
-                            cmd.Parameters.AddWithValue($"@{prop}", p.GetValue(classObject));
-                        }
+                void BuildPropAndParamList()
+                {                   
+                    //Column Names
+                    foreach (var prop in props) {
+                        sb.Append($"{prop.Name}, ");
                     }
+
+                    // removes any properties in prop list
+                    foreach (var prop in propertyList) {
+                        sb.Replace($"{prop}, ", "");
+                    }
+
+                    sb.Replace("Id,", "");
+                    sb.Replace(",", "", sb.Length - 2, 2);
+                    sb.Replace(" ", "", sb.Length - 2, 2);
+                    sb.Append(") VALUES (");
+
+                    //Parameters (@ColumnNames)
+                    foreach (var prop in props) {
+                        sb.Append($"@{prop.Name}, ");
+                        cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
+                    }
+
+                    // removes any properties in prop list
+                    foreach (var prop in propertyList) {
+                        sb.Replace($"@{prop}, ", "");
+                    }
+                    sb.Replace("@Id,", "");
+                    sb.Replace(",", "", sb.Length - 2, 2);
+                    sb.Replace(" ", "", sb.Length - 2, 2);
+                    sb.Append(")");
                 }
-                sb.Replace(", ", "", sb.Length - 2, 2);
-                sb.Append(")");
+
+                //Build query string: 
+                //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
+                sb.Append($"INSERT INTO {tableName} (");
+                BuildPropAndParamList();
 
 
                 sb.Append($" ON CONFLICT DO UPDATE SET ");
