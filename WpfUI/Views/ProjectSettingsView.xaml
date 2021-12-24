@@ -9,31 +9,35 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" d:Width="1600" d:Height="900" 
         Background="AliceBlue">
-    
+
     <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/EDTBlueStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <CollectionViewSource x:Key="ListBoxItems" Source="{Binding Path=StringSettings}">
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="Category" />
-            </CollectionViewSource.GroupDescriptions>
-        </CollectionViewSource>
-        
-        <sys:Int32 x:Key="col1">1</sys:Int32>
-        <sys:Int32 x:Key="col2">2</sys:Int32>
-        <sys:Int32 x:Key="listCol">3</sys:Int32>
-        <sys:Int32 x:Key="editCol">5</sys:Int32>
-        <sys:Int32 x:Key="listCol2">7</sys:Int32>
-        <sys:Int32 x:Key="editCol2">9</sys:Int32>
-        <sys:Int32 x:Key="editCol3">12</sys:Int32>
+            <CollectionViewSource x:Key="ListBoxItems" Source="{Binding Path=StringSettings}">
+                <CollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="Category" />
+                </CollectionViewSource.GroupDescriptions>
+            </CollectionViewSource>
 
-        <sys:Int32 x:Key="headerRow">1</sys:Int32>
-        <sys:Int32 x:Key="row2">2</sys:Int32>
-        <sys:Int32 x:Key="row3">3</sys:Int32>
-        <sys:Int32 x:Key="basicRow">4</sys:Int32>
-        <sys:Int32 x:Key="row5">5</sys:Int32>
-        <sys:Int32 x:Key="tableRow">6</sys:Int32>
-        <sys:Int32 x:Key="row7">7</sys:Int32>
+            <sys:Int32 x:Key="col1">1</sys:Int32>
+            <sys:Int32 x:Key="col2">2</sys:Int32>
+            <sys:Int32 x:Key="listCol">3</sys:Int32>
+            <sys:Int32 x:Key="editCol">5</sys:Int32>
+            <sys:Int32 x:Key="listCol2">7</sys:Int32>
+            <sys:Int32 x:Key="editCol2">9</sys:Int32>
+            <sys:Int32 x:Key="editCol3">12</sys:Int32>
 
+            <sys:Int32 x:Key="headerRow">1</sys:Int32>
+            <sys:Int32 x:Key="row2">2</sys:Int32>
+            <sys:Int32 x:Key="row3">3</sys:Int32>
+            <sys:Int32 x:Key="basicRow">4</sys:Int32>
+            <sys:Int32 x:Key="row5">5</sys:Int32>
+            <sys:Int32 x:Key="tableRow">6</sys:Int32>
+            <sys:Int32 x:Key="row7">7</sys:Int32>
+        </ResourceDictionary>
     </UserControl.Resources>
     
     <Grid>

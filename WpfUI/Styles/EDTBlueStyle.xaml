@@ -15,96 +15,20 @@
 
 
     <!--Base Button Style-->
-    <Style TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderThickness" Value="0.5"/>
-        <Setter Property="Width" Value="125"/>
-        <Setter Property="Height" Value="27"/>
-        <Setter Property="Background" Value="Purple"/>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border CornerRadius="7" Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="1">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="LightSeaGreen"/>
-                <Setter Property="Foreground" Value="black"/>
-            </Trigger>
-        </Style.Triggers>
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Background" Value="blue"/>
     </Style>
 
 
     <!--BUTTON Main Menu Animation-->
     <Style x:Key="MainMenu_Buttons" TargetType="{x:Type Button}">
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Foreground">
-            <Setter.Value>
-                <SolidColorBrush Opacity="1" Color="black"/>
-            </Setter.Value>
-        </Setter>
+       
         <Setter Property="Background" >
             <Setter.Value>
                 <SolidColorBrush Opacity="1" Color="LightGray" />
                 <!--<SolidColorBrush Opacity="1" Color="#FF0A669B" />-->
             </Setter.Value>
         </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-
-                    <Border x:Name="border"
-                            SnapsToDevicePixels="True"
-                            Margin="0 0 0 10"
-                             Padding="15,5,15,5"
-                             BorderBrush="black"
-                             BorderThickness="2,2,2,2"
-                             CornerRadius="0"
-                             Background="{TemplateBinding Background}">
-                        <Grid>
-                            <ContentPresenter 
-                                Margin="0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                RecognizesAccessKey="True">
-                            </ContentPresenter>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation To="#FFB7DEE8"
-                                        Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)" 
-                                        FillBehavior="HoldEnd" Duration="0:0:0.15" AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation
-                                            Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)" 
-                                            FillBehavior="HoldEnd" Duration="0:0:0.15" AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
-
-            </Trigger>
-
-
-        </Style.Triggers>
     </Style>
 
     <!--BUTTON Round Button-->
