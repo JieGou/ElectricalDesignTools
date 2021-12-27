@@ -26,7 +26,8 @@ namespace EDTLibrary {
         HEATER,
         WELDING,
         TRANSFORMER,
-        OTHER,
+        PANEL,
+        OTHER
     }
 
     public enum CableUsageTypes {
@@ -46,11 +47,10 @@ namespace EDTLibrary {
         HP
     }
     public enum Units {
+        A,
         HP,
         kW,
-        kVA,        
-        AMPS
-        
+        kVA
     }
 
     public enum OCPDTypes

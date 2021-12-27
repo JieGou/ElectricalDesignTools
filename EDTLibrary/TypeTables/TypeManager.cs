@@ -6,8 +6,7 @@ namespace EDTLibrary.TypeTables
 {
     public class TypeManager
     {
-        public static List<string> Voltages { get; set; }
-        public static List<string> CableTypes { get; set; }
-        public static List<string> LoadTypes { get; set; }
+        public static List<VoltageType> VoltageTypes { get; set; }
+        public static List<CableTypes> CableTypes { get; set; }
     }
 }

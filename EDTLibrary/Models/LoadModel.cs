@@ -209,9 +209,12 @@ namespace EDTLibrary.Models {
                     case "kVA":
                         ConnectedKva = Size;
                         break;
+
                     case "kW":
                         ConnectedKva = Size / Efficiency / PowerFactor;
                         break;
+
+                    case "A":
                     case "AMPS":
                         ConnectedKva = Size * Voltage * Math.Sqrt(3); //   / Efficiency / PowerFactor;
                         Fla = Size;

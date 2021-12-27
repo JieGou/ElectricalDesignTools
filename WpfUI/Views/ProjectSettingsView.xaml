@@ -7,7 +7,8 @@
         xmlns:commands="clr-namespace:WpfUI.Commands"
         xmlns:viewComponents="clr-namespace:WpfUI.ViewComponents"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d" d:Width="1600" d:Height="900" 
+        mc:Ignorable="d" 
+             d:Width="1600" d:Height="900" 
         Background="AliceBlue">
 
     <UserControl.Resources>

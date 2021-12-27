@@ -9,6 +9,7 @@
         mc:Ignorable="d"
         d:Width="1400" d:Height="800"
         Background="Lavender">
+    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

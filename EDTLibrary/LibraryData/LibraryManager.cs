@@ -13,15 +13,16 @@ namespace EDTLibrary.LibraryData {
             DataTable dtFiltered;
 
             var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (int)load.Voltage
-                                                                      && x.Field<double>("Size") == (double)load.Size
-                                                                      && x.Field<string>("Unit") == load.Unit
-                                                                      && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
+                                                         && x.Field<double>("Size") == (double)load.Size
+                                                         && x.Field<string>("Unit") == load.Unit
+                                                         && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
 
-            dtFiltered = filteredRows.CopyToDataTable();
-
-            result = Double.Parse(dtFiltered.Rows[0]["Efficiency"].ToString());
+            try {
+                dtFiltered = filteredRows.CopyToDataTable();
+                result = Double.Parse(dtFiltered.Rows[0]["Efficiency"].ToString());
+            }
+            catch { }
             return result;
-
         }
 
         public static double GetMotorPowerFactor(LoadModel load) {
@@ -30,13 +31,15 @@ namespace EDTLibrary.LibraryData {
             DataTable dtFiltered;
 
             var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (int)load.Voltage
-                                                          && x.Field<double>("Size") == (double)load.Size
-                                                          && x.Field<string>("Unit") == load.Unit
-                                                          && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
+                                                         && x.Field<double>("Size") == (double)load.Size
+                                                         && x.Field<string>("Unit") == load.Unit
+                                                         && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
 
-            dtFiltered = filteredRows.CopyToDataTable();
-
-            result = Double.Parse(dtFiltered.Rows[0]["PowerFactor"].ToString());
+            try {
+                dtFiltered = filteredRows.CopyToDataTable();
+                result = Double.Parse(dtFiltered.Rows[0]["PowerFactor"].ToString());
+            }
+            catch { }
             return result;
         }
 
@@ -47,10 +50,12 @@ namespace EDTLibrary.LibraryData {
 
             var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)load.Fla * 1.25);
 
-            dtFiltered = filteredRows.CopyToDataTable();
-            dtFiltered = dtFiltered.Select($"FrameAmps = MIN(FrameAmps)").CopyToDataTable();
-
-            result = Double.Parse(dtFiltered.Rows[0]["FrameAmps"].ToString());
+            try {
+                dtFiltered = filteredRows.CopyToDataTable();
+                dtFiltered = dtFiltered.Select($"FrameAmps = MIN(FrameAmps)").CopyToDataTable();
+                result = Double.Parse(dtFiltered.Rows[0]["FrameAmps"].ToString());
+            }
+            catch { }
             return result;
         }
 
@@ -61,10 +66,12 @@ namespace EDTLibrary.LibraryData {
 
             var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("TripAmps") >= (int)load.Fla * 1.25);
 
-            dtFiltered = filteredRows.CopyToDataTable();
-            dtFiltered = dtFiltered.Select($"TripAmps = MIN(TripAmps)").CopyToDataTable();
-
-            result = Double.Parse(dtFiltered.Rows[0]["TripAmps"].ToString());
+            try {
+                dtFiltered = filteredRows.CopyToDataTable();
+                dtFiltered = dtFiltered.Select($"TripAmps = MIN(TripAmps)").CopyToDataTable();
+                result = Double.Parse(dtFiltered.Rows[0]["TripAmps"].ToString());
+            }
+            catch { }
             return result;
         }
 

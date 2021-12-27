@@ -38,6 +38,8 @@ namespace WpfUI.ViewModels
 
             _equipmentViewModel.DteqList = new ObservableCollection<DteqModel>(ListManager.GetDteq());
             _equipmentViewModel.LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
+            _equipmentViewModel.CalculateDteq();
+            _equipmentViewModel.CreateComboBoxLists();
         }
 
         

@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="1250" Background="#FFFDECDC">
+             d:DesignHeight="800" d:DesignWidth="1250"
+             Background="#FFFDECDC">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

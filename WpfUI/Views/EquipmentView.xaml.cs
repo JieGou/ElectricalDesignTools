@@ -32,14 +32,25 @@ namespace WpfUI.Views
             InitializeComponent();
         }
 
-        private void txtTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void txtDteqTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (txtTag.Text == "" || txtTag.Text == " ") txtTag.Text = "";
+            if (txtDteqTag.Text == "" || txtDteqTag.Text == " ") txtDteqTag.Text = "";
         }
 
-        private void txtTag_LostFocus(object sender, RoutedEventArgs e)
+        private void txtDteqTag_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (txtTag.Text == "") txtTag.Text = " ";
+            if (txtDteqTag.Text == "") txtDteqTag.Text = " ";
+        }
+
+
+        private void txtLoadTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (txtLoadTag.Text == "" || txtLoadTag.Text == " ") txtLoadTag.Text = "";
+        }
+
+        private void txtLoadTag_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtLoadTag.Text == "") txtLoadTag.Text = " ";
         }
     }
 }

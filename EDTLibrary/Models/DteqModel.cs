@@ -142,7 +142,7 @@ namespace EDTLibrary.Models {
                     Fla = Size * 1000 / Voltage / Math.Sqrt(3);
                     Fla = Math.Round(Fla, GlobalConfig.SigFigs);
                 }
-                else if (Unit == Units.AMPS.ToString()) {
+                else if (Unit == Units.A.ToString()) {
                     Fla = Size;
                 }
 

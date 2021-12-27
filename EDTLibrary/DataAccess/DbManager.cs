@@ -29,7 +29,7 @@ namespace EDTLibrary.DataAccess {
         }
 
 
-        public static bool LoadLibraryTables()
+        public static bool GetLibraryTables()
         {
             Type libTablesClass = typeof(LibraryTables); // MyClass is static class with static properties
             DataTable dt = new DataTable();
@@ -37,30 +37,31 @@ namespace EDTLibrary.DataAccess {
                 prop.SetValue(dt, libDb.GetDataTable(prop.Name));
             }
             IsLibraryLoaded = true;
+            GetTypeTables();
             return IsLibraryLoaded;
         }
 
         #region Type Tables
 
-        public static void LoadTypeTables()
+        public static void GetTypeTables()
         {
-            LoadCableTypes();
-            LoadNemaTypes();
-            LoadVoltageTypes();
+            GetCableTypes();
+            GetNemaTypes();
+            GetVoltageTypes();
         }
 
 
-        private static void LoadVoltageTypes()
+        private static void GetVoltageTypes()
         {
-            libDb.GetRecords<VoltageType>("VoltageTypes");
+            TypeManager.VoltageTypes = libDb.GetRecords<VoltageType>("VoltageTypes");
         }
 
-        private static void LoadCableTypes()
+        private static void GetCableTypes()
         {
             libDb.GetRecords<CableTypes>("CableTypes");
         }
 
-        private static void LoadNemaTypes()
+        private static void GetNemaTypes()
         {
             libDb.GetRecords<NemaTypes>("NemaTypes");
         }

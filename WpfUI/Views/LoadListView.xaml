@@ -10,8 +10,9 @@
         xmlns:viewComponents="clr-namespace:WpfUI.ViewComponents"
         xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
         mc:Ignorable="d"
-        Background="#FFCCEDE4"
-        d:Width="1600" d:Height="800">
+             d:Width="1600" d:Height="800"
+        Background="#FFCCEDE4">
+    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

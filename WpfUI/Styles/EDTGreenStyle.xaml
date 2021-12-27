@@ -16,7 +16,7 @@
 
     <!--Base Button Style-->
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
-        <Setter Property="Background" Value="teal"/>
+        <Setter Property="Background" Value="#FF64B8CF"/>
     </Style>
 
 

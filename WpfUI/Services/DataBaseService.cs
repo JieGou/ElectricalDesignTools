@@ -2,6 +2,7 @@
 using EDTLibrary.DataAccess;
 using EDTLibrary.Models;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.TypeTables;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -36,7 +37,7 @@ namespace WpfUI.Services
                 DbManager.SetLibraryDb(AppSettings.Default.LibraryDb);
 
                 LoadLibraryTables();
-
+                TypeManager.VoltageTypes = libDb.GetRecords<VoltageType>("VoltageTypes");
             }
         }
         public static void InitializeProject()
@@ -81,7 +82,7 @@ namespace WpfUI.Services
         {
             string dbFilename = AppSettings.Default.LibraryDb;
             if (File.Exists(dbFilename)) {
-                IsLibraryLoaded = DbManager.LoadLibraryTables();
+                IsLibraryLoaded = DbManager.GetLibraryTables();
             }
             else {
                 MessageBox.Show($"The selected Library file \n\n{dbFilename} cannot be found,it may have been moved or deleted. Please select another Library file.");

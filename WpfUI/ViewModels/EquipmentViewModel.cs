@@ -1,6 +1,7 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
 using EDTLibrary.Models;
+using EDTLibrary.TypeTables;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,41 +26,6 @@ namespace WpfUI.ViewModels {
         #region Properties
         public NavigationBarViewModel NavigationBarViewModel { get; }
 
-
-
-        // DTEQ
-        private ObservableCollection<DteqModel> _dteqList = new ObservableCollection<DteqModel>();
-        public ObservableCollection<DteqModel> DteqList
-        {
-            get { return _dteqList;  }
-
-            set
-            {
-                _dteqList = value;
-            }
-        }
-
-
-        private DteqModel _selectedDteq;
-        public DteqModel SelectedDteq
-        {
-            get { return _selectedDteq; }
-            set
-            {
-                _selectedDteq = value;
-                LoadListLoaded = false;
-
-                if (_selectedDteq != null) {
-                    AssignedLoads = new ObservableCollection<ILoadModel>(_selectedDteq.AssignedLoads);
-                }
-
-            }
-        }
-
-        public List<string> DteqTypes { get; set; } = new List<string>();
-
-
-
         private ObservableCollection<string> _fedFromList;
         public ObservableCollection<string> FedFromList
         {
@@ -72,52 +38,257 @@ namespace WpfUI.ViewModels {
             set { }
         }
 
-        private string _dteqTagToAdd;
-        public ObservableCollection<ILoadModel> AssignedLoads { get; set; } = new ObservableCollection<ILoadModel> { };
+        //Type Lists
+        public List<string> DteqTypes { get; set; } = new List<string>();
+        public List<string> VoltageTypes { get; set; } = new List<string>();
 
-        public string DteqTagToAdd
+        // DTEQ
+
+        private ObservableCollection<DteqModel> _dteqList = new ObservableCollection<DteqModel>();
+        public ObservableCollection<DteqModel> DteqList
         {
-            get { return _dteqTagToAdd; }
+            get { return _dteqList;  }
+
             set
             {
-                _dteqTagToAdd = value;
+                _dteqList = value;
+            }
+        }
 
-                ClearErrors(nameof(DteqTagToAdd));
-                if (IsTagAvailable(value) == false) {
-                    AddError(nameof(DteqTagToAdd), "Tag already exists");
+        private DteqModel _selectedDteq;
+        public DteqModel SelectedDteq
+        {
+            get { return _selectedDteq; }
+            set
+            {
+                _selectedDteq = value;
+                LoadListLoaded = false;
+
+                if (_selectedDteq != null) {
+                    AssignedLoads = new ObservableCollection<ILoadModel>(_selectedDteq.AssignedLoads);
+                    LoadToAddFedFrom = _selectedDteq.Tag;
+                    LoadToAddVoltage = _selectedDteq.Voltage;
                 }
-                else if (value == "") { // TODO - create method for invalid tags
-                    AddError(nameof(DteqTagToAdd), "Tag cannot be empty");
+
+            }
+        }
+        public ObservableCollection<ILoadModel> AssignedLoads { get; set; } = new ObservableCollection<ILoadModel> { };
+
+
+        private string _dteqToAddTag;
+        public string DteqToAddTag
+        {
+            get { return _dteqToAddTag; }
+            set
+            {
+                _dteqToAddTag = value;
+
+                ClearErrors(nameof(DteqToAddTag));
+                if (IsTagAvailable(_dteqToAddTag) == false) {
+                    AddError(nameof(DteqToAddTag), "Tag already exists");
+                }
+                else if (_dteqToAddTag == "") { // TODO - create method for invalid tags
+                    AddError(nameof(DteqToAddTag), "Tag cannot be empty");
                 }
             }
         }
-        public string Test { get; set; }
+
+        private string _dteqToAddType;
+        public string DteqToAddType 
+        {
+            get { return _dteqToAddType; }
+            set 
+            {
+                _dteqToAddType = value;
+                if (_dteqToAddType == EDTLibrary.DteqTypes.XFR.ToString()) {
+                    DteqToAddUnit = "";
+                    DteqToAddUnit = Units.kVA.ToString();
+                    _dteqToAddUnit = Units.kVA.ToString();
+                }
+                else{
+                    DteqToAddUnit = "";
+                    DteqToAddUnit = Units.A.ToString();
+                    _dteqToAddUnit = Units.A.ToString();
+                }
+            }
+        }
 
        
 
+        private string _dteqToAddFedFrom;
+        public string DteqToAddFedFrom
+        {
+            get { return _dteqToAddFedFrom; }
+            set { _dteqToAddFedFrom = value; }
+        }
+
+        private double _dteqToAddVoltage;
+        public double DteqToAddVoltage
+        {
+            get { return _dteqToAddVoltage; }
+            set { _dteqToAddVoltage = value; }
+        }
+
+        private double _dteqToAddSize;
+        public double DteqToAddSize
+        {
+            get { return _dteqToAddSize; }
+            set { _dteqToAddSize = value; }
+        }
+
+        private string _dteqToAddUnit;
+        public string DteqToAddUnit
+        {
+            get { return _dteqToAddUnit; }
+            set 
+            { 
+                _dteqToAddUnit = value;
+
+                ClearErrors(nameof(DteqToAddUnit));
+                if (_dteqToAddType != "" && _dteqToAddUnit == "") {
+                    AddError(nameof(DteqToAddUnit), "Select valid Unit");
+                }
+                else if (_dteqToAddType == EDTLibrary.DteqTypes.XFR.ToString() && _dteqToAddUnit != Units.kVA.ToString()) {
+                    AddError(nameof(DteqToAddUnit), "Incorrect Units for Equipment");
+                }
+                
+            }
+        }
+
+        private string _dteqToAddDescription;
+        public string DteqToAddDescription
+        {
+            get { return _dteqToAddDescription; }
+            set { _dteqToAddDescription = value; }
+        }
+
         // LOADS
+
         private ObservableCollection<LoadModel> _loadList = new ObservableCollection<LoadModel>();
         public ObservableCollection<LoadModel> LoadList { get; set; }
-
         public bool LoadListLoaded { get; set; }
+
+        private LoadModel _selectedLoad;
+        public LoadModel SelectedLoad
+        {
+            get { return _selectedLoad; }
+            set { _selectedLoad = value; }
+        }
+
+
+        private string _loadToAddTag;
+        public string LoadToAddTag
+        {
+            get { return _loadToAddTag; }
+            set
+            {
+                _loadToAddTag = value;
+
+                ClearErrors(nameof(LoadToAddTag));
+                if (IsTagAvailable(_loadToAddTag) == false) {
+                    AddError(nameof(LoadToAddTag), "Tag already exists");
+                }
+                else if (_loadToAddTag == "") { // TODO - create method for invalid tags
+                    AddError(nameof(LoadToAddTag), "Tag cannot be empty");
+                }
+            }
+        }
+
+        private string _loadToAddType;
+        public string LoadToAddType
+        {
+            get { return _loadToAddType; }
+            set
+            {
+                _loadToAddType = value;
+                if (_loadToAddType == LoadTypes.TRANSFORMER.ToString()) {
+                    LoadToAddUnit = ""; 
+                    LoadToAddUnit = Units.kVA.ToString();
+                    _loadToAddUnit = Units.kVA.ToString();
+
+                }
+                else if (_loadToAddType == LoadTypes.MOTOR.ToString()) {
+                    LoadToAddUnit = ""; 
+                    LoadToAddUnit = Units.HP.ToString();
+                    _loadToAddUnit = Units.HP.ToString();
+
+                }
+                else if (_loadToAddType == LoadTypes.HEATER.ToString()) {
+                    LoadToAddUnit = ""; 
+                    LoadToAddUnit = Units.kW.ToString();
+                    _loadToAddUnit = Units.kW.ToString();
+
+                }
+                else if (_loadToAddType == LoadTypes.WELDING.ToString()) {
+                    LoadToAddUnit = "";
+                    LoadToAddUnit = Units.A.ToString();
+                    _loadToAddUnit = Units.A.ToString();
+
+                }
+                else if (_loadToAddType == LoadTypes.PANEL.ToString()) {
+                    LoadToAddUnit = "";
+                    LoadToAddUnit = Units.A.ToString();
+                    _loadToAddUnit = Units.A.ToString();
+
+                }
+                else if (_loadToAddType =="") {
+                    LoadToAddUnit = "";
+                    _loadToAddUnit = "";
+                }
+                LoadToAddUnit = _loadToAddUnit;
+            }
+        }
+
+        private string _loadToAddFedFrom;
+        public string LoadToAddFedFrom
+        {
+            get { return _loadToAddFedFrom; }
+            set { _loadToAddFedFrom = value; }
+        }
+
+        private double _loadToAddVoltage;
+        public double LoadToAddVoltage
+        {
+            get { return _loadToAddVoltage; }
+            set { _loadToAddVoltage = value; }
+        }
+
+        private double _loadToAddSize;
+        public double LoadToAddSize
+        {
+            get { return _loadToAddSize; }
+            set { _loadToAddSize = value; }
+        }
+
+        private string _loadToAddUnit;
+        public string LoadToAddUnit
+        {
+            get { return _loadToAddUnit; }
+            set
+            {
+                _loadToAddUnit = value;
+            }
+                
+        }
+
+        private string _loadToAddDescription;
+        public string LoadToAddDescription
+        {
+            get { return _loadToAddDescription; }
+            set { _loadToAddDescription = value; }
+        }
+        private string _loadToAddLoadFactor;
+        public string LoadToAddLoadFactor
+        {
+            get { return _loadToAddLoadFactor; }
+            set { _loadToAddLoadFactor = value; }
+        }
 
 
         public ObservableCollection<ILoadModel> MasterLoadList { get; set; }
         #endregion
 
-        private void Initialize()
-        {
-            foreach (var item in Enum.GetNames(typeof(EDTLibrary.DteqTypes))) {
-                DteqTypes.Add(item.ToString());
-            }
-
-            //Instatiates the required properties
-            //TODO = FigureOut MasterLoad List
-
-            MasterLoadList = new ObservableCollection<ILoadModel>();
-        }
-
-
+       
 
 
         #region Public Commands
@@ -130,14 +301,15 @@ namespace WpfUI.ViewModels {
 
 
         public ICommand AddDteqCommand { get; }
+        public ICommand AddLoadCommand { get; }
 
 
         // Load Commands
         public ICommand ShowLoadListCommand { get; }
         public ICommand SaveLoadListCommand { get; }
+        public ICommand DeleteLoadCommand { get; }
 
         #endregion
-
 
         #region Constructor
         public EquipmentViewModel()
@@ -148,22 +320,18 @@ namespace WpfUI.ViewModels {
             CalculateDteqCommand = new RelayCommand(CalculateDteq);
             SaveDteqListCommand = new RelayCommand(SaveDteq);
             DeleteDteqListCommand = new RelayCommand(DeleteDteq);
+
             AddDteqCommand = new RelayCommand(AddDteq);
+            AddLoadCommand = new RelayCommand(AddLoad);
 
 
             ShowLoadListCommand = new RelayCommand(ShowLoadList);
             SaveLoadListCommand = new RelayCommand(SaveLoadList);
-
-            Initialize();
+            DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
         }
 
-       
-
-
-
-
-
+        
 
 
 
@@ -175,15 +343,11 @@ namespace WpfUI.ViewModels {
         {
             NavigationBarViewModel = navigationBarViewModel;
 
-            // Create commands
-            AddDteqCommand = new RelayCommand(AddDteq);
-            CalculateDteqCommand = new RelayCommand(CalculateDteq);
-
-            Initialize();
         }
 
 
         #endregion
+
 
         #region Error Validation
 
@@ -217,19 +381,14 @@ namespace WpfUI.ViewModels {
         #endregion
 
 
-       
-
-
-
         #region Command Methods
 
         // Dteq
         private void GetDteq() {
             DteqList = new ObservableCollection<DteqModel>(DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.dteqListTable));
         }
-        private void CalculateDteq()
+        public void CalculateDteq()
         {
-
             ListManager.AssignLoadsToDteq(DteqList, LoadList);
             foreach (var dteq in DteqList) {
                 dteq.CalculateLoading();
@@ -256,16 +415,55 @@ namespace WpfUI.ViewModels {
                 DteqList.Remove(_selectedDteq);
             }
         }
+
+
         private void AddDteq()
         {
             // TODO - methods for invalid tags
-            if (IsTagAvailable(_dteqTagToAdd) && _dteqTagToAdd != "" && _dteqTagToAdd != " " && _dteqTagToAdd != null) {
-                DteqList.Add(new DteqModel() { Tag = _dteqTagToAdd });
+            if (IsTagAvailable(_dteqToAddTag) && _dteqToAddTag != "" && _dteqToAddTag != " " && _dteqToAddTag != null) {
+                DteqList.Add(new DteqModel() { Tag = _dteqToAddTag });
 
                 CreateMasterLoadList();
                 DictionaryStore.CreateDteqDict(DteqList);
 
                 BuildFedFromList();
+
+                //Refreshes the validation
+                var tag = DteqToAddTag;
+                DteqToAddTag = "";
+                DteqToAddTag = tag;
+            }
+        }
+        private void AddLoad()
+        {
+            LoadModel newLoad = new LoadModel();
+
+            // TODO - methods for invalid tags
+            if (IsTagAvailable(_loadToAddTag) && _loadToAddTag != "" && _loadToAddTag != " " && _loadToAddTag != null) {
+                newLoad.Tag = _loadToAddTag;
+                newLoad.Type = _loadToAddType;
+                newLoad.Description = _loadToAddDescription;
+                newLoad.FedFrom = _loadToAddFedFrom;
+                if (_loadToAddVoltage == 600) {
+                    _loadToAddVoltage = 575;
+                }
+                else if (_loadToAddVoltage == 480)
+                    _loadToAddVoltage = 460;
+                newLoad.Voltage = _loadToAddVoltage;
+                newLoad.Size = _loadToAddSize;
+                newLoad.Unit = _loadToAddUnit;
+                newLoad.LoadFactor = double.Parse(_loadToAddLoadFactor);
+
+                newLoad.CalculateLoading();
+                LoadList.Add(newLoad);
+
+                BuildAssignedLoads();
+                CreateMasterLoadList();
+
+                //Refreshes the validation
+                var tag = LoadToAddTag;
+                LoadToAddTag = " ";
+                //LoadTagToAdd = tag;
             }
         }
 
@@ -275,26 +473,48 @@ namespace WpfUI.ViewModels {
         {
             LoadListLoaded = true;
             //LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.loadListTable));
-
-            AssignedLoads.Clear();
-            foreach (var load in LoadList) {
-                AssignedLoads.Add(load);
-            }
+            BuildAssignedLoads();
         }
         private void SaveLoadList()
         {
             if (LoadList.Count != 0 && LoadListLoaded==true) {
-                DbManager.prjDb.DeleteAllRecords(GlobalConfig.loadListTable);
                 foreach (var load in LoadList) {
-                    DbManager.prjDb.InsertRecord<LoadModel>(load, GlobalConfig.loadListTable, SaveLists.LoadSaveList);
+                    DbManager.prjDb.UpsertRecord<LoadModel>(load, GlobalConfig.loadListTable, SaveLists.LoadSaveList);
                 }
             }
             CalculateDteq();
+        }
+        private void DeleteLoad()
+        {
+           if(_selectedLoad != null) {
+                int loadId = _selectedLoad.Id;
+                DbManager.prjDb.DeleteRecord(GlobalConfig.loadListTable, _selectedLoad.Id);
+
+                var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
+                AssignedLoads.Remove(loadToRemove);
+
+                var loadToRemove2 = LoadList.FirstOrDefault(load => load.Id == loadId);
+                LoadList.Remove(loadToRemove2);
+
+                if (LoadListLoaded == false) {
+                    _selectedDteq.AssignedLoads.Remove(loadToRemove2);
+                }
+            }
+            //BuildAssignedLoads();
         }
 
         #endregion
 
         #region Helper Methods
+
+
+        public void AddLoadErrors()
+        {
+            //ClearErrors(nameof(DteqToAddUnit));
+            //if (_dteqToAddType== EDTLibrary.DteqTypes.XFR.ToString() && _dteqToAddUnit != Units.kVA.ToString()) {
+            //    AddError(nameof(DteqToAddUnit), "Incorrect Units for Equipmet");
+            //}
+        }
         private void BuildFedFromList()
         {
             _fedFromList = new ObservableCollection<string>(DteqList.Select(dteq => dteq.Tag).ToList());
@@ -316,6 +536,14 @@ namespace WpfUI.ViewModels {
             return true;
         }
 
+        private void BuildAssignedLoads()
+        {
+            AssignedLoads.Clear();
+            foreach (var load in LoadList) {
+                AssignedLoads.Add(load);
+            }
+            LoadListLoaded = true;
+        }
         private void CreateMasterLoadList() {
             MasterLoadList.Clear();
             foreach (var dteq in DteqList) {
@@ -324,6 +552,22 @@ namespace WpfUI.ViewModels {
             foreach (var load in LoadList) {
                 MasterLoadList.Add(load);
             }
+        }
+        public void CreateComboBoxLists()
+        {
+            foreach (var item in Enum.GetNames(typeof(EDTLibrary.DteqTypes))) {
+                DteqTypes.Add(item.ToString());
+            }
+            
+            foreach (var item in TypeManager.VoltageTypes) {
+                VoltageTypes.Add(item.Voltage.ToString());
+            }
+
+            //Instatiates the required properties
+            //TODO = FigureOut MasterLoad List
+
+            MasterLoadList = new ObservableCollection<ILoadModel>();
+
         }
 
         #endregion
