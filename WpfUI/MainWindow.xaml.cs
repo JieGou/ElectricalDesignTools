@@ -88,6 +88,11 @@ namespace WpfUI {
             }
         }
 
+        /// <summary>
+        /// Changes checkbox columsn to Template checkbox columsn for single clickable check boxes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnAutoGeneratingColumn2(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             if (e.Column is DataGridCheckBoxColumn && !e.Column.IsReadOnly) {

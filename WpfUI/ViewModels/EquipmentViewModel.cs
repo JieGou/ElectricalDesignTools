@@ -66,8 +66,11 @@ namespace WpfUI.ViewModels {
 
                 if (_selectedDteq != null) {
                     AssignedLoads = new ObservableCollection<ILoadModel>(_selectedDteq.AssignedLoads);
+
+                    LoadToAddFedFrom = "";
                     LoadToAddFedFrom = _selectedDteq.Tag;
-                    LoadToAddVoltage = _selectedDteq.Voltage;
+
+                    LoadToAddVoltage = _selectedDteq.Voltage.ToString();
                 }
 
             }
@@ -113,8 +116,6 @@ namespace WpfUI.ViewModels {
             }
         }
 
-       
-
         private string _dteqToAddFedFrom;
         public string DteqToAddFedFrom
         {
@@ -122,8 +123,8 @@ namespace WpfUI.ViewModels {
             set { _dteqToAddFedFrom = value; }
         }
 
-        private double _dteqToAddVoltage;
-        public double DteqToAddVoltage
+        private string _dteqToAddVoltage;
+        public string DteqToAddVoltage
         {
             get { return _dteqToAddVoltage; }
             set { _dteqToAddVoltage = value; }
@@ -201,6 +202,10 @@ namespace WpfUI.ViewModels {
             set
             {
                 _loadToAddType = value;
+                _loadToAddLoadFactor = "0.8";
+                LoadToAddLoadFactor = "";
+                LoadToAddLoadFactor = "0.8";
+
                 if (_loadToAddType == LoadTypes.TRANSFORMER.ToString()) {
                     LoadToAddUnit = ""; 
                     LoadToAddUnit = Units.kVA.ToString();
@@ -246,18 +251,50 @@ namespace WpfUI.ViewModels {
             set { _loadToAddFedFrom = value; }
         }
 
-        private double _loadToAddVoltage;
-        public double LoadToAddVoltage
+        private string _loadToAddVoltage;
+        public string LoadToAddVoltage
         {
             get { return _loadToAddVoltage; }
-            set { _loadToAddVoltage = value; }
+            set 
+            { 
+                _loadToAddVoltage = value;
+
+                double parsedVoltage;
+                ClearErrors(nameof(LoadToAddVoltage));
+                if(_selectedDteq != null && _loadToAddVoltage != null) {
+                    if (double.TryParse(_loadToAddVoltage.ToString(), out parsedVoltage) == true) {
+                        //AddError(nameof(LoadToAddVoltage), "Invalid Voltage");
+
+                        if (_loadToAddVoltage == null) {
+                            AddError(nameof(LoadToAddVoltage), "Voltage does not match supply Equipment");
+                        }
+
+                        else if (_loadToAddVoltage != _selectedDteq.Voltage.ToString()) {
+                            AddError(nameof(LoadToAddVoltage), "Voltage does not match supply Equipment");
+                        }
+                    }
+                }
+            }
         }
 
-        private double _loadToAddSize;
-        public double LoadToAddSize
+        private string _loadToAddSize;
+        public string LoadToAddSize
         {
             get { return _loadToAddSize; }
-            set { _loadToAddSize = value; }
+            set
+            {
+                double newLoad_LoadSize;
+                _loadToAddSize = value;
+
+                // TODO - enforce Motor sizes
+                ClearErrors(nameof(LoadToAddSize));
+                if (double.TryParse(_loadToAddSize, out newLoad_LoadSize) == false) {
+                    AddError(nameof(LoadToAddSize), "Invalid Size");
+                }
+                else if (double.Parse(_loadToAddSize) <= 0) {
+                    AddError(nameof(LoadToAddSize), "Value must be larger than 0");
+                }
+            }
         }
 
         private string _loadToAddUnit;
@@ -267,6 +304,22 @@ namespace WpfUI.ViewModels {
             set
             {
                 _loadToAddUnit = value;
+
+                ClearErrors(nameof(LoadToAddUnit));
+                if (_loadToAddType != "" && _loadToAddType == null || _loadToAddUnit == "") {
+                    AddError(nameof(LoadToAddUnit), "Select valid Unit");
+                }
+                else if (_loadToAddType == EDTLibrary.LoadTypes.TRANSFORMER.ToString() && _loadToAddUnit != Units.kVA.ToString()) {
+                    AddError(nameof(LoadToAddUnit), "Incorrect Units for Equipment");
+                }
+                else if (_loadToAddType == EDTLibrary.LoadTypes.MOTOR.ToString() 
+                    && _loadToAddUnit != Units.HP.ToString() && _loadToAddUnit != Units.kW.ToString()) {
+                    AddError(nameof(LoadToAddUnit), "Incorrect Units for Equipment");
+                }
+
+                else if (_loadToAddType == EDTLibrary.LoadTypes.HEATER.ToString() && _loadToAddUnit != Units.kW.ToString()) {
+                    AddError(nameof(LoadToAddUnit), "Incorrect Units for Equipment");
+                }
             }
                 
         }
@@ -277,11 +330,24 @@ namespace WpfUI.ViewModels {
             get { return _loadToAddDescription; }
             set { _loadToAddDescription = value; }
         }
-        private string _loadToAddLoadFactor;
+        private string _loadToAddLoadFactor = "0.8";
         public string LoadToAddLoadFactor
         {
             get { return _loadToAddLoadFactor; }
-            set { _loadToAddLoadFactor = value; }
+            set 
+            {
+                double newLoad_LoadFactor;
+                ClearErrors(nameof(LoadToAddLoadFactor));
+
+                _loadToAddLoadFactor = value;
+                if (double.TryParse(_loadToAddLoadFactor, out newLoad_LoadFactor) == false) {
+                    AddError(nameof(LoadToAddLoadFactor), "Value must be between 0 and 1");
+
+                }
+                else if (double.Parse(_loadToAddLoadFactor) < 0 || double.Parse(_loadToAddLoadFactor) > 1) {
+                    AddError(nameof(LoadToAddLoadFactor), "Value must be between 0 and 1");
+                }
+            }
         }
 
 
@@ -436,24 +502,73 @@ namespace WpfUI.ViewModels {
         }
         private void AddLoad()
         {
+            bool newLoadIsValid = true;
             LoadModel newLoad = new LoadModel();
 
-            // TODO - methods for invalid tags
+            //Tag
             if (IsTagAvailable(_loadToAddTag) && _loadToAddTag != "" && _loadToAddTag != " " && _loadToAddTag != null) {
-                newLoad.Tag = _loadToAddTag;
-                newLoad.Type = _loadToAddType;
-                newLoad.Description = _loadToAddDescription;
-                newLoad.FedFrom = _loadToAddFedFrom;
-                if (_loadToAddVoltage == 600) {
-                    _loadToAddVoltage = 575;
-                }
-                else if (_loadToAddVoltage == 480)
-                    _loadToAddVoltage = 460;
-                newLoad.Voltage = _loadToAddVoltage;
-                newLoad.Size = _loadToAddSize;
-                newLoad.Unit = _loadToAddUnit;
-                newLoad.LoadFactor = double.Parse(_loadToAddLoadFactor);
+                newLoadIsValid = false;
+            }
 
+            //Type
+            if (_loadToAddType == "" || _loadToAddType == null) {
+                newLoadIsValid = false;
+            }
+
+            //Motor Voltages
+            if ( Double.TryParse(_loadToAddVoltage, out double sasdf) ==false) {
+                newLoadIsValid=false;
+            }
+            if (_loadToAddType == LoadTypes.MOTOR.ToString()) {
+                if (_loadToAddVoltage == "600") {
+                    _loadToAddVoltage = "575";
+                }
+                else if (_loadToAddVoltage == "480") {
+                    _loadToAddVoltage = "460";
+                }
+            }
+
+
+
+            //Unit
+            if (   (_loadToAddUnit == "")  
+                || (_loadToAddType == EDTLibrary.LoadTypes.TRANSFORMER.ToString() && _loadToAddUnit != Units.kVA.ToString())
+                || (_loadToAddType == EDTLibrary.LoadTypes.MOTOR.ToString() && _loadToAddUnit != Units.HP.ToString() || _loadToAddUnit != Units.kW.ToString())
+                || (_loadToAddType == EDTLibrary.LoadTypes.HEATER.ToString() && _loadToAddUnit != Units.kW.ToString())  )
+            {
+                newLoadIsValid = false;
+            }
+
+            //Size
+            //TODO - Enforce valid Motor Sizes
+            double newLoad_LoadSize;
+            if (double.TryParse(_loadToAddSize, out newLoad_LoadSize) == false) {
+                newLoadIsValid = false;
+            }
+            else if (double.Parse(_loadToAddSize) <=0) {
+                newLoadIsValid = false;
+            }
+                      
+            //LoadFactor
+            double newLoad_LoadFactor;
+            if (double.TryParse(_loadToAddLoadFactor, out newLoad_LoadFactor) == false) {
+                newLoadIsValid = false;
+            }
+            else if(double.Parse(_loadToAddLoadFactor) <0 || double.Parse(_loadToAddLoadFactor) > 1) {
+                newLoadIsValid = false;
+            }
+
+            newLoad.Tag = _loadToAddTag;
+            newLoad.Type = _loadToAddType;
+            newLoad.Description = _loadToAddDescription;
+            newLoad.FedFrom = _loadToAddFedFrom;
+            newLoad.Voltage = Double.Parse(_loadToAddVoltage);
+            newLoad.Size = Double.Parse(_loadToAddSize);
+            newLoad.Unit = _loadToAddUnit;
+            newLoad.LoadFactor = Double.Parse(_loadToAddLoadFactor);
+
+
+            if (newLoadIsValid == true) {
                 newLoad.CalculateLoading();
                 LoadList.Add(newLoad);
 
@@ -465,6 +580,7 @@ namespace WpfUI.ViewModels {
                 LoadToAddTag = " ";
                 //LoadTagToAdd = tag;
             }
+
         }
 
 

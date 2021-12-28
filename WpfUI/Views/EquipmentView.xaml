@@ -12,7 +12,7 @@
         xmlns:viewComponents="clr-namespace:WpfUI.ViewComponents"
         xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
         mc:Ignorable="d"
-        d:Width="1600" d:Height="800"
+        d:Width="1600" d:Height="900"
              Background="#FFDAEEF3">
     <UserControl.Resources>
 
@@ -31,20 +31,58 @@
 
             <CollectionViewSource x:Key="dteqList" Source="{Binding DteqList}"/>
 
+
+            <!--ERROR TEMPLATE STYLE for TEXT BOXES-->
             <Style TargetType="TextBox">
+                <Setter Property="Validation.ErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <DockPanel LastChildFill="True">
+                                <Border BorderBrush="Red"/>
+                                <!-- Align text box and error list vertically -->
+                                <StackPanel Orientation="Vertical">
+                                    <AdornedElementPlaceholder x:Name="textBox"/>
+                                    <ItemsControl ItemsSource="{Binding}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
                 <Style.Triggers>
                     <Trigger Property="Validation.HasError" Value="true">
-                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
-                            Path=(Validation.Errors)[0].ErrorContent}"/>
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
-
+            
+            <!--ERROR TEMPLATE STYLE for TEXT BOXES-->
             <Style TargetType="ComboBox">
+                <Setter Property="Validation.ErrorTemplate">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <!-- Align text box and error list vertically -->
+                            <StackPanel Orientation="Vertical">
+                                <AdornedElementPlaceholder x:Name="textBox"/>
+                                <ItemsControl ItemsSource="{Binding}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
                 <Style.Triggers>
                     <Trigger Property="Validation.HasError" Value="true">
-                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},
-                            Path=(Validation.Errors)[0].ErrorContent}"/>
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -78,7 +116,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -91,7 +129,7 @@
             </Grid.RowDefinitions>
 
             
-            <!--Left MENU Buttons-->
+            <!--MENU BUTTONS-->
             <!--DTEQ-->
             <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical"
                         Margin="0 50 0 0">
@@ -113,13 +151,14 @@
             <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical"
                         Margin="0 10 0 10 ">
 
+                
                 <Button Name ="btnAddDteq" Content="Add Dteq" 
-                    Margin="10,15,10,30"
-                    Command="{Binding Path=AddDteqCommand}"/>
+                        Margin="10,15,10,30"
+                        Command="{Binding Path=AddDteqCommand}"/>
 
                 <Button Name ="btnAddLoad" Content="Add Load" 
-                    Margin="10,15,10,10"
-                    Command="{Binding Path=AddLoadCommand}"/>
+                        Margin="10,15,10,10"
+                        Command="{Binding Path=AddLoadCommand}"/>
 
             </StackPanel>
 
@@ -334,10 +373,10 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="5"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="25"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
@@ -369,35 +408,19 @@
                          Width="75" Height="23"
                          Text="{Binding DteqToAddTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          PreviewMouseDown="txtDteqTag_PreviewMouseDown" LostFocus="txtDteqTag_LostFocus"
-                         Margin="5 0 5 0">
-
-                    <Validation.ErrorTemplate>
-                        <ControlTemplate>
-                            <!-- Align text box and error list vertically -->
-                            <StackPanel Orientation="Vertical">
-                                <AdornedElementPlaceholder x:Name="textBox"/>
-                                <ItemsControl ItemsSource="{Binding}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </ControlTemplate>
-                    </Validation.ErrorTemplate>
-                </TextBox>
+                         Margin="5 0 5 0"/>
+                
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Type}"
                           d:Text="MCC"
                           ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
-                          SelectedValue="{Binding DteqToAddType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding DteqToAddType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
                 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource FedFrom}"
                           Width="75"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding DteqToAddFedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding DteqToAddFedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
@@ -405,7 +428,7 @@
                           Width="60"
                           d:Text="13800"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding DteqToAddVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding DteqToAddVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           Text="{Binding DteqToAddVoltage}"
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
@@ -413,24 +436,9 @@
                 <TextBox Grid.Row="2" Grid.Column="{StaticResource Size}"
                          Width="50" Height="23"
                          d:Text="10000"
-                         Text="{Binding DteqTagToAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding DteqToAddSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0">
 
-                    <Validation.ErrorTemplate>
-                        <ControlTemplate>
-                            <!-- Align text box and error list vertically -->
-                            <StackPanel Orientation="Vertical">
-                                <AdornedElementPlaceholder x:Name="textBox"/>
-                                <ItemsControl ItemsSource="{Binding}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </ControlTemplate>
-                    </Validation.ErrorTemplate>
                 </TextBox>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Unit}"
@@ -440,21 +448,7 @@
                           Text="{Binding DteqToAddUnit}"
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0">
-                    <Validation.ErrorTemplate>
-                        <ControlTemplate>
-                            <!-- Align text box and error list vertically -->
-                            <StackPanel Orientation="Vertical">
-                                <AdornedElementPlaceholder x:Name="textBox"/>
-                                <ItemsControl ItemsSource="{Binding}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </ControlTemplate>
-                    </Validation.ErrorTemplate>
+            
                 </ComboBox>
                 
                 <TextBox Grid.Row="2" Grid.Column="{StaticResource Description}"
@@ -510,34 +504,21 @@
                          PreviewMouseDown="txtLoadTag_PreviewMouseDown" LostFocus="txtLoadTag_LostFocus"
                          Margin="5 0 5 0">
 
-                <Validation.ErrorTemplate>
-                        <ControlTemplate>
-                            <!-- Align text box and error list vertically -->
-                            <StackPanel Orientation="Vertical">
-                                <AdornedElementPlaceholder x:Name="textBox"/>
-                                <ItemsControl ItemsSource="{Binding}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </ControlTemplate>
-                    </Validation.ErrorTemplate>
                 </TextBox>
             
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource Type}" 
                           d:Text="TRANSFORMER"
                           ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
-                          SelectedValue="{Binding LoadToAddType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding LoadToAddType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsEditable="True" IsTextSearchEnabled="True"  
                           Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource FedFrom}" 
                           Width="75"
-                          ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding LoadToAddFedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding Source={StaticResource dteqList}}"
+                          DisplayMemberPath="Tag"
+                          SelectedValue="{Binding LoadToAddFedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                           Text="{Binding LoadToAddFedFrom}"
                           IsEditable="True" IsTextSearchEnabled="True"  
                           Margin="5 0 5 0"/>
 
@@ -545,7 +526,7 @@
                           MinWidth="60"
                           d:Text="13800"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding LoadToAddVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding LoadToAddVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           Text="{Binding LoadToAddVoltage}"
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
@@ -556,27 +537,12 @@
                          Text="{Binding LoadToAddSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0">
 
-                    <Validation.ErrorTemplate>
-                        <ControlTemplate>
-                            <!-- Align text box and error list vertically -->
-                            <StackPanel Orientation="Vertical">
-                                <AdornedElementPlaceholder x:Name="textBox"/>
-                                <ItemsControl ItemsSource="{Binding}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </ControlTemplate>
-                    </Validation.ErrorTemplate>
                 </TextBox>
 
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource Unit}"
                           Width="50"
                           ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
-                          SelectedValue="{Binding LoadToAddUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding LoadToAddUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           Text="{Binding LoadToAddUnit}"
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
@@ -585,44 +551,12 @@
                          MinWidth="100" Height="23"
                          Text="{Binding LoadToAddDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0">
-
-                    <Validation.ErrorTemplate>
-                        <ControlTemplate>
-                            <!-- Align text box and error list vertically -->
-                            <StackPanel Orientation="Vertical">
-                                <AdornedElementPlaceholder x:Name="textBox"/>
-                                <ItemsControl ItemsSource="{Binding}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </ControlTemplate>
-                    </Validation.ErrorTemplate>
                 </TextBox>
 
                 <TextBox Grid.Row="5" Grid.Column="{StaticResource LoadFactor}"
                          MinWidth="50" Height="23"
                          Text="{Binding LoadToAddLoadFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0">
-
-                    <Validation.ErrorTemplate>
-                        <ControlTemplate>
-                            <!-- Align text box and error list vertically -->
-                            <StackPanel Orientation="Vertical">
-                                <AdornedElementPlaceholder x:Name="textBox"/>
-                                <ItemsControl ItemsSource="{Binding}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding ErrorContent}" Foreground="Red"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </ControlTemplate>
-                    </Validation.ErrorTemplate>
                 </TextBox>
             </Grid>
 

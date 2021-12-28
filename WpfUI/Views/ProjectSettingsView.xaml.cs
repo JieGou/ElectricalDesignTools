@@ -30,6 +30,12 @@ namespace WpfUI.Views
             dgdTableSetting.CommitEdit();
         }
 
+
+        /// <summary>
+        /// Changes checkbox columsn to Template checkbox columsn for single clickable check boxes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgdTableSetting_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
 
