@@ -10,14 +10,26 @@
         mc:Ignorable="d"
         Title="Electrical Design Tools"
         d:Width="1600" d:Height="950"
-        Background="LightBlue"
+        Background="white"
         WindowState="Maximized">
 
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <viewmodels:MainViewModel/>
-    </Window.DataContext>
+    </Window.DataContext>-->
 
     <Window.Resources>
+
+        <SolidColorBrush x:Key="MenuBackGround">#FF3A3838</SolidColorBrush>
+        
+        <Style TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
+            <Setter Property="Background" Value="DarkGray"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
         <sys:Int32 x:Key="button1">1</sys:Int32>
 
         <sys:Int32 x:Key="menuRow">0</sys:Int32>
@@ -28,51 +40,76 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="{StaticResource menuRow}">
-                       
-            <StackPanel Orientation="Horizontal" Grid.Row="{StaticResource menuRow}">
-               <TextBlock Grid.Column="1"  Text="Menu" FontSize="24" Margin="0,5,50,10"/> 
+        <Menu Grid.Row="0" Grid.Column="0"
+              Grid.ColumnSpan="2">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New" />
+                <MenuItem Header="_Open" />
+                <MenuItem Header="_Save" />
+                <Separator />
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1">
+           
+            <StackPanel Orientation="Horizontal" 
+                        Grid.Row="{StaticResource menuRow}" 
+                        Background="white">
+                
+               <TextBlock Text="MENU"
+                          Grid.Column="1"  
+                          FontSize="24" FontWeight="Bold"
+                          Foreground="black"
+                          Margin="15,0,50,5"/> 
                 
                 <Button VerticalAlignment="Top"
                         x:Name="btnStartup"
-                        Content="Startup"
-                        Command="{Binding NavigateStartupCommand}" Margin="10,10,10,0" Height="27"/>
+                        Content="STARTUP"
+                        Command="{Binding NavigateStartupCommand}"/>
 
                 <Button VerticalAlignment="Top"
                         x:Name="btnProjectSettings"
-                        Content="Project Settings"
-                        Command="{Binding NavigateProjectSettingsCommand}" Margin="10,10,10,0" Height="27"/>
+                        Content="PROJECT SETTINGS"
+                        Command="{Binding NavigateProjectSettingsCommand}"/>
 
                 <Button VerticalAlignment="Top"
                         x:Name="btnLoadList"
-                        Content="Load List"
-                        Command="{Binding NavigateLoadListCommand}" Margin="10,10,10,10" Height="27" />
+                        Content="LOCATIONS"
+                        Command="{Binding NavigateLocationsCommand}"/>
                 
                 <Button VerticalAlignment="Top"
                         x:Name="btnDteq"
-                        Content="Major Equipment"
-                        Command="{Binding NavigateEquipmentCommand}" Margin="10,10,10,10" Height="27" />
+                        Content="LOAD DISTRIBUTION"
+                        Command="{Binding NavigateEquipmentCommand}"/>
 
                 <Button  VerticalAlignment="Top"
                     x:Name="btnCableList"
-                    Content="Cable List"
-                    Command="{Binding NavigateCableListCommand}" Margin="10,10,10,0" Height="27"/>
+                    Content="CABLE LIST"
+                    Command="{Binding NavigateCableListCommand}"/>
                 
                 <Button  VerticalAlignment="Top"
                     x:Name="btnDataTables"
-                    Content="Data Tables"
-                    Command="{Binding NavigateDataTablesCommand}" Margin="10,10,10,0" Height="27"/>
+                    Content="DATA TABLES"
+                    Command="{Binding NavigateDataTablesCommand}"/>
                 
             </StackPanel>
         </Grid>
 
         <!--Conten Control-->
         <ContentControl x:Name="ccMain"
-                        Grid.Row="{StaticResource contentRow}"
-                        Content="{Binding CurrentViewModel}">
+                        Grid.Row="2" Grid.Column="0"
+                        Grid.RowSpan="1"
+                        Content="{Binding CurrentViewModel}"
+                        BorderBrush="Black"
+                        BorderThickness="2">
 
             <ContentControl.Resources>
 
@@ -84,6 +121,10 @@
                     <views:ProjectSettingsView/>
                 </DataTemplate>
 
+                <DataTemplate DataType="{x:Type viewmodels:LocationsViewModel}">
+                    <views:LocationsView/>
+                </DataTemplate>
+                
                 <DataTemplate DataType="{x:Type viewmodels:EquipmentViewModel}">
                     <views:EquipmentView/>
                 </DataTemplate>

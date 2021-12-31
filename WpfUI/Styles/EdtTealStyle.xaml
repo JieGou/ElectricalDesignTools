@@ -5,7 +5,22 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="EDTBaseStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    
+    
+<!--MAIN COLORS-->
+    <SolidColorBrush x:Key="Darkest">#FF215967</SolidColorBrush>
+    <SolidColorBrush x:Key="Dark" Color="#FF31869B"></SolidColorBrush>
+    <SolidColorBrush x:Key="Medium" Color="#FF94CDDB"></SolidColorBrush>
+    <SolidColorBrush x:Key="Light" Color="#FFDBEEF3"></SolidColorBrush>
+    <SolidColorBrush x:Key="Background" Color="#FFDAEEF3"></SolidColorBrush>
 
+    <!--Accent Colors-->
+    <SolidColorBrush x:Key="ButtonColor">#FFA7DAE8</SolidColorBrush>
+    <SolidColorBrush x:Key="DatagridSelection">#FFB7DEE8</SolidColorBrush>
+    
+    
+    
+    
     <!--ALL CONTROLS DEFAULT-->
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
         <Setter Property="Margin" Value="10 10 10 10 "/>
@@ -14,9 +29,17 @@
     <Style TargetType="ListBox" BasedOn="{StaticResource DefaultStyle}"/>
 
 
+
+    <!--TITLE Label Style-->
+    <Style TargetType="Label" x:Key="TitleLabelStyle" BasedOn="{StaticResource TitleLabelStyleBase}">
+        <Setter Property="Background" Value="{StaticResource Darkest}"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+
     <!--Base Button Style-->
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
-        <Setter Property="Background" Value="#FFA7DAE8"/>
+        <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
     </Style>
 
 
@@ -72,48 +95,9 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
-        <!--<Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation To="LightSeaGreen"
-                                        Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)" 
-                                        FillBehavior="HoldEnd" Duration="0:0:0.15" AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation
-                                            Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)" 
-                                            FillBehavior="HoldEnd" Duration="0:0:0.15" AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
-            </Trigger>
-        </Style.Triggers>-->
     </Style>
 
-    <!--TITLE Label Style-->
-    <Style TargetType="Label" x:Key="TitleLabelStyle">
-        <Setter Property ="FontSize" Value="20"/>
-        <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="FontWeight" Value="DemiBold"/>
-        <!--<Setter Property="Background" Value="#FF22275B"/>-->
-        <Setter Property="Background" Value="#FF215967"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property= "Margin" Value="0,0,0,0"/>
-        <Setter Property="Padding" Value="10, 7, 10, 7"/>
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderThickness" Value="0,0,0,2"/>
-        <Setter Property= "HorizontalAlignment" Value="stretch"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-    </Style>
+    
 
 
     <!--Textblock Base Style-->
@@ -173,81 +157,33 @@
         <GradientStop Color="#FF0AEAFA" Offset="1"/>
     </LinearGradientBrush>
 
-    <!--TextBox Style-->
-    <Style TargetType="TextBox" BasedOn="{StaticResource DefaultStyle}">
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="TextAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-    </Style>
-
     <!--DATA GRID Style-->
-    <Style TargetType="DataGrid" BasedOn="{StaticResource DefaultStyle}">
+    <Style TargetType="DataGrid" BasedOn="{StaticResource DataGridStyleBase}">
         <Setter Property="Background" Value="white"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="RowHeaderWidth" Value="20"/>
-        <Setter Property="CanUserAddRows" Value="False"/>
-        <Setter Property="SelectionUnit" Value="FullRow"/>
-        <Setter Property="MinRowHeight" Value="18"/>
-        <Setter Property="GridLinesVisibility" Value="vertical"/>
-        <Setter Property="RowHeight" Value="25"/>
-        <Setter Property="CanUserResizeRows" Value="True"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <!--<Setter Property="AlternatingRowBackground" Value="LightGray"/>-->
     </Style>
 
     <!--Column Header-->
-    <Style TargetType="DataGridColumnHeader">
-        <Setter Property="BorderBrush" Value="black" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="HorizontalContentAlignment" Value="center" />
-        <Setter Property="MinWidth" Value="0"/>
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Padding" Value="5 2 5 2"/>
-    </Style>
-
-    <!--Cell-->
-    <Style TargetType="{x:Type DataGridCell}">
-        <Setter Property="FontSize" Value="13"/>
-        <Setter Property="TextBlock.TextAlignment" Value="Center"/>
-        <Setter Property="TextBlock.Padding" Value="10,10,10,10"/>
-        <Setter Property="Padding" Value="50"/>
-        <Setter Property="IsEditing" Value="False"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type DataGridCell}">
-                    <Border Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
-                        <ContentPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type DataGridCell}">
-                    <Grid Background="{TemplateBinding Background}">
-                        <ContentPresenter VerticalAlignment="Center" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
+    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}">
+        <Setter Property="Background" Value="{StaticResource Dark}"/>
+        <Setter Property="Foreground" Value="White"/>
         <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#FFB7DEE8"/>
-                <Setter Property="Foreground" Value="black"/>
-                <Setter Property="FontWeight" Value="Regular"/>
-            </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
-                <!--<Setter Property="IsEditing"  Value="True" />-->
+            <Trigger Property="IsMouseOver" Value="true" >
+                <Setter Property="Background" Value="{StaticResource Medium}"/>
+                <Setter Property="Foreground" Value="Black"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
-        <Setter Property="Margin" Value="5,0,10,0" />
+    <!--Cell-->
+    <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellBase}">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource DatagridSelection}"/>
+                <Setter Property="Foreground" Value="black"/>
+                <Setter Property="FontWeight" Value="Regular"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
-
 
 </ResourceDictionary>

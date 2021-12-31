@@ -23,20 +23,22 @@
 
             <CollectionViewSource x:Key="dteqList" Source="{Binding DteqList}"/>
 
-            <Style TargetType="TextBox">
-                <Style.Triggers>
-                    <Trigger Property="Validation.HasError" Value="true">
-                        <Setter Property="ToolTip"
-            Value="{Binding RelativeSource={RelativeSource Self},
-                            Path=(Validation.Errors)[0].ErrorContent}"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
         </ResourceDictionary>        
     </UserControl.Resources>
 
-    <Grid HorizontalAlignment="Left">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="CABLE LIST" 
+               Style="{StaticResource TitleLabelStyleBase}"
+               Background="#FF4C184C"
+               Foreground="White"/>
+
+        <Grid Grid.Row="2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10" />
             <ColumnDefinition Width="auto"/>
@@ -53,10 +55,6 @@
         <Border Grid.Column="1" Grid.ColumnSpan="2" Background="Lavender"
                 Grid.Row="1"
                 Padding="10 10 10 10">
-
-            <Label Content="CABLE LIST" FontSize="15" FontWeight="SemiBold"
-                   Grid.Column="1" Grid.ColumnSpan="2"
-                   HorizontalAlignment="Center"/>
 
         </Border>
 
@@ -114,4 +112,6 @@
 
         </StackPanel>
     </Grid>
+    </Grid>
+
 </UserControl>

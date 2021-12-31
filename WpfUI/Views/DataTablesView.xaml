@@ -6,52 +6,105 @@
              xmlns:local="clr-namespace:WpfUI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1250"
-             Background="#FFFDECDC">
+             Background="#FFE6D3C1">
+    
+    <UserControl.Resources>
+        
+        
+        
+    </UserControl.Resources>
+    
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Content="DATA TABLES" FontSize="15" FontWeight="SemiBold"
-               HorizontalAlignment="Center"/>
+        <Label Content="DATA TABLES"
+               Style="{StaticResource TitleLabelStyleBase}"
+               Background="#FFA97412"
+               Foreground="White"/>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
-                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="100*"/>
+                <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="100"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
+            <Button Content="Get List"
+                    Grid.Row="1" Grid.Column="2"
+                    Command="{Binding GetDataTablesCommand}"
+                    VerticalAlignment="Bottom"/>
+            
             <ListBox x:Name="lstDataTables"
                      Grid.Column="2" Grid.Row="2" 
-                     Height="200" Width="150"
-                     ItemsSource="{Binding DataTableList}"/>
+                     MinHeight="100" Height="auto" 
+                     Width="150"
+                     ItemsSource="{Binding DataTableList}"
+                     SelectedItem="{Binding SelectedDataTable}"/>
 
             <DataGrid x:Name="dgdDataTables"
-                      Grid.Column="3" Grid.Row="2" 
+                      Grid.Column="3" 
+                      Grid.Row="2" Grid.RowSpan="2"
+                      Margin="10"
                       MinHeight="200" MinWidth="300"
                       AutoGenerateColumns="True"
-                      ItemsSource="{Binding}"/>
-
-
-
-
-
-
-
-
-
-
+                      CanUserAddRows="False"
+                      CanUserDeleteRows="False"
+                      ItemsSource="{Binding DataTableToLoad}"
+                      Style="{x:Null}"
+                      MinColumnWidth="75" MaxColumnWidth="400"
+                      ColumnHeaderHeight="35"
+                      AutoGeneratingColumn="dgdDataTables_AutoGeneratingColumn">
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Style>
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Name="DataGridCellBorder">
+                                        <ContentControl Content="{TemplateBinding Content}">
+                                            <ContentControl.ContentTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Background="Transparent" 
+                                                               TextWrapping="WrapWithOverflow" 
+                                                               TextTrimming="CharacterEllipsis" 
+                                                               Padding="15 2 15 2"
+                                                               Height="auto" 
+                                                               Width="auto" 
+                                                               Text="{Binding Text}"
+                                                               FontFamily="calibri"/>
+                                                </DataTemplate>
+                                            </ContentControl.ContentTemplate>
+                                        </ContentControl>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Background" Value="Blue"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.Resources>
+            </DataGrid>
 
         </Grid>
     </Grid>

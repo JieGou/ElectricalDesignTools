@@ -20,6 +20,7 @@ namespace WpfUI.ViewModels
 
         private readonly StartupViewModel _startupViewModel = new StartupViewModel();
         private readonly ProjectSettingsViewModel _projectSettingsViewModel = new ProjectSettingsViewModel();
+        private readonly LocationsViewModel _locationsViewModel = new LocationsViewModel();
         private readonly EquipmentViewModel _equipmentViewModel = new EquipmentViewModel();
         private readonly CableListViewModel _cableListViewModel = new CableListViewModel();
         private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
@@ -28,6 +29,7 @@ namespace WpfUI.ViewModels
         {
             NavigateStartupCommand = new RelayCommand(NavigateStartup);
             NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings);
+            NavigateLocationsCommand = new RelayCommand(NavigateLocations);
             NavigateEquipmentCommand = new RelayCommand(NavigateEquipment);
             NavigateCableListCommand = new RelayCommand(NavigateCableList);
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables);
@@ -44,12 +46,15 @@ namespace WpfUI.ViewModels
 
         
 
+
         #region Navigation
         public ICommand NavigateStartupCommand { get; }
         public ICommand NavigateProjectSettingsCommand { get; }
+        public ICommand NavigateLocationsCommand { get; }
         public ICommand NavigateEquipmentCommand { get; }
         public ICommand NavigateCableListCommand { get; }
         public ICommand NavigateDataTablesCommand { get; }
+
         private void NavigateStartup()
         {
             CurrentViewModel = _startupViewModel;
@@ -57,6 +62,10 @@ namespace WpfUI.ViewModels
         private void NavigateProjectSettings()
         {
             CurrentViewModel = _projectSettingsViewModel;
+        }
+        private void NavigateLocations()
+        {
+            CurrentViewModel = _locationsViewModel;
         }
         private void NavigateEquipment()
         {

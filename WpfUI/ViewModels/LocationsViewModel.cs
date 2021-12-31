@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfUI.ViewModels
 {
-    public class LoadListViewModel
+    public class LocationsViewModel : ViewModelBase
     {
 
     }

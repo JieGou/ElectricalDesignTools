@@ -11,7 +11,7 @@ namespace EDTLibrary.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public string Type { get; set; }
+        public string LocationCategory { get; set; }
         public string AreaClassification { get; set; }
 
         public double MinTemp { get; set; }

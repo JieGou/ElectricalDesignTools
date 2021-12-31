@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EDTLibrary.TypeTables
 {
-    public class CableTypes
+    public class CableType
 
     {
         public int Id { get; set; }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EDTLibrary.TypeTables
 {
-    public class NemaTypes
+    public class NemaType
     {
         int Id { get; set; }
         string Type { get; set; }

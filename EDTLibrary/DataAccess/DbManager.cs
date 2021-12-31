@@ -58,12 +58,12 @@ namespace EDTLibrary.DataAccess {
 
         private static void GetCableTypes()
         {
-            libDb.GetRecords<CableTypes>("CableTypes");
+            TypeManager.CableTypes = libDb.GetRecords<CableType>("CableTypes");
         }
 
         private static void GetNemaTypes()
         {
-            libDb.GetRecords<NemaTypes>("NemaTypes");
+            TypeManager.NemaTypes = libDb.GetRecords<NemaType>("NemaTypes");
         }
 
             #endregion

@@ -169,8 +169,8 @@ namespace WpfUI.ViewModels {
         public ObservableCollection<LoadModel> LoadList { get; set; }
         public bool LoadListLoaded { get; set; }
 
-        private LoadModel _selectedLoad;
-        public LoadModel SelectedLoad
+        private ILoadModel _selectedLoad;
+        public ILoadModel SelectedLoad
         {
             get { return _selectedLoad; }
             set { _selectedLoad = value; }
@@ -579,6 +579,7 @@ namespace WpfUI.ViewModels {
                 var tag = LoadToAddTag;
                 LoadToAddTag = " ";
                 //LoadTagToAdd = tag;
+                CalculateDteq();
             }
 
         }

@@ -14,7 +14,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Styles/EDTBlueStyle.xaml"/>
+                <!--<ResourceDictionary Source="../Styles/EDTBlueStyle.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
             <CollectionViewSource x:Key="ListBoxItems" Source="{Binding Path=StringSettings}">
@@ -44,14 +44,17 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--<viewComponents:NavigationBar Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>-->
-        <Label Content="PROJECT SETTINGS" FontSize="17" FontWeight="SemiBold"
-               HorizontalAlignment="Center"/>
+        <Label Content="PROJECT SETTINGS"
+               Style="{StaticResource TitleLabelStyleBase}"
+               Background="#FF366FA2"
+               Foreground="White"/>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />     <!--0-->
                 <ColumnDefinition Width="auto"/>    <!--1-->

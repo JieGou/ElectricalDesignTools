@@ -38,14 +38,6 @@ namespace EDTLibrary {
         
     }
 
-    //TODO - voltage to types tables from Db
-    public enum Voltages
-    {
-        SixHundred = 600,
-        kW,
-        AMPS,
-        HP
-    }
     public enum Units {
         A,
         HP,
@@ -59,6 +51,21 @@ namespace EDTLibrary {
         MCCB,
         FUSE, 
         MCP       
+    }
+
+    public enum AreaClassifications
+    {
+        UnClassified,
+        NonHazardous,
+        Zone0,
+        Zone1,
+        Zone2,
+        Zone20,
+        Zone21,
+        Zone22,
+        
+
+
     }
 
 }
