@@ -22,7 +22,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
-                <Setter Property="Margin" Value="5,0,10,0" />
+                <Setter Property="Margin" Value="500,0,10,0" />
             </Style>
 
             <Style TargetType="DataGridRowHeader">
@@ -30,14 +30,14 @@
             </Style>
 
             <!--Add Columns-->
-            <sys:Int32 x:Key="Tag">1</sys:Int32>
-            <sys:Int32 x:Key="Type">2</sys:Int32>
-            <sys:Int32 x:Key="FedFrom">3</sys:Int32>
-            <sys:Int32 x:Key="Voltage">4</sys:Int32>
-            <sys:Int32 x:Key="Size">5</sys:Int32>
-            <sys:Int32 x:Key="Unit">6</sys:Int32>
-            <sys:Int32 x:Key="Description">7</sys:Int32>
-            <sys:Int32 x:Key="LoadFactor">8</sys:Int32>
+            <sys:Int32 x:Key="Name">1</sys:Int32>
+            <sys:Int32 x:Key="Tag">2</sys:Int32>
+            <sys:Int32 x:Key="Description">3</sys:Int32>
+            <sys:Int32 x:Key="LocationCategory">4</sys:Int32>
+            <sys:Int32 x:Key="AreaClass">5</sys:Int32>
+            <sys:Int32 x:Key="MinTemp">6</sys:Int32>
+            <sys:Int32 x:Key="MaxTemp">7</sys:Int32>
+            <sys:Int32 x:Key="Nema">8</sys:Int32>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -59,11 +59,13 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="10"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -72,31 +74,35 @@
 
             <!--MENU BUTTONS-->
             <!--LOCATIONS-->
-            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical"
+            <StackPanel Orientation="Vertical"
+                        Grid.Column="1" Grid.Row="1"
+                        Grid.RowSpan="1"
                         Margin="0,50,0,0">
 
-                <Button Name ="btnGetDteq" Content="Get Dteq List" 
-                        Command="{Binding GetDteqCommand}"/>
+                <Button Name ="btnGetLocations" Content="Get Locations" 
+                        Command="{Binding GetLocationsCommand}"/>
 
-                <Button Name ="btnCalculate" Content="Calculate Dteq" 
-                        Command="{Binding CalculateDteqCommand}"/>
+                <Button Name ="btnSave" Content="Save Locations"
+                        Command="{Binding SaveLocationsCommand}"/>
 
-                <Button Name ="btnSaveDteq" Content="Save Equipment"
-                        Command="{Binding SaveDteqListCommand}"/>
-
-                <Button Name ="btnDeleteDteq" Content="Delete Equipment"
-                        Command="{Binding DeleteDteqListCommand}"/>
+                <Button Name ="btnDelete" Content="Delete Selected"
+                        Command="{Binding DeleteLocationCommand}"/>
 
             </StackPanel>
-            
 
+            <Button Name ="btnAdd" Content="Add Location" 
+                    Grid.Column="3" Grid.Row="3"
+                    HorizontalAlignment="Left"
+                    Margin="10"
+                    Command="{Binding AddLocationCommand}"/>
+
+            <!--LOCATION Datagrid-->
             <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Vertical">
 
-                <!--DTEQ Datagrid-->
-                <DataGrid x:Name="dgdLoadList" RowDetailsVisibilityMode="Collapsed"
-                          Height="200" Margin="10 10 10 10"
-                          ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
+                <DataGrid x:Name="dgdLocations" RowDetailsVisibilityMode="Collapsed"
+                          MinHeight="200" Margin="10 10 10 10"
+                          ItemsSource="{Binding LocationList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding SelectedLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
                           CanUserAddRows="False"
                           HorizontalAlignment="Left" 
                           AutoGenerateColumns="False">
@@ -104,24 +110,21 @@
                     <DataGrid.Columns>
                         <!--Basic-->
                         <!--Textblock cell padding style in this.resources Move to ResDict-->
-                        <DataGridTextColumn Header="Tag" x:Name="Tag" Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" ElementStyle="{StaticResource ColumnElementStyle}" />
-                        <!--Type-->
-                        <DataGridTemplateColumn Header="Type" x:Name="dteqType">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
-                                              SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Text="{Binding Type, ValidatesOnDataErrors=True}"
-                                              HorizontalContentAlignment="Center"
-                                              IsEditable="True" IsTextSearchEnabled="True"
-                                              IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
 
+                        <!--Name-->
+                        <DataGridTextColumn Header="Location&#x0a;  Name" 
+                                            MinWidth="150"
+                                            Binding="{Binding Name, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            />
+                        <!--Tag-->
+                        <DataGridTextColumn Header="Tag"
+                                            MinWidth="75"
+                                            Binding="{Binding Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            />
                         <!--Description-->
-                        <DataGridTextColumn Header="Description" x:Name="Description" MinWidth="50" Binding="{Binding Path=Description, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                        <DataGridTextColumn Header="Description" x:Name="Description" 
+                                            MinWidth="150" 
+                                            Binding="{Binding Description, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Left" />
@@ -130,89 +133,77 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <!--Fed From-->
-                        <DataGridTemplateColumn Header=" Fed&#x0a;From" MinWidth="75">
+                        <!--Location Category-->
+                        <DataGridTemplateColumn Header=" Location&#x0a;Category"
+                                                MinWidth="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
-                                    <!--<ComboBox ItemsSource="{Binding Source={StaticResource dteqList}}"
-                                              SelectedValue="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                              Text="{Binding FedFrom}"  
-                                              DisplayMemberPath="Tag"
-                                              SelectedValuePath="{Binding Tag}"
+                                    <ComboBox ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LocationCategories}}}"
+                                              SelectedValue="{Binding LocationCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Text="{Binding LocationCategory, ValidatesOnDataErrors=True}"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="True" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"/>-->
-                                    <!--<ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedItem="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                              Text="{Binding FedFrom}"  
-                                              HorizontalContentAlignment="Center"
-                                              IsEditable="True" IsTextSearchEnabled="True" IsReadOnly="False" TextSearch.Text=""
-                                              IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0" />-->
-                                    <TextBlock Text="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                              BorderThickness="0"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedItem="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                              Text="{Binding FedFrom}"  
-                                              HorizontalContentAlignment="Center"
-                                              IsEditable="True" IsTextSearchEnabled="True" IsReadOnly="False" TextSearch.Text=""
-                                              IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0" 
-                                              IsDropDownOpen="False"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-                        <DataGridTextColumn Header="Size" x:Name="Size" Binding="{Binding Path=Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                        <!--Area Classification-->
+                        <DataGridTemplateColumn Header="       Area&#x0a;Classification"
+                                                MinWidth="120">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.AreaClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedValue="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Text="{Binding AreaClassification, ValidatesOnDataErrors=True}"
+                                              HorizontalContentAlignment="Center"
+                                              IsEditable="True" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"
+                                              Grid.IsSharedSizeScope="True">
+                                    </ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--MinTemp-->
+                        <DataGridTextColumn Header="Min Temp&#x0a;     (°C)" x:Name="MinTemp" 
+                                            Binding="{Binding MinTemp, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Right" />
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
                                     <Setter Property="Margin" Value="5 0"/>
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <!--Unit-->
-                        <DataGridTemplateColumn Header="Unit">
+                        <!--MaxTemp-->
+                        <DataGridTextColumn Header="Max Temp&#x0a;     (°C)" x:Name="MaxTemp" 
+                                            Binding="{Binding MaxTemp, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="Margin" Value="5 0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!--NemaRating-->
+                        <DataGridTemplateColumn Header="NEMA&#x0a;Rating"
+                                                MinWidth="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
-                                            SelectedValue="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            Text="{Binding Unit, ValidatesOnDataErrors=True}"
-                                            HorizontalContentAlignment="Left"
-                                            IsEditable="True" IsTextSearchEnabled="True"
-                                            IsSynchronizedWithCurrentItem="False"
-                                            BorderThickness="0"/>
+                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedValue="{Binding NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Text="{Binding NemaRating, ValidatesOnDataErrors=True}"
+                                              HorizontalContentAlignment="Left"
+                                              IsEditable="True" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <!--<DataGridTextColumn Header="  Line &#x0a;Voltage" x:Name="LineVoltageype"  Binding="{Binding Path=LineVoltage, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>-->
-                        <!--<DataGridTextColumn Header="  Load &#x0a;Voltage" x:Name="LoadVoltage" Binding="{Binding Path=LoadVoltage, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>-->
-                        <!--Loading-->
-                        <DataGridTextColumn Header="FLA" x:Name="Fla" Binding="{Binding Path=Fla, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" IsReadOnly="True" />
-                        <DataGridTextColumn Header="Running &#x0a;   Amps" x:Name="RunningAmps" Binding="{Binding Path=RunningAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Conn &#x0a; kVA" x:Name="ConnectedKva" Binding="{Binding Path=ConnectedKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Dem &#x0a; kVA" x:Name="DemandKva" Binding="{Binding Path=DemandKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Dem &#x0a; kW" x:Name="DemandKw" Binding="{Binding Path=DemandKw, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Dem &#x0a;kVAR" x:Name="DemandKvar" Binding="{Binding Path=DemandKvar, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header=" PF " x:Name="PowerFactor" Binding="{Binding Path=PowerFactor, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="    % &#x0a;Loaded" x:Name="PercentLoaded" Binding="{Binding Path=PercentLoaded, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-
-                        <!--OCPD-->
-                        <DataGridTextColumn Header="OCPD" x:Name="PdType" Binding="{Binding Path=PdType, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="OCPD &#x0a;  Trip" x:Name="PdSizeTrip" Binding="{Binding Path=PdSizeTrip, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="OCPD &#x0a;Frame" x:Name="PdSizeFrame" Binding="{Binding Path=PdSizeFrame, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-
-                        <!--Cable-->
-                        <!--<DataGridTextColumn Header="Min Cable &#x0a;   Amps" x:Name="MinCableAmps" Binding="{Binding Path=MinCableAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>-->
-                        <!--<DataGridTextColumn Header="Cable &#x0a;  Qty" x:Name="CableQty" Binding="{Binding Path=CableQty, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>-->
-
-
 
 
                     </DataGrid.Columns>
@@ -245,14 +236,15 @@
                     </DataGrid.RowDetailsTemplate>
 
                     <DataGrid.RowValidationRules>
-                        <rules:InvalidFedFromRule ValidatesOnTargetUpdated="True" ValidationStep="CommittedValue"/>
+                        <!--<rules:InvalidFedFromRule ValidatesOnTargetUpdated="True" ValidationStep="CommittedValue"/>-->
                     </DataGrid.RowValidationRules>
                 </DataGrid>
 
             </StackPanel>
 
             <!--ADD-->
-            <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2">
+            <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
+                  Visibility="Visible">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="auto"/>
@@ -269,90 +261,112 @@
                     <RowDefinition Height="5"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
 
 
 
                 <!--Tags-->
+                <TextBlock Text="Location Name" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="{StaticResource Name}" FontSize="10"
+                           VerticalAlignment="Bottom" />
+
                 <TextBlock Text="Tag" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource Tag}" FontSize="10" />
-                <TextBlock Text="Type" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource Type}" FontSize="10" />
+                           Grid.Row="1" Grid.Column="{StaticResource Tag}" FontSize="10"
+                           VerticalAlignment="Bottom" />
 
                 <TextBlock Text="Description" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource Description}" FontSize="10" />
+                           Grid.Row="1" Grid.Column="{StaticResource Description}" FontSize="10"
+                           VerticalAlignment="Bottom" />
 
-                <TextBlock Text="Fed From" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource FedFrom}" FontSize="10" />
-                <TextBlock Text="Voltage" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource Voltage}" FontSize="10" />
-                <TextBlock Text="Size" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource Size}" FontSize="10" />
-                <TextBlock Text="Unit" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource Unit}" FontSize="10" />
+                <TextBlock Text="Location&#x0a;Category" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="{StaticResource LocationCategory}" FontSize="10"
+                           VerticalAlignment="Bottom"/>
+
+                <TextBlock Text="Area&#x0a;Classification" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="{StaticResource AreaClass}" FontSize="10"
+                           VerticalAlignment="Bottom" />
+
+                <TextBlock Text="Min Temp&#x0a;(°C)" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="{StaticResource MinTemp}" FontSize="10"
+                           VerticalAlignment="Bottom" />
+                <TextBlock Text="Max Temp&#x0a;(°C)" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="{StaticResource MaxTemp}" FontSize="10"
+                           VerticalAlignment="Bottom" />
+
+                <TextBlock Text="Nema Rating" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="{StaticResource Nema}" FontSize="10"
+                           VerticalAlignment="Bottom" />
 
 
                 <!--DTEQ-->
-                <TextBox x:Name ="txtDteqTag"  
-                         Grid.Row="2" Grid.Column="{StaticResource Tag}"
-                         Width="75" Height="23"
-                         Text="{Binding DteqToAddTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox x:Name ="txtLocationName"  
+                         Grid.Row="2" Grid.Column="{StaticResource Name}"
+                         Width="140" Height="23"
+                         Text="{Binding LocationToAddName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          PreviewMouseDown="txtTag_PreviewMouseDown" LostFocus="txtTag_LostFocus"
-                         Margin="5 0 5 0"/>
+                         Margin="5 0 5 0"
+                         HorizontalContentAlignment="Left"/>
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Type}"
-                          d:Text="MCC"
-                          ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
-                          SelectedValue="{Binding DteqToAddType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          IsEditable="True" IsTextSearchEnabled="True"
-                          Margin="5 0 5 0"/>
-
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource FedFrom}"
-                          Width="75"
-                          ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding DteqToAddFedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          IsEditable="True" IsTextSearchEnabled="True"
-                          Margin="5 0 5 0"/>
-
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Voltage}"
-                          Width="60"
-                          d:Text="13800"
-                          ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding DteqToAddVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          Text="{Binding DteqToAddVoltage}"
-                          IsEditable="True" IsTextSearchEnabled="True"
-                          Margin="5 0 5 0"/>
-
-                <TextBox Grid.Row="2" Grid.Column="{StaticResource Size}"
-                         Width="50" Height="23"
-                         d:Text="10000"
-                         Text="{Binding DteqToAddSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Margin="5 0 5 0">
-
-                </TextBox>
-
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Unit}"
-                          Width="50"
-                          ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
-                          SelectedValue="{Binding DteqToAddUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          Text="{Binding DteqToAddUnit}"
-                          IsEditable="True" IsTextSearchEnabled="True"
-                          Margin="5 0 5 0">
-
-                </ComboBox>
+                <TextBox x:Name ="txtLocationTag"  
+                         Grid.Row="2" Grid.Column="{StaticResource Tag}"
+                         Width="65" Height="23"
+                         Text="{Binding LocationToAddTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5 0 5 0"
+                         HorizontalContentAlignment="Left"/>
 
                 <TextBox Grid.Row="2" Grid.Column="{StaticResource Description}"
-                         MinWidth="100" Height="23"
-                         Text="{Binding DteqToAddDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         MinWidth="140" Height="23"
+                         Text="{Binding LocationToAddDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5 0 5 0"
+                         HorizontalContentAlignment="Left"/>
+
+                <ComboBox Grid.Row="2" Grid.Column="{StaticResource LocationCategory}"
+                          Width="110"
+                          d:Text="Category 1"
+                          ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding LocationToAddCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          Text="{Binding LocationToAddCategory}"
+                          IsEditable="True" IsTextSearchEnabled="True"
+                          Margin="5 0 5 0"/>
+
+                <ComboBox Grid.Row="2" Grid.Column="{StaticResource AreaClass}"
+                          Width="110"
+                          d:Text="Zone 1"
+                          ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.AreaClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding LocationToAddAreaClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          Text="{Binding LocationToAddAreaClass}"
+                          SelectedValuePath="Zone"
+                          DisplayMemberPath="Zone"
+                          IsEditable="True" IsTextSearchEnabled="True"
+                          Margin="5 0 5 0"/>
+
+                <TextBox Grid.Row="2" Grid.Column="{StaticResource MinTemp}"
+                         Width="60" Height="23"
+                         d:Text="-40"
+                         Text="{Binding LocationToAddMinTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0"/>
+
+                <TextBox Grid.Row="2" Grid.Column="{StaticResource MaxTemp}"
+                         Width="60" Height="23"
+                         d:Text="35"
+                         Text="{Binding LocationToAddMaxTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5 0 5 0"/>
+
+                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Nema}"
+                          Width="90"
+                          d:Text="Type 12"
+                          ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedValue="{Binding LocationToAddNemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          Text="{Binding LocationToAddNemaRating}"
+                          IsEditable="True" IsTextSearchEnabled="True"
+                          Margin="5 0 5 0"/>
+
 
             </Grid>
 
 
         </Grid>
-        
+
     </Grid>
 </UserControl>

@@ -99,7 +99,7 @@
                         <Style.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Foreground" Value="Black"/>
-                                <Setter Property="Background" Value="Blue"/>
+                                <Setter Property="Background" Value="LightBlue"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>

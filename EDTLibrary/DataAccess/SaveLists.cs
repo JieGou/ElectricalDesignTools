@@ -27,7 +27,10 @@ namespace EDTLibrary.DataAccess
         };
 
         static public List<string> CableSaveList { get; set; }
-        static public List<string> LocationSaveList { get; set; }
+
+        static public List<string> LocationSaveList { get; set; } = new List<string>() {
+            "none"
+        };
 
 
     }

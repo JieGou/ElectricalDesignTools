@@ -46,6 +46,7 @@ namespace EDTLibrary {
         #region Database Table Quick Names
         public const string loadListTable = "Loads";
         public static string dteqListTable = "DistributionEquipment";
+        public const string locationTable = "Locations";
         
         #endregion
 

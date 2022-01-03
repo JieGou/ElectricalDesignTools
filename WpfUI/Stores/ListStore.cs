@@ -12,7 +12,6 @@ namespace WpfUI.Stores
     {
         public ObservableCollection<DteqModel> DteqList { get; set; }
         public ObservableCollection<LoadModel> LoadList { get; set; }
-        public ObservableCollection<ILoadModel> MasterLoadList { get; set; }
         public ObservableCollection<CableModel> CableList { get; set; }
 
     }

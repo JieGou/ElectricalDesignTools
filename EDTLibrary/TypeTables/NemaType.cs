@@ -6,9 +6,9 @@ namespace EDTLibrary.TypeTables
 {
     public class NemaType
     {
-        int Id { get; set; }
-        string Type { get; set; }
-        string Description { get; set; }
-        string ULDescription { get; set; }
+        public int Id { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
+        public string ULDescription { get; set; }
     }
 }

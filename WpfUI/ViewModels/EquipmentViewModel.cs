@@ -61,6 +61,8 @@ namespace WpfUI.ViewModels {
             get { return _selectedDteq; }
             set
             {
+                //used for fedfrom Validation
+                DictionaryStore.CreateDteqDict(DteqList);
                 _selectedDteq = value;
                 LoadListLoaded = false;
 
@@ -120,7 +122,11 @@ namespace WpfUI.ViewModels {
         public string DteqToAddFedFrom
         {
             get { return _dteqToAddFedFrom; }
-            set { _dteqToAddFedFrom = value; }
+            set 
+            {
+                DictionaryStore.CreateDteqDict(DteqList);
+                _dteqToAddFedFrom = value; 
+            }
         }
 
         private string _dteqToAddVoltage;
@@ -363,7 +369,7 @@ namespace WpfUI.ViewModels {
         public ICommand GetDteqCommand { get; }
         public ICommand CalculateDteqCommand { get; }
         public ICommand SaveDteqListCommand { get; }
-        public ICommand DeleteDteqListCommand { get; }
+        public ICommand DeleteDteqCommand { get; }
 
 
         public ICommand AddDteqCommand { get; }
@@ -371,7 +377,7 @@ namespace WpfUI.ViewModels {
 
 
         // Load Commands
-        public ICommand ShowLoadListCommand { get; }
+        public ICommand GetLoadListCommand { get; }
         public ICommand SaveLoadListCommand { get; }
         public ICommand DeleteLoadCommand { get; }
 
@@ -385,13 +391,13 @@ namespace WpfUI.ViewModels {
             GetDteqCommand = new RelayCommand(GetDteq);
             CalculateDteqCommand = new RelayCommand(CalculateDteq);
             SaveDteqListCommand = new RelayCommand(SaveDteq);
-            DeleteDteqListCommand = new RelayCommand(DeleteDteq);
+            DeleteDteqCommand = new RelayCommand(DeleteDteq);
 
             AddDteqCommand = new RelayCommand(AddDteq);
             AddLoadCommand = new RelayCommand(AddLoad);
 
 
-            ShowLoadListCommand = new RelayCommand(ShowLoadList);
+            GetLoadListCommand = new RelayCommand(GetLoadList);
             SaveLoadListCommand = new RelayCommand(SaveLoadList);
             DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
@@ -586,7 +592,7 @@ namespace WpfUI.ViewModels {
 
 
         // Loads
-        private void ShowLoadList()
+        private void GetLoadList()
         {
             LoadListLoaded = true;
             //LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.loadListTable));

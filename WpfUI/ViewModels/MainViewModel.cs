@@ -38,6 +38,11 @@ namespace WpfUI.ViewModels
             DataBaseService.InitializeLibrary();
             DataBaseService.InitializeProject();
 
+
+            //TODO - event on project loaded;
+            _locationsViewModel.CreateComboBoxLists();
+            _locationsViewModel.LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.locationTable));
+
             _equipmentViewModel.DteqList = new ObservableCollection<DteqModel>(ListManager.GetDteq());
             _equipmentViewModel.LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
             _equipmentViewModel.CalculateDteq();

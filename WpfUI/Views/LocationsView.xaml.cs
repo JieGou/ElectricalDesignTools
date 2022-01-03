@@ -27,12 +27,12 @@ namespace WpfUI.Views
 
         private void txtTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (txtDteqTag.Text == "" || txtDteqTag.Text == " ") txtDteqTag.Text = "";
+            if (txtLocationTag.Text == "" || txtLocationTag.Text == " ") txtLocationTag.Text = "";
         }
 
         private void txtTag_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (txtDteqTag.Text == "") txtDteqTag.Text = " ";
+            if (txtLocationTag.Text == "") txtLocationTag.Text = " ";
         }
     }
 }

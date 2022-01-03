@@ -48,6 +48,7 @@ namespace EDTLibrary.DataAccess {
             GetCableTypes();
             GetNemaTypes();
             GetVoltageTypes();
+            GetAreaClassificationTypes();
         }
 
 
@@ -66,6 +67,10 @@ namespace EDTLibrary.DataAccess {
             TypeManager.NemaTypes = libDb.GetRecords<NemaType>("NemaTypes");
         }
 
+        private static void GetAreaClassificationTypes()
+        {
+            TypeManager.AreaClassifications = libDb.GetRecords<AreaClassificationType>("AreaClassifications");
+        }
             #endregion
     }
 }

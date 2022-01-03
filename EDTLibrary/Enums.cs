@@ -64,8 +64,12 @@ namespace EDTLibrary {
         Zone21,
         Zone22,
         
+    }
 
-
+    public enum LocationCategories
+    {
+        Category1,
+        Category2,
     }
 
 }
