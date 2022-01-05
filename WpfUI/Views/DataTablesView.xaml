@@ -68,7 +68,9 @@
                       Style="{x:Null}"
                       MinColumnWidth="75" MaxColumnWidth="400"
                       ColumnHeaderHeight="35"
-                      AutoGeneratingColumn="dgdDataTables_AutoGeneratingColumn">
+                      AutoGeneratingColumn="dgdDataTables_AutoGeneratingColumn"
+                      SnapsToDevicePixels="False"
+                      ScrollViewer.CanContentScroll="False">
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="FontWeight" Value="Bold"/>

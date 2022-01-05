@@ -11,7 +11,7 @@
         xmlns:viewComponents="clr-namespace:WpfUI.ViewComponents"
         xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
         mc:Ignorable="d"
-             d:Width="1400" d:Height="800"
+             d:Width="1600" d:Height="800"
         Background="#FFCCEDE4">
 
     <UserControl.Resources>
@@ -324,7 +324,7 @@
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource LocationCategory}"
                           Width="110"
                           d:Text="Category 1"
-                          ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.Categories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedValue="{Binding LocationToAddCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           Text="{Binding LocationToAddCategory}"
                           IsEditable="True" IsTextSearchEnabled="True"
@@ -334,10 +334,8 @@
                           Width="110"
                           d:Text="Zone 1"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.AreaClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding LocationToAddAreaClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          Text="{Binding LocationToAddAreaClass}"
-                          SelectedValuePath="Zone"
-                          DisplayMemberPath="Zone"
+                          SelectedValue="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Text="{Binding AreaClassification, ValidatesOnDataErrors=True}"                        
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 

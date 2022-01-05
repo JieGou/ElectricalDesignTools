@@ -14,6 +14,8 @@ namespace WpfUI.Stores
 
         public static void CreateDteqDict(ObservableCollection<DteqModel> dteqOc) {
             dteqDict.Clear();
+
+            //Todo - error check existing values with foreach
             dteqDict = dteqOc.ToList().Distinct().ToDictionary(x => x.Tag);
         }
     }

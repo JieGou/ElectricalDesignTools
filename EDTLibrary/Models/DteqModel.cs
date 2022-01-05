@@ -26,8 +26,24 @@ namespace EDTLibrary.Models {
 
         [Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; } //was private beo
-        public string Tag { get; set; }
+
+        private string _tag;
+        public string Tag
+        {
+            get { return _tag; }
+            set
+            {
+                _tag = value;
+                if (AssignedLoads != null) {
+                    foreach (var iload in AssignedLoads) {
+                        iload.FedFrom = _tag;
+                    }
+                }
+
+            }
+        }
         public string Category { get; set; } //dteq, load, component, cable,
+
         public string Type { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
@@ -37,8 +53,16 @@ namespace EDTLibrary.Models {
         public double Size { get; set; }
         public string Unit { get; set; }
 
+        private string _fedFrom;
         [DisplayName("Fed From")]
-        public string FedFrom { get; set; }
+        public string FedFrom 
+        { 
+            get { return _fedFrom; }
+            set 
+            { 
+                _fedFrom = value;
+            }
+        }
 
         [DisplayName("Line\nVoltage")]
         public double LineVoltage { get; set; }

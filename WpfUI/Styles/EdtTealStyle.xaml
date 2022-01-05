@@ -18,9 +18,13 @@
     <SolidColorBrush x:Key="ButtonColor">#FFA7DAE8</SolidColorBrush>
     <SolidColorBrush x:Key="DatagridSelection">#FFB7DEE8</SolidColorBrush>
     
-    
-    
-    
+    <!--Other Color-->
+    <SolidColorBrush x:Key="LightRed">#FFFFBABA</SolidColorBrush>
+    <SolidColorBrush x:Key="LightOrange">#FFF9B173</SolidColorBrush>
+    <SolidColorBrush x:Key="LightYellow">#FFFFED71</SolidColorBrush>
+
+
+
     <!--ALL CONTROLS DEFAULT-->
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
         <Setter Property="Margin" Value="10 10 10 10 "/>
@@ -97,9 +101,6 @@
         </Setter>
     </Style>
 
-    
-
-
     <!--Textblock Base Style-->
     <Style TargetType="TextBlock">
         <!--<Setter Property ="FontSize" Value="25"/>-->
@@ -143,19 +144,7 @@
 
 
 
-    <LinearGradientBrush x:Key="HeaderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Color="#FF6B8E95" Offset="0"/>
-        <GradientStop Color="#FF14A7C1" Offset="1"/>
-        <GradientStop Color="#FF1E424E" Offset="0.509"/>
-        <GradientStop Color="#FF1D4855" Offset="0.542"/>
-        <GradientStop Color="#FF193A44" Offset="0.526"/>
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="HeaderBorderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Color="#FF1D1D1D" Offset="0.014"/>
-        <GradientStop Color="#FF007F96" Offset="0.553"/>
-        <GradientStop Color="#FF0AEAFA" Offset="1"/>
-    </LinearGradientBrush>
+    
 
     <!--DATA GRID Style-->
     <Style TargetType="DataGrid" BasedOn="{StaticResource DataGridStyleBase}">
@@ -175,6 +164,14 @@
         </Style.Triggers>
     </Style>
 
+    
+    
+    <!--Row Header Header-->
+    <Style TargetType="Button" x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}">
+        <Setter Property="Background" Value="{StaticResource Dark}" />
+    </Style>
+
+    
     <!--Cell-->
     <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellBase}">
         <Style.Triggers>
@@ -185,5 +182,24 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+
+
+
+
+    <LinearGradientBrush x:Key="HeaderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#FF6B8E95" Offset="0"/>
+        <GradientStop Color="#FF14A7C1" Offset="1"/>
+        <GradientStop Color="#FF1E424E" Offset="0.509"/>
+        <GradientStop Color="#FF1D4855" Offset="0.542"/>
+        <GradientStop Color="#FF193A44" Offset="0.526"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="HeaderBorderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#FF1D1D1D" Offset="0.014"/>
+        <GradientStop Color="#FF007F96" Offset="0.553"/>
+        <GradientStop Color="#FF0AEAFA" Offset="1"/>
+    </LinearGradientBrush>
+
 
 </ResourceDictionary>

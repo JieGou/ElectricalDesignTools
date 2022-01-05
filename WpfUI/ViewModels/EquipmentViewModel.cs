@@ -52,6 +52,7 @@ namespace WpfUI.ViewModels {
             set
             {
                 _dteqList = value;
+
             }
         }
 
@@ -491,7 +492,7 @@ namespace WpfUI.ViewModels {
 
         private void AddDteq()
         {
-            // TODO - methods for invalid tags
+            // TODO - add Dteq Validation
             if (IsTagAvailable(_dteqToAddTag) && _dteqToAddTag != "" && _dteqToAddTag != " " && _dteqToAddTag != null) {
                 DteqList.Add(new DteqModel() { Tag = _dteqToAddTag });
 
@@ -584,7 +585,7 @@ namespace WpfUI.ViewModels {
                 //Refreshes the validation
                 var tag = LoadToAddTag;
                 LoadToAddTag = " ";
-                //LoadTagToAdd = tag;
+
                 CalculateDteq();
             }
 
