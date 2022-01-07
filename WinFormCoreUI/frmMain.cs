@@ -24,6 +24,7 @@ namespace WinFormCoreUI {
             UI.LoadLibraryTables();
             UI.LoadProjectTables();
             EDTLibrary.ProjectSettings.EdtSettings.InitializeSettings();
+            EDTLibrary.ProjectSettings.SettingManager.LoadProjectSettings();
             if (UI.ProjectLoaded && UI.LibraryLoaded) {
                 Loaded = true;
 

@@ -309,7 +309,7 @@
         <Setter Property="CanUserDeleteRows" Value="False"/>
         <Setter Property="SelectionUnit" Value="FullRow"/>
         <Setter Property="MinRowHeight" Value="18"/>
-        <Setter Property="GridLinesVisibility" Value="vertical"/>
+        <Setter Property="GridLinesVisibility" Value="Vertical"/>
         <Setter Property="RowHeight" Value="25"/>
         <Setter Property="CanUserResizeRows" Value="True"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -374,6 +374,7 @@
                 <Setter Property="Background" Value="#FFB7DEE8"/>
                 <Setter Property="Foreground" Value="black"/>
                 <Setter Property="FontWeight" Value="Regular"/>
+
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <!--<Setter Property="IsEditing"  Value="True" />-->

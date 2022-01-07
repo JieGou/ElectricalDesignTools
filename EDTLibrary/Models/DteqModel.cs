@@ -16,15 +16,14 @@ namespace EDTLibrary.Models {
             Category = Categories.DIST.ToString();
             Voltage = LineVoltage;
             PdType = EDTLibrary.ProjectSettings.EdtSettings.DteqDefaultPdTypeLV;
+            ConductorQty = 3;
         }
 
        
         //Fields
-        public double _derating = 0;
 
         #region Properties
 
-        [Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; } //was private beo
 
         private string _tag;
@@ -43,18 +42,14 @@ namespace EDTLibrary.Models {
             }
         }
         public string Category { get; set; } //dteq, load, component, cable,
-
         public string Type { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
-
-
         public double Voltage { get; set; }
         public double Size { get; set; }
         public string Unit { get; set; }
 
         private string _fedFrom;
-        [DisplayName("Fed From")]
         public string FedFrom 
         { 
             get { return _fedFrom; }
@@ -64,68 +59,53 @@ namespace EDTLibrary.Models {
             }
         }
 
-        [DisplayName("Line\nVoltage")]
         public double LineVoltage { get; set; }
-
-        [DisplayName("Load\nVoltage")]
         public double LoadVoltage { get; set; }
 
         //Loading
-        [DisplayName("FLA")]
         public double Fla { get; set; }
-        [DisplayName("Running\nAmps")]
         public double RunningAmps { get; set; }
-
-
-        [DisplayName("Conn\nkVa")]
         public double ConnectedKva { get; set; }
-
-        [DisplayName("Dem\nkVA")]
         public double DemandKva { get; set; }
-
-        [DisplayName("Dem\nkW")]
         public double DemandKw { get; set; }
-
-        [DisplayName("Dem\nkVAR")]
         public double DemandKvar { get; set; }
-
-        
-
-        [DisplayName("PF")]
         public double PowerFactor { get; set; }
 
 
         //Sizing
-        public double MinCableAmps { get; set; }
         public double PercentLoaded { get; set; }
 
-        [DisplayName("OCPD\nType")]
         public string PdType { get; set; }
 
-        [DisplayName("Trip\nAmps")]
         public double PdSizeTrip { get; set; }
-        [DisplayName("Frame\nAmps")]
         public double PdSizeFrame { get; set; }
 
+        //Cables
 
-        [DisplayName("Cable\nQty")]
+        public int ConductorQty { get; set; }
+
         public int CableQty { get; set; }
-        [DisplayName("Cable\nSize")]
         public string CableSize { get; set; }
+        public double CableBaseAmps { get; set; }
 
-  
-        [Browsable(false)]
+        private double _derating = 1;
+        public double CableSpacing { get; set; }
+        public double CableDerating
+        {
+            get { return _derating; }
+            set { _derating = value; }
+        }
+        public double CableDeratedAmps { get; set; }
+        public double CableRequiredAmps { get; set; }
+        public CableModel Cable { get; set; }
+
+
         public List<ILoadModel> AssignedLoads { get; set; } = new List<ILoadModel>();
-
         public int LoadCount { get; set; }
-
-        [Browsable(false)]
         public List<ComponentModel> InLineComponents { get; set; } = new List<ComponentModel>();
-        //public List<CableModel> Cables { get; set; } = new List<CableModel>();
+
 
         public double LoadFactor { get; set; }
-
-        [DisplayName("Eff")]
         public double Efficiency { get; set; }
 
         #endregion
@@ -170,12 +150,12 @@ namespace EDTLibrary.Models {
                     Fla = Size;
                 }
 
-            PercentLoaded = 100 * RunningAmps / Fla;
+            PercentLoaded = RunningAmps / Fla * 100;
             PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
 
-            MinCableAmps = Math.Max(Fla, RunningAmps);
+            CableRequiredAmps = Math.Max(Fla, RunningAmps);
             if (Type == DteqTypes.XFR.ToString()) {
-                MinCableAmps *= 1.25;
+                CableRequiredAmps *= 1.25;
             }
 
             //Derating
@@ -184,22 +164,52 @@ namespace EDTLibrary.Models {
                 // if(Spacing != 100loadCable.QtyParallel)
             }
 
+            CableDerating = 1;
             if (LoadCount*3>=43) {
-                _derating = 0.5;
+                CableDerating = 0.5;
             }
             else if (LoadCount*3 >=25){
-                _derating = 0.6;
+                CableDerating = 0.6;
             }
             else if (LoadCount*3 >= 7) {
-                _derating = 0.7;
+                CableDerating = 0.7;
             }
             else if (LoadCount * 3 >= 4) {
-                _derating = 0.8;
+                CableDerating = 0.8;
             }
             else {
-                _derating = 1;
+                CableDerating = 1;
             }
             GetMinimumPdSize();
+            GetCable();
+        }
+
+        public void GetCable()
+        {
+            Cable = new CableModel(this);
+
+            ConductorQty = Cable.ConductorQty;
+            CableQty = Cable.CableQty;
+            CableSize = Cable.CableSize;
+            CableBaseAmps = Cable.CableBaseAmps;
+
+            CableSpacing = Cable.CableSpacing;
+            CableDerating = Cable.CableDerating;
+            CableDeratedAmps = Cable.CableDeratedAmps;
+            CableRequiredAmps = Cable.CableRequiredAmps;
+
+        }
+
+        public void CalculateCableAmps()
+        {
+            Cable.CableQty = CableQty;
+            Cable.CableSize = CableSize;
+
+            Cable.CalculateAmpacity();
+            //Cable = Cable.CalculateAmpacity(Cable);
+
+            CableBaseAmps = Cable.CableBaseAmps;
+            CableDeratedAmps = Cable.CableDeratedAmps;
         }
 
         public void GetMinimumPdSize() {

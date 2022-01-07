@@ -5,6 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary {
+    public enum Categories
+    {
+        DIST,
+        LOAD3P,
+        LOAD1P,
+        COMP,
+        CABLE,
+    }
+    
     public enum DteqTypes {
         XFR,
         SWG,
@@ -13,13 +22,7 @@ namespace EDTLibrary {
         SPL,
     }
 
-    public enum Categories {
-        DIST,
-        LOAD3P,
-        LOAD1P,
-        COMP,
-        CABLE,
-    }
+    
 
     public enum LoadTypes {
         MOTOR,

@@ -76,6 +76,7 @@ namespace EDTLibrary.ProjectSettings {
             SettingDict = SettingList.ToDictionary(x => x.Name);
 
             CreateCableAmpsUsedInProject();
+            var test = EdtSettings.CableAmpsUsedInProject;
         }
 
 
@@ -166,6 +167,7 @@ namespace EDTLibrary.ProjectSettings {
                     }
                 }
                 dtAmps.AcceptChanges();
+                EdtSettings.CableAmpsUsedInProject = dtAmps;
             }
         }
 

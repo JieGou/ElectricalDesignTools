@@ -19,14 +19,21 @@ namespace EDTLibrary.DataAccess
             //"LoadVoltage",
 
             "AssignedLoads",
-            "InLineComponents"
+            "InLineComponents",
+            "Cable"
         };
 
         static public List<string> LoadSaveList { get; set; } = new List<string>() {
-            "InLineComponents"
+            "InLineComponents",
+            "Cable",
+            "CableModel"
         };
 
-        static public List<string> CableSaveList { get; set; }
+        static public List<string> CableSaveList { get; set; } = new List<string> {
+            "Load",
+            "Cable",
+            "CableModel"
+        };
 
         static public List<string> LocationSaveList { get; set; } = new List<string>() {
             "none"

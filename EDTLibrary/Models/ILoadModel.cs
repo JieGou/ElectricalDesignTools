@@ -16,47 +16,46 @@ namespace EDTLibrary.Models {
         string Unit { get; set; }
         double Fla { get; set; }
 
-        [DisplayName("Load\nFactor")]
         double LoadFactor { get; set; }
-        [DisplayName("Fed\nFrom")]
         string FedFrom { get; set; }
         
 
         ///Lookups
-        [DisplayName("PF")]
         double PowerFactor { get; set; }
-        [DisplayName("Eff")]
         double Efficiency { get; set; }
 
 
         // Calculated Values
-        [DisplayName("Conn\nkVa")]
         double ConnectedKva { get; set; }
 
-        [DisplayName("Dem\nkVA")]
         double DemandKva { get; set; }
 
-        [DisplayName("Dem\nkW")]
         double DemandKw { get; set; }
 
-        [DisplayName("Dem\nkVAR")]
         double DemandKvar { get; set; }
 
-        [DisplayName("Running\nAmps")]
         double RunningAmps { get; set; }
 
-        [DisplayName("Cable\nQty")]
-        int CableQty { get; set; }
-        [DisplayName("Cable\nSize")]
-        string CableSize { get; set; }
 
-        [DisplayName("OCPD\nType")]
         string PdType { get; set; }
-
-        [DisplayName("Trip\nAmps")]
         double PdSizeTrip { get; set; }
-        [DisplayName("Frame\nAmps")]
         double PdSizeFrame { get; set; }
+
+
+        //Cables
+        int ConductorQty { get; set; }
+
+       int CableQty { get; set; }
+       string CableSize { get; set; }
+       double CableBaseAmps { get; set; }
+
+       double CableSpacing { get; set; }
+       double CableDerating { get; set; }
+       double CableDeratedAmps { get; set; }
+       double CableRequiredAmps { get; set; }
+       CableModel Cable { get; set; }
+
+
 
         List<ComponentModel> InLineComponents { get; set; }
         //List<CableModel> Cables { get; set; }

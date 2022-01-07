@@ -10,5 +10,7 @@ namespace EDTLibrary.TypeTables
         public double Voltage { get; set; }
         public double Phase { get; set; }
         public string Category { get; set; }
+        public double CableVoltageClass { get; set; }
+        public double EquipmentVoltageClass { get; set; }
     }
 }

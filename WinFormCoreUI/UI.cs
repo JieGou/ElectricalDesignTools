@@ -71,18 +71,18 @@ namespace WinFormCoreUI {
                     LoadProjectSettings();
                 }
             }
-
         }
+
         public static void LoadProjectTables() {
             string dbFilename = ProjectFile;
             if (File.Exists(dbFilename)) {
                 prjDb = new SQLiteConnector(dbFilename);
 
-                LM.dteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
-                LM.AssignLoadsToDteq();
-                LM.loadList = prjDb.GetRecords<LoadModel>("Loads");
+                LM.DteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
+                LM.CalculateSystemLoading();
+                LM.LoadList = prjDb.GetRecords<LoadModel>("Loads");
                 LM.CreateMasterLoadList();
-                LM.cableList = prjDb.GetRecords<CableModel>("Cables");
+                LM.CableList = prjDb.GetRecords<CableModel>("Cables");
 
                 LoadProjectSettings();
 
@@ -102,8 +102,11 @@ namespace WinFormCoreUI {
                 for (int i = 0; i < settings.Rows.Count; i++) {
                     foreach (var prop in prjSettings.GetProperties()) {
                         if (settings.Rows[i]["Name"].ToString() == prop.Name) {
+                        try {
                             prop.SetValue(propValue, settings.Rows[i]["Value"].ToString());
                             //MessageBox.Show(prop.Name + ": " + prop.GetValue(propValue).ToString());
+                        }
+                        catch { }
                         }
                     }
                 }

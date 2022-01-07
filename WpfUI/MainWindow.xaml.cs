@@ -75,7 +75,7 @@ namespace WpfUI {
             if (e.PropertyName == "FedFrom") {
 
                 var cb = new DataGridComboBoxColumn();
-                cb.ItemsSource = ListManager.dteqList;
+                cb.ItemsSource = ListManager.DteqList;
                 cb.SelectedValuePath = "Tag";
                 cb.DisplayMemberPath = "Tag";
                 cb.SelectedValueBinding = new Binding("FedFrom"); //allows binding to the property

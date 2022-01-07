@@ -16,7 +16,12 @@ namespace WpfUI.Stores
             dteqDict.Clear();
 
             //Todo - error check existing values with foreach
-            dteqDict = dteqOc.ToList().Distinct().ToDictionary(x => x.Tag);
+            foreach (var dteq in dteqOc) {
+                if (dteqDict.ContainsKey(dteq.Tag) == false) {
+                    dteqDict.Add(dteq.Tag, dteq);
+                }
+            }
+            //dteqDict = dteqOc.ToList().Distinct().ToDictionary(x => x.Tag);
         }
     }
 }

@@ -28,16 +28,33 @@ namespace EDTLibrary.Models {
         public double DemandKw { get; set; }
         public double DemandKvar { get; set; }
         public double RunningAmps { get; set; }
+
+
+        //OCPD
+        public string PdType { get; set; }
+        public double PdSizeTrip { get; set; }
+        public double PdSizeFrame { get; set; }
+
+
+        //Cables
+        public int ConductorQty { get; set; }
         public int CableQty { get; set; }
         public string CableSize { get; set; }
+        public double CableBaseAmps { get; set; }
 
-        [DisplayName("OCPD\nType")]
-        public string PdType { get; set; }
+        private double _derating = 0;
+        public double CableSpacing { get; set; }
+        public double CableDerating
+        {
+            get { return _derating; }
+            set { _derating = value; }
+        }
+        public double CableDeratedAmps { get; set; }
+        public double CableRequiredAmps { get; set; }
+        public CableModel Cable { get; set; }
 
-        [DisplayName("Trip\nAmps")]
-        public double PdSizeTrip { get; set; }
-        [DisplayName("Frame\nAmps")]
-        public double PdSizeFrame { get; set; }
+
+
         public List<ComponentModel> InLineComponents { get; set; }
         public List<CableModel> Cables { get; set; }
 

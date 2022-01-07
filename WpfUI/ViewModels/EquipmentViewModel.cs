@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using WinFormCoreUI;
 using WpfUI.Commands;
@@ -44,6 +45,7 @@ namespace WpfUI.ViewModels {
 
         // DTEQ
 
+        //TODO - check for and stop duplicate tags in datagrid (might just need an edit/update)
         private ObservableCollection<DteqModel> _dteqList = new ObservableCollection<DteqModel>();
         public ObservableCollection<DteqModel> DteqList
         {
@@ -52,7 +54,6 @@ namespace WpfUI.ViewModels {
             set
             {
                 _dteqList = value;
-
             }
         }
 
@@ -75,7 +76,6 @@ namespace WpfUI.ViewModels {
 
                     LoadToAddVoltage = _selectedDteq.Voltage.ToString();
                 }
-
             }
         }
         public ObservableCollection<ILoadModel> AssignedLoads { get; set; } = new ObservableCollection<ILoadModel> { };
@@ -368,9 +368,10 @@ namespace WpfUI.ViewModels {
 
         // Equipment Commands
         public ICommand GetDteqCommand { get; }
-        public ICommand CalculateDteqCommand { get; }
         public ICommand SaveDteqListCommand { get; }
         public ICommand DeleteDteqCommand { get; }
+        public ICommand SizeDteqCablesCommand { get; }
+        public ICommand CalcDteqCableAmpsCommand { get; }
 
 
         public ICommand AddDteqCommand { get; }
@@ -382,6 +383,9 @@ namespace WpfUI.ViewModels {
         public ICommand SaveLoadListCommand { get; }
         public ICommand DeleteLoadCommand { get; }
 
+        public ICommand CalculateAllCommand { get; }
+
+
         #endregion
 
         #region Constructor
@@ -390,9 +394,10 @@ namespace WpfUI.ViewModels {
             
             // Create commands
             GetDteqCommand = new RelayCommand(GetDteq);
-            CalculateDteqCommand = new RelayCommand(CalculateDteq);
             SaveDteqListCommand = new RelayCommand(SaveDteq);
             DeleteDteqCommand = new RelayCommand(DeleteDteq);
+            SizeDteqCablesCommand = new RelayCommand(SizeDteqCables);
+            CalcDteqCableAmpsCommand = new RelayCommand(CalcDteqCableAmps);
 
             AddDteqCommand = new RelayCommand(AddDteq);
             AddLoadCommand = new RelayCommand(AddLoad);
@@ -402,9 +407,16 @@ namespace WpfUI.ViewModels {
             SaveLoadListCommand = new RelayCommand(SaveLoadList);
             DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
+
+            CalculateAllCommand = new RelayCommand(CalculateAll);
+
         }
 
         
+
+
+
+
 
 
 
@@ -460,26 +472,26 @@ namespace WpfUI.ViewModels {
         private void GetDteq() {
             DteqList = new ObservableCollection<DteqModel>(DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.dteqListTable));
         }
-        public void CalculateDteq()
-        {
-            ListManager.AssignLoadsToDteq(DteqList, LoadList);
-            foreach (var dteq in DteqList) {
-                dteq.CalculateLoading();
-            }
-        }
         private void SaveDteq()
         {
-            //if (DteqList.Count !=0) {
-            //    DbManager.prjDb.DeleteAllRecords(GlobalConfig.dteqListTable);
-            //    foreach (var dteq in DteqList) {
-            //        DbManager.prjDb.InsertRecord<DteqModel>(dteq, GlobalConfig.dteqListTable, SaveLists.DteqSaveList);
-            //    }
-            //}
+            if (DteqList.Count != 0) {
+                CalculateAll();
 
-            foreach (var dteq in DteqList) {
-                DbManager.prjDb.UpsertRecord<DteqModel>(dteq, GlobalConfig.dteqListTable, SaveLists.DteqSaveList);
+                Tuple<bool, string> update;
+                bool error = false;
+                string message = "";
+
+                foreach (var dteq in DteqList) {
+                    update = DbManager.prjDb.UpsertRecord<DteqModel>(dteq, GlobalConfig.dteqListTable, SaveLists.DteqSaveList);
+                    if (update.Item1 == false) {
+                        error = true;
+                        message = update.Item2;
+                    }
+                }
+                if (error) {
+                    MessageBox.Show(message);
+                }
             }
-            CalculateDteq();
         }
         private void DeleteDteq()
         {
@@ -488,12 +500,30 @@ namespace WpfUI.ViewModels {
                 DteqList.Remove(_selectedDteq);
             }
         }
-
+        private void SizeDteqCables()
+        {
+            foreach (var item in DteqList) {
+                item.GetCable();
+            }        
+        }
+        private void CalcDteqCableAmps()
+        {
+            foreach (var item in DteqList) {
+                item.CalculateCableAmps();
+            }
+        }
 
         private void AddDteq()
         {
             // TODO - add Dteq Validation
-            if (IsTagAvailable(_dteqToAddTag) && _dteqToAddTag != "" && _dteqToAddTag != " " && _dteqToAddTag != null) {
+
+            bool isTagAvailable = IsTagAvailable(_dteqToAddTag);
+
+            if (isTagAvailable && 
+                _dteqToAddTag != "" && 
+                _dteqToAddTag != " " && 
+                _dteqToAddTag != null) 
+            {
                 DteqList.Add(new DteqModel() { Tag = _dteqToAddTag });
 
                 CreateMasterLoadList();
@@ -505,15 +535,19 @@ namespace WpfUI.ViewModels {
                 var tag = DteqToAddTag;
                 DteqToAddTag = "";
                 DteqToAddTag = tag;
+
+                CalculateAll();
             }
         }
         private void AddLoad()
         {
+            LoadModel newLoad = new LoadModel(Categories.LOAD3P.ToString());
+
             bool newLoadIsValid = true;
-            LoadModel newLoad = new LoadModel();
+            bool isTagAvailable = IsTagAvailable(_loadToAddTag);
 
             //Tag
-            if (IsTagAvailable(_loadToAddTag) && _loadToAddTag != "" && _loadToAddTag != " " && _loadToAddTag != null) {
+            if (isTagAvailable == false || _loadToAddTag == "" || _loadToAddTag == " " || _loadToAddTag == null) {
                 newLoadIsValid = false;
             }
 
@@ -578,15 +612,16 @@ namespace WpfUI.ViewModels {
             if (newLoadIsValid == true) {
                 newLoad.CalculateLoading();
                 LoadList.Add(newLoad);
+                _loadList.Add(newLoad);
 
-                BuildAssignedLoads();
+                CalculateAll();
                 CreateMasterLoadList();
 
                 //Refreshes the validation
                 var tag = LoadToAddTag;
                 LoadToAddTag = " ";
 
-                CalculateDteq();
+
             }
 
         }
@@ -601,12 +636,25 @@ namespace WpfUI.ViewModels {
         }
         private void SaveLoadList()
         {
-            if (LoadList.Count != 0 && LoadListLoaded==true) {
+
+            if (LoadList.Count != 0 && LoadListLoaded == true) {
+                CalculateAll();
+
+                Tuple<bool, string> update;
+                bool error = false;
+                string message = "";
+
                 foreach (var load in LoadList) {
-                    DbManager.prjDb.UpsertRecord<LoadModel>(load, GlobalConfig.loadListTable, SaveLists.LoadSaveList);
+                    update = DbManager.prjDb.UpsertRecord<LoadModel>(load, GlobalConfig.loadListTable, SaveLists.LoadSaveList);
+                    if (update.Item1 == false) {
+                        error = true;
+                        message = update.Item2;
+                    }
+                }
+                if (error) {
+                    MessageBox.Show(message);
                 }
             }
-            CalculateDteq();
         }
         private void DeleteLoad()
         {
@@ -625,6 +673,14 @@ namespace WpfUI.ViewModels {
                 }
             }
             //BuildAssignedLoads();
+        }
+
+
+        public void CalculateAll()
+        {
+            BuildAssignedLoads();
+            ListManager.CreateDteqDict(DteqList);
+            ListManager.CalculateSystemLoading(DteqList, LoadList);
         }
 
         #endregion

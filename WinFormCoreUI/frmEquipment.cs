@@ -1,4 +1,5 @@
 ﻿using EDTLibrary;
+using EDTLibrary.DataAccess;
 using EDTLibrary.Models;
 using System;
 using System.Collections.Generic;
@@ -30,15 +31,15 @@ namespace WinFormCoreUI {
 
         //Dteq
         private void GetDteq() {
-            ListManager.dteqList = UI.prjDb.GetRecords<DteqModel>("DistributionEquipment");
+            ListManager.DteqList = UI.prjDb.GetRecords<DteqModel>("DistributionEquipment");
             ListManager.CreateMasterLoadList();
-            ListManager.AssignLoadsToDteq();
+            ListManager.CalculateSystemLoading();
         }
         private void SaveDteq() {
             Tuple<bool, string> update;
             bool error = false;
             string message = "";
-            foreach (var dteq in ListManager.dteqList) {
+            foreach (var dteq in ListManager.DteqList) {
                 update = UI.prjDb.UpdateRecord(dteq, "DistributionEquipment");
                 if (update.Item1 == false) {
                     error = true;
@@ -52,13 +53,13 @@ namespace WinFormCoreUI {
 
         //Loads
         private void GetLoads() {
-            ListManager.loadList = UI.prjDb.GetRecords<LoadModel>("Loads");
+            ListManager.LoadList = UI.prjDb.GetRecords<LoadModel>("Loads");
         }
         private void SaveLoads() {
             Tuple<bool, string> update;
             bool error = false;
             string message = "";
-            foreach (var load in ListManager.loadList) {
+            foreach (var load in ListManager.LoadList) {
                 update = UI.prjDb.UpdateRecord(load, "Loads");
                 if (update.Item1 == false) {
                     error = true;
@@ -72,13 +73,13 @@ namespace WinFormCoreUI {
 
         //Cables
         private void GetCables() {
-            ListManager.cableList = UI.prjDb.GetRecords<CableModel>("Cables");
+            ListManager.CableList = UI.prjDb.GetRecords<CableModel>("Cables");
         }
         private void SaveCables() {
             Tuple<bool, string> update;
             bool error = false;
             string message = "";
-            foreach (var cable in ListManager.cableList) {
+            foreach (var cable in ListManager.CableList) {
                 update = UI.prjDb.UpdateRecord(cable, "Cables");
                 if (update.Item1 == false) {
                     error = true;
@@ -101,8 +102,8 @@ namespace WinFormCoreUI {
 
             //creates a new Db Cable List
             List<string> properties = new List<string> { "Tag", "Category", "Source", "Destination" };
-            foreach (var cable in ListManager.cableList) {
-                update = UI.prjDb.InsertRecord(cable, "Cables");
+            foreach (var cable in ListManager.CableList) {
+                update = UI.prjDb.InsertRecord(cable, "Cables", SaveLists.CableSaveList);
                 if (update.Item1 == false) {
                     error = true;
                     message = update.Item2;
@@ -111,14 +112,14 @@ namespace WinFormCoreUI {
             if (error) {
                 MessageBox.Show(message);
             }
-            ListManager.cableList.Clear();
-            ListManager.cableList = UI.prjDb.GetRecords<CableModel>("Cables");
+            ListManager.CableList.Clear();
+            ListManager.CableList = UI.prjDb.GetRecords<CableModel>("Cables");
         }
 
 
     //---PRESENTERS (UI for this form)
         private void ShowDteq() {
-            dgvMain.DataSource = ListManager.dteqList;
+            dgvMain.DataSource = ListManager.DteqList;
 
             //Red Highlight PercentLoaded and Size Cells
             double _dteqMaxLoadingPercentage;
@@ -132,14 +133,14 @@ namespace WinFormCoreUI {
             }
         }
         private void ShowLoads() {
-            dgvMain.DataSource = ListManager.loadList;
+            dgvMain.DataSource = ListManager.LoadList;
         }
         private void ShowCables() {
-            dgvMain.DataSource = ListManager.cableList;
+            dgvMain.DataSource = ListManager.CableList;
         }
         private void FillDteqListBox() {
             lstDteq.Items.Clear();
-            foreach (var dteq in ListManager.dteqList) {
+            foreach (var dteq in ListManager.DteqList) {
                 lstDteq.Items.Add(dteq.Tag);
             }
             //lstDteq.DataSource = ListManager.dteqList;
@@ -196,7 +197,7 @@ namespace WinFormCoreUI {
             string selectedEq = lstDteq.SelectedItem.ToString();
             DteqModel dteq;
             dteq = lstDteq.SelectedItem as DteqModel;
-            dteq = ListManager.dteqList.FirstOrDefault(t => t.Tag == selectedEq);
+            dteq = ListManager.DteqList.FirstOrDefault(t => t.Tag == selectedEq);
 
             lblSelectedTag.Text = dteq.Tag;
             lblListName.Text = $"Assigned Loads";

@@ -33,8 +33,6 @@ namespace EDTLibrary.DataAccess
         /// <param name="columnName">Optional column name to apply filter </param>
         /// <param name="filterText">Optional filter to apply to column </param>
         /// <returns>List of Type T with properties from tableName</returns>
-       
-        
         public List<T> GetRecords<T>(string tableName, string columnName = "", string filterText = "") //where T : class, new()
         {
             DynamicParameters dP = new DynamicParameters();
@@ -49,7 +47,10 @@ namespace EDTLibrary.DataAccess
                 }
                 //returns entire table
                 else {
-                    output = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
+                    try {
+                        output = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
+                    }
+                    catch { }
                     return output;
                 }
             }
@@ -62,54 +63,6 @@ namespace EDTLibrary.DataAccess
         /// <param name="classObject"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public Tuple<bool, string> InsertRecord<T>(T classObject, string tableName) where T : class, new()
-        {
-            using (IDbConnection cnn = new SQLiteConnection(conString))
-            {
-                StringBuilder sb = new StringBuilder();
-                var props = classObject.GetType().GetProperties();
-                SQLiteCommand cmd = new SQLiteCommand();
-
-                //Build query string: 
-                //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
-                sb.Append($"INSERT INTO {tableName} (");
-
-                //Column Names
-                foreach (var prop in props)
-                {
-                    sb.Append($"{prop.Name}, ");
-                    //cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
-                }
-                sb.Replace("Id,", "");
-                sb.Replace(",", "", sb.Length - 2, 2);
-                sb.Replace(" ", "", sb.Length - 2, 2);
-                sb.Append(") VALUES (");
-
-                //Parameters (@ColumnNames)
-                foreach (var prop in props)
-                {
-                    sb.Append($"@{prop.Name}, ");
-                    cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
-                }
-                sb.Replace("@Id,", "");
-                sb.Replace(",", "", sb.Length - 2, 2);
-                sb.Replace(" ", "", sb.Length - 2, 2);
-                sb.Append(")");
-
-                try
-                {
-                    cnn.Execute(sb.ToString() + ";", classObject);
-                    return new Tuple<bool, string>(true, "");
-                }
-                catch (Exception ex)
-                {
-                    //throw new Exception("Could not add record");
-                    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
-                        $"Query: \n{sb}\n\n" +
-                        $"Details: \n\n {ex}"); ;
-                }
-            }
-        }
 
         /// <summary>
         /// Inserts a record from an object with a list of properties
@@ -225,6 +178,11 @@ namespace EDTLibrary.DataAccess
                     sb.Append($"{prop.Name} = @{prop.Name}, ");
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
+
+                foreach (var prop in propertyList) {
+                    sb.Replace($"{prop} = @{prop}, ", "");
+                }
+
                 sb.Replace("Id = @Id,", "");
                 sb.Replace(", ", "", sb.Length - 2, 2);
                 sb.Append(" WHERE Id = @Id");
@@ -236,8 +194,8 @@ namespace EDTLibrary.DataAccess
                 }
                 catch (Exception ex) {
                     //throw new Exception("Could not add record");
-                    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
-                        $"Query: \n{sb}\n\n" +
+                    return new Tuple<bool, string>(false, $"Error: \n\n{ex.Message}\n\n\n" +
+                        $"Query: \n\n{sb}\n\n\n" +
                         $"Details: \n\n {ex}"); ;
                 }
             }
@@ -362,10 +320,15 @@ namespace EDTLibrary.DataAccess
         public DataTable GetDataTable(string tableName)
         {
             using (IDbConnection cnn = new SQLiteConnection(conString)) {
-                SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", conString);
                 DataTable dt = new DataTable();
-                dataAdapter.Fill(dt);
-                dt.TableName = tableName;
+
+                try {
+
+                    SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", conString);
+                    dataAdapter.Fill(dt);
+                    dt.TableName = tableName;
+                }
+                catch { }
                 return dt;
             }
         }

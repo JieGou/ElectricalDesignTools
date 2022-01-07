@@ -104,10 +104,11 @@ namespace WpfUI.Services
             else {
 
                 //TODO - Update to List Stores??
-                ListManager.dteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
-                ListManager.loadList = prjDb.GetRecords<LoadModel>("Loads");
-                ListManager.cableList = prjDb.GetRecords<CableModel>("Cables");
-                ListManager.CreateMasterLoadList();
+                ListManager.DteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
+                ListManager.LoadList = prjDb.GetRecords<LoadModel>("Loads");
+                ListManager.CableList = prjDb.GetRecords<CableModel>("Cables");
+
+                //ListManager.CreateMasterLoadList();
 
                 IsProjectLoaded = true;
             }

@@ -9,71 +9,98 @@ namespace EDTLibrary.LibraryData {
 
         public static double GetMotorEfficiency(LoadModel load) {
             double result = GlobalConfig.NoValueDouble;
-            DataTable dt = LibraryTables.Motors.Copy();
-            DataTable dtFiltered;
+            if (LibraryTables.Motors != null) {
 
-            var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (int)load.Voltage
-                                                         && x.Field<double>("Size") == (double)load.Size
-                                                         && x.Field<string>("Unit") == load.Unit
-                                                         && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
+                DataTable dt = LibraryTables.Motors.Copy();
+                DataTable dtFiltered;
 
-            try {
-                dtFiltered = filteredRows.CopyToDataTable();
-                result = Double.Parse(dtFiltered.Rows[0]["Efficiency"].ToString());
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (int)load.Voltage
+                                                             && x.Field<double>("Size") == (double)load.Size
+                                                             && x.Field<string>("Unit") == load.Unit
+                                                             && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
+
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    result = Double.Parse(dtFiltered.Rows[0]["Efficiency"].ToString());
+                }
+                catch { }
             }
-            catch { }
+
             return result;
         }
 
         public static double GetMotorPowerFactor(LoadModel load) {
             double result = GlobalConfig.NoValueDouble;
-            DataTable dt = LibraryTables.Motors.Copy();
-            DataTable dtFiltered;
+            if (LibraryTables.Motors != null) {
 
-            var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (int)load.Voltage
-                                                         && x.Field<double>("Size") == (double)load.Size
-                                                         && x.Field<string>("Unit") == load.Unit
-                                                         && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
+                DataTable dt = LibraryTables.Motors.Copy();
+                DataTable dtFiltered;
 
-            try {
-                dtFiltered = filteredRows.CopyToDataTable();
-                result = Double.Parse(dtFiltered.Rows[0]["PowerFactor"].ToString());
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (int)load.Voltage
+                                                             && x.Field<double>("Size") == (double)load.Size
+                                                             && x.Field<string>("Unit") == load.Unit
+                                                             && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
+
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    result = Double.Parse(dtFiltered.Rows[0]["PowerFactor"].ToString());
+                }
+                catch { }
             }
-            catch { }
+
             return result;
         }
 
         public static double GetBreakerFrame(ILoadModel load) {
             double result = GlobalConfig.NoValueDouble;
-            DataTable dt = LibraryTables.Breakers.Copy();
-            DataTable dtFiltered;
+            if (LibraryTables.Breakers != null) {
+                DataTable dt = LibraryTables.Breakers.Copy();
+                DataTable dtFiltered;
 
-            var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)load.Fla * 1.25);
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)load.Fla * 1.25);
 
-            try {
-                dtFiltered = filteredRows.CopyToDataTable();
-                dtFiltered = dtFiltered.Select($"FrameAmps = MIN(FrameAmps)").CopyToDataTable();
-                result = Double.Parse(dtFiltered.Rows[0]["FrameAmps"].ToString());
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    dtFiltered = dtFiltered.Select($"FrameAmps = MIN(FrameAmps)").CopyToDataTable();
+                    result = Double.Parse(dtFiltered.Rows[0]["FrameAmps"].ToString());
+                }
+                catch { }
             }
-            catch { }
             return result;
         }
 
         public static double GetBreakerTrip(ILoadModel load) {
             double result = GlobalConfig.NoValueDouble;
-            DataTable dt = LibraryTables.Breakers.Copy();
-            DataTable dtFiltered;
+            if (LibraryTables.Breakers != null) {
 
-            var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("TripAmps") >= (int)load.Fla * 1.25);
+                DataTable dt = LibraryTables.Breakers.Copy();
+                DataTable dtFiltered;
 
-            try {
-                dtFiltered = filteredRows.CopyToDataTable();
-                dtFiltered = dtFiltered.Select($"TripAmps = MIN(TripAmps)").CopyToDataTable();
-                result = Double.Parse(dtFiltered.Rows[0]["TripAmps"].ToString());
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("TripAmps") >= (int)load.Fla * 1.25);
+
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    dtFiltered = dtFiltered.Select($"TripAmps = MIN(TripAmps)").CopyToDataTable();
+                    result = Double.Parse(dtFiltered.Rows[0]["TripAmps"].ToString());
+                }
+                catch { }
             }
-            catch { }
+            
             return result;
         }
 
+        public static double GetCableVoltageClass(double voltage)
+        {
+            double result = GlobalConfig.NoValueDouble;
+
+            if (LibraryTables.VoltageTypes != null) {
+
+                DataTable dt = LibraryTables.VoltageTypes.Select($"CableVoltageClass >= {voltage}").CopyToDataTable();
+                dt = dt.Select($"CableVoltageClass = MIN(CableVoltageClass)").CopyToDataTable();
+                result = Double.Parse(dt.Rows[0]["CableVoltageClass"].ToString());
+            }
+
+            return result;
+        }
     }
 }

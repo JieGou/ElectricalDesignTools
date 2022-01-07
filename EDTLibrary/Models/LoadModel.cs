@@ -1,4 +1,6 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.ProjectSettings;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,31 +10,48 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace EDTLibrary.Models {
+
+    [AddINotifyPropertyChangedInterface]
     public class LoadModel : INotifyPropertyChanged, ILoadModel {
         public LoadModel() {
             Category = Categories.LOAD3P.ToString();
-            LoadFactor = 0.8;
-            PdType = ProjectSettings.EdtSettings.LoadDefaultPdTypeLV;
+            LoadFactor = Double.Parse(EdtSettings.LoadFactorDefault);
+            PdType = EdtSettings.LoadDefaultPdTypeLV;
+            ConductorQty = 3;
+        }
+
+        public LoadModel(string category)
+        {
+            Category = category;
+            LoadFactor = Double.Parse(EdtSettings.LoadFactorDefault);
+            PdType = EdtSettings.LoadDefaultPdTypeLV;
+            if (Category == Categories.LOAD3P.ToString()) {
+                ConductorQty = 3;
+            }
+
+            else if (Category == Categories.LOAD1P.ToString()) {
+
+                //TODO additional breakdown
+                ConductorQty = 2;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(PropertyChangedEventArgs e) {
-            PropertyChangedEventHandler handler = PropertyChanged;
 
+        private bool updating;
+        public void OnPropertyChanged(PropertyChangedEventArgs e) {
+            
+            PropertyChangedEventHandler handler = PropertyChanged;
+           
             if (handler != null) {
                 handler(this, e);
             }
         }
 
         //Properties
-
-        #region EquipmentModel
-
-        [Browsable(false)] // make this property non-visisble by grids/databindings
         public int Id { get; set; }
-
-
         private string _tag;
         public string Tag { 
             get { return _tag; }
@@ -42,82 +61,58 @@ namespace EDTLibrary.Models {
                 OnPropertyChanged(new PropertyChangedEventArgs("Tag")); 
             }
         }
-
         public string Category { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
-        #endregion
-
-        #region ILoadModel - User Inputs Primary
         public double Voltage { get; set; }
         public double Size { get; set; }
         public string Unit { get; set; }
-
-        [DisplayName("Fed\nFrom")]
         public string FedFrom { get; set; }
 
-        [DisplayName("Load\nFactor")]
         public double LoadFactor { get; set; }
-        [Browsable(false)]
+
         public List<ComponentModel> InLineComponents { get; set; } = new List<ComponentModel>();
         //public List<CableModel> Cables { get; set; } = new List<CableModel>();
 
-        #endregion
-        #region Lookups
-
-        [DisplayName("PF")]
-        public double PowerFactor { get; set; }
-
-        [DisplayName("Eff")]
         public double Efficiency { get; set; }
-        #endregion
+        public double PowerFactor { get; set; }
+    
 
-        #region ILoadModel - Privately Calculated Values
+      
         public double Fla { get; set; }
-
-        [DisplayName("Conn\nkVa")]
         public double ConnectedKva { get; set; }
-
-        [DisplayName("Dem\nkVA")]
         public double DemandKva { get; set; }
-
-        [DisplayName("Dem\nkW")]
         public double DemandKw { get; set; }
-
-        [DisplayName("Dem\nkVAR")]
         public double DemandKvar { get; set; }
-
-        [DisplayName("Running\nAmps")]
         public double RunningAmps { get; set; }
 
         //Sizing
-        [DisplayName("Min Cable Amps")]
-        public double MinCableAmps { get; set; }
-        //public double PercentLoaded { get; set; }
 
-        [Browsable(false)] // make this property non-visisble by grids/databindings
         public double PdFactor { get; set; }
-
-        [DisplayName("OCPD\nType")]
         public string PdType { get; set; }
-
-        [DisplayName("Trip\nAmps")]
         public double PdSizeTrip { get; set; }
-        [DisplayName("Frame\nAmps")]
         public double PdSizeFrame { get; set; }
-
-
-        [DisplayName("Cable\nQty")]
-        public int CableQty { get; set; }
-        [DisplayName("Cable\nSize")]
-        public string CableSize { get; set; }
-        #endregion
-
-        #region LoadModel       
         public string PdStarter { get; set; }
 
-        
-        #endregion
+
+        //Cables
+        public int ConductorQty { get; set; }
+
+        public int CableQty { get; set; }
+        public string CableSize { get; set; }
+        public double CableBaseAmps { get; set; }
+
+        private double _derating = 1;
+        public double CableSpacing { get; set; }
+        public double CableDerating
+        {
+            get { return _derating; }
+            set { _derating = value; }
+        }
+        public double CableDeratedAmps { get; set; }
+        public double CableRequiredAmps { get; set; }
+        public CableModel Cable { get; set; }
+
 
 
         //Methods
@@ -239,7 +234,49 @@ namespace EDTLibrary.Models {
             //PD and Starter
             PdSizeFrame = LibraryManager.GetBreakerFrame(this);
             PdSizeTrip = LibraryManager.GetBreakerTrip(this);
+
+            GetCable();
         }
+
+
+        public void GetCable()
+        {
+            Cable = new CableModel(this);
+
+            ConductorQty = Cable.ConductorQty;
+            CableQty = Cable.CableQty;
+            CableSize = Cable.CableSize;
+            CableBaseAmps = Cable.CableBaseAmps;
+
+            CableSpacing = Cable.CableSpacing;
+            CableDerating = Cable.CableDerating;
+            CableDeratedAmps = Cable.CableDeratedAmps;
+            CableRequiredAmps = Cable.CableRequiredAmps;
+
+        }
+
+        public void CalculateCableAmps()
+        {
+            Cable.CableQty = CableQty;
+            Cable.CableSize = CableSize;
+
+            Cable.CalculateAmpacity();
+            //Cable = Cable.CalculateAmpacity(Cable);
+
+            CableBaseAmps = Cable.CableBaseAmps;
+            CableDeratedAmps = Cable.CableDeratedAmps;
+        }
+
+
+
+
+
+
+
+
+
+
+
 
         public void SizeComponents() {
             //TODO - create Components

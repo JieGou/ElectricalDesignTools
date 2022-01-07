@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace WpfUI.ViewModels
@@ -289,8 +290,20 @@ namespace WpfUI.ViewModels
         private void SaveLocations()
         {
             if (LocationList.Count != 0) {
+
+                Tuple<bool, string> update;
+                bool error = false;
+                string message = "";
+
                 foreach (var location in LocationList) {
-                    DbManager.prjDb.UpsertRecord<LocationModel>(location, GlobalConfig.locationTable, SaveLists.LoadSaveList);
+                    update = DbManager.prjDb.UpsertRecord<LocationModel>(location, GlobalConfig.locationTable, SaveLists.LoadSaveList);
+                    if (update.Item1 == false) {
+                        error = true;
+                        message = update.Item2;
+                    }
+                }
+                if (error) {
+                    MessageBox.Show(message);
                 }
             }
         }

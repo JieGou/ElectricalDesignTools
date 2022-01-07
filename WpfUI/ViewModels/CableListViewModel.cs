@@ -23,7 +23,6 @@ namespace WpfUI.ViewModels
 
         public CableListViewModel(NavigationStore navigationStore)
         {
-            CableList = new ObservableCollection<CableModel>(ListManager.GetCableList());
         }
     }
 }
