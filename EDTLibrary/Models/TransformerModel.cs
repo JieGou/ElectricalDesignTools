@@ -51,6 +51,7 @@ namespace EDTLibrary.Models {
         }
         public double CableDeratedAmps { get; set; }
         public double CableRequiredAmps { get; set; }
+        public double CableRequiredSizingAmps { get; set; }
         public CableModel Cable { get; set; }
 
 

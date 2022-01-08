@@ -57,7 +57,11 @@ namespace EDTLibrary.LibraryData {
                 DataTable dt = LibraryTables.Breakers.Copy();
                 DataTable dtFiltered;
 
-                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)load.Fla * 1.25);
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)load.Fla);
+
+                if (load.Type == DteqTypes.XFR.ToString() || load.Type == LoadTypes.MOTOR.ToString() || load.Type == LoadTypes.TRANSFORMER.ToString()) {
+                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)load.Fla * 1.25);
+                }
 
                 try {
                     dtFiltered = filteredRows.CopyToDataTable();
@@ -76,7 +80,11 @@ namespace EDTLibrary.LibraryData {
                 DataTable dt = LibraryTables.Breakers.Copy();
                 DataTable dtFiltered;
 
-                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("TripAmps") >= (int)load.Fla * 1.25);
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)load.Fla);
+
+                if (load.Type == DteqTypes.XFR.ToString() || load.Type == LoadTypes.MOTOR.ToString() || load.Type == LoadTypes.TRANSFORMER.ToString()) {
+                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)load.Fla * 1.25);
+                }
 
                 try {
                     dtFiltered = filteredRows.CopyToDataTable();

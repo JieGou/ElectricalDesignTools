@@ -65,6 +65,7 @@ namespace EDTLibrary.Models
         public double CableDerating { get; set; }
         public double CableDeratedAmps { get; set; }
         public double CableRequiredAmps { get; set; }
+        public double CableRequiredSizingAmps { get; set; }
         //TODO - CableRequiresSizingAmps
 
         [Browsable(false)]
@@ -116,7 +117,7 @@ namespace EDTLibrary.Models
                     //TODO - algorithm to determine conductor count for 1Phase loads
                 }
                 if (load.Type == LoadTypes.MOTOR.ToString() | load.Type == LoadTypes.TRANSFORMER.ToString()) {
-                    CableRequiredAmps *= 1.25;
+                    CableRequiredSizingAmps *= 1.25;
                 }
                 if (load.Category == Categories.LOAD3P.ToString()) {
                     ConductorQty = 3;
@@ -124,8 +125,8 @@ namespace EDTLibrary.Models
                 }
             }
 
-            CableRequiredAmps /= CableDerating;
-            CableRequiredAmps = Math.Round(CableRequiredAmps, 1);
+            CableRequiredSizingAmps = CableRequiredAmps / CableDerating;
+            CableRequiredSizingAmps = Math.Round(CableRequiredSizingAmps, 1);
 
 
             //Cable Type - selects the cabletype based on VoltageClass, Conuctors, Insulation and UsageType
@@ -174,8 +175,10 @@ namespace EDTLibrary.Models
             if (load.Type == LoadTypes.MOTOR.ToString() | load.Type == LoadTypes.TRANSFORMER.ToString()) {
                 CableRequiredAmps *= 1.25;
             }
-            CableRequiredAmps /= CableDerating;
-            CableRequiredAmps = Math.Round(CableRequiredAmps, 1);
+            CableRequiredAmps = Math.Max(load.PdSizeTrip, CableRequiredAmps);
+
+            CableRequiredSizingAmps = CableRequiredAmps / CableDerating;
+            CableRequiredSizingAmps = Math.Round(CableRequiredSizingAmps, 1);
 
 
             //Voltage Class based on load
@@ -229,7 +232,7 @@ namespace EDTLibrary.Models
             // 2
             //filter cables larger than RequiredAmps
             var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
-                                                          && x.Field<double>("Amps75") >= CableRequiredAmps
+                                                          && x.Field<double>("Amps75") >= CableRequiredSizingAmps
                                                           && x.Field<string>("CodeTable") == codeTable); // ex: Table2 (from CEC)
             // 3
             GetCableQty(CableQty);
@@ -262,7 +265,7 @@ namespace EDTLibrary.Models
                             amps75 *= CableQty;
                             row["Amps75"] = amps75;
                             cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EDTLibrary.ProjectSettings.EdtSettings.Code
-                                                              && x.Field<double>("Amps75") >= CableRequiredAmps
+                                                              && x.Field<double>("Amps75") >= CableRequiredSizingAmps
                                                               && x.Field<string>("CodeTable") == codeTable);
                         }
                         GetCableQty(CableQty);

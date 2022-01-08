@@ -164,8 +164,33 @@
         </Style.Triggers>
     </Style>
 
-    
-    
+    <!--OCPD Column Header-->
+    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
+           x:Key="OcpdColumnHeader">
+        <Setter Property="Background" Value="DarkBlue"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true" >
+                <Setter Property="Background" Value="Blue"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--CABLE Column Header-->
+    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
+           x:Key="CableHeaderColumn">
+        <Setter Property="Background" Value="#FF803280"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true" >
+                <Setter Property="Background" Value="#FF7D4B7D"/>
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
     <!--Row Header Header-->
     <Style TargetType="Button" x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}">
         <Setter Property="Background" Value="{StaticResource Dark}" />

@@ -97,6 +97,7 @@ namespace EDTLibrary.Models {
         }
         public double CableDeratedAmps { get; set; }
         public double CableRequiredAmps { get; set; }
+        public double CableRequiredSizingAmps { get; set; }
         public CableModel Cable { get; set; }
 
 
@@ -153,9 +154,9 @@ namespace EDTLibrary.Models {
             PercentLoaded = RunningAmps / Fla * 100;
             PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
 
-            CableRequiredAmps = Math.Max(Fla, RunningAmps);
+            CableRequiredSizingAmps = Math.Max(Fla, RunningAmps);
             if (Type == DteqTypes.XFR.ToString()) {
-                CableRequiredAmps *= 1.25;
+                CableRequiredSizingAmps *= 1.25;
             }
 
             //Derating
@@ -197,6 +198,7 @@ namespace EDTLibrary.Models {
             CableDerating = Cable.CableDerating;
             CableDeratedAmps = Cable.CableDeratedAmps;
             CableRequiredAmps = Cable.CableRequiredAmps;
+            CableRequiredSizingAmps = Cable.CableRequiredSizingAmps;
 
         }
 
@@ -210,6 +212,7 @@ namespace EDTLibrary.Models {
 
             CableBaseAmps = Cable.CableBaseAmps;
             CableDeratedAmps = Cable.CableDeratedAmps;
+
         }
 
         public void GetMinimumPdSize() {

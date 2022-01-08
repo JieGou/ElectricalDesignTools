@@ -131,7 +131,7 @@
                 
                 <Label Content=" " FontSize="15"/>
                 <ListBox x:Name="lstStringSettings"
-                         Width="200" Height="300"
+                         Width="200" MaxHeight="550"
                          ItemsSource="{Binding Source={StaticResource ListBoxItems}}"
                          SelectedItem="{Binding SelectedStringSetting}">
                     <ListBox.GroupStyle>
