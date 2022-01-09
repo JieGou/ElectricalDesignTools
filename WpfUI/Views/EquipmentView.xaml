@@ -32,6 +32,12 @@
             </Style>
 
 
+
+            <sys:Int32 x:Key="dteq">2</sys:Int32>
+            <sys:Int32 x:Key="adding">3</sys:Int32>
+            <sys:Int32 x:Key="load">4</sys:Int32>
+            <sys:Int32 x:Key="bottom">5</sys:Int32>
+
             <sys:Int32 x:Key="Tag">1</sys:Int32>
             <sys:Int32 x:Key="Type">2</sys:Int32>
             <sys:Int32 x:Key="FedFrom">3</sys:Int32>
@@ -70,13 +76,20 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
 
+            <!--Dteq View Buttons-->
+            <Button Grid.Row="1" Grid.Column="3"
+                    Content="Toggle Row View"
+                    Command="{Binding Path=ToggleRowViewDteqCommand}"/>
+
             <!--MENU BUTTONS-->
-            <!--DTEQ-->
-            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical"
+            <!--DTEQ Buttons-->
+            <StackPanel Orientation="Vertical"
+                        Grid.Column="1" Grid.Row="{StaticResource dteq}"
                         Margin="0,50,0,0">
 
                 <Button Name ="btnGetDteq" Content="Get Dist. Eq. List" 
@@ -97,8 +110,9 @@
 
             </StackPanel>
 
-            <!--ADD-->
-            <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical"
+            <!--ADD Buttons-->
+            <StackPanel Orientation="Vertical"
+                        Grid.Column="1" Grid.Row="{StaticResource adding}"
                         Margin="0,10,0,10">
 
                 <Button Name ="btnAddDteq" Content="Add Dist. Eq." 
@@ -111,9 +125,9 @@
 
             </StackPanel>
 
-            <!--LOAD-->
-            <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Vertical"
-                    Grid.RowSpan="2"
+            <!--LOAD Buttons-->
+            <StackPanel Orientation="Vertical"
+                        Grid.Column="1" Grid.Row="{StaticResource load}"
                         Margin="0,50,0,50">
 
                 <Button x:Name ="btnLoadList" Content="Load List" Height="27" Width="125"
@@ -133,7 +147,7 @@
 
             <!--DTEQ Datagrid-->
             <StackPanel Orientation="Vertical"
-                        Grid.Row="1" Grid.Column="3">
+                        Grid.Row="{StaticResource dteq}" Grid.Column="3">
 
                 <DataGrid x:Name="dgdDteq" 
                           Grid.Row="1" Grid.Column="3" 
@@ -145,7 +159,7 @@
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
                           AutoGenerateColumns="False"
-                          RowDetailsVisibilityMode="Collapsed">
+                          RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}">
                     
                     <DataGrid.Resources>
                         <Style x:Key="errorStyle" TargetType="{x:Type TextBlock}">
@@ -338,16 +352,15 @@
 
                         <!--Loading-->
                         <!--FLA-->
-                        <DataGridTextColumn Header="FLA" x:Name="dteqFla" 
+                        <DataGridTextColumn Header=" Max&#x0a;Amps" x:Name="dteqFla" 
                                             MinWidth="40"
                                             Binding="{Binding Path=Fla, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                             IsReadOnly="True"/>
-                        
-                        <!--Power Factor-->
-                        <DataGridTextColumn Header=" PF " x:Name="dteqPowerFactor" 
-                                            Binding="{Binding Path=PowerFactor, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        <!--Running Amps-->
+                        <DataGridTextColumn Header="Running &#x0a;   Amps" x:Name="dteqRunningAmps"
+                                            Binding="{Binding Path=RunningAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                             IsReadOnly="True"/>
-                        
+
                         <!--Percent Loaded-->
                         <DataGridTemplateColumn Header="Percent &#x0a;Loaded"
                                                 x:Name="dteqPercentLoaded"
@@ -387,12 +400,11 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-                       
-
-                        <DataGridTextColumn Header="Running &#x0a;   Amps" x:Name="dteqRunningAmps"
-                                            Binding="{Binding Path=RunningAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        <!--Power Factor-->
+                        <DataGridTextColumn Header=" PF " x:Name="dteqPowerFactor" 
+                                            Binding="{Binding Path=PowerFactor, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                             IsReadOnly="True"/>
-
+                        
                         <DataGridTextColumn Header="Conn &#x0a; kVA" x:Name="dteqConnectedKva"
                                             Binding="{Binding Path=ConnectedKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                             IsReadOnly="True"/>
@@ -511,9 +523,9 @@
                 </DataGrid>
             </StackPanel>
 
-
-            <!--ADD-->
-            <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2">
+            <!--ADD Grid-->
+            <Grid Grid.Row="{StaticResource adding}"  Grid.Column="3" 
+                  Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="auto"/>
@@ -700,7 +712,7 @@
 
             <!--ASSIGNED LOADS DataGrid-->
             <StackPanel Orientation="Vertical"
-                        Grid.Row="3" Grid.Column="3">
+                        Grid.Row="{StaticResource load}"  Grid.Column="3">
                 
                 <!--TODO - complete row editing-->
                 <DataGrid x:Name="dgdAssignedLoads" 
@@ -713,7 +725,7 @@
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
                           AutoGenerateColumns="False"
-                          RowDetailsVisibilityMode="Collapsed">
+                          RowDetailsVisibilityMode="{Binding ToggleRowViewProp}">
 
                     <DataGrid.Columns>
                         <!--Textblock cell padding style in this.resources Move to ResDict-->
@@ -847,8 +859,10 @@
                                             MinWidth="40"
                                             Binding="{Binding Path=PowerFactor, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                         
+                        <!--Running Amps-->
                         <DataGridTextColumn Header="Running &#x0a;Amps"  
-                                            Binding="{Binding Path=RunningAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                            Binding="{Binding Path=RunningAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            Visibility="Hidden"/>
                         
                         <DataGridTextColumn Header="Conn &#x0a;kVA"  
                                             Binding="{Binding Path=ConnectedKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>

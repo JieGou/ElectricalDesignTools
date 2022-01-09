@@ -73,7 +73,6 @@
 
 
             <!--MENU BUTTONS-->
-            <!--LOCATIONS-->
             <StackPanel Orientation="Vertical"
                         Grid.Column="1" Grid.Row="1"
                         Grid.RowSpan="1"
@@ -138,7 +137,7 @@
                                                 MinWidth="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LocationCategories}}}"
+                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.Categories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedValue="{Binding LocationCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               Text="{Binding LocationCategory, ValidatesOnDataErrors=True}"
                                               HorizontalContentAlignment="Center"
@@ -190,13 +189,13 @@
                         </DataGridTextColumn>
 
                         <!--NemaRating-->
-                        <DataGridTemplateColumn Header="NEMA&#x0a;Rating"
+                        <DataGridTemplateColumn Header="NEMA&#x0a; Type"
                                                 MinWidth="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValue="{Binding NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Text="{Binding NemaRating, ValidatesOnDataErrors=True}"
+                                              SelectedValue="{Binding NemaType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Text="{Binding NemaType, ValidatesOnDataErrors=True}"
                                               HorizontalContentAlignment="Left"
                                               IsEditable="True" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
@@ -242,7 +241,7 @@
 
             </StackPanel>
 
-            <!--ADD-->
+            <!--ADD Location Grid-->
             <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
                   Visibility="Visible">
                 <Grid.ColumnDefinitions>
@@ -294,12 +293,12 @@
                            Grid.Row="1" Grid.Column="{StaticResource MaxTemp}" FontSize="10"
                            VerticalAlignment="Bottom" />
 
-                <TextBlock Text="Nema Rating" Margin="10 5 0 5"
+                <TextBlock Text="Nema Type" Margin="10 5 0 5"
                            Grid.Row="1" Grid.Column="{StaticResource Nema}" FontSize="10"
                            VerticalAlignment="Bottom" />
 
 
-                <!--DTEQ-->
+                <!--Controls-->
                 <TextBox x:Name ="txtLocationName"  
                          Grid.Row="2" Grid.Column="{StaticResource Name}"
                          Width="140" Height="23"
@@ -334,8 +333,8 @@
                           Width="110"
                           d:Text="Zone 1"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.AreaClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          Text="{Binding AreaClassification, ValidatesOnDataErrors=True}"                        
+                          SelectedValue="{Binding LocationToAddAreaClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          Text="{Binding LocationToAddAreaClass}"                        
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
@@ -355,8 +354,8 @@
                           Width="90"
                           d:Text="Type 12"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding LocationToAddNemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          Text="{Binding LocationToAddNemaRating}"
+                          SelectedValue="{Binding LocationToAddNemaType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          Text="{Binding LocationToAddNemaType}"
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 

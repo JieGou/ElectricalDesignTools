@@ -18,6 +18,7 @@ namespace WpfUI.ViewModels
     public class LocationsViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         public List<string> NemaTypes { get; set; } = new List<string>();
+        public List<string> Categories { get; set; } = new List<string>();
         public List<string> AreaClassifications { get; set; } = new List<string>();
         public ObservableCollection<LocationModel> LocationList { get; set; }
         
@@ -42,13 +43,13 @@ namespace WpfUI.ViewModels
                 _locationToAddName = value;
                 ClearErrors(nameof(LocationToAddName));
                 if (_locationToAddName == null) {
-                    AddError(nameof(_locationToAddName), "Name cannot be empty");
+                    AddError(nameof(LocationToAddName), "Name cannot be empty");
                 }
                 else if (_locationToAddName == "") {
-                    AddError(nameof(_locationToAddName), "Name cannot be empty");
+                    AddError(nameof(LocationToAddName), "Name cannot be empty");
                 }
                 else if (IsNameAvailable(_locationToAddName) == false) {
-                    AddError(nameof(_locationToAddName), "Name already exists");
+                    AddError(nameof(LocationToAddName), "Name already exists");
                 }
                 
                
@@ -99,12 +100,15 @@ namespace WpfUI.ViewModels
                 ClearErrors(nameof(LocationToAddCategory));
 
                 if (_locationToAddCategory == null) {
-                    AddError(nameof(LocationToAddCategory), "Category cannot be empty");
+                    AddError(nameof(LocationToAddCategory), "Invalid Category");
                 }
                 else if (_locationToAddCategory == "") {
-                    AddError(nameof(LocationToAddCategory), "Category cannot be empty");
+                    AddError(nameof(LocationToAddCategory), "Invalid Category");
                 }
-            
+                else if (IsCategoryValid(_locationToAddCategory)==false) {
+                    AddError(nameof(LocationToAddCategory), "Invalid Category");
+                }
+
             }
         }
 
@@ -119,12 +123,14 @@ namespace WpfUI.ViewModels
                 ClearErrors(nameof(LocationToAddAreaClass));
 
                 if (_locationToAddAreaClass == null) {
-                    AddError(nameof(LocationToAddAreaClass), "Area Class cannot be empty");
+                    AddError(nameof(LocationToAddAreaClass), "Invalid Area Class");
                 }
                 else if (_locationToAddAreaClass == "") {
-                    AddError(nameof(LocationToAddAreaClass), "Area Class cannot be empty");
+                    AddError(nameof(LocationToAddAreaClass), "Invalid Area Class");
                 }
-
+                else if (IsAreaClassValid(_locationToAddAreaClass) == false) {
+                    AddError(nameof(LocationToAddAreaClass), "Invalid Area Class");
+                }
             }
         }
 
@@ -188,23 +194,25 @@ namespace WpfUI.ViewModels
             }
         }
 
-        private string _locationToAddNemaRating;
-        public string LocationToAddNemaRating
+        private string _locationToAddNemaType = "Type 12";
+        public string LocationToAddNemaType
         {
-            get => _locationToAddNemaRating;
+            get => _locationToAddNemaType;
             set
             {
-                _locationToAddNemaRating = value;
+                _locationToAddNemaType = value;
 
-                ClearErrors(nameof(LocationToAddNemaRating));
+                ClearErrors(nameof(LocationToAddNemaType));
 
-                if (_locationToAddNemaRating == null) {
-                    AddError(nameof(LocationToAddNemaRating), "Nema Rating cannot be empty");
+                if (_locationToAddNemaType == null) {
+                    AddError(nameof(LocationToAddNemaType), "Invalid Nema Type");
                 }
-                else if (_locationToAddNemaRating == "") {
-                    AddError(nameof(LocationToAddNemaRating), "Nema Rating cannot be empty");
+                else if (_locationToAddNemaType == "") {
+                    AddError(nameof(LocationToAddNemaType), "Invalid Nema Type");
                 }
-
+                else if (IsNemaTypeValid(_locationToAddNemaType) == false) {
+                    AddError(nameof(LocationToAddNemaType), "Invalid Nema Type");
+                }
             }
         }
         #endregion
@@ -296,7 +304,7 @@ namespace WpfUI.ViewModels
                 string message = "";
 
                 foreach (var location in LocationList) {
-                    update = DbManager.prjDb.UpsertRecord<LocationModel>(location, GlobalConfig.locationTable, SaveLists.LoadSaveList);
+                    update = DbManager.prjDb.UpsertRecord<LocationModel>(location, GlobalConfig.locationTable, SaveLists.LocationSaveList);
                     if (update.Item1 == false) {
                         error = true;
                         message = update.Item2;
@@ -323,7 +331,46 @@ namespace WpfUI.ViewModels
             LocationModel location = new LocationModel();
 
             //TODO = proper add location validation
-            if (_errorDict.Count == 0) {
+            
+
+            bool newLocationIsValid = true;
+
+            //Name
+            if (IsNameAvailable(LocationToAddName) == false) {
+                newLocationIsValid = false;
+            }
+
+            //Tag
+            if (IsTagAvailable(LocationToAddTag) == false) {
+                newLocationIsValid = false;
+            }
+
+            //Category
+            if (IsCategoryValid(LocationToAddCategory) == false) {
+                newLocationIsValid = false;
+            }
+
+            //AreaClass
+            if (IsAreaClassValid(LocationToAddAreaClass) == false) {
+                newLocationIsValid = false;
+            }
+
+            //Temperature
+            double outMinTemp;
+            double outMaxTemp;
+            if (double.TryParse(LocationToAddMinTemp, out outMinTemp) == false || double.TryParse(LocationToAddMaxTemp, out outMaxTemp) == false) {
+                newLocationIsValid = false;
+            }
+            else if (outMinTemp > outMaxTemp) {
+                newLocationIsValid = false;
+            }
+
+            //NemaRating
+            if (IsNemaTypeValid(LocationToAddNemaType) == false) {
+                newLocationIsValid = false;
+            }
+
+            if (newLocationIsValid) {
 
                 location.Name = _locationToAddName;
                 location.Tag = _locationToAddTag;
@@ -332,16 +379,11 @@ namespace WpfUI.ViewModels
                 location.AreaClassification = _locationToAddAreaClass;
                 location.MinTemp = double.Parse(_locationToAddMinTemp);
                 location.MaxTemp = double.Parse(_locationToAddMaxTemp);
-                location.NemaRating = _locationToAddNemaRating;
+                location.NemaType = _locationToAddNemaType;
                 
                 LocationList.Add(location);
             }
         }
-
-
-
-
-
 
 
 
@@ -368,24 +410,43 @@ namespace WpfUI.ViewModels
             if (tag == null) {
                 return false;
             }
-            var locationTag = LocationList.FirstOrDefault(l => l.Tag.ToLower() == tag.ToLower());
-            List<DteqModel> dteqList = new List<DteqModel>();
-            var dteqTag = dteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
-            List<LoadModel> loadList = new List<LoadModel>();
-            var loadTag = loadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
 
-            if (locationTag != null ||
-                dteqTag != null ||
-                loadTag != null) {
+            var locationTag = LocationList.FirstOrDefault(l => l.Tag.ToLower() == tag.ToLower());
+            if (locationTag != null) { 
                 return false;
             }
 
             return true;
         }
-
-      
+        private bool IsCategoryValid(string category)
+        {
+            var locationCat = Categories.FirstOrDefault(c => c.ToLower() == category.ToLower());
+            if (locationCat == null) {
+                return false;
+            }
+            return true;
+        }
+        private bool IsAreaClassValid(string areaClass)
+        {
+            var locationAreaClass = AreaClassifications.FirstOrDefault(c => c.ToLower() == areaClass.ToLower());
+            if (locationAreaClass == null) {
+                return false;
+            }
+            return true;
+        }
+        private bool IsNemaTypeValid(string nemaType)
+        {
+            var locationNemaType = NemaTypes.FirstOrDefault(c => c.ToLower() == nemaType.ToLower());
+            if (locationNemaType == null) {
+                return false;
+            }
+            return true;
+        }
         public void CreateComboBoxLists()
         {
+            Categories.Add("Category 1");
+            Categories.Add("Category 2");
+
             foreach (var item in TypeManager.NemaTypes) {
                 NemaTypes.Add(item.Type.ToString());
             }

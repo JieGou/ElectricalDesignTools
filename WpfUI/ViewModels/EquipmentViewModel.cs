@@ -43,6 +43,12 @@ namespace WpfUI.ViewModels {
         public List<string> DteqTypes { get; set; } = new List<string>();
         public List<string> VoltageTypes { get; set; } = new List<string>();
 
+
+
+        //View
+        public string ToggleRowViewDteqProp { get; set; } = "VisibleWhenSelected";
+
+
         // DTEQ
 
         //TODO - check for and stop duplicate tags in datagrid (might just need an edit/update)
@@ -361,12 +367,16 @@ namespace WpfUI.ViewModels {
         public ObservableCollection<ILoadModel> MasterLoadList { get; set; }
         #endregion
 
-       
+
 
 
         #region Public Commands
 
         // Equipment Commands
+
+        public ICommand ToggleRowViewDteqCommand { get; }
+        
+
         public ICommand GetDteqCommand { get; }
         public ICommand SaveDteqListCommand { get; }
         public ICommand DeleteDteqCommand { get; }
@@ -391,8 +401,11 @@ namespace WpfUI.ViewModels {
         #region Constructor
         public EquipmentViewModel()
         {
-            
+
             // Create commands
+
+            ToggleRowViewDteqCommand = new RelayCommand(ToggleRowViewDteq);
+
             GetDteqCommand = new RelayCommand(GetDteq);
             SaveDteqListCommand = new RelayCommand(SaveDteq);
             DeleteDteqCommand = new RelayCommand(DeleteDteq);
@@ -412,15 +425,6 @@ namespace WpfUI.ViewModels {
 
         }
 
-        
-
-
-
-
-
-
-
-
         /// <summary>
         /// Default Constructor
         /// </summary>
@@ -429,7 +433,6 @@ namespace WpfUI.ViewModels {
             NavigationBarViewModel = navigationBarViewModel;
 
         }
-
 
         #endregion
 
@@ -467,6 +470,17 @@ namespace WpfUI.ViewModels {
 
 
         #region Command Methods
+
+        //View
+        private void ToggleRowViewDteq()
+        {
+            if (ToggleRowViewDteqProp == "VisibleWhenSelected") {
+                ToggleRowViewDteqProp = "Collapsed";
+            }
+            else if (ToggleRowViewDteqProp == "Collapsed") {
+                ToggleRowViewDteqProp = "VisibleWhenSelected";
+            }
+        }
 
         // Dteq
         private void GetDteq() {
@@ -574,7 +588,7 @@ namespace WpfUI.ViewModels {
             //Unit
             if (   (_loadToAddUnit == "")  
                 || (_loadToAddType == EDTLibrary.LoadTypes.TRANSFORMER.ToString() && _loadToAddUnit != Units.kVA.ToString())
-                || (_loadToAddType == EDTLibrary.LoadTypes.MOTOR.ToString() && _loadToAddUnit != Units.HP.ToString() || _loadToAddUnit != Units.kW.ToString())
+                || (_loadToAddType == EDTLibrary.LoadTypes.MOTOR.ToString() && _loadToAddUnit != Units.HP.ToString() && _loadToAddUnit != Units.kW.ToString())
                 || (_loadToAddType == EDTLibrary.LoadTypes.HEATER.ToString() && _loadToAddUnit != Units.kW.ToString())  )
             {
                 newLoadIsValid = false;

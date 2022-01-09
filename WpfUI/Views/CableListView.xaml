@@ -33,6 +33,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+
+        <!--Background="#FF4C184C"-->
+
         <Label Content="CABLE LIST" 
                Style="{StaticResource TitleLabelStyleBase}"
                Background="#FF4C184C"

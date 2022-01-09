@@ -167,11 +167,11 @@
     <!--OCPD Column Header-->
     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
            x:Key="OcpdColumnHeader">
-        <Setter Property="Background" Value="DarkBlue"/>
+        <Setter Property="Background" Value="#FF1962A4"/>
         <Setter Property="Foreground" Value="White"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
-                <Setter Property="Background" Value="Blue"/>
+                <Setter Property="Background" Value="#FF268DEA"/>
                 <Setter Property="Foreground" Value="White"/>
             </Trigger>
         </Style.Triggers>
@@ -184,7 +184,7 @@
         <Setter Property="Foreground" Value="White"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
-                <Setter Property="Background" Value="#FF7D4B7D"/>
+                <Setter Property="Background" Value="#FFA419A4"/>
                 <Setter Property="Foreground" Value="White"/>
             </Trigger>
         </Style.Triggers>

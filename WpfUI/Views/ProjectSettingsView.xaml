@@ -51,7 +51,7 @@
         <!--<viewComponents:NavigationBar Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>-->
         <Label Content="PROJECT SETTINGS"
                Style="{StaticResource TitleLabelStyleBase}"
-               Background="#FF366FA2"
+               Background="#FF144D80"
                Foreground="White"/>
 
         <Grid Grid.Row="2">
@@ -131,7 +131,8 @@
                 
                 <Label Content=" " FontSize="15"/>
                 <ListBox x:Name="lstStringSettings"
-                         Width="200" MaxHeight="550"
+                         Width="200" 
+                         MinHeight="200" MaxHeight="550"
                          ItemsSource="{Binding Source={StaticResource ListBoxItems}}"
                          SelectedItem="{Binding SelectedStringSetting}">
                     <ListBox.GroupStyle>

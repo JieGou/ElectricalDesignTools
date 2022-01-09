@@ -17,7 +17,7 @@ namespace EDTLibrary.Models
         public double MinTemp { get; set; }
         public double MaxTemp { get; set; }
 
-        public string NemaRating { get; set; }
+        public string NemaType { get; set; }
 
     }
 }
