@@ -1,4 +1,5 @@
-﻿using EDTLibrary.LibraryData;
+﻿using EDTLibrary.Calculators;
+using EDTLibrary.LibraryData;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
@@ -34,7 +35,9 @@ namespace EDTLibrary.Models
             UsageType = CableUsageTypes.Power.ToString();
 
             //TODO - get proper conductor Qty in equipment calculations
-            ConductorQty = load.ConductorQty;
+
+            ConductorQtyCalculator conductorQtyCalculator = new ConductorQtyCalculator();
+            ConductorQty = conductorQtyCalculator.Calculate(load);
             CableQty = 1;
 
             GetCableParameters(load);
@@ -146,8 +149,8 @@ namespace EDTLibrary.Models
         /// </summary>
         public void GetCableParameters(ILoadModel load)
         {
-
-            CableDerating = load.CableDerating;
+            ConductorQtyCalculator conductorQtyCalculator = new ConductorQtyCalculator();
+            CableDerating = conductorQtyCalculator.Calculate(load);
             //gets source derating
 
             if (load.GetType() == typeof(DteqModel)) {
