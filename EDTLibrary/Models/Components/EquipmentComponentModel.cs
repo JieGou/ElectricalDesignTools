@@ -14,10 +14,8 @@ namespace EDTLibrary.Models {
         public string Description { get; set; }
         public string Category { get; set; }
         public string Location { get; set; }
-
         public string Type { get; set; }
         public string SubType { get; set; }
-
         public string ComponentOf { get; set; }
         public List<IComponentModel> Components { get; set; } = new List<IComponentModel>();
     }
