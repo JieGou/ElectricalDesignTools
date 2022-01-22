@@ -25,6 +25,7 @@ namespace EDTLibrary {
 
         public static DataTable VoltageTypes { get; set; }
         public static DataTable NemaTypes { get; set; }
+        public static DataTable LocalControlStationTypes { get; set; }
 
 
 
@@ -43,6 +44,6 @@ namespace EDTLibrary {
 
 
 
-}
+    }
 
 }

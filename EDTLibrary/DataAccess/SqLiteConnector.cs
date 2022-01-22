@@ -35,6 +35,7 @@ namespace EDTLibrary.DataAccess
         /// <returns>List of Type T with properties from tableName</returns>
         public List<T> GetRecords<T>(string tableName, string columnName = "", string filterText = "") //where T : class, new()
         {
+
             DynamicParameters dP = new DynamicParameters();
             List<T> output = new List<T>();
             using (SQLiteConnection cnn = new SQLiteConnection(conString)) {
@@ -43,6 +44,7 @@ namespace EDTLibrary.DataAccess
                 if (columnName != "" && filterText != "") {
                     dP.Add("@filterText", $"%{filterText}%");
                     output = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName} WHERE {columnName} LIKE @filterText", dP);
+
                     return output;
                 }
                 //returns entire table
@@ -51,9 +53,12 @@ namespace EDTLibrary.DataAccess
                         output = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
                     }
                     catch { }
+
                     return output;
                 }
             }
+
+
         }
 
         /// <summary>
@@ -220,7 +225,7 @@ namespace EDTLibrary.DataAccess
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
                 sb.Replace("Id = @Id,", "");
-                //TODO - need to create a specific save query for each ModelType
+                //TODO - need to update "UpdateRecord" with SaveList
                 sb.Replace("AssignedLoads = @AssignedLoads,", "");
                 sb.Replace("InLineComponents = @InLineComponents,", "");
                 sb.Replace(", ", "", sb.Length - 2, 2);

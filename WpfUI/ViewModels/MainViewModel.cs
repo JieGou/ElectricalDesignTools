@@ -25,8 +25,12 @@ namespace WpfUI.ViewModels
         private readonly CableListViewModel _cableListViewModel = new CableListViewModel();
         private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
+        private readonly ObservableCollection<object> _viewModels;
         public MainViewModel()
         {
+            _viewModels = new ObservableCollection<object>();
+            _viewModels.Add(_locationsViewModel);
+
             NavigateStartupCommand = new RelayCommand(NavigateStartup);
             NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings);
             NavigateLocationsCommand = new RelayCommand(NavigateLocations);
@@ -43,8 +47,11 @@ namespace WpfUI.ViewModels
             _locationsViewModel.CreateComboBoxLists();
             _locationsViewModel.LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.locationTable));
 
+            GlobalConfig.GettingRecords = true;
             _equipmentViewModel.DteqList = ListManager.GetDteq();
             _equipmentViewModel.LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
+            GlobalConfig.GettingRecords = false;
+
             _equipmentViewModel.CalculateAll();
             _equipmentViewModel.CreateComboBoxLists();
         }

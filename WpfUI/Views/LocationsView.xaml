@@ -117,7 +117,7 @@
                                             />
                         <!--Tag-->
                         <DataGridTextColumn Header="Tag"
-                                            MinWidth="75"
+                                            Width="75"
                                             Binding="{Binding Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                             />
                         <!--Description-->
@@ -134,7 +134,7 @@
 
                         <!--Location Category-->
                         <DataGridTemplateColumn Header=" Location&#x0a;Category"
-                                                MinWidth="120">
+                                                Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.Categories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -150,11 +150,11 @@
 
                         <!--Area Classification-->
                         <DataGridTemplateColumn Header="       Area&#x0a;Classification"
-                                                MinWidth="120">
+                                                Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.AreaClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValue="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedItem="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               Text="{Binding AreaClassification, ValidatesOnDataErrors=True}"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="True" IsTextSearchEnabled="True"

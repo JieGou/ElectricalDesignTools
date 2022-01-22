@@ -70,7 +70,9 @@
                       ColumnHeaderHeight="35"
                       AutoGeneratingColumn="dgdDataTables_AutoGeneratingColumn"
                       SnapsToDevicePixels="False"
-                      ScrollViewer.CanContentScroll="False">
+                      EnableRowVirtualization="True"
+                      EnableColumnVirtualization="True"
+                      ScrollViewer.CanContentScroll="True">
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="FontWeight" Value="Bold"/>

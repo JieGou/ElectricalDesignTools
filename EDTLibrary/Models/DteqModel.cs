@@ -11,7 +11,7 @@ using PropertyChanged;
 namespace EDTLibrary.Models {
 
     [AddINotifyPropertyChangedInterface]
-    public class DteqModel : ILoadModel, IDistributionEquipmentModel {
+    public class DteqModel : IDteqModel, IHasComponents{
         public DteqModel() {
             Category = Categories.DIST.ToString();
             Voltage = LineVoltage;
@@ -19,14 +19,11 @@ namespace EDTLibrary.Models {
             ConductorQty = 3;
         }
 
-       
-        //Fields
-
+      
         #region Properties
 
-        public int Id { get; set; } //was private beo
-
-        private string _tag;
+        public int Id { get; set; }
+        private string _tag; 
         public string Tag
         {
             get { return _tag; }
@@ -38,18 +35,30 @@ namespace EDTLibrary.Models {
                         iload.FedFrom = _tag;
                     }
                 }
-
+                ListManager.CreateDteqDict();
             }
         }
-        public string Category { get; set; } //dteq, load, component, cable,
+        public string Category { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
         public double Voltage { get; set; }
-        public double Size { get; set; }
+        public double _size; 
+        public double Size 
+        {
+            get { return _size; }
+            set
+            {
+                //double parsedValue =0;
+                //if (Double.TryParse(value, out parsedValue) ==false) {
+                _size = value;
+                if (GlobalConfig.GettingRecords == false) {
+                    CalculateLoading();
+                }
+            }
+        }
         public string Unit { get; set; }
-
-        private string _fedFrom;
+        private string _fedFrom; 
         public string FedFrom 
         { 
             get { return _fedFrom; }
@@ -58,7 +67,6 @@ namespace EDTLibrary.Models {
                 _fedFrom = value;
             }
         }
-
         public double LineVoltage { get; set; }
         public double LoadVoltage { get; set; }
 
@@ -81,9 +89,7 @@ namespace EDTLibrary.Models {
         public double PdSizeFrame { get; set; }
 
         //Cables
-
         public int ConductorQty { get; set; }
-
         public int CableQty { get; set; }
         public string CableSize { get; set; }
         public double CableBaseAmps { get; set; }
@@ -98,23 +104,25 @@ namespace EDTLibrary.Models {
         public double CableDeratedAmps { get; set; }
         public double CableRequiredAmps { get; set; }
         public double CableRequiredSizingAmps { get; set; }
-        public CableModel Cable { get; set; }
+        public PowerCableModel Cable { get; set; }
 
 
-        public List<ILoadModel> AssignedLoads { get; set; } = new List<ILoadModel>();
+        public List<IHasLoading> AssignedLoads { get; set; } = new List<IHasLoading>();
         public int LoadCount { get; set; }
-        public List<ComponentModel> InLineComponents { get; set; } = new List<ComponentModel>();
 
 
-        public double LoadFactor { get; set; }
-        public double Efficiency { get; set; }
+        public List<IComponentModel> Components { get; set; }
+
+
+
 
         #endregion
 
         //Methods
         public void CalculateLoading() {
+
             //Calculates the individual loads of each MJEQ load
-            foreach (ILoadModel load in AssignedLoads) {
+            foreach (IHasLoading load in AssignedLoads) {
                 if (load.Category == Categories.DIST.ToString()) {
                     load.CalculateLoading();
                 }
@@ -144,11 +152,11 @@ namespace EDTLibrary.Models {
 
             //Full Load / Max operating Amps
                 if (Unit == Units.kVA.ToString()) {
-                    Fla = Size * 1000 / Voltage / Math.Sqrt(3);
+                    Fla = _size * 1000 / Voltage / Math.Sqrt(3);
                     Fla = Math.Round(Fla, GlobalConfig.SigFigs);
                 }
                 else if (Unit == Units.A.ToString()) {
-                    Fla = Size;
+                    Fla = _size;
                 }
 
             PercentLoaded = RunningAmps / Fla * 100;
@@ -187,18 +195,18 @@ namespace EDTLibrary.Models {
 
         public void GetCable()
         {
-            Cable = new CableModel(this);
+            Cable = new PowerCableModel(this);
 
-            ConductorQty = Cable.ConductorQty;
-            CableQty = Cable.CableQty;
-            CableSize = Cable.CableSize;
-            CableBaseAmps = Cable.CableBaseAmps;
+            //ConductorQty = Cable.ConductorQty;
+            //CableQty = Cable.CableQty;
+            //CableSize = Cable.CableSize;
+            //CableBaseAmps = Cable.CableBaseAmps;
 
-            CableSpacing = Cable.CableSpacing;
-            CableDerating = Cable.CableDerating;
-            CableDeratedAmps = Cable.CableDeratedAmps;
-            CableRequiredAmps = Cable.CableRequiredAmps;
-            CableRequiredSizingAmps = Cable.CableRequiredSizingAmps;
+            //CableSpacing = Cable.CableSpacing;
+            //CableDerating = Cable.CableDerating;
+            //CableDeratedAmps = Cable.CableDeratedAmps;
+            //CableRequiredAmps = Cable.CableRequiredAmps;
+            //CableRequiredSizingAmps = Cable.CableRequiredSizingAmps;
 
         }
 

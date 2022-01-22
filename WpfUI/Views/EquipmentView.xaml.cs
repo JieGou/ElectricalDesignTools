@@ -52,5 +52,12 @@ namespace WpfUI.Views
         {
             if (txtLoadTag.Text == "") txtLoadTag.Text = " ";
         }
+
+        private void dgdDteq_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape) {
+                dgdDteq.CancelEdit();
+            }
+        }
     }
 }

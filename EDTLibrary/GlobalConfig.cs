@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 namespace EDTLibrary {
     public static class GlobalConfig {
 
-
+        public static bool GettingRecords { get; set; } = false;
         public static void InitializeConnections(bool sqLite)
         {
             if (sqLite)

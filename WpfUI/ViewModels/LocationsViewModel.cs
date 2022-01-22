@@ -35,7 +35,7 @@ namespace WpfUI.ViewModels
 
         //Location To ADD
         #region ADD
-        private string _locationToAddName;
+        private string _locationToAddName = "test";
         public string LocationToAddName 
         {   get => _locationToAddName;
             set 
@@ -118,19 +118,22 @@ namespace WpfUI.ViewModels
             get => _locationToAddAreaClass;
             set
             {
-                _locationToAddAreaClass = value;
+                if (value != null && value != "") {
+                    _locationToAddAreaClass = value;
 
-                ClearErrors(nameof(LocationToAddAreaClass));
+                    ClearErrors(nameof(LocationToAddAreaClass));
 
-                if (_locationToAddAreaClass == null) {
-                    AddError(nameof(LocationToAddAreaClass), "Invalid Area Class");
+                    if (_locationToAddAreaClass == null) {
+                        AddError(nameof(LocationToAddAreaClass), "Invalid Area Class");
+                    }
+                    else if (_locationToAddAreaClass == "") {
+                        AddError(nameof(LocationToAddAreaClass), "Invalid Area Class");
+                    }
+                    else if (IsAreaClassValid(_locationToAddAreaClass) == false) {
+                        AddError(nameof(LocationToAddAreaClass), "Invalid Area Class");
+                    }
                 }
-                else if (_locationToAddAreaClass == "") {
-                    AddError(nameof(LocationToAddAreaClass), "Invalid Area Class");
-                }
-                else if (IsAreaClassValid(_locationToAddAreaClass) == false) {
-                    AddError(nameof(LocationToAddAreaClass), "Invalid Area Class");
-                }
+                
             }
         }
 

@@ -106,7 +106,7 @@ namespace WpfUI.Services
                 //TODO - Update to List Stores??
                 ListManager.DteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
                 ListManager.LoadList = prjDb.GetRecords<LoadModel>("Loads");
-                ListManager.CableList = prjDb.GetRecords<CableModel>("Cables");
+                ListManager.CableList = prjDb.GetRecords<PowerCableModel>("Cables");
 
                 //ListManager.CreateMasterLoadList();
 

@@ -14,36 +14,30 @@ using LM = EDTLibrary.ListManager;
 namespace EDTLibrary.Models
 {
     [AddINotifyPropertyChangedInterface]
-    public class CableModel
+    public class PowerCableModel
     {
-        public CableModel() {
+        public PowerCableModel() {
             CableQty = 1;
             CableDerating = 1;
             ConductorQty = 3;
         }
 
 
-        public CableModel(ILoadModel load)
+        public PowerCableModel(IHasLoading load)
         {
             Load = load;
 
             //Tag
-            Source = load.FedFrom;
-            Destination = load.Tag;
+            Source = load.FedFrom ?? "";
+            Destination = load.Tag ?? "";
             CreateTag();
 
             UsageType = CableUsageTypes.Power.ToString();
-
-            //TODO - get proper conductor Qty in equipment calculations
-
-            ConductorQtyCalculator conductorQtyCalculator = new ConductorQtyCalculator();
-            ConductorQty = conductorQtyCalculator.Calculate(load);
             CableQty = 1;
 
             GetCableParameters(load);
             CalculateCableQtySize();
             CalculateAmpacity();
-
         }
 
         #region Properties
@@ -69,10 +63,9 @@ namespace EDTLibrary.Models
         public double CableDeratedAmps { get; set; }
         public double CableRequiredAmps { get; set; }
         public double CableRequiredSizingAmps { get; set; }
-        //TODO - CableRequiresSizingAmps
 
         [Browsable(false)]
-        public ILoadModel Load { get; set; }
+        public IHasLoading Load { get; set; }
 
 
         //TODO - code Table Rule by cable type
@@ -111,7 +104,7 @@ namespace EDTLibrary.Models
             //DesignAmps - Load FLA, 1.25 factor, qty conductors
 
             //TODO - coordinate DesignAmps vs RequiredAmps
-            ILoadModel load;
+            IHasLoading load;
             load = ListManager.iLoadDict[Destination];
 
             if (load != null) {
@@ -147,37 +140,35 @@ namespace EDTLibrary.Models
         /// <summary>
         /// Gets the Source Eq Derating, Destination Eq FLA
         /// </summary>
-        public void GetCableParameters(ILoadModel load)
+        public void GetCableParameters(IHasLoading load)
         {
-            ConductorQtyCalculator conductorQtyCalculator = new ConductorQtyCalculator();
-            CableDerating = conductorQtyCalculator.Calculate(load);
             //gets source derating
+            CableDeratingCalculator cableDeratingCalculator = new CableDeratingCalculator();
+            CableDerating = cableDeratingCalculator.Calculate(load);
 
-            if (load.GetType() == typeof(DteqModel)) {
-                //CableDerating = 1;
-            }
 
-            else if (load.GetType() == typeof(LoadModel)) {
+            //if (load.GetType() == typeof(DteqModel)) {
+            //    //CableDerating = 1;
+            //}
 
-                if (LM.dteqDict.ContainsKey(Source)) {
-                    CableDerating = ListManager.dteqDict[Source].CableDerating;
-                }
+            //else if (load.GetType() == typeof(LoadModel)) {
 
-            }
+            //    if (LM.dteqDict.ContainsKey(Source)) {
+            //        CableDerating = ListManager.dteqDict[Source].CableDerating;
+            //    }
+            //}
+
+            //Conductor Qty
+            ConductorQtyCalculator conductorQtyCalculator = new ConductorQtyCalculator();
+            ConductorQty = conductorQtyCalculator.Calculate(load);
+
 
             CableRequiredAmps = load.Fla;
-
-            if (load.Category == Categories.LOAD3P.ToString()) {
-                ConductorQty = 3;
-            }
-            else if (load.Category == Categories.LOAD1P.ToString()) {
-                //TODO - algorithm to determine conductor count for 1Phase loads
-            }
-
 
             if (load.Type == LoadTypes.MOTOR.ToString() | load.Type == LoadTypes.TRANSFORMER.ToString()) {
                 CableRequiredAmps *= 1.25;
             }
+
             CableRequiredAmps = Math.Max(load.PdSizeTrip, CableRequiredAmps);
 
             CableRequiredSizingAmps = CableRequiredAmps / CableDerating;

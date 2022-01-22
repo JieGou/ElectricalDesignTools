@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.Models {
-    class TransformerModel: ILoadModel {
+    class TransformerModel: IDteqModel {
         public int Id { get; set; }
         public string Tag { get; set; }
         public string Category { get; set; }
@@ -52,13 +52,15 @@ namespace EDTLibrary.Models {
         public double CableDeratedAmps { get; set; }
         public double CableRequiredAmps { get; set; }
         public double CableRequiredSizingAmps { get; set; }
-        public CableModel Cable { get; set; }
+        public PowerCableModel Cable { get; set; }
 
 
 
-        public List<ComponentModel> InLineComponents { get; set; }
-        public List<CableModel> Cables { get; set; }
+        public List<CircuitComponentModel> InLineComponents { get; set; }
+        public List<IHasLoading> AssignedLoads { get; set; }
+        public int LoadCount { get; set; }
 
+        public IHasLoading LargestMotor { get; set; }
         public void CalculateLoading() {
 
         }

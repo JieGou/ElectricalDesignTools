@@ -15,20 +15,20 @@ namespace EDTLibrary {
         public static List<LoadModel> LoadList { get; set; } = new List<LoadModel>();
         public static ObservableCollection<LoadModel> OcLoads { get; set; } = new ObservableCollection<LoadModel>();
 
-        public static List<CableModel> CableList { get; set; } = new List<CableModel>();
-        public static ObservableCollection<CableModel> OcCables { get; set; } = new ObservableCollection<CableModel>();
+        public static List<PowerCableModel> CableList { get; set; } = new List<PowerCableModel>();
+        public static ObservableCollection<PowerCableModel> OcCables { get; set; } = new ObservableCollection<PowerCableModel>();
 
 
 
-        public static List<ComponentModel> compList { get; set; } = new List<ComponentModel>();
+        public static List<CircuitComponentModel> CompList { get; set; } = new List<CircuitComponentModel>();
 
 
         public static List<IEquipmentModel> eqList { get; set; } = new List<IEquipmentModel>();
-        public static List<ILoadModel> masterLoadList { get; set; } = new List<ILoadModel>();
+        public static List<IHasLoading> masterLoadList { get; set; } = new List<IHasLoading>();
 
         public static Dictionary<string, DteqModel> dteqDict { get; set; } = new Dictionary<string, DteqModel>();
         public static Dictionary<string, IEquipmentModel> eqDict { get; set; } = new Dictionary<string, IEquipmentModel>();
-        public static Dictionary<string, ILoadModel> iLoadDict { get; set; } = new Dictionary<string, ILoadModel>();
+        public static Dictionary<string, IHasLoading> iLoadDict { get; set; } = new Dictionary<string, IHasLoading>();
 
 
 
@@ -36,6 +36,7 @@ namespace EDTLibrary {
             DteqList = DbManager.prjDb.GetRecords<DteqModel>("DistributionEquipment");
             CreateDteqDict();
             OcDteq = new ObservableCollection<DteqModel>(DteqList);
+            CalculateDteqLoading();
             return OcDteq;
         }
 
@@ -43,23 +44,27 @@ namespace EDTLibrary {
             LoadList = DbManager.prjDb.GetRecords<LoadModel>("Loads");
             CreateILoadDict();
             OcLoads = new ObservableCollection<LoadModel>(LoadList);
+            CalculateDteqLoading();
             return OcLoads;
         }
 
-        public static List<CableModel> GetCableList()
+        public static List<PowerCableModel> GetCableList()
         {
-            return DbManager.prjDb.GetRecords<CableModel>("Cables");
+            return DbManager.prjDb.GetRecords<PowerCableModel>("Cables");
         }
 
 
 
         public static void CreateEqDict() {
             eqDict.Clear();
-            foreach (var eq in masterLoadList) {
-                eqDict.Add(eq.Tag, eq);
+            foreach (var item in DteqList) {
+                eqDict.Add(item.Tag, item);
             }
-            foreach (var comp in compList) {
-                eqDict.Add(comp.Tag, comp);
+            foreach (var item in LoadList) {
+                eqDict.Add(item.Tag, item);
+            }
+            foreach (var item in CompList) {
+                eqDict.Add(item.Tag, item);
             }
         }
         public static void CreateILoadDict() {
@@ -81,7 +86,9 @@ namespace EDTLibrary {
         {
             dteqDict.Clear();
             foreach (var dteq in dteqList) {
-                dteqDict.Add(dteq.Tag, dteq);
+                if (dteqDict.ContainsKey(dteq.Tag) ==false ) {
+                    dteqDict.Add(dteq.Tag, dteq);
+                }
             }
         }
         public static bool IsTagAvailable(string tag) {
@@ -94,7 +101,7 @@ namespace EDTLibrary {
 
 
         #region MajorEquipment
-        public static void CalculateSystemLoading() // LoadList Manager
+        public static void CalculateDteqLoading() // LoadList Manager
         {
             foreach (DteqModel dteq in DteqList) {
                 dteq.AssignedLoads.Clear();
@@ -122,7 +129,7 @@ namespace EDTLibrary {
             }
         }
 
-        public static void CalculateSystemLoading(ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) // LoadList Manager
+        public static void CalculateDteqLoading(ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) // LoadList Manager
         {
             foreach (DteqModel dteq in dteqList) {
                 var dteqTag = dteq.Tag;
@@ -157,14 +164,6 @@ namespace EDTLibrary {
             LoadList = new List<LoadModel>(loadList);
         }
 
-
-        public static List<string> GetDteqTags(List<DteqModel> list) {
-            List<string> output = new List<string>();
-            foreach (DteqModel item in list) {
-                output.Add(item.Tag.ToString());
-            }
-            return output;
-        }
         #endregion
 
         //Loads
@@ -203,11 +202,11 @@ namespace EDTLibrary {
         }
        
         public static void CreateComponentList() {
-            compList.Clear();
+            CompList.Clear();
             foreach (var load in LoadList) {
                 load.SizeComponents();
                 foreach (var comp in load.InLineComponents) {
-                    compList.Add(comp);
+                    CompList.Add(comp);
                 }
             }
         }
@@ -217,37 +216,8 @@ namespace EDTLibrary {
         /// </summary>
         /// 
         public static void CreateCableList() {
-            CreateMasterLoadList();
             CableList.Clear();
-            foreach (var load in masterLoadList) {
-                //No Components
-                if (load.InLineComponents.Count == 0) {
-                    CableList.Add(new CableModel { Source = load.FedFrom, Destination = load.Tag });
-                }
-
-                //Inline Components
-                //TODO - Change this to read from Component list directly with component count                 
-                else {
-                    for (int i = 0; i < load.InLineComponents.Count; i++) {
-                        //First cable = FedFrom to component[0]
-                        if (i == 0) {
-                            CableList.Add(new CableModel { Source = load.FedFrom, Destination = load.InLineComponents[i].Tag });
-                        }
-                        //Last cable = component[n] to Load
-                        else if (i == load.InLineComponents.Count - 1) {
-                            CableList.Add(new CableModel { Source = load.InLineComponents[i].Tag, Destination = load.Tag });
-                        }
-                        else {
-                            CableList.Add(new CableModel { Source = load.InLineComponents[i - 1].Tag, Destination = load.InLineComponents[i].Tag });
-                        }
-                    }
-                }
-            }
-            foreach (var cable in CableList) {
-                cable.CreateTag();
-                cable.GetCableParametersOld();
-                cable.CalculateCableQtySize();
-            }
+           
         }
 
         public static void CalculateCableAmps() {

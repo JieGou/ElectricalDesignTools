@@ -7,44 +7,42 @@ using System.Windows.Input;
 
 namespace WpfUI.ViewModels {
     class RelayCommand : ICommand {
-        #region Public Events
-        /// <summary>
-        /// The event that's fired when the <see cref="CanExecute(object?)"/> value has changed
-        /// </summary>
+        
+
         public event EventHandler? CanExecuteChanged = (sender , e) => { };
-        #endregion
 
-        #region Private Members
         private Action mAction;
-        #endregion
+        private Action<bool> mActionBool;
+        private Action<string> mActionString;
 
-        #region Constructor
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        /// <param name="action"></param>
         public RelayCommand(Action action) {
             mAction = action;
         }
-        #endregion
+        public RelayCommand(Action<bool> action)
+        {
+            mActionBool = action;
+        }
+        public RelayCommand(Action<string> action)
+        {
+            mActionString = action;
+        }
 
-        #region Command Methods
-        /// <summary>
-        /// A Relay Command can always execute
-        /// </summary>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
         public bool CanExecute(object? parameter) {
             return true;
         }
 
-        /// <summary>
-        /// Executes the command Action
-        /// </summary>
-        /// <param name="parameter"></param>
-        public void Execute(object? parameter) {
-            mAction();
+        
+        public void Execute(object parameter) {
+            if (mAction != null) {
+                mAction();
+            }
+            if (mActionBool != null) {
+                mActionBool( (bool)parameter);
+            }
+
+            if (mActionString != null) {
+                mActionString(parameter as string);
+            }
         }
-        #endregion
     }
 }

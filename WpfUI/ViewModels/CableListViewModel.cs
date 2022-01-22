@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfUI.Stores;
 
-namespace WpfUI.ViewModels
+namespace WpfUI.ViewModels 
 {
     public class CableListViewModel : ViewModelBase
     {
-        public ObservableCollection<CableModel> CableList { get; set; }
+        public ObservableCollection<PowerCableModel> CableList { get; set; }
 
 
         public CableListViewModel()

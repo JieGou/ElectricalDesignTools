@@ -33,7 +33,7 @@ namespace WinFormCoreUI {
         private void GetDteq() {
             ListManager.DteqList = UI.prjDb.GetRecords<DteqModel>("DistributionEquipment");
             ListManager.CreateMasterLoadList();
-            ListManager.CalculateSystemLoading();
+            ListManager.CalculateDteqLoading();
         }
         private void SaveDteq() {
             Tuple<bool, string> update;
@@ -73,7 +73,7 @@ namespace WinFormCoreUI {
 
         //Cables
         private void GetCables() {
-            ListManager.CableList = UI.prjDb.GetRecords<CableModel>("Cables");
+            ListManager.CableList = UI.prjDb.GetRecords<PowerCableModel>("Cables");
         }
         private void SaveCables() {
             Tuple<bool, string> update;
@@ -113,7 +113,7 @@ namespace WinFormCoreUI {
                 MessageBox.Show(message);
             }
             ListManager.CableList.Clear();
-            ListManager.CableList = UI.prjDb.GetRecords<CableModel>("Cables");
+            ListManager.CableList = UI.prjDb.GetRecords<PowerCableModel>("Cables");
         }
 
 

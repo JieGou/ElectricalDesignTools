@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models {
 
     [AddINotifyPropertyChangedInterface]
-    public class LoadModel : INotifyPropertyChanged, ILoadModel {
+    public class LoadModel : ILoadModel, IHasComponents {
         public LoadModel() {
             Category = Categories.LOAD3P.ToString();
             LoadFactor = Double.Parse(EdtSettings.LoadFactorDefault);
@@ -38,47 +38,49 @@ namespace EDTLibrary.Models {
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private bool updating;
-        public void OnPropertyChanged(PropertyChangedEventArgs e) {
-            
-            PropertyChangedEventHandler handler = PropertyChanged;
-           
-            if (handler != null) {
-                handler(this, e);
-            }
-        }
-
         //Properties
         public int Id { get; set; }
         private string _tag;
         public string Tag { 
             get { return _tag; }
-            set {
-                //if (value == _tag || String.IsNullOrEmpty(value) || ListManager.IsTagAvailable(value)==false ) return;
+            set 
+            {
                 _tag = value; 
-                OnPropertyChanged(new PropertyChangedEventArgs("Tag")); 
             }
         }
         public string Category { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
         public double Voltage { get; set; }
-        public double Size { get; set; }
+        public double _size;
+        public double Size
+        {
+            get { return _size; }
+            set
+            {
+                //double parsedValue =0;
+                //if (Double.TryParse(value, out parsedValue) ==false) {
+                _size = value;
+                if (GlobalConfig.GettingRecords == false) {
+                    CalculateLoading();
+                    ListManager.CalculateDteqLoading();
+                }
+            }
+        }
         public string Unit { get; set; }
         public string FedFrom { get; set; }
 
         public double LoadFactor { get; set; }
 
-        public List<ComponentModel> InLineComponents { get; set; } = new List<ComponentModel>();
+        public List<CircuitComponentModel> InLineComponents { get; set; } = new List<CircuitComponentModel>();
         //public List<CableModel> Cables { get; set; } = new List<CableModel>();
 
         public double Efficiency { get; set; }
         public double PowerFactor { get; set; }
     
 
-      
+        public double AmpacityFactor { get; set; }
+
         public double Fla { get; set; }
         public double ConnectedKva { get; set; }
         public double DemandKva { get; set; }
@@ -97,7 +99,6 @@ namespace EDTLibrary.Models {
 
         //Cables
         public int ConductorQty { get; set; }
-
         public int CableQty { get; set; }
         public string CableSize { get; set; }
         public double CableBaseAmps { get; set; }
@@ -112,7 +113,10 @@ namespace EDTLibrary.Models {
         public double CableDeratedAmps { get; set; }
         public double CableRequiredAmps { get; set; }
         public double CableRequiredSizingAmps { get; set; }
-        public CableModel Cable { get; set; }
+        public PowerCableModel Cable { get; set; }
+
+
+        public List<IComponentModel> Components { get; set; }
 
 
 
@@ -183,37 +187,37 @@ namespace EDTLibrary.Models {
                     PdFactor = 1.25;
                 switch (Unit) {
                     case "HP":
-                        ConnectedKva = Size * 0.746 / Efficiency / PowerFactor;
+                        ConnectedKva = _size * 0.746 / Efficiency / PowerFactor;
                         break;
                     case "kW":
-                        ConnectedKva = Size / Efficiency / PowerFactor;
+                        ConnectedKva = _size / Efficiency / PowerFactor;
                         break;
                 }
                 break;
 
             case "TRANSFORMER":
                     PdFactor = 1.25;
-                    ConnectedKva = Size;
+                    ConnectedKva = _size;
                 break;
 
             case "HEATER":
-                ConnectedKva = Size / Efficiency / PowerFactor;
+                ConnectedKva = _size / Efficiency / PowerFactor;
                 break;
 
             case "OTHER":
                 switch (Unit) {
                     case "kVA":
-                        ConnectedKva = Size;
+                        ConnectedKva = _size;
                         break;
 
                     case "kW":
-                        ConnectedKva = Size / Efficiency / PowerFactor;
+                        ConnectedKva = _size / Efficiency / PowerFactor;
                         break;
 
                     case "A":
                     case "AMPS":
-                        ConnectedKva = Size * Voltage * Math.Sqrt(3); //   / Efficiency / PowerFactor;
-                        Fla = Size;
+                        ConnectedKva = _size * Voltage * Math.Sqrt(3); //   / Efficiency / PowerFactor;
+                        Fla = _size;
                         break;
                 }
                 break;
@@ -242,18 +246,18 @@ namespace EDTLibrary.Models {
 
         public void GetCable()
         {
-            Cable = new CableModel(this);
+            Cable = new PowerCableModel(this);
 
-            ConductorQty = Cable.ConductorQty;
-            CableQty = Cable.CableQty;
-            CableSize = Cable.CableSize;
-            CableBaseAmps = Cable.CableBaseAmps;
+            //ConductorQty = Cable.ConductorQty;
+            //CableQty = Cable.CableQty;
+            //CableSize = Cable.CableSize;
+            //CableBaseAmps = Cable.CableBaseAmps;
 
-            CableSpacing = Cable.CableSpacing;
-            CableDerating = Cable.CableDerating;
-            CableDeratedAmps = Cable.CableDeratedAmps;
-            CableRequiredAmps = Cable.CableRequiredAmps;
-            CableRequiredSizingAmps = Cable.CableRequiredSizingAmps;
+            //CableSpacing = Cable.CableSpacing;
+            //CableDerating = Cable.CableDerating;
+            //CableDeratedAmps = Cable.CableDeratedAmps;
+            //CableRequiredAmps = Cable.CableRequiredAmps;
+            //CableRequiredSizingAmps = Cable.CableRequiredSizingAmps;
 
         }
 

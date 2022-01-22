@@ -4,7 +4,8 @@ using System.Text;
 
 namespace EDTLibrary.Models
 {
-    internal class CircuitComponent
+    public interface ICircuitComponent: IComponentModel, IHasLoading
     {
+
     }
 }

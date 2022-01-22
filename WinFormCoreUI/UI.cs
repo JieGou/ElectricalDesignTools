@@ -79,10 +79,10 @@ namespace WinFormCoreUI {
                 prjDb = new SQLiteConnector(dbFilename);
 
                 LM.DteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
-                LM.CalculateSystemLoading();
+                LM.CalculateDteqLoading();
                 LM.LoadList = prjDb.GetRecords<LoadModel>("Loads");
                 LM.CreateMasterLoadList();
-                LM.CableList = prjDb.GetRecords<CableModel>("Cables");
+                LM.CableList = prjDb.GetRecords<PowerCableModel>("Cables");
 
                 LoadProjectSettings();
 

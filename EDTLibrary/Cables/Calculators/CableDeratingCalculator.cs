@@ -4,7 +4,7 @@ namespace EDTLibrary.Calculators
 {
     public class CableDeratingCalculator
     {
-        public double Calculate(ILoadModel load)
+        public double Calculate(IHasLoading load)
         {
             double result = 1;
 
