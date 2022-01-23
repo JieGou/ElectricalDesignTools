@@ -14,12 +14,12 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models {
 
     [AddINotifyPropertyChangedInterface]
-    public class LoadModel : ILoadModel, IHasComponents {
+    public class LoadModel : ILoad, ComponentUser {
         public LoadModel() {
             Category = Categories.LOAD3P.ToString();
             LoadFactor = Double.Parse(EdtSettings.LoadFactorDefault);
             PdType = EdtSettings.LoadDefaultPdTypeLV;
-            ConductorQty = 3;
+            Cable = new PowerCableModel();
         }
 
         public LoadModel(string category)
@@ -27,15 +27,7 @@ namespace EDTLibrary.Models {
             Category = category;
             LoadFactor = Double.Parse(EdtSettings.LoadFactorDefault);
             PdType = EdtSettings.LoadDefaultPdTypeLV;
-            if (Category == Categories.LOAD3P.ToString()) {
-                ConductorQty = 3;
-            }
-
-            else if (Category == Categories.LOAD1P.ToString()) {
-
-                //TODO additional breakdown
-                ConductorQty = 2;
-            }
+            Cable = new PowerCableModel();
         }
 
         //Properties
@@ -73,7 +65,6 @@ namespace EDTLibrary.Models {
         public double LoadFactor { get; set; }
 
         public List<CircuitComponentModel> InLineComponents { get; set; } = new List<CircuitComponentModel>();
-        //public List<CableModel> Cables { get; set; } = new List<CableModel>();
 
         public double Efficiency { get; set; }
         public double PowerFactor { get; set; }
@@ -90,7 +81,6 @@ namespace EDTLibrary.Models {
 
         //Sizing
 
-        public double PdFactor { get; set; }
         public string PdType { get; set; }
         public double PdSizeTrip { get; set; }
         public double PdSizeFrame { get; set; }
@@ -98,21 +88,8 @@ namespace EDTLibrary.Models {
 
 
         //Cables
-        public int ConductorQty { get; set; }
-        public int CableQty { get; set; }
-        public string CableSize { get; set; }
-        public double CableBaseAmps { get; set; }
-
-        private double _derating = 1;
-        public double CableSpacing { get; set; }
-        public double CableDerating
-        {
-            get { return _derating; }
-            set { _derating = value; }
-        }
-        public double CableDeratedAmps { get; set; }
-        public double CableRequiredAmps { get; set; }
-        public double CableRequiredSizingAmps { get; set; }
+        
+        public int PowerCableId { get; set; }
         public PowerCableModel Cable { get; set; }
 
 
@@ -148,7 +125,6 @@ namespace EDTLibrary.Models {
             Efficiency = Math.Round(Efficiency, 2);
             PowerFactor = Math.Round(PowerFactor, 2);
 
-            PdFactor = 1;
 
             //if (Type == LoadTypes.MOTOR.ToString()) {
             //    PdFactor = 1.25
@@ -184,7 +160,7 @@ namespace EDTLibrary.Models {
 
             switch (Type) {
             case "MOTOR":
-                    PdFactor = 1.25;
+                    AmpacityFactor = 1.25;
                 switch (Unit) {
                     case "HP":
                         ConnectedKva = _size * 0.746 / Efficiency / PowerFactor;
@@ -196,7 +172,7 @@ namespace EDTLibrary.Models {
                 break;
 
             case "TRANSFORMER":
-                    PdFactor = 1.25;
+                    AmpacityFactor = 1.25;
                     ConnectedKva = _size;
                 break;
 
@@ -247,39 +223,12 @@ namespace EDTLibrary.Models {
         public void GetCable()
         {
             Cable = new PowerCableModel(this);
-
-            //ConductorQty = Cable.ConductorQty;
-            //CableQty = Cable.CableQty;
-            //CableSize = Cable.CableSize;
-            //CableBaseAmps = Cable.CableBaseAmps;
-
-            //CableSpacing = Cable.CableSpacing;
-            //CableDerating = Cable.CableDerating;
-            //CableDeratedAmps = Cable.CableDeratedAmps;
-            //CableRequiredAmps = Cable.CableRequiredAmps;
-            //CableRequiredSizingAmps = Cable.CableRequiredSizingAmps;
-
         }
 
         public void CalculateCableAmps()
-        {
-            Cable.CableQty = CableQty;
-            Cable.CableSize = CableSize;
-
+        {          
             Cable.CalculateAmpacity();
-            //Cable = Cable.CalculateAmpacity(Cable);
-
-            CableBaseAmps = Cable.CableBaseAmps;
-            CableDeratedAmps = Cable.CableDeratedAmps;
         }
-
-
-
-
-
-
-
-
 
 
 

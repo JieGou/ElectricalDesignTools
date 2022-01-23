@@ -98,40 +98,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-
-                    <!--Dteq View Buttons-->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
-                        Grid.Row="{StaticResource dteqViewButtons}" Grid.Column="3">
-
-                        <Button Content="Toggle Row View"
-                        Command="{Binding Path=ToggleRowViewDteqCommand}"/>
-
-                        <CheckBox x:Name="LoadingDataView" Content="Loading Data"/>
-                        <Button Content="Loading Data"
-                                Command="{Binding Path=ToggleLoadingViewDteqCommand}"
-                                CommandParameter="{Binding ToggleLoadingViewDteqProp}"/>
-
-                        <Button Content="OCDP Data"
-                        Command="{Binding Path=ToggleOcpdViewDteqCommand}"/>
-
-                        <Button Content="Cable Data"
-                        Command="{Binding Path=ToggleCableViewDteqCommand}"/>
-
-                    </StackPanel>
-
-                    <!--Load View Buttons-->
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
-                        Grid.Row="{StaticResource loadViewButtons}" Grid.Column="3">
-
-                        <Button Content="OCPD Data"
-                        Command="{Binding Path=ToggleOcpdViewLoadCommand}"/>
-
-                        <Button Content="Cable Data"
-                        Command="{Binding Path=ToggleCableViewLoadCommand}"/>
-
-                    </StackPanel>
-
-
+                    
                     <!--MENU BUTTONS-->
                     <!--DTEQ Buttons-->
                     <StackPanel Orientation="Vertical"
@@ -155,7 +122,25 @@
 
 
                     </StackPanel>
+                    
+                    <!--Dteq View Buttons-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                        Grid.Row="{StaticResource dteqViewButtons}" Grid.Column="3">
 
+                        <Button Content="Toggle Row View"
+                        Command="{Binding Path=ToggleRowViewDteqCommand}"/>
+
+                        <Button Content="Loading Data"
+                                Command="{Binding Path=ToggleLoadingViewDteqCommand}"
+                                CommandParameter="{Binding ToggleLoadingViewDteqProp}"/>
+
+                        <Button Content="OCDP Data"
+                        Command="{Binding Path=ToggleOcpdViewDteqCommand}"/>
+
+                        <Button Content="Cable Data"
+                        Command="{Binding Path=ToggleCableViewDteqCommand}"/>
+
+                    </StackPanel>
                     <!--ADD Buttons-->
                     <StackPanel Orientation="Vertical"
                         Grid.Column="1" Grid.Row="{StaticResource adding}"
@@ -190,7 +175,18 @@
                         FontWeight="Bold"
                         Margin="0 100 0 0"/>
                     </StackPanel>
+                    
+                    <!--Load View Buttons-->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                        Grid.Row="{StaticResource loadViewButtons}" Grid.Column="3">
 
+                        <Button Content="OCPD Data"
+                        Command="{Binding Path=ToggleOcpdViewLoadCommand}"/>
+
+                        <Button Content="Cable Data"
+                        Command="{Binding Path=ToggleCableViewLoadCommand}"/>
+
+                    </StackPanel>
 
                     <!--DTEQ Datagrid-->
                     <DataGrid x:Name="dgdDteq" 
@@ -233,9 +229,10 @@
                             <!--Tag-->
 
                             <DataGridTextColumn Header="Tag" x:Name="dteqTag" 
-                                        Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" 
-                                        ElementStyle="{StaticResource ColumnElementStyle}" 
-                                        Visibility="Visible"/>
+                                                Width="75"
+                                                Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" 
+                                                ElementStyle="{StaticResource ColumnElementStyle}" 
+                                                Visibility="Visible"/>
 
                             <!--<DataGridTemplateColumn Header="Tag"
                                             MinWidth="75">
@@ -471,38 +468,38 @@
 
                             <!--CABLE-->
                             <DataGridTextColumn Header="Cable &#x0a;  Qty" x:Name="dteqCableQty"
-                                        Binding="{Binding Path=CableQty, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        Binding="{Binding Path=Cable.CableQty, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding ToggleCableViewDteqProp}" />
 
                             <DataGridTextColumn Header="Cable &#x0a; Size" x:Name="dteqCableSize" 
-                                        Binding="{Binding Path=CableSize, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        Binding="{Binding Path=Cable.CableSize, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding ToggleCableViewDteqProp}" />
 
                             <DataGridTextColumn Header=" Base &#x0a;Amps" x:Name="dteqCableBaseAmps" 
-                                        Binding="{Binding Path=CableBaseAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        Binding="{Binding Path=Cable.CableBaseAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding ToggleCableViewDteqProp}" />
 
                             <DataGridTextColumn Header="   Req'd&#x0a;Sz. Amps" x:Name="dteqCableRequiredSizingAmps" 
-                                        Binding="{Binding Path=CableRequiredSizingAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        Binding="{Binding Path=Cable.CableRequiredSizingAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding ToggleCableViewDteqProp}" />
 
 
                             <DataGridTextColumn Header="  Cable&#x0a;Derating" x:Name="dteqCableDerating" 
-                                        Binding="{Binding Path=CableDerating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        Binding="{Binding Path=Cable.CableDerating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding ToggleCableViewDteqProp}" />
 
                             <DataGridTextColumn Header="Derated &#x0a;  Amps" x:Name="dteqCableDeratedAmps" 
-                                        Binding="{Binding Path=CableDeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        Binding="{Binding Path=Cable.CableDeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding ToggleCableViewDteqProp}" />
 
                             <DataGridTextColumn Header="Req'd&#x0a;Amps" x:Name="dteqCableRequiredAmps" 
-                                        Binding="{Binding Path=CableRequiredAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        Binding="{Binding Path=Cable.CableRequiredAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding ToggleCableViewDteqProp}" />
                         </DataGrid.Columns>
@@ -540,7 +537,7 @@
                                                         <TextBlock Text="{Binding Efficiency}"/>
                                                     </StackPanel>
                                                 </DataTemplate>
-                                            </ContentControl.Resources>
+                                            </ContentControl.Resources> 
                                         </ContentControl>
                                         
                                         <TextBlock Text="Country" Margin="10,0,0,0" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
@@ -789,10 +786,11 @@
                             <!--Textblock cell padding style in this.resources Move to ResDict-->
 
                             <!--Tag-->
-                            <DataGridTextColumn Header="Tag"  
-                                        Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                        ElementStyle="{StaticResource ColumnElementStyle}" 
-                                        Width="75"/>
+                            <DataGridTextColumn Header="Tag"
+                                                Width="75"
+                                                Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                                ElementStyle="{StaticResource ColumnElementStyle}" 
+                                                />
 
                             <!--<DataGridTemplateColumn Header="Tag"
                                             MinWidth="40">
@@ -822,17 +820,17 @@
 
                             <!--Type-->
                             <DataGridTemplateColumn Header="Load Type" x:Name="loadType"
-                                            MinWidth="75"
-                                            Width="150">
+                                                    MinWidth="75"
+                                                    Width="150">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
-                                        SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        Text="{Binding Type, ValidatesOnDataErrors=True}"
-                                        HorizontalContentAlignment="Center"
-                                        IsEditable="True" IsTextSearchEnabled="True"
-                                        IsSynchronizedWithCurrentItem="False"
-                                        BorderThickness="0"/>
+                                                  SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                  Text="{Binding Type, ValidatesOnDataErrors=True}"
+                                                  HorizontalContentAlignment="Center"
+                                                  IsEditable="True" IsTextSearchEnabled="True"
+                                                  IsSynchronizedWithCurrentItem="False"
+                                                  BorderThickness="0"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

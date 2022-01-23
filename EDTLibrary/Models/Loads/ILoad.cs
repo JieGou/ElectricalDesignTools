@@ -5,12 +5,11 @@ using System.Text;
 
 namespace EDTLibrary.Models
 {
-    public interface ILoadModel : IHasLoading, IHasComponents
+    public interface ILoad : PowerConsumer, ComponentUser
     {
         //Primary
         double LoadFactor { get; set; }
         double Efficiency { get; set; }
-        double AmpacityFactor { get; set; }
 
     }
 }

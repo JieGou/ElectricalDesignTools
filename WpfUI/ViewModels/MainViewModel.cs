@@ -45,7 +45,7 @@ namespace WpfUI.ViewModels
 
             //TODO - event on project loaded;
             _locationsViewModel.CreateComboBoxLists();
-            _locationsViewModel.LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.locationTable));
+            _locationsViewModel.LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable));
 
             GlobalConfig.GettingRecords = true;
             _equipmentViewModel.DteqList = ListManager.GetDteq();

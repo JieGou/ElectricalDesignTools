@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EDTLibrary.Models
 {
-    public interface IPowerCable: ICableModel
+    public interface IPowerCable: ICable
     {
         int CableQty { get; set; }
         double CableBaseAmps { get; set; }
@@ -14,5 +14,7 @@ namespace EDTLibrary.Models
         double CableDeratedAmps { get; set; }
         double CableRequiredAmps { get; set; }
         double CableRequiredSizingAmps { get; set; }
+        PowerConsumer Load { get; set; }
+
     }
 }

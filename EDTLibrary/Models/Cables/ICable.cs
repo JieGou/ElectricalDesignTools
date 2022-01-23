@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EDTLibrary.Models
 {
-    public interface ICableModel
+    public interface ICable
     {
         int Id { get; set; }
         string Tag { get; set; }

@@ -90,7 +90,7 @@ namespace WpfUI.ViewModels {
                 LoadListLoaded = false;
 
                 if (_selectedDteq != null) {
-                    AssignedLoads = new ObservableCollection<IHasLoading>(_selectedDteq.AssignedLoads);
+                    AssignedLoads = new ObservableCollection<PowerConsumer>(_selectedDteq.AssignedLoads);
 
                     LoadToAddFedFrom = "";
                     LoadToAddFedFrom = _selectedDteq.Tag;
@@ -99,7 +99,7 @@ namespace WpfUI.ViewModels {
                 }
             }
         }
-        public ObservableCollection<IHasLoading> AssignedLoads { get; set; } = new ObservableCollection<IHasLoading> { };
+        public ObservableCollection<PowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<PowerConsumer> { };
 
 
         private string _dteqToAddTag;
@@ -197,8 +197,8 @@ namespace WpfUI.ViewModels {
         public ObservableCollection<LoadModel> LoadList { get; set; }
         public bool LoadListLoaded { get; set; }
 
-        private IHasLoading _selectedLoad;
-        public IHasLoading SelectedLoad
+        private PowerConsumer _selectedLoad;
+        public PowerConsumer SelectedLoad
         {
             get { return _selectedLoad; }
             set { _selectedLoad = value; }
@@ -379,7 +379,7 @@ namespace WpfUI.ViewModels {
         }
 
 
-        public ObservableCollection<IHasLoading> MasterLoadList { get; set; }
+        public ObservableCollection<PowerConsumer> MasterLoadList { get; set; }
         #endregion
 
 
@@ -492,8 +492,7 @@ namespace WpfUI.ViewModels {
         #endregion
 
 
-        #region Command Methods
-
+        #region View Toggles
         //View
         private void ToggleRowViewDteq()
         {
@@ -516,13 +515,14 @@ namespace WpfUI.ViewModels {
                 ToggleLoadingViewDteqProp = true;
             }
         }
+        #endregion
 
+        #region Command Methods
 
         // Dteq
         private void GetDteq() {
 
             GlobalConfig.GettingRecords = true;
-            //DteqList = new ObservableCollection<DteqModel>(DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.dteqListTable));
             DteqList = ListManager.GetDteq();
             GlobalConfig.GettingRecords = false;
         }
@@ -537,11 +537,12 @@ namespace WpfUI.ViewModels {
                 string message = "";
 
                 foreach (var dteq in DteqList) {
-                    update = DbManager.prjDb.UpsertRecord<DteqModel>(dteq, GlobalConfig.dteqListTable, SaveLists.DteqSaveList);
+                    var tag = dteq.Tag;
+                    update = DbManager.prjDb.UpsertRecord<DteqModel>(dteq, GlobalConfig.DteqListTable, SaveLists.DteqSaveList);
                     if (update.Item1 == false) {
                         error = true;
                         message = update.Item2;
-                    }
+                    }                    
                 }
                 if (error) {
                     MessageBox.Show(message);
@@ -551,7 +552,8 @@ namespace WpfUI.ViewModels {
         private void DeleteDteq()
         {
             if (_selectedDteq !=null) {
-                DbManager.prjDb.DeleteRecord(GlobalConfig.dteqListTable, _selectedDteq.Id);
+                DbManager.prjDb.DeleteRecord(GlobalConfig.DteqListTable, _selectedDteq.Id);
+                DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, _selectedDteq.PowerCableId);
                 DteqList.Remove(_selectedDteq);
             }
         }
@@ -573,13 +575,14 @@ namespace WpfUI.ViewModels {
             // TODO - add Dteq Validation
 
             bool isTagAvailable = IsTagAvailable(_dteqToAddTag);
-
+            DteqModel dteq = new DteqModel();
             if (isTagAvailable && 
                 _dteqToAddTag != "" && 
                 _dteqToAddTag != " " && 
                 _dteqToAddTag != null) 
             {
-                DteqList.Add(new DteqModel() { Tag = _dteqToAddTag });
+                dteq.Tag = _dteqToAddTag;
+                DteqList.Add(dteq);
 
                 //TODO = centralize dictionaries
                 DictionaryStore.CreateDteqDict(DteqList);
@@ -592,6 +595,11 @@ namespace WpfUI.ViewModels {
                 DteqToAddTag = tag;
 
                 CalculateAll();
+
+                Tuple<bool, string, object> updateId;
+                updateId = DbManager.prjDb.InsertRecordGetId<PowerCableModel>(dteq.Cable, GlobalConfig.PowerCableTable, SaveLists.CableSaveList);
+                dteq.Cable.Id = Convert.ToInt32(updateId.Item3);
+                dteq.PowerCableId = dteq.Cable.Id;
             }
         }
         private void AddLoad()
@@ -696,7 +704,7 @@ namespace WpfUI.ViewModels {
                 string message = "";
 
                 foreach (var load in LoadList) {
-                    update = DbManager.prjDb.UpsertRecord<LoadModel>(load, GlobalConfig.loadListTable, SaveLists.LoadSaveList);
+                    update = DbManager.prjDb.UpsertRecord<LoadModel>(load, GlobalConfig.LoadListTable, SaveLists.LoadSaveList);
                     if (update.Item1 == false) {
                         error = true;
                         message = update.Item2;
@@ -711,7 +719,7 @@ namespace WpfUI.ViewModels {
         {
            if(_selectedLoad != null) {
                 int loadId = _selectedLoad.Id;
-                DbManager.prjDb.DeleteRecord(GlobalConfig.loadListTable, _selectedLoad.Id);
+                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadListTable, _selectedLoad.Id);
 
                 var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
                 AssignedLoads.Remove(loadToRemove);

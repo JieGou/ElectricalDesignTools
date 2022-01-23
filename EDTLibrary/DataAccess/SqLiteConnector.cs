@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace EDTLibrary.DataAccess
 {
@@ -130,6 +131,68 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
+        public Tuple<bool, string, object> InsertRecordGetId<T>(T classObject, string tableName, List<string> propertyList) where T : class, new()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(conString)) {
+                StringBuilder sb = new StringBuilder();
+                var props = classObject.GetType().GetProperties();
+                SQLiteCommand cmd = new SQLiteCommand();
+
+                //Build query string: 
+                //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
+                sb.Append($"INSERT INTO {tableName} (");
+
+                //Column Names
+                foreach (var prop in props) {
+                    sb.Append($"{prop.Name}, ");
+                }
+
+                // removes any properties in prop list
+                foreach (var prop in propertyList) {
+                    sb.Replace($"{prop}, ", "");
+                }
+
+                sb.Replace("Id,", "");
+                sb.Replace(",", "", sb.Length - 2, 2);
+                sb.Replace(" ", "", sb.Length - 2, 2);
+                sb.Append(") VALUES (");
+
+                //Parameters (@ColumnNames)
+                foreach (var prop in props) {
+                    sb.Append($"@{prop.Name}, ");
+                    cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
+                }
+
+                // removes any properties in prop list
+                foreach (var prop in propertyList) {
+                    sb.Replace($"@{prop}, ", "");
+                }
+                sb.Replace("@Id,", "");
+                sb.Replace(",", "", sb.Length - 2, 2);
+                sb.Replace(" ", "", sb.Length - 2, 2);
+                sb.Append(")");
+
+                SQLiteConnection conn = new SQLiteConnection(conString);
+                SQLiteCommand cmdId = new SQLiteCommand();
+
+                
+
+                try {
+                    cnn.Execute(sb.ToString() + ";", classObject);
+                    object objectId;
+                    objectId = cnn.ExecuteScalar($"SELECT MAX(rowid) FROM {tableName}");
+                    //objectId = cnn.ExecuteScalar($"SELECT last_insert_rowid()");
+
+                    return new Tuple<bool, string, object>(true, "", objectId);
+                }
+                catch (Exception ex) {
+                    //throw new Exception("Could not add record");
+                    return new Tuple<bool, string, object>(false, $"Error: \n{ex.Message}\n\n" +
+                        $"Query: \n{sb}\n\n" +
+                        $"Details: \n\n {ex}", 0); ;
+                }
+            }
+        }
 
         public Tuple<bool, string> UpsertRecord<T>(T classObject, string tableName, List<string> propertyList) where T: class, new()
         {
@@ -150,7 +213,11 @@ namespace EDTLibrary.DataAccess
                         sb.Replace($"{prop}, ", "");
                     }
 
-                    sb.Replace("Id,", "");
+                    string input = sb.ToString();
+                    string pattern = @"\bId,";
+                    string replace = "";
+                    sb.Clear();
+                    sb.Append(Regex.Replace(input, pattern, ""));
                     sb.Replace(",", "", sb.Length - 2, 2);
                     sb.Replace(" ", "", sb.Length - 2, 2);
                     sb.Append(") VALUES (");

@@ -2,7 +2,7 @@
 
 namespace EDTLibrary.Models
 {
-    public interface IHasComponents
+    public interface ComponentUser
     {
         List<IComponentModel> Components { get; set; }
 

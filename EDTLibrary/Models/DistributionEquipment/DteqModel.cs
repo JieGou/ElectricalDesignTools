@@ -11,12 +11,12 @@ using PropertyChanged;
 namespace EDTLibrary.Models {
 
     [AddINotifyPropertyChangedInterface]
-    public class DteqModel : IDteqModel, IHasComponents{
+    public class DteqModel : IDteq, ComponentUser{
         public DteqModel() {
-            Category = Categories.DIST.ToString();
+            Category = Categories.DTEQ.ToString();
             Voltage = LineVoltage;
             PdType = EDTLibrary.ProjectSettings.EdtSettings.DteqDefaultPdTypeLV;
-            ConductorQty = 3;
+            Cable = new PowerCableModel();
         }
 
       
@@ -78,36 +78,22 @@ namespace EDTLibrary.Models {
         public double DemandKw { get; set; }
         public double DemandKvar { get; set; }
         public double PowerFactor { get; set; }
-
+        public double AmpacityFactor { get; set; }
 
         //Sizing
         public double PercentLoaded { get; set; }
 
         public string PdType { get; set; }
-
         public double PdSizeTrip { get; set; }
         public double PdSizeFrame { get; set; }
 
         //Cables
-        public int ConductorQty { get; set; }
-        public int CableQty { get; set; }
-        public string CableSize { get; set; }
-        public double CableBaseAmps { get; set; }
-
-        private double _derating = 1;
-        public double CableSpacing { get; set; }
-        public double CableDerating
-        {
-            get { return _derating; }
-            set { _derating = value; }
-        }
-        public double CableDeratedAmps { get; set; }
-        public double CableRequiredAmps { get; set; }
-        public double CableRequiredSizingAmps { get; set; }
+       
+        public int PowerCableId { get; set; }
         public PowerCableModel Cable { get; set; }
 
 
-        public List<IHasLoading> AssignedLoads { get; set; } = new List<IHasLoading>();
+        public List<PowerConsumer> AssignedLoads { get; set; } = new List<PowerConsumer>();
         public int LoadCount { get; set; }
 
 
@@ -122,8 +108,8 @@ namespace EDTLibrary.Models {
         public void CalculateLoading() {
 
             //Calculates the individual loads of each MJEQ load
-            foreach (IHasLoading load in AssignedLoads) {
-                if (load.Category == Categories.DIST.ToString()) {
+            foreach (PowerConsumer load in AssignedLoads) {
+                if (load.Category == Categories.DTEQ.ToString()) {
                     load.CalculateLoading();
                 }
             }
@@ -162,33 +148,6 @@ namespace EDTLibrary.Models {
             PercentLoaded = RunningAmps / Fla * 100;
             PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
 
-            CableRequiredSizingAmps = Math.Max(Fla, RunningAmps);
-            if (Type == DteqTypes.XFR.ToString()) {
-                CableRequiredSizingAmps *= 1.25;
-            }
-
-            //Derating
-            foreach (var load in AssignedLoads) {
-                //_totalLoadConductors += 3
-                // if(Spacing != 100loadCable.QtyParallel)
-            }
-
-            CableDerating = 1;
-            if (LoadCount*3>=43) {
-                CableDerating = 0.5;
-            }
-            else if (LoadCount*3 >=25){
-                CableDerating = 0.6;
-            }
-            else if (LoadCount*3 >= 7) {
-                CableDerating = 0.7;
-            }
-            else if (LoadCount * 3 >= 4) {
-                CableDerating = 0.8;
-            }
-            else {
-                CableDerating = 1;
-            }
             GetMinimumPdSize();
             GetCable();
         }
@@ -196,31 +155,11 @@ namespace EDTLibrary.Models {
         public void GetCable()
         {
             Cable = new PowerCableModel(this);
-
-            //ConductorQty = Cable.ConductorQty;
-            //CableQty = Cable.CableQty;
-            //CableSize = Cable.CableSize;
-            //CableBaseAmps = Cable.CableBaseAmps;
-
-            //CableSpacing = Cable.CableSpacing;
-            //CableDerating = Cable.CableDerating;
-            //CableDeratedAmps = Cable.CableDeratedAmps;
-            //CableRequiredAmps = Cable.CableRequiredAmps;
-            //CableRequiredSizingAmps = Cable.CableRequiredSizingAmps;
-
         }
 
         public void CalculateCableAmps()
         {
-            Cable.CableQty = CableQty;
-            Cable.CableSize = CableSize;
-
             Cable.CalculateAmpacity();
-            //Cable = Cable.CalculateAmpacity(Cable);
-
-            CableBaseAmps = Cable.CableBaseAmps;
-            CableDeratedAmps = Cable.CableDeratedAmps;
-
         }
 
         public void GetMinimumPdSize() {

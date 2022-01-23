@@ -2,7 +2,7 @@
 
 namespace EDTLibrary.Models
 {
-    public interface IComponentModel: IEquipmentModel, IHasComponents
+    public interface IComponentModel: IEquipment, ComponentUser
     {
         string SubType { get; set; }
         string Location { get; set; }

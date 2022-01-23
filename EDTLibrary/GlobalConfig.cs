@@ -44,10 +44,11 @@ namespace EDTLibrary {
             //public static string currentProjectDb = Properties.Settings.Default.CurrentProject;
 
         #region Database Table Quick Names
-        public const string loadListTable = "Loads";
-        public static string dteqListTable = "DistributionEquipment";
-        public const string locationTable = "Locations";
-        
+        public const string LoadListTable = "Loads";
+        public static string DteqListTable = "DistributionEquipment";
+        public const string LocationTable = "Locations";
+        public const string PowerCableTable = "Cables";
+
         #endregion
 
         #region SQLite Data

@@ -2,7 +2,7 @@
 
 namespace EDTLibrary.Models
 {
-    public interface ICircuitComponentModel: IEquipmentModel, IComponentModel, IHasComponents
+    public interface ICircuitComponentModel: IEquipment, IComponentModel, ComponentUser
     {
         string SequenceNumber { get; set; }
 

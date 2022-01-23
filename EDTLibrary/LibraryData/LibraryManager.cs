@@ -51,7 +51,7 @@ namespace EDTLibrary.LibraryData {
             return result;
         }
 
-        public static double GetBreakerFrame(IHasLoading load) {
+        public static double GetBreakerFrame(PowerConsumer load) {
             double result = GlobalConfig.NoValueDouble;
             if (LibraryTables.Breakers != null) {
                 DataTable dt = LibraryTables.Breakers.Copy();
@@ -73,7 +73,7 @@ namespace EDTLibrary.LibraryData {
             return result;
         }
 
-        public static double GetBreakerTrip(IHasLoading load) {
+        public static double GetBreakerTrip(PowerConsumer load) {
             double result = GlobalConfig.NoValueDouble;
             if (LibraryTables.Breakers != null) {
 

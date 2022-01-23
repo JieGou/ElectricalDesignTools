@@ -1,5 +1,5 @@
 ﻿namespace EDTLibrary.Models {
-    public interface IEquipmentModel
+    public interface IEquipment
     {
         int Id { get; set; }
         string Tag { get; set; }

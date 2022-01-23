@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WpfUI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800"
-             Background="Yellow">
+             Background="LightCyan">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>

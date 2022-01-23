@@ -296,7 +296,7 @@ namespace WpfUI.ViewModels
 
         private void GetLocations()
         {
-            LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.locationTable));
+            LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable));
         }
         private void SaveLocations()
         {
@@ -307,7 +307,7 @@ namespace WpfUI.ViewModels
                 string message = "";
 
                 foreach (var location in LocationList) {
-                    update = DbManager.prjDb.UpsertRecord<LocationModel>(location, GlobalConfig.locationTable, SaveLists.LocationSaveList);
+                    update = DbManager.prjDb.UpsertRecord<LocationModel>(location, GlobalConfig.LocationTable, SaveLists.LocationSaveList);
                     if (update.Item1 == false) {
                         error = true;
                         message = update.Item2;
@@ -323,7 +323,7 @@ namespace WpfUI.ViewModels
         {
             if (_selectedLocation != null) {
                 int locationId = _selectedLocation.Id;
-                DbManager.prjDb.DeleteRecord(GlobalConfig.loadListTable, _selectedLocation.Id);
+                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadListTable, _selectedLocation.Id);
             }
         }
 

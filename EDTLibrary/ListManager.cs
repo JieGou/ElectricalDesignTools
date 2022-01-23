@@ -23,12 +23,12 @@ namespace EDTLibrary {
         public static List<CircuitComponentModel> CompList { get; set; } = new List<CircuitComponentModel>();
 
 
-        public static List<IEquipmentModel> eqList { get; set; } = new List<IEquipmentModel>();
-        public static List<IHasLoading> masterLoadList { get; set; } = new List<IHasLoading>();
+        public static List<IEquipment> eqList { get; set; } = new List<IEquipment>();
+        public static List<PowerConsumer> masterLoadList { get; set; } = new List<PowerConsumer>();
 
         public static Dictionary<string, DteqModel> dteqDict { get; set; } = new Dictionary<string, DteqModel>();
-        public static Dictionary<string, IEquipmentModel> eqDict { get; set; } = new Dictionary<string, IEquipmentModel>();
-        public static Dictionary<string, IHasLoading> iLoadDict { get; set; } = new Dictionary<string, IHasLoading>();
+        public static Dictionary<string, IEquipment> eqDict { get; set; } = new Dictionary<string, IEquipment>();
+        public static Dictionary<string, PowerConsumer> iLoadDict { get; set; } = new Dictionary<string, PowerConsumer>();
 
 
 
@@ -36,7 +36,7 @@ namespace EDTLibrary {
             DteqList = DbManager.prjDb.GetRecords<DteqModel>("DistributionEquipment");
             CreateDteqDict();
             OcDteq = new ObservableCollection<DteqModel>(DteqList);
-            CalculateDteqLoading();
+            //CalculateDteqLoading();
             return OcDteq;
         }
 
@@ -44,7 +44,7 @@ namespace EDTLibrary {
             LoadList = DbManager.prjDb.GetRecords<LoadModel>("Loads");
             CreateILoadDict();
             OcLoads = new ObservableCollection<LoadModel>(LoadList);
-            CalculateDteqLoading();
+            //CalculateDteqLoading();
             return OcLoads;
         }
 

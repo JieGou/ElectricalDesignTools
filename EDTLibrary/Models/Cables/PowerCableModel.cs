@@ -16,35 +16,11 @@ namespace EDTLibrary.Models
     [AddINotifyPropertyChangedInterface]
     public class PowerCableModel
     {
-        public PowerCableModel() {
-            CableQty = 1;
-            CableDerating = 1;
-            ConductorQty = 3;
-        }
-
-
-        public PowerCableModel(IHasLoading load)
-        {
-            Load = load;
-
-            //Tag
-            Source = load.FedFrom ?? "";
-            Destination = load.Tag ?? "";
-            CreateTag();
-
-            UsageType = CableUsageTypes.Power.ToString();
-            CableQty = 1;
-
-            GetCableParameters(load);
-            CalculateCableQtySize();
-            CalculateAmpacity();
-        }
 
         #region Properties
+        [Browsable(false)]
         public int Id { get; set; }
         public string Tag { get; set; }
-
-        [Browsable(false)]
         public string Category { get; set; }
         public string Source { get; set; }
         public string Destination { get; set; }
@@ -64,8 +40,9 @@ namespace EDTLibrary.Models
         public double CableRequiredAmps { get; set; }
         public double CableRequiredSizingAmps { get; set; }
 
+
         [Browsable(false)]
-        public IHasLoading Load { get; set; }
+        public PowerConsumer Load { get; set; }
 
 
         //TODO - code Table Rule by cable type
@@ -74,6 +51,30 @@ namespace EDTLibrary.Models
         #endregion
 
 
+        public PowerCableModel()
+        {
+            CableQty = 1;
+            CableDerating = 1;
+            ConductorQty = 3;
+        }
+
+
+        public PowerCableModel(PowerConsumer load)
+        {
+            Load = load;
+
+            //Tag
+            Source = load.FedFrom ?? "";
+            Destination = load.Tag ?? "";
+            CreateTag();
+
+            UsageType = CableUsageTypes.Power.ToString();
+            CableQty = 1;
+
+            GetCableParameters(load);
+            CalculateCableQtySize();
+            CalculateAmpacity();
+        }
         public void CreateTag() {
             Tag = Source.Replace("-", "") + "-" + Destination.Replace("-", "");
         }
@@ -81,82 +82,13 @@ namespace EDTLibrary.Models
         /// <summary>
         /// Gets the Source Eq Derating, Destination Eq FLA
         /// </summary>
-        public void GetCableParametersOld() {
-
-            //TODO cable - Move defaults to constructor
-            //Defautl parameters (move to constructor)
-            ConductorQty = 3;
-            UsageType = CableUsageTypes.Power.ToString();
-            Insulation = 100;
-
-            //TODO = Cable - move Source and Destination data to constructor
-            //gets source derating
-            if (LM.dteqDict.ContainsKey(Source)) {
-                CableDerating = ListManager.dteqDict[Source].CableDerating;
-            }
-            //get load FLA
-            if (LM.iLoadDict.ContainsKey(Destination)) {
-                CableRequiredAmps = ListManager.iLoadDict[Destination].Fla;
-            }
-
-            
-
-            //DesignAmps - Load FLA, 1.25 factor, qty conductors
-
-            //TODO - coordinate DesignAmps vs RequiredAmps
-            IHasLoading load;
-            load = ListManager.iLoadDict[Destination];
-
-            if (load != null) {
-                CableRequiredAmps = load.Fla;
-                if (load.Category == Categories.LOAD1P.ToString()) {
-                    //TODO - algorithm to determine conductor count for 1Phase loads
-                }
-                if (load.Type == LoadTypes.MOTOR.ToString() | load.Type == LoadTypes.TRANSFORMER.ToString()) {
-                    CableRequiredSizingAmps *= 1.25;
-                }
-                if (load.Category == Categories.LOAD3P.ToString()) {
-                    ConductorQty = 3;
-                    UsageType = "Power";
-                }
-            }
-
-            CableRequiredSizingAmps = CableRequiredAmps / CableDerating;
-            CableRequiredSizingAmps = Math.Round(CableRequiredSizingAmps, 1);
-
-
-            //Cable Type - selects the cabletype based on VoltageClass, Conuctors, Insulation and UsageType
-            DataTable cableType = LibraryTables.CableTypes.Select($"VoltageClass >= {load.Voltage}").CopyToDataTable();
-            cableType = cableType.Select($"VoltageClass = MIN(VoltageClass) " +
-                                         $"AND Conductors ={ConductorQty}" +
-                                         $"AND Insulation ={Insulation}" +
-                                         $"AND UsageType = '{UsageType}'").CopyToDataTable();
-
-            CableType = cableType.Rows[0]["Type"].ToString();
-
-            VoltageClass = Int32.Parse(cableType.Rows[0]["VoltageClass"].ToString());
-        }
-
-        /// <summary>
-        /// Gets the Source Eq Derating, Destination Eq FLA
-        /// </summary>
-        public void GetCableParameters(IHasLoading load)
+        
+        public void GetCableParameters(PowerConsumer load)
         {
             //gets source derating
             CableDeratingCalculator cableDeratingCalculator = new CableDeratingCalculator();
             CableDerating = cableDeratingCalculator.Calculate(load);
 
-
-            //if (load.GetType() == typeof(DteqModel)) {
-            //    //CableDerating = 1;
-            //}
-
-            //else if (load.GetType() == typeof(LoadModel)) {
-
-            //    if (LM.dteqDict.ContainsKey(Source)) {
-            //        CableDerating = ListManager.dteqDict[Source].CableDerating;
-            //    }
-            //}
 
             //Conductor Qty
             ConductorQtyCalculator conductorQtyCalculator = new ConductorQtyCalculator();
@@ -192,12 +124,16 @@ namespace EDTLibrary.Models
             else if (VoltageClass == 35000) {
                 Insulation = int.Parse(EdtSettings.CableInsulation35kVPower.ToString());
             }
+            else {
+                Insulation = 100;
+            }
 
 
 
 
             //Cable Type - selects the cabletype based on VoltageClass, ConuctorQty, Insulation and UsageType
-            //TODO - get these parameters from settings selected cable type
+            //TODO - get these parameters from settings selected cable type???
+            //TODO - null/error check for this data
             DataTable cableType = LibraryTables.CableTypes.Select($"VoltageClass >= {VoltageClass}").CopyToDataTable();
             cableType = cableType.Select($"VoltageClass = MIN(VoltageClass) " +
                                          $"AND Conductors ={ConductorQty}" +
@@ -209,10 +145,6 @@ namespace EDTLibrary.Models
         }
 
 
-
-
-
-        // TODO - Move "CalculatePowerCableSize to ILoadModel
 
         /// <summary>
         /// Recursive function that gets the cable qty and size from Ampacity Table based on cable type and required amps

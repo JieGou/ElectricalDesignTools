@@ -8,20 +8,24 @@ namespace EDTLibrary.DataAccess
     {
         static public List<string> DteqSaveList { get; set; } = new List<string>()
         {   
+            "InLineComponents",
             "AssignedLoads",
             "CircuitComponents",
             "Cable",
             "Components"
         };
 
-        static public List<string> LoadSaveList { get; set; } = new List<string>() {
+        static public List<string> LoadSaveList { get; set; } = new List<string>() 
+        {
+            "InLineComponents",
             "CircuitComponents",
             "Cable",
-            "CableModel",
+            "Cable",
             "Components"
         };
 
         static public List<string> CableSaveList { get; set; } = new List<string> {
+
             "Load",
             "Cable",
             "CableModel",

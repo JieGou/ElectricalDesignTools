@@ -4,11 +4,11 @@ namespace EDTLibrary.Calculators
 {
     public class CableDeratingCalculator
     {
-        public double Calculate(IHasLoading load)
+        public double Calculate(PowerConsumer load)
         {
             double result = 1;
 
-            if (load.FedFrom == "UTILITY") {
+            if (load.FedFrom == "UTILITY" || load.Category== Categories.DTEQ.ToString()) {
                 return 1;
             }
 

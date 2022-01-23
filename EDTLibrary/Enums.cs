@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EDTLibrary {
     public enum Categories
     {
-        DIST,
+        DTEQ,
         LOAD3P,
         LOAD1P,
         COMP,

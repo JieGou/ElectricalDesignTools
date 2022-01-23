@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace EDTLibrary.Models {
-    public interface IHasLoading : IEquipmentModel
+    public interface PowerConsumer : IEquipment
 
     {                
         
@@ -12,6 +12,8 @@ namespace EDTLibrary.Models {
         string Unit { get; set; }
         double Fla { get; set; }
         string FedFrom { get; set; }
+
+        double AmpacityFactor { get; set; }
 
         ///Lookups
         double PowerFactor { get; set; }
@@ -28,6 +30,7 @@ namespace EDTLibrary.Models {
         double PdSizeTrip { get; set; }
         double PdSizeFrame { get; set; }
 
+        int PowerCableId { get; set; }
         PowerCableModel Cable { get; set; }
 
         void CalculateLoading();

@@ -4,13 +4,13 @@ namespace EDTLibrary.Calculators
 {
     public class ConductorQtyCalculator
     {
-        public int Calculate(IHasLoading load)
+        public int Calculate(PowerConsumer load)
         {
             int result = 0;
             if (load.Category == Categories.LOAD3P.ToString()) {
                 result = 3;
             }
-            else if (load.Category == Categories.DIST.ToString()) {
+            else if (load.Category == Categories.DTEQ.ToString()) {
                 result = 3;
             }
 

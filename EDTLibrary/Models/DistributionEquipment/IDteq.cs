@@ -2,14 +2,14 @@
 using System.Collections.ObjectModel;
 
 namespace EDTLibrary.Models {
-    public interface IDteqModel: IHasLoading //, IHasComponents 
+    public interface IDteq: PowerConsumer //, IHasComponents 
     {
 
 
         double LineVoltage { get; set; }
         double LoadVoltage { get; set; }
 
-        List<IHasLoading> AssignedLoads { get; set; }
+        List<PowerConsumer> AssignedLoads { get; set; }
         int LoadCount { get; set; }
 
 
