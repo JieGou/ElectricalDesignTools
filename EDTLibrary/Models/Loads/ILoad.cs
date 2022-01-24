@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EDTLibrary.Models
 {
-    public interface ILoad : PowerConsumer, ComponentUser
+    public interface ILoad : IPowerConsumer, ComponentUser
     {
         //Primary
         double LoadFactor { get; set; }

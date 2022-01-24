@@ -11,12 +11,12 @@ using PropertyChanged;
 namespace EDTLibrary.Models {
 
     [AddINotifyPropertyChangedInterface]
-    public class DteqModel : IDteq, ComponentUser{
+    public class DteqModel : IDteq, ComponentUser
+    {
         public DteqModel() {
             Category = Categories.DTEQ.ToString();
             Voltage = LineVoltage;
             PdType = EDTLibrary.ProjectSettings.EdtSettings.DteqDefaultPdTypeLV;
-            Cable = new PowerCableModel();
         }
 
       
@@ -93,7 +93,7 @@ namespace EDTLibrary.Models {
         public PowerCableModel Cable { get; set; }
 
 
-        public List<PowerConsumer> AssignedLoads { get; set; } = new List<PowerConsumer>();
+        public List<IPowerConsumer> AssignedLoads { get; set; } = new List<IPowerConsumer>();
         public int LoadCount { get; set; }
 
 
@@ -108,7 +108,7 @@ namespace EDTLibrary.Models {
         public void CalculateLoading() {
 
             //Calculates the individual loads of each MJEQ load
-            foreach (PowerConsumer load in AssignedLoads) {
+            foreach (IPowerConsumer load in AssignedLoads) {
                 if (load.Category == Categories.DTEQ.ToString()) {
                     load.CalculateLoading();
                 }

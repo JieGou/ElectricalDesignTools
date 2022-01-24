@@ -52,7 +52,7 @@ namespace WpfUI.ViewModels
             _equipmentViewModel.LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
             GlobalConfig.GettingRecords = false;
 
-            _equipmentViewModel.CalculateAll();
+            //_equipmentViewModel.CalculateAll();
             _equipmentViewModel.CreateComboBoxLists();
         }
 

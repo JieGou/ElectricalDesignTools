@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace EDTLibrary.Models {
-    public interface PowerConsumer : IEquipment
+    public interface IPowerConsumer : IEquipment
 
     {                
         

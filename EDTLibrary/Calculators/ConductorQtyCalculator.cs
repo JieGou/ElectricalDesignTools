@@ -4,7 +4,7 @@ namespace EDTLibrary.Calculators
 {
     public class ConductorQtyCalculator
     {
-        public int Calculate(PowerConsumer load)
+        public int Calculate(IPowerConsumer load)
         {
             int result = 0;
             if (load.Category == Categories.LOAD3P.ToString()) {

@@ -2,10 +2,12 @@
 using EDTLibrary.DataAccess;
 using EDTLibrary.Models;
 using EDTLibrary.TypeTables;
+using PropertyChanged;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -44,8 +46,8 @@ namespace WpfUI.ViewModels {
 
 
 
-        //View
-        #region Views
+        //View States
+        #region Views States
 
         //Dteq
         public string ToggleRowViewDteqProp { get; set; } = "Collapsed";
@@ -68,13 +70,17 @@ namespace WpfUI.ViewModels {
         //TODO - check for and stop duplicate tags in datagrid (might just need an edit/update)
         private ObservableCollection<DteqModel> _dteqList = new ObservableCollection<DteqModel>();
         public ObservableCollection<DteqModel> DteqList
+
         {
-            get { return _dteqList;  }
+            get { return _dteqList; }
 
             set
             {
                 _dteqList = value;
+                ListManager.CreateEqDict();
                 ListManager.CreateDteqDict();
+                ListManager.DteqList.Clear();
+                ListManager.DteqList = _dteqList.ToList();
             }
         }
 
@@ -90,7 +96,7 @@ namespace WpfUI.ViewModels {
                 LoadListLoaded = false;
 
                 if (_selectedDteq != null) {
-                    AssignedLoads = new ObservableCollection<PowerConsumer>(_selectedDteq.AssignedLoads);
+                    AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
 
                     LoadToAddFedFrom = "";
                     LoadToAddFedFrom = _selectedDteq.Tag;
@@ -99,7 +105,7 @@ namespace WpfUI.ViewModels {
                 }
             }
         }
-        public ObservableCollection<PowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<PowerConsumer> { };
+        public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
 
 
         private string _dteqToAddTag;
@@ -194,11 +200,23 @@ namespace WpfUI.ViewModels {
         // LOADS
 
         private ObservableCollection<LoadModel> _loadList = new ObservableCollection<LoadModel>();
-        public ObservableCollection<LoadModel> LoadList { get; set; }
+        public ObservableCollection<LoadModel> LoadList
+        {
+            get { return _loadList; }
+
+            set
+            {
+                _loadList = value;
+                ListManager.CreateEqDict();
+                ListManager.CreateILoadDict();
+                ListManager.LoadList.Clear();
+                ListManager.LoadList = _loadList.ToList();
+            }
+        }
         public bool LoadListLoaded { get; set; }
 
-        private PowerConsumer _selectedLoad;
-        public PowerConsumer SelectedLoad
+        private IPowerConsumer _selectedLoad;
+        public IPowerConsumer SelectedLoad
         {
             get { return _selectedLoad; }
             set { _selectedLoad = value; }
@@ -379,10 +397,8 @@ namespace WpfUI.ViewModels {
         }
 
 
-        public ObservableCollection<PowerConsumer> MasterLoadList { get; set; }
+        public ObservableCollection<IPowerConsumer> MasterLoadList { get; set; }
         #endregion
-
-
 
 
         #region Public Commands
@@ -575,13 +591,19 @@ namespace WpfUI.ViewModels {
             // TODO - add Dteq Validation
 
             bool isTagAvailable = IsTagAvailable(_dteqToAddTag);
-            DteqModel dteq = new DteqModel();
+
+            
+
             if (isTagAvailable && 
                 _dteqToAddTag != "" && 
                 _dteqToAddTag != " " && 
                 _dteqToAddTag != null) 
             {
+                DteqModel dteq = new DteqModel();
+
                 dteq.Tag = _dteqToAddTag;
+
+                DteqList.CollectionChanged += DteqList_CollectionChanged;
                 DteqList.Add(dteq);
 
                 //TODO = centralize dictionaries
@@ -590,21 +612,26 @@ namespace WpfUI.ViewModels {
                 BuildFedFromList();
 
                 //Refreshes the validation
-                var tag = DteqToAddTag;
-                DteqToAddTag = "";
-                DteqToAddTag = tag;
+                    var tag = DteqToAddTag;
+                    DteqToAddTag = "";
+                    DteqToAddTag = tag;
 
                 CalculateAll();
 
+                dteq.Cable = new PowerCableModel(dteq);
                 Tuple<bool, string, object> updateId;
                 updateId = DbManager.prjDb.InsertRecordGetId<PowerCableModel>(dteq.Cable, GlobalConfig.PowerCableTable, SaveLists.CableSaveList);
                 dteq.Cable.Id = Convert.ToInt32(updateId.Item3);
                 dteq.PowerCableId = dteq.Cable.Id;
             }
         }
+        public void DteqList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            ListManager.DteqList.Clear();
+            ListManager.DteqList.AddRange(DteqList);
+        }
         private void AddLoad()
         {
-            LoadModel newLoad = new LoadModel(Categories.LOAD3P.ToString());
 
             bool newLoadIsValid = true;
             bool isTagAvailable = IsTagAvailable(_loadToAddTag);
@@ -662,6 +689,8 @@ namespace WpfUI.ViewModels {
 
             if (newLoadIsValid == true) {
 
+                LoadModel newLoad = new LoadModel(Categories.LOAD3P.ToString());
+                LoadList.CollectionChanged += LoadList_CollectionChanged;
                 newLoad.Tag = _loadToAddTag;
                 newLoad.Type = _loadToAddType;
                 newLoad.Description = _loadToAddDescription;
@@ -672,7 +701,6 @@ namespace WpfUI.ViewModels {
                 newLoad.LoadFactor = Double.Parse(_loadToAddLoadFactor);
                 newLoad.CalculateLoading();
                 LoadList.Add(newLoad);
-                _loadList.Add(newLoad);
 
                 CalculateAll();
 
@@ -685,6 +713,11 @@ namespace WpfUI.ViewModels {
 
         }
 
+        public void LoadList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            ListManager.LoadList.Add((LoadModel)e.NewItems[0]);
+
+        }
 
         // Loads
         private void GetLoadList()
@@ -739,7 +772,6 @@ namespace WpfUI.ViewModels {
         {
             BuildAssignedLoads();
             ListManager.CreateDteqDict(DteqList);
-            //ListManager.CalculateDteqLoading(DteqList, LoadList);
             ListManager.CalculateDteqLoading();
         }
 

@@ -42,7 +42,7 @@ namespace EDTLibrary.Models
 
 
         [Browsable(false)]
-        public PowerConsumer Load { get; set; }
+        public IPowerConsumer Load { get; set; }
 
 
         //TODO - code Table Rule by cable type
@@ -59,7 +59,7 @@ namespace EDTLibrary.Models
         }
 
 
-        public PowerCableModel(PowerConsumer load)
+        public PowerCableModel(IPowerConsumer load)
         {
             Load = load;
 
@@ -70,10 +70,7 @@ namespace EDTLibrary.Models
 
             UsageType = CableUsageTypes.Power.ToString();
             CableQty = 1;
-
-            GetCableParameters(load);
-            CalculateCableQtySize();
-            CalculateAmpacity();
+            //Insulation = 100;
         }
         public void CreateTag() {
             Tag = Source.Replace("-", "") + "-" + Destination.Replace("-", "");
@@ -83,7 +80,7 @@ namespace EDTLibrary.Models
         /// Gets the Source Eq Derating, Destination Eq FLA
         /// </summary>
         
-        public void GetCableParameters(PowerConsumer load)
+        public void GetCableParameters(IPowerConsumer load)
         {
             //gets source derating
             CableDeratingCalculator cableDeratingCalculator = new CableDeratingCalculator();
@@ -124,9 +121,7 @@ namespace EDTLibrary.Models
             else if (VoltageClass == 35000) {
                 Insulation = int.Parse(EdtSettings.CableInsulation35kVPower.ToString());
             }
-            else {
-                Insulation = 100;
-            }
+           
 
 
 

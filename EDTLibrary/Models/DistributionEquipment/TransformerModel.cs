@@ -60,10 +60,10 @@ namespace EDTLibrary.Models {
 
 
         public List<CircuitComponentModel> InLineComponents { get; set; }
-        public List<PowerConsumer> AssignedLoads { get; set; }
+        public List<IPowerConsumer> AssignedLoads { get; set; }
         public int LoadCount { get; set; }
 
-        public PowerConsumer LargestMotor { get; set; }
+        public IPowerConsumer LargestMotor { get; set; }
         public void CalculateLoading() {
 
         }

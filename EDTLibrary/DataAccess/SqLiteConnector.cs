@@ -134,9 +134,10 @@ namespace EDTLibrary.DataAccess
         public Tuple<bool, string, object> InsertRecordGetId<T>(T classObject, string tableName, List<string> propertyList) where T : class, new()
         {
             using (IDbConnection cnn = new SQLiteConnection(conString)) {
+                SQLiteCommand cmd = new SQLiteCommand();
                 StringBuilder sb = new StringBuilder();
                 var props = classObject.GetType().GetProperties();
-                SQLiteCommand cmd = new SQLiteCommand();
+                
 
                 //Build query string: 
                 //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)

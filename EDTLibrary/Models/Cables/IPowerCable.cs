@@ -14,7 +14,7 @@ namespace EDTLibrary.Models
         double CableDeratedAmps { get; set; }
         double CableRequiredAmps { get; set; }
         double CableRequiredSizingAmps { get; set; }
-        PowerConsumer Load { get; set; }
+        IPowerConsumer Load { get; set; }
 
     }
 }

@@ -24,11 +24,11 @@ namespace EDTLibrary {
 
 
         public static List<IEquipment> eqList { get; set; } = new List<IEquipment>();
-        public static List<PowerConsumer> masterLoadList { get; set; } = new List<PowerConsumer>();
+        public static List<IPowerConsumer> masterLoadList { get; set; } = new List<IPowerConsumer>();
 
         public static Dictionary<string, DteqModel> dteqDict { get; set; } = new Dictionary<string, DteqModel>();
         public static Dictionary<string, IEquipment> eqDict { get; set; } = new Dictionary<string, IEquipment>();
-        public static Dictionary<string, PowerConsumer> iLoadDict { get; set; } = new Dictionary<string, PowerConsumer>();
+        public static Dictionary<string, IPowerConsumer> iLoadDict { get; set; } = new Dictionary<string, IPowerConsumer>();
 
 
 
@@ -101,6 +101,7 @@ namespace EDTLibrary {
 
 
         #region MajorEquipment
+        //Toco - Pass List Back or add to both lists
         public static void CalculateDteqLoading() // LoadList Manager
         {
             foreach (DteqModel dteq in DteqList) {
