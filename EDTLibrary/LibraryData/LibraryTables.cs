@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary {
-    public static class LibraryTables {
+namespace EDTLibrary.LibraryData
+{
+    public static class LibraryTables
+    {
         public static DataTable CableAmpacities { get; set; }
         public static DataTable CableDimensions { get; set; }
-        public static DataTable CableInsulationLevels { get; set; }        
+        public static DataTable CableInsulationLevels { get; set; }
         public static DataTable CableSizes { get; set; } //Resistances per 1000'
         public static DataTable CableSizingRules { get; set; }
         public static DataTable CableTypes { get; set; }

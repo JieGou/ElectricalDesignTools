@@ -1,4 +1,4 @@
-﻿using EDTLibrary.Models;
+﻿using EDTLibrary.Models.DistributionEquipment;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +11,8 @@ using System.Windows.Data;
 using WpfUI.Stores;
 using WpfUI.ViewModels;
 
-namespace WpfUI.ValidationRules {
+namespace WpfUI.ValidationRules
+{
     public class InvalidFedFromRule : ValidationRule {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo) {
 

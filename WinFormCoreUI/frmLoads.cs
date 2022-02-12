@@ -8,9 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EDTLibrary;
-using EDTLibrary.Models;
+using EDTLibrary.Models.Loads;
 
-namespace WinFormCoreUI {
+namespace WinFormCoreUI
+{
     public partial class frmLoads : Form {
         public frmLoads() {
             InitializeComponent();

@@ -1,13 +1,15 @@
 ﻿using EDTLibrary.Models;
+using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace EDTLibrary.LibraryData {
+namespace EDTLibrary.LibraryData
+{
     public static class LibraryManager {
 
-        public static double GetMotorEfficiency(LoadModel load) {
+        public static double GetMotorEfficiency(ILoad load) {
             double result = GlobalConfig.NoValueDouble;
             if (LibraryTables.Motors != null) {
 

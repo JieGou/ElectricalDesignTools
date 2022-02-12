@@ -1,4 +1,6 @@
-﻿using EDTLibrary.Models;
+﻿using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

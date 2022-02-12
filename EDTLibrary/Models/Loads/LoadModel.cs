@@ -1,4 +1,6 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Components;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
@@ -11,33 +13,33 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace EDTLibrary.Models {
+namespace EDTLibrary.Models.Loads
+{
 
     [AddINotifyPropertyChangedInterface]
-    public class LoadModel : ILoad, ComponentUser {
-        public LoadModel() {
+    public class LoadModel : ILoad, ComponentUser
+    {
+        public LoadModel()
+        {
             Category = Categories.LOAD3P.ToString();
-            LoadFactor = Double.Parse(EdtSettings.LoadFactorDefault);
-            PdType = EdtSettings.LoadDefaultPdTypeLV;
+            //LoadFactor = Double.Parse(EdtSettings.LoadFactorDefault);
+            //PdType = EdtSettings.LoadDefaultPdTypeLV;
             Cable = new PowerCableModel();
         }
-
-        public LoadModel(string category)
+        public LoadModel(string tag)
         {
-            Category = category;
-            LoadFactor = Double.Parse(EdtSettings.LoadFactorDefault);
-            PdType = EdtSettings.LoadDefaultPdTypeLV;
-            Cable = new PowerCableModel();
+            Tag = tag;
         }
 
         //Properties
         public int Id { get; set; }
         private string _tag;
-        public string Tag { 
+        public string Tag
+        {
             get { return _tag; }
-            set 
+            set
             {
-                _tag = value; 
+                _tag = value;
             }
         }
         public string Category { get; set; }
@@ -68,7 +70,7 @@ namespace EDTLibrary.Models {
 
         public double Efficiency { get; set; }
         public double PowerFactor { get; set; }
-    
+
 
         public double AmpacityFactor { get; set; }
 
@@ -88,7 +90,7 @@ namespace EDTLibrary.Models {
 
 
         //Cables
-        
+
         public int PowerCableId { get; set; }
         public PowerCableModel Cable { get; set; }
 
@@ -98,10 +100,12 @@ namespace EDTLibrary.Models {
 
 
         //Methods
-        public void CalculateLoading() {
-            
+        public void CalculateLoading()
+        {
+            LoadFactor = double.Parse(EdtSettings.LoadFactorDefault);
+            PdType = EdtSettings.LoadDefaultPdTypeLV;
 
-        //PowerFactor and Efficiency
+            //PowerFactor and Efficiency
             if (Type == LoadTypes.HEATER.ToString()) {
                 Unit = Units.kW.ToString();
                 Efficiency = GlobalConfig.DefaultHeaterEfficiency;
@@ -159,57 +163,57 @@ namespace EDTLibrary.Models {
             //}
 
             switch (Type) {
-            case "MOTOR":
+                case "MOTOR":
                     AmpacityFactor = 1.25;
-                switch (Unit) {
-                    case "HP":
-                        ConnectedKva = _size * 0.746 / Efficiency / PowerFactor;
-                        break;
-                    case "kW":
-                        ConnectedKva = _size / Efficiency / PowerFactor;
-                        break;
-                }
-                break;
+                    switch (Unit) {
+                        case "HP":
+                            ConnectedKva = _size * 0.746 / Efficiency / PowerFactor;
+                            break;
+                        case "kW":
+                            ConnectedKva = _size / Efficiency / PowerFactor;
+                            break;
+                    }
+                    break;
 
-            case "TRANSFORMER":
+                case "TRANSFORMER":
                     AmpacityFactor = 1.25;
                     ConnectedKva = _size;
-                break;
+                    break;
 
-            case "HEATER":
-                ConnectedKva = _size / Efficiency / PowerFactor;
-                break;
+                case "HEATER":
+                    ConnectedKva = _size / Efficiency / PowerFactor;
+                    break;
 
-            case "OTHER":
-                switch (Unit) {
-                    case "kVA":
-                        ConnectedKva = _size;
-                        break;
+                case "OTHER":
+                    switch (Unit) {
+                        case "kVA":
+                            ConnectedKva = _size;
+                            break;
 
-                    case "kW":
-                        ConnectedKva = _size / Efficiency / PowerFactor;
-                        break;
+                        case "kW":
+                            ConnectedKva = _size / Efficiency / PowerFactor;
+                            break;
 
-                    case "A":
-                    case "AMPS":
-                        ConnectedKva = _size * Voltage * Math.Sqrt(3); //   / Efficiency / PowerFactor;
-                        Fla = _size;
-                        break;
-                }
-                break;
+                        case "A":
+                        case "AMPS":
+                            ConnectedKva = _size * Voltage * Math.Sqrt(3); //   / Efficiency / PowerFactor;
+                            Fla = _size;
+                            break;
+                    }
+                    break;
             }
 
 
-        //FLA and Power
+            //FLA and Power
             if (Unit != "A") {
                 Fla = ConnectedKva * 1000 / Voltage / Math.Sqrt(3);
                 Fla = Math.Round(Fla, GlobalConfig.SigFigs);
             }
 
             ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
-            DemandKva = Math.Round(ConnectedKva*LoadFactor, GlobalConfig.SigFigs);
-            DemandKw = Math.Round(DemandKva*PowerFactor, GlobalConfig.SigFigs);
-            DemandKvar = Math.Round(DemandKva*(1-PowerFactor), GlobalConfig.SigFigs);
+            DemandKva = Math.Round(ConnectedKva * LoadFactor, GlobalConfig.SigFigs);
+            DemandKw = Math.Round(DemandKva * PowerFactor, GlobalConfig.SigFigs);
+            DemandKvar = Math.Round(DemandKva * (1 - PowerFactor), GlobalConfig.SigFigs);
 
 
             //PD and Starter
@@ -226,14 +230,15 @@ namespace EDTLibrary.Models {
         }
 
         public void CalculateCableAmps()
-        {          
+        {
             Cable.CalculateAmpacity();
         }
 
 
 
 
-        public void SizeComponents() {
+        public void SizeComponents()
+        {
             //TODO - create Components
 
             //Adds default components based on type of load

@@ -1,6 +1,4 @@
-﻿using EDTLibrary;
-using EDTLibrary.Models;
-using EDTLibrary.DataAccess;
+﻿using EDTLibrary.DataAccess;
 using LM = EDTLibrary.ListManager;
 using System;
 using System.Collections.Generic;
@@ -9,8 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
+using EDTLibrary.Models.Loads;
+using EDTLibrary.Models.Cables;
+using EDTLibrary.LibraryData;
+using EDTLibrary.Models.DistributionEquipment;
 
-namespace WinFormCoreUI {
+namespace WinFormCoreUI
+{
     public static class UI {
         public static bool ProjectLoaded { get; set; }
         public static bool LibraryLoaded { get; set; }

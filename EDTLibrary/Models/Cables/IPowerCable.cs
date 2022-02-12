@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EDTLibrary.Models
+namespace EDTLibrary.Models.Cables
 {
-    public interface IPowerCable: ICable
+    public interface IPowerCable : ICable
     {
         int CableQty { get; set; }
         double CableBaseAmps { get; set; }

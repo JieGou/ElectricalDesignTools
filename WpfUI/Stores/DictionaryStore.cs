@@ -1,4 +1,4 @@
-﻿using EDTLibrary.Models;
+﻿using EDTLibrary.Models.DistributionEquipment;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

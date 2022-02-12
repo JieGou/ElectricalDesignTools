@@ -1,6 +1,6 @@
 ﻿using EDTLibrary.Models;
 
-namespace EDTLibrary.Calculators
+namespace EDTLibrary.Calculators.Cables
 {
     public class ConductorQtyCalculator
     {

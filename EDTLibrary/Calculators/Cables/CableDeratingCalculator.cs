@@ -1,6 +1,6 @@
 ﻿using EDTLibrary.Models;
 
-namespace EDTLibrary.Calculators
+namespace EDTLibrary.Calculators.Cables
 {
     public class CableDeratingCalculator
     {
@@ -8,7 +8,7 @@ namespace EDTLibrary.Calculators
         {
             double result = 1;
 
-            if (load.FedFrom == "UTILITY" || load.Category== Categories.DTEQ.ToString()) {
+            if (load.FedFrom == "UTILITY" || load.Category == Categories.DTEQ.ToString()) {
                 return 1;
             }
 

@@ -1,5 +1,5 @@
 ﻿using EDTLibrary;
-using EDTLibrary.Models;
+using EDTLibrary.Models.Cables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfUI.Stores;
 
-namespace WpfUI.ViewModels 
+namespace WpfUI.ViewModels
 {
     public class CableListViewModel : ViewModelBase
     {

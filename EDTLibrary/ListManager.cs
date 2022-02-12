@@ -5,8 +5,13 @@ using EDTLibrary.Models;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using EDTLibrary.DataAccess;
+using EDTLibrary.Models.Loads;
+using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Components;
+using EDTLibrary.Models.DistributionEquipment;
 
-namespace EDTLibrary {
+namespace EDTLibrary
+{
     public class ListManager {
 
         public static List<DteqModel> DteqList { get; set; } = new List<DteqModel>();
@@ -33,7 +38,7 @@ namespace EDTLibrary {
 
 
         public static ObservableCollection<DteqModel> GetDteq() {
-            DteqList = DbManager.prjDb.GetRecords<DteqModel>("DistributionEquipment");
+            DteqList = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqListTable);
             CreateDteqDict();
             OcDteq = new ObservableCollection<DteqModel>(DteqList);
             //CalculateDteqLoading();
@@ -41,7 +46,7 @@ namespace EDTLibrary {
         }
 
         public static ObservableCollection<LoadModel> GetLoads() {     
-            LoadList = DbManager.prjDb.GetRecords<LoadModel>("Loads");
+            LoadList = DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable);
             CreateILoadDict();
             OcLoads = new ObservableCollection<LoadModel>(LoadList);
             //CalculateDteqLoading();

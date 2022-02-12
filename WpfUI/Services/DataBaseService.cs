@@ -1,6 +1,8 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
-using EDTLibrary.Models;
+using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.TypeTables;
 using System;

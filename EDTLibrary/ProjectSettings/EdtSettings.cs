@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.LibraryData;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -6,7 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace EDTLibrary.ProjectSettings {
+namespace EDTLibrary.ProjectSettings
+{
     public class EdtSettings 
         {
         //General

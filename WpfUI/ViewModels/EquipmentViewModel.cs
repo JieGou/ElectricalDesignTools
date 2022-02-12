@@ -1,6 +1,9 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
 using EDTLibrary.Models;
+using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Loads;
 using EDTLibrary.TypeTables;
 using PropertyChanged;
 using System;
@@ -21,7 +24,8 @@ using WpfUI.Services;
 using WpfUI.Stores;
 using WpfUI.ValidationRules;
 
-namespace WpfUI.ViewModels {
+namespace WpfUI.ViewModels
+{
 
     public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     {
@@ -117,7 +121,7 @@ namespace WpfUI.ViewModels {
                 _dteqToAddTag = value;
 
                 ClearErrors(nameof(DteqToAddTag));
-                if (IsTagAvailable(_dteqToAddTag) == false) {
+                if (IsTagAvailable(_dteqToAddTag, DteqList, LoadList) == false) {
                     AddError(nameof(DteqToAddTag), "Tag already exists");
                 }
                 else if (_dteqToAddTag == "") { // TODO - create method for invalid tags
@@ -232,7 +236,7 @@ namespace WpfUI.ViewModels {
                 _loadToAddTag = value;
 
                 ClearErrors(nameof(LoadToAddTag));
-                if (IsTagAvailable(_loadToAddTag) == false) {
+                if (IsTagAvailable(_loadToAddTag, DteqList, LoadList) == false) {
                     AddError(nameof(LoadToAddTag), "Tag already exists");
                 }
                 else if (_loadToAddTag == "") { // TODO - create method for invalid tags
@@ -590,7 +594,7 @@ namespace WpfUI.ViewModels {
         {
             // TODO - add Dteq Validation
 
-            bool isTagAvailable = IsTagAvailable(_dteqToAddTag);
+            bool isTagAvailable = IsTagAvailable(_dteqToAddTag, DteqList, LoadList);
 
             
 
@@ -634,10 +638,10 @@ namespace WpfUI.ViewModels {
         {
 
             bool newLoadIsValid = true;
-            bool isTagAvailable = IsTagAvailable(_loadToAddTag);
+            bool isTagAvailable = IsTagAvailable(_loadToAddTag, DteqList, LoadList);
 
             //Tag
-            if (isTagAvailable == false || _loadToAddTag == "" || _loadToAddTag == " " || _loadToAddTag == null) {
+            if (isTagAvailable == false || string.IsNullOrEmpty(_loadToAddTag) || string.IsNullOrWhiteSpace(_loadToAddTag)) {
                 newLoadIsValid = false;
             }
 
@@ -660,7 +664,7 @@ namespace WpfUI.ViewModels {
             }
 
             //Unit
-            if (   (_loadToAddUnit == "")  
+            if (   (string.IsNullOrWhiteSpace(_loadToAddUnit) & string.IsNullOrEmpty(_loadToAddUnit))  
                 || (_loadToAddType == EDTLibrary.LoadTypes.TRANSFORMER.ToString() && _loadToAddUnit != Units.kVA.ToString())
                 || (_loadToAddType == EDTLibrary.LoadTypes.MOTOR.ToString() && _loadToAddUnit != Units.HP.ToString() && _loadToAddUnit != Units.kW.ToString())
                 || (_loadToAddType == EDTLibrary.LoadTypes.HEATER.ToString() && _loadToAddUnit != Units.kW.ToString())  )
@@ -689,9 +693,10 @@ namespace WpfUI.ViewModels {
 
             if (newLoadIsValid == true) {
 
-                LoadModel newLoad = new LoadModel(Categories.LOAD3P.ToString());
                 LoadList.CollectionChanged += LoadList_CollectionChanged;
+                LoadModel newLoad = new LoadModel();
                 newLoad.Tag = _loadToAddTag;
+                newLoad.Category = Categories.LOAD3P.ToString();
                 newLoad.Type = _loadToAddType;
                 newLoad.Description = _loadToAddDescription;
                 newLoad.FedFrom = _loadToAddFedFrom;
@@ -716,7 +721,6 @@ namespace WpfUI.ViewModels {
         public void LoadList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             ListManager.LoadList.Add((LoadModel)e.NewItems[0]);
-
         }
 
         // Loads
@@ -793,12 +797,12 @@ namespace WpfUI.ViewModels {
             _fedFromList.Insert(0, "UTILITY");
         }
 
-        private bool IsTagAvailable(string tag) {
+        public bool IsTagAvailable(string tag, ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) {
             if (tag == null) {
                 return false;
             }
-            var dteqTag = DteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
-            var loadTag = LoadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
+            var dteqTag = dteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
+            var loadTag = loadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
 
             if (dteqTag != null || 
                 loadTag != null) {

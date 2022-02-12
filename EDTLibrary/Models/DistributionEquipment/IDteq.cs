@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace EDTLibrary.Models {
-    public interface IDteq: IPowerConsumer //, IHasComponents 
+namespace EDTLibrary.Models.DistributionEquipment
+{
+    public interface IDteq : IPowerConsumer //, IHasComponents 
     {
 
 

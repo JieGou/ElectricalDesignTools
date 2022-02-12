@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,8 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace EDTLibrary.ProjectSettings {
+namespace EDTLibrary.ProjectSettings
+{
     public class SettingManager {
 
         public static List<SettingModel> SettingList { get; set; } = new List<SettingModel>();

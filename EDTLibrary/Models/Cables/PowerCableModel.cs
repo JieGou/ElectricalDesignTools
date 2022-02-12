@@ -1,4 +1,4 @@
-﻿using EDTLibrary.Calculators;
+﻿using EDTLibrary.Calculators.Cables;
 using EDTLibrary.LibraryData;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LM = EDTLibrary.ListManager;
 
-namespace EDTLibrary.Models
+namespace EDTLibrary.Models.Cables
 {
     [AddINotifyPropertyChangedInterface]
     public class PowerCableModel
@@ -72,14 +72,15 @@ namespace EDTLibrary.Models
             CableQty = 1;
             //Insulation = 100;
         }
-        public void CreateTag() {
+        public void CreateTag()
+        {
             Tag = Source.Replace("-", "") + "-" + Destination.Replace("-", "");
         }
-        
+
         /// <summary>
         /// Gets the Source Eq Derating, Destination Eq FLA
         /// </summary>
-        
+
         public void GetCableParameters(IPowerConsumer load)
         {
             //gets source derating
@@ -121,7 +122,7 @@ namespace EDTLibrary.Models
             else if (VoltageClass == 35000) {
                 Insulation = int.Parse(EdtSettings.CableInsulation35kVPower.ToString());
             }
-           
+
 
 
 
@@ -144,7 +145,8 @@ namespace EDTLibrary.Models
         /// <summary>
         /// Recursive function that gets the cable qty and size from Ampacity Table based on cable type and required amps
         /// </summary>
-        public void CalculateCableQtySize() {
+        public void CalculateCableQtySize()
+        {
 
             //TODO - determine which AmpacityTable to select from
             // 1
@@ -161,7 +163,8 @@ namespace EDTLibrary.Models
 
 
             //Recursive method
-            void GetCableQty(int cableQty) {
+            void GetCableQty(int cableQty)
+            {
                 if (cableQty < 20) {
                     if (cables.Any()) {
                         cableAmps = null;
@@ -170,7 +173,7 @@ namespace EDTLibrary.Models
                         //select smallest of 
                         cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
 
-                        CableBaseAmps = Double.Parse(cableAmps.Rows[0]["Amps75"].ToString());
+                        CableBaseAmps = double.Parse(cableAmps.Rows[0]["Amps75"].ToString());
                         CableBaseAmps = Math.Round(CableBaseAmps, 2);
                         CableDeratedAmps = CableBaseAmps * CableDerating;
                         CableDeratedAmps = Math.Round(CableDeratedAmps, 2);
@@ -185,7 +188,7 @@ namespace EDTLibrary.Models
                             string size = row["Size"].ToString();
                             amps75 *= CableQty;
                             row["Amps75"] = amps75;
-                            cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EDTLibrary.ProjectSettings.EdtSettings.Code
+                            cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
                                                               && x.Field<double>("Amps75") >= CableRequiredSizingAmps
                                                               && x.Field<string>("CodeTable") == codeTable);
                         }
@@ -204,7 +207,7 @@ namespace EDTLibrary.Models
             DataTable cableAmps = EdtSettings.CableAmpsUsedInProject.Copy();
 
             //filter cables larger than RequiredAmps          
-            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EDTLibrary.ProjectSettings.EdtSettings.Code
+            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
                                                           && x.Field<string>("CodeTable") == codeTable
                                                           && x.Field<string>("Size") == CableSize);
 
@@ -212,7 +215,7 @@ namespace EDTLibrary.Models
             try {
                 cableAmps = cables.CopyToDataTable();
                 //select smallest of the valid results
-                CableBaseAmps = Double.Parse(cableAmps.Rows[0]["Amps75"].ToString()) * CableQty;
+                CableBaseAmps = double.Parse(cableAmps.Rows[0]["Amps75"].ToString()) * CableQty;
                 CableDeratedAmps = CableBaseAmps * CableDerating;
                 CableDeratedAmps = Math.Round(CableDeratedAmps, GlobalConfig.SigFigs);
             }

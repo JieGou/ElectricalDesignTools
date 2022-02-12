@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace EDTLibrary.Models
+namespace EDTLibrary.Models.Components
 {
-    public interface ICircuitComponentModel: IEquipment, IComponentModel, ComponentUser
+    public interface ICircuitComponentModel : IEquipment, IComponentModel, ComponentUser
     {
         string SequenceNumber { get; set; }
 

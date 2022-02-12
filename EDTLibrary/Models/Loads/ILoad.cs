@@ -1,9 +1,10 @@
-﻿using System;
+﻿using EDTLibrary.Models.Components;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace EDTLibrary.Models
+namespace EDTLibrary.Models.Loads
 {
     public interface ILoad : IPowerConsumer, ComponentUser
     {

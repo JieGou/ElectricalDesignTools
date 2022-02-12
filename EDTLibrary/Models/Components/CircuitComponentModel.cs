@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models {
-    public class CircuitComponentModel: IComponentModel {
-        public CircuitComponentModel() {
+namespace EDTLibrary.Models.Components
+{
+    public class CircuitComponentModel : IComponentModel
+    {
+        public CircuitComponentModel()
+        {
             Category = Categories.COMP.ToString();
         }
         public int Id { get; set; }

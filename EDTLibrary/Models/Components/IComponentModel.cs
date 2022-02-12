@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace EDTLibrary.Models
+namespace EDTLibrary.Models.Components
 {
-    public interface IComponentModel: IEquipment, ComponentUser
+    public interface IComponentModel : IEquipment, ComponentUser
     {
         string SubType { get; set; }
         string Location { get; set; }

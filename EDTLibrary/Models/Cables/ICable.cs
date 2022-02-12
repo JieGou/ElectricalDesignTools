@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EDTLibrary.Models
+namespace EDTLibrary.Models.Cables
 {
     public interface ICable
     {

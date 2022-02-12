@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Components;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -6,8 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models {
-    class TransformerModel: IDteq {
+namespace EDTLibrary.Models.DistributionEquipment
+{
+    class TransformerModel : IDteq
+    {
         public int Id { get; set; }
         public string Tag { get; set; }
         public string Category { get; set; }
@@ -64,7 +68,8 @@ namespace EDTLibrary.Models {
         public int LoadCount { get; set; }
 
         public IPowerConsumer LargestMotor { get; set; }
-        public void CalculateLoading() {
+        public void CalculateLoading()
+        {
 
         }
     }

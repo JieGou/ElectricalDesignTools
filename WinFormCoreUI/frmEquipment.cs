@@ -1,6 +1,8 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
-using EDTLibrary.Models;
+using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +13,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WinFormCoreUI {
+namespace WinFormCoreUI
+{
     public partial class frmEquipment : Form {
         public frmEquipment() {
             InitializeComponent();
