@@ -14,13 +14,31 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using WpfUI.Models;
 using WpfUI.Stores;
+using WpfUI.Validators;
 
 namespace WpfUI.ViewModels
 {
 
     public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     {
+
+
+
+        private ListManager _listManager;
+        public ListManager ListManager
+        {
+            get { return _listManager; }
+            set { _listManager = value; }
+        }
+
+        public ObservableCollection<LocationModel> LocationList
+        {
+            get { return _listManager.LocationList; }
+            set { _listManager.LocationList = value; }
+        }
+
         #region Properties
         public NavigationBarViewModel NavigationBarViewModel { get; }
 
@@ -113,7 +131,7 @@ namespace WpfUI.ViewModels
                 _dteqToAddTag = value;
 
                 ClearErrors(nameof(DteqToAddTag));
-                if (IsTagAvailable(_dteqToAddTag, DteqList, LoadList) == false) {
+                if (TagValidator.IsTagAvailable(_dteqToAddTag, DteqList, LoadList) == false) {
                     AddError(nameof(DteqToAddTag), "Tag already exists");
                 }
                 else if (_dteqToAddTag == "") { // TODO - create method for invalid tags
@@ -394,6 +412,8 @@ namespace WpfUI.ViewModels
 
 
         public ObservableCollection<IPowerConsumer> MasterLoadList { get; set; }
+
+        
         #endregion
 
 
@@ -429,9 +449,9 @@ namespace WpfUI.ViewModels
         #region Constructor
     
 
-        public EquipmentViewModel()
+        public EquipmentViewModel(ListManager listManager)
         {
-        
+            _listManager = listManager;
 
             // Create commands
 

@@ -4,13 +4,18 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using PropertyChanged;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace EDTLibrary
 {
+    [AddINotifyPropertyChangedInterface]
     public class ListManager {
+
+        public ObservableCollection<LocationModel> LocationList { get; set; } = new ObservableCollection<LocationModel>();
+
 
         public static List<DteqModel> DteqList { get; set; } = new List<DteqModel>();
         public static ObservableCollection<DteqModel> OcDteq { get; set; } = new ObservableCollection<DteqModel>();

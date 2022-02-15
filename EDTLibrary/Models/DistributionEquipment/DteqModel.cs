@@ -19,7 +19,6 @@ namespace EDTLibrary.Models.DistributionEquipment
             PdType = ProjectSettings.EdtSettings.DteqDefaultPdTypeLV;
         }
 
-
         #region Properties
 
         public int Id { get; set; }

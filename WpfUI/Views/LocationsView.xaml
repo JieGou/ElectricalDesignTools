@@ -100,7 +100,7 @@
 
                 <DataGrid x:Name="dgdLocations" RowDetailsVisibilityMode="Collapsed"
                           MinHeight="200" Margin="10 10 10 10"
-                          ItemsSource="{Binding LocationList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding Path=ListManager.LocationList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding SelectedLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
                           CanUserAddRows="False"
                           HorizontalAlignment="Left" 
@@ -149,10 +149,6 @@
                         </DataGridTemplateColumn>
 
                         <!--Area Classification-->
-
-                        <!--SelectedItem="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValue="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
-                        
                         <DataGridTemplateColumn Header="       Area&#x0a;Classification"
                                                 Width="120">
                             <DataGridTemplateColumn.CellTemplate>
@@ -206,9 +202,8 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-
-
                     </DataGrid.Columns>
+                    
                     <DataGrid.RowDetailsTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0" Background="Beige" Padding="10">

@@ -95,12 +95,17 @@
                     x:Name="btnCableList"
                     Content="CABLE LIST"
                     Command="{Binding NavigateCableListCommand}"/>
-                
+
                 <Button  VerticalAlignment="Top"
                     x:Name="btnDataTables"
                     Content="DATA TABLES"
                     Command="{Binding NavigateDataTablesCommand}"/>
                 
+                <Button  VerticalAlignment="Top"
+                    x:Name="btnScenarios"
+                    Content="SCENARIOS"
+                    Command="{Binding ScenarioCommand}"/>
+
             </StackPanel>
         </Grid>
 

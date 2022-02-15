@@ -26,8 +26,6 @@ namespace WpfUI.Views
             InitializeComponent();
         }
 
-
-
         private void dgdDataTables_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
 

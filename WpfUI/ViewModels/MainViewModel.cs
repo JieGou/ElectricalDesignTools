@@ -3,6 +3,7 @@ using EDTLibrary.DataAccess;
 using EDTLibrary.Models;
 using EDTLibrary.Models.Loads;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using WpfUI.Services;
 
@@ -10,11 +11,12 @@ namespace WpfUI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private ListManager _listManager;
 
         private readonly StartupViewModel _startupViewModel = new StartupViewModel();
         private readonly ProjectSettingsViewModel _projectSettingsViewModel = new ProjectSettingsViewModel();
-        private readonly LocationsViewModel _locationsViewModel = new LocationsViewModel();
-        private readonly EquipmentViewModel _equipmentViewModel = new EquipmentViewModel();
+        private readonly LocationsViewModel _locationsViewModel;
+        private readonly EquipmentViewModel _equipmentViewModel;
         private readonly CableListViewModel _cableListViewModel = new CableListViewModel();
         private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
@@ -23,21 +25,27 @@ namespace WpfUI.ViewModels
         {
             _listManager = listManager;
 
+            _locationsViewModel = new LocationsViewModel(listManager);
+            _equipmentViewModel = new EquipmentViewModel(listManager);
+
             NavigateStartupCommand = new RelayCommand(NavigateStartup);
             NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings);
             NavigateLocationsCommand = new RelayCommand(NavigateLocations);
             NavigateEquipmentCommand = new RelayCommand(NavigateEquipment);
             NavigateCableListCommand = new RelayCommand(NavigateCableList);
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables);
+            ScenarioCommand = new RelayCommand(StartScenarioManager);
 
             DataBaseService.InitializeLibrary();
+            _locationsViewModel.CreateComboBoxLists();
+            _equipmentViewModel.CreateComboBoxLists();
+
 
 #if DEBUG
              DataBaseService.InitializeProject();
 
             //TODO - event on project loaded;
-            _locationsViewModel.CreateComboBoxLists();
-            _locationsViewModel.LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable));
+            _locationsViewModel.ListManager.LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable));
 
             GlobalConfig.GettingRecords = true;
             _equipmentViewModel.DteqList = ListManager.GetDteq();
@@ -45,15 +53,12 @@ namespace WpfUI.ViewModels
             GlobalConfig.GettingRecords = false;
 
             //_equipmentViewModel.CalculateAll();
-            _equipmentViewModel.CreateComboBoxLists();
 #endif
 
 
 
 
         }
-
-        private ListManager _listManager;
 
 
 
@@ -64,6 +69,7 @@ namespace WpfUI.ViewModels
         public ICommand NavigateEquipmentCommand { get; }
         public ICommand NavigateCableListCommand { get; }
         public ICommand NavigateDataTablesCommand { get; }
+        public ICommand ScenarioCommand { get; }
 
         private void NavigateStartup()
         {
@@ -90,7 +96,17 @@ namespace WpfUI.ViewModels
         {
             CurrentViewModel = _dataTablesViewModel;
         }
-#endregion
+        private void StartScenarioManager()
+        {
+            ListManager listManager = new ListManager();
+
+            Window scenario = new MainWindow() {
+                DataContext = new MainViewModel(_listManager)
+                //DataContext = new MainViewModel(_navigationStore) 
+            };
+            scenario.Show();
+        }
+        #endregion
 
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel

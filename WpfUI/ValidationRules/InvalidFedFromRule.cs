@@ -48,8 +48,5 @@ namespace WpfUI.ValidationRules
             
             return false;
         }
-
-       
-
     }
 }

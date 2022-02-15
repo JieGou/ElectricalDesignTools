@@ -37,13 +37,12 @@ namespace WpfUI {
             
             _equipmentNavigationService = new NavigationService<EquipmentViewModel>(_navigationStore, () => _equipmentViewModel);
 
-          
-
         }
 
         protected override void OnStartup(StartupEventArgs e) {
 
             ListManager listManager = new ListManager();
+
             MainWindow = new MainWindow() { 
                 DataContext = new MainViewModel(listManager) 
                 //DataContext = new MainViewModel(_navigationStore) 
@@ -52,7 +51,5 @@ namespace WpfUI {
             MainWindow.Show();
             base.OnStartup(e);
         }
-
-     
     }
 }

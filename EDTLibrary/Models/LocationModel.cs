@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using PropertyChanged;
 
 namespace EDTLibrary.Models
 {
-    public  class LocationModel
+    [AddINotifyPropertyChangedInterface]
+    public class LocationModel
     {
         public int Id { get; set; }
         public string Tag { get; set; }

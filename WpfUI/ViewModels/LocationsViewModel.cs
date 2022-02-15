@@ -18,8 +18,19 @@ namespace WpfUI.ViewModels
         public ObservableCollection<string> NemaTypes { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> Categories { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> AreaClassifications { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<LocationModel> LocationList { get; set; }
-        
+
+        //public ObservableCollection<LocationModel> LocationList { 
+        //    get { return _listManager.LocationList; } 
+        //    set { _listManager.LocationList = value; }
+        //}
+
+        private ListManager _listManager;
+        public ListManager ListManager
+        {
+            get { return _listManager; }
+            set { _listManager = value; }
+        }
+
         LocationModel _selectedLocation;
         public LocationModel SelectedLocation
         {
@@ -216,6 +227,8 @@ namespace WpfUI.ViewModels
                 }
             }
         }
+
+       
         #endregion
 
         #region Public Commands
@@ -228,15 +241,14 @@ namespace WpfUI.ViewModels
         public ICommand AddLocationCommand { get; }
 
 
-
         #endregion
-        public LocationsViewModel()
+        public LocationsViewModel(ListManager listManager)
         {
+            _listManager = listManager;
 
             GetLocationsCommand = new RelayCommand(GetLocations);
             SaveLocationsCommand = new RelayCommand(SaveLocations);
             DeleteLocationCommand = new RelayCommand(DeleteLocation);
-
             AddLocationCommand = new RelayCommand(AddLocation);
 
         }
@@ -250,14 +262,11 @@ namespace WpfUI.ViewModels
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
         public readonly Dictionary<string, List<string>> _errorDict = new Dictionary<string, List<string>>();
 
-       
-
         private void ClearErrors(string propertyName)
         {
             _errorDict.Remove(propertyName);
             OnErrorsChanged(propertyName);
         }
-
         public void AddError(string propertyName, string errorMessage)
         {
             if (!_errorDict.ContainsKey(propertyName)) { // check if error Key exists
@@ -266,24 +275,20 @@ namespace WpfUI.ViewModels
             _errorDict[propertyName].Add(errorMessage); //add error message to list of error messages
             OnErrorsChanged(propertyName);
         }
-
         public IEnumerable GetErrors(string? propertyName)
         {
             return _errorDict.GetValueOrDefault(propertyName, null);
         }
-
         private void OnErrorsChanged(string? propertyName)
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
-
         IEnumerable INotifyDataErrorInfo.GetErrors(string? propertyName)
         {
             return _errorDict.GetValueOrDefault(propertyName, null);
         }
 
         public string Error { get; }
-        
 
         #endregion
 
@@ -294,17 +299,19 @@ namespace WpfUI.ViewModels
 
         private void GetLocations()
         {
-            LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable));
+            ListManager.LocationList.Clear();
+            var loadList = ListManager.LoadList;
+            ListManager.LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable));
         }
         private void SaveLocations()
         {
-            if (LocationList.Count != 0) {
+            if (ListManager.LocationList.Count != 0) {
 
                 Tuple<bool, string> update;
                 bool error = false;
                 string message = "";
 
-                foreach (var location in LocationList) {
+                foreach (var location in ListManager.LocationList) {
                     update = DbManager.prjDb.UpsertRecord<LocationModel>(location, GlobalConfig.LocationTable, SaveLists.LocationSaveList);
                     if (update.Item1 == false) {
                         error = true;
@@ -316,7 +323,6 @@ namespace WpfUI.ViewModels
                 }
             }
         }
-
         private void DeleteLocation()
         {
             if (_selectedLocation != null) {
@@ -324,9 +330,6 @@ namespace WpfUI.ViewModels
                 DbManager.prjDb.DeleteRecord(GlobalConfig.LoadListTable, _selectedLocation.Id);
             }
         }
-
-
-
         private void AddLocation()
         {
             LocationModel location = new LocationModel();
@@ -381,25 +384,22 @@ namespace WpfUI.ViewModels
                 location.MinTemp = double.Parse(_locationToAddMinTemp);
                 location.MaxTemp = double.Parse(_locationToAddMaxTemp);
                 location.NemaType = _locationToAddNemaType;
-                
-                LocationList.Add(location);
+
+                ListManager.LocationList.Add(location);
             }
         }
-
-
 
         #endregion
 
 
         #region Helper Methods
-
         private bool IsNameAvailable(string name)
         {
             if (name == null) {
                 return false;
             }
 
-            var locationName = LocationList.FirstOrDefault(l => l.Name.ToLower() == name.ToLower());
+            var locationName = ListManager.LocationList.FirstOrDefault(l => l.Name.ToLower() == name.ToLower());
             if (locationName != null) {
                 return false;
             }
@@ -412,7 +412,7 @@ namespace WpfUI.ViewModels
                 return false;
             }
 
-            var locationTag = LocationList.FirstOrDefault(l => l.Tag.ToLower() == tag.ToLower());
+            var locationTag = ListManager.LocationList.FirstOrDefault(l => l.Tag.ToLower() == tag.ToLower());
             if (locationTag != null) { 
                 return false;
             }

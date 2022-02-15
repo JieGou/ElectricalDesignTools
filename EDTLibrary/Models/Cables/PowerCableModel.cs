@@ -122,8 +122,7 @@ namespace EDTLibrary.Models.Cables
             else if (VoltageClass == 35000) {
                 Insulation = int.Parse(EdtSettings.CableInsulation35kVPower.ToString());
             }
-
-
+           
 
 
 

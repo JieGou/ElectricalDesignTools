@@ -46,13 +46,14 @@
             <sys:Int32 x:Key="load">5</sys:Int32>
             <sys:Int32 x:Key="bottom">6</sys:Int32>
 
+            <!--ADD-->
             <sys:Int32 x:Key="Tag">1</sys:Int32>
             <sys:Int32 x:Key="Type">2</sys:Int32>
-            <sys:Int32 x:Key="FedFrom">3</sys:Int32>
-            <sys:Int32 x:Key="Voltage">4</sys:Int32>
+            <sys:Int32 x:Key="FedFrom">4</sys:Int32>
+            <sys:Int32 x:Key="Voltage">7</sys:Int32>
             <sys:Int32 x:Key="Size">5</sys:Int32>
             <sys:Int32 x:Key="Unit">6</sys:Int32>
-            <sys:Int32 x:Key="Description">7</sys:Int32>
+            <sys:Int32 x:Key="Description">3</sys:Int32>
             <sys:Int32 x:Key="LoadFactor">8</sys:Int32>
 
         </ResourceDictionary>
@@ -191,21 +192,21 @@
 
                     <!--DTEQ Datagrid-->
                     <DataGrid x:Name="dgdDteq" 
-                      Grid.Row="{StaticResource dteq}" Grid.Column="3"
-                      HorizontalAlignment="Left"
-                      Height="auto" MinHeight="185" MaxHeight="250"
-                      Margin="10,10,10,10"
-                      ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
-                      CanUserAddRows="False"
-                      CanUserDeleteRows="False"
-                      AutoGenerateColumns="False"
-                      EnableRowVirtualization="True"
-                      EnableColumnVirtualization="True"
-                      ScrollViewer.CanContentScroll="True"
-                      VirtualizingPanel.IsVirtualizing="True"
-                      VirtualizingStackPanel.VirtualizationMode="Recycling"
-                      RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}" >
+                              Grid.Row="{StaticResource dteq}" Grid.Column="3"
+                              HorizontalAlignment="Left"
+                              Height="auto" MinHeight="185" MaxHeight="250"
+                              Margin="10,10,10,10"
+                              ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              AutoGenerateColumns="False"
+                              EnableRowVirtualization="True"
+                              EnableColumnVirtualization="True"
+                              ScrollViewer.CanContentScroll="True"
+                              VirtualizingPanel.IsVirtualizing="True"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling"
+                              RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}" >
 
                         <DataGrid.Resources>
                             <Style x:Key="errorStyle" TargetType="{x:Type TextBlock}">
@@ -228,7 +229,6 @@
                             <!--Textblock cell padding style in this.resources Move to ResDict-->
 
                             <!--Tag-->
-
                             <DataGridTextColumn Header="Tag" x:Name="dteqTag" 
                                                 Width="75"
                                                 Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" 
@@ -556,21 +556,19 @@
                         <DataGrid.RowValidationErrorTemplate>
                             <ControlTemplate>
                                 <Grid Margin="5,2,0,0"
-                                ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=(Validation.Errors)[0].ErrorContent}"
-                                ToolTipService.InitialShowDelay="50">
+                                      ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=(Validation.Errors)[0].ErrorContent}"
+                                      ToolTipService.InitialShowDelay="50">
 
                                     <!--<Ellipse StrokeThickness="0" Fill="Red" 
                                         Width="{TemplateBinding FontSize}" 
                                         Height="{TemplateBinding FontSize}" />-->
                                     <TextBlock Text="X" FontSize="15" 
-                                        FontWeight="UltraBold" Foreground="Red" 
-                                        HorizontalAlignment="Stretch"  />
+                                            FontWeight="UltraBold" Foreground="Red" 
+                                            HorizontalAlignment="Stretch"  />
                                 </Grid>
                             </ControlTemplate>
                         </DataGrid.RowValidationErrorTemplate>
                     </DataGrid>
-
-
 
 
                     <!--ADD Eq-->
@@ -705,11 +703,12 @@
                         </TextBox>
 
                         <ComboBox Grid.Row="5" Grid.Column="{StaticResource Type}" 
-                          d:Text="TRANSFORMER"
-                          ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
-                          SelectedValue="{Binding LoadToAddType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          IsEditable="True" IsTextSearchEnabled="True"  
-                          Margin="5 0 5 0"/>
+                                  d:Text="TRANSFORMER"
+                                  MinWidth="100"
+                                  ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
+                                  SelectedValue="{Binding LoadToAddType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                                  IsEditable="True" IsTextSearchEnabled="True"  
+                                  Margin="5 0 5 0"/>        
 
                         <!--Fed From-->
                         <ComboBox Grid.Row="5" Grid.Column="{StaticResource FedFrom}" 

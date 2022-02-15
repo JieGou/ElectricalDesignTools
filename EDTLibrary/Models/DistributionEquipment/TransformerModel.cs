@@ -68,6 +68,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         public int LoadCount { get; set; }
 
         public IPowerConsumer LargestMotor { get; set; }
+        PowerCableModel IPowerConsumer.Cable { get; set; }
+
         public void CalculateLoading()
         {
 
