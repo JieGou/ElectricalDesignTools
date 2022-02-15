@@ -1,9 +1,7 @@
 ﻿using EDTLibrary.Models;
 using EDTLibrary.Models.Loads;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace EDTLibrary.LibraryData
 {
@@ -16,7 +14,7 @@ namespace EDTLibrary.LibraryData
                 DataTable dt = LibraryTables.Motors.Copy();
                 DataTable dtFiltered;
 
-                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (int)load.Voltage
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.Voltage
                                                              && x.Field<double>("Size") == (double)load.Size
                                                              && x.Field<string>("Unit") == load.Unit
                                                              && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
@@ -31,14 +29,14 @@ namespace EDTLibrary.LibraryData
             return result;
         }
 
-        public static double GetMotorPowerFactor(LoadModel load) {
+        public static double GetMotorPowerFactor(ILoad load) {
             double result = GlobalConfig.NoValueDouble;
             if (LibraryTables.Motors != null) {
 
                 DataTable dt = LibraryTables.Motors.Copy();
                 DataTable dtFiltered;
 
-                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (int)load.Voltage
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.Voltage
                                                              && x.Field<double>("Size") == (double)load.Size
                                                              && x.Field<string>("Unit") == load.Unit
                                                              && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using EDTLibrary.DataAccess;
 using EDTLibrary.Models;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using EDTLibrary.DataAccess;
-using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Loads;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EDTLibrary
 {
@@ -106,7 +104,7 @@ namespace EDTLibrary
 
 
         #region MajorEquipment
-        //Toco - Pass List Back or add to both lists
+        //Todo - Pass List Back or add to both lists
         public static void CalculateDteqLoading() // LoadList Manager
         {
             foreach (DteqModel dteq in DteqList) {

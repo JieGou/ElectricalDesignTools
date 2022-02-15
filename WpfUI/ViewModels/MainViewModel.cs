@@ -2,17 +2,9 @@
 using EDTLibrary.DataAccess;
 using EDTLibrary.Models;
 using EDTLibrary.Models.Loads;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Input;
 using WpfUI.Services;
-using WpfUI.Stores;
-using WpfUI.Views;
 
 namespace WpfUI.ViewModels
 {
@@ -27,10 +19,9 @@ namespace WpfUI.ViewModels
         private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
         private readonly ObservableCollection<object> _viewModels;
-        public MainViewModel()
+        public MainViewModel(ListManager listManager)
         {
-            _viewModels = new ObservableCollection<object>();
-            _viewModels.Add(_locationsViewModel);
+            _listManager = listManager;
 
             NavigateStartupCommand = new RelayCommand(NavigateStartup);
             NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings);
@@ -39,10 +30,10 @@ namespace WpfUI.ViewModels
             NavigateCableListCommand = new RelayCommand(NavigateCableList);
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables);
 
-            //Gets data from Project Database
             DataBaseService.InitializeLibrary();
-            DataBaseService.InitializeProject();
 
+#if DEBUG
+             DataBaseService.InitializeProject();
 
             //TODO - event on project loaded;
             _locationsViewModel.CreateComboBoxLists();
@@ -55,9 +46,15 @@ namespace WpfUI.ViewModels
 
             //_equipmentViewModel.CalculateAll();
             _equipmentViewModel.CreateComboBoxLists();
+#endif
+
+
+
+
         }
 
-        
+        private ListManager _listManager;
+
 
 
         #region Navigation
@@ -93,7 +90,7 @@ namespace WpfUI.ViewModels
         {
             CurrentViewModel = _dataTablesViewModel;
         }
-        #endregion
+#endregion
 
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel

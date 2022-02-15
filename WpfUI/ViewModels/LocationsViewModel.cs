@@ -8,8 +8,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -17,9 +15,9 @@ namespace WpfUI.ViewModels
 {
     public class LocationsViewModel : ViewModelBase, INotifyDataErrorInfo
     {
-        public List<string> NemaTypes { get; set; } = new List<string>();
-        public List<string> Categories { get; set; } = new List<string>();
-        public List<string> AreaClassifications { get; set; } = new List<string>();
+        public ObservableCollection<string> NemaTypes { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> Categories { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> AreaClassifications { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<LocationModel> LocationList { get; set; }
         
         LocationModel _selectedLocation;

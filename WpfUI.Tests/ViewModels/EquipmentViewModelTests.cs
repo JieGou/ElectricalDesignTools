@@ -1,6 +1,5 @@
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using WpfUI.ViewModels;
 using Xunit;

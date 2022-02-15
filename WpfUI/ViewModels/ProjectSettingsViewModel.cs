@@ -1,18 +1,9 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.ProjectSettings;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Input;
 using WpfUI.Commands;
-using WpfUI.Helpers;
-using WpfUI.Models;
 using WpfUI.Services;
 using WpfUI.Stores;
 
@@ -94,7 +85,7 @@ namespace WpfUI.ViewModels
         #region Helper Methods
         public void SelectProject()
         {
-            DataBaseService.SelectProject();  
+            DataBaseService.SelectProject("C:\\");  
             //TODO = move SetSelectedPrject to DbService
             //SetSelctedProject();          
         }

@@ -1,12 +1,12 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WpfUI" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="WpfUI" GeneratedClassName="AppSettings">
   <Profiles />
   <Settings>
     <Setting Name="ProjectDb" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\EDTProjectTemplate1.1.db</Value>
+      <Value Profile="(Default)">C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\EDTProjectTemplate1.1.edp</Value>
     </Setting>
     <Setting Name="LibraryDb" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\EDTDataLibrary.db</Value>
+      <Value Profile="(Default)">C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\EDTDataLibrary.edl</Value>
     </Setting>
   </Settings>
 </SettingsFile>

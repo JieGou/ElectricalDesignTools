@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using System.Windows.Input;
 using WpfUI.Commands;
-using WpfUI.Helpers;
 using WpfUI.Models;
 using WpfUI.Services;
 using WpfUI.Stores;
@@ -52,16 +46,18 @@ namespace WpfUI.ViewModels
 
         public void SelectProject()
         {
-            DataBaseService.SelectProject();
+            string rootPath = Path.GetDirectoryName(AppSettings.Default.ProjectDb);
+            DataBaseService.SelectProject(rootPath);
             SetSelectedProject();            
         }
 
         public void SetSelectedProject()
         {
             _selectedProject = AppSettings.Default.ProjectDb; 
-            ProjectName = Path.GetFileNameWithoutExtension(_selectedProject);
+            //ProjectName = Path.GetFileNameWithoutExtension(_selectedProject);
+            ProjectName = Path.GetFileName(_selectedProject);
             ProjectPath = Path.GetDirectoryName(_selectedProject);
-            
+
         }
     }
 }

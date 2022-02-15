@@ -42,6 +42,7 @@ namespace WpfUI.Services
                 TypeManager.VoltageTypes = libDb.GetRecords<VoltageType>("VoltageTypes");
             }
         }
+
         public static void InitializeProject()
         {
             if (File.Exists(AppSettings.Default.ProjectDb)) {
@@ -51,13 +52,12 @@ namespace WpfUI.Services
                 LoadProjectTables();
                 LoadProjectSettings();
             }
-
         }
 
         // SELECT
-        public static void SelectLibrary()
+        public static void SelectLibrary(string rootPath)
         {
-            string selectedFile = FileSystemHelper.SelectFile();
+            string selectedFile = FileSystemHelper.SelectFile(rootPath, "EDT files (*.edl)|*.edl|All files (*.*)|*.*");
             if (selectedFile != "") {
                 AppSettings.Default.LibraryDb = selectedFile;
                 AppSettings.Default.Save();
@@ -66,9 +66,9 @@ namespace WpfUI.Services
             }
         }
         
-        public static void SelectProject()
+        public static void SelectProject(string rootPath)
         {
-            string selectedFile = FileSystemHelper.SelectFile();
+            string selectedFile = FileSystemHelper.SelectFile(rootPath, "EDT files (*.edp)|*.edp|All files (*.*)|*.*");
             if (selectedFile != "") {
                 AppSettings.Default.ProjectDb = selectedFile;
                 AppSettings.Default.Save();

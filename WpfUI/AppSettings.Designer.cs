@@ -26,7 +26,7 @@ namespace WpfUI {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB" +
-            " Files\\EDTProjectTemplate1.1.db")]
+            " Files\\EDTProjectTemplate1.1.edp")]
         public string ProjectDb {
             get {
                 return ((string)(this["ProjectDb"]));
@@ -39,7 +39,7 @@ namespace WpfUI {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB" +
-            " Files\\EDTDataLibrary.db")]
+            " Files\\EDTDataLibrary.edl")]
         public string LibraryDb {
             get {
                 return ((string)(this["LibraryDb"]));

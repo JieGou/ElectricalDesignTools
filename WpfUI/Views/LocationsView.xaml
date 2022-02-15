@@ -138,8 +138,8 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.Categories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValue="{Binding LocationCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Text="{Binding LocationCategory, ValidatesOnDataErrors=True}"
+                                              SelectedItem="{Binding LocationCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Text="{Binding LocationCategory}"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="True" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
@@ -149,18 +149,21 @@
                         </DataGridTemplateColumn>
 
                         <!--Area Classification-->
+
+                        <!--SelectedItem="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedValue="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+                        
                         <DataGridTemplateColumn Header="       Area&#x0a;Classification"
                                                 Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.AreaClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedItem="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Text="{Binding AreaClassification, ValidatesOnDataErrors=True}"
+                                              Text="{Binding AreaClassification}"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="True" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"
-                                              Grid.IsSharedSizeScope="True">
+                                              BorderThickness="0">
                                     </ComboBox>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -194,7 +197,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValue="{Binding NemaType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedItem="{Binding NemaType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               Text="{Binding NemaType, ValidatesOnDataErrors=True}"
                                               HorizontalContentAlignment="Left"
                                               IsEditable="True" IsTextSearchEnabled="True"

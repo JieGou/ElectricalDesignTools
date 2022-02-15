@@ -29,23 +29,6 @@ namespace EDTLibrary.LibraryData
         public static DataTable NemaTypes { get; set; }
         public static DataTable LocalControlStationTypes { get; set; }
 
-
-
-
-        //ArrayList tables = UI.libDb.GetListOfTablesNamesInDb();
-
-        //    foreach (string item in tables) {
-        //        lstDataTables.Items.Add(item);
-        //    }
-
-
-
-
-
-
-
-
-
     }
 
 }

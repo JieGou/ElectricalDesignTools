@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EDTLibrary.LibraryData;
+﻿using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using PropertyChanged;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EDTLibrary.Models.DistributionEquipment
 {
@@ -104,8 +100,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         public List<IComponentModel> Components { get; set; }
 
 
-
-
         #endregion
 
         //Methods
@@ -160,11 +154,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         public void GetCable()
         {
             Cable = new PowerCableModel(this);
-        }
-
-        public void CalculateCableAmps()
-        {
-            Cable.CalculateAmpacity();
+            Cable.GetCableParameters(this);
+            Cable.CalculateCableQtySize();
         }
 
         public void GetMinimumPdSize()

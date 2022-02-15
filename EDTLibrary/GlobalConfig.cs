@@ -1,8 +1,5 @@
-﻿using EDTLibrary.DataAccess;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
-namespace EDTLibrary {
+﻿namespace EDTLibrary
+{
     public static class GlobalConfig {
 
         public static bool GettingRecords { get; set; } = false;

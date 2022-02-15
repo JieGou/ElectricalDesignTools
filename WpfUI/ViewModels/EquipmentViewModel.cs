@@ -5,7 +5,6 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TypeTables;
-using PropertyChanged;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,16 +12,9 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using WinFormCoreUI;
-using WpfUI.Commands;
-using WpfUI.Services;
 using WpfUI.Stores;
-using WpfUI.ValidationRules;
 
 namespace WpfUI.ViewModels
 {
@@ -586,7 +578,7 @@ namespace WpfUI.ViewModels
         private void CalcDteqCableAmps()
         {
             foreach (var item in DteqList) {
-                item.CalculateCableAmps();
+                item.Cable.CalculateAmpacity();
             }
         }
 
@@ -727,7 +719,7 @@ namespace WpfUI.ViewModels
         private void GetLoadList()
         {
             LoadListLoaded = true;
-            //LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.loadListTable));
+            LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable));
             BuildAssignedLoads();
         }
         private void SaveLoadList()
