@@ -17,22 +17,22 @@ namespace EDTLibrary
         public ObservableCollection<LocationModel> LocationList { get; set; } = new ObservableCollection<LocationModel>();
 
 
-        public static List<DteqModel> DteqList { get; set; } = new List<DteqModel>();
+        public static ObservableCollection<DteqModel> DteqList { get; set; } = new ObservableCollection<DteqModel>();
         public static ObservableCollection<DteqModel> OcDteq { get; set; } = new ObservableCollection<DteqModel>();
 
-        public static List<LoadModel> LoadList { get; set; } = new List<LoadModel>();
+        public static ObservableCollection<LoadModel> LoadList { get; set; } = new ObservableCollection<LoadModel>();
         public static ObservableCollection<LoadModel> OcLoads { get; set; } = new ObservableCollection<LoadModel>();
 
-        public static List<PowerCableModel> CableList { get; set; } = new List<PowerCableModel>();
+        public static ObservableCollection<PowerCableModel> CableList { get; set; } = new ObservableCollection<PowerCableModel>();
         public static ObservableCollection<PowerCableModel> OcCables { get; set; } = new ObservableCollection<PowerCableModel>();
 
 
 
-        public static List<CircuitComponentModel> CompList { get; set; } = new List<CircuitComponentModel>();
+        public static ObservableCollection<CircuitComponentModel> CompList { get; set; } = new ObservableCollection<CircuitComponentModel>();
 
 
-        public static List<IEquipment> eqList { get; set; } = new List<IEquipment>();
-        public static List<IPowerConsumer> masterLoadList { get; set; } = new List<IPowerConsumer>();
+        public static ObservableCollection<IEquipment> eqList { get; set; } = new ObservableCollection<IEquipment>();
+        public static ObservableCollection<IPowerConsumer> masterLoadList { get; set; } = new ObservableCollection<IPowerConsumer>();
 
         public static Dictionary<string, DteqModel> dteqDict { get; set; } = new Dictionary<string, DteqModel>();
         public static Dictionary<string, IEquipment> eqDict { get; set; } = new Dictionary<string, IEquipment>();
@@ -56,7 +56,7 @@ namespace EDTLibrary
             return OcLoads;
         }
 
-        public static List<PowerCableModel> GetCableList()
+        public static ObservableCollection<PowerCableModel> GetCableList()
         {
             return DbManager.prjDb.GetRecords<PowerCableModel>("Cables");
         }
@@ -168,9 +168,9 @@ namespace EDTLibrary
                 dteq.CalculateLoading();
             }
 
-            DteqList = new List<DteqModel>(dteqList);
+            DteqList = new ObservableCollection<DteqModel>(dteqList);
 
-            LoadList = new List<LoadModel>(loadList);
+            LoadList = new ObservableCollection<LoadModel>(loadList);
         }
 
         #endregion
@@ -182,7 +182,7 @@ namespace EDTLibrary
                 load.CalculateLoading();
             }
         }
-        public static void CalculateLoads(List<LoadModel> loadList) {
+        public static void CalculateLoads(ObservableCollection<LoadModel> loadList) {
             foreach (var load in loadList) {
                 load.CalculateLoading();
             }

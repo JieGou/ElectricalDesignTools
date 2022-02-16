@@ -4,6 +4,7 @@ using EDTLibrary.Models.Components;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace EDTLibrary.Models.DistributionEquipment
@@ -22,6 +23,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         #region Properties
 
         public int Id { get; set; }
+
         private string _tag;
         public string Tag
         {
@@ -42,6 +44,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         public string Description { get; set; }
         public string Location { get; set; }
         public double Voltage { get; set; }
+
         public double _size;
         public double Size
         {
@@ -57,6 +60,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
         public string Unit { get; set; }
+
         private string _fedFrom;
         public string FedFrom
         {
@@ -81,7 +85,6 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         //Sizing
         public double PercentLoaded { get; set; }
-
         public string PdType { get; set; }
         public double PdSizeTrip { get; set; }
         public double PdSizeFrame { get; set; }
@@ -90,13 +93,9 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public int PowerCableId { get; set; }
         public PowerCableModel Cable { get; set; }
-
-
-        public List<IPowerConsumer> AssignedLoads { get; set; } = new List<IPowerConsumer>();
+        public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer>();
         public int LoadCount { get; set; }
-
-
-        public List<IComponentModel> Components { get; set; }
+        public ObservableCollection<IComponentModel> Components { get; set; }
 
 
         #endregion

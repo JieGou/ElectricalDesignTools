@@ -102,7 +102,6 @@ namespace WpfUI.ViewModels
 
             Window scenario = new MainWindow() {
                 DataContext = new MainViewModel(_listManager)
-                //DataContext = new MainViewModel(_navigationStore) 
             };
             scenario.Show();
         }
@@ -114,21 +113,6 @@ namespace WpfUI.ViewModels
             get { return _currentViewModel; }
             set { _currentViewModel = value; }
         }
-
-        //private readonly NavigationStore _navigationStore;
-        //public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
-
-        //public MainViewModel(NavigationStore navigationStore) {
-        //    //Initialze Db Connections
-        //    DbManager.SetProjectDb(Settings.Default.ProjectDb);
-        //    DbManager.SetLibraryDb(Settings.Default.LibraryDb);
-
-        //    _navigationStore = navigationStore;
-        //    _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
-
-        //    NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings);
-
-        //}
 
         private void OnCurrentViewModelChanged() {
             OnPropertyChanged(nameof(CurrentViewModel));

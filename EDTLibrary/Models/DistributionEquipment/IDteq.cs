@@ -10,7 +10,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         double LineVoltage { get; set; }
         double LoadVoltage { get; set; }
 
-        List<IPowerConsumer> AssignedLoads { get; set; }
+        ObservableCollection<IPowerConsumer> AssignedLoads { get; set; }
         int LoadCount { get; set; }
 
 

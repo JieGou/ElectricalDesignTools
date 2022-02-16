@@ -12,7 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Windows;
 using WpfUI.Helpers;
 
 namespace WpfUI.Services
@@ -57,7 +57,7 @@ namespace WpfUI.Services
         // SELECT
         public static void SelectLibrary(string rootPath)
         {
-            string selectedFile = FileSystemHelper.SelectFile(rootPath, "EDT files (*.edl)|*.edl|All files (*.*)|*.*");
+            string selectedFile = FileSystemHelper.SelectFilePath(rootPath, "EDT files (*.edl)|*.edl|All files (*.*)|*.*");
             if (selectedFile != "") {
                 AppSettings.Default.LibraryDb = selectedFile;
                 AppSettings.Default.Save();
@@ -68,7 +68,7 @@ namespace WpfUI.Services
         
         public static void SelectProject(string rootPath)
         {
-            string selectedFile = FileSystemHelper.SelectFile(rootPath, "EDT files (*.edp)|*.edp|All files (*.*)|*.*");
+            string selectedFile = FileSystemHelper.SelectFilePath(rootPath, "EDT files (*.edp)|*.edp|All files (*.*)|*.*");
             if (selectedFile != "") {
                 AppSettings.Default.ProjectDb = selectedFile;
                 AppSettings.Default.Save();

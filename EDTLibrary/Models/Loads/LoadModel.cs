@@ -5,7 +5,7 @@ using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
-
+using System.Collections.ObjectModel;
 
 namespace EDTLibrary.Models.Loads
 {
@@ -60,7 +60,7 @@ namespace EDTLibrary.Models.Loads
 
         public double LoadFactor { get; set; }
 
-        public List<CircuitComponentModel> InLineComponents { get; set; } = new List<CircuitComponentModel>();
+        public ObservableCollection<CircuitComponentModel> InLineComponents { get; set; } = new ObservableCollection<CircuitComponentModel>();
 
         public double Efficiency { get; set; }
         public double PowerFactor { get; set; }
@@ -89,7 +89,7 @@ namespace EDTLibrary.Models.Loads
         public PowerCableModel Cable { get; set; }
 
 
-        public List<IComponentModel> Components { get; set; }
+        public ObservableCollection<IComponentModel> Components { get; set; }
 
 
 

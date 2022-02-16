@@ -34,24 +34,27 @@ namespace EDTLibrary.DataAccess
         /// <param name="columnName">Optional column name to apply filter </param>
         /// <param name="filterText">Optional filter to apply to column </param>
         /// <returns>List of Type T with properties from tableName</returns>
-        public List<T> GetRecords<T>(string tableName, string columnName = "", string filterText = "") //where T : class, new()
+        public ObservableCollection<T> GetRecords<T>(string tableName, string columnName = "", string filterText = "") //where T : class, new()
         {
 
             DynamicParameters dP = new DynamicParameters();
-            List<T> output = new List<T>();
+            List<T> queryResult = new List<T>();
+            ObservableCollection<T> output = new ObservableCollection<T>();
+
             using (SQLiteConnection cnn = new SQLiteConnection(conString)) {
 
                 //returns all columns from table with column filter
                 if (columnName != "" && filterText != "") {
                     dP.Add("@filterText", $"%{filterText}%");
-                    output = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName} WHERE {columnName} LIKE @filterText", dP);
-
+                    queryResult = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName} WHERE {columnName} LIKE @filterText", dP);
+                    output = new ObservableCollection<T>(queryResult);
                     return output;
                 }
                 //returns entire table
                 else {
                     try {
-                        output = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
+                        queryResult = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
+                        output = new ObservableCollection<T>(queryResult);
                     }
                     catch { }
 
@@ -76,13 +79,13 @@ namespace EDTLibrary.DataAccess
         /// <typeparam name="T"></typeparam>
         /// <param name="classObject"></param>
         /// <param name="tableName"></param>
-        /// <param name="propertyList"></param>
+        /// <param name="propertiesToIgnore"></param>
         /// <returns></returns>
-        public Tuple<bool, string> InsertRecord<T>(T classObject, string tableName, List<string> propertyList) where T : class, new()
+        public Tuple<bool, string> InsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new()
         {
             using (IDbConnection cnn = new SQLiteConnection(conString)) {
                 StringBuilder sb = new StringBuilder();
-                var props = classObject.GetType().GetProperties();
+                var objectProperties = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
 
                 //Build query string: 
@@ -90,12 +93,12 @@ namespace EDTLibrary.DataAccess
                 sb.Append($"INSERT INTO {tableName} (");
 
                 //Column Names
-                foreach (var prop in props) {
+                foreach (var prop in objectProperties) {
                     sb.Append($"{prop.Name}, ");
                 }
 
                 // removes any properties in prop list
-                foreach (var prop in propertyList) {
+                foreach (var prop in propertiesToIgnore) {
                     sb.Replace($"{prop}, ", "");
                 }
 
@@ -105,13 +108,13 @@ namespace EDTLibrary.DataAccess
                 sb.Append(") VALUES (");
 
                 //Parameters (@ColumnNames)
-                foreach (var prop in props) {
+                foreach (var prop in objectProperties) {
                     sb.Append($"@{prop.Name}, ");
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
 
                 // removes any properties in prop list
-                foreach (var prop in propertyList) {
+                foreach (var prop in propertiesToIgnore) {
                     sb.Replace($"@{prop}, ", "");
                 }
                 sb.Replace("@Id,", "");
@@ -131,12 +134,12 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
-        public Tuple<bool, string, object> InsertRecordGetId<T>(T classObject, string tableName, List<string> propertyList) where T : class, new()
+        public Tuple<bool, string, object> InsertRecordGetId<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new()
         {
             using (IDbConnection cnn = new SQLiteConnection(conString)) {
                 SQLiteCommand cmd = new SQLiteCommand();
                 StringBuilder sb = new StringBuilder();
-                var props = classObject.GetType().GetProperties();
+                var objectProperties = classObject.GetType().GetProperties();
                 
 
                 //Build query string: 
@@ -144,12 +147,12 @@ namespace EDTLibrary.DataAccess
                 sb.Append($"INSERT INTO {tableName} (");
 
                 //Column Names
-                foreach (var prop in props) {
+                foreach (var prop in objectProperties) {
                     sb.Append($"{prop.Name}, ");
                 }
 
                 // removes any properties in prop list
-                foreach (var prop in propertyList) {
+                foreach (var prop in propertiesToIgnore) {
                     sb.Replace($"{prop}, ", "");
                 }
 
@@ -159,13 +162,13 @@ namespace EDTLibrary.DataAccess
                 sb.Append(") VALUES (");
 
                 //Parameters (@ColumnNames)
-                foreach (var prop in props) {
+                foreach (var prop in objectProperties) {
                     sb.Append($"@{prop.Name}, ");
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
 
                 // removes any properties in prop list
-                foreach (var prop in propertyList) {
+                foreach (var prop in propertiesToIgnore) {
                     sb.Replace($"@{prop}, ", "");
                 }
                 sb.Replace("@Id,", "");
@@ -195,22 +198,22 @@ namespace EDTLibrary.DataAccess
             }
         }
 
-        public Tuple<bool, string> UpsertRecord<T>(T classObject, string tableName, List<string> propertyList) where T: class, new()
+        public Tuple<bool, string> UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T: class, new()
         {
             using (IDbConnection cnn = new SQLiteConnection(conString)) {
                 StringBuilder sb = new StringBuilder();
-                var props = classObject.GetType().GetProperties();
+                var objectProperties = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
 
                 void BuildPropAndParamList()
                 {                   
                     //Column Names
-                    foreach (var prop in props) {
+                    foreach (var prop in objectProperties) {
                         sb.Append($"{prop.Name}, ");
                     }
 
                     // removes any properties in prop list
-                    foreach (var prop in propertyList) {
+                    foreach (var prop in propertiesToIgnore) {
                         sb.Replace($"{prop}, ", "");
                     }
 
@@ -224,13 +227,13 @@ namespace EDTLibrary.DataAccess
                     sb.Append(") VALUES (");
 
                     //Parameters (@ColumnNames)
-                    foreach (var prop in props) {
+                    foreach (var prop in objectProperties) {
                         sb.Append($"@{prop.Name}, ");
                         cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                     }
 
                     // removes any properties in prop list
-                    foreach (var prop in propertyList) {
+                    foreach (var prop in propertiesToIgnore) {
                         sb.Replace($"@{prop}, ", "");
                     }
                     sb.Replace("@Id,", "");
@@ -247,12 +250,12 @@ namespace EDTLibrary.DataAccess
 
                 sb.Append($" ON CONFLICT DO UPDATE SET ");
 
-                foreach (var prop in props) {
+                foreach (var prop in objectProperties) {
                     sb.Append($"{prop.Name} = @{prop.Name}, ");
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
 
-                foreach (var prop in propertyList) {
+                foreach (var prop in propertiesToIgnore) {
                     sb.Replace($"{prop} = @{prop}, ", "");
                 }
 
@@ -381,12 +384,13 @@ namespace EDTLibrary.DataAccess
             }
         }
 
-        public List<string> ColumnToList(string columnName, string tableName)
+        public ObservableCollection<string> ColumnToList(string columnName, string tableName)
         {
             using (IDbConnection cnn = new SQLiteConnection(conString))
             {
-                var output = cnn.Query<string>($"SELECT {columnName} FROM {tableName}", new DynamicParameters()); //
-                return output.ToList();
+                var queryResult = cnn.Query<string>($"SELECT {columnName} FROM {tableName}", new DynamicParameters()); //
+                ObservableCollection<string> output = new ObservableCollection<string>(queryResult.ToList());
+                return output;
             }
         }
 
@@ -425,7 +429,7 @@ namespace EDTLibrary.DataAccess
         /// <returns></returns>
         public ArrayList GetListOfTablesNamesInDb()
         {
-            ArrayList list = new ArrayList();
+            ArrayList arrayList = new ArrayList();
 
             // executes query that select names of all tables in master table of the database
             String query = "SELECT name FROM sqlite_master " +
@@ -437,13 +441,13 @@ namespace EDTLibrary.DataAccess
                 // Return all table names in the ArrayList
 
                 foreach (DataRow row in table.Rows){
-                    list.Add(row.ItemArray[0].ToString()); //ItemArray[0] is the name of the table
+                    arrayList.Add(row.ItemArray[0].ToString()); //ItemArray[0] is the name of the table
                 }
             }
             catch (Exception e){
                 Console.WriteLine(e.Message);
             }
-            return list;
+            return arrayList;
         }
             public DataTable QueryToDataTable(string query)
         {

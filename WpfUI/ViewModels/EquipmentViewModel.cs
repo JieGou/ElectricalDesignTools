@@ -94,7 +94,7 @@ namespace WpfUI.ViewModels
                 ListManager.CreateEqDict();
                 ListManager.CreateDteqDict();
                 ListManager.DteqList.Clear();
-                ListManager.DteqList = _dteqList.ToList();
+                ListManager.DteqList = _dteqList;
             }
         }
 
@@ -224,7 +224,7 @@ namespace WpfUI.ViewModels
                 ListManager.CreateEqDict();
                 ListManager.CreateILoadDict();
                 ListManager.LoadList.Clear();
-                ListManager.LoadList = _loadList.ToList();
+                ListManager.LoadList = _loadList;
             }
         }
         public bool LoadListLoaded { get; set; }
@@ -643,8 +643,8 @@ namespace WpfUI.ViewModels
         }
         public void DteqList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ListManager.DteqList.Clear();
-            ListManager.DteqList.AddRange(DteqList);
+            //ListManager.DteqList.Clear();
+            //ListManager.DteqList.AddRange(DteqList);
         }
         private void AddLoad()
         {

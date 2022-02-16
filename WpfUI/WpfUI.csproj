@@ -17,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EDTLibrary\EDTLibrary.csproj" />
-    <ProjectReference Include="..\WinFormCoreUI\WinFormCoreUI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

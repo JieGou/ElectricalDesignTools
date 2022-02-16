@@ -44,13 +44,13 @@ namespace EDTLibrary.ProjectSettings
         }
 
         public static void InitializeSettings() {
-            CreateCableAmpsUsedInProject();
+            CreateCableAmpacityTableUsedInProject();
         }
         
         /// <summary>
         /// Creates the Cable Ampacities table for the project based on the selected cable sizes used in the project
         /// </summary>
-        public static void CreateCableAmpsUsedInProject() {
+        public static void CreateCableAmpacityTableUsedInProject() {
             if (LibraryTables.CableAmpacities != null) {
 
                 CableAmpsUsedInProject = LibraryTables.CableAmpacities.Copy();

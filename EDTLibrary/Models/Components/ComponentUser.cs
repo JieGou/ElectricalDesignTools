@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace EDTLibrary.Models.Components
 {
     public interface ComponentUser
     {
-        List<IComponentModel> Components { get; set; }
+        ObservableCollection<IComponentModel> Components { get; set; }
 
     }
 }

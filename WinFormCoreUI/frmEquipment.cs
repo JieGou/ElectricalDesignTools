@@ -5,6 +5,7 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -104,7 +105,7 @@ namespace WinFormCoreUI
             //dgvEquipment.DataSource = ListManager.cableList;
 
             //creates a new Db Cable List
-            List<string> properties = new List<string> { "Tag", "Category", "Source", "Destination" };
+            ObservableCollection<string> properties = new ObservableCollection<string> { "Tag", "Category", "Source", "Destination" };
             foreach (var cable in ListManager.CableList) {
                 update = UI.prjDb.InsertRecord(cable, "Cables", SaveLists.CableSaveList);
                 if (update.Item1 == false) {

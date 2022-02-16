@@ -63,8 +63,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
 
-        public List<CircuitComponentModel> InLineComponents { get; set; }
-        public List<IPowerConsumer> AssignedLoads { get; set; }
+        public ObservableCollection<CircuitComponentModel> InLineComponents { get; set; }
+        public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; }
         public int LoadCount { get; set; }
 
         public IPowerConsumer LargestMotor { get; set; }

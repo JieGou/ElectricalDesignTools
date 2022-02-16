@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,6 @@ namespace EDTLibrary.Models.Components
         public string Type { get; set; }
         public string SubType { get; set; }
         public string ComponentOf { get; set; }
-        public List<IComponentModel> Components { get; set; } = new List<IComponentModel>();
+        public ObservableCollection<IComponentModel> Components { get; set; } = new ObservableCollection<IComponentModel>();
     }
 }

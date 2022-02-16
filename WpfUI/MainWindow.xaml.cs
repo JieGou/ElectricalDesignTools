@@ -20,7 +20,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EDTLibrary;
-using WinFormCoreUI;
 using EDTLibrary.DataAccess;
 using WpfUI.ViewModels;
 using WpfUI.Views;

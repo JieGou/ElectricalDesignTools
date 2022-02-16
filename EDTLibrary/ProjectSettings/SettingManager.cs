@@ -3,6 +3,7 @@ using EDTLibrary.LibraryData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,9 @@ namespace EDTLibrary.ProjectSettings
 {
     public class SettingManager {
 
-        public static List<SettingModel> SettingList { get; set; } = new List<SettingModel>();
-        public static List<SettingModel> StringSettingList { get; set; } = new List<SettingModel>();
-        public static List<SettingModel> TableSettingList { get; set; } = new List<SettingModel>();
+        public static ObservableCollection<SettingModel> SettingList { get; set; } = new ObservableCollection<SettingModel>();
+        public static ObservableCollection<SettingModel> StringSettingList { get; set; } = new ObservableCollection<SettingModel>();
+        public static ObservableCollection<SettingModel> TableSettingList { get; set; } = new ObservableCollection<SettingModel>();
 
         public static Dictionary<string, SettingModel> SettingDict { get; set; } = new Dictionary<string, SettingModel>();
         public static Dictionary<string, SettingModel> StringSettingDict { get; set; } = new Dictionary<string, SettingModel>();
@@ -82,9 +83,9 @@ namespace EDTLibrary.ProjectSettings
         }
 
 
-        public static List<SettingModel> GetStringSettings()
+        public static ObservableCollection<SettingModel> GetStringSettings()
         {
-            List<SettingModel> settingList = new List<SettingModel>();
+            ObservableCollection<SettingModel> settingList = new ObservableCollection<SettingModel>();
             SettingList = DbManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
 
             foreach (var setting in SettingList) {
@@ -99,10 +100,10 @@ namespace EDTLibrary.ProjectSettings
         /// Creates the list of TableSettings and populates its TableValue property if it exists in the Db
         /// </summary>
         /// <returns></returns>
-        public static List<SettingModel> GetTableSettings()
+        public static ObservableCollection<SettingModel> GetTableSettings()
         {
 
-            List<SettingModel> settingList = new List<SettingModel>();
+            ObservableCollection<SettingModel> settingList = new ObservableCollection<SettingModel>();
             SettingList = DbManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
             ArrayList tables = DbManager.prjDb.GetListOfTablesNamesInDb();
            
@@ -117,7 +118,6 @@ namespace EDTLibrary.ProjectSettings
 
             }  
             
-            var d = SettingDict;
             return settingList;
         }
 

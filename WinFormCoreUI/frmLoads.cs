@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -55,7 +56,7 @@ namespace WinFormCoreUI
 
         private void AddLoad(string loadType) {
 
-            List<LoadModel> editLoad = new List<LoadModel>();
+            ObservableCollection<LoadModel> editLoad = new ObservableCollection<LoadModel>();
             editLoad.Add(new LoadModel {
                 Type = loadType,
                 Size = 5,
@@ -68,7 +69,7 @@ namespace WinFormCoreUI
 
         private void EditLoad(LoadModel load) {
 
-            List<LoadModel> editLoad = new List<LoadModel>();
+            ObservableCollection<LoadModel> editLoad = new ObservableCollection<LoadModel>();
             editLoad.Add(load);
             dgvEditor.DataSource = editLoad;
         }

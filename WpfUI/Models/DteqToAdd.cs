@@ -55,7 +55,7 @@ namespace WpfUI.Models
 
         public bool HasErrors => _errorDict.Any();
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-        public readonly Dictionary<string, List<string>> _errorDict = new Dictionary<string, List<string>>();
+        public readonly Dictionary<string, ObservableCollection<string>> _errorDict = new Dictionary<string, ObservableCollection<string>>();
 
        
 
@@ -68,7 +68,7 @@ namespace WpfUI.Models
         public void AddError(string propertyName, string errorMessage)
         {
             if (!_errorDict.ContainsKey(propertyName)) { // check if error Key exists
-                _errorDict.Add(propertyName, new List<string>()); // create if not
+                _errorDict.Add(propertyName, new ObservableCollection<string>()); // create if not
             }
             _errorDict[propertyName].Add(errorMessage); //add error message to list of error messages
             OnErrorsChanged(propertyName);

@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using Microsoft.Win32;
 
 namespace WpfUI.Helpers
 {
     public class FileSystemHelper
     {
-        public static string SelectFile(string initialDirectory = "c:\\", string filterText= "EDT files (*.db)|*.db|All files (*.*)|*.*")
+        public static string SelectFilePath(string initialDirectory = "c:\\", string filterText = "EDT files (*.db)|*.db|All files (*.*)|*.*")
         {
             var filePath = string.Empty;
 
-            using (OpenFileDialog openFileDialog = new OpenFileDialog()) {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.InitialDirectory = initialDirectory;
                 openFileDialog.Filter = filterText;
                 openFileDialog.FilterIndex = 1;
                 openFileDialog.RestoreDirectory = true;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                
+                if (openFileDialog.ShowDialog() == true) {
                     //Get the path of specified file
-                    filePath = openFileDialog.FileName;                    
+                    filePath = openFileDialog.FileName;
                 }
-            }
+            
             return filePath;
         }
     }
