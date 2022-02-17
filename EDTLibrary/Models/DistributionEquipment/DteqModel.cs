@@ -36,7 +36,6 @@ namespace EDTLibrary.Models.DistributionEquipment
                         iload.FedFrom = _tag;
                     }
                 }
-                ListManager.CreateDteqDict();
             }
         }
         public string Category { get; set; }
@@ -147,6 +146,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             GetMinimumPdSize();
             GetCable();
+            OnDteqLoadingCalculated();
         }
 
         public void GetCable()
@@ -167,5 +167,22 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
 
         }
+
+
+
+        //Events
+        public event EventHandler LoadingCalculated;
+        protected virtual void OnDteqLoadingCalculated()
+        {
+            if (LoadingCalculated != null) {
+                LoadingCalculated(this.Tag, EventArgs.Empty);
+            }
+        }
+        public void OnLoadingCalculated(object source, EventArgs e)
+        {
+            CalculateLoading();
+        }
+
     }
+
 }

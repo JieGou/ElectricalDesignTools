@@ -5,6 +5,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TypeTables;
+using PropertyChanged;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ using WpfUI.Validators;
 
 namespace WpfUI.ViewModels
 {
-
+    [AddINotifyPropertyChangedInterface]
     public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     {
 
@@ -93,7 +94,7 @@ namespace WpfUI.ViewModels
                 _dteqList = value;
                 ListManager.CreateEqDict();
                 ListManager.CreateDteqDict();
-                ListManager.DteqList.Clear();
+                //ListManager.DteqList.Clear();
                 ListManager.DteqList = _dteqList;
             }
         }
@@ -223,7 +224,6 @@ namespace WpfUI.ViewModels
                 _loadList = value;
                 ListManager.CreateEqDict();
                 ListManager.CreateILoadDict();
-                ListManager.LoadList.Clear();
                 ListManager.LoadList = _loadList;
             }
         }
@@ -739,7 +739,7 @@ namespace WpfUI.ViewModels
         private void GetLoadList()
         {
             LoadListLoaded = true;
-            LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable));
+            //LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable));
             BuildAssignedLoads();
         }
         private void SaveLoadList()
@@ -780,7 +780,6 @@ namespace WpfUI.ViewModels
                     _selectedDteq.AssignedLoads.Remove(loadToRemove2);
                 }
             }
-            //BuildAssignedLoads();
         }
 
 

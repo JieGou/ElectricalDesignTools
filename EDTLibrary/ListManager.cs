@@ -17,53 +17,48 @@ namespace EDTLibrary
         public ObservableCollection<LocationModel> LocationList { get; set; } = new ObservableCollection<LocationModel>();
 
 
-        public static ObservableCollection<DteqModel> DteqList { get; set; } = new ObservableCollection<DteqModel>();
-        public static ObservableCollection<DteqModel> OcDteq { get; set; } = new ObservableCollection<DteqModel>();
-
-        public static ObservableCollection<LoadModel> LoadList { get; set; } = new ObservableCollection<LoadModel>();
-        public static ObservableCollection<LoadModel> OcLoads { get; set; } = new ObservableCollection<LoadModel>();
-
-        public static ObservableCollection<PowerCableModel> CableList { get; set; } = new ObservableCollection<PowerCableModel>();
-        public static ObservableCollection<PowerCableModel> OcCables { get; set; } = new ObservableCollection<PowerCableModel>();
+        public static ObservableCollection<IDteq> IDteqList { get; set; } = new ObservableCollection<IDteq>();
+        public ObservableCollection<DteqModel> DteqList { get; set; } = new ObservableCollection<DteqModel>();
+        public ObservableCollection<LoadModel> LoadList { get; set; } = new ObservableCollection<LoadModel>();
+        public ObservableCollection<PowerCableModel> CableList { get; set; } = new ObservableCollection<PowerCableModel>();
+        public ObservableCollection<CircuitComponentModel> CompList { get; set; } = new ObservableCollection<CircuitComponentModel>();
 
 
+        public ObservableCollection<IEquipment> eqList { get; set; } = new ObservableCollection<IEquipment>();
+        public ObservableCollection<IPowerConsumer> masterLoadList { get; set; } = new ObservableCollection<IPowerConsumer>();
 
-        public static ObservableCollection<CircuitComponentModel> CompList { get; set; } = new ObservableCollection<CircuitComponentModel>();
-
-
-        public static ObservableCollection<IEquipment> eqList { get; set; } = new ObservableCollection<IEquipment>();
-        public static ObservableCollection<IPowerConsumer> masterLoadList { get; set; } = new ObservableCollection<IPowerConsumer>();
-
-        public static Dictionary<string, DteqModel> dteqDict { get; set; } = new Dictionary<string, DteqModel>();
-        public static Dictionary<string, IEquipment> eqDict { get; set; } = new Dictionary<string, IEquipment>();
-        public static Dictionary<string, IPowerConsumer> iLoadDict { get; set; } = new Dictionary<string, IPowerConsumer>();
+        public Dictionary<string, DteqModel> dteqDict { get; set; } = new Dictionary<string, DteqModel>();
+        public Dictionary<string, IEquipment> eqDict { get; set; } = new Dictionary<string, IEquipment>();
+        public Dictionary<string, IPowerConsumer> iLoadDict { get; set; } = new Dictionary<string, IPowerConsumer>();
 
 
-
-        public static ObservableCollection<DteqModel> GetDteq() {
+        public void CreateIDteqList()
+        {
+            foreach (var item in DteqList) {
+                IDteqList.Add(item);
+            }
+        }
+        public ObservableCollection<DteqModel> GetDteq() {
             DteqList = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqListTable);
             CreateDteqDict();
-            OcDteq = new ObservableCollection<DteqModel>(DteqList);
-            //CalculateDteqLoading();
-            return OcDteq;
+            return DteqList;
         }
-
-        public static ObservableCollection<LoadModel> GetLoads() {     
+        public ObservableCollection<LoadModel> GetLoads() {     
             LoadList = DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable);
             CreateILoadDict();
-            OcLoads = new ObservableCollection<LoadModel>(LoadList);
-            //CalculateDteqLoading();
-            return OcLoads;
+            return LoadList;
         }
 
-        public static ObservableCollection<PowerCableModel> GetCableList()
+
+
+        public ObservableCollection<PowerCableModel> GetCableList()
         {
             return DbManager.prjDb.GetRecords<PowerCableModel>("Cables");
         }
 
 
 
-        public static void CreateEqDict() {
+        public void CreateEqDict() {
             eqDict.Clear();
             foreach (var item in DteqList) {
                 eqDict.Add(item.Tag, item);
@@ -75,7 +70,7 @@ namespace EDTLibrary
                 eqDict.Add(item.Tag, item);
             }
         }
-        public static void CreateILoadDict() {
+        public void CreateILoadDict() {
             iLoadDict.Clear();
             foreach (var eq in DteqList) {
                 iLoadDict.Add(eq.Tag, eq);
@@ -84,13 +79,13 @@ namespace EDTLibrary
                 iLoadDict.Add(eq.Tag, eq);
             }
         }
-        public static void CreateDteqDict() {
+        public void CreateDteqDict() {
             dteqDict.Clear();
             foreach (var dteq in DteqList) {
                 dteqDict.Add(dteq.Tag, dteq);
             }
         }
-        public static void CreateDteqDict(ObservableCollection<DteqModel> dteqList)
+        public void CreateDteqDict(ObservableCollection<DteqModel> dteqList)
         {
             dteqDict.Clear();
             foreach (var dteq in dteqList) {
@@ -99,7 +94,7 @@ namespace EDTLibrary
                 }
             }
         }
-        public static bool IsTagAvailable(string tag) {
+        public bool IsTagAvailable(string tag) {
             var tagCheck = masterLoadList.Where(e => e.Tag == tag );
                 if (tagCheck == null) {
                     return true;
@@ -110,17 +105,27 @@ namespace EDTLibrary
 
         #region MajorEquipment
         //Todo - Pass List Back or add to both lists
-        public static void CalculateDteqLoading() // LoadList Manager
+        public void CalculateDteqLoading() // LoadList Manager
+        {
+            AssignLoadsToDteq();
+            //Calculates the loading of each load. Recursive for dteq
+            foreach (DteqModel dteq in DteqList) {
+                dteq.CalculateLoading();
+            }
+        }
+
+        public void AssignLoadsToDteq()
         {
             foreach (DteqModel dteq in DteqList) {
                 dteq.AssignedLoads.Clear();
-                dteq.LoadCount = 0;    
+                dteq.LoadCount = 0;
 
                 //Adds Dteq as Loads
                 foreach (DteqModel dteqAsLoad in DteqList) {
                     if (dteqAsLoad.FedFrom == dteq.Tag) {
                         dteq.AssignedLoads.Add(dteqAsLoad);
                         dteq.LoadCount += 1;
+                        dteqAsLoad.LoadingCalculated += dteq.OnLoadingCalculated;
                     }
                 }
                 //Adds loads as loads
@@ -129,16 +134,13 @@ namespace EDTLibrary
                         load.CalculateLoading();
                         dteq.AssignedLoads.Add(load);
                         dteq.LoadCount += 1;
+                        load.LoadingCalculated += dteq.OnLoadingCalculated;
                     }
                 }
             }
-            //Calculates the loading of each load. Recursive for dteq
-            foreach (DteqModel dteq in DteqList) {
-                dteq.CalculateLoading();
-            }
         }
 
-        public static void CalculateDteqLoading(ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) // LoadList Manager
+        public void CalculateDteqLoading(ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) // LoadList Manager
         {
             foreach (DteqModel dteq in dteqList) {
                 var dteqTag = dteq.Tag;
@@ -177,12 +179,12 @@ namespace EDTLibrary
 
         //Loads
         #region Loads
-        public static void CalculateLoads() {
+        public void CalculateLoads() {
             foreach (var load in LoadList) {
                 load.CalculateLoading();
             }
         }
-        public static void CalculateLoads(ObservableCollection<LoadModel> loadList) {
+        public void CalculateLoads(ObservableCollection<LoadModel> loadList) {
             foreach (var load in loadList) {
                 load.CalculateLoading();
             }
@@ -194,7 +196,7 @@ namespace EDTLibrary
         /// <summary>
         /// Creates a list of ILoadModel for all equipment (not components)
         /// </summary>
-        public static void CreateMasterLoadList() {
+        public void CreateMasterLoadList() {
             masterLoadList.Clear();
             foreach (var dteq in DteqList) {
                 masterLoadList.Add(dteq);
@@ -210,7 +212,7 @@ namespace EDTLibrary
             CreateILoadDict();
         }
        
-        public static void CreateComponentList() {
+        public void CreateComponentList() {
             CompList.Clear();
             foreach (var load in LoadList) {
                 load.SizeComponents();
@@ -224,12 +226,12 @@ namespace EDTLibrary
         /// Creteas a list of CableModel for all equipment and components based on the masterLoadList
         /// </summary>
         /// 
-        public static void CreateCableList() {
+        public void CreateCableList() {
             CableList.Clear();
            
         }
 
-        public static void CalculateCableAmps() {
+        public void CalculateCableAmps() {
             foreach (var cable in CableList) {
                 cable.CalculateAmpacity();
             }

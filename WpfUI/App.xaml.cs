@@ -42,9 +42,10 @@ namespace WpfUI {
         protected override void OnStartup(StartupEventArgs e) {
 
             ListManager listManager = new ListManager();
+            StartupService startupService = new StartupService(listManager);
 
             MainWindow = new MainWindow() { 
-                DataContext = new MainViewModel(listManager) 
+                DataContext = new MainViewModel(startupService, listManager) 
                 //DataContext = new MainViewModel(_navigationStore) 
             };
 

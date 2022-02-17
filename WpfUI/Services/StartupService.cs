@@ -17,8 +17,13 @@ using WpfUI.Helpers;
 
 namespace WpfUI.Services
 {
-    public class DataBaseService
+    public class StartupService
     {
+        private static ListManager _listManager;
+        public StartupService(ListManager listManager)
+        {
+            _listManager = listManager;
+        }
 
         public static bool IsProjectLoaded { get; set; }
         public static bool IsLibraryLoaded { get; set; }
@@ -43,7 +48,7 @@ namespace WpfUI.Services
             }
         }
 
-        public static void InitializeProject()
+        public void InitializeProject()
         {
             if (File.Exists(AppSettings.Default.ProjectDb)) {
                 prjDb = new SQLiteConnector(AppSettings.Default.ProjectDb);
@@ -66,7 +71,7 @@ namespace WpfUI.Services
             }
         }
         
-        public static void SelectProject(string rootPath)
+        public void SelectProject(string rootPath)
         {
             string selectedFile = FileSystemHelper.SelectFilePath(rootPath, "EDT files (*.edp)|*.edp|All files (*.*)|*.*");
             if (selectedFile != "") {
@@ -105,12 +110,9 @@ namespace WpfUI.Services
             }
             else {
 
-                //TODO - Update to List Stores??
-                ListManager.DteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
-                ListManager.LoadList = prjDb.GetRecords<LoadModel>("Loads");
-                ListManager.CableList = prjDb.GetRecords<PowerCableModel>("Cables");
-
-                //ListManager.CreateMasterLoadList();
+                _listManager.DteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
+                _listManager.LoadList = prjDb.GetRecords<LoadModel>("Loads");
+                _listManager.CableList = prjDb.GetRecords<PowerCableModel>("Cables");
 
                 IsProjectLoaded = true;
             }

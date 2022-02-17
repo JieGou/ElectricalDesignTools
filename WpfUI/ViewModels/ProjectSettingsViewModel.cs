@@ -50,46 +50,17 @@ namespace WpfUI.ViewModels
 
         public ProjectSettingsViewModel()
         {
-            //LoadSettings();
             // Create commands
-
-            SelectProjectCommand = new RelayCommand(SelectProject);
 
             ReloadSettingsCommand = new RelayCommand(LoadSettings);
 
             SaveStringSettingCommand = new RelayCommand(SaveStringSetting);
             SaveTableSettingCommand = new RelayCommand(SaveTableSetting);
 
-            TestCommand = new RelayCommand(Test);
 
         }
-
-        private void Test()
-        {
-            SelectedTableSetting.TableValue.Rows[0][2] = false;
-        }
-
-        public ProjectSettingsViewModel(NavigationBarViewModel navigationBarViewModel, ProjectFileStore projectFileStore, NavigationService<StartupViewModel> startupNavigationService)
-        {
-            NavigationBarViewModel = navigationBarViewModel;
-            _projectStore = projectFileStore;
-
-            NavigateStartupCommand = new NavigateCommand<StartupViewModel>(startupNavigationService);
-
-            // Create commands
-            SelectProjectCommand = new RelayCommand(SelectProject);
-        }
-
-
 
         #region Helper Methods
-        public void SelectProject()
-        {
-            DataBaseService.SelectProject("C:\\");  
-            //TODO = move SetSelectedPrject to DbService
-            //SetSelctedProject();          
-        }
-
         public void LoadSettings()
         {
             SettingManager.LoadProjectSettings();

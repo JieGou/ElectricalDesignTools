@@ -16,10 +16,13 @@ namespace WpfUI.ViewModels
 
         private string _selectedProject;
 
+        private StartupService _startupService;
+
         #endregion
 
-        public StartupViewModel()
+        public StartupViewModel(StartupService startupService)
         {
+            _startupService = startupService;
             SetSelectedProject();
             SelectProjectCommand = new RelayCommand(SelectProject);
         }
@@ -47,7 +50,7 @@ namespace WpfUI.ViewModels
         public void SelectProject()
         {
             string rootPath = Path.GetDirectoryName(AppSettings.Default.ProjectDb);
-            DataBaseService.SelectProject(rootPath);
+            _startupService.SelectProject(rootPath);
             SetSelectedProject();            
         }
 

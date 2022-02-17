@@ -1,15 +1,12 @@
-﻿using EDTLibrary.Calculators.Cables;
+﻿using EDTLibrary.Calculators;
+using EDTLibrary.Calculators.Cables;
 using EDTLibrary.LibraryData;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LM = EDTLibrary.ListManager;
 
 namespace EDTLibrary.Models.Cables
 {
@@ -84,9 +81,10 @@ namespace EDTLibrary.Models.Cables
         public void GetCableParameters(IPowerConsumer load)
         {
             //gets source derating
-            CableDeratingCalculator cableDeratingCalculator = new CableDeratingCalculator();
-            CableDerating = cableDeratingCalculator.Calculate(load);
 
+            //CableDeratingCalculator cableDeratingCalculator = new CableDeratingCalculator();
+            //CableDerating = cableDeratingCalculator.Calculate(load);
+            CableDerating = 0.666;
 
             //Conductor Qty
             ConductorQtyCalculator conductorQtyCalculator = new ConductorQtyCalculator();

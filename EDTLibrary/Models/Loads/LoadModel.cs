@@ -51,7 +51,8 @@ namespace EDTLibrary.Models.Loads
                 _size = value;
                 if (GlobalConfig.GettingRecords == false) {
                     CalculateLoading();
-                    ListManager.CalculateDteqLoading();
+                    //TODO - event that calculates the loading of the parent
+                    //ListManager.CalculateDteqLoading();
                 }
             }
         }
@@ -215,22 +216,16 @@ namespace EDTLibrary.Models.Loads
             PdSizeTrip = LibraryManager.GetBreakerTrip(this);
 
             GetCable();
+            OnLoadingCalculated();
         }
-
-
         public void GetCable()
         {
             Cable = new PowerCableModel(this);
         }
-
         public void CalculateCableAmps()
         {
             Cable.CalculateAmpacity();
         }
-
-
-
-
         public void SizeComponents()
         {
             //TODO - create Components
@@ -239,6 +234,15 @@ namespace EDTLibrary.Models.Loads
             //  Ex: Combination start for Motor
             //size the component via lookups
             //this might be better in list manager
+        }
+
+        //Events
+        public event EventHandler LoadingCalculated;
+        protected virtual void OnLoadingCalculated()
+        {
+            if (LoadingCalculated != null) {
+                LoadingCalculated(this.Tag, EventArgs.Empty);
+            }
         }
     }
 }

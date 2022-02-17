@@ -12,21 +12,24 @@ namespace WpfUI.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private ListManager _listManager;
+        private StartupService _startupService;
 
-        private readonly StartupViewModel _startupViewModel = new StartupViewModel();
+        private readonly StartupViewModel _startupViewModel;
         private readonly ProjectSettingsViewModel _projectSettingsViewModel = new ProjectSettingsViewModel();
         private readonly LocationsViewModel _locationsViewModel;
         private readonly EquipmentViewModel _equipmentViewModel;
         private readonly CableListViewModel _cableListViewModel = new CableListViewModel();
         private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
-        private readonly ObservableCollection<object> _viewModels;
-        public MainViewModel(ListManager listManager)
+        public MainViewModel(StartupService startupService, ListManager listManager)
         {
             _listManager = listManager;
+            _startupService = startupService;
 
+            _startupViewModel = new StartupViewModel(startupService);
             _locationsViewModel = new LocationsViewModel(listManager);
             _equipmentViewModel = new EquipmentViewModel(listManager);
+
 
             NavigateStartupCommand = new RelayCommand(NavigateStartup);
             NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings);
@@ -36,20 +39,21 @@ namespace WpfUI.ViewModels
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables);
             ScenarioCommand = new RelayCommand(StartScenarioManager);
 
-            DataBaseService.InitializeLibrary();
+            StartupService.InitializeLibrary();
             _locationsViewModel.CreateComboBoxLists();
             _equipmentViewModel.CreateComboBoxLists();
 
 
 #if DEBUG
-             DataBaseService.InitializeProject();
+             _startupService.InitializeProject();
 
             //TODO - event on project loaded;
             _locationsViewModel.ListManager.LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable));
 
             GlobalConfig.GettingRecords = true;
-            _equipmentViewModel.DteqList = ListManager.GetDteq();
-            _equipmentViewModel.LoadList = new ObservableCollection<LoadModel>(ListManager.GetLoads());
+            _equipmentViewModel.DteqList = _listManager.GetDteq();
+            _equipmentViewModel.LoadList = _listManager.GetLoads();
+            _listManager.AssignLoadsToDteq();
             GlobalConfig.GettingRecords = false;
 
             //_equipmentViewModel.CalculateAll();
@@ -99,9 +103,10 @@ namespace WpfUI.ViewModels
         private void StartScenarioManager()
         {
             ListManager listManager = new ListManager();
+            StartupService startupService = new StartupService(listManager);
 
             Window scenario = new MainWindow() {
-                DataContext = new MainViewModel(_listManager)
+                DataContext = new MainViewModel(startupService, listManager)
             };
             scenario.Show();
         }

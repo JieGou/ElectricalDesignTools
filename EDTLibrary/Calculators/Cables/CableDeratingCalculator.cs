@@ -1,18 +1,24 @@
 ﻿using EDTLibrary.Models;
 
-namespace EDTLibrary.Calculators.Cables
+namespace EDTLibrary.Calculators
 {
     public class CableDeratingCalculator
     {
+        private ListManager _listManager;
+
+        public CableDeratingCalculator(ListManager listManager)
+        {
+            _listManager = listManager;
+        }
         public double Calculate(IPowerConsumer load)
         {
             double result = 1;
 
-            if (load.FedFrom == "UTILITY" || load.Category == Categories.DTEQ.ToString()) {
+            if (load.FedFrom == "UTILITY" || load.Category== Categories.DTEQ.ToString()) {
                 return 1;
             }
 
-            int loadCount = ListManager.dteqDict[load.FedFrom].LoadCount;
+            int loadCount = _listManager.dteqDict[load.FedFrom].LoadCount;
 
             if (loadCount * 3 >= 43) {
                 result = 0.5;
