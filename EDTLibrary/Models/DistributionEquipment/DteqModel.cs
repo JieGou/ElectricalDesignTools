@@ -67,6 +67,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 _fedFrom = value;
+                if (GlobalConfig.GettingRecords == false) {
+                    OnFedFromChanged();
+                    CalculateLoading();
+                }
             }
         }
         public double LineVoltage { get; set; }
@@ -104,11 +108,11 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
 
             //Calculates the individual loads of each MJEQ load
-            foreach (IPowerConsumer load in AssignedLoads) {
-                if (load.Category == Categories.DTEQ.ToString()) {
-                    load.CalculateLoading();
-                }
-            }
+            //foreach (IPowerConsumer load in AssignedLoads) {
+            //    if (load.Category == Categories.DTEQ.ToString()) {
+            //        load.CalculateLoading();
+            //    }
+            //}
 
             Voltage = LineVoltage;
 
@@ -146,7 +150,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             GetMinimumPdSize();
             GetCable();
-            OnDteqLoadingCalculated();
+            OnLoadingCalculated();
         }
 
         public void GetCable()
@@ -163,26 +167,27 @@ namespace EDTLibrary.Models.DistributionEquipment
             PdSizeTrip = LibraryManager.GetBreakerTrip(this);
         }
 
-        public void CalculateMinimumCableSize()
-        {
-
-        }
-
-
-
         //Events
         public event EventHandler LoadingCalculated;
-        protected virtual void OnDteqLoadingCalculated()
+        protected virtual void OnLoadingCalculated()
         {
             if (LoadingCalculated != null) {
-                LoadingCalculated(this.Tag, EventArgs.Empty);
+                LoadingCalculated(this, EventArgs.Empty);
             }
         }
-        public void OnLoadingCalculated(object source, EventArgs e)
+        public void OnDteqLoadingCalculated(object source, EventArgs e)
         {
             CalculateLoading();
         }
 
+
+        public event EventHandler FedFromChanged;
+        protected virtual void OnFedFromChanged()
+        {
+            if (FedFromChanged != null) {
+                FedFromChanged(this, EventArgs.Empty);
+            }
+        }
     }
 
 }

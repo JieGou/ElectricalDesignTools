@@ -57,7 +57,20 @@ namespace EDTLibrary.Models.Loads
             }
         }
         public string Unit { get; set; }
-        public string FedFrom { get; set; }
+
+        private string _fedFrom;
+        public string FedFrom
+        {
+            get { return _fedFrom; }
+            set
+            {
+                _fedFrom = value;
+                if (GlobalConfig.GettingRecords == false) {
+                    OnFedFromChanged();
+                    CalculateLoading();
+                }
+            }
+        }
 
         public double LoadFactor { get; set; }
 
@@ -241,7 +254,15 @@ namespace EDTLibrary.Models.Loads
         protected virtual void OnLoadingCalculated()
         {
             if (LoadingCalculated != null) {
-                LoadingCalculated(this.Tag, EventArgs.Empty);
+                LoadingCalculated(this, EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler FedFromChanged;
+        protected virtual void OnFedFromChanged()
+        {
+            if (FedFromChanged != null) {
+                FedFromChanged(this, EventArgs.Empty);
             }
         }
     }

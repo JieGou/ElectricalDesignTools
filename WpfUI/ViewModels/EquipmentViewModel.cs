@@ -555,7 +555,11 @@ namespace WpfUI.ViewModels
         private void GetDteq() {
 
             GlobalConfig.GettingRecords = true;
+
             DteqList = ListManager.GetDteq();
+            LoadList = ListManager.GetLoads();
+            ListManager.AssignLoadsToDteq();
+
             GlobalConfig.GettingRecords = false;
         }
 
@@ -564,16 +568,16 @@ namespace WpfUI.ViewModels
             if (DteqList.Count != 0) {
                 CalculateAll();
 
-                Tuple<bool, string> update;
+                Tuple<bool, string> didSaveCorrectly;
                 bool error = false;
                 string message = "";
 
                 foreach (var dteq in DteqList) {
                     var tag = dteq.Tag;
-                    update = DbManager.prjDb.UpsertRecord<DteqModel>(dteq, GlobalConfig.DteqListTable, SaveLists.DteqSaveList);
-                    if (update.Item1 == false) {
+                    didSaveCorrectly = DbManager.prjDb.UpsertRecord<DteqModel>(dteq, GlobalConfig.DteqListTable, SaveLists.DteqSaveList);
+                    if (didSaveCorrectly.Item1 == false) {
                         error = true;
-                        message = update.Item2;
+                        message = didSaveCorrectly.Item2;
                     }                    
                 }
                 if (error) {

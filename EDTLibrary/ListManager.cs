@@ -5,6 +5,7 @@ using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -113,28 +114,61 @@ namespace EDTLibrary
                 dteq.CalculateLoading();
             }
         }
+        public void OnFedFromCalculated(object sender, EventArgs e)
+        {
+            UnassignLoads();
+            AssignLoadsToDteq();
+        }
+
+        private void UnassignLoads()
+        {
+            foreach (DteqModel dteq in DteqList) {
+                dteq.FedFromChanged -= this.OnFedFromCalculated;
+
+                //Adds Dteq as Loads
+                foreach (DteqModel dteqAsLoad in DteqList) {
+                    if (dteqAsLoad.FedFrom == dteq.Tag) {
+                        dteqAsLoad.LoadingCalculated -= dteq.OnDteqLoadingCalculated;
+                        dteqAsLoad.LoadingCalculated -= DbManager.OnDteqLoadingCalculated;
+                    }
+                }
+                //Adds loads as loads
+                foreach (LoadModel load in LoadList) {
+                    load.FedFromChanged -= this.OnFedFromCalculated;
+                    if (load.FedFrom == dteq.Tag) {
+                        load.LoadingCalculated -= dteq.OnDteqLoadingCalculated;
+                        load.LoadingCalculated -= DbManager.OnLoadLoadingCalculated;
+                    }
+                }
+            }
+        }
 
         public void AssignLoadsToDteq()
         {
             foreach (DteqModel dteq in DteqList) {
                 dteq.AssignedLoads.Clear();
                 dteq.LoadCount = 0;
+                dteq.FedFromChanged += this.OnFedFromCalculated;
 
                 //Adds Dteq as Loads
                 foreach (DteqModel dteqAsLoad in DteqList) {
                     if (dteqAsLoad.FedFrom == dteq.Tag) {
                         dteq.AssignedLoads.Add(dteqAsLoad);
                         dteq.LoadCount += 1;
-                        dteqAsLoad.LoadingCalculated += dteq.OnLoadingCalculated;
+
+                        dteqAsLoad.LoadingCalculated += dteq.OnDteqLoadingCalculated;
+                        dteqAsLoad.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
                     }
                 }
                 //Adds loads as loads
                 foreach (LoadModel load in LoadList) {
+                    load.FedFromChanged += this.OnFedFromCalculated;
                     if (load.FedFrom == dteq.Tag) {
-                        load.CalculateLoading();
                         dteq.AssignedLoads.Add(load);
                         dteq.LoadCount += 1;
-                        load.LoadingCalculated += dteq.OnLoadingCalculated;
+
+                        load.LoadingCalculated += dteq.OnDteqLoadingCalculated;
+                        load.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
                     }
                 }
             }

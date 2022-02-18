@@ -1,4 +1,6 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Loads;
 using EDTLibrary.TypeTables;
 using System;
 using System.Data;
@@ -71,6 +73,18 @@ namespace EDTLibrary.DataAccess
         {
             TypeManager.AreaClassifications = libDb.GetRecords<AreaClassificationType>("AreaClassifications");
         }
-            #endregion
+        #endregion
+
+
+        //Events
+
+        public static void OnDteqLoadingCalculated(object source, EventArgs e)
+        {
+            prjDb.UpsertRecord<DteqModel>((DteqModel)source, GlobalConfig.DteqListTable, SaveLists.DteqSaveList);
+        }
+        public static void OnLoadLoadingCalculated(object source, EventArgs e)
+        {
+            prjDb.UpsertRecord<LoadModel>((LoadModel)source, GlobalConfig.LoadListTable, SaveLists.LoadSaveList);
+        }
     }
 }
