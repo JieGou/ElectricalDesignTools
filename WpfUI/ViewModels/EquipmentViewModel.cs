@@ -73,8 +73,21 @@ namespace WpfUI.ViewModels
 
         }
 
+        private System.Windows.GridLength _dteqGridSize = new System.Windows.GridLength(AppSettings.Default.DteqGridSize, GridUnitType.Pixel);
+        public System.Windows.GridLength DteqGridSize
+        {
+            get { return _dteqGridSize; }
+            set
+            {
+                _dteqGridSize = value;
+                AppSettings.Default.DteqGridSize = _dteqGridSize.Value;
+                AppSettings.Default.Save();
+            }
+        }
 
-
+        public void test()
+        {
+        }
         /// <summary>
         /// Default Constructor
         /// </summary>
@@ -109,8 +122,8 @@ namespace WpfUI.ViewModels
         }
 
         //Type Lists
-        public List<string> DteqTypes { get; set; } = new List<string>();
-        public List<string> VoltageTypes { get; set; } = new List<string>();
+        public ObservableCollection<string> DteqTypes { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> VoltageTypes { get; set; } = new ObservableCollection<string>();
 
 
 
