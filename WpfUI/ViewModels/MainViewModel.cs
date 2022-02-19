@@ -2,6 +2,7 @@
 using EDTLibrary.DataAccess;
 using EDTLibrary.Models;
 using EDTLibrary.Models.Loads;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -13,6 +14,7 @@ namespace WpfUI.ViewModels
     {
         private ListManager _listManager;
         private StartupService _startupService;
+
 
         private readonly StartupViewModel _startupViewModel;
         private readonly ProjectSettingsViewModel _projectSettingsViewModel = new ProjectSettingsViewModel();
@@ -32,21 +34,23 @@ namespace WpfUI.ViewModels
 
 
             NavigateStartupCommand = new RelayCommand(NavigateStartup);
-            NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings);
-            NavigateLocationsCommand = new RelayCommand(NavigateLocations);
-            NavigateEquipmentCommand = new RelayCommand(NavigateEquipment);
-            NavigateCableListCommand = new RelayCommand(NavigateCableList);
-            NavigateDataTablesCommand = new RelayCommand(NavigateDataTables);
-            ScenarioCommand = new RelayCommand(StartScenarioManager);
+            NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings, CanExecute_IsProjectLoaded);
+            NavigateLocationsCommand = new RelayCommand(NavigateLocations, CanExecute_IsProjectLoaded);
 
-            StartupService.InitializeLibrary();
+            NavigateEquipmentCommand = new RelayCommand(NavigateEquipment, startupService);
+            //NavigateEquipmentCommand = new RelayCommand(NavigateEquipment, CanExecute);
+
+            NavigateCableListCommand = new RelayCommand(NavigateCableList, CanExecute_IsProjectLoaded);
+            NavigateDataTablesCommand = new RelayCommand(NavigateDataTables, CanExecute_IsLibraryLoaded);
+            ScenarioCommand = new RelayCommand(NewAppInstance);
+
+            startupService.InitializeLibrary();
             _locationsViewModel.CreateComboBoxLists();
             _equipmentViewModel.CreateComboBoxLists();
 
 
 #if DEBUG
              _startupService.InitializeProject();
-
             //TODO - event on project loaded;
             _locationsViewModel.ListManager.LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable));
 
@@ -59,12 +63,9 @@ namespace WpfUI.ViewModels
             //_equipmentViewModel.CalculateAll();
 #endif
 
-
-
-
         }
 
-
+        
 
         #region Navigation
         public ICommand NavigateStartupCommand { get; }
@@ -100,7 +101,16 @@ namespace WpfUI.ViewModels
         {
             CurrentViewModel = _dataTablesViewModel;
         }
-        private void StartScenarioManager()
+
+        private bool CanExecute_IsProjectLoaded()
+        {
+            return _startupService.IsProjectLoaded;
+        }
+        private bool CanExecute_IsLibraryLoaded()
+        {
+            return _startupService.IsLibraryLoaded;
+        }
+        private void NewAppInstance()
         {
             ListManager listManager = new ListManager();
             StartupService startupService = new StartupService(listManager);

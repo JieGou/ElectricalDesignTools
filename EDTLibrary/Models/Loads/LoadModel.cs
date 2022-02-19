@@ -210,7 +210,9 @@ namespace EDTLibrary.Models.Loads
                     }
                     break;
             }
-
+            if (ConnectedKva >= 9999999) {
+                ConnectedKva = 9999999;
+            }
 
             //FLA and Power
             if (Unit != "A") {

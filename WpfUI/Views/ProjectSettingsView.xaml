@@ -84,16 +84,7 @@
             </Grid.RowDefinitions>
 
             
-            
-            <!--SELECT PROJECT-->
-            <StackPanel Orientation="Vertical"
-                    Grid.Row="{StaticResource row2}" Grid.Column="1">
-                <Button x:Name="btnSelectProject" Content="Select Project" 
-                    Height="27"
-                    Command="{Binding Path=SelectProjectCommand}"/>
-            </StackPanel>
-
-
+                      
             <StackPanel Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="10"
                     Margin="0 5 0 0">
                 <TextBlock x:Name="lblProjectName" 

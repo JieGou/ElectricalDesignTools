@@ -131,7 +131,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             //calculates
             PowerFactor = DemandKw / DemandKva;
-            PowerFactor = Math.Round(PowerFactor, GlobalConfig.SigFigs);
+            PowerFactor = Math.Round(PowerFactor, 2);
 
             RunningAmps = ConnectedKva * 1000 / Voltage / Math.Sqrt(3);
             RunningAmps = Math.Round(RunningAmps, GlobalConfig.SigFigs);

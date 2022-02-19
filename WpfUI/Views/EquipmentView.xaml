@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUI.Views"
         xmlns:root="clr-namespace:WpfUI"
-        xmlns:helpers="clr-namespace:WpfUI.Helpers"
         xmlns:rules="clr-namespace:WpfUI.ValidationRules"
         xmlns:converters="clr-namespace:WpfUI.Converters"
               xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:h="clr-namespace:WpfUI.Helpers"
         xmlns:commands="clr-namespace:WpfUI.Commands"
+        xmlns:viewModifiers="clr-namespace:WpfUI.ViewModifiers"
         xmlns:views="clr-namespace:WpfUI.Views"
         xmlns:viewComponents="clr-namespace:WpfUI.ViewComponents"
         xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
@@ -100,7 +100,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    
+
                     <!--MENU BUTTONS-->
                     <!--DTEQ Buttons-->
                     <StackPanel Orientation="Vertical"
@@ -124,7 +124,7 @@
 
 
                     </StackPanel>
-                    
+
                     <!--Dteq View Buttons-->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
                         Grid.Row="{StaticResource dteqViewButtons}" Grid.Column="3">
@@ -133,8 +133,7 @@
                         Command="{Binding Path=ToggleRowViewDteqCommand}"/>
 
                         <Button Content="Loading Data"
-                                Command="{Binding Path=ToggleLoadingViewDteqCommand}"
-                                CommandParameter="{Binding ToggleLoadingViewDteqProp}"/>
+                                Command="{Binding Path=ToggleLoadingViewDteqCommand}"/>
 
                         <Button Content="OCDP Data"
                         Command="{Binding Path=ToggleOcpdViewDteqCommand}"/>
@@ -177,7 +176,7 @@
                         FontWeight="Bold"
                         Margin="0 100 0 0"/>
                     </StackPanel>
-                    
+
                     <!--Load View Buttons-->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
                         Grid.Row="{StaticResource loadViewButtons}" Grid.Column="3">
@@ -189,13 +188,22 @@
                         Command="{Binding Path=ToggleCableViewLoadCommand}"/>
 
                     </StackPanel>
-
+                    <Border Grid.Row="{StaticResource dteq}" Grid.Column="4" BorderThickness="1" BorderBrush="Black">
+                        <ContentControl Grid.Row="{StaticResource dteq}" Grid.Column="4"
+                                        Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <ContentControl.Resources>
+                                <DataTemplate DataType="{x:Type edtDteqModels:DteqModel}">
+                                        <views:TestDteqView/>
+                                </DataTemplate>
+                            </ContentControl.Resources>
+                        </ContentControl>
+                    </Border>
                     <!--DTEQ Datagrid-->
                     <DataGrid x:Name="dgdDteq" 
                               Grid.Row="{StaticResource dteq}" Grid.Column="3"
                               HorizontalAlignment="Left"
-                              Height="auto" MinHeight="185" MaxHeight="250"
-                              Margin="10,10,10,10"
+                              Height="215" MinHeight="185" MaxHeight="250"
+                              Margin="10,0,0,10"
                               ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
                               CanUserAddRows="False"
@@ -206,7 +214,7 @@
                               ScrollViewer.CanContentScroll="True"
                               VirtualizingPanel.IsVirtualizing="True"
                               VirtualizingStackPanel.VirtualizationMode="Recycling"
-                              RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}" >
+                              RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}" VerticalAlignment="Bottom" >
 
                         <DataGrid.Resources>
                             <Style x:Key="errorStyle" TargetType="{x:Type TextBlock}">
@@ -221,7 +229,9 @@
                                 </Style.Triggers>
                             </Style>
 
-                            <helpers:BindingProxy x:Key="LoadingViewProxy" Data="{Binding ToggleLoadingViewDteqProp}" />
+                            <viewModifiers:BindingProxy x:Key="LoadingViewProxy" Data="{Binding DteqGridViewModifier.Loading}" />
+                            <viewModifiers:BindingProxy x:Key="OcpdViewProxy" Data="{Binding DteqGridViewModifier.Ocpd}" />
+                            <viewModifiers:BindingProxy x:Key="CableViewProxy" Data="{Binding DteqGridViewModifier.Cable}" />
                         </DataGrid.Resources>
 
                         <DataGrid.Columns>
@@ -301,7 +311,7 @@
                                                   SelectedItem="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                   Text="{Binding FedFrom}"  
                                                   HorizontalContentAlignment="Center"
-                                                  IsEditable="True" IsTextSearchEnabled="True" IsReadOnly="False" TextSearch.Text=""
+                                                  IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
                                                   IsSynchronizedWithCurrentItem="False"
                                                   BorderThickness="0" />
                                     </DataTemplate>
@@ -309,27 +319,27 @@
                             </DataGridTemplateColumn>
 
                             <!--Voltage-->
-                            <!--<DataGridTemplateColumn Header="dteqVoltage">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            SelectedValue="{Binding Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTemplateColumn Header="dteqVoltage">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes}"
+                                            SelectedItem="{Binding Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             Text="{Binding Voltage, ValidatesOnDataErrors=True}"
                                             HorizontalContentAlignment="Center"
                                             IsEditable="True" IsTextSearchEnabled="True"
                                             IsSynchronizedWithCurrentItem="False"
                                             BorderThickness="0"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
                             <!--Line Voltage-->
                             <DataGridTemplateColumn  Header="  Line &#x0a;Voltage" x:Name="dteqLineVoltage">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SelectedValue="{Binding LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          Text="{Binding LineVoltage, ValidatesOnDataErrors=True}"
+                                        <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes}"
+                                          SelectedItem="{Binding Path=LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Text="{Binding LineVoltage}"
                                           HorizontalContentAlignment="Center"
                                           IsEditable="True" IsTextSearchEnabled="True"
                                           IsSynchronizedWithCurrentItem="False"
@@ -342,9 +352,9 @@
                             <DataGridTemplateColumn Header="  Load &#x0a;Voltage" x:Name="dteqLoadVoltage">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          SelectedValue="{Binding LoadVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                          Text="{Binding LoadVoltage, ValidatesOnDataErrors=True}"
+                                        <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes}"
+                                          SelectedItem="{Binding Path=LoadVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Text="{Binding LoadVoltage}"
                                           HorizontalContentAlignment="Center"
                                           IsEditable="True" IsTextSearchEnabled="True"
                                           IsSynchronizedWithCurrentItem="False"
@@ -381,8 +391,6 @@
                             </DataGridTemplateColumn>
 
 
-
-
                             <!--Loading-->
                             <!--FLA-->
                             <DataGridTextColumn Header=" Max&#x0a;Amps" x:Name="dteqFla" 
@@ -400,9 +408,7 @@
                                         x:Name="dteqPercentLoaded"
                                         MinWidth="35"
                                         MaxWidth="55"
-                                        IsReadOnly="True"
-                                        Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource LoadingViewProxy}}">
-                                         <!--isibility="{Binding Source={x:Reference LoadingDataView},Path=IsChecked, Converter={StaticResource BoolToVisibility}}">-->
+                                        IsReadOnly="True">
 
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -453,63 +459,63 @@
                             <DataGridTextColumn Header="OCPD &#x0a;  Type" x:Name="dteqPdType" 
                                         Binding="{Binding Path=PdType, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource OcpdColumnHeader}" 
-                                        Visibility="{Binding ToggleOcpdViewDteqProp}" />
+                                        Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
 
                             <DataGridTextColumn Header="OCPD &#x0a;  Trip" x:Name="dteqPdSizeTrip" 
                                         Binding="{Binding Path=PdSizeTrip, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource OcpdColumnHeader}" 
-                                        Visibility="{Binding ToggleOcpdViewDteqProp}" />
+                                        Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
 
                             <DataGridTextColumn Header="OCPD &#x0a;Frame" x:Name="dteqPdSizeFrame" 
                                         Binding="{Binding Path=PdSizeFrame, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource OcpdColumnHeader}" 
-                                        Visibility="{Binding ToggleOcpdViewDteqProp}" />
+                                        Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
 
 
                             <!--CABLE-->
                             <DataGridTextColumn Header="Cable &#x0a;  Qty" x:Name="dteqCableQty"
                                         Binding="{Binding Path=Cable.CableQty, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
-                                        Visibility="{Binding ToggleCableViewDteqProp}" />
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
                             <DataGridTextColumn Header="Cable &#x0a; Size" x:Name="dteqCableSize" 
                                         Binding="{Binding Path=Cable.CableSize, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
-                                        Visibility="{Binding ToggleCableViewDteqProp}" />
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
                             <DataGridTextColumn Header=" Base &#x0a;Amps" x:Name="dteqCableBaseAmps" 
                                         Binding="{Binding Path=Cable.CableBaseAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
-                                        Visibility="{Binding ToggleCableViewDteqProp}" />
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
                             <DataGridTextColumn Header="   Req'd&#x0a;Sz. Amps" x:Name="dteqCableRequiredSizingAmps" 
                                         Binding="{Binding Path=Cable.CableRequiredSizingAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
-                                        Visibility="{Binding ToggleCableViewDteqProp}" />
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
 
                             <DataGridTextColumn Header="  Cable&#x0a;Derating" x:Name="dteqCableDerating" 
                                         Binding="{Binding Path=Cable.CableDerating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
-                                        Visibility="{Binding ToggleCableViewDteqProp}" />
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
                             <DataGridTextColumn Header="Derated &#x0a;  Amps" x:Name="dteqCableDeratedAmps" 
                                         Binding="{Binding Path=Cable.CableDeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
-                                        Visibility="{Binding ToggleCableViewDteqProp}" />
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
                             <DataGridTextColumn Header="Req'd&#x0a;Amps" x:Name="dteqCableRequiredAmps" 
                                         Binding="{Binding Path=Cable.CableRequiredAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         HeaderStyle="{StaticResource CableHeaderColumn}" 
-                                        Visibility="{Binding ToggleCableViewDteqProp}" />
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
                         </DataGrid.Columns>
-                        
+
                         <DataGrid.RowDetailsTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="0" Background="Beige" Padding="10">
                                     <Grid Margin="5,0,0,0" MinWidth="650" HorizontalAlignment="Left">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="125"></ColumnDefinition>
+                                            <ColumnDefinition Width="auto"></ColumnDefinition>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
                                             <ColumnDefinition Width="125"></ColumnDefinition>
                                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -521,29 +527,24 @@
                                             <RowDefinition Height="Auto"></RowDefinition>
                                         </Grid.RowDefinitions>
 
-                                        <ContentControl Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <ContentControl Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                         Grid.Row="0" Grid.Column="0">
                                             <ContentControl.Resources>
                                                 <DataTemplate DataType="{x:Type edtDteqModels:DteqModel}">
                                                     <StackPanel>
                                                         <views:TestDteqView/>
-                                                        <TextBlock Text="PowerFactor"/>
-                                                        <TextBlock Text="{Binding PowerFactor}"/>
+                                                      
                                                     </StackPanel>
                                                 </DataTemplate>
                                                 <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
                                                     <StackPanel>
-                                                        <TextBlock Text="Efficiency"/>
+                                                        <TextBlock Text="Load Efficiency:"/>
                                                         <TextBlock Text="{Binding Efficiency}"/>
                                                     </StackPanel>
                                                 </DataTemplate>
-                                            </ContentControl.Resources> 
+                                            </ContentControl.Resources>
                                         </ContentControl>
-                                        
-                                        <TextBlock Text="Country" Margin="10,0,0,0" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                                        <TextBox Margin="3" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Country}" MaxHeight="35"/>
-                                        <TextBlock Text="Zip" Margin="10,0,0,0" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"  HorizontalAlignment="Left"/>
-                                        <TextBox Margin="3" Grid.Row="2" Grid.Column="1" Text="{Binding Path=Zip}" MaxHeight="35"/>
+
                                     </Grid>
                                 </Border>
                             </DataTemplate>
@@ -708,7 +709,7 @@
                                   ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
                                   SelectedValue="{Binding LoadToAddType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                                   IsEditable="True" IsTextSearchEnabled="True"  
-                                  Margin="5 0 5 0"/>        
+                                  Margin="5 0 5 0"/>
 
                         <!--Fed From-->
                         <ComboBox Grid.Row="5" Grid.Column="{StaticResource FedFrom}" 
@@ -889,7 +890,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
-                <!--LOADING-->
+                            <!--LOADING-->
                             <DataGridTextColumn Header="FLA"
                                         MinWidth="40"
                                         Width="40"
@@ -950,7 +951,7 @@
                                         Visibility="{Binding ToggleLoadingViewLoadProp}"
                                         Binding="{Binding Path=DemandKvar, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
-                  <!--OCPD-->
+                            <!--OCPD-->
                             <DataGridTextColumn Header="OCPD &#x0a; Type" 
                                         Width="45"
                                         Visibility="{Binding ToggleOcpdViewLoadProp}"
@@ -970,7 +971,7 @@
                                         HeaderStyle="{StaticResource OcpdColumnHeader}" />
 
 
-                <!--CABLE-->
+                            <!--CABLE-->
                             <DataGridTextColumn Header="Cable &#x0a;  Qty" x:Name="loadCableQty" 
                                         Width="50"
                                         Visibility="{Binding ToggleCableViewLoadProp}"

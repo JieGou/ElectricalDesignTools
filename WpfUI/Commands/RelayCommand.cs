@@ -1,47 +1,53 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
+using WpfUI.Services;
 
-namespace WpfUI.ViewModels {
+namespace WpfUI.ViewModels
+{
     class RelayCommand : ICommand {
-        
 
-        public event EventHandler? CanExecuteChanged = (sender , e) => { };
+        private Action? _action;
+        private Func<bool>? _canExecute;
+        private StartupService? _startupService;
 
-        private Action mAction;
-        private Action<bool> mActionBool;
-        private Action<string> mActionString;
+        //public event EventHandler? CanExecuteChanged = (sender , e) => { };
+        public event EventHandler? CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
 
         public RelayCommand(Action action) {
-            mAction = action;
+            _action = action;
         }
-        public RelayCommand(Action<bool> action)
+      
+        public RelayCommand(Action action, Func<bool> canExecute)
         {
-            mActionBool = action;
+            _action = action;
+            _canExecute = canExecute;
         }
-        public RelayCommand(Action<string> action)
+        public RelayCommand(Action action, StartupService startupService)
         {
-            mActionString = action;
+            _action = action;
+            _startupService = startupService;
         }
 
         public bool CanExecute(object? parameter) {
-            return true;
+            if (_canExecute != null) {
+                return _canExecute.Invoke();
+            }
+            else if (_startupService != null) {
+                return _startupService.IsProjectLoaded;
+            }
+            else {
+                return true;
+            }
         }
 
         
-        public void Execute(object parameter) {
-            if (mAction != null) {
-                mAction();
-            }
-            if (mActionBool != null) {
-                mActionBool( (bool)parameter);
-            }
-
-            if (mActionString != null) {
-                mActionString(parameter as string);
+        public void Execute(object? parameter) {
+            if (_action != null) {
+                _action();
             }
         }
     }

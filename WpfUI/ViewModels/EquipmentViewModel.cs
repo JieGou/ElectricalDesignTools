@@ -13,11 +13,14 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WpfUI.Models;
+using WpfUI.Services;
 using WpfUI.Stores;
 using WpfUI.Validators;
+using WpfUI.ViewModifiers;
 
 namespace WpfUI.ViewModels
 {
@@ -25,14 +28,64 @@ namespace WpfUI.ViewModels
     public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     {
 
-
+        #region Constructor
 
         private ListManager _listManager;
-        public ListManager ListManager
+        private StartupService _startupService;
+        public ViewModifier DteqGridViewModifier { get; set; }
+
+        public EquipmentViewModel(ListManager listManager)
         {
-            get { return _listManager; }
-            set { _listManager = value; }
+            DteqGridViewModifier = new ViewModifier();
+            _listManager = listManager;
+            //_startupService = startupService;
+
+            // Create commands
+
+            ToggleRowViewDteqCommand = new RelayCommand(ToggleRowViewDteq);
+
+            //ToggleLoadingViewDteqCommand = new RelayCommand(ToggleLoadingViewDteq); //In this VM approach
+            ToggleLoadingViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleLoading);
+            ToggleOcpdViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleOcpd);
+            ToggleCableViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleCable);
+
+            //prop=true ? prop=false : prop =true;
+
+            //ToggleLoadingViewDteqCommand = new RelayCommand(ToggleLoadingViewDteq(ToggleLoadingViewDteqProp)); // check box approach?
+
+            GetDteqCommand = new RelayCommand(GetDteq);
+            SaveDteqListCommand = new RelayCommand(SaveDteq);
+            DeleteDteqCommand = new RelayCommand(DeleteDteq);
+            SizeDteqCablesCommand = new RelayCommand(SizeDteqCables);
+            CalcDteqCableAmpsCommand = new RelayCommand(CalcDteqCableAmps);
+
+            AddDteqCommand = new RelayCommand(AddDteq);
+            AddLoadCommand = new RelayCommand(AddLoad);
+
+
+            GetLoadListCommand = new RelayCommand(GetLoadList);
+            SaveLoadListCommand = new RelayCommand(SaveLoadList);
+            DeleteLoadCommand = new RelayCommand(DeleteLoad);
+
+
+            CalculateAllCommand = new RelayCommand(CalculateAll);
+            //CalculateAllCommand = new RelayCommand(CalculateAll, startupService.IsProjectLoaded);
+
         }
+
+
+
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        public EquipmentViewModel(NavigationBarViewModel navigationBarViewModel, NavigationStore navigationStore)
+        {
+            NavigationBarViewModel = navigationBarViewModel;
+
+        }
+
+        #endregion
+
 
         public ObservableCollection<LocationModel> LocationList
         {
@@ -92,10 +145,10 @@ namespace WpfUI.ViewModels
             set
             {
                 _dteqList = value;
-                ListManager.CreateEqDict();
-                ListManager.CreateDteqDict();
+                _listManager.CreateEqDict();
+                _listManager.CreateDteqDict();
                 //ListManager.DteqList.Clear();
-                ListManager.DteqList = _dteqList;
+                _listManager.DteqList = _dteqList;
             }
         }
 
@@ -222,9 +275,9 @@ namespace WpfUI.ViewModels
             set
             {
                 _loadList = value;
-                ListManager.CreateEqDict();
-                ListManager.CreateILoadDict();
-                ListManager.LoadList = _loadList;
+                _listManager.CreateEqDict();
+                _listManager.CreateILoadDict();
+                _listManager.LoadList = _loadList;
             }
         }
         public bool LoadListLoaded { get; set; }
@@ -423,6 +476,8 @@ namespace WpfUI.ViewModels
 
         public ICommand ToggleRowViewDteqCommand { get; }
         public ICommand ToggleLoadingViewDteqCommand { get; }
+        public ICommand ToggleOcpdViewDteqCommand { get; }
+        public ICommand ToggleCableViewDteqCommand { get; }
 
 
         public ICommand GetDteqCommand { get; }
@@ -446,50 +501,7 @@ namespace WpfUI.ViewModels
 
         #endregion
 
-        #region Constructor
-    
-
-        public EquipmentViewModel(ListManager listManager)
-        {
-            _listManager = listManager;
-
-            // Create commands
-
-            ToggleRowViewDteqCommand = new RelayCommand(ToggleRowViewDteq);
-            ToggleLoadingViewDteqCommand = new RelayCommand(ToggleLoadingViewDteq);
-            //ToggleLoadingViewDteqCommand = new RelayCommand(ToggleLoadingViewDteq(ToggleLoadingViewDteqProp));
-
-            GetDteqCommand = new RelayCommand(GetDteq);
-            SaveDteqListCommand = new RelayCommand(SaveDteq);
-            DeleteDteqCommand = new RelayCommand(DeleteDteq);
-            SizeDteqCablesCommand = new RelayCommand(SizeDteqCables);
-            CalcDteqCableAmpsCommand = new RelayCommand(CalcDteqCableAmps);
-
-            AddDteqCommand = new RelayCommand(AddDteq);
-            AddLoadCommand = new RelayCommand(AddLoad);
-
-
-            GetLoadListCommand = new RelayCommand(GetLoadList);
-            SaveLoadListCommand = new RelayCommand(SaveLoadList);
-            DeleteLoadCommand = new RelayCommand(DeleteLoad);
-
-
-            CalculateAllCommand = new RelayCommand(CalculateAll);
-
-        }
-
-        
-
-        /// <summary>
-        /// Default Constructor
-        /// </summary>
-        public EquipmentViewModel(NavigationBarViewModel navigationBarViewModel, NavigationStore navigationStore)
-        {
-            NavigationBarViewModel = navigationBarViewModel;
-
-        }
-
-        #endregion
+       
 
 
         #region Error Validation
@@ -538,7 +550,6 @@ namespace WpfUI.ViewModels
 
         private void ToggleLoadingViewDteq()
         {
-            //prop=true ? prop=false : prop =true;
 
             if (ToggleLoadingViewDteqProp == true) {
                 ToggleLoadingViewDteqProp = false;
@@ -552,13 +563,13 @@ namespace WpfUI.ViewModels
         #region Command Methods
 
         // Dteq
-        private void GetDteq() {
+        private async void GetDteq() {
 
             GlobalConfig.GettingRecords = true;
-
-            DteqList = ListManager.GetDteq();
-            LoadList = ListManager.GetLoads();
-            ListManager.AssignLoadsToDteq();
+            _listManager.SetDteq();
+            DteqList = _listManager.GetDteq();
+            LoadList = _listManager.GetLoads();
+            _listManager.AssignLoadsToDteq();
 
             GlobalConfig.GettingRecords = false;
         }
@@ -736,7 +747,7 @@ namespace WpfUI.ViewModels
 
         public void LoadList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ListManager.LoadList.Add((LoadModel)e.NewItems[0]);
+            _listManager.LoadList.Add((LoadModel)e.NewItems[0]);
         }
 
         // Loads
@@ -790,8 +801,8 @@ namespace WpfUI.ViewModels
         public void CalculateAll()
         {
             BuildAssignedLoads();
-            ListManager.CreateDteqDict(DteqList);
-            ListManager.CalculateDteqLoading();
+            _listManager.CreateDteqDict(DteqList);
+            _listManager.CalculateDteqLoading();
         }
 
         #endregion
@@ -811,7 +822,6 @@ namespace WpfUI.ViewModels
             _fedFromList = new ObservableCollection<string>(DteqList.Select(dteq => dteq.Tag).ToList());
             _fedFromList.Insert(0, "UTILITY");
         }
-
         public bool IsTagAvailable(string tag, ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) {
             if (tag == null) {
                 return false;
@@ -826,7 +836,6 @@ namespace WpfUI.ViewModels
             
             return true;
         }
-
         private void BuildAssignedLoads()
         {
             AssignedLoads.Clear();
@@ -835,7 +844,6 @@ namespace WpfUI.ViewModels
             }
             LoadListLoaded = true;
         }
-        
         public void CreateComboBoxLists()
         {
             foreach (var item in Enum.GetNames(typeof(EDTLibrary.DteqTypes))) {

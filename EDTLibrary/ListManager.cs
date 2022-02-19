@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EDTLibrary
 {
@@ -44,6 +46,15 @@ namespace EDTLibrary
             CreateDteqDict();
             return DteqList;
         }
+
+        public async Task SetDteq()
+        {
+            Task<ObservableCollection<DteqModel>> dteqList;
+            dteqList = Task.Run (()=>DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqListTable));
+            await Task.Delay(1000);
+            CreateDteqDict();
+        }
+
         public ObservableCollection<LoadModel> GetLoads() {     
             LoadList = DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable);
             CreateILoadDict();

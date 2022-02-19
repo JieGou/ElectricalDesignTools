@@ -112,6 +112,11 @@
                 <Setter Property="Background" Value="AliceBlue"/>
                 <Setter Property="Foreground" Value="black"/>
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="DarkGray"/>
+                <Setter Property="Foreground" Value="LightGray"/>
+
+            </Trigger>
         </Style.Triggers>
     </Style>
 

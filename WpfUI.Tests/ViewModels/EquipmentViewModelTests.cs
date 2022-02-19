@@ -1,3 +1,4 @@
+using EDTLibrary;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System.Collections.ObjectModel;
@@ -25,7 +26,8 @@ namespace WpfUI.Tests.ViewModels
                 new LoadModel("MTR-01"),
                 new LoadModel("HTR-01")
             };
-            EquipmentViewModel eqv = new EquipmentViewModel();
+            ListManager listManager = new ListManager();
+            EquipmentViewModel eqv = new EquipmentViewModel(listManager);
 
             //Act
             bool actual = eqv.IsTagAvailable(_dteqToAddTag, DteqList, LoadList);

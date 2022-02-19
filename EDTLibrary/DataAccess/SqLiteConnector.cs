@@ -65,6 +65,37 @@ namespace EDTLibrary.DataAccess
 
         }
 
+        public ObservableCollection<T> GetRecordsAsync<T>(string tableName, string columnName = "", string filterText = "") //where T : class, new()
+        {
+
+            DynamicParameters dP = new DynamicParameters();
+            List<T> queryResult = new List<T>();
+            ObservableCollection<T> output = new ObservableCollection<T>();
+
+            using (SQLiteConnection cnn = new SQLiteConnection(conString)) {
+
+                //returns all columns from table with column filter
+                if (columnName != "" && filterText != "") {
+                    dP.Add("@filterText", $"%{filterText}%");
+                    queryResult = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName} WHERE {columnName} LIKE @filterText", dP);
+                    output = new ObservableCollection<T>(queryResult);
+                    return output;
+                }
+                //returns entire table
+                else {
+                    try {
+                        queryResult = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
+                        output = new ObservableCollection<T>(queryResult);
+                    }
+                    catch { }
+
+                    return output;
+                }
+            }
+
+
+        }
+
         /// <summary>
         /// Builds an SQL command string with Dynamic parameters to insert an obejct as a record. 
         /// </summary>

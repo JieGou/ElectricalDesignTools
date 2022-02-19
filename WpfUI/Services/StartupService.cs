@@ -13,7 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using WpfUI.Helpers;
+using WpfUI.ViewModels;
 
 namespace WpfUI.Services
 {
@@ -25,8 +27,8 @@ namespace WpfUI.Services
             _listManager = listManager;
         }
 
-        public static bool IsProjectLoaded { get; set; }
-        public static bool IsLibraryLoaded { get; set; }
+        public bool IsProjectLoaded { get; set; }
+        public bool IsLibraryLoaded { get; set; }
 
 
         //DB Connections
@@ -37,7 +39,7 @@ namespace WpfUI.Services
 
 
 
-        public static void InitializeLibrary()
+        public void InitializeLibrary()
         {
             if (File.Exists(AppSettings.Default.LibraryDb)) {
                 libDb = new SQLiteConnector(AppSettings.Default.LibraryDb);
@@ -60,7 +62,7 @@ namespace WpfUI.Services
         }
 
         // SELECT
-        public static void SelectLibrary(string rootPath)
+        public void SelectLibrary(string rootPath)
         {
             string selectedFile = FileSystemHelper.SelectFilePath(rootPath, "EDT files (*.edl)|*.edl|All files (*.*)|*.*");
             if (selectedFile != "") {
@@ -85,7 +87,7 @@ namespace WpfUI.Services
 
         // LOAD
 
-        public static void LoadLibraryTables()
+        public void LoadLibraryTables()
         {
             string dbFilename = AppSettings.Default.LibraryDb;
             if (File.Exists(dbFilename)) {
@@ -97,7 +99,7 @@ namespace WpfUI.Services
             }
         }
 
-        public static void LoadProjectTables()
+        public void LoadProjectTables()
         {
             string dbFilename = AppSettings.Default.ProjectDb;
             if (File.Exists(dbFilename) == false) {
@@ -115,6 +117,7 @@ namespace WpfUI.Services
                 _listManager.CableList = prjDb.GetRecords<PowerCableModel>("Cables");
 
                 IsProjectLoaded = true;
+                CommandManager.InvalidateRequerySuggested();
             }
         }
 
