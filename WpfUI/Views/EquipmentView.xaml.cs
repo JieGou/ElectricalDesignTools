@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using EDTLibrary.Models.DistributionEquipment;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -39,6 +40,17 @@ namespace WpfUI.Views
         {
             if (e.Key == Key.Escape) {
                 dgdDteq.CancelEdit();
+            }
+        }
+
+        private void dgdDteq_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgdDteq.SelectedItem != null) {
+                if (dgdDteq.SelectedItem.GetType() == typeof(DteqModel)) {
+                    TestDteqView dteqDetailsView = new TestDteqView();
+                    dteqDetailsView.DataContext = this.DataContext;
+                    DteqDetailsContent.Content = dteqDetailsView;
+                }
             }
         }
     }

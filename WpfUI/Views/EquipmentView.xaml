@@ -192,10 +192,13 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 
-                <Border Grid.Row="0" Grid.Column="2" BorderThickness="1" BorderBrush="Black"
-                        Margin="10">
-                    <ContentControl Grid.Row="{StaticResource dteq}" Grid.Column="4"
-                                Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <!--<Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"
+                        BorderBrush="LightGray" BorderThickness="3" Background="{x:Null}"/>-->
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="Details View" Margin="10"/>
+                <Border Grid.Row="0" Grid.Column="2" BorderThickness="1" BorderBrush="Black" Background="LightCyan"
+                        Margin="10 30 10 10">
+                    <ContentControl x:Name="DteqDetailsContent" Grid.Row="{StaticResource dteq}" Grid.Column="4">
+                    <!--Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">-->
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type edtDteqModels:DteqModel}">
                                 <views:TestDteqView/>
@@ -204,11 +207,9 @@
                     </ContentControl>
                 </Border>
 
-                <GridSplitter HorizontalAlignment="Center"   
-                      VerticalAlignment="Stretch"   
-                      Grid.Column="1"   
-                      Width="3" Background="AliceBlue">
-                </GridSplitter>
+                <GridSplitter  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"   
+                               Width="3" Background="AliceBlue" BorderBrush="DarkGray" BorderThickness="0"
+                               Margin="0 5 0 5"/>
 
                 <DataGrid x:Name="dgdDteq" 
                         Grid.Column="0" Grid.Row="0"
@@ -225,7 +226,7 @@
                         ScrollViewer.CanContentScroll="True"
                         VirtualizingPanel.IsVirtualizing="True"
                         VirtualizingStackPanel.VirtualizationMode="Recycling"
-                        RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}" VerticalAlignment="Bottom" >
+                        RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}" VerticalAlignment="Bottom" SelectionChanged="dgdDteq_SelectionChanged" >
 
                 <DataGrid.Resources>
                     <Style x:Key="errorStyle" TargetType="{x:Type TextBlock}">

@@ -7,24 +7,99 @@
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="350"
              Background="LightCyan">
+    <UserControl.Resources>
+
+         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="0 3"/>
+            </Style>
+
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="0 3"/>
+            </Style>
+
+            <Style TargetType="ComboBox">
+                <Setter Property="Height" Value="20"/>
+                <Setter Property="Margin" Value="0 3 0 5"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+        </ResourceDictionary>
+
+       
+        
+    </UserControl.Resources>
+            
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="{Binding Tag}" FontSize="14" FontWeight="Bold"
+        <TextBlock Text="{Binding SelectedDteq.Tag}" FontSize="14" FontWeight="Bold"
                    d:Text="DTEQ TAG"/>
-        
-        <TextBlock Text="Power Factor: " Grid.Row="1"/>
-        <TextBlock Text="{Binding PowerFactor}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
-        <TextBlock Text="Cable Size: " Grid.Row="2"/>
-        <TextBlock Text="{Binding Path=Cable.CableSize}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
+
+        <TabControl Grid.Row="1" Grid.Column="0" Background="LightCyan" BorderThickness="0 1 0 0">
+            <TabItem Header="Cable Data" Background="LightCyan">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                        <TextBlock Text="Cable Tag: " />
+                        <TextBlock Text="Cable Type: " />
+                        <TextBlock Text="Cable Qty: " />
+                        <TextBlock Text="Cable Size: " />
+                        <TextBlock Text="Base Amps: " />
+                        <TextBlock Text="Derated Amps: " />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
+                        <TextBlock Text="{Binding SelectedDteq.Cable.Tag}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
+                        <!--<TextBlock Text="{Binding SelectedDteq.Cable.CableType}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>-->
+                        <ComboBox Grid.Row="1" Grid.Column="2" FontWeight="Bold"
+                                  ItemsSource="{Binding Path=CableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Text="{Binding Path=SelectedDteq.Cable.CableType}" 
+                                  IsEditable="True"/>
+                        <TextBox Text="{Binding Path=SelectedDteq.Cable.CableQty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}" Grid.Row="2" Grid.Column="2" FontWeight="Bold" MinWidth="50" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0"/>
+                        <TextBlock Text="{Binding Path=SelectedDteq.Cable.CableSize}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Path=SelectedDteq.Cable.CableBaseAmps}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Path=SelectedDteq.Cable.CableDeratedAmps}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Protection" Background="LightCyan" Height="25">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                        <TextBlock Text="Voltage Class: "/>
+                        <TextBlock Text="Full Load Amps: "/>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
+                        <TextBlock d:Text="0.87" Text="{Binding SelectedDteq.VoltageClass}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
+                        <TextBlock d:Text="0.87" Text="{Binding SelectedDteq.Fla}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
+                    </StackPanel>
+                    
+                </Grid>
+            </TabItem>
+            
+            
+        </TabControl>     
+                
+       
     </Grid>
 </UserControl>

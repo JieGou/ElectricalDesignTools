@@ -124,6 +124,7 @@ namespace WpfUI.ViewModels
         //Type Lists
         public ObservableCollection<string> DteqTypes { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> VoltageTypes { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> CableTypes { get; set; } = new ObservableCollection<string>();
 
 
 
@@ -867,7 +868,9 @@ namespace WpfUI.ViewModels
                 VoltageTypes.Add(item.Voltage.ToString());
             }
 
-
+            foreach (var item in TypeManager.CableTypes) {
+                CableTypes.Add(item.Type.ToString());
+            }
             //MasterLoadList = new ObservableCollection<IHasLoading>();
 
         }
