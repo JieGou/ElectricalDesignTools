@@ -18,7 +18,7 @@
         public const int SigFigs = 1;
         public const string Separator = "-";
         public const double NoValueDouble = 0.001;
-
+        public const string EmptyTag = "                 ";
         //Default Power Factor and Efficiency
         public const double DefaultTransformerPowerFactor = 0.9;
         public const double DefaultTransformerEfficiency = 0.95;

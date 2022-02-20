@@ -36,22 +36,23 @@ namespace WpfUI.ViewModels
 
         public EquipmentViewModel(ListManager listManager)
         {
-            DteqGridViewModifier = new ViewModifier();
             _listManager = listManager;
             //_startupService = startupService;
+
+            DteqGridViewModifier = new ViewModifier();
+            _loadToAdd = new LoadAdder(DteqList, LoadList, _selectedDteq);
 
             // Create commands
 
             ToggleRowViewDteqCommand = new RelayCommand(ToggleRowViewDteq);
 
-            //ToggleLoadingViewDteqCommand = new RelayCommand(ToggleLoadingViewDteq); //In this VM approach
             ToggleLoadingViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleLoading);
             ToggleOcpdViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleOcpd);
             ToggleCableViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleCable);
 
-            //prop=true ? prop=false : prop =true;
+            ToggleOcpdViewLoadCommand = new RelayCommand(TestPropSetter);
 
-            //ToggleLoadingViewDteqCommand = new RelayCommand(ToggleLoadingViewDteq(ToggleLoadingViewDteqProp)); // check box approach?
+
 
             GetDteqCommand = new RelayCommand(GetDteq);
             SaveDteqListCommand = new RelayCommand(SaveDteq);
@@ -63,7 +64,7 @@ namespace WpfUI.ViewModels
             AddLoadCommand = new RelayCommand(AddLoad);
 
 
-            GetLoadListCommand = new RelayCommand(GetLoadList);
+            ShowAllLoadsCommand = new RelayCommand(ShowAllLoads);
             SaveLoadListCommand = new RelayCommand(SaveLoadList);
             DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
@@ -71,6 +72,11 @@ namespace WpfUI.ViewModels
             CalculateAllCommand = new RelayCommand(CalculateAll);
             //CalculateAllCommand = new RelayCommand(CalculateAll, startupService.IsProjectLoaded);
 
+        }
+       
+        private void TestPropSetter()
+        {
+            LoadToAdd.ClearErrors();
         }
 
         private System.Windows.GridLength _dteqGridSize = new System.Windows.GridLength(AppSettings.Default.DteqGridSize, GridUnitType.Pixel);
@@ -84,10 +90,7 @@ namespace WpfUI.ViewModels
                 AppSettings.Default.Save();
             }
         }
-
-        public void test()
-        {
-        }
+        
         /// <summary>
         /// Default Constructor
         /// </summary>
@@ -132,17 +135,17 @@ namespace WpfUI.ViewModels
         #region Views States
 
         //Dteq
-        public string ToggleRowViewDteqProp { get; set; } = "Collapsed";
-        public bool ToggleLoadingViewDteqProp { get; set; }
+        public string? ToggleRowViewDteqProp { get; set; } = "Collapsed";
+        public bool? ToggleLoadingViewDteqProp { get; set; }
 
-        public string ToggleOcpdViewDteqProp { get; set; } = "Hidden";
-        public string ToggleCableViewDteqProp { get; set; } = "Hidden";
+        public string? ToggleOcpdViewDteqProp { get; set; } = "Hidden";
+        public string? ToggleCableViewDteqProp { get; set; } = "Hidden";
 
 
 
-        public string ToggleLoadingViewLoadProp { get; set; } = "Hidden";
-        public string ToggleOcpdViewLoadProp { get; set; } = "Hidden";
-        public string ToggleCableViewLoadProp { get; set; } = "Hidden";
+        public string? ToggleLoadingViewLoadProp { get; set; } = "Hidden";
+        public string? ToggleOcpdViewLoadProp { get; set; } = "Hidden";
+        public string? ToggleCableViewLoadProp { get; set; } = "Hidden";
 
 
         #endregion  
@@ -161,7 +164,6 @@ namespace WpfUI.ViewModels
                 _dteqList = value;
                 _listManager.CreateEqDict();
                 _listManager.CreateDteqDict();
-                //ListManager.DteqList.Clear();
                 _listManager.DteqList = _dteqList;
             }
         }
@@ -180,14 +182,22 @@ namespace WpfUI.ViewModels
                 if (_selectedDteq != null) {
                     AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
 
-                    LoadToAddFedFrom = "";
-                    LoadToAddFedFrom = _selectedDteq.Tag;
+                    LoadToAdd.FedFrom = "";
+                    LoadToAdd.FedFrom = _selectedDteq.Tag;
 
-                    LoadToAddVoltage = _selectedDteq.Voltage.ToString();
+                    LoadToAdd.Voltage = _selectedDteq.LoadVoltage.ToString();
                 }
             }
         }
         public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
+
+        private DteqToAdd _dteqToAdd;
+
+        public DteqToAdd dteqToadd
+        {
+            get { return _dteqToAdd; }
+            set { _dteqToAdd = value; }
+        }
 
 
         private string _dteqToAddTag;
@@ -292,6 +302,7 @@ namespace WpfUI.ViewModels
                 _listManager.CreateEqDict();
                 _listManager.CreateILoadDict();
                 _listManager.LoadList = _loadList;
+                LoadToAdd = new LoadAdder(DteqList,LoadList, _selectedDteq); 
             }
         }
         public bool LoadListLoaded { get; set; }
@@ -303,6 +314,14 @@ namespace WpfUI.ViewModels
             set { _selectedLoad = value; }
         }
 
+
+        private LoadAdder _loadToAdd;
+
+        public LoadAdder LoadToAdd
+        {
+            get { return _loadToAdd; }
+            set { _loadToAdd = value; }
+        }
 
         private string _loadToAddTag;
         public string LoadToAddTag
@@ -506,16 +525,16 @@ namespace WpfUI.ViewModels
 
 
         // Load Commands
-        public ICommand GetLoadListCommand { get; }
+        public ICommand ShowAllLoadsCommand { get; }
         public ICommand SaveLoadListCommand { get; }
         public ICommand DeleteLoadCommand { get; }
 
         public ICommand CalculateAllCommand { get; }
 
-
+        public ICommand ToggleOcpdViewLoadCommand { get; }
         #endregion
 
-       
+
 
 
         #region Error Validation
@@ -583,6 +602,8 @@ namespace WpfUI.ViewModels
             _listManager.SetDteq();
             DteqList = _listManager.GetDteq();
             LoadList = _listManager.GetLoads();
+            ShowAllLoads();
+            CalculateAll();
             _listManager.AssignLoadsToDteq();
 
             GlobalConfig.GettingRecords = false;
@@ -675,7 +696,34 @@ namespace WpfUI.ViewModels
             //ListManager.DteqList.Clear();
             //ListManager.DteqList.AddRange(DteqList);
         }
-        private void AddLoad()
+
+        public void AddLoad()
+        {
+            var IsValid = LoadToAdd.IsValid();
+            if (IsValid) {
+                LoadModel newLoad = new LoadModel();
+                newLoad.Tag = _loadToAdd.Tag;
+                newLoad.Category = Categories.LOAD3P.ToString();
+                newLoad.Type = _loadToAdd.Type;
+                newLoad.Description = _loadToAdd.Description;
+                newLoad.FedFrom = _loadToAdd.FedFrom;
+                newLoad.Voltage = Double.Parse(_loadToAdd.Voltage);
+                newLoad.Size = Double.Parse(_loadToAdd.Size);
+                newLoad.Unit = _loadToAdd.Unit;
+                newLoad.LoadFactor = Double.Parse(_loadToAdd.LoadFactor);
+                newLoad.CalculateLoading();
+
+                LoadList.Add(newLoad);
+
+                CalculateAll();
+
+                //Refreshes the Tag validation
+                var tag = _loadToAdd.Tag;
+                _loadToAdd.Tag = " ";
+                _loadToAdd.Tag = tag;
+            }   
+        }
+        private void AddLoadOld()
         {
 
             bool newLoadIsValid = true;
@@ -758,14 +806,12 @@ namespace WpfUI.ViewModels
             }
 
         }
-
         public void LoadList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            _listManager.LoadList.Add((LoadModel)e.NewItems[0]);
         }
 
         // Loads
-        private void GetLoadList()
+        private void ShowAllLoads()
         {
             LoadListLoaded = true;
             //LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable));
@@ -797,6 +843,7 @@ namespace WpfUI.ViewModels
         {
            if(_selectedLoad != null) {
                 int loadId = _selectedLoad.Id;
+                var dteq = DteqList.First(d => d.Tag == _selectedLoad.FedFrom);
                 DbManager.prjDb.DeleteRecord(GlobalConfig.LoadListTable, _selectedLoad.Id);
 
                 var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
@@ -808,6 +855,7 @@ namespace WpfUI.ViewModels
                 if (LoadListLoaded == false) {
                     _selectedDteq.AssignedLoads.Remove(loadToRemove2);
                 }
+                CalculateAll();
             }
         }
 
@@ -818,12 +866,10 @@ namespace WpfUI.ViewModels
             _listManager.CreateDteqDict(DteqList);
             _listManager.CalculateDteqLoading();
         }
-
         #endregion
 
+
         #region Helper Methods
-
-
         public void AddLoadErrors()
         {
             //ClearErrors(nameof(DteqToAddUnit));
@@ -874,7 +920,6 @@ namespace WpfUI.ViewModels
             //MasterLoadList = new ObservableCollection<IHasLoading>();
 
         }
-
         #endregion
 
     }

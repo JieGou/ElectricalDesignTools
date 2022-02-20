@@ -153,7 +153,7 @@
                 Margin="0,50,0,50">
 
                 <Button x:Name ="btnLoadList" Content="Load List" Height="27" Width="125"
-            Command="{Binding GetLoadListCommand}"/>
+            Command="{Binding ShowAllLoadsCommand}"/>
 
                 <Button x:Name ="btnSaveLoadList" Content="Save Load List" Height="27" Width="125"
             Command="{Binding SaveLoadListCommand}"/>
@@ -727,16 +727,16 @@
                 <TextBox x:Name ="txtLoadTag"  
                     Grid.Row="5" Grid.Column="{StaticResource Tag}"
                     Width="75" Height="23"
-                    Text="{Binding LoadToAddTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Text="{Binding LoadToAdd.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     PreviewMouseDown="txtLoadTag_PreviewMouseDown" LostFocus="txtLoadTag_LostFocus"
-                    Margin="5 0 5 0">
+                    Margin="5,0,5,0" VerticalAlignment="Bottom">
                 </TextBox>
 
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource Type}" 
                             d:Text="TRANSFORMER"
                             MinWidth="100"
                             ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
-                            SelectedValue="{Binding LoadToAddType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                            SelectedValue="{Binding LoadToAdd.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                             IsEditable="True" IsTextSearchEnabled="True"  
                             Margin="5 0 5 0"/>
 
@@ -746,8 +746,8 @@
                     ItemsSource="{Binding Source={StaticResource dteqList}}"
                     DisplayMemberPath="Tag"
                     SelectedValuePath="Tag"
-                    SelectedValue="{Binding LoadToAddFedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding LoadToAddFedFrom}"
+                    SelectedValue="{Binding LoadToAdd.FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                    Text="{Binding LoadToAdd.FedFrom}"
                     IsEditable="True" IsTextSearchEnabled="True"  
                     Margin="5 0 5 0"/>
 
@@ -755,15 +755,15 @@
                     MinWidth="60"
                     d:Text="13800"
                     ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValue="{Binding LoadToAddVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding LoadToAddVoltage}"
+                    SelectedValue="{Binding LoadToAdd.Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                    Text="{Binding LoadToAdd.Voltage}"
                     IsEditable="True" IsTextSearchEnabled="True"
                     Margin="5 0 5 0"/>
 
 
                 <TextBox Grid.Row="5" Grid.Column="{StaticResource Size}"
                     Width="50" Height="23"
-                    Text="{Binding LoadToAddSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Text="{Binding LoadToAdd.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="5 0 5 0">
 
                 </TextBox>
@@ -771,20 +771,20 @@
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource Unit}"
                     Width="50"
                     ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
-                    SelectedValue="{Binding LoadToAddUnit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding LoadToAddUnit}"
+                    SelectedValue="{Binding LoadToAdd.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                    Text="{Binding LoadToAdd.Unit}"
                     IsEditable="True" IsTextSearchEnabled="True"
                     Margin="5 0 5 0"/>
 
                 <TextBox Grid.Row="5" Grid.Column="{StaticResource Description}"
                     MinWidth="100" Height="23"
-                    Text="{Binding LoadToAddDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Text="{Binding LoadToAdd.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="5 0 5 0">
                 </TextBox>
 
                 <TextBox Grid.Row="5" Grid.Column="{StaticResource LoadFactor}"
                     MinWidth="50" Height="23"
-                    Text="{Binding LoadToAddLoadFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Text="{Binding LoadToAdd.LoadFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="5 0 5 0">
                 </TextBox>
             </Grid>

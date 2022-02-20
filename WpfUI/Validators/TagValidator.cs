@@ -10,7 +10,7 @@ namespace WpfUI.Validators
         public static bool IsTagAvailable(string tag, ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList)
         {
             if (tag == null) {
-                return false;
+                return true;
             }
             var dteqTag = dteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
             var loadTag = loadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());

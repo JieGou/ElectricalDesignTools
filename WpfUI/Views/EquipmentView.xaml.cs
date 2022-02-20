@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.DistributionEquipment;
+﻿using EDTLibrary;
+using EDTLibrary.Models.DistributionEquipment;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,23 +18,23 @@ namespace WpfUI.Views
 
         private void txtDteqTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (txtDteqTag.Text == "" || txtDteqTag.Text == " ") txtDteqTag.Text = "";
+            if (txtDteqTag.Text == "" || txtDteqTag.Text == GlobalConfig.EmptyTag) txtDteqTag.Text = "";
         }
 
         private void txtDteqTag_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (txtDteqTag.Text == "") txtDteqTag.Text = " ";
+            if (txtDteqTag.Text == "") txtDteqTag.Text = GlobalConfig.EmptyTag;
         }
 
 
         private void txtLoadTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (txtLoadTag.Text == "" || txtLoadTag.Text == " ") txtLoadTag.Text = "";
+            if (txtLoadTag.Text == "" || txtLoadTag.Text == GlobalConfig.EmptyTag) txtLoadTag.Text = "";
         }
 
         private void txtLoadTag_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (txtLoadTag.Text == "") txtLoadTag.Text = " ";
+            if (txtLoadTag.Text == "") txtLoadTag.Text = GlobalConfig.EmptyTag;
         }
 
         private void dgdDteq_KeyDown(object sender, KeyEventArgs e)
