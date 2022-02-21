@@ -50,15 +50,16 @@ namespace WpfUI.ViewModels
             ToggleOcpdViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleOcpd);
             ToggleCableViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleCable);
 
-            ToggleOcpdViewLoadCommand = new RelayCommand(TestPropSetter);
+            ToggleOcpdViewLoadCommand = new RelayCommand(TestCommand);
 
 
 
-            GetDteqCommand = new RelayCommand(GetDteq);
-            SaveDteqListCommand = new RelayCommand(SaveDteq);
+            GetAllCommand = new RelayCommand(DbGetAll);
+            SaveAllCommand = new RelayCommand(DbSaveAll);
+            SizeCablesCommand = new RelayCommand(SizeCables);
+            CalcCableAmpsCommand = new RelayCommand(CalculateCableAmps);
+
             DeleteDteqCommand = new RelayCommand(DeleteDteq);
-            SizeDteqCablesCommand = new RelayCommand(SizeDteqCables);
-            CalcDteqCableAmpsCommand = new RelayCommand(CalcDteqCableAmps);
 
             AddDteqCommand = new RelayCommand(AddDteq);
             AddLoadCommand = new RelayCommand(AddLoad);
@@ -74,9 +75,9 @@ namespace WpfUI.ViewModels
 
         }
        
-        private void TestPropSetter()
+        private void TestCommand()
         {
-            LoadToAdd.ClearErrors();
+            _listManager.CreateCableList();
         }
 
         private System.Windows.GridLength _dteqGridSize = new System.Windows.GridLength(AppSettings.Default.DteqGridSize, GridUnitType.Pixel);
@@ -139,7 +140,7 @@ namespace WpfUI.ViewModels
         public bool? ToggleLoadingViewDteqProp { get; set; }
 
         public string? ToggleOcpdViewDteqProp { get; set; } = "Hidden";
-        public string? ToggleCableViewDteqProp { get; set; } = "Hidden";
+        public string? ToggleCableViewDteqProp { get; set; } = "Visible";
 
 
 
@@ -496,10 +497,10 @@ namespace WpfUI.ViewModels
             }
         }
 
-
         public ObservableCollection<IPowerConsumer> MasterLoadList { get; set; }
+        public ObservableCollection<PowerCableModel> CableList { get; set; }
 
-        
+
         #endregion
 
 
@@ -513,11 +514,11 @@ namespace WpfUI.ViewModels
         public ICommand ToggleCableViewDteqCommand { get; }
 
 
-        public ICommand GetDteqCommand { get; }
-        public ICommand SaveDteqListCommand { get; }
+        public ICommand GetAllCommand { get; }
+        public ICommand SaveAllCommand { get; }
         public ICommand DeleteDteqCommand { get; }
-        public ICommand SizeDteqCablesCommand { get; }
-        public ICommand CalcDteqCableAmpsCommand { get; }
+        public ICommand SizeCablesCommand { get; }
+        public ICommand CalcCableAmpsCommand { get; }
 
 
         public ICommand AddDteqCommand { get; }
@@ -537,36 +538,6 @@ namespace WpfUI.ViewModels
 
 
 
-        #region Error Validation
-
-        // INotifyDataErrorInfo
-        public bool HasErrors => _errorDict.Any();
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-        public readonly Dictionary<string, List<string>> _errorDict  = new Dictionary<string, List<string>>();
-
-        private void ClearErrors(string propertyName) {
-            _errorDict.Remove(propertyName);
-            OnErrorsChanged(propertyName);
-        }
-
-        public void AddError(string propertyName, string errorMessage) {
-            if (!_errorDict.ContainsKey(propertyName)) { // check if error Key exists
-                _errorDict.Add(propertyName, new List<string>()); // create if not
-            }
-            _errorDict[propertyName].Add(errorMessage); //add error message to list of error messages
-            OnErrorsChanged(propertyName);
-        }
-
-        public IEnumerable GetErrors(string? propertyName) {
-            return _errorDict.GetValueOrDefault(propertyName, null);
-        }
-
-        private void OnErrorsChanged(string? propertyName) {
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-        }
-        public string Error { get; }
-
-        #endregion
 
 
         #region View Toggles
@@ -596,9 +567,10 @@ namespace WpfUI.ViewModels
         #region Command Methods
 
         // Dteq
-        private async void GetDteq() {
+        private async void DbGetAll() {
 
             GlobalConfig.GettingRecords = true;
+
             _listManager.SetDteq();
             DteqList = _listManager.GetDteq();
             LoadList = _listManager.GetLoads();
@@ -606,10 +578,13 @@ namespace WpfUI.ViewModels
             CalculateAll();
             _listManager.AssignLoadsToDteq();
 
+            CableList =  _listManager.GetCables();
+            _listManager.AssignCables();
+
             GlobalConfig.GettingRecords = false;
         }
 
-        private void SaveDteq()
+        private void DbSaveAll()
         {
             if (DteqList.Count != 0) {
                 CalculateAll();
@@ -618,13 +593,37 @@ namespace WpfUI.ViewModels
                 bool error = false;
                 string message = "";
 
-                foreach (var dteq in DteqList) {
-                    var tag = dteq.Tag;
-                    didSaveCorrectly = DbManager.prjDb.UpsertRecord<DteqModel>(dteq, GlobalConfig.DteqListTable, SaveLists.DteqSaveList);
+                //Dteq
+                foreach (var item in DteqList) {
+                    var dteqTag = item.Tag;
+                    item.Cable.AssignOwner(item);
+                    didSaveCorrectly = DbManager.prjDb.UpsertRecord<DteqModel>(item, GlobalConfig.DteqListTable, SaveLists.DteqSaveList);
                     if (didSaveCorrectly.Item1 == false) {
                         error = true;
                         message = didSaveCorrectly.Item2;
-                    }                    
+                    }
+                }
+
+                //Load
+                foreach (var item in LoadList) {
+                    var dteqTag = item.Tag;
+                    item.Cable.AssignOwner(item);
+                    didSaveCorrectly = DbManager.prjDb.UpsertRecord<LoadModel>(item, GlobalConfig.LoadListTable, SaveLists.LoadSaveList);
+                    if (didSaveCorrectly.Item1 == false) {
+                        error = true;
+                        message = didSaveCorrectly.Item2;
+                    }
+                }
+
+                //Cables
+                _listManager.CreateCableList();
+                foreach (var item in _listManager.CableList) {
+                    var cableTag = item.Tag;
+                    didSaveCorrectly = DbManager.prjDb.UpsertRecord<PowerCableModel>(item, GlobalConfig.PowerCableTable, SaveLists.CableSaveList);
+                    if (didSaveCorrectly.Item1 == false) {
+                        error = true;
+                        message = didSaveCorrectly.Item2;
+                    }
                 }
                 if (error) {
                     MessageBox.Show(message);
@@ -639,15 +638,21 @@ namespace WpfUI.ViewModels
                 DteqList.Remove(_selectedDteq);
             }
         }
-        private void SizeDteqCables()
+        private void SizeCables()
         {
             foreach (var item in DteqList) {
-                item.GetCable();
-            }        
+                item.SizeCable();
+            }
+            foreach (var item in LoadList) {
+                item.SizeCable();
+            }
         }
-        private void CalcDteqCableAmps()
+        private void CalculateCableAmps()
         {
             foreach (var item in DteqList) {
+                item.Cable.CalculateAmpacity();
+            }
+            foreach (var item in LoadList) {
                 item.Cable.CalculateAmpacity();
             }
         }
@@ -688,13 +693,11 @@ namespace WpfUI.ViewModels
                 Tuple<bool, string, object> updateId;
                 updateId = DbManager.prjDb.InsertRecordGetId<PowerCableModel>(dteq.Cable, GlobalConfig.PowerCableTable, SaveLists.CableSaveList);
                 dteq.Cable.Id = Convert.ToInt32(updateId.Item3);
-                dteq.PowerCableId = dteq.Cable.Id;
             }
         }
         public void DteqList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            //ListManager.DteqList.Clear();
-            //ListManager.DteqList.AddRange(DteqList);
+            
         }
 
         public void AddLoad()
@@ -705,16 +708,18 @@ namespace WpfUI.ViewModels
                 newLoad.Tag = _loadToAdd.Tag;
                 newLoad.Category = Categories.LOAD3P.ToString();
                 newLoad.Type = _loadToAdd.Type;
+                newLoad.Size = Double.Parse(_loadToAdd.Size);
                 newLoad.Description = _loadToAdd.Description;
                 newLoad.FedFrom = _loadToAdd.FedFrom;
                 newLoad.Voltage = Double.Parse(_loadToAdd.Voltage);
-                newLoad.Size = Double.Parse(_loadToAdd.Size);
                 newLoad.Unit = _loadToAdd.Unit;
                 newLoad.LoadFactor = Double.Parse(_loadToAdd.LoadFactor);
                 newLoad.CalculateLoading();
-
+                var newId = DbManager.prjDb.InsertRecordGetId(newLoad, GlobalConfig.LoadListTable, SaveLists.LoadSaveList);
+                newLoad.Cable.Id = Convert.ToInt32(newId.Item3);
+                newLoad.SizeCable();
+                newLoad.CalculateCableAmps();
                 LoadList.Add(newLoad);
-
                 CalculateAll();
 
                 //Refreshes the Tag validation
@@ -723,95 +728,12 @@ namespace WpfUI.ViewModels
                 _loadToAdd.Tag = tag;
             }   
         }
-        private void AddLoadOld()
-        {
-
-            bool newLoadIsValid = true;
-            bool isTagAvailable = IsTagAvailable(_loadToAddTag, DteqList, LoadList);
-
-            //Tag
-            if (isTagAvailable == false || string.IsNullOrEmpty(_loadToAddTag) || string.IsNullOrWhiteSpace(_loadToAddTag)) {
-                newLoadIsValid = false;
-            }
-
-            //Type
-            if (_loadToAddType == "" || _loadToAddType == null) {
-                newLoadIsValid = false;
-            }
-
-            //Motor Voltages
-            if ( Double.TryParse(_loadToAddVoltage, out double sasdf) ==false) {
-                newLoadIsValid=false;
-            }
-            if (_loadToAddType == LoadTypes.MOTOR.ToString()) {
-                if (_loadToAddVoltage == "600") {
-                    _loadToAddVoltage = "575";
-                }
-                else if (_loadToAddVoltage == "480") {
-                    _loadToAddVoltage = "460";
-                }
-            }
-
-            //Unit
-            if (   (string.IsNullOrWhiteSpace(_loadToAddUnit) & string.IsNullOrEmpty(_loadToAddUnit))  
-                || (_loadToAddType == EDTLibrary.LoadTypes.TRANSFORMER.ToString() && _loadToAddUnit != Units.kVA.ToString())
-                || (_loadToAddType == EDTLibrary.LoadTypes.MOTOR.ToString() && _loadToAddUnit != Units.HP.ToString() && _loadToAddUnit != Units.kW.ToString())
-                || (_loadToAddType == EDTLibrary.LoadTypes.HEATER.ToString() && _loadToAddUnit != Units.kW.ToString())  )
-            {
-                newLoadIsValid = false;
-            }
-
-            //Size
-            //TODO - Enforce valid Motor Sizes
-            double newLoad_LoadSize;
-            if (double.TryParse(_loadToAddSize, out newLoad_LoadSize) == false) {
-                newLoadIsValid = false;
-            }
-            else if (double.Parse(_loadToAddSize) <=0) {
-                newLoadIsValid = false;
-            }
-                      
-            //LoadFactor
-            double newLoad_LoadFactor;
-            if (double.TryParse(_loadToAddLoadFactor, out newLoad_LoadFactor) == false) {
-                newLoadIsValid = false;
-            }
-            else if(double.Parse(_loadToAddLoadFactor) <0 || double.Parse(_loadToAddLoadFactor) > 1) {
-                newLoadIsValid = false;
-            }
-
-            if (newLoadIsValid == true) {
-
-                LoadList.CollectionChanged += LoadList_CollectionChanged;
-                LoadModel newLoad = new LoadModel();
-                newLoad.Tag = _loadToAddTag;
-                newLoad.Category = Categories.LOAD3P.ToString();
-                newLoad.Type = _loadToAddType;
-                newLoad.Description = _loadToAddDescription;
-                newLoad.FedFrom = _loadToAddFedFrom;
-                newLoad.Voltage = Double.Parse(_loadToAddVoltage);
-                newLoad.Size = Double.Parse(_loadToAddSize);
-                newLoad.Unit = _loadToAddUnit;
-                newLoad.LoadFactor = Double.Parse(_loadToAddLoadFactor);
-                newLoad.CalculateLoading();
-                LoadList.Add(newLoad);
-
-                CalculateAll();
-
-                //Refreshes the validation
-                var tag = LoadToAddTag;
-                LoadToAddTag = " ";
-
-
-            }
-
-        }
         public void LoadList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
         }
 
         // Loads
-        private void ShowAllLoads()
+        public void ShowAllLoads()
         {
             LoadListLoaded = true;
             //LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable));
@@ -843,8 +765,12 @@ namespace WpfUI.ViewModels
         {
            if(_selectedLoad != null) {
                 int loadId = _selectedLoad.Id;
+                int cableId = _selectedLoad.Cable.Id;
+
                 var dteq = DteqList.First(d => d.Tag == _selectedLoad.FedFrom);
-                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadListTable, _selectedLoad.Id);
+                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadListTable, loadId);
+                DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
+                CableList.Remove(_selectedLoad.Cable);
 
                 var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
                 AssignedLoads.Remove(loadToRemove);
@@ -870,13 +796,6 @@ namespace WpfUI.ViewModels
 
 
         #region Helper Methods
-        public void AddLoadErrors()
-        {
-            //ClearErrors(nameof(DteqToAddUnit));
-            //if (_dteqToAddType== EDTLibrary.DteqTypes.XFR.ToString() && _dteqToAddUnit != Units.kVA.ToString()) {
-            //    AddError(nameof(DteqToAddUnit), "Incorrect Units for Equipmet");
-            //}
-        }
         private void BuildFedFromList()
         {
             _fedFromList = new ObservableCollection<string>(DteqList.Select(dteq => dteq.Tag).ToList());
@@ -920,6 +839,39 @@ namespace WpfUI.ViewModels
             //MasterLoadList = new ObservableCollection<IHasLoading>();
 
         }
+        #endregion
+
+        #region Error Validation //INotifyDataErrorInfo
+        public bool HasErrors => _errorDict.Any();
+        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+        public readonly Dictionary<string, List<string>> _errorDict = new Dictionary<string, List<string>>();
+
+        private void ClearErrors(string propertyName)
+        {
+            _errorDict.Remove(propertyName);
+            OnErrorsChanged(propertyName);
+        }
+
+        public void AddError(string propertyName, string errorMessage)
+        {
+            if (!_errorDict.ContainsKey(propertyName)) { // check if error Key exists
+                _errorDict.Add(propertyName, new List<string>()); // create if not
+            }
+            _errorDict[propertyName].Add(errorMessage); //add error message to list of error messages
+            OnErrorsChanged(propertyName);
+        }
+
+        public IEnumerable GetErrors(string? propertyName)
+        {
+            return _errorDict.GetValueOrDefault(propertyName, null);
+        }
+
+        private void OnErrorsChanged(string? propertyName)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        }
+        public string Error { get; }
+
         #endregion
 
     }

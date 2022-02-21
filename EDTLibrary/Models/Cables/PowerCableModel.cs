@@ -11,13 +11,16 @@ using System.Linq;
 namespace EDTLibrary.Models.Cables
 {
     [AddINotifyPropertyChangedInterface]
-    public class PowerCableModel
+    public class PowerCableModel:IPowerCable
     {
 
         #region Properties
         [Browsable(false)]
         public int Id { get; set; }
+        public int OwnedById { get; set; }
+        public string OwnedByType { get; set; }
         public string Tag { get; set; }
+        //public string Type { get; set; } //Not Used
         public string Category { get; set; }
         public string Source { get; set; }
         public string Destination { get; set; }
@@ -26,6 +29,18 @@ namespace EDTLibrary.Models.Cables
         public int ConductorQty { get; set; }
         public double VoltageClass { get; set; }
         public double Insulation { get; set; }
+
+        //private int _cableQty;
+
+        //public int CableQty
+        //{
+        //    get { return _cableQty; }
+        //    set
+        //    {
+        //        _cableQty = value;
+        //        CalculateAmpacity();
+        //    }
+        //}
 
         public int CableQty { get; set; }
         public string CableSize { get; set; }
@@ -40,6 +55,7 @@ namespace EDTLibrary.Models.Cables
 
         [Browsable(false)]
         public IPowerConsumer Load { get; set; }
+        
 
 
         //TODO - code Table Rule by cable type
@@ -59,6 +75,8 @@ namespace EDTLibrary.Models.Cables
         public PowerCableModel(IPowerConsumer load)
         {
             Load = load;
+            OwnedById = load.Id;
+            OwnedByType = load.GetType().ToString();
 
             //Tag
             Source = load.FedFrom ?? "";
@@ -69,17 +87,32 @@ namespace EDTLibrary.Models.Cables
             CableQty = 1;
             //Insulation = 100;
         }
+
         public void CreateTag()
         {
             Tag = Source.Replace("-", "") + "-" + Destination.Replace("-", "");
         }
 
+        public void AssignOwner(IPowerConsumer load)
+        {
+            OwnedById = load.Id;
+            OwnedByType = load.GetType().ToString();
+        }
         /// <summary>
         /// Gets the Source Eq Derating, Destination Eq FLA
         /// </summary>
 
         public void GetCableParameters(IPowerConsumer load)
         {
+            //Tag
+            Source = load.FedFrom ?? "";
+            Destination = load.Tag ?? "";
+            CreateTag();
+
+            OwnedById = load.Id;
+            OwnedByType = load.GetType().ToString();
+            UsageType = CableUsageTypes.Power.ToString();
+
             //gets source derating
 
             //CableDeratingCalculator cableDeratingCalculator = new CableDeratingCalculator();
@@ -155,9 +188,8 @@ namespace EDTLibrary.Models.Cables
                                                           && x.Field<double>("Amps75") >= CableRequiredSizingAmps
                                                           && x.Field<string>("CodeTable") == codeTable); // ex: Table2 (from CEC)
             // 3
+            CableQty = 1;
             GetCableQty(CableQty);
-            //EdtSettings.InitializeSettings(); //Ensures the cable ampacity table for the project is created
-
 
             //Recursive method
             void GetCableQty(int cableQty)

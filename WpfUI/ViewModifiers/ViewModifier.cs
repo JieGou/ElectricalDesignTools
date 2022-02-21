@@ -12,7 +12,7 @@ namespace WpfUI.ViewModifiers
     {
         public bool Loading { get; set; } = true;
         public bool Ocpd { get; set; } = false;
-        public bool Cable { get; set; } = false;
+        public bool Cable { get; set; } = true;
 
         public void ToggleLoading()
         {

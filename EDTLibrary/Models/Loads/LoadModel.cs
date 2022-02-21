@@ -18,7 +18,6 @@ namespace EDTLibrary.Models.Loads
             Category = Categories.LOAD3P.ToString();
             //LoadFactor = Double.Parse(EdtSettings.LoadFactorDefault);
             //PdType = EdtSettings.LoadDefaultPdTypeLV;
-            Cable = new PowerCableModel();
         }
         public LoadModel(string tag)
         {
@@ -230,12 +229,15 @@ namespace EDTLibrary.Models.Loads
             PdSizeFrame = LibraryManager.GetBreakerFrame(this);
             PdSizeTrip = LibraryManager.GetBreakerTrip(this);
 
-            GetCable();
             OnLoadingCalculated();
         }
-        public void GetCable()
+        public void SizeCable()
         {
-            Cable = new PowerCableModel(this);
+            if (Cable == null) {
+                Cable = new PowerCableModel(this);
+            }
+            Cable.GetCableParameters(this);
+            Cable.CalculateCableQtySize();
         }
         public void CalculateCableAmps()
         {
@@ -258,6 +260,8 @@ namespace EDTLibrary.Models.Loads
             if (LoadingCalculated != null) {
                 LoadingCalculated(this, EventArgs.Empty);
             }
+            //SizeCable();
+            //CalculateCableAmps();
         }
 
         public event EventHandler FedFromChanged;

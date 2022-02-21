@@ -96,23 +96,22 @@
             <StackPanel Orientation="Vertical"
                 Grid.Column="1" Grid.Row="{StaticResource dteq}"
                 Margin="0,50,0,0">
+                
+                
+                <Button Name ="btnGetAll" Content="Get All" 
+                Command="{Binding GetAllCommand}"/>
 
-                <Button Name ="btnGetDteq" Content="Get Dist. Eq. List" 
-                Command="{Binding GetDteqCommand}"/>
+                <Button Name ="btnSaveAll" Content="Save All"
+                Command="{Binding SaveAllCommand}"/>
 
-                <Button Name ="btnSaveDteq" Content="Save All"
-                Command="{Binding SaveDteqListCommand}"/>
+                <Button Name ="btnSizeCables" Content="Size Cables"
+                Command="{Binding SizeCablesCommand}"/>
+
+                <Button Name ="btnCalcCableAmps" Content="Cable Amps"
+                Command="{Binding CalcCableAmpsCommand}"/>
 
                 <Button Name ="btnDeleteDteq" Content="Delete Selected"
                 Command="{Binding DeleteDteqCommand}"/>
-
-                <Button Name ="btnSizeCablesDteq" Content="Size Dteq Cables"
-                Command="{Binding SizeDteqCablesCommand}"/>
-
-                <Button Name ="btnCalcCableAmpsDteq" Content="Cable Amps"
-                Command="{Binding CalcDteqCableAmpsCommand}"/>
-
-
             </StackPanel>
 
             <!--Dteq View Buttons-->
@@ -160,11 +159,21 @@
 
                 <Button x:Name ="btnDeleteLoadList" Content="Delete Load" Height="27" Width="125"
             Command="{Binding DeleteLoadCommand}"/>
+                
 
                 <Button Name ="btnCalculate" Content="Calculate All" 
                 Command="{Binding CalculateAllCommand}"
                 FontWeight="Bold"
-                Margin="0 100 0 0"/>
+                Margin="0 50 0 0"/>
+
+          <!--***********************************-->
+                
+                <TextBlock Text="{Binding DteqList.Count}" Margin="0"/>
+                <TextBlock Text="{Binding CableList.Count}" Margin="0"/>
+                <TextBlock Text="{Binding SelectedLoad.Cable.Id}" Margin="0"/>
+                
+          <!--***********************************-->
+
             </StackPanel>
 
             <!--Load View Buttons-->
@@ -212,21 +221,23 @@
                                Margin="0 5 0 5"/>
 
                 <DataGrid x:Name="dgdDteq" 
-                        Grid.Column="0" Grid.Row="0"
-                        HorizontalAlignment="Left"
-                        Height="215" MinHeight="185" MaxHeight="250"
-                        Margin="10"
-                        ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
-                        CanUserAddRows="False"
-                        CanUserDeleteRows="False"
-                        AutoGenerateColumns="False"
-                        EnableRowVirtualization="True"
-                        EnableColumnVirtualization="True"
-                        ScrollViewer.CanContentScroll="True"
-                        VirtualizingPanel.IsVirtualizing="True"
-                        VirtualizingStackPanel.VirtualizationMode="Recycling"
-                        RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}" VerticalAlignment="Bottom" SelectionChanged="dgdDteq_SelectionChanged" >
+                          Grid.Column="0" Grid.Row="0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          Height="215" MinHeight="185" MaxHeight="250"
+                          Margin="10"
+                          ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          AutoGenerateColumns="False"
+                          EnableRowVirtualization="True"
+                          EnableColumnVirtualization="True"
+                          ScrollViewer.CanContentScroll="True"
+                          SelectionChanged="dgdDteq_SelectionChanged"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          VirtualizingStackPanel.VirtualizationMode="Recycling"
+                          RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}" >
 
                 <DataGrid.Resources>
                     <Style x:Key="errorStyle" TargetType="{x:Type TextBlock}">

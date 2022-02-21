@@ -53,6 +53,7 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                        <TextBlock Text="Cable Id: " />
                         <TextBlock Text="Cable Tag: " />
                         <TextBlock Text="Cable Type: " />
                         <TextBlock Text="Cable Qty: " />
@@ -62,6 +63,7 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
+                        <TextBlock Text="{Binding SelectedDteq.Cable.Id}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
                         <TextBlock Text="{Binding SelectedDteq.Cable.Tag}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
                         <!--<TextBlock Text="{Binding SelectedDteq.Cable.CableType}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>-->
                         <ComboBox Grid.Row="1" Grid.Column="2" FontWeight="Bold"

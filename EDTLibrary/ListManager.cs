@@ -63,11 +63,11 @@ namespace EDTLibrary
 
 
 
-        public ObservableCollection<PowerCableModel> GetCableList()
+        public ObservableCollection<PowerCableModel> GetCables()
         {
-            return DbManager.prjDb.GetRecords<PowerCableModel>("Cables");
+            CableList = DbManager.prjDb.GetRecords<PowerCableModel>("Cables");
+            return CableList;
         }
-
 
 
         public void CreateEqDict() {
@@ -273,7 +273,37 @@ namespace EDTLibrary
         /// 
         public void CreateCableList() {
             CableList.Clear();
-           
+            foreach (var item in DteqList) {
+                item.Cable.AssignOwner(item);
+                if (item.Cable.OwnedById != null && item.Cable.OwnedByType != null) {
+                    CableList.Add(item.Cable);
+                }
+            }
+            foreach (var item in LoadList) {
+                item.Cable.AssignOwner(item);
+                if (item.Cable.OwnedById != null && item.Cable.OwnedByType != null) {
+                    CableList.Add(item.Cable);
+                }
+            }
+        }
+        public void AssignCables()
+        {
+            foreach (var dteq in DteqList) {
+                foreach (var cable in CableList) {
+                    if (dteq.Id == cable.OwnedById &&
+                        dteq.GetType().ToString() == cable.OwnedByType) {
+                        dteq.Cable = cable;
+                    }
+                }
+            }
+            foreach (var load in LoadList) {
+                foreach (var cable in CableList) {
+                    if (load.Id == cable.OwnedById &&
+                        load.GetType().ToString() == cable.OwnedByType) {
+                        load.Cable = cable;
+                    }
+                }
+            }
         }
 
         public void CalculateCableAmps() {

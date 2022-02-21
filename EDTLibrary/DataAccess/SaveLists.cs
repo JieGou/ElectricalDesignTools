@@ -27,8 +27,9 @@ namespace EDTLibrary.DataAccess
         static public List<string> CableSaveList { get; set; } = new List<string> {
 
             "Load",
-            "Cable",
-            "CableModel",
+            "InLineComponents",
+            "AssignedLoads",
+            "CircuitComponents",
             "Components"
         };
 

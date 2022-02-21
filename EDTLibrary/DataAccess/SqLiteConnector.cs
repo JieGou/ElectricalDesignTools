@@ -236,48 +236,44 @@ namespace EDTLibrary.DataAccess
                 var objectProperties = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
 
-                void BuildPropAndParamList()
-                {                   
-                    //Column Names
-                    foreach (var prop in objectProperties) {
-                        sb.Append($"{prop.Name}, ");
-                    }
-
-                    // removes any properties in prop list
-                    foreach (var prop in propertiesToIgnore) {
-                        sb.Replace($"{prop}, ", "");
-                    }
-
-                    string input = sb.ToString();
-                    string pattern = @"\bId,";
-                    string replace = "";
-                    sb.Clear();
-                    sb.Append(Regex.Replace(input, pattern, ""));
-                    sb.Replace(",", "", sb.Length - 2, 2);
-                    sb.Replace(" ", "", sb.Length - 2, 2);
-                    sb.Append(") VALUES (");
-
-                    //Parameters (@ColumnNames)
-                    foreach (var prop in objectProperties) {
-                        sb.Append($"@{prop.Name}, ");
-                        cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
-                    }
-
-                    // removes any properties in prop list
-                    foreach (var prop in propertiesToIgnore) {
-                        sb.Replace($"@{prop}, ", "");
-                    }
-                    sb.Replace("@Id,", "");
-                    sb.Replace(",", "", sb.Length - 2, 2);
-                    sb.Replace(" ", "", sb.Length - 2, 2);
-                    sb.Append(")");
-                }
 
                 //Build query string: 
                 //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
                 sb.Append($"INSERT INTO {tableName} (");
-                BuildPropAndParamList();
+                //Column Names
+                foreach (var prop in objectProperties) {
+                    sb.Append($"{prop.Name}, ");
+                }
 
+                // removes properties to ignore
+                foreach (var prop in propertiesToIgnore) {
+                    sb.Replace($"{prop}, ", "");
+                }
+
+                string input = sb.ToString();
+                string pattern = @"\bId,";
+                string replace = "";
+                sb.Clear();
+                sb.Append(Regex.Replace(input, pattern, ""));
+
+                sb.Replace(",", "", sb.Length - 2, 2);
+                sb.Replace(" ", "", sb.Length - 2, 2);
+                sb.Append(") VALUES (");
+
+                //Parameters (@ColumnNames)
+                foreach (var prop in objectProperties) {
+                    sb.Append($"@{prop.Name}, ");
+                    cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
+                }
+
+                // removes properties to ignore
+                foreach (var prop in propertiesToIgnore) {
+                    sb.Replace($"@{prop}, ", "");
+                }
+                sb.Replace("@Id,", "");
+                sb.Replace(",", "", sb.Length - 2, 2);
+                sb.Replace(" ", "", sb.Length - 2, 2);
+                sb.Append(")");
 
                 sb.Append($" ON CONFLICT DO UPDATE SET ");
 
@@ -286,6 +282,7 @@ namespace EDTLibrary.DataAccess
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
 
+                // removes properties to ignore
                 foreach (var prop in propertiesToIgnore) {
                     sb.Replace($"{prop} = @{prop}, ", "");
                 }

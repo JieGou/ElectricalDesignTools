@@ -55,12 +55,18 @@ namespace WpfUI.ViewModels
             _locationsViewModel.ListManager.LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable));
 
             GlobalConfig.GettingRecords = true;
-            _equipmentViewModel.DteqList = _listManager.GetDteq();
-            _equipmentViewModel.LoadList = _listManager.GetLoads();
-            _listManager.AssignLoadsToDteq();
-            GlobalConfig.GettingRecords = false;
 
-            //_equipmentViewModel.CalculateAll();
+                //Dteq
+                _equipmentViewModel.DteqList = _listManager.GetDteq();
+                _equipmentViewModel.LoadList = _listManager.GetLoads();
+                _equipmentViewModel.ShowAllLoads();
+                _listManager.AssignLoadsToDteq();
+
+                //Cables
+                _equipmentViewModel.CableList = _listManager.GetCables();
+                _listManager.AssignCables();
+
+            GlobalConfig.GettingRecords = false;
 #endif
 
         }

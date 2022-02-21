@@ -149,13 +149,14 @@ namespace EDTLibrary.Models.DistributionEquipment
             PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
 
             GetMinimumPdSize();
-            GetCable();
             OnLoadingCalculated();
         }
 
-        public void GetCable()
+        public void SizeCable()
         {
-            Cable = new PowerCableModel(this);
+            if (Cable ==null) {
+                Cable = new PowerCableModel(this);
+            }
             Cable.GetCableParameters(this);
             Cable.CalculateCableQtySize();
         }
