@@ -5,10 +5,15 @@
     <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>bin\Debug\net6.0-windows10.0.22000.0\Cjdowner-Cryptocurrency-Power-Ledger.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Views\PD LOGO 17.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net6.0-windows10.0.22000.0\Cjdowner-Cryptocurrency-Power-Ledger.ico" />
   </ItemGroup>
 
   <ItemGroup>

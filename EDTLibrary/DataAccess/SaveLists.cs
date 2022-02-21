@@ -24,7 +24,7 @@ namespace EDTLibrary.DataAccess
             "Components"
         };
 
-        static public List<string> CableSaveList { get; set; } = new List<string> {
+        static public List<string> PowerCableSaveList { get; set; } = new List<string> {
 
             "Load",
             "InLineComponents",

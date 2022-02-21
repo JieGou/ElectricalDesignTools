@@ -84,7 +84,7 @@ namespace EDTLibrary.DataAccess
         }
         public static void OnLoadLoadingCalculated(object source, EventArgs e)
         {
-            prjDb.UpsertRecord<LoadModel>((LoadModel)source, GlobalConfig.LoadListTable, SaveLists.LoadSaveList);
+            prjDb.UpsertRecord<LoadModel>((LoadModel)source, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
         }
     }
 }

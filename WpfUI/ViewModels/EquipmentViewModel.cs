@@ -608,7 +608,7 @@ namespace WpfUI.ViewModels
                 foreach (var item in LoadList) {
                     var dteqTag = item.Tag;
                     item.Cable.AssignOwner(item);
-                    didSaveCorrectly = DbManager.prjDb.UpsertRecord<LoadModel>(item, GlobalConfig.LoadListTable, SaveLists.LoadSaveList);
+                    didSaveCorrectly = DbManager.prjDb.UpsertRecord<LoadModel>(item, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
                     if (didSaveCorrectly.Item1 == false) {
                         error = true;
                         message = didSaveCorrectly.Item2;
@@ -619,7 +619,7 @@ namespace WpfUI.ViewModels
                 _listManager.CreateCableList();
                 foreach (var item in _listManager.CableList) {
                     var cableTag = item.Tag;
-                    didSaveCorrectly = DbManager.prjDb.UpsertRecord<PowerCableModel>(item, GlobalConfig.PowerCableTable, SaveLists.CableSaveList);
+                    didSaveCorrectly = DbManager.prjDb.UpsertRecord<PowerCableModel>(item, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
                     if (didSaveCorrectly.Item1 == false) {
                         error = true;
                         message = didSaveCorrectly.Item2;
@@ -674,7 +674,6 @@ namespace WpfUI.ViewModels
 
                 dteq.Tag = _dteqToAddTag;
 
-                DteqList.CollectionChanged += DteqList_CollectionChanged;
                 DteqList.Add(dteq);
 
                 //TODO = centralize dictionaries
@@ -688,11 +687,6 @@ namespace WpfUI.ViewModels
                     DteqToAddTag = tag;
 
                 CalculateAll();
-
-                dteq.Cable = new PowerCableModel(dteq);
-                Tuple<bool, string, object> updateId;
-                updateId = DbManager.prjDb.InsertRecordGetId<PowerCableModel>(dteq.Cable, GlobalConfig.PowerCableTable, SaveLists.CableSaveList);
-                dteq.Cable.Id = Convert.ToInt32(updateId.Item3);
             }
         }
         public void DteqList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -715,14 +709,17 @@ namespace WpfUI.ViewModels
                 newLoad.Unit = _loadToAdd.Unit;
                 newLoad.LoadFactor = Double.Parse(_loadToAdd.LoadFactor);
                 newLoad.CalculateLoading();
-                var newId = DbManager.prjDb.InsertRecordGetId(newLoad, GlobalConfig.LoadListTable, SaveLists.LoadSaveList);
-                newLoad.Cable.Id = Convert.ToInt32(newId.Item3);
+                newLoad.Id = DbManager.prjDb.InsertRecordGetId(newLoad, GlobalConfig.LoadTable, SaveLists.LoadSaveList).Item3;
+                LoadList.Add(newLoad);
+
                 newLoad.SizeCable();
                 newLoad.CalculateCableAmps();
-                LoadList.Add(newLoad);
+                newLoad.Cable.Id = DbManager.prjDb.InsertRecordGetId(newLoad.Cable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList).Item3;
+                CableList.Add(newLoad.Cable);
+
                 CalculateAll();
 
-                //Refreshes the Tag validation
+                //Refresh Tag validation to s
                 var tag = _loadToAdd.Tag;
                 _loadToAdd.Tag = " ";
                 _loadToAdd.Tag = tag;
@@ -750,7 +747,7 @@ namespace WpfUI.ViewModels
                 string message = "";
 
                 foreach (var load in LoadList) {
-                    update = DbManager.prjDb.UpsertRecord<LoadModel>(load, GlobalConfig.LoadListTable, SaveLists.LoadSaveList);
+                    update = DbManager.prjDb.UpsertRecord<LoadModel>(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
                     if (update.Item1 == false) {
                         error = true;
                         message = update.Item2;
@@ -765,12 +762,15 @@ namespace WpfUI.ViewModels
         {
            if(_selectedLoad != null) {
                 int loadId = _selectedLoad.Id;
-                int cableId = _selectedLoad.Cable.Id;
+                if (_selectedLoad.Cable!= null) {
+                    int cableId = _selectedLoad.Cable.Id;
+                    DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
+                    CableList.Remove(_selectedLoad.Cable);
+                }
 
                 var dteq = DteqList.First(d => d.Tag == _selectedLoad.FedFrom);
-                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadListTable, loadId);
-                DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
-                CableList.Remove(_selectedLoad.Cable);
+                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadTable, loadId);
+                
 
                 var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
                 AssignedLoads.Remove(loadToRemove);

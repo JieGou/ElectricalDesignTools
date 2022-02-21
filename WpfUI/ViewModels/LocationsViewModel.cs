@@ -327,7 +327,7 @@ namespace WpfUI.ViewModels
         {
             if (_selectedLocation != null) {
                 int locationId = _selectedLocation.Id;
-                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadListTable, _selectedLocation.Id);
+                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadTable, _selectedLocation.Id);
             }
         }
         private void AddLocation()

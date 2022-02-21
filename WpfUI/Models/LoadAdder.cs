@@ -284,6 +284,14 @@ namespace WpfUI.Models
             LoadFactor = fake;
             LoadFactor = temp;
 
+#if DEBUG
+            Type = "MOTOR";
+            FedFrom = "MCC-05";
+            Size = "50";
+            Unit = "HP";
+            Voltage = "460";
+            LoadFactor = "0.8";
+#endif
             if (Tag == GlobalConfig.EmptyTag) {
                 ClearErrors();
                 return false;

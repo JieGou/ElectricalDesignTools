@@ -165,7 +165,7 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
-        public Tuple<bool, string, object> InsertRecordGetId<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new()
+        public Tuple<bool, string, int> InsertRecordGetId<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new()
         {
             using (IDbConnection cnn = new SQLiteConnection(conString)) {
                 SQLiteCommand cmd = new SQLiteCommand();
@@ -182,12 +182,17 @@ namespace EDTLibrary.DataAccess
                     sb.Append($"{prop.Name}, ");
                 }
 
-                // removes any properties in prop list
+                // removes properties to Ignore
                 foreach (var prop in propertiesToIgnore) {
                     sb.Replace($"{prop}, ", "");
                 }
 
-                sb.Replace("Id,", "");
+                string input = sb.ToString();
+                string pattern = @"\bId,";
+                string replace = "";
+                sb.Clear();
+                sb.Append(Regex.Replace(input, pattern, ""));
+                
                 sb.Replace(",", "", sb.Length - 2, 2);
                 sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(") VALUES (");
@@ -198,7 +203,7 @@ namespace EDTLibrary.DataAccess
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
 
-                // removes any properties in prop list
+                // removes properties to ignore
                 foreach (var prop in propertiesToIgnore) {
                     sb.Replace($"@{prop}, ", "");
                 }
@@ -214,15 +219,15 @@ namespace EDTLibrary.DataAccess
 
                 try {
                     cnn.Execute(sb.ToString() + ";", classObject);
-                    object objectId;
-                    objectId = cnn.ExecuteScalar($"SELECT MAX(rowid) FROM {tableName}");
-                    //objectId = cnn.ExecuteScalar($"SELECT last_insert_rowid()");
+                    object sqlId;
+                    sqlId = cnn.ExecuteScalar($"SELECT MAX(rowid) FROM {tableName}");
+                    int objectId= Convert.ToInt32(sqlId);
 
-                    return new Tuple<bool, string, object>(true, "", objectId);
+                    return new Tuple<bool, string, int>(true, "", objectId);
                 }
                 catch (Exception ex) {
                     //throw new Exception("Could not add record");
-                    return new Tuple<bool, string, object>(false, $"Error: \n{ex.Message}\n\n" +
+                    return new Tuple<bool, string, int>(false, $"Error: \n{ex.Message}\n\n" +
                         $"Query: \n{sb}\n\n" +
                         $"Details: \n\n {ex}", 0); ;
                 }

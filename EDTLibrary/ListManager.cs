@@ -56,7 +56,7 @@ namespace EDTLibrary
         }
 
         public ObservableCollection<LoadModel> GetLoads() {     
-            LoadList = DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable);
+            LoadList = DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable);
             CreateILoadDict();
             return LoadList;
         }

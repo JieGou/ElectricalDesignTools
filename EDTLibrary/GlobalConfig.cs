@@ -41,7 +41,7 @@
             //public static string currentProjectDb = Properties.Settings.Default.CurrentProject;
 
         #region Database Table Quick Names
-        public const string LoadListTable = "Loads";
+        public const string LoadTable = "Loads";
         public static string DteqListTable = "DistributionEquipment";
         public const string LocationTable = "Locations";
         public const string PowerCableTable = "Cables";
