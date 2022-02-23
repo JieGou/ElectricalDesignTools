@@ -85,6 +85,7 @@ namespace WpfUI.ViewModels
         {
             CurrentViewModel = _equipmentViewModel;
             _equipmentViewModel.CreateValidators();
+            _equipmentViewModel.LoadGridActualHeight = 365;
         }
         private void NavigateCableList()
         {

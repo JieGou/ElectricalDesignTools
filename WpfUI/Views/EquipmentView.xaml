@@ -85,9 +85,9 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="{Binding LoadGridTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="{Binding LoadGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <RowDefinition Height="{Binding LoadGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -179,40 +179,7 @@
                 Margin="0 50 0 0"/>
 
             </StackPanel>
-            <!--***********************************-->
-            <!--***********************************-->
-            <!--***********************************-->
-            <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="3">
-
-                <TextBlock Text="Dteq Count:  "/>
-                <TextBlock Text="{Binding ListManager.DteqList.Count}" Margin="0" FontWeight="Bold"/>
-
-                <TextBlock Text="    Dteq Id:  "/>
-                <TextBlock Text="{Binding SelectedDteq.Id}" Margin="0" FontWeight="Bold"/>
-
-                <TextBlock Text="    Dteq Cable Id:  "/>
-                <TextBlock Text="{Binding SelectedDteq.Cable.Id}" Margin="0" FontWeight="Bold"/>
-
-                <TextBlock Text="            Load Id:  "/>
-                <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
-
-                <TextBlock Text="            Cable Count:  "/>
-                <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
-
-                <TextBlock Text="    Load Cable Id:  "/>
-                <TextBlock Text="{Binding SelectedLoad.Cable.Id}" Margin="0" FontWeight="Bold"/>
-
-                <TextBlock Text="    Load Cable Tag:  "/>
-                <TextBlock Text="{Binding SelectedLoad.Cable.Tag}" Margin="0" FontWeight="Bold"/>
-
-            </StackPanel>
-
-
-
-            <!--***********************************-->
-            <!--***********************************-->
-            <!--***********************************-->
-            <!--Load View Buttons-->
+           
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                 Grid.Row="{StaticResource loadViewButtons}" Grid.Column="3">
 
@@ -236,6 +203,9 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
+                
+                
+                
 
                 <!--<Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"
                         BorderBrush="LightGray" BorderThickness="3" Background="{x:Null}"/>-->
@@ -845,7 +815,7 @@
             <!--LOAD Datagrid-->
             <Grid Grid.Row="{StaticResource load}" Grid.Column="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding LoadGridWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ColumnDefinition Width="{Binding LoadGridRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="350"/>
                     <ColumnDefinition Width="*"/>
@@ -854,6 +824,42 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
+
+                <!--***********************************-->
+                <!--***********************************-->
+                <!--***********************************-->
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+
+                    <TextBlock Text="Dteq Count:  "/>
+                    <TextBlock Text="{Binding ListManager.DteqList.Count}" Margin="0" FontWeight="Bold"/>
+
+                    <TextBlock Text="    Dteq Id:  "/>
+                    <TextBlock Text="{Binding SelectedDteq.Id}" Margin="0" FontWeight="Bold"/>
+
+                    <TextBlock Text="    Dteq Cable Id:  "/>
+                    <TextBlock Text="{Binding SelectedDteq.Cable.Id}" Margin="0" FontWeight="Bold"/>
+
+                    <TextBlock Text="            Load Id:  "/>
+                    <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
+
+                    <TextBlock Text="            Cable Count:  "/>
+                    <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
+
+                    <TextBlock Text="    Load Cable Id:  "/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.Id}" Margin="0" FontWeight="Bold"/>
+
+                    <TextBlock Text="    Load Cable Tag:  "/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.Tag}" Margin="0" FontWeight="Bold"/>
+
+                </StackPanel>
+
+
+
+                <!--***********************************-->
+                <!--***********************************-->
+                <!--***********************************-->
+                <!--Load View Buttons-->
+
 
                 <!--<Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"
                         BorderBrush="LightGray" BorderThickness="3" Background="{x:Null}"/>-->
@@ -876,9 +882,9 @@
 
                 <DataGrid x:Name="dgdAssignedLoads" 
                 Grid.Row="0"  Grid.Column="0"
-                HorizontalAlignment="Left" VerticalAlignment="Top"
-                MinHeight="250" 
-                      MaxHeight="500"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                          
+                      MaxHeight="525"
                       Height="{Binding LoadGridActualHeight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 Margin="10,10,10,10"
                 ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"

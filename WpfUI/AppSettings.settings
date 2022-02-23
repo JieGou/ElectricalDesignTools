@@ -11,11 +11,14 @@
     <Setting Name="DteqGridSize" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1175</Value>
     </Setting>
-    <Setting Name="LoadGridWidth" Type="System.Double" Scope="User">
+    <Setting Name="LoadGridRight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">975</Value>
     </Setting>
-    <Setting Name="LoadGridHeight" Type="System.Double" Scope="User">
+    <Setting Name="LoadGridBottom" Type="System.Double" Scope="User">
       <Value Profile="(Default)">350</Value>
+    </Setting>
+    <Setting Name="LoadGridTop" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">75</Value>
     </Setting>
   </Settings>
 </SettingsFile>

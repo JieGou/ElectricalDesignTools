@@ -99,30 +99,45 @@ namespace WpfUI.ViewModels
             }
         }
 
-        private System.Windows.GridLength _loadGridWidth = new System.Windows.GridLength(AppSettings.Default.LoadGridWidth, GridUnitType.Pixel);
-        public System.Windows.GridLength LoadGridWidth
+        private System.Windows.GridLength _loadGridRight = new System.Windows.GridLength(AppSettings.Default.LoadGridRight, GridUnitType.Pixel);
+        public System.Windows.GridLength LoadGridRight
         {
-            get { return _loadGridWidth; }
+            get { return _loadGridRight; }
             set
             {
-                _loadGridWidth = value;
-                AppSettings.Default.LoadGridWidth = _loadGridWidth.Value;
+                _loadGridRight = value;
+                AppSettings.Default.LoadGridRight = _loadGridRight.Value;
                 AppSettings.Default.Save();
             }
         }
-        private System.Windows.GridLength _loadGridHeight = new System.Windows.GridLength(AppSettings.Default.LoadGridHeight, GridUnitType.Pixel);
-        public System.Windows.GridLength LoadGridHeight
+        private System.Windows.GridLength _loadGridTop = new System.Windows.GridLength(AppSettings.Default.LoadGridTop, GridUnitType.Pixel);
+        public System.Windows.GridLength LoadGridTop
         {
-            get { return _loadGridHeight; }
+            get { return _loadGridTop; }
             set
             {
-                _loadGridHeight = value;
-                AppSettings.Default.LoadGridHeight = _loadGridHeight.Value;
+                double oldTop = _loadGridTop.Value;
+                _loadGridTop = value;
+                AppSettings.Default.LoadGridTop = _loadGridTop.Value;
+                AppSettings.Default.Save();
+                LoadGridActualHeight = LoadGridActualHeight - (_loadGridTop.Value -oldTop);
+
+            }
+        }
+        private System.Windows.GridLength _loadGridBottom = new System.Windows.GridLength(AppSettings.Default.LoadGridBottom, GridUnitType.Pixel);
+        public System.Windows.GridLength LoadGridBottom
+        {
+            get { return _loadGridBottom; }
+            set
+            {
+                _loadGridBottom = value;
+                AppSettings.Default.LoadGridBottom = _loadGridBottom.Value;
                 AppSettings.Default.Save();
 
-                LoadGridActualHeight = _loadGridHeight.Value - 20;
+                LoadGridActualHeight = _loadGridBottom.Value - 50;
             }
         }
+
         public double LoadGridActualHeight { get; set; }
         #endregion
 

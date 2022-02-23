@@ -64,24 +64,36 @@ namespace WpfUI {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("975")]
-        public double LoadGridWidth {
+        public double LoadGridRight {
             get {
-                return ((double)(this["LoadGridWidth"]));
+                return ((double)(this["LoadGridRight"]));
             }
             set {
-                this["LoadGridWidth"] = value;
+                this["LoadGridRight"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("350")]
-        public double LoadGridHeight {
+        public double LoadGridBottom {
             get {
-                return ((double)(this["LoadGridHeight"]));
+                return ((double)(this["LoadGridBottom"]));
             }
             set {
-                this["LoadGridHeight"] = value;
+                this["LoadGridBottom"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("75")]
+        public double LoadGridTop {
+            get {
+                return ((double)(this["LoadGridTop"]));
+            }
+            set {
+                this["LoadGridTop"] = value;
             }
         }
     }
