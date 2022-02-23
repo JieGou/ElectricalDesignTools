@@ -2,9 +2,10 @@
 using System.Windows.Input;
 using WpfUI.Services;
 
-namespace WpfUI.ViewModels
+namespace WpfUI.Commands
 {
-    class RelayCommand : ICommand {
+    class RelayCommand : ICommand
+    {
 
         private Action? _action;
         private Func<bool>? _canExecute;
@@ -13,14 +14,15 @@ namespace WpfUI.ViewModels
         //public event EventHandler? CanExecuteChanged = (sender , e) => { };
         public event EventHandler? CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
+            add { CommandManager.RequerySuggested += value; } //This is called during InitializeProject to check fire CanExecuteChanged;
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-        public RelayCommand(Action action) {
+        public RelayCommand(Action action)
+        {
             _action = action;
         }
-      
+
         public RelayCommand(Action action, Func<bool> canExecute)
         {
             _action = action;
@@ -32,7 +34,8 @@ namespace WpfUI.ViewModels
             _startupService = startupService;
         }
 
-        public bool CanExecute(object? parameter) {
+        public bool CanExecute(object? parameter)
+        {
             if (_canExecute != null) {
                 return _canExecute.Invoke();
             }
@@ -44,8 +47,9 @@ namespace WpfUI.ViewModels
             }
         }
 
-        
-        public void Execute(object? parameter) {
+
+        public void Execute(object? parameter)
+        {
             if (_action != null) {
                 _action();
             }

@@ -1,10 +1,10 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
-using EDTLibrary.TypeTables;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -112,12 +112,22 @@ namespace WpfUI.Services
             }
             else {
 
-                _listManager.DteqList = prjDb.GetRecords<DteqModel>("DistributionEquipment");
-                _listManager.LoadList = prjDb.GetRecords<LoadModel>("Loads");
-                _listManager.CableList = prjDb.GetRecords<PowerCableModel>("Cables");
+                GlobalConfig.GettingRecords = true;
+
+                    _listManager.GetLocations();
+                    _listManager.GetDteq();
+                    _listManager.GetLoads();
+                    _listManager.AssignLoadsToDteq();
+
+                    //Cables
+                    _listManager.GetCables();
+                    _listManager.AssignCables();
+
+                GlobalConfig.GettingRecords = false;
+
 
                 IsProjectLoaded = true;
-                CommandManager.InvalidateRequerySuggested();
+                CommandManager.InvalidateRequerySuggested();  //Fires CanExecuteChanged in Relay Commands (ICommand);
             }
         }
 

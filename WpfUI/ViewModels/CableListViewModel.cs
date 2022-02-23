@@ -1,5 +1,6 @@
 ﻿using EDTLibrary;
 using EDTLibrary.Models.Cables;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,19 +11,21 @@ using WpfUI.Stores;
 
 namespace WpfUI.ViewModels
 {
+    [AddINotifyPropertyChangedInterface]
     public class CableListViewModel : ViewModelBase
     {
-        public ObservableCollection<PowerCableModel> CableList { get; set; }
+        private ListManager _listManager;
 
-
-        public CableListViewModel()
+        public ListManager ListManager
         {
-            //CableList = new ObservableCollection<CableModel>(ListManager.GetCableList());
+            get { return _listManager; }
+            set { _listManager = value; }
         }
 
-
-        public CableListViewModel(NavigationStore navigationStore)
+        public CableListViewModel(ListManager listManager)
         {
+            _listManager = listManager;
         }
+
     }
 }

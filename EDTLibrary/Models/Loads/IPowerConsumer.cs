@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace EDTLibrary.Models {
+namespace EDTLibrary.Models.Loads
+{
     public interface IPowerConsumer : IEquipment
 
-    {                
-        
+    {
+
         double Voltage { get; set; }
         double Size { get; set; }
         string Unit { get; set; }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EDTLibrary.TypeTables
+namespace EDTLibrary.LibraryData.TypeTables
 {
     public class NemaType
     {

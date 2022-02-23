@@ -1,4 +1,4 @@
-﻿using EDTLibrary.Models;
+﻿using EDTLibrary.Models.Loads;
 
 namespace EDTLibrary.Calculators.Cables
 {

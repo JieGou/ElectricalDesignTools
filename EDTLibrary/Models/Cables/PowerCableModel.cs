@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.Calculators;
 using EDTLibrary.Calculators.Cables;
 using EDTLibrary.LibraryData;
+using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;

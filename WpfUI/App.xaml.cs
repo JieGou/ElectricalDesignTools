@@ -45,7 +45,7 @@ namespace WpfUI {
             StartupService startupService = new StartupService(listManager);
 
             MainWindow = new MainWindow() { 
-                DataContext = new MainViewModel(startupService, listManager) 
+                DataContext = new MainViewModel(startupService, listManager, "main") 
                 //DataContext = new MainViewModel(_navigationStore) 
             };
 

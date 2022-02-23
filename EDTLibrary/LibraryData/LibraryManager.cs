@@ -1,5 +1,4 @@
-﻿using EDTLibrary.Models;
-using EDTLibrary.Models.Loads;
+﻿using EDTLibrary.Models.Loads;
 using System;
 using System.Data;
 

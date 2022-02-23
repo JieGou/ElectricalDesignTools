@@ -1,7 +1,7 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models;
-using EDTLibrary.TypeTables;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using WpfUI.Commands;
 
 namespace WpfUI.ViewModels
 {

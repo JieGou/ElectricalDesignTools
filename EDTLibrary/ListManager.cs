@@ -17,58 +17,44 @@ namespace EDTLibrary
     [AddINotifyPropertyChangedInterface]
     public class ListManager {
 
-        public ObservableCollection<LocationModel> LocationList { get; set; } = new ObservableCollection<LocationModel>();
+        public ObservableCollection<LocationModel>      LocationList { get; set; } = new ObservableCollection<LocationModel>();
+        public ObservableCollection<DteqModel>          DteqList { get; set; } = new ObservableCollection<DteqModel>();
+        public ObservableCollection<LoadModel>          LoadList { get; set; } = new ObservableCollection<LoadModel>();
+        public ObservableCollection<PowerCableModel>    CableList { get; set; } = new ObservableCollection<PowerCableModel>();
+        public ObservableCollection<CctComponentModel>  CompList { get; set; } = new ObservableCollection<CctComponentModel>();
+
+        public Dictionary<string, DteqModel>            dteqDict { get; set; } = new Dictionary<string, DteqModel>();
+        public Dictionary<string, IEquipment>           eqDict { get; set; } = new Dictionary<string, IEquipment>();
+        public Dictionary<string, IPowerConsumer>       iLoadDict { get; set; } = new Dictionary<string, IPowerConsumer>();
 
 
-        public static ObservableCollection<IDteq> IDteqList { get; set; } = new ObservableCollection<IDteq>();
-        public ObservableCollection<DteqModel> DteqList { get; set; } = new ObservableCollection<DteqModel>();
-        public ObservableCollection<LoadModel> LoadList { get; set; } = new ObservableCollection<LoadModel>();
-        public ObservableCollection<PowerCableModel> CableList { get; set; } = new ObservableCollection<PowerCableModel>();
-        public ObservableCollection<CircuitComponentModel> CompList { get; set; } = new ObservableCollection<CircuitComponentModel>();
-
-
-        public ObservableCollection<IEquipment> eqList { get; set; } = new ObservableCollection<IEquipment>();
-        public ObservableCollection<IPowerConsumer> masterLoadList { get; set; } = new ObservableCollection<IPowerConsumer>();
-
-        public Dictionary<string, DteqModel> dteqDict { get; set; } = new Dictionary<string, DteqModel>();
-        public Dictionary<string, IEquipment> eqDict { get; set; } = new Dictionary<string, IEquipment>();
-        public Dictionary<string, IPowerConsumer> iLoadDict { get; set; } = new Dictionary<string, IPowerConsumer>();
-
-
-        public void CreateIDteqList()
-        {
-            foreach (var item in DteqList) {
-                IDteqList.Add(item);
-            }
-        }
         public ObservableCollection<DteqModel> GetDteq() {
-            DteqList = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqListTable);
+            DteqList = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
             CreateDteqDict();
             return DteqList;
         }
-
         public async Task SetDteq()
         {
             Task<ObservableCollection<DteqModel>> dteqList;
-            dteqList = Task.Run (()=>DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqListTable));
+            dteqList = Task.Run (()=>DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable));
             await Task.Delay(1000);
             CreateDteqDict();
         }
-
         public ObservableCollection<LoadModel> GetLoads() {     
             LoadList = DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable);
             CreateILoadDict();
             return LoadList;
         }
-
-
-
         public ObservableCollection<PowerCableModel> GetCables()
         {
-            CableList = DbManager.prjDb.GetRecords<PowerCableModel>("Cables");
+            CableList = DbManager.prjDb.GetRecords<PowerCableModel>(GlobalConfig.PowerCableTable);
             return CableList;
         }
-
+        public ObservableCollection<LocationModel> GetLocations()
+        {
+            LocationList = DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable);
+            return LocationList;
+        }
 
         public void CreateEqDict() {
             eqDict.Clear();
@@ -106,19 +92,14 @@ namespace EDTLibrary
                 }
             }
         }
-        public bool IsTagAvailable(string tag) {
-            var tagCheck = masterLoadList.Where(e => e.Tag == tag );
-                if (tagCheck == null) {
-                    return true;
-                }
-            return false;
-        }
+      
 
 
         #region MajorEquipment
         //Todo - Pass List Back or add to both lists
         public void CalculateDteqLoading() // LoadList Manager
         {
+
             AssignLoadsToDteq();
             //Calculates the loading of each load. Recursive for dteq
             foreach (DteqModel dteq in DteqList) {
@@ -131,7 +112,7 @@ namespace EDTLibrary
             AssignLoadsToDteq();
         }
 
-        private void UnassignLoads()
+        public void UnassignLoads()
         {
             foreach (DteqModel dteq in DteqList) {
                 dteq.FedFromChanged -= this.OnFedFromCalculated;
@@ -241,31 +222,7 @@ namespace EDTLibrary
         /// <summary>
         /// Creates a list of ILoadModel for all equipment (not components)
         /// </summary>
-        public void CreateMasterLoadList() {
-            masterLoadList.Clear();
-            foreach (var dteq in DteqList) {
-                masterLoadList.Add(dteq);
-            }
-            foreach (var load in LoadList) {
-                masterLoadList.Add(load);
-            }
-
-            //CalculateSystemLoading();
-
-            CreateEqDict();
-            CreateDteqDict();
-            CreateILoadDict();
-        }
        
-        public void CreateComponentList() {
-            CompList.Clear();
-            foreach (var load in LoadList) {
-                load.SizeComponents();
-                foreach (var comp in load.InLineComponents) {
-                    CompList.Add(comp);
-                }
-            }
-        }
  
         /// <summary>
         /// Creteas a list of CableModel for all equipment and components based on the masterLoadList
@@ -305,12 +262,7 @@ namespace EDTLibrary
                 }
             }
         }
-
-        public void CalculateCableAmps() {
-            foreach (var cable in CableList) {
-                cable.CalculateAmpacity();
-            }
-        }
+    
         #endregion
 
     }

@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -63,7 +64,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
 
-        public ObservableCollection<CircuitComponentModel> InLineComponents { get; set; }
+        public ObservableCollection<CctComponentModel> InLineComponents { get; set; }
         public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; }
         public int LoadCount { get; set; }
 

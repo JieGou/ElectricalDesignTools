@@ -1,7 +1,7 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
-using EDTLibrary.TypeTables;
 using System;
 using System.Data;
 
@@ -80,7 +80,7 @@ namespace EDTLibrary.DataAccess
 
         public static void OnDteqLoadingCalculated(object source, EventArgs e)
         {
-            prjDb.UpsertRecord<DteqModel>((DteqModel)source, GlobalConfig.DteqListTable, SaveLists.DteqSaveList);
+            prjDb.UpsertRecord<DteqModel>((DteqModel)source, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
         }
         public static void OnLoadLoadingCalculated(object source, EventArgs e)
         {

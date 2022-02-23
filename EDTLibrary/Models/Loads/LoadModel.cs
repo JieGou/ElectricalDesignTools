@@ -73,7 +73,7 @@ namespace EDTLibrary.Models.Loads
 
         public double LoadFactor { get; set; }
 
-        public ObservableCollection<CircuitComponentModel> InLineComponents { get; set; } = new ObservableCollection<CircuitComponentModel>();
+        public ObservableCollection<CctComponentModel> InLineComponents { get; set; } = new ObservableCollection<CctComponentModel>();
 
         public double Efficiency { get; set; }
         public double PowerFactor { get; set; }

@@ -3,7 +3,7 @@ using EDTLibrary.Models.Loads;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace WpfUI.Validators
+namespace EDTLibrary.Models.Validators
 {
     public static class TagValidator
     {

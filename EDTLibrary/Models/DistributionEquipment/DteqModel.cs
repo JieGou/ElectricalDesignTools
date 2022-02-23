@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Loads;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -31,11 +32,17 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 _tag = value;
-                if (AssignedLoads != null) {
-                    foreach (var iload in AssignedLoads) {
-                        iload.FedFrom = _tag;
+                if (GlobalConfig.GettingRecords==false) {
+                    if (AssignedLoads != null) {
+                        foreach (var iload in AssignedLoads) {
+                            iload.FedFrom = _tag;
+                        }
+                    }
+                    if (Cable != null) {
+                        Cable.GetCableParameters(this);
                     }
                 }
+               
             }
         }
         public string Category { get; set; }
@@ -73,7 +80,19 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
             }
         }
-        public double LineVoltage { get; set; }
+
+        private double _lineVoltage;
+
+        public double LineVoltage
+        {
+            get { return _lineVoltage; }
+            set
+            {
+                _lineVoltage = value;
+                Voltage = _lineVoltage;
+            }
+        }
+
         public double LoadVoltage { get; set; }
 
         //Loading
@@ -160,7 +179,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             Cable.GetCableParameters(this);
             Cable.CalculateCableQtySize();
         }
-
+        public void CalculateCableAmps()
+        {
+            Cable.CalculateAmpacity();
+        }
         public void GetMinimumPdSize()
         {
             //PD and Starter

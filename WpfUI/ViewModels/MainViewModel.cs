@@ -1,11 +1,13 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
 using EDTLibrary.Models;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using WpfUI.Commands;
 using WpfUI.Services;
 
 namespace WpfUI.ViewModels
@@ -20,10 +22,10 @@ namespace WpfUI.ViewModels
         private readonly ProjectSettingsViewModel _projectSettingsViewModel = new ProjectSettingsViewModel();
         private readonly LocationsViewModel _locationsViewModel;
         private readonly EquipmentViewModel _equipmentViewModel;
-        private readonly CableListViewModel _cableListViewModel = new CableListViewModel();
+        private readonly CableListViewModel _cableListViewModel;
         private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
-        public MainViewModel(StartupService startupService, ListManager listManager)
+        public MainViewModel(StartupService startupService, ListManager listManager, string type="")
         {
             _listManager = listManager;
             _startupService = startupService;
@@ -31,14 +33,13 @@ namespace WpfUI.ViewModels
             _startupViewModel = new StartupViewModel(startupService);
             _locationsViewModel = new LocationsViewModel(listManager);
             _equipmentViewModel = new EquipmentViewModel(listManager);
-
+            _cableListViewModel = new CableListViewModel(listManager);
 
             NavigateStartupCommand = new RelayCommand(NavigateStartup);
             NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings, CanExecute_IsProjectLoaded);
             NavigateLocationsCommand = new RelayCommand(NavigateLocations, CanExecute_IsProjectLoaded);
 
             NavigateEquipmentCommand = new RelayCommand(NavigateEquipment, startupService);
-            //NavigateEquipmentCommand = new RelayCommand(NavigateEquipment, CanExecute);
 
             NavigateCableListCommand = new RelayCommand(NavigateCableList, CanExecute_IsProjectLoaded);
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables, CanExecute_IsLibraryLoaded);
@@ -50,23 +51,9 @@ namespace WpfUI.ViewModels
 
 
 #if DEBUG
-             _startupService.InitializeProject();
-            //TODO - event on project loaded;
-            _locationsViewModel.ListManager.LocationList = new ObservableCollection<LocationModel>(DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable));
-
-            GlobalConfig.GettingRecords = true;
-
-                //Dteq
-                _equipmentViewModel.DteqList = _listManager.GetDteq();
-                _equipmentViewModel.LoadList = _listManager.GetLoads();
-                _equipmentViewModel.ShowAllLoads();
-                _listManager.AssignLoadsToDteq();
-
-                //Cables
-                _equipmentViewModel.CableList = _listManager.GetCables();
-                _listManager.AssignCables();
-
-            GlobalConfig.GettingRecords = false;
+            if (type == "main") {
+                _startupService.InitializeProject();
+            }
 #endif
 
         }
@@ -96,8 +83,8 @@ namespace WpfUI.ViewModels
         }
         private void NavigateEquipment()
         {
-            
             CurrentViewModel = _equipmentViewModel;
+            _equipmentViewModel.CreateValidators();
         }
         private void NavigateCableList()
         {
@@ -116,13 +103,16 @@ namespace WpfUI.ViewModels
         {
             return _startupService.IsLibraryLoaded;
         }
+
+        //NEW WINDOW
         private void NewAppInstance()
         {
             ListManager listManager = new ListManager();
             StartupService startupService = new StartupService(listManager);
 
             Window scenario = new MainWindow() {
-                DataContext = new MainViewModel(startupService, listManager)
+                //DataContext = new MainViewModel(startupService, listManager)
+                DataContext = new MainViewModel(_startupService, _listManager)
             };
             scenario.Show();
         }

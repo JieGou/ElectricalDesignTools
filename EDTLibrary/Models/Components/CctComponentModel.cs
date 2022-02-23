@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Components
 {
-    public class CircuitComponentModel : IComponentModel
+    public class CctComponentModel : IComponentModel
     {
-        public CircuitComponentModel()
+        public CctComponentModel()
         {
             Category = Categories.COMP.ToString();
         }

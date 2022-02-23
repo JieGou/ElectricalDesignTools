@@ -1,6 +1,6 @@
 ﻿using EDTLibrary;
 using EDTLibrary.Models.DistributionEquipment;
-using EDTLibrary.Models.Loads;
+using EDTLibrary.Models.Validators;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -8,26 +8,25 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using WpfUI.Validators;
 
-namespace WpfUI.Models
+namespace EDTLibrary.Models.Loads
 {
     [AddINotifyPropertyChangedInterface]
-    public class LoadAdder : INotifyDataErrorInfo  
+    public class LoadToAddValidator : INotifyDataErrorInfo
     {
         private ObservableCollection<DteqModel> _dteqList;
         private ObservableCollection<LoadModel> _loadList;
         private DteqModel _selectedDteq;
 
-        public LoadAdder(ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList, DteqModel selectedDteq)
+        public LoadToAddValidator(ListManager listManager, IDteq selectedDteq)
         {
-            _dteqList = dteqList;
-            _loadList = loadList;
+            _dteqList = listManager.DteqList;
+            _loadList = listManager.LoadList;
             //_selectedDteq = selectedDteq;
         }
 
-        private string? _tag;
-        public string? Tag
+        private string _tag;
+        public string Tag
         {
             get { return _tag; }
             set
@@ -39,6 +38,7 @@ namespace WpfUI.Models
                 }
                 else if (string.IsNullOrWhiteSpace(_tag)) { // TODO - create method for invalid tags
                     if (_tag == GlobalConfig.EmptyTag) {
+                        _isValid = false;
                     }
                     else {
                         AddError(nameof(Tag), "Invalid Tag");
@@ -130,7 +130,7 @@ namespace WpfUI.Models
                 ClearErrors(nameof(Size));
                 if (double.TryParse(_size, out newLoad_LoadSize) == false) {
                     AddError(nameof(Size), "Invalid Size");
-                    if (_errorDict.ContainsKey(nameof(Tag))==false) {
+                    if (_errorDict.ContainsKey(nameof(Tag)) == false) {
                         //ClearErrors(nameof(Size));
                     }
                 }
@@ -155,15 +155,15 @@ namespace WpfUI.Models
                 if (_type != "" && _type == null || _unit == "") {
                     AddError(nameof(Unit), "Invalid Unit");
                 }
-                else if (_type == EDTLibrary.LoadTypes.TRANSFORMER.ToString() && _unit != Units.kVA.ToString()) {
+                else if (_type == LoadTypes.TRANSFORMER.ToString() && _unit != Units.kVA.ToString()) {
                     AddError(nameof(Unit), "Incorrect Units for Equipment");
                 }
-                else if (_type == EDTLibrary.LoadTypes.MOTOR.ToString()
+                else if (_type == LoadTypes.MOTOR.ToString()
                     && _unit != Units.HP.ToString() && _unit != Units.kW.ToString()) {
                     AddError(nameof(Unit), "Incorrect Units for Equipment");
                 }
 
-                else if (_type == EDTLibrary.LoadTypes.HEATER.ToString() && _unit != Units.kW.ToString()) {
+                else if (_type == LoadTypes.HEATER.ToString() && _unit != Units.kW.ToString()) {
                     AddError(nameof(Unit), "Incorrect Units for Equipment");
                 }
                 else {
@@ -182,14 +182,12 @@ namespace WpfUI.Models
                 _voltage = value;
                 double parsedVoltage;
                 ClearErrors(nameof(Voltage));
-                if (_voltage != null) {
-                    if (double.TryParse(value.ToString(), out parsedVoltage) == true) {
-
-                        if (_voltage == null) {
-                            AddError(nameof(Voltage), "Voltage does not match supply Equipment");
-                        }
-
-                        else if (_voltage != _selectedDteq.LoadVoltage.ToString()) {
+                if (string.IsNullOrWhiteSpace(_voltage)) {
+                    AddError(nameof(Voltage), "Invalid Voltage");
+                }
+                else if (double.TryParse(value.ToString(), out parsedVoltage) == true) {
+                    if (_selectedDteq != null) {
+                        if (_voltage == _selectedDteq.LoadVoltage.ToString()) {
                             if (_type == LoadTypes.MOTOR.ToString()) {
                                 if (Voltage == "600") {
                                     Voltage = "575";
@@ -197,25 +195,26 @@ namespace WpfUI.Models
                                 else if (Voltage == "480") {
                                     Voltage = "460";
                                 }
-                                _isValid = true;
                             }
-                            else {
-                                AddError(nameof(Voltage), "Voltage does not match supply Equipment");
-                            }
+                            _isValid = true;
                         }
                         else {
                             if (_type == LoadTypes.MOTOR.ToString()) {
                                 if (Voltage == "600") {
                                     Voltage = "575";
+                                    _isValid = true;
                                 }
                                 else if (Voltage == "480") {
                                     Voltage = "460";
+                                    _isValid = true;
                                 }
-                                _isValid = true;
                             }
+                            else
+                            AddError(nameof(Voltage), "Voltage does not match supply Equipment");
                         }
                     }
                 }
+               
             }
         }
 
@@ -247,8 +246,6 @@ namespace WpfUI.Models
         private bool _isValid;
         public bool IsValid()
         {
-            string fakeChange = "fake";
-
             string temp;
             string fake = "fake";
 
@@ -285,12 +282,19 @@ namespace WpfUI.Models
             LoadFactor = temp;
 
 #if DEBUG
-            Type = "MOTOR";
-            FedFrom = "MCC-05";
-            Size = "50";
-            Unit = "HP";
-            Voltage = "460";
-            LoadFactor = "0.8";
+            if (GlobalConfig.Testing == false) {
+                if (string.IsNullOrWhiteSpace(Type))
+                    Type = "MOTOR";
+                if (string.IsNullOrWhiteSpace(FedFrom))
+                    FedFrom = "MCC-05";
+                if (string.IsNullOrWhiteSpace(Size))
+                    Size = "50";
+                if (string.IsNullOrWhiteSpace(Unit))
+                    Unit = "HP";
+                if (string.IsNullOrWhiteSpace(Voltage))
+                    Voltage = "460";
+                LoadFactor = "0.8";
+            }
 #endif
             if (Tag == GlobalConfig.EmptyTag) {
                 ClearErrors();
@@ -304,10 +308,10 @@ namespace WpfUI.Models
         }
 
 
-        public string? Error { get; }
+        public string Error { get; }
 
         public bool HasErrors => _errorDict.Any();
-        public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
         public readonly Dictionary<string, ObservableCollection<string>> _errorDict = new Dictionary<string, ObservableCollection<string>>();
 
         public void ClearErrors()
@@ -334,12 +338,12 @@ namespace WpfUI.Models
 
         }
 
-        public IEnumerable GetErrors(string? propertyName)
+        public IEnumerable GetErrors(string propertyName)
         {
             return _errorDict.GetValueOrDefault(propertyName, null);
         }
 
-        private void OnErrorsChanged(string? propertyName)
+        private void OnErrorsChanged(string propertyName)
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }

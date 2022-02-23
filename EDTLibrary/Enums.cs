@@ -18,6 +18,7 @@ namespace EDTLibrary {
         XFR,
         SWG,
         MCC,
+        CDP,
         DPN,
         SPL,
     }
