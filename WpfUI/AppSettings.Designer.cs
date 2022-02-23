@@ -60,5 +60,29 @@ namespace WpfUI {
                 this["DteqGridSize"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("975")]
+        public double LoadGridWidth {
+            get {
+                return ((double)(this["LoadGridWidth"]));
+            }
+            set {
+                this["LoadGridWidth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("350")]
+        public double LoadGridHeight {
+            get {
+                return ((double)(this["LoadGridHeight"]));
+            }
+            set {
+                this["LoadGridHeight"] = value;
+            }
+        }
     }
 }

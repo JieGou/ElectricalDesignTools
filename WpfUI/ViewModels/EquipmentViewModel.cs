@@ -98,8 +98,32 @@ namespace WpfUI.ViewModels
                 AppSettings.Default.Save();
             }
         }
-        
 
+        private System.Windows.GridLength _loadGridWidth = new System.Windows.GridLength(AppSettings.Default.LoadGridWidth, GridUnitType.Pixel);
+        public System.Windows.GridLength LoadGridWidth
+        {
+            get { return _loadGridWidth; }
+            set
+            {
+                _loadGridWidth = value;
+                AppSettings.Default.LoadGridWidth = _loadGridWidth.Value;
+                AppSettings.Default.Save();
+            }
+        }
+        private System.Windows.GridLength _loadGridHeight = new System.Windows.GridLength(AppSettings.Default.LoadGridHeight, GridUnitType.Pixel);
+        public System.Windows.GridLength LoadGridHeight
+        {
+            get { return _loadGridHeight; }
+            set
+            {
+                _loadGridHeight = value;
+                AppSettings.Default.LoadGridHeight = _loadGridHeight.Value;
+                AppSettings.Default.Save();
+
+                LoadGridActualHeight = _loadGridHeight.Value - 20;
+            }
+        }
+        public double LoadGridActualHeight { get; set; }
         #endregion
 
 

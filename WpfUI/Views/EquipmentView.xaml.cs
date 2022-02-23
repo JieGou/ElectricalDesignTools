@@ -1,5 +1,6 @@
 ﻿using EDTLibrary;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Loads;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -51,6 +52,17 @@ namespace WpfUI.Views
                     EqView dteqDetailsView = new EqView();
                     dteqDetailsView.DataContext = this.DataContext;
                     DteqDetailsContent.Content = dteqDetailsView;
+                }
+            }
+        }
+
+        private void dgdAssignedLoads_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgdAssignedLoads.SelectedItem != null) {
+                if (dgdAssignedLoads.SelectedItem.GetType() == typeof(LoadModel)) {
+                    LoadDetailView loaDetailView = new LoadDetailView();
+                    loaDetailView.DataContext = this.DataContext;
+                    LoadDetailsContent.Content = loaDetailView;
                 }
             }
         }
