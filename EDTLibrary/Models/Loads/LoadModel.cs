@@ -33,6 +33,10 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 _tag = value;
+                if (GlobalConfig.GettingRecords == false) {
+                    CreateCable();
+                    Cable.AssignTagging(this);
+                }
             }
         }
         public string Category { get; set; }
@@ -67,6 +71,8 @@ namespace EDTLibrary.Models.Loads
                 if (GlobalConfig.GettingRecords == false) {
                     OnFedFromChanged();
                     CalculateLoading();
+                    CreateCable();
+                    Cable.AssignTagging(this);
                 }
             }
         }
@@ -80,7 +86,6 @@ namespace EDTLibrary.Models.Loads
 
 
         public double AmpacityFactor { get; set; }
-
         public double Fla { get; set; }
         public double ConnectedKva { get; set; }
         public double DemandKva { get; set; }
@@ -89,7 +94,6 @@ namespace EDTLibrary.Models.Loads
         public double RunningAmps { get; set; }
 
         //Sizing
-
         public string PdType { get; set; }
         public double PdSizeTrip { get; set; }
         public double PdSizeFrame { get; set; }
@@ -233,12 +237,18 @@ namespace EDTLibrary.Models.Loads
         }
         public void SizeCable()
         {
-            if (Cable == null) {
-                Cable = new PowerCableModel(this);
-            }
+            CreateCable();
             Cable.GetCableParameters(this);
             Cable.CalculateCableQtySize();
         }
+
+        private void CreateCable()
+        {
+            if (Cable == null) {
+                Cable = new PowerCableModel(this);
+            }
+        }
+
         public void CalculateCableAmps()
         {
             Cable.CalculateAmpacity();
@@ -260,8 +270,6 @@ namespace EDTLibrary.Models.Loads
             if (LoadingCalculated != null) {
                 LoadingCalculated(this, EventArgs.Empty);
             }
-            //SizeCable();
-            //CalculateCableAmps();
         }
 
         public event EventHandler FedFromChanged;

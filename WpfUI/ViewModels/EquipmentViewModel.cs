@@ -387,6 +387,7 @@ namespace WpfUI.ViewModels
                 DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d.Tag == newDteq.FedFrom);
                 if (dteqSubscriber != null) {
                     newDteq.LoadingCalculated += dteqSubscriber.OnDteqLoadingCalculated;
+                    newDteq.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
                 }
                 newDteq.Id = DbManager.prjDb.InsertRecordGetId(newDteq, GlobalConfig.DteqTable, SaveLists.DteqSaveList).Item3;
                 _listManager.DteqList.Add(newDteq);
@@ -411,10 +412,18 @@ namespace WpfUI.ViewModels
                     _listManager.CableList.Remove(_selectedDteq.Cable);
                 }
 
+                foreach (var load in _selectedDteq.AssignedLoads) {
+                    load.Cable.Destination = "Dteq Deleted";
+                    load.Cable.CreateTag();
+
+                }
+
                 DbManager.prjDb.DeleteRecord(GlobalConfig.DteqTable, _selectedDteq.Id);
                 DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, _selectedDteq.PowerCableId);
                 _listManager.DteqList.Remove(_selectedDteq);
                 RefreshDteqTagValidation();
+                BuildAssignedLoads();
+                SelectedDteq = _listManager.DteqList[_listManager.DteqList.Count - 1];
             }
         }
 
@@ -442,12 +451,26 @@ namespace WpfUI.ViewModels
                     newLoad.LoadingCalculated += dteqSubscriber.OnDteqLoadingCalculated;
                 }
                 newLoad.CalculateLoading();
-                newLoad.Id = DbManager.prjDb.InsertRecordGetId(newLoad, GlobalConfig.LoadTable, SaveLists.LoadSaveList).Item3;
+
+                Tuple<bool, string, int> insertResult;
+
+                insertResult = DbManager.prjDb.InsertRecordGetId(newLoad, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+                newLoad.Id = insertResult.Item3;
+                if (insertResult.Item1 == false || newLoad.Id ==0) {
+                    MessageBox.Show($"ADD NEW LOAD   {insertResult.Item2}");
+                }
                 _listManager.LoadList.Add(newLoad);
+                newLoad.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
 
                 newLoad.SizeCable();
                 newLoad.CalculateCableAmps();
-                newLoad.Cable.Id = DbManager.prjDb.InsertRecordGetId(newLoad.Cable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList).Item3;
+                
+
+                insertResult = DbManager.prjDb.InsertRecordGetId(newLoad.Cable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+                if (insertResult.Item1 == false || insertResult.Item3 == 0) {
+                    MessageBox.Show($"ADD NEW CABLE   {insertResult.Item2}      ");
+                }
+                newLoad.Cable.Id = insertResult.Item3;
                 _listManager.CableList.Add(newLoad.Cable);
 
                 BuildAssignedLoads();
@@ -507,13 +530,15 @@ namespace WpfUI.ViewModels
                 var loadToRemove2 = _listManager.LoadList.FirstOrDefault(load => load.Id == loadId);
                 _listManager.LoadList.Remove(loadToRemove2);
 
-                if (LoadListLoaded == false && _selectedDteq != null) {
+                if (_selectedDteq != null) {
                     _selectedDteq.AssignedLoads.Remove(loadToRemove2);
                 }
                 if (dteqToRecalculate != null) {
                     dteqToRecalculate.CalculateLoading();
                 }
                 RefreshLoadTagValidation();
+                BuildAssignedLoads();
+                SelectedLoad = AssignedLoads[AssignedLoads.Count - 1];
             }
         }
 

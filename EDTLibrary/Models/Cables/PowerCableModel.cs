@@ -91,7 +91,9 @@ namespace EDTLibrary.Models.Cables
 
         public void CreateTag()
         {
-            Tag = Source.Replace("-", "") + "-" + Destination.Replace("-", "");
+            if (Source!=null && Destination != null) {
+                Tag = Source.Replace("-", "") + "-" + Destination.Replace("-", "");
+            }
         }
 
         public void AssignOwner(IPowerConsumer load)
@@ -102,13 +104,15 @@ namespace EDTLibrary.Models.Cables
         /// <summary>
         /// Gets the Source Eq Derating, Destination Eq FLA
         /// </summary>
-
+        public void AssignTagging(IPowerConsumer load)
+        {
+            Source = load.FedFrom;
+            Destination = load.Tag;
+            CreateTag();
+        }
         public void GetCableParameters(IPowerConsumer load)
         {
-            //Tag
-            Source = load.FedFrom ?? "";
-            Destination = load.Tag ?? "";
-            CreateTag();
+            AssignTagging(load);
 
             OwnedById = load.Id;
             OwnedByType = load.GetType().ToString();

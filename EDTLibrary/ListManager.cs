@@ -102,8 +102,8 @@ namespace EDTLibrary
 
             AssignLoadsToDteq();
             //Calculates the loading of each load. Recursive for dteq
-            foreach (DteqModel dteq in DteqList) {
-                dteq.CalculateLoading();
+            foreach (var item in LoadList) {
+                item.CalculateLoading();
             }
         }
         public void OnFedFromCalculated(object sender, EventArgs e)

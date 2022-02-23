@@ -192,7 +192,7 @@ namespace EDTLibrary.DataAccess
                 string replace = "";
                 sb.Clear();
                 sb.Append(Regex.Replace(input, pattern, ""));
-                
+
                 sb.Replace(",", "", sb.Length - 2, 2);
                 sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(") VALUES (");
@@ -241,7 +241,7 @@ namespace EDTLibrary.DataAccess
                 var objectProperties = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
 
-
+                int id=-1;
                 //Build query string: 
                 //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
                 sb.Append($"INSERT INTO {tableName} (");
@@ -255,11 +255,11 @@ namespace EDTLibrary.DataAccess
                     sb.Replace($"{prop}, ", "");
                 }
 
-                string input = sb.ToString();
-                string pattern = @"\bId,";
-                string replace = "";
-                sb.Clear();
-                sb.Append(Regex.Replace(input, pattern, ""));
+                //string input = sb.ToString();
+                //string pattern = @"\bId,";
+                //string replace = "";
+                //sb.Clear();
+                //sb.Append(Regex.Replace(input, pattern, ""));
 
                 sb.Replace(",", "", sb.Length - 2, 2);
                 sb.Replace(" ", "", sb.Length - 2, 2);
@@ -269,18 +269,22 @@ namespace EDTLibrary.DataAccess
                 foreach (var prop in objectProperties) {
                     sb.Append($"@{prop.Name}, ");
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
+                    if (prop.Name == "Id") {
+                        id = (int)prop.GetValue(classObject);
+                    }
                 }
 
                 // removes properties to ignore
                 foreach (var prop in propertiesToIgnore) {
                     sb.Replace($"@{prop}, ", "");
                 }
-                sb.Replace("@Id,", "");
+                //sb.Replace("@Id,", "");
                 sb.Replace(",", "", sb.Length - 2, 2);
                 sb.Replace(" ", "", sb.Length - 2, 2);
-                sb.Append(")");
+                sb.Append(") ");
+                
 
-                sb.Append($" ON CONFLICT DO UPDATE SET ");
+                sb.Append($"ON CONFLICT(Id) DO UPDATE SET ");
 
                 foreach (var prop in objectProperties) {
                     sb.Append($"{prop.Name} = @{prop.Name}, ");

@@ -111,11 +111,10 @@ namespace EDTLibrary.Models.DistributionEquipment
         public double PdSizeTrip { get; set; }
         public double PdSizeFrame { get; set; }
 
-        //Cables
+        public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer>();
 
         public int PowerCableId { get; set; }
         public PowerCableModel Cable { get; set; }
-        public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer>();
         public int LoadCount { get; set; }
         public ObservableCollection<IComponentModel> Components { get; set; }
 

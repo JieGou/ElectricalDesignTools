@@ -14,12 +14,14 @@ namespace EDTLibrary.Models.Loads
     [AddINotifyPropertyChangedInterface]
     public class LoadToAddValidator : INotifyDataErrorInfo
     {
+        private ListManager _listManager;
         private ObservableCollection<DteqModel> _dteqList;
         private ObservableCollection<LoadModel> _loadList;
         private DteqModel _selectedDteq;
 
         public LoadToAddValidator(ListManager listManager, IDteq selectedDteq)
         {
+            _listManager = listManager;
             _dteqList = listManager.DteqList;
             _loadList = listManager.LoadList;
             //_selectedDteq = selectedDteq;
@@ -284,13 +286,13 @@ namespace EDTLibrary.Models.Loads
 #if DEBUG
             if (GlobalConfig.Testing == false) {
                 if (string.IsNullOrWhiteSpace(Type))
-                    Type = "MOTOR";
+                    Type = "HEATER";
                 if (string.IsNullOrWhiteSpace(FedFrom))
-                    FedFrom = "MCC-05";
+                    FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag.Contains("MCC")).Tag;
                 if (string.IsNullOrWhiteSpace(Size))
                     Size = "50";
                 if (string.IsNullOrWhiteSpace(Unit))
-                    Unit = "HP";
+                    Unit = "kW";
                 if (string.IsNullOrWhiteSpace(Voltage))
                     Voltage = "460";
                 LoadFactor = "0.8";

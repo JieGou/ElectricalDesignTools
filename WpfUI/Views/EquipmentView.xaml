@@ -168,16 +168,40 @@
                 FontWeight="Bold"
                 Margin="0 50 0 0"/>
 
-          <!--***********************************-->
-                
-                <TextBlock Text="{Binding DteqList.Count}" Margin="0"/>
-                <TextBlock Text="{Binding CableList.Count}" Margin="0"/>
-                <TextBlock Text="{Binding SelectedLoad.Cable.Id}" Margin="0"/>
-                
-          <!--***********************************-->
+            </StackPanel>
+            <!--***********************************-->
+            <!--***********************************-->
+            <!--***********************************-->
+            <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="3">
 
+                <TextBlock Text="Dteq Count:  "/>
+                <TextBlock Text="{Binding ListManager.DteqList.Count}" Margin="0" FontWeight="Bold"/>
+
+                <TextBlock Text="    Dteq Id:  "/>
+                <TextBlock Text="{Binding SelectedDteq.Id}" Margin="0" FontWeight="Bold"/>
+
+                <TextBlock Text="    Dteq Cable Id:  "/>
+                <TextBlock Text="{Binding SelectedDteq.Cable.Id}" Margin="0" FontWeight="Bold"/>
+ 
+                <TextBlock Text="            Load Id:  "/>
+                <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
+
+                <TextBlock Text="            Cable Count:  "/>
+                <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
+                    
+                <TextBlock Text="    Load Cable Id:  "/>
+                <TextBlock Text="{Binding SelectedLoad.Cable.Id}" Margin="0" FontWeight="Bold"/>
+
+                <TextBlock Text="    Load Cable Tag:  "/>
+                <TextBlock Text="{Binding SelectedLoad.Cable.Tag}" Margin="0" FontWeight="Bold"/>
+                    
             </StackPanel>
 
+           
+
+            <!--***********************************-->
+            <!--***********************************-->
+            <!--***********************************-->
             <!--Load View Buttons-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
                 Grid.Row="{StaticResource loadViewButtons}" Grid.Column="3">
@@ -813,7 +837,8 @@
                 Grid.Row="{StaticResource load}"  Grid.Column="3"
                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 MinHeight="250" 
-                      MaxHeight="400"
+                      MaxHeight="375"
+                      Height="350"
                 Margin="10,10,10,10"
                 ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                 SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
