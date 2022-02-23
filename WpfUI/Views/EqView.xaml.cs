@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WpfUI.Views
 {
     /// <summary>
-    /// Interaction logic for TestDteqView.xaml
+    /// Interaction logic for EqView.xaml
     /// </summary>
-    public partial class TestDteqView : UserControl
+    public partial class EqView : UserControl
     {
-        public TestDteqView()
+        public EqView()
         {
             InitializeComponent();
         }

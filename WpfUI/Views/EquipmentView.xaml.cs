@@ -48,7 +48,7 @@ namespace WpfUI.Views
         {
             if (dgdDteq.SelectedItem != null) {
                 if (dgdDteq.SelectedItem.GetType() == typeof(DteqModel)) {
-                    TestDteqView dteqDetailsView = new TestDteqView();
+                    EqView dteqDetailsView = new EqView();
                     dteqDetailsView.DataContext = this.DataContext;
                     DteqDetailsContent.Content = dteqDetailsView;
                 }
