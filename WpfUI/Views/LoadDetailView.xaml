@@ -4,18 +4,30 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.Views"
+              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="350"
+             d:DesignHeight="400" d:DesignWidth="400"
              Background="LightCyan">
     <UserControl.Resources>
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>
+                
+
             </ResourceDictionary.MergedDictionaries>
+
+            <x:Array xmlns:s="clr-namespace:System;assembly=mscorlib" x:Key="array" Type="{x:Type s:Int32}">
+                <s:Int32>1</s:Int32>
+                <s:Int32>2</s:Int32>
+                <s:Int32>3</s:Int32>
+                <s:Int32>4</s:Int32>               
+            </x:Array>
 
             <Style TargetType="TextBlock">
                 <Setter Property="Margin" Value="0 3"/>
+                <Setter Property="FontSize" Value="11"/>
             </Style>
 
             <Style TargetType="TextBox">
@@ -30,7 +42,7 @@
             </Style>
         </ResourceDictionary>
 
-
+        
 
     </UserControl.Resources>
 
@@ -40,8 +52,14 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
+        <StackPanel Orientation="Horizontal">
+            
         <TextBlock Text="{Binding SelectedLoad.Tag}" FontSize="14" FontWeight="Bold"
-                   d:Text="DTEQ TAG"/>
+                   d:Text="LOAD TAG" Margin="5 5 0 5 "/>
+            <TextBlock Text="   "/>
+            <TextBlock Text="{Binding SelectedLoad.Description}" FontSize="14" FontWeight="Bold"
+                       d:Text="Description" Margin="5 5 0 5"/>
+        </StackPanel>
 
         <TabControl Grid.Row="1" Grid.Column="0" Background="LightCyan" BorderThickness="0 1 0 0">
             <TabItem Header="Cable Data" Background="LightCyan">
@@ -51,33 +69,74 @@
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Text="Cable Id: " Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.Id}" Grid.Row="0" Grid.Column="2" FontWeight="Bold"/>
 
-                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
-                        <TextBlock Text="Cable Id: " />
-                        <TextBlock Text="Cable Tag: " />
-                        <TextBlock Text="Cable Type: " />
-                        <TextBlock Text="Cable Qty: " />
-                        <TextBlock Text="Cable Size: " />
-                        <TextBlock Text="Base Amps: " />
-                        <TextBlock Text="Derated Amps: " />
-                    </StackPanel>
+                    <TextBlock Text="Cable Tag: " Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.Tag}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
 
-                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
-                        <TextBlock Text="{Binding SelectedLoad.Cable.Id}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding SelectedLoad.Cable.Tag}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
-                        <!--<TextBlock Text="{Binding SelectedDteq.Cable.CableType}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>-->
-                        <ComboBox Grid.Row="1" Grid.Column="2" FontWeight="Bold"
-                                  ItemsSource="{Binding Path=CableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Text="{Binding SelectedLoad.Cable.CableType}" 
-                                  IsEditable="True"/>
-                        <TextBox Text="{Binding SelectedLoad.Cable.CableQty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}" Grid.Row="2" Grid.Column="2" FontWeight="Bold" MinWidth="50" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0"/>
-                        <TextBlock Text="{Binding SelectedLoad.Cable.CableSize}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding SelectedLoad.Cable.CableBaseAmps}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding SelectedLoad.Cable.CableDeratedAmps}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
-                    </StackPanel>
+                    <TextBlock Text="Cable Type: " Grid.Row="2" Grid.Column="0"/>
+                    <ComboBox Grid.Row="2" Grid.Column="2" FontWeight="Bold" FontSize="12" Margin="0"
+                                ItemsSource="{Binding Path=CableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Text="{Binding SelectedLoad.Cable.CableType}"  d:Text="3C-TECK-1kV"
+                                IsEditable="True"/>
+
+                    <TextBlock Text="Cable Qty: " Grid.Row="3" Grid.Column="0"/>
+                    <TextBox Text="{Binding SelectedLoad.Cable.CableQty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
+                             Grid.Row="3" Grid.Column="2" FontWeight="Bold" MinWidth="50" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0"/>
+
+                    <TextBlock Text="Cable Size: " Grid.Row="4" Grid.Column="0"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.CableSize}" Grid.Row="4" Grid.Column="2" FontWeight="Bold"/>
+
+                    <TextBlock Text="Required Amps: " Grid.Row="5" Grid.Column="0"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.CableRequiredAmps}" Grid.Row="5" Grid.Column="2" FontWeight="Bold"/>
+
+                    <TextBlock Text="Derated Amps: " Grid.Row="6" Grid.Column="0"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.CableDeratedAmps}" Grid.Row="6" Grid.Column="2" FontWeight="Bold"/>
+
                 </Grid>
             </TabItem>
+            
+            <TabItem Header="Components" Background="LightCyan" Height="25">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
 
+                    <TextBlock Text="Components In Use" Grid.Row="0" Grid.Column="0"/>
+                    <ListBox Grid.Row="1" Grid.Column="0" MinHeight="100" MinWidth="150"/>
+
+                    <TextBlock Text="Component Details " Grid.Row="0" Grid.Column="2"/>
+                    <ListBox Grid.Row="1" Grid.Column="2" MinHeight="100" MinWidth="150"/>
+
+                </Grid>
+            </TabItem>
+            
             <TabItem Header="Protection" Background="LightCyan" Height="25">
                 <Grid>
                     <Grid.ColumnDefinitions>

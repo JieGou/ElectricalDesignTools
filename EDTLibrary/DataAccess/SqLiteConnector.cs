@@ -56,7 +56,9 @@ namespace EDTLibrary.DataAccess
                         queryResult = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
                         output = new ObservableCollection<T>(queryResult);
                     }
-                    catch { }
+                    catch {
+                        throw;
+                    }
 
                     return output;
                 }

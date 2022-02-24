@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.Models.Cables;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -36,6 +37,18 @@ namespace EDTLibrary.Models.Loads
         PowerCableModel Cable { get; set; }
 
         void CalculateLoading();
+        //Events
 
+        event EventHandler LoadingCalculated;
+        abstract void OnLoadingCalculated();
+       
+        public void OnDteqLoadingCalculated(object source, EventArgs e)
+        {
+            CalculateLoading();
+        }
+
+
+        public event EventHandler FedFromChanged;
+        abstract void OnFedFromChanged();
     }
 }

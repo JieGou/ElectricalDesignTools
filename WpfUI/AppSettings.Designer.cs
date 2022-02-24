@@ -52,18 +52,18 @@ namespace WpfUI {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1175")]
-        public double DteqGridSize {
+        public double DteqGridRight {
             get {
-                return ((double)(this["DteqGridSize"]));
+                return ((double)(this["DteqGridRight"]));
             }
             set {
-                this["DteqGridSize"] = value;
+                this["DteqGridRight"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("975")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1175")]
         public double LoadGridRight {
             get {
                 return ((double)(this["LoadGridRight"]));
@@ -75,7 +75,7 @@ namespace WpfUI {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("350")]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
         public double LoadGridBottom {
             get {
                 return ((double)(this["LoadGridBottom"]));
@@ -87,13 +87,49 @@ namespace WpfUI {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("75")]
+        [global::System.Configuration.DefaultSettingValueAttribute("210")]
         public double LoadGridTop {
             get {
                 return ((double)(this["LoadGridTop"]));
             }
             set {
                 this["LoadGridTop"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("350")]
+        public double LoadGridHeight {
+            get {
+                return ((double)(this["LoadGridHeight"]));
+            }
+            set {
+                this["LoadGridHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("400")]
+        public double DteqGridBottom {
+            get {
+                return ((double)(this["DteqGridBottom"]));
+            }
+            set {
+                this["DteqGridBottom"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("275")]
+        public double DteqGridHeight {
+            get {
+                return ((double)(this["DteqGridHeight"]));
+            }
+            set {
+                this["DteqGridHeight"] = value;
             }
         }
     }

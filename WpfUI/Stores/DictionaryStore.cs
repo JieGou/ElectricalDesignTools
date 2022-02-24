@@ -10,9 +10,9 @@ namespace WpfUI.Stores
 {
     public class DictionaryStore
     {
-        public static Dictionary<string, DteqModel> dteqDict { get; set; } = new Dictionary<string, DteqModel>();
+        public static Dictionary<string, IDteq> dteqDict { get; set; } = new Dictionary<string, IDteq>();
 
-        public static void CreateDteqDict(ObservableCollection<DteqModel> dteqOc) {
+        public static void CreateDteqDict(ObservableCollection<IDteq> dteqOc) {
             dteqDict.Clear();
 
             //Todo - error check existing values with foreach

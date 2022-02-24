@@ -18,7 +18,11 @@ namespace EDTLibrary
     public class ListManager {
 
         public ObservableCollection<LocationModel>      LocationList { get; set; } = new ObservableCollection<LocationModel>();
+        public ObservableCollection<IDteq>              IDteqList { get; set; } = new ObservableCollection<IDteq>();
         public ObservableCollection<DteqModel>          DteqList { get; set; } = new ObservableCollection<DteqModel>();
+        public ObservableCollection<XfrModel>   TransformerList { get; set; } = new ObservableCollection<XfrModel>();
+
+
         public ObservableCollection<LoadModel>          LoadList { get; set; } = new ObservableCollection<LoadModel>();
         public ObservableCollection<PowerCableModel>    CableList { get; set; } = new ObservableCollection<PowerCableModel>();
         public ObservableCollection<CctComponentModel>  CompList { get; set; } = new ObservableCollection<CctComponentModel>();
@@ -27,21 +31,46 @@ namespace EDTLibrary
         public Dictionary<string, IEquipment>           eqDict { get; set; } = new Dictionary<string, IEquipment>();
         public Dictionary<string, IPowerConsumer>       iLoadDict { get; set; } = new Dictionary<string, IPowerConsumer>();
 
-
-        public ObservableCollection<DteqModel> GetDteq() {
-            DteqList = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
-            CreateDteqDict();
-            return DteqList;
-        }
         public async Task SetDteq()
         {
             Task<ObservableCollection<DteqModel>> dteqList;
-            dteqList = Task.Run (()=>DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable));
+            dteqList = Task.Run(() => DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable));
             await Task.Delay(1000);
             CreateDteqDict();
         }
+        public ObservableCollection<DteqModel> GetDteq() {
+
+            IDteqList.Clear();
+
+            //Dteq
+            DteqList = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
+            foreach (var item in DteqList) {
+                IDteqList.Add(item);
+            }
+
+            //XFR
+            IDteqList.Add(new XfrModel() { Tag = "asdfasdf" });
+
+            CreateDteqDict();
+            return DteqList;
+        }
+        public void DeteteDteq<T>(T model) where T : class
+        {
+            if (model.GetType()==typeof (DteqModel)){
+                var dteq = model as DteqModel;
+                DteqList.Remove(dteq);
+                IDteqList.Remove(dteq);
+                DbManager.prjDb.DeleteRecord(GlobalConfig.DteqTable, dteq.Id);
+            }
+            else if (model.GetType()==typeof (XfrModel)) {
+               var xfr = model as XfrModel;
+                TransformerList.Remove(xfr);
+                IDteqList.Remove(xfr);
+            }
+        }
         public ObservableCollection<LoadModel> GetLoads() {     
             LoadList = DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable);
+           
             CreateILoadDict();
             return LoadList;
         }
@@ -55,6 +84,7 @@ namespace EDTLibrary
             LocationList = DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable);
             return LocationList;
         }
+
 
         public void CreateEqDict() {
             eqDict.Clear();
@@ -96,11 +126,10 @@ namespace EDTLibrary
 
 
         #region MajorEquipment
-        //Todo - Pass List Back or add to both lists
         public void CalculateDteqLoading() // LoadList Manager
         {
 
-            AssignLoadsToDteq();
+            AssignLoadsToAllDteq();
             //Calculates the loading of each load. Recursive for dteq
             foreach (var item in LoadList) {
                 item.CalculateLoading();
@@ -108,63 +137,55 @@ namespace EDTLibrary
         }
         public void OnFedFromCalculated(object sender, EventArgs e)
         {
-            UnassignLoads();
-            AssignLoadsToDteq();
+            UnassignLoadsAllDteq();
+            AssignLoadsToAllDteq();
         }
 
-        public void UnassignLoads()
+        public void UnassignLoadsAllDteq()
         {
             foreach (DteqModel dteq in DteqList) {
                 dteq.FedFromChanged -= this.OnFedFromCalculated;
 
-                //Adds Dteq as Loads
-                foreach (DteqModel dteqAsLoad in DteqList) {
-                    if (dteqAsLoad.FedFrom == dteq.Tag) {
-                        dteqAsLoad.LoadingCalculated -= dteq.OnDteqLoadingCalculated;
-                        dteqAsLoad.LoadingCalculated -= DbManager.OnDteqLoadingCalculated;
-                    }
-                }
-                //Adds loads as loads
-                foreach (LoadModel load in LoadList) {
-                    load.FedFromChanged -= this.OnFedFromCalculated;
-                    if (load.FedFrom == dteq.Tag) {
-                        load.LoadingCalculated -= dteq.OnDteqLoadingCalculated;
-                        load.LoadingCalculated -= DbManager.OnLoadLoadingCalculated;
-                    }
-                }
+                UnassignLoadsDteq(dteq);
             }
         }
-
-        public void AssignLoadsToDteq()
+        public void AssignLoadsToAllDteq()
         {
             foreach (DteqModel dteq in DteqList) {
                 dteq.AssignedLoads.Clear();
                 dteq.LoadCount = 0;
                 dteq.FedFromChanged += this.OnFedFromCalculated;
 
-                //Adds Dteq as Loads
-                foreach (DteqModel dteqAsLoad in DteqList) {
-                    if (dteqAsLoad.FedFrom == dteq.Tag) {
-                        dteq.AssignedLoads.Add(dteqAsLoad);
-                        dteq.LoadCount += 1;
+               AssignLoadsToDteq(dteq);
+            }
+        }
 
-                        dteqAsLoad.LoadingCalculated += dteq.OnDteqLoadingCalculated;
-                        dteqAsLoad.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
-                    }
+        public void UnassignLoadsDteq(IDteq dteq)
+        {
+            foreach (var dteqAsLoad in dteq.AssignedLoads) {
+                dteqAsLoad.LoadingCalculated -= dteq.OnDteqLoadingCalculated;
+                dteqAsLoad.LoadingCalculated -= DbManager.OnDteqLoadingCalculated;
+            }
+        }
+        public void AssignLoadsToDteq(IDteq dteq)
+        {
+            dteq.AssignedLoads.Clear();
+            foreach (var dteqAsLoad in IDteqList) {
+                if (dteqAsLoad.FedFrom == dteq.Tag) {
+                    dteq.AssignedLoads.Add(dteqAsLoad);
+                    dteqAsLoad.LoadingCalculated += dteq.OnDteqLoadingCalculated;
+                    dteqAsLoad.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
                 }
-                //Adds loads as loads
-                foreach (LoadModel load in LoadList) {
-                    load.FedFromChanged += this.OnFedFromCalculated;
-                    if (load.FedFrom == dteq.Tag) {
-                        dteq.AssignedLoads.Add(load);
-                        dteq.LoadCount += 1;
-
-                        load.LoadingCalculated += dteq.OnDteqLoadingCalculated;
-                        load.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
-                    }
+            }
+            foreach (var load in LoadList) {
+                if (load.FedFrom == dteq.Tag) {
+                    dteq.AssignedLoads.Add(load);
+                    load.LoadingCalculated += dteq.OnDteqLoadingCalculated;
+                    load.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
                 }
             }
         }
+
 
         public void CalculateDteqLoading(ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) // LoadList Manager
         {

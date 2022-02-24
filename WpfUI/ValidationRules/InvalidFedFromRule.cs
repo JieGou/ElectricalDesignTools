@@ -16,7 +16,7 @@ namespace WpfUI.ValidationRules
     public class InvalidFedFromRule : ValidationRule {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo) {
 
-            DteqModel Dteq = (value as BindingGroup).Items[0] as DteqModel;
+            IDteq Dteq = (value as BindingGroup).Items[0] as IDteq;
 
             if (CheckCircularReference(Dteq, Dteq.FedFrom)) {
                 return new ValidationResult(false, "Equipment cannot be fed from itself");
@@ -25,7 +25,8 @@ namespace WpfUI.ValidationRules
             return ValidationResult.ValidResult;
         }
          
-        private bool CheckCircularReference(DteqModel startDteq, string nextDteq, int counter =1) {
+        //TODO - fix this validation rule
+        private bool CheckCircularReference(IDteq startDteq, string nextDteq, int counter =1) {
             var dteqDict = DictionaryStore.dteqDict;
             if (nextDteq == null) return false;
             if (nextDteq == "" & counter == 1) { // sets the initial FedFrom

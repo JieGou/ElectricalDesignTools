@@ -87,17 +87,42 @@ namespace WpfUI.ViewModels
             _listManager.CreateCableList();
         }
 
-        private System.Windows.GridLength _dteqGridSize = new System.Windows.GridLength(AppSettings.Default.DteqGridSize, GridUnitType.Pixel);
-        public System.Windows.GridLength DteqGridSize
+
+        private System.Windows.GridLength _dteqGridRight = new System.Windows.GridLength(AppSettings.Default.DteqGridRight, GridUnitType.Pixel);
+        public System.Windows.GridLength DteqGridRight
         {
-            get { return _dteqGridSize; }
+            get { return _dteqGridRight; }
             set
             {
-                _dteqGridSize = value;
-                AppSettings.Default.DteqGridSize = _dteqGridSize.Value;
+                _dteqGridRight = value;
+                AppSettings.Default.DteqGridRight = _dteqGridRight.Value;
                 AppSettings.Default.Save();
             }
         }
+
+        //DTEQ GridSplitter Position
+        private System.Windows.GridLength _dteqGridBottom = new System.Windows.GridLength(AppSettings.Default.DteqGridBottom, GridUnitType.Pixel);
+        public System.Windows.GridLength DteqGridBottom
+        {
+            get { return _dteqGridBottom; }
+            set
+            {
+                double oldBottom = _dteqGridBottom.Value;
+                _dteqGridBottom = value;
+                AppSettings.Default.DteqGridBottom = _dteqGridBottom.Value;
+                AppSettings.Default.Save();
+                //DteqGridHeight = 275;
+                DteqGridHeight += (_dteqGridBottom.Value - oldBottom);
+                AppSettings.Default.DteqGridHeight = DteqGridHeight;
+                AppSettings.Default.Save();
+
+                LoadGridHeight -= (_dteqGridBottom.Value - oldBottom);
+                AppSettings.Default.LoadGridHeight = LoadGridHeight;
+                AppSettings.Default.Save();
+            }
+        }
+        public double DteqGridHeight { get; set; }
+
 
         private System.Windows.GridLength _loadGridRight = new System.Windows.GridLength(AppSettings.Default.LoadGridRight, GridUnitType.Pixel);
         public System.Windows.GridLength LoadGridRight
@@ -110,6 +135,8 @@ namespace WpfUI.ViewModels
                 AppSettings.Default.Save();
             }
         }
+
+        //Load GridSplitter Position
         private System.Windows.GridLength _loadGridTop = new System.Windows.GridLength(AppSettings.Default.LoadGridTop, GridUnitType.Pixel);
         public System.Windows.GridLength LoadGridTop
         {
@@ -120,10 +147,14 @@ namespace WpfUI.ViewModels
                 _loadGridTop = value;
                 AppSettings.Default.LoadGridTop = _loadGridTop.Value;
                 AppSettings.Default.Save();
-                LoadGridActualHeight = LoadGridActualHeight - (_loadGridTop.Value -oldTop);
 
+                //LoadGridHeight = 350;
+                LoadGridHeight -= (_loadGridTop.Value - oldTop);
+                AppSettings.Default.LoadGridHeight = LoadGridHeight;
+                AppSettings.Default.Save();
             }
         }
+
         private System.Windows.GridLength _loadGridBottom = new System.Windows.GridLength(AppSettings.Default.LoadGridBottom, GridUnitType.Pixel);
         public System.Windows.GridLength LoadGridBottom
         {
@@ -134,11 +165,10 @@ namespace WpfUI.ViewModels
                 AppSettings.Default.LoadGridBottom = _loadGridBottom.Value;
                 AppSettings.Default.Save();
 
-                LoadGridActualHeight = _loadGridBottom.Value - 50;
+               
             }
         }
-
-        public double LoadGridActualHeight { get; set; }
+        public double LoadGridHeight { get; set; }
         #endregion
 
 
@@ -151,7 +181,7 @@ namespace WpfUI.ViewModels
         {
             get
             {
-                _fedFromList = new ObservableCollection<string>(_listManager.DteqList.Select(dteq => dteq.Tag).ToList());
+                _fedFromList = new ObservableCollection<string>(_listManager.IDteqList.Select(dteq => dteq.Tag).ToList());
                 _fedFromList.Insert(0, "UTILITY");
                 return _fedFromList;
             }
@@ -179,37 +209,19 @@ namespace WpfUI.ViewModels
         public string? ToggleOcpdViewLoadProp { get; set; } = "Hidden";
         public string? ToggleCableViewLoadProp { get; set; } = "Hidden";
 
-
         #endregion  
 
-        //TODO - check for and stop duplicate tags in datagrid (might just need an edit/update)
 
 
         // DTEQ
-        private ObservableCollection<DteqModel> _dteqList = new ObservableCollection<DteqModel>();
-        //public ObservableCollection<DteqModel> _listManager.DteqList
-
-        //{
-        //    get { return _dteqList; }
-
-        //    set
-        //    {
-        //        _dteqList = value;
-        //        _listManager.CreateEqDict();
-        //        _listManager.CreateDteqDict();
-        //        _listManager.DteqList = _dteqList;
-        //        DteqToAdd = new DteqToAddValidator(_listManager.DteqList, LoadList, _selectedDteq);
-        //    }
-        //}
-
-        private DteqModel _selectedDteq;
-        public DteqModel SelectedDteq
+        private IDteq _selectedDteq;
+        public IDteq SelectedDteq
         {
             get { return _selectedDteq; }
             set
             {
                 //used for fedfrom Validation
-                DictionaryStore.CreateDteqDict(_listManager.DteqList);
+                DictionaryStore.CreateDteqDict(_listManager.IDteqList);
                 _selectedDteq = value;
                 LoadListLoaded = false;
 
@@ -218,7 +230,6 @@ namespace WpfUI.ViewModels
 
                     LoadToAdd.FedFrom = "";
                     LoadToAdd.FedFrom = _selectedDteq.Tag;
-
                     LoadToAdd.Voltage = _selectedDteq.LoadVoltage.ToString();
                 }
             }
@@ -325,14 +336,14 @@ namespace WpfUI.ViewModels
 
             GlobalConfig.GettingRecords = true;
 
-            _listManager.SetDteq();
-            _listManager.GetDteq();
-            _listManager.GetLoads();
+            //_listManager.SetDteq();
+            _listManager.DteqList = _listManager.GetDteq();
+            _listManager.LoadList = _listManager.GetLoads();
             ShowAllLoads();
             CalculateAll();
-            _listManager.AssignLoadsToDteq();
+            _listManager.AssignLoadsToAllDteq();
 
-            _listManager.GetCables();
+            _listManager.CableList = _listManager.GetCables();
             _listManager.AssignCables();
             DteqToAdd = new DteqToAddValidator(_listManager, _selectedDteq);
             LoadToAdd = new LoadToAddValidator(_listManager, _selectedDteq);
@@ -411,6 +422,7 @@ namespace WpfUI.ViewModels
             var errors = DteqToAdd._errorDict;
             var IsValid = DteqToAdd.IsValid();
             if (IsValid) {
+                
                 DteqModel newDteq = new DteqModel();
                 newDteq.Tag = DteqToAdd.Tag;
                 newDteq.Category = Categories.DTEQ.ToString();
@@ -445,21 +457,21 @@ namespace WpfUI.ViewModels
             if (_selectedDteq != null) {
                 //children first
 
+                //Delete Cables
                 if (_selectedDteq.Cable != null) {
                     int cableId = _selectedDteq.Cable.Id;
                     DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
                     _listManager.CableList.Remove(_selectedDteq.Cable);
                 }
-
-                foreach (var load in _selectedDteq.AssignedLoads) {
-                    load.Cable.Destination = "Dteq Deleted";
-                    load.Cable.CreateTag();
-
+                //Retag Cables
+                if (_selectedDteq.AssignedLoads != null) {
+                    foreach (var load in _selectedDteq.AssignedLoads) {
+                        load.Cable.Destination = "DTEQ Deleted";
+                        load.Cable.CreateTag();
+                    }
                 }
-
-                DbManager.prjDb.DeleteRecord(GlobalConfig.DteqTable, _selectedDteq.Id);
-                DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, _selectedDteq.PowerCableId);
-                _listManager.DteqList.Remove(_selectedDteq);
+                
+                _listManager.DeteteDteq(_selectedDteq);
                 RefreshDteqTagValidation();
                 BuildAssignedLoads();
                 SelectedDteq = _listManager.DteqList[_listManager.DteqList.Count - 1];
@@ -585,7 +597,7 @@ namespace WpfUI.ViewModels
         public void CalculateAll()
         {
             BuildAssignedLoads();
-            _listManager.UnassignLoads();
+            _listManager.UnassignLoadsAllDteq();
             _listManager.CreateDteqDict(_listManager.DteqList);
             _listManager.CalculateDteqLoading();
         }

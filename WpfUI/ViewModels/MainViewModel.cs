@@ -85,7 +85,8 @@ namespace WpfUI.ViewModels
         {
             CurrentViewModel = _equipmentViewModel;
             _equipmentViewModel.CreateValidators();
-            _equipmentViewModel.LoadGridActualHeight = 365;
+            _equipmentViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
+            _equipmentViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
         }
         private void NavigateCableList()
         {

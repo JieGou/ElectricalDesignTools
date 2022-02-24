@@ -117,7 +117,7 @@ namespace WpfUI.Services
                     _listManager.GetLocations();
                     _listManager.GetDteq();
                     _listManager.GetLoads();
-                    _listManager.AssignLoadsToDteq();
+                    _listManager.AssignLoadsToAllDteq();
 
                     //Cables
                     _listManager.GetCables();

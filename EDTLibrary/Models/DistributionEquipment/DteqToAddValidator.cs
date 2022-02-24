@@ -14,7 +14,7 @@ namespace EDTLibrary.Models.DistributionEquipment
     public class DteqToAddValidator : INotifyDataErrorInfo
     {
 
-        public DteqToAddValidator(ListManager listManager, DteqModel selectedDteq )
+        public DteqToAddValidator(ListManager listManager, IDteq selectedDteq )
         {
             _dteqList = listManager.DteqList;
             _loadList = listManager.LoadList;
@@ -23,7 +23,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         private ObservableCollection<DteqModel> _dteqList;
         private ObservableCollection<LoadModel> _loadList;
-        private DteqModel _selectedDteq;
+        private IDteq _selectedDteq;
 
         private string _tag="";
         public string Tag

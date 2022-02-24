@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.DistributionEquipment
 {
-    class TransformerModel : IDteq
+    public class XfrModel : IDteq
     {
         public int Id { get; set; }
         public string Tag { get; set; }
@@ -49,6 +49,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         public double CableBaseAmps { get; set; }
 
         private double _derating = 0;
+
         public double CableSpacing { get; set; }
         public double CableDerating
         {
@@ -75,5 +76,28 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
 
         }
+
+        //Events
+        public event EventHandler LoadingCalculated;
+        public virtual void OnLoadingCalculated()
+        {
+            if (LoadingCalculated != null) {
+                LoadingCalculated(this, EventArgs.Empty);
+            }
+        }
+        public void OnDteqLoadingCalculated(object source, EventArgs e)
+        {
+            CalculateLoading();
+        }
+
+        
+        public event EventHandler FedFromChanged;
+        public virtual void OnFedFromChanged()
+        {
+            if (FedFromChanged != null) {
+                FedFromChanged(this, EventArgs.Empty);
+            }
+        }
+        
     }
 }

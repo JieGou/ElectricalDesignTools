@@ -96,7 +96,20 @@ namespace EDTLibrary.Models.DistributionEquipment
         public double LoadVoltage { get; set; }
 
         //Loading
-        public double Fla { get; set; }
+        private double _fla;
+
+        public double Fla
+        {
+            get { return _fla; }
+            set
+            {
+                _fla = value;
+                //if (_fla >= 99999) {
+                //    _fla = 111111;
+                //}
+            }
+        }
+
         public double RunningAmps { get; set; }
         public double ConnectedKva { get; set; }
         public double DemandKva { get; set; }
@@ -158,6 +171,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (Unit == Units.kVA.ToString()) {
                 Fla = _size * 1000 / Voltage / Math.Sqrt(3);
                 Fla = Math.Round(Fla, GlobalConfig.SigFigs);
+
             }
             else if (Unit == Units.A.ToString()) {
                 Fla = _size;
@@ -191,7 +205,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         //Events
         public event EventHandler LoadingCalculated;
-        protected virtual void OnLoadingCalculated()
+        public virtual void OnLoadingCalculated()
         {
             if (LoadingCalculated != null) {
                 LoadingCalculated(this, EventArgs.Empty);
@@ -204,7 +218,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
         public event EventHandler FedFromChanged;
-        protected virtual void OnFedFromChanged()
+        public virtual void OnFedFromChanged()
         {
             if (FedFromChanged != null) {
                 FedFromChanged(this, EventArgs.Empty);

@@ -8,17 +8,26 @@
     <Setting Name="LibraryDb" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\EDTDataLibrary.edl</Value>
     </Setting>
-    <Setting Name="DteqGridSize" Type="System.Double" Scope="User">
+    <Setting Name="DteqGridRight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1175</Value>
     </Setting>
     <Setting Name="LoadGridRight" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">975</Value>
+      <Value Profile="(Default)">1175</Value>
     </Setting>
     <Setting Name="LoadGridBottom" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">350</Value>
+      <Value Profile="(Default)">20</Value>
     </Setting>
     <Setting Name="LoadGridTop" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">75</Value>
+      <Value Profile="(Default)">210</Value>
+    </Setting>
+    <Setting Name="LoadGridHeight" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">350</Value>
+    </Setting>
+    <Setting Name="DteqGridBottom" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">400</Value>
+    </Setting>
+    <Setting Name="DteqGridHeight" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">275</Value>
     </Setting>
   </Settings>
 </SettingsFile>

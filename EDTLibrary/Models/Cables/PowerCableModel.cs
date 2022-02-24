@@ -23,7 +23,15 @@ namespace EDTLibrary.Models.Cables
         public string Tag { get; set; }
         //public string Type { get; set; } //Not Used
         public string Category { get; set; }
-        public string Source { get; set; }
+
+        private string _source;
+        public string Source
+        {
+            get { return _source; }
+            
+            set { _source = value; }
+        }
+
         public string Destination { get; set; }
         public string CableType { get; set; }
         public string UsageType { get; set; }
@@ -31,22 +39,29 @@ namespace EDTLibrary.Models.Cables
         public double VoltageClass { get; set; }
         public double Insulation { get; set; }
 
-        //private int _cableQty;
+        private int _cableQty;
 
-        //public int CableQty
-        //{
-        //    get { return _cableQty; }
-        //    set
-        //    {
-        //        _cableQty = value;
-        //        CalculateAmpacity();
-        //    }
-        //}
+        public int CableQty
+        {
+            get { return _cableQty; }
+            set
+            {
+                _cableQty = value;
+                if (GlobalConfig.GettingRecords==false) {
+                    CalculateAmpacity();
+                }
+            }
+        }
 
-        public int CableQty { get; set; }
-        public string CableSize { get; set; }
+        private string _cableSize;
+
+        public string CableSize
+        {
+            get { return _cableSize; }
+            set { _cableSize = value; }
+        }
+
         public double CableBaseAmps { get; set; }
-
         public double CableSpacing { get; set; }
         public double CableDerating { get; set; }
         public double CableDeratedAmps { get; set; }
@@ -55,7 +70,14 @@ namespace EDTLibrary.Models.Cables
 
 
         [Browsable(false)]
-        public IPowerConsumer Load { get; set; }
+        private IPowerConsumer _load;
+
+        public IPowerConsumer Load
+        {
+            get { return _load; }
+            set { _load = value; }
+        }
+
         
 
 
@@ -75,7 +97,7 @@ namespace EDTLibrary.Models.Cables
 
         public PowerCableModel(IPowerConsumer load)
         {
-            Load = load;
+            _load = load;
             OwnedById = load.Id;
             OwnedByType = load.GetType().ToString();
 

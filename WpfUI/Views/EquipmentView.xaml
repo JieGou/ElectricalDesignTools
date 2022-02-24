@@ -17,7 +17,7 @@
               xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
               xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
         mc:Ignorable="d"
-        d:Width="1980" d:Height="925"
+        d:Width="1980" d:Height="1000"
              Background="#FFDAEEF3">
     <UserControl.Resources>
 
@@ -65,7 +65,6 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -84,22 +83,18 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <RowDefinition Height="{Binding LoadGridTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="{Binding LoadGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-
-            <!--Below Add Rows-->
-            <GridSplitter  Grid.Row="3" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
+            <!--Below Below Dteq-->
+            <GridSplitter  Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
                                Height="5" Background="AliceBlue" BorderBrush="DarkGray" BorderThickness="0"
                                Margin="3 0 3 0"/>
-            
+
             <!--Below Load Grid-->
-            <GridSplitter  Grid.Row="5" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
+            <GridSplitter  Grid.Row="3" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
                                Height="5" Background="AliceBlue" BorderBrush="DarkGray" BorderThickness="0"
                                Margin="3 0 3 0"/>
             <!--MENU BUTTONS-->
@@ -159,7 +154,8 @@
             </StackPanel>
 
             <!--LOAD Buttons-->
-            <StackPanel Orientation="Vertical"
+       
+            <StackPanel Orientation="Vertical" 
                 Grid.Column="1" Grid.Row="{StaticResource load}"
                 Margin="0,50,0,50">
 
@@ -179,24 +175,30 @@
                 Margin="0 50 0 0"/>
 
             </StackPanel>
-           
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
-                Grid.Row="{StaticResource loadViewButtons}" Grid.Column="3">
 
-                <Button Content="OCPD Data"
+
+            <!--Load VIEW Buttons-->
+            
+            <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"
+                        Grid.Row="3" Grid.Column="3">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+
+                    <Button Content="OCPD Data"
                 Command="{Binding Path=ToggleOcpdViewLoadCommand}"/>
 
-                <Button Content="Cable Data"
+                    <Button Content="Cable Data"
                 Command="{Binding Path=ToggleCableViewLoadCommand}"/>
 
-            </StackPanel>
+                </StackPanel>
+            </StackPanel>-->
 
-            <!--DTEQ Datagrid-->
+            <!--DTEQ-->
+            <!--GRID-->
             <Grid Grid.Row="{StaticResource dteq}" Grid.Column="3">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding DteqGridSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <ColumnDefinition Width="{Binding DteqGridRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="350"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -204,11 +206,8 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 
-                
-                
-
-                <!--<Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"
-                        BorderBrush="LightGray" BorderThickness="3" Background="{x:Null}"/>-->
+               <!--DETAILS VIEW-->
+                <!--Dteq-->
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="Distribution Equipment Details" Margin="10"/>
                 <Border Grid.Row="0" Grid.Column="2" BorderThickness="1" BorderBrush="Black" Background="LightCyan"
                         Margin="10 30 10 10">
@@ -223,16 +222,18 @@
                 </Border>
 
                 <GridSplitter  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"   
-                               Width="3" Background="AliceBlue" BorderBrush="DarkGray" BorderThickness="0"
-                               Margin="0 5 0 5"/>
+                               Width="5" Background="AliceBlue" BorderBrush="DarkGray" BorderThickness="0"
+                               Margin="0 10 0 0"/>
 
+                <!--DTEQ-->
+                <!--DATA GRID-->
                 <DataGrid x:Name="dgdDteq" 
                           Grid.Column="0" Grid.Row="0"
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"
-                          Height="215" MinHeight="185" MaxHeight="250"
+                          Height="{Binding DteqGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Margin="10"
-                          ItemsSource="{Binding ListManager.DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding ListManager.IDteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
@@ -535,10 +536,10 @@
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
-                        <DataGridTextColumn Header="   Req'd&#x0a;Sz. Amps" x:Name="dteqCableRequiredSizingAmps" 
+                        <!--<DataGridTextColumn Header="   Req'd&#x0a;Sz. Amps" x:Name="dteqCableRequiredSizingAmps" 
                                 Binding="{Binding Path=Cable.CableRequiredSizingAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
-                                        Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
+                                        Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>-->
 
 
                         <DataGridTextColumn Header="  Cable&#x0a;Derating" x:Name="dteqCableDerating" 
@@ -618,7 +619,10 @@
                     </DataGrid.RowValidationErrorTemplate>
                 </DataGrid>
             </Grid>
-            <!--ADD Eq-->
+            
+            
+            
+            <!--ADD EQUIPMENT-->
             <Grid Grid.Row="{StaticResource adding}"  Grid.Column="3" 
             Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
@@ -640,10 +644,11 @@
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
 
-
+                <!--ADD DTEQ-->
                 <!--Tags-->
                 <TextBlock Text="Tag" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource Tag}" FontSize="10" />
@@ -663,7 +668,8 @@
                     Grid.Row="1" Grid.Column="{StaticResource Unit}" FontSize="10" />
 
 
-                <!--DTEQ-->
+                <!--ADD DTEQ-->
+                <!--Entry-->
                 <TextBox x:Name ="txtDteqTag"  
                     Grid.Row="2" Grid.Column="{StaticResource Tag}"
                     Width="75" Height="23"
@@ -722,6 +728,7 @@
                 </TextBox>
 
 
+                <!--LOAD-->
                 <!--Tags-->
                 <TextBlock Text="Tag" Margin="10 5 0 5"
                     Grid.Row="4" Grid.Column="{StaticResource Tag}" FontSize="10" />
@@ -742,7 +749,8 @@
                 <TextBlock Text="L.F." Margin="10 5 0 5"
                     Grid.Row="4" Grid.Column="{StaticResource LoadFactor}" FontSize="10" />
 
-                <!--L O A D-->
+                <!--LOAD-->
+                <!--Entry-->
                 <TextBox x:Name ="txtLoadTag"  
                     Grid.Row="5" Grid.Column="{StaticResource Tag}"
                     Width="75" Height="23"
@@ -811,13 +819,13 @@
             </Grid>
 
 
-            <!--ASSIGNED LOADS DataGrid-->
-            <!--LOAD Datagrid-->
-            <Grid Grid.Row="{StaticResource load}" Grid.Column="3">
-                <Grid.ColumnDefinitions>
+            <!--LOADS-->
+            <!--Grid-->
+            <!--<Grid Grid.Row="{StaticResource load}" Grid.Column="3">-->
+                <Grid Grid.Row="{StaticResource load}" Grid.Column="3">
+                    <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{Binding LoadGridRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="350"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -826,8 +834,9 @@
                 </Grid.RowDefinitions>
 
                 <!--***********************************-->
+                <!--******   BOTTOM STATUS BAR   ******-->
                 <!--***********************************-->
-                <!--***********************************-->
+                
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
 
                     <TextBlock Text="Dteq Count:  "/>
@@ -836,36 +845,37 @@
                     <TextBlock Text="    Dteq Id:  "/>
                     <TextBlock Text="{Binding SelectedDteq.Id}" Margin="0" FontWeight="Bold"/>
 
-                    <TextBlock Text="    Dteq Cable Id:  "/>
-                    <TextBlock Text="{Binding SelectedDteq.Cable.Id}" Margin="0" FontWeight="Bold"/>
 
-                    <TextBlock Text="            Load Id:  "/>
-                    <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="            Load Count:  "/>
+                    <TextBlock Text="{Binding ListManager.LoadList.Count}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="    Load Id:  "/>
+                    <TextBlock Text="{Binding SelectedLoad.Id}" Margin="0" FontWeight="Bold"/>
 
-                    <TextBlock Text="            Cable Count:  "/>
-                    <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
-
+                 
                     <TextBlock Text="    Load Cable Id:  "/>
                     <TextBlock Text="{Binding SelectedLoad.Cable.Id}" Margin="0" FontWeight="Bold"/>
 
                     <TextBlock Text="    Load Cable Tag:  "/>
                     <TextBlock Text="{Binding SelectedLoad.Cable.Tag}" Margin="0" FontWeight="Bold"/>
+                    
+                    <TextBlock Text="            Cable Count:  "/>
+                    <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
+
+                    <TextBlock Text="            DTEQ Grid Height  "/>
+                    <TextBlock Text="{Binding DteqGridHeight}" Margin="0" FontWeight="Bold"/>
+                    
+                    <TextBlock Text="            LOAD Grid Height  "/>
+                    <TextBlock Text="{Binding LoadGridHeight}" Margin="0" FontWeight="Bold"/>
 
                 </StackPanel>
-
-
-
                 <!--***********************************-->
-                <!--***********************************-->
-                <!--***********************************-->
-                <!--Load View Buttons-->
 
-
-                <!--<Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="3"
-                        BorderBrush="LightGray" BorderThickness="3" Background="{x:Null}"/>-->
+                <!--LOAD-->
+                <!--DETAILS VIEW-->
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="Load Details" Margin="10"/>
                 <Border Grid.Row="0" Grid.Column="2" BorderThickness="1" BorderBrush="Black" Background="LightCyan"
                         Margin="10 30 10 10">
+                    
                     <ContentControl x:Name="LoadDetailsContent" Grid.Row="{StaticResource load}" Grid.Column="4">
                         <!--Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">-->
                         <ContentControl.Resources>
@@ -877,15 +887,14 @@
                 </Border>
 
                 <GridSplitter  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"   
-                               Width="3" Background="AliceBlue" BorderBrush="DarkGray" BorderThickness="0"
-                               Margin="0 5 0 5"/>
-
+                               Width="5" Background="AliceBlue" BorderBrush="DarkGray" BorderThickness="0"
+                               Margin="0 0 0 10"/>
+                <!--LOAD-->
+                <!--DATA GRID-->
                 <DataGrid x:Name="dgdAssignedLoads" 
                 Grid.Row="0"  Grid.Column="0"
-                HorizontalAlignment="Left" VerticalAlignment="Bottom" 
-                          
-                      MaxHeight="525"
-                      Height="{Binding LoadGridActualHeight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                HorizontalAlignment="Left" VerticalAlignment="Stretch" 
+                    Height="{Binding LoadGridHeight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                 Margin="10,10,10,10"
                 ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                 SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1115,11 +1124,11 @@
                                 Binding="{Binding Path=Cable.CableBaseAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" />
 
-                        <DataGridTextColumn Header="   Req'd&#x0a;Sz. Amps" x:Name="loadCableRequiredSizingAmps" 
+                        <!--<DataGridTextColumn Header="   Req'd&#x0a;Sz. Amps" x:Name="loadCableRequiredSizingAmps" 
                                 Width="65"
                                 Visibility="{Binding ToggleCableViewLoadProp}"
                                 Binding="{Binding Path=Cable.CableRequiredSizingAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                HeaderStyle="{StaticResource CableHeaderColumn}" />
+                                HeaderStyle="{StaticResource CableHeaderColumn}" />-->
 
                         <DataGridTextColumn Header="  Cable&#x0a;Derating" x:Name="loadCableDerating" 
                                 Width="60"

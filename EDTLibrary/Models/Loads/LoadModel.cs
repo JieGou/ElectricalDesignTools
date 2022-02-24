@@ -265,7 +265,7 @@ namespace EDTLibrary.Models.Loads
 
         //Events
         public event EventHandler LoadingCalculated;
-        protected virtual void OnLoadingCalculated()
+        public virtual void OnLoadingCalculated()
         {
             if (LoadingCalculated != null) {
                 LoadingCalculated(this, EventArgs.Empty);
@@ -273,11 +273,12 @@ namespace EDTLibrary.Models.Loads
         }
 
         public event EventHandler FedFromChanged;
-        protected virtual void OnFedFromChanged()
+        public virtual void OnFedFromChanged()
         {
             if (FedFromChanged != null) {
                 FedFromChanged(this, EventArgs.Empty);
             }
         }
+
     }
 }
