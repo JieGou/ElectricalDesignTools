@@ -27,7 +27,7 @@
 
             <Style TargetType="TextBlock">
                 <Setter Property="Margin" Value="0 3"/>
-                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="FontSize" Value="12"/>
             </Style>
 
             <Style TargetType="TextBox">
@@ -54,10 +54,11 @@
 
         <StackPanel Orientation="Horizontal">
             
-        <TextBlock Text="{Binding SelectedLoad.Tag}" FontSize="14" FontWeight="Bold"
-                   d:Text="LOAD TAG" Margin="5 5 0 5 "/>
-            <TextBlock Text="   "/>
-            <TextBlock Text="{Binding SelectedLoad.Description}" FontSize="14" FontWeight="Bold"
+            <TextBlock Text="{Binding SelectedLoad.Tag}" FontSize="15" FontWeight="Bold"
+                       d:Text="LOAD TAG" Margin="5 5 0 5 "/>
+            <TextBlock Text=" - " FontSize="15" FontWeight="Bold"
+                       d:Text=" - " Margin="5 5 0 5 "/>
+            <TextBlock Text="{Binding SelectedLoad.Description}" FontSize="15" FontWeight="Bold"
                        d:Text="Description" Margin="5 5 0 5"/>
         </StackPanel>
 
@@ -89,22 +90,24 @@
 
                     <TextBlock Text="Cable Type: " Grid.Row="2" Grid.Column="0"/>
                     <ComboBox Grid.Row="2" Grid.Column="2" FontWeight="Bold" FontSize="12" Margin="0"
-                                ItemsSource="{Binding Path=CableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Text="{Binding SelectedLoad.Cable.CableType}"  d:Text="3C-TECK-1kV"
-                                IsEditable="True"/>
+                              ItemsSource="{Binding Path=CableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              DisplayMemberPath="Type"
+                              SelectedValuePath="Type"
+                              Text="{Binding SelectedLoad.Cable.Type}"  d:Text="3C-TECK-1kV"
+                              IsEditable="True"/>
 
                     <TextBlock Text="Cable Qty: " Grid.Row="3" Grid.Column="0"/>
-                    <TextBox Text="{Binding SelectedLoad.Cable.CableQty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
+                    <TextBox Text="{Binding SelectedLoad.Cable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
                              Grid.Row="3" Grid.Column="2" FontWeight="Bold" MinWidth="50" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0"/>
 
                     <TextBlock Text="Cable Size: " Grid.Row="4" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.CableSize}" Grid.Row="4" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.Size}" Grid.Row="4" Grid.Column="2" FontWeight="Bold"/>
 
                     <TextBlock Text="Required Amps: " Grid.Row="5" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.CableRequiredAmps}" Grid.Row="5" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.RequiredAmps}" Grid.Row="5" Grid.Column="2" FontWeight="Bold"/>
 
                     <TextBlock Text="Derated Amps: " Grid.Row="6" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.CableDeratedAmps}" Grid.Row="6" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.DeratedAmps}" Grid.Row="6" Grid.Column="2" FontWeight="Bold"/>
 
                 </Grid>
             </TabItem>

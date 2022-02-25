@@ -79,48 +79,11 @@ namespace EDTLibrary.ProjectSettings
             SettingDict = SettingList.ToDictionary(x => x.Name);
 
             CreateCableAmpsUsedInProject();
-            var test = EdtSettings.CableAmpsUsedInProject;
+            var test = EdtSettings.CableAmpsUsedInProject_3C1kV;
         }
 
 
-        public static ObservableCollection<SettingModel> GetStringSettings()
-        {
-            ObservableCollection<SettingModel> settingList = new ObservableCollection<SettingModel>();
-            SettingList = DbManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
-
-            foreach (var setting in SettingList) {
-                if (setting.Type != "DataTable") {
-                    settingList.Add(setting);
-                }
-            }
-            return settingList;
-        }
-
-        /// <summary>
-        /// Creates the list of TableSettings and populates its TableValue property if it exists in the Db
-        /// </summary>
-        /// <returns></returns>
-        public static ObservableCollection<SettingModel> GetTableSettings()
-        {
-
-            ObservableCollection<SettingModel> settingList = new ObservableCollection<SettingModel>();
-            SettingList = DbManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
-            ArrayList tables = DbManager.prjDb.GetListOfTablesNamesInDb();
-           
-            foreach (var setting in SettingList) {
-                if (setting.Type == "DataTable") {
-                    //if in Db get DataTable
-                    if (tables.Contains(setting.Name)) {
-                        setting.TableValue = DbManager.prjDb.GetDataTable(setting.Name);
-                    }
-                    settingList.Add(setting);
-                }
-
-            }  
-            
-            return settingList;
-        }
-
+        
 
         public static void SaveStringSetting(SettingModel setting)
         {
@@ -146,81 +109,71 @@ namespace EDTLibrary.ProjectSettings
         #region Setting Initializations
         public static void CreateCableAmpsUsedInProject()
         {
-            DataTable dtAmps = new DataTable();
-            DataTable dtCables = new DataTable();
+            DataTable ampsUsedInProjectTable = new DataTable();
+            DataTable dtCableSizesUsedInProject = new DataTable();
 
             if (LibraryTables.CableAmpacities != null) {
-            
-                SettingDict["CableAmpsUsedInProject"].TableValue = LibraryTables.CableAmpacities.Copy();
-                dtAmps = SettingDict["CableAmpsUsedInProject"].TableValue;
 
-                dtCables = SettingDict["CableSizesUsedInProject3CLV"].TableValue;
+                var settingName = nameof(EdtSettings.CableAmpsUsedInProject_3C1kV);
+                SettingDict[nameof(EdtSettings.CableAmpsUsedInProject_3C1kV)].TableValue = LibraryTables.CableAmpacities.Copy();
+                ampsUsedInProjectTable = SettingDict[nameof(EdtSettings.CableAmpsUsedInProject_3C1kV)].TableValue;
 
-                foreach (DataRow cablePrj in dtCables.Rows) {
-                    if (cablePrj.Field<bool>("UsedInProject") == false) {
-                        string size = cablePrj.Field<string>("Size");
+                settingName = nameof(EdtSettings.CableSizesUsedInProject_3C1kV);
+                dtCableSizesUsedInProject = SettingDict[nameof(EdtSettings.CableSizesUsedInProject_3C1kV)].TableValue;
 
-                        for (int i = dtAmps.Rows.Count - 1; i >= 0; i--) {
-                            DataRow cable = dtAmps.Rows[i];
+                string size;
+                DataRow cable;
+                foreach (DataRow cableInProject in dtCableSizesUsedInProject.Rows) {
+                    if (cableInProject.Field<bool>("UsedInProject") == false) {
+                        size = cableInProject.Field<string>("Size");
+
+                        for (int i = ampsUsedInProjectTable.Rows.Count - 1; i >= 0; i--) {
+                            cable = ampsUsedInProjectTable.Rows[i];
                             if (cable["Size"].ToString() == size) {
-                                dtAmps.Rows.Remove(cable);
+                                ampsUsedInProjectTable.Rows.Remove(cable);
                             }
                         }
                     }
                 }
-                dtAmps.AcceptChanges();
-                EdtSettings.CableAmpsUsedInProject = dtAmps;
+                ampsUsedInProjectTable.AcceptChanges();
+                EdtSettings.CableAmpsUsedInProject_3C1kV = ampsUsedInProjectTable;
             }
         }
 
+        public static void CreateCableAmpsUsedInProject(DataTable cableAmpsTable, DataTable cableSizeTable)
+        {
+            DataTable ampsUsedInProjectTable = new DataTable();
+            DataTable dtCables = new DataTable();
+
+            if (LibraryTables.CableAmpacities != null) {
+
+                //amps
+                var settingName = nameof(cableAmpsTable);
+                SettingDict[nameof(cableAmpsTable)].TableValue = LibraryTables.CableAmpacities.Copy();
+                ampsUsedInProjectTable = SettingDict[nameof(cableAmpsTable)].TableValue;
+
+                //size
+                settingName = nameof(cableSizeTable);
+                dtCables = SettingDict[nameof(cableSizeTable)].TableValue;
+
+                string size;
+                foreach (DataRow cablePrj in dtCables.Rows) {
+                    if (cablePrj.Field<bool>("UsedInProject") == false) {
+                        size = cablePrj.Field<string>("Size");
+
+                        for (int i = ampsUsedInProjectTable.Rows.Count - 1; i >= 0; i--) {
+                            DataRow cable = ampsUsedInProjectTable.Rows[i];
+                            if (cable["Size"].ToString() == size) {
+                                ampsUsedInProjectTable.Rows.Remove(cable);
+                            }
+                        }
+                    }
+                }
+                ampsUsedInProjectTable.AcceptChanges();
+                //EdtSettings.CableAmpsUsedInProject_3C1kV = ampsUsedInProjectTable;
+            }
+        }
         #endregion
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // OLD WAY
-        // String Settings
-        public static string GetStringSettingOld(string settingName) {
-            string settingValue = "";
-            Type type = typeof(EdtSettings); // MyClass is static class with static properties
-            foreach (var prop in type.GetProperties()) {
-                if (settingName == prop.Name) {
-                    settingValue = prop.GetValue(null).ToString();
-                }
-            }
-            return settingValue;
-        }
-
-        public static void SaveStringSettingOld(string settingName, string settingValue) {
-            Type type = typeof(EdtSettings); // MyClass is static class with static properties
-            foreach (var prop in type.GetProperties()) {
-                if (settingName == prop.Name) {
-                    prop.SetValue(settingValue, settingValue);
-                }
-            }
-        }
-
-
-        //Table Settings
-        public static DataTable GetTableSettingOld(string settingName) {
-            DataTable dt = new DataTable();
-            Type type = typeof(EdtSettings); // MyClass is static class with static properties
-            foreach (var prop in type.GetProperties()) {
-                if (settingName == prop.Name) {
-                    dt = (DataTable)prop.GetValue(null);
-                }
-            }
-            return dt;
-        }
     }
 }

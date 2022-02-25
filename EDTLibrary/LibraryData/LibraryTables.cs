@@ -12,7 +12,7 @@ namespace EDTLibrary.LibraryData
         public static DataTable CableAmpacities { get; set; }
         public static DataTable CableDimensions { get; set; }
         public static DataTable CableInsulationLevels { get; set; }
-        public static DataTable CableSizes { get; set; } //Resistances per 1000'
+        public static DataTable ConductorSizes { get; set; } //Resistances per 1000'
         public static DataTable CableSizingRules { get; set; }
         public static DataTable CableTypes { get; set; }
         public static DataTable CableUsageTypes { get; set; }

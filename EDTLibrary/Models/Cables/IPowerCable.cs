@@ -7,14 +7,14 @@ namespace EDTLibrary.Models.Cables
 {
     public interface IPowerCable : ICable
     {
-        int CableQty { get; set; }
-        double CableBaseAmps { get; set; }
+        int QtyParallel { get; set; }
+        double BaseAmps { get; set; }
 
-        double CableSpacing { get; set; }
-        double CableDerating { get; set; }
-        double CableDeratedAmps { get; set; }
-        double CableRequiredAmps { get; set; }
-        double CableRequiredSizingAmps { get; set; }
+        double Spacing { get; set; }
+        double Derating { get; set; }
+        double DeratedAmps { get; set; }
+        double RequiredAmps { get; set; }
+        double RequiredSizingAmps { get; set; }
         IPowerConsumer Load { get; set; }
 
     }

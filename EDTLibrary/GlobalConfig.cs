@@ -10,6 +10,10 @@ namespace EDTLibrary
         public static bool GettingRecords = true;
         public static bool Testing = false;
 
+
+        //TEMP
+        public const string CodeTable = "Table 2";
+
         //Quick Names
         public const string Utility = "UTILITY";
 

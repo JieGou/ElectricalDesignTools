@@ -93,17 +93,17 @@
                                         Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         ElementStyle="{StaticResource ColumnElementStyle}" />
                     <!--Type to ComboBox-->
-                    <DataGridTextColumn Header="USAGE &#x0a;TYPE" x:Name="UsageType" 
+                    <DataGridTextColumn Header="Usage &#x0a; Type" x:Name="UsageType" 
                                         Binding="{Binding Path=UsageType, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <DataGridTextColumn Header="TYPE" x:Name="Type" 
                                         Binding="{Binding Path=Type, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                    <DataGridTextColumn Header="QTY in&#x0a;| |" x:Name="QtyParallel" 
+                    <DataGridTextColumn Header="Qty in&#x0a;    | |" x:Name="QtyParallel" 
                                         Binding="{Binding Path=QtyParallel, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                    <DataGridTextColumn Header="QTY &#x0a;COND" x:Name="QtyConductors" MinWidth="50" Binding="{Binding Path=QtyConductors, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn Header="Conductor &#x0a;    Qty" x:Name="QtyConductors" MinWidth="50" Binding="{Binding Path=QtyConductors, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <DataGridTextColumn Header="Size" x:Name="Size" 
                                         Binding="{Binding Path=Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <DataGridTextColumn Header="Design &#x0a;Amps" x:Name="DesignAmps" 
-                                        Binding="{Binding Path=ListManager.CableList.DesignAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                        Binding="{Binding Path=DesignAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <DataGridTextColumn Header="Derated &#x0a;Amps" x:Name="DeratedAmps" 
                                         Binding="{Binding Path=DeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <DataGridTextColumn Header="Derating" x:Name="Derating" 

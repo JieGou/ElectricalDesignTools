@@ -85,6 +85,7 @@ namespace WpfUI.ViewModels
         {
             CurrentViewModel = _equipmentViewModel;
             _equipmentViewModel.CreateValidators();
+
             _equipmentViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
             _equipmentViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
         }

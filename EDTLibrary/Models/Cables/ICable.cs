@@ -13,7 +13,7 @@ namespace EDTLibrary.Models.Cables
         string Category { get; set; }
         //string Type { get; set; }
         int ConductorQty { get; set; }
-        string CableSize { get; set; }
+        string Size { get; set; }
 
     }
 }

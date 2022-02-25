@@ -65,15 +65,18 @@
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
                         <TextBlock Text="{Binding SelectedDteq.Cable.Id}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
                         <TextBlock Text="{Binding SelectedDteq.Cable.Tag}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
-                        <!--<TextBlock Text="{Binding SelectedDteq.Cable.CableType}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>-->
+                        
                         <ComboBox Grid.Row="1" Grid.Column="2" FontWeight="Bold"
                                   ItemsSource="{Binding Path=CableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Text="{Binding Path=SelectedDteq.Cable.CableType}" 
+                                  DisplayMemberPath="Type"
+                                  SelectedValuePath="Type"
+                                  Text="{Binding Path=SelectedDteq.Cable.Type}" 
                                   IsEditable="True"/>
-                        <TextBox Text="{Binding Path=SelectedDteq.Cable.CableQty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}" Grid.Row="2" Grid.Column="2" FontWeight="Bold" MinWidth="50" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0"/>
-                        <TextBlock Text="{Binding Path=SelectedDteq.Cable.CableSize}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding Path=SelectedDteq.Cable.CableBaseAmps}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
-                        <TextBlock Text="{Binding Path=SelectedDteq.Cable.CableDeratedAmps}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
+                        
+                        <TextBox Text="{Binding Path=SelectedDteq.Cable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}" Grid.Row="2" Grid.Column="2" FontWeight="Bold" MinWidth="50" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0"/>
+                        <TextBlock Text="{Binding Path=SelectedDteq.Cable.Size}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Path=SelectedDteq.Cable.BaseAmps}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Path=SelectedDteq.Cable.DeratedAmps}" Grid.Row="2" Grid.Column="2" FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </TabItem>

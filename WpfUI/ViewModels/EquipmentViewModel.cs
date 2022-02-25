@@ -1,5 +1,6 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models;
 using EDTLibrary.Models.Cables;
@@ -189,7 +190,7 @@ namespace WpfUI.ViewModels
         } //Used only on View
         public ObservableCollection<string> DteqTypes { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> VoltageTypes { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> CableTypes { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<CableType> CableTypes { get; set; } = new ObservableCollection<CableType>();
 
 
 
@@ -231,6 +232,8 @@ namespace WpfUI.ViewModels
                     LoadToAdd.FedFrom = "";
                     LoadToAdd.FedFrom = _selectedDteq.Tag;
                     LoadToAdd.Voltage = _selectedDteq.LoadVoltage.ToString();
+
+                    BuildDteqCableTypeList(_selectedDteq);
                 }
             }
         }
@@ -258,7 +261,25 @@ namespace WpfUI.ViewModels
         public IPowerConsumer SelectedLoad
         {
             get { return _selectedLoad; }
-            set { _selectedLoad = value; }
+            set 
+            { 
+                _selectedLoad = value;
+                if (_selectedLoad != null) {
+                    BuildLoadCableTypeList(_selectedLoad);
+
+                    LoadToAdd.FedFrom = "";
+                    LoadToAdd.FedFrom = _selectedLoad.Tag;
+                    LoadToAdd.Type = "";
+                    LoadToAdd.Type = _selectedLoad.Type;
+                    LoadToAdd.Size = "";
+                    LoadToAdd.Size = _selectedLoad.Size.ToString();
+                    LoadToAdd.Unit = "";
+                    LoadToAdd.Unit = _selectedLoad.Unit;
+                    LoadToAdd.Voltage = "";
+                    LoadToAdd.Voltage = _selectedLoad.Voltage.ToString();
+
+                }
+            }
         }
         public LoadToAddValidator LoadToAdd { get; set; }
    
@@ -658,12 +679,58 @@ namespace WpfUI.ViewModels
             foreach (var item in TypeManager.VoltageTypes) {
                 VoltageTypes.Add(item.Voltage.ToString());
             }
+                       
+        }
 
-            foreach (var item in TypeManager.CableTypes) {
-                CableTypes.Add(item.Type.ToString());
+        private void BuildDteqCableTypeList(IDteq dteq)
+        {
+            if (dteq == null)
+                return;
+
+            string selectedDteqCableType = _selectedDteq.Cable.Type;
+            string selectedLoadCableType = "None Selected";
+            if (_selectedLoad != null && _selectedLoad.Cable != null) {
+                selectedLoadCableType = _selectedLoad.Cable.Type;
             }
-            //MasterLoadList = new ObservableCollection<IHasLoading>();
 
+            CableTypes.Clear();
+            foreach (var cableType in TypeManager.CableTypes) {
+                var voltageClass = LibraryManager.GetCableVoltageClass(dteq.LineVoltage);
+                if (voltageClass == cableType.VoltageClass) {
+                    CableTypes.Add(cableType);
+                }
+            }
+            dteq.Cable.Type = selectedDteqCableType;
+
+            if (_selectedLoad != null && _selectedLoad.Cable != null) {
+                _selectedLoad.Cable.Type = selectedLoadCableType;
+            }
+            
+        }
+
+        private void BuildLoadCableTypeList(IPowerConsumer load)
+        {
+            if (load == null)
+                return;
+
+            string selectedDteqCableType = "None Selected"; 
+            if (_selectedDteq != null && _selectedDteq.Cable != null) {
+                selectedDteqCableType = _selectedDteq.Cable.Type;
+            }
+            string selectedLoadCableType = _selectedLoad.Cable.Type;
+
+            CableTypes.Clear();
+                foreach (var cableType in TypeManager.CableTypes) {
+                    var voltageClass = LibraryManager.GetCableVoltageClass(load.Voltage);
+                    if (voltageClass == cableType.VoltageClass) {
+                        CableTypes.Add(cableType);
+                    }
+                }
+
+            if (_selectedDteq != null && _selectedDteq.Cable != null) {
+                _selectedDteq.Cable.Type = selectedDteqCableType;
+            }
+            load.Cable.Type = selectedLoadCableType;
         }
         #endregion
 

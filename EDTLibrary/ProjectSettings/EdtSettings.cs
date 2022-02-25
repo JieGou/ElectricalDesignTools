@@ -9,8 +9,22 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.ProjectSettings
 {
+    /// <summary>
+    /// Project Settings for automating sizing and selections
+    /// </summary>
+    /// <remarks>
+    /// 
+    /// </remarks>
+    /// 
+
+    // To change settings names you must change the name in 3 places:
+    //   1 - the name below
+    //   2 - the name of the setting in the Database ProjectSettings Table
+    //   3 - the table name itself in the Database if the setting is a DataTable type Setting
+
     public class EdtSettings 
         {
+
         //General
         public static string Code { get; set; }
 
@@ -36,38 +50,49 @@ namespace EDTLibrary.ProjectSettings
 
 
         //TODO - Model to Table Properties and Implement Interface
-        public static DataTable CableSizesUsedInProject3CLV { get; set; }
-        public static DataTable CableAmpsUsedInProject 
-        { 
-            get; 
-            set; 
-        }
+        public static DataTable CableSizesUsedInProject_3C1kV { get; set; }
+        public static DataTable CableAmpsUsedInProject_3C1kV { get; set; }
 
-        public static void InitializeSettings() {
-            CreateCableAmpacityTableUsedInProject();
-        }
-        
+        public static DataTable CableSizesUsedInProject_3C5kV { get; set; }
+        public static DataTable CableAmpssUsedInProject_3C5kV { get; set; }
+
+        public static DataTable CableSizesUsedInProject_3C15kV { get; set; }
+        public static DataTable CableAmpsUsedInProject_3C15kV { get; set; }
+
+        public static DataTable CableSizesUsedInProject_1C1kV { get; set; }
+        public static DataTable CableAmpssUsedInProject_1C1kV { get; set; }
+
+        public static DataTable CableSizesUsedInProject_1C5kV { get; set; }
+        public static DataTable CableAmpsUsedInProject_1C5kV { get; set; }
+
+        public static DataTable CableSizesUsedInProject_1C15kV { get; set; }
+        public static DataTable CableAmpsUsedInProject_1C15kV { get; set; }
+
+        public static DataTable CableSizesUsedInProject_DLO1kV { get; set; }
+        public static DataTable CableAmpsUsedInProject_DLO1kV { get; set; }
+
+
         /// <summary>
         /// Creates the Cable Ampacities table for the project based on the selected cable sizes used in the project
         /// </summary>
-        public static void CreateCableAmpacityTableUsedInProject() {
+        public static void CreateCableAmpacityTableUsedInProject_3C1kV() {
             if (LibraryTables.CableAmpacities != null) {
 
-                CableAmpsUsedInProject = LibraryTables.CableAmpacities.Copy();
+                CableAmpsUsedInProject_3C1kV = LibraryTables.CableAmpacities.Copy();
 
-                foreach (DataRow cablePrj in CableSizesUsedInProject3CLV.Rows) {
+                foreach (DataRow cablePrj in CableSizesUsedInProject_3C1kV.Rows) {
                     if (cablePrj.Field<bool>("UsedInProject") == false) {
                         string size = cablePrj.Field<string>("Size");
 
-                        for (int i = CableAmpsUsedInProject.Rows.Count - 1; i >= 0; i--) {
-                            DataRow cable = CableAmpsUsedInProject.Rows[i];
+                        for (int i = CableAmpsUsedInProject_3C1kV.Rows.Count - 1; i >= 0; i--) {
+                            DataRow cable = CableAmpsUsedInProject_3C1kV.Rows[i];
                             if (cable["Size"].ToString() == size) {
-                                CableAmpsUsedInProject.Rows.Remove(cable);
+                                CableAmpsUsedInProject_3C1kV.Rows.Remove(cable);
                             }
                         }
                     }
                 }
-                CableAmpsUsedInProject.AcceptChanges();
+                CableAmpsUsedInProject_3C1kV.AcceptChanges();
             }
         }
 
