@@ -12,7 +12,7 @@ using System.Linq;
 namespace EDTLibrary.Models.Cables
 {
     [AddINotifyPropertyChangedInterface]
-    public class PowerCableModel:IPowerCable
+    public class PowerCableModel: IPowerCable
     {
 
         #region Properties
@@ -40,18 +40,25 @@ namespace EDTLibrary.Models.Cables
         public double Insulation { get; set; }
 
         private int _qtyParallel;
+        public int QtyParallel { get; set; }
+        //public int QtyParallel
+        //{
+        //    get { return _qtyParallel; }
+        //    set
+        //    {
+        //        _qtyParallel = value;
+        //        if(_qtyParallel < 1) {
+        //            _qtyParallel = 1;
+        //        }
+        //        if (_qtyParallel == null) {
+        //            _qtyParallel = 1;
+        //        }
 
-        public int QtyParallel
-        {
-            get { return _qtyParallel; }
-            set
-            {
-                _qtyParallel = value;
-                if (GlobalConfig.GettingRecords==false) {
-                    CalculateAmpacity();
-                }
-            }
-        }
+        //        if (GlobalConfig.GettingRecords==false) {
+        //            CalculateAmpacity();
+        //        }
+        //    }
+        //}
 
         private string _size;
 
@@ -67,6 +74,9 @@ namespace EDTLibrary.Models.Cables
         public double DeratedAmps { get; set; }
         public double RequiredAmps { get; set; }
         public double RequiredSizingAmps { get; set; }
+
+        public bool Indoor { get; set; }
+        public string InstallationType { get; set; }
 
 
         [Browsable(false)]
@@ -140,14 +150,6 @@ namespace EDTLibrary.Models.Cables
             OwnedByType = load.GetType().ToString();
             UsageType = CableUsageTypes.Power.ToString();
 
-            //CableDeratingCalculator cableDeratingCalculator = new CableDeratingCalculator();
-            //CableDerating = cableDeratingCalculator.Calculate(load);
-            Derating = 0.666;
-
-            //Conductor Qty
-            ConductorQtyCalculator conductorQtyCalculator = new ConductorQtyCalculator();
-            ConductorQty = conductorQtyCalculator.Calculate(load);
-
 
             RequiredAmps = load.Fla;
 
@@ -160,6 +162,16 @@ namespace EDTLibrary.Models.Cables
             RequiredSizingAmps = RequiredAmps / Derating;
             RequiredSizingAmps = Math.Round(RequiredSizingAmps, 1);
 
+
+            //TODO - select all based on Cable.Type
+
+            //CableDeratingCalculator cableDeratingCalculator = new CableDeratingCalculator();
+            //CableDerating = cableDeratingCalculator.Calculate(load);
+            Derating = 0.666;
+
+            //Conductor Qty
+            ConductorQtyCalculator conductorQtyCalculator = new ConductorQtyCalculator();
+            ConductorQty = conductorQtyCalculator.Calculate(load);
 
             //Voltage Class based on load
 
@@ -178,21 +190,21 @@ namespace EDTLibrary.Models.Cables
             else if (VoltageClass == 35000) {
                 Insulation = int.Parse(EdtSettings.CableInsulation35kVPower.ToString());
             }
-           
 
-
-
-            //Cable Type - selects the cabletype based on VoltageClass, ConuctorQty, Insulation and UsageType
-            //TODO - get these parameters from settings selected cable type???
             //TODO - null/error check for this data
-            DataTable cableType = LibraryTables.CableTypes.Select($"VoltageClass >= {VoltageClass}").CopyToDataTable();
+            Type = SelectCableType(VoltageClass, ConductorQty, Insulation, UsageType);
+
+        }
+
+        private string SelectCableType(double voltageClass, int conductorQty, double insulation, string usageType)
+        {
+            DataTable cableType = LibraryTables.CableTypes.Select($"VoltageClass >= {voltageClass}").CopyToDataTable();
             cableType = cableType.Select($"VoltageClass = MIN(VoltageClass) " +
-                                         $"AND Conductors ={ConductorQty}" +
-                                         $"AND Insulation ={Insulation}" +
-                                         $"AND UsageType = '{UsageType}'").CopyToDataTable();
+                                         $"AND Conductors ={conductorQty}" +
+                                         $"AND Insulation ={insulation}" +
+                                         $"AND UsageType = '{usageType}'").CopyToDataTable();
 
-            Type = cableType.Rows[0]["Type"].ToString();
-
+            return cableType.Rows[0]["Type"].ToString();
         }
 
 
@@ -249,6 +261,7 @@ namespace EDTLibrary.Models.Cables
                         }
                         GetCableQty(QtyParallel);
                     }
+                    _qtyParallel = QtyParallel;
                 }
             }
         }

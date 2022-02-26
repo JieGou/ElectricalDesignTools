@@ -4,6 +4,7 @@ using EDTLibrary.Models.Loads;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using WpfUI.Views.SubViews;
 
 namespace WpfUI.Views
 {
@@ -12,6 +13,8 @@ namespace WpfUI.Views
     /// </summary>
     public partial class EquipmentView : UserControl
     {
+        DteqDetailView _dteqDetailsView = new DteqDetailView();
+        LoadDetailView _loaDetailView = new LoadDetailView();
         public EquipmentView()
         {
             InitializeComponent();
@@ -45,13 +48,14 @@ namespace WpfUI.Views
             }
         }
 
+      
+
         private void dgdDteq_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (dgdDteq.SelectedItem != null) {
                 if (dgdDteq.SelectedItem.GetType() == typeof(DteqModel)) {
-                    EqView dteqDetailsView = new EqView();
-                    dteqDetailsView.DataContext = this.DataContext;
-                    DteqDetailsContent.Content = dteqDetailsView;
+                    _dteqDetailsView.DataContext = this.DataContext;
+                    DteqDetailsContent.Content = _dteqDetailsView;
                 }
             }
         }
@@ -60,9 +64,8 @@ namespace WpfUI.Views
         {
             if (dgdAssignedLoads.SelectedItem != null) {
                 if (dgdAssignedLoads.SelectedItem.GetType() == typeof(LoadModel)) {
-                    LoadDetailView loaDetailView = new LoadDetailView();
-                    loaDetailView.DataContext = this.DataContext;
-                    LoadDetailsContent.Content = loaDetailView;
+                    _loaDetailView.DataContext = this.DataContext;
+                    LoadDetailsContent.Content = _loaDetailView;
                 }
             }
         }

@@ -51,8 +51,13 @@ namespace EDTLibrary.DataAccess
             GetNemaTypes();
             GetVoltageTypes();
             GetAreaClassificationTypes();
+            GetCECCableSizingRules();
         }
 
+        private static void GetCECCableSizingRules()
+        {
+            TypeManager.CecCableSizingRules = libDb.GetRecords<CecCableSizingRule>("CecCableSizingRules");
+        }
 
         private static void GetVoltageTypes()
         {
@@ -61,7 +66,7 @@ namespace EDTLibrary.DataAccess
 
         private static void GetCableTypes()
         {
-            TypeManager.CableTypes = libDb.GetRecords<CableType>("CableTypes");
+            TypeManager.CableTypes = libDb.GetRecords<CableTypeModel>("CableTypes");
         }
 
         private static void GetNemaTypes()

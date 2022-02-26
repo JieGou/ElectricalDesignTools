@@ -62,7 +62,7 @@
                        d:Text="Description" Margin="5 5 0 5"/>
         </StackPanel>
 
-        <TabControl Grid.Row="1" Grid.Column="0" Background="LightCyan" BorderThickness="0 1 0 0">
+        <TabControl Grid.Row="1" Background="LightCyan" BorderThickness="0 1 0 0">
             <TabItem Header="Cable Data" Background="LightCyan">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -71,6 +71,9 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -100,14 +103,20 @@
                     <TextBox Text="{Binding SelectedLoad.Cable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
                              Grid.Row="3" Grid.Column="2" FontWeight="Bold" MinWidth="50" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0"/>
 
-                    <TextBlock Text="Cable Size: " Grid.Row="4" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.Size}" Grid.Row="4" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="Spacing: " Grid.Row="4" Grid.Column="0"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.Spacing}" Grid.Row="4" Grid.Column="2" FontWeight="Bold"/>
+                   
+                    <TextBlock Text="Derating: " Grid.Row="5" Grid.Column="0"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.Derating}" Grid.Row="4" Grid.Column="2" FontWeight="Bold"/>
+                    
+                    <TextBlock Text="Cable Size: " Grid.Row="6" Grid.Column="0"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.Size}" Grid.Row="6" Grid.Column="2" FontWeight="Bold"/>
 
-                    <TextBlock Text="Required Amps: " Grid.Row="5" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.RequiredAmps}" Grid.Row="5" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="Required Amps: " Grid.Row="7" Grid.Column="0"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.RequiredAmps}" Grid.Row="7" Grid.Column="2" FontWeight="Bold"/>
 
-                    <TextBlock Text="Derated Amps: " Grid.Row="6" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.DeratedAmps}" Grid.Row="6" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="Derated Amps: " Grid.Row="8" Grid.Column="0"/>
+                    <TextBlock Text="{Binding SelectedLoad.Cable.DeratedAmps}" Grid.Row="8" Grid.Column="2" FontWeight="Bold"/>
 
                 </Grid>
             </TabItem>

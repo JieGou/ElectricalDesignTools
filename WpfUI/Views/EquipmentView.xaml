@@ -522,7 +522,7 @@
 
                         <!--CABLE-->
                         <DataGridTextColumn Header="Cable &#x0a;  Qty" x:Name="dteqCableQty"
-                                Binding="{Binding Path=Cable.QtyParallel, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=Cable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 

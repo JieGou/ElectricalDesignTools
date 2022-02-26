@@ -10,10 +10,12 @@ namespace EDTLibrary.Models.Cables
         int OwnedById { get; set; }
         string OwnedByType { get; set; }
         string Tag { get; set; }
+        string Type { get; set; }
         string Category { get; set; }
         //string Type { get; set; }
         int ConductorQty { get; set; }
         string Size { get; set; }
+        double VoltageClass { get; set; }
 
     }
 }

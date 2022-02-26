@@ -35,12 +35,12 @@ namespace EDTLibrary.ProjectSettings
             }
 
             // -Tables
-            ArrayList tables = DbManager.prjDb.GetListOfTablesNamesInDb();
+            ArrayList listOfTablesInDb = DbManager.prjDb.GetListOfTablesNamesInDb();
             TableSettingList.Clear();
             foreach (var setting in SettingList) {
                 if (setting.Type == "DataTable") {
                     //if in Db get DataTable
-                    if (tables.Contains(setting.Name)) {
+                    if (listOfTablesInDb.Contains(setting.Name)) {
                         setting.TableValue = DbManager.prjDb.GetDataTable(setting.Name);
                     }
                     TableSettingList.Add(setting);
@@ -50,25 +50,25 @@ namespace EDTLibrary.ProjectSettings
 
             // PROPERTIES
             // -Strings
-            DataTable settings = DbManager.prjDb.GetDataTable("ProjectSettings");
-            Type prjSettings = typeof(EdtSettings);
+            DataTable settingsDbTable = DbManager.prjDb.GetDataTable("ProjectSettings");
+            Type projectSettingsClass = typeof(EdtSettings);
             string propValue = "";
 
-            for (int i = 0; i < settings.Rows.Count; i++) {
-                foreach (var prop in prjSettings.GetProperties()) {
-                    if (settings.Rows[i]["Name"].ToString() == prop.Name && settings.Rows[i]["Type"].ToString() != "DataTable") {
-                        prop.SetValue(propValue, settings.Rows[i]["Value"].ToString());
+            for (int i = 0; i < settingsDbTable.Rows.Count; i++) {
+                foreach (var property in projectSettingsClass.GetProperties()) {
+                    if (settingsDbTable.Rows[i]["Name"].ToString() == property.Name && settingsDbTable.Rows[i]["Type"].ToString() != "DataTable") {
+                        property.SetValue(propValue, settingsDbTable.Rows[i]["Value"].ToString());
                     }
                 }
             }
 
             // -Tables
-            for (int i = 0; i < settings.Rows.Count; i++) {
-                foreach (var prop in prjSettings.GetProperties()) {
+            for (int i = 0; i < settingsDbTable.Rows.Count; i++) {
+                foreach (var prop in projectSettingsClass.GetProperties()) {
 
-                    if (settings.Rows[i]["Name"].ToString() == prop.Name 
-                        && settings.Rows[i]["Type"].ToString() == "DataTable"
-                        && tables.Contains(prop.Name))
+                    if (settingsDbTable.Rows[i]["Name"].ToString() == prop.Name
+                        && settingsDbTable.Rows[i]["Type"].ToString() == "DataTable"
+                        && listOfTablesInDb.Contains(prop.Name))
                     {
                         prop.SetValue(propValue, DbManager.prjDb.GetDataTable(prop.Name));
                     }

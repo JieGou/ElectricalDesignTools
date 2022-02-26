@@ -190,7 +190,7 @@ namespace WpfUI.ViewModels
         } //Used only on View
         public ObservableCollection<string> DteqTypes { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> VoltageTypes { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<CableType> CableTypes { get; set; } = new ObservableCollection<CableType>();
+        public ObservableCollection<CableTypeModel> CableTypes { get; set; } = new ObservableCollection<CableTypeModel>();
 
 
 
@@ -237,11 +237,44 @@ namespace WpfUI.ViewModels
                 }
             }
         }
-        public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
-
         public DteqToAddValidator DteqToAdd { get; set; }
 
         // LOADS
+
+        private IPowerConsumer _selectedLoad;
+        public IPowerConsumer SelectedLoad
+        {
+            get { return _selectedLoad; }
+            set
+            {
+                _selectedLoad = value;
+                if (_selectedLoad != null) {
+
+                    BuildLoadCableTypeList(_selectedLoad);
+                    CopySelectedLoad();
+
+                }
+            }
+        }
+        private async Task CopySelectedLoad()
+        {
+            LoadToAdd.FedFrom = "";
+            LoadToAdd.FedFrom = _selectedLoad.FedFrom;
+            LoadToAdd.Type = "";
+            LoadToAdd.Type = _selectedLoad.Type;
+            LoadToAdd.Size = "";
+            LoadToAdd.Size = _selectedLoad.Size.ToString();
+            LoadToAdd.Unit = "";
+            LoadToAdd.Unit = _selectedLoad.Unit;
+            LoadToAdd.Voltage = "";
+            LoadToAdd.Voltage = _selectedLoad.Voltage.ToString();
+
+        }
+        public LoadToAddValidator LoadToAdd { get; set; }
+
+
+        // LISTS
+        public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
         private ObservableCollection<LoadModel> _loadList = new ObservableCollection<LoadModel>();
         //public ObservableCollection<LoadModel> LoadList
         //{
@@ -257,33 +290,9 @@ namespace WpfUI.ViewModels
         //    }
         //}
         public bool LoadListLoaded { get; set; }
-        private IPowerConsumer _selectedLoad;
-        public IPowerConsumer SelectedLoad
-        {
-            get { return _selectedLoad; }
-            set 
-            { 
-                _selectedLoad = value;
-                if (_selectedLoad != null) {
-                    BuildLoadCableTypeList(_selectedLoad);
 
-                    LoadToAdd.FedFrom = "";
-                    LoadToAdd.FedFrom = _selectedLoad.Tag;
-                    LoadToAdd.Type = "";
-                    LoadToAdd.Type = _selectedLoad.Type;
-                    LoadToAdd.Size = "";
-                    LoadToAdd.Size = _selectedLoad.Size.ToString();
-                    LoadToAdd.Unit = "";
-                    LoadToAdd.Unit = _selectedLoad.Unit;
-                    LoadToAdd.Voltage = "";
-                    LoadToAdd.Voltage = _selectedLoad.Voltage.ToString();
 
-                }
-            }
-        }
-        public LoadToAddValidator LoadToAdd { get; set; }
-   
-
+       
         //Cables
 
 
@@ -708,7 +717,7 @@ namespace WpfUI.ViewModels
             
         }
 
-        private void BuildLoadCableTypeList(IPowerConsumer load)
+        private async Task BuildLoadCableTypeList(IPowerConsumer load)
         {
             if (load == null)
                 return;
