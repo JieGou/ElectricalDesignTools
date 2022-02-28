@@ -17,6 +17,8 @@ namespace EDTLibrary.Models.Cables
         double RequiredSizingAmps { get; set; }
         string InstallationType { get; set; }
         bool Indoor { get; set; }
+        string AmpacityTable { get; set; }
+
         IPowerConsumer Load { get; set; }
 
     }

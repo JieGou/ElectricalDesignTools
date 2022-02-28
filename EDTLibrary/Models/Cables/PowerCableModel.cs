@@ -1,10 +1,12 @@
 ﻿using EDTLibrary.Calculators;
 using EDTLibrary.Calculators.Cables;
 using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
@@ -76,10 +78,10 @@ namespace EDTLibrary.Models.Cables
         public double RequiredSizingAmps { get; set; }
 
         public bool Indoor { get; set; }
-        public string InstallationType { get; set; }
+        public string InstallationType { get; set; } = EdtSettings.DefaultCableInstallationType;
+        public string AmpacityTable { get; set; }
 
 
-        [Browsable(false)]
         private IPowerConsumer _load;
 
         public IPowerConsumer Load
@@ -88,37 +90,24 @@ namespace EDTLibrary.Models.Cables
             set { _load = value; }
         }
 
-        
-
-
         //TODO - code Table Rule by cable type
         string codeTable = GlobalConfig.CodeTable;
 
         #endregion
 
-
         public PowerCableModel()
         {
-            QtyParallel = 1;
-            Derating = 1;
-            ConductorQty = 3;
+
         }
-
-
         public PowerCableModel(IPowerConsumer load)
         {
             _load = load;
-            OwnedById = load.Id;
-            OwnedByType = load.GetType().ToString();
-
-            //Tag
-            Source = load.FedFrom ?? "";
-            Destination = load.Tag ?? "";
-            CreateTag();
+            AssignOwner(load);
+            AssignTagging(load);
 
             UsageType = CableUsageTypes.Power.ToString();
             QtyParallel = 1;
-            //Insulation = 100;
+
         }
 
         public void CreateTag()
@@ -142,7 +131,8 @@ namespace EDTLibrary.Models.Cables
             Destination = load.Tag;
             CreateTag();
         }
-        public void GetCableParameters(IPowerConsumer load)
+
+        public void SetCableParameters(IPowerConsumer load)
         {
             AssignTagging(load);
 
@@ -150,17 +140,9 @@ namespace EDTLibrary.Models.Cables
             OwnedByType = load.GetType().ToString();
             UsageType = CableUsageTypes.Power.ToString();
 
+            GetRequiredAmps(load);
 
-            RequiredAmps = load.Fla;
-
-            if (load.Type == LoadTypes.MOTOR.ToString() | load.Type == LoadTypes.TRANSFORMER.ToString()) {
-                RequiredAmps *= 1.25;
-            }
-
-            RequiredAmps = Math.Max(load.PdSizeTrip, RequiredAmps);
-
-            RequiredSizingAmps = RequiredAmps / Derating;
-            RequiredSizingAmps = Math.Round(RequiredSizingAmps, 1);
+            GetRequiredSizingAmps();
 
 
             //TODO - select all based on Cable.Type
@@ -194,6 +176,22 @@ namespace EDTLibrary.Models.Cables
             //TODO - null/error check for this data
             Type = SelectCableType(VoltageClass, ConductorQty, Insulation, UsageType);
 
+            CableSizeManager.CableSizer.GetAmpacityTable(this);
+
+            var test = AmpacityTable;
+        }
+        private void GetRequiredAmps(IPowerConsumer load)
+        {
+            RequiredAmps = load.Fla;
+            if (load.Type == LoadTypes.MOTOR.ToString() | load.Type == LoadTypes.TRANSFORMER.ToString()) {
+                RequiredAmps *= 1.25;
+            }
+            RequiredAmps = Math.Max(load.PdSizeTrip, RequiredAmps);
+        }
+        private void GetRequiredSizingAmps()
+        {
+            RequiredSizingAmps = RequiredAmps / Derating;
+            RequiredSizingAmps = Math.Round(RequiredSizingAmps, 1);
         }
 
         private string SelectCableType(double voltageClass, int conductorQty, double insulation, string usageType)
@@ -206,8 +204,6 @@ namespace EDTLibrary.Models.Cables
 
             return cableType.Rows[0]["Type"].ToString();
         }
-
-
 
         /// <summary>
         /// Recursive function that gets the cable qty and size from Ampacity Table based on cable type and required amps
@@ -222,9 +218,8 @@ namespace EDTLibrary.Models.Cables
             // 2
             //filter cables larger than RequiredAmps
             var cablesWithHigherAmps = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
-                                                          && x.Field<double>("Amps75") >= RequiredSizingAmps
-                                                          && x.Field<string>("CodeTable") == codeTable); // ex: Table2 (from CEC)
-
+                                                                        && x.Field<double>("Amps75") >= RequiredSizingAmps
+                                                                        && x.Field<string>("AmpacityTable") == codeTable); // ex: Table2 (from CEC)
             // 3
             QtyParallel = 1;
             GetCableQty(QtyParallel);
@@ -241,9 +236,9 @@ namespace EDTLibrary.Models.Cables
                         cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
 
                         BaseAmps = double.Parse(cableAmps.Rows[0]["Amps75"].ToString());
-                        BaseAmps = Math.Round(BaseAmps, 2);
+                        BaseAmps = Math.Round(BaseAmps, 1);
                         DeratedAmps = BaseAmps * Derating;
-                        DeratedAmps = Math.Round(DeratedAmps, 2);
+                        DeratedAmps = Math.Round(DeratedAmps, 1);
                         QtyParallel = cableQty;
                         Size = cableAmps.Rows[0]["Size"].ToString();
                     }
@@ -255,9 +250,10 @@ namespace EDTLibrary.Models.Cables
                             string size = row["Size"].ToString();
                             amps75 *= QtyParallel;
                             row["Amps75"] = amps75;
+
                             cablesWithHigherAmps = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
-                                                              && x.Field<double>("Amps75") >= RequiredSizingAmps
-                                                              && x.Field<string>("CodeTable") == codeTable);
+                                                                                    && x.Field<double>("Amps75") >= RequiredSizingAmps
+                                                                                    && x.Field<string>("AmpacityTable") == codeTable);
                         }
                         GetCableQty(QtyParallel);
                     }
@@ -265,89 +261,16 @@ namespace EDTLibrary.Models.Cables
                 }
             }
         }
-        public void CalculateCableQtySizeNew()
-        {
-
-            // 1
-            DataTable cableAmps = LibraryTables.CableAmpacities.Copy();
-
-            // 2
-            //filter cables larger than RequiredAmps
-            var cablesWithHigherAmps = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
-                                                          && x.Field<double>("Amps75") >= RequiredSizingAmps
-                                                          && x.Field<string>("CodeTable") == codeTable); // ex: Table2 (from CEC)
-
-            DataTable cableSizesUsedInProject = SettingManager.SettingDict[nameof(EdtSettings.CableSizesUsedInProject_3C1kV)].TableValue;
-            DataTable cablesWithHigherAmpsTable = cablesWithHigherAmps.CopyToDataTable();
-
-            string size;
-            DataRow cable;
-
-            //TODO - determine which AmpacityTable to select from
-            foreach (DataRow cableInProject in EdtSettings.CableSizesUsedInProject_3C1kV.Rows) {
-                if (cableInProject.Field<bool>("UsedInProject") == false) {
-                    size = cableInProject.Field<string>("Size");
-
-                    for (int i = cablesWithHigherAmpsTable.Rows.Count - 1; i >= 0; i--) {
-                        cable = cablesWithHigherAmpsTable.Rows[i];
-                        if (cable["Size"].ToString() == size) {
-                            cablesWithHigherAmpsTable.Rows.Remove(cable);
-                        }
-
-                    }
-                }
-            }
-            
-
-            // 3
-            QtyParallel = 1;
-            GetCableQty(QtyParallel);
-
-            //Recursive method
-            void GetCableQty(int cableQty)
-            {
-                if (cableQty < 20) {
-                    if (cablesWithHigherAmps.Any()) {
-                        cableAmps = null;
-                        cableAmps = cablesWithHigherAmps.CopyToDataTable();
-
-                        //select smallest of 
-                        cableAmps = cableAmps.Select($"Amps75 = MIN(Amps75)").CopyToDataTable();
-
-                        BaseAmps = double.Parse(cableAmps.Rows[0]["Amps75"].ToString());
-                        BaseAmps = Math.Round(BaseAmps, 2);
-                        DeratedAmps = BaseAmps * Derating;
-                        DeratedAmps = Math.Round(DeratedAmps, 2);
-                        QtyParallel = cableQty;
-                        Size = cableAmps.Rows[0]["Size"].ToString();
-                    }
-                    else {
-                        QtyParallel += 1;
-                        cableAmps = EdtSettings.CableAmpsUsedInProject_3C1kV.Copy();
-                        foreach (DataRow row in cableAmps.Rows) {
-                            double amps75 = (double)row["Amps75"];
-                            string size = row["Size"].ToString();
-                            amps75 *= QtyParallel;
-                            row["Amps75"] = amps75;
-                            cablesWithHigherAmps = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
-                                                              && x.Field<double>("Amps75") >= RequiredSizingAmps
-                                                              && x.Field<string>("CodeTable") == codeTable);
-                        }
-                        GetCableQty(QtyParallel);
-                    }
-                }
-            }
-        }
         public void CalculateAmpacity()
         {
             //TODO - if cables are already created and calbe size is removed it causes an error
 
-            
+
             DataTable cableAmps = EdtSettings.CableAmpsUsedInProject_3C1kV.Copy(); //the created cable ampacity table
 
             //filter cables larger than RequiredAmps          
             var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
-                                                          && x.Field<string>("CodeTable") == codeTable
+                                                          && x.Field<string>("AmpacityTable") == codeTable
                                                           && x.Field<string>("Size") == Size);
 
             cableAmps = null;
@@ -361,5 +284,107 @@ namespace EDTLibrary.Models.Cables
             catch { }
         }
 
+        public void CalculateCableQtySizeNew()
+        {
+            GetRequiredSizingAmps();
+            CableSizeManager.CableSizer.GetAmpacityTable(this);
+
+            string ampsColumn = "Amps75";
+
+            DataTable cableAmpacityTable = LibraryTables.CecCableAmpacities.Copy();
+            DataTable cablesWithHigherAmpsInProject = new DataTable();
+
+            foreach (DataColumn column in cableAmpacityTable.Columns) {
+                DataColumn columnToadd = new DataColumn();
+                columnToadd.ColumnName = column.ColumnName;
+                cablesWithHigherAmpsInProject.Columns.Add(columnToadd);
+            }
+
+            // 1 - filter cables larger than RequiredAmps
+            EnumerableRowCollection<DataRow> cablesWithHigherAmps = SelectCablesWithValidSizeAndAmps(ampsColumn, cableAmpacityTable, cablesWithHigherAmpsInProject);
+
+            // 3 - increase quantity until a valid cable is found
+            QtyParallel = 1;
+            GetCableQty(QtyParallel);
+
+
+            // Helper - 3 Recursive method
+            void GetCableQty(int cableQty)
+            {
+                if (cableQty < 99) {
+                    if (cablesWithHigherAmpsInProject.Rows.Count > 0) {
+
+                        //select smallest of 
+                        cablesWithHigherAmpsInProject = cablesWithHigherAmpsInProject.Select($"{ampsColumn} = MIN({ampsColumn})").CopyToDataTable();
+
+                        BaseAmps = double.Parse(cablesWithHigherAmpsInProject.Rows[0][ampsColumn].ToString());
+                        BaseAmps = Math.Round(BaseAmps, 1);
+                        DeratedAmps = BaseAmps * Derating;
+                        DeratedAmps = Math.Round(DeratedAmps, 1);
+                        QtyParallel = cableQty;
+                        Size = cablesWithHigherAmpsInProject.Rows[0]["Size"].ToString();
+                    }
+                    else {
+                        QtyParallel += 1;
+                        cableAmpacityTable = LibraryTables.CecCableAmpacities.Copy();
+                        foreach (DataRow row in cableAmpacityTable.Rows) {
+                            double amps75 = (double)row[ampsColumn];
+                            string size = row["Size"].ToString();
+                            amps75 *= QtyParallel;
+                            row[ampsColumn] = amps75;
+                        }
+                        cablesWithHigherAmps = SelectCablesWithValidSizeAndAmps(ampsColumn, cableAmpacityTable, cablesWithHigherAmpsInProject);
+
+                        GetCableQty(QtyParallel);
+                        var test = "asdf";
+                    }
+                    _qtyParallel = QtyParallel;
+                }
+            }
+        }
+        private EnumerableRowCollection<DataRow> SelectCablesWithValidSizeAndAmps(string ampsColumn, DataTable cableAmpacityTable, DataTable cablesWithHigherAmpsInProject)
+        {
+            var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
+                                                                                    && x.Field<double>(ampsColumn) >= RequiredSizingAmps
+                                                                                    && x.Field<string>("AmpacityTable") == AmpacityTable); // ex: Table2 (from CEC)
+
+            // remove cable if size is not in project
+            foreach (var cableSizeInProject in EdtSettings.CableSizesUsedInProject) {
+                foreach (var cableWithHigherAmps in cablesWithHigherAmps) {
+
+                    if (cableSizeInProject.Size == cableWithHigherAmps.Field<string>("Size") &&
+                        cableSizeInProject.Type == Type &&
+                        cableSizeInProject.UsedInProject == true) {
+                        //var cableRow = cableWithHigherAmps;
+                        cablesWithHigherAmpsInProject.Rows.Add(cableWithHigherAmps.ItemArray);
+                        var coutn = cablesWithHigherAmpsInProject.Rows.Count;
+                    }
+                }
+            }
+            return cablesWithHigherAmps;
+        }
+        public void CalculateAmpacityNew()
+        {
+            string ampsColumn = "Amps75";
+            //TODO - if cables are already created and calbe size is removed it causes an error
+
+
+            DataTable cableAmps = LibraryTables.CecCableAmpacities.Copy(); //the created cable ampacity table
+
+            //filter cables larger than RequiredAmps          
+            var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
+                                                          && x.Field<string>("AmpacityTable") == AmpacityTable
+                                                          && x.Field<string>("Size") == Size);
+
+            cableAmps = null;
+            try {
+                cableAmps = cables.CopyToDataTable();
+                //select smallest of the valid results
+                BaseAmps = double.Parse(cableAmps.Rows[0][ampsColumn].ToString()) * QtyParallel;
+                DeratedAmps = BaseAmps * Derating;
+                DeratedAmps = Math.Round(DeratedAmps, GlobalConfig.SigFigs);
+            }
+            catch { }
+        }
     }
 }

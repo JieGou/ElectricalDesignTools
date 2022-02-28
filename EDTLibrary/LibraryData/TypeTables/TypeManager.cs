@@ -18,7 +18,7 @@ namespace EDTLibrary.LibraryData.TypeTables
         {
             CableTypeModel output = null;
 
-            output = CableTypes.FirstOrDefault(d => d.Type == cableType);
+            output = CableTypes.SingleOrDefault(ct => ct.Type == cableType);
             return output;
         }
     }

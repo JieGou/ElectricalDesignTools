@@ -39,7 +39,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                         }
                     }
                     if (Cable != null) {
-                        Cable.GetCableParameters(this);
+                        Cable.SetCableParameters(this);
                     }
                 }
                
@@ -189,7 +189,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (Cable ==null) {
                 Cable = new PowerCableModel(this);
             }
-            Cable.GetCableParameters(this);
+            Cable.SetCableParameters(this);
             Cable.CalculateCableQtySize();
         }
         public void CalculateCableAmps()

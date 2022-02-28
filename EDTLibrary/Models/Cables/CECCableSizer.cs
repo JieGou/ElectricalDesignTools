@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Cables
 {
-    public class CecCableSizer
+    public class CecCableSizer : ICableSizer
     {
-        public CecCableSizer(IPowerCable cable)
+        public CecCableSizer()
         {
-            _cable = cable;
+
         }
 
         private IPowerCable _cable;
@@ -30,22 +30,23 @@ namespace EDTLibrary.Models.Cables
         }
 
 
-        public void DetermineSizingTable()
+        public string GetAmpacityTable(IPowerCable cable)
         {
-            if (_cable == null) return;
+            if (cable == null) return "Invalid Cable Data";
+            string output;
 
-            CableTypeModel cableType = TypeManager.GetCableType(_cable.Type);
+            CableTypeModel cableType = TypeManager.GetCableType(cable.Type);
 
             // 1C, >=5kV, Shielded        QtyParallel max = 2 
             if (cableType.Conductors == 1
             && cableType.VoltageClass >= 5000
             && cableType.Shielded == true) {
 
-                _sizingTable = TypeManager.CecCableSizingRules.FirstOrDefault(csr =>
-                   csr.CableType == _cable.Type &&
-                   csr.InstallationType == _cable.InstallationType &&
-                   csr.Spacing == _cable.Spacing &&
-                   csr.Indoor == _cable.Indoor
+                output = TypeManager.CecCableSizingRules.FirstOrDefault(csr =>
+                   csr.CableType == cable.Type &&
+                   csr.InstallationType == cable.InstallationType &&
+                   csr.Spacing == cable.Spacing &&
+                   csr.Indoor == cable.Indoor
                    ).AmpacityTable;
             }
 
@@ -54,24 +55,24 @@ namespace EDTLibrary.Models.Cables
             && cableType.VoltageClass >= 5000
             && cableType.Shielded == true) {
 
-                _sizingTable = TypeManager.CecCableSizingRules.FirstOrDefault(csr =>
-                   csr.CableType == _cable.Type &&
-                   csr.InstallationType == _cable.InstallationType &&
-                   csr.Indoor == _cable.Indoor
+                output = TypeManager.CecCableSizingRules.FirstOrDefault(csr =>
+                   csr.CableType == cable.Type &&
+                   csr.InstallationType == cable.InstallationType &&
+                   csr.Indoor == cable.Indoor
                    ).AmpacityTable;
 
             }
 
             // 1 or 3C <= 5kV, Non-Shielded
             else {
-                _sizingTable = TypeManager.CecCableSizingRules.FirstOrDefault(csr =>
-                    csr.CableType == _cable.Type &&
-                    csr.InstallationType == _cable.InstallationType &&
-                    csr.Indoor == _cable.Indoor
+                output = TypeManager.CecCableSizingRules.FirstOrDefault(csr =>
+                    csr.CableType == cable.Type &&
+                    csr.InstallationType == cable.InstallationType
                     ).AmpacityTable;
 
             }
-           
+            cable.AmpacityTable = output;
+            return output;
         }
     }
 }

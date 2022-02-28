@@ -186,12 +186,23 @@
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left"
                         Grid.Row="{StaticResource basicRow}" 
                         Grid.Column="{StaticResource listCol2}" Grid.ColumnSpan="1">
-                <Label Content=" " FontSize="15"/>
+                
+                <Label Content="Old" FontSize="15"/>
                 <ListBox x:Name="lstTableSettings"
                          Width="auto" Height="200" MinWidth="150"
                          ItemsSource="{Binding TableSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          DisplayMemberPath="Name"
                          SelectedItem="{Binding SelectedTableSetting}"/>
+                
+                <Label Content=" " FontSize="15"/>
+
+                <Label Content="Cable Types " FontSize="15"/>
+                <ListBox Width="auto" Height="200" MinWidth="150"
+                         ItemsSource="{Binding CableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         DisplayMemberPath="Type"
+                         SelectedItem="{Binding SelectedCableType}"/>
+                <Label Content="{Binding SelectedCableType.Type}" FontSize="15"/>
+
 
             </StackPanel >
 
@@ -220,13 +231,22 @@
                         Grid.Column="{StaticResource editCol3}" Grid.ColumnSpan="1">
                 <Label Content=" " Margin="0"/>
 
-                <DataGrid x:Name="dgdTableSetting" AutoGenerateColumns="True" IsReadOnly="False" MinColumnWidth="50"
+                <!--<DataGrid x:Name="dgdTableSetting" AutoGenerateColumns="True" IsReadOnly="False" MinColumnWidth="50"
                           d:Width="150" d:Height="300"
                           MaxHeight="700"
                           RowHeaderWidth="0"
                           SelectionUnit="Cell"
                           DataContext="{Binding SelectedTableSetting}"
                           ItemsSource="{Binding Path=TableValue, Mode=TwoWay, UpdateSourceTrigger=Explicit, IsAsync=True}"
+                          AutoGeneratingColumn="dgdTableSetting_AutoGeneratingColumn">
+                </DataGrid>-->
+
+                <DataGrid x:Name="dgdCableSizes" AutoGenerateColumns="True" IsReadOnly="False" MinColumnWidth="50"
+                          d:Width="150" d:Height="300"
+                          MaxHeight="700"
+                          RowHeaderWidth="0"
+                          SelectionUnit="Cell"
+                          ItemsSource="{Binding Path=SelectedCableSizes, Mode=TwoWay, UpdateSourceTrigger=Explicit, IsAsync=True}"
                           AutoGeneratingColumn="dgdTableSetting_AutoGeneratingColumn">
                 </DataGrid>
             </StackPanel>

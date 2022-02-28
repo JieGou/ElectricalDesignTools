@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              mc:Ignorable="d" 
 
-             d:DesignHeight="400" d:DesignWidth="400"
+             d:DesignHeight="400" d:DesignWidth="475"
              Background="LightCyan">
     <UserControl.Resources>
 
@@ -83,8 +83,9 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="10"/>
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -98,10 +99,14 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="Cable Id: " Grid.Row="1" Grid.Column="6"/>
+                    <TextBlock Text="Cable Id: " Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right"/>
                     <TextBlock Text="{Binding SelectedDteq.Cable.Id}" Grid.Row="1" Grid.Column="7" FontWeight="Bold"/>
 
-                    <TextBlock Text="Cable Tag: " Grid.Row="1" Grid.Column="0"/>
+                        <TextBlock Text="Table: " Grid.Row="2" Grid.Column="6" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding SelectedDteq.Cable.AmpacityTable}" Grid.Row="2" Grid.Column="7" 
+                                   d:Text="TableD17N15Out" FontWeight="Bold"/>
+
+                        <TextBlock Text="Cable Tag: " Grid.Row="1" Grid.Column="0"/>
                     <TextBlock Text="{Binding SelectedDteq.Cable.Tag}" Grid.Row="1" Grid.Column="2" 
                                d:Text="SWG001-MCC001-P1"
                                Grid.ColumnSpan="4" FontWeight="Bold"/>
@@ -117,7 +122,7 @@
 
                     
                     <TextBlock Text="Cable Qty: " Grid.Row="4" Grid.Column="0"/>
-                    <TextBox Text="{Binding SelectedDteq.Cable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    <TextBox Text="{Binding SelectedDteq.Cable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
                              Grid.Row="4" Grid.Column="2" FontWeight="Bold" MinWidth="50" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0.5"/>
 
 
@@ -136,7 +141,7 @@
                     
 
                     <TextBlock Text="Installation Type" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Right"/>
-                    <ComboBox Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="4"
+                    <ComboBox Grid.Row="4" Grid.Column="6"
                               Margin="0 3"
                               FontWeight="Bold" FontSize="12"
                               ItemsSource="{Binding Path=CableInstallationTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -162,10 +167,14 @@
                     <TextBlock Text="{Binding SelectedDteq.Cable.Derating}" Grid.Row="7" Grid.Column="6" FontWeight="Bold"/>
 
 
+                    <!--BUTTONS-->
                     </Grid>
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
-                        <Button Content="Calculate Amps" Grid.Row="2" Margin="50 15 0 0" />
-                        <Button Content="Calculate Size Qty" Grid.Row="2" Margin="100 15 0 0" />
+                        <Button Content="Calculate Amps" Grid.Row="2" Margin="50 15 0 0" 
+                                Command="{Binding Path=CalculateSingleDteqCableAmpsCommand}"   />
+                        
+                        <Button Content="Auto-Size" Grid.Row="2" Margin="100 15 0 0" 
+                                Command="{Binding Path=CalculateSingleDteqCableSizeCommand}"/>
                     </StackPanel>
                     
                 </Grid>

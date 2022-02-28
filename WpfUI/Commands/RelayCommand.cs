@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.Models.DistributionEquipment;
+using System;
 using System.Windows.Input;
 using WpfUI.Services;
 
@@ -22,7 +23,7 @@ namespace WpfUI.Commands
         {
             _action = action;
         }
-
+      
         public RelayCommand(Action action, Func<bool> canExecute)
         {
             _action = action;

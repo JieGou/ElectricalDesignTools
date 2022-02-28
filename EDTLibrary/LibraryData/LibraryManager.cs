@@ -1,10 +1,16 @@
-﻿using EDTLibrary.Models.Loads;
+﻿using EDTLibrary.LibraryData.Cables;
+using EDTLibrary.Models.Loads;
 using System;
+using System.Collections.ObjectModel;
 using System.Data;
 
 namespace EDTLibrary.LibraryData
 {
     public static class LibraryManager {
+
+
+        public static ObservableCollection<CecCableAmpacityModel> CecCableAmpacities { get; set; }
+
 
         public static double GetMotorEfficiency(ILoad load) {
             double result = GlobalConfig.NoValueDouble;

@@ -1,6 +1,8 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.Models.Cables;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -35,6 +37,11 @@ namespace EDTLibrary.ProjectSettings
         public static string CableInsulation15kVPower { get; set; }
         public static string CableInsulation35kVPower { get; set; }
 
+        public static string DefaultCableInstallationType { get; set; }
+        public static string DefaultCableTypeLoad_3ph1kV { get; set; }
+        public static string DefaultCableTypeDteq_3ph1kV1200AL { get; set; }
+        public static string DefaultCableTypeDteq_3ph1kV1200AM { get; set; }
+
         //Dteq
         public static string DteqMaxPercentLoaded { get; set; }
         public static string DteqDefaultPdTypeLV { get; set; }
@@ -53,48 +60,9 @@ namespace EDTLibrary.ProjectSettings
         public static DataTable CableSizesUsedInProject_3C1kV { get; set; }
         public static DataTable CableAmpsUsedInProject_3C1kV { get; set; }
 
-        public static DataTable CableSizesUsedInProject_3C5kV { get; set; }
-        public static DataTable CableAmpssUsedInProject_3C5kV { get; set; }
 
-        public static DataTable CableSizesUsedInProject_3C15kV { get; set; }
-        public static DataTable CableAmpsUsedInProject_3C15kV { get; set; }
+        public static ObservableCollection<CableSizeModel> CableSizesUsedInProject { get; set; }
 
-        public static DataTable CableSizesUsedInProject_1C1kV { get; set; }
-        public static DataTable CableAmpssUsedInProject_1C1kV { get; set; }
-
-        public static DataTable CableSizesUsedInProject_1C5kV { get; set; }
-        public static DataTable CableAmpsUsedInProject_1C5kV { get; set; }
-
-        public static DataTable CableSizesUsedInProject_1C15kV { get; set; }
-        public static DataTable CableAmpsUsedInProject_1C15kV { get; set; }
-
-        public static DataTable CableSizesUsedInProject_DLO1kV { get; set; }
-        public static DataTable CableAmpsUsedInProject_DLO1kV { get; set; }
-
-
-        /// <summary>
-        /// Creates the Cable Ampacities table for the project based on the selected cable sizes used in the project
-        /// </summary>
-        public static void CreateCableAmpacityTableUsedInProject_3C1kV() {
-            if (LibraryTables.CableAmpacities != null) {
-
-                CableAmpsUsedInProject_3C1kV = LibraryTables.CableAmpacities.Copy();
-
-                foreach (DataRow cablePrj in CableSizesUsedInProject_3C1kV.Rows) {
-                    if (cablePrj.Field<bool>("UsedInProject") == false) {
-                        string size = cablePrj.Field<string>("Size");
-
-                        for (int i = CableAmpsUsedInProject_3C1kV.Rows.Count - 1; i >= 0; i--) {
-                            DataRow cable = CableAmpsUsedInProject_3C1kV.Rows[i];
-                            if (cable["Size"].ToString() == size) {
-                                CableAmpsUsedInProject_3C1kV.Rows.Remove(cable);
-                            }
-                        }
-                    }
-                }
-                CableAmpsUsedInProject_3C1kV.AcceptChanges();
-            }
-        }
 
     }
 }

@@ -13,9 +13,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>
-                
-
+                <!--<ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
             <x:Array xmlns:s="clr-namespace:System;assembly=mscorlib" x:Key="array" Type="{x:Type s:Int32}">

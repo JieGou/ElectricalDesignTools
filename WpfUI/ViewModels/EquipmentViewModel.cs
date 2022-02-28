@@ -66,7 +66,12 @@ namespace WpfUI.ViewModels
             GetAllCommand = new RelayCommand(DbGetAll);
             SaveAllCommand = new RelayCommand(DbSaveAll);
             SizeCablesCommand = new RelayCommand(SizeCables);
-            CalcCableAmpsCommand = new RelayCommand(CalculateCableAmps);
+            CalculateAllCableAmpsCommand = new RelayCommand(CalculateCableAmps);
+
+            CalculateSingleDteqCableSizeCommand = new RelayCommand(CalculateSingleDteqCableSize);
+            CalculateSingleDteqCableAmpsCommand = new RelayCommand(CalculateSingleDteqCableAmps);
+
+            
 
             DeleteDteqCommand = new RelayCommand(DeleteDteq);
 
@@ -313,9 +318,11 @@ namespace WpfUI.ViewModels
         public ICommand SaveAllCommand { get; }
         public ICommand DeleteDteqCommand { get; }
         public ICommand SizeCablesCommand { get; }
-        public ICommand CalcCableAmpsCommand { get; }
+        public ICommand CalculateAllCableAmpsCommand { get; }
+        public ICommand CalculateSingleDteqCableSizeCommand { get; }
+        public ICommand CalculateSingleDteqCableAmpsCommand { get; }
 
-
+        
         public ICommand AddDteqCommand { get; }
         public ICommand AddLoadCommand { get; }
 
@@ -445,7 +452,15 @@ namespace WpfUI.ViewModels
                 item.Cable.CalculateAmpacity();
             }
         }
-
+        private void CalculateSingleDteqCableSize()
+        {
+            _selectedDteq.Cable.SetCableParameters(_selectedDteq);
+            _selectedDteq.Cable.CalculateCableQtySizeNew();
+        }
+        private void CalculateSingleDteqCableAmps()
+        {
+            _selectedDteq.Cable.CalculateAmpacityNew();
+        }
         private void AddDteq()
         {
             var test = _listManager.DteqList;
@@ -472,6 +487,7 @@ namespace WpfUI.ViewModels
                 }
                 newDteq.Id = DbManager.prjDb.InsertRecordGetId(newDteq, GlobalConfig.DteqTable, SaveLists.DteqSaveList).Item3;
                 _listManager.DteqList.Add(newDteq);
+                _listManager.IDteqList.Add(newDteq);
 
                 newDteq.SizeCable();
                 newDteq.CalculateCableAmps();
@@ -693,7 +709,7 @@ namespace WpfUI.ViewModels
 
         private void BuildDteqCableTypeList(IDteq dteq)
         {
-            if (dteq == null)
+            if (dteq == null || dteq.Cable == null)
                 return;
 
             string selectedDteqCableType = _selectedDteq.Cable.Type;

@@ -1,7 +1,12 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Services;
@@ -14,10 +19,28 @@ namespace WpfUI.ViewModels
 
         #region Properties and Backing Fields
 
-        public string TestString { get; set; }
         public ObservableCollection<SettingModel> StringSettings { get; set; }
         public SettingModel SelectedStringSetting { get; set; }
 
+        public ObservableCollection<CableTypeModel> CableTypes { get; set; }
+        public ObservableCollection<CableSizeModel> SelectedCableSizes { get; set; } = new ObservableCollection<CableSizeModel>();
+        private CableTypeModel _selectedCableType;
+
+
+
+        public CableTypeModel SelectedCableType
+        {
+            get { return _selectedCableType; }
+            set { 
+                
+               _selectedCableType = value;
+                var selectedCableSizes = EdtSettings.CableSizesUsedInProject.Where(c => c.Type == _selectedCableType.Type );
+                SelectedCableSizes.Clear();
+                foreach (var cable in selectedCableSizes) {
+                    SelectedCableSizes.Add(cable);
+                }
+            }
+        }
 
         public ObservableCollection<SettingModel> TableSettings { get; set; }
         public SettingModel SelectedTableSetting { get; set; }
@@ -57,7 +80,7 @@ namespace WpfUI.ViewModels
             SaveStringSettingCommand = new RelayCommand(SaveStringSetting);
             SaveTableSettingCommand = new RelayCommand(SaveTableSetting);
 
-
+            CableTypes = TypeManager.CableTypes;
         }
 
         #region Helper Methods
@@ -70,6 +93,7 @@ namespace WpfUI.ViewModels
             //StringSettings = new ObservableCollection<SettingModel>(SettingManager.GetStringSettings());
             //TableSettings = new ObservableCollection<SettingModel>(SettingManager.GetTableSettings());
             //SettingManager.CreateCableAmpsUsedInProject();
+            CableTypes = TypeManager.CableTypes;
         }
         private void SaveStringSetting()
         {
@@ -80,11 +104,19 @@ namespace WpfUI.ViewModels
             ArrayList tables = DbManager.prjDb.GetListOfTablesNamesInDb();
 
             //only saves to Db if Db table exists
-            if (tables.Contains(SelectedTableSetting.Name)) {
-                SettingManager.SaveTableSetting(SelectedTableSetting);
-                SettingManager.CreateCableAmpsUsedInProject();
-            }
 
+            if (SelectedTableSetting != null) {
+                if (tables.Contains(SelectedTableSetting.Name)) {
+                    SettingManager.SaveTableSetting(SelectedTableSetting);
+                    SettingManager.CreateCableAmpsUsedInProject();
+                }
+            }
+            
+
+            foreach (CableSizeModel cable in SelectedCableSizes) {
+                DbManager.prjDb.UpsertRecord(cable, "CableSizesUsedInProject", new List<string>());
+            }
+            EdtSettings.CableSizesUsedInProject = DbManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
         }
         #endregion
     }

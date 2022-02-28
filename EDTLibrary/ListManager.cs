@@ -49,7 +49,6 @@ namespace EDTLibrary
             }
 
             //XFR
-            IDteqList.Add(new XfrModel() { Tag = "asdfasdf" });
 
             CreateDteqDict();
             return DteqList;

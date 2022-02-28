@@ -238,7 +238,7 @@ namespace EDTLibrary.Models.Loads
         public void SizeCable()
         {
             CreateCable();
-            Cable.GetCableParameters(this);
+            Cable.SetCableParameters(this);
             Cable.CalculateCableQtySize();
         }
 

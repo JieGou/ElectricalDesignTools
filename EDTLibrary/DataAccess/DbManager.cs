@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
@@ -33,9 +34,9 @@ namespace EDTLibrary.DataAccess
 
         public static bool GetLibraryTables()
         {
-            Type libTablesClass = typeof(LibraryTables); // MyClass is static class with static properties
+            Type libraryTablesClass = typeof(LibraryTables); // MyClass is static class with static properties
             DataTable dt = new DataTable();
-            foreach (var prop in libTablesClass.GetProperties()) {
+            foreach (var prop in libraryTablesClass.GetProperties()) {
                 prop.SetValue(dt, libDb.GetDataTable(prop.Name));
             }
             IsLibraryLoaded = true;
@@ -52,11 +53,16 @@ namespace EDTLibrary.DataAccess
             GetVoltageTypes();
             GetAreaClassificationTypes();
             GetCECCableSizingRules();
+            GetCecAmpacities();
         }
 
         private static void GetCECCableSizingRules()
         {
             TypeManager.CecCableSizingRules = libDb.GetRecords<CecCableSizingRule>("CecCableSizingRules");
+        }
+        private static void GetCecAmpacities()
+        {
+            LibraryManager.CecCableAmpacities = libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
         }
 
         private static void GetVoltageTypes()

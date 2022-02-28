@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
+using EDTLibrary.Models.Cables;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace EDTLibrary.ProjectSettings
         public static Dictionary<string, SettingModel> StringSettingDict { get; set; } = new Dictionary<string, SettingModel>();
         public static Dictionary<string, SettingModel> TableSettingDict { get; set; } = new Dictionary<string, SettingModel>();
 
+        
         public static void LoadProjectSettings()
         {
             SettingList.Clear();
@@ -80,10 +82,22 @@ namespace EDTLibrary.ProjectSettings
 
             CreateCableAmpsUsedInProject();
             var test = EdtSettings.CableAmpsUsedInProject_3C1kV;
+
+            AssignCodeSettings();
+            GetCableSizesUsedInProject();
         }
 
+        private static void GetCableSizesUsedInProject()
+        {
+            EdtSettings.CableSizesUsedInProject = DbManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
+        }
 
-        
+        private static void AssignCodeSettings()
+        {
+            if (EdtSettings.Code == "CEC") {
+                CableSizeManager.CableSizer = new CecCableSizer();
+            }
+        }
 
         public static void SaveStringSetting(SettingModel setting)
         {
