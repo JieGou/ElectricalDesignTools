@@ -63,28 +63,28 @@ namespace EDTLibrary.Models.DistributionEquipment
                     AddError(nameof(Type), "Invalid Load Type");
                 }
                 //set units
-                //else if (_type == DteqTypes.XFR.ToString()) {
-                //    Unit = "";
-                //    Unit = Units.kVA.ToString();
+                else if (_type == DteqTypes.XFR.ToString()) {
+                    Unit = "";
+                    Unit = Units.kVA.ToString();
 
-                //}
-                //else if (_type == DteqTypes.SWG.ToString()) {
-                //    Unit = "";
-                //    Unit = Units.A.ToString();
+                }
+                else if (_type == DteqTypes.SWG.ToString()) {
+                    Unit = "";
+                    Unit = Units.A.ToString();
 
-                //}
-                //else if (_type == DteqTypes.MCC.ToString()) {
-                //    Unit = "";
-                //    Unit = Units.A.ToString();
+                }
+                else if (_type == DteqTypes.MCC.ToString()) {
+                    Unit = "";
+                    Unit = Units.A.ToString();
 
-                //}
-                //else if (_type == DteqTypes.SPL.ToString()) {
-                //    Unit = "";
-                //    Unit = Units.A.ToString();
-                //}
-                //else if (_type == "") {
-                //    Unit = "";
-                //}
+                }
+                else if (_type == DteqTypes.SPL.ToString()) {
+                    Unit = "";
+                    Unit = Units.A.ToString();
+                }
+                else if (_type == "") {
+                    Unit = "";
+                }
             }
         }
 
@@ -108,7 +108,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 //set voltage
                 if (_selectedDteq != null) {
-                    //LineVoltage = _selectedDteq.LoadVoltage.ToString();
+                    LineVoltage = _selectedDteq.LoadVoltage.ToString();
                 }
 
                 //validate

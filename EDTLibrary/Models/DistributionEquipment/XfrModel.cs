@@ -24,7 +24,10 @@ namespace EDTLibrary.Models.DistributionEquipment
         public double Size { get; set; }
         public string Unit { get; set; }
         public double LoadFactor { get; set; }
-        public string FedFrom { get; set; }
+        public string FedFromTag { get; set; }
+        public int FedFromId { get; set; }
+        public string FedFromType { get; set; }
+        public IDteq FedFrom { get; set; }
         public double PowerFactor { get; set; }
         public double AmpacityFactor { get; set; }
         public double Efficiency { get; set; }

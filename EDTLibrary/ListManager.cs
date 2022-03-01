@@ -44,13 +44,38 @@ namespace EDTLibrary
 
             //Dteq
             DteqList = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
-            foreach (var item in DteqList) {
-                IDteqList.Add(item);
+            IDteq fedFrom;
+
+            foreach (var dteq in DteqList) {
+                IDteqList.Add(dteq);
+            }
+
+            DteqList.Insert(0, new DteqModel() { Tag = "UTILITY" });
+
+            foreach (var dteq in DteqList) {
+                if (dteq.FedFromTag == "UTILITY") {
+                    dteq.FedFrom = DteqList[0];
+                }
+
+                fedFrom = DteqList.FirstOrDefault(d => d.Tag == dteq.FedFromTag);
+
+                if (fedFrom != null) {
+                    dteq.FedFromId = fedFrom.Id;
+                    dteq.FedFromType = fedFrom.GetType().ToString();
+                    
+                }
+
+                fedFrom = DteqList.FirstOrDefault(d => d.Id == dteq.FedFromId &&
+                                                   d.GetType().ToString() == dteq.FedFromType);
+                if (fedFrom != null) {
+                    dteq.FedFrom = fedFrom;
+                }
             }
 
             //XFR
 
             CreateDteqDict();
+
             return DteqList;
         }
         public void DeteteDteq<T>(T model) where T : class
@@ -69,7 +94,28 @@ namespace EDTLibrary
         }
         public ObservableCollection<LoadModel> GetLoads() {     
             LoadList = DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable);
-           
+            IDteq fedFrom;
+
+            foreach (var load in LoadList) {
+                fedFrom = IDteqList.FirstOrDefault(d => d.Tag == load.FedFromTag);
+
+                if (fedFrom != null) {
+                    load.FedFromId = fedFrom.Id;
+                }
+
+                fedFrom = IDteqList.FirstOrDefault(d => d.Tag == load.FedFromTag);
+
+                if (fedFrom != null) {
+                    load.FedFromType = fedFrom.GetType().ToString();
+                }
+
+                fedFrom = IDteqList.FirstOrDefault(d => d.Id == load.FedFromId &&
+                                                   d.GetType().ToString() == load.FedFromType);
+                if (fedFrom != null) {
+                    load.FedFrom = fedFrom;
+                }
+
+            }
             CreateILoadDict();
             return LoadList;
         }
@@ -170,14 +216,14 @@ namespace EDTLibrary
         {
             dteq.AssignedLoads.Clear();
             foreach (var dteqAsLoad in IDteqList) {
-                if (dteqAsLoad.FedFrom == dteq.Tag) {
+                if (dteqAsLoad.FedFromTag == dteq.Tag) {
                     dteq.AssignedLoads.Add(dteqAsLoad);
                     dteqAsLoad.LoadingCalculated += dteq.OnDteqLoadingCalculated;
                     dteqAsLoad.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
                 }
             }
             foreach (var load in LoadList) {
-                if (load.FedFrom == dteq.Tag) {
+                if (load.FedFromTag == dteq.Tag) {
                     dteq.AssignedLoads.Add(load);
                     load.LoadingCalculated += dteq.OnDteqLoadingCalculated;
                     load.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
@@ -196,7 +242,7 @@ namespace EDTLibrary
                 //Adds Dteq as Loads
                 foreach (DteqModel dteqAsLoad in dteqList) {
                     var dteqAsLoadTag = dteqAsLoad.Tag;
-                    if (dteqAsLoad.FedFrom == dteq.Tag) {
+                    if (dteqAsLoad.FedFromTag == dteq.Tag) {
                         dteq.AssignedLoads.Add(dteqAsLoad);
                         dteq.LoadCount += 1;
                     }
@@ -204,7 +250,7 @@ namespace EDTLibrary
                 //Adds loads as loads
                 foreach (LoadModel load in loadList) {
                     var loadTag = load.Tag;
-                    if (load.FedFrom == dteq.Tag) {
+                    if (load.FedFromTag == dteq.Tag) {
                         load.CalculateLoading();
                         dteq.AssignedLoads.Add(load);
                         dteq.LoadCount += 1;
@@ -250,22 +296,22 @@ namespace EDTLibrary
         /// 
         public void CreateCableList() {
             CableList.Clear();
-            foreach (var item in DteqList) {
-                item.Cable.AssignOwner(item);
-                if (item.Cable.OwnedById != null && item.Cable.OwnedByType != null) {
-                    CableList.Add(item.Cable);
+            foreach (var dteq in IDteqList) {
+                dteq.Cable.AssignOwner(dteq);
+                if (dteq.Cable.OwnedById != null && dteq.Cable.OwnedByType != null) {
+                    CableList.Add(dteq.Cable);
                 }
             }
-            foreach (var item in LoadList) {
-                item.Cable.AssignOwner(item);
-                if (item.Cable.OwnedById != null && item.Cable.OwnedByType != null) {
-                    CableList.Add(item.Cable);
+            foreach (var load in LoadList) {
+                load.Cable.AssignOwner(load);
+                if (load.Cable.OwnedById != null && load.Cable.OwnedByType != null) {
+                    CableList.Add(load.Cable);
                 }
             }
         }
         public void AssignCables()
         {
-            foreach (var dteq in DteqList) {
+            foreach (var dteq in IDteqList) {
                 foreach (var cable in CableList) {
                     if (dteq.Id == cable.OwnedById &&
                         dteq.GetType().ToString() == cable.OwnedByType) {

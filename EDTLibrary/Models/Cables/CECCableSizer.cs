@@ -1,4 +1,7 @@
 ﻿using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Loads;
+using EDTLibrary.ProjectSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +32,20 @@ namespace EDTLibrary.Models.Cables
             set { _sizingTable = value; }
         }
 
+        public string GetDefaultCableType(IPowerConsumer load)
+        {
+            if (load is ILoad && load.Voltage <= 1000) {
+                return EdtSettings.DefaultCableTypeLoad_3ph1kV;
+            }
+            if (load is IDteq && load.Voltage <= 1000 && load.Fla <= 1200) {
+                return EdtSettings.DefaultCableTypeDteq_3ph1kV1200AL;
+            }
+            if (load is IDteq && load.Voltage <= 1000 && load.Fla > 1200) {
+                return EdtSettings.DefaultCableTypeDteq_3ph1kV1200AM;
+            }
 
+            return EdtSettings.DefaultCableTypeLoad_3ph1kV;
+        }
         public string GetAmpacityTable(IPowerCable cable)
         {
             if (cable == null) return "Invalid Cable Data";
@@ -74,5 +90,7 @@ namespace EDTLibrary.Models.Cables
             cable.AmpacityTable = output;
             return output;
         }
+
+
     }
 }

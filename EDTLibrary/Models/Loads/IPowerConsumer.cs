@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.DistributionEquipment;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +15,11 @@ namespace EDTLibrary.Models.Loads
         double Size { get; set; }
         string Unit { get; set; }
         double Fla { get; set; }
-        string FedFrom { get; set; }
+        string FedFromTag { get; set; }
+
+        int FedFromId { get; set; }
+        string FedFromType { get; set; }
+        IDteq FedFrom { get; set; }
 
         double AmpacityFactor { get; set; }
 

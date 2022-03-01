@@ -114,7 +114,7 @@
                 Command="{Binding SizeCablesCommand}"/>
 
                 <Button Name ="btnCalcCableAmps" Content="Cable Amps"
-                Command="{Binding CalcCableAmpsCommand}"/>
+                Command="{Binding CalculateAllCableAmpsCommand}"/>
 
                 <Button Name ="btnDeleteDteq" Content="Delete Selected"
                 Command="{Binding DeleteDteqCommand}"
@@ -324,12 +324,60 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                        <!--Fed From-->
+                        <!--Fed From Model-->
+                        <DataGridComboBoxColumn Header=" Fed&#x0a;From" DisplayMemberPath="Tag" SelectedItemBinding="{Binding FedFrom}">
+                            <DataGridComboBoxColumn.ElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.ListManager.DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Setter Property="SelectedItem" Value="{Binding Path=FedFrom}" />
+
+                                    <Setter Property="SelectedValuePath" Value="Id" />
+                                    <Setter Property="DisplayMemberPath" Value="Tag" />
+                    
+                                </Style>
+                            </DataGridComboBoxColumn.ElementStyle>
+                            <DataGridComboBoxColumn.EditingElementStyle>
+                                <Style TargetType="ComboBox">
+                                    <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.ListManager.DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <Setter Property="SelectedItem" Value="{Binding Path=FedFrom}" />
+                                    
+                                    <Setter Property="DisplayMemberPath" Value="Tag" />
+                                    <Setter Property="SelectedValuePath" Value="Id" />
+                                </Style>
+                            </DataGridComboBoxColumn.EditingElementStyle>
+                        </DataGridComboBoxColumn>
+
+                        <!--Fed From Model Template Column-->
                         <DataGridTemplateColumn Header=" Fed&#x0a;From" x:Name="dteqFedFrom" 
                                     MinWidth="75">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                    <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+
+                                    <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.ListManager.DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedItem="{Binding Path=FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="Tag"
+                                              SelectedValuePath="Id"
+                                            HorizontalContentAlignment="Center"
+                                            IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
+                                            IsSynchronizedWithCurrentItem="False"
+                                            BorderThickness="0" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+                        
+                        <!--Fed From TAG-->
+                        <DataGridTemplateColumn Header=" Fed&#x0a;From TAG" x:Name="dteqFedFromNew" 
+                                    MinWidth="75">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FedFromTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
                                     <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
 
@@ -338,8 +386,8 @@
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.FedFromList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            SelectedItem="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                            Text="{Binding FedFrom}"  
+                                            SelectedItem="{Binding FedFromTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            Text="{Binding FedFromTag}"  
                                             HorizontalContentAlignment="Center"
                                             IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
                                             IsSynchronizedWithCurrentItem="False"
@@ -844,14 +892,21 @@
 
                     <TextBlock Text="    Dteq Id:  "/>
                     <TextBlock Text="{Binding SelectedDteq.Id}" Margin="0" FontWeight="Bold"/>
-
+                    <TextBlock Text="    Dteq FedFromId:  "/>
+                    <TextBlock Text="{Binding SelectedDteq.FedFromId}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="    Dteq FedFromType:  "/>
+                    <TextBlock Text="{Binding SelectedDteq.FedFromType}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="    Dteq FedFromTag:  "/>
+                    <TextBlock Text="{Binding SelectedDteq.FedFrom.Tag}" Margin="0" FontWeight="Bold"/>
 
                     <TextBlock Text="            Load Count:  "/>
                     <TextBlock Text="{Binding ListManager.LoadList.Count}" Margin="0" FontWeight="Bold"/>
-                    <TextBlock Text="    Load Id:  "/>
-                    <TextBlock Text="{Binding SelectedLoad.Id}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="    Load FedFromId:  "/>
+                    <TextBlock Text="{Binding SelectedLoad.FedFromId}" Margin="0" FontWeight="Bold"/>
 
-                 
+                    <TextBlock Text="    Load FedFromType:  "/>
+                    <TextBlock Text="{Binding SelectedLoad.FedFromType}" Margin="0" FontWeight="Bold"/>
+                    
                     <TextBlock Text="    Load Cable Id:  "/>
                     <TextBlock Text="{Binding SelectedLoad.Cable.Id}" Margin="0" FontWeight="Bold"/>
 

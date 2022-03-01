@@ -35,7 +35,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (GlobalConfig.GettingRecords==false) {
                     if (AssignedLoads != null) {
                         foreach (var iload in AssignedLoads) {
-                            iload.FedFrom = _tag;
+                            iload.FedFromTag = _tag;
                         }
                     }
                     if (Cable != null) {
@@ -49,7 +49,14 @@ namespace EDTLibrary.Models.DistributionEquipment
         public string Type { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
-        public double Voltage { get; set; }
+        private double _voltage;
+
+        public double Voltage
+        {
+            get { return LineVoltage; }
+            set { LineVoltage = value; }
+        }
+
 
         public double _size;
         public double Size
@@ -67,19 +74,33 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         public string Unit { get; set; }
 
-        private string _fedFrom;
-        public string FedFrom
+        private string _fedFromTag;
+        public string FedFromTag
         {
-            get { return _fedFrom; }
+            get
+            {
+                if (FedFrom != null) {
+                    return FedFrom.Tag;
+                }
+                return _fedFromTag;
+            }
             set
             {
-                _fedFrom = value;
+                _fedFromTag = value;
+                if (FedFrom != null) {
+                    FedFrom.Tag = _fedFromTag;
+                }
+                
                 if (GlobalConfig.GettingRecords == false) {
                     OnFedFromChanged();
                     CalculateLoading();
                 }
             }
         }
+
+        public int FedFromId { get; set; }
+        public string FedFromType { get; set; }
+        public IDteq FedFrom { get; set; }
 
         private double _lineVoltage;
 
@@ -190,7 +211,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 Cable = new PowerCableModel(this);
             }
             Cable.SetCableParameters(this);
-            Cable.CalculateCableQtySize();
+            Cable.CalculateCableQtySizeNew();
         }
         public void CalculateCableAmps()
         {

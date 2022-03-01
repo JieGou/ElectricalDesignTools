@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
@@ -61,13 +62,13 @@ namespace EDTLibrary.Models.Loads
         }
         public string Unit { get; set; }
 
-        private string _fedFrom;
-        public string FedFrom
+        private string _fedFromTag;
+        public string FedFromTag
         {
-            get { return _fedFrom; }
+            get { return _fedFromTag; }
             set
             {
-                _fedFrom = value;
+                _fedFromTag = value;
                 if (GlobalConfig.GettingRecords == false) {
                     OnFedFromChanged();
                     CalculateLoading();
@@ -76,6 +77,9 @@ namespace EDTLibrary.Models.Loads
                 }
             }
         }
+        public int FedFromId { get; set; }
+        public string FedFromType { get; set; }
+        public IDteq FedFrom { get; set; }
 
         public double LoadFactor { get; set; }
 
@@ -239,7 +243,7 @@ namespace EDTLibrary.Models.Loads
         {
             CreateCable();
             Cable.SetCableParameters(this);
-            Cable.CalculateCableQtySize();
+            Cable.CalculateCableQtySizeNew();
         }
 
         private void CreateCable()

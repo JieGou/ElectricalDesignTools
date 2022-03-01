@@ -104,7 +104,7 @@ namespace EDTLibrary.Models.Cables
             _load = load;
             AssignOwner(load);
             AssignTagging(load);
-
+            Type = CableSizeManager.CableSizer.GetDefaultCableType(load);
             UsageType = CableUsageTypes.Power.ToString();
             QtyParallel = 1;
 
@@ -127,7 +127,7 @@ namespace EDTLibrary.Models.Cables
         /// </summary>
         public void AssignTagging(IPowerConsumer load)
         {
-            Source = load.FedFrom;
+            Source = load.FedFromTag;
             Destination = load.Tag;
             CreateTag();
         }
@@ -135,46 +135,11 @@ namespace EDTLibrary.Models.Cables
         public void SetCableParameters(IPowerConsumer load)
         {
             AssignTagging(load);
-
-            OwnedById = load.Id;
-            OwnedByType = load.GetType().ToString();
-            UsageType = CableUsageTypes.Power.ToString();
-
+            AssignOwner(load);
             GetRequiredAmps(load);
-
             GetRequiredSizingAmps();
-
-
-            //TODO - select all based on Cable.Type
-
-            //CableDeratingCalculator cableDeratingCalculator = new CableDeratingCalculator();
-            //CableDerating = cableDeratingCalculator.Calculate(load);
+           
             Derating = 0.666;
-
-            //Conductor Qty
-            ConductorQtyCalculator conductorQtyCalculator = new ConductorQtyCalculator();
-            ConductorQty = conductorQtyCalculator.Calculate(load);
-
-            //Voltage Class based on load
-
-            VoltageClass = LibraryManager.GetCableVoltageClass(load.Voltage);
-
-            //Insulation Based on settings
-            if (VoltageClass == 1000) {
-                Insulation = int.Parse(EdtSettings.CableInsulation1kVPower.ToString());
-            }
-            else if (VoltageClass == 5000) {
-                Insulation = int.Parse(EdtSettings.CableInsulation5kVPower.ToString());
-            }
-            else if (VoltageClass == 15000) {
-                Insulation = int.Parse(EdtSettings.CableInsulation15kVPower.ToString());
-            }
-            else if (VoltageClass == 35000) {
-                Insulation = int.Parse(EdtSettings.CableInsulation35kVPower.ToString());
-            }
-
-            //TODO - null/error check for this data
-            Type = SelectCableType(VoltageClass, ConductorQty, Insulation, UsageType);
 
             CableSizeManager.CableSizer.GetAmpacityTable(this);
 
@@ -196,6 +161,8 @@ namespace EDTLibrary.Models.Cables
 
         private string SelectCableType(double voltageClass, int conductorQty, double insulation, string usageType)
         {
+            //TODO - null/error check for this data
+
             DataTable cableType = LibraryTables.CableTypes.Select($"VoltageClass >= {voltageClass}").CopyToDataTable();
             cableType = cableType.Select($"VoltageClass = MIN(VoltageClass) " +
                                          $"AND Conductors ={conductorQty}" +
@@ -381,6 +348,7 @@ namespace EDTLibrary.Models.Cables
                 cableAmps = cables.CopyToDataTable();
                 //select smallest of the valid results
                 BaseAmps = double.Parse(cableAmps.Rows[0][ampsColumn].ToString()) * QtyParallel;
+                BaseAmps = Math.Round(BaseAmps, 1);
                 DeratedAmps = BaseAmps * Derating;
                 DeratedAmps = Math.Round(DeratedAmps, GlobalConfig.SigFigs);
             }

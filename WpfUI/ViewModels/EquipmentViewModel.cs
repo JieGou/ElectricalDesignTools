@@ -39,7 +39,7 @@ namespace WpfUI.ViewModels
         }
 
         private StartupService _startupService;
-        public ViewModifier DteqGridViewModifier { get; set; }
+        public DataGridColumnViewControl DteqGridViewModifier { get; set; }
 
         public EquipmentViewModel(ListManager listManager)
         {
@@ -47,7 +47,7 @@ namespace WpfUI.ViewModels
             _listManager = listManager;
 
             //members
-            DteqGridViewModifier = new ViewModifier();
+            DteqGridViewModifier = new DataGridColumnViewControl();
 
             DteqToAdd = new DteqToAddValidator(_listManager, _selectedDteq);
             LoadToAdd = new LoadToAddValidator(_listManager, _selectedDteq);
@@ -66,7 +66,7 @@ namespace WpfUI.ViewModels
             GetAllCommand = new RelayCommand(DbGetAll);
             SaveAllCommand = new RelayCommand(DbSaveAll);
             SizeCablesCommand = new RelayCommand(SizeCables);
-            CalculateAllCableAmpsCommand = new RelayCommand(CalculateCableAmps);
+            CalculateAllCableAmpsCommand = new RelayCommand(CalculateAllCableAmps);
 
             CalculateSingleDteqCableSizeCommand = new RelayCommand(CalculateSingleDteqCableSize);
             CalculateSingleDteqCableAmpsCommand = new RelayCommand(CalculateSingleDteqCableAmps);
@@ -264,7 +264,7 @@ namespace WpfUI.ViewModels
         private async Task CopySelectedLoad()
         {
             LoadToAdd.FedFrom = "";
-            LoadToAdd.FedFrom = _selectedLoad.FedFrom;
+            LoadToAdd.FedFrom = _selectedLoad.FedFromTag;
             LoadToAdd.Type = "";
             LoadToAdd.Type = _selectedLoad.Type;
             LoadToAdd.Size = "";
@@ -393,15 +393,17 @@ namespace WpfUI.ViewModels
             if (_listManager.DteqList.Count != 0) {
                 CalculateAll();
 
-                Tuple<bool, string> dbSaveResult;
+                Tuple<bool, string> dbSaveResult = new Tuple<bool, string>(true, "err.0");
                 bool error = false;
                 string message = "";
 
                 //Dteq
-                foreach (var item in _listManager.DteqList) {
-                    var dteqTag = item.Tag;
-                    item.Cable.AssignOwner(item);
-                    dbSaveResult = DbManager.prjDb.UpsertRecord<DteqModel>(item, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+                foreach (var dteq in _listManager.DteqList) {
+                    var dteqTag = dteq.Tag;
+                    if (dteq.Tag!= "UTILITY") {
+                        dteq.Cable.AssignOwner(dteq);
+                        dbSaveResult = DbManager.prjDb.UpsertRecord<DteqModel>(dteq, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+                    }
                     if (dbSaveResult.Item1 == false) {
                         error = true;
                         message = dbSaveResult.Item2;
@@ -443,23 +445,28 @@ namespace WpfUI.ViewModels
                 item.SizeCable();
             }
         }
-        private void CalculateCableAmps()
+        private void CalculateAllCableAmps()
         {
             foreach (var item in _listManager.DteqList) {
-                item.Cable.CalculateAmpacity();
+                item.Cable.CalculateAmpacityNew();
             }
             foreach (var item in _listManager.LoadList) {
-                item.Cable.CalculateAmpacity();
+                item.Cable.CalculateAmpacityNew();
             }
         }
         private void CalculateSingleDteqCableSize()
         {
-            _selectedDteq.Cable.SetCableParameters(_selectedDteq);
-            _selectedDteq.Cable.CalculateCableQtySizeNew();
+            if (_selectedDteq.Cable != null) {
+                _selectedDteq.Cable.SetCableParameters(_selectedDteq);
+                _selectedDteq.Cable.CalculateCableQtySizeNew();
+            }
+            
         }
         private void CalculateSingleDteqCableAmps()
         {
-            _selectedDteq.Cable.CalculateAmpacityNew();
+            if (_selectedDteq.Cable != null) {
+                _selectedDteq.Cable.CalculateAmpacityNew();
+            }
         }
         private void AddDteq()
         {
@@ -476,11 +483,11 @@ namespace WpfUI.ViewModels
                 newDteq.Size = Double.Parse(DteqToAdd.Size);
                 newDteq.Unit = DteqToAdd.Unit;
                 newDteq.Description = DteqToAdd.Description;
-                newDteq.FedFrom = DteqToAdd.FedFrom;
+                newDteq.FedFromTag = DteqToAdd.FedFrom;
                 newDteq.LineVoltage = Double.Parse(DteqToAdd.LineVoltage);
                 newDteq.LoadVoltage = Double.Parse(DteqToAdd.LoadVoltage);
 
-                DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d.Tag == newDteq.FedFrom);
+                DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d.Tag == newDteq.FedFromTag);
                 if (dteqSubscriber != null) {
                     newDteq.LoadingCalculated += dteqSubscriber.OnDteqLoadingCalculated;
                     newDteq.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
@@ -537,12 +544,12 @@ namespace WpfUI.ViewModels
                 newLoad.Type = LoadToAdd.Type;
                 newLoad.Size = Double.Parse(LoadToAdd.Size);
                 newLoad.Description = LoadToAdd.Description;
-                newLoad.FedFrom = LoadToAdd.FedFrom;
+                newLoad.FedFromTag = LoadToAdd.FedFrom;
                 newLoad.Voltage = Double.Parse(LoadToAdd.Voltage);
                 newLoad.Unit = LoadToAdd.Unit;
                 newLoad.LoadFactor = Double.Parse(LoadToAdd.LoadFactor);
 
-                DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d.Tag == newLoad.FedFrom);
+                DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d.Tag == newLoad.FedFromTag);
                 if (dteqSubscriber != null) {
                     dteqSubscriber.AssignedLoads.Add(newLoad);
                     newLoad.LoadingCalculated += dteqSubscriber.OnDteqLoadingCalculated;
@@ -609,7 +616,7 @@ namespace WpfUI.ViewModels
         private void DeleteLoad()
         {
            if(_selectedLoad != null) {
-                DteqModel dteqToRecalculate = _listManager.DteqList.FirstOrDefault(d =>d.Tag == _selectedLoad.FedFrom);
+                DteqModel dteqToRecalculate = _listManager.DteqList.FirstOrDefault(d =>d.Tag == _selectedLoad.FedFromTag);
                     int loadId = _selectedLoad.Id;
 
                 if (_selectedLoad.Cable!= null) {

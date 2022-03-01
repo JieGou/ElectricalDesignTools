@@ -16,12 +16,19 @@
                 <!--<ResourceDictionary Source="Styles/EDTTealStyle.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
             
+            <CollectionViewSource x:Key="cableList" Source="{Binding ListManager.CableList}"  IsLiveFilteringRequested="True" IsLiveGroupingRequested="True">
+                <CollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="Type"/>
+                    <PropertyGroupDescription PropertyName="Size"/>
+                </CollectionViewSource.GroupDescriptions>
+
+            </CollectionViewSource>
+            
             <!--Cell Padding-->
             <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
                 <Setter Property="Margin" Value="5,0,10,0" />
             </Style>
 
-            <CollectionViewSource x:Key="dteqList" Source="{Binding DteqList}"/>
 
         </ResourceDictionary>        
     </UserControl.Resources>
@@ -79,14 +86,82 @@
         <StackPanel Grid.Column="3" Grid.Row="2" Orientation="Vertical">
 
             <!--DTEQ-->
-            <DataGrid x:Name="dgdDteq"
+                <DataGrid x:Name="dgdDteq"
                       Margin="10 10 10 10"
-                      ItemsSource="{Binding ListManager.CableList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding Source={StaticResource cableList}}"
                       CanUserAddRows="False"
                       HorizontalAlignment="Left"
-                      AutoGenerateColumns="False"
-                      Height="500">
-                <DataGrid.Columns>
+                      AutoGenerateColumns="False">
+
+                    <DataGrid.GroupStyle>
+                        <!-- Style for groups at top level. -->
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Margin" Value="0,0,0,5"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander IsExpanded="True" Background="#FF6461CA" BorderBrush="#FF002255" Foreground="#FFEEEEEE" BorderThickness="1,1,1,1" Margin="1">
+                                                    <Expander.Header>
+                                                        <DockPanel>
+                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
+                                                            <TextBlock FontWeight="Bold" Text="   Qty:  " Margin="5,0,0,0" />
+                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount}"/>
+                                                        </DockPanel>
+                                                    </Expander.Header>
+                                                    <Expander.Content>
+                                                        <ItemsPresenter />
+                                                    </Expander.Content>
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                        <!-- Style for groups under the top level. -->
+                        <GroupStyle>
+
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Margin" Value="0,0,0,5"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander IsExpanded="True" Background="#FFAAA8FB" BorderBrush="#FFAAA8FB" Foreground="Black" BorderThickness="1,1,1,1">
+                                                    <Expander.Header>
+                                                        <DockPanel>
+                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
+                                                            <TextBlock FontWeight="Bold" Text="   Qty:  " Margin="5,0,0,0" />
+                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount}"/>
+                                                        </DockPanel>
+                                                    </Expander.Header>
+                                                    <Expander.Content>
+                                                        <ItemsPresenter />
+                                                    </Expander.Content>
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+
+                        
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Foreground" Value="Black" />
+                            <Setter Property="Background" Value="White" />
+                        </Style>
+                    </DataGrid.RowStyle>
+
+
+
+                    <DataGrid.Columns>
                     <!--Basic-->
                     <!--Textblock cell padding style in this.resources Move to ResDict-->
                     <DataGridTextColumn Header="TAG" x:Name="Tag" 

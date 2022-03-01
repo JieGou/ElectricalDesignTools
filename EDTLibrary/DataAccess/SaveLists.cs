@@ -12,7 +12,8 @@ namespace EDTLibrary.DataAccess
             "AssignedLoads",
             "CircuitComponents",
             "Cable",
-            "Components"
+            "Components",
+            "FedFrom"
         };
 
         static public List<string> LoadSaveList { get; set; } = new List<string>() 
@@ -21,7 +22,8 @@ namespace EDTLibrary.DataAccess
             "CircuitComponents",
             "Cable",
             "Cable",
-            "Components"
+            "Components",
+            "FedFrom"
         };
 
         static public List<string> PowerCableSaveList { get; set; } = new List<string> {
