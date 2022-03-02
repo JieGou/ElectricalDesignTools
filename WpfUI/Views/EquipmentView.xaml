@@ -330,10 +330,13 @@
                                 <Style TargetType="ComboBox">
                                     <Setter Property="ItemsSource" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.ListManager.DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     <Setter Property="SelectedItem" Value="{Binding Path=FedFrom}" />
-
                                     <Setter Property="SelectedValuePath" Value="Id" />
                                     <Setter Property="DisplayMemberPath" Value="Tag" />
-                    
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+
+
+
                                 </Style>
                             </DataGridComboBoxColumn.ElementStyle>
                             <DataGridComboBoxColumn.EditingElementStyle>
@@ -348,8 +351,7 @@
                         </DataGridComboBoxColumn>
 
                         <!--Fed From Model Template Column-->
-                        <DataGridTemplateColumn Header=" Fed&#x0a;From" x:Name="dteqFedFrom" 
-                                    MinWidth="75">
+                        <DataGridTemplateColumn Header=" Fed&#x0a;From" x:Name="dteqFedFrom" MinWidth="75">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
@@ -361,13 +363,13 @@
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.ListManager.DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedItem="{Binding Path=FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DisplayMemberPath="Tag"
+                                              SelectedItem="{Binding Path=FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedValuePath="Id"
-                                            HorizontalContentAlignment="Center"
-                                            IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
-                                            IsSynchronizedWithCurrentItem="False"
-                                            BorderThickness="0" />
+                                              DisplayMemberPath="Tag"
+                                              HorizontalContentAlignment="Center"
+                                              IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>

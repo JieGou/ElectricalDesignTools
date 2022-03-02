@@ -79,7 +79,26 @@ namespace EDTLibrary.Models.Loads
         }
         public int FedFromId { get; set; }
         public string FedFromType { get; set; }
-        public IDteq FedFrom { get; set; }
+        private IDteq _fedFrom;
+
+        public IDteq FedFrom
+        {
+            get { return _fedFrom; }
+            set
+            {
+                _fedFrom = value;
+                if (FedFrom != null) {
+                    FedFromId = _fedFrom.Id;
+                    FedFromTag = _fedFromTag;
+                    FedFromType = _fedFrom.GetType().ToString();
+                }
+
+                if (GlobalConfig.GettingRecords == false) {
+                    OnFedFromChanged();
+                    CalculateLoading();
+                }
+            }
+        }
 
         public double LoadFactor { get; set; }
 

@@ -33,11 +33,11 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 _tag = value;
                 if (GlobalConfig.GettingRecords==false) {
-                    if (AssignedLoads != null) {
-                        foreach (var iload in AssignedLoads) {
-                            iload.FedFromTag = _tag;
-                        }
-                    }
+                    //if (AssignedLoads != null) {
+                    //    foreach (var iload in AssignedLoads) {
+                    //        iload.FedFromTag = _tag;
+                    //    }
+                    //}
                     if (Cable != null) {
                         Cable.SetCableParameters(this);
                     }
@@ -82,7 +82,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (FedFrom != null) {
                     return FedFrom.Tag;
                 }
-                return _fedFromTag;
+                return "No Dteq";
             }
             set
             {
@@ -100,12 +100,33 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public int FedFromId { get; set; }
         public string FedFromType { get; set; }
-        public IDteq FedFrom { get; set; }
+
+        private IDteq _fedFrom;
+
+        public IDteq FedFrom
+        {
+            get { return _fedFrom; }
+            set { 
+                _fedFrom = value;
+                if (FedFrom != null) {
+                    FedFromId = _fedFrom.Id;
+                    FedFromTag = _fedFromTag;
+                    FedFromType = _fedFrom.GetType().ToString();
+
+                }
+
+                if (GlobalConfig.GettingRecords == false) {
+                    OnFedFromChanged();
+                    CalculateLoading();
+                }
+            }
+        }
 
         private double _lineVoltage;
 
         public double LineVoltage
         {
+            //TODO - update cable and alert loads
             get { return _lineVoltage; }
             set
             {

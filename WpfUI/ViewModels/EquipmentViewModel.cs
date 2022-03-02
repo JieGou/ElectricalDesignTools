@@ -651,7 +651,7 @@ namespace WpfUI.ViewModels
         {
             BuildAssignedLoads();
             _listManager.UnassignLoadsAllDteq();
-            _listManager.CreateDteqDict(_listManager.DteqList);
+            _listManager.CreateDteqDict();
             _listManager.CalculateDteqLoading();
         }
         #endregion

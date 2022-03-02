@@ -20,15 +20,15 @@ namespace EDTLibrary
         public ObservableCollection<LocationModel>      LocationList { get; set; } = new ObservableCollection<LocationModel>();
         public ObservableCollection<IDteq>              IDteqList { get; set; } = new ObservableCollection<IDteq>();
         public ObservableCollection<DteqModel>          DteqList { get; set; } = new ObservableCollection<DteqModel>();
-        public ObservableCollection<XfrModel>   TransformerList { get; set; } = new ObservableCollection<XfrModel>();
+        public ObservableCollection<XfrModel>           TransformerList { get; set; } = new ObservableCollection<XfrModel>();
 
 
         public ObservableCollection<LoadModel>          LoadList { get; set; } = new ObservableCollection<LoadModel>();
         public ObservableCollection<PowerCableModel>    CableList { get; set; } = new ObservableCollection<PowerCableModel>();
         public ObservableCollection<CctComponentModel>  CompList { get; set; } = new ObservableCollection<CctComponentModel>();
 
-        public Dictionary<string, DteqModel>            dteqDict { get; set; } = new Dictionary<string, DteqModel>();
         public Dictionary<string, IEquipment>           eqDict { get; set; } = new Dictionary<string, IEquipment>();
+        public Dictionary<string, IDteq>                dteqDict { get; set; } = new Dictionary<string, IDteq>();
         public Dictionary<string, IPowerConsumer>       iLoadDict { get; set; } = new Dictionary<string, IPowerConsumer>();
 
         public async Task SetDteq()
@@ -145,9 +145,7 @@ namespace EDTLibrary
         }
         public void CreateILoadDict() {
             iLoadDict.Clear();
-            foreach (var eq in DteqList) {
-                iLoadDict.Add(eq.Tag, eq);
-            }
+            
             foreach (var eq in LoadList) {
                 iLoadDict.Add(eq.Tag, eq);
             }
@@ -155,20 +153,11 @@ namespace EDTLibrary
         public void CreateDteqDict() {
             dteqDict.Clear();
             foreach (var dteq in DteqList) {
-                dteqDict.Add(dteq.Tag, dteq);
-            }
-        }
-        public void CreateDteqDict(ObservableCollection<DteqModel> dteqList)
-        {
-            dteqDict.Clear();
-            foreach (var dteq in dteqList) {
-                if (dteqDict.ContainsKey(dteq.Tag) ==false ) {
+                if (dteqDict.ContainsKey(dteq.Tag) == false) {
                     dteqDict.Add(dteq.Tag, dteq);
                 }
             }
         }
-      
-
 
         #region MajorEquipment
         public void CalculateDteqLoading() // LoadList Manager
@@ -180,7 +169,7 @@ namespace EDTLibrary
                 item.CalculateLoading();
             }
         }
-        public void OnFedFromCalculated(object sender, EventArgs e)
+        public void OnFedFromChanged(object sender, EventArgs e)
         {
             UnassignLoadsAllDteq();
             AssignLoadsToAllDteq();
@@ -189,7 +178,7 @@ namespace EDTLibrary
         public void UnassignLoadsAllDteq()
         {
             foreach (DteqModel dteq in DteqList) {
-                dteq.FedFromChanged -= this.OnFedFromCalculated;
+                dteq.FedFromChanged -= this.OnFedFromChanged;
 
                 UnassignLoadsDteq(dteq);
             }
@@ -199,7 +188,7 @@ namespace EDTLibrary
             foreach (DteqModel dteq in DteqList) {
                 dteq.AssignedLoads.Clear();
                 dteq.LoadCount = 0;
-                dteq.FedFromChanged += this.OnFedFromCalculated;
+                dteq.FedFromChanged += this.OnFedFromChanged;
 
                AssignLoadsToDteq(dteq);
             }
@@ -216,14 +205,14 @@ namespace EDTLibrary
         {
             dteq.AssignedLoads.Clear();
             foreach (var dteqAsLoad in IDteqList) {
-                if (dteqAsLoad.FedFromTag == dteq.Tag) {
+                if (dteqAsLoad.FedFrom.Tag == dteq.Tag) {
                     dteq.AssignedLoads.Add(dteqAsLoad);
                     dteqAsLoad.LoadingCalculated += dteq.OnDteqLoadingCalculated;
                     dteqAsLoad.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
                 }
             }
             foreach (var load in LoadList) {
-                if (load.FedFromTag == dteq.Tag) {
+                if (load.FedFrom.Tag == dteq.Tag) {
                     dteq.AssignedLoads.Add(load);
                     load.LoadingCalculated += dteq.OnDteqLoadingCalculated;
                     load.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
