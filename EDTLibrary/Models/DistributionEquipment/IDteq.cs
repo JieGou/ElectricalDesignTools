@@ -16,5 +16,6 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
         void CalculateLoading();
+        void SizeCable();
     }
 }

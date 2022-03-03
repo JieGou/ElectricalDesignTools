@@ -57,13 +57,13 @@ namespace EDTLibrary
                     dteq.FedFrom = DteqList[0];
                 }
 
-                fedFrom = DteqList.FirstOrDefault(d => d.Tag == dteq.FedFromTag);
+                //fedFrom = DteqList.FirstOrDefault(d => d.Tag == dteq.FedFromTag);
 
-                if (fedFrom != null) {
-                    dteq.FedFromId = fedFrom.Id;
-                    dteq.FedFromType = fedFrom.GetType().ToString();
+                //if (fedFrom != null) {
+                //    dteq.FedFromId = fedFrom.Id;
+                //    dteq.FedFromType = fedFrom.GetType().ToString();
                     
-                }
+                //}
 
                 fedFrom = DteqList.FirstOrDefault(d => d.Id == dteq.FedFromId &&
                                                    d.GetType().ToString() == dteq.FedFromType);
@@ -78,7 +78,7 @@ namespace EDTLibrary
 
             return DteqList;
         }
-        public void DeteteDteq<T>(T model) where T : class
+        public void DeleteDteq<T>(T model) where T : class
         {
             if (model.GetType()==typeof (DteqModel)){
                 var dteq = model as DteqModel;
@@ -97,17 +97,12 @@ namespace EDTLibrary
             IDteq fedFrom;
 
             foreach (var load in LoadList) {
-                fedFrom = IDteqList.FirstOrDefault(d => d.Tag == load.FedFromTag);
+                //fedFrom = IDteqList.FirstOrDefault(d => d.Tag == load.FedFrom.Tag);
 
-                if (fedFrom != null) {
-                    load.FedFromId = fedFrom.Id;
-                }
-
-                fedFrom = IDteqList.FirstOrDefault(d => d.Tag == load.FedFromTag);
-
-                if (fedFrom != null) {
-                    load.FedFromType = fedFrom.GetType().ToString();
-                }
+                //if (fedFrom != null) {
+                //    load.FedFromId = fedFrom.Id;
+                //    load.FedFromType = fedFrom.GetType().ToString();
+                //}
 
                 fedFrom = IDteqList.FirstOrDefault(d => d.Id == load.FedFromId &&
                                                    d.GetType().ToString() == load.FedFromType);
@@ -171,16 +166,16 @@ namespace EDTLibrary
         }
         public void OnFedFromChanged(object sender, EventArgs e)
         {
-            UnassignLoadsAllDteq();
+            UnassignLoadEventsAllDteq();
             AssignLoadsToAllDteq();
         }
 
-        public void UnassignLoadsAllDteq()
+        public void UnassignLoadEventsAllDteq()
         {
             foreach (DteqModel dteq in DteqList) {
                 dteq.FedFromChanged -= this.OnFedFromChanged;
 
-                UnassignLoadsDteq(dteq);
+                UnassignLoadEventsDteq(dteq);
             }
         }
         public void AssignLoadsToAllDteq()
@@ -190,18 +185,19 @@ namespace EDTLibrary
                 dteq.LoadCount = 0;
                 dteq.FedFromChanged += this.OnFedFromChanged;
 
-               AssignLoadsToDteq(dteq);
+               AssignLoadsAndEventsToDteq(dteq);
+                dteq.CalculateLoading();
             }
         }
 
-        public void UnassignLoadsDteq(IDteq dteq)
+        public void UnassignLoadEventsDteq(IDteq dteq)
         {
-            foreach (var dteqAsLoad in dteq.AssignedLoads) {
-                dteqAsLoad.LoadingCalculated -= dteq.OnDteqLoadingCalculated;
-                dteqAsLoad.LoadingCalculated -= DbManager.OnDteqLoadingCalculated;
+            foreach (var load in dteq.AssignedLoads) {
+                load.LoadingCalculated -= dteq.OnDteqLoadingCalculated;
+                load.LoadingCalculated -= DbManager.OnDteqLoadingCalculated;
             }
         }
-        public void AssignLoadsToDteq(IDteq dteq)
+        public void AssignLoadsAndEventsToDteq(IDteq dteq)
         {
             dteq.AssignedLoads.Clear();
             foreach (var dteqAsLoad in IDteqList) {

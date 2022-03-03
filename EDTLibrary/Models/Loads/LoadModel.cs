@@ -86,16 +86,26 @@ namespace EDTLibrary.Models.Loads
             get { return _fedFrom; }
             set
             {
+                IDteq oldFedFrom = _fedFrom;
+                this.
                 _fedFrom = value;
                 if (FedFrom != null) {
                     FedFromId = _fedFrom.Id;
-                    FedFromTag = _fedFromTag;
+                    FedFromTag = _fedFrom.Tag;
                     FedFromType = _fedFrom.GetType().ToString();
                 }
 
                 if (GlobalConfig.GettingRecords == false) {
+                    if (oldFedFrom != null) {
+                        oldFedFrom.AssignedLoads.Remove(this);
+                        oldFedFrom.CalculateLoading();
+                    }
+                    _fedFrom.AssignedLoads.Add(this);
+                    _fedFrom.CalculateLoading();
                     OnFedFromChanged();
                     CalculateLoading();
+                    CreateCable();
+                    Cable.AssignTagging(this);
                 }
             }
         }
@@ -127,8 +137,6 @@ namespace EDTLibrary.Models.Loads
 
         public int PowerCableId { get; set; }
         public PowerCableModel Cable { get; set; }
-
-
         public ObservableCollection<IComponentModel> Components { get; set; }
 
 
@@ -264,7 +272,6 @@ namespace EDTLibrary.Models.Loads
             Cable.SetCableParameters(this);
             Cable.CalculateCableQtySizeNew();
         }
-
         private void CreateCable()
         {
             if (Cable == null) {
@@ -272,19 +279,14 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
+        
         public void CalculateCableAmps()
         {
             Cable.CalculateAmpacity();
         }
-        public void SizeComponents()
-        {
-            //TODO - create Components
+        
+        
 
-            //Adds default components based on type of load
-            //  Ex: Combination start for Motor
-            //size the component via lookups
-            //this might be better in list manager
-        }
 
         //Events
         public event EventHandler LoadingCalculated;

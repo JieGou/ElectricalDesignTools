@@ -127,7 +127,8 @@ namespace EDTLibrary.Models.Cables
         /// </summary>
         public void AssignTagging(IPowerConsumer load)
         {
-            Source = load.FedFromTag;
+
+            Source = load.FedFrom.Tag;
             Destination = load.Tag;
             CreateTag();
         }

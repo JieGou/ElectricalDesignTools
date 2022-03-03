@@ -95,16 +95,16 @@ namespace EDTLibrary.Models.DistributionEquipment
             set { _description = value; }
         }
 
-        private string _fedFrom = "";
-        public string FedFrom
+        private string _fedFromTag = "";
+        public string FedFromTag
         {
-            get { return _fedFrom; }
+            get { return _fedFromTag; }
             set
             {
-                _fedFrom = value;
-                ClearErrors(nameof(FedFrom));
-                _selectedDteq = _dteqList.FirstOrDefault(d => d.Tag == _fedFrom);
-                DteqModel feedingDteq = _dteqList.FirstOrDefault(d => d.Tag == _fedFrom);
+                _fedFromTag = value;
+                ClearErrors(nameof(FedFromTag));
+                _selectedDteq = _dteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
+                DteqModel feedingDteq = _dteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
 
                 //set voltage
                 if (_selectedDteq != null) {
@@ -112,13 +112,13 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
 
                 //validate
-                if (_fedFrom == GlobalConfig.Utility) {
+                if (_fedFromTag == GlobalConfig.Utility) {
                     _isValid = true;
                 }
                 else if (_dteqList.Count == 0) {
-                    if (string.IsNullOrWhiteSpace(_fedFrom)) {
-                        _fedFrom = GlobalConfig.Utility;
-                        FedFrom = _fedFrom;
+                    if (string.IsNullOrWhiteSpace(_fedFromTag)) {
+                        _fedFromTag = GlobalConfig.Utility;
+                        FedFromTag = _fedFromTag;
                         _isValid = true;
                     }
                 }
@@ -126,7 +126,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                     _isValid = true;
                 }
                 else {
-                    AddError(nameof(FedFrom), "Selected equipment doesn' exist");
+                    AddError(nameof(FedFromTag), "Selected equipment doesn' exist");
                     _isValid = false;
                 }
             }
@@ -201,7 +201,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                     AddError(nameof(LineVoltage), "Invalid Voltage");
                 }
                 else if (double.TryParse(_lineVoltage.ToString(), out parsedVoltage) == true) {
-                    if (_fedFrom == GlobalConfig.Utility) {
+                    if (_fedFromTag == GlobalConfig.Utility) {
                         _isValid = true;
                     }
                     else if (_selectedDteq != null) {
@@ -225,7 +225,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (string.IsNullOrWhiteSpace(_loadVoltage)) {
                     AddError(nameof(LoadVoltage), "Voltage does not match supply Equipment");
                 }
-                else if (_fedFrom == GlobalConfig.Utility) {
+                else if (_fedFromTag == GlobalConfig.Utility) {
                     _isValid = true;
                 }
             }
@@ -254,9 +254,9 @@ namespace EDTLibrary.Models.DistributionEquipment
             Description = fake;
             Description = temp;
 
-            temp = FedFrom;
-            FedFrom = fake;
-            FedFrom = temp;
+            temp = FedFromTag;
+            FedFromTag = fake;
+            FedFromTag = temp;
 
             temp = Size;
             Size = fake;
@@ -278,8 +278,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (GlobalConfig.Testing == false) {
                 if (string.IsNullOrWhiteSpace(Type)) 
                     Type = "MCC";
-                if (string.IsNullOrWhiteSpace(FedFrom)) 
-                    FedFrom = "SWG-01";
+                if (string.IsNullOrWhiteSpace(FedFromTag)) 
+                    FedFromTag = "SWG-01";
                 if (string.IsNullOrWhiteSpace(Size))
                     Size = "800";
                 if (string.IsNullOrWhiteSpace(Unit))

@@ -79,6 +79,15 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
 
         }
+        public void SizeCable()
+        {
+            if (Cable == null) {
+                Cable = new PowerCableModel(this);
+            }
+            Cable.SetCableParameters(this);
+            Cable.CalculateCableQtySizeNew();
+        }
+
 
         //Events
         public event EventHandler LoadingCalculated;

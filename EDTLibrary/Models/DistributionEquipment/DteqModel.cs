@@ -218,6 +218,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             else if (Unit == Units.A.ToString()) {
                 Fla = _size;
             }
+            if (Fla > 99999) Fla = 99999;
 
             PercentLoaded = RunningAmps / Fla * 100;
             PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);

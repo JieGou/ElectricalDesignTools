@@ -14,11 +14,11 @@ namespace EDTLibrary.Calculators.Cables
         {
             double result = 1;
 
-            if (load.FedFromTag == "UTILITY" || load.Category == Categories.DTEQ.ToString()) {
+            if (load.FedFrom.Tag == "UTILITY" || load.Category == Categories.DTEQ.ToString()) {
                 return 1;
             }
 
-            int loadCount = _listManager.dteqDict[load.FedFromTag].LoadCount;
+            int loadCount = _listManager.dteqDict[load.FedFrom.Tag].LoadCount;
 
             if (loadCount * 3 >= 43) {
                 result = 0.5;

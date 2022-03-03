@@ -105,14 +105,14 @@ namespace EDTLibrary.Models.Loads
             set { _description = value; }
         }
 
-        private string _fedFrom;
-        public string FedFrom
+        private string _fedFromTag;
+        public string FedFromTag
         {
-            get { return _fedFrom; }
+            get { return _fedFromTag; }
             set
             {
-                _fedFrom = value;
-                _selectedDteq = _dteqList.FirstOrDefault(d => d.Tag == _fedFrom);
+                _fedFromTag = value;
+                _selectedDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
                 if (_selectedDteq != null) {
                     Voltage = _selectedDteq.LoadVoltage.ToString();
                 }
@@ -263,9 +263,9 @@ namespace EDTLibrary.Models.Loads
             Description = fake;
             Description = temp;
 
-            temp = FedFrom;
-            FedFrom = fake;
-            FedFrom = temp;
+            temp = FedFromTag;
+            FedFromTag = fake;
+            FedFromTag = temp;
 
             temp = Size;
             Size = fake;
@@ -287,8 +287,8 @@ namespace EDTLibrary.Models.Loads
             if (GlobalConfig.Testing == false) {
                 if (string.IsNullOrWhiteSpace(Type))
                     Type = "HEATER";
-                if (string.IsNullOrWhiteSpace(FedFrom))
-                    FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag.Contains("MCC")).Tag;
+                if (string.IsNullOrWhiteSpace(FedFromTag))
+                    FedFromTag = _listManager.DteqList.FirstOrDefault(d => d.Tag.Contains("MCC")).Tag;
                 if (string.IsNullOrWhiteSpace(Size))
                     Size = "50";
                 if (string.IsNullOrWhiteSpace(Unit))

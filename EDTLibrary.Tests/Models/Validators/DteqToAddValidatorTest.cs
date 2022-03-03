@@ -28,7 +28,7 @@ namespace EDTLibrary.Tests.Models.Validators
             DteqToAddValidator DteqToAdd = new DteqToAddValidator(_listManager, selectedDteq);
             DteqToAdd.Tag = tag;
             DteqToAdd.Type = type;
-            DteqToAdd.FedFrom = fedFrom;
+            DteqToAdd.FedFromTag = fedFrom;
             DteqToAdd.Size = size;
             DteqToAdd.Unit = unit;
             DteqToAdd.LineVoltage = lineVoltage;
@@ -71,7 +71,7 @@ namespace EDTLibrary.Tests.Models.Validators
             DteqToAddValidator DteqToAdd = new DteqToAddValidator(_listManager, selectedDteq);
             DteqToAdd.Tag = tag;
             DteqToAdd.Type = type;
-            DteqToAdd.FedFrom = fedFrom;
+            DteqToAdd.FedFromTag = fedFrom;
             DteqToAdd.Size = size;
             DteqToAdd.Unit = unit;
             DteqToAdd.LineVoltage = lineVoltage;
