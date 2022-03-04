@@ -8,20 +8,20 @@
     
     
 <!--MAIN COLORS-->
-    <SolidColorBrush x:Key="Darkest">#FF215967</SolidColorBrush>
-    <SolidColorBrush x:Key="Dark" Color="#FF31869B"></SolidColorBrush>
-    <SolidColorBrush x:Key="Medium" Color="#FF94CDDB"></SolidColorBrush>
-    <SolidColorBrush x:Key="Light" Color="#FFDBEEF3"></SolidColorBrush>
-    <SolidColorBrush x:Key="Background" Color="#FFDAEEF3"></SolidColorBrush>
+    <SolidColorBrush x:Key="Darkest">#FF392071</SolidColorBrush>
+    <SolidColorBrush x:Key="Dark" Color="#FF675AC1"></SolidColorBrush>
+    <SolidColorBrush x:Key="Medium" Color="#FFB1B1FD"></SolidColorBrush>
+    <SolidColorBrush x:Key="Light" Color="#FFCECEFF"></SolidColorBrush>
+    <SolidColorBrush x:Key="Background" Color="Lavender"></SolidColorBrush>
 
     <!--Accent Colors-->
-    <SolidColorBrush x:Key="ButtonColor">#FFA7DAE8</SolidColorBrush>
-    <SolidColorBrush x:Key="DatagridSelection">#FFB7DEE8</SolidColorBrush>
+    <SolidColorBrush x:Key="ButtonColor">#FFA5A5ED</SolidColorBrush>
+    <SolidColorBrush x:Key="DatagridSelection">#FFCECEFF</SolidColorBrush>
     
     <!--Other Color-->
     <SolidColorBrush x:Key="LightRed">#FFFFBABA</SolidColorBrush>
-    <SolidColorBrush x:Key="LightOrange">#FFF9B173</SolidColorBrush>
-    <SolidColorBrush x:Key="LightYellow">#FFFFED71</SolidColorBrush>
+    <SolidColorBrush x:Key="LightOrange">#FFFFB193</SolidColorBrush>
+    <SolidColorBrush x:Key="LightYellow">#FFFFED91</SolidColorBrush>
 
 
 

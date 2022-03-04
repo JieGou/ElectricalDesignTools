@@ -29,6 +29,7 @@ namespace EDTLibrary.DataAccess
 
             "Load",
             "InLineComponents",
+            "TypeModel"
         };
 
         static public List<string> LocationSaveList { get; set; } = new List<string>() {

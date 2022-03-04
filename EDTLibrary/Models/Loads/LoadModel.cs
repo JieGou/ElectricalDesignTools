@@ -265,7 +265,7 @@ namespace EDTLibrary.Models.Loads
         }
         public void CalculateCableAmps()
         {
-            PowerCable.CalculateAmpacity();
+            PowerCable.CalculateAmpacityNew(this);
         }
         
         

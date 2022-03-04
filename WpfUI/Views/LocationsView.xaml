@@ -17,8 +17,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../Styles/EdtGreenStyle.xaml"/>-->
-                <ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>
+                <ResourceDictionary Source="../Styles/EdtStyle_Teal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="ColumnElementStyle" TargetType="TextBlock">

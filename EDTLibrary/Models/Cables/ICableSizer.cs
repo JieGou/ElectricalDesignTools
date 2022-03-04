@@ -4,7 +4,10 @@ namespace EDTLibrary.Models.Cables
 {
     public interface ICableSizer
     {
-        string GetAmpacityTable(IPowerCable cable);
         string GetDefaultCableType(IPowerConsumer load);
+        double GetDefaultCableSpacing(IPowerCable cable);
+        string GetAmpacityTable(IPowerCable cable);
+        double GetDerating(IPowerCable cable);
+
     }
 }

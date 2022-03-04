@@ -46,6 +46,28 @@ namespace EDTLibrary.Models.Cables
 
             return EdtSettings.DefaultCableTypeLoad_3ph1kV;
         }
+        public double GetDefaultCableSpacing(IPowerCable cable)
+        {
+            double spacing = 100;
+            if (cable == null) return spacing;
+
+            CableTypeModel cableType = TypeManager.GetCableType(cable.Type);
+            if (cableType.VoltageClass > 2000 || cableType.Conductors == 1) {
+                spacing = 100;
+            }
+            else if (cableType.VoltageClass <= 2000 &&
+                     cable.Load.Fla >= double.Parse(EdtSettings.CableSpacingMaxAmps_3C1kV)) {
+                spacing = 100;
+            }
+            else if (cableType.VoltageClass < 2000 &&
+                     cableType.Conductors == 3 &&
+                     cable.Load.Fla <= double.Parse(EdtSettings.CableSpacingMaxAmps_3C1kV)) {
+                spacing = 0;
+            }
+            cable.Spacing = spacing;
+            return spacing;
+        }
+
         public string GetAmpacityTable(IPowerCable cable)
         {
             if (cable == null) return "Invalid Cable Data";
@@ -89,6 +111,62 @@ namespace EDTLibrary.Models.Cables
             }
             cable.AmpacityTable = output;
             return output;
+        }
+
+        public double GetDerating(IPowerCable cable)
+        {
+
+            double derating = 1;
+            if (cable == null) return derating;
+
+            if (cable.Spacing < 100) {
+
+                if (cable.AmpacityTable == "Table 1" || cable.AmpacityTable == "Table 2") {
+                    double loadCount = cable.Load.FedFrom.AssignedLoads.Count;
+                    derating = GetTable5CDerating(cable);
+                }
+            }
+
+            return derating;
+        }
+
+        private static double GetTable5CDerating(IPowerCable cable)
+        {
+            var source = cable.Load.FedFrom;
+            int conductorQty = cable.ConductorQty * cable.QtyParallel;
+
+            int otherLoadConductorQty;
+            int otherLoadCableQtyParallel;
+            double otherLoadCableSpacing;
+
+            foreach (var assignedLoad in source.AssignedLoads) {
+                otherLoadConductorQty = assignedLoad.PowerCable.TypeModel.Conductors;
+                otherLoadCableQtyParallel = assignedLoad.PowerCable.QtyParallel;
+                otherLoadCableSpacing = assignedLoad.PowerCable.Spacing;
+
+                if (otherLoadCableSpacing < 100) {
+                    conductorQty += (otherLoadConductorQty * otherLoadCableQtyParallel);
+                }
+            }
+
+            double derating;
+            if (conductorQty >= 43) {
+                derating = 0.5;
+            }
+            else if (conductorQty >= 25) {
+                derating = 0.6;
+            }
+            else if (conductorQty >= 7) {
+                derating = 0.7;
+            }
+            else if (conductorQty >= 4) {
+                derating = 0.8;
+            }
+            else {
+                derating = 1;
+            }
+
+            return derating;
         }
 
 

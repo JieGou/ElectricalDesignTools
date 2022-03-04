@@ -16,6 +16,7 @@ namespace EDTLibrary.Models.Cables
         int ConductorQty { get; set; }
         string Size { get; set; }
         double VoltageClass { get; set; }
-
+        string InstallationType { get; set; }
+        bool Indoor { get; set; }
     }
 }

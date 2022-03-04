@@ -236,7 +236,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         public void CalculateCableAmps()
         {
-            PowerCable.CalculateAmpacity();
+            PowerCable.CalculateAmpacityNew(this);
         }
 
         public void GetMinimumPdSize()

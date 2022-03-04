@@ -20,6 +20,5 @@ namespace EDTLibrary.Models.Cables
         string AmpacityTable { get; set; }
 
         IPowerConsumer Load { get; set; }
-
     }
 }

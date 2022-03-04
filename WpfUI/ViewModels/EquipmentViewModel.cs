@@ -71,7 +71,8 @@ namespace WpfUI.ViewModels
             CalculateSingleDteqCableSizeCommand = new RelayCommand(CalculateSingleDteqCableSize);
             CalculateSingleDteqCableAmpsCommand = new RelayCommand(CalculateSingleDteqCableAmps);
 
-            
+            CalculateSingleLoadCableSizeCommand = new RelayCommand(CalculateSingleLoadCableSize);
+            CalculateSingleLoadCableAmpsCommand = new RelayCommand(CalculateSingleLoadCableAmps);
 
             DeleteDteqCommand = new RelayCommand(DeleteDteq);
 
@@ -181,21 +182,7 @@ namespace WpfUI.ViewModels
         #region Properties
         public NavigationBarViewModel NavigationBarViewModel { get; }
 
-        //ComboBox Lists
-        private ObservableCollection<string> _fedFromList; //used only on View
-        public ObservableCollection<string> FedFromList
-        {
-            get
-            {
-                _fedFromList = new ObservableCollection<string>(_listManager.IDteqList.Select(dteq => dteq.Tag).ToList());
-                _fedFromList.Insert(0, "UTILITY");
-                return _fedFromList;
-            }
-            set { }
-        } //Used only on View
-        public ObservableCollection<string> DteqTypes { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<string> VoltageTypes { get; set; } = new ObservableCollection<string>();
-        public ObservableCollection<CableTypeModel> CableTypes { get; set; } = new ObservableCollection<CableTypeModel>();
+        
 
 
 
@@ -323,6 +310,8 @@ namespace WpfUI.ViewModels
         public ICommand CalculateSingleDteqCableSizeCommand { get; }
         public ICommand CalculateSingleDteqCableAmpsCommand { get; }
 
+        public ICommand CalculateSingleLoadCableSizeCommand { get; }
+        public ICommand CalculateSingleLoadCableAmpsCommand { get; }
         
         public ICommand AddDteqCommand { get; }
         public ICommand AddLoadCommand { get; }
@@ -449,12 +438,13 @@ namespace WpfUI.ViewModels
         private void CalculateAllCableAmps()
         {
             foreach (var item in _listManager.IDteqList) {
-                item.PowerCable.CalculateAmpacityNew();
+                item.PowerCable.CalculateAmpacityNew(item);
             }
             foreach (var item in _listManager.LoadList) {
-                item.PowerCable.CalculateAmpacityNew();
+                item.PowerCable.CalculateAmpacityNew(item);
             }
         }
+
         private void CalculateSingleDteqCableSize()
         {
             if (_selectedDteq.PowerCable != null) {
@@ -466,7 +456,21 @@ namespace WpfUI.ViewModels
         private void CalculateSingleDteqCableAmps()
         {
             if (_selectedDteq.PowerCable != null) {
-                _selectedDteq.PowerCable.CalculateAmpacityNew();
+                _selectedDteq.PowerCable.CalculateAmpacityNew(_selectedDteq);
+            }
+        }
+        private void CalculateSingleLoadCableSize()
+        {
+            if (_selectedLoad.PowerCable != null) {
+                _selectedLoad.PowerCable.SetCableParameters(_selectedLoad);
+                _selectedLoad.PowerCable.CalculateCableQtySizeNew();
+            }
+
+        }
+        private void CalculateSingleLoadCableAmps()
+        {
+            if (_selectedLoad.PowerCable != null) {
+                _selectedLoad.PowerCable.CalculateAmpacityNew(_selectedLoad);
             }
         }
         private void AddDteq()
@@ -703,11 +707,7 @@ namespace WpfUI.ViewModels
             LoadToAdd.Tag = " ";
             LoadToAdd.Tag = tag;
         }
-        private void BuildFedFromList() //Used in View only
-        {
-            _fedFromList = new ObservableCollection<string>(_listManager.DteqList.Select(dteq => dteq.Tag).ToList());
-            _fedFromList.Insert(0, "UTILITY");
-        }
+        
         public bool IsTagAvailable(string tag, ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) {
             if (tag == null) {
                 return false;
@@ -730,6 +730,14 @@ namespace WpfUI.ViewModels
             }
             LoadListLoaded = true;
         }
+
+
+        //ComboBox Lists
+        public ObservableCollection<string> DteqTypes { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<string> VoltageTypes { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<CableTypeModel> DteqCableTypes { get; set; } = new ObservableCollection<CableTypeModel>();
+        public ObservableCollection<CableTypeModel> LoadCableTypes { get; set; } = new ObservableCollection<CableTypeModel>();
+        public ObservableCollection<double> CableSpacing { get; set; } = new ObservableCollection<double>();
         public void CreateComboBoxLists()
         {
             foreach (var item in Enum.GetNames(typeof(EDTLibrary.DteqTypes))) {
@@ -739,7 +747,9 @@ namespace WpfUI.ViewModels
             foreach (var item in TypeManager.VoltageTypes) {
                 VoltageTypes.Add(item.Voltage.ToString());
             }
-                       
+            CableSpacing.Clear();
+            CableSpacing.Add(0);
+            CableSpacing.Add(100);
         }
 
         private void BuildDteqCableTypeList(IDteq dteq)
@@ -753,11 +763,11 @@ namespace WpfUI.ViewModels
                 selectedLoadCableType = _selectedLoad.PowerCable.Type;
             }
 
-            CableTypes.Clear();
+            DteqCableTypes.Clear();
             foreach (var cableType in TypeManager.CableTypes) {
                 var voltageClass = LibraryManager.GetCableVoltageClass(dteq.LineVoltage);
                 if (voltageClass == cableType.VoltageClass) {
-                    CableTypes.Add(cableType);
+                    DteqCableTypes.Add(cableType);
                 }
             }
             dteq.PowerCable.Type = selectedDteqCableType;
@@ -765,7 +775,6 @@ namespace WpfUI.ViewModels
             if (_selectedLoad != null && _selectedLoad.PowerCable != null) {
                 _selectedLoad.PowerCable.Type = selectedLoadCableType;
             }
-            
         }
 
         private async Task BuildLoadCableTypeList(IPowerConsumer load)
@@ -779,11 +788,11 @@ namespace WpfUI.ViewModels
             }
             string selectedLoadCableType = _selectedLoad.PowerCable.Type;
 
-            CableTypes.Clear();
+            LoadCableTypes.Clear();
                 foreach (var cableType in TypeManager.CableTypes) {
                     var voltageClass = LibraryManager.GetCableVoltageClass(load.Voltage);
                     if (voltageClass == cableType.VoltageClass) {
-                        CableTypes.Add(cableType);
+                    LoadCableTypes.Add(cableType);
                     }
                 }
 

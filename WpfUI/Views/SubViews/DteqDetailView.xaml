@@ -114,7 +114,7 @@
                     <TextBlock Text="Cable Type: " Grid.Row="2" Grid.Column="0"/>
                     <ComboBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" 
                               FontWeight="Bold" FontSize="12"
-                              ItemsSource="{Binding Path=CableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding Path=DteqCableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Type"
                               SelectedValuePath="Type"
                               Text="{Binding SelectedDteq.PowerCable.Type}"  d:Text="3C-TECK-1kV"
@@ -154,6 +154,7 @@
                     <ComboBox Grid.Row="5" Grid.Column="6" Width="50" HorizontalAlignment="Left"
                               FontWeight="Bold" FontSize="12"
                               ItemsSource="{Binding Path=CableSpacing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedValue="{Binding SelectedDteq.PowerCable.Spacing}"
                               Text="{Binding SelectedDteq.PowerCable.Spacing}"  d:Text="100"
                               IsEditable="True" VerticalAlignment="Center"/>
 

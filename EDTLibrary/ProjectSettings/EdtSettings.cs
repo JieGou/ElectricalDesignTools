@@ -41,6 +41,8 @@ namespace EDTLibrary.ProjectSettings
         public static string DefaultCableTypeLoad_3ph1kV { get; set; }
         public static string DefaultCableTypeDteq_3ph1kV1200AL { get; set; }
         public static string DefaultCableTypeDteq_3ph1kV1200AM { get; set; }
+        public static string CableSpacingMaxAmps_3C1kV { get; set; }
+
 
         //Dteq
         public static string DteqMaxPercentLoaded { get; set; }

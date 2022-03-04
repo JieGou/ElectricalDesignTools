@@ -95,7 +95,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         public void CalculateCableAmps()
         {
-            Cable.CalculateAmpacity();
+            Cable.CalculateAmpacityNew(this);
         }
 
 

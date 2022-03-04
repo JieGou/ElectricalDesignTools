@@ -51,7 +51,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Styles\EdtTealStyle.xaml">
+    <Page Update="Styles\EdtStyle_Teal.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\EdtStyle_Purple.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
