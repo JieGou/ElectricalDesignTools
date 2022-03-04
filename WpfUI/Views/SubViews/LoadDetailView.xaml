@@ -84,37 +84,37 @@
                     </Grid.RowDefinitions>
                     
                     <TextBlock Text="Cable Id: " Grid.Row="0" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.Id}" Grid.Row="0" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.PowerCable.Id}" Grid.Row="0" Grid.Column="2" FontWeight="Bold"/>
 
                     <TextBlock Text="Cable Tag: " Grid.Row="1" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.Tag}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.PowerCable.Tag}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
 
                     <TextBlock Text="Cable Type: " Grid.Row="2" Grid.Column="0"/>
                     <ComboBox Grid.Row="2" Grid.Column="2" FontWeight="Bold" FontSize="12" Margin="0"
                               ItemsSource="{Binding Path=CableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Type"
                               SelectedValuePath="Type"
-                              Text="{Binding SelectedLoad.Cable.Type}"  d:Text="3C-TECK-1kV"
+                              Text="{Binding SelectedLoad.PowerCable.Type}"  d:Text="3C-TECK-1kV"
                               IsEditable="True"/>
 
                     <TextBlock Text="Cable Qty: " Grid.Row="3" Grid.Column="0"/>
-                    <TextBox Text="{Binding SelectedLoad.Cable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
+                    <TextBox Text="{Binding SelectedLoad.PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
                              Grid.Row="3" Grid.Column="2" FontWeight="Bold" MinWidth="50" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0"/>
 
                     <TextBlock Text="Spacing: " Grid.Row="4" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.Spacing}" Grid.Row="4" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.PowerCable.Spacing}" Grid.Row="4" Grid.Column="2" FontWeight="Bold"/>
                    
                     <TextBlock Text="Derating: " Grid.Row="5" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.Derating}" Grid.Row="4" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.PowerCable.Derating}" Grid.Row="4" Grid.Column="2" FontWeight="Bold"/>
                     
                     <TextBlock Text="Cable Size: " Grid.Row="6" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.Size}" Grid.Row="6" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.PowerCable.Size}" Grid.Row="6" Grid.Column="2" FontWeight="Bold"/>
 
                     <TextBlock Text="Required Amps: " Grid.Row="7" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.RequiredAmps}" Grid.Row="7" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.PowerCable.RequiredAmps}" Grid.Row="7" Grid.Column="2" FontWeight="Bold"/>
 
                     <TextBlock Text="Derated Amps: " Grid.Row="8" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.DeratedAmps}" Grid.Row="8" Grid.Column="2" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.PowerCable.DeratedAmps}" Grid.Row="8" Grid.Column="2" FontWeight="Bold"/>
 
                 </Grid>
             </TabItem>

@@ -52,9 +52,12 @@ namespace EDTLibrary
 
             DteqList.Insert(0, new DteqModel() { Tag = "UTILITY" });
 
-            foreach (var dteq in DteqList) {
+            foreach (var dteq in IDteqList) {
                 if (dteq.FedFromTag == "UTILITY") {
                     dteq.FedFrom = DteqList[0];
+                }
+                if (dteq.FedFromTag.Contains("Deleted") || dteq.FedFromType.Contains("Deleted")) {
+                    dteq.FedFrom = new DteqModel() { Tag = "* Deleted *" };
                 }
 
                 //fedFrom = DteqList.FirstOrDefault(d => d.Tag == dteq.FedFromTag);
@@ -103,7 +106,9 @@ namespace EDTLibrary
                 //    load.FedFromId = fedFrom.Id;
                 //    load.FedFromType = fedFrom.GetType().ToString();
                 //}
-
+                if (load.FedFromTag.Contains("Deleted") || load.FedFromType.Contains("Deleted")) {
+                    load.FedFrom = new DteqModel() { Tag = "* Deleted *" };
+                }
                 fedFrom = IDteqList.FirstOrDefault(d => d.Id == load.FedFromId &&
                                                    d.GetType().ToString() == load.FedFromType);
                 if (fedFrom != null) {
@@ -192,26 +197,31 @@ namespace EDTLibrary
 
         public void UnassignLoadEventsDteq(IDteq dteq)
         {
-            foreach (var load in dteq.AssignedLoads) {
-                load.LoadingCalculated -= dteq.OnDteqLoadingCalculated;
-                load.LoadingCalculated -= DbManager.OnDteqLoadingCalculated;
+            foreach (var assignedLoad in dteq.AssignedLoads) {
+                assignedLoad.LoadingCalculated -= dteq.OnDteqAssignedLoadReCalculated;
+                assignedLoad.LoadingCalculated -= DbManager.OnDteqLoadingCalculated;
             }
         }
         public void AssignLoadsAndEventsToDteq(IDteq dteq)
         {
             dteq.AssignedLoads.Clear();
             foreach (var dteqAsLoad in IDteqList) {
-                if (dteqAsLoad.FedFrom.Tag == dteq.Tag) {
-                    dteq.AssignedLoads.Add(dteqAsLoad);
-                    dteqAsLoad.LoadingCalculated += dteq.OnDteqLoadingCalculated;
-                    dteqAsLoad.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
+                if (dteqAsLoad.FedFrom != null) {
+                    if (dteqAsLoad.FedFrom.Tag == dteq.Tag) {
+                        dteq.AssignedLoads.Add(dteqAsLoad);
+                        dteqAsLoad.LoadingCalculated += dteq.OnDteqAssignedLoadReCalculated;
+                        dteqAsLoad.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
+                    }
                 }
             }
+
             foreach (var load in LoadList) {
-                if (load.FedFrom.Tag == dteq.Tag) {
-                    dteq.AssignedLoads.Add(load);
-                    load.LoadingCalculated += dteq.OnDteqLoadingCalculated;
-                    load.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
+                if (load.FedFrom != null) {
+                    if (load.FedFrom.Tag == dteq.Tag) {
+                        dteq.AssignedLoads.Add(load);
+                        load.LoadingCalculated += dteq.OnDteqAssignedLoadReCalculated;
+                        load.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
+                    }
                 }
             }
         }
@@ -254,19 +264,6 @@ namespace EDTLibrary
 
         #endregion
 
-        //Loads
-        #region Loads
-        public void CalculateLoads() {
-            foreach (var load in LoadList) {
-                load.CalculateLoading();
-            }
-        }
-        public void CalculateLoads(ObservableCollection<LoadModel> loadList) {
-            foreach (var load in loadList) {
-                load.CalculateLoading();
-            }
-        }
-        #endregion
 
         //Lists
         #region Lists
@@ -282,15 +279,15 @@ namespace EDTLibrary
         public void CreateCableList() {
             CableList.Clear();
             foreach (var dteq in IDteqList) {
-                dteq.Cable.AssignOwner(dteq);
-                if (dteq.Cable.OwnedById != null && dteq.Cable.OwnedByType != null) {
-                    CableList.Add(dteq.Cable);
+                dteq.PowerCable.AssignOwner(dteq);
+                if (dteq.PowerCable.OwnedById != null && dteq.PowerCable.OwnedByType != null) {
+                    CableList.Add(dteq.PowerCable);
                 }
             }
             foreach (var load in LoadList) {
-                load.Cable.AssignOwner(load);
-                if (load.Cable.OwnedById != null && load.Cable.OwnedByType != null) {
-                    CableList.Add(load.Cable);
+                load.PowerCable.AssignOwner(load);
+                if (load.PowerCable.OwnedById != null && load.PowerCable.OwnedByType != null) {
+                    CableList.Add(load.PowerCable);
                 }
             }
         }
@@ -300,7 +297,8 @@ namespace EDTLibrary
                 foreach (var cable in CableList) {
                     if (dteq.Id == cable.OwnedById &&
                         dteq.GetType().ToString() == cable.OwnedByType) {
-                        dteq.Cable = cable;
+                        dteq.PowerCable = cable;
+                        break;
                     }
                 }
             }
@@ -308,7 +306,8 @@ namespace EDTLibrary
                 foreach (var cable in CableList) {
                     if (load.Id == cable.OwnedById &&
                         load.GetType().ToString() == cable.OwnedByType) {
-                        load.Cable = cable;
+                        load.PowerCable = cable;
+                        break;
                     }
                 }
             }

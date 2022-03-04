@@ -502,38 +502,38 @@
 
                         <!--CABLE-->
                         <DataGridTextColumn Header="Cable &#x0a;  Qty" x:Name="dteqCableQty"
-                                Binding="{Binding Path=Cable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
                         <DataGridTextColumn Header="Cable &#x0a; Size" x:Name="dteqCableSize" 
-                                Binding="{Binding Path=Cable.Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
                         <DataGridTextColumn Header=" Base &#x0a;Amps" x:Name="dteqCableBaseAmps" 
-                                Binding="{Binding Path=Cable.BaseAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.BaseAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
                         <!--<DataGridTextColumn Header="   Req'd&#x0a;Sz. Amps" x:Name="dteqCableRequiredSizingAmps" 
-                                Binding="{Binding Path=Cable.RequiredSizingAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.RequiredSizingAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>-->
 
 
                         <DataGridTextColumn Header="  Cable&#x0a;Derating" x:Name="dteqCableDerating" 
-                                Binding="{Binding Path=Cable.Derating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.Derating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
                         <DataGridTextColumn Header="Derated &#x0a;  Amps" x:Name="dteqCableDeratedAmps" 
-                                Binding="{Binding Path=Cable.DeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.DeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
 
                         <DataGridTextColumn Header="Req'd&#x0a;Amps" x:Name="dteqCableRequiredAmps" 
-                                Binding="{Binding Path=Cable.RequiredAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.RequiredAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"/>
                     </DataGrid.Columns>
@@ -851,13 +851,13 @@
                     <TextBlock Text="{Binding SelectedLoad.FedFromType}" Margin="0" FontWeight="Bold"/>
                     
                     <TextBlock Text="    Load Cable Id:  "/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.Id}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.PowerCable.Id}" Margin="0" FontWeight="Bold"/>
 
                     <TextBlock Text="    Load Cable Tag:  "/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.Tag}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.PowerCable.Tag}" Margin="0" FontWeight="Bold"/>
                     
                     <TextBlock Text="    Load Cable Type:  "/>
-                    <TextBlock Text="{Binding SelectedLoad.Cable.Type}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedLoad.PowerCable.Type}" Margin="0" FontWeight="Bold"/>
 
                     <TextBlock Text="    Cable Count:  "/>
                     <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
@@ -1122,43 +1122,43 @@
                         <DataGridTextColumn Header="Cable &#x0a;  Qty" x:Name="loadCableQty" 
                                 Width="50"
                                 Visibility="{Binding ToggleCableViewLoadProp}"
-                                Binding="{Binding Path=Cable.QtyParallel, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.QtyParallel, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" />
 
                         <DataGridTextColumn Header="Cable &#x0a; Size" x:Name="loadCableSize" 
                                 Width="50"
                                 Visibility="{Binding ToggleCableViewLoadProp}"
-                                Binding="{Binding Path=Cable.Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" />
 
                         <DataGridTextColumn Header=" Base &#x0a;Amps" x:Name="loadCableBaseAmps" 
                                 Width="50"
                                 Visibility="{Binding ToggleCableViewLoadProp}"
-                                Binding="{Binding Path=Cable.BaseAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.BaseAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" />
 
                         <!--<DataGridTextColumn Header="   Req'd&#x0a;Sz. Amps" x:Name="loadCableRequiredSizingAmps" 
                                 Width="65"
                                 Visibility="{Binding ToggleCableViewLoadProp}"
-                                Binding="{Binding Path=Cable.RequiredSizingAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.RequiredSizingAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" />-->
 
                         <DataGridTextColumn Header="  Cable&#x0a;Derating" x:Name="loadCableDerating" 
                                 Width="60"
                                 Visibility="{Binding ToggleCableViewLoadProp}"
-                                Binding="{Binding Path=Cable.Derating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.Derating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" />
 
                         <DataGridTextColumn Header="Derated &#x0a;  Amps" x:Name="loadCableDeratedAmps" 
                                 Width="60"
                                 Visibility="{Binding ToggleCableViewLoadProp}"
-                                Binding="{Binding Path=Cable.DeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.DeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" />
 
                         <DataGridTextColumn Header="Req'd&#x0a;Amps" x:Name="loadCableRequiredAmps" 
                                 Width="50"
                                 Visibility="{Binding ToggleCableViewLoadProp}"
-                                Binding="{Binding Path=Cable.RequiredAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=PowerCable.RequiredAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" />
 
                     </DataGrid.Columns>

@@ -11,7 +11,7 @@ namespace EDTLibrary.DataAccess
             "InLineComponents",
             "AssignedLoads",
             "CircuitComponents",
-            "Cable",
+            "PowerCable",
             "Components",
             "FedFrom"
         };
@@ -20,8 +20,7 @@ namespace EDTLibrary.DataAccess
         {
             "InLineComponents",
             "CircuitComponents",
-            "Cable",
-            "Cable",
+            "PowerCable",
             "Components",
             "FedFrom"
         };
@@ -30,9 +29,6 @@ namespace EDTLibrary.DataAccess
 
             "Load",
             "InLineComponents",
-            "AssignedLoads",
-            "CircuitComponents",
-            "Components"
         };
 
         static public List<string> LocationSaveList { get; set; } = new List<string>() {

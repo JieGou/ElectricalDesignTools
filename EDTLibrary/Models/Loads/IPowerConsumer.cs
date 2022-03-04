@@ -39,15 +39,20 @@ namespace EDTLibrary.Models.Loads
         double PdSizeFrame { get; set; }
 
         int PowerCableId { get; set; }
-        PowerCableModel Cable { get; set; }
+        PowerCableModel PowerCable { get; set; }
 
         void CalculateLoading();
-        //Events
 
+        void CreateCable();
+
+
+
+
+        //Events
         event EventHandler LoadingCalculated;
         abstract void OnLoadingCalculated();
        
-        public void OnDteqLoadingCalculated(object source, EventArgs e)
+        public void OnDteqAssignedLoadReCalculated(object source, EventArgs e)
         {
             CalculateLoading();
         }

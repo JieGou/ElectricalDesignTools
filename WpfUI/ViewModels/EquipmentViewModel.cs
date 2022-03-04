@@ -402,7 +402,7 @@ namespace WpfUI.ViewModels
                 foreach (var dteq in _listManager.DteqList) {
                     var dteqTag = dteq.Tag;
                     if (dteq.Tag!= "UTILITY") {
-                        dteq.Cable.AssignOwner(dteq);
+                        dteq.PowerCable.AssignOwner(dteq);
                         dbSaveResult = DbManager.prjDb.UpsertRecord<DteqModel>(dteq, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
                     }
                     if (dbSaveResult.Item1 == false) {
@@ -414,7 +414,7 @@ namespace WpfUI.ViewModels
                 //Load
                 foreach (var item in _listManager.LoadList) {
                     var dteqTag = item.Tag;
-                    item.Cable.AssignOwner(item);
+                    item.PowerCable.AssignOwner(item);
                     dbSaveResult = DbManager.prjDb.UpsertRecord<LoadModel>(item, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
                     if (dbSaveResult.Item1 == false) {
                         error = true;
@@ -449,24 +449,24 @@ namespace WpfUI.ViewModels
         private void CalculateAllCableAmps()
         {
             foreach (var item in _listManager.IDteqList) {
-                item.Cable.CalculateAmpacityNew();
+                item.PowerCable.CalculateAmpacityNew();
             }
             foreach (var item in _listManager.LoadList) {
-                item.Cable.CalculateAmpacityNew();
+                item.PowerCable.CalculateAmpacityNew();
             }
         }
         private void CalculateSingleDteqCableSize()
         {
-            if (_selectedDteq.Cable != null) {
-                _selectedDteq.Cable.SetCableParameters(_selectedDteq);
-                _selectedDteq.Cable.CalculateCableQtySizeNew();
+            if (_selectedDteq.PowerCable != null) {
+                _selectedDteq.PowerCable.SetCableParameters(_selectedDteq);
+                _selectedDteq.PowerCable.CalculateCableQtySizeNew();
             }
             
         }
         private void CalculateSingleDteqCableAmps()
         {
-            if (_selectedDteq.Cable != null) {
-                _selectedDteq.Cable.CalculateAmpacityNew();
+            if (_selectedDteq.PowerCable != null) {
+                _selectedDteq.PowerCable.CalculateAmpacityNew();
             }
         }
         private void AddDteq()
@@ -492,8 +492,8 @@ namespace WpfUI.ViewModels
 
                 DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
                 if (dteqSubscriber != null) {
-                    dteqSubscriber.AssignedLoads.Add(newDteq); //newDteq is somehow already getting added to Assigned Loads
-                    newDteq.LoadingCalculated += dteqSubscriber.OnDteqLoadingCalculated;
+                    //dteqSubscriber.AssignedLoads.Add(newDteq); //newDteq is somehow already getting added to Assigned Loads
+                    newDteq.LoadingCalculated += dteqSubscriber.OnDteqAssignedLoadReCalculated;
                     newDteq.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
                 }
 
@@ -511,8 +511,8 @@ namespace WpfUI.ViewModels
                 //Cable
                 newDteq.SizeCable();
                 newDteq.CalculateCableAmps();
-                newDteq.Cable.Id = DbManager.prjDb.InsertRecordGetId(newDteq.Cable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList).Item3;
-                _listManager.CableList.Add(newDteq.Cable);
+                newDteq.PowerCable.Id = DbManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList).Item3;
+                _listManager.CableList.Add(newDteq.PowerCable);
                 RefreshDteqTagValidation();
             }
         }
@@ -524,18 +524,26 @@ namespace WpfUI.ViewModels
                 //children first
 
                 //Delete Cables
-                if (_selectedDteq.Cable != null) {
-                    int cableId = _selectedDteq.Cable.Id;
+                if (_selectedDteq.PowerCable != null) {
+                    int cableId = _selectedDteq.PowerCable.Id;
                     DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
-                    _listManager.CableList.Remove(_selectedDteq.Cable);
+                    _listManager.CableList.Remove(_selectedDteq.PowerCable);
                 }
-                //Retag Cables
+
+                List<IPowerConsumer> loadsToRetag = new List<IPowerConsumer>();
                 if (_selectedDteq.AssignedLoads != null) {
-                    foreach (var load in _selectedDteq.AssignedLoads) {
-                        load.Cable.Destination = "DTEQ Deleted";
-                        load.Cable.CreateTag();
-                    }
+                    loadsToRetag.AddRange(_selectedDteq.AssignedLoads);
                 }
+
+                //Retag Loads to "Deleted"
+                DteqModel deleted = new DteqModel() { Tag = "* Deleted *"};
+                for (int i = 0; i < loadsToRetag.Count; i++) {
+                    var tag = loadsToRetag[i].Tag;
+                    loadsToRetag[i].FedFromTag = "Deleted";
+                    loadsToRetag[i].FedFromType = "Deleted"; 
+                    loadsToRetag[i].FedFrom = deleted;
+                }
+                _selectedDteq.FedFrom.AssignedLoads.Remove(_selectedDteq);
                 
                 _listManager.DeleteDteq (_selectedDteq);
                 RefreshDteqTagValidation();
@@ -570,7 +578,7 @@ namespace WpfUI.ViewModels
                 DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newLoad.FedFrom);
                 if (dteqSubscriber != null) {
                     //dteqSubscriber.AssignedLoads.Add(newLoad); //newLoad is somehow already getting added to Assigned Loads
-                    newLoad.LoadingCalculated += dteqSubscriber.OnDteqLoadingCalculated;
+                    newLoad.LoadingCalculated += dteqSubscriber.OnDteqAssignedLoadReCalculated;
                     newLoad.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
                 }
 
@@ -587,12 +595,12 @@ namespace WpfUI.ViewModels
                 //Cable
                 newLoad.SizeCable();
                 newLoad.CalculateCableAmps();
-                insertResult = DbManager.prjDb.InsertRecordGetId(newLoad.Cable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+                insertResult = DbManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
                 if (insertResult.Item1 == false || insertResult.Item3 == 0) {
                     MessageBox.Show($"ADD NEW CABLE   {insertResult.Item2}      ");
                 }
-                newLoad.Cable.Id = insertResult.Item3;
-                _listManager.CableList.Add(newLoad.Cable);
+                newLoad.PowerCable.Id = insertResult.Item3;
+                _listManager.CableList.Add(newLoad.PowerCable);
 
                 BuildAssignedLoads();
 
@@ -636,10 +644,10 @@ namespace WpfUI.ViewModels
                 DteqModel dteqToRecalculate = _listManager.DteqList.FirstOrDefault(d =>d == _selectedLoad.FedFrom);
                     int loadId = _selectedLoad.Id;
 
-                if (_selectedLoad.Cable!= null) {
-                    int cableId = _selectedLoad.Cable.Id;
+                if (_selectedLoad.PowerCable!= null) {
+                    int cableId = _selectedLoad.PowerCable.Id;
                     DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
-                    _listManager.CableList.Remove(_selectedLoad.Cable);
+                    _listManager.CableList.Remove(_selectedLoad.PowerCable);
                 }
 
                 DbManager.prjDb.DeleteRecord(GlobalConfig.LoadTable, loadId);
@@ -736,13 +744,13 @@ namespace WpfUI.ViewModels
 
         private void BuildDteqCableTypeList(IDteq dteq)
         {
-            if (dteq == null || dteq.Cable == null)
+            if (dteq == null || dteq.PowerCable == null)
                 return;
 
-            string selectedDteqCableType = _selectedDteq.Cable.Type;
+            string selectedDteqCableType = _selectedDteq.PowerCable.Type;
             string selectedLoadCableType = "None Selected";
-            if (_selectedLoad != null && _selectedLoad.Cable != null) {
-                selectedLoadCableType = _selectedLoad.Cable.Type;
+            if (_selectedLoad != null && _selectedLoad.PowerCable != null) {
+                selectedLoadCableType = _selectedLoad.PowerCable.Type;
             }
 
             CableTypes.Clear();
@@ -752,10 +760,10 @@ namespace WpfUI.ViewModels
                     CableTypes.Add(cableType);
                 }
             }
-            dteq.Cable.Type = selectedDteqCableType;
+            dteq.PowerCable.Type = selectedDteqCableType;
 
-            if (_selectedLoad != null && _selectedLoad.Cable != null) {
-                _selectedLoad.Cable.Type = selectedLoadCableType;
+            if (_selectedLoad != null && _selectedLoad.PowerCable != null) {
+                _selectedLoad.PowerCable.Type = selectedLoadCableType;
             }
             
         }
@@ -766,10 +774,10 @@ namespace WpfUI.ViewModels
                 return;
 
             string selectedDteqCableType = "None Selected"; 
-            if (_selectedDteq != null && _selectedDteq.Cable != null) {
-                selectedDteqCableType = _selectedDteq.Cable.Type;
+            if (_selectedDteq != null && _selectedDteq.PowerCable != null) {
+                selectedDteqCableType = _selectedDteq.PowerCable.Type;
             }
-            string selectedLoadCableType = _selectedLoad.Cable.Type;
+            string selectedLoadCableType = _selectedLoad.PowerCable.Type;
 
             CableTypes.Clear();
                 foreach (var cableType in TypeManager.CableTypes) {
@@ -779,10 +787,10 @@ namespace WpfUI.ViewModels
                     }
                 }
 
-            if (_selectedDteq != null && _selectedDteq.Cable != null) {
-                _selectedDteq.Cable.Type = selectedDteqCableType;
+            if (_selectedDteq != null && _selectedDteq.PowerCable != null) {
+                _selectedDteq.PowerCable.Type = selectedDteqCableType;
             }
-            load.Cable.Type = selectedLoadCableType;
+            load.PowerCable.Type = selectedLoadCableType;
         }
         #endregion
 

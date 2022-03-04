@@ -38,8 +38,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                     //        iload.FedFromTag = _tag;
                     //    }
                     //}
-                    if (Cable != null) {
-                        Cable.SetCableParameters(this);
+                    if (PowerCable != null) {
+                        PowerCable.SetCableParameters(this);
                     }
                 }
                
@@ -106,19 +106,12 @@ namespace EDTLibrary.Models.DistributionEquipment
         public IDteq FedFrom
         {
             get { return _fedFrom; }
-            set { 
+            set {
+
+                IDteq oldFedFrom = _fedFrom;
                 _fedFrom = value;
-                if (FedFrom != null) {
-                    FedFromId = _fedFrom.Id;
-                    FedFromTag = _fedFromTag;
-                    FedFromType = _fedFrom.GetType().ToString();
+                DistributionManager.UpdateFedFrom(this, _fedFrom, oldFedFrom);
 
-                }
-
-                if (GlobalConfig.GettingRecords == false) {
-                    OnFedFromChanged();
-                    CalculateLoading();
-                }
             }
         }
 
@@ -169,7 +162,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer>();
 
         public int PowerCableId { get; set; }
-        public PowerCableModel Cable { get; set; }
+        public PowerCableModel PowerCable { get; set; }
         public int LoadCount { get; set; }
         public ObservableCollection<IComponentModel> Components { get; set; }
 
@@ -227,18 +220,25 @@ namespace EDTLibrary.Models.DistributionEquipment
             OnLoadingCalculated();
         }
 
+        public void CreateCable()
+        {
+            if (PowerCable == null) {
+                PowerCable = new PowerCableModel(this);
+            }
+        }
         public void SizeCable()
         {
-            if (Cable ==null) {
-                Cable = new PowerCableModel(this);
+            if (PowerCable ==null) {
+                PowerCable = new PowerCableModel(this);
             }
-            Cable.SetCableParameters(this);
-            Cable.CalculateCableQtySizeNew();
+            PowerCable.SetCableParameters(this);
+            PowerCable.CalculateCableQtySizeNew();
         }
         public void CalculateCableAmps()
         {
-            Cable.CalculateAmpacity();
+            PowerCable.CalculateAmpacity();
         }
+
         public void GetMinimumPdSize()
         {
             //PD and Starter
@@ -254,7 +254,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 LoadingCalculated(this, EventArgs.Empty);
             }
         }
-        public void OnDteqLoadingCalculated(object source, EventArgs e)
+        public void OnDteqAssignedLoadReCalculated(object source, EventArgs e)
         {
             CalculateLoading();
         }

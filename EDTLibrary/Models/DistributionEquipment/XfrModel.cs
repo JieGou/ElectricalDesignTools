@@ -73,11 +73,17 @@ namespace EDTLibrary.Models.DistributionEquipment
         public int LoadCount { get; set; }
 
         public IPowerConsumer LargestMotor { get; set; }
-        PowerCableModel IPowerConsumer.Cable { get; set; }
+        PowerCableModel IPowerConsumer.PowerCable { get; set; }
 
         public void CalculateLoading()
         {
 
+        }
+        public void CreateCable()
+        {
+            if (Cable == null) {
+                Cable = new PowerCableModel(this);
+            }
         }
         public void SizeCable()
         {
@@ -86,6 +92,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
             Cable.SetCableParameters(this);
             Cable.CalculateCableQtySizeNew();
+        }
+        public void CalculateCableAmps()
+        {
+            Cable.CalculateAmpacity();
         }
 
 
@@ -97,7 +107,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 LoadingCalculated(this, EventArgs.Empty);
             }
         }
-        public void OnDteqLoadingCalculated(object source, EventArgs e)
+        public void OnDteqAssignedLoadReCalculated(object source, EventArgs e)
         {
             CalculateLoading();
         }
