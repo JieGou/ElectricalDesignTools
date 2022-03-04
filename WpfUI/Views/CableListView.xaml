@@ -9,7 +9,7 @@
              xmlns:converters="clr-namespace:WpfUI.Converters"
         mc:Ignorable="d"
         d:Width="1400" d:Height="800"
-        Background="Lavender">
+        Background="#FFCAC2CF">
     
     <UserControl.Resources>
         <ResourceDictionary>
@@ -192,7 +192,8 @@
                         <DataGridTextColumn Header="Size" x:Name="Size" 
                                             Binding="{Binding Path=Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
-
+                        <DataGridTextColumn Header="Spacing" x:Name="Spacing" 
+                                        Binding="{Binding Path=Spacing, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                         <DataGridTextColumn Header="Derating" x:Name="Derating" 
                                         Binding="{Binding Path=Derating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                         <DataGridTextColumn Header="Derated &#x0a;  Amps" x:Name="DeratedAmps" 

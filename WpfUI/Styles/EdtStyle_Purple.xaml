@@ -3,20 +3,20 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="EDTBaseStyle.xaml" />
+        <ResourceDictionary Source="EdtStyle_Base.xaml" />
     </ResourceDictionary.MergedDictionaries>
     
     
 <!--MAIN COLORS-->
     <SolidColorBrush x:Key="Darkest">#FF392071</SolidColorBrush>
     <SolidColorBrush x:Key="Dark" Color="#FF675AC1"></SolidColorBrush>
-    <SolidColorBrush x:Key="Medium" Color="#FFB1B1FD"></SolidColorBrush>
+    <SolidColorBrush x:Key="Medium" Color="#FFCECEFF"></SolidColorBrush>
     <SolidColorBrush x:Key="Light" Color="#FFCECEFF"></SolidColorBrush>
     <SolidColorBrush x:Key="Background" Color="Lavender"></SolidColorBrush>
 
     <!--Accent Colors-->
     <SolidColorBrush x:Key="ButtonColor">#FFA5A5ED</SolidColorBrush>
-    <SolidColorBrush x:Key="DatagridSelection">#FFCECEFF</SolidColorBrush>
+    <SolidColorBrush x:Key="DatagridSelection">Lavender</SolidColorBrush>
     
     <!--Other Color-->
     <SolidColorBrush x:Key="LightRed">#FFFFBABA</SolidColorBrush>

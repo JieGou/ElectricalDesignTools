@@ -3,7 +3,7 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="EDTBaseStyle.xaml" />
+        <ResourceDictionary Source="EdtStyle_Base.xaml" />
     </ResourceDictionary.MergedDictionaries>
     
     
