@@ -87,8 +87,6 @@
 
     <!--Base Button Style-->
     <Style x:Key="BaseButtonStyle"  TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultStyle}">
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderThickness" Value="0.5"/>
         <Setter Property="Width" Value="125"/>
         <Setter Property="Height" Value="27"/>
         <Setter Property="Margin" Value="10 5"/>
@@ -100,7 +98,7 @@
                     <Border CornerRadius="5" 
                             Background="{TemplateBinding Background}" 
                             BorderBrush="Black" 
-                            BorderThickness="1.5">
+                            BorderThickness="1">
                         <ContentPresenter HorizontalAlignment="Center" 
                                           VerticalAlignment="Center"/>
                     </Border>
