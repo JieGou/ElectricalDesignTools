@@ -267,15 +267,7 @@ namespace EDTLibrary
 
         //Lists
         #region Lists
-        /// <summary>
-        /// Creates a list of ILoadModel for all equipment (not components)
-        /// </summary>
        
- 
-        /// <summary>
-        /// Creteas a list of CableModel for all equipment and components based on the masterLoadList
-        /// </summary>
-        /// 
         public void CreateCableList() {
             CableList.Clear();
             foreach (var dteq in IDteqList) {
@@ -298,6 +290,7 @@ namespace EDTLibrary
                     if (dteq.Id == cable.OwnedById &&
                         dteq.GetType().ToString() == cable.OwnedByType) {
                         dteq.PowerCable = cable;
+                        cable.Load = dteq;
                         break;
                     }
                 }
@@ -307,6 +300,7 @@ namespace EDTLibrary
                     if (load.Id == cable.OwnedById &&
                         load.GetType().ToString() == cable.OwnedByType) {
                         load.PowerCable = cable;
+                        cable.Load = load;
                         break;
                     }
                 }

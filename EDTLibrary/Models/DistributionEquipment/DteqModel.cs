@@ -69,6 +69,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _size = value;
                 if (GlobalConfig.GettingRecords == false) {
                     CalculateLoading();
+                    PowerCable.GetRequiredAmps(this);
                 }
             }
         }
@@ -162,6 +163,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer>();
 
         public int PowerCableId { get; set; }
+
         public PowerCableModel PowerCable { get; set; }
         public int LoadCount { get; set; }
         public ObservableCollection<IComponentModel> Components { get; set; }
@@ -172,13 +174,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         //Methods
         public void CalculateLoading()
         {
-
-            //Calculates the individual loads of each MJEQ load
-            //foreach (IPowerConsumer load in AssignedLoads) {
-            //    if (load.Category == Categories.DTEQ.ToString()) {
-            //        load.CalculateLoading();
-            //    }
-            //}
 
             Voltage = LineVoltage;
 

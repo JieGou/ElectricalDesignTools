@@ -12,7 +12,7 @@ namespace EDTLibrary.LibraryData
         public string CableType { get; set; }
         public string InstallationType { get; set; }
         public double Spacing { get; set; }
-        public bool Indoor { get; set; }
+        public bool Outdoor { get; set; }
         public string AmpacityTable { get; set; }
 
     }

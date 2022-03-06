@@ -88,13 +88,14 @@ namespace WpfUI.ViewModels
             CalculateAllCommand = new RelayCommand(CalculateAll);
             //CalculateAllCommand = new RelayCommand(CalculateAll, startupService.IsProjectLoaded);
         }
-       
+
+        #endregion
         private void TestCommand()
         {
             _listManager.CreateCableList();
         }
 
-
+        #region WindowSizing
         private System.Windows.GridLength _dteqGridRight = new System.Windows.GridLength(AppSettings.Default.DteqGridRight, GridUnitType.Pixel);
         public System.Windows.GridLength DteqGridRight
         {
@@ -191,16 +192,7 @@ namespace WpfUI.ViewModels
 
         //Dteq
         public string? ToggleRowViewDteqProp { get; set; } = "Collapsed";
-        public bool? ToggleLoadingViewDteqProp { get; set; }
-
-        public string? ToggleOcpdViewDteqProp { get; set; } = "Hidden";
-        public string? ToggleCableViewDteqProp { get; set; } = "Visible";
-
-
-
-        public string? ToggleLoadingViewLoadProp { get; set; } = "Hidden";
-        public string? ToggleOcpdViewLoadProp { get; set; } = "Hidden";
-        public string? ToggleCableViewLoadProp { get; set; } = "Hidden";
+        public string? PerPhaseLabelDteq { get; set; } = "Hidden";
 
         #endregion  
 
@@ -227,6 +219,11 @@ namespace WpfUI.ViewModels
                     LoadToAdd.Voltage = _selectedDteq.LoadVoltage.ToString();
 
                     BuildDteqCableTypeList(_selectedDteq);
+
+                    PerPhaseLabelDteq = "Hidden";
+                    if (_selectedDteq.PowerCable.TypeModel.Conductors==1) {
+                        PerPhaseLabelDteq = "Visible";
+                    }
                 }
             }
         }
@@ -343,17 +340,7 @@ namespace WpfUI.ViewModels
                 ToggleRowViewDteqProp = "VisibleWhenSelected";
             }
         }
-
-        private void ToggleLoadingViewDteq()
-        {
-
-            if (ToggleLoadingViewDteqProp == true) {
-                ToggleLoadingViewDteqProp = false;
-            }
-            else if (ToggleLoadingViewDteqProp == false) {
-                ToggleLoadingViewDteqProp = true;
-            }
-        }
+      
         #endregion
 
         #region Command Methods
@@ -738,6 +725,7 @@ namespace WpfUI.ViewModels
         public ObservableCollection<CableTypeModel> DteqCableTypes { get; set; } = new ObservableCollection<CableTypeModel>();
         public ObservableCollection<CableTypeModel> LoadCableTypes { get; set; } = new ObservableCollection<CableTypeModel>();
         public ObservableCollection<double> CableSpacing { get; set; } = new ObservableCollection<double>();
+        public ObservableCollection<string> CableInstallationTypes { get; set; } = new ObservableCollection<string>();
         public void CreateComboBoxLists()
         {
             foreach (var item in Enum.GetNames(typeof(EDTLibrary.DteqTypes))) {
@@ -748,8 +736,12 @@ namespace WpfUI.ViewModels
                 VoltageTypes.Add(item.Voltage.ToString());
             }
             CableSpacing.Clear();
-            CableSpacing.Add(0);
             CableSpacing.Add(100);
+            CableSpacing.Add(0);
+
+            CableInstallationTypes.Add("LadderTray");
+            CableInstallationTypes.Add("DirectBuried");
+            CableInstallationTypes.Add("RacewayConduit");
         }
 
         private void BuildDteqCableTypeList(IDteq dteq)

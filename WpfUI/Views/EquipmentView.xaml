@@ -18,8 +18,9 @@
               xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
         mc:Ignorable="d"
         d:Width="1980" d:Height="1000"
-             Background="#FFBDCCCA">
+             Background="#FFDAEEF1">
     <UserControl.Resources>
+        <!--Background="#FFBDCCCA">-->
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

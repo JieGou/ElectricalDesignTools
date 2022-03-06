@@ -93,12 +93,7 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Cable Id: " Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right"/>
-                        <TextBlock Text="{Binding SelectedLoad.PowerCable.Id}" Grid.Row="1" Grid.Column="7" FontWeight="Bold"/>
-
-                        <TextBlock Text="Table: " Grid.Row="2" Grid.Column="6" HorizontalAlignment="Right"/>
-                        <TextBlock Text="{Binding SelectedLoad.PowerCable.AmpacityTable}" Grid.Row="2" Grid.Column="7" 
-                                   d:Text="TableD17N15Out" FontWeight="Bold"/>
+                        
 
                         <TextBlock Text="Cable Tag: " Grid.Row="1" Grid.Column="0"/>
                         <TextBlock Text="{Binding SelectedLoad.PowerCable.Tag}" Grid.Row="1" Grid.Column="2" 
@@ -106,7 +101,7 @@
                                Grid.ColumnSpan="4" FontWeight="Bold"/>
 
                         <TextBlock Text="Cable Type: " Grid.Row="2" Grid.Column="0"/>
-                        <ComboBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" 
+                        <ComboBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" 
                               FontWeight="Bold" FontSize="12"
                               ItemsSource="{Binding Path=DteqCableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Type"
@@ -135,12 +130,11 @@
 
 
                         <TextBlock Text="Installation Type" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Right"/>
-                        <ComboBox Grid.Row="4" Grid.Column="6"
+                        <ComboBox Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2"
                               Margin="0 3"
                               FontWeight="Bold" FontSize="12"
                               ItemsSource="{Binding Path=CableInstallationTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
+                              SelectedValue="{Binding SelectedLoad.PowerCable.InstallationType}"
                               Text="{Binding SelectedLoad.PowerCable.InstallationType}"  d:Text="LadderTray"
                               IsEditable="True" VerticalAlignment="Center"/>
 
@@ -153,15 +147,26 @@
                               IsEditable="True" VerticalAlignment="Center"/>
 
 
-                        <TextBlock Text="Indoor" Grid.Row="6" Grid.Column="4" HorizontalAlignment="Right"/>
-                        <CheckBox IsChecked="{Binding SelectedLoad.PowerCable.Indoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBlock Text="Outdoor" Grid.Row="6" Grid.Column="4" HorizontalAlignment="Right"/>
+                        <CheckBox IsChecked="{Binding SelectedLoad.PowerCable.Outdoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               Grid.Row="6" Grid.Column="6" FontWeight="Bold" HorizontalAlignment="Left"
                               Margin="0 5"/>
+                        <TextBlock Text="(exposed to sunlight)" Grid.Row="6" Grid.Column="6" 
+                                Grid.ColumnSpan="2"
+                                Margin="25 3"
+                                FontStyle="Italic"/>
 
                         <TextBlock Text="Derating: " Grid.Row="7" Grid.Column="4" HorizontalAlignment="Right"/>
                         <TextBlock Text="{Binding SelectedLoad.PowerCable.Derating}" Grid.Row="7" Grid.Column="6" FontWeight="Bold"/>
 
+                        <!--Column 3-->
+                        <TextBlock Text="Cable Id: " Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding SelectedLoad.PowerCable.Id}" Grid.Row="1" Grid.Column="7" FontWeight="Bold"/>
 
+                        <TextBlock Text="Table: " Grid.Row="2" Grid.Column="6" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding SelectedLoad.PowerCable.AmpacityTable}" Grid.Row="2" Grid.Column="7" 
+                                   d:Text="TableD17N15Out" FontWeight="Bold"/>
+                        
                         <!--BUTTONS-->
                     </Grid>
                     <StackPanel Orientation="Horizontal" Grid.Row="1">

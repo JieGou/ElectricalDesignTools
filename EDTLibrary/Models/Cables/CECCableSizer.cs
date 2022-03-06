@@ -53,7 +53,12 @@ namespace EDTLibrary.Models.Cables
 
             CableTypeModel cableType = TypeManager.GetCableType(cable.Type);
             if (cableType.VoltageClass > 2000 || cableType.Conductors == 1) {
-                spacing = 100;
+                if (cable.Spacing <100) {
+                    spacing = cable.Spacing;
+                }
+                else {
+                    spacing = 100;
+                }
             }
             else if (cableType.VoltageClass <= 2000 &&
                      cable.Load.Fla >= double.Parse(EdtSettings.CableSpacingMaxAmps_3C1kV)) {
@@ -67,38 +72,54 @@ namespace EDTLibrary.Models.Cables
             cable.Spacing = spacing;
             return spacing;
         }
-
         public string GetAmpacityTable(IPowerCable cable)
         {
             if (cable == null) return "Invalid Cable Data";
-            string output;
 
+            string output = String.Empty;
             CableTypeModel cableType = TypeManager.GetCableType(cable.Type);
 
-            // 1C, >=5kV, Shielded        QtyParallel max = 2 
+            if (cable.InstallationType == GlobalConfig.CableInstallationType_LadderTray) {
+                output = GetAmpacityTable_LadderTray(cable, cableType);
+            }
+            else if (cable.InstallationType == GlobalConfig.CableInstallationType_DirectBuried) {
+                output = GetAmpacityTable_DirectBuried(cable, cableType);
+            }
+            else if (cable.InstallationType == GlobalConfig.CableInstallationType_RacewayConduit) {
+                output = GetAmpacityTable_RacewayConduit(cable, cableType);
+            }
+
+            return output;
+        }
+
+
+        private static string GetAmpacityTable_LadderTrayOld(IPowerCable cable, CableTypeModel cableType)
+        {
+            string output;
+
+            // 1C, >= 5kV, Shielded
             if (cableType.Conductors == 1
-            && cableType.VoltageClass >= 5000
-            && cableType.Shielded == true) {
+                        && cableType.VoltageClass >= 5000
+                        && cableType.Shielded == true) {
 
                 output = TypeManager.CecCableSizingRules.FirstOrDefault(csr =>
                    csr.CableType == cable.Type &&
                    csr.InstallationType == cable.InstallationType &&
                    csr.Spacing == cable.Spacing &&
-                   csr.Indoor == cable.Indoor
+                   csr.Outdoor == cable.Outdoor
                    ).AmpacityTable;
             }
 
-            // 3C, >=5kV, Shielded       Table D17N 3C
+            // 3C, >=5kV, Shielded       Table D17N 3C QtyParallel max = 2
             else if (cableType.Conductors == 3
-            && cableType.VoltageClass >= 5000
-            && cableType.Shielded == true) {
+                  && cableType.VoltageClass >= 5000
+                  && cableType.Shielded == true) {
 
                 output = TypeManager.CecCableSizingRules.FirstOrDefault(csr =>
                    csr.CableType == cable.Type &&
                    csr.InstallationType == cable.InstallationType &&
-                   csr.Indoor == cable.Indoor
+                   csr.Outdoor == cable.Outdoor
                    ).AmpacityTable;
-
             }
 
             // 1 or 3C <= 5kV, Non-Shielded
@@ -107,12 +128,153 @@ namespace EDTLibrary.Models.Cables
                     csr.CableType == cable.Type &&
                     csr.InstallationType == cable.InstallationType
                     ).AmpacityTable;
-
             }
-            cable.AmpacityTable = output;
             return output;
         }
+        private static string GetAmpacityTable_LadderTray(IPowerCable cable, CableTypeModel cableType)
+        {
+            string output = "No Table Assigned";
 
+            // 1C, >=5kV <=15kV, Shielded, 100% spacing
+            if (cableType.Conductors == 1
+                        && cableType.VoltageClass >= 5000
+                        && cableType.VoltageClass <= 15000
+                        && cableType.Shielded == true
+                        && cable.Spacing >=100) {
+
+                if (cable.Outdoor == false) {
+                    output = "Table D17M15In";
+                }
+                else if (cable.Outdoor == true) {
+                    output = "Table D17M15Out";
+                }
+            }
+
+            // 1C, >=25kV <=46kV, Shielded, 100% spacing
+            else if (cableType.Conductors == 1
+                  && cableType.VoltageClass >= 25000
+                  && cableType.VoltageClass <= 46000
+                  && cableType.Shielded == true
+                  && cable.Spacing >= 100) {
+
+                if (cable.Outdoor == false) {
+                    output = "Table D17M46In";
+                }
+                else if (cable.Outdoor == true) {
+                    output = "Table D17M46Out";
+                }
+            }
+
+            // 1C or 3C, >=5kV <=15kV, Shielded, no spacing
+            else if ((cableType.Conductors == 3 || cable.Spacing < 100)
+                  && cableType.VoltageClass >= 5000
+                  && cableType.VoltageClass <= 15000
+                  && cableType.Shielded == true) {
+
+                if (cable.Outdoor == false) {
+                    output = "Table D17N15In";
+                }
+                else if (cable.Outdoor == true) {
+                    output = "Table D17N15Out";
+                }
+            }
+
+            // 3C, >=25kV <=46kV, Shielded, Shielded, no spacing
+            else if ((cableType.Conductors == 3 || cable.Spacing < 100)
+                  && cableType.VoltageClass >= 25000
+                  && cableType.VoltageClass <= 46000
+                  && cableType.Shielded == true) {
+
+                if (cable.Outdoor == false) {
+                    output = "Table D17N46In";
+                }
+                else if (cable.Outdoor == true) {
+                    output = "Table D17N46Out";
+                }
+            }
+
+            // 1 or 3C <= 5kV, Non-Shielded
+            else {
+                if (cable.Type.Contains("DLO")) {
+                    output = "Table 12E";
+                }
+                else if (cable.TypeModel.Conductors == 1) {
+                    output = "Table 1";
+                }
+                else if (cable.TypeModel.Conductors == 3) {
+                    output = "Table 2";
+                }
+            }
+            return output;
+        }
+        private static string GetAmpacityTable_DirectBuried(IPowerCable cable, CableTypeModel cableType)
+        {
+            string output;
+
+            // 1C, >= 5kV, Shielded
+            if (cableType.Conductors == 1
+                        && cableType.VoltageClass >= 5000
+                        && cableType.Shielded == true) {
+
+                output = "Table not yet added to database.";
+            }
+
+            // 3C, >=5kV, Shielded       Table D17N 3C QtyParallel max = 2
+            else if (cableType.Conductors == 3
+            && cableType.VoltageClass >= 5000
+            && cableType.Shielded == true) {
+
+                output = "Table not yet added to database.";
+            }
+
+            // 1C, <= 5kV, Non-Shielded
+            else if (cableType.Conductors == 1
+                        && cableType.VoltageClass <= 5000
+                        && cableType.Shielded == false) {
+
+                output = "Table D8A";
+            }
+
+            // 3C, <= 5kV, Non-Shielded
+            else {
+                output = "Table D10A";
+            }
+            return output;
+        }
+        private static string GetAmpacityTable_RacewayConduit(IPowerCable cable, CableTypeModel cableType)
+        {
+            string output;
+
+            // 1C, >= 5kV, Shielded
+            if (cableType.Conductors == 1
+                        && cableType.VoltageClass >= 5000
+                        && cableType.Shielded == true) {
+
+                output = "Table not yet added to database.";
+            }
+
+            // 3C, >=5kV, Shielded       Table D17N 3C QtyParallel max = 2
+            else if (cableType.Conductors == 3
+            && cableType.VoltageClass >= 5000
+            && cableType.Shielded == true) {
+
+                output = "Table not yet added to database.";
+            }
+
+            // 1C, <= 5kV, Non-Shielded
+            else if (cableType.Conductors == 1
+                        && cableType.VoltageClass <= 5000
+                        && cableType.Shielded == false) {
+
+                output = "Table D9A";
+            }
+
+            // 3C, <= 5kV, Non-Shielded
+            else {
+                output = "Table D11A";
+            }
+            return output;
+        }
         public double GetDerating(IPowerCable cable)
         {
 
@@ -135,17 +297,17 @@ namespace EDTLibrary.Models.Cables
             var source = cable.Load.FedFrom;
             int conductorQty = cable.ConductorQty * cable.QtyParallel;
 
-            int otherLoadConductorQty;
+            //int otherLoadConductorQty;
             int otherLoadCableQtyParallel;
             double otherLoadCableSpacing;
 
             foreach (var assignedLoad in source.AssignedLoads) {
-                otherLoadConductorQty = assignedLoad.PowerCable.TypeModel.Conductors;
+                //otherLoadConductorQty = assignedLoad.PowerCable.TypeModel.Conductors;
                 otherLoadCableQtyParallel = assignedLoad.PowerCable.QtyParallel;
                 otherLoadCableSpacing = assignedLoad.PowerCable.Spacing;
 
                 if (otherLoadCableSpacing < 100) {
-                    conductorQty += (otherLoadConductorQty * otherLoadCableQtyParallel);
+                    conductorQty += (3 * otherLoadCableQtyParallel);
                 }
             }
 

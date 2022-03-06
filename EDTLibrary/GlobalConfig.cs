@@ -25,6 +25,11 @@ namespace EDTLibrary
         public const string EmptyTag = "                 ";
 
 
+        public const string CableInstallationType_LadderTray = "LadderTray";
+        public const string CableInstallationType_DirectBuried = "DirectBuried";
+        public const string CableInstallationType_RacewayConduit = "RacewayConduit";
+
+
         //Constants
         public const int SigFigs = 1;
         public const string Separator = "-";

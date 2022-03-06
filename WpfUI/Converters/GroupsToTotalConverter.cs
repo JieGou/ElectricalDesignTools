@@ -18,7 +18,13 @@ namespace WpfUI.Converters
                 var items = (ReadOnlyObservableCollection<Object>)value;
                 int total = 0;
                 foreach (PowerCableModel gi in items) {
-                    total += gi.QtyParallel;
+
+                    if (gi.TypeModel.Conductors==1) {
+                        total += gi.QtyParallel *3;
+                    }
+                    else {
+                        total += gi.QtyParallel;
+                    }
                 }
                 return total.ToString();
             }

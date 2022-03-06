@@ -99,12 +99,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="Cable Id: " Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right"/>
-                    <TextBlock Text="{Binding SelectedDteq.PowerCable.Id}" Grid.Row="1" Grid.Column="7" FontWeight="Bold"/>
-
-                        <TextBlock Text="Table: " Grid.Row="2" Grid.Column="6" HorizontalAlignment="Right"/>
-                        <TextBlock Text="{Binding SelectedDteq.PowerCable.AmpacityTable}" Grid.Row="2" Grid.Column="7" 
-                                   d:Text="TableD17N15Out" FontWeight="Bold"/>
+                   
 
                         <TextBlock Text="Cable Tag: " Grid.Row="1" Grid.Column="0"/>
                     <TextBlock Text="{Binding SelectedDteq.PowerCable.Tag}" Grid.Row="1" Grid.Column="2" 
@@ -112,7 +107,7 @@
                                Grid.ColumnSpan="4" FontWeight="Bold"/>
 
                     <TextBlock Text="Cable Type: " Grid.Row="2" Grid.Column="0"/>
-                    <ComboBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="4" 
+                    <ComboBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" 
                               FontWeight="Bold" FontSize="12"
                               ItemsSource="{Binding Path=DteqCableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Type"
@@ -120,14 +115,20 @@
                               Text="{Binding SelectedDteq.PowerCable.Type}"  d:Text="3C-TECK-1kV"
                               IsEditable="True" VerticalAlignment="Center"/>
 
-                    
-                    <TextBlock Text="Cable Qty: " Grid.Row="4" Grid.Column="0"/>
-                    <TextBox Text="{Binding SelectedDteq.PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
-                             Grid.Row="4" Grid.Column="2" FontWeight="Bold" MinWidth="50" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0.5"/>
+
+                        <TextBlock Text="Cable Qty: " Grid.Row="4" Grid.Column="0"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2" >
+                            
+                        <TextBox Text="{Binding SelectedDteq.PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
+                             Grid.Row="4" Grid.Column="2" FontWeight="Bold" Width="30" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0.5"/>
+                            <TextBlock  x:Name="txtPerPhase" Visibility="{Binding PerPhaseLabelDteq}"
+                            Text=" (/ph)" Grid.Row="4" Grid.Column="1"/>
+                        </StackPanel>
 
 
 
-                    <TextBlock Text="Cable Size: " Grid.Row="5" Grid.Column="0"/>
+
+                        <TextBlock Text="Cable Size: " Grid.Row="5" Grid.Column="0"/>
                     <TextBlock Text="{Binding SelectedDteq.PowerCable.Size}" Grid.Row="5" Grid.Column="2" FontWeight="Bold"/>
 
                     <TextBlock Text="Derated Amps: " Grid.Row="6" Grid.Column="0"/>
@@ -141,12 +142,11 @@
                     
 
                     <TextBlock Text="Installation Type" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Right"/>
-                    <ComboBox Grid.Row="4" Grid.Column="6"
+                    <ComboBox Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2"
                               Margin="0 3"
                               FontWeight="Bold" FontSize="12"
                               ItemsSource="{Binding Path=CableInstallationTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
+                              SelectedValue="{Binding SelectedDteq.PowerCable.InstallationType}"
                               Text="{Binding SelectedDteq.PowerCable.InstallationType}"  d:Text="LadderTray"
                               IsEditable="True" VerticalAlignment="Center"/>
 
@@ -159,16 +159,38 @@
                               IsEditable="True" VerticalAlignment="Center"/>
 
                     
-                    <TextBlock Text="Indoor" Grid.Row="6" Grid.Column="4" HorizontalAlignment="Right"/>
-                    <CheckBox IsChecked="{Binding SelectedDteq.PowerCable.Indoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    <TextBlock Text="Outdoor" Grid.Row="6" Grid.Column="4" HorizontalAlignment="Right"/>
+                    <CheckBox IsChecked="{Binding SelectedDteq.PowerCable.Outdoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               Grid.Row="6" Grid.Column="6" FontWeight="Bold" HorizontalAlignment="Left"
                               Margin="0 5"/>
-                    
-                    <TextBlock Text="Derating: " Grid.Row="7" Grid.Column="4" HorizontalAlignment="Right"/>
+                     <TextBlock Text="(exposed to sunlight)" Grid.Row="6" Grid.Column="6" 
+                                Grid.ColumnSpan="2"
+                                Margin="25 3"
+                                FontStyle="Italic"/>
+
+                        <TextBlock Text="Derating: " Grid.Row="7" Grid.Column="4" HorizontalAlignment="Right"/>
                     <TextBlock Text="{Binding SelectedDteq.PowerCable.Derating}" Grid.Row="7" Grid.Column="6" FontWeight="Bold"/>
 
+                    
+                    <!--Column 3-->
+                        <TextBlock Text="Cable Id: " Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding SelectedDteq.PowerCable.Id}" Grid.Row="1" Grid.Column="7" FontWeight="Bold"/>
+                        <TextBlock Text="Sized via: " Grid.Row="2" Grid.Column="6" HorizontalAlignment="Right"/>
+                    
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="7">
+                            <TextBlock Text="{Binding SelectedDteq.PowerCable.AmpacityTable}" Grid.Row="2" Grid.Column="7" 
+                                       d:Text="TableD17N15Out" FontWeight="Bold"/>
+                            <StackPanel Orientation="Horizontal" x:Name="stkpnlDiagram"
+                                        Visibility="{Binding DteqDiagramSizing}">
+                                <TextBlock Text=", Diagram "/>
+                                <TextBlock Text="{Binding SelectedDteq.PowerCable.InstallationDiagram}" Grid.Row="2" Grid.Column="7" 
+                                           d:Text="Diagram D8-1" FontWeight="Bold"
+                                           />
+                            </StackPanel>
+                        </StackPanel>
+                        
 
-                    <!--BUTTONS-->
+                        <!--BUTTONS-->
                     </Grid>
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                         <Button Content="Calculate Amps" Grid.Row="2" Margin="50 15 0 0" 
