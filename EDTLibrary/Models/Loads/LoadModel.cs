@@ -138,6 +138,7 @@ namespace EDTLibrary.Models.Loads
                 PowerFactor = GlobalConfig.DefaultHeaterPowerFactor;
             }
             else if (Type == LoadTypes.TRANSFORMER.ToString()) {
+                //TODO - Transformer efficiency tables
                 Unit = Units.kW.ToString();
                 Efficiency = GlobalConfig.DefaultTransformerEfficiency;
                 PowerFactor = GlobalConfig.DefaultTransformerPowerFactor;
@@ -145,6 +146,11 @@ namespace EDTLibrary.Models.Loads
             else if (Type == LoadTypes.MOTOR.ToString()) {
                 Efficiency = LibraryManager.GetMotorEfficiency(this);
                 PowerFactor = LibraryManager.GetMotorPowerFactor(this);
+            }
+            else {
+                //TODO - Create Default Panel/Other Efficiency
+                Efficiency = 0.9;
+                PowerFactor = 0.87;
             }
 
             if (Efficiency > 1)
@@ -221,8 +227,25 @@ namespace EDTLibrary.Models.Loads
                             break;
 
                         case "A":
-                        case "AMPS":
-                            ConnectedKva = _size * Voltage * Math.Sqrt(3); //   / Efficiency / PowerFactor;
+                            ConnectedKva = _size * Voltage * Math.Sqrt(3)/1000; //   / Efficiency / PowerFactor;
+                            Fla = _size;
+                            break;
+                    }
+                    break;
+
+                case "PANEL":
+                    switch (Unit) {
+                        case "kVA":
+                            ConnectedKva = _size;
+                            break;
+
+                        case "kW":
+                            ConnectedKva = _size / Efficiency / PowerFactor;
+                            break;
+
+                        case "A":
+                            var variant = Tag;
+                            ConnectedKva = _size * Voltage * Math.Sqrt(3)/1000; //   / Efficiency / PowerFactor;
                             Fla = _size;
                             break;
                     }

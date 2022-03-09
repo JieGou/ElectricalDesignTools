@@ -444,6 +444,7 @@ namespace EDTLibrary.Models.Cables
                 cable.BaseAmps = Math.Round(BaseAmps, 1);
                 cable.DeratedAmps = cable.BaseAmps * cable.Derating;
                 cable.DeratedAmps = Math.Round(cable.DeratedAmps, GlobalConfig.SigFigs);
+                cable.InstallationDiagram = cableAmps.Rows[0]["Diagram"].ToString();
             }
             catch { }
         }

@@ -5,66 +5,102 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewComponents="clr-namespace:WpfUI.ViewComponents"
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="800"
+             d:DesignHeight="950" d:DesignWidth="1600"
              Background="white">
+    <UserControl.Resources>
+
+    </UserControl.Resources>
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--<viewComponents:NavigationBar Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>-->
 
+        <StackPanel VerticalAlignment="Center" 
+                    HorizontalAlignment="Center" >
 
-        <Grid Grid.Row="1">
-        <Grid.ColumnDefinitions>
-            
-        </Grid.ColumnDefinitions>
-        
-            <StackPanel>
-            
-                <Label Content="Electrical Design Tools"
+            <!--<Canvas>-->
+
+            <TextBlock Text="Electrical Design Tools"
                    HorizontalAlignment="center"
                    FontSize="30"
-                   Margin=" 0 25 0 0"/>
-            
+                   Margin=" 0 0 0 0"/>
 
-                <Image Source="/Views/PD LOGO 17.jpg"
-                       Height="150" Width="150"
+
+            <Image Source="/Views/PD LOGO 17.jpg"
+                       x:Name="logo"
+                       Width="350"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
-                       Margin=" 0 25 0 0"/>
+                       Margin=" 0 25 0 0">
 
-                <Label Content="Selected Project:"
+                <Image.Triggers>
+                    <EventTrigger RoutedEvent="Image.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="logo"
+                                Storyboard.TargetProperty="Opacity"
+                                From="1.0" To="0.75" Duration="0:0:0.5"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+
+                                <DoubleAnimation Storyboard.TargetName="logo"
+                                 Storyboard.TargetProperty="Width"
+                                 From="350" To="150" Duration="0:0:0.5"
+                                 AutoReverse="False" RepeatBehavior="1x"/>
+
+                                <DoubleAnimation Storyboard.TargetName="logo"
+                                 Storyboard.TargetProperty="(Canvas.Top)"
+                                 From="0" To="50" Duration="0:0:0.5"
+                                 AutoReverse="False" RepeatBehavior="1x"/>
+
+                                <DoubleAnimation Storyboard.TargetName="logo"
+                                 Storyboard.TargetProperty="(Canvas.Left)"
+                                 From="0" To="-100" Duration="0:0:0.5"
+                                 AutoReverse="False" RepeatBehavior="1x"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Image.Triggers>
+            </Image>
+
+
+            <TextBlock Text="Selected Project:"
                        HorizontalAlignment="center"
                        FontSize="18"
-                       Margin=" 0 25 0 0"/>
+                       Margin=" 0 25 350 0"/>
 
-                <TextBlock Text="{Binding Path=ProjectName, Mode=Default, UpdateSourceTrigger=PropertyChanged}"
+            <TextBlock Text="{Binding Path=ProjectName, Mode=Default, UpdateSourceTrigger=PropertyChanged}"
                            HorizontalAlignment="Center"
+                           TextAlignment="Center"
                            FontSize="12"
                            MinWidth="500"
                            Margin=" 0 15 0 0"/>
-                <TextBlock Text="{Binding Path=ProjectPath, Mode=Default, UpdateSourceTrigger=PropertyChanged}"
+            <TextBlock Text="{Binding Path=ProjectPath, Mode=Default, UpdateSourceTrigger=PropertyChanged}"
+                           TextAlignment="Center"
                            HorizontalAlignment="Center"
                            FontSize="12"
                            MinWidth="500"
                            Margin=" 0 15 0 25"/>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
                             Margin="10">
 
-                    <Button x:Name="btnCreate" Content="Create New"/>
-                
-                    <Button x:Name="btnBrowse" Content="Browse" HorizontalAlignment="Center"
+                <Button x:Name="btnCreate" Content="Create New"/>
+
+                <Button x:Name="btnBrowse" Content="Browse" HorizontalAlignment="Center"
                             Command="{Binding SelectProjectCommand}"/>
-                
-                    <Button x:Name="btnOpen" Content="Open" HorizontalAlignment="Right"
+
+                <Button x:Name="btnOpen" Content="Open" HorizontalAlignment="Right"
                             Command="{Binding OpenProjectCommand}"/>
-                </StackPanel>
-                
             </StackPanel>
-        </Grid>
+            <!--</Canvas>-->
+
+        </StackPanel>
     </Grid>
 
 </UserControl>

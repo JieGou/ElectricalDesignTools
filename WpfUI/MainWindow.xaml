@@ -110,6 +110,35 @@
         </Grid>
 
         <!--Conten Control-->
+
+        <TextBlock  Grid.Row="2"
+                    Text="Electrical Design Tools"
+                    HorizontalAlignment="center"
+                    FontSize="30"
+                    Margin=" 0 100 0 0"/>
+
+        <Image x:Name="logo"
+               Source="/Views/PD LOGO 17.jpg"
+               Grid.Row="2" 
+               Width="350"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Margin="0 0 0 150">
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="logo"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0" To="1" Duration="0:0:0.75"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+        
         <ContentControl x:Name="ccMain"
                         Grid.Row="2" Grid.Column="0"
                         Grid.RowSpan="1"
