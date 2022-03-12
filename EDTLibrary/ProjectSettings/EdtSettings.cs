@@ -31,6 +31,8 @@ namespace EDTLibrary.ProjectSettings
         public static string Code { get; set; }
 
         //Cable
+        public static ObservableCollection<CableSizeModel> CableSizesUsedInProject { get; set; }
+
         public static string CableType3C1kVPower { get; set; }
         public static string CableInsulation1kVPower { get; set; }
         public static string CableInsulation5kVPower { get; set; }
@@ -57,14 +59,12 @@ namespace EDTLibrary.ProjectSettings
 
 
 
+        //Loads
 
-        //TODO - Model to Table Properties and Implement Interface
-        public static DataTable CableSizesUsedInProject_3C1kV { get; set; }
-        public static DataTable CableAmpsUsedInProject_3C1kV { get; set; }
-
-
-        public static ObservableCollection<CableSizeModel> CableSizesUsedInProject { get; set; }
-
+        public static string LoadDefaultEfficiency_Other { get; set; }
+        public static string LoadDefaultPowerFactor_Other { get; set; }
+        public static string LoadDefaultEfficiency_Panel { get; set; }
+        public static string LoadDefaultPowerFactor_Panel { get; set; }
 
     }
 }

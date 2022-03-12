@@ -80,8 +80,8 @@ namespace EDTLibrary.ProjectSettings
             SettingDict.Clear();
             SettingDict = SettingList.ToDictionary(x => x.Name);
 
-            CreateCableAmpsUsedInProject();
-            var test = EdtSettings.CableAmpsUsedInProject_3C1kV;
+            //CreateCableAmpsUsedInProject();
+            //var test = EdtSettings.CableAmpsUsedInProject_3C1kV;
 
             AssignCodeSettings();
             GetCableSizesUsedInProject();
@@ -117,77 +117,6 @@ namespace EDTLibrary.ProjectSettings
         {
             DbManager.prjDb.SaveDataTable(tableSetting.TableValue, tableSetting.Name);
         }
-
-
-
-        #region Setting Initializations
-        public static void CreateCableAmpsUsedInProject()
-        {
-            DataTable ampsUsedInProjectTable = new DataTable();
-            DataTable dtCableSizesUsedInProject = new DataTable();
-
-            if (LibraryTables.CableAmpacities != null) {
-
-                var settingName = nameof(EdtSettings.CableAmpsUsedInProject_3C1kV);
-                SettingDict[nameof(EdtSettings.CableAmpsUsedInProject_3C1kV)].TableValue = LibraryTables.CableAmpacities.Copy();
-                ampsUsedInProjectTable = SettingDict[nameof(EdtSettings.CableAmpsUsedInProject_3C1kV)].TableValue;
-
-                settingName = nameof(EdtSettings.CableSizesUsedInProject_3C1kV);
-                dtCableSizesUsedInProject = SettingDict[nameof(EdtSettings.CableSizesUsedInProject_3C1kV)].TableValue;
-
-                string size;
-                DataRow cable;
-                foreach (DataRow cableInProject in dtCableSizesUsedInProject.Rows) {
-                    if (cableInProject.Field<bool>("UsedInProject") == false) {
-                        size = cableInProject.Field<string>("Size");
-
-                        for (int i = ampsUsedInProjectTable.Rows.Count - 1; i >= 0; i--) {
-                            cable = ampsUsedInProjectTable.Rows[i];
-                            if (cable["Size"].ToString() == size) {
-                                ampsUsedInProjectTable.Rows.Remove(cable);
-                            }
-                        }
-                    }
-                }
-                ampsUsedInProjectTable.AcceptChanges();
-                EdtSettings.CableAmpsUsedInProject_3C1kV = ampsUsedInProjectTable;
-            }
-        }
-
-        public static void CreateCableAmpsUsedInProject(DataTable cableAmpsTable, DataTable cableSizeTable)
-        {
-            DataTable ampsUsedInProjectTable = new DataTable();
-            DataTable dtCables = new DataTable();
-
-            if (LibraryTables.CableAmpacities != null) {
-
-                //amps
-                var settingName = nameof(cableAmpsTable);
-                SettingDict[nameof(cableAmpsTable)].TableValue = LibraryTables.CableAmpacities.Copy();
-                ampsUsedInProjectTable = SettingDict[nameof(cableAmpsTable)].TableValue;
-
-                //size
-                settingName = nameof(cableSizeTable);
-                dtCables = SettingDict[nameof(cableSizeTable)].TableValue;
-
-                string size;
-                foreach (DataRow cablePrj in dtCables.Rows) {
-                    if (cablePrj.Field<bool>("UsedInProject") == false) {
-                        size = cablePrj.Field<string>("Size");
-
-                        for (int i = ampsUsedInProjectTable.Rows.Count - 1; i >= 0; i--) {
-                            DataRow cable = ampsUsedInProjectTable.Rows[i];
-                            if (cable["Size"].ToString() == size) {
-                                ampsUsedInProjectTable.Rows.Remove(cable);
-                            }
-                        }
-                    }
-                }
-                ampsUsedInProjectTable.AcceptChanges();
-                //EdtSettings.CableAmpsUsedInProject_3C1kV = ampsUsedInProjectTable;
-            }
-        }
-        #endregion
 
     }
 }

@@ -82,12 +82,11 @@
                         Command="{Binding NavigateProjectSettingsCommand}"/>
 
                 <Button VerticalAlignment="Top"
-                        x:Name="btnLoadList"
-                        Content="LOCATIONS"
-                        Command="{Binding NavigateLocationsCommand}"/>
+                        Content="AREAS"
+                        Command="{Binding NavigateAreasCommand}"/>
                 
                 <Button VerticalAlignment="Top"
-                        x:Name="btnDteq"
+                        x:Name="btnDistribution"
                         Content="LOAD DISTRIBUTION"
                         Command="{Binding NavigateEquipmentCommand}"/>
 
@@ -156,8 +155,8 @@
                     <views:ProjectSettingsView/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewmodels:LocationsViewModel}">
-                    <views:LocationsView/>
+                <DataTemplate DataType="{x:Type viewmodels:AreasViewModel}">
+                    <views:AreasView/>
                 </DataTemplate>
                 
                 <DataTemplate DataType="{x:Type viewmodels:EquipmentViewModel}">

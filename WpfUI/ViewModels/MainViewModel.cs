@@ -20,7 +20,7 @@ namespace WpfUI.ViewModels
 
         private readonly StartupViewModel _startupViewModel;
         private readonly ProjectSettingsViewModel _projectSettingsViewModel = new ProjectSettingsViewModel();
-        private readonly LocationsViewModel _locationsViewModel;
+        private readonly AreasViewModel _locationsViewModel;
         private readonly EquipmentViewModel _equipmentViewModel;
         private readonly CableListViewModel _cableListViewModel;
         private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
@@ -31,13 +31,13 @@ namespace WpfUI.ViewModels
             _startupService = startupService;
 
             _startupViewModel = new StartupViewModel(startupService);
-            _locationsViewModel = new LocationsViewModel(listManager);
+            _locationsViewModel = new AreasViewModel(listManager);
             _equipmentViewModel = new EquipmentViewModel(listManager);
             _cableListViewModel = new CableListViewModel(listManager);
 
             NavigateStartupCommand = new RelayCommand(NavigateStartup);
             NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings, CanExecute_IsProjectLoaded);
-            NavigateLocationsCommand = new RelayCommand(NavigateLocations, CanExecute_IsProjectLoaded);
+            NavigateAreasCommand = new RelayCommand(NavigateAreas, CanExecute_IsProjectLoaded);
 
             NavigateEquipmentCommand = new RelayCommand(NavigateEquipment, startupService);
 
@@ -63,7 +63,7 @@ namespace WpfUI.ViewModels
         #region Navigation
         public ICommand NavigateStartupCommand { get; }
         public ICommand NavigateProjectSettingsCommand { get; }
-        public ICommand NavigateLocationsCommand { get; }
+        public ICommand NavigateAreasCommand { get; }
         public ICommand NavigateEquipmentCommand { get; }
         public ICommand NavigateCableListCommand { get; }
         public ICommand NavigateDataTablesCommand { get; }
@@ -77,7 +77,7 @@ namespace WpfUI.ViewModels
         {
             CurrentViewModel = _projectSettingsViewModel;
         }
-        private void NavigateLocations()
+        private void NavigateAreas()
         {
             CurrentViewModel = _locationsViewModel;
         }

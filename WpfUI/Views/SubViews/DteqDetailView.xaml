@@ -180,6 +180,8 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="7">
                             <TextBlock Text="{Binding SelectedDteq.PowerCable.AmpacityTable}" Grid.Row="2" Grid.Column="7" 
                                        d:Text="TableD17N15Out" FontWeight="Bold"/>
+                            
+                            <!--TODO - visbility of Diagram-->
                             <StackPanel Orientation="Horizontal" x:Name="stkpnlDiagram"
                                         Visibility="{Binding DteqDiagramSizing}">
                                 <TextBlock Text=", Diagram "/>
@@ -240,12 +242,10 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
-                        <TextBlock Text="Voltage Class: "/>
                         <TextBlock Text="Full Load Amps: "/>
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
-                        <TextBlock d:Text="0.87" Text="{Binding SelectedDteq.VoltageClass}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
                         <TextBlock d:Text="0.87" Text="{Binding SelectedDteq.Fla}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
                     </StackPanel>
 

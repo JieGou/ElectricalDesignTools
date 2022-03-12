@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace EDTLibrary.Models.DistributionEquipment
 {
-    public interface IDteq : IPowerConsumer //, IHasComponents 
+    public interface IDteq : IPowerConsumer
     {
 
 

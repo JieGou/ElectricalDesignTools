@@ -18,6 +18,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         public string Category { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
+        public int AreaId { get; set; }
+        public AreaModel Area { get; set; }
         public double Voltage { get; set; }
         public double LineVoltage { get; set; }
         public double LoadVoltage { get; set; }

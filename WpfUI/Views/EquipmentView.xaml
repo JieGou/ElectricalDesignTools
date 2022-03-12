@@ -309,6 +309,23 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
+                        <!--Area-->
+                        <DataGridTemplateColumn Header="Area" x:Name="dteqArea"
+                                    MinWidth="75">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedItem="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="Tag"
+                                              Text="{Binding Path=Area.Tag}"
+                                              HorizontalContentAlignment="Center"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
                         <!--Type-->
                         <DataGridTemplateColumn Header="EQ Type" x:Name="dteqType"
                                     MinWidth="75">
@@ -647,6 +664,8 @@
                     Grid.Row="1" Grid.Column="{StaticResource Size}" FontSize="10" />
                 <TextBlock Text="Unit" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource Unit}" FontSize="10" />
+                <TextBlock Text="{Binding SelectedDteq.Area.Id}" Margin="10 5 0 5"
+                    Grid.Row="1" Grid.Column="9" FontSize="10" />
 
 
                 <!--ADD DTEQ-->

@@ -1,5 +1,4 @@
-﻿using EDTLibrary.Calculators;
-using EDTLibrary.Calculators.Cables;
+﻿
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeTables;
@@ -193,7 +192,6 @@ namespace EDTLibrary.Models.Cables
 
         public string SelectCableType(double voltageClass, int conductorQty, double insulation, string usageType)
         {
-            //TODO - null/error check for this data
 
             DataTable cableType = LibraryTables.CableTypes.Select($"VoltageClass >= {voltageClass}").CopyToDataTable();
             cableType = cableType.Select($"VoltageClass = MIN(VoltageClass) " +
@@ -400,8 +398,6 @@ namespace EDTLibrary.Models.Cables
         private void CalculateAmpacity_LadderTray(IPowerCable cable, string ampsColumn)
         {
             cable.Derating = CableSizeManager.CableSizer.GetDerating(cable);
-            //TODO - if cables are already created and calbe size is removed it causes an error
-
 
             DataTable cableAmps = LibraryTables.CecCableAmpacities.Copy(); //the created cable ampacity table
 
@@ -409,7 +405,6 @@ namespace EDTLibrary.Models.Cables
             var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
                                                           && x.Field<string>("AmpacityTable") == cable.AmpacityTable
                                                           && x.Field<string>("Size") == cable.Size);
-
             cableAmps = null;
             try {
                 cableAmps = cables.CopyToDataTable();
@@ -425,7 +420,6 @@ namespace EDTLibrary.Models.Cables
         private void CalculateAmpacity_DirectBuried(IPowerCable cable, string ampsColumn)
         {
             cable.Derating = CableSizeManager.CableSizer.GetDerating(cable);
-            //TODO - if cables are already created and calbe size is removed it causes an error
 
 
             DataTable cableAmps = LibraryTables.CecCableAmpacities.Copy(); //the created cable ampacity table
@@ -435,7 +429,6 @@ namespace EDTLibrary.Models.Cables
                                                           && x.Field<string>("AmpacityTable") == cable.AmpacityTable
                                                           && x.Field<string>("Size") == cable.Size
                                                           && x.Field<long>("QtyParallel").ToString() == cable.QtyParallel.ToString());
-
             cableAmps = null;
             try {
                 cableAmps = cables.CopyToDataTable();

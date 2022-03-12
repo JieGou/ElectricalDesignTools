@@ -70,7 +70,7 @@ namespace EDTLibrary {
         
     }
 
-    public enum LocationCategories
+    public enum AreaCategories
     {
         Category1,
         Category2,

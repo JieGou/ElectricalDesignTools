@@ -13,7 +13,8 @@ namespace EDTLibrary.DataAccess
             "CircuitComponents",
             "PowerCable",
             "Components",
-            "FedFrom"
+            "FedFrom",
+            "Area"
         };
 
         static public List<string> LoadSaveList { get; set; } = new List<string>() 
@@ -22,7 +23,8 @@ namespace EDTLibrary.DataAccess
             "CircuitComponents",
             "PowerCable",
             "Components",
-            "FedFrom"
+            "FedFrom",
+            "Area"
         };
 
         static public List<string> PowerCableSaveList { get; set; } = new List<string> {
@@ -32,8 +34,9 @@ namespace EDTLibrary.DataAccess
             "TypeModel"
         };
 
-        static public List<string> LocationSaveList { get; set; } = new List<string>() {
-            "none"
+        static public List<string> AreaSaveList { get; set; } = new List<string>() {
+            "none",
+            "Area"
         };
 
 

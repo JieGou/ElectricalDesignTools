@@ -114,7 +114,7 @@ namespace WpfUI.Services
 
                 GlobalConfig.GettingRecords = true;
 
-                    _listManager.GetLocations();
+                    _listManager.GetAreas();
                     _listManager.GetDteq();
                     _listManager.GetLoads();
                     _listManager.AssignLoadsToAllDteq();

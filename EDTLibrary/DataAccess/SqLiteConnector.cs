@@ -17,12 +17,10 @@ namespace EDTLibrary.DataAccess
 
         public SQLiteConnector(string dbFileName)
         {
-            try
-            {
+            try {
                 conString = $"DataSource= {dbFileName}; foreign keys=true; PRAGMA foreign_keys = ON;";
             }
-            catch (ArgumentException)
-            {
+            catch (ArgumentException) {
             }
         }
         #region GeneralSQLite Calls
@@ -34,6 +32,19 @@ namespace EDTLibrary.DataAccess
         /// <param name="columnName">Optional column name to apply filter </param>
         /// <param name="filterText">Optional filter to apply to column </param>
         /// <returns>List of Type T with properties from tableName</returns>
+        /// 
+
+        public T GetRecordById<T>(string tableName, int id)
+        {
+            DynamicParameters dP = new DynamicParameters();
+            dP.Add("@Id", $"{id}");
+
+            using (SQLiteConnection cnn = new SQLiteConnection(conString)) {
+                return cnn.QuerySingleOrDefault<T>($"SELECT * FROM {tableName} WHERE Id = @Id", dP);
+            }
+        }
+
+
         public ObservableCollection<T> GetRecords<T>(string tableName, string columnName = "", string filterText = "") //where T : class, new()
         {
 
@@ -63,7 +74,6 @@ namespace EDTLibrary.DataAccess
                     return output;
                 }
             }
-
 
         }
 

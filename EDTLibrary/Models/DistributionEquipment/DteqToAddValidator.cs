@@ -16,11 +16,13 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public DteqToAddValidator(ListManager listManager, IDteq selectedDteq )
         {
+           _listManager = listManager;
             _dteqList = listManager.DteqList;
             _loadList = listManager.LoadList;
             _selectedDteq = selectedDteq;
         }
 
+        private ListManager _listManager;
         private ObservableCollection<DteqModel> _dteqList;
         private ObservableCollection<LoadModel> _loadList;
         private IDteq _selectedDteq;
@@ -33,7 +35,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 _tag = value;
                 ClearErrors(nameof(Tag));
-                if (TagValidator.IsTagAvailable(_tag, _dteqList, _loadList) == false) {
+                if (TagValidator.IsTagAvailable(_tag, _listManager) == false) {
                     AddError(nameof(Tag), "Tag already exists");
                 }
                 else if (string.IsNullOrWhiteSpace(_tag)) { // TODO - create method for invalid tags

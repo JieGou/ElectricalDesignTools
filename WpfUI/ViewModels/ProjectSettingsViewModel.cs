@@ -108,7 +108,7 @@ namespace WpfUI.ViewModels
             if (SelectedTableSetting != null) {
                 if (tables.Contains(SelectedTableSetting.Name)) {
                     SettingManager.SaveTableSetting(SelectedTableSetting);
-                    SettingManager.CreateCableAmpsUsedInProject();
+                    //SettingManager.CreateCableAmpsUsedInProject();
                 }
             }
             

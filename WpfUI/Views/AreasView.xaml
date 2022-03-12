@@ -1,5 +1,5 @@
-﻿<UserControl x:Class="WpfUI.Views.LocationsView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl x:Class="WpfUI.Views.AreasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -32,7 +32,7 @@
             <sys:Int32 x:Key="Name">1</sys:Int32>
             <sys:Int32 x:Key="Tag">2</sys:Int32>
             <sys:Int32 x:Key="Description">3</sys:Int32>
-            <sys:Int32 x:Key="LocationCategory">4</sys:Int32>
+            <sys:Int32 x:Key="AreaCategory">4</sys:Int32>
             <sys:Int32 x:Key="AreaClass">5</sys:Int32>
             <sys:Int32 x:Key="MinTemp">6</sys:Int32>
             <sys:Int32 x:Key="MaxTemp">7</sys:Int32>
@@ -48,7 +48,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Content="LOCATIONS"
+        <Label Content="AREAS &amp; LOCATIONS"
                Style="{StaticResource TitleLabelStyleBase}"
                Background="#FF1B5F44"
                Foreground="White"/>
@@ -77,30 +77,56 @@
                         Grid.RowSpan="1"
                         Margin="0,50,0,0">
 
-                <Button Name ="btnGetLocations" Content="Get Locations" 
-                        Command="{Binding GetLocationsCommand}"/>
+                <Button Name ="btnGetAreas" Content="Get Areas" 
+                        Command="{Binding GetAreasCommand}"/>
 
-                <Button Name ="btnSave" Content="Save Locations"
-                        Command="{Binding SaveLocationsCommand}"/>
+                <Button Name ="btnSave" Content="Save Areas"
+                        Command="{Binding SaveAreasCommand}"/>
 
                 <Button Name ="btnDelete" Content="Delete Selected"
-                        Command="{Binding DeleteLocationCommand}"/>
+                        Command="{Binding DeleteAreaCommand}"/>
 
             </StackPanel>
 
-            <Button Name ="btnAdd" Content="Add Location" 
+            <Button Name ="btnAdd" Content="Add Area" 
                     Grid.Column="3" Grid.Row="3"
                     HorizontalAlignment="Left"
                     Margin="10"
-                    Command="{Binding AddLocationCommand}"/>
+                    Command="{Binding AddAreaCommand}"/>
+
+
+            <!--***************-->
+            <!--**** TEST *****-->
+            <!--***************-->
+
+            <StackPanel Orientation="Horizontal"
+                         Grid.Column="3" Grid.Row="4">
+
+                <Button Content="Test" 
+                        HorizontalAlignment="Left"
+                        Margin="10"
+                        Command="{Binding GetAreaByIdCommand}"/>
+
+                <TextBox Text="{Binding AreaToGetId}"
+                         Width="25"/>
+
+                <TextBlock Text="{Binding AreaReceived.Tag}"
+                           Width="50"/>
+
+            </StackPanel>
+
+            <!--***************-->
+            <!--**** TEST *****-->
+            <!--***************-->
+
 
             <!--LOCATION Datagrid-->
             <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Vertical">
 
-                <DataGrid x:Name="dgdLocations" RowDetailsVisibilityMode="Collapsed"
+                <DataGrid x:Name="dgdAreas" RowDetailsVisibilityMode="Collapsed"
                           MinHeight="200" Margin="10 10 10 10"
-                          ItemsSource="{Binding Path=ListManager.LocationList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding SelectedLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
+                          ItemsSource="{Binding Path=ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
                           CanUserAddRows="False"
                           HorizontalAlignment="Left" 
                           AutoGenerateColumns="False">
@@ -110,7 +136,7 @@
                         <!--Textblock cell padding style in this.resources Move to ResDict-->
 
                         <!--Name-->
-                        <DataGridTextColumn Header="Location&#x0a;  Name" 
+                        <DataGridTextColumn Header="Name" 
                                             MinWidth="150"
                                             Binding="{Binding Name, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                             />
@@ -131,14 +157,14 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <!--Location Category-->
-                        <DataGridTemplateColumn Header=" Location&#x0a;Category"
+                        <!--Area Category-->
+                        <DataGridTemplateColumn Header="    Area&#x0a;Category"
                                                 Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.Categories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedItem="{Binding LocationCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Text="{Binding LocationCategory}"
+                                              SelectedItem="{Binding AreaCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Text="{Binding AreaCategory}"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="True" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
@@ -202,7 +228,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
-                    
+
                     <DataGrid.RowDetailsTemplate>
                         <DataTemplate>
                             <Border BorderThickness="0" Background="Beige" Padding="10">
@@ -238,7 +264,7 @@
 
             </StackPanel>
 
-            <!--ADD Location Grid-->
+            <!--ADD Area Grid-->
             <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
                   Visibility="Visible">
                 <Grid.ColumnDefinitions>
@@ -263,7 +289,7 @@
 
 
                 <!--Tags-->
-                <TextBlock Text="Location Name" Margin="10 5 0 5"
+                <TextBlock Text="Area Name" Margin="10 5 0 5"
                            Grid.Row="1" Grid.Column="{StaticResource Name}" FontSize="10"
                            VerticalAlignment="Bottom" />
 
@@ -275,8 +301,8 @@
                            Grid.Row="1" Grid.Column="{StaticResource Description}" FontSize="10"
                            VerticalAlignment="Bottom" />
 
-                <TextBlock Text="Location&#x0a;Category" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource LocationCategory}" FontSize="10"
+                <TextBlock Text="Area&#x0a;Category" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="{StaticResource AreaCategory}" FontSize="10"
                            VerticalAlignment="Bottom"/>
 
                 <TextBlock Text="Area&#x0a;Classification" Margin="10 5 0 5"
@@ -296,33 +322,33 @@
 
 
                 <!--Controls-->
-                <TextBox x:Name ="txtLocationName"  
+                <TextBox x:Name ="txtAreaName"  
                          Grid.Row="2" Grid.Column="{StaticResource Name}"
                          Width="140" Height="23"
-                         Text="{Binding LocationToAddName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding AreaToAddName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          PreviewMouseDown="txtTag_PreviewMouseDown" LostFocus="txtTag_LostFocus"
                          Margin="5 0 5 0"
                          HorizontalContentAlignment="Left"/>
 
-                <TextBox x:Name ="txtLocationTag"  
+                <TextBox x:Name ="txtAreaTag"  
                          Grid.Row="2" Grid.Column="{StaticResource Tag}"
                          Width="65" Height="23"
-                         Text="{Binding LocationToAddTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding AreaToAddTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0"
                          HorizontalContentAlignment="Left"/>
 
                 <TextBox Grid.Row="2" Grid.Column="{StaticResource Description}"
                          MinWidth="140" Height="23"
-                         Text="{Binding LocationToAddDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding AreaToAddDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0"
                          HorizontalContentAlignment="Left"/>
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource LocationCategory}"
+                <ComboBox Grid.Row="2" Grid.Column="{StaticResource AreaCategory}"
                           Width="110"
                           d:Text="Category 1"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.Categories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding LocationToAddCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          Text="{Binding LocationToAddCategory}"
+                          SelectedValue="{Binding AreaToAddCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          Text="{Binding AreaToAddCategory}"
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
@@ -330,29 +356,29 @@
                           Width="110"
                           d:Text="Zone 1"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.AreaClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding LocationToAddAreaClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          Text="{Binding LocationToAddAreaClass}"                        
+                          SelectedValue="{Binding AreaToAddAreaClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          Text="{Binding AreaToAddAreaClass}"                        
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
                 <TextBox Grid.Row="2" Grid.Column="{StaticResource MinTemp}"
                          Width="60" Height="23"
                          d:Text="-40"
-                         Text="{Binding LocationToAddMinTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding AreaToAddMinTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0"/>
 
                 <TextBox Grid.Row="2" Grid.Column="{StaticResource MaxTemp}"
                          Width="60" Height="23"
                          d:Text="35"
-                         Text="{Binding LocationToAddMaxTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding AreaToAddMaxTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Nema}"
                           Width="90"
                           d:Text="Type 12"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding LocationToAddNemaType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          Text="{Binding LocationToAddNemaType}"
+                          SelectedValue="{Binding AreaToAddNemaType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          Text="{Binding AreaToAddNemaType}"
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 

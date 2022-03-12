@@ -12,7 +12,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 {
 
     [AddINotifyPropertyChangedInterface]
-    public class DteqModel : IDteq, ComponentUser
+    public class DteqModel : IDteq, IComponentUser
     {
         public DteqModel()
         {
@@ -48,9 +48,28 @@ namespace EDTLibrary.Models.DistributionEquipment
         public string Category { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
-        public string Location { get; set; }
-        private double _voltage;
 
+        private int _areaId;
+        public int AreaId
+        {
+            get { return _areaId; }
+            set { _areaId = value; }
+        }
+
+        private AreaModel _area = new AreaModel() { Tag = "test" };
+        public AreaModel Area
+        {
+            get { return _area; }
+            set
+            {
+                _area = value;
+                if (Area != null) {
+                    _areaId = Area.Id;
+                    AreaId = _areaId;
+                }
+               
+            }
+        }
         public double Voltage
         {
             get { return LineVoltage; }
@@ -166,7 +185,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public PowerCableModel PowerCable { get; set; }
         public int LoadCount { get; set; }
-        public ObservableCollection<IComponentModel> Components { get; set; }
+        public ObservableCollection<IComponent> Components { get; set; }
 
 
         #endregion

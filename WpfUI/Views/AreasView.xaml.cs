@@ -16,23 +16,22 @@ using System.Windows.Shapes;
 namespace WpfUI.Views
 {
     /// <summary>
-    /// Interaction logic for LocationsView.xaml
+    /// Interaction logic for AreasView.xaml
     /// </summary>
-    public partial class LocationsView : UserControl
+    public partial class AreasView : UserControl
     {
-        public LocationsView()
+        public AreasView()
         {
             InitializeComponent();
         }
-
         private void txtTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (txtLocationTag.Text == "" || txtLocationTag.Text == " ") txtLocationTag.Text = "";
+            if (txtAreaTag.Text == "" || txtAreaTag.Text == " ") txtAreaTag.Text = "";
         }
 
         private void txtTag_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (txtLocationTag.Text == "") txtLocationTag.Text = " ";
+            if (txtAreaTag.Text == "") txtAreaTag.Text = " ";
         }
     }
 }

@@ -17,7 +17,7 @@ namespace EDTLibrary
     [AddINotifyPropertyChangedInterface]
     public class ListManager {
 
-        public ObservableCollection<LocationModel>      LocationList { get; set; } = new ObservableCollection<LocationModel>();
+        public ObservableCollection<AreaModel>          AreaList { get; set; } = new ObservableCollection<AreaModel>();
         public ObservableCollection<IDteq>              IDteqList { get; set; } = new ObservableCollection<IDteq>();
         public ObservableCollection<DteqModel>          DteqList { get; set; } = new ObservableCollection<DteqModel>();
         public ObservableCollection<XfrModel>           TransformerList { get; set; } = new ObservableCollection<XfrModel>();
@@ -124,10 +124,10 @@ namespace EDTLibrary
             CableList = DbManager.prjDb.GetRecords<PowerCableModel>(GlobalConfig.PowerCableTable);
             return CableList;
         }
-        public ObservableCollection<LocationModel> GetLocations()
+        public ObservableCollection<AreaModel> GetAreas()
         {
-            LocationList = DbManager.prjDb.GetRecords<LocationModel>(GlobalConfig.LocationTable);
-            return LocationList;
+            AreaList = DbManager.prjDb.GetRecords<AreaModel>(GlobalConfig.AreaTable);
+            return AreaList;
         }
 
 

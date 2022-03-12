@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Models;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
@@ -96,6 +97,11 @@ namespace EDTLibrary.DataAccess
         public static void OnLoadLoadingCalculated(object source, EventArgs e)
         {
             prjDb.UpsertRecord<LoadModel>((LoadModel)source, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+        }
+
+        public static AreaModel GetArea(int locationId)
+        {
+            return prjDb.GetRecordById<AreaModel>(GlobalConfig.AreaTable, locationId);
         }
     }
 }

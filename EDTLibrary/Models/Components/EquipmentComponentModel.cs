@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Components
 {
-    public class EquipmenttComponentModel : IComponentModel
+    public class EquipmenttComponentModel : IComponent
     {
         public EquipmenttComponentModel()
         {
@@ -17,10 +17,11 @@ namespace EDTLibrary.Models.Components
         public string Tag { get; set; }
         public string Description { get; set; }
         public string Category { get; set; }
-        public string Location { get; set; }
+        public int AreaId { get; set; }
+        public AreaModel Area { get; set; }
         public string Type { get; set; }
         public string SubType { get; set; }
         public string ComponentOf { get; set; }
-        public ObservableCollection<IComponentModel> Components { get; set; } = new ObservableCollection<IComponentModel>();
+        public ObservableCollection<IComponent> Components { get; set; } = new ObservableCollection<IComponent>();
     }
 }

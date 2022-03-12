@@ -7,15 +7,20 @@ namespace EDTLibrary.Models.Validators
 {
     public static class TagValidator
     {
-        public static bool IsTagAvailable(string tag, ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList)
+        public static bool IsTagAvailable(string tag, ListManager listManger)
         {
-            if (tag == null) {
+            if (string.IsNullOrEmpty(tag)) {
                 return true;
             }
-            var dteqTag = dteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
-            var loadTag = loadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
 
-            if (dteqTag != null ||
+
+            var locationTag = listManger.LoadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
+            var dteqTag = listManger.DteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
+            var loadTag = listManger.LoadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
+
+
+            if (locationTag != null ||
+                dteqTag != null ||
                 loadTag != null) {
                 return false;
             }

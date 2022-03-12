@@ -93,44 +93,6 @@ namespace EDTLibrary.Models.Cables
         }
 
 
-        private static string GetAmpacityTable_LadderTrayOld(IPowerCable cable, CableTypeModel cableType)
-        {
-            string output;
-
-            // 1C, >= 5kV, Shielded
-            if (cableType.Conductors == 1
-                        && cableType.VoltageClass >= 5000
-                        && cableType.Shielded == true) {
-
-                output = TypeManager.CecCableSizingRules.FirstOrDefault(csr =>
-                   csr.CableType == cable.Type &&
-                   csr.InstallationType == cable.InstallationType &&
-                   csr.Spacing == cable.Spacing &&
-                   csr.Outdoor == cable.Outdoor
-                   ).AmpacityTable;
-            }
-
-            // 3C, >=5kV, Shielded       Table D17N 3C QtyParallel max = 2
-            else if (cableType.Conductors == 3
-                  && cableType.VoltageClass >= 5000
-                  && cableType.Shielded == true) {
-
-                output = TypeManager.CecCableSizingRules.FirstOrDefault(csr =>
-                   csr.CableType == cable.Type &&
-                   csr.InstallationType == cable.InstallationType &&
-                   csr.Outdoor == cable.Outdoor
-                   ).AmpacityTable;
-            }
-
-            // 1 or 3C <= 5kV, Non-Shielded
-            else {
-                output = TypeManager.CecCableSizingRules.FirstOrDefault(csr =>
-                    csr.CableType == cable.Type &&
-                    csr.InstallationType == cable.InstallationType
-                    ).AmpacityTable;
-            }
-            return output;
-        }
         private static string GetAmpacityTable_LadderTray(IPowerCable cable, CableTypeModel cableType)
         {
             string output = "No Table Assigned";
@@ -285,14 +247,14 @@ namespace EDTLibrary.Models.Cables
 
                 if (cable.AmpacityTable == "Table 1" || cable.AmpacityTable == "Table 2") {
                     double loadCount = cable.Load.FedFrom.AssignedLoads.Count;
-                    derating = GetTable5CDerating(cable);
+                    derating = GetCableDerating_Table5C(cable);
                 }
             }
 
             return derating;
         }
 
-        private static double GetTable5CDerating(IPowerCable cable)
+        private static double GetCableDerating_Table5C(IPowerCable cable)
         {
             var source = cable.Load.FedFrom;
             int conductorQty = cable.ConductorQty * cable.QtyParallel;

@@ -20,8 +20,8 @@ namespace EDTLibrary.Tests.Models.Validators
 
             //Arrange
             ListManager _listManager = new ListManager();
-            _listManager.DteqList = GlobalConfig.TestDteqList;
-            _listManager.LoadList = GlobalConfig.TestLoadList;
+            _listManager.DteqList = TestData.TestDteqList;
+            _listManager.LoadList = TestData.TestLoadList;
             DteqModel selectedDteq = new DteqModel();
 
             //Act
@@ -63,8 +63,8 @@ namespace EDTLibrary.Tests.Models.Validators
 
             //Arrange
             ListManager _listManager = new ListManager();
-            _listManager.DteqList = GlobalConfig.TestDteqList;
-            _listManager.LoadList = GlobalConfig.TestLoadList;
+            _listManager.DteqList = TestData.TestDteqList;
+            _listManager.LoadList = TestData.TestLoadList;
             DteqModel selectedDteq = new DteqModel();
 
             //Act

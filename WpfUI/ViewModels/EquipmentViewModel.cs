@@ -38,7 +38,6 @@ namespace WpfUI.ViewModels
             set { _listManager = value; }
         }
 
-        private StartupService _startupService;
         public DataGridColumnViewControl DteqGridViewModifier { get; set; }
 
         public EquipmentViewModel(ListManager listManager)

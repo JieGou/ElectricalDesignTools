@@ -112,7 +112,7 @@
 
             <!--STRING Settings-->
            
-            <Label Content="Single Value Settings" VerticalAlignment="Bottom" FontSize="15" FontWeight="SemiBold"
+            <Label Content="Single Value Settings" VerticalAlignment="Top" FontSize="15" FontWeight="SemiBold"
                HorizontalAlignment="Center"
                Grid.Row="3" Grid.Column="{StaticResource listCol}" Grid.ColumnSpan="3"/>
 
@@ -120,9 +120,9 @@
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left"
                         Grid.Row="{StaticResource basicRow}" Grid.Column="{StaticResource listCol}" Grid.ColumnSpan="1">
                 
-                <Label Content=" " FontSize="15"/>
                 <ListBox x:Name="lstStringSettings"
-                         Width="200" 
+                         Margin="0 30 0 0"
+                         MinWidth="200" 
                          MinHeight="200" MaxHeight="550"
                          ItemsSource="{Binding Source={StaticResource ListBoxItems}}"
                          SelectedItem="{Binding SelectedStringSetting}">
@@ -179,7 +179,7 @@
             
             
             <!--TABLE Settings-->
-            <Label Content="Table Value Settings" VerticalAlignment="Bottom" FontSize="15" FontWeight="SemiBold"
+            <Label Content="Cable Sizes Used In Project" VerticalAlignment="Top" FontSize="15" FontWeight="SemiBold"
                HorizontalAlignment="Center"
                Grid.Row="3" Grid.Column="{StaticResource listCol2}" Grid.ColumnSpan="4"/>
             
@@ -187,21 +187,13 @@
                         Grid.Row="{StaticResource basicRow}" 
                         Grid.Column="{StaticResource listCol2}" Grid.ColumnSpan="1">
                 
-                <Label Content="Old" FontSize="15"/>
-                <ListBox x:Name="lstTableSettings"
-                         Width="auto" Height="200" MinWidth="150"
-                         ItemsSource="{Binding TableSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         DisplayMemberPath="Name"
-                         SelectedItem="{Binding SelectedTableSetting}"/>
                 
-                <Label Content=" " FontSize="15"/>
-
-                <Label Content="Cable Types " FontSize="15"/>
-                <ListBox Width="auto" Height="200" MinWidth="150"
+                <ListBox Width="auto" MinHeight="200" MinWidth="200"
+                         Margin="0 30 0 0"
                          ItemsSource="{Binding CableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          DisplayMemberPath="Type"
                          SelectedItem="{Binding SelectedCableType}"/>
-                <Label Content="{Binding SelectedCableType.Type}" FontSize="15"/>
+                
 
 
             </StackPanel >
@@ -210,7 +202,7 @@
                         Grid.Row="{StaticResource basicRow}" 
                         Grid.Column="{StaticResource editCol2}" Grid.ColumnSpan="1">
                 
-                <Label Content=" " FontSize="15"/>
+    
 
                 <TextBlock d:Text="Description" HorizontalAlignment="Left"
                         DataContext="{Binding ElementName=lstTableSettings}"
@@ -219,30 +211,32 @@
                         d:Width="150" d:Height="27"
                         TextWrapping="Wrap" Width="150" Height="100"
                         Margin="10 10"/>
-
+                
                 <Button x:Name="btnSaveTableSettings" Content="Save" 
                         Height="27" Width="150"
                         Command="{Binding Path=SaveTableSettingCommand}"/>
 
-             </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                        Grid.Row="3"
+                        Grid.Column="{StaticResource editCol3}" Grid.ColumnSpan="1">
+
+                <TextBlock Text="{Binding SelectedCableType.Type}" FontSize="15"
+                       HorizontalAlignment="Center"
+                       Margin="0 0 0 0"/>
+
+            </StackPanel>
             
             <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Left"
                         Grid.Row="{StaticResource basicRow}"
                         Grid.Column="{StaticResource editCol3}" Grid.ColumnSpan="1">
-                <Label Content=" " Margin="0"/>
-
-                <!--<DataGrid x:Name="dgdTableSetting" AutoGenerateColumns="True" IsReadOnly="False" MinColumnWidth="50"
-                          d:Width="150" d:Height="300"
-                          MaxHeight="700"
-                          RowHeaderWidth="0"
-                          SelectionUnit="Cell"
-                          DataContext="{Binding SelectedTableSetting}"
-                          ItemsSource="{Binding Path=TableValue, Mode=TwoWay, UpdateSourceTrigger=Explicit, IsAsync=True}"
-                          AutoGeneratingColumn="dgdTableSetting_AutoGeneratingColumn">
-                </DataGrid>-->
-
+                
                 <DataGrid x:Name="dgdCableSizes" AutoGenerateColumns="True" IsReadOnly="False" MinColumnWidth="50"
+                          Margin="0 30 0 0"
                           d:Width="150" d:Height="300"
+                          MinWidth="300"
                           MaxHeight="700"
                           RowHeaderWidth="0"
                           SelectionUnit="Cell"

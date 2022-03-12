@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 
 namespace EDTLibrary.Models.Components
 {
-    public interface ComponentUser
+    public interface IComponentUser
     {
-        ObservableCollection<IComponentModel> Components { get; set; }
+        ObservableCollection<IComponent> Components { get; set; }
 
     }
 }
