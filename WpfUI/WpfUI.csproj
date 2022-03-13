@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Views\PD LOGO 17.jpg" />
+    <None Remove="Resources\pd.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Views\PD LOGO 17.jpg" />
+    <Resource Include="Resources\pd.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

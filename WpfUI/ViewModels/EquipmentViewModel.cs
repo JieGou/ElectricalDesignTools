@@ -349,7 +349,7 @@ namespace WpfUI.ViewModels
 
             GlobalConfig.GettingRecords = true;
 
-            _listManager.UnassignLoadEventsAllDteq();
+            _listManager.UnregisterAllDteqFromAllLoadEvents();
 
             _listManager.GetDteq();
             _listManager.GetLoads();
@@ -668,7 +668,7 @@ namespace WpfUI.ViewModels
         public void CalculateAll()
         {
             BuildAssignedLoads();
-            _listManager.UnassignLoadEventsAllDteq();
+            _listManager.UnregisterAllDteqFromAllLoadEvents();
             _listManager.CreateDteqDict();
             _listManager.CalculateDteqLoading();
         }

@@ -143,12 +143,12 @@
                         <!--Tag-->
                         <DataGridTextColumn Header="Tag"
                                             Width="75"
-                                            Binding="{Binding Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            Binding="{Binding Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}"
                                             />
                         <!--Description-->
                         <DataGridTextColumn Header="Description" x:Name="Description" 
                                             MinWidth="150" 
-                                            Binding="{Binding Description, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                                            Binding="{Binding Description, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Left" />

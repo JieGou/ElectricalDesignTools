@@ -10,28 +10,30 @@ namespace EDTLibrary.Models.DistributionEquipment
     public class DistributionManager
     {
 
-        public static void UpdateFedFrom(IPowerConsumer caller, IDteq newFedFrom, IDteq oldFedFrom)
+        public static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
             if (caller.FedFrom != null) {
-                caller.FedFromId = newFedFrom.Id;
-                caller.FedFromTag = newFedFrom.Tag;
-                caller.FedFromType = newFedFrom.GetType().ToString();
+                caller.FedFromId = newSupplier.Id;
+                caller.FedFromTag = newSupplier.Tag;
+                caller.FedFromType = newSupplier.GetType().ToString();
             }
 
             if (GlobalConfig.GettingRecords == false) {
-                if (oldFedFrom != null) {
-                    caller.LoadingCalculated -= oldFedFrom.OnDteqAssignedLoadReCalculated;
-                    oldFedFrom.AssignedLoads.Remove(caller);
-                    oldFedFrom.CalculateLoading();
+                if (oldSupplier != null) {
+                    caller.LoadingCalculated -= oldSupplier.OnDteqAssignedLoadReCalculated;
+                    oldSupplier.AssignedLoads.Remove(caller);
+                    oldSupplier.CalculateLoading();
                 }
-                caller.LoadingCalculated += newFedFrom.OnDteqAssignedLoadReCalculated;
-                newFedFrom.AssignedLoads.Add(caller);
-                newFedFrom.CalculateLoading();
+                caller.LoadingCalculated += newSupplier.OnDteqAssignedLoadReCalculated;
+                newSupplier.AssignedLoads.Add(caller);
+                newSupplier.CalculateLoading();
                 caller.OnFedFromChanged();
                 caller.CalculateLoading();
                 caller.CreateCable();
                 caller.PowerCable.AssignTagging(caller);
             }
         }
+
+
     }
 }

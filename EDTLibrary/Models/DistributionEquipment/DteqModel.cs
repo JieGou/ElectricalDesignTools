@@ -56,7 +56,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             set { _areaId = value; }
         }
 
-        private AreaModel _area = new AreaModel() { Tag = "test" };
+        private AreaModel _area;
         public AreaModel Area
         {
             get { return _area; }
@@ -129,7 +129,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             set {
 
                 IDteq oldFedFrom = _fedFrom;
-                _fedFrom = value;
+                _fedFrom = value; 
                 DistributionManager.UpdateFedFrom(this, _fedFrom, oldFedFrom);
 
             }

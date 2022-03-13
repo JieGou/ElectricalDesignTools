@@ -87,6 +87,10 @@ namespace EDTLibrary.DataAccess
         }
         #endregion
 
+        public static AreaModel GetArea(int locationId)
+        {
+            return prjDb.GetRecordById<AreaModel>(GlobalConfig.AreaTable, locationId);
+        }
 
         //Events
 
@@ -99,9 +103,6 @@ namespace EDTLibrary.DataAccess
             prjDb.UpsertRecord<LoadModel>((LoadModel)source, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
         }
 
-        public static AreaModel GetArea(int locationId)
-        {
-            return prjDb.GetRecordById<AreaModel>(GlobalConfig.AreaTable, locationId);
-        }
+        
     }
 }

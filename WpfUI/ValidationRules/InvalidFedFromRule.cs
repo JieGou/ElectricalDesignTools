@@ -18,7 +18,7 @@ namespace WpfUI.ValidationRules
 
             IDteq Dteq = (value as BindingGroup).Items[0] as IDteq;
 
-            if (CheckCircularReference(Dteq, Dteq.FedFromTag)) {
+            if (CheckFedFromSelf(Dteq, Dteq.FedFromTag)) {
                 return new ValidationResult(false, "Equipment cannot be fed from itself");
             }
 
@@ -26,7 +26,7 @@ namespace WpfUI.ValidationRules
         }
          
         //TODO - fix this validation rule
-        private bool CheckCircularReference(IDteq startDteq, string nextDteq, int counter =1) {
+        private bool CheckFedFromSelf(IDteq startDteq, string nextDteq, int counter =1) {
             var dteqDict = DictionaryStore.dteqDict;
             if (nextDteq == null) return false;
             if (nextDteq == "" & counter == 1) { // sets the initial FedFrom
@@ -44,7 +44,7 @@ namespace WpfUI.ValidationRules
                     return true;
                 }
                 counter += 1;
-                return CheckCircularReference(startDteq, dteqDict[nextDteq].FedFromTag, counter); // if not increase the count and check the next Tag
+                return CheckFedFromSelf(startDteq, dteqDict[nextDteq].FedFromTag, counter); // if not increase the count and check the next Tag
             }
             
             return false;

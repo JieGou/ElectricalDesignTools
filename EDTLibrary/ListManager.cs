@@ -8,6 +8,7 @@ using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -59,15 +60,6 @@ namespace EDTLibrary
                 if (dteq.FedFromTag.Contains("Deleted") || dteq.FedFromType.Contains("Deleted")) {
                     dteq.FedFrom = new DteqModel() { Tag = "* Deleted *" };
                 }
-
-                //fedFrom = DteqList.FirstOrDefault(d => d.Tag == dteq.FedFromTag);
-
-                //if (fedFrom != null) {
-                //    dteq.FedFromId = fedFrom.Id;
-                //    dteq.FedFromType = fedFrom.GetType().ToString();
-                    
-                //}
-
                 fedFrom = DteqList.FirstOrDefault(d => d.Id == dteq.FedFromId &&
                                                    d.GetType().ToString() == dteq.FedFromType);
                 if (fedFrom != null) {
@@ -81,6 +73,8 @@ namespace EDTLibrary
 
             return DteqList;
         }
+
+        //TODO move to Distribution Manager with _listManager as parameter
         public void DeleteDteq<T>(T model) where T : class
         {
             if (model.GetType()==typeof (DteqModel)){
@@ -95,17 +89,13 @@ namespace EDTLibrary
                 IDteqList.Remove(xfr);
             }
         }
+
         public ObservableCollection<LoadModel> GetLoads() {     
             LoadList = DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable);
             IDteq fedFrom;
 
             foreach (var load in LoadList) {
-                //fedFrom = IDteqList.FirstOrDefault(d => d.Tag == load.FedFrom.Tag);
-
-                //if (fedFrom != null) {
-                //    load.FedFromId = fedFrom.Id;
-                //    load.FedFromType = fedFrom.GetType().ToString();
-                //}
+               
                 if (load.FedFromTag.Contains("Deleted") || load.FedFromType.Contains("Deleted")) {
                     load.FedFrom = new DteqModel() { Tag = "* Deleted *" };
                 }
@@ -131,18 +121,6 @@ namespace EDTLibrary
         }
 
 
-        public void CreateEqDict() {
-            eqDict.Clear();
-            foreach (var item in DteqList) {
-                eqDict.Add(item.Tag, item);
-            }
-            foreach (var item in LoadList) {
-                eqDict.Add(item.Tag, item);
-            }
-            foreach (var item in CompList) {
-                eqDict.Add(item.Tag, item);
-            }
-        }
         public void CreateILoadDict() {
             iLoadDict.Clear();
             
@@ -164,25 +142,35 @@ namespace EDTLibrary
         {
 
             AssignLoadsToAllDteq();
-            //Calculates the loading of each load. Recursive for dteq
-            foreach (var item in LoadList) {
-                item.CalculateLoading();
+            foreach (var load in LoadList) {
+                load.CalculateLoading();
             }
         }
         public void OnFedFromChanged(object sender, EventArgs e)
         {
-            UnassignLoadEventsAllDteq();
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            UnregisterAllDteqFromAllLoadEvents();
             AssignLoadsToAllDteq();
+            stopwatch.Stop();
+            Debug.Print(stopwatch.ElapsedMilliseconds.ToString());
         }
 
-        public void UnassignLoadEventsAllDteq()
+        public void UnregisterAllDteqFromAllLoadEvents()
         {
             foreach (DteqModel dteq in DteqList) {
                 dteq.FedFromChanged -= this.OnFedFromChanged;
 
-                UnassignLoadEventsDteq(dteq);
+                UnregisterDteqFromLoadEvents(dteq);
             }
         }
+        public void UnregisterDteqFromLoadEvents(IDteq dteq)
+        {
+            foreach (var assignedLoad in dteq.AssignedLoads) {
+                assignedLoad.LoadingCalculated -= dteq.OnDteqAssignedLoadReCalculated;
+                assignedLoad.LoadingCalculated -= DbManager.OnDteqLoadingCalculated;
+            }
+        }
+
         public void AssignLoadsToAllDteq()
         {
             foreach (DteqModel dteq in DteqList) {
@@ -190,24 +178,17 @@ namespace EDTLibrary
                 dteq.LoadCount = 0;
                 dteq.FedFromChanged += this.OnFedFromChanged;
 
-               AssignLoadsAndEventsToDteq(dteq);
+                AssignLoadsAndSubscribeToEvents(dteq);
                 dteq.CalculateLoading();
             }
         }
-
-        public void UnassignLoadEventsDteq(IDteq dteq)
-        {
-            foreach (var assignedLoad in dteq.AssignedLoads) {
-                assignedLoad.LoadingCalculated -= dteq.OnDteqAssignedLoadReCalculated;
-                assignedLoad.LoadingCalculated -= DbManager.OnDteqLoadingCalculated;
-            }
-        }
-        public void AssignLoadsAndEventsToDteq(IDteq dteq)
+        
+        public void AssignLoadsAndSubscribeToEvents(IDteq dteq)
         {
             dteq.AssignedLoads.Clear();
             foreach (var dteqAsLoad in IDteqList) {
                 if (dteqAsLoad.FedFrom != null) {
-                    if (dteqAsLoad.FedFrom.Tag == dteq.Tag) {
+                    if (dteqAsLoad.FedFrom.Id == dteq.Id) {
                         dteq.AssignedLoads.Add(dteqAsLoad);
                         dteqAsLoad.LoadingCalculated += dteq.OnDteqAssignedLoadReCalculated;
                         dteqAsLoad.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
