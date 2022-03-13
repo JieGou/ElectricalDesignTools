@@ -88,7 +88,9 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _size = value;
                 if (GlobalConfig.GettingRecords == false) {
                     CalculateLoading();
-                    PowerCable.GetRequiredAmps(this);
+                    if (PowerCable!= null) {
+                        PowerCable.GetRequiredAmps(this);
+                    }
                 }
             }
         }
@@ -112,7 +114,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
                 
                 if (GlobalConfig.GettingRecords == false) {
-                    OnFedFromChanged();
+                    //OnFedFromChanged();
                     CalculateLoading();
                 }
             }
@@ -268,19 +270,19 @@ namespace EDTLibrary.Models.DistributionEquipment
                 LoadingCalculated(this, EventArgs.Empty);
             }
         }
-        public void OnDteqAssignedLoadReCalculated(object source, EventArgs e)
+        public void OnAssignedLoadReCalculated(object source, EventArgs e)
         {
             CalculateLoading();
         }
 
 
-        public event EventHandler FedFromChanged;
-        public virtual void OnFedFromChanged()
-        {
-            if (FedFromChanged != null) {
-                FedFromChanged(this, EventArgs.Empty);
-            }
-        }
+        //public event EventHandler FedFromChanged;
+        //public virtual void OnFedFromChanged()
+        //{
+        //    if (FedFromChanged != null) {
+        //        FedFromChanged(this, EventArgs.Empty);
+        //    }
+        //}
     }
 
 }

@@ -256,15 +256,16 @@ namespace EDTLibrary.Models.Cables
 
         private static double GetCableDerating_Table5C(IPowerCable cable)
         {
-            var source = cable.Load.FedFrom;
+            var supplier = cable.Load.FedFrom;
             int conductorQty = cable.ConductorQty * cable.QtyParallel;
 
             //int otherLoadConductorQty;
             int otherLoadCableQtyParallel;
             double otherLoadCableSpacing;
 
-            foreach (var assignedLoad in source.AssignedLoads) {
-                //otherLoadConductorQty = assignedLoad.PowerCable.TypeModel.Conductors;
+            
+            //TODO - add power cable with default values upon creation of DTEQ
+            foreach (var assignedLoad in supplier.AssignedLoads) {
                 otherLoadCableQtyParallel = assignedLoad.PowerCable.QtyParallel;
                 otherLoadCableSpacing = assignedLoad.PowerCable.Spacing;
 

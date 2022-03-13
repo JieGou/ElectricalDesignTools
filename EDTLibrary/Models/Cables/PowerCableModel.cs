@@ -135,7 +135,10 @@ namespace EDTLibrary.Models.Cables
             _load = load;
             AssignOwner(load);
             AssignTagging(load);
+            GlobalConfig.GettingRecords = true;
             Type = CableSizeManager.CableSizer.GetDefaultCableType(load);
+            GlobalConfig.GettingRecords = false;
+
             UsageType = CableUsageTypes.Power.ToString();
             QtyParallel = 1;
         }

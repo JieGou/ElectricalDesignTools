@@ -67,7 +67,7 @@ namespace EDTLibrary.Models.Loads
             {
                 _fedFromTag = value;
                 if (GlobalConfig.GettingRecords == false) {
-                    OnFedFromChanged();
+                    //OnFedFromChanged();
                     CalculateLoading();
                     CreateCable();
                     PowerCable.AssignTagging(this);
@@ -318,12 +318,12 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
-        public event EventHandler FedFromChanged;
-        public virtual void OnFedFromChanged()
-        {
-            if (FedFromChanged != null) {
-                FedFromChanged(this, EventArgs.Empty);
-            }
-        }
+        //public event EventHandler FedFromChanged;
+        //public virtual void OnFedFromChanged()
+        //{
+        //    if (FedFromChanged != null) {
+        //        FedFromChanged(this, EventArgs.Empty);
+        //    }
+        //}
     }
 }

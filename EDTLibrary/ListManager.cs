@@ -75,7 +75,7 @@ namespace EDTLibrary
         }
 
         //TODO move to Distribution Manager with _listManager as parameter
-        public void DeleteDteq<T>(T model) where T : class
+        public void DeleteDteq(IDteq model) //where T : class
         {
             if (model.GetType()==typeof (DteqModel)){
                 var dteq = model as DteqModel;
@@ -149,8 +149,11 @@ namespace EDTLibrary
         public void OnFedFromChanged(object sender, EventArgs e)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
-            UnregisterAllDteqFromAllLoadEvents();
-            AssignLoadsToAllDteq();
+
+            //TODO - Unregister from specific Dteq only
+            //UnregisterAllDteqFromAllLoadEvents();
+            //AssignLoadsToAllDteq();
+
             stopwatch.Stop();
             Debug.Print(stopwatch.ElapsedMilliseconds.ToString());
         }
@@ -158,7 +161,7 @@ namespace EDTLibrary
         public void UnregisterAllDteqFromAllLoadEvents()
         {
             foreach (DteqModel dteq in DteqList) {
-                dteq.FedFromChanged -= this.OnFedFromChanged;
+                //dteq.FedFromChanged -= this.OnFedFromChanged;
 
                 UnregisterDteqFromLoadEvents(dteq);
             }
@@ -166,7 +169,7 @@ namespace EDTLibrary
         public void UnregisterDteqFromLoadEvents(IDteq dteq)
         {
             foreach (var assignedLoad in dteq.AssignedLoads) {
-                assignedLoad.LoadingCalculated -= dteq.OnDteqAssignedLoadReCalculated;
+                assignedLoad.LoadingCalculated -= dteq.OnAssignedLoadReCalculated;
                 assignedLoad.LoadingCalculated -= DbManager.OnDteqLoadingCalculated;
             }
         }
@@ -176,7 +179,7 @@ namespace EDTLibrary
             foreach (DteqModel dteq in DteqList) {
                 dteq.AssignedLoads.Clear();
                 dteq.LoadCount = 0;
-                dteq.FedFromChanged += this.OnFedFromChanged;
+                //dteq.FedFromChanged += this.OnFedFromChanged;
 
                 AssignLoadsAndSubscribeToEvents(dteq);
                 dteq.CalculateLoading();
@@ -190,7 +193,7 @@ namespace EDTLibrary
                 if (dteqAsLoad.FedFrom != null) {
                     if (dteqAsLoad.FedFrom.Id == dteq.Id) {
                         dteq.AssignedLoads.Add(dteqAsLoad);
-                        dteqAsLoad.LoadingCalculated += dteq.OnDteqAssignedLoadReCalculated;
+                        dteqAsLoad.LoadingCalculated += dteq.OnAssignedLoadReCalculated;
                         dteqAsLoad.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
                     }
                 }
@@ -200,7 +203,7 @@ namespace EDTLibrary
                 if (load.FedFrom != null) {
                     if (load.FedFrom.Tag == dteq.Tag) {
                         dteq.AssignedLoads.Add(load);
-                        load.LoadingCalculated += dteq.OnDteqAssignedLoadReCalculated;
+                        load.LoadingCalculated += dteq.OnAssignedLoadReCalculated;
                         load.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
                     }
                 }

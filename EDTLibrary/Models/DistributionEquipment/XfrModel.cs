@@ -109,7 +109,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 LoadingCalculated(this, EventArgs.Empty);
             }
         }
-        public void OnDteqAssignedLoadReCalculated(object source, EventArgs e)
+        public void OnAssignedLoadReCalculated(object source, EventArgs e)
         {
             CalculateLoading();
         }

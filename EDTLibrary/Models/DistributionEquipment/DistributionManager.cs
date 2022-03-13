@@ -20,17 +20,14 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             if (GlobalConfig.GettingRecords == false) {
                 if (oldSupplier != null) {
-                    caller.LoadingCalculated -= oldSupplier.OnDteqAssignedLoadReCalculated;
+                    caller.LoadingCalculated -= oldSupplier.OnAssignedLoadReCalculated;
                     oldSupplier.AssignedLoads.Remove(caller);
                     oldSupplier.CalculateLoading();
                 }
-                caller.LoadingCalculated += newSupplier.OnDteqAssignedLoadReCalculated;
+                caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
                 newSupplier.AssignedLoads.Add(caller);
                 newSupplier.CalculateLoading();
-                caller.OnFedFromChanged();
                 caller.CalculateLoading();
-                caller.CreateCable();
-                caller.PowerCable.AssignTagging(caller);
             }
         }
 

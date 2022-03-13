@@ -247,6 +247,7 @@ namespace WpfUI.ViewModels
         }
         private async Task CopySelectedLoad()
         {
+
             LoadToAdd.FedFromTag = "";
             LoadToAdd.FedFromTag = _selectedLoad.FedFromTag;
             LoadToAdd.Type = "";
@@ -459,10 +460,9 @@ namespace WpfUI.ViewModels
                 _selectedLoad.PowerCable.CalculateAmpacityNew(_selectedLoad);
             }
         }
+
         private void AddDteq()
         {
-            var test = _listManager.DteqList;
-            var errors = DteqToAdd._errorDict;
             var IsValid = DteqToAdd.IsValid();
             if (IsValid) {
                 
@@ -483,7 +483,7 @@ namespace WpfUI.ViewModels
                 DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
                 if (dteqSubscriber != null) {
                     //dteqSubscriber.AssignedLoads.Add(newDteq); //newDteq is somehow already getting added to Assigned Loads
-                    newDteq.LoadingCalculated += dteqSubscriber.OnDteqAssignedLoadReCalculated;
+                    newDteq.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
                     newDteq.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
                 }
 
@@ -502,12 +502,10 @@ namespace WpfUI.ViewModels
                 newDteq.SizeCable();
                 newDteq.CalculateCableAmps();
                 newDteq.PowerCable.Id = DbManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList).Item3;
-                _listManager.CableList.Add(newDteq.PowerCable);
+                _listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
                 RefreshDteqTagValidation();
             }
         }
-
-
         private void DeleteDteq()
         {
             if (_selectedDteq != null) {
@@ -534,8 +532,8 @@ namespace WpfUI.ViewModels
                     loadsToRetag[i].FedFrom = deleted;
                 }
                 _selectedDteq.FedFrom.AssignedLoads.Remove(_selectedDteq);
-                
                 _listManager.DeleteDteq (_selectedDteq);
+
                 RefreshDteqTagValidation();
                 BuildAssignedLoads();
 
@@ -568,7 +566,7 @@ namespace WpfUI.ViewModels
                 DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newLoad.FedFrom);
                 if (dteqSubscriber != null) {
                     //dteqSubscriber.AssignedLoads.Add(newLoad); //newLoad is somehow already getting added to Assigned Loads
-                    newLoad.LoadingCalculated += dteqSubscriber.OnDteqAssignedLoadReCalculated;
+                    newLoad.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
                     newLoad.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
                 }
 
@@ -597,7 +595,42 @@ namespace WpfUI.ViewModels
                 RefreshLoadTagValidation();
             }
         }
+        private void DeleteLoad()
+        {
+            if (_selectedLoad != null) {
+                DteqModel dteqToRecalculate = _listManager.DteqList.FirstOrDefault(d => d == _selectedLoad.FedFrom);
+                int loadId = _selectedLoad.Id;
 
+                _selectedLoad.LoadingCalculated -= dteqToRecalculate.OnAssignedLoadReCalculated;
+                _selectedLoad.LoadingCalculated -= DbManager.OnLoadLoadingCalculated;
+
+                if (_selectedLoad.PowerCable != null) {
+                    int cableId = _selectedLoad.PowerCable.Id;
+                    DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
+                    _listManager.CableList.Remove(_selectedLoad.PowerCable);
+                }
+
+                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadTable, loadId);
+
+
+                var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
+                AssignedLoads.Remove(loadToRemove);
+
+                var loadToRemove2 = _listManager.LoadList.FirstOrDefault(load => load.Id == loadId);
+                _listManager.LoadList.Remove(loadToRemove2);
+
+                
+                if (dteqToRecalculate != null) {
+                    dteqToRecalculate.AssignedLoads.Remove(loadToRemove2);
+                    dteqToRecalculate.CalculateLoading();
+                }
+                RefreshLoadTagValidation();
+                BuildAssignedLoads();
+                if (AssignedLoads.Count > 0) {
+                    SelectedLoad = AssignedLoads[AssignedLoads.Count - 1];
+                }
+            }
+        }
 
         // Loads
         public void ShowAllLoads()
@@ -628,41 +661,7 @@ namespace WpfUI.ViewModels
                 }
             }
         }
-        private void DeleteLoad()
-        {
-           if(_selectedLoad != null) {
-                DteqModel dteqToRecalculate = _listManager.DteqList.FirstOrDefault(d =>d == _selectedLoad.FedFrom);
-                    int loadId = _selectedLoad.Id;
-
-                if (_selectedLoad.PowerCable!= null) {
-                    int cableId = _selectedLoad.PowerCable.Id;
-                    DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
-                    _listManager.CableList.Remove(_selectedLoad.PowerCable);
-                }
-
-                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadTable, loadId);
-                
-
-                var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
-                AssignedLoads.Remove(loadToRemove);
-
-                var loadToRemove2 = _listManager.LoadList.FirstOrDefault(load => load.Id == loadId);
-                _listManager.LoadList.Remove(loadToRemove2);
-
-                //if (_selectedDteq != null) {
-                //    _selectedDteq.AssignedLoads.Remove(loadToRemove2);
-                //}
-                if (dteqToRecalculate != null) {
-                    dteqToRecalculate.AssignedLoads.Remove(loadToRemove2);
-                    dteqToRecalculate.CalculateLoading();
-                }
-                RefreshLoadTagValidation();
-                BuildAssignedLoads();
-                if (AssignedLoads.Count>0) {
-                    SelectedLoad = AssignedLoads[AssignedLoads.Count - 1];
-                }
-            }
-        }
+        
 
 
         public void CalculateAll()
