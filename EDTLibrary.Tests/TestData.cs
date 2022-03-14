@@ -34,9 +34,9 @@ namespace EDTLibrary.Tests
 
             new LoadModel() {Tag = "MTR-03", Type = LoadTypes.MOTOR.ToString(), FedFromTag = "MCC-03", Voltage=480, Size = 75,Unit=Units.HP.ToString()},
             new LoadModel() {Tag = "HTR-03", Type = LoadTypes.HEATER.ToString(), FedFromTag = "MCC-03", Voltage=480, Size = 75,Unit=Units.HP.ToString()},
-            new LoadModel() {Tag = "PNL-03f", Type = LoadTypes.PANEL.ToString(), FedFromTag = "MCC-02", Voltage=480, Size = 75,Unit=Units.HP.ToString()}
+            new LoadModel() {Tag = "PNL-03", Type = LoadTypes.PANEL.ToString(), FedFromTag = "MCC-03", Voltage=480, Size = 75,Unit=Units.HP.ToString()}
         };
-
+           
         public static ListManager listManager = new ListManager();
 
         public static void CreateListManagerData()

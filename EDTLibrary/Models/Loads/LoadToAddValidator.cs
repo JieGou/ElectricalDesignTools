@@ -74,7 +74,6 @@ namespace EDTLibrary.Models.Loads
                 }
                 else if (_type == LoadTypes.MOTOR.ToString()) {
                     Unit = "";
-                    Unit = Units.HP.ToString();
 
                 }
                 else if (_type == LoadTypes.HEATER.ToString()) {
@@ -112,9 +111,12 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 _fedFromTag = value;
-                _selectedDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
+                _selectedDteq = (DteqModel)_listManager.IDteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
                 if (_selectedDteq != null) {
                     Voltage = _selectedDteq.LoadVoltage.ToString();
+                }
+                if (_fedFromTag == GlobalConfig.Utility) {
+                    AddError(nameof(FedFromTag), "Utility cannot supply loads");
                 }
             }
         }

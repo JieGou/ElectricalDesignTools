@@ -39,10 +39,12 @@ namespace EDTLibrary.Models.DistributionEquipment
                     //    }
                     //}
                     if (PowerCable != null) {
-                        PowerCable.SetCableParameters(this);
+                        PowerCable.AssignTagging(this);
+                    }
+                    foreach (var load in AssignedLoads) {
+                        load.PowerCable.AssignTagging(load);
                     }
                 }
-               
             }
         }
         public string Category { get; set; }
@@ -104,7 +106,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (FedFrom != null) {
                     return FedFrom.Tag;
                 }
-                return "No Dteq";
+                return "Empty Dteq";
             }
             set
             {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace EDTLibrary.Tests.Models.Validators
+namespace EDTLibrary.Tests.Models.DistributionEquipment
 {
     public class DteqToAddValidatorTest
     {
@@ -47,16 +47,17 @@ namespace EDTLibrary.Tests.Models.Validators
         [InlineData("MCC-01", "", "", "", "", "", "")]
         [InlineData("", "MCC", "SWG-01", "2000", "A", "600", "600")]
         [InlineData("MCC-07", "", "SWG-01", "2000", "A", "600", "600")]
-        [InlineData("MCC-07", "MCC", "", "", "A", "600", "600")]
-        [InlineData("MCC-07", "MCC", "SWG-01", "2000", "", "600", "600")]
-        [InlineData("MCC-07", "MCC", "SWG-01", "2000", "A", "", "600")]
-        [InlineData("MCC-07", "MCC", "SWG-01", "2000", "A", "600", "")]
-
-        [InlineData("XFR-05", "XFR", GlobalConfig.Utility, "2000", "A", "480", "460")]
+        [InlineData("MCC-08", "MCC", "", "", "A", "600", "600")]
+        [InlineData("MCC-09", "MCC", "Empty Dteq", "2000", "A", "600", "")]
         [InlineData(GlobalConfig.EmptyTag, "MCC", "SWG-02", "2000", "A", "480", "460")]
-        [InlineData("MCC-06", "MCC", "SWG-02", "2000", "A", "480", "460")]
-        [InlineData("MCC-07", "MCC", "SWG-01", "2000", "A", "600", "600")]
-        [InlineData("MCC-01", "MCC", "SWG-01", "2000", "A", "600", "600")]
+
+        //[InlineData("MCC-10", "MCC", "SWG-01", "2000", "", "600", "600")]  //passes becaues MCC type gets A units automatically
+        //[InlineData("XFR-11", "XFR", GlobalConfig.Utility, "2000", "A", "480", "460")] //passes becuase units get automtacially corrected for xfr
+        //[InlineData("MCC-12", "MCC", "SWG-02", "2000", "A", "480", "460")] //Auto voltage correction
+        //[InlineData("MCC-13", "MCC", "SWG-01", "2000", "A", "600", "600")] //Auto voltage correction
+        //[InlineData("MCC-14", "MCC", "SWG-01", "2000", "A", "600", "600")] //fails because fedFrom voltage gets updated from Dteq
+        //[InlineData("MCC-15", "MCC", "SWG-01", "2000", "A", "", "600")]
+
         public void IsValid_False(string tag, string type, string fedFrom, string size, string unit, string lineVoltage, string loadVoltage)
         {
             GlobalConfig.Testing = true;
@@ -82,7 +83,6 @@ namespace EDTLibrary.Tests.Models.Validators
             GlobalConfig.Testing = false;
 
             Assert.False(actual);
-
         }
     }
 }

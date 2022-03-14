@@ -235,7 +235,7 @@
                           Height="{Binding DteqGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Margin="10"
                           ItemsSource="{Binding ListManager.IDteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
+                          SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
                           AutoGenerateColumns="False"
@@ -845,44 +845,42 @@
                 
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
 
-                    <TextBlock Text="Dteq Count:  "/>
+                    <TextBlock Text="DTEQ" FontWeight="Bold" Margin="10 0 0 0"/>
+                    <TextBlock Text="   Count: "/>
                     <TextBlock Text="{Binding ListManager.IDteqList.Count}" Margin="0" FontWeight="Bold"/>
-
-                    <TextBlock Text="    Dteq Id:  "/>
-                    <TextBlock Text="{Binding SelectedDteq.Id}" Margin="0" FontWeight="Bold"/>
-                    <TextBlock Text="    Dteq FedFromId:  "/>
-                    <TextBlock Text="{Binding SelectedDteq.FedFromId}" Margin="0" FontWeight="Bold"/>
-                    <TextBlock Text="    Dteq FedFromType:  "/>
-                    <TextBlock Text="{Binding SelectedDteq.FedFromType}" Margin="0" FontWeight="Bold"/>
-                    <TextBlock Text="    Dteq FedFromTag:  "/>
+                    <TextBlock Text="   Supplier: "/>
                     <TextBlock Text="{Binding SelectedDteq.FedFrom.Tag}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text=", "/>
+                    <TextBlock Text="{Binding SelectedDteq.FedFromId}" Margin="0" FontWeight="Bold"/>
 
+                    <TextBlock Text="   Id:  "/>
+                    <TextBlock Text="{Binding SelectedDteq.Id}" Margin="0" FontWeight="Bold"/>
                     
-                    <TextBlock Text="        Load Count:  "/>
-                    <TextBlock Text="{Binding ListManager.LoadList.Count}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="   Cable Id:  "/>
+                    <TextBlock Text="{Binding SelectedDteq.PowerCable.Id}" Margin="0" FontWeight="Bold"/>
                     
-                    <TextBlock Text="        Ass Load Count:  "/>
+                    <TextBlock Text="   Loads:  "/>
                     <TextBlock Text="{Binding SelectedDteq.AssignedLoads.Count}" Margin="0" FontWeight="Bold"/>
-                    
-                    <TextBlock Text="    Load FedFromId:  "/>
+
+                    <TextBlock Text="        |       "/>
+
+                    <TextBlock Text="LOAD" FontWeight="Bold"/>
+                    <TextBlock Text="   Fed From Id:  "/>
                     <TextBlock Text="{Binding SelectedLoad.FedFromId}" Margin="0" FontWeight="Bold"/>
 
-                    <TextBlock Text="    Load FedFromType:  "/>
-                    <TextBlock Text="{Binding SelectedLoad.FedFromType}" Margin="0" FontWeight="Bold"/>
-                    
-                    <TextBlock Text="    Load Cable Id:  "/>
+                    <TextBlock Text="   Cable Id:  "/>
                     <TextBlock Text="{Binding SelectedLoad.PowerCable.Id}" Margin="0" FontWeight="Bold"/>
 
-                    <TextBlock Text="    Load Cable Tag:  "/>
-                    <TextBlock Text="{Binding SelectedLoad.PowerCable.Tag}" Margin="0" FontWeight="Bold"/>
-                    
-                    <TextBlock Text="    Load Cable Type:  "/>
-                    <TextBlock Text="{Binding SelectedLoad.PowerCable.Type}" Margin="0" FontWeight="Bold"/>
-
-                    <TextBlock Text="    Cable Count:  "/>
+                    <TextBlock Text="   Cable Count:  "/>
                     <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
 
+                    <TextBlock Text="        |       "/>
+
+                    <TextBlock Text="Total Loads:  "/>
+                    <TextBlock Text="{Binding ListManager.LoadList.Count}" Margin="0" FontWeight="Bold"/>
                 </StackPanel>
+                <!--***********************************-->
+                <!--***********************************-->
                 <!--***********************************-->
 
                 <!--LOAD-->
