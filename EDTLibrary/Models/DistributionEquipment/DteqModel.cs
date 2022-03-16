@@ -33,11 +33,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 _tag = value;
                 if (GlobalConfig.GettingRecords==false) {
-                    //if (AssignedLoads != null) {
-                    //    foreach (var iload in AssignedLoads) {
-                    //        iload.FedFromTag = _tag;
-                    //    }
-                    //}
+                 
                     if (PowerCable != null) {
                         PowerCable.AssignTagging(this);
                     }
@@ -106,7 +102,10 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (FedFrom != null) {
                     return FedFrom.Tag;
                 }
-                return "Empty Dteq";
+                else if (string.IsNullOrEmpty(_fedFromTag)) {
+                    return "Empty Dteq";
+                }
+                return _fedFromTag;
             }
             set
             {

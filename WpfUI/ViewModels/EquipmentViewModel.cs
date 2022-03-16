@@ -29,7 +29,6 @@ namespace WpfUI.ViewModels
     public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     {
 
-        #region Constructor
 
         private ListManager _listManager;
         public ListManager ListManager
@@ -37,9 +36,9 @@ namespace WpfUI.ViewModels
             get { return _listManager; }
             set { _listManager = value; }
         }
-
         public DataGridColumnViewControl DteqGridViewModifier { get; set; }
 
+        #region Constructor
         public EquipmentViewModel(ListManager listManager)
         {
             //fields
@@ -48,8 +47,8 @@ namespace WpfUI.ViewModels
             //members
             DteqGridViewModifier = new DataGridColumnViewControl();
 
-            DteqToAdd = new DteqToAddValidator(_listManager, _selectedDteq);
-            LoadToAdd = new LoadToAddValidator(_listManager, _selectedDteq);
+            DteqToAddValidator = new DteqToAddValidator(_listManager);
+            LoadToAddValidator = new LoadToAddValidator(_listManager);
 
             // Create commands
             ToggleRowViewDteqCommand = new RelayCommand(ToggleRowViewDteq);
@@ -176,11 +175,8 @@ namespace WpfUI.ViewModels
             }
         }
         public double LoadGridHeight { get; set; }
+
         #endregion
-
-
-        #region Properties
-        public NavigationBarViewModel NavigationBarViewModel { get; }
 
         
 
@@ -212,10 +208,10 @@ namespace WpfUI.ViewModels
                 if (_selectedDteq != null) {
                     AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
 
-                    DteqToAdd.FedFromTag = _selectedDteq.Tag;
-                    LoadToAdd.FedFromTag = "";
-                    LoadToAdd.FedFromTag = _selectedDteq.Tag;
-                    LoadToAdd.Voltage = _selectedDteq.LoadVoltage.ToString();
+                    DteqToAddValidator.FedFromTag = _selectedDteq.Tag;
+                    LoadToAddValidator.FedFromTag = "";
+                    LoadToAddValidator.FedFromTag = _selectedDteq.Tag;
+                    LoadToAddValidator.Voltage = _selectedDteq.LoadVoltage.ToString();
 
                     BuildDteqCableTypeList(_selectedDteq);
 
@@ -226,7 +222,7 @@ namespace WpfUI.ViewModels
                 }
             }
         }
-        public DteqToAddValidator DteqToAdd { get; set; }
+        public DteqToAddValidator DteqToAddValidator { get; set; }
 
         // LOADS
 
@@ -248,45 +244,28 @@ namespace WpfUI.ViewModels
         private async Task CopySelectedLoad()
         {
 
-            LoadToAdd.FedFromTag = "";
-            LoadToAdd.FedFromTag = _selectedLoad.FedFromTag;
-            LoadToAdd.Type = "";
-            LoadToAdd.Type = _selectedLoad.Type;
-            LoadToAdd.Size = "";
-            LoadToAdd.Size = _selectedLoad.Size.ToString();
-            LoadToAdd.Unit = "";
-            LoadToAdd.Unit = _selectedLoad.Unit;
-            LoadToAdd.Voltage = "";
-            LoadToAdd.Voltage = _selectedLoad.Voltage.ToString();
+            LoadToAddValidator.FedFromTag = "";
+            LoadToAddValidator.FedFromTag = _selectedLoad.FedFromTag;
+            LoadToAddValidator.Type = "";
+            LoadToAddValidator.Type = _selectedLoad.Type;
+            LoadToAddValidator.Size = "";
+            LoadToAddValidator.Size = _selectedLoad.Size.ToString();
+            LoadToAddValidator.Unit = "";
+            LoadToAddValidator.Unit = _selectedLoad.Unit;
+            LoadToAddValidator.Voltage = "";
+            LoadToAddValidator.Voltage = _selectedLoad.Voltage.ToString();
 
         }
-        public LoadToAddValidator LoadToAdd { get; set; }
+        public LoadToAddValidator LoadToAddValidator { get; set; }
 
 
         // LISTS
         public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
-        private ObservableCollection<LoadModel> _loadList = new ObservableCollection<LoadModel>();
-        //public ObservableCollection<LoadModel> LoadList
-        //{
-        //    get { return _loadList; }
-
-        //    set
-        //    {
-        //        _loadList = value;
-        //        _listManager.CreateEqDict();
-        //        _listManager.CreateILoadDict();
-        //        _listManager.LoadList = _loadList;
-        //        LoadToAdd = new LoadToAddValidator(_listManager.DteqList,LoadList, _selectedDteq); 
-        //    }
-        //}
         public bool LoadListLoaded { get; set; }
 
 
-       
         //Cables
 
-
-        #endregion
 
 
         #region Public Commands
@@ -359,8 +338,8 @@ namespace WpfUI.ViewModels
             _listManager.GetCables();
             _listManager.AssignCables();
             ShowAllLoads();
-            DteqToAdd = new DteqToAddValidator(_listManager, _selectedDteq);
-            LoadToAdd = new LoadToAddValidator(_listManager, _selectedDteq);
+            DteqToAddValidator = new DteqToAddValidator(_listManager);
+            LoadToAddValidator = new LoadToAddValidator(_listManager);
 
             GlobalConfig.GettingRecords = false;
         }
@@ -461,24 +440,28 @@ namespace WpfUI.ViewModels
             }
         }
 
-        private void AddDteq()
+        public void AddDteq(object dteqToAddObject)
         {
-            var IsValid = DteqToAdd.IsValid();
+
+            DteqToAddValidator dteqToAddValidator = (DteqToAddValidator)dteqToAddObject;
+
+            var IsValid = dteqToAddValidator.IsValid();
+            var errors = dteqToAddValidator._errorDict;
             if (IsValid) {
                 
                 DteqModel newDteq = new DteqModel();
-                newDteq.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == DteqToAdd.FedFromTag);
+                newDteq.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == dteqToAddValidator.FedFromTag);
 
-                newDteq.Tag = DteqToAdd.Tag;
+                newDteq.Tag = dteqToAddValidator.Tag;
                 newDteq.Category = Categories.DTEQ.ToString();
-                newDteq.Type = DteqToAdd.Type;
+                newDteq.Type = dteqToAddValidator.Type;
 
-                newDteq.Size = Double.Parse(DteqToAdd.Size);
-                newDteq.Unit = DteqToAdd.Unit;
-                newDteq.Description = DteqToAdd.Description;
-                newDteq.FedFromTag = DteqToAdd.FedFromTag;
-                newDteq.LineVoltage = Double.Parse(DteqToAdd.LineVoltage);
-                newDteq.LoadVoltage = Double.Parse(DteqToAdd.LoadVoltage);
+                newDteq.Size = Double.Parse(dteqToAddValidator.Size);
+                newDteq.Unit = dteqToAddValidator.Unit;
+                newDteq.Description = dteqToAddValidator.Description;
+                newDteq.FedFromTag = dteqToAddValidator.FedFromTag;
+                newDteq.LineVoltage = Double.Parse(dteqToAddValidator.LineVoltage);
+                newDteq.LoadVoltage = Double.Parse(dteqToAddValidator.LoadVoltage);
 
                 DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
                 if (dteqSubscriber != null) {
@@ -506,33 +489,34 @@ namespace WpfUI.ViewModels
                 RefreshDteqTagValidation();
             }
         }
-        private void DeleteDteq()
+        public void DeleteDteq(object selectedDteqObject)
         {
-            if (_selectedDteq != null) {
+            DteqModel selectedDteq = (DteqModel)selectedDteqObject;
+            if (selectedDteq != null) {
                 //children first
 
                 //Delete Cables
-                if (_selectedDteq.PowerCable != null) {
-                    int cableId = _selectedDteq.PowerCable.Id;
+                if (selectedDteq.PowerCable != null) {
+                    int cableId = selectedDteq.PowerCable.Id;
                     DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
-                    _listManager.CableList.Remove(_selectedDteq.PowerCable);
+                    _listManager.CableList.Remove(selectedDteq.PowerCable);
                 }
 
                 List<IPowerConsumer> loadsToRetag = new List<IPowerConsumer>();
-                if (_selectedDteq.AssignedLoads != null) {
-                    loadsToRetag.AddRange(_selectedDteq.AssignedLoads);
+                if (selectedDteq.AssignedLoads != null) {
+                    loadsToRetag.AddRange(selectedDteq.AssignedLoads);
                 }
 
                 //Retag Loads to "Deleted"
-                DteqModel deleted = new DteqModel() { Tag = "* Deleted *"};
+                DteqModel deleted = new DteqModel() { Tag = GlobalConfig.Deleted};
                 for (int i = 0; i < loadsToRetag.Count; i++) {
                     var tag = loadsToRetag[i].Tag;
-                    loadsToRetag[i].FedFromTag = "Deleted";
-                    loadsToRetag[i].FedFromType = "Deleted"; 
+                    loadsToRetag[i].FedFromTag = GlobalConfig.Deleted;
+                    loadsToRetag[i].FedFromType = GlobalConfig.Deleted; 
                     loadsToRetag[i].FedFrom = deleted;
                 }
-                _selectedDteq.FedFrom.AssignedLoads.Remove(_selectedDteq);
-                _listManager.DeleteDteq (_selectedDteq);
+                selectedDteq.FedFrom.AssignedLoads.Remove(selectedDteq);
+                _listManager.DeleteDteq (selectedDteq);
 
                 RefreshDteqTagValidation();
                 BuildAssignedLoads();
@@ -546,22 +530,25 @@ namespace WpfUI.ViewModels
         public void DteqList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) { }
         public void LoadList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) { }
 
-        public void AddLoad()
+        public void AddLoad(object loadToAddObject)
         {
-            var IsValid = LoadToAdd.IsValid();
+
+            LoadToAddValidator loadToAddValidator = (LoadToAddValidator)loadToAddObject;
+            var errors = loadToAddValidator._errorDict;
+            var IsValid = loadToAddValidator.IsValid();
             if (IsValid) {
                 LoadModel newLoad = new LoadModel();
                 
-                newLoad.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == LoadToAdd.FedFromTag);
-                newLoad.Tag = LoadToAdd.Tag;
+                newLoad.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == loadToAddValidator.FedFromTag);
+                newLoad.Tag = loadToAddValidator.Tag;
                 newLoad.Category = Categories.LOAD3P.ToString();
-                newLoad.Type = LoadToAdd.Type;
-                newLoad.Size = Double.Parse(LoadToAdd.Size);
-                newLoad.Description = LoadToAdd.Description;
-                newLoad.FedFromTag = LoadToAdd.FedFromTag;
-                newLoad.Voltage = Double.Parse(LoadToAdd.Voltage);
-                newLoad.Unit = LoadToAdd.Unit;
-                newLoad.LoadFactor = Double.Parse(LoadToAdd.LoadFactor);
+                newLoad.Type = loadToAddValidator.Type;
+                newLoad.Size = Double.Parse(loadToAddValidator.Size);
+                newLoad.Description = loadToAddValidator.Description;
+                newLoad.FedFromTag = loadToAddValidator.FedFromTag;
+                newLoad.Voltage = Double.Parse(loadToAddValidator.Voltage);
+                newLoad.Unit = loadToAddValidator.Unit;
+                newLoad.LoadFactor = Double.Parse(loadToAddValidator.LoadFactor);
 
                 DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newLoad.FedFrom);
                 if (dteqSubscriber != null) {
@@ -595,19 +582,20 @@ namespace WpfUI.ViewModels
                 RefreshLoadTagValidation();
             }
         }
-        private void DeleteLoad()
+        public void DeleteLoad(object selectedLoadObject)
         {
-            if (_selectedLoad != null) {
-                DteqModel dteqToRecalculate = _listManager.DteqList.FirstOrDefault(d => d == _selectedLoad.FedFrom);
-                int loadId = _selectedLoad.Id;
+            LoadModel selectedLoad = (LoadModel)selectedLoadObject;
+            if (selectedLoad != null) {
+                DteqModel dteqToRecalculate = _listManager.DteqList.FirstOrDefault(d => d == selectedLoad.FedFrom);
+                int loadId = selectedLoad.Id;
 
-                _selectedLoad.LoadingCalculated -= dteqToRecalculate.OnAssignedLoadReCalculated;
-                _selectedLoad.LoadingCalculated -= DbManager.OnLoadLoadingCalculated;
+                selectedLoad.LoadingCalculated -= dteqToRecalculate.OnAssignedLoadReCalculated;
+                selectedLoad.LoadingCalculated -= DbManager.OnLoadLoadingCalculated;
 
-                if (_selectedLoad.PowerCable != null) {
-                    int cableId = _selectedLoad.PowerCable.Id;
+                if (selectedLoad.PowerCable != null) {
+                    int cableId = selectedLoad.PowerCable.Id;
                     DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
-                    _listManager.CableList.Remove(_selectedLoad.PowerCable);
+                    _listManager.CableList.Remove(selectedLoad.PowerCable);
                 }
 
                 DbManager.prjDb.DeleteRecord(GlobalConfig.LoadTable, loadId);
@@ -677,20 +665,20 @@ namespace WpfUI.ViewModels
         #region Helper Methods
         public void CreateValidators()
         {
-            this.DteqToAdd = new DteqToAddValidator(_listManager, this.SelectedDteq);
-            this.LoadToAdd = new LoadToAddValidator(_listManager, this.SelectedDteq);
+            this.DteqToAddValidator = new DteqToAddValidator(_listManager);
+            this.LoadToAddValidator = new LoadToAddValidator(_listManager);
         }
         private void RefreshDteqTagValidation()
         {
-            var tag = DteqToAdd.Tag;
-            DteqToAdd.Tag = " ";
-            DteqToAdd.Tag = tag;
+            var tag = DteqToAddValidator.Tag;
+            DteqToAddValidator.Tag = " ";
+            DteqToAddValidator.Tag = tag;
         }
         private void RefreshLoadTagValidation()
         {
-            var tag = LoadToAdd.Tag;
-            LoadToAdd.Tag = " ";
-            LoadToAdd.Tag = tag;
+            var tag = LoadToAddValidator.Tag;
+            LoadToAddValidator.Tag = " ";
+            LoadToAddValidator.Tag = tag;
         }
         
         public bool IsTagAvailable(string tag, ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) {

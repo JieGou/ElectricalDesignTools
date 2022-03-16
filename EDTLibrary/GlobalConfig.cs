@@ -16,11 +16,13 @@ namespace EDTLibrary
 
         //Quick Names
         public const string Utility = "UTILITY";
-
+        public const string Deleted = "* Deleted *";
         public static string LoadTable { get; set; } = "Loads";
         public static string DteqTable { get; set; } = "DistributionEquipment";
         public static string AreaTable { get; set; } = "Areas";
         public static string PowerCableTable { get; set; } = "Cables";
+        public static string DevDb { get; set; } = "C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB Files\\EDTProjectTemplate1.1.edp";
+        public static string TestDb { get; set; } = "C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB Files\\TestDb.edp";
 
         public const string EmptyTag = "                 ";
 

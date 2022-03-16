@@ -58,7 +58,7 @@ namespace EDTLibrary
                     dteq.FedFrom = DteqList[0];
                 }
                 if (dteq.FedFromTag.Contains("Deleted") || dteq.FedFromType.Contains("Deleted")) {
-                    dteq.FedFrom = new DteqModel() { Tag = "* Deleted *" };
+                    dteq.FedFrom = new DteqModel() { Tag = GlobalConfig.Deleted };
                 }
                 fedFrom = DteqList.FirstOrDefault(d => d.Id == dteq.FedFromId &&
                                                    d.GetType().ToString() == dteq.FedFromType);

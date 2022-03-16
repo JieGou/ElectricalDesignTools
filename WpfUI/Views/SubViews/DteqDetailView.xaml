@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="WpfUI.Views.SubViews.DteqDetailView"
+             x:Name="dteqDetail"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,8 +7,24 @@
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              mc:Ignorable="d" 
 
-             d:DesignHeight="400" d:DesignWidth="475"
-             Background="LightCyan">
+             d:DesignHeight="400" d:DesignWidth="550"
+             Background="LightCyan"
+             d:Opacity="1"
+             Opacity="0.25">
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                     Storyboard.TargetName="dteqDetail"
+                                
+                                From="0.25" To="1" Duration="0:0:0.15"
+                                     AccelerationRatio="1"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
     <UserControl.Resources>
 
         <ResourceDictionary>
@@ -120,7 +137,8 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2" >
                             
                         <TextBox Text="{Binding SelectedDteq.PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
-                             Grid.Row="4" Grid.Column="2" FontWeight="Bold" Width="30" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0.5"/>
+                                 Grid.Row="4" Grid.Column="2" FontWeight="Bold" Width="30" Background="White" TextAlignment="Left" HorizontalAlignment="Left"
+                                 BorderThickness="0.5"/>
                             <TextBlock  x:Name="txtPerPhase" Visibility="{Binding PerPhaseLabelDteq}"
                             Text=" (/ph)" Grid.Row="4" Grid.Column="1"/>
                         </StackPanel>

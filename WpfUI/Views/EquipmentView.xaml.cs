@@ -52,6 +52,7 @@ namespace WpfUI.Views
 
         private void dgdDteq_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //DteqDetailsContent.Content = null;
             if (dgdDteq.SelectedItem != null) {
                 if (dgdDteq.SelectedItem.GetType() == typeof(DteqModel)) {
                     _dteqDetailsView.DataContext = this.DataContext;

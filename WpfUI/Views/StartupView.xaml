@@ -43,24 +43,28 @@
                     <EventTrigger RoutedEvent="Image.Loaded">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="logo"
-                                Storyboard.TargetProperty="Opacity"
-                                From="1.0" To="0.75" Duration="0:0:0.5"
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                Storyboard.TargetName="logo"                                
+                                From="1.0" To="0.75" Duration="0:0:0.35"
+                                                 AccelerationRatio="1"
                                 AutoReverse="False" RepeatBehavior="1x"/>
 
-                                <DoubleAnimation Storyboard.TargetName="logo"
-                                 Storyboard.TargetProperty="Width"
-                                 From="350" To="150" Duration="0:0:0.5"
+                                <DoubleAnimation Storyboard.TargetProperty="Width"
+                                 Storyboard.TargetName="logo"                                 
+                                 From="350" To="150" Duration="0:0:0.35"
+                                                 AccelerationRatio="1"
                                  AutoReverse="False" RepeatBehavior="1x"/>
 
                                 <DoubleAnimation Storyboard.TargetName="logo"
                                  Storyboard.TargetProperty="(Canvas.Top)"
-                                 From="0" To="50" Duration="0:0:0.5"
+                                 From="0" To="50" Duration="0:0:0.35"
+                                                 AccelerationRatio="1"
                                  AutoReverse="False" RepeatBehavior="1x"/>
 
                                 <DoubleAnimation Storyboard.TargetName="logo"
                                  Storyboard.TargetProperty="(Canvas.Left)"
-                                 From="0" To="-100" Duration="0:0:0.5"
+                                 From="0" To="-100" Duration="0:0:0.35"
+                                                 AccelerationRatio="1"
                                  AutoReverse="False" RepeatBehavior="1x"/>
                             </Storyboard>
                         </BeginStoryboard>

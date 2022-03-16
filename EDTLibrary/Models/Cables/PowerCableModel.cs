@@ -160,9 +160,12 @@ namespace EDTLibrary.Models.Cables
         /// </summary>
         public void AssignTagging(IPowerConsumer load)
         {
-            Source = load.FedFrom.Tag;
-            Destination = load.Tag;
-            CreateTag();
+            if (load.FedFrom!= null) {
+                Source = load.FedFrom.Tag;
+                Destination = load.Tag;
+                CreateTag();
+            }
+            
         }
 
         public void SetCableParameters(IPowerConsumer load)

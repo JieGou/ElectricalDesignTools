@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="WpfUI.Views.ProjectSettingsView"
+             x:Name="settingsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,7 +10,21 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" 
              d:Width="1600" d:Height="900" 
-        Background="AliceBlue">
+        Background="AliceBlue"
+             d:Opacity="1"
+             Opacity="0.5">
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="settingsView"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.5" To="1" Duration="0:0:0.75"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
 
     <UserControl.Resources>
         <ResourceDictionary>

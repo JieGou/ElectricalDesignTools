@@ -51,6 +51,7 @@ namespace EDTLibrary.Models.Cables
             double spacing = 100;
             if (cable == null) return spacing;
 
+            //TODO - cable spacing defaults vs lock value vs auto-size/spacing option
             CableTypeModel cableType = TypeManager.GetCableType(cable.Type);
             if (cableType.VoltageClass > 2000 || cableType.Conductors == 1) {
                 if (cable.Spacing <100) {

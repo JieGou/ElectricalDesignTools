@@ -14,18 +14,27 @@ namespace EDTLibrary.Models.DistributionEquipment
     public class DteqToAddValidator : INotifyDataErrorInfo
     {
 
-        public DteqToAddValidator(ListManager listManager, IDteq selectedDteq )
+        public DteqToAddValidator(ListManager listManager)
         {
            _listManager = listManager;
-            _dteqList = listManager.DteqList;
-            _loadList = listManager.LoadList;
-            _selectedDteq = selectedDteq;
+        }
+
+        public DteqToAddValidator(ListManager listManager, IDteq dteqToAdd)
+        {
+            _listManager = listManager;
+
+            Tag = dteqToAdd.Tag;
+            Type = dteqToAdd.Type;
+            Description = dteqToAdd.Description;
+            FedFromTag = dteqToAdd.FedFromTag;
+            Size = dteqToAdd.Size.ToString();
+            Unit = dteqToAdd.Unit;
+            LineVoltage = dteqToAdd.LineVoltage.ToString();
+            LoadVoltage = dteqToAdd.LoadVoltage.ToString();
         }
 
         private ListManager _listManager;
-        private ObservableCollection<DteqModel> _dteqList;
-        private ObservableCollection<LoadModel> _loadList;
-        private IDteq _selectedDteq;
+        private IDteq _feedingDteq;
 
         private string _tag="";
         public string Tag
@@ -105,26 +114,17 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 _fedFromTag = value;
                 ClearErrors(nameof(FedFromTag));
-                _selectedDteq = _dteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
-                DteqModel feedingDteq = _dteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
+                _feedingDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
+                var tag = Tag;
 
-                //set voltage
-                if (_selectedDteq != null) {
-                    LineVoltage = _selectedDteq.LoadVoltage.ToString();
-                }
 
                 //validate
                 if (_fedFromTag == GlobalConfig.Utility) {
                     _isValid = true;
+                    _fedFromTag = GlobalConfig.Utility;
+
                 }
-                else if (_dteqList.Count == 0) {
-                    if (string.IsNullOrWhiteSpace(_fedFromTag)) {
-                        _fedFromTag = GlobalConfig.Utility;
-                        FedFromTag = _fedFromTag;
-                        _isValid = true;
-                    }
-                }
-                else if (feedingDteq != null) {
+                else if (_feedingDteq != null) {
                     _isValid = true;
                 }
                 else {
@@ -147,9 +147,6 @@ namespace EDTLibrary.Models.DistributionEquipment
                 ClearErrors(nameof(Size));
                 if (double.TryParse(_size, out newLoad_LoadSize) == false) {
                     AddError(nameof(Size), "Invalid Size");
-                    if (_errorDict.ContainsKey(nameof(Tag)) == false) {
-                        //ClearErrors(nameof(Size));
-                    }
                 }
                 else if (double.Parse(_size) <= 0) {
                     AddError(nameof(Size), "Value must be larger than 0");
@@ -206,8 +203,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                     if (_fedFromTag == GlobalConfig.Utility) {
                         _isValid = true;
                     }
-                    else if (_selectedDteq != null) {
-                        if (_lineVoltage != _selectedDteq.LoadVoltage.ToString()) {
+                    else if (_feedingDteq != null && _feedingDteq.Tag != "UTILITY") {
+                        if (_lineVoltage != _feedingDteq.LoadVoltage.ToString()) {
                             AddError(nameof(LineVoltage), "Voltage does not match supply Equipment");
                         }
                     }

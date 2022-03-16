@@ -21,12 +21,12 @@ namespace WpfUI.Services
 {
     public class StartupService
     {
-        private static ListManager _listManager;
         public StartupService(ListManager listManager)
         {
             _listManager = listManager;
         }
 
+        ListManager _listManager;
         public bool IsProjectLoaded { get; set; }
         public bool IsLibraryLoaded { get; set; }
 
@@ -50,11 +50,11 @@ namespace WpfUI.Services
             }
         }
 
-        public void InitializeProject()
+        public void InitializeProject(string projectFile)
         {
-            if (File.Exists(AppSettings.Default.ProjectDb)) {
-                prjDb = new SQLiteConnector(AppSettings.Default.ProjectDb);
-                DbManager.SetProjectDb(AppSettings.Default.ProjectDb);
+            if (File.Exists(projectFile)) {
+                prjDb = new SQLiteConnector(projectFile);
+                DbManager.SetProjectDb(projectFile);
 
                 LoadProjectTables();
                 LoadProjectSettings();
@@ -64,7 +64,7 @@ namespace WpfUI.Services
         // SELECT
         public void SelectLibrary(string rootPath)
         {
-            string selectedFile = FileSystemHelper.SelectFilePath(rootPath, "EDT files (*.edl)|*.edl|All files (*.*)|*.*");
+            string selectedFile = FileSystemHelper.SelectFilePath(rootPath, "EDT files (*.edl)|*.edl");
             if (selectedFile != "") {
                 AppSettings.Default.LibraryDb = selectedFile;
                 AppSettings.Default.Save();
@@ -75,12 +75,12 @@ namespace WpfUI.Services
         
         public void SelectProject(string rootPath)
         {
-            string selectedFile = FileSystemHelper.SelectFilePath(rootPath, "EDT files (*.edp)|*.edp|All files (*.*)|*.*");
+            string selectedFile = FileSystemHelper.SelectFilePath(rootPath, "EDT files (*.edp)|*.edp");
             if (selectedFile != "") {
                 AppSettings.Default.ProjectDb = selectedFile;
                 AppSettings.Default.Save();
 
-                InitializeProject();
+                InitializeProject(selectedFile);
             }
         }
 

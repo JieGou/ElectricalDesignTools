@@ -145,7 +145,12 @@ namespace EDTLibrary.DataAccess
                     sb.Replace($"{prop}, ", "");
                 }
 
-                sb.Replace("Id,", "");
+                string input = sb.ToString();
+                string pattern = @"\bId,";
+                string replace = "";
+                sb.Clear();
+                sb.Append(Regex.Replace(input, pattern, ""));
+
                 sb.Replace(",", "", sb.Length - 2, 2);
                 sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(") VALUES (");
@@ -164,7 +169,7 @@ namespace EDTLibrary.DataAccess
                 sb.Replace(",", "", sb.Length - 2, 2);
                 sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(")");
-
+                sb.Replace("( ", "(");
                 try {
                     cnn.Execute(sb.ToString() + ";", classObject);
                     return new Tuple<bool, string>(true, "");

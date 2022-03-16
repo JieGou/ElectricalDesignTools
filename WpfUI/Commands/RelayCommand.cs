@@ -9,6 +9,7 @@ namespace WpfUI.Commands
     {
 
         private Action? _action;
+        private Action<object> _actionWithParam;
         private Func<bool>? _canExecute;
         private StartupService? _startupService;
 
@@ -23,7 +24,12 @@ namespace WpfUI.Commands
         {
             _action = action;
         }
-      
+
+        public RelayCommand(Action<object> action)
+        {
+            _actionWithParam = action;
+        }
+
         public RelayCommand(Action action, Func<bool> canExecute)
         {
             _action = action;
@@ -53,6 +59,9 @@ namespace WpfUI.Commands
         {
             if (_action != null) {
                 _action();
+            }
+            if (_actionWithParam != null) {
+                _actionWithParam(parameter);
             }
         }
     }

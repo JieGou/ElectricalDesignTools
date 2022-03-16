@@ -52,7 +52,7 @@ namespace WpfUI.ViewModels
 
 #if DEBUG
             if (type == "main") {
-                _startupService.InitializeProject();
+                _startupService.InitializeProject(AppSettings.Default.ProjectDb);
             }
 #endif
 

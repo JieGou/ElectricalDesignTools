@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="WpfUI.Views.CableListView"
+             x:Name="cableView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,8 +10,22 @@
              xmlns:converters="clr-namespace:WpfUI.Converters"
         mc:Ignorable="d"
         d:Width="1400" d:Height="800"
-        Background="#FFC5BCCA">
-    
+        Background="#FFC5BCCA"
+             d:Opacity="1"
+             Opacity="0.5">
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="cableView"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0.5" To="1" Duration="0:0:0.75"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -111,9 +126,9 @@
                                                 <Expander IsExpanded="True" Background="#FFB1B1FD" BorderBrush="Black"  BorderThickness="1,1,1,1" Margin="1">
                                                     <Expander.Header>
                                                         <DockPanel>
-                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
-                                                            <TextBlock FontWeight="Bold" Text="   Qty:  " Margin="5,0,0,0" />
-                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount}"/>
+                                                            <TextBlock Text="{Binding Path=Name}" Margin="5,0,0,0" MinWidth="100" FontWeight="Bold" />
+                                                            <TextBlock Text="Qty: " Margin="15,0,0,0" Width="25" FontWeight="SemiBold"/>
+                                                            <TextBlock Text="{Binding Path=ItemCount}" FontWeight="Bold"/>
                                                         </DockPanel>
                                                     </Expander.Header>
                                                     <Expander.Content>
@@ -135,18 +150,22 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                <Expander IsExpanded="True" Background="LightGray" BorderBrush="Black" Foreground="Black" BorderThickness="1,1,1,1" Margin="1 0">
+                                            <Expander IsExpanded="True" Foreground="Black" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,1" 
+                                                      Margin="1 0">
                                                     <Expander.Header>
                                                         <StackPanel Orientation="Horizontal">
                                                             <TextBlock Text="Size: " Margin="20,0,0,0" />
-                                                            <TextBlock FontWeight="Bold" Text="  #" Margin="10,0,0,0" />
-                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="2,0,0,0" Width="25"/>
+                                                            <TextBlock Text="# "     Margin="5,0,0,0" FontWeight="Bold" />
+                                                            <TextBlock Text="{Binding Path=Name}" 
+                                                                       MinWidth="25" FontWeight="Bold" />
 
-                                                            <TextBlock Text="  Total Runs:  " Margin="20,0,0,0" />
-                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Items, Converter={StaticResource groupsConverter}}"/>
+                                                            <TextBlock Text="Total Runs:  " Margin="25,0,0,0" />
+                                                            <TextBlock Text="{Binding Path=Items, Converter={StaticResource groupsConverter}}" 
+                                                                       MinWidth="25" FontWeight="Bold"  />
                                                             
-                                                            <TextBlock Text="  Count:  " Margin="20,0,0,0" />
-                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount}" Width="25"/>
+                                                            <TextBlock Text="Count:  " Margin="15,0,0,0" />
+                                                            <TextBlock Text="{Binding Path=ItemCount}" 
+                                                                       MinWidth="25" FontWeight="Bold" />
                                                         </StackPanel>
                                                     </Expander.Header>
                                                     <Expander.Content>

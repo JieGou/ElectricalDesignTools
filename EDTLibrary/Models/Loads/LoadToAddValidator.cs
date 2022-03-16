@@ -15,18 +15,25 @@ namespace EDTLibrary.Models.Loads
     public class LoadToAddValidator : INotifyDataErrorInfo
     {
         private ListManager _listManager;
-        private ObservableCollection<DteqModel> _dteqList;
-        private ObservableCollection<LoadModel> _loadList;
-        private DteqModel _selectedDteq;
+        private IDteq _feedingDteq;
 
-        public LoadToAddValidator(ListManager listManager, IDteq selectedDteq)
+        public LoadToAddValidator(ListManager listManager)
         {
             _listManager = listManager;
-            _dteqList = listManager.DteqList;
-            _loadList = listManager.LoadList;
-            //_selectedDteq = selectedDteq;
         }
 
+        public LoadToAddValidator(ListManager listManager, ILoad loadToAdd)
+        {
+            _listManager = listManager;
+
+            Tag = loadToAdd.Tag;
+            Type = loadToAdd.Type;
+            Description = loadToAdd.Description;
+            FedFromTag = loadToAdd.FedFromTag;
+            Size = loadToAdd.Size.ToString();
+            Unit = loadToAdd.Unit;
+            Voltage = loadToAdd.Voltage.ToString();
+        }
         private string _tag;
         public string Tag
         {
@@ -73,7 +80,6 @@ namespace EDTLibrary.Models.Loads
 
                 }
                 else if (_type == LoadTypes.MOTOR.ToString()) {
-                    Unit = "";
 
                 }
                 else if (_type == LoadTypes.HEATER.ToString()) {
@@ -111,12 +117,17 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 _fedFromTag = value;
-                _selectedDteq = (DteqModel)_listManager.IDteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
-                if (_selectedDteq != null) {
-                    Voltage = _selectedDteq.LoadVoltage.ToString();
+
+                ClearErrors(nameof(FedFromTag));
+                _feedingDteq = (DteqModel)_listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
+                if (_feedingDteq != null && _fedFromTag != GlobalConfig.Utility) {
+                    Voltage = _feedingDteq.LoadVoltage.ToString();
                 }
-                if (_fedFromTag == GlobalConfig.Utility) {
+                else if (_fedFromTag == GlobalConfig.Utility) {
                     AddError(nameof(FedFromTag), "Utility cannot supply loads");
+                }
+                else {
+                    AddError(nameof(FedFromTag), "Invalid Supplier / Fed From");
                 }
             }
         }
@@ -190,8 +201,8 @@ namespace EDTLibrary.Models.Loads
                     AddError(nameof(Voltage), "Invalid Voltage");
                 }
                 else if (double.TryParse(value.ToString(), out parsedVoltage) == true) {
-                    if (_selectedDteq != null) {
-                        if (_voltage == _selectedDteq.LoadVoltage.ToString()) {
+                    if (_feedingDteq != null) {
+                        if (_voltage == _feedingDteq.LoadVoltage.ToString()) {
                             if (_type == LoadTypes.MOTOR.ToString()) {
                                 if (Voltage == "600") {
                                     Voltage = "575";
