@@ -1,6 +1,6 @@
 ﻿using PropertyChanged;
 
-namespace EDTLibrary.Models
+namespace EDTLibrary.Models.Areas
 {
     [AddINotifyPropertyChangedInterface]
     public class AreaModel
@@ -13,7 +13,7 @@ namespace EDTLibrary.Models
             get { return _tag; }
             set
             {
-                if (string.IsNullOrWhiteSpace(value) == false ) {
+                if (string.IsNullOrWhiteSpace(value) == false) {
                     _tag = value;
                 }
             }

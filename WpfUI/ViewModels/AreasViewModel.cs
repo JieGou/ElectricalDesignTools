@@ -1,7 +1,7 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
-using EDTLibrary.Models;
+using EDTLibrary.Models.Areas;
 using PropertyChanged;
 using System;
 using System.Collections;

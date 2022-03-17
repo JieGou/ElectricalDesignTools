@@ -21,7 +21,7 @@ namespace EDTLibrary.Tests.LibraryData
         {
             GlobalConfig.GettingRecords = true;
             ILoad load = new LoadModel() { Voltage = voltage, Size = size, Unit = unit};
-            LibraryTables.Motors = CreateSampleMotorTable();
+            DataTables.Motors = CreateSampleMotorTable();
 
 
             double actual = LibraryManager.GetMotorEfficiency(load);

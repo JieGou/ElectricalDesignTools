@@ -16,7 +16,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public DteqToAddValidator(ListManager listManager)
         {
-           _listManager = listManager;
+            _listManager = listManager;
         }
 
         public DteqToAddValidator(ListManager listManager, IDteq dteqToAdd)
@@ -36,7 +36,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         private ListManager _listManager;
         private IDteq _feedingDteq;
 
-        private string _tag="";
+        private string _tag = "";
         public string Tag
         {
             get { return _tag; }
@@ -49,7 +49,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
                 else if (string.IsNullOrWhiteSpace(_tag)) { // TODO - create method for invalid tags
                     if (_tag == GlobalConfig.EmptyTag) {
-                        _isValid= false;
+                        _isValid = false;
                     }
                     else {
                         AddError(nameof(Tag), "Invalid Tag");
@@ -172,7 +172,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 else if (_type == DteqTypes.XFR.ToString() && _unit != Units.kVA.ToString()) {
                     AddError(nameof(Unit), "Incorrect Units for Equipment");
                 }
-                else if ((_type == DteqTypes.SWG.ToString() || 
+                else if ((_type == DteqTypes.SWG.ToString() ||
                           _type == DteqTypes.CDP.ToString() ||
                           _type == DteqTypes.MCC.ToString() ||
                           _type == DteqTypes.DPN.ToString() ||
@@ -191,7 +191,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         public string LineVoltage
         {
             get { return _lineVoltage; }
-            set 
+            set
             {
                 _lineVoltage = value;
                 double parsedVoltage;
@@ -217,8 +217,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         public string LoadVoltage
         {
             get { return _loadVoltage; }
-            set 
-            { 
+            set
+            {
                 _loadVoltage = value;
                 ClearErrors(nameof(LoadVoltage));
                 if (string.IsNullOrWhiteSpace(_loadVoltage)) {
@@ -275,9 +275,9 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 #if DEBUG
             if (GlobalConfig.Testing == false) {
-                if (string.IsNullOrWhiteSpace(Type)) 
+                if (string.IsNullOrWhiteSpace(Type))
                     Type = "MCC";
-                if (string.IsNullOrWhiteSpace(FedFromTag)) 
+                if (string.IsNullOrWhiteSpace(FedFromTag))
                     FedFromTag = "SWG-01";
                 if (string.IsNullOrWhiteSpace(Size))
                     Size = "800";
@@ -295,13 +295,13 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
             var errors = _errorDict;
             if (_isValid && HasErrors == false) {
-                
+
                 return true;
             }
             return false;
         }
 
-       
+
         public bool HasErrors => _errorDict.Any();
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
         public readonly Dictionary<string, ObservableCollection<string>> _errorDict = new Dictionary<string, ObservableCollection<string>>();

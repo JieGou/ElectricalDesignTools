@@ -1,4 +1,7 @@
-﻿namespace EDTLibrary.Models {
+﻿using EDTLibrary.Models.Areas;
+
+namespace EDTLibrary.Models
+{
     public interface IEquipment
     {
         int Id { get; set; }

@@ -14,12 +14,12 @@ namespace EDTLibrary.Models.Validators
             }
 
 
-            var locationTag = listManger.LoadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
+            var areaTag = listManger.AreaList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
             var dteqTag = listManger.DteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
             var loadTag = listManger.LoadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
 
 
-            if (locationTag != null ||
+            if (areaTag != null ||
                 dteqTag != null ||
                 loadTag != null) {
                 return false;

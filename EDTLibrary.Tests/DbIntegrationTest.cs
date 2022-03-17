@@ -17,7 +17,7 @@ namespace EDTLibrary.Tests
     public class DbIntegrationTest
     {
         [Fact]
-        public void CopyDb_Test()
+        public void IntegrationTest()
         {
             CopyDb();
             //Assert.True(File.Exists(GlobalConfig.TestDb));
@@ -50,21 +50,27 @@ namespace EDTLibrary.Tests
 
             #endregion
 
-            #region Create Objects
+            #region Add Objects
+
+            //Dteq
             foreach (var dteq in TestData.TestDteqList) {
                 dteqToAdd = new DteqToAddValidator(listManager, dteq);
                 eqView.AddDteq(dteqToAdd);
             }
             Assert.True(listManager.DteqList.Count > 0);
 
+            //Loads
             foreach (var load in TestData.TestLoadList) {
                 loadToAdd = new LoadToAddValidator(listManager, load);
                 eqView.AddLoad(loadToAdd);
                 load.CalculateLoading();
             }
             Assert.True(listManager.LoadList.Count > 0);
+            Assert.True(listManager.LoadList.Count != TestData.TestLoadList.Count) ;
+            Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count-3);
             Assert.True(listManager.DteqList[0].DemandKva > 0);
             Assert.True(listManager.LoadList[0].DemandKva > 0);
+
             #endregion
 
 
@@ -84,9 +90,7 @@ namespace EDTLibrary.Tests
             //Delete
             eqView.DeleteDteq(listManager.DteqList[1]);
             Assert.True(listManager.DteqList.Count == dteqCountOld-1);
-            //Assert.True(listManager.DteqList.Count == listManager.DteqList.Count-1);
             Assert.True(listManager.CableList.Count == cableCountOld-1);
-            //Assert.True(listManager.CableList.Count == listManager.CableList.Count-1);
 
             #endregion
 
