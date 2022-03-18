@@ -180,12 +180,12 @@
     <!--CABLE Column Header-->
     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
            x:Key="CableHeaderColumn">
-        <Setter Property="Background" Value="#FF803280"/>
+        <Setter Property="Background" Value="#FF675AC1"/>
         <Setter Property="Foreground" Value="White"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
-                <Setter Property="Background" Value="#FFA419A4"/>
-                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="#FFCECEFF"/>
+                <Setter Property="Foreground" Value="Black"/>
             </Trigger>
         </Style.Triggers>
     </Style>

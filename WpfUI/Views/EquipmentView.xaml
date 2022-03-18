@@ -340,27 +340,6 @@
                                         ElementStyle="{StaticResource ColumnElementStyle}" 
                                         Visibility="Visible"/>
 
-                        <!--<DataGridTemplateColumn Header="Tag"
-                                    MinWidth="75">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <TextBox  Text="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Margin="0"/>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-                <DataGridTemplateColumn.CellEditingTemplate>
-                    <DataTemplate>
-                        <TextBox  Text="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                                    Background="White"
-                                    FontWeight="Bold"
-                                    BorderThickness="0"
-                                    Margin="0"/>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellEditingTemplate>
-            </DataGridTemplateColumn>-->
-
                         <!--Description-->
                         <DataGridTextColumn Header="Description" x:Name="dteqDescription"
                                 MinWidth="150" 
@@ -378,16 +357,24 @@
                                     MinWidth="75">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
+                                    <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+
+                                    <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedItem="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               DisplayMemberPath="Tag"
-                                              Text="{Binding Path=Area.Tag}"
+                                              Text="{Binding Area.Tag}"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"/>
                                 </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
                         
                         <!--Type-->
@@ -419,7 +406,7 @@
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.ListManager.DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedItem="{Binding Path=FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedItem="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedValuePath="Id"
                                               DisplayMemberPath="Tag"
                                               HorizontalContentAlignment="Center"
@@ -749,15 +736,15 @@
                     Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource FedFrom}"
-                    Width="75"
-                    ItemsSource="{Binding Source={StaticResource dteqList}}"
+                          Width="75"
+                          ItemsSource="{Binding Source={StaticResource dteqList}}"
                           SelectedValuePath="Tag"
                           DisplayMemberPath="Tag"
-                    SelectedValue="{Binding DteqToAddValidator.FedFromTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                                   IsSynchronizedWithCurrentItem="False"
-                    Text="{Binding DteqToAddValidator.FedFromTag}"
-                    IsEditable="True" IsTextSearchEnabled="True"
-                    Margin="5 0 5 0"/>
+                          SelectedValue="{Binding DteqToAddValidator.FedFromTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          IsSynchronizedWithCurrentItem="False"
+                          Text="{Binding DteqToAddValidator.FedFromTag}"
+                          IsEditable="True" IsTextSearchEnabled="True"
+                          Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Voltage}"
                     Width="60"

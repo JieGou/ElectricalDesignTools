@@ -9,7 +9,13 @@ namespace EDTLibrary.Models.DistributionEquipment
 {
     public class DistributionManager
     {
+        private ListManager _listManager;
 
+        public DistributionManager(ListManager listManager)
+        {
+            _listManager = listManager;
+        }
+        //TODO - create Distribution Manager instance inside eqVm
         public static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
             if (caller.FedFrom != null) {
@@ -30,7 +36,5 @@ namespace EDTLibrary.Models.DistributionEquipment
                 caller.CalculateLoading();
             }
         }
-
-
     }
 }

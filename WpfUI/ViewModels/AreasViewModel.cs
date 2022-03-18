@@ -44,194 +44,8 @@ namespace WpfUI.ViewModels
             }
         }
 
-        //Area To ADD
-        #region ADD
-        private string _locationToAddName = "test";
-        public string AreaToAddName 
-        {   get => _locationToAddName;
-            set 
-            { 
-                _locationToAddName = value;
-                ClearErrors(nameof(AreaToAddName));
-                if (_locationToAddName == null) {
-                    AddError(nameof(AreaToAddName), "Name cannot be empty");
-                }
-                else if (_locationToAddName == "") {
-                    AddError(nameof(AreaToAddName), "Name cannot be empty");
-                }
-                else if (IsNameAvailable(_locationToAddName) == false) {
-                    AddError(nameof(AreaToAddName), "Name already exists");
-                }
-                
-               
-            }
-        }
+        public AreaToAddValidator AreaToAddValidator { get; set; }
 
-        private string _locationToAddTag;
-        public string AreaToAddTag
-        {
-            get => _locationToAddTag;
-            set
-            {
-                _locationToAddTag = value;
-
-                ClearErrors(nameof(AreaToAddTag));
-
-                if (_locationToAddTag == null) {
-                    AddError(nameof(_locationToAddTag), "Tag cannot be empty");
-                }
-                else if (_locationToAddTag == "") {
-                    AddError(nameof(_locationToAddTag), "Tag cannot be empty");
-                }
-                else if (IsTagAvailable(_locationToAddTag) == false) {
-                    AddError(nameof(_locationToAddTag), "Tag already exists");
-                }
-
-            }
-        }
-
-        private string _locationToAddDescription;
-        public string AreaToAddDescription
-        {
-            get => _locationToAddDescription;
-            set
-            {
-                _locationToAddDescription = value;
-            }
-        }
-
-        private string _locationToAddCategory = "Category 1";
-        public string AreaToAddCategory
-        {
-            get => _locationToAddCategory;
-            set
-            {
-                _locationToAddCategory = value;
-
-                ClearErrors(nameof(AreaToAddCategory));
-
-                if (_locationToAddCategory == null) {
-                    AddError(nameof(AreaToAddCategory), "Invalid Category");
-                }
-                else if (_locationToAddCategory == "") {
-                    AddError(nameof(AreaToAddCategory), "Invalid Category");
-                }
-                else if (IsCategoryValid(_locationToAddCategory)==false) {
-                    AddError(nameof(AreaToAddCategory), "Invalid Category");
-                }
-
-            }
-        }
-
-        private string _locationToAddAreaClass = "Non-Hazardous";
-        public string AreaToAddAreaClass
-        {
-            get => _locationToAddAreaClass;
-            set
-            {
-                if (value != null && value != "") {
-                    _locationToAddAreaClass = value;
-
-                    ClearErrors(nameof(AreaToAddAreaClass));
-
-                    if (_locationToAddAreaClass == null) {
-                        AddError(nameof(AreaToAddAreaClass), "Invalid Area Class");
-                    }
-                    else if (_locationToAddAreaClass == "") {
-                        AddError(nameof(AreaToAddAreaClass), "Invalid Area Class");
-                    }
-                    else if (IsAreaClassValid(_locationToAddAreaClass) == false) {
-                        AddError(nameof(AreaToAddAreaClass), "Invalid Area Class");
-                    }
-                }
-                
-            }
-        }
-
-        private string _locationToAddMinTemp = "0";
-        public string AreaToAddMinTemp
-        {
-            get => _locationToAddMinTemp;
-            set
-            {
-                _locationToAddMinTemp = value;
-
-                double minTemp;
-
-                ClearErrors(nameof(AreaToAddMinTemp));
-
-                if (Double.TryParse(_locationToAddMinTemp, out minTemp) == false ) {
-                    AddError(nameof(AreaToAddMinTemp), "Invalid value");
-                }
-
-                else if (_locationToAddMinTemp == null) {
-                    AddError(nameof(AreaToAddMinTemp), "Min Temp cannot be empty");
-                }
-                else if (_locationToAddMinTemp == "") {
-                    AddError(nameof(AreaToAddMinTemp), "Min Temp cannot be empty");
-                }
-                else if (double.Parse(_locationToAddMinTemp) > double.Parse(_locationToAddMaxTemp)) {
-                    AddError(nameof(AreaToAddMinTemp), "Min Temp must be lower than Max Temp");
-
-                }
-
-            }
-        }
-
-        private string _locationToAddMaxTemp ="10";
-        public string AreaToAddMaxTemp
-        {
-            get => _locationToAddMaxTemp;
-            set
-            {
-                _locationToAddMaxTemp = value;
-
-                double maxTemp;
-
-                ClearErrors(nameof(AreaToAddMaxTemp));
-
-                if (Double.TryParse(_locationToAddMaxTemp, out maxTemp) == false) {
-                    AddError(nameof(AreaToAddMaxTemp), "Invalid value");
-                }
-
-                else if (_locationToAddMaxTemp == null) {
-                    AddError(nameof(AreaToAddMaxTemp), "Max Temp cannot be empty");
-                }
-                else if (_locationToAddMaxTemp == "") {
-                    AddError(nameof(AreaToAddMaxTemp), "Max Temp cannot be empty");
-                }
-                else if (double.Parse(_locationToAddMinTemp) > double.Parse(_locationToAddMaxTemp)) {
-                    AddError(nameof(AreaToAddMaxTemp), "Max Temp must be higher than Min Temp");
-
-                }
-
-            }
-        }
-
-        private string _locationToAddNemaType = "Type 12";
-        public string AreaToAddNemaType
-        {
-            get => _locationToAddNemaType;
-            set
-            {
-                _locationToAddNemaType = value;
-
-                ClearErrors(nameof(AreaToAddNemaType));
-
-                if (_locationToAddNemaType == null) {
-                    AddError(nameof(AreaToAddNemaType), "Invalid Nema Type");
-                }
-                else if (_locationToAddNemaType == "") {
-                    AddError(nameof(AreaToAddNemaType), "Invalid Nema Type");
-                }
-                else if (IsNemaTypeValid(_locationToAddNemaType) == false) {
-                    AddError(nameof(AreaToAddNemaType), "Invalid Nema Type");
-                }
-            }
-        }
-
-       
-        #endregion
 
         #region Public Commands
 
@@ -248,6 +62,7 @@ namespace WpfUI.ViewModels
         public AreasViewModel(ListManager listManager)
         {
             _listManager = listManager;
+            AreaToAddValidator  = new AreaToAddValidator(_listManager);
 
             GetAreasCommand = new RelayCommand(GetAreas);
             SaveAreasCommand = new RelayCommand(SaveAreas);
@@ -337,68 +152,36 @@ namespace WpfUI.ViewModels
                 }
             }
         }
-        private void DeleteArea()
+        private void DeleteArea(object areaToDeleteObject)
         {
-            if (_selectedArea != null) {
-                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadTable, _selectedArea.Id);
-            }
+            AreaModel areaToDelete = (AreaModel)areaToDeleteObject;
+            DbManager.prjDb.DeleteRecord(GlobalConfig.AreaTable, areaToDelete.Id);
+            _listManager.AreaList.Remove(areaToDelete);
         }
-        private void AddArea()
+        public void AddArea(object areaToAddObject)
         {
-            AreaModel location = new AreaModel();
-
-            //TODO = proper add location validation
-            
-
-            bool newAreaIsValid = true;
-
-            //Name
-            if (IsNameAvailable(AreaToAddName) == false) {
-                newAreaIsValid = false;
-            }
-
-            //Tag
-            if (IsTagAvailable(AreaToAddTag) == false) {
-                newAreaIsValid = false;
-            }
-
-            //Category
-            if (IsCategoryValid(AreaToAddCategory) == false) {
-                newAreaIsValid = false;
-            }
-
-            //AreaClass
-            if (IsAreaClassValid(AreaToAddAreaClass) == false) {
-                newAreaIsValid = false;
-            }
-
-            //Temperature
-            double outMinTemp;
-            double outMaxTemp;
-            if (double.TryParse(AreaToAddMinTemp, out outMinTemp) == false || double.TryParse(AreaToAddMaxTemp, out outMaxTemp) == false) {
-                newAreaIsValid = false;
-            }
-            else if (outMinTemp > outMaxTemp) {
-                newAreaIsValid = false;
-            }
-
-            //NemaRating
-            if (IsNemaTypeValid(AreaToAddNemaType) == false) {
-                newAreaIsValid = false;
-            }
-
+            AreaToAddValidator areaToAdd = (AreaToAddValidator)areaToAddObject;
+            AreaModel newArea = new AreaModel();
+            bool newAreaIsValid = areaToAdd.IsValid();
+            var errors = areaToAdd._errorDict;
             if (newAreaIsValid) {
 
-                location.Name = _locationToAddName;
-                location.Tag = _locationToAddTag;
-                location.Description = _locationToAddDescription;
-                location.AreaCategory = _locationToAddCategory;
-                location.AreaClassification = _locationToAddAreaClass;
-                location.MinTemp = double.Parse(_locationToAddMinTemp);
-                location.MaxTemp = double.Parse(_locationToAddMaxTemp);
-                location.NemaType = _locationToAddNemaType;
+                newArea.Name = areaToAdd.Name;
+                newArea.Tag = areaToAdd.Tag;
+                newArea.Description = areaToAdd.Description;
+                newArea.AreaCategory = areaToAdd.AreaCategory;
+                newArea.AreaClassification = areaToAdd.AreaClassification;
+                newArea.MinTemp = double.Parse(areaToAdd.MinTemp);
+                newArea.MaxTemp = double.Parse(areaToAdd.MaxTemp);
+                newArea.NemaType = areaToAdd.NemaType;
 
-                ListManager.AreaList.Add(location);
+                Tuple<bool, string, int> insertResult;
+                insertResult = DbManager.prjDb.InsertRecordGetId(newArea, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
+                newArea.Id = insertResult.Item3;
+                if (insertResult.Item1 == false || newArea.Id == 0) {
+                    MessageBox.Show($"ADD NEW AREA   {insertResult.Item2}");
+                }
+                ListManager.AreaList.Add(newArea);
             }
         }
 

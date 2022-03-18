@@ -40,6 +40,13 @@ namespace EDTLibrary
             await Task.Delay(1000);
             CreateDteqDict();
         }
+
+        public ObservableCollection<AreaModel> GetAreas()
+        {
+            AreaList = DbManager.prjDb.GetRecords<AreaModel>(GlobalConfig.AreaTable);
+            return AreaList;
+        }
+
         public ObservableCollection<DteqModel> GetDteq() {
 
             IDteqList.Clear();
@@ -115,12 +122,25 @@ namespace EDTLibrary
             CableList = DbManager.prjDb.GetRecords<PowerCableModel>(GlobalConfig.PowerCableTable);
             return CableList;
         }
-        public ObservableCollection<AreaModel> GetAreas()
-        {
-            AreaList = DbManager.prjDb.GetRecords<AreaModel>(GlobalConfig.AreaTable);
-            return AreaList;
-        }
 
+
+        public void GetProjectTablesAndAssigments()
+        {
+            GlobalConfig.GettingRecords = true;
+
+            //Get
+            GetAreas();
+            GetDteq();
+            GetLoads();
+            GetCables();
+
+            //Assign
+            AssignAreas();
+            AssignLoadsToAllDteq();
+            AssignCables();
+
+            GlobalConfig.GettingRecords = false;
+        }
 
         public void CreateILoadDict() {
             iLoadDict.Clear();
@@ -145,6 +165,15 @@ namespace EDTLibrary
             AssignLoadsToAllDteq();
             foreach (var load in LoadList) {
                 load.CalculateLoading();
+                load.PowerCable.GetRequiredAmps(load);
+                load.PowerCable.CalculateCableQtySizeNew();
+                load.PowerCable.CalculateAmpacityNew(load);
+            }
+            foreach (var dteq in IDteqList) {
+                dteq.CalculateLoading();
+                dteq.PowerCable.GetRequiredAmps(dteq);
+                dteq.PowerCable.CalculateCableQtySizeNew();
+                dteq.PowerCable.CalculateAmpacityNew(dteq);
             }
         }
         public void OnFedFromChanged(object sender, EventArgs e)
@@ -268,6 +297,26 @@ namespace EDTLibrary
                 }
             }
         }
+
+        public void AssignAreas()
+        {
+            foreach (var dteq in IDteqList) {
+                foreach (var area in AreaList) {
+                    if (dteq.AreaId == area.Id) {
+                        dteq.Area = area;
+                        break;
+                    }
+                }
+            }
+            foreach (var load in LoadList) {
+                foreach (var area in AreaList) {
+                    if (load.AreaId == area.Id) {
+                        load.Area = area;
+                        break;
+                    }
+                }
+            }
+        }
         public void AssignCables()
         {
             foreach (var dteq in IDteqList) {
@@ -291,6 +340,8 @@ namespace EDTLibrary
                 }
             }
         }
+
+
     
         #endregion
 

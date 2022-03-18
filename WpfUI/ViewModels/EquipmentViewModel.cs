@@ -2,11 +2,9 @@
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
-using EDTLibrary.Models;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
-using EDTLibrary.Models.Validators;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -19,7 +17,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WpfUI.Commands;
-using WpfUI.Services;
 using WpfUI.Stores;
 using WpfUI.ViewModifiers;
 
@@ -326,22 +323,7 @@ namespace WpfUI.ViewModels
 
         // Dteq
         public async void DbGetAll() {
-
-            GlobalConfig.GettingRecords = true;
-
-            _listManager.UnregisterAllDteqFromAllLoadEvents();
-
-            _listManager.GetDteq();
-            _listManager.GetLoads();
-            _listManager.AssignLoadsToAllDteq();
-
-            _listManager.GetCables();
-            _listManager.AssignCables();
-            ShowAllLoads();
-            DteqToAddValidator = new DteqToAddValidator(_listManager);
-            LoadToAddValidator = new LoadToAddValidator(_listManager);
-
-            GlobalConfig.GettingRecords = false;
+            _listManager.GetProjectTablesAndAssigments();
         }
 
         private void DbSaveAll()

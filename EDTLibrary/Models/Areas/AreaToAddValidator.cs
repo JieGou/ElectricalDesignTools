@@ -51,10 +51,8 @@ namespace EDTLibrary.Models.Areas
                     AddError(nameof(Tag), "Tag already exists");
                 }
                 else if (string.IsNullOrWhiteSpace(_tag) || _tag == "") { // TODO - create method for invalid tags
-                    if (_tag == GlobalConfig.EmptyTag) {
-                        AddError(nameof(Tag), "Invalid Tag");
-                        _isValid = false;
-                    }
+                    AddError(nameof(Tag), "Invalid Tag");
+                    _isValid = false;
                 }
                 else {
                     _isValid = true;
@@ -140,14 +138,18 @@ namespace EDTLibrary.Models.Areas
             {
                 _minTemp = value;
                 double minTemp;
+                double maxTemp;
                 ClearErrors(nameof(MinTemp));
 
                 if (Double.TryParse(_minTemp, out minTemp) == false ||
-                    string.IsNullOrWhiteSpace(_minTemp) || _minTemp == "") {
+                    string.IsNullOrWhiteSpace(_minTemp) || _minTemp == "" ||
+                    
+                    Double.TryParse(MaxTemp, out maxTemp) == false ||
+                    string.IsNullOrWhiteSpace(MaxTemp) || MaxTemp == "") {
                     AddError(nameof(MinTemp), "Invalid value");
-                    _isValid = false;
-
+                        _isValid = false;
                 }
+                //TODO temperature
                 else if (double.Parse(_minTemp) > double.Parse(_maxTemp)) {
                     AddError(nameof(MinTemp), "Min Temp must be lower than Max Temp");
                     _isValid = false;
@@ -166,13 +168,15 @@ namespace EDTLibrary.Models.Areas
             {
                 _maxTemp = value;
                 double maxTemp;
+                double minTemp;
                 ClearErrors(nameof(MaxTemp));
 
                 if (Double.TryParse(_maxTemp, out maxTemp) == false ||
-                    string.IsNullOrWhiteSpace(_maxTemp) || _maxTemp == "") {
-                    AddError(nameof(MaxTemp), "Invalid value");
-                    _isValid = false;
-
+                    string.IsNullOrWhiteSpace(_maxTemp) || _maxTemp == "" ||
+                    Double.TryParse(MinTemp, out minTemp) == false ||
+                    string.IsNullOrWhiteSpace(MinTemp) || MinTemp == "") {
+                        AddError(nameof(MaxTemp), "Invalid value");
+                        _isValid = false;
                 }
                 else if (double.Parse(_minTemp) > double.Parse(_maxTemp)) {
                     AddError(nameof(MaxTemp), "Max Temp must be higher than Min Temp");
@@ -190,23 +194,25 @@ namespace EDTLibrary.Models.Areas
             get { return _nemaType; }
             set
             {
+                var nemaTypeOld = _nemaType;
                 _nemaType = value;
-
+                if (_nemaType == null) {
+                    _nemaType = nemaTypeOld;
+                }
                 ClearErrors(nameof(NemaType));
 
-                var locationNemaType = TypeManager.NemaTypes.FirstOrDefault(nt => nt.Type.ToLower() == _nemaType.ToLower());
+                if (_nemaType != null) {
+                    var locationNemaType = TypeManager.NemaTypes.FirstOrDefault(nt => nt.Type.ToLower() == _nemaType.ToLower());
+                    if (locationNemaType == null) {
+                        _isValid = false;
 
-                if (string.IsNullOrWhiteSpace(_maxTemp) || _maxTemp == "") {
-                    AddError(nameof(MaxTemp), "Invalid value");
-                    _isValid = false;
+                    }
+                    else {
+                        _isValid = true;
 
+                    }
                 }
-                else if (locationNemaType == null) {
-                    AddError(nameof(MaxTemp), "Invalid value");
-                    _isValid = false;
 
-                }
-                _isValid = true;
             }
 
         }

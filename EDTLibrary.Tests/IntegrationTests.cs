@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
@@ -14,7 +15,7 @@ using Xunit;
 
 namespace EDTLibrary.Tests
 {
-    public class DbIntegrationTest
+    public class IntegrationTests
     {
         [Fact]
         public void IntegrationTest()
@@ -42,29 +43,36 @@ namespace EDTLibrary.Tests
             startupService.InitializeProject(GlobalConfig.TestDb);
 
             //Validators
+            AreaToAddValidator areaToAdd;
             DteqToAddValidator dteqToAdd;
-            LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager);
+            LoadToAddValidator loadToAdd;
 
             //ViewModels
-            EquipmentViewModel eqView = new EquipmentViewModel(listManager);
+            AreasViewModel areaVm = new AreasViewModel(listManager);
+            EquipmentViewModel eqVm = new EquipmentViewModel(listManager);
 
             #endregion
 
             #region Add Objects
-
+            //Area
+            foreach (var area in TestData.TestAreasList) {
+                areaToAdd = new AreaToAddValidator(listManager, area);
+                areaVm.AddArea(areaToAdd);
+            }
             //Dteq
             foreach (var dteq in TestData.TestDteqList) {
                 dteqToAdd = new DteqToAddValidator(listManager, dteq);
-                eqView.AddDteq(dteqToAdd);
+                eqVm.AddDteq(dteqToAdd);
             }
             Assert.True(listManager.DteqList.Count > 0);
 
             //Loads
             foreach (var load in TestData.TestLoadList) {
                 loadToAdd = new LoadToAddValidator(listManager, load);
-                eqView.AddLoad(loadToAdd);
+                eqVm.AddLoad(loadToAdd);
                 load.CalculateLoading();
             }
+            Assert.True(listManager.AreaList.Count > 0);
             Assert.True(listManager.LoadList.Count > 0);
             Assert.True(listManager.LoadList.Count != TestData.TestLoadList.Count) ;
             Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count-3);
@@ -88,7 +96,7 @@ namespace EDTLibrary.Tests
             var cableCountOld = listManager.CableList.Count;
 
             //Delete
-            eqView.DeleteDteq(listManager.DteqList[1]);
+            eqVm.DeleteDteq(listManager.DteqList[1]);
             Assert.True(listManager.DteqList.Count == dteqCountOld-1);
             Assert.True(listManager.CableList.Count == cableCountOld-1);
 

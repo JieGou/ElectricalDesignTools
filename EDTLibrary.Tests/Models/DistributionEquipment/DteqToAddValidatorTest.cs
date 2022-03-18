@@ -49,6 +49,7 @@ namespace EDTLibrary.Tests.Models.DistributionEquipment
         [InlineData("MCC-07", "", "SWG-01", "2000", "A", "600", "600")]
         [InlineData("MCC-08", "MCC", "", "", "A", "600", "600")]
         [InlineData("MCC-09", "MCC", "Empty Dteq", "2000", "A", "600", "")]
+        [InlineData("XFR-10", "XFR", "UTILITY", "2000", "A", "110000", "")]
         [InlineData(GlobalConfig.EmptyTag, "MCC", "SWG-02", "2000", "A", "480", "460")]
 
         public void IsValid_False(string tag, string type, string fedFrom, string size, string unit, string lineVoltage, string loadVoltage)

@@ -45,7 +45,7 @@ namespace WpfUI.Services
                 libDb = new SQLiteConnector(AppSettings.Default.LibraryDb);
                 DbManager.SetLibraryDb(AppSettings.Default.LibraryDb);
 
-                LoadLibraryTables();
+                LoadLibraryDb();
                 TypeManager.VoltageTypes = libDb.GetRecords<VoltageType>("VoltageTypes");
             }
         }
@@ -56,7 +56,7 @@ namespace WpfUI.Services
                 prjDb = new SQLiteConnector(projectFile);
                 DbManager.SetProjectDb(projectFile);
 
-                LoadProjectTables();
+                LoadProjectDb();
                 LoadProjectSettings();
             }
         }
@@ -87,7 +87,7 @@ namespace WpfUI.Services
 
         // LOAD
 
-        public void LoadLibraryTables()
+        public void LoadLibraryDb()
         {
             string dbFilename = AppSettings.Default.LibraryDb;
             if (File.Exists(dbFilename)) {
@@ -99,7 +99,7 @@ namespace WpfUI.Services
             }
         }
 
-        public void LoadProjectTables()
+        public void LoadProjectDb()
         {
             string dbFilename = AppSettings.Default.ProjectDb;
             if (File.Exists(dbFilename) == false) {
@@ -111,25 +111,14 @@ namespace WpfUI.Services
                 IsProjectLoaded = false;
             }
             else {
-
-                GlobalConfig.GettingRecords = true;
-
-                    _listManager.GetAreas();
-                    _listManager.GetDteq();
-                    _listManager.GetLoads();
-                    _listManager.AssignLoadsToAllDteq();
-
-                    //Cables
-                    _listManager.GetCables();
-                    _listManager.AssignCables();
-
-                GlobalConfig.GettingRecords = false;
-
+                _listManager.GetProjectTablesAndAssigments();
 
                 IsProjectLoaded = true;
                 CommandManager.InvalidateRequerySuggested();  //Fires CanExecuteChanged in Relay Commands (ICommand);
             }
         }
+
+       
 
         // SETTINGS
 
