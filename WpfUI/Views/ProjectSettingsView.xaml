@@ -10,21 +10,8 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d" 
              d:Width="1600" d:Height="900" 
-        Background="AliceBlue"
-             d:Opacity="1"
-             Opacity="0.5">
-    <UserControl.Triggers>
-        <EventTrigger RoutedEvent="UserControl.Loaded">
-            <BeginStoryboard>
-                <Storyboard>
-                    <DoubleAnimation Storyboard.TargetName="settingsView"
-                                Storyboard.TargetProperty="Opacity"
-                                From="0.5" To="1" Duration="0:0:0.75"
-                                AutoReverse="False" RepeatBehavior="1x"/>
-                </Storyboard>
-            </BeginStoryboard>
-        </EventTrigger>
-    </UserControl.Triggers>
+        Background="AliceBlue">
+    
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -69,7 +56,10 @@
                Background="#FF144D80"
                Foreground="White"/>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" 
+              x:Name="settingsGrid"
+              d:Opacity="1"
+              Opacity="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />     <!--0-->
                 <ColumnDefinition Width="auto"/>    <!--1-->
@@ -98,8 +88,19 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            
-                      
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Grid.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="settingsGrid"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0" To="1" Duration="0:0:0.5"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Grid.Triggers>
+
             <StackPanel Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="10"
                     Margin="0 5 0 0">
                 <TextBlock x:Name="lblProjectName" 

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using WpfUI.Commands;
+using WpfUI.Helpers;
 
 namespace WpfUI.ViewModels
 {
@@ -81,6 +82,15 @@ namespace WpfUI.ViewModels
             if (AreaReceived==null) {
                 AreaReceived = new AreaModel() { Tag = "null" };
             }
+            AreaModel areaTest = new AreaModel { Tag = "ML" };
+            List<string> list = new List<string>();
+            try {
+                DbManager.prjDb.InsertRecord(areaTest, GlobalConfig.AreaTable, list);
+
+            }
+            catch (Exception e ){
+                MessageBox.Show(e.Message);
+            }
         }
 
 
@@ -136,19 +146,13 @@ namespace WpfUI.ViewModels
         {
             if (ListManager.AreaList.Count != 0) {
 
-                Tuple<bool, string> update;
-                bool error = false;
-                string message = "";
-
-                foreach (var location in ListManager.AreaList) {
-                    update = DbManager.prjDb.UpsertRecord<AreaModel>(location, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
-                    if (update.Item1 == false) {
-                        error = true;
-                        message = update.Item2;
+                try {
+                    foreach (var location in ListManager.AreaList) {
+                        DbManager.prjDb.UpsertRecord<AreaModel>(location, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
                     }
                 }
-                if (error) {
-                    MessageBox.Show(message);
+                catch (Exception ex) {
+                    ErrorHelper.ErrorMessage(ex);
                 }
             }
         }
@@ -162,26 +166,32 @@ namespace WpfUI.ViewModels
         {
             AreaToAddValidator areaToAdd = (AreaToAddValidator)areaToAddObject;
             AreaModel newArea = new AreaModel();
-            bool newAreaIsValid = areaToAdd.IsValid();
-            var errors = areaToAdd._errorDict;
-            if (newAreaIsValid) {
+            try {
+                bool newAreaIsValid = areaToAdd.IsValid();
+                var errors = areaToAdd._errorDict;
+                if (newAreaIsValid) {
 
-                newArea.Name = areaToAdd.Name;
-                newArea.Tag = areaToAdd.Tag;
-                newArea.Description = areaToAdd.Description;
-                newArea.AreaCategory = areaToAdd.AreaCategory;
-                newArea.AreaClassification = areaToAdd.AreaClassification;
-                newArea.MinTemp = double.Parse(areaToAdd.MinTemp);
-                newArea.MaxTemp = double.Parse(areaToAdd.MaxTemp);
-                newArea.NemaType = areaToAdd.NemaType;
+                    newArea.Tag = areaToAdd.Tag;
+                    newArea.Name = areaToAdd.Name;
+                    newArea.Description = areaToAdd.Description;
+                    newArea.AreaCategory = areaToAdd.AreaCategory;
+                    newArea.AreaClassification = areaToAdd.AreaClassification;
+                    newArea.MinTemp = double.Parse(areaToAdd.MinTemp);
+                    newArea.MaxTemp = double.Parse(areaToAdd.MaxTemp);
+                    newArea.NemaType = areaToAdd.NemaType;
 
-                Tuple<bool, string, int> insertResult;
-                insertResult = DbManager.prjDb.InsertRecordGetId(newArea, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
-                newArea.Id = insertResult.Item3;
-                if (insertResult.Item1 == false || newArea.Id == 0) {
-                    MessageBox.Show($"ADD NEW AREA   {insertResult.Item2}");
+
+                    newArea.Id = DbManager.prjDb.InsertRecordGetId(newArea, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
+
+                    ListManager.AreaList.Add(newArea);
+
+                    var tag = AreaToAddValidator.Tag;
+                    AreaToAddValidator.Tag = " ";
+                    AreaToAddValidator.Tag = tag;
                 }
-                ListManager.AreaList.Add(newArea);
+            }
+            catch(Exception ex) {
+                ErrorHelper.ErrorMessage(ex);
             }
         }
 
@@ -189,56 +199,7 @@ namespace WpfUI.ViewModels
 
 
         #region Helper Methods
-        private bool IsNameAvailable(string name)
-        {
-            if (name == null) {
-                return false;
-            }
-
-            var locationName = ListManager.AreaList.FirstOrDefault(l => l.Name.ToLower() == name.ToLower());
-            if (locationName != null) {
-                return false;
-            }
-
-            return true;
-        }
-        private bool IsTagAvailable(string tag)
-        {
-            if (tag == null) {
-                return false;
-            }
-
-            var locationTag = ListManager.AreaList.FirstOrDefault(l => l.Tag.ToLower() == tag.ToLower());
-            if (locationTag != null) { 
-                return false;
-            }
-
-            return true;
-        }
-        private bool IsCategoryValid(string category)
-        {
-            var locationCat = Categories.FirstOrDefault(c => c.ToLower() == category.ToLower());
-            if (locationCat == null) {
-                return false;
-            }
-            return true;
-        }
-        private bool IsAreaClassValid(string areaClass)
-        {
-            var locationAreaClass = AreaClassifications.FirstOrDefault(c => c.ToLower() == areaClass.ToLower());
-            if (locationAreaClass == null) {
-                return false;
-            }
-            return true;
-        }
-        private bool IsNemaTypeValid(string nemaType)
-        {
-            var locationNemaType = NemaTypes.FirstOrDefault(c => c.ToLower() == nemaType.ToLower());
-            if (locationNemaType == null) {
-                return false;
-            }
-            return true;
-        }
+       
         public void CreateComboBoxLists()
         {
             Categories.Add("Category 1");

@@ -50,9 +50,13 @@ namespace EDTLibrary.Models.Areas
                 if (TagValidator.IsTagAvailable(_tag, _listManager) == false) {
                     AddError(nameof(Tag), "Tag already exists");
                 }
-                else if (string.IsNullOrWhiteSpace(_tag) || _tag == "") { // TODO - create method for invalid tags
-                    AddError(nameof(Tag), "Invalid Tag");
-                    _isValid = false;
+                else if (string.IsNullOrWhiteSpace(_tag)) { // TODO - create method for invalid tags
+                    if (_tag == GlobalConfig.EmptyTag) {
+                        _isValid = false;
+                    }
+                    else {
+                        AddError(nameof(Tag), "Invalid Tag");
+                    }
                 }
                 else {
                     _isValid = true;
@@ -142,18 +146,22 @@ namespace EDTLibrary.Models.Areas
                 ClearErrors(nameof(MinTemp));
 
                 if (Double.TryParse(_minTemp, out minTemp) == false ||
-                    string.IsNullOrWhiteSpace(_minTemp) || _minTemp == "" ||
-                    
-                    Double.TryParse(MaxTemp, out maxTemp) == false ||
-                    string.IsNullOrWhiteSpace(MaxTemp) || MaxTemp == "") {
+                    string.IsNullOrWhiteSpace(_minTemp) || _minTemp == "")
+                    {
                     AddError(nameof(MinTemp), "Invalid value");
-                        _isValid = false;
-                }
-                //TODO temperature
-                else if (double.Parse(_minTemp) > double.Parse(_maxTemp)) {
-                    AddError(nameof(MinTemp), "Min Temp must be lower than Max Temp");
                     _isValid = false;
+                }
+              
+                //TODO temperature
+                else if (Double.TryParse(MaxTemp, out maxTemp) != false ||
+                        string.IsNullOrWhiteSpace(MaxTemp) == false || MaxTemp != "") {
+                    ClearErrors(nameof(MinTemp));
+                    ClearErrors(nameof(MaxTemp));
 
+                    if (double.Parse(_minTemp) > double.Parse(_maxTemp)) {
+                        AddError(nameof(MinTemp), "Min Temp must be lower than Max Temp");
+                        _isValid = false;
+                    }
                 }
                 _isValid = true;
 
@@ -172,15 +180,20 @@ namespace EDTLibrary.Models.Areas
                 ClearErrors(nameof(MaxTemp));
 
                 if (Double.TryParse(_maxTemp, out maxTemp) == false ||
-                    string.IsNullOrWhiteSpace(_maxTemp) || _maxTemp == "" ||
-                    Double.TryParse(MinTemp, out minTemp) == false ||
-                    string.IsNullOrWhiteSpace(MinTemp) || MinTemp == "") {
+                    string.IsNullOrWhiteSpace(_maxTemp) || _maxTemp == "") { 
                         AddError(nameof(MaxTemp), "Invalid value");
                         _isValid = false;
                 }
-                else if (double.Parse(_minTemp) > double.Parse(_maxTemp)) {
-                    AddError(nameof(MaxTemp), "Max Temp must be higher than Min Temp");
-                    _isValid = false;
+                else if (Double.TryParse(MinTemp, out minTemp) != false ||
+                        string.IsNullOrWhiteSpace(MinTemp) == false || MinTemp != "") {
+                    ClearErrors(nameof(MinTemp));
+                    ClearErrors(nameof(MaxTemp));
+
+                    if (double.Parse(_minTemp) > double.Parse(_maxTemp)) {
+                        AddError(nameof(MaxTemp), "Max Temp must be higher than Min Temp");
+                        _isValid = false;
+                    }
+                    
 
                 }
                 _isValid = true;

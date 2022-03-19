@@ -182,6 +182,11 @@
                                                 Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
+                                    <TextBlock Text="{Binding AreaCategory}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.Categories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedItem="{Binding AreaCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               Text="{Binding AreaCategory}"
@@ -190,7 +195,7 @@
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"/>
                                 </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
                         <!--Area Classification-->
@@ -243,6 +248,11 @@
                                                 MinWidth="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
+                                    <TextBlock Text="{Binding NemaType}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedItem="{Binding NemaType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               Text="{Binding NemaType, ValidatesOnDataErrors=True}"
@@ -251,7 +261,7 @@
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"/>
                                 </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
                     <!--Sub-Area Of-->
@@ -389,6 +399,7 @@
                          Grid.Row="2" Grid.Column="{StaticResource Tag}"
                          Width="65" Height="23"
                          Text="{Binding AreaToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PreviewMouseDown="txtAreaTag_PreviewMouseDown" LostFocus="txtAreaTag_LostFocus"
                          Margin="5 0 5 0"
                          HorizontalContentAlignment="Left"/>
 
@@ -396,7 +407,6 @@
                          Grid.Row="2" Grid.Column="{StaticResource Name}"
                          Width="140" Height="23"
                          Text="{Binding AreaToAddValidator.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         PreviewMouseDown="txtTag_PreviewMouseDown" LostFocus="txtTag_LostFocus"
                          Margin="5 0 5 0"
                          HorizontalContentAlignment="Left"/>
 
@@ -408,19 +418,17 @@
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource AreaCategory}"
                           Width="110"
-                          d:Text="Category 1"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.Categories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding AreaToAddValidator.Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          Text="{Binding AreaToAddValidator.Category}"
+                          SelectedValue="{Binding AreaToAddValidator.AreaCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Text="{Binding AreaToAddValidator.AreaCategory}"
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource AreaClass}"
                           Width="110"
-                          d:Text="Zone 1"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.AreaClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding AreaToAddValidator.AreaClass, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          Text="{Binding AreaToAddValidator.AreaClass}"                        
+                          SelectedValue="{Binding AreaToAddValidator.AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Text="{Binding AreaToAddValidator.AreaClassification}"                        
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
@@ -438,9 +446,8 @@
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Nema}"
                           Width="90"
-                          d:Text="Type 12"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding AreaToAddValidator.NemaType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          SelectedValue="{Binding AreaToAddValidator.NemaType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Text="{Binding AreaToAddValidator.NemaType}"
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>

@@ -2,10 +2,12 @@
 using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Areas;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace EDTLibrary.DataAccess
 {
@@ -96,13 +98,46 @@ namespace EDTLibrary.DataAccess
 
         public static void OnDteqLoadingCalculated(object source, EventArgs e)
         {
-            prjDb.UpsertRecord<DteqModel>((DteqModel)source, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+            if (GlobalConfig.GettingRecords==false) {
+                prjDb.UpsertRecord<DteqModel>((DteqModel)source, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+
+            }
         }
         public static void OnLoadLoadingCalculated(object source, EventArgs e)
         {
-            prjDb.UpsertRecord<LoadModel>((LoadModel)source, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+            if (GlobalConfig.GettingRecords == false) {
+                prjDb.UpsertRecord<LoadModel>((LoadModel)source, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+            }
         }
 
-        
+
+        //Save Get Id
+        public static int SaveDteqGetId(DteqModel dteq)
+        {
+            int id = prjDb.InsertRecordGetId(dteq, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+            return id;
+        }
+
+        public static int SaveLoadGetId(LoadModel load)
+        {
+            int id = prjDb.InsertRecordGetId(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+            return id;
+        }
+
+        //Upsert
+        public static void UpsertDteq(DteqModel dteq)
+        {
+            prjDb.UpsertRecord(dteq, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+        }
+
+        public static void UpsertLoad(LoadModel load)
+        {
+            prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+        }
+
+        public static void UpsertCable(PowerCableModel cable)
+        {
+            prjDb.UpsertRecord(cable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+        }
     }
 }

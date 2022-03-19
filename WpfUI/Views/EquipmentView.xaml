@@ -896,8 +896,6 @@
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
 
                     <TextBlock Text="DTEQ" FontWeight="Bold" Margin="10 0 0 0"/>
-                    <TextBlock Text="   Count: "/>
-                    <TextBlock Text="{Binding ListManager.IDteqList.Count}" Margin="0" FontWeight="Bold"/>
                     <TextBlock Text="   Supplier: "/>
                     <TextBlock Text="{Binding SelectedDteq.FedFrom.Tag}" Margin="0" FontWeight="Bold"/>
                     <TextBlock Text=", "/>
@@ -915,19 +913,23 @@
                     <TextBlock Text="        |       "/>
 
                     <TextBlock Text="LOAD" FontWeight="Bold"/>
+                    <TextBlock Text="   Id:  "/>
+                    <TextBlock Text="{Binding SelectedLoad.Id}" Margin="0" FontWeight="Bold"/>
                     <TextBlock Text="   Fed From Id:  "/>
                     <TextBlock Text="{Binding SelectedLoad.FedFromId}" Margin="0" FontWeight="Bold"/>
 
                     <TextBlock Text="   Cable Id:  "/>
                     <TextBlock Text="{Binding SelectedLoad.PowerCable.Id}" Margin="0" FontWeight="Bold"/>
 
-                    <TextBlock Text="   Cable Count:  "/>
-                    <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
-
                     <TextBlock Text="        |       "/>
+                    <TextBlock Text="Counts" FontWeight="Bold"/>
 
-                    <TextBlock Text="Total Loads:  "/>
+                    <TextBlock Text="   Dteq:  "/>
+                    <TextBlock Text="{Binding ListManager.IDteqList.Count}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="   loads:  "/>
                     <TextBlock Text="{Binding ListManager.LoadList.Count}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="   Cables:  "/>
+                    <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
                 </StackPanel>
                 <!--***********************************-->
                 <!--***********************************-->

@@ -23,7 +23,8 @@ namespace EDTLibrary.DataAccess
             catch (ArgumentException) {
             }
         }
-        #region GeneralSQLite Calls
+
+        #region GenericSQLite Calls
         /// <summary>
         ///Maps a SQLite table to a list of Class objects
         /// </summary>
@@ -66,12 +67,12 @@ namespace EDTLibrary.DataAccess
                     try {
                         queryResult = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
                         output = new ObservableCollection<T>(queryResult);
+                        return output;
                     }
-                    catch {
+                    catch (Exception ex) {
+                        ex.Data.Add("UserMessage", $"Error getting records from: {tableName}");
                         throw;
                     }
-
-                    return output;
                 }
             }
 
@@ -170,19 +171,23 @@ namespace EDTLibrary.DataAccess
                 sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(")");
                 sb.Replace("( ", "(");
-                try {
-                    cnn.Execute(sb.ToString() + ";", classObject);
-                    return new Tuple<bool, string>(true, "");
-                }
-                catch (Exception ex) {
-                    //throw new Exception("Could not add record");
-                    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
-                        $"Query: \n{sb}\n\n" +
-                        $"Details: \n\n {ex}"); ;
-                }
+
+                cnn.Execute(sb.ToString() + ";", classObject);
+                return new Tuple<bool, string>(true, ""); 
+                
+                //try {
+                //    cnn.Execute(sb.ToString() + ";", classObject);
+                //    return new Tuple<bool, string>(true, "");
+                //}
+                //catch (Exception ex) {
+                //    //throw new Exception("Could not add record");
+                //    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
+                //        $"Query: \n{sb}\n\n" +
+                //        $"Details: \n\n {ex}"); ;
+                //}
             }
         }
-        public Tuple<bool, string, int> InsertRecordGetId<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new()
+        public int InsertRecordGetId<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new()
         {
             using (IDbConnection cnn = new SQLiteConnection(conString)) {
                 SQLiteCommand cmd = new SQLiteCommand();
@@ -232,26 +237,22 @@ namespace EDTLibrary.DataAccess
                 SQLiteConnection conn = new SQLiteConnection(conString);
                 SQLiteCommand cmdId = new SQLiteCommand();
 
-                
-
                 try {
                     cnn.Execute(sb.ToString() + ";", classObject);
                     object sqlId;
                     sqlId = cnn.ExecuteScalar($"SELECT MAX(rowid) FROM {tableName}");
                     int objectId= Convert.ToInt32(sqlId);
 
-                    return new Tuple<bool, string, int>(true, "", objectId);
+                    return objectId;
                 }
                 catch (Exception ex) {
-                    //throw new Exception("Could not add record");
-                    return new Tuple<bool, string, int>(false, $"Error: \n{ex.Message}\n\n" +
-                        $"Query: \n{sb}\n\n" +
-                        $"Details: \n\n {ex}", 0); ;
+                    ex.Data.Add("UserMessage", "Query: " + sb.ToString());
+                    throw;
                 }
             }
         }
 
-        public Tuple<bool, string> UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T: class, new()
+        public void UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T: class, new()
         {
             using (IDbConnection cnn = new SQLiteConnection(conString)) {
                 StringBuilder sb = new StringBuilder();
@@ -320,13 +321,10 @@ namespace EDTLibrary.DataAccess
 
                 try {
                     cnn.Execute("" + sb.ToString(), classObject);
-                    return new Tuple<bool, string>(true, "");
                 }
                 catch (Exception ex) {
-                    //throw new Exception("Could not add record");
-                    return new Tuple<bool, string>(false, $"Error: \n\n{ex.Message}\n\n\n" +
-                        $"Query: \n\n{sb}\n\n\n" +
-                        $"Details: \n\n {ex}"); ;
+                    ex.Data.Add("UserMessage", "Query: " + sb.ToString());
+                    throw;
                 }
             }
         }
@@ -371,7 +369,7 @@ namespace EDTLibrary.DataAccess
             }
         }
 
-        public Tuple<bool, string> UpdateSetting(string settingName, string settingValue)
+        public void UpdateSetting(string settingName, string settingValue)
         {
             using (IDbConnection cnn = new SQLiteConnection(conString).OpenAndReturn())
             {
@@ -389,14 +387,10 @@ namespace EDTLibrary.DataAccess
                 try
                 {
                     cnn.Execute("" + sb.ToString());
-                    return new Tuple<bool, string>(true, "");
                 }
-                catch (Exception ex)
-                {
-                    //throw new Exception("Could not add record");
-                    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
-                        $"Query: \n{sb}\n\n" +
-                        $"Details: \n\n {ex}"); ;
+                catch (Exception ex) {
+                    ex.Data.Add("UserMessage", "Query: " + sb.ToString());
+                    throw;
                 }
             }
         }
@@ -413,9 +407,9 @@ namespace EDTLibrary.DataAccess
                     cmd.Parameters.AddWithValue("@Id", id);
                     cmd.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error thrown from SqLiteDataAccess: DeleteRecord: " + ex);
+                catch (Exception ex) {
+                    ex.Data.Add("UserMessage", $"Error deleting Id: {id}    From: {tableName}");
+                    throw;
                 }
             }
         }
@@ -431,9 +425,9 @@ namespace EDTLibrary.DataAccess
                     cmd.CommandText = ($"DELETE FROM {tableName}");
                     cmd.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error thrown from SqLiteDataAccess: DeleteRecord: " + ex);
+                catch (Exception ex) {
+                    ex.Data.Add("UserMessage", $"Error deleting All    From: {tableName}");
+                    throw;
                 }
             }
         }
@@ -458,9 +452,12 @@ namespace EDTLibrary.DataAccess
                     SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", conString);
                     dataAdapter.Fill(dt);
                     dt.TableName = tableName;
+                    return dt;
                 }
-                catch { }
-                return dt;
+                catch (Exception ex) {
+                    ex.Data.Add("UserMessage", $"Error getting DataTable: {tableName}");
+                    throw;
+                }
             }
         }
 
@@ -470,10 +467,16 @@ namespace EDTLibrary.DataAccess
 
             using (IDbConnection cnn = new SQLiteConnection(conString)) {
 
-                SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", conString);
-                SQLiteCommandBuilder scb = new SQLiteCommandBuilder(dataAdapter);
-                DataTable dt = new DataTable();
-                dataAdapter.Update(dataTable);
+                try {
+                    SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", conString);
+                    SQLiteCommandBuilder scb = new SQLiteCommandBuilder(dataAdapter);
+                    DataTable dt = new DataTable();
+                    dataAdapter.Update(dataTable);
+                }
+                catch (Exception ex) {
+                    ex.Data.Add("UserMessage", $"Error saving DataTable: {dataTable}    To Db table:{tableName}");
+                    throw;
+                }
             }
         }
 
@@ -526,11 +529,6 @@ namespace EDTLibrary.DataAccess
                 return null;
             }
         }
-
-        #endregion
-
-        #region Distribution Equipment
-
 
         #endregion
 

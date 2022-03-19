@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WpfUI.Commands;
+using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModifiers;
 
@@ -26,6 +27,9 @@ namespace WpfUI.ViewModels
     public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     {
 
+        #region Constructor
+        private DteqFactory _dteqFactory;
+        private LoadFactory _loadFactory;
 
         private ListManager _listManager;
         public ListManager ListManager
@@ -33,14 +37,13 @@ namespace WpfUI.ViewModels
             get { return _listManager; }
             set { _listManager = value; }
         }
-        public DataGridColumnViewControl DteqGridViewModifier { get; set; }
 
-        #region Constructor
         public EquipmentViewModel(ListManager listManager)
         {
             //fields
             _listManager = listManager;
-
+            _dteqFactory = new DteqFactory(listManager);
+            _loadFactory = new LoadFactory(listManager);
             //members
             DteqGridViewModifier = new DataGridColumnViewControl();
 
@@ -175,9 +178,6 @@ namespace WpfUI.ViewModels
 
         #endregion
 
-        
-
-
 
         //View States
         #region Views States
@@ -185,6 +185,8 @@ namespace WpfUI.ViewModels
         //Dteq
         public string? ToggleRowViewDteqProp { get; set; } = "Collapsed";
         public string? PerPhaseLabelDteq { get; set; } = "Hidden";
+        public DataGridColumnViewControl DteqGridViewModifier { get; set; }
+
 
         #endregion  
 
@@ -224,6 +226,7 @@ namespace WpfUI.ViewModels
         // LOADS
 
         private IPowerConsumer _selectedLoad;
+
         public IPowerConsumer SelectedLoad
         {
             get { return _selectedLoad; }
@@ -302,9 +305,6 @@ namespace WpfUI.ViewModels
 
 
 
-
-
-
         #region View Toggles
         //View
         private void ToggleRowViewDteq()
@@ -328,50 +328,32 @@ namespace WpfUI.ViewModels
 
         private void DbSaveAll()
         {
-            if (_listManager.DteqList.Count != 0) {
-                CalculateAll();
+            //Task.Run(() => CalculateAll());
 
-                Tuple<bool, string> dbSaveResult = new Tuple<bool, string>(true, "err.0");
-                bool error = false;
-                string message = "";
-
+            try {
                 //Dteq
                 foreach (var dteq in _listManager.DteqList) {
-                    var dteqTag = dteq.Tag;
-                    if (dteq.Tag!= "UTILITY") {
+                    if (dteq.Tag != GlobalConfig.Utility) {
                         dteq.PowerCable.AssignOwner(dteq);
-                        dbSaveResult = DbManager.prjDb.UpsertRecord<DteqModel>(dteq, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
-                    }
-                    if (dbSaveResult.Item1 == false) {
-                        error = true;
-                        message = dbSaveResult.Item2;
+                        DbManager.UpsertDteq(dteq);
                     }
                 }
 
                 //Load
-                foreach (var item in _listManager.LoadList) {
-                    var dteqTag = item.Tag;
-                    item.PowerCable.AssignOwner(item);
-                    dbSaveResult = DbManager.prjDb.UpsertRecord<LoadModel>(item, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
-                    if (dbSaveResult.Item1 == false) {
-                        error = true;
-                        message = dbSaveResult.Item2;
-                    }
+                foreach (var load in _listManager.LoadList) {
+                    load.PowerCable.AssignOwner(load);
+                    DbManager.UpsertLoad(load);
                 }
 
                 //Cables
                 _listManager.CreateCableList();
-                foreach (var item in _listManager.CableList) {
-                    var cableTag = item.Tag;
-                    dbSaveResult = DbManager.prjDb.UpsertRecord<PowerCableModel>(item, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
-                    if (dbSaveResult.Item1 == false) {
-                        error = true;
-                        message = dbSaveResult.Item2;
-                    }
+                foreach (var cable in _listManager.CableList) {
+                    DbManager.UpsertCable(cable);
                 }
-                if (error) {
-                    MessageBox.Show(message);
-                }
+            }
+
+            catch (Exception ex) {
+                ErrorHelper.ErrorMessage(ex);
             }
         }
         private void SizeCables()
@@ -422,53 +404,41 @@ namespace WpfUI.ViewModels
             }
         }
 
-        public void AddDteq(object dteqToAddObject)
+        public void AddDteq(object dteqToAddObject) //typeOf DteqToAddValidator
         {
 
             DteqToAddValidator dteqToAddValidator = (DteqToAddValidator)dteqToAddObject;
+            try {
+                var IsValid = dteqToAddValidator.IsValid(); //to help debug
+                var errors = dteqToAddValidator._errorDict; //to help debug
+                if (IsValid) {
 
-            var IsValid = dteqToAddValidator.IsValid();
-            var errors = dteqToAddValidator._errorDict;
-            if (IsValid) {
-                
-                DteqModel newDteq = new DteqModel();
-                newDteq.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == dteqToAddValidator.FedFromTag);
+                    DteqModel newDteq = _dteqFactory.CreateDteq(dteqToAddValidator);
 
-                newDteq.Tag = dteqToAddValidator.Tag;
-                newDteq.Category = Categories.DTEQ.ToString();
-                newDteq.Type = dteqToAddValidator.Type;
+                    DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
+                    if (dteqSubscriber != null) {
+                        //dteqSubscriber.AssignedLoads.Add(newDteq); //newDteq is somehow already getting added to Assigned Loads
+                        newDteq.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
+                        newDteq.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
+                    }
 
-                newDteq.Size = Double.Parse(dteqToAddValidator.Size);
-                newDteq.Unit = dteqToAddValidator.Unit;
-                newDteq.Description = dteqToAddValidator.Description;
-                newDteq.FedFromTag = dteqToAddValidator.FedFromTag;
-                newDteq.LineVoltage = Double.Parse(dteqToAddValidator.LineVoltage);
-                newDteq.LoadVoltage = Double.Parse(dteqToAddValidator.LoadVoltage);
+                    //Save to Db
+                    newDteq.Id = DbManager.SaveDteqGetId(newDteq);
 
-                DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
-                if (dteqSubscriber != null) {
-                    //dteqSubscriber.AssignedLoads.Add(newDteq); //newDteq is somehow already getting added to Assigned Loads
-                    newDteq.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
-                    newDteq.LoadingCalculated += DbManager.OnDteqLoadingCalculated;
+                    _listManager.DteqList.Add(newDteq);
+                    _listManager.IDteqList.Add(newDteq);
+                    newDteq.CalculateLoading(); //after dteq is inserted to get a new Id
+
+                    //Cable
+                    newDteq.SizeCable();
+                    newDteq.CalculateCableAmps();
+                    newDteq.PowerCable.Id = DbManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+                    _listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
+                    RefreshDteqTagValidation();
                 }
-
-                //Save to Db
-                Tuple<bool, string, int> insertResult;
-                insertResult = DbManager.prjDb.InsertRecordGetId(newDteq, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
-                newDteq.Id = insertResult.Item3;
-                if (insertResult.Item1 == false || newDteq.Id == 0) {
-                    MessageBox.Show($"ADD NEW LOAD   {insertResult.Item2}");
-                }
-                _listManager.DteqList.Add(newDteq);
-                _listManager.IDteqList.Add(newDteq);
-                newDteq.CalculateLoading(); //after dteq is inserted to get a new Id
-
-                //Cable
-                newDteq.SizeCable();
-                newDteq.CalculateCableAmps();
-                newDteq.PowerCable.Id = DbManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList).Item3;
-                _listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
-                RefreshDteqTagValidation();
+            }
+            catch (Exception ex) {
+                ErrorHelper.ErrorMessage(ex);
             }
         }
         public void DeleteDteq(object selectedDteqObject)
@@ -516,52 +486,39 @@ namespace WpfUI.ViewModels
         {
 
             LoadToAddValidator loadToAddValidator = (LoadToAddValidator)loadToAddObject;
-            var errors = loadToAddValidator._errorDict;
             var IsValid = loadToAddValidator.IsValid();
-            if (IsValid) {
-                LoadModel newLoad = new LoadModel();
-                
-                newLoad.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == loadToAddValidator.FedFromTag);
-                newLoad.Tag = loadToAddValidator.Tag;
-                newLoad.Category = Categories.LOAD3P.ToString();
-                newLoad.Type = loadToAddValidator.Type;
-                newLoad.Size = Double.Parse(loadToAddValidator.Size);
-                newLoad.Description = loadToAddValidator.Description;
-                newLoad.FedFromTag = loadToAddValidator.FedFromTag;
-                newLoad.Voltage = Double.Parse(loadToAddValidator.Voltage);
-                newLoad.Unit = loadToAddValidator.Unit;
-                newLoad.LoadFactor = Double.Parse(loadToAddValidator.LoadFactor);
+            try {
+                var errors = loadToAddValidator._errorDict;
+                if (IsValid) {
 
-                DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newLoad.FedFrom);
-                if (dteqSubscriber != null) {
-                    //dteqSubscriber.AssignedLoads.Add(newLoad); //newLoad is somehow already getting added to Assigned Loads
-                    newLoad.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
-                    newLoad.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
+                    LoadModel newLoad = _loadFactory.CreateLoad(loadToAddValidator);
+
+                    DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newLoad.FedFrom);
+                    if (dteqSubscriber != null) {
+                        //dteqSubscriber.AssignedLoads.Add(newLoad); //newLoad is somehow already getting added to Assigned Loads
+                        newLoad.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
+                        newLoad.LoadingCalculated += DbManager.OnLoadLoadingCalculated;
+                    }
+
+                    //Save to Db
+
+                    newLoad.Id = DbManager.SaveLoadGetId(newLoad);
+                    _listManager.LoadList.Add(newLoad);
+                    newLoad.CalculateLoading(); //after load is inserted to get new Id
+
+                    //Cable
+                    newLoad.SizeCable();
+                    newLoad.CalculateCableAmps();
+                    newLoad.PowerCable.Id = DbManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+                    _listManager.CableList.Add(newLoad.PowerCable);
+
+                    BuildAssignedLoads();
+
+                    RefreshLoadTagValidation();
                 }
-
-                //Save to Db
-                Tuple<bool, string, int> insertResult;
-                insertResult = DbManager.prjDb.InsertRecordGetId(newLoad, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
-                newLoad.Id = insertResult.Item3;
-                if (insertResult.Item1 == false || newLoad.Id ==0) {
-                    MessageBox.Show($"ADD NEW LOAD   {insertResult.Item2}");
-                }
-                _listManager.LoadList.Add(newLoad);
-                newLoad.CalculateLoading(); //after load is inserted to get new Id
-
-                //Cable
-                newLoad.SizeCable();
-                newLoad.CalculateCableAmps();
-                insertResult = DbManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
-                if (insertResult.Item1 == false || insertResult.Item3 == 0) {
-                    MessageBox.Show($"ADD NEW CABLE   {insertResult.Item2}      ");
-                }
-                newLoad.PowerCable.Id = insertResult.Item3;
-                _listManager.CableList.Add(newLoad.PowerCable);
-
-                BuildAssignedLoads();
-
-                RefreshLoadTagValidation();
+            }
+            catch (Exception ex) {
+                ErrorHelper.ErrorMessage(ex);
             }
         }
         public void DeleteLoad(object selectedLoadObject)
@@ -613,22 +570,16 @@ namespace WpfUI.ViewModels
         {
 
             if (_listManager.LoadList.Count != 0 && LoadListLoaded == true) {
-                CalculateAll();
-
-                Tuple<bool, string> update;
-                bool error = false;
-                string message = "";
-
-                foreach (var load in _listManager.LoadList) {
-                    update = DbManager.prjDb.UpsertRecord<LoadModel>(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
-                    if (update.Item1 == false) {
-                        error = true;
-                        message = update.Item2;
+          
+                try {
+                    foreach (var load in _listManager.LoadList) {
+                        DbManager.prjDb.UpsertRecord<LoadModel>(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
                     }
                 }
-                if (error) {
-                    MessageBox.Show(message);
+                catch (Exception ex) {
+                    ErrorHelper.ErrorMessage(ex);
                 }
+
             }
         }
         
@@ -792,7 +743,6 @@ namespace WpfUI.ViewModels
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
-        public string Error { get; }
 
         #endregion
 

@@ -69,7 +69,7 @@
                           Grid.Column="1"  
                           FontSize="24" FontWeight="Bold"
                           Foreground="black"
-                          Margin="15,0,50,5"/> 
+                          Margin="20,0,15,5"/> 
                 
                 <Button VerticalAlignment="Top"
                         x:Name="btnStartup"
@@ -102,8 +102,9 @@
                 
                 <Button  VerticalAlignment="Top"
                     x:Name="btnScenarios"
-                    Content="SCENARIOS"
-                    Command="{Binding ScenarioCommand}"/>
+                    Content="NEW WINDOW"
+                    Command="{Binding ScenarioCommand}"
+                         Margin="500 0"/>
 
             </StackPanel>
         </Grid>

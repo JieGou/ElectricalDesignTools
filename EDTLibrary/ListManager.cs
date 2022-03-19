@@ -59,12 +59,13 @@ namespace EDTLibrary
                 IDteqList.Add(dteq);
             }
 
-            DteqList.Insert(0, new DteqModel() { Tag = "UTILITY" });
+            DteqList.Insert(0, new DteqModel() { Tag = GlobalConfig.Utility });
 
             foreach (var dteq in IDteqList) {
-                if (dteq.FedFromTag == "UTILITY") {
+                if (dteq.FedFromTag == GlobalConfig.Utility) {
                     dteq.FedFrom = DteqList[0];
                 }
+                //check for deleted
                 if (dteq.FedFromTag.Contains("Deleted") || dteq.FedFromType.Contains("Deleted")) {
                     dteq.FedFrom = new DteqModel() { Tag = GlobalConfig.Deleted };
                 }
@@ -136,7 +137,7 @@ namespace EDTLibrary
 
             //Assign
             AssignAreas();
-            AssignLoadsToAllDteq();
+            AssignLoadsAndEventsToAllDteq();
             AssignCables();
 
             GlobalConfig.GettingRecords = false;
@@ -162,7 +163,7 @@ namespace EDTLibrary
         public void CalculateDteqLoading() // LoadList Manager
         {
 
-            AssignLoadsToAllDteq();
+            AssignLoadsAndEventsToAllDteq();
             foreach (var load in LoadList) {
                 load.CalculateLoading();
                 load.PowerCable.GetRequiredAmps(load);
@@ -204,7 +205,7 @@ namespace EDTLibrary
             }
         }
 
-        public void AssignLoadsToAllDteq()
+        public void AssignLoadsAndEventsToAllDteq()
         {
             foreach (DteqModel dteq in DteqList) {
                 dteq.AssignedLoads.Clear();

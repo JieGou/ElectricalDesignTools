@@ -131,10 +131,17 @@ namespace WpfUI.Services
         {
             Type type = typeof(EdtSettings); // ProjectSettings is a static class
             string propValue;
-            foreach (var prop in type.GetProperties()) {
-                propValue = prop.GetValue(null).ToString(); //null for static class
-                prjDb.UpdateSetting(prop.Name, propValue);
+            try {
+                foreach (var prop in type.GetProperties()) {
+                    propValue = prop.GetValue(null).ToString(); //null for static class
+                    prjDb.UpdateSetting(prop.Name, propValue);
+                }
             }
-        }            
+            catch (Exception ex) {
+                ErrorHelper.ErrorMessage(ex);
+            }
+        }
+
+        
     }
 }

@@ -59,12 +59,14 @@ namespace EDTLibrary.Tests
                 areaToAdd = new AreaToAddValidator(listManager, area);
                 areaVm.AddArea(areaToAdd);
             }
+
             //Dteq
             foreach (var dteq in TestData.TestDteqList) {
                 dteqToAdd = new DteqToAddValidator(listManager, dteq);
                 eqVm.AddDteq(dteqToAdd);
             }
-            Assert.True(listManager.DteqList.Count > 0);
+            Assert.True(listManager.DteqList.Count-1 == TestData.TestDteqList.Count);
+            
 
             //Loads
             foreach (var load in TestData.TestLoadList) {
@@ -75,15 +77,14 @@ namespace EDTLibrary.Tests
             Assert.True(listManager.AreaList.Count > 0);
             Assert.True(listManager.LoadList.Count > 0);
             Assert.True(listManager.LoadList.Count != TestData.TestLoadList.Count) ;
-            Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count-3);
+            Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count-3); // 3 fail the validation
             Assert.True(listManager.DteqList[0].DemandKva > 0);
             Assert.True(listManager.LoadList[0].DemandKva > 0);
 
             #endregion
 
-
+           
             #region Rename, delete and re-add equipment
-
             //Rename
             listManager.IDteqList[0].Tag = "XTR-01";
             Assert.True(listManager.IDteqList[0].PowerCable.Tag.Contains("XTR01"));

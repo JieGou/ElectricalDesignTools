@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,14 +25,14 @@ namespace WpfUI.Views
         {
             InitializeComponent();
         }
-        private void txtTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void txtAreaTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (txtAreaTag.Text == "" || txtAreaTag.Text == " ") txtAreaTag.Text = "";
+            if (txtAreaTag.Text == "" || txtAreaTag.Text == GlobalConfig.EmptyTag) txtAreaTag.Text = "";
         }
 
-        private void txtTag_LostFocus(object sender, RoutedEventArgs e)
+        private void txtAreaTag_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (txtAreaTag.Text == "") txtAreaTag.Text = " ";
+            if (txtAreaTag.Text == "") txtAreaTag.Text = GlobalConfig.EmptyTag;
         }
     }
 }
