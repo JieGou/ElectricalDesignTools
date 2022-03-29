@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfUI.PopupWindows;
 
 namespace WpfUI.Views
 {
@@ -33,6 +34,13 @@ namespace WpfUI.Views
         private void txtAreaTag_LostFocus(object sender, RoutedEventArgs e)
         {
             if (txtAreaTag.Text == "") txtAreaTag.Text = GlobalConfig.EmptyTag;
+        }
+
+        
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

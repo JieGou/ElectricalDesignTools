@@ -72,6 +72,7 @@ namespace WpfUI.ViewModels
             CalculateSingleLoadCableSizeCommand = new RelayCommand(CalculateSingleLoadCableSize);
             CalculateSingleLoadCableAmpsCommand = new RelayCommand(CalculateSingleLoadCableAmps);
 
+            //DeleteDteqCommand = new AsyncRelayCommand(DeleteDteqAsync, (ex) => MessageBox.Show(ex.Message));
             DeleteDteqCommand = new RelayCommand(DeleteDteq);
 
             AddDteqCommand = new RelayCommand(AddDteq);
@@ -441,48 +442,72 @@ namespace WpfUI.ViewModels
                 ErrorHelper.ErrorMessage(ex);
             }
         }
+
         public void DeleteDteq(object selectedDteqObject)
+        { 
+            DeleteDteqAsync(selectedDteqObject);
+        }
+
+        public async Task DeleteDteqAsync(object selectedDteqObject)
         {
-            DteqModel selectedDteq = (DteqModel)selectedDteqObject;
+            IDteq selectedDteq = (DteqModel)selectedDteqObject;
             if (selectedDteq != null) {
                 //children first
 
-                //Delete Cables
-                if (selectedDteq.PowerCable != null) {
-                    int cableId = selectedDteq.PowerCable.Id;
-                    DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
-                    _listManager.CableList.Remove(selectedDteq.PowerCable);
-                }
-
-                List<IPowerConsumer> loadsToRetag = new List<IPowerConsumer>();
-                if (selectedDteq.AssignedLoads != null) {
-                    loadsToRetag.AddRange(selectedDteq.AssignedLoads);
-                }
-
-                //Retag Loads to "Deleted"
-                DteqModel deleted = new DteqModel() { Tag = GlobalConfig.Deleted};
-                for (int i = 0; i < loadsToRetag.Count; i++) {
-                    var tag = loadsToRetag[i].Tag;
-                    loadsToRetag[i].FedFromTag = GlobalConfig.Deleted;
-                    loadsToRetag[i].FedFromType = GlobalConfig.Deleted; 
-                    loadsToRetag[i].FedFrom = deleted;
-                }
+                await DeletePowerCableAsync(selectedDteq);
+                await RetagLoadsOfDeletedAsync(selectedDteq);
+                
                 selectedDteq.FedFrom.AssignedLoads.Remove(selectedDteq);
-                _listManager.DeleteDteq (selectedDteq);
 
+                await _listManager.DeleteDteq(selectedDteq);
+                await DbManager.prjDb.DeleteRecordAsync(GlobalConfig.DteqTable, selectedDteq.Id);
                 RefreshDteqTagValidation();
-                BuildAssignedLoads();
 
-                if (_listManager.IDteqList.Count>0) {
-                    SelectedDteq = _listManager.DteqList[_listManager.IDteqList.Count - 1];
+                if (_listManager.IDteqList.Count > 0) {
+                    SelectedDteq = _listManager.IDteqList[_listManager.IDteqList.Count - 1];
                 }
             }
+            return ;
         }
 
+        private async Task DeletePowerCableAsync(IPowerConsumer powerCableUser)
+        {
+            
+            if (powerCableUser.PowerCable != null) {
+                int cableId = powerCableUser.PowerCable.Id;
+                await DbManager.prjDb.DeleteRecordAsync(GlobalConfig.PowerCableTable, cableId);
+                _listManager.CableList.Remove(powerCableUser.PowerCable);
+            }
+            return ;
+        }
+        private async Task RetagLoadsOfDeletedAsync(IDteq selectedDteq)
+        {
+
+            //Loads
+            List<IPowerConsumer> loadsToRetag = new List<IPowerConsumer>();
+            if (selectedDteq.AssignedLoads != null) {
+                loadsToRetag.AddRange(selectedDteq.AssignedLoads);
+            }
+
+            //Retag Loads to "Deleted"
+            IDteq deleted = new DteqModel() { Tag = GlobalConfig.Deleted };
+            for (int i = 0; i < loadsToRetag.Count; i++) {
+                var tag = loadsToRetag[i].Tag;
+                var load = loadsToRetag[i];
+                load.FedFromTag = GlobalConfig.Deleted;
+                load.FedFromType = GlobalConfig.Deleted;
+                load.FedFrom = deleted;
+            }
+            return ;
+        }
         public void DteqList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) { }
         public void LoadList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) { }
 
         public void AddLoad(object loadToAddObject)
+        {
+            AddLoadAsync(loadToAddObject);
+        }
+        public async Task AddLoadAsync(object loadToAddObject)
         {
 
             LoadToAddValidator loadToAddValidator = (LoadToAddValidator)loadToAddObject;
@@ -512,7 +537,7 @@ namespace WpfUI.ViewModels
                     newLoad.PowerCable.Id = DbManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
                     _listManager.CableList.Add(newLoad.PowerCable);
 
-                    BuildAssignedLoads();
+                    await BuildAssignedLoadsAsync();
 
                     RefreshLoadTagValidation();
                 }
@@ -521,23 +546,24 @@ namespace WpfUI.ViewModels
                 ErrorHelper.ErrorMessage(ex);
             }
         }
+
         public void DeleteLoad(object selectedLoadObject)
+        {
+            DeleteLoadAsync(selectedLoadObject);
+        }
+        public async Task DeleteLoadAsync(object selectedLoadObject)
         {
             LoadModel selectedLoad = (LoadModel)selectedLoadObject;
             if (selectedLoad != null) {
                 DteqModel dteqToRecalculate = _listManager.DteqList.FirstOrDefault(d => d == selectedLoad.FedFrom);
                 int loadId = selectedLoad.Id;
 
-                selectedLoad.LoadingCalculated -= dteqToRecalculate.OnAssignedLoadReCalculated;
+                
                 selectedLoad.LoadingCalculated -= DbManager.OnLoadLoadingCalculated;
 
-                if (selectedLoad.PowerCable != null) {
-                    int cableId = selectedLoad.PowerCable.Id;
-                    DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId);
-                    _listManager.CableList.Remove(selectedLoad.PowerCable);
-                }
+                await DeletePowerCableAsync(selectedLoad);
 
-                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadTable, loadId);
+                await DbManager.prjDb.DeleteRecordAsync(GlobalConfig.LoadTable, loadId);
 
 
                 var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
@@ -548,11 +574,12 @@ namespace WpfUI.ViewModels
 
                 
                 if (dteqToRecalculate != null) {
+                    selectedLoad.LoadingCalculated -= dteqToRecalculate.OnAssignedLoadReCalculated;
                     dteqToRecalculate.AssignedLoads.Remove(loadToRemove2);
                     dteqToRecalculate.CalculateLoading();
                 }
                 RefreshLoadTagValidation();
-                BuildAssignedLoads();
+                await BuildAssignedLoadsAsync();
                 if (AssignedLoads.Count > 0) {
                     SelectedLoad = AssignedLoads[AssignedLoads.Count - 1];
                 }
@@ -560,11 +587,11 @@ namespace WpfUI.ViewModels
         }
 
         // Loads
-        public void ShowAllLoads()
+        public async void ShowAllLoads()
         {
             LoadListLoaded = true;
             //LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable));
-            BuildAssignedLoads();
+            await BuildAssignedLoadsAsync();
         }
         private void SaveLoadList()
         {
@@ -587,7 +614,7 @@ namespace WpfUI.ViewModels
 
         public void CalculateAll()
         {
-            BuildAssignedLoads();
+            BuildAssignedLoadsAsync();
             _listManager.UnregisterAllDteqFromAllLoadEvents();
             _listManager.CreateDteqDict();
             _listManager.CalculateDteqLoading();
@@ -628,7 +655,7 @@ namespace WpfUI.ViewModels
             
             return true;
         }
-        private void BuildAssignedLoads()
+        private async Task BuildAssignedLoadsAsync()
         {
             AssignedLoads.Clear();
             foreach (var load in _listManager.LoadList) {
@@ -663,7 +690,11 @@ namespace WpfUI.ViewModels
             CableInstallationTypes.Add("RacewayConduit");
         }
 
-        private void BuildDteqCableTypeList(IDteq dteq)
+        private async Task BuildDteqCableTypeList(IDteq dteq)
+        {
+            await BuildDteqCableTypeListAsync(dteq);
+        }
+        private async Task BuildDteqCableTypeListAsync(IDteq dteq)
         {
             if (dteq == null || dteq.PowerCable == null)
                 return;
@@ -686,9 +717,14 @@ namespace WpfUI.ViewModels
             if (_selectedLoad != null && _selectedLoad.PowerCable != null) {
                 _selectedLoad.PowerCable.Type = selectedLoadCableType;
             }
+            return;
         }
 
         private async Task BuildLoadCableTypeList(IPowerConsumer load)
+        {
+            await BuildLoadCableTypeListAsync(load);
+        }
+        private async Task BuildLoadCableTypeListAsync(IPowerConsumer load)
         {
             if (load == null)
                 return;

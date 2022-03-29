@@ -118,9 +118,12 @@
         </Style.Triggers>
     </Style>
 
-    
-    
-    
+    <!--Base Button Style-->
+    <Style x:Key="RedButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Background" Value="#FFF7C1C1"/>
+    </Style>
+
+
     <!--BUTTON Main Menu Animation-->
     <Style x:Key="MainMenu_Buttons" TargetType="{x:Type Button}">
         <Setter Property="Cursor" Value="Hand"/>
@@ -312,7 +315,9 @@
         <Setter Property="CanUserDeleteRows" Value="False"/>
         <Setter Property="SelectionUnit" Value="FullRow"/>
         <Setter Property="MinRowHeight" Value="18"/>
-        <Setter Property="GridLinesVisibility" Value="Vertical"/>
+        <Setter Property="GridLinesVisibility" Value="All"/>
+        <Setter Property="HorizontalGridLinesBrush" Value="LightGray" />
+        <Setter Property="VerticalGridLinesBrush" Value="LightGray" />
         <Setter Property="RowHeight" Value="25"/>
         <Setter Property="CanUserResizeRows" Value="True"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>

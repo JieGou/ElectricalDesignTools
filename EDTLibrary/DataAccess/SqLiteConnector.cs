@@ -8,6 +8,7 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace EDTLibrary.DataAccess
 {
@@ -395,7 +396,7 @@ namespace EDTLibrary.DataAccess
             }
         }
 
-        public void DeleteRecord(string tableName, int id)
+        public async Task DeleteRecordAsync(string tableName, int id)
         {
             using (SQLiteConnection con = new SQLiteConnection(conString))
             {
@@ -406,6 +407,7 @@ namespace EDTLibrary.DataAccess
                     cmd.CommandText = ($"DELETE FROM {tableName} WHERE Id = @Id");
                     cmd.Parameters.AddWithValue("@Id", id);
                     cmd.ExecuteNonQuery();
+                    return;
                 }
                 catch (Exception ex) {
                     ex.Data.Add("UserMessage", $"Error deleting Id: {id}    From: {tableName}");

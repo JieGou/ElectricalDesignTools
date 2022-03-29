@@ -102,7 +102,7 @@
                 
                 <Button  VerticalAlignment="Top"
                     x:Name="btnScenarios"
-                    Content="NEW WINDOW"
+                    Content="EXTRA WINDOW"
                     Command="{Binding ScenarioCommand}"
                          Margin="500 0"/>
 

@@ -84,19 +84,23 @@ namespace EDTLibrary
         }
 
         //TODO move to Distribution Manager with _listManager as parameter
-        public void DeleteDteq(IDteq model) //where T : class
+        public async Task<string> DeleteDteq(IDteq model) //where T : class
         {
             if (model.GetType()==typeof (DteqModel)){
                 var dteq = model as DteqModel;
                 DteqList.Remove(dteq);
                 IDteqList.Remove(dteq);
-                DbManager.prjDb.DeleteRecord(GlobalConfig.DteqTable, dteq.Id);
+                return "Deleted Dteq";
+
             }
             else if (model.GetType()==typeof (XfrModel)) {
                var xfr = model as XfrModel;
                 TransformerList.Remove(xfr);
                 IDteqList.Remove(xfr);
+                return "Deleted Xfr";
+
             }
+            return "";
         }
 
         public ObservableCollection<LoadModel> GetLoads() {     

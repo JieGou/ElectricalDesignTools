@@ -1,0 +1,28 @@
+﻿<Window x:Class="WpfUI.PopupWindows.PdfViewer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfUI.PopupWindows"
+
+        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+
+        
+        mc:Ignorable="d"
+        Title="PdfViewer" Height="875" Width="850">
+    <Grid>
+
+
+        
+        <cefSharp:ChromiumWebBrowser x:Name="ChromeViewer"
+        Address="https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions" />
+        
+        <!--<WebBrowser x:Name="pdfWebViewer">
+        </WebBrowser>
+
+        <Image x:Name="image">
+        </Image>-->
+            
+
+    </Grid>
+</Window>

@@ -34,6 +34,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                 newSupplier.AssignedLoads.Add(caller);
                 newSupplier.CalculateLoading();
                 caller.CalculateLoading();
+                caller.CreateCable();
+                caller.PowerCable.AssignTagging(caller);
             }
         }
     }

@@ -69,14 +69,14 @@ namespace WpfUI.ViewModels
             SaveAreasCommand = new RelayCommand(SaveAreas);
             DeleteAreaCommand = new RelayCommand(DeleteArea);
             AddAreaCommand = new RelayCommand(AddArea);
-            GetAreaByIdCommand = new RelayCommand(GetAreaById);
+            GetAreaByIdCommand = new RelayCommand(TestCommand);
 
         }
 
         public int AreaToGetId { get; set; } = 10;
         public AreaModel AreaReceived { get; set; } = new AreaModel() { Tag = "test" };
 
-        private void GetAreaById()
+        private void TestCommand()
         {
             AreaReceived = DbManager.GetArea(AreaToGetId);
             if (AreaReceived==null) {
@@ -84,13 +84,7 @@ namespace WpfUI.ViewModels
             }
             AreaModel areaTest = new AreaModel { Tag = "ML" };
             List<string> list = new List<string>();
-            try {
-                DbManager.prjDb.InsertRecord(areaTest, GlobalConfig.AreaTable, list);
 
-            }
-            catch (Exception e ){
-                MessageBox.Show(e.Message);
-            }
         }
 
 
@@ -159,8 +153,14 @@ namespace WpfUI.ViewModels
         private void DeleteArea(object areaToDeleteObject)
         {
             AreaModel areaToDelete = (AreaModel)areaToDeleteObject;
-            DbManager.prjDb.DeleteRecord(GlobalConfig.AreaTable, areaToDelete.Id);
+            DbManager.prjDb.DeleteRecordAsync(GlobalConfig.AreaTable, areaToDelete.Id);
             _listManager.AreaList.Remove(areaToDelete);
+            RefreshAreaTagValidation();
+
+            if (_listManager.AreaList.Count >= 1) {
+                var areaCount = _listManager.AreaList.Count;
+                SelectedArea = _listManager.AreaList[areaCount-1];
+            }
         }
         public void AddArea(object areaToAddObject)
         {
@@ -184,10 +184,7 @@ namespace WpfUI.ViewModels
                     newArea.Id = DbManager.prjDb.InsertRecordGetId(newArea, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
 
                     ListManager.AreaList.Add(newArea);
-
-                    var tag = AreaToAddValidator.Tag;
-                    AreaToAddValidator.Tag = " ";
-                    AreaToAddValidator.Tag = tag;
+                    RefreshAreaTagValidation();
                 }
             }
             catch(Exception ex) {
@@ -195,11 +192,18 @@ namespace WpfUI.ViewModels
             }
         }
 
+        private void RefreshAreaTagValidation()
+        {
+            var tag = AreaToAddValidator.Tag;
+            AreaToAddValidator.Tag = " ";
+            AreaToAddValidator.Tag = tag;
+        }
+
         #endregion
 
 
         #region Helper Methods
-       
+
         public void CreateComboBoxLists()
         {
             Categories.Add("Category 1");

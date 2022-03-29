@@ -105,15 +105,21 @@ namespace EDTLibrary.LibraryData
         public static double GetCableVoltageClass(double voltage)
         {
             double result = GlobalConfig.NoValueDouble;
+            try {
+                if (DataTables.VoltageTypes != null) {
 
-            if (DataTables.VoltageTypes != null) {
-
-                DataTable dt = DataTables.VoltageTypes.Select($"CableVoltageClass >= {voltage}").CopyToDataTable();
-                dt = dt.Select($"CableVoltageClass = MIN(CableVoltageClass)").CopyToDataTable();
-                result = Double.Parse(dt.Rows[0]["CableVoltageClass"].ToString());
+                    DataTable dt = DataTables.VoltageTypes.Select($"CableVoltageClass >= {voltage}").CopyToDataTable();
+                    dt = dt.Select($"CableVoltageClass = MIN(CableVoltageClass)").CopyToDataTable();
+                    result = Double.Parse(dt.Rows[0]["CableVoltageClass"].ToString());
+                }
+                return result;
             }
-
-            return result;
+            catch (InvalidOperationException ex) {
+                return voltage;
+            }
+            catch (Exception ex) {
+                throw;
+            }
         }
 
     }

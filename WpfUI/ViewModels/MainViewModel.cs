@@ -43,7 +43,7 @@ namespace WpfUI.ViewModels
 
             NavigateCableListCommand = new RelayCommand(NavigateCableList, CanExecute_IsProjectLoaded);
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables, CanExecute_IsLibraryLoaded);
-            ScenarioCommand = new RelayCommand(NewAppInstance);
+            ScenarioCommand = new RelayCommand(NewWindow);
 
             startupService.InitializeLibrary();
             _locationsViewModel.CreateComboBoxLists();
@@ -108,7 +108,7 @@ namespace WpfUI.ViewModels
         }
 
         //NEW WINDOW
-        private void NewAppInstance()
+        private void NewWindow()
         {
             ListManager listManager = new ListManager();
             StartupService startupService = new StartupService(listManager);
@@ -116,8 +116,12 @@ namespace WpfUI.ViewModels
             Window scenario = new MainWindow() {
                 //DataContext = new MainViewModel(startupService, listManager)
                 DataContext = new MainViewModel(_startupService, _listManager)
+                
             };
+            
             scenario.Show();
+            var newMainVm = (MainViewModel)scenario.DataContext;
+            newMainVm.CurrentViewModel = CurrentViewModel;
         }
         #endregion
 

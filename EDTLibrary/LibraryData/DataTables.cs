@@ -10,18 +10,16 @@ namespace EDTLibrary.LibraryData
     public static class DataTables
     {
         public static DataTable CableAmpacities { get; set; }
-        public static DataTable CableAmpacities_DLO1kV { get; set; }
         public static DataTable CableDimensions { get; set; }
         public static DataTable CableInsulationLevels { get; set; }
         public static DataTable ConductorSizes { get; set; } //Resistances per 1000'
-        public static DataTable CableSizingRules { get; set; }
+        public static DataTable CecCableSizingRules { get; set; }
         public static DataTable CableTypes { get; set; }
         public static DataTable CableUsageTypes { get; set; }
 
 
 
         public static DataTable CecCableAmpacities { get; set; }
-        public static DataTable CecSizingRules { get; set; }
 
 
 

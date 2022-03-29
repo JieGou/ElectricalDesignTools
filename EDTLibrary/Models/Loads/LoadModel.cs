@@ -92,7 +92,6 @@ namespace EDTLibrary.Models.Loads
         }
 
        
-
         public double LoadFactor { get; set; }
 
         public ObservableCollection<CctComponentModel> InLineComponents { get; set; } = new ObservableCollection<CctComponentModel>();

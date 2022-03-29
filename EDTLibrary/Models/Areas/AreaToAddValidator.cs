@@ -100,9 +100,12 @@ namespace EDTLibrary.Models.Areas
             get { return _areaCategory; }
             set
             {
+                var oldAreaCategory = _areaCategory;
                 _areaCategory = value;
                 ClearErrors(nameof(AreaCategory));
-
+                if (_areaCategory == null) {
+                    _areaCategory = oldAreaCategory;
+                }
                 var category = TypeManager.AreaCategories.FirstOrDefault(ac => ac.CategoryName.ToLower() == _areaCategory.ToLower());
                 if (category == null) {
                     AddError(nameof(AreaCategory), "Invalid Category");

@@ -99,7 +99,7 @@ namespace WpfUI {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("350")]
+        [global::System.Configuration.DefaultSettingValueAttribute("250")]
         public double LoadGridHeight {
             get {
                 return ((double)(this["LoadGridHeight"]));
