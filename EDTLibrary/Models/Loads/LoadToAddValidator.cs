@@ -119,7 +119,9 @@ namespace EDTLibrary.Models.Loads
                 _fedFromTag = value;
 
                 ClearErrors(nameof(FedFromTag));
-                _feedingDteq = (DteqModel)_listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
+
+                _feedingDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
+
                 if (_feedingDteq != null && _fedFromTag != GlobalConfig.Utility) {
                     Voltage = _feedingDteq.LoadVoltage.ToString();
                 }

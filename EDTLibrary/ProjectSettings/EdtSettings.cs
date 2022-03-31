@@ -53,6 +53,7 @@ namespace EDTLibrary.ProjectSettings
 
         public static string LoadDefaultPdTypeLV { get; set; }
         public static string LoadFactorDefault { get; set; }
+        public static string DefaultXfrImpedance { get; set; }
 
         //Voltage
         public static string VoltageDefault1kV { get; set; }

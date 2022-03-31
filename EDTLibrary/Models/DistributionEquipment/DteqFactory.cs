@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.ProjectSettings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,9 +15,29 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             _listManager = listManager;
         }
-        public DteqModel CreateDteq(DteqToAddValidator dteqToAddValidator)
+        public IDteq CreateDteq(DteqToAddValidator dteqToAddValidator)
         {
-            DteqModel newDteq = new DteqModel(); 
+            IDteq newDteq;
+
+            if (dteqToAddValidator.Type == DteqTypes.XFR.ToString()) {
+                XfrModel model = new XfrModel();
+                //XFR properties
+                model.ImpZ = Double.Parse(EdtSettings.DefaultXfrImpedance);
+                newDteq = model;
+            }
+            else if (dteqToAddValidator.Type == DteqTypes.SWG.ToString()) {
+                SwgModel model = new SwgModel();
+                //SWG properties
+                newDteq = model;
+            }
+            else if (dteqToAddValidator.Type == DteqTypes.MCC.ToString()) {
+                MccModel model = new MccModel();
+                //MCC properties
+                newDteq = model;
+            }
+            else {
+                newDteq = new DteqModel();
+            }
 
             newDteq.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == dteqToAddValidator.FedFromTag);
 
@@ -32,6 +53,22 @@ namespace EDTLibrary.Models.DistributionEquipment
             newDteq.LoadVoltage = Double.Parse(dteqToAddValidator.LoadVoltage);
 
             return newDteq;
+        }
+
+        public static IDteq Recast(object oDteq)
+        {
+            if (oDteq.GetType() == typeof(XfrModel)) {
+                return (XfrModel)oDteq;
+            }
+            else if (oDteq.GetType() == typeof(SwgModel)) {
+                return (SwgModel)oDteq;
+            }
+            else if (oDteq.GetType() == typeof(MccModel)) {
+                return (MccModel)oDteq;
+            }
+            else {
+                return (DteqModel)oDteq;
+            }
         }
     }
 }

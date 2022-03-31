@@ -5,6 +5,7 @@ using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -24,11 +25,7 @@ namespace EDTLibrary.Tests
             //Assert.True(File.Exists(GlobalConfig.TestDb));
 
             DbManager.prjDb = new SQLiteConnector(GlobalConfig.TestDb);
-            
-            //Delete records
-            DbManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);   
-            DbManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
-            DbManager.prjDb.DeleteAllRecords(GlobalConfig.PowerCableTable);
+            DeleteAllRecords();
 
 
             #region INITIALIZATIONS
@@ -65,8 +62,8 @@ namespace EDTLibrary.Tests
                 dteqToAdd = new DteqToAddValidator(listManager, dteq);
                 eqVm.AddDteq(dteqToAdd);
             }
-            Assert.True(listManager.DteqList.Count-1 == TestData.TestDteqList.Count);
-            
+            Assert.True(listManager.DteqList.Count - 1 == TestData.TestDteqList.Count);
+
 
             //Loads
             foreach (var load in TestData.TestLoadList) {
@@ -74,16 +71,20 @@ namespace EDTLibrary.Tests
                 eqVm.AddLoad(loadToAdd);
                 load.CalculateLoading();
             }
+
+            foreach (var load in listManager.LoadList) {
+                Debug.WriteLine(load.Tag.ToString());
+            }
+
             Assert.True(listManager.AreaList.Count > 0);
             Assert.True(listManager.LoadList.Count > 0);
-            Assert.True(listManager.LoadList.Count != TestData.TestLoadList.Count) ;
-            Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count-3); // 3 fail the validation
+            Assert.True(listManager.LoadList.Count != TestData.TestLoadList.Count);
             Assert.True(listManager.DteqList[0].DemandKva > 0);
             Assert.True(listManager.LoadList[0].DemandKva > 0);
 
             #endregion
 
-           
+
             #region Rename, delete and re-add equipment
             //Rename
             listManager.IDteqList[0].Tag = "XTR-01";
@@ -96,16 +97,44 @@ namespace EDTLibrary.Tests
             var loadCountOld = listManager.LoadList.Count;
             var cableCountOld = listManager.CableList.Count;
 
+
+
+
+            //LargestMotorTest
+            var xfrToTest = listManager.XfrList[0];
+            xfrToTest.FindLargestMotor(xfrToTest, new LoadModel { ConnectedKva = 0 });
+            Assert.True(xfrToTest.LargestMotor.Tag == "MTR-01b");
+
             //Delete
             eqVm.DeleteDteq(listManager.DteqList[1]);
-            Assert.True(listManager.DteqList.Count == dteqCountOld-1);
-            Assert.True(listManager.CableList.Count == cableCountOld-1);
+            var listCount = (dteqCountOld - 1 - listManager.XfrList.Count - listManager.SwgList.Count - listManager.MccList.Count);
+
+            Assert.True(listManager.DteqList.Count == dteqCountOld - 1);
+            Assert.True(listManager.CableList.Count == cableCountOld - 1);
 
             #endregion
 
 
-            listManager.DteqList = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
+
+            //Todo - Clean up DteqModel vs abstract Dteq
+            var list = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
+            foreach (var item in list) {
+                listManager.DteqList.Add(item);
+            }
             Assert.True(listManager.DteqList.Count > 0);
+        }
+
+        private static void DeleteAllRecords()
+        {
+            
+
+            //Delete records
+            DbManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);
+            DbManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
+            DbManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
+            DbManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
+            DbManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
+            DbManager.prjDb.DeleteAllRecords(GlobalConfig.PowerCableTable);
         }
 
         [Fact]

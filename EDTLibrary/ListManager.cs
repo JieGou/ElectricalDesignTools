@@ -21,8 +21,10 @@ namespace EDTLibrary
 
         public ObservableCollection<AreaModel>          AreaList { get; set; } = new ObservableCollection<AreaModel>();
         public ObservableCollection<IDteq>              IDteqList { get; set; } = new ObservableCollection<IDteq>();
-        public ObservableCollection<DteqModel>          DteqList { get; set; } = new ObservableCollection<DteqModel>();
-        public ObservableCollection<XfrModel>           TransformerList { get; set; } = new ObservableCollection<XfrModel>();
+        public ObservableCollection<DistributionEquipment>          DteqList { get; set; } = new ObservableCollection<DistributionEquipment>();
+        public ObservableCollection<XfrModel>           XfrList { get; set; } = new ObservableCollection<XfrModel>();
+        public ObservableCollection<SwgModel>           SwgList { get; set; } = new ObservableCollection<SwgModel>();
+        public ObservableCollection<MccModel>           MccList { get; set; } = new ObservableCollection<MccModel>();
 
 
         public ObservableCollection<LoadModel>          LoadList { get; set; } = new ObservableCollection<LoadModel>();
@@ -47,61 +49,130 @@ namespace EDTLibrary
             return AreaList;
         }
 
-        public ObservableCollection<DteqModel> GetDteq() {
+        public ObservableCollection<DistributionEquipment> GetDteq() {
 
             IDteqList.Clear();
+            DteqList.Clear();
 
             //Dteq
-            DteqList = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
+            //Todo - Clean up DteqModel vs abstract Dteq
+            var list = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
+            foreach (var item in list) {
+                DteqList.Add(item);
+            }
+
             IDteq fedFrom;
 
-            foreach (var dteq in DteqList) {
-                IDteqList.Add(dteq);
+            foreach (var model in DteqList) {
+                IDteqList.Add(model);
             }
 
             DteqList.Insert(0, new DteqModel() { Tag = GlobalConfig.Utility });
 
+
+            //XFR
+            XfrList = DbManager.prjDb.GetRecords<XfrModel>(GlobalConfig.XfrTable);
+            foreach (var model in XfrList) {
+                IDteqList.Add(model);
+                DteqList.Add(model);
+            }
+            //Swg
+            SwgList = DbManager.prjDb.GetRecords<SwgModel>(GlobalConfig.SwgTable);
+            foreach (var model in SwgList) {
+                IDteqList.Add(model);
+                DteqList.Add(model);
+            }
+            //Mcc
+            MccList = DbManager.prjDb.GetRecords<MccModel>(GlobalConfig.MccTable);
+            foreach (var model in MccList) {
+                IDteqList.Add(model);
+                DteqList.Add(model);
+            }
+
+            //Assign FedFrom
             foreach (var dteq in IDteqList) {
+                //Utility
+
                 if (dteq.FedFromTag == GlobalConfig.Utility) {
                     dteq.FedFrom = DteqList[0];
                 }
-                //check for deleted
+                //Deleted
                 if (dteq.FedFromTag.Contains("Deleted") || dteq.FedFromType.Contains("Deleted")) {
                     dteq.FedFrom = new DteqModel() { Tag = GlobalConfig.Deleted };
                 }
-                fedFrom = DteqList.FirstOrDefault(d => d.Id == dteq.FedFromId &&
+
+                //Actual and Valid
+                fedFrom = IDteqList.FirstOrDefault(d => d.Id == dteq.FedFromId &&
                                                    d.GetType().ToString() == dteq.FedFromType);
                 if (fedFrom != null) {
                     dteq.FedFrom = fedFrom;
                 }
             }
 
-            //XFR
-
             CreateDteqDict();
 
             return DteqList;
         }
 
-        //TODO move to Distribution Manager with _listManager as parameter
-        public async Task<string> DeleteDteq(IDteq model) //where T : class
+        public void AddDteq(IDteq iDteq)
         {
-            if (model.GetType()==typeof (DteqModel)){
-                var dteq = model as DteqModel;
-                DteqList.Remove(dteq);
-                IDteqList.Remove(dteq);
-                return "Deleted Dteq";
-
+            if (iDteq == null) {
+                return;
             }
-            else if (model.GetType()==typeof (XfrModel)) {
-               var xfr = model as XfrModel;
-                TransformerList.Remove(xfr);
-                IDteqList.Remove(xfr);
-                return "Deleted Xfr";
-
+            if (iDteq.GetType() == typeof(DteqModel)) {
+                var model = (DteqModel)iDteq;
+                DteqList.Add(model);
             }
-            return "";
+            else if (iDteq.GetType() == typeof(XfrModel)) {
+                var model = (XfrModel)iDteq;
+                XfrList.Add(model);
+                DteqList.Add(model);
+            }
+            else if (iDteq.GetType() == typeof(SwgModel)) {
+                var model = (SwgModel)iDteq;
+                SwgList.Add(model);
+                DteqList.Add(model);
+            }
+            else if (iDteq.GetType() == typeof(MccModel)) {
+                var model = (MccModel)iDteq;
+                MccList.Add(model);
+                DteqList.Add(model);
+            }
+            IDteqList.Add(iDteq);
         }
+
+        //TODO move to Distribution Manager with _listManager as parameter
+        public void DeleteDteq(IDteq IDteq) //where T : class
+        {
+            IDteqList.Remove(IDteq);
+
+            if (IDteq.GetType()==typeof (DteqModel)){
+                var model = IDteq as DteqModel;
+                DteqList.Remove(model);
+            }
+            else if (IDteq.GetType()==typeof (XfrModel)) {
+               var model = IDteq as XfrModel;
+                XfrList.Remove(model);
+                DteqList.Remove(model);
+
+            }
+            else if (IDteq.GetType() == typeof(SwgModel)) {
+                var model = IDteq as SwgModel;
+                SwgList.Remove(model);
+                DteqList.Remove(model);
+
+            }
+            else if (IDteq.GetType() == typeof(MccModel)) {
+                var model = IDteq as MccModel;
+                MccList.Remove(model);
+                DteqList.Remove(model);
+
+            }
+            return ;
+        }
+
+
+
 
         public ObservableCollection<LoadModel> GetLoads() {     
             LoadList = DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable);
@@ -195,7 +266,7 @@ namespace EDTLibrary
 
         public void UnregisterAllDteqFromAllLoadEvents()
         {
-            foreach (DteqModel dteq in DteqList) {
+            foreach (IDteq dteq in DteqList) {
                 //dteq.FedFromChanged -= this.OnFedFromChanged;
 
                 UnregisterDteqFromLoadEvents(dteq);
@@ -211,7 +282,7 @@ namespace EDTLibrary
 
         public void AssignLoadsAndEventsToAllDteq()
         {
-            foreach (DteqModel dteq in DteqList) {
+            foreach (IDteq dteq in DteqList) {
                 dteq.AssignedLoads.Clear();
                 dteq.LoadCount = 0;
                 //dteq.FedFromChanged += this.OnFedFromChanged;
@@ -245,41 +316,6 @@ namespace EDTLibrary
             }
         }
 
-
-        public void CalculateDteqLoading(ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) // LoadList Manager
-        {
-            foreach (DteqModel dteq in dteqList) {
-                var dteqTag = dteq.Tag;
-                dteq.AssignedLoads.Clear();
-                dteq.LoadCount = 0;
-
-                //Adds Dteq as Loads
-                foreach (DteqModel dteqAsLoad in dteqList) {
-                    var dteqAsLoadTag = dteqAsLoad.Tag;
-                    if (dteqAsLoad.FedFromTag == dteq.Tag) {
-                        dteq.AssignedLoads.Add(dteqAsLoad);
-                        dteq.LoadCount += 1;
-                    }
-                }
-                //Adds loads as loads
-                foreach (LoadModel load in loadList) {
-                    var loadTag = load.Tag;
-                    if (load.FedFromTag == dteq.Tag) {
-                        load.CalculateLoading();
-                        dteq.AssignedLoads.Add(load);
-                        dteq.LoadCount += 1;
-                    }
-                }
-            }
-            //Calculates the loading of each load. Recursive for dteq
-            foreach (DteqModel dteq in dteqList) {
-                dteq.CalculateLoading();
-            }
-
-            DteqList = new ObservableCollection<DteqModel>(dteqList);
-
-            LoadList = new ObservableCollection<LoadModel>(loadList);
-        }
 
         #endregion
 

@@ -13,9 +13,9 @@ namespace EDTLibrary.Models.DistributionEquipment
 {
 
     [AddINotifyPropertyChangedInterface]
-    public class XfrModel : IDteq, IComponentUser
+    public abstract class DistributionEquipment : IDteq, IComponentUser
     {
-        public XfrModel()
+        public DistributionEquipment()
         {
             Category = Categories.DTEQ.ToString();
             Voltage = LineVoltage;

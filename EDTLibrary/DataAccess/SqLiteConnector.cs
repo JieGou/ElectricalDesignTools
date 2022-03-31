@@ -396,7 +396,7 @@ namespace EDTLibrary.DataAccess
             }
         }
 
-        public async Task DeleteRecordAsync(string tableName, int id)
+        public void DeleteRecord(string tableName, int id)
         {
             using (SQLiteConnection con = new SQLiteConnection(conString))
             {

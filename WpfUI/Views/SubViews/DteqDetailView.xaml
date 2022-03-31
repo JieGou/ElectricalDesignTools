@@ -70,11 +70,6 @@
             </Style>
 
 
-
-
-
-
-
             <Style TargetType="TextBlock" x:Key="textBoxMouseOver">
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
@@ -109,15 +104,25 @@
         </StackPanel>
 
         <TabControl Grid.Row="1" Background="LightCyan" BorderThickness="0 1 0 0">
+            
+            <!--Eq Details-->
             <TabItem Header="Eq Details" Background="LightCyan">
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type edtDteqModels:DteqModel}">
+                        <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
                             <subViews:TransformerDetailsView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
+                            <subViews:SwgDetailsView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type edtDteqModels:MccModel}">
+                            <subViews:MccDetailsView/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>
             </TabItem>
+            
+            <!--Cable Data-->
             <TabItem Header="Cable Data" Background="LightCyan">
                 <Grid>
                     <Grid.ColumnDefinitions>

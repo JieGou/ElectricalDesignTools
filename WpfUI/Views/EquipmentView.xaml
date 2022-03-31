@@ -421,7 +421,7 @@
                         <DataGridTemplateColumn  Header="   Line &#x0a;Voltage" x:Name="dteqLineVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding LineVoltage, ValidatesOnDataErrors=True}"></TextBlock>
+                                    <TextBlock Text="{Binding LineVoltage,  StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"></TextBlock>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
 
@@ -442,7 +442,7 @@
                         <DataGridTemplateColumn Header="  Load &#x0a;Voltage" x:Name="dteqLoadVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding LoadVoltage, ValidatesOnDataErrors=True}"></TextBlock>
+                                    <TextBlock Text="{Binding LoadVoltage,  StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"></TextBlock>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
 
@@ -462,7 +462,7 @@
                         <!--Size-->
                         <DataGridTextColumn Header="Size" x:Name="dteqSize"
                                 MinWidth="50"
-                                Binding="{Binding Path=Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                                Binding="{Binding Path=Size,  StringFormat={}{0:N0}, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Right" />
@@ -491,11 +491,11 @@
                         <!--FLA-->
                         <DataGridTextColumn Header="FLA / Max&#x0a;    Amps" x:Name="dteqFla" 
                                 MinWidth="40"
-                                Binding="{Binding Path=Fla, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=Fla,  StringFormat={}{0:N0}, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 IsReadOnly="True"/>
                         <!--Running Amps-->
                         <DataGridTextColumn Header="Running &#x0a;  Amps" x:Name="dteqRunningAmps"
-                                Binding="{Binding Path=RunningAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=RunningAmps,  StringFormat={}{0:N0}, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 IsReadOnly="True"/>
 
                         <!--Percent Loaded-->
@@ -532,22 +532,22 @@
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource LoadingViewProxy}}"/>
 
                         <DataGridTextColumn Header="Conn &#x0a; kVA" x:Name="dteqConnectedKva"
-                                Binding="{Binding Path=ConnectedKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=ConnectedKva,  StringFormat={}{0:N0}, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 IsReadOnly="True"
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource LoadingViewProxy}}"/>
 
                         <DataGridTextColumn Header="Dem &#x0a; kVA" x:Name="dteqDemandKva"
-                                Binding="{Binding Path=DemandKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=DemandKva,  StringFormat={}{0:N0}, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 IsReadOnly="True"
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource LoadingViewProxy}}"/>
 
                         <DataGridTextColumn Header="Dem &#x0a; kW" x:Name="dteqDemandKw" 
-                                Binding="{Binding Path=DemandKw, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=DemandKw,  StringFormat={}{0:N0}, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 IsReadOnly="True"
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource LoadingViewProxy}}"/>
 
                         <DataGridTextColumn Header="Dem &#x0a;kVAR" x:Name="dteqDemandKvar" 
-                                Binding="{Binding Path=DemandKvar, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=DemandKvar,  StringFormat={}{0:N0}, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 IsReadOnly="True"
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource LoadingViewProxy}}"/>
 

@@ -19,6 +19,9 @@ namespace EDTLibrary
         public const string Deleted = "* Deleted *";
         public static string LoadTable { get; set; } = "Loads";
         public static string DteqTable { get; set; } = "DistributionEquipment";
+        public static string XfrTable { get; set; } = "Transformer";
+        public static string SwgTable { get; set; } = "Switchgear";
+        public static string MccTable { get; set; } = "Mcc";
         public static string AreaTable { get; set; } = "Areas";
         public static string PowerCableTable { get; set; } = "Cables";
         public static string DevDb { get; set; } = "C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB Files\\EDTProjectTemplate1.1.edp";

@@ -16,6 +16,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             _listManager = listManager;
         }
         //TODO - create Distribution Manager instance inside eqVm
+    
         public static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
             if (caller.FedFrom != null) {
@@ -38,5 +39,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 caller.PowerCable.AssignTagging(caller);
             }
         }
+
+        //TODO - Load and DTEQ type changes
     }
 }

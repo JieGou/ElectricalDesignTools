@@ -153,7 +153,7 @@ namespace WpfUI.ViewModels
         private void DeleteArea(object areaToDeleteObject)
         {
             AreaModel areaToDelete = (AreaModel)areaToDeleteObject;
-            DbManager.prjDb.DeleteRecordAsync(GlobalConfig.AreaTable, areaToDelete.Id);
+            DbManager.prjDb.DeleteRecord(GlobalConfig.AreaTable, areaToDelete.Id);
             _listManager.AreaList.Remove(areaToDelete);
             RefreshAreaTagValidation();
 

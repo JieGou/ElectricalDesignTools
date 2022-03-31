@@ -99,7 +99,7 @@ namespace EDTLibrary.DataAccess
         public static void OnDteqLoadingCalculated(object source, EventArgs e)
         {
             if (GlobalConfig.GettingRecords==false) {
-                prjDb.UpsertRecord<DteqModel>((DteqModel)source, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+                DbManager.UpsertDteq((IDteq)source);
 
             }
         }
@@ -112,9 +112,25 @@ namespace EDTLibrary.DataAccess
 
 
         //Save Get Id
-        public static int SaveDteqGetId(DteqModel dteq)
+        public static int SaveDteqGetId(IDteq iDteq)
         {
-            int id = prjDb.InsertRecordGetId(dteq, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+            int id = 0;
+            if (iDteq.GetType() == typeof(DteqModel)) {
+               var model = (DteqModel)iDteq;
+               id = prjDb.InsertRecordGetId(model, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+            }
+            else if (iDteq.GetType() == typeof(XfrModel)) {
+                var model = (XfrModel)iDteq;
+                id = prjDb.InsertRecordGetId(model, GlobalConfig.XfrTable, SaveLists.DteqSaveList);
+            }
+            else if (iDteq.GetType() == typeof(SwgModel)) {
+                var model = (SwgModel)iDteq;
+                id = prjDb.InsertRecordGetId(model, GlobalConfig.SwgTable, SaveLists.DteqSaveList);
+            }
+            else if (iDteq.GetType() == typeof(MccModel)) {
+                var model = (MccModel)iDteq;
+                id = prjDb.InsertRecordGetId(model, GlobalConfig.MccTable, SaveLists.DteqSaveList);
+            }
             return id;
         }
 
@@ -124,10 +140,46 @@ namespace EDTLibrary.DataAccess
             return id;
         }
 
-        //Upsert
-        public static void UpsertDteq(DteqModel dteq)
+        //Delete Dteq
+        public static void DeleteDteq(IDteq iDteq)
         {
-            prjDb.UpsertRecord(dteq, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+            if (iDteq.GetType() == typeof(DteqModel)) {
+                var model = (DteqModel)iDteq;
+                prjDb.DeleteRecord(GlobalConfig.DteqTable, model.Id);
+            }
+            else if (iDteq.GetType() == typeof(XfrModel)) {
+                var model = (XfrModel)iDteq;
+                prjDb.DeleteRecord(GlobalConfig.XfrTable, model.Id);
+            }
+            else if (iDteq.GetType() == typeof(SwgModel)) {
+                var model = (SwgModel)iDteq;
+                prjDb.DeleteRecord(GlobalConfig.SwgTable, model.Id);
+            }
+            else if (iDteq.GetType() == typeof(MccModel)) {
+                var model = (MccModel)iDteq;
+                prjDb.DeleteRecord(GlobalConfig.MccTable, model.Id);
+            }
+        }
+
+        //Upsert Dteq
+        public static void UpsertDteq(IDteq iDteq)
+        {
+            if (iDteq.GetType() == typeof(DteqModel)) {
+                var model = (DteqModel)iDteq;
+                prjDb.UpsertRecord(model, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+            }
+            else if (iDteq.GetType() == typeof(XfrModel)) {
+                var model = (XfrModel)iDteq;
+                prjDb.UpsertRecord(model, GlobalConfig.XfrTable, SaveLists.DteqSaveList);
+            }
+            else if (iDteq.GetType() == typeof(SwgModel)) {
+                var model = (SwgModel)iDteq;
+                prjDb.UpsertRecord(model, GlobalConfig.SwgTable, SaveLists.DteqSaveList);
+            }
+            else if (iDteq.GetType() == typeof(MccModel)) {
+                var model = (MccModel)iDteq;
+                prjDb.UpsertRecord(model, GlobalConfig.MccTable, SaveLists.DteqSaveList);
+            }
         }
 
         public static void UpsertLoad(LoadModel load)

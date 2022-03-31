@@ -14,7 +14,8 @@ namespace EDTLibrary.DataAccess
             "PowerCable",
             "Components",
             "FedFrom",
-            "Area"
+            "Area",
+            "LargestMotor"
         };
 
         static public List<string> LoadSaveList { get; set; } = new List<string>() 

@@ -414,9 +414,9 @@ namespace WpfUI.ViewModels
                 var errors = dteqToAddValidator._errorDict; //to help debug
                 if (IsValid) {
 
-                    DteqModel newDteq = _dteqFactory.CreateDteq(dteqToAddValidator);
+                    IDteq newDteq = _dteqFactory.CreateDteq(dteqToAddValidator);
 
-                    DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
+                    IDteq dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
                     if (dteqSubscriber != null) {
                         //dteqSubscriber.AssignedLoads.Add(newDteq); //newDteq is somehow already getting added to Assigned Loads
                         newDteq.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
@@ -426,8 +426,7 @@ namespace WpfUI.ViewModels
                     //Save to Db
                     newDteq.Id = DbManager.SaveDteqGetId(newDteq);
 
-                    _listManager.DteqList.Add(newDteq);
-                    _listManager.IDteqList.Add(newDteq);
+                    _listManager.AddDteq(newDteq);
                     newDteq.CalculateLoading(); //after dteq is inserted to get a new Id
 
                     //Cable
@@ -444,43 +443,43 @@ namespace WpfUI.ViewModels
         }
 
         public void DeleteDteq(object selectedDteqObject)
-        { 
-            DeleteDteqAsync(selectedDteqObject);
-        }
-
-        public async Task DeleteDteqAsync(object selectedDteqObject)
         {
-            IDteq selectedDteq = (DteqModel)selectedDteqObject;
-            if (selectedDteq != null) {
-                //children first
+            try {
 
-                await DeletePowerCableAsync(selectedDteq);
-                await RetagLoadsOfDeletedAsync(selectedDteq);
-                
-                selectedDteq.FedFrom.AssignedLoads.Remove(selectedDteq);
+                IDteq selectedDteq = DteqFactory.Recast(selectedDteqObject);
+                if (selectedDteq != null) {
+                    //children first
 
-                await _listManager.DeleteDteq(selectedDteq);
-                await DbManager.prjDb.DeleteRecordAsync(GlobalConfig.DteqTable, selectedDteq.Id);
-                RefreshDteqTagValidation();
+                    DeletePowerCable(selectedDteq); //await 
+                    RetagLoadsOfDeleted(selectedDteq); //await
 
-                if (_listManager.IDteqList.Count > 0) {
-                    SelectedDteq = _listManager.IDteqList[_listManager.IDteqList.Count - 1];
+                    selectedDteq.FedFrom.AssignedLoads.Remove(selectedDteq);
+                    DbManager.DeleteDteq(selectedDteq);
+                    _listManager.DeleteDteq(selectedDteq); //await
+                    RefreshDteqTagValidation();
+
+                    if (_listManager.IDteqList.Count > 0) {
+                        SelectedDteq = _listManager.IDteqList[_listManager.IDteqList.Count - 1];
+                    }
                 }
             }
-            return ;
+            catch (Exception ex){
+                MessageBox.Show(ex.Message);
+            }
+            return;
         }
 
-        private async Task DeletePowerCableAsync(IPowerConsumer powerCableUser)
+        private void DeletePowerCable(IPowerConsumer powerCableUser)
         {
             
             if (powerCableUser.PowerCable != null) {
                 int cableId = powerCableUser.PowerCable.Id;
-                await DbManager.prjDb.DeleteRecordAsync(GlobalConfig.PowerCableTable, cableId);
+                DbManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId); //await
                 _listManager.CableList.Remove(powerCableUser.PowerCable);
             }
             return ;
         }
-        private async Task RetagLoadsOfDeletedAsync(IDteq selectedDteq)
+        private void RetagLoadsOfDeleted(IDteq selectedDteq)
         {
 
             //Loads
@@ -505,10 +504,6 @@ namespace WpfUI.ViewModels
 
         public void AddLoad(object loadToAddObject)
         {
-            AddLoadAsync(loadToAddObject);
-        }
-        public async Task AddLoadAsync(object loadToAddObject)
-        {
 
             LoadToAddValidator loadToAddValidator = (LoadToAddValidator)loadToAddObject;
             var IsValid = loadToAddValidator.IsValid();
@@ -518,7 +513,7 @@ namespace WpfUI.ViewModels
 
                     LoadModel newLoad = _loadFactory.CreateLoad(loadToAddValidator);
 
-                    DteqModel dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newLoad.FedFrom);
+                    IDteq dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newLoad.FedFrom);
                     if (dteqSubscriber != null) {
                         //dteqSubscriber.AssignedLoads.Add(newLoad); //newLoad is somehow already getting added to Assigned Loads
                         newLoad.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
@@ -537,7 +532,7 @@ namespace WpfUI.ViewModels
                     newLoad.PowerCable.Id = DbManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
                     _listManager.CableList.Add(newLoad.PowerCable);
 
-                    await BuildAssignedLoadsAsync();
+                    BuildAssignedLoadsAsync(); //await
 
                     RefreshLoadTagValidation();
                 }
@@ -555,15 +550,15 @@ namespace WpfUI.ViewModels
         {
             LoadModel selectedLoad = (LoadModel)selectedLoadObject;
             if (selectedLoad != null) {
-                DteqModel dteqToRecalculate = _listManager.DteqList.FirstOrDefault(d => d == selectedLoad.FedFrom);
+                IDteq dteqToRecalculate = _listManager.DteqList.FirstOrDefault(d => d == selectedLoad.FedFrom);
                 int loadId = selectedLoad.Id;
 
                 
                 selectedLoad.LoadingCalculated -= DbManager.OnLoadLoadingCalculated;
 
-                await DeletePowerCableAsync(selectedLoad);
+                DeletePowerCable(selectedLoad); //await
 
-                await DbManager.prjDb.DeleteRecordAsync(GlobalConfig.LoadTable, loadId);
+                DbManager.prjDb.DeleteRecord(GlobalConfig.LoadTable, loadId); //await
 
 
                 var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
