@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.Loads;
+﻿using EDTLibrary.Models.Areas;
+using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Validators;
 using PropertyChanged;
 using System;
@@ -34,7 +35,9 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
         private ListManager _listManager;
+        private IArea _areaModel;
         private IDteq _feedingDteq;
+       
 
         private string _tag = "";
         public string Tag
@@ -105,6 +108,28 @@ namespace EDTLibrary.Models.DistributionEquipment
             get { return _description; }
             set { _description = value; }
         }
+
+        private string _areaTag;
+
+        public string AreaTag
+        {
+            get { return _areaTag; }
+            set 
+            { 
+                _areaTag = value; 
+                ClearErrors(nameof(AreaTag));
+                _areaModel = _listManager.AreaList.FirstOrDefault(a => a.Tag == _areaTag);
+
+                if (_areaModel != null) {
+                    _isValid = true;
+                }
+                else {
+                    AddError(nameof(AreaTag), "Selected area doesn't exist");
+                    _isValid = false;
+                }
+            }
+        }
+
 
         private string _fedFromTag = "";
         public string FedFromTag
@@ -253,6 +278,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             Description = fake;
             Description = temp;
 
+            temp = AreaTag;
+            AreaTag = fake;
+            AreaTag = temp; 
+            
             temp = FedFromTag;
             FedFromTag = fake;
             FedFromTag = temp;

@@ -1,5 +1,6 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
@@ -20,18 +21,28 @@ namespace WpfUI.ViewModels
 
         private readonly StartupViewModel _startupViewModel;
         private readonly ProjectSettingsViewModel _projectSettingsViewModel = new ProjectSettingsViewModel();
-        private readonly AreasViewModel _locationsViewModel;
+        private AreasViewModel _areasViewModel;
         private readonly EquipmentViewModel _equipmentViewModel;
         private readonly CableListViewModel _cableListViewModel;
         private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
-        public MainViewModel(StartupService startupService, ListManager listManager, string type="")
+        private TypeManager _typeManager;
+
+        public TypeManager TypeManager
+        {
+            get { return _typeManager; }
+            set { _typeManager = value; }
+        }
+
+
+        public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, string type="")
         {
             _listManager = listManager;
+            _typeManager = typeManager;
             _startupService = startupService;
 
             _startupViewModel = new StartupViewModel(startupService);
-            _locationsViewModel = new AreasViewModel(listManager);
+            _areasViewModel = new AreasViewModel(listManager);
             _equipmentViewModel = new EquipmentViewModel(listManager);
             _cableListViewModel = new CableListViewModel(listManager);
 
@@ -46,12 +57,12 @@ namespace WpfUI.ViewModels
             ScenarioCommand = new RelayCommand(NewWindow);
 
             startupService.InitializeLibrary();
-            _locationsViewModel.CreateComboBoxLists();
+            _areasViewModel.CreateComboBoxLists();
             _equipmentViewModel.CreateComboBoxLists();
 
 
 #if DEBUG
-            if (type == "main") {
+            if (type == "dev") {
                 _startupService.InitializeProject(AppSettings.Default.ProjectDb);
             }
 #endif
@@ -79,7 +90,7 @@ namespace WpfUI.ViewModels
         }
         private void NavigateAreas()
         {
-            CurrentViewModel = _locationsViewModel;
+            CurrentViewModel = _areasViewModel;
         }
         private void NavigateEquipment()
         {
@@ -112,10 +123,11 @@ namespace WpfUI.ViewModels
         {
             ListManager listManager = new ListManager();
             StartupService startupService = new StartupService(listManager);
+            TypeManager typeManager = new TypeManager();
 
             Window scenario = new MainWindow() {
                 //DataContext = new MainViewModel(startupService, listManager)
-                DataContext = new MainViewModel(_startupService, _listManager)
+                DataContext = new MainViewModel(_startupService, _listManager, typeManager)
                 
             };
             

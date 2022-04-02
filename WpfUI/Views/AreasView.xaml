@@ -193,7 +193,7 @@
                                               SelectedItem="{Binding AreaCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               Text="{Binding AreaCategory}"
                                               HorizontalContentAlignment="Center"
-                                              IsEditable="True" IsTextSearchEnabled="True"
+                                              IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"/>
                                 </DataTemplate>
@@ -215,7 +215,7 @@
                                               SelectedItem="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               Text="{Binding AreaClassification}"
                                               HorizontalContentAlignment="Center"
-                                              IsEditable="True" IsTextSearchEnabled="True"
+                                              IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0">
                                     </ComboBox>
@@ -246,7 +246,7 @@
                         </DataGridTextColumn>
 
                         <!--NemaRating-->
-                        <DataGridTemplateColumn Header="NEMA&#x0a; Type"
+                        <DataGridTemplateColumn Header="NEMA&#x0a;Rating"
                                                 MinWidth="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -256,10 +256,10 @@
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedItem="{Binding NemaType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Text="{Binding NemaType, ValidatesOnDataErrors=True}"
+                                              SelectedItem="{Binding NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Text="{Binding NemaRating, ValidatesOnDataErrors=True}"
                                               HorizontalContentAlignment="Left"
-                                              IsEditable="True" IsTextSearchEnabled="True"
+                                              IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"/>
                                 </DataTemplate>
@@ -391,7 +391,7 @@
                            Grid.Row="1" Grid.Column="{StaticResource MaxTemp}" FontSize="10"
                            VerticalAlignment="Bottom" />
 
-                <TextBlock Text="Nema Type" Margin="10 5 0 5"
+                <TextBlock Text="Nema Rating" Margin="10 5 0 5"
                            Grid.Row="1" Grid.Column="{StaticResource Nema}" FontSize="10"
                            VerticalAlignment="Bottom" />
 
@@ -423,7 +423,7 @@
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.Categories, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedValue="{Binding AreaToAddValidator.AreaCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Text="{Binding AreaToAddValidator.AreaCategory}"
-                          IsEditable="True" IsTextSearchEnabled="True"
+                          IsEditable="False" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource AreaClass}"
@@ -431,7 +431,7 @@
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.AreaClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedValue="{Binding AreaToAddValidator.AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Text="{Binding AreaToAddValidator.AreaClassification}"                        
-                          IsEditable="True" IsTextSearchEnabled="True"
+                          IsEditable="False" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
                 <TextBox Grid.Row="2" Grid.Column="{StaticResource MinTemp}"
@@ -449,9 +449,9 @@
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Nema}"
                           Width="90"
                           ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedValue="{Binding AreaToAddValidator.NemaType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          Text="{Binding AreaToAddValidator.NemaType}"
-                          IsEditable="True" IsTextSearchEnabled="True"
+                          SelectedValue="{Binding AreaToAddValidator.NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Text="{Binding AreaToAddValidator.NemaRating}"
+                          IsEditable="False" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
 

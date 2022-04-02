@@ -7,6 +7,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="550"
              Background="LightCyan">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ComboBox">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Height" Value="20"/>
+                <Setter Property="Margin" Value="0 3"/>
+                <Setter Property="ToolTipService.InitialShowDelay" Value="0"/>
+                <Setter Property="ToolTipService.BetweenShowDelay" Value="0"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -39,50 +52,54 @@
                    Grid.Row="1" Grid.Column="0" 
                    FontWeight="Bold"/>
         
-        <TextBlock Text="Impedance - Z: "
+        <TextBlock Text="Impedance  % Z: "
                    Grid.Row="2" Grid.Column="0"/>
         <StackPanel Orientation="Horizontal"
                     Grid.Row="2" Grid.Column="2" >
             
-            <TextBox Text="{Binding ImpZ, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            <TextBox Text="{Binding Impedance, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+                     x:Name="txtImpedance"
                      Grid.Row="2" Grid.Column="2" Width="35"
                      d:Text="7.5" TextAlignment="Center"
-                     FontWeight="Bold" Margin="0"/>
-            <TextBlock Text=" %" Grid.Row="2" Grid.Column="0"/>
+                     FontWeight="Bold" Margin="0" KeyDown="txtImpedance_KeyDown"
+                     />
+            <TextBlock Text=" %" Grid.Row="2" Grid.Column="0" />
         </StackPanel>
         
         
-        <!--<TextBlock Text="Impedance - X%: "
+        <!--<TextBlock Text="Reactance - X%: "
                    Grid.Row="3" Grid.Column="0"/>
         <StackPanel Orientation="Horizontal"
                     Grid.Row="3" Grid.Column="2" >
 
-            <TextBox Text="{Binding ImpX, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            <TextBox Text="{Binding Reactance, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                      Grid.Row="2" Grid.Column="2" Width="35"
                      d:Text="7.5" TextAlignment="Center"
                      FontWeight="Bold"/>
-            --><!--<TextBlock Text=" %" Grid.Row="2" Grid.Column="0"/>--><!--
+            <TextBlock Text=" %" Grid.Row="2" Grid.Column="0"/>
         </StackPanel>
         
-        <TextBlock Text="Impedance - R%: "
+        <TextBlock Text="Resistance - R%: "
                    Grid.Row="4" Grid.Column="0"/>
         <StackPanel Orientation="Horizontal"
                     Grid.Row="4" Grid.Column="2" >
 
-            <TextBox Text="{Binding ImpR, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            <TextBox Text="{Binding Resistance, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                      Grid.Row="2" Grid.Column="2" Width="35"
                      d:Text="7.5" TextAlignment="Center"
                      FontWeight="Bold"/>
-            --><!--<TextBlock Text=" %" Grid.Row="2" Grid.Column="0"/>--><!--
+            <TextBlock Text=" %" Grid.Row="2" Grid.Column="0"/>
         </StackPanel>-->
-        
-        
+
+
+        <!--<TextBlock Text="Short-Circuit Current: "
+                   Grid.Row="5" Grid.Column="0"/>-->
         <TextBlock Text="SCCR: "
                    Grid.Row="5" Grid.Column="0"/>
         <StackPanel Orientation="Horizontal"
                     Grid.Row="5" Grid.Column="2" >
 
-            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="3" Grid.Column="2"
                      d:Text="57,276" TextAlignment="Center"
                      FontWeight="Bold"/>
@@ -95,7 +112,7 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Row="6" Grid.Column="2" >
 
-            <TextBlock Text="{Binding ConnectedKva, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            <TextBlock Text="{Binding ConnectedKva, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="3" Grid.Column="2"
                      d:Text="180" TextAlignment="Center"
                      FontWeight="Bold"/>
@@ -107,13 +124,13 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Row="7" Grid.Column="2" >
 
-            <TextBlock Text="{Binding LargestMotor.Tag, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            <TextBlock Text="{Binding LargestMotor.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="3" Grid.Column="2"
                      d:Text="MTR-xx" TextAlignment="Center"
                      FontWeight="Bold"/>
             <TextBlock Text="  -  " Grid.Row="2" Grid.Column="0"/>
-            
-            <TextBlock Text="{Binding LargestMotor.Size, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+
+            <TextBlock Text="{Binding LargestMotor.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="3" Grid.Column="2"
                      d:Text="75" TextAlignment="Center"
                      FontWeight="Bold"/>
@@ -121,12 +138,56 @@
             <TextBlock Text="{Binding LargestMotor.Unit}" Grid.Row="2" Grid.Column="0" d:Text=" HP" />
             <TextBlock Text="  -  " Grid.Row="2" Grid.Column="0"/>
 
-            <TextBlock Text="{Binding LargestMotor.ConnectedKva, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            <TextBlock Text="{Binding LargestMotor.ConnectedKva, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="3" Grid.Column="2"
                      d:Text="55.75" TextAlignment="Center"
                      FontWeight="Bold"/>
             <TextBlock Text=" kVA" Grid.Row="2" Grid.Column="0" d:Text=" kVA" />
         </StackPanel>
+        
+        <GroupBox Grid.Row="9" Grid.Column="0" Header="Enclosure Details" FontWeight="Bold" Grid.ColumnSpan="3"
+                  Margin="0 10 0 0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
+                
+                <TextBlock Text="NEMA Rating"
+                           Grid.Row="0" Grid.Column="0" 
+                           FontWeight="Normal"
+                           Margin="0 5 0 0"
+                           TextAlignment="Right"/>
+                <ComboBox x:Name="cbxNemaRatings" Grid.Row="0" Grid.Column="2"
+                          ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                          Text="{Binding NemaRating, StringFormat={}{0} }" 
+                          SelectedValuePath="Type"
+                          DisplayMemberPath="Type"
+                          SelectedValue="{Binding NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          IsSynchronizedWithCurrentItem="False" 
+                          ToolTip="Suggestion is to create a new area and inherit the data instead of changing this directly"/>
+
+
+                <TextBlock Text="Area Classification"
+                           Grid.Row="1" Grid.Column="0" FontWeight="Normal"/>
+                    
+                <ComboBox x:Name="cbxAreaClassifications" Grid.Row="1" Grid.Column="2"
+                          ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                          Text="{Binding AreaClassification, StringFormat={}{0} }" 
+                          SelectedValuePath="Zone"
+                          DisplayMemberPath="Zone"
+                          SelectedValue="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          IsSynchronizedWithCurrentItem="False" 
+                          ToolTip="Suggestion is to create a new area and inherit the data instead of changing this directly"/>
+
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>

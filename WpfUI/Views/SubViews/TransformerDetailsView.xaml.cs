@@ -24,5 +24,15 @@ namespace WpfUI.Views.SubViews
         {
             InitializeComponent();
         }
+
+      
+
+        private void txtImpedance_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return) {
+                BindingExpression binding = txtImpedance.GetBindingExpression(TextBox.TextProperty);
+                binding.UpdateSource();
+            }
+        }
     }
 }

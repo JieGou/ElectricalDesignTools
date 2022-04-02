@@ -15,7 +15,8 @@ namespace EDTLibrary.Models.DistributionEquipment
     [AddINotifyPropertyChangedInterface]
     public class MccModel : DistributionEquipment
     {
-              
+        
+
     }
 
 }

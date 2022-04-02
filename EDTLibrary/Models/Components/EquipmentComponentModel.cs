@@ -19,10 +19,18 @@ namespace EDTLibrary.Models.Components
         public string Description { get; set; }
         public string Category { get; set; }
         public int AreaId { get; set; }
-        public AreaModel Area { get; set; }
+        public IArea Area { get; set; }
+        public string NemaRating { get; set; }
+        public string AreaClassification { get; set; }
+
         public string Type { get; set; }
         public string SubType { get; set; }
-        public string ComponentOf { get; set; }
+        public string Owner { get; set; }
         public ObservableCollection<IComponent> Components { get; set; } = new ObservableCollection<IComponent>();
+
+        public void UpdateAreaProperties()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

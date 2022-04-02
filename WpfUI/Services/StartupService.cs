@@ -36,14 +36,11 @@ namespace WpfUI.Services
         public static SQLiteConnector prjDb { get; set; }
         public static SQLiteConnector libDb { get; set; }
 
-
-
-
         public void InitializeLibrary()
         {
             if (File.Exists(AppSettings.Default.LibraryDb)) {
                 libDb = new SQLiteConnector(AppSettings.Default.LibraryDb);
-                DbManager.SetLibraryDb(AppSettings.Default.LibraryDb);
+                DaManager.SetLibraryDb(new SQLiteConnector(AppSettings.Default.LibraryDb));
 
                 LoadLibraryDb();
                 TypeManager.VoltageTypes = libDb.GetRecords<VoltageType>("VoltageTypes");
@@ -54,7 +51,7 @@ namespace WpfUI.Services
         {
             if (File.Exists(projectFile)) {
                 prjDb = new SQLiteConnector(projectFile);
-                DbManager.SetProjectDb(projectFile);
+                DaManager.SetProjectDb(new SQLiteConnector(projectFile));
 
                 LoadProjectDb();
                 LoadProjectSettings();
@@ -91,7 +88,7 @@ namespace WpfUI.Services
         {
             string dbFilename = AppSettings.Default.LibraryDb;
             if (File.Exists(dbFilename)) {
-                IsLibraryLoaded = DbManager.GetLibraryTables();
+                IsLibraryLoaded = DaManager.GetLibraryTables();
             }
             else {
                 MessageBox.Show($"The selected Library file \n\n{dbFilename} cannot be found,it may have been moved or deleted. Please select another Library file.");
@@ -129,7 +126,7 @@ namespace WpfUI.Services
 
         public static void SaveProjectSettings()
         {
-            Type type = typeof(EdtSettings); // ProjectSettings is a static class
+            Type type = typeof(EdtSettings); // EdtSettings is a static class
             string propValue;
             try {
                 foreach (var prop in type.GetProperties()) {
@@ -138,7 +135,7 @@ namespace WpfUI.Services
                 }
             }
             catch (Exception ex) {
-                ErrorHelper.ErrorMessage(ex);
+                ErrorHelper.SqlErrorMessage(ex);
             }
         }
 

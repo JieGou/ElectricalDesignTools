@@ -36,42 +36,16 @@
                    Grid.Row="1" Grid.Column="0" 
                    FontWeight="Bold"/>
         
-        <TextBlock Text="Impedance - Z: "
+        <TextBlock Text="Fed From: "
                    Grid.Row="2" Grid.Column="0"/>
         <StackPanel Orientation="Horizontal"
                     Grid.Row="2" Grid.Column="2" >
             
-            <TextBox Text="{Binding ImpZ, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                     Grid.Row="2" Grid.Column="2" Width="35"
-                     d:Text="7.5" TextAlignment="Center"
-                     FontWeight="Bold" Margin="0"/>
-            <TextBlock Text=" %" Grid.Row="2" Grid.Column="0"/>
-        </StackPanel>
-        
-        
-        <!--<TextBlock Text="Impedance - X%: "
-                   Grid.Row="3" Grid.Column="0"/>
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="3" Grid.Column="2" >
-
-            <TextBox Text="{Binding ImpX, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                     Grid.Row="2" Grid.Column="2" Width="35"
-                     d:Text="7.5" TextAlignment="Center"
+            <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                     Grid.Row="2" Grid.Column="2"
+                     d:Text="7.5"
                      FontWeight="Bold"/>
-            --><!--<TextBlock Text=" %" Grid.Row="2" Grid.Column="0"/>--><!--
         </StackPanel>
-        
-        <TextBlock Text="Impedance - R%: "
-                   Grid.Row="4" Grid.Column="0"/>
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="4" Grid.Column="2" >
-
-            <TextBox Text="{Binding ImpR, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                     Grid.Row="2" Grid.Column="2" Width="35"
-                     d:Text="7.5" TextAlignment="Center"
-                     FontWeight="Bold"/>
-            --><!--<TextBlock Text=" %" Grid.Row="2" Grid.Column="0"/>--><!--
-        </StackPanel>-->
         
         
         <TextBlock Text="SCCR: "
@@ -79,7 +53,7 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Row="5" Grid.Column="2" >
 
-            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="3" Grid.Column="2"
                      d:Text="57,276" TextAlignment="Center"
                      FontWeight="Bold"/>
@@ -92,7 +66,7 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Row="6" Grid.Column="2" >
 
-            <TextBlock Text="{Binding ConnectedKva, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+            <TextBlock Text="{Binding ConnectedKva, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="3" Grid.Column="2"
                      d:Text="180" TextAlignment="Center"
                      FontWeight="Bold"/>
@@ -101,29 +75,26 @@
         
         <TextBlock Text="Largest Motor: "
                    Grid.Row="7" Grid.Column="0"/>
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="7" Grid.Column="2" >
 
-            <TextBlock Text="{Binding LargestMotor.Tag, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                     Grid.Row="3" Grid.Column="2"
-                     d:Text="MTR-xx" TextAlignment="Center"
-                     FontWeight="Bold"/>
-            <TextBlock Text="  -  " Grid.Row="2" Grid.Column="0"/>
-            
-            <TextBlock Text="{Binding LargestMotor.Size, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                     Grid.Row="3" Grid.Column="2"
-                     d:Text="75" TextAlignment="Center"
-                     FontWeight="Bold"/>
-            <TextBlock Text=" " Grid.Row="2" Grid.Column="0"/>
-            <TextBlock Text="{Binding LargestMotor.Unit}" Grid.Row="2" Grid.Column="0" d:Text=" HP" />
-            <TextBlock Text="  -  " Grid.Row="2" Grid.Column="0"/>
+        <GroupBox Grid.Row="9" Grid.Column="0" Header="Enclosure Details" FontWeight="Bold">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-            <TextBlock Text="{Binding LargestMotor.ConnectedKva, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                     Grid.Row="3" Grid.Column="2"
-                     d:Text="55.75" TextAlignment="Center"
-                     FontWeight="Bold"/>
-            <TextBlock Text=" kVA" Grid.Row="2" Grid.Column="0" d:Text=" kVA" />
-        </StackPanel>
+                <TextBlock Text="NEMA Rating"
+                       Grid.Column="0" Grid.Row="0" FontWeight="Normal"/>
+                <TextBlock Text="{Binding Area.Name}"
+                           Grid.Column="2" Grid.Row="0"/>
+            </Grid>
+        </GroupBox>
 
     </Grid>
 </UserControl>

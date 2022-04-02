@@ -24,7 +24,7 @@ namespace EDTLibrary.Tests
             CopyDb();
             //Assert.True(File.Exists(GlobalConfig.TestDb));
 
-            DbManager.prjDb = new SQLiteConnector(GlobalConfig.TestDb);
+            DaManager.prjDb = new SQLiteConnector(GlobalConfig.TestDb);
             DeleteAllRecords();
 
 
@@ -117,7 +117,7 @@ namespace EDTLibrary.Tests
 
 
             //Todo - Clean up DteqModel vs abstract Dteq
-            var list = DbManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
+            var list = DaManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
             foreach (var item in list) {
                 listManager.DteqList.Add(item);
             }
@@ -129,12 +129,12 @@ namespace EDTLibrary.Tests
             
 
             //Delete records
-            DbManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);
-            DbManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
-            DbManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
-            DbManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
-            DbManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
-            DbManager.prjDb.DeleteAllRecords(GlobalConfig.PowerCableTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.PowerCableTable);
         }
 
         [Fact]

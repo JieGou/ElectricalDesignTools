@@ -12,19 +12,20 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.DataAccess
 {
-    public class SQLiteConnector
+    public class SQLiteConnector : IDaConnector
     {
-        public string conString { get; set; }
-
+        public string ConString { get; set; }
+       
         public SQLiteConnector(string dbFileName)
         {
             try {
-                conString = $"DataSource= {dbFileName}; foreign keys=true; PRAGMA foreign_keys = ON;";
+                ConString = $"DataSource= {dbFileName}; foreign keys=true; PRAGMA foreign_keys = ON;";
             }
-            catch (ArgumentException) {
+            catch (Exception ex) {
+                throw;
             }
         }
-
+      
         #region GenericSQLite Calls
         /// <summary>
         ///Maps a SQLite table to a list of Class objects
@@ -41,11 +42,10 @@ namespace EDTLibrary.DataAccess
             DynamicParameters dP = new DynamicParameters();
             dP.Add("@Id", $"{id}");
 
-            using (SQLiteConnection cnn = new SQLiteConnection(conString)) {
+            using (SQLiteConnection cnn = new SQLiteConnection(ConString)) {
                 return cnn.QuerySingleOrDefault<T>($"SELECT * FROM {tableName} WHERE Id = @Id", dP);
             }
         }
-
 
         public ObservableCollection<T> GetRecords<T>(string tableName, string columnName = "", string filterText = "") //where T : class, new()
         {
@@ -54,7 +54,7 @@ namespace EDTLibrary.DataAccess
             List<T> queryResult = new List<T>();
             ObservableCollection<T> output = new ObservableCollection<T>();
 
-            using (SQLiteConnection cnn = new SQLiteConnection(conString)) {
+            using (SQLiteConnection cnn = new SQLiteConnection(ConString)) {
 
                 //returns all columns from table with column filter
                 if (columnName != "" && filterText != "") {
@@ -76,38 +76,6 @@ namespace EDTLibrary.DataAccess
                     }
                 }
             }
-
-        }
-
-        public ObservableCollection<T> GetRecordsAsync<T>(string tableName, string columnName = "", string filterText = "") //where T : class, new()
-        {
-
-            DynamicParameters dP = new DynamicParameters();
-            List<T> queryResult = new List<T>();
-            ObservableCollection<T> output = new ObservableCollection<T>();
-
-            using (SQLiteConnection cnn = new SQLiteConnection(conString)) {
-
-                //returns all columns from table with column filter
-                if (columnName != "" && filterText != "") {
-                    dP.Add("@filterText", $"%{filterText}%");
-                    queryResult = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName} WHERE {columnName} LIKE @filterText", dP);
-                    output = new ObservableCollection<T>(queryResult);
-                    return output;
-                }
-                //returns entire table
-                else {
-                    try {
-                        queryResult = (List<T>)cnn.Query<T>($"SELECT * FROM {tableName}", dP);
-                        output = new ObservableCollection<T>(queryResult);
-                    }
-                    catch { }
-
-                    return output;
-                }
-            }
-
-
         }
 
         /// <summary>
@@ -128,7 +96,7 @@ namespace EDTLibrary.DataAccess
         /// <returns></returns>
         public Tuple<bool, string> InsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new()
         {
-            using (IDbConnection cnn = new SQLiteConnection(conString)) {
+            using (IDbConnection cnn = new SQLiteConnection(ConString)) {
                 StringBuilder sb = new StringBuilder();
                 var objectProperties = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
@@ -174,8 +142,8 @@ namespace EDTLibrary.DataAccess
                 sb.Replace("( ", "(");
 
                 cnn.Execute(sb.ToString() + ";", classObject);
-                return new Tuple<bool, string>(true, ""); 
-                
+                return new Tuple<bool, string>(true, "");
+
                 //try {
                 //    cnn.Execute(sb.ToString() + ";", classObject);
                 //    return new Tuple<bool, string>(true, "");
@@ -190,11 +158,11 @@ namespace EDTLibrary.DataAccess
         }
         public int InsertRecordGetId<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new()
         {
-            using (IDbConnection cnn = new SQLiteConnection(conString)) {
+            using (IDbConnection cnn = new SQLiteConnection(ConString)) {
                 SQLiteCommand cmd = new SQLiteCommand();
                 StringBuilder sb = new StringBuilder();
                 var objectProperties = classObject.GetType().GetProperties();
-                
+
 
                 //Build query string: 
                 //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
@@ -235,14 +203,14 @@ namespace EDTLibrary.DataAccess
                 sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(")");
 
-                SQLiteConnection conn = new SQLiteConnection(conString);
+                SQLiteConnection conn = new SQLiteConnection(ConString);
                 SQLiteCommand cmdId = new SQLiteCommand();
 
                 try {
                     cnn.Execute(sb.ToString() + ";", classObject);
                     object sqlId;
                     sqlId = cnn.ExecuteScalar($"SELECT MAX(rowid) FROM {tableName}");
-                    int objectId= Convert.ToInt32(sqlId);
+                    int objectId = Convert.ToInt32(sqlId);
 
                     return objectId;
                 }
@@ -252,15 +220,14 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
-
-        public void UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T: class, new()
+        public void UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new()
         {
-            using (IDbConnection cnn = new SQLiteConnection(conString)) {
+            using (IDbConnection cnn = new SQLiteConnection(ConString)) {
                 StringBuilder sb = new StringBuilder();
                 var objectProperties = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
 
-                int id=-1;
+                int id = -1;
                 //Build query string: 
                 //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
                 sb.Append($"INSERT INTO {tableName} (");
@@ -301,7 +268,7 @@ namespace EDTLibrary.DataAccess
                 sb.Replace(",", "", sb.Length - 2, 2);
                 sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(") ");
-                
+
 
                 sb.Append($"ON CONFLICT(Id) DO UPDATE SET ");
 
@@ -329,11 +296,9 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
-
         public Tuple<bool, string> UpdateRecord<T>(T classObject, string tableName) where T : class, new()
         {
-            using (IDbConnection cnn = new SQLiteConnection(conString).OpenAndReturn())
-            {
+            using (IDbConnection cnn = new SQLiteConnection(ConString).OpenAndReturn()) {
                 StringBuilder sb = new StringBuilder();
                 var props = classObject.GetType().GetProperties();
                 SQLiteCommand cmd = new SQLiteCommand();
@@ -343,8 +308,7 @@ namespace EDTLibrary.DataAccess
                 sb.Append($"UPDATE {tableName} SET ");
 
                 //Column Names
-                foreach (var prop in props)
-                {
+                foreach (var prop in props) {
                     sb.Append($"{prop.Name} = @{prop.Name}, ");
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                 }
@@ -355,13 +319,11 @@ namespace EDTLibrary.DataAccess
                 sb.Replace(", ", "", sb.Length - 2, 2);
                 sb.Append(" WHERE Id = @Id");
 
-                try
-                {
+                try {
                     cnn.Execute("" + sb.ToString(), classObject);
                     return new Tuple<bool, string>(true, "");
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     //throw new Exception("Could not add record");
                     return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
                         $"Query: \n{sb}\n\n" +
@@ -369,11 +331,9 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
-
         public void UpdateSetting(string settingName, string settingValue)
         {
-            using (IDbConnection cnn = new SQLiteConnection(conString).OpenAndReturn())
-            {
+            using (IDbConnection cnn = new SQLiteConnection(ConString).OpenAndReturn()) {
                 StringBuilder sb = new StringBuilder();
                 SQLiteCommand cmd = new SQLiteCommand();
 
@@ -385,8 +345,7 @@ namespace EDTLibrary.DataAccess
                 sb.Append(" WHERE Name = @Name");
                 cmd.Parameters.AddWithValue($"@Name", settingName);
 
-                try
-                {
+                try {
                     cnn.Execute("" + sb.ToString());
                 }
                 catch (Exception ex) {
@@ -395,13 +354,27 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
-
         public void DeleteRecord(string tableName, int id)
         {
-            using (SQLiteConnection con = new SQLiteConnection(conString))
-            {
-                try
-                {
+            using (SQLiteConnection con = new SQLiteConnection(ConString)) {
+                try {
+                    SQLiteCommand cmd = new SQLiteCommand(con);
+                    con.Open();
+                    cmd.CommandText = ($"DELETE FROM {tableName} WHERE Id = @Id");
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    cmd.ExecuteNonQuery();
+                    return;
+                }
+                catch (Exception ex) {
+                    ex.Data.Add("UserMessage", $"Error deleting Id: {id}    From: {tableName}");
+                    throw;
+                }
+            }
+        }
+        public async Task DeleteRecordAsync(string tableName, int id)
+        {
+            using (SQLiteConnection con = new SQLiteConnection(ConString)) {
+                try {
                     SQLiteCommand cmd = new SQLiteCommand(con);
                     con.Open();
                     cmd.CommandText = ($"DELETE FROM {tableName} WHERE Id = @Id");
@@ -418,10 +391,8 @@ namespace EDTLibrary.DataAccess
 
         public void DeleteAllRecords(string tableName)
         {
-            using (SQLiteConnection con = new SQLiteConnection(conString))
-            {
-                try
-                {
+            using (SQLiteConnection con = new SQLiteConnection(ConString)) {
+                try {
                     SQLiteCommand cmd = new SQLiteCommand(con);
                     con.Open();
                     cmd.CommandText = ($"DELETE FROM {tableName}");
@@ -434,24 +405,15 @@ namespace EDTLibrary.DataAccess
             }
         }
 
-        public ObservableCollection<string> ColumnToList(string columnName, string tableName)
-        {
-            using (IDbConnection cnn = new SQLiteConnection(conString))
-            {
-                var queryResult = cnn.Query<string>($"SELECT {columnName} FROM {tableName}", new DynamicParameters()); //
-                ObservableCollection<string> output = new ObservableCollection<string>(queryResult.ToList());
-                return output;
-            }
-        }
 
         public DataTable GetDataTable(string tableName)
         {
-            using (IDbConnection cnn = new SQLiteConnection(conString)) {
+            using (IDbConnection cnn = new SQLiteConnection(ConString)) {
                 DataTable dt = new DataTable();
 
                 try {
 
-                    SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", conString);
+                    SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", ConString);
                     dataAdapter.Fill(dt);
                     dt.TableName = tableName;
                     return dt;
@@ -467,10 +429,10 @@ namespace EDTLibrary.DataAccess
         {
             int numRowsUpdated = 0;
 
-            using (IDbConnection cnn = new SQLiteConnection(conString)) {
+            using (IDbConnection cnn = new SQLiteConnection(ConString)) {
 
                 try {
-                    SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", conString);
+                    SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", ConString);
                     SQLiteCommandBuilder scb = new SQLiteCommandBuilder(dataAdapter);
                     DataTable dt = new DataTable();
                     dataAdapter.Update(dataTable);
@@ -494,45 +456,40 @@ namespace EDTLibrary.DataAccess
             String query = "SELECT name FROM sqlite_master " +
                     "WHERE type = 'table' " +
                     "ORDER BY 1";
-            try{
+            try {
                 DataTable table = QueryToDataTable(query);
 
                 // Return all table names in the ArrayList
 
-                foreach (DataRow row in table.Rows){
+                foreach (DataRow row in table.Rows) {
                     arrayList.Add(row.ItemArray[0].ToString()); //ItemArray[0] is the name of the table
                 }
             }
-            catch (Exception e){
+            catch (Exception e) {
                 Console.WriteLine(e.Message);
             }
             return arrayList;
         }
-            public DataTable QueryToDataTable(string query)
+        public DataTable QueryToDataTable(string query)
         {
             try {
                 DataTable dt = new DataTable();
-                using (SQLiteConnection cnn = new SQLiteConnection(conString))
-                {
+                using (SQLiteConnection cnn = new SQLiteConnection(ConString)) {
                     cnn.Open();
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, cnn))
-                    {
-                        using (SQLiteDataReader rdr = cmd.ExecuteReader())
-                        {
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, cnn)) {
+                        using (SQLiteDataReader rdr = cmd.ExecuteReader()) {
                             dt.Load(rdr);//loads into DataTable
                             return dt;
                         }
                     }
                 }
             }
-            catch (Exception e)
-            {
+            catch (Exception e) {
                 Console.WriteLine(e.Message);
                 return null;
             }
         }
 
         #endregion
-
     }
 }

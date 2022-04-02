@@ -25,7 +25,7 @@ namespace EDTLibrary.ProjectSettings
         public static void LoadProjectSettings()
         {
             SettingList.Clear();
-            SettingList = DbManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
+            SettingList = DaManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
 
             // LISTS
             // -Strings
@@ -37,13 +37,13 @@ namespace EDTLibrary.ProjectSettings
             }
 
             // -Tables
-            ArrayList listOfTablesInDb = DbManager.prjDb.GetListOfTablesNamesInDb();
+            ArrayList listOfTablesInDb = DaManager.prjDb.GetListOfTablesNamesInDb();
             TableSettingList.Clear();
             foreach (var setting in SettingList) {
                 if (setting.Type == "DataTable") {
                     //if in Db get DataTable
                     if (listOfTablesInDb.Contains(setting.Name)) {
-                        setting.TableValue = DbManager.prjDb.GetDataTable(setting.Name);
+                        setting.TableValue = DaManager.prjDb.GetDataTable(setting.Name);
                     }
                     TableSettingList.Add(setting);
                 }
@@ -52,7 +52,7 @@ namespace EDTLibrary.ProjectSettings
 
             // PROPERTIES
             // -Strings
-            DataTable settingsDbTable = DbManager.prjDb.GetDataTable("ProjectSettings");
+            DataTable settingsDbTable = DaManager.prjDb.GetDataTable("ProjectSettings");
             Type projectSettingsClass = typeof(EdtSettings);
             string propValue = "";
 
@@ -72,7 +72,7 @@ namespace EDTLibrary.ProjectSettings
                         && settingsDbTable.Rows[i]["Type"].ToString() == "DataTable"
                         && listOfTablesInDb.Contains(prop.Name))
                     {
-                        prop.SetValue(propValue, DbManager.prjDb.GetDataTable(prop.Name));
+                        prop.SetValue(propValue, DaManager.prjDb.GetDataTable(prop.Name));
                     }
                 }
             }
@@ -89,7 +89,7 @@ namespace EDTLibrary.ProjectSettings
 
         private static void GetCableSizesUsedInProject()
         {
-            EdtSettings.CableSizesUsedInProject = DbManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
+            EdtSettings.CableSizesUsedInProject = DaManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
         }
 
         private static void AssignCodeSettings()
@@ -102,7 +102,7 @@ namespace EDTLibrary.ProjectSettings
         public static void SaveStringSetting(SettingModel setting)
         {
             //SettingsModel
-            DbManager.prjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
+            DaManager.prjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
 
             //SettingProperty
             Type type = typeof(EdtSettings); // MyClass is static class with static properties
@@ -115,7 +115,7 @@ namespace EDTLibrary.ProjectSettings
 
         public static void SaveTableSetting(SettingModel tableSetting)
         {
-            DbManager.prjDb.SaveDataTable(tableSetting.TableValue, tableSetting.Name);
+            DaManager.prjDb.SaveDataTable(tableSetting.TableValue, tableSetting.Name);
         }
 
     }

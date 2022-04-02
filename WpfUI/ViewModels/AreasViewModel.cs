@@ -34,8 +34,8 @@ namespace WpfUI.ViewModels
         }
 
      
-        AreaModel _selectedArea;
-        public AreaModel SelectedArea
+        private IArea _selectedArea;
+        public IArea SelectedArea
         {
             get { return _selectedArea; }
             set 
@@ -78,7 +78,7 @@ namespace WpfUI.ViewModels
 
         private void TestCommand()
         {
-            AreaReceived = DbManager.GetArea(AreaToGetId);
+            AreaReceived = DaManager.GetArea(AreaToGetId);
             if (AreaReceived==null) {
                 AreaReceived = new AreaModel() { Tag = "null" };
             }
@@ -134,26 +134,26 @@ namespace WpfUI.ViewModels
         private void GetAreas()
         {
             ListManager.AreaList.Clear();
-            ListManager.AreaList = new ObservableCollection<AreaModel>(DbManager.prjDb.GetRecords<AreaModel>(GlobalConfig.AreaTable));
+            ListManager.AreaList = ListManager.GetAreas();
         }
         private void SaveAreas()
         {
             if (ListManager.AreaList.Count != 0) {
 
                 try {
-                    foreach (var location in ListManager.AreaList) {
-                        DbManager.prjDb.UpsertRecord<AreaModel>(location, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
+                    foreach (AreaModel area in ListManager.AreaList) {
+                        DaManager.prjDb.UpsertRecord<AreaModel>(area, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
                     }
                 }
                 catch (Exception ex) {
-                    ErrorHelper.ErrorMessage(ex);
-                }
+                        ErrorHelper.SqlErrorMessage(ex);
+                    }
             }
         }
         private void DeleteArea(object areaToDeleteObject)
         {
             AreaModel areaToDelete = (AreaModel)areaToDeleteObject;
-            DbManager.prjDb.DeleteRecord(GlobalConfig.AreaTable, areaToDelete.Id);
+            DaManager.prjDb.DeleteRecord(GlobalConfig.AreaTable, areaToDelete.Id);
             _listManager.AreaList.Remove(areaToDelete);
             RefreshAreaTagValidation();
 
@@ -178,17 +178,17 @@ namespace WpfUI.ViewModels
                     newArea.AreaClassification = areaToAdd.AreaClassification;
                     newArea.MinTemp = double.Parse(areaToAdd.MinTemp);
                     newArea.MaxTemp = double.Parse(areaToAdd.MaxTemp);
-                    newArea.NemaType = areaToAdd.NemaType;
+                    newArea.NemaRating = areaToAdd.NemaRating;
 
 
-                    newArea.Id = DbManager.prjDb.InsertRecordGetId(newArea, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
+                    newArea.Id = DaManager.prjDb.InsertRecordGetId(newArea, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
 
                     ListManager.AreaList.Add(newArea);
                     RefreshAreaTagValidation();
                 }
             }
             catch(Exception ex) {
-                ErrorHelper.ErrorMessage(ex);
+                ErrorHelper.SqlErrorMessage(ex);
             }
         }
 

@@ -46,7 +46,9 @@ namespace EDTLibrary.Models.Loads
         public string Type { get; set; }
         public string Description { get; set; }
         public int AreaId { get; set; }
-        public AreaModel Area { get; set; }
+        public IArea Area { get; set; }
+        public string NemaRating { get; set; }
+        public string AreaClassification { get; set; }
 
         public double Voltage { get; set; }
         public double _size;
@@ -310,6 +312,7 @@ namespace EDTLibrary.Models.Loads
             PowerCable.CalculateAmpacityNew(this);
         }
 
+
         //Events
         public event EventHandler LoadingCalculated;
         public virtual void OnLoadingCalculated()
@@ -319,12 +322,10 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
-        //public event EventHandler FedFromChanged;
-        //public virtual void OnFedFromChanged()
-        //{
-        //    if (FedFromChanged != null) {
-        //        FedFromChanged(this, EventArgs.Empty);
-        //    }
-        //}
+        public void UpdateAreaProperties()
+        {
+            NemaRating = Area.NemaRating;
+            AreaClassification = Area.AreaClassification;
+        }
     }
 }

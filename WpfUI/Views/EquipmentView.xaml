@@ -67,12 +67,13 @@
             <!--ADD-->
             <sys:Int32 x:Key="Tag">1</sys:Int32>
             <sys:Int32 x:Key="Type">2</sys:Int32>
-            <sys:Int32 x:Key="FedFrom">4</sys:Int32>
-            <sys:Int32 x:Key="Voltage">7</sys:Int32>
-            <sys:Int32 x:Key="Size">5</sys:Int32>
-            <sys:Int32 x:Key="Unit">6</sys:Int32>
             <sys:Int32 x:Key="Description">3</sys:Int32>
-            <sys:Int32 x:Key="LoadFactor">8</sys:Int32>
+            <sys:Int32 x:Key="Area">5</sys:Int32>
+            <sys:Int32 x:Key="FedFrom">6</sys:Int32>
+            <sys:Int32 x:Key="Size">7</sys:Int32>
+            <sys:Int32 x:Key="Unit">8</sys:Int32>
+            <sys:Int32 x:Key="Voltage">9</sys:Int32>
+            <sys:Int32 x:Key="LoadFactor">10</sys:Int32>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -682,6 +683,9 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -704,7 +708,10 @@
 
                 <TextBlock Text="Description" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource Description}" FontSize="10" />
-
+                
+                <TextBlock Text="Area" Margin="10 5 0 5"
+                    Grid.Row="1" Grid.Column="{StaticResource Area}" FontSize="10" />
+                
                 <TextBlock Text="Fed From" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource FedFrom}" FontSize="10" />
                 <TextBlock Text="Line Voltage" Margin="10 5 0 5"
@@ -713,8 +720,7 @@
                     Grid.Row="1" Grid.Column="{StaticResource Size}" FontSize="10" />
                 <TextBlock Text="Unit" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource Unit}" FontSize="10" />
-                <TextBlock Text="{Binding SelectedDteq.Area.Id}" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="9" FontSize="10" />
+                
 
 
                 <!--ADD DTEQ-->
@@ -734,6 +740,25 @@
                     IsEditable="True" IsTextSearchEnabled="True"
                     Margin="5 0 5 0"/>
 
+
+                <TextBox Grid.Row="2" Grid.Column="{StaticResource Description}"
+                    MinWidth="100" Height="23"
+                    Text="{Binding DteqToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="5 0 5 0">
+
+                </TextBox>
+                
+                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Area}"
+                          Width="75"
+                          ItemsSource="{Binding ListManager.AreaList}"
+                          SelectedValuePath="Tag"
+                          DisplayMemberPath="Tag"
+                          SelectedValue="{Binding DteqToAddValidator.AreaTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          IsSynchronizedWithCurrentItem="False"
+                          Text="{Binding DteqToAddValidator.AreaTag}"
+                          IsEditable="True" IsTextSearchEnabled="True"
+                          Margin="5 0 5 0"/>
+
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource FedFrom}"
                           Width="75"
                           ItemsSource="{Binding Source={StaticResource dteqList}}"
@@ -745,14 +770,7 @@
                           IsEditable="True" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Voltage}"
-                    Width="60"
-                    d:Text="13800"
-                    ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValue="{Binding DteqToAddValidator.LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding DteqToAddValidator.LineVoltage}"
-                    IsEditable="True" IsTextSearchEnabled="True"
-                    Margin="5 0 5 0"/>
+               
 
                 <TextBox Grid.Row="2" Grid.Column="{StaticResource Size}"
                     Width="50" Height="23"
@@ -772,13 +790,14 @@
 
                 </ComboBox>
 
-                <TextBox Grid.Row="2" Grid.Column="{StaticResource Description}"
-                    MinWidth="100" Height="23"
-                    Text="{Binding DteqToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="5 0 5 0">
-
-                </TextBox>
-
+                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Voltage}"
+                    Width="60"
+                    d:Text="13800"
+                    ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding DteqToAddValidator.LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                    Text="{Binding DteqToAddValidator.LineVoltage}"
+                    IsEditable="True" IsTextSearchEnabled="True"
+                    Margin="5 0 5 0"/>
 
                 <!--LOAD-->
                 <!--Tags-->
@@ -790,6 +809,8 @@
                 <TextBlock Text="Description" Margin="10 5 0 5"
                     Grid.Row="4" Grid.Column="{StaticResource Description}" FontSize="10" />
 
+                <TextBlock Text="Area" Margin="10 5 0 5"
+                    Grid.Row="4" Grid.Column="{StaticResource Area}" FontSize="10" />
                 <TextBlock Text="Fed From" Margin="10 5 0 5"
                     Grid.Row="4" Grid.Column="{StaticResource FedFrom}" FontSize="10" />
                 
@@ -821,28 +842,37 @@
                           
                             IsEditable="True" IsTextSearchEnabled="True"  
                             Margin="5 0 5 0"/>
+                
+                <TextBox Grid.Row="5" Grid.Column="{StaticResource Description}"
+                    MinWidth="100" Height="23"
+                    Text="{Binding LoadToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="5 0 5 0">
+                </TextBox>
 
-                <!--Fed From-->
-                <ComboBox Grid.Row="5" Grid.Column="{StaticResource FedFrom}" 
-                    Width="75"
-                    ItemsSource="{Binding Source={StaticResource dteqList}}"
+                <ComboBox Grid.Row="5" Grid.Column="{StaticResource Area}" 
+                          Width="75"
+                          ItemsSource="{Binding ListManager.AreaList}"
                           SelectedValuePath="Tag"
                           DisplayMemberPath="Tag"
-                    SelectedValue="{Binding LoadToAddValidator.FedFromTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    IsSynchronizedWithCurrentItem="False"
-                          
-                    Text="{Binding LoadToAddValidator.FedFromTag}"
-                    IsEditable="True" IsTextSearchEnabled="True"  
-                    Margin="5 0 5 0"/>
+                          SelectedValue="{Binding LoadToAddValidator.AreaTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          IsSynchronizedWithCurrentItem="False"
+                          Text="{Binding LoadToAddValidator.AreaTag}"
+                          IsEditable="True" IsTextSearchEnabled="True"  
+                          Margin="5 0 5 0"/>
+                
+                <!--Fed From-->
+                <ComboBox Grid.Row="5" Grid.Column="{StaticResource FedFrom}" 
+                          Width="75"
+                          ItemsSource="{Binding Source={StaticResource dteqList}}"
+                          SelectedValuePath="Tag"
+                          DisplayMemberPath="Tag"
+                          SelectedValue="{Binding LoadToAddValidator.FedFromTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          IsSynchronizedWithCurrentItem="False"
+                          Text="{Binding LoadToAddValidator.FedFromTag}"
+                          IsEditable="True" IsTextSearchEnabled="True"  
+                          Margin="5 0 5 0"/>
 
-                <ComboBox Grid.Row="5" Grid.Column="{StaticResource Voltage}"
-                    MinWidth="60"
-                    d:Text="13800"
-                    ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValue="{Binding LoadToAddValidator.Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding LoadToAddValidator.Voltage}"
-                    IsEditable="True" IsTextSearchEnabled="True"
-                    Margin="5 0 5 0"/>
+               
 
 
                 <TextBox Grid.Row="5" Grid.Column="{StaticResource Size}"
@@ -859,12 +889,14 @@
                     Text="{Binding LoadToAddValidator.Unit}"
                     IsEditable="True" IsTextSearchEnabled="True"
                     Margin="5 0 5 0"/>
-
-                <TextBox Grid.Row="5" Grid.Column="{StaticResource Description}"
-                    MinWidth="100" Height="23"
-                    Text="{Binding LoadToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="5 0 5 0">
-                </TextBox>
+                <ComboBox Grid.Row="5" Grid.Column="{StaticResource Voltage}"
+                    MinWidth="60"
+                    d:Text="13800"
+                    ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding LoadToAddValidator.Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                    Text="{Binding LoadToAddValidator.Voltage}"
+                    IsEditable="True" IsTextSearchEnabled="True"
+                    Margin="5 0 5 0"/>
 
                 <TextBox Grid.Row="5" Grid.Column="{StaticResource LoadFactor}"
                     MinWidth="50" Height="23"

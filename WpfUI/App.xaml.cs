@@ -1,4 +1,5 @@
 ﻿using EDTLibrary;
+using EDTLibrary.LibraryData.TypeTables;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,25 +18,8 @@ namespace WpfUI {
     /// </summary>
     public partial class App : Application {
 
-        private readonly ProjectFileStore _projectFileStore;
-        private readonly NavigationStore _navigationStore;
-        
-        private readonly NavigationService<EquipmentViewModel> _equipmentNavigationService;
-
-        private readonly NavigationBarViewModel _navigationBarViewModel;
-
-        private readonly StartupViewModel _startupViewModel;
-        private readonly ProjectSettingsViewModel _projectSettingsViewModel;
-        private readonly EquipmentViewModel _equipmentViewModel;
-
-
-
         public App()
         {
-            _projectFileStore = new ProjectFileStore();
-            _navigationStore = new NavigationStore();
-            
-            _equipmentNavigationService = new NavigationService<EquipmentViewModel>(_navigationStore, () => _equipmentViewModel);
 
         }
 
@@ -43,9 +27,10 @@ namespace WpfUI {
 
             ListManager listManager = new ListManager();
             StartupService startupService = new StartupService(listManager);
+            TypeManager typeManager = new TypeManager();
 
             MainWindow = new MainWindow() { 
-                DataContext = new MainViewModel(startupService, listManager, "main") 
+                DataContext = new MainViewModel(startupService, listManager, typeManager, "dev") 
                 //DataContext = new MainViewModel(_navigationStore) 
             };
 

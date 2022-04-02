@@ -14,14 +14,14 @@ namespace EDTLibrary.Tests
     {
 
         //Sample Data for Testing
-        public static ObservableCollection<AreaModel> TestAreasList = new ObservableCollection<AreaModel>() {
-            new AreaModel() {Tag = "ML", Name = "Mill", AreaCategory = "Category 1", NemaType = "Type 12", 
+        public static ObservableCollection<IArea> TestAreasList = new ObservableCollection<IArea>() {
+            new AreaModel() {Tag = "ML", Name = "Mill", AreaCategory = "Category 1", NemaRating = "Type 12", 
                             AreaClassification = "Non-Hazardous", MinTemp= -40, MaxTemp=40},
 
-            new AreaModel() {Tag = "FL", Name = "Flotation", AreaCategory = "Category 1", NemaType = "Type 3R", 
+            new AreaModel() {Tag = "FL", Name = "Flotation", AreaCategory = "Category 1", NemaRating = "Type 3R", 
                             AreaClassification = "Non-Hazardous", MinTemp= -40, MaxTemp=40},
 
-            new AreaModel() {Tag = "DR", Name = "Dry", AreaCategory = "Category 1", NemaType = "Type 12", 
+            new AreaModel() {Tag = "DR", Name = "Dry", AreaCategory = "Category 1", NemaRating = "Type 12", 
                             AreaClassification = "Non-Hazardous", MinTemp= -40, MaxTemp=40}
         };
 
@@ -39,7 +39,7 @@ namespace EDTLibrary.Tests
             new DteqModel() {Tag = "MCC-02", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-02", LineVoltage=600, LoadVoltage=600, Size=1200, Unit= Units.A.ToString() }
         };
 
-        public static ObservableCollection<LoadModel> TestLoadList = new ObservableCollection<LoadModel>() {
+        public static ObservableCollection<ILoad> TestLoadList = new ObservableCollection<ILoad>() {
             new LoadModel() {Tag = "MTR-01", Type = LoadTypes.MOTOR.ToString(), FedFromTag = "MCC-01", Voltage=460, Size = 50,Unit=Units.HP.ToString()},
             new LoadModel() {Tag = "MTR-01b", Type = LoadTypes.MOTOR.ToString(), FedFromTag = "MCC-01b", Voltage=460, Size = 75,Unit=Units.HP.ToString()},
             new LoadModel() {Tag = "HTR-01", Type = LoadTypes.HEATER.ToString(), FedFromTag = "MCC-01", Voltage=480, Size = 50,Unit=Units.HP.ToString()},

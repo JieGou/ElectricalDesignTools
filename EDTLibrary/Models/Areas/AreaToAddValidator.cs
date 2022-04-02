@@ -21,7 +21,7 @@ namespace EDTLibrary.Models.Areas
             _listManager = listManager;
         }
 
-        public AreaToAddValidator(ListManager listManager, AreaModel areaToAdd)
+        public AreaToAddValidator(ListManager listManager, IArea areaToAdd)
         {
             _listManager = listManager;
 
@@ -32,7 +32,7 @@ namespace EDTLibrary.Models.Areas
             AreaClassification = areaToAdd.AreaClassification;
             MinTemp = areaToAdd.MinTemp.ToString();
             MaxTemp = areaToAdd.MaxTemp.ToString();
-            NemaType = areaToAdd.NemaType;
+            NemaRating = areaToAdd.NemaRating;
 
         }
 
@@ -205,7 +205,7 @@ namespace EDTLibrary.Models.Areas
         }
 
         private string _nemaType = "";
-        public string NemaType
+        public string NemaRating
         {
             get { return _nemaType; }
             set
@@ -215,7 +215,7 @@ namespace EDTLibrary.Models.Areas
                 if (_nemaType == null) {
                     _nemaType = nemaTypeOld;
                 }
-                ClearErrors(nameof(NemaType));
+                ClearErrors(nameof(NemaRating));
 
                 if (_nemaType != null) {
                     var locationNemaType = TypeManager.NemaTypes.FirstOrDefault(nt => nt.Type.ToLower() == _nemaType.ToLower());
@@ -262,9 +262,9 @@ namespace EDTLibrary.Models.Areas
             AreaClassification = fake;
             AreaClassification = temp;
 
-            temp = NemaType;
-            NemaType = fake;
-            NemaType = temp;
+            temp = NemaRating;
+            NemaRating = fake;
+            NemaRating = temp;
 
             temp = MaxTemp;
             MaxTemp = fake;
@@ -282,8 +282,8 @@ namespace EDTLibrary.Models.Areas
                     AreaCategory = "Category 1";
                 if (string.IsNullOrWhiteSpace(AreaClassification))
                     AreaClassification = "Zone 21";
-                if (string.IsNullOrWhiteSpace(NemaType))
-                    NemaType = "Type 12";
+                if (string.IsNullOrWhiteSpace(NemaRating))
+                    NemaRating = "Type 12";
                 if (string.IsNullOrWhiteSpace(MinTemp))
                     MinTemp = "-20";
                 if (string.IsNullOrWhiteSpace(MaxTemp))

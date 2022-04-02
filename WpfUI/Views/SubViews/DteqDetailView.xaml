@@ -109,6 +109,9 @@
             <TabItem Header="Eq Details" Background="LightCyan">
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type edtDteqModels:DteqModel}">
+                            <subViews:TransformerDetailsView/>
+                        </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
                             <subViews:TransformerDetailsView/>
                         </DataTemplate>

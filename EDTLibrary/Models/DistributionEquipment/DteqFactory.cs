@@ -1,9 +1,6 @@
 ﻿using EDTLibrary.ProjectSettings;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.DistributionEquipment
 {
@@ -22,7 +19,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (dteqToAddValidator.Type == DteqTypes.XFR.ToString()) {
                 XfrModel model = new XfrModel();
                 //XFR properties
-                model.ImpZ = Double.Parse(EdtSettings.DefaultXfrImpedance);
+                model.Impedance = Double.Parse(EdtSettings.DefaultXfrImpedance);
                 newDteq = model;
             }
             else if (dteqToAddValidator.Type == DteqTypes.SWG.ToString()) {

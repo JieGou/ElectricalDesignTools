@@ -55,20 +55,34 @@ namespace EDTLibrary.Models.DistributionEquipment
             set { _areaId = value; }
         }
 
-        private AreaModel _area;
-        public AreaModel Area
+        private IArea _area;
+        public IArea Area
         {
             get { return _area; }
             set
             {
+                var oldArea = _area;
                 _area = value;
                 if (Area != null) {
-                    _areaId = Area.Id;
-                    AreaId = _areaId;
+                    AreaManager.UpdateArea(this, _area, oldArea);
                 }
-               
             }
         }
+
+        private string _nemaRating;
+        public string NemaRating
+        {
+            get { return _nemaRating; }
+            set { _nemaRating = value; }
+        }
+        private string _areaClassification;
+
+        public string AreaClassification
+        {
+            get { return _areaClassification; }
+            set { _areaClassification = value; }
+        }
+
         public double Voltage
         {
             get { return LineVoltage; }
@@ -133,9 +147,39 @@ namespace EDTLibrary.Models.DistributionEquipment
             set {
 
                 IDteq oldFedFrom = _fedFrom;
-                _fedFrom = value; 
-                DistributionManager.UpdateFedFrom(this, _fedFrom, oldFedFrom);
+                IDteq nextFedFrom = value;
+                try {
 
+                    
+
+
+                    //_fedFrom = value;
+                    //DistributionManager.UpdateFedFrom(this, _fedFrom, oldFedFrom);
+
+                    for (int i = 0; i < 500; i++) {
+                        if (oldFedFrom != null && nextFedFrom != null) {
+                            if (nextFedFrom.Tag == Tag) {
+                                _fedFrom = oldFedFrom;
+                                //break;
+                                throw new InvalidOperationException("Equipment cannot be fed from itself.");
+                            }
+                            else if (nextFedFrom.Tag == GlobalConfig.Utility) {
+                                _fedFrom = value;
+                                break;
+                            }
+                            else {
+                                nextFedFrom = nextFedFrom.FedFrom;
+                            }
+                        }
+                    }
+                    if (GlobalConfig.GettingRecords == true) {
+                        _fedFrom = value;
+                        DistributionManager.UpdateFedFrom(this, _fedFrom, oldFedFrom);
+                    }
+                }
+                catch (Exception ex) {
+                    throw;
+                }
             }
         }
 
@@ -193,6 +237,21 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
         #endregion
+
+
+        private double _sccr;
+        public virtual double SCCR
+        {
+            get
+            {
+                if (Tag==GlobalConfig.Utility) {
+                    return 0;
+                } 
+                return FedFrom.SCCR; 
+            }
+            set { _sccr = value; }
+        }
+
 
         //Methods
         public void CalculateLoading()
@@ -278,13 +337,12 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
 
-        //public event EventHandler FedFromChanged;
-        //public virtual void OnFedFromChanged()
-        //{
-        //    if (FedFromChanged != null) {
-        //        FedFromChanged(this, EventArgs.Empty);
-        //    }
-        //}
+        public void UpdateAreaProperties()
+        {
+            NemaRating = Area.NemaRating;
+            AreaClassification = Area.AreaClassification;
+        }
+
     }
 
 }

@@ -44,7 +44,8 @@ namespace EDTLibrary.Models.Loads
         void CalculateLoading();
 
         void CreateCable();
-
+        void SizeCable();
+        void CalculateCableAmps();
 
 
 

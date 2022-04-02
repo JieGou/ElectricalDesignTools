@@ -101,7 +101,7 @@ namespace WpfUI.ViewModels
         }
         private void SaveTableSetting()
         {
-            ArrayList tables = DbManager.prjDb.GetListOfTablesNamesInDb();
+            ArrayList tables = DaManager.prjDb.GetListOfTablesNamesInDb();
 
             //only saves to Db if Db table exists
 
@@ -114,9 +114,9 @@ namespace WpfUI.ViewModels
             
 
             foreach (CableSizeModel cable in SelectedCableSizes) {
-                DbManager.prjDb.UpsertRecord(cable, "CableSizesUsedInProject", new List<string>());
+                DaManager.prjDb.UpsertRecord(cable, "CableSizesUsedInProject", new List<string>());
             }
-            EdtSettings.CableSizesUsedInProject = DbManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
+            EdtSettings.CableSizesUsedInProject = DaManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
         }
         #endregion
     }
