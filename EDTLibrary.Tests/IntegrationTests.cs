@@ -116,7 +116,7 @@ namespace EDTLibrary.Tests
 
 
 
-            //Todo - Clean up DteqModel vs abstract Dteq
+            //TODO - Clean up DteqModel vs abstract Dteq
             var list = DaManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
             foreach (var item in list) {
                 listManager.DteqList.Add(item);

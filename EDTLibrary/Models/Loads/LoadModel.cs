@@ -322,6 +322,7 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
+        //TODO - add area to LoadList datagrid
         public void UpdateAreaProperties()
         {
             NemaRating = Area.NemaRating;

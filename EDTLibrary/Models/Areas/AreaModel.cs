@@ -1,11 +1,11 @@
 ﻿using PropertyChanged;
 using System;
+using System.ComponentModel;
 
 namespace EDTLibrary.Models.Areas;
 
 [AddINotifyPropertyChangedInterface]
-public class AreaModel : IArea
-{
+public class AreaModel : IArea { 
     public int Id { get; set; }
     private string _tag;
 
@@ -22,8 +22,20 @@ public class AreaModel : IArea
 
     public string Name { get; set; }
     public string Description { get; set; }
-    public int AreaId { get; set; }
-    public IArea Area { get; set; }
+    public int ParentAreaId { get; set; }
+
+    private IArea _parentArea;
+
+    public IArea ParentArea
+    {
+        get { return _parentArea; }
+        set 
+        { 
+            _parentArea = value;
+            ParentAreaId = _parentArea.Id;
+        }
+    }
+
 
     public string AreaCategory { get; set; }
     public string AreaClassification { get; set; }
@@ -45,6 +57,12 @@ public class AreaModel : IArea
     }
 
     public event EventHandler AreaPropertiesChanged;
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public void OnPropertyChanged()
+    {
+        OnAreaPropertiesChanged();
+    }
     public virtual void OnAreaPropertiesChanged()
     {
         if (AreaPropertiesChanged != null) {

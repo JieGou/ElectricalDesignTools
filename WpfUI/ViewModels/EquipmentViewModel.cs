@@ -4,7 +4,6 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
-using PropertyChanged;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +18,7 @@ using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModifiers;
+using PropertyChanged;
 
 namespace WpfUI.ViewModels;
 

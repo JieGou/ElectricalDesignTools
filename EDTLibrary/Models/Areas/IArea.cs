@@ -1,14 +1,14 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace EDTLibrary.Models.Areas;
 
-public interface IArea
-
+public interface IArea: INotifyPropertyChanged
 {
-    IArea Area { get; set; }
+    IArea ParentArea { get; set; }
     string AreaCategory { get; set; }
     string AreaClassification { get; set; }
-    int AreaId { get; set; }
+    int ParentAreaId { get; set; }
     string Description { get; set; }
     int Id { get; set; }
     double MaxTemp { get; set; }

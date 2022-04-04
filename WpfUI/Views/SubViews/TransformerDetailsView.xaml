@@ -59,7 +59,7 @@
             
             <TextBox Text="{Binding Impedance, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
                      x:Name="txtImpedance"
-                     Grid.Row="2" Grid.Column="2" Width="35"
+                     Grid.Row="2" Grid.Column="2" MinWidth="35"
                      d:Text="7.5" TextAlignment="Center"
                      FontWeight="Bold" Margin="0" KeyDown="txtImpedance_KeyDown"
                      />
@@ -166,7 +166,9 @@
                            Margin="0 5 0 0"
                            TextAlignment="Right"/>
                 <ComboBox x:Name="cbxNemaRatings" Grid.Row="0" Grid.Column="2"
-                          ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                          ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, 
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type Window}}}"
                           Text="{Binding NemaRating, StringFormat={}{0} }" 
                           SelectedValuePath="Type"
                           DisplayMemberPath="Type"
@@ -179,7 +181,9 @@
                            Grid.Row="1" Grid.Column="0" FontWeight="Normal"/>
                     
                 <ComboBox x:Name="cbxAreaClassifications" Grid.Row="1" Grid.Column="2"
-                          ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                          ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, 
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type Window}}}"
                           Text="{Binding AreaClassification, StringFormat={}{0} }" 
                           SelectedValuePath="Zone"
                           DisplayMemberPath="Zone"

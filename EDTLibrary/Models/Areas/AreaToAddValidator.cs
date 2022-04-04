@@ -155,7 +155,6 @@ namespace EDTLibrary.Models.Areas
                     _isValid = false;
                 }
               
-                //TODO temperature
                 else if (Double.TryParse(MaxTemp, out maxTemp) != false ||
                         string.IsNullOrWhiteSpace(MaxTemp) == false || MaxTemp != "") {
                     ClearErrors(nameof(MinTemp));

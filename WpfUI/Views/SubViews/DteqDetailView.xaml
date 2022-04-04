@@ -124,7 +124,27 @@
                     </ContentControl.Resources>
                 </ContentControl>
             </TabItem>
-            
+
+            <!--Cable Content Control-->
+            <TabItem Header="Cable Sizing" Background="LightCyan">
+                <ContentControl Content="{Binding SelectedDteq}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                            <subViews:CableView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
+                            <subViews:TransformerDetailsView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
+                            <subViews:SwgDetailsView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type edtDteqModels:MccModel}">
+                            <subViews:MccDetailsView/>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+            </TabItem>
+
             <!--Cable Data-->
             <TabItem Header="Cable Data" Background="LightCyan">
                 <Grid>
@@ -274,6 +294,8 @@
                 </Grid>
             </TabItem>
 
+            
+            
             <TabItem Header="Components" Background="LightCyan" Height="25">
                 <Grid>
                     <Grid.ColumnDefinitions>

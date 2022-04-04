@@ -135,6 +135,7 @@ namespace WpfUI.ViewModels
         {
             ListManager.AreaList.Clear();
             ListManager.AreaList = ListManager.GetAreas();
+            ListManager.AssignAreas();
         }
         private void SaveAreas()
         {

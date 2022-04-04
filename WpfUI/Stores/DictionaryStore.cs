@@ -15,7 +15,7 @@ namespace WpfUI.Stores
         public static void CreateDteqDict(ObservableCollection<IDteq> dteqOc) {
             dteqDict.Clear();
 
-            //Todo - error check existing values with foreach
+            //TODO - error check existing values with foreach
             foreach (var dteq in dteqOc) {
                 if (dteqDict.ContainsKey(dteq.Tag) == false) {
                     dteqDict.Add(dteq.Tag, dteq);

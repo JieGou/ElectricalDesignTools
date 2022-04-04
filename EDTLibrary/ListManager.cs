@@ -59,7 +59,7 @@ namespace EDTLibrary
             DteqList.Clear();
 
             //Dteq
-            //Todo - Clean up DteqModel vs abstract Dteq
+            //TODO - Clean up DteqModel vs abstract Dteq
             var list = DaManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
             foreach (var item in list) {
                 DteqList.Add(item);
@@ -209,8 +209,6 @@ namespace EDTLibrary
             Stopwatch stopwatch = Stopwatch.StartNew();
 
             //TODO - Unregister from specific Dteq only
-            //UnregisterAllDteqFromAllLoadEvents();
-            //AssignLoadsToAllDteq();
 
             stopwatch.Stop();
             Debug.Print(stopwatch.ElapsedMilliseconds.ToString());
@@ -293,11 +291,20 @@ namespace EDTLibrary
 
         public void AssignAreas()
         {
+            foreach (var childArea in AreaList) {
+                foreach (var parentArea in AreaList) {
+                    if (childArea.ParentAreaId == parentArea.Id) {
+                        childArea.ParentArea = parentArea;
+                        break;
+                    }
+                }
+            }
+
             foreach (var dteq in IDteqList) {
                 foreach (var area in AreaList) {
                     if (dteq.AreaId == area.Id) {
                         dteq.Area = area;
-                        area.AreaPropertiesChanged += dteq.OnAreaPropertiesChanged;
+                        area.PropertyChanged += dteq.OnAreaPropertiesChanged;
                         break;
                     }
                 }
@@ -306,7 +313,7 @@ namespace EDTLibrary
                 foreach (var area in AreaList) {
                     if (load.AreaId == area.Id) {
                         load.Area = area;
-                        area.AreaPropertiesChanged += load.OnAreaPropertiesChanged;
+                        area.PropertyChanged += load.OnAreaPropertiesChanged;
                         break;
                     }
                 }

@@ -37,7 +37,7 @@ namespace EDTLibrary.DataAccess
 
         static public List<string> AreaSaveList { get; set; } = new List<string>() {
             "none",
-            "Area"
+            "ParentArea"
         };
 
 

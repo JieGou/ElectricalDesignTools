@@ -11,9 +11,9 @@ public class AreaManager
     {
         if (GlobalConfig.GettingRecords==false) {
             if (oldArea != null) {
-                oldArea.AreaPropertiesChanged -= caller.OnAreaPropertiesChanged;
+                oldArea.PropertyChanged -= caller.OnAreaPropertiesChanged;
             }
-            newArea.AreaPropertiesChanged += caller.OnAreaPropertiesChanged;
+            newArea.PropertyChanged += caller.OnAreaPropertiesChanged;
             caller.Area = newArea;
             caller.AreaId = newArea.Id;
             caller.NemaRating = newArea.NemaRating;
