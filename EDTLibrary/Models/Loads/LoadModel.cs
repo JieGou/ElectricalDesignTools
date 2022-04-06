@@ -45,8 +45,27 @@ namespace EDTLibrary.Models.Loads
         public string Category { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
-        public int AreaId { get; set; }
-        public IArea Area { get; set; }
+
+        private int _areaId;
+        public int AreaId
+        {
+            get { return _areaId; }
+            set { _areaId = value; }
+        }
+
+        private IArea _area;
+        public IArea Area
+        {
+            get { return _area; }
+            set
+            {
+                var oldArea = _area;
+                _area = value;
+                if (Area != null) {
+                    AreaManager.UpdateArea(this, _area, oldArea);
+                }
+            }
+        }
         public string NemaRating { get; set; }
         public string AreaClassification { get; set; }
 
@@ -327,6 +346,8 @@ namespace EDTLibrary.Models.Loads
         {
             NemaRating = Area.NemaRating;
             AreaClassification = Area.AreaClassification;
+            PowerCable.CalculateAmpacityNew(this);
+
         }
     }
 }

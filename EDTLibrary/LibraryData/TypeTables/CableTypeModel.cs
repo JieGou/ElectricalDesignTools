@@ -15,6 +15,7 @@ namespace EDTLibrary.LibraryData.TypeTables
         public string UsageType { get; set; }
         public double Insulation { get; set; }
         public bool Shielded { get; set; }
+        public double TemperatureRating { get; set; }
 
     }
 }

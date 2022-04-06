@@ -1,8 +1,10 @@
 ﻿using EDTLibrary.LibraryData.Cables;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
 
 namespace EDTLibrary.LibraryData
 {
@@ -121,6 +123,28 @@ namespace EDTLibrary.LibraryData
                 throw;
             }
         }
+        public static double GetCableDerating_CecTable5A(IPowerCable cable, double ambientTemp)
+        {
+            Debug.WriteLine("LibraryManager_GetCableDeratint_CecTable5A");
 
+            double result = .66666;
+            if (DataTables.Motors != null) {
+
+                DataTable dt = DataTables.CEC_Table5A.Copy();
+                DataTable dtFiltered;
+
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<long>("AmbientTemp") == (long)ambientTemp);
+
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    string col = "CableTemp" + cable.TypeModel.TemperatureRating.ToString();
+                    result = Double.Parse(dtFiltered.Rows[0][col].ToString());
+                }
+                catch (InvalidCastException ex) {
+                    //throw;
+                }
+            }
+            return result;
+        }
     }
 }

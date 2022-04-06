@@ -16,6 +16,7 @@ namespace EDTLibrary.LibraryData
         public static DataTable CecCableSizingRules { get; set; }
         public static DataTable CableTypes { get; set; }
         public static DataTable CableUsageTypes { get; set; }
+        public static DataTable CEC_Table5A { get; set; }
 
 
 

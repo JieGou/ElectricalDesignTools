@@ -1,4 +1,5 @@
-﻿using EDTLibrary.LibraryData.TypeTables;
+﻿using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
@@ -248,11 +249,91 @@ namespace EDTLibrary.Models.Cables
 
                 if (cable.AmpacityTable == "Table 1" || cable.AmpacityTable == "Table 2") {
                     double loadCount = cable.Load.FedFrom.AssignedLoads.Count;
-                    derating = GetCableDerating_Table5C(cable);
+                    derating *= GetCableDerating_Table5C(cable);
                 }
             }
 
+            if (cable.Load.Area != null) {
+                double cableAmbientTemp = cable.Load.Area.MaxTemp;
+                if (cableAmbientTemp > 30) {
+                    derating *= GetCableDerating_Table5A(cable, cableAmbientTemp);
+                }
+            }
+
+            derating = Math.Round(derating, 2);
             return derating;
+        }
+
+        private double GetCableDerating_Table5A(IPowerCable cable, double ambientTemp)
+        {
+            double derating = 1;
+            int deratingTemp;
+            deratingTemp = GetDeratingTemp(ambientTemp);
+            derating = LibraryManager.GetCableDerating_CecTable5A(cable, deratingTemp);
+
+            return derating;
+        }
+
+        private static int GetDeratingTemp(double ambientTemp)
+        {
+            int deratingTemp = 30;
+            switch (ambientTemp) {
+                case <= 30:
+                    deratingTemp = 30;
+                    break;
+                case <= 35:
+                    deratingTemp = 35;
+                    break;
+                case <= 40:
+                    deratingTemp = 40;
+                    break;
+                case <= 45:
+                    deratingTemp = 45;
+                    break;
+                case <= 50:
+                    deratingTemp = 50;
+                    break;
+                case <= 55:
+                    deratingTemp = 55;
+                    break;
+                case <= 60:
+                    deratingTemp = 60;
+                    break;
+                case <= 65:
+                    deratingTemp = 65;
+                    break;
+                case <= 70:
+                    deratingTemp = 70;
+                    break;
+                case <= 75:
+                    deratingTemp = 75;
+                    break;
+                case <= 80:
+                    deratingTemp = 80;
+                    break;
+                case <= 90:
+                    deratingTemp = 90;
+                    break;
+                case <= 100:
+                    deratingTemp = 100;
+                    break;
+                case <= 110:
+                    deratingTemp = 100;
+                    break;
+                case <= 120:
+                    deratingTemp = 110;
+                    break;
+                case <= 130:
+                    deratingTemp = 120;
+                    break;
+                case <= 140:
+                    deratingTemp = 130;
+                    break;
+                case >= 140:
+                    deratingTemp = 140;
+                    break;
+            }
+            return deratingTemp;
         }
 
         private static double GetCableDerating_Table5C(IPowerCable cable)

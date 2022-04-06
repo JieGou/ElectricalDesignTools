@@ -7,8 +7,8 @@
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              mc:Ignorable="d" 
              
-              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
-            xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
+             xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
+             xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
 
              d:DesignHeight="400" d:DesignWidth="550"
              Background="LightCyan"
@@ -30,7 +30,7 @@
     </UserControl.Triggers>
     <UserControl.Resources>
 
-        
+
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -47,7 +47,7 @@
             <Style TargetType="TextBlock">
                 <Setter Property="Margin" Value="0 3"/>
                 <Setter Property="FontSize" Value="12"/>
-                
+
             </Style>
 
             <Style TargetType="TextBox">
@@ -56,7 +56,7 @@
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
-            
+
 
             <Style TargetType="CheckBox">
                 <!--<Setter Property="Margin" Value="10 0 0 0"/>-->
@@ -104,9 +104,9 @@
         </StackPanel>
 
         <TabControl Grid.Row="1" Background="LightCyan" BorderThickness="0 1 0 0">
-            
-            <!--Eq Details-->
-            <TabItem Header="Eq Details" Background="LightCyan">
+
+            <!--Equipment Specific Details-->
+            <TabItem Header="Equipment Details" Background="LightCyan">
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type edtDteqModels:DteqModel}">
@@ -130,172 +130,25 @@
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                            <subViews:CableView/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
-                            <subViews:TransformerDetailsView/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
-                            <subViews:SwgDetailsView/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type edtDteqModels:MccModel}">
-                            <subViews:MccDetailsView/>
+                            <subViews:CableSizingView/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>
             </TabItem>
 
-            <!--Cable Data-->
-            <TabItem Header="Cable Data" Background="LightCyan">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="11*"/>
-                        <ColumnDefinition Width="171*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid Grid.ColumnSpan="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="15"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-
-
-
-                        <TextBlock Text="Cable Tag: " Grid.Row="1" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedDteq.PowerCable.Tag}" Grid.Row="1" Grid.Column="2" 
-                               d:Text="SWG001-MCC001-P1"
-                               Grid.ColumnSpan="4" FontWeight="Bold"/>
-
-                        <TextBlock Text="Cable Type: " Grid.Row="2" Grid.Column="0"/>
-                        <ComboBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" 
-                              FontWeight="Bold" FontSize="12"
-                              ItemsSource="{Binding Path=DteqCableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              Text="{Binding SelectedDteq.PowerCable.Type}"  d:Text="3C-TECK-1kV"
-                              IsEditable="True" VerticalAlignment="Center"/>
-
-
-                        <TextBlock Text="Cable Qty: " Grid.Row="4" Grid.Column="0"/>
-                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2" >
-
-                            <TextBox Text="{Binding SelectedDteq.PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
-                                 Grid.Row="4" Grid.Column="2" FontWeight="Bold" Width="30" Background="White" TextAlignment="Left" HorizontalAlignment="Left"
-                                 BorderThickness="0.5"/>
-                            <TextBlock  x:Name="txtPerPhase" Visibility="{Binding PerPhaseLabelDteq}"
-                            Text=" (/ph)" Grid.Row="4" Grid.Column="1"/>
-                        </StackPanel>
-
-
-
-
-                        <TextBlock Text="Cable Size: " Grid.Row="5" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedDteq.PowerCable.Size}" Grid.Row="5" Grid.Column="2" FontWeight="Bold"/>
-
-                        <TextBlock Text="Derated Amps: " Grid.Row="6" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedDteq.PowerCable.DeratedAmps}" Grid.Row="6" Grid.Column="2" FontWeight="Bold"/>
-
-                        <TextBlock Text="Required Amps: " Grid.Row="7" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedDteq.PowerCable.RequiredAmps}" Grid.Row="7" Grid.Column="2" FontWeight="Bold"/>
-
-
-                        <!--Column 2-->
-
-
-                        <TextBlock Text="Installation Type" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Right"/>
-                        <ComboBox Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2"
-                              Margin="0 3"
-                              FontWeight="Bold" FontSize="12"
-                              ItemsSource="{Binding Path=CableInstallationTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedValue="{Binding SelectedDteq.PowerCable.InstallationType}"
-                              Text="{Binding SelectedDteq.PowerCable.InstallationType}"  d:Text="LadderTray"
-                              IsEditable="True" VerticalAlignment="Center"/>
-
-                        <TextBlock Text="Spacing" Grid.Row="5" Grid.Column="4" HorizontalAlignment="Right"/>
-                        <ComboBox Grid.Row="5" Grid.Column="6" Width="50" HorizontalAlignment="Left"
-                              FontWeight="Bold" FontSize="12"
-                              ItemsSource="{Binding Path=CableSpacing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedValue="{Binding SelectedDteq.PowerCable.Spacing}"
-                              Text="{Binding SelectedDteq.PowerCable.Spacing}"  d:Text="100"
-                              IsEditable="True" VerticalAlignment="Center"/>
-
-
-                        <TextBlock Text="Outdoor" Grid.Row="6" Grid.Column="4" HorizontalAlignment="Right"/>
-                        <CheckBox IsChecked="{Binding SelectedDteq.PowerCable.Outdoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              Grid.Row="6" Grid.Column="6" FontWeight="Bold" HorizontalAlignment="Left"
-                              Margin="0 5"/>
-                        <TextBlock Text="(exposed to sunlight)" Grid.Row="6" Grid.Column="6" 
-                                Grid.ColumnSpan="2"
-                                Margin="25 3"
-                                FontStyle="Italic"/>
-
-                        <TextBlock Text="Derating: " Grid.Row="7" Grid.Column="4" HorizontalAlignment="Right"/>
-                        <TextBlock Text="{Binding SelectedDteq.PowerCable.Derating}" Grid.Row="7" Grid.Column="6" FontWeight="Bold"/>
-
-
-                        <!--Column 3-->
-                        <TextBlock Text="Cable Id: " Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right"/>
-                        <TextBlock Text="{Binding SelectedDteq.PowerCable.Id}" Grid.Row="1" Grid.Column="7" FontWeight="Bold"/>
-                        <TextBlock Text="Sized via: " Grid.Row="2" Grid.Column="6" HorizontalAlignment="Right"/>
-
-                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="7">
-                            <TextBlock Text="{Binding SelectedDteq.PowerCable.AmpacityTable}" Grid.Row="2" Grid.Column="7" 
-                                       Height="20"
-                                       d:Text="TableD17N15Out" FontWeight="Bold" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"
-                                       Style="{StaticResource textBoxMouseOver}"/>
-
-                           
-                            
-                            <!--TODO - visbility of Diagram-->
-                            <StackPanel Orientation="Horizontal" x:Name="stkpnlDiagram"
-                                        Visibility="{Binding DteqDiagramSizing}">
-                                <TextBlock Text=", Diagram "/>
-                                <TextBlock Text="{Binding SelectedDteq.PowerCable.InstallationDiagram}" Grid.Row="2" Grid.Column="7" 
-                                           d:Text="Diagram D8-1" FontWeight="Bold">
-                              
-                                </TextBlock>
-                            </StackPanel>
-                        </StackPanel>
-
-
-                        <!--BUTTONS-->
-                    </Grid>
-                    <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Margin="0,162,0,0" Grid.RowSpan="2">
-                        <Button Content="Calculate Amps" Grid.Row="2" Margin="50 15 0 0" 
-                                Command="{Binding Path=CalculateSingleDteqCableAmpsCommand}"   />
-
-                        <Button Content="Auto-Size" Grid.Row="2" Margin="100 15 0 0" 
-                                Command="{Binding Path=CalculateSingleDteqCableSizeCommand}"/>
-                    </StackPanel>
-
-                </Grid>
+            <!--Enclosure-->
+            <TabItem Header="Enclosure" Background="LightCyan">
+                <ContentControl Content="{Binding SelectedDteq}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                            <subViews:EnclosureDetailsView/>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
             </TabItem>
 
-            
-            
+
+
             <TabItem Header="Components" Background="LightCyan" Height="25">
                 <Grid>
                     <Grid.ColumnDefinitions>

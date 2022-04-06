@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 
 namespace EDTLibrary.Models.Cables
@@ -190,6 +191,8 @@ namespace EDTLibrary.Models.Cables
         }
         public double GetRequiredSizingAmps()
         {
+            Debug.WriteLine("GetRequiredSizingAmps");
+
             Derating = CableSizeManager.CableSizer.GetDerating(this);
             RequiredSizingAmps = RequiredAmps / Derating;
             RequiredSizingAmps = Math.Round(RequiredSizingAmps, 1);
@@ -232,6 +235,8 @@ namespace EDTLibrary.Models.Cables
 
         private void CableQtySize_LadderTray(IPowerCable cable, string ampsColumn)
         {
+            Debug.WriteLine("CableQtySize_LadderTray");
+
             DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
             DataTable cablesWithHigherAmpsInProject = new DataTable();
 
@@ -240,10 +245,8 @@ namespace EDTLibrary.Models.Cables
                 columnToadd.ColumnName = column.ColumnName;
                 cablesWithHigherAmpsInProject.Columns.Add(columnToadd);
             }
-
             // 1 - filter cables larger than RequiredAmps first iteration
             SelectValidCables_SizeAmps(ampsColumn, cableAmpacityTable, cablesWithHigherAmpsInProject);
-
             // 3 - increase quantity until a valid cable is found
             cable.QtyParallel = 1;
             GetCableQty(cable.QtyParallel);
@@ -252,7 +255,7 @@ namespace EDTLibrary.Models.Cables
             // Helper - 3 Recursive method
             void GetCableQty(int cableQty)
             {
-                if (cableQty < 99) {
+                if (cableQty < 15) {
                     if (cablesWithHigherAmpsInProject.Rows.Count > 0) {
                         cable.Derating = CableSizeManager.CableSizer.GetDerating(cable);
                         //select smallest of 
@@ -285,11 +288,13 @@ namespace EDTLibrary.Models.Cables
         private void SelectValidCables_SizeAmps(string ampsColumn, DataTable cableAmpacityTable, DataTable cablesWithHigherAmpsInProject)
         {
             var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
-                                                                                    && x.Field<double>(ampsColumn) >= GetRequiredSizingAmps()
+                                                                                    && x.Field<double>(ampsColumn) >= RequiredSizingAmps
                                                                                     && x.Field<string>("AmpacityTable") == AmpacityTable); // ex: Table2 (from CEC)
-
             // remove cable if size is not in project
             foreach (var cableSizeInProject in EdtSettings.CableSizesUsedInProject) {
+                string cableDetails = cableSizeInProject.Type.ToString() + ", " + cableSizeInProject.Size.ToString();
+                //Debug.WriteLine(cableDetails);
+
                 foreach (var cableWithHigherAmps in cablesWithHigherAmps) {
 
                     if (cableSizeInProject.Size == cableWithHigherAmps.Field<string>("Size") &&
@@ -389,6 +394,7 @@ namespace EDTLibrary.Models.Cables
         {
             Load = load;
             string ampsColumn = "Amps75";
+            RequiredSizingAmps = GetRequiredSizingAmps();
 
             if (InstallationType == GlobalConfig.CableInstallationType_LadderTray) {
                 CalculateAmpacity_LadderTray(this, ampsColumn);

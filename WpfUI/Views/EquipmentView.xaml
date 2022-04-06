@@ -1040,6 +1040,32 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
+                        <!--Area-->
+                        <DataGridTemplateColumn Header="Area" x:Name="loadArea"
+                                    MinWidth="75">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+
+                                    <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding Path=DataContext.ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                              SelectedItem="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="Tag"
+                                              Text="{Binding Area.Tag}"
+                                              HorizontalContentAlignment="Center"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
                         <!--Type-->
                         <DataGridTemplateColumn Header="Load Type" x:Name="loadType"
                                             MinWidth="75"

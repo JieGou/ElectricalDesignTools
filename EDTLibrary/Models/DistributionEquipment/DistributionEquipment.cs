@@ -315,7 +315,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             PowerCable.CalculateAmpacityNew(this);
         }
-
         public void GetMinimumPdSize()
         {
             //PD and Starter
@@ -336,13 +335,12 @@ namespace EDTLibrary.Models.DistributionEquipment
             CalculateLoading();
         }
 
-
         public void UpdateAreaProperties()
         {
             NemaRating = Area.NemaRating;
             AreaClassification = Area.AreaClassification;
+            PowerCable.CalculateAmpacityNew(this);
         }
 
     }
-
 }

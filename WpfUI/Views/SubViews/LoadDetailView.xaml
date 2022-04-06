@@ -4,7 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.Views"
-              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             
+             xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
+             xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
+             xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
              
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="400"
@@ -61,125 +65,34 @@
         </StackPanel>
 
         <TabControl Grid.Row="1" Background="LightCyan" BorderThickness="0 1 0 0">
-            <TabItem Header="Cable Data" Background="LightCyan">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="30"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="15"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-
-                        
-
-                        <TextBlock Text="Cable Tag: " Grid.Row="1" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedLoad.PowerCable.Tag}" Grid.Row="1" Grid.Column="2" 
-                               d:Text="SWG001-MCC001-P1"
-                               Grid.ColumnSpan="4" FontWeight="Bold"/>
-
-                        <TextBlock Text="Cable Type: " Grid.Row="2" Grid.Column="0"/>
-                        <ComboBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" 
-                              FontWeight="Bold" FontSize="12"
-                              ItemsSource="{Binding Path=DteqCableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              Text="{Binding SelectedLoad.PowerCable.Type}"  d:Text="3C-TECK-1kV"
-                              IsEditable="True" VerticalAlignment="Center"/>
-
-
-                        <TextBlock Text="Cable Qty: " Grid.Row="4" Grid.Column="0"/>
-                        <TextBox Text="{Binding SelectedLoad.PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
-                             Grid.Row="4" Grid.Column="2" FontWeight="Bold" MinWidth="50" Background="{x:Null}" TextAlignment="Left" HorizontalAlignment="Left" Margin="0" BorderThickness="0.5"/>
-
-
-
-                        <TextBlock Text="Cable Size: " Grid.Row="5" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedLoad.PowerCable.Size}" Grid.Row="5" Grid.Column="2" FontWeight="Bold"/>
-
-                        <TextBlock Text="Derated Amps: " Grid.Row="6" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedLoad.PowerCable.DeratedAmps}" Grid.Row="6" Grid.Column="2" FontWeight="Bold"/>
-
-                        <TextBlock Text="Required Amps: " Grid.Row="7" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedLoad.PowerCable.RequiredAmps}" Grid.Row="7" Grid.Column="2" FontWeight="Bold"/>
-
-
-                        <!--Column 2-->
-
-
-                        <TextBlock Text="Installation Type" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Right"/>
-                        <ComboBox Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2"
-                              Margin="0 3"
-                              FontWeight="Bold" FontSize="12"
-                              ItemsSource="{Binding Path=CableInstallationTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedValue="{Binding SelectedLoad.PowerCable.InstallationType}"
-                              Text="{Binding SelectedLoad.PowerCable.InstallationType}"  d:Text="LadderTray"
-                              IsEditable="True" VerticalAlignment="Center"/>
-
-                        <TextBlock Text="Spacing" Grid.Row="5" Grid.Column="4" HorizontalAlignment="Right"/>
-                        <ComboBox Grid.Row="5" Grid.Column="6" Width="50" HorizontalAlignment="Left"
-                              FontWeight="Bold" FontSize="12"
-                              ItemsSource="{Binding Path=CableSpacing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              SelectedValue="{Binding SelectedLoad.PowerCable.Spacing}"
-                              Text="{Binding SelectedLoad.PowerCable.Spacing}"  d:Text="100"
-                              IsEditable="True" VerticalAlignment="Center"/>
-
-
-                        <TextBlock Text="Outdoor" Grid.Row="6" Grid.Column="4" HorizontalAlignment="Right"/>
-                        <CheckBox IsChecked="{Binding SelectedLoad.PowerCable.Outdoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              Grid.Row="6" Grid.Column="6" FontWeight="Bold" HorizontalAlignment="Left"
-                              Margin="0 5"/>
-                        <TextBlock Text="(exposed to sunlight)" Grid.Row="6" Grid.Column="6" 
-                                Grid.ColumnSpan="2"
-                                Margin="25 3"
-                                FontStyle="Italic"/>
-
-                        <TextBlock Text="Derating: " Grid.Row="7" Grid.Column="4" HorizontalAlignment="Right"/>
-                        <TextBlock Text="{Binding SelectedLoad.PowerCable.Derating}" Grid.Row="7" Grid.Column="6" FontWeight="Bold"/>
-
-                        <!--Column 3-->
-                        <TextBlock Text="Cable Id: " Grid.Row="1" Grid.Column="6" HorizontalAlignment="Right"/>
-                        <TextBlock Text="{Binding SelectedLoad.PowerCable.Id}" Grid.Row="1" Grid.Column="7" FontWeight="Bold"/>
-
-                        <TextBlock Text="Table: " Grid.Row="2" Grid.Column="6" HorizontalAlignment="Right"/>
-                        <TextBlock Text="{Binding SelectedLoad.PowerCable.AmpacityTable}" Grid.Row="2" Grid.Column="7" 
-                                   d:Text="TableD17N15Out" FontWeight="Bold"/>
-                        
-                        <!--BUTTONS-->
-                    </Grid>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1">
-                        <Button Content="Calculate Amps" Grid.Row="2" Margin="50 15 0 0" 
-                                Command="{Binding Path=CalculateSingleLoadCableAmpsCommand}"   />
-
-                        <Button Content="Auto-Size" Grid.Row="2" Margin="100 15 0 0" 
-                                Command="{Binding Path=CalculateSingleLoadCableSizeCommand}"/>
-                    </StackPanel>
-
-                </Grid>
+            
+            <TabItem Header="Cable Sizing" Background="LightCyan">
+                <ContentControl Content="{Binding SelectedLoad}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                            <subViews:CableSizingView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                            <subViews:CableSizingView/>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
             </TabItem>
 
+
+            <TabItem Header="Enclosure" Background="LightCyan">
+                <ContentControl Content="{Binding SelectedLoad}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                            <subViews:EnclosureDetailsView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                            <subViews:EnclosureDetailsView/>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+            </TabItem>
+            
             <TabItem Header="Components" Background="LightCyan" Height="25">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -205,9 +118,9 @@
                     <TextBlock Text="Component Details " Grid.Row="0" Grid.Column="2"/>
                     <ListBox Grid.Row="1" Grid.Column="2" MinHeight="100" MinWidth="150"/>
 
-                </Grid>
-            </TabItem>
-            
+                    </Grid>
+                </TabItem>
+
             <TabItem Header="Protection" Background="LightCyan" Height="25">
                 <Grid>
                     <Grid.ColumnDefinitions>

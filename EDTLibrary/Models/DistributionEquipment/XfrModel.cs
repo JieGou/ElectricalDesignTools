@@ -14,6 +14,14 @@ public class XfrModel : DistributionEquipment
         PdType = ProjectSettings.EdtSettings.DteqDefaultPdTypeLV;
     }
 
+    private double _primaryFla;
+
+    public double PrimaryFla
+    {
+        get { return Fla * LoadVoltage / LineVoltage; }
+    }
+
+
     private double _impedance;
     public double Impedance
     {

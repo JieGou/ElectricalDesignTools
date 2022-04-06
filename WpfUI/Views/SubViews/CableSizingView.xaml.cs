@@ -17,9 +17,9 @@ namespace WpfUI.Views.SubViews;
 /// <summary>
 /// Interaction logic for CableView.xaml
 /// </summary>
-public partial class CableView : UserControl
+public partial class CableSizingView : UserControl
 {
-    public CableView()
+    public CableSizingView()
     {
         InitializeComponent();
     }
