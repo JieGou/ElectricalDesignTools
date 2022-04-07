@@ -1,9 +1,13 @@
 ﻿using EDTLibrary;
+using EDTLibrary.DataAccess;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.TestDataFolder;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using WpfUI.ViewModels;
 using WpfUI.Views.SubViews;
 
 namespace WpfUI.Views
@@ -13,6 +17,8 @@ namespace WpfUI.Views
     /// </summary>
     public partial class EquipmentView : UserControl
     {
+        private EquipmentViewModel eqVm { get { return DataContext as EquipmentViewModel; } }
+
         DteqDetailView _dteqDetailsView = new DteqDetailView();
         LoadDetailView _loaDetailView = new LoadDetailView();
         public EquipmentView()
@@ -69,6 +75,79 @@ namespace WpfUI.Views
                     LoadDetailsContent.Content = _loaDetailView;
                 }
             }
+        }
+
+        private void eqView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
+                if (e.Key == Key.T) {
+                    MessageBox.Show("kD");
+                }
+            }
+        }
+
+        private async void eqView_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+#if DEBUG
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
+                if (e.Key == Key.T) {
+                    MessageBox.Show("Loading Test Data");
+                    await LoadTestEquipmentData();
+                }
+                if (e.Key == Key.D) {
+                    MessageBox.Show("Deleting all Data");
+                    DeleteEquipment();
+                }
+                if (e.Key == Key.B) {
+                    MessageBox.Show("Clearing Equipment from Database");
+                    DeleteEquipmentFromDatabase();
+                }
+            }
+
+
+#endif
+        }
+
+        private async Task LoadTestEquipmentData()
+        {
+            DteqToAddValidator dteqToAdd;
+            LoadToAddValidator loadToAdd;
+            ListManager listManager= eqVm.ListManager;
+
+            foreach (var dteq in TestData.TestDteqList) {
+                dteq.Area = listManager.AreaList[0];
+                dteqToAdd = new DteqToAddValidator(listManager, dteq);
+                eqVm.AddDteq(dteqToAdd);
+            }
+            foreach (var load in TestData.TestLoadList) {
+                loadToAdd = new LoadToAddValidator(listManager, load);
+                eqVm.AddLoad(loadToAdd);
+                load.CalculateLoading();
+            }
+        }
+
+        private void DeleteEquipment()
+        {
+            for (int i = 0; i < eqVm.ListManager.IDteqList.Count; i++) {
+                eqVm.DeleteDteq(eqVm.ListManager.IDteqList[i]);
+            }
+            for (int i = 0; i < eqVm.ListManager.LoadList.Count; i++) {
+                eqVm.DeleteLoad(eqVm.ListManager.LoadList[i]);
+            }
+        }
+
+        private void DeleteEquipmentFromDatabase()
+        {
+            //Delete records
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.PowerCableTable);
+
+            eqVm.DbGetAll();
+           
         }
     }
 }

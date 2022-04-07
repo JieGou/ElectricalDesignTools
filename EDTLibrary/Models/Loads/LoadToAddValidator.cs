@@ -41,7 +41,10 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 _tag = value;
+                if (GlobalConfig.SelectingNew = true) { return; }
+
                 ClearErrors(nameof(Tag));
+
                 if (TagValidator.IsTagAvailable(_tag, _listManager) == false) {
                     AddError(nameof(Tag), "Tag already exists");
                 }
@@ -71,6 +74,8 @@ namespace EDTLibrary.Models.Loads
                 LoadFactor = "";
                 LoadFactor = "0.8";
                 ClearErrors(nameof(Type));
+                if (GlobalConfig.SelectingNew = true) { return; }
+
                 if (string.IsNullOrWhiteSpace(_type) || _type == "") {
                     AddError(nameof(Type), "Invalid Load Type");
                 }
@@ -117,8 +122,8 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 _fedFromTag = value;
-
                 ClearErrors(nameof(FedFromTag));
+                if (GlobalConfig.SelectingNew = true) { return; }
 
                 _feedingDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
 
@@ -142,9 +147,10 @@ namespace EDTLibrary.Models.Loads
             {
                 double newLoad_LoadSize;
                 _size = value;
-
                 // TODO - enforce Motor sizes
                 ClearErrors(nameof(Size));
+                if (GlobalConfig.SelectingNew = true) { return; }
+
                 if (double.TryParse(_size, out newLoad_LoadSize) == false) {
                     AddError(nameof(Size), "Invalid Size");
                     if (_errorDict.ContainsKey(nameof(Tag)) == false) {
@@ -167,8 +173,9 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 _unit = value;
-
                 ClearErrors(nameof(Unit));
+                if (GlobalConfig.SelectingNew = true) { return; }
+
                 if (_type != "" && _type == null || _unit == "") {
                     AddError(nameof(Unit), "Invalid Unit");
                 }
@@ -197,8 +204,10 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 _voltage = value;
-                double parsedVoltage;
                 ClearErrors(nameof(Voltage));
+                if (GlobalConfig.SelectingNew = true) { return; }
+
+                double parsedVoltage;
                 if (string.IsNullOrWhiteSpace(_voltage)) {
                     AddError(nameof(Voltage), "Invalid Voltage");
                 }
@@ -241,10 +250,11 @@ namespace EDTLibrary.Models.Loads
             get { return _loadFactor; }
             set
             {
-                double newLoad_LoadFactor;
                 ClearErrors(nameof(LoadFactor));
-
                 _loadFactor = value;
+                if (GlobalConfig.SelectingNew = true) { return; }
+
+                double newLoad_LoadFactor;
                 if (double.TryParse(_loadFactor, out newLoad_LoadFactor) == false) {
                     AddError(nameof(LoadFactor), "Value must be between 0 and 1");
 
@@ -263,6 +273,8 @@ namespace EDTLibrary.Models.Loads
         private bool _isValid;
         public bool IsValid()
         {
+            if (GlobalConfig.SelectingNew == true) { return false; }
+
             string temp;
             string fake = "fake";
 

@@ -207,10 +207,12 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
             if (_selectedDteq != null) {
                 AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
 
+                GlobalConfig.SelectingNew = true;
                 DteqToAddValidator.FedFromTag = _selectedDteq.Tag;
                 LoadToAddValidator.FedFromTag = "";
                 LoadToAddValidator.FedFromTag = _selectedDteq.Tag;
                 LoadToAddValidator.Voltage = _selectedDteq.LoadVoltage.ToString();
+                GlobalConfig.SelectingNew = false;
 
                 BuildDteqCableTypeList(_selectedDteq);
 
@@ -234,7 +236,10 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
             _selectedLoad = value;
             if (_selectedLoad != null) {
                 BuildLoadCableTypeList(_selectedLoad);
-                CopySelectedLoad();
+                GlobalConfig.SelectingNew = true;
+                    CopySelectedLoad();
+                GlobalConfig.SelectingNew = false;
+
             }
         }
     }
@@ -321,6 +326,8 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     // Dteq
     public async void DbGetAll() {
         _listManager.GetProjectTablesAndAssigments();
+        AssignedLoads.Clear();
+
     }
 
     private void DbSaveAll()
@@ -775,6 +782,9 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
         }
         catch (NullReferenceException ex) {
             ex.Data.Add("UserMessage", $"The selected load doesn't have a power cable");
+            if (load.PowerCable==null) {
+                load.CreateCable();
+            }
             throw;
         }
     }

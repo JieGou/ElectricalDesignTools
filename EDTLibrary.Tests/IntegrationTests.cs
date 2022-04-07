@@ -2,6 +2,7 @@
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.TestDataFolder;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,8 +33,6 @@ namespace EDTLibrary.Tests
 
             //ListManager
             ListManager listManager = new ListManager();
-            IDteq selectedDteq = new DteqModel();
-            LoadModel selectedLoad = new LoadModel();
 
             StartupService startupService = new StartupService(listManager);
             startupService.InitializeLibrary();
@@ -51,19 +50,21 @@ namespace EDTLibrary.Tests
             #endregion
 
             #region Add Objects
+
             //Area
             foreach (var area in TestData.TestAreasList) {
                 areaToAdd = new AreaToAddValidator(listManager, area);
                 areaVm.AddArea(areaToAdd);
             }
+            Assert.True(listManager.AreaList.Count == TestData.TestAreasList.Count);
 
             //Dteq
             foreach (var dteq in TestData.TestDteqList) {
+                dteq.Area = listManager.AreaList[0];
                 dteqToAdd = new DteqToAddValidator(listManager, dteq);
                 eqVm.AddDteq(dteqToAdd);
             }
-            Assert.True(listManager.DteqList.Count - 1 == TestData.TestDteqList.Count);
-
+            Assert.True(listManager.IDteqList.Count == TestData.TestDteqList.Count);
 
             //Loads
             foreach (var load in TestData.TestLoadList) {
@@ -71,49 +72,40 @@ namespace EDTLibrary.Tests
                 eqVm.AddLoad(loadToAdd);
                 load.CalculateLoading();
             }
+            Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count); //False because of invalid loads
 
-            foreach (var load in listManager.LoadList) {
-                Debug.WriteLine(load.Tag.ToString());
-            }
+            //Cables
+            int cableCount = listManager.IDteqList.Count + listManager.LoadList.Count;
+            Assert.True(listManager.CableList.Count == cableCount);
+            SelectAllDteqAndLoads(listManager, eqVm);
 
-            Assert.True(listManager.AreaList.Count > 0);
-            Assert.True(listManager.LoadList.Count > 0);
-            Assert.True(listManager.LoadList.Count != TestData.TestLoadList.Count);
-            Assert.True(listManager.DteqList[0].DemandKva > 0);
+            Assert.True(listManager.IDteqList[0].DemandKva > 0);
             Assert.True(listManager.LoadList[0].DemandKva > 0);
-
+            
+            
             #endregion
 
 
             #region Rename, delete and re-add equipment
             //Rename
             listManager.IDteqList[0].Tag = "XTR-01";
-            Assert.True(listManager.IDteqList[0].PowerCable.Tag.Contains("XTR01"));
+            Assert.True(listManager.IDteqList[0].PowerCable.Destination == listManager.IDteqList[0].Tag);
 
-            listManager.DteqList[1].Tag = "TX-01";
-            Assert.True(listManager.DteqList[1].PowerCable.Tag.Contains("TX01"));
-
-            var dteqCountOld = listManager.DteqList.Count;
-            var loadCountOld = listManager.LoadList.Count;
-            var cableCountOld = listManager.CableList.Count;
-
-
+            listManager.IDteqList[0].Tag = "TX-01";
+            Assert.True(listManager.DteqList[1].PowerCable.Destination == listManager.DteqList[1].Tag);
 
 
             //LargestMotorTest
-            var xfrToTest = listManager.XfrList[0];
+            var xfrToTest = listManager.XfrList[2];
             xfrToTest.FindLargestMotor(xfrToTest, new LoadModel { ConnectedKva = 0 });
-            Assert.True(xfrToTest.LargestMotor.Tag == "MTR-01b");
+            Assert.True(xfrToTest.LargestMotor.Tag == "MTR-03");
 
-            //Delete
-            eqVm.DeleteDteq(listManager.DteqList[1]);
-            var listCount = (dteqCountOld - 1 - listManager.XfrList.Count - listManager.SwgList.Count - listManager.MccList.Count);
-
-            Assert.True(listManager.DteqList.Count == dteqCountOld - 1);
-            Assert.True(listManager.CableList.Count == cableCountOld - 1);
+            //Delete Dteq
+            eqVm.DeleteDteq(listManager.IDteqList[0]);
+            Assert.True(listManager.IDteqList.Count == TestData.TestDteqList.Count - 1);
+            Assert.True(listManager.CableList.Count == cableCount - 1);
 
             #endregion
-
 
 
             //TODO - Clean up DteqModel vs abstract Dteq
@@ -122,13 +114,27 @@ namespace EDTLibrary.Tests
                 listManager.DteqList.Add(item);
             }
             Assert.True(listManager.DteqList.Count > 0);
+
+            SelectAllDteqAndLoads(listManager, eqVm);
+        }
+
+        private static void SelectAllDteqAndLoads(ListManager listManager, EquipmentViewModel eqVm)
+        {
+            foreach (var dteq in listManager.IDteqList) {
+                Debug.WriteLine(dteq.Tag.ToString());
+                eqVm.SelectedDteq = dteq;
+                foreach (var assignedLoad in dteq.AssignedLoads) {
+                    Debug.WriteLine(assignedLoad.Tag.ToString());
+                    eqVm.SelectedLoad = assignedLoad;
+                }
+            }
         }
 
         private static void DeleteAllRecords()
         {
-            
-
             //Delete records
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.AreaTable);
+
             DaManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);
             DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
             DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);

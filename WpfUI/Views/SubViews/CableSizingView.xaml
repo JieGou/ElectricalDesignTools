@@ -128,7 +128,10 @@
                          TextAlignment="Left" HorizontalAlignment="Left"
                          BorderThickness="0.5"
                          d:Text="2"/>
-                <TextBlock  x:Name="txtPerPhase" Visibility="{Binding PerPhaseLabelDteq}"
+                <TextBlock  x:Name="txtPerPhase" 
+                            Visibility="{Binding DataContext.PerPhaseLabelDteq,
+                                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"
                             Text=" (/ph)" Grid.Row="4" Grid.Column="1"/>
             </StackPanel>
 

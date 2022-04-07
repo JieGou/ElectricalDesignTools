@@ -54,6 +54,9 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public static IDteq Recast(object oDteq)
         {
+            if (oDteq == null) {
+                return null;
+            }
             if (oDteq.GetType() == typeof(XfrModel)) {
                 return (XfrModel)oDteq;
             }

@@ -148,16 +148,10 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 IDteq oldFedFrom = _fedFrom;
                 IDteq nextFedFrom = value;
+
                 try {
-
-                    
-
-
-                    //_fedFrom = value;
-                    //DistributionManager.UpdateFedFrom(this, _fedFrom, oldFedFrom);
-
                     for (int i = 0; i < 500; i++) {
-                        if (oldFedFrom != null && nextFedFrom != null) {
+                        if (nextFedFrom != null) {
                             if (nextFedFrom.Tag == Tag) {
                                 _fedFrom = oldFedFrom;
                                 //break;
@@ -165,6 +159,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                             }
                             else if (nextFedFrom.Tag == GlobalConfig.Utility) {
                                 _fedFrom = value;
+                                DistributionManager.UpdateFedFrom(this, _fedFrom, oldFedFrom);
                                 break;
                             }
                             else {

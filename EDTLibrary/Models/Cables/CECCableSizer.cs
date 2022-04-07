@@ -241,25 +241,30 @@ namespace EDTLibrary.Models.Cables
         }
         public double GetDerating(IPowerCable cable)
         {
-
+             
             double derating = 1;
-            if (cable == null) return derating;
+            
+                if (cable == null) return derating;
 
-            if (cable.Spacing < 100) {
+            try {
+                if (cable.Spacing < 100) {
 
-                if (cable.AmpacityTable == "Table 1" || cable.AmpacityTable == "Table 2") {
-                    double loadCount = cable.Load.FedFrom.AssignedLoads.Count;
-                    derating *= GetCableDerating_Table5C(cable);
+                    if (cable.AmpacityTable == "Table 1" || cable.AmpacityTable == "Table 2") {
+                        double loadCount = cable.Load.FedFrom.AssignedLoads.Count;
+                        derating *= GetCableDerating_Table5C(cable);
+                    }
+                }
+
+                if (cable.Load.Area != null) {
+                    double cableAmbientTemp = Math.Max(cable.Load.Area.MaxTemp, cable.Load.FedFrom.Area.MaxTemp);
+                    if (cableAmbientTemp > 30) {
+                        derating *= GetCableDerating_Table5A(cable, cableAmbientTemp);
+                    }
                 }
             }
-
-            if (cable.Load.Area != null) {
-                double cableAmbientTemp = cable.Load.Area.MaxTemp;
-                if (cableAmbientTemp > 30) {
-                    derating *= GetCableDerating_Table5A(cable, cableAmbientTemp);
-                }
+            catch (Exception ex) {
+                throw;
             }
-
             derating = Math.Round(derating, 2);
             return derating;
         }

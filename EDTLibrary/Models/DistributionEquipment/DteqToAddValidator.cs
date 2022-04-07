@@ -27,6 +27,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             Tag = dteqToAdd.Tag;
             Type = dteqToAdd.Type;
             Description = dteqToAdd.Description;
+            AreaTag = dteqToAdd.Area.Tag;
             FedFromTag = dteqToAdd.FedFromTag;
             Size = dteqToAdd.Size.ToString();
             Unit = dteqToAdd.Unit;
@@ -262,7 +263,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         private bool _isValid = false;
         public bool IsValid()
         {
-
+            if (GlobalConfig.SelectingNew == true) { return false; }
             string temp;
             string fake = "fake";
 
