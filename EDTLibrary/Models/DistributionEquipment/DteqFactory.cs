@@ -41,11 +41,11 @@ namespace EDTLibrary.Models.DistributionEquipment
             newDteq.Tag = dteqToAddValidator.Tag;
             newDteq.Category = Categories.DTEQ.ToString();
             newDteq.Type = dteqToAddValidator.Type;
-
+            newDteq.Area = _listManager.AreaList.FirstOrDefault(a => a.Tag == dteqToAddValidator.AreaTag);
             newDteq.Size = Double.Parse(dteqToAddValidator.Size);
             newDteq.Unit = dteqToAddValidator.Unit;
             newDteq.Description = dteqToAddValidator.Description;
-            newDteq.FedFromTag = dteqToAddValidator.FedFromTag;
+            //newDteq.FedFromTag = dteqToAddValidator.FedFromTag;
             newDteq.LineVoltage = Double.Parse(dteqToAddValidator.LineVoltage);
             newDteq.LoadVoltage = Double.Parse(dteqToAddValidator.LoadVoltage);
 

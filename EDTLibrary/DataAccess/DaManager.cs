@@ -162,6 +162,8 @@ public class DaManager {
     //Upsert Dteq
     public static void UpsertDteq(IDteq iDteq)
     {
+        if (iDteq == GlobalConfig.DteqDeleted) { return; }
+
         if (iDteq.GetType() == typeof(DteqModel)) {
             var model = (DteqModel)iDteq;
             prjDb.UpsertRecord(model, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
@@ -182,6 +184,8 @@ public class DaManager {
 
     public static void UpsertLoad(LoadModel load)
     {
+        if (load == GlobalConfig.DteqDeleted) { return; }
+
         prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
     }
 

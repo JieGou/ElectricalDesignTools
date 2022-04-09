@@ -74,7 +74,7 @@
                      Grid.Row="3" Grid.Column="2"
                      d:Text="180" TextAlignment="Center"
                      FontWeight="Bold"/>
-            <TextBlock Text="  kVA  " Grid.Row="2" Grid.Column="0"/>
+            <TextBlock Text="  kVA" Grid.Row="2" Grid.Column="0"/>
         </StackPanel>
 
       

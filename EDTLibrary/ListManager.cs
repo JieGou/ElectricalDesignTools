@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -42,6 +43,23 @@ namespace EDTLibrary
             await Task.Delay(1000);
             CreateDteqDict();
         }
+        public void GetProjectTablesAndAssigments()
+        {
+            GlobalConfig.GettingRecords = true;
+
+            //Get
+            GetAreas();
+            GetDteq();
+            GetLoads();
+            GetCables();
+
+            //Assign
+            AssignAreas();
+            AssignLoadsAndEventsToAllDteq();
+            AssignCables();
+
+            GlobalConfig.GettingRecords = false;
+        }
 
         public ObservableCollection<IArea> GetAreas()
         {
@@ -52,7 +70,6 @@ namespace EDTLibrary
             }
             return AreaList;
         }
-
         public ObservableCollection<DistributionEquipment> GetDteq() {
 
             IDteqList.Clear();
@@ -117,11 +134,6 @@ namespace EDTLibrary
 
             return DteqList;
         }
-
-       
-
-
-
         public ObservableCollection<ILoad> GetLoads() {     
             var list = DaManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable);
             LoadList.Clear();
@@ -133,7 +145,7 @@ namespace EDTLibrary
             foreach (var load in LoadList) {
                
                 if (load.FedFromTag.Contains("Deleted") || load.FedFromType.Contains("Deleted")) {
-                    load.FedFrom = new DteqModel() { Tag = "* Deleted *" };
+                    load.FedFrom = GlobalConfig.DteqDeleted;
                 }
                 fedFrom = IDteqList.FirstOrDefault(d => d.Id == load.FedFromId &&
                                                    d.GetType().ToString() == load.FedFromType);
@@ -148,26 +160,15 @@ namespace EDTLibrary
         public ObservableCollection<PowerCableModel> GetCables()
         {
             CableList = DaManager.prjDb.GetRecords<PowerCableModel>(GlobalConfig.PowerCableTable);
+            AssignCableTypes();
             return CableList;
         }
 
-
-        public void GetProjectTablesAndAssigments()
+        private void AssignCableTypes()
         {
-            GlobalConfig.GettingRecords = true;
-
-            //Get
-            GetAreas();
-            GetDteq();
-            GetLoads();
-            GetCables();
-
-            //Assign
-            AssignAreas();
-            AssignLoadsAndEventsToAllDteq();
-            AssignCables();
-
-            GlobalConfig.GettingRecords = false;
+            foreach (var cable in CableList) {
+                cable.TypeModel = TypeManager.GetCableType(cable.Type);
+            }        
         }
 
         public void CreateILoadDict() {
@@ -186,34 +187,26 @@ namespace EDTLibrary
             }
         }
 
+
         #region MajorEquipment
         public void CalculateDteqLoading() // LoadList Manager
         {
 
             AssignLoadsAndEventsToAllDteq();
             foreach (var load in LoadList) {
-                load.CalculateLoading();
-                load.PowerCable.GetRequiredAmps(load);
+                //load.CalculateLoading();
+                //load.PowerCable.GetRequiredAmps(load);
                 load.PowerCable.CalculateCableQtySizeNew();
                 load.PowerCable.CalculateAmpacityNew(load);
             }
             foreach (var dteq in IDteqList) {
-                dteq.CalculateLoading();
-                dteq.PowerCable.GetRequiredAmps(dteq);
+                //dteq.CalculateLoading();
+                //dteq.PowerCable.GetRequiredAmps(dteq);
                 dteq.PowerCable.CalculateCableQtySizeNew();
                 dteq.PowerCable.CalculateAmpacityNew(dteq);
             }
         }
-        public void OnFedFromChanged(object sender, EventArgs e)
-        {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-
-            //TODO - Unregister from specific Dteq only
-
-            stopwatch.Stop();
-            Debug.Print(stopwatch.ElapsedMilliseconds.ToString());
-        }
-
+       
         public void UnregisterAllDteqFromAllLoadEvents()
         {
             foreach (IDteq dteq in DteqList) {
@@ -229,25 +222,22 @@ namespace EDTLibrary
                 assignedLoad.LoadingCalculated -= DaManager.OnDteqLoadingCalculated;
             }
         }
-
         public void AssignLoadsAndEventsToAllDteq()
         {
             foreach (IDteq dteq in DteqList) {
                 dteq.AssignedLoads.Clear();
                 dteq.LoadCount = 0;
-                //dteq.FedFromChanged += this.OnFedFromChanged;
 
                 AssignLoadsAndSubscribeToEvents(dteq);
                 dteq.CalculateLoading();
             }
         }
-        
         public void AssignLoadsAndSubscribeToEvents(IDteq dteq)
         {
             dteq.AssignedLoads.Clear();
             foreach (var dteqAsLoad in IDteqList) {
                 if (dteqAsLoad.FedFrom != null) {
-                    if (dteqAsLoad.FedFrom.Id == dteq.Id) {
+                    if (dteqAsLoad.FedFrom.Id == dteq.Id && dteqAsLoad.FedFrom.Type == dteq.Type) {
                         dteq.AssignedLoads.Add(dteqAsLoad);
                         dteqAsLoad.LoadingCalculated += dteq.OnAssignedLoadReCalculated;
                         dteqAsLoad.LoadingCalculated += DaManager.OnDteqLoadingCalculated;
@@ -257,7 +247,7 @@ namespace EDTLibrary
 
             foreach (var load in LoadList) {
                 if (load.FedFrom != null) {
-                    if (load.FedFrom.Tag == dteq.Tag) {
+                    if (load.FedFrom.Tag == dteq.Tag && load.FedFrom.Type == dteq.Type) {
                         dteq.AssignedLoads.Add(load);
                         load.LoadingCalculated += dteq.OnAssignedLoadReCalculated;
                         load.LoadingCalculated += DaManager.OnLoadLoadingCalculated;
@@ -266,13 +256,11 @@ namespace EDTLibrary
             }
         }
 
-
         #endregion
 
 
         //Lists
         #region Lists
-       
         public void CreateCableList() {
             CableList.Clear();
             foreach (var dteq in IDteqList) {
@@ -288,7 +276,6 @@ namespace EDTLibrary
                 }
             }
         }
-
         public void AssignAreas()
         {
             foreach (var childArea in AreaList) {
@@ -342,9 +329,6 @@ namespace EDTLibrary
                 }
             }
         }
-
-
-
         public void AddDteq(IDteq iDteq)
         {
             if (iDteq == null) {

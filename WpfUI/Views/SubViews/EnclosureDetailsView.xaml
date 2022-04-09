@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <Style TargetType="ComboBox">
-                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Padding" Value="3 1"/>
                 <Setter Property="Height" Value="20"/>
                 <Setter Property="Margin" Value="0 3"/>
                 <Setter Property="ToolTipService.InitialShowDelay" Value="0"/>
@@ -53,7 +53,9 @@
                            FontWeight="Normal"
                            Margin="0 5 0 0"
                            TextAlignment="Right"/>
-                <ComboBox x:Name="cbxNemaRatings" Grid.Row="0" Grid.Column="2"
+                <ComboBox x:Name="cbxNemaRatings" 
+                          Template="{DynamicResource ComboBoxBase}" 
+                          Grid.Row="0" Grid.Column="2"
                           MinWidth="100"
                           ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, 
                                               RelativeSource={RelativeSource Mode=FindAncestor, 
@@ -69,7 +71,9 @@
                 <TextBlock Text="Area Classification"
                            Grid.Row="1" Grid.Column="0" FontWeight="Normal"/>
 
-                <ComboBox x:Name="cbxAreaClassifications" Grid.Row="1" Grid.Column="2"
+                <ComboBox x:Name="cbxAreaClassifications" 
+                          Template="{DynamicResource ComboBoxBase}" 
+                          Grid.Row="1" Grid.Column="2"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type Window}}}"

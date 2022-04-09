@@ -1,4 +1,5 @@
 ﻿using EDTLibrary;
+using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Validators;
 using PropertyChanged;
@@ -15,6 +16,7 @@ namespace EDTLibrary.Models.Loads
     public class LoadToAddValidator : INotifyDataErrorInfo
     {
         private ListManager _listManager;
+        private IArea _areaModel;
         private IDteq _feedingDteq;
 
         public LoadToAddValidator(ListManager listManager)
@@ -25,11 +27,13 @@ namespace EDTLibrary.Models.Loads
         public LoadToAddValidator(ListManager listManager, ILoad loadToAdd)
         {
             _listManager = listManager;
-
+            _areaModel = loadToAdd.Area;
             Tag = loadToAdd.Tag;
             Type = loadToAdd.Type;
             Description = loadToAdd.Description;
+            AreaTag = loadToAdd.Area.Tag;
             FedFromTag = loadToAdd.FedFromTag;
+            //FedFromTag = listManager.DteqList.FirstOrDefault(d => d.Id == loadToAdd.FedFrom.Id && d.Type == loadToAdd.FedFrom.Type).Tag;
             Size = loadToAdd.Size.ToString();
             Unit = loadToAdd.Unit;
             Voltage = loadToAdd.Voltage.ToString();
@@ -41,8 +45,6 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 _tag = value;
-                if (GlobalConfig.SelectingNew = true) { return; }
-
                 ClearErrors(nameof(Tag));
 
                 if (TagValidator.IsTagAvailable(_tag, _listManager) == false) {
@@ -74,7 +76,7 @@ namespace EDTLibrary.Models.Loads
                 LoadFactor = "";
                 LoadFactor = "0.8";
                 ClearErrors(nameof(Type));
-                if (GlobalConfig.SelectingNew = true) { return; }
+                if (GlobalConfig.SelectingNew == true) { return; }
 
                 if (string.IsNullOrWhiteSpace(_type) || _type == "") {
                     AddError(nameof(Type), "Invalid Load Type");
@@ -114,7 +116,28 @@ namespace EDTLibrary.Models.Loads
             get { return _description; }
             set { _description = value; }
         }
+        private string _areaTag;
 
+        public string AreaTag
+        {
+            get { return _areaTag; }
+            set
+            {
+                _areaTag = value;
+                ClearErrors(nameof(AreaTag));
+                if (_areaModel== null) {
+                    _areaModel = _listManager.AreaList.FirstOrDefault(a => a.Tag == _areaTag);
+                }
+
+                if (_areaModel != null) {
+                    _isValid = true;
+                }
+                else {
+                    AddError(nameof(AreaTag), "Selected area doesn't exist");
+                    _isValid = false;
+                }
+            }
+        }
         private string _fedFromTag;
         public string FedFromTag
         {
@@ -123,7 +146,7 @@ namespace EDTLibrary.Models.Loads
             {
                 _fedFromTag = value;
                 ClearErrors(nameof(FedFromTag));
-                if (GlobalConfig.SelectingNew = true) { return; }
+                if (GlobalConfig.SelectingNew == true) { return; }
 
                 _feedingDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
 
@@ -149,7 +172,7 @@ namespace EDTLibrary.Models.Loads
                 _size = value;
                 // TODO - enforce Motor sizes
                 ClearErrors(nameof(Size));
-                if (GlobalConfig.SelectingNew = true) { return; }
+                if (GlobalConfig.SelectingNew == true) { return; }
 
                 if (double.TryParse(_size, out newLoad_LoadSize) == false) {
                     AddError(nameof(Size), "Invalid Size");
@@ -174,7 +197,7 @@ namespace EDTLibrary.Models.Loads
             {
                 _unit = value;
                 ClearErrors(nameof(Unit));
-                if (GlobalConfig.SelectingNew = true) { return; }
+                if (GlobalConfig.SelectingNew == true) { return; }
 
                 if (_type != "" && _type == null || _unit == "") {
                     AddError(nameof(Unit), "Invalid Unit");
@@ -205,7 +228,7 @@ namespace EDTLibrary.Models.Loads
             {
                 _voltage = value;
                 ClearErrors(nameof(Voltage));
-                if (GlobalConfig.SelectingNew = true) { return; }
+                if (GlobalConfig.SelectingNew == true) { return; }
 
                 double parsedVoltage;
                 if (string.IsNullOrWhiteSpace(_voltage)) {
@@ -252,11 +275,12 @@ namespace EDTLibrary.Models.Loads
             {
                 ClearErrors(nameof(LoadFactor));
                 _loadFactor = value;
-                if (GlobalConfig.SelectingNew = true) { return; }
+                if (GlobalConfig.SelectingNew == true) { return; }
 
                 double newLoad_LoadFactor;
                 if (double.TryParse(_loadFactor, out newLoad_LoadFactor) == false) {
                     AddError(nameof(LoadFactor), "Value must be between 0 and 1");
+                    _isValid = false;
 
                 }
                 else if (double.Parse(_loadFactor) < 0 || double.Parse(_loadFactor) > 1) {
@@ -273,7 +297,6 @@ namespace EDTLibrary.Models.Loads
         private bool _isValid;
         public bool IsValid()
         {
-            if (GlobalConfig.SelectingNew == true) { return false; }
 
             string temp;
             string fake = "fake";

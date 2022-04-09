@@ -125,13 +125,13 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 _fedFromTag = value;
-                if (FedFrom != null) {
+                if (FedFrom != null && _fedFromTag != GlobalConfig.Deleted) {
                     FedFrom.Tag = _fedFromTag;
                 }
                 
                 if (GlobalConfig.GettingRecords == false) {
                     //OnFedFromChanged();
-                    CalculateLoading();
+                    //CalculateLoading();
                 }
             }
         }
@@ -157,7 +157,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                                 //break;
                                 throw new InvalidOperationException("Equipment cannot be fed from itself.");
                             }
-                            else if (nextFedFrom.Tag == GlobalConfig.Utility) {
+                            else if (nextFedFrom.Tag == GlobalConfig.Utility || nextFedFrom.Tag == GlobalConfig.Deleted) {
                                 _fedFrom = value;
                                 DistributionManager.UpdateFedFrom(this, _fedFrom, oldFedFrom);
                                 break;
@@ -241,7 +241,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 if (Tag==GlobalConfig.Utility) {
                     return 0;
-                } 
+                }
+                else if (FedFrom == null) {
+                    return 0;
+                }
                 return FedFrom.SCCR; 
             }
             set { _sccr = value; }
@@ -294,15 +297,13 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public void CreateCable()
         {
-            if (PowerCable == null) {
+            if (PowerCable == null && GlobalConfig.GettingRecords==false) {
                 PowerCable = new PowerCableModel(this);
             }
         }
         public void SizeCable()
         {
-            if (PowerCable ==null) {
-                PowerCable = new PowerCableModel(this);
-            }
+            CreateCable();
             PowerCable.SetCableParameters(this);
             PowerCable.CalculateCableQtySizeNew();
         }

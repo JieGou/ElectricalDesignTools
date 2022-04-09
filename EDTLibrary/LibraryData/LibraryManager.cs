@@ -125,9 +125,9 @@ namespace EDTLibrary.LibraryData
         }
         public static double GetCableDerating_CecTable5A(IPowerCable cable, double ambientTemp)
         {
-            Debug.WriteLine("LibraryManager_GetCableDeratint_CecTable5A");
+            Debug.WriteLine("LibraryManager_GetCableDerating_CecTable5A");
 
-            double result = .66666;
+            double result = .99999;
             if (DataTables.Motors != null) {
 
                 DataTable dt = DataTables.CEC_Table5A.Copy();
@@ -137,8 +137,10 @@ namespace EDTLibrary.LibraryData
 
                 try {
                     dtFiltered = filteredRows.CopyToDataTable();
-                    string col = "CableTemp" + cable.TypeModel.TemperatureRating.ToString();
-                    result = Double.Parse(dtFiltered.Rows[0][col].ToString());
+                    if (cable.TypeModel != null) {
+                        string col = "CableTemp" + cable.TypeModel.TemperatureRating.ToString();
+                        result = Double.Parse(dtFiltered.Rows[0][col].ToString());
+                    }
                 }
                 catch (InvalidCastException ex) {
                     //throw;

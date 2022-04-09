@@ -44,7 +44,7 @@
             </Style>
 
             <Style TargetType="ComboBox">
-                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Padding" Value="3 1"/>
                 <Setter Property="Height" Value="20"/>
                 <Setter Property="Margin" Value="0 3"/>
             </Style>
@@ -100,23 +100,24 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-
-
             <TextBlock Text="Cable Tag: " Grid.Row="1" Grid.Column="0"/>
             <TextBlock Text="{Binding PowerCable.Tag}" Grid.Row="1" Grid.Column="2" 
                                d:Text="SWG001-MCC001-P1"
-                               Grid.ColumnSpan="4" FontWeight="Bold"/>
+                               Grid.ColumnSpan="3" FontWeight="Bold"/>
 
             <TextBlock Text="Cable Type: " Grid.Row="2" Grid.Column="0"/>
-            <ComboBox Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" 
+            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                      Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" 
+                      Width="175" HorizontalAlignment="Left"
                       FontWeight="Bold" FontSize="12"
                       ItemsSource="{Binding Path=DataContext.DteqCableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"                             
+                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"   
                       DisplayMemberPath="Type"
                       SelectedValuePath="Type"
+                      SelectedValue="{Binding PowerCable.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Text="{Binding PowerCable.Type}"  d:Text="3C-TECK-1kV"
-                      IsEditable="True" VerticalAlignment="Center"/>
+                      IsEditable="False" VerticalAlignment="Center"/>
 
 
             <TextBlock Text="Cable Qty: " Grid.Row="4" Grid.Column="0"/>
@@ -158,18 +159,20 @@
 
 
             <TextBlock Text="Installation Type" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Right"/>
-            <ComboBox Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2"
-                      Margin="0 3"
+            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                      Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" HorizontalAlignment="Left"
+                      Margin="0 3" Width="135"
                       FontWeight="Bold" FontSize="12"
                       ItemsSource="{Binding Path=DataContext.CableInstallationTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
                                             AncestorType={x:Type UserControl}, AncestorLevel=2}}"
                       SelectedValue="{Binding PowerCable.InstallationType}"
                       Text="{Binding PowerCable.InstallationType}"  d:Text="LadderTray"
-                      IsEditable="True" VerticalAlignment="Center"/>
+                      IsEditable="False" VerticalAlignment="Center"/>
 
             <TextBlock Text="Spacing" Grid.Row="5" Grid.Column="4" HorizontalAlignment="Right"/>
-            <ComboBox Grid.Row="5" Grid.Column="6" Width="50" HorizontalAlignment="Left"
+            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                      Grid.Row="5" Grid.Column="6" Width="50" HorizontalAlignment="Left"
                       FontWeight="Bold" FontSize="12"
                       ItemsSource="{Binding Path=DataContext.CableSpacing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 

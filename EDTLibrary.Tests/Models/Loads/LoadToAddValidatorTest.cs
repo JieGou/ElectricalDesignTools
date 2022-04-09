@@ -14,28 +14,29 @@ namespace EDTLibrary.Tests.Models.Loads
     public class LoadToAddValidatorTest
     {
         [Theory]
-        [InlineData("MTR-13", "MOTOR", "MCC-02", "50", "HP", "600")] // Dteq Doesn't exist
-        public void IsValid_True(string tag, string type, string fedFrom, string size, string unit, string voltage){
+        [InlineData("MTR-13", "MOTOR", "MCC-02", "ML", "50", "HP", "600")] // Dteq Doesn't exist
+        public void IsValid_True(string tag, string type, string area, string fedFrom, string size, string unit, string voltage){
             GlobalConfig.Testing = true;
 
             //Arrange
             ListManager _listManager = new ListManager();
             _listManager.DteqList = TestData.TestDteqList;
             _listManager.LoadList = TestData.TestLoadList;
-            DteqModel selectedDteq = new DteqModel();
+            LoadModel loadToAdd = new LoadModel { Area = TestData.TestAreasList[0]};
 
             //Act
-            LoadToAddValidator LoadToAdd = new LoadToAddValidator(_listManager);
-            LoadToAdd.Tag = tag;
-            LoadToAdd.Type = type;
-            LoadToAdd.FedFromTag = fedFrom;
-            LoadToAdd.Size = size;
-            LoadToAdd.Unit = unit;
-            LoadToAdd.Voltage = voltage;
+            LoadToAddValidator loadToAddValidator = new LoadToAddValidator(_listManager, loadToAdd);
+            loadToAddValidator.Tag = tag;
+            loadToAddValidator.Type = type;
+            loadToAddValidator.AreaTag = area;
+            loadToAddValidator.FedFromTag = fedFrom;
+            loadToAddValidator.Size = size;
+            loadToAddValidator.Unit = unit;
+            loadToAddValidator.Voltage = voltage;
 
 
-            bool actual = LoadToAdd.IsValid();
-            var errors = LoadToAdd._errorDict;
+            bool actual = loadToAddValidator.IsValid();
+            var errors = loadToAddValidator._errorDict;
             GlobalConfig.Testing = false;
 
             Assert.True(actual);
@@ -65,7 +66,7 @@ namespace EDTLibrary.Tests.Models.Loads
             LoadToAdd.Unit = unit;
             LoadToAdd.Voltage = voltage;
 
-
+            GlobalConfig.SelectingNew = false;
             bool actual = LoadToAdd.IsValid();
             var errors = LoadToAdd._errorDict;
             GlobalConfig.Testing = false;

@@ -17,7 +17,11 @@ namespace EDTLibrary
 
         //Quick Names
         public const string Utility = "UTILITY";
+        public static IDteq DteqUtility { get; set; } = new DteqModel { Id = -0, Tag = GlobalConfig.Utility, Type = GlobalConfig.Utility };
+
         public const string Deleted = "* Deleted *";
+        public static IDteq DteqDeleted { get; set; } = new DteqModel { Id = -1, Tag = GlobalConfig.Deleted, Type = GlobalConfig.Deleted };
+
         public static string LoadTable { get; set; } = "Loads";
         public static string DteqTable { get; set; } = "DistributionEquipment";
         public static string XfrTable { get; set; } = "Transformer";

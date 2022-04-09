@@ -146,7 +146,7 @@
             <!--LOCATION Datagrid-->
             <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Vertical">
 
-                <DataGrid x:Name="dgdAreas" RowDetailsVisibilityMode="Collapsed"
+                <DataGrid x:Name="dgdAreas" RowDetailsVisibilityMode="Collapsed"                      
                           MinHeight="200" Margin="10 10 10 10"
                           ItemsSource="{Binding Path=ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
@@ -403,6 +403,7 @@
                          HorizontalContentAlignment="Left"/>-->
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource AreaCategory}"
+                          Template="{DynamicResource ComboBoxBase}" 
                           Width="110"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaCategories,
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
@@ -415,6 +416,7 @@
                           Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource AreaClass}"
+                          Template="{DynamicResource ComboBoxBase}" 
                           Width="110"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications,
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
@@ -439,6 +441,7 @@
                          Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Nema}"
+                          Template="{DynamicResource ComboBoxBase}" 
                           Width="90"
                           ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 

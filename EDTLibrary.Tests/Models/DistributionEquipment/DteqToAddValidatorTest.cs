@@ -12,9 +12,9 @@ namespace EDTLibrary.Tests.Models.DistributionEquipment
     public class DteqToAddValidatorTest
     {
         [Theory]
-        [InlineData("XFR-05", "XFR", "ML", GlobalConfig.Utility, "2000", "kVA", "480", "460")]
-        [InlineData("MCC-06", "MCC", "FL", "SWG-01", "2000", "A", "480", "460" )]
-        [InlineData("MCC-07", "MCC", "ML", "SWG-02", "2000", "A", "600", "600" )]
+        [InlineData("XFR-07", "XFR", "ML", GlobalConfig.Utility, "2000", "kVA", "480", "460")]
+        [InlineData("MCC-08", "MCC", "FL", "SWG-03", "2000", "A", "480", "460" )]
+        [InlineData("MCC-09", "MCC", "ML", "SWG-02", "2000", "A", "600", "600" )]
         public void IsValid_True(string tag, string type, string areaTag, string fedFrom, string size, string unit,string lineVoltage, string loadVoltage )
         {
             GlobalConfig.Testing = true;
@@ -24,22 +24,23 @@ namespace EDTLibrary.Tests.Models.DistributionEquipment
             _listManager.AreaList = TestData.TestAreasList;
             _listManager.DteqList = TestData.TestDteqList;
             _listManager.LoadList = TestData.TestLoadList;
-            DteqModel selectedDteq = new DteqModel();
+            DteqModel dteqToAdd = new DteqModel();
+            dteqToAdd.Area = TestData.TestAreasList[0];
 
             //Act
-            DteqToAddValidator DteqToAdd = new DteqToAddValidator(_listManager, selectedDteq);
-            DteqToAdd.Tag = tag;
-            DteqToAdd.Type = type;
-            DteqToAdd.AreaTag = areaTag;
-            DteqToAdd.FedFromTag = fedFrom;
-            DteqToAdd.Size = size;
-            DteqToAdd.Unit = unit;
-            DteqToAdd.LineVoltage = lineVoltage;
-            DteqToAdd.LoadVoltage = loadVoltage;
+            DteqToAddValidator dteqToAddValidator = new DteqToAddValidator(_listManager, dteqToAdd);
+            dteqToAddValidator.Tag = tag;
+            dteqToAddValidator.Type = type;
+            dteqToAddValidator.AreaTag = areaTag;
+            dteqToAddValidator.FedFromTag = fedFrom;
+            dteqToAddValidator.Size = size;
+            dteqToAddValidator.Unit = unit;
+            dteqToAddValidator.LineVoltage = lineVoltage;
+            dteqToAddValidator.LoadVoltage = loadVoltage;
 
-
-            bool actual = DteqToAdd.IsValid();
-            var errors = DteqToAdd._errorDict;
+            GlobalConfig.SelectingNew = false;
+            bool actual = dteqToAddValidator.IsValid();
+            var errors = dteqToAddValidator._errorDict;
             GlobalConfig.Testing = false;
 
             Assert.True( actual );
@@ -63,21 +64,22 @@ namespace EDTLibrary.Tests.Models.DistributionEquipment
             ListManager _listManager = new ListManager();
             _listManager.DteqList = TestData.TestDteqList;
             _listManager.LoadList = TestData.TestLoadList;
-            DteqModel selectedDteq = new DteqModel();
+            DteqModel dteqToAdd = new DteqModel();
+            dteqToAdd.Area = TestData.TestAreasList[0];
 
             //Act
-            DteqToAddValidator DteqToAdd = new DteqToAddValidator(_listManager, selectedDteq);
-            DteqToAdd.Tag = tag;
-            DteqToAdd.Type = type;
-            DteqToAdd.AreaTag = areaTag;
-            DteqToAdd.FedFromTag = fedFrom;
-            DteqToAdd.Size = size;
-            DteqToAdd.Unit = unit;
-            DteqToAdd.LineVoltage = lineVoltage;
-            DteqToAdd.LoadVoltage = loadVoltage;
+            DteqToAddValidator dteqToAddValidator = new DteqToAddValidator(_listManager, dteqToAdd);
+            dteqToAddValidator.Tag = tag;
+            dteqToAddValidator.Type = type;
+            dteqToAddValidator.AreaTag = areaTag;
+            dteqToAddValidator.FedFromTag = fedFrom;
+            dteqToAddValidator.Size = size;
+            dteqToAddValidator.Unit = unit;
+            dteqToAddValidator.LineVoltage = lineVoltage;
+            dteqToAddValidator.LoadVoltage = loadVoltage;
 
-            bool actual = DteqToAdd.IsValid();
-            var errors = DteqToAdd._errorDict;
+            bool actual = dteqToAddValidator.IsValid();
+            var errors = dteqToAddValidator._errorDict;
             GlobalConfig.Testing = false;
 
             Assert.False(actual);

@@ -214,12 +214,15 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                 LoadToAddValidator.Voltage = _selectedDteq.LoadVoltage.ToString();
                 GlobalConfig.SelectingNew = false;
 
-                BuildDteqCableTypeList(_selectedDteq);
+                //BuildDteqCableTypeList(_selectedDteq);
 
                 PerPhaseLabelDteq = "Hidden";
-                if (_selectedDteq.PowerCable.TypeModel.Conductors==1) {
-                    PerPhaseLabelDteq = "Visible";
+                if (_selectedDteq.PowerCable.TypeModel != null) {
+                    if (_selectedDteq.PowerCable.TypeModel.Conductors == 1) {
+                        PerPhaseLabelDteq = "Visible";
+                    }
                 }
+                
             }
         }
     }
@@ -245,17 +248,26 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     private async Task CopySelectedLoad()
     {
+        try {
+            await CopySelectedLoadAsyn();
+        }
+        catch (Exception ex) {
+            ErrorHelper.EdtErrorMessage(ex);
+        }
 
-        LoadToAddValidator.FedFromTag = "";
-        LoadToAddValidator.FedFromTag = _selectedLoad.FedFromTag;
-        LoadToAddValidator.Type = "";
-        LoadToAddValidator.Type = _selectedLoad.Type;
-        LoadToAddValidator.Size = "";
-        LoadToAddValidator.Size = _selectedLoad.Size.ToString();
-        LoadToAddValidator.Unit = "";
-        LoadToAddValidator.Unit = _selectedLoad.Unit;
-        LoadToAddValidator.Voltage = "";
-        LoadToAddValidator.Voltage = _selectedLoad.Voltage.ToString();
+        async Task CopySelectedLoadAsyn()
+        {
+            LoadToAddValidator.FedFromTag = "";
+            LoadToAddValidator.FedFromTag = _selectedLoad.FedFromTag;
+            LoadToAddValidator.Type = "";
+            LoadToAddValidator.Type = _selectedLoad.Type;
+            LoadToAddValidator.Size = "";
+            LoadToAddValidator.Size = _selectedLoad.Size.ToString();
+            LoadToAddValidator.Unit = "";
+            LoadToAddValidator.Unit = _selectedLoad.Unit;
+            LoadToAddValidator.Voltage = "";
+            LoadToAddValidator.Voltage = _selectedLoad.Voltage.ToString();
+        }
 
     }
     public LoadToAddValidator LoadToAddValidator { get; set; }
@@ -433,6 +445,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                 newDteq.CalculateLoading(); //after dteq is inserted to get a new Id
 
                 //Cable
+                newDteq.CreateCable();
                 newDteq.SizeCable();
                 newDteq.CalculateCableAmps();
                 newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
@@ -445,20 +458,23 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
-    public void DeleteDteq(object selectedDteqObject)
+    public void DeleteDteq(object dteqObject)
     {
         try {
 
-            IDteq selectedDteq = DteqFactory.Recast(selectedDteqObject);
-            if (selectedDteq != null) {
+            IDteq dteqToDelete = DteqFactory.Recast(dteqObject);
+            if (dteqToDelete != null) {
                 //children first
 
-                DeletePowerCable(selectedDteq); //await 
-                RetagLoadsOfDeleted(selectedDteq); //await
+                _listManager.UnregisterDteqFromLoadEvents(dteqToDelete);
+                DeletePowerCable(dteqToDelete); //await 
+                RetagLoadsOfDeleted(dteqToDelete); //await
 
-                selectedDteq.FedFrom.AssignedLoads.Remove(selectedDteq);
-                DaManager.DeleteDteq(selectedDteq);
-                _listManager.DeleteDteq(selectedDteq); //await
+                if (dteqToDelete.FedFrom!=null) {
+                    dteqToDelete.FedFrom.AssignedLoads.Remove(dteqToDelete);
+                }
+                DaManager.DeleteDteq(dteqToDelete);
+                _listManager.DeleteDteq(dteqToDelete); //await
                 RefreshDteqTagValidation();
 
                 if (_listManager.IDteqList.Count > 0) {
@@ -496,16 +512,16 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     {
 
         //Loads
-        List<IPowerConsumer> loadsToRetag = new List<IPowerConsumer>();
+        List<IPowerConsumer> assignedLoads = new List<IPowerConsumer>();
         if (selectedDteq.AssignedLoads != null) {
-            loadsToRetag.AddRange(selectedDteq.AssignedLoads);
+            assignedLoads.AddRange(selectedDteq.AssignedLoads);
         }
 
         //Retag Loads to "Deleted"
-        IDteq deleted = new DteqModel() { Tag = GlobalConfig.Deleted };
-        for (int i = 0; i < loadsToRetag.Count; i++) {
-            var tag = loadsToRetag[i].Tag;
-            var load = loadsToRetag[i];
+        IDteq deleted = GlobalConfig.DteqDeleted;
+        for (int i = 0; i < assignedLoads.Count; i++) {
+            var tag = assignedLoads[i].Tag;
+            var load = assignedLoads[i];
             load.FedFromTag = GlobalConfig.Deleted;
             load.FedFromType = GlobalConfig.Deleted;
             load.FedFrom = deleted;
@@ -727,7 +743,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
 
         string selectedDteqCableType = _selectedDteq.PowerCable.Type;
         string selectedLoadCableType = "None Selected";
-        if (_selectedLoad != null && _selectedLoad.PowerCable != null) {
+        if (_selectedLoad != null && _selectedLoad.PowerCable != null && _selectedLoad.PowerCable.Type != null) {
             selectedLoadCableType = _selectedLoad.PowerCable.Type;
         }
 

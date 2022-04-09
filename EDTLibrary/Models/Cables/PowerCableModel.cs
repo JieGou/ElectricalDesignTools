@@ -36,14 +36,27 @@ namespace EDTLibrary.Models.Cables
         }
 
         public string Destination { get; set; }
-        private string _type;
 
+        private string _type;
         public string Type
         {
+            //get {
+            //    if (_typeModel == null) {
+            //        return _type;
+            //    }
+            //    return _typeModel.Type; }
+            //set     
+            //{
+            //    _type = value;
+            //    if (string.IsNullOrEmpty(_type) == false) {
+            //        TypeModel = TypeManager.GetCableType(_type);
+            //    }
+            //}
+
             get { return _type; }
-            set 
+            set
             {
-                if (value != "") {
+                if (value != "" && value != null) {
                     _type = value;
                 }
                 TypeModel = TypeManager.GetCableType(_type);
@@ -55,7 +68,22 @@ namespace EDTLibrary.Models.Cables
             }
         }
 
-        public CableTypeModel TypeModel { get; set; }
+        private CableTypeModel _typeModel;
+
+        public CableTypeModel TypeModel
+        {
+            get { return _typeModel; }
+            set { _typeModel = value; }
+            //set 
+            //{
+            //    if (value != null) {
+            //        _typeModel = value;
+            //        _type = _typeModel.Type;
+            //    }
+                
+            //}
+        }
+
         public string UsageType { get; set; }
         public int ConductorQty { get; set; }
         public double VoltageClass { get; set; }
@@ -191,7 +219,7 @@ namespace EDTLibrary.Models.Cables
         }
         public double GetRequiredSizingAmps()
         {
-            Debug.WriteLine("GetRequiredSizingAmps");
+            //Debug.WriteLine("GetRequiredSizingAmps");
 
             Derating = CableSizeManager.CableSizer.GetDerating(this);
             RequiredSizingAmps = RequiredAmps / Derating;
@@ -235,7 +263,7 @@ namespace EDTLibrary.Models.Cables
 
         private void CableQtySize_LadderTray(IPowerCable cable, string ampsColumn)
         {
-            Debug.WriteLine("CableQtySize_LadderTray");
+            //Debug.WriteLine("CableQtySize_LadderTray");
 
             DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
             DataTable cablesWithHigherAmpsInProject = new DataTable();
@@ -368,7 +396,7 @@ namespace EDTLibrary.Models.Cables
         private void SelectValidCables_SizeAmpsQty(string ampsColumn, DataTable cableAmpacityTable, DataTable cablesWithHigherAmpsInProject, int qtyParallel)
         {
             var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
-                                                                                    && x.Field<double>(ampsColumn) >= GetRequiredSizingAmps()
+                                                                                    && x.Field<double>(ampsColumn) >= RequiredSizingAmps
                                                                                     && x.Field<string>("AmpacityTable") == AmpacityTable
                                                                                     && x.Field<long>("QtyParallel").ToString() == qtyParallel.ToString());
 

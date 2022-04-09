@@ -114,12 +114,14 @@ namespace WpfUI.Views
             LoadToAddValidator loadToAdd;
             ListManager listManager= eqVm.ListManager;
 
+            //TestData.CreateTestDteqList();
             foreach (var dteq in TestData.TestDteqList) {
                 dteq.Area = listManager.AreaList[0];
                 dteqToAdd = new DteqToAddValidator(listManager, dteq);
                 eqVm.AddDteq(dteqToAdd);
             }
             foreach (var load in TestData.TestLoadList) {
+                load.Area = listManager.AreaList[0];
                 loadToAdd = new LoadToAddValidator(listManager, load);
                 eqVm.AddLoad(loadToAdd);
                 load.CalculateLoading();
@@ -128,11 +130,13 @@ namespace WpfUI.Views
 
         private void DeleteEquipment()
         {
-            for (int i = 0; i < eqVm.ListManager.IDteqList.Count; i++) {
-                eqVm.DeleteDteq(eqVm.ListManager.IDteqList[i]);
+            while (eqVm.ListManager.IDteqList.Count > 0) {
+                IDteq dteq = eqVm.ListManager.IDteqList[0];
+                eqVm.DeleteDteq(dteq);
             }
-            for (int i = 0; i < eqVm.ListManager.LoadList.Count; i++) {
-                eqVm.DeleteLoad(eqVm.ListManager.LoadList[i]);
+
+            while (eqVm.ListManager.LoadList.Count > 0) {
+                eqVm.DeleteLoad(eqVm.ListManager.LoadList[0]);
             }
         }
 

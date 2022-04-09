@@ -34,9 +34,13 @@ namespace EDTLibrary.Models.DistributionEquipment
                 caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
                 newSupplier.AssignedLoads.Add(caller);
                 newSupplier.CalculateLoading();
-                caller.CalculateLoading();
-                caller.CreateCable();
-                caller.PowerCable.AssignTagging(caller);
+
+                if (caller.Tag!= "" &&
+                    caller.Voltage!=0 &&
+                    caller.Fla != 0){
+                    caller.CalculateLoading();
+                    caller.PowerCable.AssignTagging(caller);
+                }
             }
         }
 

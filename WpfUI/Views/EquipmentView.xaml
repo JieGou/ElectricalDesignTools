@@ -408,7 +408,6 @@
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.ListManager.DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedItem="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValuePath="Id"
                                               DisplayMemberPath="Tag"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
@@ -734,11 +733,12 @@
                     Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Type}"
+                          Template="{DynamicResource ComboBoxBase}"
                     d:Text="MCC"
                     ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
                     SelectedValue="{Binding DteqToAdd.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                     Text="{Binding DteqToAddValidator.Type}"                       
-                    IsEditable="True" IsTextSearchEnabled="True"
+                    IsEditable="False" IsTextSearchEnabled="True"
                     Margin="5 0 5 0"/>
 
 
@@ -750,6 +750,7 @@
                 </TextBox>
                 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Area}"
+                          Template="{DynamicResource ComboBoxBase}"
                           Width="75"
                           ItemsSource="{Binding ListManager.AreaList}"
                           SelectedValuePath="Tag"
@@ -757,18 +758,19 @@
                           SelectedValue="{Binding DteqToAddValidator.AreaTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsSynchronizedWithCurrentItem="False"
                           Text="{Binding DteqToAddValidator.AreaTag}"
-                          IsEditable="True" IsTextSearchEnabled="True"
+                          IsEditable="False" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource FedFrom}"
+                          Template="{DynamicResource ComboBoxBase}"
+                          
                           Width="75"
                           ItemsSource="{Binding Source={StaticResource dteqList}}"
-                          SelectedValuePath="Tag"
+                          SelectedItem="{Binding DteqToAddValidator.FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           DisplayMemberPath="Tag"
-                          SelectedValue="{Binding DteqToAddValidator.FedFromTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsSynchronizedWithCurrentItem="False"
                           Text="{Binding DteqToAddValidator.FedFromTag}"
-                          IsEditable="True" IsTextSearchEnabled="True"
+                          IsEditable="False" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
                
@@ -782,11 +784,12 @@
                 </TextBox>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Unit}"
+                          Template="{DynamicResource ComboBoxBase}"
                     Width="50"
                     ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
                     SelectedValue="{Binding DteqToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                     Text="{Binding DteqToAddValidator.Unit}"
-                    IsEditable="True" IsTextSearchEnabled="True"
+                    IsEditable="False" IsTextSearchEnabled="True"
                     Margin="5 0 5 0">
 
                 </ComboBox>
@@ -835,13 +838,13 @@
                 </TextBox>
 
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource Type}" 
+                          Template="{DynamicResource ComboBoxBase}"
                             d:Text="MOTOR"
                             MinWidth="100"
                             ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
                             SelectedValue="{Binding LoadToAddValidator.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding LoadToAddValidator.Type}"
-                          
-                            IsEditable="True" IsTextSearchEnabled="True"  
+                            Text="{Binding LoadToAddValidator.Type}"
+                            IsEditable="False" IsTextSearchEnabled="True"  
                             Margin="5 0 5 0"/>
                 
                 <TextBox Grid.Row="5" Grid.Column="{StaticResource Description}"
@@ -851,6 +854,8 @@
                 </TextBox>
 
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource Area}" 
+                          Template="{DynamicResource ComboBoxBase}"
+                          
                           Width="75"
                           ItemsSource="{Binding ListManager.AreaList}"
                           SelectedValuePath="Tag"
@@ -858,11 +863,13 @@
                           SelectedValue="{Binding LoadToAddValidator.AreaTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsSynchronizedWithCurrentItem="False"
                           Text="{Binding LoadToAddValidator.AreaTag}"
-                          IsEditable="True" IsTextSearchEnabled="True"  
+                          IsEditable="False" IsTextSearchEnabled="True"  
                           Margin="5 0 5 0"/>
                 
                 <!--Fed From-->
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource FedFrom}" 
+                          Template="{DynamicResource ComboBoxBase}"
+                          
                           Width="75"
                           ItemsSource="{Binding Source={StaticResource dteqList}}"
                           SelectedValuePath="Tag"
@@ -870,7 +877,7 @@
                           SelectedValue="{Binding LoadToAddValidator.FedFromTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsSynchronizedWithCurrentItem="False"
                           Text="{Binding LoadToAddValidator.FedFromTag}"
-                          IsEditable="True" IsTextSearchEnabled="True"  
+                          IsEditable="False" IsTextSearchEnabled="True"  
                           Margin="5 0 5 0"/>
 
                
@@ -884,12 +891,14 @@
                 </TextBox>
 
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource Unit}"
-                    Width="50"
-                    ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
-                    SelectedValue="{Binding LoadToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding LoadToAddValidator.Unit}"
-                    IsEditable="True" IsTextSearchEnabled="True"
-                    Margin="5 0 5 0"/>
+                          Template="{DynamicResource ComboBoxBase}"
+                            Width="50"
+                            ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
+                            SelectedValue="{Binding LoadToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                            Text="{Binding LoadToAddValidator.Unit}"
+                            IsEditable="False" IsTextSearchEnabled="True"
+                            Margin="5 0 5 0"/>
+                
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource Voltage}"
                     MinWidth="60"
                     d:Text="13800"
@@ -1099,7 +1108,6 @@
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.ListManager.DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedItem="{Binding Path=FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValuePath="Id"
                                               DisplayMemberPath="Tag"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""

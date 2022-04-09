@@ -35,16 +35,28 @@ namespace EDTLibrary.Models.Cables
 
         public string GetDefaultCableType(IPowerConsumer load)
         {
-            if (load is ILoad && load.Voltage <= 1000) {
+            if (load is ILoad 
+                && load.Voltage <= 1000) {
                 return EdtSettings.DefaultCableTypeLoad_3ph1kV;
             }
-            if (load is IDteq && load.Voltage <= 1000 && load.Fla <= 1200) {
+            else if (load is IDteq 
+                && load.Voltage <= 1000 
+                && load.Fla <= 1200) {
                 return EdtSettings.DefaultCableTypeDteq_3ph1kV1200AL;
             }
-            if (load is IDteq && load.Voltage <= 1000 && load.Fla > 1200) {
+            else if (load is IDteq 
+                && load.Voltage <= 1000 
+                && load.Fla > 1200) {
                 return EdtSettings.DefaultCableTypeDteq_3ph1kV1200AM;
             }
-
+            else if (load.Voltage > 1000 
+                && load.Voltage <=5000) {
+                return EdtSettings.DefaultCableType_3ph5kV;
+            }
+            else if (load.Voltage > 5000
+                && load.Voltage <= 15000) {
+                return EdtSettings.DefaultCableType_3ph15kV;
+            }
             return EdtSettings.DefaultCableTypeLoad_3ph1kV;
         }
         public double GetDefaultCableSpacing(IPowerCable cable)
@@ -255,7 +267,7 @@ namespace EDTLibrary.Models.Cables
                     }
                 }
 
-                if (cable.Load.Area != null) {
+                if (cable.Load.Area != null && cable.Load.FedFrom.Area != null) {
                     double cableAmbientTemp = Math.Max(cable.Load.Area.MaxTemp, cable.Load.FedFrom.Area.MaxTemp);
                     if (cableAmbientTemp > 30) {
                         derating *= GetCableDerating_Table5A(cable, cableAmbientTemp);

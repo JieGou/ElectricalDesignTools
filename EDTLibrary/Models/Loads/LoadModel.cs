@@ -36,9 +36,10 @@ namespace EDTLibrary.Models.Loads
             {
                 _tag = value;
                 if (GlobalConfig.GettingRecords == false) {
-                    CreateCable();
 
-                    PowerCable.AssignTagging(this);
+                    if (PowerCable !=null ) {
+                        PowerCable.AssignTagging(this);
+                    }
                 }
             }
         }

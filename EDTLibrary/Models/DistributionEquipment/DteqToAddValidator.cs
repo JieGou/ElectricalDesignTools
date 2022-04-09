@@ -23,12 +23,18 @@ namespace EDTLibrary.Models.DistributionEquipment
         public DteqToAddValidator(ListManager listManager, IDteq dteqToAdd)
         {
             _listManager = listManager;
+            _areaModel = dteqToAdd.Area;
 
             Tag = dteqToAdd.Tag;
             Type = dteqToAdd.Type;
             Description = dteqToAdd.Description;
             AreaTag = dteqToAdd.Area.Tag;
+
             FedFromTag = dteqToAdd.FedFromTag;
+            //TODO - change validator to accept objects instead of strings
+            //FedFromTag = listManager.DteqList.FirstOrDefault(d => d.Tag == dteqToAdd.FedFrom.Tag).Tag;
+
+
             Size = dteqToAdd.Size.ToString();
             Unit = dteqToAdd.Unit;
             LineVoltage = dteqToAdd.LineVoltage.ToString();
@@ -48,6 +54,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 _tag = value;
                 ClearErrors(nameof(Tag));
+
                 if (TagValidator.IsTagAvailable(_tag, _listManager) == false) {
                     AddError(nameof(Tag), "Tag already exists");
                 }
@@ -119,7 +126,9 @@ namespace EDTLibrary.Models.DistributionEquipment
             { 
                 _areaTag = value; 
                 ClearErrors(nameof(AreaTag));
-                _areaModel = _listManager.AreaList.FirstOrDefault(a => a.Tag == _areaTag);
+                if (_areaModel == null) {
+                    _areaModel = _listManager.AreaList.FirstOrDefault(a => a.Tag == _areaTag);
+                }
 
                 if (_areaModel != null) {
                     _isValid = true;
@@ -263,7 +272,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         private bool _isValid = false;
         public bool IsValid()
         {
-            if (GlobalConfig.SelectingNew == true) { return false; }
             string temp;
             string fake = "fake";
 

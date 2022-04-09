@@ -65,7 +65,7 @@ public class XfrModel : DistributionEquipment
 
     public ILoad LargestMotor
     {
-        get { return FindLargestMotor(this, new LoadModel { ConnectedKva=0}); }
+        get { return FindLargestMotor(this, new LoadModel { Tag="n/a", ConnectedKva=0}); }
     }
 
 
