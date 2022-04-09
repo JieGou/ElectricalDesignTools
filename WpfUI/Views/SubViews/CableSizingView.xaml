@@ -111,9 +111,7 @@
                       Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" 
                       Width="175" HorizontalAlignment="Left"
                       FontWeight="Bold" FontSize="12"
-                      ItemsSource="{Binding Path=DataContext.DteqCableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"   
+                      ItemsSource="{Binding Path=PowerCable.TypeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   
                       DisplayMemberPath="Type"
                       SelectedValuePath="Type"
                       SelectedItem="{Binding PowerCable.TypeModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

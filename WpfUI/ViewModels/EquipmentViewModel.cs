@@ -214,7 +214,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                 LoadToAddValidator.Voltage = _selectedDteq.LoadVoltage.ToString();
                 GlobalConfig.SelectingNew = false;
 
-                BuildDteqCableTypeList(_selectedDteq);
+                //BuildDteqCableTypeList(_selectedDteq);
 
                 PerPhaseLabelDteq = "Hidden";
                 if (_selectedDteq.PowerCable.TypeModel != null) {
@@ -273,7 +273,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     public LoadToAddValidator LoadToAddValidator { get; set; }
 
 
-    // LISTS
+    // LISTS                                  //Must be named assigned Lost to match DTEQ.AssignedLoads
     public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
     public bool LoadListLoaded { get; set; }
 
@@ -561,7 +561,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                 newLoad.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
                 _listManager.CableList.Add(newLoad.PowerCable);
 
-                BuildAssignedLoadsAsync(); //await
+                GetLoadListAsync(); //await
 
                 RefreshLoadTagValidation();
             }
@@ -599,7 +599,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                     dteqToRecalculate.CalculateLoading();
                 }
                 RefreshLoadTagValidation();
-                await BuildAssignedLoadsAsync();
+                await GetLoadListAsync();
                 if (AssignedLoads.Count > 0) {
                     SelectedLoad = AssignedLoads[AssignedLoads.Count - 1];
                 }
@@ -621,7 +621,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         LoadListLoaded = true;
         //LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable));
-        await BuildAssignedLoadsAsync();
+        await GetLoadListAsync();
     }
     private void SaveLoadList()
     {
@@ -645,7 +645,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     public void CalculateAll()
     {
         try {
-            BuildAssignedLoadsAsync();
+            GetLoadListAsync();
             _listManager.UnregisterAllDteqFromAllLoadEvents();
             _listManager.CreateDteqDict();
             _listManager.CalculateDteqLoading();
@@ -697,9 +697,9 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
         
         return true;
     }
-    private async Task BuildAssignedLoadsAsync()
+    private async Task GetLoadListAsync()
     {
-        AssignedLoads.Clear();
+        AssignedLoads.Clear(); //Must be named assigned Lost to match DTEQ.AssignedLoads
         foreach (var load in _listManager.LoadList) {
             AssignedLoads.Add(load);
         }

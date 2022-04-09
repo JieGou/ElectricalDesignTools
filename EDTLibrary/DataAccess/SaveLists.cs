@@ -15,7 +15,7 @@ namespace EDTLibrary.DataAccess
             "Components",
             "FedFrom",
             "Area",
-            "LargestMotor"
+            "LargestMotor",
         };
 
         static public List<string> LoadSaveList { get; set; } = new List<string>() 
@@ -25,19 +25,20 @@ namespace EDTLibrary.DataAccess
             "PowerCable",
             "Components",
             "FedFrom",
-            "Area"
+            "Area",
         };
 
         static public List<string> PowerCableSaveList { get; set; } = new List<string> {
 
             "Load",
             "InLineComponents",
-            "TypeModel"
+            "TypeModel",
+            "TypeList",
         };
 
         static public List<string> AreaSaveList { get; set; } = new List<string>() {
             "none",
-            "ParentArea"
+            "ParentArea",
         };
 
 

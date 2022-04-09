@@ -967,6 +967,7 @@
                     
                     <TextBlock Text="   Spc:  "/>
                     <TextBlock Text="{Binding SelectedLoad.PowerCable.Spacing}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedDteq.PowerCable.TypeList.Count}" Margin="0" FontWeight="Bold"/>
                 </StackPanel>
                 <!--***********************************-->
                 <!--***********************************-->

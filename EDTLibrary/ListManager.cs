@@ -313,6 +313,7 @@ namespace EDTLibrary
                         dteq.GetType().ToString() == cable.OwnedByType) {
                         dteq.PowerCable = cable;
                         cable.Load = dteq;
+                        cable.CreateTypeList(dteq);
                         break;
                     }
                 }
@@ -323,6 +324,7 @@ namespace EDTLibrary
                         load.GetType().ToString() == cable.OwnedByType) {
                         load.PowerCable = cable;
                         cable.Load = load;
+                        cable.CreateTypeList(load);
                         break;
                     }
                 }

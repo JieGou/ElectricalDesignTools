@@ -7,6 +7,7 @@ using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
@@ -17,6 +18,23 @@ namespace EDTLibrary.Models.Cables
     [AddINotifyPropertyChangedInterface]
     public class PowerCableModel: IPowerCable
     {
+
+        public PowerCableModel()
+        {
+
+        }
+        public PowerCableModel(IPowerConsumer load)
+        {
+            _load = load;
+            AssignOwner(load);
+            AssignTagging(load);
+            GlobalConfig.GettingRecords = true;
+            Type = CableSizeManager.CableSizer.GetDefaultCableType(load);
+            GlobalConfig.GettingRecords = false;
+
+            UsageType = CableUsageTypes.Power.ToString();
+            QtyParallel = 1;
+        }
 
         #region Properties
         [Browsable(false)]
@@ -52,30 +70,16 @@ namespace EDTLibrary.Models.Cables
                 _type = value;
                 if (string.IsNullOrEmpty(_type) == false) {
                     TypeModel = TypeManager.GetCableType(_type);
+                    TypeModel = TypeManager.GetCableType(_type);
                 }
             }
 
-            //get { return _type; }
-            //set //original
-            //{
-            //    if (value != "" && value != null) {
-            //        _type = value;
-            //    }
-            //    TypeModel = TypeManager.GetCableType(_type);
-
-            //    if (GlobalConfig.GettingRecords == false) {
-            //        var variant = this.Load;
-            //        CalculateCableQtySizeNew();
-            //    }
-            //}
         }
 
         private CableTypeModel _typeModel;
         public CableTypeModel TypeModel
         {
-            //get { return _typeModel; }
-            //set { _typeModel = value; }
-
+          
             get { return _typeModel; }
             set
             {
@@ -86,6 +90,9 @@ namespace EDTLibrary.Models.Cables
                 
             }
         }
+
+        public ObservableCollection<CableTypeModel> TypeList { get; set; } = new ObservableCollection<CableTypeModel>();
+
 
         public string UsageType { get; set; }
         public int ConductorQty { get; set; }
@@ -149,7 +156,6 @@ namespace EDTLibrary.Models.Cables
 
 
         private IPowerConsumer _load;
-
         public IPowerConsumer Load
         {
             get { return _load; }
@@ -159,22 +165,7 @@ namespace EDTLibrary.Models.Cables
 
         #endregion
 
-        public PowerCableModel()
-        {
-
-        }
-        public PowerCableModel(IPowerConsumer load)
-        {
-            _load = load;
-            AssignOwner(load);
-            AssignTagging(load);
-            GlobalConfig.GettingRecords = true;
-            Type = CableSizeManager.CableSizer.GetDefaultCableType(load);
-            GlobalConfig.GettingRecords = false;
-
-            UsageType = CableUsageTypes.Power.ToString();
-            QtyParallel = 1;
-        }
+       
 
         public void CreateTag()
         {
@@ -182,7 +173,6 @@ namespace EDTLibrary.Models.Cables
                 Tag = Source.Replace("-", "") + "-" + Destination.Replace("-", "");
             }
         }
-
         public void AssignOwner(IPowerConsumer load)
         {
             OwnedById = load.Id;
@@ -200,7 +190,15 @@ namespace EDTLibrary.Models.Cables
             }
             
         }
-
+        public void CreateTypeList(IPowerConsumer load)
+        {
+            foreach (var cableType in TypeManager.CableTypes) {
+                var voltageClass = LibraryManager.GetCableVoltageClass(load.Voltage);
+                if (voltageClass == cableType.VoltageClass) {
+                    TypeList.Add(cableType);
+                }
+            }
+        }
         public void SetCableParameters(IPowerConsumer load)
         {
             _load = load;
