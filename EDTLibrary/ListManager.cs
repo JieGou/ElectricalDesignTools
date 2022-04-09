@@ -163,7 +163,6 @@ namespace EDTLibrary
             AssignCableTypes();
             return CableList;
         }
-
         private void AssignCableTypes()
         {
             foreach (var cable in CableList) {

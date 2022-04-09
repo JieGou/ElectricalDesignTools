@@ -40,48 +40,51 @@ namespace EDTLibrary.Models.Cables
         private string _type;
         public string Type
         {
-            //get {
-            //    if (_typeModel == null) {
-            //        return _type;
-            //    }
-            //    return _typeModel.Type; }
-            //set     
-            //{
-            //    _type = value;
-            //    if (string.IsNullOrEmpty(_type) == false) {
-            //        TypeModel = TypeManager.GetCableType(_type);
-            //    }
-            //}
-
-            get { return _type; }
+            get
+            {
+                if (_typeModel == null) {
+                    return _type;
+                }
+                return _typeModel.Type;
+            }
             set
             {
-                if (value != "" && value != null) {
-                    _type = value;
-                }
-                TypeModel = TypeManager.GetCableType(_type);
-
-                if (GlobalConfig.GettingRecords == false) {
-                    var variant = this.Load;
-                    CalculateCableQtySizeNew();
+                _type = value;
+                if (string.IsNullOrEmpty(_type) == false) {
+                    TypeModel = TypeManager.GetCableType(_type);
                 }
             }
+
+            //get { return _type; }
+            //set //original
+            //{
+            //    if (value != "" && value != null) {
+            //        _type = value;
+            //    }
+            //    TypeModel = TypeManager.GetCableType(_type);
+
+            //    if (GlobalConfig.GettingRecords == false) {
+            //        var variant = this.Load;
+            //        CalculateCableQtySizeNew();
+            //    }
+            //}
         }
 
         private CableTypeModel _typeModel;
-
         public CableTypeModel TypeModel
         {
+            //get { return _typeModel; }
+            //set { _typeModel = value; }
+
             get { return _typeModel; }
-            set { _typeModel = value; }
-            //set 
-            //{
-            //    if (value != null) {
-            //        _typeModel = value;
-            //        _type = _typeModel.Type;
-            //    }
+            set
+            {
+                if (value != null) {
+                    _typeModel = value;
+                    _type = _typeModel.Type;
+                }
                 
-            //}
+            }
         }
 
         public string UsageType { get; set; }
@@ -118,6 +121,7 @@ namespace EDTLibrary.Models.Cables
         }
 
         public double BaseAmps { get; set; }
+
         public double Spacing { get; set; }
         public double Derating { get; set; }
         public double DeratedAmps { get; set; }

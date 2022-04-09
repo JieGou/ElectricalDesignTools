@@ -214,7 +214,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                 LoadToAddValidator.Voltage = _selectedDteq.LoadVoltage.ToString();
                 GlobalConfig.SelectingNew = false;
 
-                //BuildDteqCableTypeList(_selectedDteq);
+                BuildDteqCableTypeList(_selectedDteq);
 
                 PerPhaseLabelDteq = "Hidden";
                 if (_selectedDteq.PowerCable.TypeModel != null) {
@@ -222,7 +222,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                         PerPhaseLabelDteq = "Visible";
                     }
                 }
-                
+
             }
         }
     }

@@ -105,8 +105,9 @@
                                d:Text="SWG001-MCC001-P1"
                                Grid.ColumnSpan="3" FontWeight="Bold"/>
 
+            <!--Template="{DynamicResource ComboBoxBase}"-->
             <TextBlock Text="Cable Type: " Grid.Row="2" Grid.Column="0"/>
-            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+            <ComboBox Template="{DynamicResource ComboBoxBase}"
                       Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" 
                       Width="175" HorizontalAlignment="Left"
                       FontWeight="Bold" FontSize="12"
@@ -115,8 +116,8 @@
                                             AncestorType={x:Type UserControl}, AncestorLevel=2}}"   
                       DisplayMemberPath="Type"
                       SelectedValuePath="Type"
-                      SelectedValue="{Binding PowerCable.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      Text="{Binding PowerCable.Type}"  d:Text="3C-TECK-1kV"
+                      SelectedItem="{Binding PowerCable.TypeModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Text="{Binding PowerCable.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       IsEditable="False" VerticalAlignment="Center"/>
 
 
@@ -159,7 +160,7 @@
 
 
             <TextBlock Text="Installation Type" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Right"/>
-            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+            <ComboBox  
                       Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" HorizontalAlignment="Left"
                       Margin="0 3" Width="135"
                       FontWeight="Bold" FontSize="12"
@@ -169,17 +170,18 @@
                       SelectedValue="{Binding PowerCable.InstallationType}"
                       Text="{Binding PowerCable.InstallationType}"  d:Text="LadderTray"
                       IsEditable="False" VerticalAlignment="Center"/>
-
+            
+            <!--Template="{DynamicResource ComboBoxBase}"-->
             <TextBlock Text="Spacing" Grid.Row="5" Grid.Column="4" HorizontalAlignment="Right"/>
-            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+            <ComboBox Template="{DynamicResource ComboBoxBase}"
                       Grid.Row="5" Grid.Column="6" Width="50" HorizontalAlignment="Left"
-                      FontWeight="Bold" FontSize="12"
+                      FontWeight="Bold" FontSize="12" Padding="3 -1"
                       ItemsSource="{Binding Path=DataContext.CableSpacing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
                                             AncestorType={x:Type UserControl}, AncestorLevel=2}}"
                       SelectedValue="{Binding PowerCable.Spacing}"
                       Text="{Binding PowerCable.Spacing}"  d:Text="100"
-                      IsEditable="True" VerticalAlignment="Center"/>
+                      IsEditable="False" VerticalAlignment="Center"/>
 
 
             <TextBlock Text="Outdoor" Grid.Row="6" Grid.Column="4" HorizontalAlignment="Right"/>
@@ -211,14 +213,14 @@
 
 
                 <!--TODO - visbility of Diagram-->
-                <StackPanel Orientation="Horizontal" x:Name="stkpnlDiagram" HorizontalAlignment="Left"
+                <!--<StackPanel Orientation="Horizontal" x:Name="stkpnlDiagram" HorizontalAlignment="Left"
                                         Visibility="{Binding DteqDiagramSizing}">
                     <TextBlock Text=", Diagram: "/>
                     <TextBlock Text="{Binding PowerCable.InstallationDiagram}" Grid.Row="2" Grid.Column="7" 
                                            d:Text="D8-1" FontWeight="Bold">
 
                     </TextBlock>
-                </StackPanel>
+                </StackPanel>-->
             </StackPanel>
 
 

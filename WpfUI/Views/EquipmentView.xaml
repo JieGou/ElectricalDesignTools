@@ -624,23 +624,6 @@
                                         <RowDefinition Height="Auto"></RowDefinition>
                                     </Grid.RowDefinitions>
 
-                                    <ContentControl Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                Grid.Row="0" Grid.Column="0">
-                                        <ContentControl.Resources>
-                                            <DataTemplate DataType="{x:Type edtDteqModels:DteqModel}">
-                                                <StackPanel>
-
-                                                </StackPanel>
-                                            </DataTemplate>
-                                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                                <StackPanel>
-                                                    <TextBlock Text="Load Efficiency:"/>
-                                                    <TextBlock Text="{Binding Efficiency}"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ContentControl.Resources>
-                                    </ContentControl>
-
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -971,6 +954,19 @@
                     <TextBlock Text="{Binding ListManager.LoadList.Count}" Margin="0" FontWeight="Bold"/>
                     <TextBlock Text="   Cables:  "/>
                     <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold"/>
+
+                    <TextBlock Text="        |       "/>
+                    <TextBlock Text="Cables" FontWeight="Bold"/>
+
+                    <TextBlock Text="   D-T:  "/>
+                    <TextBlock Text="{Binding SelectedDteq.PowerCable.Type}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="   D-Tm.T:  "/>
+                    <TextBlock Text="{Binding SelectedDteq.PowerCable.TypeModel.Type}" Margin="0" FontWeight="Bold"/>
+                    <TextBlock Text="   Spc:  "/>
+                    <TextBlock Text="{Binding SelectedDteq.PowerCable.Spacing}" Margin="0" FontWeight="Bold"/>
+                    
+                    <TextBlock Text="   Spc:  "/>
+                    <TextBlock Text="{Binding SelectedLoad.PowerCable.Spacing}" Margin="0" FontWeight="Bold"/>
                 </StackPanel>
                 <!--***********************************-->
                 <!--***********************************-->

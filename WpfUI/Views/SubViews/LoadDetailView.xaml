@@ -130,12 +130,10 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
-                        <TextBlock Text="Voltage Class: "/>
                         <TextBlock Text="Full Load Amps: "/>
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
-                        <TextBlock d:Text="0.87" Text="{Binding SelectedLoad.VoltageClass}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
                         <TextBlock d:Text="0.87" Text="{Binding SelectedLoad.Fla}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
                     </StackPanel>
 

@@ -91,8 +91,7 @@ namespace WpfUI.Views
 #if DEBUG
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
                 if (e.Key == Key.T) {
-                    MessageBox.Show("Loading Test Data");
-                    await LoadTestEquipmentData();
+                    LoadTestEquipmentData();
                 }
                 if (e.Key == Key.D) {
                     MessageBox.Show("Deleting all Data");
@@ -114,18 +113,39 @@ namespace WpfUI.Views
             LoadToAddValidator loadToAdd;
             ListManager listManager= eqVm.ListManager;
 
+            MessageBoxResult result = MessageBox.Show("Dteq, Loads, Both", "Test Data", MessageBoxButton.YesNoCancel);
+            switch (result) {
+                case MessageBoxResult.Yes:
+                    foreach (var dteq in TestData.TestDteqList) {
+                        dteq.Area = listManager.AreaList[0];
+                        dteqToAdd = new DteqToAddValidator(listManager, dteq);
+                        eqVm.AddDteq(dteqToAdd);
+                    }
+                    break;
+                case MessageBoxResult.No:
+                    foreach (var load in TestData.TestLoadList) {
+                        load.Area = listManager.AreaList[0];
+                        loadToAdd = new LoadToAddValidator(listManager, load);
+                        eqVm.AddLoad(loadToAdd);
+                        load.CalculateLoading();
+                    }
+                    break;
+                case MessageBoxResult.Cancel:
+                    foreach (var dteq in TestData.TestDteqList) {
+                        dteq.Area = listManager.AreaList[0];
+                        dteqToAdd = new DteqToAddValidator(listManager, dteq);
+                        eqVm.AddDteq(dteqToAdd);
+                    }
+                    foreach (var load in TestData.TestLoadList) {
+                        load.Area = listManager.AreaList[0];
+                        loadToAdd = new LoadToAddValidator(listManager, load);
+                        eqVm.AddLoad(loadToAdd);
+                        load.CalculateLoading();
+                    }
+                    break;
+            }
             //TestData.CreateTestDteqList();
-            foreach (var dteq in TestData.TestDteqList) {
-                dteq.Area = listManager.AreaList[0];
-                dteqToAdd = new DteqToAddValidator(listManager, dteq);
-                eqVm.AddDteq(dteqToAdd);
-            }
-            foreach (var load in TestData.TestLoadList) {
-                load.Area = listManager.AreaList[0];
-                loadToAdd = new LoadToAddValidator(listManager, load);
-                eqVm.AddLoad(loadToAdd);
-                load.CalculateLoading();
-            }
+            
         }
 
         private void DeleteEquipment()
