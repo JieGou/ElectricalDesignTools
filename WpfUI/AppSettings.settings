@@ -21,7 +21,7 @@
       <Value Profile="(Default)">210</Value>
     </Setting>
     <Setting Name="LoadGridHeight" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">250</Value>
+      <Value Profile="(Default)">50</Value>
     </Setting>
     <Setting Name="DteqGridBottom" Type="System.Double" Scope="User">
       <Value Profile="(Default)">400</Value>

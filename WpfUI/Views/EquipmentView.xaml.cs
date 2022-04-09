@@ -3,6 +3,7 @@ using EDTLibrary.DataAccess;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -86,6 +87,7 @@ namespace WpfUI.Views
             }
         }
 
+        //Testing/Shortcuts
         private async void eqView_PreviewKeyDown(object sender, KeyEventArgs e)
         {
 #if DEBUG
@@ -107,6 +109,7 @@ namespace WpfUI.Views
 #endif
         }
 
+        //Testing
         private async Task LoadTestEquipmentData()
         {
             DteqToAddValidator dteqToAdd;
@@ -147,7 +150,7 @@ namespace WpfUI.Views
             //TestData.CreateTestDteqList();
             
         }
-
+        //Testing
         private void DeleteEquipment()
         {
             while (eqVm.ListManager.IDteqList.Count > 0) {
@@ -172,6 +175,35 @@ namespace WpfUI.Views
 
             eqVm.DbGetAll();
            
+        }
+
+        private void btnGrdSplitAdjust_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            dgdDteq.Height += 1;
+        }
+
+        private void btnGrdSplitAdjust_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            dgdDteq.Height += 1;
+
+        }
+
+        private void btnGrdSplitAdjust_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            dgdDteq.Height = 10;
+            int count = 0;
+
+            var maxDteqHeight = dteqButtonsStackPanel.ActualHeight - 10;
+            dgdDteq.Height = maxDteqHeight + 40;
+
+            var MaxLoadHeight = loadButtonsStackPanel.ActualHeight + 50;
+            dgdAssignedLoads.Height = MaxLoadHeight+15;
+
+            //while (dgdDteq.Height <= maxHeight+40 && count < 350) {
+            //    dgdDteq.Height += 1;
+            //    count += 1;
+            //    Thread.Sleep(1);
+            //};
         }
     }
 }

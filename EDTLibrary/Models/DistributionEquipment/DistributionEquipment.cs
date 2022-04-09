@@ -138,7 +138,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public int FedFromId { get; set; }
         public string FedFromType { get; set; }
-
+        
         private IDteq _fedFrom;
 
         public IDteq FedFrom

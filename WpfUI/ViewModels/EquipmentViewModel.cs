@@ -117,7 +117,9 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
             _dteqGridBottom = value;
             AppSettings.Default.DteqGridBottom = _dteqGridBottom.Value;
             AppSettings.Default.Save();
-            //DteqGridHeight = 275;
+
+            //DteqGridHeight = 275; //Uncomment to Position, Comment to Lock
+
             DteqGridHeight += (_dteqGridBottom.Value - oldBottom);
             AppSettings.Default.DteqGridHeight = DteqGridHeight;
             AppSettings.Default.Save();
@@ -154,7 +156,8 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
             AppSettings.Default.LoadGridTop = _loadGridTop.Value;
             AppSettings.Default.Save();
 
-            //LoadGridHeight = 350;
+            //LoadGridHeight = 350; //Uncomment to position, Comment to Lock
+
             LoadGridHeight -= (_loadGridTop.Value - oldTop);
             AppSettings.Default.LoadGridHeight = LoadGridHeight;
             AppSettings.Default.Save();
@@ -170,8 +173,6 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
             _loadGridBottom = value;
             AppSettings.Default.LoadGridBottom = _loadGridBottom.Value;
             AppSettings.Default.Save();
-
-           
         }
     }
     public double LoadGridHeight { get; set; }

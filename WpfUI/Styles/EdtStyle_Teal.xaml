@@ -16,6 +16,7 @@
 
     <!--Accent Colors-->
     <SolidColorBrush x:Key="ButtonColor">#FFA7DAE8</SolidColorBrush>
+    <!--<SolidColorBrush x:Key="DatagridSelection">#FFD6EDF3</SolidColorBrush>-->
     <SolidColorBrush x:Key="DatagridSelection">#FFB7DEE8</SolidColorBrush>
     
     <!--Other Color-->

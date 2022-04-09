@@ -309,7 +309,7 @@
     <!--DATA GRID Style-->
     <Style TargetType="DataGrid" x:Key="DataGridStyleBase" BasedOn="{StaticResource DefaultStyle}">
         <Setter Property="Background" Value="white"/>
-        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontSize" Value="10"/>
         <Setter Property="RowHeaderWidth" Value="20"/>
         <Setter Property="CanUserAddRows" Value="False"/>
         <Setter Property="CanUserDeleteRows" Value="False"/>
@@ -318,7 +318,7 @@
         <Setter Property="GridLinesVisibility" Value="All"/>
         <Setter Property="HorizontalGridLinesBrush" Value="LightGray" />
         <Setter Property="VerticalGridLinesBrush" Value="LightGray" />
-        <Setter Property="RowHeight" Value="25"/>
+        <Setter Property="RowHeight" Value="20"/>
         <Setter Property="CanUserResizeRows" Value="True"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
@@ -326,6 +326,7 @@
     <!--Column Header-->
     <Style TargetType="DataGridColumnHeader" x:Key="DataGridColumnHeaderBase">
         <Setter Property="BorderBrush" Value="black" />
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -349,7 +350,7 @@
 
     <!--Cell-->
     <Style TargetType="{x:Type DataGridCell}" x:Key="DataGridCellBase">
-        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontSize" Value="11.5"/>
         <Setter Property="TextBlock.TextAlignment" Value="Center"/>
         <Setter Property="TextBlock.Padding" Value="10,10,10,10"/>
         <Setter Property="Padding" Value="50"/>
@@ -385,11 +386,29 @@
 
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <!--<Setter Property="IsEditing"  Value="True" />-->
+                <Setter Property="Background" Value="#FFD6EDF3"/>
+                <Setter Property="Foreground" Value="black"/>
+                <Setter Property="FontWeight" Value="Regular"/>
             </Trigger>
         </Style.Triggers>
     </Style>
 
+    <!--x:Key="DataGridRowBase"-->
+    <Style TargetType="{x:Type DataGridRow}" >
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#FFB7DEE8"/>
+                <Setter Property="Foreground" Value="black"/>
+                <Setter Property="FontWeight" Value="Regular"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="AliceBlue"/>
+                <Setter Property="Foreground" Value="black"/>
+                <Setter Property="FontWeight" Value="Regular"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+        
     <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
         <Setter Property="Margin" Value="10,0,10,0" />
     </Style>

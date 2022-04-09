@@ -57,6 +57,7 @@
     <None Update="AppSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>AppSettings.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

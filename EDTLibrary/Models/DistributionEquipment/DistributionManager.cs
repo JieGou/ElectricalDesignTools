@@ -17,6 +17,12 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         //TODO - create Distribution Manager instance inside eqVm
     
+        /// <summary>
+        /// Transfers the load from the old to the new supplier. (Id, Tag, Type, events, load calculation, cable tag , etc.
+        /// </summary>
+        /// <param name="caller"></param>
+        /// <param name="newSupplier"></param>
+        /// <param name="oldSupplier"></param>
         public static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
             if (caller.FedFrom != null) {
