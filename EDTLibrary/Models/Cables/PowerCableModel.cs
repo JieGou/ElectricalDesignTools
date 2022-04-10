@@ -218,6 +218,11 @@ namespace EDTLibrary.Models.Cables
             }
 
             RequiredAmps = Math.Min(load.PdSizeTrip, RequiredAmps);
+
+            if (load is ILoad) {
+                RequiredAmps = Math.Max(load.PdSizeTrip, RequiredAmps);
+            }
+       
         }
         public double GetRequiredSizingAmps()
         {

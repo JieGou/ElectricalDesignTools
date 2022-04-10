@@ -158,7 +158,7 @@
 
 
             <TextBlock Text="Installation Type" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Right"/>
-            <ComboBox  
+            <ComboBox Template="{DynamicResource ComboBoxBase}" 
                       Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" HorizontalAlignment="Left"
                       Margin="0 3" Width="135"
                       FontWeight="Bold" FontSize="12"

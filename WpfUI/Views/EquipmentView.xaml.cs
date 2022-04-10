@@ -3,6 +3,7 @@ using EDTLibrary.DataAccess;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -204,6 +205,25 @@ namespace WpfUI.Views
             //    count += 1;
             //    Thread.Sleep(1);
             //};
+        }
+
+        private void LoadGridCtm_SetFedFrom(object sender, MouseButtonEventArgs e)
+        {
+            ILoad load;
+            foreach (var item in dgdAssignedLoads.SelectedItems) {
+                load = (LoadModel)item;
+                //dteq.Tag = "New Tag";
+                load.FedFrom = eqVm.ListManager.IDteqList.FirstOrDefault(d => d.Tag == eqVm.LoadToAddValidator.FedFromTag);
+            }
+        }
+
+        private void LoadGridCtm_Delete(object sender, MouseButtonEventArgs e)
+        {
+            ILoad load;
+            while (dgdAssignedLoads.SelectedItems.Count>0) {
+                //load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
+                //eqVm.DeleteLoad(load);
+            }
         }
     }
 }

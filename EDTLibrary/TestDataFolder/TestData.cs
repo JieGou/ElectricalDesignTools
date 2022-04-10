@@ -46,10 +46,10 @@ namespace EDTLibrary.TestDataFolder
             new DteqModel {Tag = "XFR-01", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage = Mv15, LoadVoltage = 4160, Size = 5000, Unit = Units.kVA.ToString() },
             new DteqModel {Tag = "SWG-01", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-01", LineVoltage = 4160, LoadVoltage = 4160, Size = 5000, Unit = Units.A.ToString() },
             
-            new DteqModel {Tag = "XFR-03", Type = DteqTypes.XFR.ToString(), FedFromTag = "SWG-01", LineVoltage=4160, LoadVoltage=480, Size=1000, Unit= Units.kVA.ToString() },
+            new DteqModel {Tag = "XFR-03", Type = DteqTypes.XFR.ToString(), FedFromTag = "SWG-01", LineVoltage=4160, LoadVoltage=480, Size=1500, Unit= Units.kVA.ToString() },
             new DteqModel {Tag = "SWG-03", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-03", LineVoltage=480, LoadVoltage=480, Size=1200, Unit= Units.A.ToString() },
             new DteqModel {Tag = "MCC-01", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-03", LineVoltage=480, LoadVoltage=480, Size=2000, Unit= Units.A.ToString() },
-            new DteqModel {Tag = "MCC-03", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-03", LineVoltage=480, LoadVoltage=480, Size=800, Unit= Units.A.ToString() },
+            new DteqModel {Tag = "MCC-03", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-03", LineVoltage=480, LoadVoltage=480, Size=1200, Unit= Units.A.ToString() },
             
             new DteqModel {Tag = "XFR-02", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage = 4160, LoadVoltage = 600, Size = 5000, Unit = Units.kVA.ToString() },
             new DteqModel {Tag = "SWG-02", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-02", LineVoltage=600, LoadVoltage=600, Size=3000, Unit= Units.A.ToString() },

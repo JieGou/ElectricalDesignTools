@@ -620,9 +620,15 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     // Loads
     public async void ShowAllLoads()
     {
-        LoadListLoaded = true;
-        //LoadList = new ObservableCollection<LoadModel>(DbManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadListTable));
         await GetLoadListAsync();
+    }
+    private async Task GetLoadListAsync()
+    {
+        AssignedLoads.Clear(); //Must be named assigned Lost to match DTEQ.AssignedLoads
+        foreach (var load in _listManager.LoadList) {
+            AssignedLoads.Add(load);
+        }
+        LoadListLoaded = true;
     }
     private void SaveLoadList()
     {
@@ -698,14 +704,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
         
         return true;
     }
-    private async Task GetLoadListAsync()
-    {
-        AssignedLoads.Clear(); //Must be named assigned Lost to match DTEQ.AssignedLoads
-        foreach (var load in _listManager.LoadList) {
-            AssignedLoads.Add(load);
-        }
-        LoadListLoaded = true;
-    }
+    
 
 
     //ComboBox Lists
