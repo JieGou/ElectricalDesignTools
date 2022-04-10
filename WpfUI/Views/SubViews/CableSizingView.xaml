@@ -226,13 +226,13 @@
         </Grid>
         <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Margin="0,162,0,0" Grid.RowSpan="2">
             <Button Content="Calculate Amps" Grid.Row="2" Margin="50 15 0 0" 
-                    Command="{Binding Path=DataContext.CalculateSingleDteqCableAmpsCommand, 
+                    Command="{Binding Path=DataContext.CalculateSingleEqCableAmpsCommand, 
                                       RelativeSource={RelativeSource Mode=FindAncestor, 
                                       AncestorType={x:Type UserControl}, AncestorLevel=2}}"   />
 
 
             <Button Content="Auto-Size" Grid.Row="2" Margin="100 15 0 0" 
-                    Command="{Binding Path=DataContext.CalculateSingleDteqCableSizeCommand, 
+                    Command="{Binding Path=DataContext.CalculateSingleEqCableSizeCommand, 
                                       RelativeSource={RelativeSource Mode=FindAncestor, 
                                       AncestorType={x:Type UserControl}, AncestorLevel=2}}"   />
 

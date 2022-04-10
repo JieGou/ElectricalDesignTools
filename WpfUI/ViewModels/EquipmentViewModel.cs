@@ -65,11 +65,8 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
         SizeCablesCommand = new RelayCommand(SizeCables);
         CalculateAllCableAmpsCommand = new RelayCommand(CalculateAllCableAmps);
 
-        CalculateSingleDteqCableSizeCommand = new RelayCommand(CalculateSingleDteqCableSize);
-        CalculateSingleDteqCableAmpsCommand = new RelayCommand(CalculateSingleDteqCableAmps);
-
-        CalculateSingleLoadCableSizeCommand = new RelayCommand(CalculateSingleLoadCableSize);
-        CalculateSingleLoadCableAmpsCommand = new RelayCommand(CalculateSingleLoadCableAmps);
+        CalculateSingleEqCableSizeCommand = new RelayCommand(CalculateSingleEqCableSize);
+        CalculateSingleEqCableAmpsCommand = new RelayCommand(CalculateSingleEqCableAmps);
 
         //DeleteDteqCommand = new AsyncRelayCommand(DeleteDteqAsync, (ex) => MessageBox.Show(ex.Message));
         DeleteDteqCommand = new RelayCommand(DeleteDteq);
@@ -298,12 +295,9 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     public ICommand DeleteDteqCommand { get; }
     public ICommand SizeCablesCommand { get; }
     public ICommand CalculateAllCableAmpsCommand { get; }
-    public ICommand CalculateSingleDteqCableSizeCommand { get; }
-    public ICommand CalculateSingleDteqCableAmpsCommand { get; }
+    public ICommand CalculateSingleEqCableSizeCommand { get; }
+    public ICommand CalculateSingleEqCableAmpsCommand { get; }
 
-    public ICommand CalculateSingleLoadCableSizeCommand { get; }
-    public ICommand CalculateSingleLoadCableAmpsCommand { get; }
-    
     public ICommand AddDteqCommand { get; }
     public ICommand AddLoadCommand { get; }
 
@@ -391,10 +385,19 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
             item.PowerCable.CalculateAmpacityNew(item);
         }
     }
-
+    private void CalculateSingleEqCableSize()
+    {
+        CalculateSingleDteqCableSize();
+        CalculateSingleLoadCableSize();
+    }
+    private void CalculateSingleEqCableAmps()
+    {
+        CalculateSingleDteqCableAmps();
+        CalculateSingleLoadCableAmps();
+    }
     private void CalculateSingleDteqCableSize()
     {
-        if (_selectedDteq.PowerCable != null) {
+        if (_selectedDteq != null && _selectedDteq.PowerCable != null) {
             _selectedDteq.PowerCable.SetCableParameters(_selectedDteq);
             _selectedDteq.PowerCable.CalculateCableQtySizeNew();
         }
@@ -402,13 +405,13 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     private void CalculateSingleDteqCableAmps()
     {
-        if (_selectedDteq.PowerCable != null) {
+        if (_selectedDteq != null && _selectedDteq.PowerCable != null) {
             _selectedDteq.PowerCable.CalculateAmpacityNew(_selectedDteq);
         }
     }
     private void CalculateSingleLoadCableSize()
     {
-        if (_selectedLoad.PowerCable != null) {
+        if (_selectedLoad != null && _selectedLoad.PowerCable != null) {
             _selectedLoad.PowerCable.SetCableParameters(_selectedLoad);
             _selectedLoad.PowerCable.CalculateCableQtySizeNew();
         }
@@ -416,7 +419,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     private void CalculateSingleLoadCableAmps()
     {
-        if (_selectedLoad.PowerCable != null) {
+        if (_selectedLoad != null && _selectedLoad.PowerCable != null) {
             _selectedLoad.PowerCable.CalculateAmpacityNew(_selectedLoad);
         }
     }

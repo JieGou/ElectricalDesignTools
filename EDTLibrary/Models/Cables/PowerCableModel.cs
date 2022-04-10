@@ -210,7 +210,7 @@ namespace EDTLibrary.Models.Cables
             Spacing = CableSizeManager.CableSizer.GetDefaultCableSpacing(this);
             AmpacityTable =  CableSizeManager.CableSizer.GetAmpacityTable(this);
         }
-        public void GetRequiredAmps(IPowerConsumer load)
+        public double GetRequiredAmps(IPowerConsumer load)
         {
             RequiredAmps = load.Fla;
             if (load.Type == LoadTypes.MOTOR.ToString() | load.Type == LoadTypes.TRANSFORMER.ToString()) {
@@ -218,18 +218,18 @@ namespace EDTLibrary.Models.Cables
             }
 
             RequiredAmps = Math.Min(load.PdSizeTrip, RequiredAmps);
-
-            if (load is ILoad) {
+            string type = load.GetType().ToString();
+            if (load.GetType() == typeof(LoadModel)) {
                 RequiredAmps = Math.Max(load.PdSizeTrip, RequiredAmps);
             }
-       
+            return RequiredAmps;
         }
         public double GetRequiredSizingAmps()
         {
             //Debug.WriteLine("GetRequiredSizingAmps");
 
             Derating = CableSizeManager.CableSizer.GetDerating(this);
-            RequiredSizingAmps = RequiredAmps / Derating;
+            RequiredSizingAmps = GetRequiredAmps(_load) / Derating;
             RequiredSizingAmps = Math.Round(RequiredSizingAmps, 1);
             return RequiredSizingAmps;
         }
