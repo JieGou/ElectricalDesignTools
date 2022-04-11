@@ -257,7 +257,7 @@
                     <ColumnDefinition Width="{Binding DteqGridRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <!--<ColumnDefinition/>-->
                     <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="9*" MinWidth="475"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" x:Name="dteqGridRow"/>
@@ -358,7 +358,8 @@
                                     MinWidth="75">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                    <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent" />
 
                                     <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
 
@@ -373,24 +374,24 @@
                                               Text="{Binding Area.Tag}"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="False" IsTextSearchEnabled="True"
-                                              IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"/>
+                                              IsSynchronizedWithCurrentItem="False"                                             
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              />
+                                        <!--IsDropDownOpen="True"-->
+                   
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-                        <!--Type-->
-                        <DataGridTextColumn Header="EQ Type" x:Name="dteqType"
-                                            MinWidth="75"
-                                            Binding="{Binding Type, ValidatesOnDataErrors=True}"
-                                            IsReadOnly="True">
-                        </DataGridTextColumn>
+                        
 
                         <!--Fed From Model-->
                         <DataGridTemplateColumn Header=" Fed&#x0a;From" x:Name="dteqFedFrom" MinWidth="75">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                    <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent"/>
 
                                     <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
 
@@ -404,7 +405,10 @@
                                               HorizontalContentAlignment="Center"
                                               IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
                                               IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0" />
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              />
+                                    <!--IsDropDownOpen="True"-->
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -414,19 +418,24 @@
                         <DataGridTemplateColumn  Header="   Line &#x0a;Voltage" x:Name="dteqLineVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding LineVoltage,  StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"></TextBlock>
+                                    <TextBlock Text="{Binding LineVoltage,  StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
 
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes}"
-                                    SelectedValue="{Binding Path=LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Text="{Binding LineVoltage}"
-                                    HorizontalContentAlignment="Center"
-                                    IsEditable="True" IsTextSearchEnabled="True"
-                                    IsSynchronizedWithCurrentItem="False"
-                                    BorderThickness="0"/>
+                                              SelectedValue="{Binding Path=LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Text="{Binding LineVoltage}"
+                                              HorizontalContentAlignment="Center"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              
+                                              />
+                                    <!--IsDropDownOpen="True"-->
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -435,19 +444,23 @@
                         <DataGridTemplateColumn Header="  Load &#x0a;Voltage" x:Name="dteqLoadVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding LoadVoltage,  StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"></TextBlock>
+                                    <TextBlock Text="{Binding LoadVoltage,  StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
 
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes}"
-                                    SelectedValue="{Binding Path=LoadVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Text="{Binding LoadVoltage}"
-                                    HorizontalContentAlignment="Center"
-                                    IsEditable="True" IsTextSearchEnabled="True"
-                                    IsSynchronizedWithCurrentItem="False"
-                                    BorderThickness="0"/>
+                                              SelectedValue="{Binding Path=LoadVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Text="{Binding LoadVoltage}"
+                                              HorizontalContentAlignment="Center"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              />
+                                    <!--IsDropDownOpen="True"-->
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -470,6 +483,19 @@
                                             IsReadOnly="True"
                                             TextBlock.TextAlignment="Left"
                                             Binding="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Left" />
+                                    <Setter Property="Margin" Value="5 0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        
+                        <!--Type-->
+                        <DataGridTextColumn Header="EQ Type" x:Name="dteqType"
+                                            MinWidth="75"
+                                            Binding="{Binding Type, ValidatesOnDataErrors=True}"
+                                            IsReadOnly="True">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Left" />
@@ -906,7 +932,7 @@
                     <ColumnDefinition Width="{Binding LoadGridRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <!--<ColumnDefinition/>-->
                     <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="9*" MinWidth="475"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -999,7 +1025,8 @@
                                     MinWidth="75">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                    <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent" />
 
                                     <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
 
@@ -1015,7 +1042,10 @@
                                               HorizontalContentAlignment="Center"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"/>
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              />
+                                    <!--IsDropDownOpen="True"-->
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -1031,7 +1061,8 @@
                                                 SortMemberPath="FedFrom.Tag">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                    <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent" />
 
                                     <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
 
@@ -1045,7 +1076,11 @@
                                               HorizontalContentAlignment="Center"
                                               IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
                                               IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0" />
+                                              BorderThickness="0" 
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              
+                                              />
+                                    <!--IsDropDownOpen="True"-->
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -1054,20 +1089,26 @@
                         <DataGridTemplateColumn Header="Voltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Voltage, ValidatesOnDataErrors=True}"></TextBlock>
+                                    <TextBlock Text="{Binding Voltage, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent"
+                                              />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
 
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            SelectedValue="{Binding Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            Text="{Binding Voltage, ValidatesOnDataErrors=True}"
-                                            HorizontalContentAlignment="Center"
-                                            IsEditable="True" IsTextSearchEnabled="True"
-                                            IsSynchronizedWithCurrentItem="False"
-                                            BorderThickness="0"
-                                            Width="50"/>
+                                              SelectedValue="{Binding Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Text="{Binding Voltage, ValidatesOnDataErrors=True}"
+                                              HorizontalContentAlignment="Center"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"
+                                              Width="50"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              
+                                              />
+                                    <!--IsDropDownOpen="True"-->
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>

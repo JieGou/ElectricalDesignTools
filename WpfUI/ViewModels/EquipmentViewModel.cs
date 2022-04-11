@@ -91,7 +91,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
     #region WindowSizing
-    private System.Windows.GridLength _dteqGridRight = new System.Windows.GridLength(AppSettings.Default.DteqGridRight, GridUnitType.Pixel);
+    private System.Windows.GridLength _dteqGridRight = new System.Windows.GridLength(AppSettings.Default.DteqGridRight, GridUnitType.Star);
     public System.Windows.GridLength DteqGridRight
     {
         get { return _dteqGridRight; }
@@ -129,7 +129,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     public double DteqGridHeight { get; set; }
 
 
-    private System.Windows.GridLength _loadGridRight = new System.Windows.GridLength(AppSettings.Default.LoadGridRight, GridUnitType.Pixel);
+    private System.Windows.GridLength _loadGridRight = new System.Windows.GridLength(AppSettings.Default.LoadGridRight, GridUnitType.Star);
     public System.Windows.GridLength LoadGridRight
     {
         get { return _loadGridRight; }

@@ -40,14 +40,14 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Menu Grid.Row="0" Grid.Column="0"
+        <!--<Menu Grid.Row="0" Grid.Column="0"
               Grid.ColumnSpan="2">
             <MenuItem Header="_File">
                 <MenuItem Header="_New" />
@@ -56,57 +56,63 @@
                 <Separator />
                 <MenuItem Header="_Exit" />
             </MenuItem>
-        </Menu>
+        </Menu>-->
 
         <Grid Grid.Row="1">
-           
             <StackPanel Orientation="Horizontal" 
                         Grid.Row="{StaticResource menuRow}" 
                         Background="white"
-                        Margin=" 0 5 0 5">
-                
-               <TextBlock Text="MENU"
+                        Margin=" 0 5 0 5" >
+
+                <TextBlock Text="MENU"
                           Grid.Column="1"  
                           FontSize="24" FontWeight="Bold"
                           Foreground="black"
-                          Margin="20,0,15,5"/> 
-                
-                <Button VerticalAlignment="Top"
-                        x:Name="btnStartup"
-                        Content="STARTUP"
-                        Command="{Binding NavigateStartupCommand}"/>
+                          Margin="20,2,10,5"/>
 
-                <Button VerticalAlignment="Top"
-                        x:Name="btnProjectSettings"
-                        Content="PROJECT SETTINGS"
-                        Command="{Binding NavigateProjectSettingsCommand}"/>
+                <!--<WrapPanel Orientation="Horizontal" 
+                            Grid.Row="{StaticResource menuRow}" 
+                            Background="white"
+                            Margin=" 0 5 0 5">-->
 
-                <Button VerticalAlignment="Top"
-                        Content="AREAS"
-                        Command="{Binding NavigateAreasCommand}"/>
-                
-                <Button VerticalAlignment="Top"
-                        x:Name="btnDistribution"
-                        Content="LOAD DISTRIBUTION"
-                        Command="{Binding NavigateEquipmentCommand}"/>
+                    <Button VerticalAlignment="Top"
+                            x:Name="btnStartup"
+                            Content="STARTUP"
+                            Command="{Binding NavigateStartupCommand}"/>
 
-                <Button  VerticalAlignment="Top"
-                    x:Name="btnCableList"
-                    Content="CABLE LIST"
-                    Command="{Binding NavigateCableListCommand}"/>
+                    <Button VerticalAlignment="Top"
+                            x:Name="btnProjectSettings"
+                            Content="PROJECT SETTINGS"
+                            Command="{Binding NavigateProjectSettingsCommand}"/>
 
-                <Button  VerticalAlignment="Top"
-                    x:Name="btnDataTables"
-                    Content="DATA TABLES"
-                    Command="{Binding NavigateDataTablesCommand}"/>
-                
-                <Button  VerticalAlignment="Top"
-                    x:Name="btnScenarios"
-                    Content="EXTRA WINDOW"
-                    Command="{Binding ScenarioCommand}"
-                         Margin="500 0"/>
+                    <Button VerticalAlignment="Top"
+                            Content="AREAS"
+                            Command="{Binding NavigateAreasCommand}"/>
 
+                    <Button VerticalAlignment="Top"
+                            x:Name="btnDistribution"
+                            Content="LOAD DISTRIBUTION"
+                            Command="{Binding NavigateEquipmentCommand}"/>
+
+                    <Button  VerticalAlignment="Top"
+                        x:Name="btnCableList"
+                        Content="CABLE LIST"
+                        Command="{Binding NavigateCableListCommand}"/>
+
+                    <Button  VerticalAlignment="Top"
+                        x:Name="btnDataTables"
+                        Content="DATA TABLES"
+                        Command="{Binding NavigateDataTablesCommand}"/>
+
+                    <Button  VerticalAlignment="Top"
+                        x:Name="btnScenarios"
+                        Content="EXTRA WINDOW"
+                        Command="{Binding ScenarioCommand}"
+                             Margin="100 5 0 0"/>
+
+                <!--</WrapPanel>-->
             </StackPanel>
+
         </Grid>
 
         <!--Conten Control-->

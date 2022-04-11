@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using WpfUI.ViewModels;
 using WpfUI.Views.SubViews;
 
@@ -237,5 +238,54 @@ namespace WpfUI.Views
         }
 
        
+        private void FastEditEvent(object sender, RoutedEventArgs args)
+        {
+            var dataGridCell = (sender as UIElement)?.FindVisualParent<DataGridCell>();
+
+            dataGridCell.FastEdit(args);
+        }
+    }
+    public static class DataGridExtensions
+    {
+        public static void FastEdit(this DataGridCell dataGridCell, RoutedEventArgs args)
+        {
+            if (dataGridCell == null || dataGridCell.IsEditing || dataGridCell.IsReadOnly) {
+                return;
+            }
+
+            var dataGrid = dataGridCell.FindVisualParent<DataGrid>();
+
+            if (dataGrid == null) {
+                return;
+            }
+
+            if (!dataGridCell.IsFocused) {
+                dataGridCell.Focus();
+            }
+
+            dataGrid.Dispatcher.InvokeAsync(() =>
+            {
+                dataGrid.BeginEdit(args);
+            });
+        }
+    }
+
+    public static class UiElementExtensions
+    {
+        public static T FindVisualParent<T>(this UIElement element)
+            where T : UIElement
+        {
+            var currentElement = element;
+
+            while (currentElement != null) {
+                if (currentElement is T correctlyTyped) {
+                    return correctlyTyped;
+                }
+
+                currentElement = VisualTreeHelper.GetParent(currentElement) as UIElement;
+            }
+
+            return null;
+        }
     }
 }
