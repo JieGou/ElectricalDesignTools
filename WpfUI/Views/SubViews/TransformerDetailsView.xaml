@@ -100,7 +100,7 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
                     Grid.Row="6" Grid.Column="2" >
 
-            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="3" Grid.Column="2"
                      d:Text="57,276" TextAlignment="Right"
                      FontWeight="Bold"/>

@@ -218,7 +218,7 @@ namespace EDTLibrary.Models.Cables
             }
 
             RequiredAmps = Math.Min(load.PdSizeTrip, RequiredAmps);
-            string type = load.GetType().ToString();
+
             if (load.GetType() == typeof(LoadModel)) {
                 RequiredAmps = Math.Max(load.PdSizeTrip, RequiredAmps);
             }

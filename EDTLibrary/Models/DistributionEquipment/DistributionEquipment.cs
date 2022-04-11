@@ -91,7 +91,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
         public double _size;
-        public double Size
+        public virtual double Size
         {
             get { return _size; }
             set
@@ -101,6 +101,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _size = value;
                 if (GlobalConfig.GettingRecords == false) {
                     CalculateLoading();
+                    CalculateSCCR();
+                    SCCR = _sccr;
                     if (PowerCable!= null) {
                         PowerCable.GetRequiredAmps(this);
                     }
@@ -235,19 +237,24 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
         private double _sccr;
-        public virtual double SCCR
+        public double SCCR
         {
             get
             {
-                if (Tag==GlobalConfig.Utility) {
-                    return 0;
-                }
-                else if (FedFrom == null) {
-                    return 0;
-                }
-                return FedFrom.SCCR; 
+                return _sccr;
             }
             set { _sccr = value; }
+        }
+
+        public virtual void CalculateSCCR()
+        {
+            if (Tag == GlobalConfig.Utility) {
+                _sccr = 0;
+            }
+            else if (FedFrom == null) {
+                _sccr = 0;
+            }
+            _sccr = FedFrom.SCCR;
         }
 
 

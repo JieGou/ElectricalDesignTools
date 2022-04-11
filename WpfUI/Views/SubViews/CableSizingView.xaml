@@ -144,12 +144,12 @@
                        d:Text="3/0"/>
 
             <TextBlock Text="Derated Amps: " Grid.Row="6" Grid.Column="0"/>
-            <TextBlock Text="{Binding PowerCable.DeratedAmps}" 
+            <TextBlock Text="{Binding PowerCable.DeratedAmps, StringFormat={}{0:N0}  A}" 
                        Grid.Row="6" Grid.Column="2" FontWeight="Bold"
                        d:Text="400"/>
 
             <TextBlock Text="Required Amps: " Grid.Row="7" Grid.Column="0"/>
-            <TextBlock Text="{Binding PowerCable.RequiredAmps}" 
+            <TextBlock Text="{Binding PowerCable.RequiredAmps, StringFormat={}{0:N0}  A}" 
                        Grid.Row="7" Grid.Column="2" FontWeight="Bold"
                        d:Text="300"/>
 
