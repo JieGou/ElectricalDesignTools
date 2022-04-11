@@ -214,14 +214,10 @@ namespace WpfUI.Views
             var MaxLoadHeight = loadButtonsStackPanel.ActualHeight + 50;
             dgdAssignedLoads.Height = MaxLoadHeight+15;
 
-            //while (dgdDteq.Height <= maxHeight+40 && count < 350) {
-            //    dgdDteq.Height += 1;
-            //    count += 1;
-            //    Thread.Sleep(1);
-            //};
+            Undo.UndoCommand(eqVm.ListManager);
         }
 
-        private void LoadGridCtm_SetFedFrom(object sender, MouseButtonEventArgs e)
+        private void LoadGridContextMenu_SetFedFrom(object sender, MouseButtonEventArgs e)
         {
             ILoad load;
             foreach (var item in dgdAssignedLoads.SelectedItems) {
@@ -231,7 +227,7 @@ namespace WpfUI.Views
             }
         }
 
-        private void LoadGridCtm_Delete(object sender, MouseButtonEventArgs e)
+        private void LoadGridContextMenu_Delete(object sender, MouseButtonEventArgs e)
         {
             ILoad load;
             while (dgdAssignedLoads.SelectedItems.Count>0) {

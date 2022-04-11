@@ -86,7 +86,13 @@ namespace EDTLibrary.Models.DistributionEquipment
         public double Voltage
         {
             get { return LineVoltage; }
-            set { LineVoltage = value; }
+            set 
+            { 
+                LineVoltage = value;
+                if (GlobalConfig.GettingRecords == false) {
+                    PowerCable.CreateTypeList(this);
+                }
+            }
         }
 
 

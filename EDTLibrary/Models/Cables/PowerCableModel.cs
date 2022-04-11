@@ -192,6 +192,7 @@ namespace EDTLibrary.Models.Cables
         }
         public void CreateTypeList(IPowerConsumer load)
         {
+            TypeList.Clear();
             foreach (var cableType in TypeManager.CableTypes) {
                 var voltageClass = LibraryManager.GetCableVoltageClass(load.Voltage);
                 if (voltageClass == cableType.VoltageClass) {

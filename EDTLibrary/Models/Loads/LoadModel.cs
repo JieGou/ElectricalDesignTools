@@ -70,14 +70,34 @@ namespace EDTLibrary.Models.Loads
         public string NemaRating { get; set; }
         public string AreaClassification { get; set; }
 
-        public double Voltage { get; set; }
+        private double _voltage;
+
+        public double Voltage
+        {
+            get { return _voltage; }
+            set 
+            { 
+                _voltage = value;
+                if (GlobalConfig.GettingRecords == false) {
+                    PowerCable.CreateTypeList(this);
+                }
+            }
+        }
+
+
         public double _size;
         public double Size
         {
             get { return _size; }
             set
             {
+                double oldValue = _size;
                 _size = value;
+
+                if (Undo.Undoing == false && GlobalConfig.GettingRecords==false) {
+                    var cmd = new CommandDetail {Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
+                    Undo.UndoList.Add(cmd);
+                }
                 CalculateLoading();
             }
         }
@@ -107,9 +127,13 @@ namespace EDTLibrary.Models.Loads
             get { return _fedFrom; }
             set
             {
-                IDteq oldFedFrom = _fedFrom;
+                IDteq oldValue = _fedFrom;
                 _fedFrom = value;
-                DistributionManager.UpdateFedFrom(this, _fedFrom, oldFedFrom);
+                DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
+                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                    var cmd = new CommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
+                    Undo.UndoList.Add(cmd);
+                }
             }
         }
 

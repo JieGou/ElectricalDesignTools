@@ -953,8 +953,8 @@
                     
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Set FedFrom" PreviewMouseDown="LoadGridCtm_SetFedFrom" Height="20"/>
-                            <MenuItem Header="Delete" Height="20" PreviewMouseDown="LoadGridCtm_Delete"/>
+                            <MenuItem Header="Set FedFrom" PreviewMouseDown="LoadGridContextMenu_SetFedFrom" Height="20"/>
+                            <MenuItem Header="Delete" Height="20" PreviewMouseDown="LoadGridContextMenu_Delete"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
 
