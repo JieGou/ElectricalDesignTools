@@ -7,6 +7,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>ContentFiles\Cjdowner-Cryptocurrency-Power-Ledger.ico</ApplicationIcon>
     <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyName>Electrical Design Tools</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

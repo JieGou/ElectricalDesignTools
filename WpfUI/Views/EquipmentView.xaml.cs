@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using WpfUI.ViewModels;
 using WpfUI.Views.SubViews;
@@ -54,9 +55,30 @@ namespace WpfUI.Views
             if (e.Key == Key.Escape) {
                 dgdDteq.CancelEdit();
             }
+            
         }
 
-      
+        private void dgdAssignedLoads_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter ||
+                e.Key == Key.Tab) {
+                //TODO - set specific column by header or name
+                DataGridTextColumn col = (DataGridTextColumn)loadSize;
+                ILoad item = (LoadModel)dgdAssignedLoads.SelectedItem;
+                UpdateBindingTarget(dgdAssignedLoads, col, item);
+            }
+        }
+
+        static void UpdateBindingTarget(DataGrid dg, DataGridTextColumn col, ILoad item)
+        {
+            DataGridRow row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromItem(item);
+            BindingExpression be = null;
+            if (col.GetCellContent(row).GetType() == typeof(TextBox)) {
+                TextBox txt = (TextBox)col.GetCellContent(row);
+                be = txt.GetBindingExpression(TextBox.TextProperty);
+            }
+            if (be != null) { be.UpdateSource(); }
+        }
 
         private void dgdDteq_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -79,14 +101,6 @@ namespace WpfUI.Views
             }
         }
 
-        private void eqView_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
-                if (e.Key == Key.T) {
-                    MessageBox.Show("kD");
-                }
-            }
-        }
 
         //Testing/Shortcuts
         private async void eqView_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -225,5 +239,7 @@ namespace WpfUI.Views
                 //eqVm.DeleteLoad(load);
             }
         }
+
+       
     }
 }

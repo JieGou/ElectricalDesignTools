@@ -70,7 +70,7 @@
                      Grid.Row="3" Grid.Column="2"
                      d:Text="180" TextAlignment="Center"
                      FontWeight="Bold"/>
-            <TextBlock Text=" kA" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock Text=" A" Grid.Row="2" Grid.Column="0"/>
         </StackPanel>
         
         <TextBlock Text="Largest Motor: "

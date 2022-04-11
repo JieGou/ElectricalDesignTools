@@ -101,8 +101,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _size = value;
                 if (GlobalConfig.GettingRecords == false) {
                     CalculateLoading();
-                    CalculateSCCR();
-                    SCCR = _sccr;
+                    SCCR = CalculateSCCR();
                     if (PowerCable!= null) {
                         PowerCable.GetRequiredAmps(this);
                     }
@@ -236,25 +235,17 @@ namespace EDTLibrary.Models.DistributionEquipment
         #endregion
 
 
-        private double _sccr;
-        public double SCCR
-        {
-            get
-            {
-                return _sccr;
-            }
-            set { _sccr = value; }
-        }
+        public double SCCR { get; set; }
 
-        public virtual void CalculateSCCR()
+        public virtual double CalculateSCCR()
         {
             if (Tag == GlobalConfig.Utility) {
-                _sccr = 0;
+                return 0;
             }
             else if (FedFrom == null) {
-                _sccr = 0;
+                return 0;
             }
-            _sccr = FedFrom.SCCR;
+            return FedFrom.SCCR;
         }
 
 
@@ -277,7 +268,6 @@ namespace EDTLibrary.Models.DistributionEquipment
             DemandKvar = (from x in AssignedLoads select x.DemandKvar).Sum();
             DemandKvar = Math.Round(DemandKvar, GlobalConfig.SigFigs);
 
-            //calculates
             PowerFactor = DemandKw / DemandKva;
             PowerFactor = Math.Round(PowerFactor, 2);
 
@@ -299,6 +289,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
 
             GetMinimumPdSize();
+            SCCR = CalculateSCCR();
             OnLoadingCalculated();
         }
 

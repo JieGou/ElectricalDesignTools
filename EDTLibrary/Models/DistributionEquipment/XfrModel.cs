@@ -33,8 +33,7 @@ public class XfrModel : DistributionEquipment
             if (_impedance <= 0) {
                 _impedance = oldImpZ;
             }
-            CalculateSCCR();
-            SCCR = _sccr;
+            SCCR = CalculateSCCR();
             //_sccr = CalculateSCCR();
         }
     }
@@ -61,7 +60,6 @@ public class XfrModel : DistributionEquipment
         get { return resistance; }
         set { resistance = value; }
     }
-    private double _sccr;
 
     public ILoad LargestMotor
     {
@@ -69,10 +67,13 @@ public class XfrModel : DistributionEquipment
     }
 
 
-    public override void CalculateSCCR()
+    public override double CalculateSCCR()
     {
-        _sccr = 100 / (_impedance * 0.9) * Fla;
-        _sccr = Math.Round(_sccr, 2);
+        double sccr = 0;
+        //sccr = 1000 / (_impedance * 0.9) * Fla;
+        sccr = Size / (1.732 * LoadVoltage * Impedance / 100);
+        sccr = Math.Round(sccr, 2);
+        return sccr;
     }
 
     public ILoad FindLargestMotor(IDteq dteq, IPowerConsumer largestMotor)

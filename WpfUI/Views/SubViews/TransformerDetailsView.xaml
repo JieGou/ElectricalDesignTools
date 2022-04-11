@@ -88,7 +88,7 @@
             <TextBox Text="{Binding Impedance, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
                      x:Name="txtImpedance"
                      Grid.Row="2" Grid.Column="2" MinWidth="50"
-                     d:Text="7.5" TextAlignment="Center" VerticalAlignment="Top"
+                     d:Text="7.5" TextAlignment="Right" VerticalAlignment="Top"
                      FontWeight="Bold" Margin="0" KeyDown="txtImpedance_KeyDown"
                      />
             <TextBlock Text=" %" Grid.Row="2" Grid.Column="0" />
@@ -100,7 +100,7 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
                     Grid.Row="6" Grid.Column="2" >
 
-            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, UpdateSourceTrigger=PropertyChanged}"
+            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N2}, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="3" Grid.Column="2"
                      d:Text="57,276" TextAlignment="Right"
                      FontWeight="Bold"/>
