@@ -17,7 +17,7 @@ using WpfUI.Helpers;
 namespace WpfUI.ViewModels
 {
     [AddINotifyPropertyChangedInterface]
-
+    //Test
     public class AreasViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         public ObservableCollection<string> NemaTypes { get; set; } = new ObservableCollection<string>();
