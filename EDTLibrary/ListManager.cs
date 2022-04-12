@@ -218,7 +218,7 @@ namespace EDTLibrary
         {
             foreach (var assignedLoad in dteq.AssignedLoads) {
                 assignedLoad.LoadingCalculated -= dteq.OnAssignedLoadReCalculated;
-                assignedLoad.LoadingCalculated -= DaManager.OnDteqLoadingCalculated;
+                assignedLoad.PropertyUpdated -= DaManager.OnDteqLoadingCalculated;
             }
         }
         public void AssignLoadsAndEventsToAllDteq()
@@ -239,7 +239,7 @@ namespace EDTLibrary
                     if (dteqAsLoad.FedFrom.Id == dteq.Id && dteqAsLoad.FedFrom.Type == dteq.Type) {
                         dteq.AssignedLoads.Add(dteqAsLoad);
                         dteqAsLoad.LoadingCalculated += dteq.OnAssignedLoadReCalculated;
-                        dteqAsLoad.LoadingCalculated += DaManager.OnDteqLoadingCalculated;
+                        dteqAsLoad.PropertyUpdated += DaManager.OnDteqLoadingCalculated;
                     }
                 }
             }
@@ -249,7 +249,7 @@ namespace EDTLibrary
                     if (load.FedFrom.Tag == dteq.Tag && load.FedFrom.Type == dteq.Type) {
                         dteq.AssignedLoads.Add(load);
                         load.LoadingCalculated += dteq.OnAssignedLoadReCalculated;
-                        load.LoadingCalculated += DaManager.OnLoadLoadingCalculated;
+                        load.PropertyUpdated += DaManager.OnLoadLoadingCalculated;
                     }
                 }
             }

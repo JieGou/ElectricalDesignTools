@@ -52,6 +52,10 @@ namespace EDTLibrary.Models.Loads
         //Events
         event EventHandler LoadingCalculated;
         abstract void OnLoadingCalculated();
+
+        event EventHandler PropertyUpdated;
+        abstract void OnPropertyUpdated();
+
         public void OnAssignedLoadReCalculated(object source, EventArgs e)
         {
             CalculateLoading();

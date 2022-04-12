@@ -185,8 +185,6 @@
                         CommandParameter="{Binding SelectedDteq}" />
             </StackPanel>
 
-
-
             <!--ADD Buttons-->
             <StackPanel Orientation="Vertical"
                         Grid.Column="1" Grid.Row="{StaticResource adding}"
@@ -235,20 +233,6 @@
 
 
             <!--Load VIEW Buttons-->
-
-            <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Bottom"
-                        Grid.Row="3" Grid.Column="3">
-
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-
-                    <Button Content="OCPD Data"
-                Command="{Binding Path=ToggleOcpdViewLoadCommand}"/>
-
-                    <Button Content="Cable Data"
-                Command="{Binding Path=ToggleCableViewLoadCommand}"/>
-
-                </StackPanel>
-            </StackPanel>-->
 
             <!--DTEQ-->
             <!--GRID-->
@@ -343,13 +327,15 @@
 
                         <!--Description-->
                         <DataGridTextColumn Header="Description" x:Name="dteqDescription"
-                                MinWidth="150" 
-                                Binding="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                                            MinWidth="150" 
+                                            Binding="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Left" />
                                     <Setter Property="Margin" Value="5 0"/>
                                 </Style>
+                                
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 

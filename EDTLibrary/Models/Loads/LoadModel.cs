@@ -34,6 +34,7 @@ namespace EDTLibrary.Models.Loads
             get { return _tag; }
             set
             {
+                var oldValue = _tag;
                 _tag = value;
                 if (GlobalConfig.GettingRecords == false) {
 
@@ -41,11 +42,33 @@ namespace EDTLibrary.Models.Loads
                         PowerCable.AssignTagging(this);
                     }
                 }
+                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                    var cmd = new CommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
+                    Undo.UndoList.Add(cmd);
+                }
+                OnPropertyUpdated();
+
             }
         }
         public string Category { get; set; }
         public string Type { get; set; }
-        public string Description { get; set; }
+        private string _description;
+
+        public string Description
+        {
+            get { return _description; }
+            set 
+            { 
+                var oldValue = _description;
+                _description = value;
+                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                    var cmd = new CommandDetail { Item = this, PropName = nameof(Description), OldValue = oldValue, NewValue = _description };
+                    Undo.UndoList.Add(cmd);
+                }
+                OnPropertyUpdated();
+            }
+        }
+
 
         private int _areaId;
         public int AreaId
@@ -60,15 +83,39 @@ namespace EDTLibrary.Models.Loads
             get { return _area; }
             set
             {
-                var oldArea = _area;
+                var oldValue = _area;
                 _area = value;
                 if (Area != null) {
-                    AreaManager.UpdateArea(this, _area, oldArea);
+                    AreaManager.UpdateArea(this, _area, oldValue);
+
+                    if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                        var cmd = new CommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
+                        Undo.UndoList.Add(cmd);
+                    }
+                    OnPropertyUpdated();
                 }
+
+                
+
             }
         }
         public string NemaRating { get; set; }
-        public string AreaClassification { get; set; }
+        private string _areaClassification;
+
+        public string AreaClassification
+        {
+            get { return _areaClassification; }
+            set 
+            { 
+                var oldValue = _areaClassification;
+                _areaClassification = value;
+                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                    var cmd = new CommandDetail { Item = this, PropName = nameof(AreaClassification), OldValue = oldValue, NewValue = _areaClassification };
+                    Undo.UndoList.Add(cmd);
+                }
+            }
+        }
+
 
         private double _voltage;
 
@@ -77,10 +124,17 @@ namespace EDTLibrary.Models.Loads
             get { return _voltage; }
             set 
             { 
+                var oldValue = _voltage;
                 _voltage = value;
+                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                    var cmd = new CommandDetail { Item = this, PropName = nameof(Voltage), OldValue = oldValue, NewValue = _voltage };
+                    Undo.UndoList.Add(cmd);
+                }
                 if (GlobalConfig.GettingRecords == false) {
                     PowerCable.CreateTypeList(this);
                 }
+                OnPropertyUpdated();
+
             }
         }
 
@@ -99,6 +153,8 @@ namespace EDTLibrary.Models.Loads
                     Undo.UndoList.Add(cmd);
                 }
                 CalculateLoading();
+                OnPropertyUpdated();
+
             }
         }
         public string Unit { get; set; }
@@ -134,11 +190,26 @@ namespace EDTLibrary.Models.Loads
                     var cmd = new CommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
                     Undo.UndoList.Add(cmd);
                 }
+                OnPropertyUpdated();
+
             }
         }
 
-       
-        public double LoadFactor { get; set; }
+        private double _loadFactor;
+
+        public double LoadFactor
+        {
+            get { return _loadFactor; }
+            set 
+            { 
+                var oldValue = _loadFactor;
+                _loadFactor = value;
+                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                    var cmd = new CommandDetail { Item = this, PropName = nameof(LoadFactor), OldValue = oldValue, NewValue = _loadFactor };
+                    Undo.UndoList.Add(cmd);
+                }
+            }
+        }
 
         public ObservableCollection<CctComponentModel> InLineComponents { get; set; } = new ObservableCollection<CctComponentModel>();
 
@@ -299,6 +370,8 @@ namespace EDTLibrary.Models.Loads
             PdSizeTrip = LibraryManager.GetBreakerTrip(this);
 
             OnLoadingCalculated();
+            OnPropertyUpdated();
+
         }
 
         private void GetEfficiencyAndPowerFactor()
@@ -367,7 +440,14 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
-        //TODO - add area to LoadList datagrid
+        public event EventHandler PropertyUpdated;
+        public virtual void OnPropertyUpdated()
+        {
+            if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
+            }
+        }
+
         public void UpdateAreaProperties()
         {
             NemaRating = Area.NemaRating;

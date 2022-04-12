@@ -3,6 +3,7 @@ using EDTLibrary.DataAccess;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using WpfUI.Helpers;
 using WpfUI.ViewModels;
 using WpfUI.Views.SubViews;
 
@@ -61,13 +63,20 @@ namespace WpfUI.Views
 
         private void dgdAssignedLoads_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter ||
-                e.Key == Key.Tab) {
-                //TODO - set specific column by header or name
-                DataGridTextColumn col = (DataGridTextColumn)loadSize;
-                ILoad item = (LoadModel)dgdAssignedLoads.SelectedItem;
-                UpdateBindingTarget(dgdAssignedLoads, col, item);
+            try {
+                if (e.Key == Key.Enter ||
+                                e.Key == Key.Tab) {
+                    //TODO - set specific column by header or name
+                    DataGridTextColumn col = (DataGridTextColumn)loadSize;
+                    ILoad item = (LoadModel)dgdAssignedLoads.SelectedItem;
+                    UpdateBindingTarget(dgdAssignedLoads, col, item);
+                }
             }
+            catch (Exception ex) {
+                ex.Data.Add("UserMessage", "Cannot undo changes made to Distribution Equipment if they are made form the load Grid.");
+                //ErrorHelper.EdtErrorMessage(ex);
+            }
+            
         }
 
         static void UpdateBindingTarget(DataGrid dg, DataGridTextColumn col, ILoad item)
@@ -118,6 +127,9 @@ namespace WpfUI.Views
                 if (e.Key == Key.B) {
                     MessageBox.Show("Clearing Equipment from Database");
                     DeleteEquipmentFromDatabase();
+                }
+                if (e.Key == Key.Z) {
+                    Undo.UndoCommand(eqVm.ListManager);
                 }
             }
 

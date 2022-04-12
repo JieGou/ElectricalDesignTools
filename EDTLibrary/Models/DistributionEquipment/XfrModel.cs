@@ -28,13 +28,17 @@ public class XfrModel : DistributionEquipment
         get { return _impedance; }
         set
         {
-            var oldImpZ = _impedance;
+            var oldValue = _impedance;
             _impedance = value;
             if (_impedance <= 0) {
-                _impedance = oldImpZ;
+                _impedance = oldValue;
             }
             SCCR = CalculateSCCR();
-            //_sccr = CalculateSCCR();
+            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                var cmd = new CommandDetail { Item = this, PropName = nameof(Impedance), OldValue = oldValue, NewValue = _impedance };
+                Undo.UndoList.Add(cmd);
+            }
+            OnPropertyUpdated();
         }
     }
 

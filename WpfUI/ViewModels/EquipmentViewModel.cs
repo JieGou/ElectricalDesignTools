@@ -439,7 +439,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                 if (dteqSubscriber != null) {
                     //dteqSubscriber.AssignedLoads.Add(newDteq); //newDteq is somehow already getting added to Assigned Loads
                     newDteq.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
-                    newDteq.LoadingCalculated += DaManager.OnDteqLoadingCalculated;
+                    newDteq.PropertyUpdated += DaManager.OnDteqLoadingCalculated;
                 }
 
                 //Save to Db
@@ -550,7 +550,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                 if (dteqSubscriber != null) {
                     //dteqSubscriber.AssignedLoads.Add(newLoad); //newLoad is somehow already getting added to Assigned Loads
                     newLoad.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
-                    newLoad.LoadingCalculated += DaManager.OnLoadLoadingCalculated;
+                    newLoad.PropertyUpdated += DaManager.OnLoadLoadingCalculated;
                 }
 
                 //Save to Db
@@ -587,7 +587,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
             int loadId = selectedLoad.Id;
 
             try {
-                selectedLoad.LoadingCalculated -= DaManager.OnLoadLoadingCalculated;
+                selectedLoad.PropertyUpdated -= DaManager.OnLoadLoadingCalculated;
                 await DeletePowerCableAsync(selectedLoad); //await
                 await DaManager.prjDb.DeleteRecordAsync(GlobalConfig.LoadTable, loadId); //await
 

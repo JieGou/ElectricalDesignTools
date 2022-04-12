@@ -12,9 +12,9 @@ namespace WpfUI.Helpers
         public static void SqlErrorMessage(Exception ex)
         {
             if (ex.Data.Contains("UserMessage")) {
-                MessageBox.Show($"Error: \n\n{ex.Message}\n\n\n" +
-                $"Query: \n\n{ex.Data["UserMessage"]}\n\n\n" +
-                $"Details: \n\n {ex}");
+                MessageBox.Show($"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n" +
+                   $"Error: \n\n{ex.Message}\n\n\n" +
+                   $"Stack Trace: \n\n {ex}");
             }
             else {
                 MessageBox.Show(ex.ToString());
@@ -23,9 +23,9 @@ namespace WpfUI.Helpers
         public static void EdtErrorMessage(Exception ex)
         {
             if (ex.Data.Contains("UserMessage")) {
-                MessageBox.Show($"Error: \n\n{ex.Message}\n\n\n" +
-                $"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n" +
-                $"Details: \n\n {ex}");
+                MessageBox.Show($"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n" + 
+                    $"Error: \n\n{ex.Message}\n\n\n" +
+                    $"Stack Trace: \n\n {ex}");
             }
             else {
                 MessageBox.Show(ex.ToString());
