@@ -9,7 +9,7 @@ namespace EDTLibrary.LibraryData.TypeTables
     public class TypeManager
     {
         public static ObservableCollection<VoltageType> VoltageTypes { get; set; }
-        public static ObservableCollection<CableTypeModel> CableTypes { get; set; }
+        public static ObservableCollection<PowerCableTypeModel> PowerCableTypes { get; set; }
         public static ObservableCollection<NemaType> NemaTypes { get; set; }
         public static ObservableCollection<AreaClassificationType> AreaClassifications { get; set; }
         public static ObservableCollection<CecCableSizingRule> CecCableSizingRules { get; set; }
@@ -18,11 +18,11 @@ namespace EDTLibrary.LibraryData.TypeTables
             new AreaCategory{CategoryName = "Category 2"}
         };
 
-        public static CableTypeModel GetCableType(string cableType)
+        public static PowerCableTypeModel GetCableType(string cableType)
         {
-            CableTypeModel output = null;
+            PowerCableTypeModel output = null;
 
-            output = CableTypes.SingleOrDefault(ct => ct.Type == cableType);
+            output = PowerCableTypes.SingleOrDefault(ct => ct.Type == cableType);
             return output;
         }
     }

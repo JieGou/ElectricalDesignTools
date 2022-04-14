@@ -73,7 +73,7 @@ public class DaManager {
 
     private static void GetCableTypes()
     {
-        TypeManager.CableTypes = libDb.GetRecords<CableTypeModel>("CableTypes");
+        TypeManager.PowerCableTypes = libDb.GetRecords<PowerCableTypeModel>(GlobalConfig.PowerCableTypes);
     }
 
     private static void GetNemaTypes()
@@ -94,20 +94,25 @@ public class DaManager {
 
     //Events
 
-    public static void OnDteqLoadingCalculated(object source, EventArgs e)
+    public static void OnDteqPropertyUpdated(object source, EventArgs e)
     {
         if (GlobalConfig.GettingRecords==false) {
             DaManager.UpsertDteq((IDteq)source);
 
         }
-    }
-    public static void OnLoadLoadingCalculated(object source, EventArgs e)
+    } 
+    public static void OnLoadPropertyUpdated(object source, EventArgs e)
     {
         if (GlobalConfig.GettingRecords == false) {
             prjDb.UpsertRecord<LoadModel>((LoadModel)source, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
         }
     }
-
+    public static void OnPowerCablePropertyUpdated(object source, EventArgs e)
+    {
+        if (GlobalConfig.GettingRecords == false) {
+            prjDb.UpsertRecord<PowerCableModel>((PowerCableModel)source, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+        }
+    }
 
     //Save Get Id
     public static int SaveDteqGetId(IDteq iDteq)
@@ -193,4 +198,6 @@ public class DaManager {
     {
         prjDb.UpsertRecord(cable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
     }
+
+    
 }

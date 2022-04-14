@@ -15,7 +15,7 @@ namespace WpfUI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private ListManager _listManager;
+        public ListManager _listManager;
         private StartupService _startupService;
 
 

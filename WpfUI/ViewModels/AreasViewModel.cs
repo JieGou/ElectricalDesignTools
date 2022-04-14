@@ -172,6 +172,7 @@ namespace WpfUI.ViewModels
                 if (newAreaIsValid) {
 
                     newArea.Tag = areaToAdd.Tag;
+                    newArea.DisplayTag = areaToAdd.DisplayTag;
                     newArea.Name = areaToAdd.Name;
                     newArea.Description = areaToAdd.Description;
                     newArea.AreaCategory = areaToAdd.AreaCategory;

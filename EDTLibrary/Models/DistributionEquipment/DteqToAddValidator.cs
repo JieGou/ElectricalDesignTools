@@ -55,7 +55,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _tag = value;
                 ClearErrors(nameof(Tag));
 
-                if (TagValidator.IsTagAvailable(_tag, _listManager) == false) {
+                if (TagAndNameValidator.IsTagAvailable(_tag, _listManager) == false) {
                     AddError(nameof(Tag), "Tag already exists");
                 }
                 else if (string.IsNullOrWhiteSpace(_tag)) { // TODO - create method for invalid tags

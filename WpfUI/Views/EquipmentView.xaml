@@ -19,9 +19,9 @@
         xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
         xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
         mc:Ignorable="d"
-        d:Width="1980" d:Height="1000"
+        d:Width="1500" d:Height="1000"
         Background="#FFDAEEF1" PreviewKeyDown="eqView_PreviewKeyDown">
-    
+
     <!--d:Opacity="1"
              Opacity="0.5">
     <UserControl.Triggers>
@@ -117,7 +117,8 @@
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="486*"/>
+                <ColumnDefinition Width="1309*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
@@ -142,11 +143,11 @@
                 </EventTrigger>
             </Grid.Triggers>
 
-           
+
 
             <!--Dteq View Buttons-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
-                        Grid.Row="{StaticResource dteqViewButtons}" Grid.Column="3">
+                        Grid.Row="{StaticResource dteqViewButtons}" Grid.Column="3" Grid.ColumnSpan="2">
 
                 <Button Content="Toggle Row View"
                         Command="{Binding Path=ToggleRowViewDteqCommand}"/>
@@ -206,7 +207,7 @@
 
             <StackPanel Orientation="Vertical" 
                         x:Name="loadButtonsStackPanel"
-                        Grid.Column="1" Grid.Row="{StaticResource load}"
+                        Grid.Column="1" Grid.Row="4"
                         Margin="0,50,0,50">
 
                 <Button x:Name ="btnLoadList" Content="Load List" Height="27" Width="125"
@@ -236,12 +237,12 @@
 
             <!--DTEQ-->
             <!--GRID-->
-            <Grid Grid.Row="{StaticResource dteq}" Grid.Column="3">
+            <Grid Grid.Row="{StaticResource dteq}" Grid.Column="3" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{Binding DteqGridRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <!--<ColumnDefinition/>-->
                     <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="9*" MinWidth="475"/>
+                    <ColumnDefinition Width="0.3*" MinWidth="475"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" x:Name="dteqGridRow"/>
@@ -281,8 +282,8 @@
                           VirtualizingPanel.IsVirtualizing="True"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
                           RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}" >
-                   
-                    
+
+
                     <!--<DataGrid.Triggers>
                         <EventTrigger RoutedEvent="DataGrid.Loaded">
                             <BeginStoryboard>
@@ -335,13 +336,13 @@
                                     <Setter Property="HorizontalAlignment" Value="Left" />
                                     <Setter Property="Margin" Value="5 0"/>
                                 </Style>
-                                
+
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
                         <!--Area-->
                         <DataGridTemplateColumn Header="Area" x:Name="dteqArea"
-                                    MinWidth="75">
+                                    Width="75">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -358,19 +359,33 @@
                                               SelectedItem="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               DisplayMemberPath="Tag"
                                               Text="{Binding Area.Tag}"
-                                              HorizontalContentAlignment="Center"
+                                              HorizontalContentAlignment="Left"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"                                             
                                               BorderThickness="0"
                                               Template="{DynamicResource ComboBoxBase}"
-                                              />
+                                              >
                                         <!--IsDropDownOpen="True"-->
-                   
+
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding Tag}" HorizontalAlignment="Left" TextAlignment="Left" Width="35" Margin="10 0"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding Name}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-                        
+
 
                         <!--Fed From Model-->
                         <DataGridTemplateColumn Header=" Fed&#x0a;From" x:Name="dteqFedFrom" MinWidth="75">
@@ -476,7 +491,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        
+
                         <!--Type-->
                         <DataGridTextColumn Header="EQ Type" x:Name="dteqType"
                                             MinWidth="75"
@@ -513,7 +528,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                       
+
                         <!--Running Amps-->
                         <DataGridTextColumn Header="Running &#x0a;  Amps" x:Name="dteqRunningAmps"
                                 Binding="{Binding Path=RunningAmps,  StringFormat={}{0:N0}, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -788,7 +803,8 @@
                     IsEditable="True" IsTextSearchEnabled="True"
                     Margin="5 0 5 0"/>
 
-                <!--ADD LOAD--><!--
+                <!--ADD LOAD-->
+                <!--
                 <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="10">
                     <Expander x:Name="ExportExpander" 
                               Header="Add Load" ExpandDirection="Right">
@@ -913,19 +929,19 @@
             <!--LOADS-->
             <!--Grid-->
             <!--<Grid Grid.Row="{StaticResource load}" Grid.Column="3">-->
-            <Grid Grid.Row="{StaticResource load}" Grid.Column="3">
+            <Grid Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{Binding LoadGridRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <!--<ColumnDefinition/>-->
                     <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="9*" MinWidth="475"/>
+                    <ColumnDefinition Width="0.35*" MinWidth="475"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                
+
 
                 <!--LOAD-->
                 <!--DETAILS VIEW-->
@@ -962,7 +978,7 @@
                           RowDetailsVisibilityMode="{Binding ToggleRowViewProp}"
                           SelectionChanged="dgdAssignedLoads_SelectionChanged" PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown"
                           >
-                    
+
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Set FedFrom" PreviewMouseDown="LoadGridContextMenu_SetFedFrom" Height="20"/>
@@ -1036,7 +1052,7 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-                       
+
 
 
 
@@ -1125,7 +1141,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        
+
                         <!--Type-->
                         <DataGridTextColumn Header="EQ Type" x:Name="loadType"
                                             MinWidth="75"
@@ -1138,7 +1154,7 @@
                                 </Style>
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
-                        
+
                         <!--LOADING-->
                         <DataGridTextColumn Header="FLA"
                                 MinWidth="40"
@@ -1327,14 +1343,14 @@
                 <!--***********************************-->
                 <!--***********************************-->
             </Grid>
-            
+
             <!--Below Dteq Grid-->
-            <GridSplitter  Grid.Row="2" Grid.ColumnSpan="4" Panel.ZIndex="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
+            <GridSplitter  Grid.Row="2" Grid.ColumnSpan="5" Panel.ZIndex="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
                            Height="5" Background="AliceBlue" BorderBrush="DarkGray" BorderThickness="0"
                            Margin="3 0 3 0"/>
 
             <!--Above Load Grid-->
-            <GridSplitter  Grid.Row="3" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+            <GridSplitter  Grid.Row="3" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                            Height="5" Background="AliceBlue" BorderBrush="DarkGray" BorderThickness="0"
                            Margin="3 0 3 0"/>
         </Grid>

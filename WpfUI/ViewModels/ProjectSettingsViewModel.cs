@@ -22,13 +22,13 @@ namespace WpfUI.ViewModels
         public ObservableCollection<SettingModel> StringSettings { get; set; }
         public SettingModel SelectedStringSetting { get; set; }
 
-        public ObservableCollection<CableTypeModel> CableTypes { get; set; }
+        public ObservableCollection<PowerCableTypeModel> CableTypes { get; set; }
         public ObservableCollection<CableSizeModel> SelectedCableSizes { get; set; } = new ObservableCollection<CableSizeModel>();
-        private CableTypeModel _selectedCableType;
+        private PowerCableTypeModel _selectedCableType;
 
 
 
-        public CableTypeModel SelectedCableType
+        public PowerCableTypeModel SelectedCableType
         {
             get { return _selectedCableType; }
             set { 
@@ -80,7 +80,7 @@ namespace WpfUI.ViewModels
             SaveStringSettingCommand = new RelayCommand(SaveStringSetting);
             SaveTableSettingCommand = new RelayCommand(SaveTableSetting);
 
-            CableTypes = TypeManager.CableTypes;
+            CableTypes = TypeManager.PowerCableTypes;
         }
 
         #region Helper Methods
@@ -93,7 +93,7 @@ namespace WpfUI.ViewModels
             //StringSettings = new ObservableCollection<SettingModel>(SettingManager.GetStringSettings());
             //TableSettings = new ObservableCollection<SettingModel>(SettingManager.GetTableSettings());
             //SettingManager.CreateCableAmpsUsedInProject();
-            CableTypes = TypeManager.CableTypes;
+            CableTypes = TypeManager.PowerCableTypes;
         }
         private void SaveStringSetting()
         {

@@ -33,13 +33,14 @@
 
             <!--Add Columns-->
             <sys:Int32 x:Key="Tag">1</sys:Int32>
-            <sys:Int32 x:Key="Name">2</sys:Int32>
-            <sys:Int32 x:Key="Description">3</sys:Int32>
-            <sys:Int32 x:Key="AreaCategory">4</sys:Int32>
-            <sys:Int32 x:Key="AreaClass">5</sys:Int32>
-            <sys:Int32 x:Key="MinTemp">6</sys:Int32>
-            <sys:Int32 x:Key="MaxTemp">7</sys:Int32>
-            <sys:Int32 x:Key="Nema">8</sys:Int32>
+            <sys:Int32 x:Key="DisplayTag">2</sys:Int32>
+            <sys:Int32 x:Key="Name">3</sys:Int32>
+            <sys:Int32 x:Key="Description">4</sys:Int32>
+            <sys:Int32 x:Key="AreaCategory">5</sys:Int32>
+            <sys:Int32 x:Key="AreaClass">6</sys:Int32>
+            <sys:Int32 x:Key="MinTemp">7</sys:Int32>
+            <sys:Int32 x:Key="MaxTemp">8</sys:Int32>
+            <sys:Int32 x:Key="Nema">9</sys:Int32>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -157,11 +158,15 @@
                     <DataGrid.Columns>
                         <!--Basic-->
                         <!--Textblock cell padding style in this.resources Move to ResDict-->
-                        
+
                         <!--Tag-->
-                        <DataGridTextColumn Header="Tag"
+                        <DataGridTextColumn Header="Tag&#x0a; ID"
                                             Width="75"
                                             Binding="{Binding Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" />
+                        <!--Tag-->
+                        <DataGridTextColumn Header="Display&#x0a;   Tag"
+                                            Width="75"
+                                            Binding="{Binding DisplayTag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" />
                         <!--Name-->
                         <DataGridTextColumn Header="Name" 
                                             MinWidth="150"
@@ -355,6 +360,10 @@
                            Grid.Row="1" Grid.Column="{StaticResource Tag}" FontSize="10"
                            VerticalAlignment="Bottom" />
                 
+                <TextBlock Text="Display Tag" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="{StaticResource DisplayTag}" FontSize="10"
+                           VerticalAlignment="Bottom" />
+
                 <TextBlock Text="Area Name" Margin="10 5 0 5"
                            Grid.Row="1" Grid.Column="{StaticResource Name}" FontSize="10"
                            VerticalAlignment="Bottom" />
@@ -383,6 +392,14 @@
                 <!--Controls-->
                 <TextBox x:Name ="txtAreaTag"  
                          Grid.Row="2" Grid.Column="{StaticResource Tag}"
+                         Width="65" Height="23"
+                         Text="{Binding AreaToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PreviewMouseDown="txtAreaTag_PreviewMouseDown" LostFocus="txtAreaTag_LostFocus"
+                         Margin="5 0 5 0"
+                         HorizontalContentAlignment="Left"/>
+                
+                <TextBox x:Name ="txtAreaDisplayTag"  
+                         Grid.Row="2" Grid.Column="{StaticResource DisplayTag}"
                          Width="65" Height="23"
                          Text="{Binding AreaToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          PreviewMouseDown="txtAreaTag_PreviewMouseDown" LostFocus="txtAreaTag_LostFocus"

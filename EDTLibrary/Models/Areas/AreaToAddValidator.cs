@@ -47,7 +47,7 @@ namespace EDTLibrary.Models.Areas
             {
                 _tag = value;
                 ClearErrors(nameof(Tag));
-                if (TagValidator.IsTagAvailable(_tag, _listManager) == false) {
+                if (TagAndNameValidator.IsNameAvailable(_tag, _listManager) == false) {
                     AddError(nameof(Tag), "Tag already exists");
                 }
                 else if (string.IsNullOrWhiteSpace(_tag)) { // TODO - create method for invalid tags
@@ -56,6 +56,28 @@ namespace EDTLibrary.Models.Areas
                     }
                     else {
                         AddError(nameof(Tag), "Invalid Tag");
+                    }
+                }
+                else {
+                    _isValid = true;
+                }
+            }
+        }
+
+        private string _displayTag = "";
+        public string DisplayTag
+        {
+            get { return _displayTag; }
+            set
+            {
+                _tag = value;
+                ClearErrors(nameof(DisplayTag));
+                if (string.IsNullOrWhiteSpace(_displayTag)) { 
+                    if (_displayTag == GlobalConfig.EmptyTag) {
+                        _isValid = false;
+                    }
+                    else {
+                        AddError(nameof(DisplayTag), "Invalid Display Tag");
                     }
                 }
                 else {
@@ -73,7 +95,10 @@ namespace EDTLibrary.Models.Areas
                 _name = value;
 
                 ClearErrors(nameof(Name));
-                if (string.IsNullOrWhiteSpace(_name) || _name == "") {
+                if (TagAndNameValidator.IsNameAvailable(_name, _listManager) == false) {
+                    AddError(nameof(Tag), "Name already exists");
+                }
+                else if(string.IsNullOrWhiteSpace(_name) || _name == "") {
                     AddError(nameof(Name), "Invalid Area Name");
                     _isValid = false;
                 }

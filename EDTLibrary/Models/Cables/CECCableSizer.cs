@@ -65,7 +65,7 @@ namespace EDTLibrary.Models.Cables
             if (cable == null) return spacing;
 
             //TODO - cable spacing defaults vs lock value vs auto-size/spacing option
-            CableTypeModel cableType = TypeManager.GetCableType(cable.Type);
+            PowerCableTypeModel cableType = TypeManager.GetCableType(cable.Type);
             if (cableType.VoltageClass > 2000 || cableType.Conductors == 1) {
                 if (cable.Spacing <100) {
                     spacing = cable.Spacing;
@@ -92,7 +92,7 @@ namespace EDTLibrary.Models.Cables
             if (cable == null) return "Invalid Cable Data";
 
             string output = String.Empty;
-            CableTypeModel cableType = TypeManager.GetCableType(cable.Type);
+            PowerCableTypeModel cableType = TypeManager.GetCableType(cable.Type);
 
             if (cable.InstallationType == GlobalConfig.CableInstallationType_LadderTray) {
                 output = GetAmpacityTable_LadderTray(cable, cableType);
@@ -108,7 +108,7 @@ namespace EDTLibrary.Models.Cables
         }
 
 
-        private static string GetAmpacityTable_LadderTray(IPowerCable cable, CableTypeModel cableType)
+        private static string GetAmpacityTable_LadderTray(IPowerCable cable, PowerCableTypeModel cableType)
         {
             string output = "No Table Assigned";
 
@@ -184,7 +184,7 @@ namespace EDTLibrary.Models.Cables
             }
             return output;
         }
-        private static string GetAmpacityTable_DirectBuried(IPowerCable cable, CableTypeModel cableType)
+        private static string GetAmpacityTable_DirectBuried(IPowerCable cable, PowerCableTypeModel cableType)
         {
             string output;
 
@@ -218,7 +218,7 @@ namespace EDTLibrary.Models.Cables
             }
             return output;
         }
-        private static string GetAmpacityTable_RacewayConduit(IPowerCable cable, CableTypeModel cableType)
+        private static string GetAmpacityTable_RacewayConduit(IPowerCable cable, PowerCableTypeModel cableType)
         {
             string output;
 

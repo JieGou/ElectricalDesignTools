@@ -11,7 +11,9 @@
         Title="Electrical Design Tools"
         d:Width="1600" d:Height="950"
         Background="white"
-        WindowState="Maximized">
+        WindowState="Maximized" PreviewKeyDown="Window_PreviewKeyDown"
+        
+        >
 
     <!--<Window.DataContext>
         <viewmodels:MainViewModel/>

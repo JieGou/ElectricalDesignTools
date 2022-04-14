@@ -115,8 +115,9 @@ namespace WpfUI.Views
         //Testing/Shortcuts
         private async void eqView_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-#if DEBUG
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
+#if DEBUG
+
                 if (e.Key == Key.T) {
                     LoadTestEquipmentData();
                 }
@@ -128,13 +129,14 @@ namespace WpfUI.Views
                     MessageBox.Show("Clearing Equipment from Database");
                     DeleteEquipmentFromDatabase();
                 }
-                if (e.Key == Key.Z) {
-                    Undo.UndoCommand(eqVm.ListManager);
-                }
+#endif
+                //Moved Ctrl-Z to main window
+                //if (e.Key == Key.Z) {
+                //    Undo.UndoCommand(eqVm.ListManager);
+                //}
             }
 
 
-#endif
         }
 
         //Testing

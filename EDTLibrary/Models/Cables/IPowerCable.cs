@@ -18,5 +18,8 @@ namespace EDTLibrary.Models.Cables
         string AmpacityTable { get; set; }
         string InstallationDiagram { get; set; }
         IPowerConsumer Load { get; set; }
+
+        event EventHandler PropertyUpdated;
+        abstract void OnPropertyUpdated();
     }
 }

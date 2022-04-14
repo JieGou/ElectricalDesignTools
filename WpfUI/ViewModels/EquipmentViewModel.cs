@@ -91,6 +91,8 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
     #region WindowSizing
+
+    //Dteq
     private System.Windows.GridLength _dteqGridRight = new System.Windows.GridLength(AppSettings.Default.DteqGridRight, GridUnitType.Star);
     public System.Windows.GridLength DteqGridRight
     {
@@ -103,7 +105,6 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
-    //DTEQ GridSplitter Position
     private System.Windows.GridLength _dteqGridBottom = new System.Windows.GridLength(AppSettings.Default.DteqGridBottom, GridUnitType.Pixel);
     public System.Windows.GridLength DteqGridBottom
     {
@@ -128,7 +129,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     public double DteqGridHeight { get; set; }
 
-
+    //Load
     private System.Windows.GridLength _loadGridRight = new System.Windows.GridLength(AppSettings.Default.LoadGridRight, GridUnitType.Star);
     public System.Windows.GridLength LoadGridRight
     {
@@ -141,7 +142,6 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
-    //Load GridSplitter Position
     private System.Windows.GridLength _loadGridTop = new System.Windows.GridLength(AppSettings.Default.LoadGridTop, GridUnitType.Pixel);
     public System.Windows.GridLength LoadGridTop
     {
@@ -172,12 +172,20 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
             AppSettings.Default.Save();
         }
     }
-    public double LoadGridHeight { get; set; }
+    private double _loadGridHeight;
+    public double LoadGridHeight
+    {
+        get { return _loadGridHeight; }
+        set { 
+            _loadGridHeight = value;
+            AppSettings.Default.LoadGridBottom = _loadGridBottom.Value;
+            AppSettings.Default.Save();
+        }
+    }
 
     #endregion
 
 
-    //View States
     #region Views States
 
     //Dteq
@@ -185,9 +193,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     public string? PerPhaseLabelDteq { get; set; } = "Hidden";
     public DataGridColumnViewControl DteqGridViewModifier { get; set; }
 
-
     #endregion  
-
 
 
     // DTEQ
@@ -236,7 +242,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
         {
             _selectedLoad = value;
             if (_selectedLoad != null) {
-                BuildLoadCableTypeList(_selectedLoad);
+                
                 GlobalConfig.SelectingNew = true;
                     CopySelectedLoad();
                 GlobalConfig.SelectingNew = false;
@@ -289,7 +295,6 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     public ICommand ToggleOcpdViewDteqCommand { get; }
     public ICommand ToggleCableViewDteqCommand { get; }
 
-
     public ICommand GetAllCommand { get; }
     public ICommand SaveAllCommand { get; }
     public ICommand DeleteDteqCommand { get; }
@@ -336,7 +341,6 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
         AssignedLoads.Clear();
 
     }
-
     private void DbSaveAll()
     {
         //Task.Run(() => CalculateAll());
@@ -439,7 +443,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                 if (dteqSubscriber != null) {
                     //dteqSubscriber.AssignedLoads.Add(newDteq); //newDteq is somehow already getting added to Assigned Loads
                     newDteq.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
-                    newDteq.PropertyUpdated += DaManager.OnDteqLoadingCalculated;
+                    newDteq.PropertyUpdated += DaManager.OnDteqPropertyUpdated;
                 }
 
                 //Save to Db
@@ -550,7 +554,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                 if (dteqSubscriber != null) {
                     //dteqSubscriber.AssignedLoads.Add(newLoad); //newLoad is somehow already getting added to Assigned Loads
                     newLoad.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
-                    newLoad.PropertyUpdated += DaManager.OnLoadLoadingCalculated;
+                    newLoad.PropertyUpdated += DaManager.OnLoadPropertyUpdated;
                 }
 
                 //Save to Db
@@ -587,7 +591,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
             int loadId = selectedLoad.Id;
 
             try {
-                selectedLoad.PropertyUpdated -= DaManager.OnLoadLoadingCalculated;
+                selectedLoad.PropertyUpdated -= DaManager.OnLoadPropertyUpdated;
                 await DeletePowerCableAsync(selectedLoad); //await
                 await DaManager.prjDb.DeleteRecordAsync(GlobalConfig.LoadTable, loadId); //await
 
@@ -713,8 +717,8 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     //ComboBox Lists
     public ObservableCollection<string> DteqTypes { get; set; } = new ObservableCollection<string>();
     public ObservableCollection<string> VoltageTypes { get; set; } = new ObservableCollection<string>();
-    public ObservableCollection<CableTypeModel> DteqCableTypes { get; set; } = new ObservableCollection<CableTypeModel>();
-    public ObservableCollection<CableTypeModel> LoadCableTypes { get; set; } = new ObservableCollection<CableTypeModel>();
+    public ObservableCollection<PowerCableTypeModel> DteqCableTypes { get; set; } = new ObservableCollection<PowerCableTypeModel>();
+    public ObservableCollection<PowerCableTypeModel> LoadCableTypes { get; set; } = new ObservableCollection<PowerCableTypeModel>();
     public ObservableCollection<double> CableSpacing { get; set; } = new ObservableCollection<double>();
     public ObservableCollection<string> CableInstallationTypes { get; set; } = new ObservableCollection<string>();
     public void CreateComboBoxLists()
@@ -735,78 +739,6 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
         CableInstallationTypes.Add("RacewayConduit");
     }
 
-    private async Task BuildDteqCableTypeList(IDteq dteq)
-    {
-        await BuildDteqCableTypeListAsync(dteq);
-    }
-    private async Task BuildDteqCableTypeListAsync(IDteq dteq)
-    {
-        if (dteq == null || dteq.PowerCable == null)
-            return;
-
-        string selectedDteqCableType = _selectedDteq.PowerCable.Type;
-        string selectedLoadCableType = "None Selected";
-        if (_selectedLoad != null && _selectedLoad.PowerCable != null && _selectedLoad.PowerCable.Type != null) {
-            selectedLoadCableType = _selectedLoad.PowerCable.Type;
-        }
-
-        DteqCableTypes.Clear();
-        foreach (var cableType in TypeManager.CableTypes) {
-            var voltageClass = LibraryManager.GetCableVoltageClass(dteq.LineVoltage);
-            if (voltageClass == cableType.VoltageClass) {
-                DteqCableTypes.Add(cableType);
-            }
-        }
-        dteq.PowerCable.Type = selectedDteqCableType;
-
-        if (_selectedLoad != null && _selectedLoad.PowerCable != null) {
-            _selectedLoad.PowerCable.Type = selectedLoadCableType;
-        }
-        return;
-    }
-
-    private async Task BuildLoadCableTypeList(IPowerConsumer load)
-    {
-        try {
-            await BuildLoadCableTypeListAsync(load);
-        }
-        catch (NullReferenceException ex) {
-            ErrorHelper.EdtErrorMessage(ex);
-        }
-    }
-    private async Task BuildLoadCableTypeListAsync(IPowerConsumer load)
-    {
-            if (load == null)
-                return;
-
-            string selectedDteqCableType = "None Selected";
-            if (_selectedDteq != null && _selectedDteq.PowerCable != null) {
-                selectedDteqCableType = _selectedDteq.PowerCable.Type;
-            }
-        try {
-            string selectedLoadCableType = _selectedLoad.PowerCable.Type;
-
-            LoadCableTypes.Clear();
-            foreach (var cableType in TypeManager.CableTypes) {
-                var voltageClass = LibraryManager.GetCableVoltageClass(load.Voltage);
-                if (voltageClass == cableType.VoltageClass) {
-                    LoadCableTypes.Add(cableType);
-                }
-            }
-
-            if (_selectedDteq != null && _selectedDteq.PowerCable != null) {
-                _selectedDteq.PowerCable.Type = selectedDteqCableType;
-            }
-            load.PowerCable.Type = selectedLoadCableType;
-        }
-        catch (NullReferenceException ex) {
-            ex.Data.Add("UserMessage", $"The selected load doesn't have a power cable");
-            if (load.PowerCable==null) {
-                load.CreateCable();
-            }
-            throw;
-        }
-    }
     #endregion
 
     #region Error Validation //INotifyDataErrorInfo
