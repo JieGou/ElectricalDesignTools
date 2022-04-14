@@ -4,8 +4,16 @@ using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using Portable.Licensing;
+using Portable.Licensing.Security.Cryptography;
+using Portable.Licensing.Validation;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using WpfUI.Commands;
@@ -37,6 +45,89 @@ namespace WpfUI.ViewModels
 
         public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, string type="")
         {
+            string licenseFilePath = @"C:/temp/License.lic";
+            FileInfo licenseFile = new FileInfo(licenseFilePath);
+
+            string privateKeyFilePath = @"C:/temp/PrivateKey.text";
+            FileInfo privateKeyFile = new FileInfo(privateKeyFilePath);
+
+            string publicKeyFilePath = @"C:/temp/PublicKey.text";
+            FileInfo publicKeyFile = new FileInfo(publicKeyFilePath);
+
+            
+
+            KeyGenerator keyGenerator;
+            KeyPair keyPair;
+            string passPhrase = "1048Mandrake!@#";
+            string privateKey = "";
+            string publicKey = "";
+
+            License license = null;
+
+            try {
+
+                if (licenseFile.Exists) {
+                    license = License.Load(File.OpenText(licenseFilePath));
+                }
+                if (privateKeyFile.Exists) {
+                    privateKey = File.ReadAllText(privateKeyFilePath);
+                }
+                if (publicKeyFile.Exists) {
+                    publicKey = File.ReadAllText(publicKeyFilePath);
+                }
+
+
+                keyGenerator = KeyGenerator.Create();
+                keyPair = keyGenerator.GenerateKeyPair();
+
+                if (File.Exists(privateKeyFilePath) == false) {
+                    privateKey = keyPair.ToEncryptedPrivateKeyString(passPhrase);
+                    File.WriteAllText(privateKeyFilePath, privateKey.ToString(), Encoding.UTF8);
+                }
+
+                if (File.Exists(publicKeyFilePath) == false) {
+                    publicKey = keyPair.ToPublicKeyString();
+                    File.WriteAllText(publicKeyFilePath, publicKey.ToString(), Encoding.UTF8);
+                }
+
+                if (licenseFile.Exists == false) {
+
+                    license = License.New().WithUniqueIdentifier(Guid.NewGuid())
+                                            .As(LicenseType.Trial)
+                                            .ExpiresAt(DateTime.Now.AddDays(30))
+                                            .WithMaximumUtilization(30)
+                                            .WithProductFeatures(new Dictionary<string, string>
+                                                                          {
+                                                                          {"Sales Module", "yes"},
+                                                                          {"Purchase Module", "yes"},
+                                                                          {"Maximum Transactions", "10000"}
+                                                                          })
+                                            .LicensedTo("John Doe", "john.doe@yourmail.here")
+                                            .CreateAndSignWithPrivateKey(File.ReadAllText(privateKeyFilePath), passPhrase);
+                    licenseFile.Directory.Create();
+
+                    File.WriteAllText(licenseFilePath, license.ToString(), Encoding.UTF8);
+                }
+
+                license = License.Load(File.OpenText(licenseFilePath));
+                var validationFailures = license.Validate()
+                                                .ExpirationDate()
+                                                    .When(lic => lic.Type == LicenseType.Trial)
+                                                .And()
+                                                .Signature(publicKey)
+                                                .AssertValidLicense();
+#if !DEBUG
+                foreach (var failure in validationFailures) {
+                    if (failure.GetType().Name.Contains("ValidationFailure")) {
+                        MessageBox.Show(failure.Message + " \n\n" + "Pleaes contact DCS.Inc to resolve.", "EDT - License Validation Failure");
+                    }
+                }
+#endif
+            }
+            catch (Exception ex) {
+                MessageBox.Show("Public Key or License file is corrupt or has been modified." + "\n\n" + ex.Message, "EDT - License Validation Failure");
+            }
+
             _listManager = listManager;
             _typeManager = typeManager;
             _startupService = startupService;
@@ -71,7 +162,7 @@ namespace WpfUI.ViewModels
 
         
 
-        #region Navigation
+#region Navigation
         public ICommand NavigateStartupCommand { get; }
         public ICommand NavigateProjectSettingsCommand { get; }
         public ICommand NavigateAreasCommand { get; }
@@ -135,7 +226,7 @@ namespace WpfUI.ViewModels
             var newMainVm = (MainViewModel)scenario.DataContext;
             newMainVm.CurrentViewModel = CurrentViewModel;
         }
-        #endregion
+#endregion
 
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel

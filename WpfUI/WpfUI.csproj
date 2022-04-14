@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <PackageReference Include="CefSharp.Wpf.NETCore" Version="99.2.120" />
+    <PackageReference Include="CoreCompat.Portable.Licensing" Version="1.2.14" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
   </ItemGroup>
 

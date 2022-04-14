@@ -84,7 +84,7 @@
 
                     <Button VerticalAlignment="Top"
                             x:Name="btnProjectSettings"
-                            Content="PROJECT SETTINGS"
+                            Content="SETTINGS"
                             Command="{Binding NavigateProjectSettingsCommand}"/>
 
                     <Button VerticalAlignment="Top"
@@ -93,12 +93,12 @@
 
                     <Button VerticalAlignment="Top"
                             x:Name="btnDistribution"
-                            Content="LOAD DISTRIBUTION"
+                            Content="DISTRIBUTION"
                             Command="{Binding NavigateEquipmentCommand}"/>
 
                     <Button  VerticalAlignment="Top"
                         x:Name="btnCableList"
-                        Content="CABLE LIST"
+                        Content="CABLES"
                         Command="{Binding NavigateCableListCommand}"/>
 
                     <Button  VerticalAlignment="Top"

@@ -937,7 +937,7 @@
                     <ColumnDefinition Width="0.35*" MinWidth="475"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
@@ -963,7 +963,7 @@
                           Grid.Row="0"  Grid.Column="0"
                           HorizontalAlignment="Left" VerticalAlignment="Stretch" 
                           d:Height="250"
-                          Height="{Binding LoadGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              
                           Margin="10,10,10,5"
                           ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                           SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -978,7 +978,7 @@
                           RowDetailsVisibilityMode="{Binding ToggleRowViewProp}"
                           SelectionChanged="dgdAssignedLoads_SelectionChanged" PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown"
                           >
-
+                    <!--Height="{Binding LoadGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Set FedFrom" PreviewMouseDown="LoadGridContextMenu_SetFedFrom" Height="20"/>
@@ -1290,7 +1290,8 @@
                 <!--******   BOTTOM STATUS BAR   ******-->
                 <!--***********************************-->
 
-                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0"
+                            Margin="10 0 0 5">
 
                     <TextBlock Text="DTEQ" FontWeight="Bold" Margin="10 0 0 0" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     <TextBlock Text="   Id:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
