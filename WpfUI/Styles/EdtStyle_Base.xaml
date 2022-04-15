@@ -130,6 +130,11 @@
         <Setter Property="MinWidth" Value="100"/>
         <Setter Property="MinHeight" Value="35"/>
         <Setter Property="Focusable" Value="False"/>
+        <!--<Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Trigger>
+        </Style.Triggers>-->
     </Style>
 
     <!--BUTTON Main Menu Animation-->

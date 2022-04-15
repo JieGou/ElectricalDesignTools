@@ -1,9 +1,11 @@
 ﻿using EDTLibrary;
+using EDTLibrary.A_Helpers;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using Microsoft.Win32;
 using Portable.Licensing;
 using Portable.Licensing.Security.Cryptography;
 using Portable.Licensing.Validation;
@@ -16,6 +18,8 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using Windows.Storage.Streams;
+using Windows.System.Profile;
 using WpfUI.Commands;
 using WpfUI.Services;
 
@@ -91,6 +95,9 @@ namespace WpfUI.ViewModels
                 }
 
                 if (licenseFile.Exists == false) {
+                    string ComputerGuid = ComputerInfo.GetComputerGuid();
+
+                    
 
                     license = License.New().WithUniqueIdentifier(Guid.NewGuid())
                                             .As(LicenseType.Trial)
@@ -102,19 +109,32 @@ namespace WpfUI.ViewModels
                                                                           {"Purchase Module", "yes"},
                                                                           {"Maximum Transactions", "10000"}
                                                                           })
+                                            .WithAdditionalAttributes(new Dictionary<string, string> {
+                                                                          {"ComputerName", Environment.MachineName.ToString()},
+                                                                          {"ComputerGuid", ComputerGuid},
+                                                                          })
                                             .LicensedTo("John Doe", "john.doe@yourmail.here")
                                             .CreateAndSignWithPrivateKey(File.ReadAllText(privateKeyFilePath), passPhrase);
                     licenseFile.Directory.Create();
-
                     File.WriteAllText(licenseFilePath, license.ToString(), Encoding.UTF8);
                 }
 
                 license = License.Load(File.OpenText(licenseFilePath));
                 var validationFailures = license.Validate()
                                                 .ExpirationDate()
-                                                    .When(lic => lic.Type == LicenseType.Trial)
+                                                .When(lic => lic.Type == LicenseType.Trial)
                                                 .And()
                                                 .Signature(publicKey)
+                                                .And()
+                                                .AssertThat(lic => lic.AdditionalAttributes.Get("ComputerName") == Environment.MachineName.ToString(),
+                                                                                                    new GeneralValidationFailure() { Message = "The license file is not registered for this machine. This can be caused If you changed your computer name or re-installed Windows.", 
+                                                                                                    HowToResolve = "Contact administrator" })
+                                                .And()
+                                                .AssertThat(lic => lic.AdditionalAttributes.Get("ComputerGuid") == ComputerInfo.GetComputerGuid(),
+                                                                                                    new GeneralValidationFailure() {
+                                                                                                        Message = "The license file is not registered to this machine.",
+                                                                                                        HowToResolve = "Contact administrator"
+                                                                                                    })
                                                 .AssertValidLicense();
 #if !DEBUG
                 foreach (var failure in validationFailures) {
