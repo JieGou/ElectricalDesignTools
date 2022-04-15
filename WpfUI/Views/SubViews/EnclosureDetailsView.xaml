@@ -33,6 +33,7 @@
         </Grid.RowDefinitions>
         
         <GroupBox Header="Enclosure Details" FontWeight="Bold"
+                  Style="{DynamicResource GroupBoxStyle1}" 
                   Grid.Row="0"
                   Margin="0 10 0 0" >
             <Grid>

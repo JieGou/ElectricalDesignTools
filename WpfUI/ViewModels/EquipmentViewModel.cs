@@ -226,10 +226,25 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
                         PerPhaseLabelDteq = "Visible";
                     }
                 }
-
+                DteqMotorLoads = new Tuple<int, double, double>(_selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.MOTOR.ToString()),
+                    _selectedDteq.AssignedLoads.Where(al => al.Type == LoadTypes.MOTOR.ToString()).Sum(al=>al.DemandKva),
+                    _selectedDteq.AssignedLoads.Where(al => al.Type == LoadTypes.MOTOR.ToString()).Sum(al => al.DemandKw));
+                DteqHeaterLoads = new Tuple<int, double, double>(_selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.HEATER.ToString()),
+                    _selectedDteq.AssignedLoads.Where(al => al.Type == LoadTypes.HEATER.ToString()).Sum(al => al.DemandKva),
+                    _selectedDteq.AssignedLoads.Where(al => al.Type == LoadTypes.HEATER.ToString()).Sum(al => al.DemandKw));
+                    
+                DteqPanelLoads = _selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.PANEL.ToString());
+                DteqWeldingLoads = _selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.WELDING.ToString());
+                DteqOtherLoads = _selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.OTHER.ToString());
             }
         }
     }
+
+    public Tuple<int, double, double> DteqMotorLoads { get; set; }
+    public Tuple<int, double, double> DteqHeaterLoads { get; set; }
+    public int DteqPanelLoads { get; set; }
+    public int DteqWeldingLoads { get; set; }
+    public int DteqOtherLoads { get; set; }
     public DteqToAddValidator DteqToAddValidator { get; set; }
 
     // LOADS

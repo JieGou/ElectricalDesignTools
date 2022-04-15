@@ -4,9 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
+             xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
+             xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
+             xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="550"
              Background="LightCyan">
+
+    <UserControl.Resources>
+        <CollectionViewSource x:Key="assignedLoadsCV" Source="{Binding AssignedLoads}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription Direction="Ascending" PropertyName="Tag" />
+            </CollectionViewSource.SortDescriptions>
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Tag" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -32,72 +49,202 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="MCC Details"
-                   Grid.Row="1" Grid.Column="0" 
-                   FontWeight="Bold"/>
-        
-        <TextBlock Text="Load Count: "
+        <!--Voltage-->
+        <TextBlock Text="Voltage:"
+                   Grid.Row="1" Grid.Column="0"/>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="1" Grid.Column="2" 
+                    HorizontalAlignment="Right">
+            <TextBlock Text="{Binding Voltage}"
+                     d:Text="13" FontWeight="Bold"
+                       TextAlignment="Right"/>
+            <TextBlock Text="  V  " Grid.Row="2" Grid.Column="0"/>
+        </StackPanel>
+
+        <!--Bus Amps-->
+        <TextBlock Text="Main Bus Size:"
                    Grid.Row="2" Grid.Column="0"/>
         <StackPanel Orientation="Horizontal"
-                    Grid.Row="2" Grid.Column="2" >
+                    Grid.Row="2" Grid.Column="2"                    
+                    HorizontalAlignment="Right">
 
-            <TextBlock Text="{Binding AssignedLoads.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="2" Grid.Column="2" Width="35"
-                     d:Text="7.5"
-                     FontWeight="Bold" Margin="0"/>
-        </StackPanel>
-  
-        
-        <TextBlock Text="SCCR: "
-                   Grid.Row="5" Grid.Column="0"/>
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="5" Grid.Column="2" >
-
-            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="3" Grid.Column="2"
-                     d:Text="57,276" TextAlignment="Center"
-                     FontWeight="Bold"/>
-            <TextBlock Text=" kA" Grid.Row="2" Grid.Column="0"/>
+            <TextBox Text="{Binding Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     d:Text="13" FontWeight="Bold"
+                     MinWidth="45"
+                     TextAlignment="Right"/>
+            <TextBlock Text="  A  " Grid.Row="2" Grid.Column="0"
+                       Margin="0 6 0 0"/>
         </StackPanel>
 
-
-        <TextBlock Text="Total Connected Load: "
+        <!--Connected Load-->
+        <TextBlock Text="Connected Load: "
                    Grid.Row="6" Grid.Column="0"/>
         <StackPanel Orientation="Horizontal"
-                    Grid.Row="6" Grid.Column="2" >
-
-            <TextBlock Text="{Binding ConnectedKva, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="3" Grid.Column="2"
-                     d:Text="180" TextAlignment="Center"
-                     FontWeight="Bold"/>
-            <TextBlock Text=" kA" Grid.Row="2" Grid.Column="0"/>
+                    Grid.Row="6" Grid.Column="2" 
+                    HorizontalAlignment="Right">
+            <TextBlock Text="{Binding ConnectedKva, StringFormat={}{0:N0}}"
+                       d:Text="180" 
+                       FontWeight="Bold"/>
+            <TextBlock Text="  kA" Grid.Row="2" Grid.Column="0"
+                       />
         </StackPanel>
-        
-        <TextBlock Text="Largest Motor: "
+
+
+        <TextBlock Text="Running Load: "
                    Grid.Row="7" Grid.Column="0"/>
         <StackPanel Orientation="Horizontal"
-                    Grid.Row="7" Grid.Column="2" >
-
-            <TextBlock Text="{Binding LargestMotor.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="3" Grid.Column="2"
-                     d:Text="MTR-xx" TextAlignment="Center"
-                     FontWeight="Bold"/>
-            <TextBlock Text="  -  " Grid.Row="2" Grid.Column="0"/>
-
-            <TextBlock Text="{Binding LargestMotor.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="3" Grid.Column="2"
-                     d:Text="75" TextAlignment="Center"
-                     FontWeight="Bold"/>
-            <TextBlock Text=" " Grid.Row="2" Grid.Column="0"/>
-            <TextBlock Text="{Binding LargestMotor.Unit}" Grid.Row="2" Grid.Column="0" d:Text=" HP" />
-            <TextBlock Text="  -  " Grid.Row="2" Grid.Column="0"/>
-
-            <TextBlock Text="{Binding LargestMotor.ConnectedKva, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="3" Grid.Column="2"
-                     d:Text="55.75" TextAlignment="Center"
-                     FontWeight="Bold"/>
-            <TextBlock Text=" kVA" Grid.Row="2" Grid.Column="0" d:Text=" kVA" />
+                    Grid.Row="7" Grid.Column="2" 
+                    HorizontalAlignment="Right">
+            <TextBlock Text="{Binding RunningAmps, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       d:Text="180"
+                       FontWeight="Bold"/>
+            <TextBlock Text="  A  " Grid.Row="2" Grid.Column="0"/>
         </StackPanel>
+
+
+        <TextBlock Text="SCCR: "
+                   Grid.Row="8" Grid.Column="0"/>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="8" Grid.Column="2" 
+                    HorizontalAlignment="Right">
+            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       d:Text="57,276" 
+                       FontWeight="Bold"/>
+            <TextBlock Text="  kA" Grid.Row="2" Grid.Column="0"/>
+        </StackPanel>
+
+        <TextBlock Text="SCCR: "
+                   Grid.Row="9" Grid.Column="0"/>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="9" Grid.Column="2" 
+                    HorizontalAlignment="Right">
+            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       d:Text="57,276" 
+                       FontWeight="Bold"/>
+            <TextBlock Text="  kA" Grid.Row="2" Grid.Column="0"/>
+        </StackPanel>
+
+        <!--Column 2-->
+        <!--Load Count-->
+        <GroupBox Header="Load Count / Demand" FontWeight="Bold"
+                  Style="{DynamicResource GroupBoxStyle1}" 
+                  Grid.Row="1" Grid.RowSpan="12"
+                  Grid.Column="4"
+                  MinHeight="135">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Total: "
+                   Grid.Row="0" Grid.Column="0" FontWeight="Normal" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                <StackPanel Orientation="Horizontal"
+                    Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2"  Grid.RowSpan="2" >
+                    <TextBlock Text="{Binding AssignedLoads.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               d:Text="15"
+                               FontWeight="Bold" />
+                    
+                </StackPanel>
+                
+                <!--MOTORS-->
+                <TextBlock Text="Motors: "
+                   Grid.Row="1" Grid.Column="0" FontWeight="Normal" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
+                <StackPanel Orientation="Horizontal"
+                    Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="3" >
+                    <TextBlock Text="{Binding Path=DataContext.DteqMotorLoads.Item1,StringFormat={}{0:N0},
+                                              RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                               d:Text="3"
+                               FontWeight="Bold" />
+                    <TextBlock Text="   /  " FontWeight="Normal"/>
+                    <TextBlock Text="{Binding Path=DataContext.DteqMotorLoads.Item2,StringFormat={}{0:N0},
+                                              RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                                d:Text="3"
+                                FontWeight="Bold" />
+                    <TextBlock Text=" kVA" FontWeight="Normal"/>
+                    <TextBlock Text=",  " FontWeight="Normal"/>
+                    <TextBlock Text="{Binding Path=DataContext.DteqMotorLoads.Item3,StringFormat={}{0:N0},
+                                              RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                                d:Text="3"
+                                FontWeight="Bold" />
+                    <TextBlock Text=" kW" FontWeight="Normal"/>
+
+                </StackPanel>
+                
+                <!--HEATERS-->
+                <TextBlock Text="Heaters: "
+                   Grid.Row="2" Grid.Column="0" FontWeight="Normal" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
+                <StackPanel Orientation="Horizontal"
+                    Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="3" >
+                    <TextBlock Text="{Binding Path=DataContext.DteqHeaterLoads.Item1,
+                                              RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                               d:Text="3"
+                               FontWeight="Bold" />
+                    <TextBlock Text="   /  " FontWeight="Normal"/>
+                    <TextBlock Text="{Binding Path=DataContext.DteqHeaterLoads.Item2,StringFormat={}{0:N0},
+                                              RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                                d:Text="3"
+                                FontWeight="Bold" />
+                    <TextBlock Text=" kVA" FontWeight="Normal"/>
+                    <TextBlock Text=",  " FontWeight="Normal"/>
+                    <TextBlock Text="{Binding Path=DataContext.DteqHeaterLoads.Item3,StringFormat={}{0:N0},
+                                              RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                                d:Text="3"
+                                FontWeight="Bold" />
+                    <TextBlock Text=" kW" FontWeight="Normal"/>
+                </StackPanel>
+                
+                <!--Panels-->
+                <TextBlock Text="Panels: "
+                   Grid.Row="3" Grid.Column="0" FontWeight="Normal" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
+                <StackPanel Orientation="Horizontal"
+                    Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="3" >
+                    <TextBlock Text="{Binding Path=DataContext.DteqPanelLoads,
+                                              RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                     d:Text="3"
+                     FontWeight="Bold" />
+                </StackPanel>
+
+
+                <TextBlock Text="Welding: "
+                   Grid.Row="4" Grid.Column="0" FontWeight="Normal" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
+                <StackPanel Orientation="Horizontal"
+                    Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="3" >
+                    <TextBlock Text="{Binding Path=DataContext.DteqWeldingLoads,
+                                              RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                     d:Text="3"
+                     FontWeight="Bold" />
+                </StackPanel>
+                <TextBlock Text="Other: "
+                   Grid.Row="5" Grid.Column="0" FontWeight="Normal" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
+                <StackPanel Orientation="Horizontal"
+                    Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="3" >
+                    <TextBlock Text="{Binding Path=DataContext.DteqOtherLoads,
+                                              RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                     d:Text="3"
+                     FontWeight="Bold" />
+                </StackPanel>
+            </Grid>
+        </GroupBox>
 
     </Grid>
 </UserControl>

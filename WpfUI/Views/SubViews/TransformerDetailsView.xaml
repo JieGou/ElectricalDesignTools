@@ -23,7 +23,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="auto"/>
             
             <ColumnDefinition Width="30"/>
@@ -55,9 +55,8 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Row="0" Grid.Column="2" 
                     Margin="0 10 0 0">
-
             <TextBox Text="{Binding Size, StringFormat={}{0:N0},Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="2" Grid.Column="2" MinWidth="50"
+                     Grid.Row="2" Grid.Column="2" MinWidth="45"
                      d:Text="1,500" TextAlignment="Right" VerticalAlignment="Top"
                      FontWeight="Bold"
                      Margin="0 0 0 3"/>
@@ -87,7 +86,7 @@
 
             <TextBox Text="{Binding Impedance, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
                      x:Name="txtImpedance"
-                     Grid.Row="2" Grid.Column="2" MinWidth="50"
+                     Grid.Row="2" Grid.Column="2" MinWidth="45"
                      d:Text="7.5" TextAlignment="Right" VerticalAlignment="Top"
                      FontWeight="Bold" Margin="0" KeyDown="txtImpedance_KeyDown"
                      />
@@ -114,6 +113,8 @@
         <!--Column 2-->
         <!--Winding Data-->
         <GroupBox Header="Winding Data" FontWeight="Bold"
+                  Style="{DynamicResource GroupBoxStyle1}" 
+                  
                   Grid.Row="0" Grid.RowSpan="5"
                   Grid.Column="4" Grid.ColumnSpan="3" 
                   Margin="0 0 0 5"
@@ -181,6 +182,8 @@
 
         <!--Minimum Sizing-->
         <GroupBox Header="Transformer Sizing" FontWeight="Bold"
+                  Style="{DynamicResource GroupBoxStyle1}" 
+                  
                   Grid.Row="5" Grid.RowSpan="3"
                   Grid.Column="4" Grid.ColumnSpan="3"
                   Margin="0 10 0 0">
