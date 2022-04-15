@@ -47,11 +47,26 @@
 
         <!--Background="#FF4C184C"-->
 
-        <Label Content="CABLE LIST" 
-               Style="{StaticResource TitleLabelStyleBase}"
-               Background="#FF392071"
-               BorderBrush="#FF4C1DB5"
-               Foreground="White"/>
+        <Border BorderThickness="0 2 0 2" BorderBrush="Black" Background="#FF392071">
+            <StackPanel Orientation="Horizontal" 
+                        >
+
+                <Label Content="CABLES AND TRAY"  Background="Transparent"
+                       MinWidth="300"
+                       Style="{StaticResource TitleLabelStyleBase}"
+                       BorderThickness="0"
+                       Margin="0 0 50 0"/>
+
+                <!--//MENU BUTTONS-->
+                <Button Content="CABLE LIST"
+                        Style="{StaticResource ToolBarButtonBase}"/>
+                <Button Content="USER CABLES"
+                        Style="{StaticResource ToolBarButtonBase}"/>
+                <Button Content="TRAY"
+                        Style="{StaticResource ToolBarButtonBase}"/>
+            </StackPanel>
+        </Border>
+
 
         <Grid Grid.Row="2"
               x:Name="cableGrid"

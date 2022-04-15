@@ -106,7 +106,7 @@
         <TabControl Grid.Row="1" Background="LightCyan" BorderThickness="0 1 0 0">
 
             <!--Equipment Specific Details-->
-            <TabItem Header="Equipment Details" Background="LightCyan">
+            <TabItem Header="Summary" Background="LightCyan">
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type edtDteqModels:DteqModel}">

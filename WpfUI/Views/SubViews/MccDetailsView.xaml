@@ -47,6 +47,9 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <!--Voltage-->
@@ -68,7 +71,7 @@
                     Grid.Row="2" Grid.Column="2"                    
                     HorizontalAlignment="Right">
 
-            <TextBox Text="{Binding Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBox Text="{Binding Size, StringFormat={}{0:N0},Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      d:Text="13" FontWeight="Bold"
                      MinWidth="45"
                      TextAlignment="Right"/>
@@ -76,11 +79,51 @@
                        Margin="0 6 0 0"/>
         </StackPanel>
 
+        <!--OCPD-->
+        <TextBlock Text="Protection: "
+                   Grid.Row="3" Grid.Column="0"/>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="3" Grid.Column="2" 
+                    HorizontalAlignment="Right">
+            <TextBlock Text="{Binding PdType, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       d:Text="Breaker" 
+                       FontWeight="Bold"/>
+            <TextBlock Text=" - " Grid.Row="2" Grid.Column="0"/>
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0}  AT, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       d:Text="2000" 
+                       FontWeight="Bold"/>
+            <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0}  AF, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       d:Text="2000" 
+                       FontWeight="Bold"/>
+            </StackPanel>
+        </StackPanel>
+
+
+        <TextBlock Text="Cable: "
+                   Grid.Row="4" Grid.Column="0"/>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="4" Grid.Column="2" 
+                    HorizontalAlignment="Right">
+            <TextBlock Text="{Binding PowerCable.QtyParallel, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       d:Text="180"
+                       FontWeight="Bold"/>
+            <TextBlock Text="x - " Grid.Row="2" Grid.Column="0" FontWeight="Bold"/>
+            <TextBlock Text="{Binding PowerCable.TypeModel.Conductors, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       d:Text="180"
+                       FontWeight="Bold"/>
+            <TextBlock Text="C-#" Grid.Row="2" Grid.Column="0" FontWeight="Bold"/>
+            <TextBlock Text="{Binding PowerCable.Size, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       d:Text="180"
+                       FontWeight="Bold"/>
+            <TextBlock Text="      " Grid.Row="2" Grid.Column="0" FontWeight="Bold"/>
+        </StackPanel>
+        
         <!--Connected Load-->
         <TextBlock Text="Connected Load: "
-                   Grid.Row="6" Grid.Column="0"/>
+                   Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"/>
         <StackPanel Orientation="Horizontal"
-                    Grid.Row="6" Grid.Column="2" 
+                    Grid.Row="5" Grid.Column="2" 
                     HorizontalAlignment="Right">
             <TextBlock Text="{Binding ConnectedKva, StringFormat={}{0:N0}}"
                        d:Text="180" 
@@ -90,19 +133,9 @@
         </StackPanel>
 
 
-        <TextBlock Text="Running Load: "
-                   Grid.Row="7" Grid.Column="0"/>
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="7" Grid.Column="2" 
-                    HorizontalAlignment="Right">
-            <TextBlock Text="{Binding RunningAmps, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                       d:Text="180"
-                       FontWeight="Bold"/>
-            <TextBlock Text="  A  " Grid.Row="2" Grid.Column="0"/>
-        </StackPanel>
 
 
-        <TextBlock Text="SCCR: "
+        <TextBlock Text="Min Sccr: "
                    Grid.Row="8" Grid.Column="0"/>
         <StackPanel Orientation="Horizontal"
                     Grid.Row="8" Grid.Column="2" 
@@ -113,22 +146,13 @@
             <TextBlock Text="  kA" Grid.Row="2" Grid.Column="0"/>
         </StackPanel>
 
-        <TextBlock Text="SCCR: "
-                   Grid.Row="9" Grid.Column="0"/>
-        <StackPanel Orientation="Horizontal"
-                    Grid.Row="9" Grid.Column="2" 
-                    HorizontalAlignment="Right">
-            <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                       d:Text="57,276" 
-                       FontWeight="Bold"/>
-            <TextBlock Text="  kA" Grid.Row="2" Grid.Column="0"/>
-        </StackPanel>
+        
 
         <!--Column 2-->
         <!--Load Count-->
         <GroupBox Header="Load Count / Demand" FontWeight="Bold"
                   Style="{DynamicResource GroupBoxStyle1}" 
-                  Grid.Row="1" Grid.RowSpan="12"
+                  Grid.Row="1" Grid.RowSpan="7"
                   Grid.Column="4"
                   MinHeight="135">
             <Grid>
@@ -139,7 +163,7 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
+                    <RowDefinition Height="25"/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -154,7 +178,15 @@
                     <TextBlock Text="{Binding AssignedLoads.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                d:Text="15"
                                FontWeight="Bold" />
-                    
+                    <TextBlock Text="   /  " FontWeight="Normal"/>
+                    <TextBlock Text="{Binding DemandKva, StringFormat={}{0:N0}}"
+                       d:Text="180" 
+                       FontWeight="Bold"/>
+                    <TextBlock Text=" kVA,  " Grid.Row="2" Grid.Column="0" FontWeight="Normal"/>
+                    <TextBlock Text="{Binding DemandKw, StringFormat={}{0:N0}}"
+                       d:Text="180" 
+                       FontWeight="Bold"/>
+                    <TextBlock Text=" kW" Grid.Row="2" Grid.Column="0" FontWeight="Normal"/>
                 </StackPanel>
                 
                 <!--MOTORS-->
@@ -173,8 +205,7 @@
                                                 AncestorType={x:Type UserControl},AncestorLevel=2}}"
                                 d:Text="3"
                                 FontWeight="Bold" />
-                    <TextBlock Text=" kVA" FontWeight="Normal"/>
-                    <TextBlock Text=",  " FontWeight="Normal"/>
+                    <TextBlock Text=" kVA,  " FontWeight="Normal"/>
                     <TextBlock Text="{Binding Path=DataContext.DteqMotorLoads.Item3,StringFormat={}{0:N0},
                                               RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type UserControl},AncestorLevel=2}}"
@@ -200,8 +231,7 @@
                                                 AncestorType={x:Type UserControl},AncestorLevel=2}}"
                                 d:Text="3"
                                 FontWeight="Bold" />
-                    <TextBlock Text=" kVA" FontWeight="Normal"/>
-                    <TextBlock Text=",  " FontWeight="Normal"/>
+                    <TextBlock Text=" kVA,  " FontWeight="Normal"/>
                     <TextBlock Text="{Binding Path=DataContext.DteqHeaterLoads.Item3,StringFormat={}{0:N0},
                                               RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type UserControl},AncestorLevel=2}}"

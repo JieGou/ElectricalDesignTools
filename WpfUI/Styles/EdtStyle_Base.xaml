@@ -14,6 +14,7 @@
     <!--TITLE Label Style-->
     <Style TargetType="Label" x:Key="TitleLabelStyleBase">
         <Setter Property ="FontSize" Value="15"/>
+        <Setter Property ="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property= "Margin" Value="0,0,0,0"/>
@@ -118,11 +119,18 @@
         </Style.Triggers>
     </Style>
 
-    <!--Base Button Style-->
+    <!--Red Button Style-->
     <Style x:Key="RedButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Background" Value="#FFF7C1C1"/>
     </Style>
 
+    <!--Tool Bar Button-->
+    <Style x:Key="ToolBarButtonBase" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="MinHeight" Value="35"/>
+        <Setter Property="Focusable" Value="False"/>
+    </Style>
 
     <!--BUTTON Main Menu Animation-->
     <Style x:Key="MainMenu_Buttons" TargetType="{x:Type Button}">
@@ -427,5 +435,16 @@
         <GradientStop Color="#FF007F96" Offset="0.553"/>
         <GradientStop Color="#FF0AEAFA" Offset="1"/>
     </LinearGradientBrush>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 </ResourceDictionary>

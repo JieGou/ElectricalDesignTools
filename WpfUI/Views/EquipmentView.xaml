@@ -89,23 +89,25 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border BorderThickness="0 2 0 2" BorderBrush="Black">
+        <Border BorderThickness="0 2 0 2" BorderBrush="Black" Background="{StaticResource Darkest}">
 
-            <StackPanel Orientation="Horizontal" 
-                    Background="{StaticResource Darkest}">
+           
+            <StackPanel Orientation="Horizontal">
 
-                <Label Content="DISTRIBUTION EQUIPMENT AND LOADING"  Background="Transparent"
-               Style="{StaticResource TitleLabelStyle}"
-               BorderThickness="0"
-               Margin="0 0 50 0"/>
-                <!--<Button Content="Get All" Margin="0" Height="50" VerticalAlignment="Center"/>
-                <Button Content="Save All" Margin="0" Height="50" VerticalAlignment="Center"/>
-                <Button Content="Calculate All" Margin="0" Height="50" VerticalAlignment="Center"/>
-                <Button Content="Auto-Size Cables" Margin="0" Height="50" VerticalAlignment="Center"/>
-                <Button Content="Caluclate Cables" Margin="0" Height="50" VerticalAlignment="Center"/>
-                <Button Content="Load List" Margin="0" Height="50" VerticalAlignment="Center"/>-->
-
+                <Label Content="ELECTRICAL EQUIPMENT"  Background="Transparent"
+                       MinWidth="300"
+                       Style="{StaticResource TitleLabelStyle}"
+                       BorderThickness="0"
+                       Margin="0 0 50 0"/>
+                
+                <!--//BUTTONS-->
+                <Button Content="MAJOR EQUIPMENT"
+                        Style="{StaticResource ToolBarButtonBase}" />
+                
+                <Button Content="DIST. PANELS"
+                        Style="{StaticResource ToolBarButtonBase}" />
             </StackPanel>
+
         </Border>
 
         <!--Main Grid-->
