@@ -77,38 +77,32 @@
                             Background="white"
                             Margin=" 0 5 0 5">-->
 
-                    <Button VerticalAlignment="Top"
-                            x:Name="btnStartup"
-                            Content="STARTUP"
-                            Command="{Binding NavigateStartupCommand}"/>
+                <Button x:Name="btnStartup" Content="STARTUP"
+                        VerticalAlignment="Top"  
+                        Command="{Binding NavigateStartupCommand}"/>
 
-                    <Button VerticalAlignment="Top"
-                            x:Name="btnProjectSettings"
-                            Content="SETTINGS"
-                            Command="{Binding NavigateProjectSettingsCommand}"/>
+                <Button x:Name="btnProjectSettings" Content="SETTINGS"
+                        VerticalAlignment="Top"
+                        Command="{Binding NavigateProjectSettingsCommand}"/>
 
-                    <Button VerticalAlignment="Top"
-                            Content="AREAS"
-                            Command="{Binding NavigateAreasCommand}"/>
+                <Button VerticalAlignment="Top"
+                        Content="AREAS"
+                        Command="{Binding NavigateAreasCommand}"/>
 
-                    <Button VerticalAlignment="Top"
-                            x:Name="btnDistribution"
-                            Content="DISTRIBUTION"
-                            Command="{Binding NavigateEquipmentCommand}"/>
+                <Button x:Name="btnDistribution" Content="DISTRIBUTION"
+                        VerticalAlignment="Top"
+                        Command="{Binding NavigateEquipmentCommand}"/>
 
-                    <Button  VerticalAlignment="Top"
-                        x:Name="btnCableList"
-                        Content="CABLES"
+                <Button x:Name="btnCableList" Content="CABLE &amp; TRAY"
+                        VerticalAlignment="Top"
                         Command="{Binding NavigateCableListCommand}"/>
 
-                    <Button  VerticalAlignment="Top"
-                        x:Name="btnDataTables"
-                        Content="DATA TABLES"
+                <Button x:Name="btnDataTables" Content="DATA TABLES"
+                        VerticalAlignment="Top"                        
                         Command="{Binding NavigateDataTablesCommand}"/>
 
-                    <Button  VerticalAlignment="Top"
-                        x:Name="btnScenarios"
-                        Content="EXTRA WINDOW"
+                <Button x:Name="btnWindow" Content="EXTRA WINDOW"
+                        VerticalAlignment="Top"
                         Command="{Binding ScenarioCommand}"
                              Margin="100 5 0 0"/>
 

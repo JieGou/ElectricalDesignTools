@@ -12,9 +12,10 @@ namespace EDTLibrary.Models.Cables
         string OwnedByType { get; set; }
         string Tag { get; set; }
         string Type { get; set; }
-        PowerCableTypeModel TypeModel { get; set; }
+        CableTypeModel TypeModel { get; set; }
         string Category { get; set; }
-        //string Type { get; set; }
+        int QtyParallel { get; set; }
+
         int ConductorQty { get; set; }
         string Size { get; set; }
         double VoltageClass { get; set; }

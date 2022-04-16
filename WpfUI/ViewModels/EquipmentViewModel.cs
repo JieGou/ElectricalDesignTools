@@ -732,8 +732,8 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     //ComboBox Lists
     public ObservableCollection<string> DteqTypes { get; set; } = new ObservableCollection<string>();
     public ObservableCollection<string> VoltageTypes { get; set; } = new ObservableCollection<string>();
-    public ObservableCollection<PowerCableTypeModel> DteqCableTypes { get; set; } = new ObservableCollection<PowerCableTypeModel>();
-    public ObservableCollection<PowerCableTypeModel> LoadCableTypes { get; set; } = new ObservableCollection<PowerCableTypeModel>();
+    public ObservableCollection<CableTypeModel> DteqCableTypes { get; set; } = new ObservableCollection<CableTypeModel>();
+    public ObservableCollection<CableTypeModel> LoadCableTypes { get; set; } = new ObservableCollection<CableTypeModel>();
     public ObservableCollection<double> CableSpacing { get; set; } = new ObservableCollection<double>();
     public ObservableCollection<string> CableInstallationTypes { get; set; } = new ObservableCollection<string>();
     public void CreateComboBoxLists()

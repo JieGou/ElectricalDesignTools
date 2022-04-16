@@ -73,7 +73,7 @@ public class DaManager {
 
     private static void GetCableTypes()
     {
-        TypeManager.PowerCableTypes = libDb.GetRecords<PowerCableTypeModel>(GlobalConfig.PowerCableTypes);
+        TypeManager.CableTypes = libDb.GetRecords<CableTypeModel>(GlobalConfig.PowerCableTypes);
     }
 
     private static void GetNemaTypes()

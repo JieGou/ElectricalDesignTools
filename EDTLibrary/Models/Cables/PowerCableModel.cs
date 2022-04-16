@@ -77,8 +77,8 @@ public class PowerCableModel : IPowerCable
 
     }
 
-    private PowerCableTypeModel _typeModel;
-    public PowerCableTypeModel TypeModel
+    private CableTypeModel _typeModel;
+    public CableTypeModel TypeModel
     {
 
         get { return _typeModel; }
@@ -95,7 +95,7 @@ public class PowerCableModel : IPowerCable
         }
     }
 
-    public ObservableCollection<PowerCableTypeModel> TypeList { get; set; } = new ObservableCollection<PowerCableTypeModel>();
+    public ObservableCollection<CableTypeModel> TypeList { get; set; } = new ObservableCollection<CableTypeModel>();
 
 
     public string UsageType { get; set; }
@@ -243,9 +243,12 @@ public class PowerCableModel : IPowerCable
     public void CreateTypeList(IPowerConsumer load)
     {
         TypeList.Clear();
-        foreach (var cableType in TypeManager.PowerCableTypes) {
-            var voltageClass = LibraryManager.GetCableVoltageClass(load.Voltage);
-            if (voltageClass == cableType.VoltageClass) {
+
+        var cableVoltageClass = LibraryManager.GetCableVoltageClass(load.Voltage);
+
+        foreach (var cableType in TypeManager.CableTypes) {
+            if (cableVoltageClass == cableType.VoltageClass
+                && this.UsageType == cableType.UsageType) {
                 TypeList.Add(cableType);
             }
         }

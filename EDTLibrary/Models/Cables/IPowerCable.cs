@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.Loads;
+﻿using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,6 @@ namespace EDTLibrary.Models.Cables
 {
     public interface IPowerCable : ICable
     {
-        int QtyParallel { get; set; }
         double BaseAmps { get; set; }
 
         double Spacing { get; set; }

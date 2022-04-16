@@ -114,7 +114,7 @@
         <Grid Grid.Row="2"
               x:Name="eqGrid"
               d:Opacity="1"
-              Opacity="0.0">
+              Opacity="0.0"  Grid.IsSharedSizeScope="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
@@ -244,7 +244,7 @@
                     <ColumnDefinition Width="{Binding DteqGridRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <!--<ColumnDefinition/>-->
                     <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="0.3*" MinWidth="475"/>
+                    <ColumnDefinition Width="auto" MinWidth="475" SharedSizeGroup="A"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" x:Name="dteqGridRow"/>
@@ -936,7 +936,8 @@
                     <ColumnDefinition Width="{Binding LoadGridRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <!--<ColumnDefinition/>-->
                     <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="0.35*" MinWidth="475"/>
+                    <ColumnDefinition Width="auto" MinWidth="475" SharedSizeGroup="A"/>
+
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>

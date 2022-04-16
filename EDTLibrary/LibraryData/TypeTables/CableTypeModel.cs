@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EDTLibrary.LibraryData.TypeTables
 {
-    public class PowerCableTypeModel
+    public class CableTypeModel
 
     {
         public int Id { get; set; }
@@ -15,6 +15,7 @@ namespace EDTLibrary.LibraryData.TypeTables
         public string UsageType { get; set; }
         public double Insulation { get; set; }
         public bool Shielded { get; set; }
+
         public double TemperatureRating { get; set; }
 
     }

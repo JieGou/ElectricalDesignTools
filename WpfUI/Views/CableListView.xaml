@@ -7,7 +7,9 @@
         xmlns:local="clr-namespace:WpfUI.Views"
         xmlns:rules="clr-namespace:WpfUI.ValidationRules"
         xmlns:commands="clr-namespace:WpfUI.Commands"
+             
              xmlns:converters="clr-namespace:WpfUI.Converters"
+             
         mc:Ignorable="d"
         d:Width="1400" d:Height="800"
         Background="#FFC5BCCA" >
@@ -16,26 +18,57 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Styles/EdtStyle_Purple.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
-            <!--Cable List Grid Expanders-->
-            <CollectionViewSource x:Key="cableList" Source="{Binding ListManager.CableList}"  IsLiveFilteringRequested="True" IsLiveGroupingRequested="True">
-                <CollectionViewSource.GroupDescriptions>
-                    <PropertyGroupDescription PropertyName="Type"/>
-                    <PropertyGroupDescription PropertyName="Size"/>
-                </CollectionViewSource.GroupDescriptions>
 
+            <!--Cable List Grid Expanders-->
+            <CollectionViewSource x:Name="cableCvs"
+                                  x:Key="cableList" 
+                                  Source="{Binding ListManager.CableList}"  
+                                  IsLiveFilteringRequested="True" 
+                                  IsLiveGroupingRequested="True"
+                                  >
+                <CollectionViewSource.GroupDescriptions>
+                </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
-            
+
+            <!--Templates and Selector-->
+            <converters:DataGridGroupTemplateSelector x:Key="templateSelector" cableListUsageTypeTemplate="{StaticResource UsageTemplate}"/>
+
+            <DataTemplate x:Key="UsageTemplate" >
+                <Expander IsExpanded="True" BorderBrush="#FFA4B97F" 
+                              BorderThickness="0,0,0,1">
+                    <Expander.Header>
+                        <DockPanel Width="350" Background="Lavender">
+                            <!--<TextBlock Text="Usage Type:  " Margin="15,0,0,0" />-->
+                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
+                            <TextBlock Text="Total Runs:  " Margin="15,0,0,0" />
+                            <TextBlock Text="{Binding Path=Items, Converter={StaticResource groupsConverter}}" FontWeight="Bold"/>
+                            <TextBlock Text="Count:  " Margin="15,0,0,0" />
+                            <TextBlock Text="{Binding Path=ItemCount}" MinWidth="25" FontWeight="Bold" />
+                        </DockPanel>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <ItemsPresenter />
+                    </Expander.Content>
+                </Expander>
+            </DataTemplate>
+
+
             <!--Cell Padding-->
             <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
                 <Setter Property="Margin" Value="5,0,10,0" />
             </Style>
-            
-            <converters:GroupsToTotalConverter x:Key="groupsConverter" />
+
+            <converters:CableListGroupsToTotalConverter x:Key="groupsConverter" />
             <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
+            <BooleanToVisibilityConverter x:Key="boolToVis"/>
 
         </ResourceDictionary>
     </UserControl.Resources>
+
+
+
+
+
 
     <Grid>
         <Grid.RowDefinitions>
@@ -72,15 +105,15 @@
               x:Name="cableGrid"
               d:Opacity="1"
               Opacity="0.5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="auto"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
@@ -90,155 +123,225 @@
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="cableGrid"
                                 Storyboard.TargetProperty="Opacity"
-                                From="0" To="1" Duration="0:0:0.75"
+                                From="-1" To="1" Duration="0:0:0.75"
                                 AutoReverse="False" RepeatBehavior="1x"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
             </Grid.Triggers>
 
-                <!--LeftButtons-->
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical"
+            <!--LeftButtons-->
+            <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical"
                     Margin="0 50 0 0">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Usage" IsChecked="{Binding UsageGroupView, Mode=TwoWay}" MinWidth="75"/>
+                    <CheckBox Content="All +/-" IsChecked="{Binding UsageGroupExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Type" IsChecked="{Binding TypeGroupView, Mode=TwoWay}" MinWidth="75"/>
+                    <CheckBox Content="All +/-" IsChecked="{Binding TypeGroupExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
 
-            <Button Name ="btnCreateCableList" Content="Create Cable List" 
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Size" IsChecked="{Binding SizeGroupView, Mode=TwoWay}" MinWidth="75"/>
+                    <CheckBox Content="All +/-" IsChecked="{Binding SizeGroupExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+                <Button Name ="btnCreateCableList" Content="Create Cable List" 
                     Height="27" Width="125"
                     Command="{Binding Path=CreateCableList}"/>
 
-            <Button Name ="btnShowDteqOC" Content="Show Dteq" 
-                    Height="27" Width="125"/>
-            
-            <Button Name ="btnShowLoadsOC" Content="Show Loads" 
-                    Height="27" Width="125"/>
-            
-            <Button Name ="btnChangeLoadOC" Content="Change Load" 
+                <Button Name ="btnShowDteqOC" Content="Show Dteq" 
                     Height="27" Width="125"/>
 
-        </StackPanel>
+                <Button Name ="btnShowLoadsOC" Content="Show Loads" 
+                    Height="27" Width="125"/>
 
-   
+                <Button Name ="btnChangeLoadOC" Content="Change Load" 
+                    Height="27" Width="125"/>
+
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="1" Grid.Column="3">
+                <TextBlock Text="Tag: "/>
+                <TextBox x:Name="txtTagFilter" Text="{Binding TagFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0" Width="100"/>
+            </StackPanel>
 
             <!--Power Cables-->
-                <DataGrid x:Name="dgdDteq" Grid.Column="3" Grid.Row="2"
-                      Margin="10 10 10 10"
-                      ItemsSource="{Binding Source={StaticResource cableList}}"
-                      CanUserAddRows="False"
-                      HorizontalAlignment="Left"
-                      AutoGenerateColumns="False">
 
-                    <DataGrid.GroupStyle>
-                        <!-- Style for groups at top level. -->
-                        <GroupStyle>
-                            <GroupStyle.ContainerStyle>
-                                <Style TargetType="{x:Type GroupItem}">
-                                    <Setter Property="Margin" Value="0,0,0,5"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                <Expander IsExpanded="True" Background="#FFB1B1FD" BorderBrush="Black"  BorderThickness="1,1,1,1" Margin="1">
-                                                    <Expander.Header>
-                                                        <DockPanel>
-                                                            <TextBlock Text="{Binding Path=Name}" Margin="5,0,0,0" MinWidth="100" FontWeight="Bold" />
-                                                            <TextBlock Text="Qty: " Margin="15,0,0,0" Width="25" FontWeight="SemiBold"/>
-                                                            <TextBlock Text="{Binding Path=ItemCount}" FontWeight="Bold"/>
-                                                        </DockPanel>
-                                                    </Expander.Header>
-                                                    <Expander.Content>
-                                                        <ItemsPresenter />
-                                                    </Expander.Content>
-                                                </Expander>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </GroupStyle.ContainerStyle>
-                        </GroupStyle>
-                        <!-- Style for groups under the top level. -->
-                        <GroupStyle>
+            <!--ItemsSource="{Binding Source={StaticResource cableList}}"-->
+            <DataGrid x:Name="dgdCableList" Grid.Column="3" Grid.Row="2"
+                          ItemsSource="{Binding View, Mode=TwoWay}"
+                          Margin="10 10 10 10"
+                          CanUserAddRows="False"
+                          HorizontalAlignment="Left"
+                          AutoGenerateColumns="False">
+                <DataGrid.GroupStyle>
 
-                            <GroupStyle.ContainerStyle>
-                                <Style TargetType="{x:Type GroupItem}">
-                                    <Setter Property="Margin" Value="0,0,0,5"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type GroupItem}">
-                                            <Expander IsExpanded="True" Foreground="Black" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,1" 
+                    <!--<GroupStyle HeaderTemplateSelector="{StaticResource templateSelector}"/>-->
+
+
+                    <!--Style for groups at top level.-->
+
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="0,0,0,5"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="{Binding Path=DataContext.UsageGroupExpanded, Mode=OneTime, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                          Background="#FFB1B1FD" BorderBrush="Black"  BorderThickness="1,1,1,1" Margin="1">
+                                                <Expander.Header>
+                                                    <DockPanel>
+                                                        <TextBlock Text="{Binding Path=Name}" Margin="5,0,0,0" MinWidth="175" FontWeight="Bold" FontSize="14"/>
+                                                        <TextBlock Text="Qty: " Margin="0,0,0,0" Width="25" FontWeight="SemiBold"/>
+                                                        <TextBlock Text="{Binding Path=ItemCount}" FontWeight="Bold"/>
+                                                    </DockPanel>
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+
+                    <!--Style for groups under the top level.-->
+
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="0,0,0,5"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="{Binding Path=DataContext.TypeGroupExpanded, Mode=OneTime, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                      Foreground="Black" Background="LightGray" BorderBrush="Black" BorderThickness="1,1,1,1" 
                                                       Margin="1 0">
-                                                    <Expander.Header>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="Size: " Margin="20,0,0,0" />
+                                                <Expander.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Path=Name}" Margin="15 0 0 0" MinWidth="170" FontWeight="Bold" />
+                                                        <TextBlock Text="Qty:  " Margin="0,0,0,0" />
+                                                        <TextBlock Text="{Binding Path=ItemCount}" MinWidth="25" FontWeight="Bold" />
+                                                    </StackPanel>
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Margin" Value="0,0,0,5"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                            <Expander IsExpanded="{Binding Path=DataContext.SizeGroupExpanded, Mode=OneTime, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                                      Foreground="Black" Background="Lavender" BorderBrush="Black" BorderThickness="1,1,1,1" 
+                                                      Margin="1 0" PreviewMouseLeftButtonDown="Expander_PreviewMouseLeftButtonDown">
+                                                <Expander.Header>
+                                                    <DockPanel>
+                                                        <StackPanel Orientation="Horizontal" Visibility="{Binding SizeGroupView, Converter={StaticResource boolToVis}}">
+                                                            <TextBlock Text="Size: " Margin="25,0,0,0" />
                                                             <TextBlock Text="# "     Margin="5,0,0,0" FontWeight="Bold" />
-                                                            <TextBlock Text="{Binding Path=Name}" 
-                                                                       MinWidth="25" FontWeight="Bold" />
-
-                                                            <TextBlock Text="Total Runs:  " Margin="25,0,0,0" />
-                                                            <TextBlock Text="{Binding Path=Items, Converter={StaticResource groupsConverter}}" 
-                                                                       MinWidth="25" FontWeight="Bold"  />
-                                                            
-                                                            <TextBlock Text="Count:  " Margin="15,0,0,0" />
-                                                            <TextBlock Text="{Binding Path=ItemCount}" 
-                                                                       MinWidth="25" FontWeight="Bold" />
                                                         </StackPanel>
-                                                    </Expander.Header>
-                                                    <Expander.Content>
-                                                        <ItemsPresenter />
-                                                    </Expander.Content>
-                                                </Expander>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </GroupStyle.ContainerStyle>
+                                                        <TextBlock Text="{Binding Path=Name}" MinWidth="125" FontWeight="Bold" />
 
-                        
-                        </GroupStyle>
-                    </DataGrid.GroupStyle>
+                                                        <TextBlock Text="Qty:  " Margin="0,0,0,0" />
+                                                        <TextBlock Text="{Binding Path=ItemCount}" MinWidth="25" FontWeight="Bold" />
+
+                                                        <TextBlock Text="Total Runs:  " Margin="25,0,0,0" />
+                                                        <TextBlock Text="{Binding Path=Items, Converter={StaticResource groupsConverter}}" 
+                                                                       MinWidth="25" FontWeight="Bold"  />
+
+                                                    </DockPanel>
+                                                </Expander.Header>
+                                                <Expander.Content>
+                                                    <ItemsPresenter />
+                                                </Expander.Content>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                    </GroupStyle>
+
+                </DataGrid.GroupStyle>
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Foreground" Value="Black" />
+                        <Setter Property="Background" Value="White" />
+                    </Style>
+                </DataGrid.RowStyle>
 
 
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Setter Property="Foreground" Value="Black" />
-                            <Setter Property="Background" Value="White" />
-                        </Style>
-                    </DataGrid.RowStyle>
-
-
-
-                    <DataGrid.Columns>
+                <DataGrid.Columns>
                     <!--Basic-->
                     <!--Textblock cell padding style in this.resources Move to ResDict-->
-                        <DataGridTextColumn Header="TAG" x:Name="Tag" 
-                                            Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                            ElementStyle="{StaticResource ColumnElementStyle}" />
-                        <!--Type to ComboBox-->
-                        <DataGridTextColumn Header="Usage &#x0a; Type" x:Name="UsageType" 
-                                            Binding="{Binding Path=UsageType, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Cable &#x0a; Type" x:Name="Type" 
-                                        Binding="{Binding Path=Type, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Qty in&#x0a;    | |" x:Name="QtyParallel" 
-                                            Binding="{Binding Path=QtyParallel, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Conductor &#x0a;    Qty" x:Name="QtyConductors" MinWidth="50" 
-                                            Binding="{Binding Path=TypeModel.Conductors, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Size" x:Name="Size" 
-                                            Binding="{Binding Path=Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-
-                        <DataGridTextColumn Header="Spacing" x:Name="Spacing" 
-                                        Binding="{Binding Path=Spacing, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Derating" x:Name="Derating" 
+                    <DataGridTextColumn Header="TAG" x:Name="Tag" 
+                                        Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        ElementStyle="{StaticResource ColumnElementStyle}" 
+                                        MinWidth="150" />
+                    <DataGridTextColumn x:Name="Type" Header="Cable &#x0a; Type" 
+                                        Binding="{Binding Path=Type, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        MinWidth="150">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                <Setter Property="Padding" Value="7 0 0 0" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn x:Name="Size" Header="Size" 
+                                        Binding="{Binding Path=Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        MinWidth="50" />
+                    <DataGridTextColumn x:Name="QtyParallel" Header="Qty in&#x0a;    | |" 
+                                        Binding="{Binding Path=QtyParallel, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        MinWidth="50" />
+                    <!--<DataGridTextColumn x:Name="QtyConductors" Header="Qty of&#x0a; Cond."
+                                        Binding="{Binding Path=TypeModel.Conductors, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        MinWidth="50" />-->
+                    
+                    <DataGridTextColumn x:Name="Spacing" Header="Spacing"
+                                        Binding="{Binding Path=Spacing, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        MinWidth="50" />
+                    <DataGridTextColumn x:Name="Usage" Header="Usage"
+                                        Binding="{Binding Path=UsageType, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        MinWidth="50" />
+                    <DataGridTextColumn x:Name="Source" Header="From" 
+                                        Binding="{Binding Path=Source, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        MinWidth="75" />
+                    <DataGridTextColumn x:Name="Destination" Header="To" 
+                                        Binding="{Binding Path=Destination, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        MinWidth="75" />
+                    
+                    <!--<DataGridTextColumn x:Name="Derating" Header="Derating" 
                                         Binding="{Binding Path=Derating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Derated &#x0a;  Amps" x:Name="DeratedAmps" 
+                    <DataGridTextColumn x:Name="DeratedAmps" Header="Derated &#x0a;  Amps"  
                                         Binding="{Binding Path=DeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Required &#x0a;   Amps" x:Name="RequiredAmps" 
+                    <DataGridTextColumn x:Name="RequiredAmps" Header="Required &#x0a;   Amps"
                                         Binding="{Binding Path=RequiredAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
-                        <DataGridTextColumn Header="Voltage &#x0a;Class" x:Name="VoltageClass" 
+                    <DataGridTextColumn x:Name="VoltageClass" Header="Voltage &#x0a;Class" 
                                         Binding="{Binding Path=TypeModel.VoltageClass, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="Insulation" x:Name="Insulation" 
-                                            Binding="{Binding Path=TypeModel.Insulation, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="From" x:Name="Source" 
-                                            Binding="{Binding Path=Source, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                        <DataGridTextColumn Header="To" x:Name="Destination" 
-                                            Binding="{Binding Path=Destination, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                    <DataGridTextColumn x:Name="Insulation" Header="Insulation" 
+                                        Binding="{Binding Path=TypeModel.Insulation, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>-->
+                   
 
 
 
@@ -247,9 +350,9 @@
                     <!--<rules:InvalidFedFromRule ValidatesOnTargetUpdated="True" ValidationStep="CommittedValue"/>-->
                 </DataGrid.RowValidationRules>
             </DataGrid>
-           
 
-    </Grid>
+
+        </Grid>
     </Grid>
 
 </UserControl>
