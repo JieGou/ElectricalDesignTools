@@ -401,8 +401,7 @@
                 <TextBox x:Name ="txtAreaDisplayTag"  
                          Grid.Row="2" Grid.Column="{StaticResource DisplayTag}"
                          Width="65" Height="23"
-                         Text="{Binding AreaToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         PreviewMouseDown="txtAreaTag_PreviewMouseDown" LostFocus="txtAreaTag_LostFocus"
+                         Text="{Binding AreaToAddValidator.DisplayTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0"
                          HorizontalContentAlignment="Left"/>
 

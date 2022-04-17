@@ -15,7 +15,7 @@ namespace EDTLibrary.Models.Cables
         CableTypeModel TypeModel { get; set; }
         string Category { get; set; }
         int QtyParallel { get; set; }
-
+        double Length { get; set; }
         int ConductorQty { get; set; }
         string Size { get; set; }
         double VoltageClass { get; set; }

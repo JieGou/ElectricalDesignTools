@@ -16,6 +16,7 @@ public interface IArea: INotifyPropertyChanged
     string Name { get; set; }
     string NemaRating { get; set; }
     string Tag { get; set; }
+    string DisplayTag { get; set; }
 
     //Events
     event EventHandler AreaPropertiesChanged;

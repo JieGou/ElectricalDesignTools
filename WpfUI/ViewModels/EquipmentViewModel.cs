@@ -418,7 +418,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         if (_selectedDteq != null && _selectedDteq.PowerCable != null) {
             _selectedDteq.PowerCable.SetCableParameters(_selectedDteq);
-            _selectedDteq.PowerCable.CalculateCableQtySizeNew();
+            _selectedDteq.PowerCable.CalculateCableQtyAndSize();
         }
         
     }
@@ -432,7 +432,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         if (_selectedLoad != null && _selectedLoad.PowerCable != null) {
             _selectedLoad.PowerCable.SetCableParameters(_selectedLoad);
-            _selectedLoad.PowerCable.CalculateCableQtySizeNew();
+            _selectedLoad.PowerCable.CalculateCableQtyAndSize();
         }
 
     }

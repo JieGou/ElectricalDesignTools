@@ -65,6 +65,7 @@ namespace EDTLibrary.Tests
                 dteqToAdd = new DteqToAddValidator(listManager, dteq);
                 eqVm.AddDteq(dteqToAdd);
             }
+
             Assert.True(listManager.IDteqList.Count > 0); //causes an assert exception
             Assert.True(listManager.IDteqList.Count == TestData.TestDteqList.Count);
 

@@ -321,7 +321,7 @@
 
     <!--DATA GRID Style-->
     <Style TargetType="DataGrid" x:Key="DataGridStyleBase" BasedOn="{StaticResource DefaultStyle}">
-        <Setter Property="Background" Value="white"/>
+        <Setter Property="Background" Value="DarkGray"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="RowHeaderWidth" Value="20"/>
         <Setter Property="CanUserAddRows" Value="False"/>

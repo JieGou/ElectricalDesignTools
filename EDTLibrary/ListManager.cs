@@ -165,8 +165,14 @@ namespace EDTLibrary
         }
         private void AssignCableTypes()
         {
+            Random random = new Random();
             foreach (var cable in CableList) {
                 cable.TypeModel = TypeManager.GetCableType(cable.Type);
+#if DEBUG
+                //if (cable.Length==0) {
+                    cable.Length = random.Next(1, 750);
+                //}
+#endif
             }        
         }
 
@@ -195,13 +201,13 @@ namespace EDTLibrary
             foreach (var load in LoadList) {
                 //load.CalculateLoading();
                 //load.PowerCable.GetRequiredAmps(load);
-                load.PowerCable.CalculateCableQtySizeNew();
+                load.PowerCable.CalculateCableQtyAndSize();
                 load.PowerCable.CalculateAmpacityNew(load);
             }
             foreach (var dteq in IDteqList) {
                 //dteq.CalculateLoading();
                 //dteq.PowerCable.GetRequiredAmps(dteq);
-                dteq.PowerCable.CalculateCableQtySizeNew();
+                dteq.PowerCable.CalculateCableQtyAndSize();
                 dteq.PowerCable.CalculateAmpacityNew(dteq);
             }
         }

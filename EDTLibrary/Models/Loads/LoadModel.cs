@@ -249,6 +249,36 @@ namespace EDTLibrary.Models.Loads
         public ObservableCollection<IComponent> Components { get; set; }
 
 
+        //Components
+        private bool _driveBool;
+
+        public bool DriveBool
+        {
+            get { return _driveBool; }
+            set { _driveBool = value; }
+        }
+        private int _driveId;
+
+        public int DriveId
+        {
+            get { return _driveId; }
+            set { _driveId = value; }
+        }
+        private bool _disconnectBool;
+
+        public bool DisconnectBool
+        {
+            get { return _disconnectBool; }
+            set { _disconnectBool = value; }
+        }
+        private int _disconnectId;
+
+        public int DisconnectId
+        {
+            get { return _disconnectId; }
+            set { _disconnectId = value; }
+        }
+
 
         //Methods
         public void CalculateLoading()
@@ -257,7 +287,8 @@ namespace EDTLibrary.Models.Loads
                 return;
             }
             LoadFactor = double.Parse(EdtSettings.LoadFactorDefault);
-            GetEfficiencyAndPowerFactor();
+
+            GetEfficiencyAndPowerFactor(); //PdType is determined here
 
 
             //if (Type == LoadTypes.MOTOR.ToString()) {
@@ -423,7 +454,7 @@ namespace EDTLibrary.Models.Loads
             CreateCable();
             PowerCable.SetCableParameters(this);
             PowerCable.CreateTypeList(this);
-            PowerCable.CalculateCableQtySizeNew();
+            PowerCable.CalculateCableQtyAndSize();
         }
         public void CalculateCableAmps()
         {

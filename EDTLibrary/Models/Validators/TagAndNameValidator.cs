@@ -32,9 +32,9 @@ namespace EDTLibrary.Models.Validators
                 return true;
             }
 
-            var areaTag = listManager.AreaList.FirstOrDefault(t => t.Tag.ToLower() == name.ToLower());
+            var areaNAme = listManager.AreaList.FirstOrDefault(t => t.Name.ToLower() == name.ToLower());
         
-            if (areaTag != null) {
+            if (areaNAme != null) {
                 return false;
             }
 

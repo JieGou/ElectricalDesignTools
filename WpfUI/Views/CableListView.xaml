@@ -62,12 +62,9 @@
             <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
             <BooleanToVisibilityConverter x:Key="boolToVis"/>
 
+
         </ResourceDictionary>
     </UserControl.Resources>
-
-
-
-
 
 
     <Grid>
@@ -131,22 +128,29 @@
             </Grid.Triggers>
 
             <!--LeftButtons-->
-            <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical"
-                    Margin="0 50 0 0">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Usage" IsChecked="{Binding UsageGroupView, Mode=TwoWay}" MinWidth="75"/>
-                    <CheckBox Content="All +/-" IsChecked="{Binding UsageGroupExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Type" IsChecked="{Binding TypeGroupView, Mode=TwoWay}" MinWidth="75"/>
-                    <CheckBox Content="All +/-" IsChecked="{Binding TypeGroupExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical" Margin="0 50 0 0">
+                <GroupBox Header="Cable Grouping" Grid.Column="1" Grid.Row="2" Margin="0 0 0 30"
+                          Style="{DynamicResource GroupBoxStyle1}"  >
+                    <Grid>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Content="Usage" IsChecked="{Binding UsageGroupView, Mode=TwoWay}" MinWidth="75"/>
+                                <CheckBox Content="All +/-" IsChecked="{Binding UsageGroupExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Content="Type" IsChecked="{Binding TypeGroupView, Mode=TwoWay}" MinWidth="75"/>
+                                <CheckBox Content="All +/-" IsChecked="{Binding TypeGroupExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox Content="Size" IsChecked="{Binding SizeGroupView, Mode=TwoWay}" MinWidth="75"/>
-                    <CheckBox Content="All +/-" IsChecked="{Binding SizeGroupExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox Content="Size" IsChecked="{Binding SizeGroupView, Mode=TwoWay}" MinWidth="75"/>
+                                <CheckBox Content="All +/-" IsChecked="{Binding SizeGroupExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+                        </StackPanel>
 
+                    </Grid>
+            </GroupBox>
                 <Button Name ="btnCreateCableList" Content="Create Cable List" 
                     Height="27" Width="125"
                     Command="{Binding Path=CreateCableList}"/>
@@ -163,28 +167,25 @@
             </StackPanel>
 
 
-            <StackPanel Orientation="Horizontal"
-                        Grid.Row="1" Grid.Column="3">
-                <TextBlock Text="Tag: "/>
-                <TextBox x:Name="txtTagFilter" Text="{Binding TagFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0" Width="100"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="4" >
+                <TextBlock Text="Tag: " Margin="10 0"/>
+                <TextBox x:Name="txtTagFilter" Text="{Binding TagFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0" Width="125"/>
             </StackPanel>
 
             <!--Power Cables-->
 
             <!--ItemsSource="{Binding Source={StaticResource cableList}}"-->
-            <DataGrid x:Name="dgdCableList" Grid.Column="3" Grid.Row="2"
+                <DataGrid x:Name="dgdCableList" Grid.Column="3" Grid.Row="2"
                           ItemsSource="{Binding View, Mode=TwoWay}"
-                          Margin="10 10 10 10"
+                          Margin="10"
                           CanUserAddRows="False"
                           HorizontalAlignment="Left"
-                          AutoGenerateColumns="False">
+                          AutoGenerateColumns="False" >
                 <DataGrid.GroupStyle>
 
                     <!--<GroupStyle HeaderTemplateSelector="{StaticResource templateSelector}"/>-->
 
-
-                    <!--Style for groups at top level.-->
-
+                    <!--USAGE-->
                     <GroupStyle>
                         <GroupStyle.ContainerStyle>
                             <Style TargetType="{x:Type GroupItem}">
@@ -212,8 +213,7 @@
                         </GroupStyle.ContainerStyle>
                     </GroupStyle>
 
-                    <!--Style for groups under the top level.-->
-
+                    <!--TYPE-->
                     <GroupStyle>
                         <GroupStyle.ContainerStyle>
                             <Style TargetType="{x:Type GroupItem}">
@@ -242,16 +242,17 @@
                         </GroupStyle.ContainerStyle>
                     </GroupStyle>
 
+                    <!--SIZE-->
                     <GroupStyle>
                         <GroupStyle.ContainerStyle>
                             <Style TargetType="{x:Type GroupItem}">
-                                <Setter Property="Margin" Value="0,0,0,5"/>
+                                <Setter Property="Margin" Value="0,0,0,1"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="{x:Type GroupItem}">
                                             <Expander IsExpanded="{Binding Path=DataContext.SizeGroupExpanded, Mode=OneTime, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                                                       Foreground="Black" Background="Lavender" BorderBrush="Black" BorderThickness="1,1,1,1" 
-                                                      Margin="1 0" PreviewMouseLeftButtonDown="Expander_PreviewMouseLeftButtonDown">
+                                                      Margin="1 0" PreviewMouseLeftButtonDown="Expander_PreviewMouseLeftButtonDown" >
                                                 <Expander.Header>
                                                     <DockPanel>
                                                         <StackPanel Orientation="Horizontal" Visibility="{Binding SizeGroupView, Converter={StaticResource boolToVis}}">
@@ -288,7 +289,6 @@
                         <Setter Property="Background" Value="White" />
                     </Style>
                 </DataGrid.RowStyle>
-
 
                 <DataGrid.Columns>
                     <!--Basic-->
@@ -330,6 +330,9 @@
                                         Binding="{Binding Path=Destination, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         MinWidth="75" />
                     
+                    <DataGridTextColumn x:Name="Length" Header="Length" 
+                                        Binding="{Binding Path=Length, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        MinWidth="75" />
                     <!--<DataGridTextColumn x:Name="Derating" Header="Derating" 
                                         Binding="{Binding Path=Derating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <DataGridTextColumn x:Name="DeratedAmps" Header="Derated &#x0a;  Amps"  
@@ -350,7 +353,6 @@
                     <!--<rules:InvalidFedFromRule ValidatesOnTargetUpdated="True" ValidationStep="CommittedValue"/>-->
                 </DataGrid.RowValidationRules>
             </DataGrid>
-
 
         </Grid>
     </Grid>

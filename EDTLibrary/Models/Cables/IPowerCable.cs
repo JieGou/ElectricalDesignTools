@@ -19,6 +19,8 @@ namespace EDTLibrary.Models.Cables
         string InstallationDiagram { get; set; }
         IPowerConsumer Load { get; set; }
 
+        bool SizeIsValid { get; set; }
+
         event EventHandler PropertyUpdated;
         abstract void OnPropertyUpdated();
     }

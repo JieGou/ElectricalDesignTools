@@ -178,6 +178,19 @@
         </Style.Triggers>
     </Style>
 
+    <!--COMPONENT Column Header-->
+    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
+           x:Key="ComponentColumnHeader">
+        <Setter Property="Background" Value="LightSalmon"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true" >
+                <Setter Property="Background" Value="#FFCECEFF"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <!--CABLE Column Header-->
     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
            x:Key="CableHeaderColumn">
@@ -190,6 +203,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
 
 
     <!--Row Header Header-->

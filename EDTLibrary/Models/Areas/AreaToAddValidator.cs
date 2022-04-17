@@ -26,6 +26,7 @@ namespace EDTLibrary.Models.Areas
             _listManager = listManager;
 
             Tag = areaToAdd.Tag;
+            DisplayTag = areaToAdd.DisplayTag;
             Name = areaToAdd.Name;
             Description = areaToAdd.Description;
             AreaCategory = areaToAdd.AreaCategory;
@@ -70,7 +71,7 @@ namespace EDTLibrary.Models.Areas
             get { return _displayTag; }
             set
             {
-                _tag = value;
+                _displayTag = value;
                 ClearErrors(nameof(DisplayTag));
                 if (string.IsNullOrWhiteSpace(_displayTag)) { 
                     if (_displayTag == GlobalConfig.EmptyTag) {
@@ -96,7 +97,7 @@ namespace EDTLibrary.Models.Areas
 
                 ClearErrors(nameof(Name));
                 if (TagAndNameValidator.IsNameAvailable(_name, _listManager) == false) {
-                    AddError(nameof(Tag), "Name already exists");
+                    AddError(nameof(Name), "Name already exists");
                 }
                 else if(string.IsNullOrWhiteSpace(_name) || _name == "") {
                     AddError(nameof(Name), "Invalid Area Name");

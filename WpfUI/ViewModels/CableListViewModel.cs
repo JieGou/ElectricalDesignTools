@@ -115,6 +115,7 @@ public class CableListViewModel : ViewModelBase
                 View.GroupDescriptions.Add(_typeGroup);
             }
             if (value) {
+                _usageGroupExpanded = true;
                 _typeGroupExpanded = true;
                 View.GroupDescriptions.Add(_sizeGroup);
             }
@@ -193,6 +194,11 @@ public class CableListViewModel : ViewModelBase
         _usageGroup.PropertyName = ("UsageType");
         _typeGroup.PropertyName = ("Type");
         _sizeGroup.PropertyName = ("Size");
+    }
+
+    public void PropChanged()
+    {
+        OnPropertyChanged();
     }
 }
 

@@ -91,6 +91,7 @@ public class PowerCableModel : IPowerCable
                 var cmd = new CommandDetail { Item = this, PropName = nameof(TypeModel), OldValue = oldValue, NewValue = _typeModel };
                 Undo.UndoList.Add(cmd);
             }
+            CalculateCableQtyAndSize();
             OnPropertyUpdated();
         }
     }
@@ -143,6 +144,7 @@ public class PowerCableModel : IPowerCable
             }
         }
     }
+    public bool SizeIsValid { get; set; }
 
     public double BaseAmps { get; set; }
 
@@ -161,6 +163,8 @@ public class PowerCableModel : IPowerCable
             }
         }
     }
+    public double Length { get; set; }
+
     public double Derating { get; set; }
     public double DeratedAmps { get; set; }
     public double RequiredAmps { get; set; }
@@ -192,7 +196,7 @@ public class PowerCableModel : IPowerCable
             var oldValue = _installationType;
             _installationType = value;
             if (GlobalConfig.GettingRecords == false) {
-                CalculateCableQtySizeNew();
+                CalculateCableQtyAndSize();
             }
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(InstallationType), OldValue = oldValue, NewValue = _installationType };
@@ -308,7 +312,9 @@ public class PowerCableModel : IPowerCable
     /// <summary>
     /// Recursive function that gets the cable qty and size from Ampacity Table based on cable type and required amps
     /// </summary>
-    public void CalculateCableQtySizeNew()
+    
+    //Qty Size
+    public void CalculateCableQtyAndSize()
     {
         RequiredSizingAmps = GetRequiredSizingAmps();
         AmpacityTable = CableSizeManager.CableSizer.GetAmpacityTable(this);
@@ -317,19 +323,21 @@ public class PowerCableModel : IPowerCable
         string ampsColumn = "Amps75";
 
         if (InstallationType == GlobalConfig.CableInstallationType_LadderTray) {
-            CableQtySize_LadderTray(this, ampsColumn);
+            GetCableQtySize_ForLadderTray(this, ampsColumn);
         }
 
         else if (InstallationType == GlobalConfig.CableInstallationType_DirectBuried
               || InstallationType == GlobalConfig.CableInstallationType_RacewayConduit) {
 
-            CableQtySize_DirectBuried(this, ampsColumn);
+            CableQtySize_DirectBuriedOrRaceWayConduit(this, ampsColumn);
         }
+        CalculateAmpacityNew(Load);
         OnPropertyUpdated();
 
     }
 
-    private void CableQtySize_LadderTray(IPowerCable cable, string ampsColumn)
+    //Qty Size
+    private void GetCableQtySize_ForLadderTray(IPowerCable cable, string ampsColumn)
     {
         //Debug.WriteLine("CableQtySize_LadderTray");
 
@@ -377,7 +385,6 @@ public class PowerCableModel : IPowerCable
 
                     GetCableQty(cable.QtyParallel);
                 }
-
             }
         }
     }
@@ -403,10 +410,9 @@ public class PowerCableModel : IPowerCable
             }
         }
     }
-
-
-
-    private void CableQtySize_DirectBuried(IPowerCable cable, string ampsColumn)
+    
+    //Qty Size
+    private void CableQtySize_DirectBuriedOrRaceWayConduit(IPowerCable cable, string ampsColumn)
     {
         DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
         DataTable cablesWithHigherAmpsInProject = new DataTable();
@@ -459,6 +465,7 @@ public class PowerCableModel : IPowerCable
                 }
 
             }
+            //CalculateAmpacityNew(Load);
         }
     }
     private void SelectValidCables_SizeAmpsQty(string ampsColumn, DataTable cableAmpacityTable, DataTable cablesWithHigherAmpsInProject, int qtyParallel)
@@ -466,7 +473,9 @@ public class PowerCableModel : IPowerCable
         var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
                                                                                 && x.Field<double>(ampsColumn) >= RequiredSizingAmps
                                                                                 && x.Field<string>("AmpacityTable") == AmpacityTable
-                                                                                && x.Field<long>("QtyParallel").ToString() == qtyParallel.ToString());
+                                                                                && x.Field<long>("QtyParallel").ToString() == qtyParallel.ToString()
+                                                                                
+                                                                                );
 
         // remove cable if size is not in project
         foreach (var cableSizeInProject in EdtSettings.CableSizesUsedInProject) {
@@ -485,9 +494,10 @@ public class PowerCableModel : IPowerCable
         }
     }
 
-
+    //Ampacity
     public void CalculateAmpacityNew(IPowerConsumer load)
     {
+        SizeIsValid = true;
         Load = load;
         string ampsColumn = "Amps75";
         RequiredSizingAmps = GetRequiredSizingAmps();
@@ -499,12 +509,15 @@ public class PowerCableModel : IPowerCable
         else if (InstallationType == GlobalConfig.CableInstallationType_DirectBuried
               || InstallationType == GlobalConfig.CableInstallationType_RacewayConduit) {
 
-            CalculateAmpacity_DirectBuried(this, ampsColumn);
+            CalculateAmpacity_DirectBuriedOrRaceWayConduit(this, ampsColumn);
+        }
+        if (RequiredAmps > DeratedAmps) {
+            SizeIsValid = false;
+            SetCablInvalid(this);
         }
         OnPropertyUpdated();
 
     }
-
     private void CalculateAmpacity_LadderTray(IPowerCable cable, string ampsColumn)
     {
         cable.Derating = CableSizeManager.CableSizer.GetDerating(cable);
@@ -524,10 +537,12 @@ public class PowerCableModel : IPowerCable
             cable.DeratedAmps = cable.BaseAmps * cable.Derating;
             cable.DeratedAmps = Math.Round(cable.DeratedAmps, GlobalConfig.SigFigs);
         }
-        catch { }
+        catch {
+            SizeIsValid = false;
+            SetCablInvalid(this);
+        }
     }
-
-    private void CalculateAmpacity_DirectBuried(IPowerCable cable, string ampsColumn)
+    private void CalculateAmpacity_DirectBuriedOrRaceWayConduit(IPowerCable cable, string ampsColumn)
     {
         cable.Derating = CableSizeManager.CableSizer.GetDerating(cable);
 
@@ -538,18 +553,34 @@ public class PowerCableModel : IPowerCable
         var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
                                                       && x.Field<string>("AmpacityTable") == cable.AmpacityTable
                                                       && x.Field<string>("Size") == cable.Size
-                                                      && x.Field<long>("QtyParallel").ToString() == cable.QtyParallel.ToString());
+                                                      && x.Field<long>("QtyParallel").ToString() == cable.QtyParallel.ToString()
+                                                      && x.Field<string>("Diagram") == cable.InstallationDiagram);
         cableAmps = null;
         try {
             cableAmps = cables.CopyToDataTable();
             //select smallest of the valid results
+            var tableAmps = double.Parse(cableAmps.Rows[0][ampsColumn].ToString());
             cable.BaseAmps = double.Parse(cableAmps.Rows[0][ampsColumn].ToString()) * cable.QtyParallel;
             cable.BaseAmps = Math.Round(BaseAmps, 1);
             cable.DeratedAmps = cable.BaseAmps * cable.Derating;
             cable.DeratedAmps = Math.Round(cable.DeratedAmps, GlobalConfig.SigFigs);
             cable.InstallationDiagram = cableAmps.Rows[0]["Diagram"].ToString();
+
         }
-        catch { }
+        catch {
+            SizeIsValid = false;
+            SetCablInvalid(this);
+        }
+    }
+
+    private void SetCablInvalid(IPowerCable cable)
+    {
+        cable.SizeIsValid = false;
+        cable.Size = "n/a";
+        cable.BaseAmps = 0;
+        cable.DeratedAmps = 0;
+        cable.QtyParallel = 99;
+        cable.InstallationDiagram = "n/a";
     }
 
     //Events
