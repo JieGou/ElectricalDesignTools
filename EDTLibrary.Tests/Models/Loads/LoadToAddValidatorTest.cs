@@ -14,7 +14,7 @@ namespace EDTLibrary.Tests.Models.Loads
     public class LoadToAddValidatorTest
     {
         [Theory]
-        [InlineData("MTR-13", "MOTOR", "MCC-02", "ML", "50", "HP", "600")] // Dteq Doesn't exist
+        [InlineData("MTR-13", "MOTOR", "ML", "MCC-02", "50", "HP", "600")] // Dteq Doesn't exist
         public void IsValid_True(string tag, string type, string area, string fedFrom, string size, string unit, string voltage){
             GlobalConfig.Testing = true;
 

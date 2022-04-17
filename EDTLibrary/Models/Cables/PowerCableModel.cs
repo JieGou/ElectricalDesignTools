@@ -91,7 +91,9 @@ public class PowerCableModel : IPowerCable
                 var cmd = new CommandDetail { Item = this, PropName = nameof(TypeModel), OldValue = oldValue, NewValue = _typeModel };
                 Undo.UndoList.Add(cmd);
             }
-            CalculateCableQtyAndSize();
+            if (GlobalConfig.GettingRecords == false) {
+                CalculateCableQtyAndSize();
+            }
             OnPropertyUpdated();
         }
     }

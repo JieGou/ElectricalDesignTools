@@ -15,13 +15,13 @@ namespace EDTLibrary.TestDataFolder
         static double Mv15 = 13800;
         //Sample Data for Testing
         public static ObservableCollection<IArea> TestAreasList = new ObservableCollection<IArea>() {
-            new AreaModel() {Tag = "ML", Name = "Mill", AreaCategory = "Category 1", NemaRating = "Type 12",
+            new AreaModel() {Tag = "ML", DisplayTag = "ML", Name = "Mill", AreaCategory = "Category 1", NemaRating = "Type 12",
                             AreaClassification = "Non-Hazardous", MinTemp= -40, MaxTemp=30},
 
-            new AreaModel() {Tag = "FL", Name = "Flotation", AreaCategory = "Category 1", NemaRating = "Type 3R",
+            new AreaModel() {Tag = "FL", DisplayTag = "FL",Name = "Flotation", AreaCategory = "Category 1", NemaRating = "Type 3R",
                             AreaClassification = "Non-Hazardous", MinTemp= -40, MaxTemp=30},
 
-            new AreaModel() {Tag = "DR", Name = "Dry", AreaCategory = "Category 1", NemaRating = "Type 12",
+            new AreaModel() {Tag = "DR", DisplayTag = "DR",Name = "Dry", AreaCategory = "Category 1", NemaRating = "Type 12",
                             AreaClassification = "Non-Hazardous", MinTemp= -40, MaxTemp=30}
         };
 
