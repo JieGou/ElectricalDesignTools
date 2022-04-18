@@ -4,6 +4,7 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -258,7 +259,43 @@ namespace WpfUI.Views
 
             dataGridCell.FastEdit(args);
         }
+
+        private void txtLoadTagFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtLoadTagFilter.Text =="") {
+                eqVm.AssignedLoads.Clear();
+                foreach (var load in eqVm.ListManager.LoadList) {
+                    eqVm.AssignedLoads.Add((IPowerConsumer)load);
+                }
+            }
+        }
+
+        private void txtLoadTagFilter_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key==Key.Enter) {
+                ObservableCollection<IPowerConsumer> tempLoadList = new ObservableCollection<IPowerConsumer>();
+                foreach (var item in eqVm.AssignedLoads) {
+                    tempLoadList.Add(item);
+                }
+
+                eqVm.AssignedLoads.Clear();
+                foreach (var load in tempLoadList) {
+                    if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())) {
+                        eqVm.AssignedLoads.Add((IPowerConsumer)load);
+                    }
+                }
+
+                //eqVm.AssignedLoads.Clear();
+                //foreach (var load in eqVm.ListManager.LoadList) {
+                //    if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())) {
+                //        eqVm.AssignedLoads.Add((IPowerConsumer)load);
+                //    }
+                //}
+            }
+        }
+
     }
+
     public static class DataGridExtensions
     {
         public static void FastEdit(this DataGridCell dataGridCell, RoutedEventArgs args)

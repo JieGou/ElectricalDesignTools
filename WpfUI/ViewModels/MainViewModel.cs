@@ -28,8 +28,14 @@ namespace WpfUI.ViewModels
     public class MainViewModel : ViewModelBase
     {
         public ListManager _listManager;
-        private StartupService _startupService;
 
+        public ListManager ListManager
+        {
+            get { return _listManager; }
+            set { _listManager = value; }
+        }
+
+        private StartupService _startupService;
 
         private readonly StartupViewModel _startupViewModel;
         private readonly ProjectSettingsViewModel _projectSettingsViewModel = new ProjectSettingsViewModel();

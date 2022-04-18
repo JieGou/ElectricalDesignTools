@@ -166,7 +166,7 @@ public class CableListViewModel : ViewModelBase
         }
     }
 
-    private string _tagFilter;
+    private string _tagFilter="";
 
     public string TagFilter
     {
@@ -178,12 +178,27 @@ public class CableListViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    private string _typeFilter="";
+
+    public string TypeFilter
+    {
+        get { return _typeFilter; }
+        set
+        {
+            _typeFilter = value;
+            View.Filter = new Predicate<object>(Contains);
+            OnPropertyChanged();
+        }
+    }
     private bool Contains(object item)
     {
         PowerCableModel cable = (PowerCableModel)item;
 
-        if (TagFilter != "") {
-            return (cable.Tag.ToLower()).Contains(TagFilter.ToLower());
+        if (TagFilter != "" || TypeFilter != "") {
+            return (cable.Tag.ToLower()).Contains(TagFilter.ToLower())
+                && cable.TypeModel.Type.ToLower().Contains(TypeFilter.ToLower());
+
+            //return cable.TypeModel.Type.ToLower().Contains(TypeFilter.ToLower());
         }
         return true;
     }

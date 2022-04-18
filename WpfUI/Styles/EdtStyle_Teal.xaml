@@ -181,7 +181,7 @@
     <!--COMPONENT Column Header-->
     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
            x:Key="ComponentColumnHeader">
-        <Setter Property="Background" Value="LightSalmon"/>
+        <Setter Property="Background" Value="#FFD27D16"/>
         <Setter Property="Foreground" Value="White"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >

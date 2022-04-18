@@ -4,6 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
+             
+             xmlns:clr="clr-namespace:System;assembly=mscorlib"
+
+             
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="550"
              Background="LightCyan">
@@ -14,27 +18,51 @@
                 <Setter Property="Padding" Value="3 1"/>
                 <Setter Property="Height" Value="20"/>
                 <Setter Property="Margin" Value="0 3"/>
-                <Setter Property="ToolTipService.InitialShowDelay" Value="0"/>
+                <Setter Property="ToolTipService.InitialShowDelay" Value="500"/>
                 <Setter Property="ToolTipService.BetweenShowDelay" Value="0"/>
             </Style>
+
+            <clr:String x:Key="enclosureMessage" xml:space="preserve">Changing this value here will affect this equipment only.
+Suggestion is to create a new area and inherit the value
+from it instead of changing it separately.
+                
+Changing the equipment's Area or updating the Area properties&#13;will override/update these values.</clr:String>
+
         </ResourceDictionary>
+
     </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition MaxWidth="10"/>
+            <ColumnDefinition Width="auto" d:Width="195"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        
+
+        <TextBlock Text="Area"
+                   Grid.Row="0" Grid.Column="0"
+                   Margin="5 5 0 0"/>
+        <ComboBox Grid.Row="0" Grid.Column="2" Margin="0 5 7 0 "
+                  Template="{DynamicResource ComboBoxBase}"
+                  MinWidth="115" HorizontalAlignment="Right"
+                  ItemsSource="{Binding Path=DataContext.ListManager.AreaList, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, 
+                                        AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                    SelectedItem="{Binding Area, StringFormat={}{0} }" 
+                    DisplayMemberPath="Tag"
+                    IsSynchronizedWithCurrentItem="True" 
+                    ToolTip="{StaticResource enclosureMessage}"/>
+
         <GroupBox Header="Enclosure Details" FontWeight="Bold"
                   Style="{DynamicResource GroupBoxStyle1}" 
-                  Grid.Row="0"
+                  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
                   Margin="0 10 0 0" >
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -45,7 +73,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
 
@@ -53,11 +80,12 @@
                            Grid.Row="0" Grid.Column="0" 
                            FontWeight="Normal"
                            Margin="0 5 0 0"
+                           MinWidth="95"
                            TextAlignment="Right"/>
                 <ComboBox x:Name="cbxNemaRatings" 
                           Template="{DynamicResource ComboBoxBase}" 
                           Grid.Row="0" Grid.Column="2"
-                          MinWidth="100"
+                          MinWidth="115"
                           ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, 
                                               RelativeSource={RelativeSource Mode=FindAncestor, 
                                               AncestorType={x:Type Window}}}"
@@ -66,7 +94,7 @@
                           DisplayMemberPath="Type"
                           SelectedValue="{Binding NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsSynchronizedWithCurrentItem="False" 
-                          ToolTip="Suggestion is to create a new area and inherit the data instead of changing this directly"/>
+                          ToolTip="{StaticResource enclosureMessage}"/>
 
 
                 <TextBlock Text="Area Classification"
@@ -83,7 +111,38 @@
                           DisplayMemberPath="Zone"
                           SelectedValue="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsSynchronizedWithCurrentItem="False" 
-                          ToolTip="Suggestion is to create a new area and inherit the data instead of changing this directly"/>
+                          ToolTip="{StaticResource enclosureMessage}"/>
+
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Area Details" FontWeight="Bold"
+                  Style="{DynamicResource GroupBoxStyle1}" 
+                  Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                  Margin="0 10 0 0" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+
+                <TextBlock Text="Area"
+                           Grid.Row="0" Grid.Column="0" 
+                           FontWeight="Normal"
+                           MinWidth="95"
+                           Margin="0 5 0 0"
+                           TextAlignment="Left"/>
+                <ComboBox 
+                          Template="{DynamicResource ComboBoxBase}" 
+                          Grid.Row="0" Grid.Column="2"
+                          MinWidth="115"
+                         
+                          ToolTip="{StaticResource enclosureMessage}"/>
 
             </Grid>
         </GroupBox>
