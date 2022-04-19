@@ -9,7 +9,6 @@
         xmlns:rules="clr-namespace:WpfUI.ValidationRules"
         xmlns:h="clr-namespace:WpfUI.Helpers"
         xmlns:commands="clr-namespace:WpfUI.Commands"
-        xmlns:viewComponents="clr-namespace:WpfUI.ViewComponents"
         xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
         mc:Ignorable="d"
              d:Width="1600" d:Height="800"

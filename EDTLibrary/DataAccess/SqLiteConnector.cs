@@ -338,7 +338,6 @@ namespace EDTLibrary.DataAccess
                 SQLiteCommand cmd = new SQLiteCommand();
 
                 //Build query string: 
-                //INSER INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
                 sb.Append($"UPDATE ProjectSettings SET Value = @Value");
                 cmd.Parameters.AddWithValue($"@Value", settingValue);
 

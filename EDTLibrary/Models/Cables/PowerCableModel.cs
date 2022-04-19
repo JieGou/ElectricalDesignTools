@@ -1,16 +1,13 @@
 ﻿
 using EDTLibrary.LibraryData;
-using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 
 namespace EDTLibrary.Models.Cables;
@@ -115,22 +112,21 @@ public class PowerCableModel : IPowerCable
         {
             var oldValue = _qtyParallel;
             _qtyParallel = value;
-            if (_qtyParallel < 1) {
+            if (_qtyParallel == null || _qtyParallel < 1 ) {
                 _qtyParallel = 1;
             }
-            if (_qtyParallel == null) {
-                _qtyParallel = 1;
-            }
-
-            if (GlobalConfig.GettingRecords == false) {
-            }
+          
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(QtyParallel), OldValue = oldValue, NewValue = _qtyParallel };
                 Undo.UndoList.Add(cmd);
             }
+            //if (GlobalConfig.GettingRecords == false && _calculating == false) {
+            //    CalculateAmpacityNew(_load);
+            //}
         }
     }
 
+    private bool _calculating;
     private string _size;
 
     public string Size
@@ -294,7 +290,6 @@ public class PowerCableModel : IPowerCable
         RequiredSizingAmps = Math.Round(RequiredSizingAmps, 1);
         return RequiredSizingAmps;
 
-
     }
 
     public string SelectCableType(double voltageClass, int conductorQty, double insulation, string usageType)
@@ -318,6 +313,8 @@ public class PowerCableModel : IPowerCable
     //Qty Size
     public void CalculateCableQtyAndSize()
     {
+        Undo.Undoing=true; 
+        //_calculating = true;
         RequiredSizingAmps = GetRequiredSizingAmps();
         AmpacityTable = CableSizeManager.CableSizer.GetAmpacityTable(this);
         InstallationDiagram = "";
@@ -335,6 +332,8 @@ public class PowerCableModel : IPowerCable
         }
         CalculateAmpacityNew(Load);
         OnPropertyUpdated();
+        Undo.Undoing = false; 
+        //_calculating = false;
 
     }
 
@@ -499,6 +498,7 @@ public class PowerCableModel : IPowerCable
     //Ampacity
     public void CalculateAmpacityNew(IPowerConsumer load)
     {
+        _calculating = true;
         SizeIsValid = true;
         Load = load;
         string ampsColumn = "Amps75";
@@ -518,6 +518,7 @@ public class PowerCableModel : IPowerCable
             SetCablInvalid(this);
         }
         OnPropertyUpdated();
+        _calculating = false;
 
     }
     private void CalculateAmpacity_LadderTray(IPowerCable cable, string ampsColumn)
@@ -578,10 +579,10 @@ public class PowerCableModel : IPowerCable
     private void SetCablInvalid(IPowerCable cable)
     {
         cable.SizeIsValid = false;
-        cable.Size = "n/a";
-        cable.BaseAmps = 0;
-        cable.DeratedAmps = 0;
-        cable.QtyParallel = 99;
+        //cable.Size = "n/a";
+        //cable.BaseAmps = 0;
+        //cable.DeratedAmps = 0;
+        //cable.QtyParallel = 99;
         cable.InstallationDiagram = "n/a";
     }
 

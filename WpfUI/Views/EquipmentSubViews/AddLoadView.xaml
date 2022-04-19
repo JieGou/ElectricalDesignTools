@@ -13,7 +13,6 @@
         xmlns:commands="clr-namespace:WpfUI.Commands"
         xmlns:viewModifiers="clr-namespace:WpfUI.ViewModifiers"
         xmlns:views="clr-namespace:WpfUI.Views"
-        xmlns:viewComponents="clr-namespace:WpfUI.ViewComponents"
         xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
               xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
               xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"

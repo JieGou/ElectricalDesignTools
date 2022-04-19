@@ -23,7 +23,7 @@ using PropertyChanged;
 namespace WpfUI.ViewModels;
 
 [AddINotifyPropertyChangedInterface]
-public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
+public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 {
 
     #region Constructor
@@ -37,7 +37,7 @@ public class EquipmentViewModel : ViewModelBase, INotifyDataErrorInfo
         set { _listManager = value; }
     }
 
-    public EquipmentViewModel(ListManager listManager)
+    public ElectricalViewModel(ListManager listManager)
     {
         //fields
         _listManager = listManager;

@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Windows.Input;
 using WpfUI.Commands;
-using WpfUI.Models;
 using WpfUI.Services;
 using WpfUI.Stores;
 
@@ -10,7 +9,6 @@ namespace WpfUI.ViewModels
     public class StartupViewModel :ViewModelBase
     {
         #region Properties and Backing Fields
-        private readonly ProjectFile _projectFile;
         public string? ProjectName { get; set; }
         public string? ProjectPath { get; set; }
 
@@ -27,25 +25,7 @@ namespace WpfUI.ViewModels
             SelectProjectCommand = new RelayCommand(SelectProject);
         }
 
-        public StartupViewModel(NavigationBarViewModel navigationBarViewModel, ProjectFileStore projectFileStore, NavigationService<ProjectSettingsViewModel> projectSettingsNavigationService)
-        {
-            SetSelectedProject();
-
-            //string filePath = string.Empty;
-            //_projectFile = new ProjectFile(filePath) { FileName = ProjectName, FilePath = ProjectPath, };
-
-            NavigationBarViewModel = navigationBarViewModel;
-
-            OpenProjectCommand = new OpenProjectCommand(this, projectFileStore, projectSettingsNavigationService);
-
-            SelectProjectCommand = new RelayCommand(SelectProject);
-        }
-
-       
-
-        public ICommand OpenProjectCommand { get; }
         public ICommand SelectProjectCommand { get; }
-        public NavigationBarViewModel NavigationBarViewModel { get; }
 
         public void SelectProject()
         {

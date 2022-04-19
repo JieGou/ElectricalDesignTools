@@ -83,15 +83,15 @@
 
                 <Button x:Name="btnProjectSettings" Content="SETTINGS"
                         VerticalAlignment="Top"
-                        Command="{Binding NavigateProjectSettingsCommand}"/>
+                        Command="{Binding NavigateSettingsCommand}"/>
 
                 <Button VerticalAlignment="Top"
                         Content="AREAS"
                         Command="{Binding NavigateAreasCommand}"/>
 
-                <Button x:Name="btnDistribution" Content="DISTRIBUTION"
+                <Button x:Name="btnElectrical" Content="ELECTRICAL"
                         VerticalAlignment="Top"
-                        Command="{Binding NavigateEquipmentCommand}"/>
+                        Command="{Binding NavigateElectricalCommand}"/>
 
                 <Button x:Name="btnCableList" Content="CABLE &amp; TRAY"
                         VerticalAlignment="Top"
@@ -154,16 +154,16 @@
                     <views:StartupView/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewmodels:ProjectSettingsViewModel}">
-                    <views:ProjectSettingsView/>
+                <DataTemplate DataType="{x:Type viewmodels:SettingsViewModel}">
+                    <views:SettingsView/>
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type viewmodels:AreasViewModel}">
                     <views:AreasView/>
                 </DataTemplate>
                 
-                <DataTemplate DataType="{x:Type viewmodels:EquipmentViewModel}">
-                    <views:EquipmentView/>
+                <DataTemplate DataType="{x:Type viewmodels:ElectricalViewModel}">
+                    <views:ElectricalView/>
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type viewmodels:CableListViewModel}">

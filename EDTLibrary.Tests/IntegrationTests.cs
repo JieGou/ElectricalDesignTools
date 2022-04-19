@@ -45,7 +45,7 @@ namespace EDTLibrary.Tests
 
             //ViewModels
             AreasViewModel areaVm = new AreasViewModel(listManager);
-            EquipmentViewModel eqVm = new EquipmentViewModel(listManager);
+            ElectricalViewModel eqVm = new ElectricalViewModel(listManager);
 
             #endregion
 
@@ -124,7 +124,7 @@ namespace EDTLibrary.Tests
             SelectAllDteqAndLoads(listManager, eqVm);
         }
 
-        private static void SelectAllDteqAndLoads(ListManager listManager, EquipmentViewModel eqVm)
+        private static void SelectAllDteqAndLoads(ListManager listManager, ElectricalViewModel eqVm)
         {
             foreach (var dteq in listManager.IDteqList) {
                 Debug.WriteLine(dteq.Tag.ToString());

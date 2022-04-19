@@ -13,22 +13,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfUI.Views.SettingsSubViews;
 
 namespace WpfUI.Views
 {
     /// <summary>
     /// Interaction logic for ProjectSettingsView.xaml
     /// </summary>
-    public partial class ProjectSettingsView : UserControl
+    public partial class SettingsView : UserControl
     {
-        public ProjectSettingsView() {
+        public SettingsView() {
             InitializeComponent();
         }
 
         private void dgdTableSetting_MouseLeave(object sender, MouseEventArgs e)
         {
-            //dgdTableSetting.CommitEdit();
-            dgdCableSizes.CommitEdit();
         }
 
 
@@ -59,6 +58,20 @@ namespace WpfUI.Views
 
             }
 
+        }
+
+        private void btnGeneralSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            GeneralSettingsView generalSettings = new GeneralSettingsView();
+            generalSettings.DataContext = this.DataContext;
+            ccSettingPage.Content = generalSettings;
+        }
+
+        private void btnDeveloperSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DeveloperSettingsView developerSettings = new DeveloperSettingsView();
+            developerSettings.DataContext = this.DataContext;
+            ccSettingPage.Content = developerSettings;
         }
     }
 }

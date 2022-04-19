@@ -9,11 +9,7 @@ using System.Diagnostics;
 namespace EDTLibrary.LibraryData
 {
     public static class LibraryManager {
-
-
         public static ObservableCollection<CecCableAmpacityModel> CecCableAmpacities { get; set; }
-
-
         public static double GetMotorEfficiency(ILoad load) {
             double result = GlobalConfig.NoValueDouble;
             if (DataTables.Motors != null) {

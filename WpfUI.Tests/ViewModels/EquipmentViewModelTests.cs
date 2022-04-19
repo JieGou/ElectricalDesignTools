@@ -27,7 +27,7 @@ namespace WpfUI.Tests.ViewModels
                 new LoadModel("HTR-01")
             };
             ListManager listManager = new ListManager();
-            EquipmentViewModel eqv = new EquipmentViewModel(listManager);
+            ElectricalViewModel eqv = new ElectricalViewModel(listManager);
 
             //Act
             bool actual = eqv.IsTagAvailable(_dteqToAddTag, DteqList, LoadList);

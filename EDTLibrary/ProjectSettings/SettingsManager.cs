@@ -11,8 +11,15 @@ using System.Text;
 
 namespace EDTLibrary.ProjectSettings
 {
-    public class SettingManager {
+    public class SettingsManager {
 
+        public EdtSettings EdtSettings { get; set; }
+        public SettingsManager(EdtSettings edtSettings)
+        {
+            EdtSettings = edtSettings;
+        }
+
+        
         public static ObservableCollection<SettingModel> SettingList { get; set; } = new ObservableCollection<SettingModel>();
         public static ObservableCollection<SettingModel> StringSettingList { get; set; } = new ObservableCollection<SettingModel>();
         public static ObservableCollection<SettingModel> TableSettingList { get; set; } = new ObservableCollection<SettingModel>();
@@ -21,7 +28,6 @@ namespace EDTLibrary.ProjectSettings
         public static Dictionary<string, SettingModel> StringSettingDict { get; set; } = new Dictionary<string, SettingModel>();
         public static Dictionary<string, SettingModel> TableSettingDict { get; set; } = new Dictionary<string, SettingModel>();
 
-        
         public static void LoadProjectSettings()
         {
             SettingList.Clear();
@@ -105,12 +111,20 @@ namespace EDTLibrary.ProjectSettings
             DaManager.prjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
 
             //SettingProperty
-            Type type = typeof(EdtSettings); // MyClass is static class with static properties
-            foreach (var prop in type.GetProperties()) {
+            Type edtSettingsClass = typeof(EdtSettings); // MyClass is static class with static properties
+            foreach (var prop in edtSettingsClass.GetProperties()) {
                 if (setting.Name == prop.Name) {
                     prop.SetValue(setting.Value, setting.Value);
                 }
             }
+        }
+
+        public static void SaveStringSettingToDb(string settingName, string settingValue)
+        {
+            SettingModel setting = new SettingModel();
+            setting = StringSettingList.FirstOrDefault(s => s.Name == settingName);
+            setting.Value = settingValue;
+            DaManager.prjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
         }
 
         public static void SaveTableSetting(SettingModel tableSetting)

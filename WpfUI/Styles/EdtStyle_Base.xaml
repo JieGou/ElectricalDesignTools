@@ -26,13 +26,8 @@
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
     </Style>
 
-
     <!--TEXTBOX Style with Error -->
-    <Style TargetType="TextBox" BasedOn="{StaticResource DefaultStyle}">
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="TextAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Style x:Key="TextBoxBaseErrorTemplate" TargetType="TextBox" BasedOn="{StaticResource DefaultStyle}">
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
@@ -58,6 +53,14 @@
                 <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <!--TEXTBOX Style with Error -->
+    <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
     <!--COMBOBOX with Error-->

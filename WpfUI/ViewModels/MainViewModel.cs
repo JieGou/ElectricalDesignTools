@@ -1,25 +1,16 @@
 ﻿using EDTLibrary;
 using EDTLibrary.A_Helpers;
-using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
-using EDTLibrary.Models;
-using EDTLibrary.Models.DistributionEquipment;
-using EDTLibrary.Models.Loads;
-using Microsoft.Win32;
+using EDTLibrary.ProjectSettings;
 using Portable.Licensing;
 using Portable.Licensing.Security.Cryptography;
 using Portable.Licensing.Validation;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using Windows.Storage.Streams;
-using Windows.System.Profile;
 using WpfUI.Commands;
 using WpfUI.Services;
 
@@ -28,32 +19,79 @@ namespace WpfUI.ViewModels
     public class MainViewModel : ViewModelBase
     {
         public ListManager _listManager;
-
         public ListManager ListManager
         {
             get { return _listManager; }
             set { _listManager = value; }
         }
 
-        private StartupService _startupService;
-
-        private readonly StartupViewModel _startupViewModel;
-        private readonly ProjectSettingsViewModel _projectSettingsViewModel = new ProjectSettingsViewModel();
-        private AreasViewModel _areasViewModel;
-        private readonly EquipmentViewModel _equipmentViewModel;
-        private readonly CableListViewModel _cableListViewModel;
-        private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
-
         private TypeManager _typeManager;
-
         public TypeManager TypeManager
         {
             get { return _typeManager; }
             set { _typeManager = value; }
         }
 
+        private EdtSettings _edtSettings;
 
-        public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, string type="")
+        public EdtSettings EdtSettings
+        {
+            get { return _edtSettings; }
+            set { _edtSettings = value; }
+        }
+
+
+        private StartupService _startupService;
+
+        private readonly StartupViewModel _startupViewModel;
+        private readonly SettingsViewModel _settingsViewModel;
+        private AreasViewModel _areasViewModel;
+        private readonly ElectricalViewModel _electricalViewModel;
+        private readonly CableListViewModel _cableListViewModel;
+        private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
+
+       
+
+
+        public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type="")
+        {
+            ValidateLicense();
+
+            _listManager = listManager;
+            _typeManager = typeManager;
+            _startupService = startupService;
+            _edtSettings = edtSettings;
+
+            _startupViewModel = new StartupViewModel(startupService);
+            _settingsViewModel = new SettingsViewModel(edtSettings);
+            _areasViewModel = new AreasViewModel(listManager);
+            _electricalViewModel = new ElectricalViewModel(listManager);
+            _cableListViewModel = new CableListViewModel(listManager);
+
+            NavigateStartupCommand = new RelayCommand(NavigateStartup);
+            NavigateSettingsCommand = new RelayCommand(NavigateSettings, CanExecute_IsProjectLoaded);
+            NavigateAreasCommand = new RelayCommand(NavigateAreas, CanExecute_IsProjectLoaded);
+
+            NavigateElectricalCommand = new RelayCommand(NavigateEquipment, startupService);
+
+            NavigateCableListCommand = new RelayCommand(NavigateCableList, CanExecute_IsProjectLoaded);
+            NavigateDataTablesCommand = new RelayCommand(NavigateDataTables, CanExecute_IsLibraryLoaded);
+            ScenarioCommand = new RelayCommand(NewWindow);
+
+            startupService.InitializeLibrary();
+            _areasViewModel.CreateComboBoxLists();
+            _electricalViewModel.CreateComboBoxLists();
+
+
+#if DEBUG
+            if (type == "dev") {
+                _startupService.InitializeProject(AppSettings.Default.ProjectDb);
+            }
+#endif
+
+        }
+
+        private static void ValidateLicense()
         {
             string licenseFilePath = @"C:/temp/License.lic";
             FileInfo licenseFile = new FileInfo(licenseFilePath);
@@ -64,7 +102,7 @@ namespace WpfUI.ViewModels
             string publicKeyFilePath = @"C:/temp/PublicKey.text";
             FileInfo publicKeyFile = new FileInfo(publicKeyFilePath);
 
-            
+
 
             KeyGenerator keyGenerator;
             KeyPair keyPair;
@@ -103,7 +141,7 @@ namespace WpfUI.ViewModels
                 if (licenseFile.Exists == false) {
                     string ComputerGuid = ComputerInfo.GetComputerGuid();
 
-                    
+
 
                     license = License.New().WithUniqueIdentifier(Guid.NewGuid())
                                             .As(LicenseType.Trial)
@@ -133,8 +171,10 @@ namespace WpfUI.ViewModels
                                                 .Signature(publicKey)
                                                 .And()
                                                 .AssertThat(lic => lic.AdditionalAttributes.Get("ComputerName") == Environment.MachineName.ToString(),
-                                                                                                    new GeneralValidationFailure() { Message = "The license file is not registered for this machine. This can be caused If you changed your computer name or re-installed Windows.", 
-                                                                                                    HowToResolve = "Contact administrator" })
+                                                                                                    new GeneralValidationFailure() {
+                                                                                                        Message = "The license file is not registered for this machine. This can be caused If you changed your computer name or re-installed Windows.",
+                                                                                                        HowToResolve = "Contact administrator"
+                                                                                                    })
                                                 .And()
                                                 .AssertThat(lic => lic.AdditionalAttributes.Get("ComputerGuid") == ComputerInfo.GetComputerGuid(),
                                                                                                     new GeneralValidationFailure() {
@@ -153,46 +193,14 @@ namespace WpfUI.ViewModels
             catch (Exception ex) {
                 MessageBox.Show("Public Key or License file is corrupt or has been modified." + "\n\n" + ex.Message, "EDT - License Validation Failure");
             }
-
-            _listManager = listManager;
-            _typeManager = typeManager;
-            _startupService = startupService;
-
-            _startupViewModel = new StartupViewModel(startupService);
-            _areasViewModel = new AreasViewModel(listManager);
-            _equipmentViewModel = new EquipmentViewModel(listManager);
-            _cableListViewModel = new CableListViewModel(listManager);
-
-            NavigateStartupCommand = new RelayCommand(NavigateStartup);
-            NavigateProjectSettingsCommand = new RelayCommand(NavigateProjectSettings, CanExecute_IsProjectLoaded);
-            NavigateAreasCommand = new RelayCommand(NavigateAreas, CanExecute_IsProjectLoaded);
-
-            NavigateEquipmentCommand = new RelayCommand(NavigateEquipment, startupService);
-
-            NavigateCableListCommand = new RelayCommand(NavigateCableList, CanExecute_IsProjectLoaded);
-            NavigateDataTablesCommand = new RelayCommand(NavigateDataTables, CanExecute_IsLibraryLoaded);
-            ScenarioCommand = new RelayCommand(NewWindow);
-
-            startupService.InitializeLibrary();
-            _areasViewModel.CreateComboBoxLists();
-            _equipmentViewModel.CreateComboBoxLists();
-
-
-#if DEBUG
-            if (type == "dev") {
-                _startupService.InitializeProject(AppSettings.Default.ProjectDb);
-            }
-#endif
-
         }
 
-        
 
-#region Navigation
+        #region Navigation
         public ICommand NavigateStartupCommand { get; }
-        public ICommand NavigateProjectSettingsCommand { get; }
+        public ICommand NavigateSettingsCommand { get; }
         public ICommand NavigateAreasCommand { get; }
-        public ICommand NavigateEquipmentCommand { get; }
+        public ICommand NavigateElectricalCommand { get; }
         public ICommand NavigateCableListCommand { get; }
         public ICommand NavigateDataTablesCommand { get; }
         public ICommand ScenarioCommand { get; }
@@ -201,9 +209,9 @@ namespace WpfUI.ViewModels
         {
             CurrentViewModel = _startupViewModel;
         }
-        private void NavigateProjectSettings()
+        private void NavigateSettings()
         {
-            CurrentViewModel = _projectSettingsViewModel;
+            CurrentViewModel = _settingsViewModel;
         }
         private void NavigateAreas()
         {
@@ -211,11 +219,10 @@ namespace WpfUI.ViewModels
         }
         private void NavigateEquipment()
         {
-            CurrentViewModel = _equipmentViewModel;
-            _equipmentViewModel.CreateValidators();
-
-            _equipmentViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
-            _equipmentViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
+            CurrentViewModel = _electricalViewModel;
+            _electricalViewModel.CreateValidators();
+            _electricalViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
+            _electricalViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
         }
         private void NavigateCableList()
         {
@@ -244,7 +251,7 @@ namespace WpfUI.ViewModels
 
             Window scenario = new MainWindow() {
                 //DataContext = new MainViewModel(startupService, listManager)
-                DataContext = new MainViewModel(_startupService, _listManager, typeManager)
+                DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings)
                 
             };
             

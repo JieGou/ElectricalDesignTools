@@ -121,15 +121,15 @@ namespace WpfUI.Services
 
         public static void LoadProjectSettings()
         {
-            SettingManager.LoadProjectSettings();
+            SettingsManager.LoadProjectSettings();
         }
 
         public static void SaveProjectSettings()
         {
-            Type type = typeof(EdtSettings); // EdtSettings is a static class
+            Type edtSettingsClass = typeof(EdtSettings); // EdtSettings is a static class
             string propValue;
             try {
-                foreach (var prop in type.GetProperties()) {
+                foreach (var prop in edtSettingsClass.GetProperties()) {
                     propValue = prop.GetValue(null).ToString(); //null for static class
                     prjDb.UpdateSetting(prop.Name, propValue);
                 }
@@ -138,7 +138,6 @@ namespace WpfUI.Services
                 ErrorHelper.SqlErrorMessage(ex);
             }
         }
-
-        
+                
     }
 }

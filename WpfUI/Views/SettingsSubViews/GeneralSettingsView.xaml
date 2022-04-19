@@ -1,0 +1,247 @@
+﻿<UserControl x:Class="WpfUI.Views.SettingsSubViews.GeneralSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:WpfUI.Views"
+             xmlns:commands="clr-namespace:WpfUI.Commands"
+             xmlns:projectSettings="clr-namespace:EDTLibrary.ProjectSettings;assembly=EDTLibrary"
+             
+             
+             mc:Ignorable="d" 
+             d:Width="1200" d:Height="900" 
+             Background="AliceBlue">
+
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <projectSettings:EdtSettings x:Key="edtSettings"/>
+
+            <CollectionViewSource x:Key="ListBoxItems" Source="{Binding Path=StringSettings}">
+                <CollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="Category" />
+                </CollectionViewSource.GroupDescriptions>
+            </CollectionViewSource>
+
+            <sys:Int32 x:Key="col1">1</sys:Int32>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+            </Style>
+            
+            <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="MinWidth" Value="125"/>
+                <Setter Property="Height" Value="23"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+            </Style>
+
+            <Style TargetType="ComboBox">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="MinWidth" Value="125"/>
+                <Setter Property="Height" Value="23"/>
+                <Setter Property="Template" Value="{DynamicResource ComboBoxBase}"/>
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="settingsGrid"
+              d:Opacity="1"
+              Opacity="0" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/> <!--Buttons-->
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/> <!--Col 1-->
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="auto"/> <!--Col 2-->
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="auto"/> <!--Col 3-->
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Grid.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="settingsGrid"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0" To="1" Duration="0:0:0.5"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+
+
+        <!--Buttons-->
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1" Grid.Column="0">
+
+            <Button x:Name="btnReLoadSettings" Content="Reload Settings" 
+                    Height="27" Margin="0 50 0 10"
+                    Command="{Binding Path=ReloadSettingsCommand}"/>
+            <Button x:Name="btnSaveSettings" Content="Save Settings tmp" 
+                    Height="27" PreviewMouseDown="btnSaveSettings_PreviewMouseDown"/>
+        </StackPanel>
+
+        <WrapPanel Grid.Row="1" Grid.Column="2">
+        <!--Project Details-->
+        <GroupBox Header="Project Details" FontWeight="Bold"
+                  Grid.Row="1" Grid.Column="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+
+                <TextBlock Text="Project No." 
+                       Grid.Row="1" Grid.Column="0" />
+                <TextBox Grid.Row="1" Grid.Column="2"
+                         Text="{Binding Path=ProjectNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Source={StaticResource edtSettings}}"/>
+
+                <TextBlock Text="Project Name"  
+                       Grid.Row="2" Grid.Column="0" />
+                <TextBox Grid.Row="2" Grid.Column="2"
+                         Text="{Binding Path=ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Source={StaticResource edtSettings}}"/>
+                <TextBlock Text="Project Title Line 1"  
+                       Grid.Row="4" Grid.Column="0" />
+                <TextBox Grid.Row="4" Grid.Column="2"
+                         Text="{Binding Path=ProjectTitleLine1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Source={StaticResource edtSettings}}"/>
+                <TextBlock Text="Project Title Line 2"
+                       Grid.Row="5" Grid.Column="0" />
+                <TextBox Grid.Row="5" Grid.Column="2"
+                         Text="{Binding Path=ProjectTitleLine2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Source={StaticResource edtSettings}}"/>
+                <TextBlock Text="Project Title Line 3"
+                       Grid.Row="6" Grid.Column="0" />
+                <TextBox Grid.Row="6" Grid.Column="2"
+                         Text="{Binding Path=ProjectTitleLine3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Source={StaticResource edtSettings}}"/>
+
+
+
+                <TextBlock Text="Client Name Line 1" 
+                       Grid.Row="9" Grid.Column="0" />
+                <TextBox Grid.Row="9" Grid.Column="2"
+                         Text="{Binding Path=ClientNameLine1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Source={StaticResource edtSettings}}"/>
+
+                <TextBlock Text="Client Name Line 2" 
+                       Grid.Row="10" Grid.Column="0" />
+                <TextBox Grid.Row="10" Grid.Column="2"
+                         Text="{Binding Path=ClientNameLine2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Source={StaticResource edtSettings}}"/>
+                <TextBlock Text="Client Name Line 2" 
+                       Grid.Row="11" Grid.Column="0" />
+                <TextBox Grid.Row="11" Grid.Column="2"
+                         Text="{Binding Path=ClientNameLine3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Source={StaticResource edtSettings}}"/>
+
+            </Grid>
+        </GroupBox>
+
+        
+        <!--Electrcial Setup-->
+        <GroupBox Header="Electrical Setup" FontWeight="Bold"
+                  Grid.Row="1" Grid.Column="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Electrical Code"  
+                       Grid.Row="1" Grid.Column="0" />
+                <ComboBox Grid.Row="1" Grid.Column="2"
+                          Text="{Binding Path=Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Source={StaticResource edtSettings}}"
+                          SelectedValue="{Binding Path=ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Source={StaticResource edtSettings}}" />
+
+                <TextBlock Text="Client Name" 
+                       Grid.Row="2" Grid.Column="0" />
+                <TextBox Grid.Row="2" Grid.Column="2"
+                         Text="{Binding Path=ClientName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                        Source={StaticResource edtSettings}}"/>
+
+
+            </Grid>
+        </GroupBox>
+
+        <!--Cable Settings-->
+        <GroupBox Header="Cable Settings" FontWeight="Bold"
+                  Grid.Row="1" Grid.Column="6">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="CableSpacingMaxAmps 3C1kV"  
+                       Grid.Row="1" Grid.Column="0" />
+                <TextBox Grid.Row="1" Grid.Column="2"
+                          Text="{Binding Path=CableSpacingMaxAmps_3C1kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            </Grid>
+        </GroupBox>
+        </WrapPanel>
+    </Grid>
+
+
+
+
+
+    <!--STRING Settings-->
+
+</UserControl>

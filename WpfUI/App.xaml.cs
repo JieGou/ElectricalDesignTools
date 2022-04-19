@@ -1,5 +1,6 @@
 ﻿using EDTLibrary;
 using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.ProjectSettings;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -28,9 +29,10 @@ namespace WpfUI {
             ListManager listManager = new ListManager();
             StartupService startupService = new StartupService(listManager);
             TypeManager typeManager = new TypeManager();
+            EdtSettings edtSettings = new EdtSettings();
 
             MainWindow = new MainWindow() { 
-                DataContext = new MainViewModel(startupService, listManager, typeManager, "dev") 
+                DataContext = new MainViewModel(startupService, listManager, typeManager, edtSettings, "dev") 
                 //DataContext = new MainViewModel(_navigationStore) 
             };
 
