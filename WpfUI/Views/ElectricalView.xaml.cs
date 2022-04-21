@@ -208,29 +208,27 @@ namespace WpfUI.Views
            
         }
 
-        private void btnGrdSplitAdjust_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            dgdDteq.Height += 1;
-        }
-
-        private void btnGrdSplitAdjust_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            dgdDteq.Height += 1;
-
-        }
-
         private void btnGrdSplitAdjust_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            dgdDteq.Height = 10;
-            int count = 0;
+            //dgdDteq.Height = 10;
+            //int count = 0;
 
-            var maxDteqHeight = dteqButtonsStackPanel.ActualHeight - 10;
-            dgdDteq.Height = maxDteqHeight + 40;
+            //var maxDteqHeight = dteqButtonsStackPanel.ActualHeight - 10;
+            //dgdDteq.Height = maxDteqHeight + 40;
 
-            var MaxLoadHeight = loadButtonsStackPanel.ActualHeight + 50;
-            dgdAssignedLoads.Height = MaxLoadHeight+15;
+            //var MaxLoadHeight = loadButtonsStackPanel.ActualHeight + 50;
+            //dgdAssignedLoads.Height = MaxLoadHeight+15;
 
-            Undo.UndoCommand(eqVm.ListManager);
+            if (gridAdding.Visibility == Visibility.Collapsed) {
+                gridAdding.Visibility = Visibility.Visible;
+               eqVm.LoadGridTop = new System.Windows.GridLength(127, GridUnitType.Pixel);
+            }
+            else {
+                gridAdding.Visibility = Visibility.Collapsed;
+                eqVm.LoadGridTop = new System.Windows.GridLength(0, GridUnitType.Pixel);
+
+            }
+
         }
 
         private void LoadGridContextMenu_SetFedFrom(object sender, MouseButtonEventArgs e)

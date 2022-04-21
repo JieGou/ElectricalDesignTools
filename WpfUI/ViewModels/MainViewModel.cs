@@ -91,6 +91,86 @@ namespace WpfUI.ViewModels
 
         }
 
+      
+
+        #region Navigation
+        public ICommand NavigateStartupCommand { get; }
+        public ICommand NavigateSettingsCommand { get; }
+        public ICommand NavigateAreasCommand { get; }
+        public ICommand NavigateElectricalCommand { get; }
+        public ICommand NavigateCableListCommand { get; }
+        public ICommand NavigateDataTablesCommand { get; }
+        public ICommand ScenarioCommand { get; }
+
+        private void NavigateStartup()
+        {
+            CurrentViewModel = _startupViewModel;
+        }
+        private void NavigateSettings()
+        {
+            CurrentViewModel = _settingsViewModel;
+            
+        }
+        private void NavigateAreas()
+        {
+            CurrentViewModel = _areasViewModel;
+            //Todo - Map settings to ViewModel
+        }
+        private void NavigateEquipment()
+        {
+            CurrentViewModel = _electricalViewModel;
+            _electricalViewModel.CreateValidators();
+            _electricalViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
+            _electricalViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
+        }
+        private void NavigateCableList()
+        {
+            CurrentViewModel = _cableListViewModel;
+        }
+        private void NavigateDataTables()
+        {
+            CurrentViewModel = _dataTablesViewModel;
+        }
+
+        private bool CanExecute_IsProjectLoaded()
+        {
+            return _startupService.IsProjectLoaded;
+        }
+        private bool CanExecute_IsLibraryLoaded()
+        {
+            return _startupService.IsLibraryLoaded;
+        }
+
+        //NEW WINDOW
+        private void NewWindow()
+        {
+            ListManager listManager = new ListManager();
+            StartupService startupService = new StartupService(listManager);
+            TypeManager typeManager = new TypeManager();
+
+            Window scenario = new MainWindow() {
+                //DataContext = new MainViewModel(startupService, listManager)
+                DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings)
+                
+            };
+            
+            scenario.Show();
+            var newMainVm = (MainViewModel)scenario.DataContext;
+            newMainVm.CurrentViewModel = CurrentViewModel;
+        }
+#endregion
+
+        private ViewModelBase _currentViewModel;
+        public ViewModelBase CurrentViewModel
+        {
+            get { return _currentViewModel; }
+            set { _currentViewModel = value; }
+        }
+
+        private void OnCurrentViewModelChanged() {
+            OnPropertyChanged(nameof(CurrentViewModel));
+        }
+
         private static void ValidateLicense()
         {
             string licenseFilePath = @"C:/temp/License.lic";
@@ -195,82 +275,6 @@ namespace WpfUI.ViewModels
             }
         }
 
-
-        #region Navigation
-        public ICommand NavigateStartupCommand { get; }
-        public ICommand NavigateSettingsCommand { get; }
-        public ICommand NavigateAreasCommand { get; }
-        public ICommand NavigateElectricalCommand { get; }
-        public ICommand NavigateCableListCommand { get; }
-        public ICommand NavigateDataTablesCommand { get; }
-        public ICommand ScenarioCommand { get; }
-
-        private void NavigateStartup()
-        {
-            CurrentViewModel = _startupViewModel;
-        }
-        private void NavigateSettings()
-        {
-            CurrentViewModel = _settingsViewModel;
-        }
-        private void NavigateAreas()
-        {
-            CurrentViewModel = _areasViewModel;
-        }
-        private void NavigateEquipment()
-        {
-            CurrentViewModel = _electricalViewModel;
-            _electricalViewModel.CreateValidators();
-            _electricalViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
-            _electricalViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
-        }
-        private void NavigateCableList()
-        {
-            CurrentViewModel = _cableListViewModel;
-        }
-        private void NavigateDataTables()
-        {
-            CurrentViewModel = _dataTablesViewModel;
-        }
-
-        private bool CanExecute_IsProjectLoaded()
-        {
-            return _startupService.IsProjectLoaded;
-        }
-        private bool CanExecute_IsLibraryLoaded()
-        {
-            return _startupService.IsLibraryLoaded;
-        }
-
-        //NEW WINDOW
-        private void NewWindow()
-        {
-            ListManager listManager = new ListManager();
-            StartupService startupService = new StartupService(listManager);
-            TypeManager typeManager = new TypeManager();
-
-            Window scenario = new MainWindow() {
-                //DataContext = new MainViewModel(startupService, listManager)
-                DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings)
-                
-            };
-            
-            scenario.Show();
-            var newMainVm = (MainViewModel)scenario.DataContext;
-            newMainVm.CurrentViewModel = CurrentViewModel;
-        }
-#endregion
-
-        private ViewModelBase _currentViewModel;
-        public ViewModelBase CurrentViewModel
-        {
-            get { return _currentViewModel; }
-            set { _currentViewModel = value; }
-        }
-
-        private void OnCurrentViewModelChanged() {
-            OnPropertyChanged(nameof(CurrentViewModel));
-        } 
     }
 }
  
