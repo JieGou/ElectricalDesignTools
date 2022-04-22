@@ -108,6 +108,7 @@ namespace WpfUI.ViewModels
         }
         private void NavigateSettings()
         {
+            _settingsViewModel.LoadVmSettings();
             CurrentViewModel = _settingsViewModel;
             
         }

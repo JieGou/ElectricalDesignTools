@@ -104,10 +104,10 @@
             <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Background" Color="Transparent"/>
             <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Border" Color="Transparent"/>
             <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
-            
-            
-            
-            
+
+
+           
+
             <Style x:Key="GroupBoxStyle1" TargetType="{x:Type GroupBox}">
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="BorderThickness" Value="1"/>
@@ -149,7 +149,9 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
+            <Style TargetType="GroupBox" BasedOn="{StaticResource GroupBoxStyle1}">
+            </Style>
             
             <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
                 <Setter Property="OverridesDefaultStyle" Value="true"/>

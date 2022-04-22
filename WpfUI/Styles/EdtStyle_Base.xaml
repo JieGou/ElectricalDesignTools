@@ -140,6 +140,8 @@
         </Style.Triggers>-->
     </Style>
 
+   
+
     <!--BUTTON Main Menu Animation-->
     <Style x:Key="MainMenu_Buttons" TargetType="{x:Type Button}">
         <Setter Property="Cursor" Value="Hand"/>

@@ -22,7 +22,7 @@ namespace EDTLibrary.ProjectSettings
     /// </remarks>
     /// 
 
-    // To change settings names you must change the name in 3 places:
+    // To change / add settings you must change the name in 3 places:
     //   1 - the name below
     //   2 - the name in the EdtSettingsViewModel
     //   3 - the name of the setting in the Database ProjectSettings Table
@@ -59,8 +59,8 @@ namespace EDTLibrary.ProjectSettings
 
         public static string DefaultCableInstallationType { get; set; }
         public static string DefaultCableTypeLoad_3ph1kV { get; set; }
-        public static string DefaultCableTypeDteq_3ph1kV1200AL { get; set; }
-        public static string DefaultCableTypeDteq_3ph1kV1200AM { get; set; }
+        public static string DefaultCableTypeDteq_3ph1kVLt1200A { get; set; }
+        public static string DefaultCableTypeDteq_3ph1kVGt1200A { get; set; }
         public static string DefaultCableType_3ph5kV { get; set; }
         public static string DefaultCableType_3ph15kV { get; set; }
 

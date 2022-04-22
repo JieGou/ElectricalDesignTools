@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Services;
@@ -77,9 +78,22 @@ namespace WpfUI.ViewModels
             CableTypes = TypeManager.CableTypes;
         }
 
-
-
-        public string ProjectName { get; set; }
+        private string projectName;
+        public string ProjectName 
+        {
+            get => projectName;
+            set {
+                var oldValue = projectName;
+                projectName = value;
+                ClearErrors(nameof(ProjectName));
+                bool isValid = Regex.IsMatch(projectName, @"^[\sA-Z0-9_@#$%^&*()-]+$", RegexOptions.IgnoreCase);
+               if (isValid==false) {
+                    AddError(nameof(ProjectName), "Invalid character");
+                }
+                EdtSettings.ProjectName = projectName;
+                SettingsManager.SaveStringSettingToDb(nameof(ProjectName), projectName);
+            }
+        }
         public string ProjectNumber { get; set; }
         public string ProjectTitleLine1 { get; set; }
         public string ProjectTitleLine2 { get; set; }
@@ -106,12 +120,13 @@ namespace WpfUI.ViewModels
 
         public string DefaultCableInstallationType { get; set; }
         public string DefaultCableTypeLoad_3ph1kV { get; set; }
-        public string DefaultCableTypeDteq_3ph1kV1200AL { get; set; }
-        public string DefaultCableTypeDteq_3ph1kV1200AM { get; set; }
+        public string DefaultCableTypeDteq_3ph1kVLt1200A { get; set; }
+        public string DefaultCableTypeDteq_3ph1kVGt1200A { get; set; }
         public string DefaultCableType_3ph5kV { get; set; }
         public string DefaultCableType_3ph15kV { get; set; }
 
         private string _cableSpacingMaxAmps_3C1kV;
+
         public string CableSpacingMaxAmps_3C1kV
         {
             get { return _cableSpacingMaxAmps_3C1kV; }
@@ -127,7 +142,7 @@ namespace WpfUI.ViewModels
                 }
                 else {
                     EdtSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
-                    SettingsManager.SaveStringSettingToDb(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);   
+                    SettingsManager.SaveStringSettingToDb(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
                 }
             }
         }
@@ -163,6 +178,8 @@ namespace WpfUI.ViewModels
             //TableSettings = new ObservableCollection<SettingModel>(SettingManager.GetTableSettings());
             //SettingManager.CreateCableAmpsUsedInProject();
             CableTypes = TypeManager.CableTypes;
+
+
         }
         private void SaveStringSetting()
         {
@@ -180,7 +197,7 @@ namespace WpfUI.ViewModels
                     //SettingManager.CreateCableAmpsUsedInProject();
                 }
             }
-            
+
 
             foreach (CableSizeModel cable in SelectedCableSizes) {
                 DaManager.prjDb.UpsertRecord(cable, "CableSizesUsedInProject", new List<string>());
@@ -189,7 +206,20 @@ namespace WpfUI.ViewModels
         }
         #endregion
 
+        public void LoadVmSettings()
+        {
+            Type projectSettingsClass = typeof(EdtSettings);
+            Type viewModelSettings = typeof(SettingsViewModel);
 
+            foreach (var classProperty in projectSettingsClass.GetProperties()) {
+                foreach (var viewModelProperty in viewModelSettings.GetProperties()) {
+                    if (classProperty.Name == viewModelProperty.Name) {
+                        viewModelProperty.SetValue(this, classProperty.GetValue(null));
+                        break;
+                    }
+                }
+            }
+        }
 
     }
 }

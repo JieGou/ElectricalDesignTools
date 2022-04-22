@@ -42,12 +42,12 @@ namespace EDTLibrary.Models.Cables
             else if (load is IDteq 
                 && load.Voltage <= 1000 
                 && load.Fla <= 1200) {
-                return EdtSettings.DefaultCableTypeDteq_3ph1kV1200AL;
+                return EdtSettings.DefaultCableTypeDteq_3ph1kVLt1200A;
             }
             else if (load is IDteq 
                 && load.Voltage <= 1000 
                 && load.Fla > 1200) {
-                return EdtSettings.DefaultCableTypeDteq_3ph1kV1200AM;
+                return EdtSettings.DefaultCableTypeDteq_3ph1kVGt1200A;
             }
             else if (load.Voltage > 1000 
                 && load.Voltage <=5000) {
