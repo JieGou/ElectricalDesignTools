@@ -1006,10 +1006,10 @@
                                         ElementStyle="{StaticResource ColumnElementStyle}"  >
                              <DataGridTextColumn.Header>
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Tag" />
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Tag" Padding="5 2 5 2"/>
                                     <TextBox x:Name="txtLoadTagFilter" MinWidth="100" MinHeight="17" Text="{Binding Filter}" PreviewKeyDown="txtLoadTagFilter_PreviewKeyDown" 
                                              HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                                             Margin="0 3 0 3">
+                                             Margin="0 3 0 0">
                                         <!--<TextBox.Style>
                                             <Style TargetType="TextBox">
                                                 <Style.Triggers>
@@ -1026,14 +1026,14 @@
                         </DataGridTextColumn>
 
                         <!--Description-->
-                        <DataGridTextColumn  MinWidth="150" 
+                        <DataGridTextColumn x:Name="loadDescription" MinWidth="150" 
                                 Binding="{Binding Path=Description, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <DataGridTextColumn.Header>
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Description" />
-                                    <TextBox x:Name="txtDescriptionTagFilter" MinWidth="100" MinHeight="17" Text="{Binding Filter}" PreviewKeyDown="txtLoadTagFilter_PreviewKeyDown" 
+                                <StackPanel Orientation="Vertical" x:Name="loadDescStackPanel">
+                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Description" Padding="5 2 5 2"/>
+                                    <TextBox x:Name="txtDescriptionTagFilter" MinWidth="150" MinHeight="17" Text="{Binding Filter}" PreviewKeyDown="txtLoadTagFilter_PreviewKeyDown" 
                                              HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                                             Margin="0 3 0 3">
+                                             Margin="0 3 0 0">
                                         <!--<TextBox.Style>
                                             <Style TargetType="TextBox">
                                                 <Style.Triggers>

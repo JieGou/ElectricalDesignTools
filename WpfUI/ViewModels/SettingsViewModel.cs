@@ -37,14 +37,44 @@ namespace WpfUI.ViewModels
             get { return _currentSettingsVm; }
             set { _currentSettingsVm = value; }
         }
+
         private EdtSettings _edtSettings;
         public EdtSettings EdtSettings
         {
             get { return _edtSettings; }
             set { _edtSettings = value; }
         }
+        private TypeManager _typeManager;
+        public TypeManager TypeManager
+        {
+            get { return _typeManager; }
+            set { _typeManager = value; }
+        }
 
-
+        public ObservableCollection<CableTypeModel> OneKvCableTypes
+        {
+            get
+            {
+                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 1000).ToList();
+                return new ObservableCollection<CableTypeModel>(val);
+            }
+        }
+        public ObservableCollection<CableTypeModel> FiveKvCableTypes
+        {
+            get
+            {
+                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 5000).ToList();
+                return new ObservableCollection<CableTypeModel>(val);
+            }
+        }
+        public ObservableCollection<CableTypeModel> FifteenKvCableTypes
+        {
+            get
+            {
+                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 15000).ToList();
+                return new ObservableCollection<CableTypeModel>(val);
+            }
+        }
         public ObservableCollection<SettingModel> TableSettings { get; set; }
         public SettingModel SelectedTableSetting { get; set; }
 
@@ -65,9 +95,10 @@ namespace WpfUI.ViewModels
 
         #endregion
 
-        public SettingsViewModel(EdtSettings edtSettings)
+        public SettingsViewModel(EdtSettings edtSettings, TypeManager typeManager)
         {
             _edtSettings = edtSettings;
+            _typeManager = typeManager;
             // Create commands
 
             ReloadSettingsCommand = new RelayCommand(LoadSettings);
@@ -79,15 +110,16 @@ namespace WpfUI.ViewModels
         }
 
         private string projectName;
-        public string ProjectName 
+        public string ProjectName
         {
             get => projectName;
-            set {
+            set
+            {
                 var oldValue = projectName;
                 projectName = value;
                 ClearErrors(nameof(ProjectName));
                 bool isValid = Regex.IsMatch(projectName, @"^[\sA-Z0-9_@#$%^&*()-]+$", RegexOptions.IgnoreCase);
-               if (isValid==false) {
+                if (isValid == false) {
                     AddError(nameof(ProjectName), "Invalid character");
                 }
                 EdtSettings.ProjectName = projectName;
@@ -123,9 +155,19 @@ namespace WpfUI.ViewModels
         public string DefaultCableTypeDteq_3ph1kVLt1200A { get; set; }
         public string DefaultCableTypeDteq_3ph1kVGt1200A { get; set; }
         public string DefaultCableType_3ph5kV { get; set; }
-        public string DefaultCableType_3ph15kV { get; set; }
+        public string DefaultCableType_3ph15kV
+        {
+            get => _defaultCableType_3ph15kV;
+            set
+            {
+                _defaultCableType_3ph15kV = value;
+                SaveVmSetting(nameof(DefaultCableType_3ph15kV), _defaultCableType_3ph15kV);
+            }
+        }
 
+        private string _defaultCableType_3ph15kV;
         private string _cableSpacingMaxAmps_3C1kV;
+        private string loadFactorDefault;
 
         public string CableSpacingMaxAmps_3C1kV
         {
@@ -141,8 +183,9 @@ namespace WpfUI.ViewModels
                     AddError(nameof(CableSpacingMaxAmps_3C1kV), "Invalid Value");
                 }
                 else {
-                    EdtSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
-                    SettingsManager.SaveStringSettingToDb(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
+                    //EdtSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
+                    //SettingsManager.SaveStringSettingToDb(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
+                    SaveVmSetting(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
                 }
             }
         }
@@ -153,7 +196,29 @@ namespace WpfUI.ViewModels
         public string DteqDefaultPdTypeLV { get; set; }
 
         public string LoadDefaultPdTypeLV { get; set; }
-        public string LoadFactorDefault { get; set; }
+
+        public string LoadFactorDefault
+        {
+            get => loadFactorDefault;
+            set
+            {
+                var oldValue = loadFactorDefault;
+                double dblOut;
+                loadFactorDefault = value;
+                ClearErrors(nameof(LoadFactorDefault));
+
+                if (Double.TryParse(loadFactorDefault, out dblOut) == false) {
+                    AddError(nameof(LoadFactorDefault), "Invalid Value");
+                }
+                else if (Double.Parse(loadFactorDefault)>1 || Double.Parse(loadFactorDefault) < 0) {
+                    AddError(nameof(LoadFactorDefault), "Invalid Value");
+                }
+                else {
+                    loadFactorDefault = value;
+                    SaveVmSetting(nameof(LoadFactorDefault), loadFactorDefault);
+                }
+            }
+        }
         public string DefaultXfrImpedance { get; set; }
 
         //Voltage
@@ -217,6 +282,19 @@ namespace WpfUI.ViewModels
                         viewModelProperty.SetValue(this, classProperty.GetValue(null));
                         break;
                     }
+                }
+            }
+        }
+
+        public void SaveVmSetting(string settingName, string settingValue)
+        {
+            Type projectSettingsClass = typeof(EdtSettings);
+
+            foreach (var classProperty in projectSettingsClass.GetProperties()) {
+                if (classProperty.Name == settingName) {
+                    classProperty.SetValue(null, settingValue);
+                    SettingsManager.SaveStringSettingToDb(settingName, settingValue);
+                    break;
                 }
             }
         }

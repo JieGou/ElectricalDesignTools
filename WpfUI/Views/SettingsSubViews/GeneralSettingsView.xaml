@@ -318,6 +318,10 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="CableSpacingMaxAmps 3C1kV"  
@@ -340,15 +344,37 @@
                     <TextBlock Text="Default Cable Types"  
                                Grid.Row="4" Grid.Column="0" FontWeight="Bold" Margin="5 20 0 0"/>
 
-                    <TextBlock Text="Dteq 1kV &lt; 1200 A"
+                    <TextBlock Text="1 kV Dist. Equipment  &lt; 1200 A"
                                Grid.Row="5" Grid.Column="0" Margin="20 10"/>
                     <ComboBox Grid.Row="5" Grid.Column="2"
+                              ItemsSource="{Binding OneKvCableTypes}"
+                              DisplayMemberPath="Type"
+                              SelectedValuePath="Type"
                               SelectedValue="{Binding Path=DefaultCableTypeDteq_3ph1kVLt1200A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Text="Dteq 1kV > 1200 A"  
+                    <TextBlock Text="1 kV Dist. Equipment > 1200 A"  
                                Grid.Row="6" Grid.Column="0" Margin="20 10"/>
-                    <ComboBox Grid.Row="6" Grid.Column="2"
+                    <ComboBox Grid.Row="6" Grid.Column="2" MinWidth="175"
+                              ItemsSource="{Binding OneKvCableTypes}"
+                              DisplayMemberPath="Type"
+                              SelectedValuePath="Type"
                               SelectedValue="{Binding Path=DefaultCableTypeDteq_3ph1kVGt1200A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="5 kV Dist. Equipment"
+                               Grid.Row="7" Grid.Column="0" Margin="20 10"/>
+                    <ComboBox Grid.Row="7" Grid.Column="2" MinWidth="175"
+                              ItemsSource="{Binding FiveKvCableTypes}"
+                              DisplayMemberPath="Type"
+                              SelectedValuePath="Type"
+                              SelectedValue="{Binding Path=DefaultCableType_3ph5kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="15 kV Dist. Equipment"
+                               Grid.Row="8" Grid.Column="0" Margin="20 10"/>
+                    <ComboBox Grid.Row="8" Grid.Column="2" MinWidth="175"
+                              ItemsSource="{Binding FifteenKvCableTypes}"
+                              DisplayMemberPath="Type"
+                              SelectedValuePath="Type"
+                              SelectedValue="{Binding Path=DefaultCableType_3ph15kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
             </GroupBox>
         </WrapPanel>
