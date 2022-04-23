@@ -11,7 +11,7 @@
              
              
              mc:Ignorable="d" 
-             d:Width="1200" d:Height="900" 
+             d:Width="1400" d:Height="900" 
              Background="AliceBlue">
 
 
@@ -19,6 +19,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
+                <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <projectSettings:EdtSettings x:Key="edtSettings"/>
@@ -30,26 +31,6 @@
             </CollectionViewSource>
 
             <sys:Int32 x:Key="col1">1</sys:Int32>
-
-            <Style TargetType="TextBlock">
-                <Setter Property="Margin" Value="5"/>
-                <Setter Property="FontWeight" Value="Normal"/>
-            </Style>
-
-            <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
-                <Setter Property="Margin" Value="5"/>
-                <Setter Property="MinWidth" Value="125"/>
-                <Setter Property="Height" Value="23"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-                <Setter Property="FontWeight" Value="Normal"/>
-            </Style>
-
-            <Style TargetType="ComboBox">
-                <Setter Property="Margin" Value="5"/>
-                <Setter Property="MinWidth" Value="125"/>
-                <Setter Property="Height" Value="23"/>
-                <Setter Property="Template" Value="{DynamicResource ComboBoxBase}"/>
-            </Style>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -78,7 +59,7 @@
                     <Storyboard>
                         <DoubleAnimation Storyboard.TargetName="settingsGrid"
                                 Storyboard.TargetProperty="Opacity"
-                                From="0" To="1" Duration="0:0:0.5"
+                                From="0" To="1" Duration="0:0:0.25"
                                 AutoReverse="False" RepeatBehavior="1x"/>
                     </Storyboard>
                 </BeginStoryboard>
@@ -100,7 +81,7 @@
         <WrapPanel Grid.Row="1" Grid.Column="2">
 
             <!--Col 1 - Project Details-->
-            <GroupBox Header="Project Details" FontWeight="Bold"
+            <GroupBox Header="Project Details"
                   Grid.Row="1" Grid.Column="2"
                   Margin="25 0 25 0">
                 <Grid>
@@ -169,7 +150,7 @@
 
 
             <!--Electrcial Setup-->
-            <GroupBox Header="Electrical Setup" FontWeight="Bold"
+            <GroupBox Header="Electrical Setup" 
                   Grid.Row="1" Grid.Column="4"
                   Margin="25 0 25 0">
                 <Grid>
@@ -186,24 +167,17 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
+                    
                     <TextBlock Text="Electrical Code"  
-                       Grid.Row="1" Grid.Column="0" />
+                               Grid.Row="1" Grid.Column="0" />
                     <ComboBox Grid.Row="1" Grid.Column="2"
-                          Text="{Binding Path=Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-                                        Source={StaticResource edtSettings}}"
-                          SelectedValue="{Binding Path=ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                    <TextBlock Text="Client Name" 
-                       Grid.Row="2" Grid.Column="0" />
-                    <TextBox Grid.Row="2" Grid.Column="2"
-                         Text="{Binding Path=ClientName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-
+                              ItemsSource="{Binding TypeManager.ElectricalCodes}"
+                              SelectedValue="{Binding Path=Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </Grid>
             </GroupBox>
 
             <!--DTEQ Settings-->
-            <GroupBox Header="Distribution Equipment" FontWeight="Bold"
+            <GroupBox Header="Distribution Equipment"
                   Grid.Row="1" Grid.Column="6"
                   Margin="25 0 25 0">
                 <Grid>
@@ -221,16 +195,41 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="Dteq % Loaded Warning"  
-                               Grid.Row="1" Grid.Column="0" />
-                    <TextBox Grid.Row="1" Grid.Column="2"
-                             Text="{Binding Path=DteqMaxPercentLoaded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="0"  >
+                        <TextBlock Text="Dteq Max Loading Warning"  
+                                   Grid.Row="1" Grid.Column="0"/>
+                        <TextBlock Text="Visual warning when Distribution Equipment is loaded at or beyond selected value"  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}"
+                                   MaxWidth="200"
+                                   TextAlignment="Left"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
+                        <TextBox MinWidth="50"
+                                 Text="{Binding Path=DteqMaxPercentLoaded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        
+                        <TextBlock Text="%"/>
+                    </StackPanel>
 
-                    <TextBlock Text="Default Xfr Impedance"
+                    <StackPanel Orientation="Vertical"  Grid.Row="2" Grid.Column="0"  >
+                        <TextBlock Text="New Transformer Impedance"
                                Grid.Row="2" Grid.Column="0" />
-                    <TextBox Grid.Row="2" Grid.Column="2"
-                        Text="{Binding Path=DefaultXfrImpedance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="Impedance (%Z) value when creating new Transformers"  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}"
+                                   MaxWidth="200"
+                                   TextAlignment="Left"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
 
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2">   
+                        <TextBox Grid.Row="2" Grid.Column="2"
+                                 MinWidth="50"
+                                 Text="{Binding Path=DefaultXfrImpedance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="%"/>
+                    </StackPanel>
+                    
                     <TextBlock Text="Default OCPD Type for LV Equipment"
                                Grid.Row="3" Grid.Column="0" />
                     <ComboBox Grid.Row="3" Grid.Column="2"
@@ -240,7 +239,7 @@
             </GroupBox>
 
             <!--Load Settings-->
-            <GroupBox Header="Loads" FontWeight="Bold"
+            <GroupBox Header="Loads"
                   Grid.Row="1" Grid.Column="6"
                   Margin="25 0 25 0">
                 <Grid>
@@ -274,109 +273,30 @@
                     <ComboBox Grid.Row="2" Grid.Column="2"
                               SelectedItem="{Binding LoadDefaultPdTypeLV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Text="Default Efficiency for load type OTHER"
+                    <TextBlock Text="Default Efficiency for load type PANEL"
                                Grid.Row="3" Grid.Column="0" />
                     <TextBox Grid.Row="3" Grid.Column="2"
-                             Text="{Binding LoadDefaultEfficiency_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Default Power Factor for load type OTHER"
-                               Grid.Row="4" Grid.Column="0" />
-                    <TextBox Grid.Row="4" Grid.Column="2"
-                              Text="{Binding LoadDefaultPowerFactor_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Default Efficiency for load type PANEL"
-                               Grid.Row="5" Grid.Column="0" />
-                    <TextBox Grid.Row="5" Grid.Column="2"
                              Text="{Binding LoadDefaultEfficiency_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Text="Default Power Factor for load type PANEL"
-                               Grid.Row="6" Grid.Column="0" />
-                    <TextBox Grid.Row="6" Grid.Column="2"
+                               Grid.Row="4" Grid.Column="0" />
+                    <TextBox Grid.Row="4" Grid.Column="2"
                               Text="{Binding LoadDefaultPowerFactor_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
+                    <TextBlock Text="Default Efficiency for load type OTHER"
+                               Grid.Row="5" Grid.Column="0" />
+                    <TextBox Grid.Row="5" Grid.Column="2"
+                             Text="{Binding LoadDefaultEfficiency_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="Default Power Factor for load type OTHER"
+                               Grid.Row="6" Grid.Column="0" />
+                    <TextBox Grid.Row="6" Grid.Column="2"
+                              Text="{Binding LoadDefaultPowerFactor_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 
                 </Grid>
             </GroupBox>
-
-            <!--Cable Settings-->
-            <GroupBox Header="Cable Settings" FontWeight="Bold"
-                  Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="CableSpacingMaxAmps 3C1kV"  
-                               Grid.Row="1" Grid.Column="0" />
-                    <TextBox Grid.Row="1" Grid.Column="2"
-                             Text="{Binding Path=CableSpacingMaxAmps_3C1kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Default Cable Installation Type"  
-                               Grid.Row="2" Grid.Column="0" />
-                    <ComboBox Grid.Row="2" Grid.Column="2"
-                              SelectedValue="{Binding Path=DefaultCableInstallationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Default Cable Installation Type"  
-                               Grid.Row="3" Grid.Column="0" />
-                    <ComboBox Grid.Row="3" Grid.Column="2"
-                              SelectedValue="{Binding Path=DefaultCableTypeLoad_3ph1kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    
-                    
-                    <TextBlock Text="Default Cable Types"  
-                               Grid.Row="4" Grid.Column="0" FontWeight="Bold" Margin="5 20 0 0"/>
-
-                    <TextBlock Text="1 kV Dist. Equipment  &lt; 1200 A"
-                               Grid.Row="5" Grid.Column="0" Margin="20 10"/>
-                    <ComboBox Grid.Row="5" Grid.Column="2"
-                              ItemsSource="{Binding OneKvCableTypes}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              SelectedValue="{Binding Path=DefaultCableTypeDteq_3ph1kVLt1200A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="1 kV Dist. Equipment > 1200 A"  
-                               Grid.Row="6" Grid.Column="0" Margin="20 10"/>
-                    <ComboBox Grid.Row="6" Grid.Column="2" MinWidth="175"
-                              ItemsSource="{Binding OneKvCableTypes}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              SelectedValue="{Binding Path=DefaultCableTypeDteq_3ph1kVGt1200A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="5 kV Dist. Equipment"
-                               Grid.Row="7" Grid.Column="0" Margin="20 10"/>
-                    <ComboBox Grid.Row="7" Grid.Column="2" MinWidth="175"
-                              ItemsSource="{Binding FiveKvCableTypes}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              SelectedValue="{Binding Path=DefaultCableType_3ph5kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="15 kV Dist. Equipment"
-                               Grid.Row="8" Grid.Column="0" Margin="20 10"/>
-                    <ComboBox Grid.Row="8" Grid.Column="2" MinWidth="175"
-                              ItemsSource="{Binding FifteenKvCableTypes}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              SelectedValue="{Binding Path=DefaultCableType_3ph15kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                </Grid>
-            </GroupBox>
+            
         </WrapPanel>
     </Grid>
 

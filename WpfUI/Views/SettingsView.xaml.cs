@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using WpfUI.ViewModels;
 using WpfUI.Views.SettingsSubViews;
 
 namespace WpfUI.Views
@@ -22,6 +13,8 @@ namespace WpfUI.Views
     /// </summary>
     public partial class SettingsView : UserControl
     {
+        private SettingsViewModel settingsVm { get { return DataContext as SettingsViewModel; } }
+
         public SettingsView() {
             InitializeComponent();
         }
@@ -62,16 +55,26 @@ namespace WpfUI.Views
 
         private void btnGeneralSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            GeneralSettingsView generalSettings = new GeneralSettingsView();
-            generalSettings.DataContext = this.DataContext;
-            ccSettingPage.Content = generalSettings;
+            //GeneralSettingsView settingView = new GeneralSettingsView();
+            //settingView.DataContext = this.DataContext;
+            //ccSettingPage.Content = settingView;
+            settingsVm.SelectedSettingView = new GeneralSettingsView();
         }
 
         private void btnDeveloperSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            DeveloperSettingsView developerSettings = new DeveloperSettingsView();
-            developerSettings.DataContext = this.DataContext;
-            ccSettingPage.Content = developerSettings;
+            //DeveloperSettingsView settingView = new DeveloperSettingsView();
+            //settingView.DataContext = this.DataContext;
+            //ccSettingPage.Content = settingView;
+            settingsVm.SelectedSettingView = new DeveloperSettingsView();
+        }
+
+        private void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //CableSettingsView settingView = new CableSettingsView();
+            //settingView.DataContext = this.DataContext;
+            //ccSettingPage.Content = settingView;
+            settingsVm.SelectedSettingView = new CableSettingsView();
         }
     }
 }

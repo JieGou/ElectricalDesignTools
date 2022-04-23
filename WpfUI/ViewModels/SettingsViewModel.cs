@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Controls;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Services;
@@ -25,8 +26,6 @@ namespace WpfUI.ViewModels
         public ObservableCollection<SettingModel> StringSettings { get; set; }
         public SettingModel SelectedStringSetting { get; set; }
 
-        public ObservableCollection<CableTypeModel> CableTypes { get; set; }
-        public ObservableCollection<CableSizeModel> SelectedCableSizes { get; set; } = new ObservableCollection<CableSizeModel>();
 
         private Settings_GeneralViewModel _generalSettings = new Settings_GeneralViewModel();
 
@@ -51,30 +50,10 @@ namespace WpfUI.ViewModels
             set { _typeManager = value; }
         }
 
-        public ObservableCollection<CableTypeModel> OneKvCableTypes
-        {
-            get
-            {
-                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 1000).ToList();
-                return new ObservableCollection<CableTypeModel>(val);
-            }
-        }
-        public ObservableCollection<CableTypeModel> FiveKvCableTypes
-        {
-            get
-            {
-                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 5000).ToList();
-                return new ObservableCollection<CableTypeModel>(val);
-            }
-        }
-        public ObservableCollection<CableTypeModel> FifteenKvCableTypes
-        {
-            get
-            {
-                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 15000).ToList();
-                return new ObservableCollection<CableTypeModel>(val);
-            }
-        }
+
+        public UserControl SelectedSettingView { get; set; }
+
+
         public ObservableCollection<SettingModel> TableSettings { get; set; }
         public SettingModel SelectedTableSetting { get; set; }
 
@@ -104,45 +83,131 @@ namespace WpfUI.ViewModels
             ReloadSettingsCommand = new RelayCommand(LoadSettings);
 
             SaveStringSettingCommand = new RelayCommand(SaveStringSetting);
-            SaveTableSettingCommand = new RelayCommand(SaveTableSetting);
+            SaveTableSettingCommand = new RelayCommand(SaveTableSettings);
 
-            CableTypes = TypeManager.CableTypes;
         }
 
-        private string projectName;
+        private string _projectName;
         public string ProjectName
         {
-            get => projectName;
+            get => _projectName;
             set
             {
-                var oldValue = projectName;
-                projectName = value;
+                var oldValue = _projectName;
+                _projectName = value;
                 ClearErrors(nameof(ProjectName));
-                bool isValid = Regex.IsMatch(projectName, @"^[\sA-Z0-9_@#$%^&*()-]+$", RegexOptions.IgnoreCase);
+                bool isValid = Regex.IsMatch(_projectName, @"^[\sA-Z0-9_@#$%^&*()-]+$", RegexOptions.IgnoreCase);
                 if (isValid == false) {
                     AddError(nameof(ProjectName), "Invalid character");
                 }
-                EdtSettings.ProjectName = projectName;
-                SettingsManager.SaveStringSettingToDb(nameof(ProjectName), projectName);
+                SaveVmSetting(nameof(ProjectName), _projectName);
             }
         }
-        public string ProjectNumber { get; set; }
-        public string ProjectTitleLine1 { get; set; }
-        public string ProjectTitleLine2 { get; set; }
-        public string ProjectTitleLine3 { get; set; }
+        private string _projectNumber;
+        public string ProjectNumber
 
-        public string ClientNameLine1 { get; set; }
-        public string ClientNameLine2 { get; set; }
-        public string ClientNameLine3 { get; set; }
+        {
+            get { return _projectNumber; }
+            set 
+            { 
+                _projectNumber = value;
+                SaveVmSetting(nameof(ProjectNumber), _projectNumber);
+            }
+        }
+        private string _projectTitleLine1;
+        public string ProjectTitleLine1
+        {
+            get { return _projectTitleLine1; }
+            set { 
+                _projectTitleLine1 = value; 
+                SaveVmSetting(nameof(ProjectTitleLine1), _projectTitleLine1);
+            }
+        }
+
+        private string _projectTitleLine2;
+        public string ProjectTitleLine2
+        {
+            get { return _projectTitleLine2; }
+            set
+            {
+                _projectTitleLine2 = value;
+                SaveVmSetting(nameof(ProjectTitleLine2), _projectTitleLine2);
+            }
+        }
+        private string _projectTitleLine3;
+        public string ProjectTitleLine3
+        {
+            get { return _projectTitleLine3; }
+            set
+            {
+                _projectTitleLine3 = value;
+                SaveVmSetting(nameof(ProjectTitleLine3), _projectTitleLine3);
+            }
+        }
+        private string _clientTitleLine1;
+        public string ClientNameLine1
+        {
+            get { return _clientTitleLine1; }
+            set
+            {
+                _clientTitleLine1 = value;
+                SaveVmSetting(nameof(ClientNameLine1), _clientTitleLine1);
+            }
+        }
+        private string _clientTitleLine2;
+        public string ClientNameLine2
+        {
+            get { return _clientTitleLine2; }
+            set
+            {
+                _clientTitleLine2 = value;
+                SaveVmSetting(nameof(ClientNameLine2), _clientTitleLine2);
+            }
+        }
+        private string _clientTitleLine3;
+        public string ClientNameLine3
+        {
+            get { return _clientTitleLine3; }
+            set
+            {
+                _clientTitleLine3 = value;
+                SaveVmSetting(nameof(ClientNameLine3), _clientTitleLine3);
+            }
+        }
 
 
 
 
+        private string _code;
+        public string Code
+        {
+            get { return _code; }
+            set
+            {
+                _code = value;
+                SaveVmSetting(nameof(Code), _code);
+            }
+        }
 
-        public string Code { get; set; }
 
         //Cable
         public ObservableCollection<CableSizeModel> CableSizesUsedInProject { get; set; }
+        private CableTypeModel _selectedCableType;
+
+        public CableTypeModel SelectedCableType
+        {
+            get { return _selectedCableType; }
+            set 
+            { 
+                _selectedCableType = value;
+                var cableSizes = EdtSettings.CableSizesUsedInProject.Where(ct => ct.Type == _selectedCableType.Type).ToList();
+                SelectedCableSizes = new ObservableCollection<CableSizeModel>(cableSizes);
+            }
+        }
+
+
+        public ObservableCollection<CableSizeModel> SelectedCableSizes { get; set; } = new ObservableCollection<CableSizeModel>();
+
 
         public string CableType3C1kVPower { get; set; }
         public string CableInsulation1kVPower { get; set; }
@@ -150,7 +215,17 @@ namespace WpfUI.ViewModels
         public string CableInsulation15kVPower { get; set; }
         public string CableInsulation35kVPower { get; set; }
 
-        public string DefaultCableInstallationType { get; set; }
+
+        private string _defaultCableInstallationType;
+        public string DefaultCableInstallationType
+        {
+            get { return _defaultCableInstallationType; }
+            set
+            {
+                _defaultCableInstallationType = value;
+                SaveVmSetting(nameof(DefaultCableInstallationType), _defaultCableInstallationType);
+            }
+        }
         public string DefaultCableTypeLoad_3ph1kV { get; set; }
         public string DefaultCableTypeDteq_3ph1kVLt1200A { get; set; }
         public string DefaultCableTypeDteq_3ph1kVGt1200A { get; set; }
@@ -194,9 +269,16 @@ namespace WpfUI.ViewModels
         //Dteq
         public string DteqMaxPercentLoaded { get; set; }
         public string DteqDefaultPdTypeLV { get; set; }
+        public string DefaultXfrImpedance { get; set; }
 
+       
+
+        //Voltage
+        public string VoltageDefault1kV { get; set; }
+
+
+        //Load
         public string LoadDefaultPdTypeLV { get; set; }
-
         public string LoadFactorDefault
         {
             get => loadFactorDefault;
@@ -210,7 +292,7 @@ namespace WpfUI.ViewModels
                 if (Double.TryParse(loadFactorDefault, out dblOut) == false) {
                     AddError(nameof(LoadFactorDefault), "Invalid Value");
                 }
-                else if (Double.Parse(loadFactorDefault)>1 || Double.Parse(loadFactorDefault) < 0) {
+                else if (Double.Parse(loadFactorDefault) > 1 || Double.Parse(loadFactorDefault) < 0) {
                     AddError(nameof(LoadFactorDefault), "Invalid Value");
                 }
                 else {
@@ -219,58 +301,13 @@ namespace WpfUI.ViewModels
                 }
             }
         }
-        public string DefaultXfrImpedance { get; set; }
-
-        //Voltage
-        public string VoltageDefault1kV { get; set; }
-
-
-        //Loads
         public string LoadDefaultEfficiency_Other { get; set; }
         public string LoadDefaultPowerFactor_Other { get; set; }
         public string LoadDefaultEfficiency_Panel { get; set; }
         public string LoadDefaultPowerFactor_Panel { get; set; }
 
 
-        #region Helper Methods
-        public void LoadSettings()
-        {
-            SettingsManager.LoadProjectSettings();
-            StringSettings = new ObservableCollection<SettingModel>(SettingsManager.StringSettingList);
-            TableSettings = new ObservableCollection<SettingModel>(SettingsManager.TableSettingList);
-
-            //StringSettings = new ObservableCollection<SettingModel>(SettingManager.GetStringSettings());
-            //TableSettings = new ObservableCollection<SettingModel>(SettingManager.GetTableSettings());
-            //SettingManager.CreateCableAmpsUsedInProject();
-            CableTypes = TypeManager.CableTypes;
-
-
-        }
-        private void SaveStringSetting()
-        {
-            SettingsManager.SaveStringSetting(SelectedStringSetting);
-        }
-        private void SaveTableSetting()
-        {
-            ArrayList tables = DaManager.prjDb.GetListOfTablesNamesInDb();
-
-            //only saves to Db if Db table exists
-
-            if (SelectedTableSetting != null) {
-                if (tables.Contains(SelectedTableSetting.Name)) {
-                    SettingsManager.SaveTableSetting(SelectedTableSetting);
-                    //SettingManager.CreateCableAmpsUsedInProject();
-                }
-            }
-
-
-            foreach (CableSizeModel cable in SelectedCableSizes) {
-                DaManager.prjDb.UpsertRecord(cable, "CableSizesUsedInProject", new List<string>());
-            }
-            EdtSettings.CableSizesUsedInProject = DaManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
-        }
-        #endregion
-
+        //New Settings
         public void LoadVmSettings()
         {
             Type projectSettingsClass = typeof(EdtSettings);
@@ -285,7 +322,6 @@ namespace WpfUI.ViewModels
                 }
             }
         }
-
         public void SaveVmSetting(string settingName, string settingValue)
         {
             Type projectSettingsClass = typeof(EdtSettings);
@@ -299,5 +335,40 @@ namespace WpfUI.ViewModels
             }
         }
 
+
+        //Developer (old)
+        public void LoadSettings()
+        {
+            SettingsManager.LoadProjectSettings();
+            StringSettings = new ObservableCollection<SettingModel>(SettingsManager.StringSettingList);
+            TableSettings = new ObservableCollection<SettingModel>(SettingsManager.TableSettingList);
+
+        }
+        private void SaveStringSetting()
+        {
+            SettingsManager.SaveStringSetting(SelectedStringSetting);
+        }
+        public void SaveTableSettings()
+        {
+            ArrayList tables = DaManager.prjDb.GetListOfTablesNamesInDb();
+
+            //only saves to Db if Db table exists
+
+            if (SelectedTableSetting != null) {
+                if (tables.Contains(SelectedTableSetting.Name)) {
+                    SettingsManager.SaveTableSetting(SelectedTableSetting);
+                }
+            }
+
+            foreach (CableTypeModel cable in TypeManager.CableTypes) {
+                DaManager.libDb.UpsertRecord(cable, "CableTypes", new List<string>());
+            }
+           
+
+            foreach (CableSizeModel cable in SelectedCableSizes) {
+                DaManager.prjDb.UpsertRecord(cable, "CableSizesUsedInProject", new List<string>());
+            }
+            EdtSettings.CableSizesUsedInProject = DaManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
+        }
     }
 }

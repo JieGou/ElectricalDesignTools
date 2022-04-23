@@ -22,7 +22,6 @@
                 <!--<ResourceDictionary Source="../Styles/EDTBlueStyle.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
-
             <sys:Int32 x:Key="col1">1</sys:Int32>
             
         </ResourceDictionary>
@@ -64,14 +63,16 @@
                             Style="{StaticResource ToolBarButtonBase}"/>
                     
                     <Button Content="CABLE"
-                            Style="{StaticResource ToolBarButtonBase}"/>
+                            Style="{StaticResource ToolBarButtonBase}" PreviewMouseDown="Button_PreviewMouseDown"
+                            />
                 </StackPanel>
-                <Button Content="APPLICATION SETTINGS"
-                        Grid.Column="1"
-                        Style="{StaticResource ToolBarButtonBase}"/>
-                <Button Content="DEVELOPER"
-                        Grid.Column="2"
-                        Style="{StaticResource ToolBarButtonBase}" PreviewMouseDown="btnDeveloperSettings_PreviewMouseDown"/>
+                    <Button Content="APPLICATION SETTINGS"
+                            Grid.Column="1"
+                            Style="{StaticResource ToolBarButtonBase}"/>
+                    <Button Content="DEVELOPER" 
+                            Grid.Column="2"
+                            Style="{StaticResource ToolBarButtonBase}"
+                            PreviewMouseDown="btnDeveloperSettings_PreviewMouseDown"/>
             </Grid>
         </Border>
         
@@ -100,7 +101,8 @@
                 </EventTrigger>
             </Grid.Triggers>
 
-            <ContentControl x:Name="ccSettingPage"/>
+            <ContentControl x:Name="ccSettingPage" Content="{Binding SelectedSettingView}"/>
+
         </Grid>
     </Grid>
 </UserControl>

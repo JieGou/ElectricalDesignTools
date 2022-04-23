@@ -55,6 +55,9 @@
     <Compile Update="Views\SettingsSubViews\DeveloperSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\SettingsSubViews\CableSettingsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\SubViews\MccDetailsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,6 +88,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\SettingsSubViews\DeveloperSettingsView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\SettingsSubViews\CableSettingsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

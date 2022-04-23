@@ -37,10 +37,17 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         set { _listManager = value; }
     }
 
-    public ElectricalViewModel(ListManager listManager)
+    private TypeManager _typeManager;
+    public TypeManager TypeManager
+    {
+        get { return _typeManager; }
+        set { _typeManager = value; }
+    }
+    public ElectricalViewModel(ListManager listManager, TypeManager typeManager)
     {
         //fields
         _listManager = listManager;
+        _typeManager = new TypeManager();
         _dteqFactory = new DteqFactory(listManager);
         _loadFactory = new LoadFactory(listManager);
         //members
@@ -749,9 +756,9 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         CableSpacing.Add(100);
         CableSpacing.Add(0);
 
-        CableInstallationTypes.Add("LadderTray");
-        CableInstallationTypes.Add("DirectBuried");
-        CableInstallationTypes.Add("RacewayConduit");
+        CableInstallationTypes.Add(GlobalConfig.CableInstallationType_LadderTray);
+        CableInstallationTypes.Add(GlobalConfig.CableInstallationType_DirectBuried);
+        CableInstallationTypes.Add(GlobalConfig.CableInstallationType_RacewayConduit);
     }
 
     #endregion

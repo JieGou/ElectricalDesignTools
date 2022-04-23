@@ -35,6 +35,10 @@ namespace EDTLibrary
 
         public const string EmptyTag = "                 ";
 
+        public const string Code_Cec = "CEC";
+        public const string Code_Nec = "NEC";
+        public const string Code_Iec = "IEC";
+
 
         public const string CableInstallationType_LadderTray = "LadderTray";
         public const string CableInstallationType_DirectBuried = "DirectBuried";

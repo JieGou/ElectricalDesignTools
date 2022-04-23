@@ -65,7 +65,7 @@ namespace WpfUI.ViewModels
             _startupViewModel = new StartupViewModel(startupService);
             _settingsViewModel = new SettingsViewModel(edtSettings, typeManager);
             _areasViewModel = new AreasViewModel(listManager);
-            _electricalViewModel = new ElectricalViewModel(listManager);
+            _electricalViewModel = new ElectricalViewModel(listManager, typeManager);
             _cableListViewModel = new CableListViewModel(listManager);
 
             NavigateStartupCommand = new RelayCommand(NavigateStartup);

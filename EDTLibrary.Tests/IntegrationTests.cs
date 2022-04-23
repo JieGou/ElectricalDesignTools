@@ -1,7 +1,9 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.ProjectSettings;
 using EDTLibrary.TestDataFolder;
 using System;
 using System.Collections.Generic;
@@ -33,6 +35,8 @@ namespace EDTLibrary.Tests
 
             //ListManager
             ListManager listManager = new ListManager();
+            TypeManager typeManager = new TypeManager();
+            EdtSettings edtSettings = new EdtSettings();
 
             StartupService startupService = new StartupService(listManager);
             startupService.InitializeLibrary();
@@ -45,7 +49,7 @@ namespace EDTLibrary.Tests
 
             //ViewModels
             AreasViewModel areaVm = new AreasViewModel(listManager);
-            ElectricalViewModel eqVm = new ElectricalViewModel(listManager);
+            ElectricalViewModel eqVm = new ElectricalViewModel(listManager, typeManager);
 
             #endregion
 

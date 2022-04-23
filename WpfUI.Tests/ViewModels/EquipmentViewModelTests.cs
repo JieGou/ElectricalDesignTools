@@ -1,4 +1,5 @@
 using EDTLibrary;
+using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System.Collections.ObjectModel;
@@ -27,7 +28,9 @@ namespace WpfUI.Tests.ViewModels
                 new LoadModel("HTR-01")
             };
             ListManager listManager = new ListManager();
-            ElectricalViewModel eqv = new ElectricalViewModel(listManager);
+            TypeManager typeManager = new TypeManager();
+
+            ElectricalViewModel eqv = new ElectricalViewModel(listManager, typeManager);
 
             //Act
             bool actual = eqv.IsTagAvailable(_dteqToAddTag, DteqList, LoadList);
