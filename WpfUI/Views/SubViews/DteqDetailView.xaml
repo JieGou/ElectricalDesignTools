@@ -103,7 +103,8 @@
                        d:Text="Description" Margin="5 5 0 5"/>
         </StackPanel>
 
-        <TabControl Grid.Row="1" Background="LightCyan" BorderThickness="0 1 0 0">
+        <TabControl Grid.Row="1" Background="LightCyan" BorderThickness="0 1 0 0"
+                    SelectedIndex="{Binding SelectedDteqTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
             <!--Equipment Specific Details-->
             <TabItem Header="Summary" Background="LightCyan">

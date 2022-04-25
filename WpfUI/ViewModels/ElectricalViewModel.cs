@@ -19,6 +19,7 @@ using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModifiers;
 using PropertyChanged;
+using System.Windows.Controls;
 
 namespace WpfUI.ViewModels;
 
@@ -183,7 +184,8 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     public double LoadGridHeight
     {
         get { return _loadGridHeight; }
-        set { 
+        set
+        {
             _loadGridHeight = value;
             AppSettings.Default.LoadGridBottom = _loadGridBottom.Value;
             AppSettings.Default.Save();
@@ -234,19 +236,22 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                     }
                 }
                 DteqMotorLoads = new Tuple<int, double, double>(_selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.MOTOR.ToString()),
-                    _selectedDteq.AssignedLoads.Where(al => al.Type == LoadTypes.MOTOR.ToString()).Sum(al=>al.DemandKva),
+                    _selectedDteq.AssignedLoads.Where(al => al.Type == LoadTypes.MOTOR.ToString()).Sum(al => al.DemandKva),
                     _selectedDteq.AssignedLoads.Where(al => al.Type == LoadTypes.MOTOR.ToString()).Sum(al => al.DemandKw));
                 DteqHeaterLoads = new Tuple<int, double, double>(_selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.HEATER.ToString()),
                     _selectedDteq.AssignedLoads.Where(al => al.Type == LoadTypes.HEATER.ToString()).Sum(al => al.DemandKva),
                     _selectedDteq.AssignedLoads.Where(al => al.Type == LoadTypes.HEATER.ToString()).Sum(al => al.DemandKw));
-                    
+
                 DteqPanelLoads = _selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.PANEL.ToString());
                 DteqWeldingLoads = _selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.WELDING.ToString());
                 DteqOtherLoads = _selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.OTHER.ToString());
             }
         }
     }
-
+    public int SelectedDteqTab {
+        get { return _selectedDteqTab; }
+        set { _selectedDteqTab = value; } 
+    }
     public Tuple<int, double, double> DteqMotorLoads { get; set; }
     public Tuple<int, double, double> DteqHeaterLoads { get; set; }
     public int DteqPanelLoads { get; set; }
@@ -257,6 +262,8 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     // LOADS
 
     private IPowerConsumer _selectedLoad;
+    private int _selectedDteqTab;
+
     public IPowerConsumer SelectedLoad
     {
         get { return _selectedLoad; }
@@ -264,14 +271,22 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         {
             _selectedLoad = value;
             if (_selectedLoad != null) {
-                
+
                 GlobalConfig.SelectingNew = true;
-                    CopySelectedLoad();
+                CopySelectedLoad();
                 GlobalConfig.SelectingNew = false;
 
             }
         }
     }
+    private int _selectedLoadTab;
+
+    public int SelectedLoadTab
+    {
+        get { return _selectedLoadTab; }
+        set { _selectedLoadTab = value; }
+    }
+
     private async Task CopySelectedLoad()
     {
         try {
@@ -352,13 +367,14 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             ToggleRowViewDteqProp = "VisibleWhenSelected";
         }
     }
-  
+
     #endregion
 
     #region Command Methods
 
     // Dteq
-    public async void DbGetAll() {
+    public async void DbGetAll()
+    {
         _listManager.GetProjectTablesAndAssigments();
         AssignedLoads.Clear();
 
@@ -427,7 +443,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             _selectedDteq.PowerCable.SetCableParameters(_selectedDteq);
             _selectedDteq.PowerCable.CalculateCableQtyAndSize();
         }
-        
+
     }
     private void CalculateSingleDteqCableAmps()
     {
@@ -500,7 +516,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                 DeletePowerCable(dteqToDelete); //await 
                 RetagLoadsOfDeleted(dteqToDelete); //await
 
-                if (dteqToDelete.FedFrom!=null) {
+                if (dteqToDelete.FedFrom != null) {
                     dteqToDelete.FedFrom.AssignedLoads.Remove(dteqToDelete);
                 }
                 DaManager.DeleteDteq(dteqToDelete);
@@ -512,7 +528,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                 }
             }
         }
-        catch (Exception ex){
+        catch (Exception ex) {
             MessageBox.Show(ex.Message);
         }
         return;
@@ -520,7 +536,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     private void DeletePowerCable(IPowerConsumer powerCableUser)
     {
-        
+
         if (powerCableUser.PowerCable != null) {
             int cableId = powerCableUser.PowerCable.Id;
             DaManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId); //await
@@ -556,7 +572,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             load.FedFromType = GlobalConfig.Deleted;
             load.FedFrom = deleted;
         }
-        return ;
+        return;
     }
     public void DteqList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) { }
     public void LoadList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) { }
@@ -663,7 +679,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     {
 
         if (_listManager.LoadList.Count != 0 && LoadListLoaded == true) {
-      
+
             try {
                 foreach (var load in _listManager.LoadList) {
                     DaManager.prjDb.UpsertRecord<LoadModel>((LoadModel)load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
@@ -675,7 +691,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
         }
     }
-    
+
 
 
     public void CalculateAll()
@@ -718,22 +734,23 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         LoadToAddValidator.Tag = " ";
         LoadToAddValidator.Tag = tag;
     }
-    
-    public bool IsTagAvailable(string tag, ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList) {
+
+    public bool IsTagAvailable(string tag, ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList)
+    {
         if (tag == null) {
             return false;
         }
         var dteqTag = dteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
         var loadTag = loadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
 
-        if (dteqTag != null || 
+        if (dteqTag != null ||
             loadTag != null) {
             return false;
         }
-        
+
         return true;
     }
-    
+
 
 
     //ComboBox Lists
@@ -748,7 +765,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         foreach (var item in Enum.GetNames(typeof(EDTLibrary.DteqTypes))) {
             DteqTypes.Add(item.ToString());
         }
-        
+
         foreach (var item in TypeManager.VoltageTypes) {
             VoltageTypes.Add(item.Voltage.ToString());
         }

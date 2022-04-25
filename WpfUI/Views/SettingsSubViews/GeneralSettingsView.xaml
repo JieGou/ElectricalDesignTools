@@ -18,7 +18,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Blue.xaml"/>
                 <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
@@ -200,10 +200,7 @@
                                    Grid.Row="1" Grid.Column="0"/>
                         <TextBlock Text="Visual warning when Distribution Equipment is loaded at or beyond selected value"  
                                    Grid.Row="1" Grid.Column="0"
-                                   Style="{StaticResource settingDescription}"
-                                   MaxWidth="200"
-                                   TextAlignment="Left"
-                                   TextWrapping="Wrap"/>
+                                   Style="{StaticResource settingDescription}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
                         <TextBox MinWidth="50"
@@ -217,10 +214,7 @@
                                Grid.Row="2" Grid.Column="0" />
                         <TextBlock Text="Impedance (%Z) value when creating new Transformers"  
                                    Grid.Row="1" Grid.Column="0"
-                                   Style="{StaticResource settingDescription}"
-                                   MaxWidth="200"
-                                   TextAlignment="Left"
-                                   TextWrapping="Wrap"/>
+                                   Style="{StaticResource settingDescription}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2">   

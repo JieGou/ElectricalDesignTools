@@ -11,6 +11,7 @@ namespace EDTLibrary {
         LOAD3P,
         LOAD1P,
         COMP,
+        OCPD,
         CABLE,
     }
     
@@ -32,6 +33,17 @@ namespace EDTLibrary {
         TRANSFORMER,
         PANEL,
         OTHER
+    }
+
+    public enum ComponentSubTypes
+    {
+        UDS,
+        FDS,
+        STARTER,
+        VFD,
+        RVS,
+        BREAKER,
+        FUSE,
     }
 
     public enum CableUsageTypes {
