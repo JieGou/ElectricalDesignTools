@@ -63,6 +63,22 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
+    <!--TEXTBOX - DataGrid Header Filter -->
+    <Style x:Key="FilterTextBoxBase" TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Grid.Row" Value="1"/>
+        <Setter Property="Grid.Column" Value="0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="MinHeight" Value="17"/>
+        <Setter Property="Margin" Value="5 1 5 1"/>
+        <Setter Property="ToolTip" Value="Fitler - Enter to apply, ESC to clear."/>
+        <Setter Property="ToolTipService.InitialShowDelay" Value="150"/>
+    </Style>    
+
     <!--COMBOBOX with Error-->
     <Style TargetType="ComboBox">
         <Setter Property="Validation.ErrorTemplate">
@@ -127,6 +143,18 @@
         <Setter Property="Background" Value="#FFF7C1C1"/>
     </Style>
 
+    <!--Filter Button Style-->
+    <Style x:Key="FilterButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Content" Value="\/"/>
+        <Setter Property="FontSize" Value="8"/>
+        <Setter Property="Grid.Row" Value="0"/>
+        <Setter Property="Grid.Column" Value="1"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="Width" Value="15"/>
+        <Setter Property="Height" Value="15"/>
+        <Setter Property="Margin" Value="0 0 5 0"/>
+    </Style>
+    
     <!--Tool Bar Button-->
     <Style x:Key="ToolBarButtonBase" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
         <Setter Property="Foreground" Value="White"/>
@@ -339,11 +367,13 @@
         <Setter Property="RowHeight" Value="20"/>
         <Setter Property="CanUserResizeRows" Value="True"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        
        
     </Style>
 
     <!--Column Header-->
     <Style TargetType="DataGridColumnHeader" x:Key="DataGridColumnHeaderBase">
+        <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderBrush" Value="black" />
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="BorderThickness" Value="1" />
@@ -354,11 +384,25 @@
         <!--<Setter Property="Padding" Value="5 2 5 2"/>-->
         <Setter Property="Padding" Value="0"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
-        <Style.Triggers>
+        <!--<Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                     <TextBlock Text="{Binding}" Grid.Row="0" HorizontalAlignment="Center"/>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>-->
+
+
+        <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
                 <Setter Property="Background" Value="#FF449AE6"/>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
+    </Style>
+
+    <!--Column Header with Filter-->
+    <Style TargetType="DataGridColumnHeader" x:Key="DataGridColumnHeaderWithFilterBase" BasedOn="{StaticResource DataGridColumnHeaderBase}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     </Style>
 
     <!--Row Header-->

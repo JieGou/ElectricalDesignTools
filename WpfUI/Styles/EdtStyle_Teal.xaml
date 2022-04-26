@@ -157,12 +157,12 @@
     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}">
         <Setter Property="Background" Value="{StaticResource Dark}"/>
         <Setter Property="Foreground" Value="White"/>
-        <Style.Triggers>
+        <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
                 <Setter Property="Background" Value="{StaticResource Medium}"/>
                 <Setter Property="Foreground" Value="Black"/>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
 
     <!--OCPD Column Header-->
@@ -170,12 +170,12 @@
            x:Key="OcpdColumnHeader">
         <Setter Property="Background" Value="#FF1962A4"/>
         <Setter Property="Foreground" Value="White"/>
-        <Style.Triggers>
+        <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
                 <Setter Property="Background" Value="#FF268DEA"/>
                 <Setter Property="Foreground" Value="White"/>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
 
     <!--COMPONENT Column Header-->
@@ -183,12 +183,12 @@
            x:Key="ComponentColumnHeader">
         <Setter Property="Background" Value="#FFD27D16"/>
         <Setter Property="Foreground" Value="White"/>
-        <Style.Triggers>
+        <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
                 <Setter Property="Background" Value="#FFCECEFF"/>
                 <Setter Property="Foreground" Value="Black"/>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
 
     <!--CABLE Column Header-->
@@ -196,12 +196,12 @@
            x:Key="CableHeaderColumn">
         <Setter Property="Background" Value="#FF675AC1"/>
         <Setter Property="Foreground" Value="White"/>
-        <Style.Triggers>
+        <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
                 <Setter Property="Background" Value="#FFCECEFF"/>
                 <Setter Property="Foreground" Value="Black"/>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
     
 

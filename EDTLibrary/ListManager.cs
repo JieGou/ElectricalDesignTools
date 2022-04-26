@@ -149,10 +149,9 @@ namespace EDTLibrary
                 }
                 fedFrom = IDteqList.FirstOrDefault(d => d.Id == load.FedFromId &&
                                                    d.GetType().ToString() == load.FedFromType);
-                if (fedFrom != null) {
-                    load.FedFrom = fedFrom;
-                }
+                if (fedFrom != null) load.FedFrom = fedFrom;
 
+                if (load.Description == null) load.Description = "";
             }
             //CreateILoadDict();
             return LoadList;

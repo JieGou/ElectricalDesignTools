@@ -216,7 +216,6 @@
                         Grid.Column="1" Grid.Row="4"
                         Margin="0,20,0,50">
 
-                <TextBox x:Name="txtLoadTagFilter1" Height="20" TextChanged="txtLoadTagFilter_TextChanged" PreviewKeyDown="txtLoadTagFilter_PreviewKeyDown"/>
                 
                 <Button x:Name ="btnLoadList" Content="Load List" Height="27" Width="125"
                         Command="{Binding ShowAllLoadsCommand}"/>
@@ -353,7 +352,8 @@
 
                         <!--Area-->
                         <DataGridTemplateColumn Header="Area" x:Name="dteqArea"
-                                    Width="75">
+                                                Width="75"
+                                                SortMemberPath="Area.Tag">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -399,7 +399,8 @@
 
 
                         <!--Fed From Model-->
-                        <DataGridTemplateColumn Header="Fed From" x:Name="dteqFedFrom" MinWidth="75">
+                        <DataGridTemplateColumn Header="Fed From" x:Name="dteqFedFrom" MinWidth="75"
+                                                SortMemberPath="FedFrom.Tag">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -427,7 +428,8 @@
 
 
                         <!--Line Voltage-->
-                        <DataGridTemplateColumn  Header="   Line &#x0a;Voltage" x:Name="dteqLineVoltage">
+                        <DataGridTemplateColumn  Header="   Line &#x0a;Voltage" x:Name="dteqLineVoltage"
+                                                 SortMemberPath="LineVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding LineVoltage,  StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"
@@ -453,7 +455,8 @@
                         </DataGridTemplateColumn>
 
                         <!--Load Voltage-->
-                        <DataGridTemplateColumn Header="  Load &#x0a;Voltage" x:Name="dteqLoadVoltage">
+                        <DataGridTemplateColumn Header="  Load &#x0a;Voltage" x:Name="dteqLoadVoltage"
+                                                SortMemberPath="LoadVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding LoadVoltage,  StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"
@@ -1000,52 +1003,66 @@
                         <!--Textblock cell padding style in this.resources Move to ResDict-->
 
                         <!--Tag-->
-                        <DataGridTextColumn 
-                                        Width="75"
-                                        Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                        ElementStyle="{StaticResource ColumnElementStyle}"  >
-                             <DataGridTextColumn.Header>
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Tag" Padding="5 2 5 2"/>
-                                    <TextBox x:Name="txtLoadTagFilter" MinWidth="100" MinHeight="17" Text="{Binding Filter}" PreviewKeyDown="txtLoadTagFilter_PreviewKeyDown" 
-                                             HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                                             Margin="0 3 0 0">
-                                        <!--<TextBox.Style>
-                                            <Style TargetType="TextBox">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="False">
-                                                        <Setter Property="Height" Value="50"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBox.Style>-->
-                                    </TextBox>
-                                </StackPanel>  
-                            </DataGridTextColumn.Header>
+                        <DataGridTextColumn x:Name="loadTag"
+                                            MinWidth="75"
+                                            Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            ElementStyle="{StaticResource ColumnElementStyle}"
+                                            HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}">
                             
+                            <DataGridTextColumn.Header>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <!--<ColumnDefinition Width="*"/>-->
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Tag" 
+                                                    Grid.Row="0" Grid.ColumnSpan="2"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadTagFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             Text="{Binding Filter}" 
+                                             PreviewKeyDown="LoadGridFilter" />
+
+                                </Grid>
+                            </DataGridTextColumn.Header>
+
                         </DataGridTextColumn>
 
                         <!--Description-->
                         <DataGridTextColumn x:Name="loadDescription" MinWidth="150" 
-                                Binding="{Binding Path=Description, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                                            Binding="{Binding Path=Description, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}">
+
                             <DataGridTextColumn.Header>
-                                <StackPanel Orientation="Vertical" x:Name="loadDescStackPanel">
-                                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Description" Padding="5 2 5 2"/>
-                                    <TextBox x:Name="txtDescriptionTagFilter" MinWidth="150" MinHeight="17" Text="{Binding Filter}" PreviewKeyDown="txtLoadTagFilter_PreviewKeyDown" 
-                                             HorizontalAlignment="Center" HorizontalContentAlignment="Center"
-                                             Margin="0 3 0 0">
-                                        <!--<TextBox.Style>
-                                            <Style TargetType="TextBox">
-                                                <Style.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="False">
-                                                        <Setter Property="Height" Value="50"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBox.Style>-->
-                                    </TextBox>
-                                </StackPanel>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <!--<ColumnDefinition Width="*"/>-->
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Tag" 
+                                                    Grid.Row="0" Grid.ColumnSpan="2"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadDescriptionFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             Text="{Binding Filter}" 
+                                             PreviewKeyDown="LoadGridFilter" />
+
+                                </Grid>
                             </DataGridTextColumn.Header>
+
+
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Left" />
@@ -1062,7 +1079,8 @@
 
                         <!--Area-->
                         <DataGridTemplateColumn Header="Area" x:Name="loadArea"
-                                    MinWidth="75">
+                                                MinWidth="75"
+                                                >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"

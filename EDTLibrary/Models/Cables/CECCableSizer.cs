@@ -35,9 +35,10 @@ namespace EDTLibrary.Models.Cables
 
         public string GetDefaultCableType(IPowerConsumer load)
         {
-            if (load is ILoad 
+            if (load is ILoad
+                && load.Voltage > 300
                 && load.Voltage <= 1000) {
-                return EdtSettings.DefaultCableTypeLoad_3ph1kV;
+                return EdtSettings.DefaultCableTypeLoad_3ph300to1kV;
             }
             else if (load is IDteq 
                 && load.Voltage <= 1000 
@@ -57,7 +58,7 @@ namespace EDTLibrary.Models.Cables
                 && load.Voltage <= 15000) {
                 return EdtSettings.DefaultCableType_3ph15kV;
             }
-            return EdtSettings.DefaultCableTypeLoad_3ph1kV;
+            return EdtSettings.DefaultCableTypeLoad_3ph300to1kV;
         }
         public double GetDefaultCableSpacing(IPowerCable cable)
         {

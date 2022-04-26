@@ -81,6 +81,9 @@ public class PowerCableModel : IPowerCable
         get { return _typeModel; }
         set
         {
+            if (value == null) 
+                return;
+
             var oldValue = _typeModel;
             _typeModel = value;
             _type = _typeModel.Type;

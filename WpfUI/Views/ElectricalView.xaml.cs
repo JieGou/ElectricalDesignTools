@@ -24,10 +24,11 @@ namespace WpfUI.Views
     /// </summary>
     public partial class ElectricalView : UserControl
     {
-        private ElectricalViewModel elVm { get { return DataContext as ElectricalViewModel; } }
+        private ElectricalViewModel elecVm { get { return DataContext as ElectricalViewModel; } }
 
         DteqDetailView _dteqDetailsView = new DteqDetailView();
         LoadDetailView _loaDetailView = new LoadDetailView();
+
         public ElectricalView()
         {
             InitializeComponent();
@@ -145,7 +146,7 @@ namespace WpfUI.Views
         {
             DteqToAddValidator dteqToAdd;
             LoadToAddValidator loadToAdd;
-            ListManager listManager= elVm.ListManager;
+            ListManager listManager= elecVm.ListManager;
 
             MessageBoxResult result = MessageBox.Show("Dteq, Loads, Both", "Test Data", MessageBoxButton.YesNoCancel);
             switch (result) {
@@ -153,14 +154,14 @@ namespace WpfUI.Views
                     foreach (var dteq in TestData.TestDteqList) {
                         dteq.Area = listManager.AreaList[0];
                         dteqToAdd = new DteqToAddValidator(listManager, dteq);
-                        elVm.AddDteq(dteqToAdd);
+                        elecVm.AddDteq(dteqToAdd);
                     }
                     break;
                 case MessageBoxResult.No:
                     foreach (var load in TestData.TestLoadList) {
                         load.Area = listManager.AreaList[0];
                         loadToAdd = new LoadToAddValidator(listManager, load);
-                        elVm.AddLoad(loadToAdd);
+                        elecVm.AddLoad(loadToAdd);
                         load.CalculateLoading();
                     }
                     break;
@@ -168,12 +169,12 @@ namespace WpfUI.Views
                     foreach (var dteq in TestData.TestDteqList) {
                         dteq.Area = listManager.AreaList[0];
                         dteqToAdd = new DteqToAddValidator(listManager, dteq);
-                        elVm.AddDteq(dteqToAdd);
+                        elecVm.AddDteq(dteqToAdd);
                     }
                     foreach (var load in TestData.TestLoadList) {
                         load.Area = listManager.AreaList[0];
                         loadToAdd = new LoadToAddValidator(listManager, load);
-                        elVm.AddLoad(loadToAdd);
+                        elecVm.AddLoad(loadToAdd);
                         load.CalculateLoading();
                     }
                     break;
@@ -184,13 +185,13 @@ namespace WpfUI.Views
         //Testing
         private void DeleteEquipment()
         {
-            while (elVm.ListManager.IDteqList.Count > 0) {
-                IDteq dteq = elVm.ListManager.IDteqList[0];
-                elVm.DeleteDteq(dteq);
+            while (elecVm.ListManager.IDteqList.Count > 0) {
+                IDteq dteq = elecVm.ListManager.IDteqList[0];
+                elecVm.DeleteDteq(dteq);
             }
 
-            while (elVm.ListManager.LoadList.Count > 0) {
-                elVm.DeleteLoad(elVm.ListManager.LoadList[0]);
+            while (elecVm.ListManager.LoadList.Count > 0) {
+                elecVm.DeleteLoad(elecVm.ListManager.LoadList[0]);
             }
         }
 
@@ -204,7 +205,7 @@ namespace WpfUI.Views
             DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
             DaManager.prjDb.DeleteAllRecords(GlobalConfig.PowerCableTable);
 
-            elVm.DbGetAll();
+            elecVm.DbGetAll();
            
         }
 
@@ -221,11 +222,11 @@ namespace WpfUI.Views
 
             if (gridAdding.Visibility == Visibility.Collapsed) {
                 gridAdding.Visibility = Visibility.Visible;
-               elVm.LoadGridTop = new System.Windows.GridLength(127, GridUnitType.Pixel);
+               elecVm.LoadGridTop = new System.Windows.GridLength(127, GridUnitType.Pixel);
             }
             else {
                 gridAdding.Visibility = Visibility.Collapsed;
-                elVm.LoadGridTop = new System.Windows.GridLength(0, GridUnitType.Pixel);
+                elecVm.LoadGridTop = new System.Windows.GridLength(0, GridUnitType.Pixel);
 
             }
 
@@ -237,7 +238,7 @@ namespace WpfUI.Views
             foreach (var item in dgdAssignedLoads.SelectedItems) {
                 load = (LoadModel)item;
                 //dteq.Tag = "New Tag";
-                load.FedFrom = elVm.ListManager.IDteqList.FirstOrDefault(d => d.Tag == elVm.LoadToAddValidator.FedFromTag);
+                load.FedFrom = elecVm.ListManager.IDteqList.FirstOrDefault(d => d.Tag == elecVm.LoadToAddValidator.FedFromTag);
             }
         }
 
@@ -258,37 +259,40 @@ namespace WpfUI.Views
             dataGridCell.FastEdit(args);
         }
 
-        private void txtLoadTagFilter_TextChanged(object sender, TextChangedEventArgs e)
+        private void LoadGridFilter(object sender, KeyEventArgs e)
         {
-            if (txtLoadTagFilter.Text =="") {
-                elVm.AssignedLoads.Clear();
-                foreach (var load in elVm.ListManager.LoadList) {
-                    elVm.AssignedLoads.Add((IPowerConsumer)load);
-                }
+            TextBox textBox = (TextBox)sender;
+
+            if (e.Key == Key.Enter || e.Key == Key.Tab) {
+                ApplyFilter();
             }
-        }
 
-        private void txtLoadTagFilter_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key==Key.Enter) {
-                ObservableCollection<IPowerConsumer> tempLoadList = new ObservableCollection<IPowerConsumer>();
-                foreach (var item in elVm.AssignedLoads) {
-                    tempLoadList.Add(item);
-                }
+            if (e.Key == Key.Escape) {
+                textBox = (TextBox)sender;
+                textBox.Text = "";
+                ApplyFilter();
+            }
 
-                elVm.AssignedLoads.Clear();
-                foreach (var load in tempLoadList) {
-                    if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())) {
-                        elVm.AssignedLoads.Add((IPowerConsumer)load);
+            void ApplyFilter()
+            {
+                if (elecVm.LoadListLoaded == false && elecVm.SelectedDteq != null) {
+                    elecVm.AssignedLoads.Clear();
+                    foreach (var load in elecVm.SelectedDteq.AssignedLoads) {
+                        if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
+                            && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())) {
+                            elecVm.AssignedLoads.Add((IPowerConsumer)load);
+                        }
                     }
                 }
-
-                //eqVm.AssignedLoads.Clear();
-                //foreach (var load in eqVm.ListManager.LoadList) {
-                //    if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())) {
-                //        eqVm.AssignedLoads.Add((IPowerConsumer)load);
-                //    }
-                //}
+                else if (elecVm.LoadListLoaded == true) {
+                    elecVm.AssignedLoads.Clear();
+                    foreach (var load in elecVm.ListManager.LoadList) {
+                        if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
+                            && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())) {
+                            elecVm.AssignedLoads.Add((IPowerConsumer)load);
+                        }
+                    }
+                }
             }
         }
 
