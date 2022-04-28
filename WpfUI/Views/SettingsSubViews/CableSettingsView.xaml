@@ -283,7 +283,7 @@
                             </DataGridTextColumn>
 
                             <!--Display Text-->
-                            <DataGridTextColumn Header="        Type Display Text&#x0a; (Text shown on drawings) "
+                            <DataGridTextColumn Header=" Type Display Text &#x0a;(Text shown on drawings)"
                                                 Binding="{Binding Path=TypeDisplayText}" 
                                                 MinWidth="175">
                                 <DataGridTextColumn.ElementStyle>
@@ -334,10 +334,10 @@
                             <!--Size-->
                             <DataGridTextColumn Header="Size"
                                                 Binding="{Binding Path=Size}"
-                                                MinWidth="60"/>
+                                                MinWidth="65" />
 
                             <!--Used In Project-->
-                            <DataGridTemplateColumn Header="Used In&#x0a; Project"  
+                            <DataGridTemplateColumn Header=" Used In &#x0a;Project"  
                                                     MinWidth="60" >
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

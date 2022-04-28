@@ -159,11 +159,11 @@
                         <!--Textblock cell padding style in this.resources Move to ResDict-->
 
                         <!--Tag-->
-                        <DataGridTextColumn Header="Tag&#x0a; ID"
+                        <DataGridTextColumn Header="Tag&#x0a;ID"
                                             Width="75"
                                             Binding="{Binding Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" />
                         <!--Tag-->
-                        <DataGridTextColumn Header="Display&#x0a;   Tag"
+                        <DataGridTextColumn Header="Display&#x0a;Tag"
                                             Width="75"
                                             Binding="{Binding DisplayTag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" />
                         <!--Name-->
@@ -172,7 +172,7 @@
                                             Binding="{Binding Name, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
                         
                         <!--Area Category-->
-                        <DataGridTemplateColumn Header="    Area&#x0a;Category"
+                        <DataGridTemplateColumn Header="Area&#x0a;Category"
                                                 Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -194,7 +194,7 @@
                         </DataGridTemplateColumn>
 
                         <!--Area Classification-->
-                        <DataGridTemplateColumn Header="       Area&#x0a;Classification"
+                        <DataGridTemplateColumn Header="Area&#x0a;Classification"
                                                 Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -218,7 +218,7 @@
                         </DataGridTemplateColumn>
 
                         <!--MinTemp-->
-                        <DataGridTextColumn Header="Min Temp&#x0a;     (°C)" x:Name="MinTemp" 
+                        <DataGridTextColumn Header="Min Temp&#x0a;(°C)" x:Name="MinTemp" 
                                             Binding="{Binding MinTemp, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
@@ -229,7 +229,7 @@
                         </DataGridTextColumn>
 
                         <!--MaxTemp-->
-                        <DataGridTextColumn Header="Max Temp&#x0a;     (°C)" x:Name="MaxTemp" 
+                        <DataGridTextColumn Header="Max Temp&#x0a;(°C)" x:Name="MaxTemp" 
                                             Binding="{Binding MaxTemp, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
@@ -262,7 +262,7 @@
                         </DataGridTemplateColumn>
 
                     <!--Sub-Area Of-->
-                        <DataGridTemplateColumn Header="Sub-Area&#x0a;      Of"
+                        <DataGridTemplateColumn Header="Sub-Area&#x0a;Of"
                                     Width="75">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

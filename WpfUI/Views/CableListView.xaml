@@ -298,7 +298,7 @@
                                         Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         ElementStyle="{StaticResource ColumnElementStyle}" 
                                         MinWidth="150" />
-                    <DataGridTextColumn x:Name="Type" Header="Cable &#x0a; Type" 
+                    <DataGridTextColumn x:Name="Type" Header=" Cable &#x0a; Type " 
                                         Binding="{Binding Path=Type, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         MinWidth="150">
                         <DataGridTextColumn.ElementStyle>
@@ -311,7 +311,7 @@
                     <DataGridTextColumn x:Name="Size" Header="Size" 
                                         Binding="{Binding Path=Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         MinWidth="50" />
-                    <DataGridTextColumn x:Name="QtyParallel" Header="Qty in&#x0a;    | |" 
+                    <DataGridTextColumn x:Name="QtyParallel" Header="Qty in&#x0a;| |" 
                                         Binding="{Binding Path=QtyParallel, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         MinWidth="50" />
                     <!--<DataGridTextColumn x:Name="QtyConductors" Header="Qty of&#x0a; Cond."
