@@ -80,5 +80,11 @@ namespace EDTLibrary.LibraryData.TypeTables
             new AreaCategory{CategoryName = "Category 2"}
         };
 
+
+        //OCDP
+
+        public static ObservableCollection<OcpdType> OcpdTypes { get; set; }
+
+
     }
 }

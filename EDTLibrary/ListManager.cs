@@ -198,7 +198,7 @@ namespace EDTLibrary
 
             AssignLoadsAndEventsToAllDteq();
             foreach (var load in LoadList) {
-                //load.CalculateLoading();
+                load.CalculateLoading();
                 //load.PowerCable.GetRequiredAmps(load);
                 load.PowerCable.CalculateCableQtyAndSize();
                 load.PowerCable.CalculateAmpacityNew(load);

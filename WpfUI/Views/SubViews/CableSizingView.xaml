@@ -8,7 +8,7 @@
              xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
              xmlns:Converters="clr-namespace:WpfUI.Converters"
 
-             d:DesignHeight="225" d:DesignWidth="600"
+             d:DesignHeight="225" d:DesignWidth="450"
              Background="LightCyan"  >
 
     <UserControl.Resources>
@@ -151,12 +151,16 @@
             <TextBlock Text="Derated Amps: " Grid.Row="6" Grid.Column="0"/>
             <TextBlock Text="{Binding PowerCable.DeratedAmps, StringFormat={}{0:N0}  A}" 
                        Grid.Row="6" Grid.Column="2" FontWeight="Bold"
-                       d:Text="400"/>
-
+                       d:Text="400" 
+                       ToolTip="{Binding PowerCable.DeratedAmpsToolTip}"
+                       ToolTipService.InitialShowDelay="50"/>
+            
             <TextBlock Text="Required Amps: " Grid.Row="7" Grid.Column="0"/>
             <TextBlock Text="{Binding PowerCable.RequiredAmps, StringFormat={}{0:N0}  A}" 
                        Grid.Row="7" Grid.Column="2" FontWeight="Bold"
-                       d:Text="300"/>
+                       d:Text="300"
+                       ToolTip="{Binding PowerCable.RequiredAmpsToolTip}"
+                       ToolTipService.InitialShowDelay="50"/>
 
 
             <!--Column 2-->

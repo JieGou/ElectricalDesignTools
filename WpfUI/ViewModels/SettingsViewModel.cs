@@ -260,6 +260,8 @@ namespace WpfUI.ViewModels
 
         private string _dteqMaxPercentLoaded;
         private string _defaultXfrImpedance;
+        private string _loadDefaultPdTypeLV_NonMotor;
+        private string _loadDefaultPdTypeLV_Motor;
 
         public string DteqMaxPercentLoaded
         {
@@ -284,8 +286,8 @@ namespace WpfUI.ViewModels
 
 
         public string DteqDefaultPdTypeLV { get; set; }
-        public string DefaultXfrImpedance 
-        { 
+        public string DefaultXfrImpedance
+        {
             get { return _defaultXfrImpedance; }
             set
             {
@@ -312,7 +314,28 @@ namespace WpfUI.ViewModels
 
 
         //Load
-        public string LoadDefaultPdTypeLV { get; set; }
+        public string LoadDefaultPdTypeLV_NonMotor 
+        { 
+            get => _loadDefaultPdTypeLV_NonMotor;
+            set 
+            { 
+                _loadDefaultPdTypeLV_NonMotor = value;
+                SaveVmSetting(nameof(LoadDefaultPdTypeLV_NonMotor), _loadDefaultPdTypeLV_NonMotor);
+
+            }
+        }
+
+        public string LoadDefaultPdTypeLV_Motor
+        {
+            get => _loadDefaultPdTypeLV_Motor;
+            set
+            {
+                _loadDefaultPdTypeLV_Motor = value;
+                SaveVmSetting(nameof(LoadDefaultPdTypeLV_Motor), _loadDefaultPdTypeLV_Motor);
+
+            }
+        }
+
         public string LoadFactorDefault
         {
             get => loadFactorDefault;

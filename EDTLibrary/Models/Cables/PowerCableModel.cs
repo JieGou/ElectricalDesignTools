@@ -168,7 +168,19 @@ public class PowerCableModel : IPowerCable
 
     public double Derating { get; set; }
     public double DeratedAmps { get; set; }
+    public string DeratedAmpsToolTip
+    {
+        get { return BaseAmps + " A x " + Derating; }
+
+    }
     public double RequiredAmps { get; set; }
+
+    public string RequiredAmpsToolTip
+    {
+        get { return "OCDP Trip = " + _load.PdSizeTrip + " A"; }
+    
+    }
+
     public double RequiredSizingAmps { get; set; }
 
     private bool _outdoor;

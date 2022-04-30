@@ -20,7 +20,9 @@
                 <!--<ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
-            <x:Array xmlns:s="clr-namespace:System;assembly=mscorlib" x:Key="array" Type="{x:Type s:Int32}">
+            <x:Array xmlns:s="clr-namespace:System;assembly=mscorlib"
+                     x:Key="array"
+                     Type="{x:Type s:Int32}">
                 <s:Int32>1</s:Int32>
                 <s:Int32>2</s:Int32>
                 <s:Int32>3</s:Int32>
@@ -94,51 +96,32 @@
                 </ContentControl>
             </TabItem>
             
-            <TabItem Header="Components" Background="LightCyan" Height="25">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="Components In Use" Grid.Row="0" Grid.Column="0"/>
-                    <ListBox Grid.Row="1" Grid.Column="0" MinHeight="100" MinWidth="150"/>
-
-                    <TextBlock Text="Component Details " Grid.Row="0" Grid.Column="2"/>
-                    <ListBox Grid.Row="1" Grid.Column="2" MinHeight="100" MinWidth="150"/>
-
-                    </Grid>
-                </TabItem>
 
             <TabItem Header="Protection" Background="LightCyan" Height="25">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
-                        <TextBlock Text="Full Load Amps: "/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
-                        <TextBlock d:Text="0.87" Text="{Binding SelectedLoad.Fla}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
-                    </StackPanel>
-
-                </Grid>
+                <ContentControl Content="{Binding SelectedLoad}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                            <subViews:LoadProtectionDetailsView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                            <subViews:LoadProtectionDetailsView/>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+            </TabItem>
+            
+            
+            <TabItem Header="Components" Background="LightCyan" Height="25">
+                <ContentControl Content="{Binding SelectedLoad}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                            <subViews:LoadComponentDetailsView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                            <subViews:LoadComponentDetailsView/>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
             </TabItem>
 
 

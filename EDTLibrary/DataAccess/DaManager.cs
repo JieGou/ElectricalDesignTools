@@ -55,6 +55,12 @@ public class DaManager {
         GetAreaClassificationTypes();
         GetCECCableSizingRules();
         GetCecAmpacities();
+        GetOcpdTypes();
+    }
+
+    private static void GetOcpdTypes()
+    {
+        TypeManager.OcpdTypes = libDb.GetRecords<OcpdType>("OcpdTypes");
     }
 
     private static void GetCECCableSizingRules()

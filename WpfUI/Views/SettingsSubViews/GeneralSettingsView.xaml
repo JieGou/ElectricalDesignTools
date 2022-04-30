@@ -265,7 +265,11 @@
                     <TextBlock Text="Default OCPD Type for Non-Motor Loads"  
                                Grid.Row="2" Grid.Column="0" />
                     <ComboBox Grid.Row="2" Grid.Column="2"
-                              SelectedItem="{Binding LoadDefaultPdTypeLV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                              ItemsSource="{Binding TypeManager.OcpdTypes}"
+                              SelectedValuePath="Type" 
+                              DisplayMemberPath="Type"
+                              SelectedValue="{Binding LoadDefaultPdTypeLV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                              IsSynchronizedWithCurrentItem="False" />
 
                     <TextBlock Text="Default Efficiency for load type PANEL"
                                Grid.Row="3" Grid.Column="0" />

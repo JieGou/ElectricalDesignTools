@@ -628,8 +628,8 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                 newLoad.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
                 _listManager.CableList.Add(newLoad.PowerCable);
 
-                GetLoadListAsync(); //await
-
+                //GetLoadListAsync(); //await
+                AssignedLoads.Add(newLoad);
                 RefreshLoadTagValidation();
             }
         }
@@ -666,7 +666,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                     dteqToRecalculate.CalculateLoading();
                 }
                 RefreshLoadTagValidation();
-                await GetLoadListAsync();
+                //await GetLoadListAsync();
                 if (AssignedLoads.Count > 0) {
                     SelectedLoad = AssignedLoads[AssignedLoads.Count - 1];
                 }

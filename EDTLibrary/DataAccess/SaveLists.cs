@@ -34,6 +34,8 @@ namespace EDTLibrary.DataAccess
             "InLineComponents",
             "TypeModel",
             "TypeList",
+            "DeratedAmpsToolTip",
+            "RequiredAmpsToolTip",
         };
 
         static public List<string> AreaSaveList { get; set; } = new List<string>() {

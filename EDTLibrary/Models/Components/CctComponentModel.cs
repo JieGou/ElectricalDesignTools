@@ -21,16 +21,19 @@ namespace EDTLibrary.Models.Components
         public string Type { get; set; }
         public string SubType { get; set; }
         public string Owner { get; set; }
-        public ObservableCollection<IComponent> Components { get; set; } = new ObservableCollection<IComponent>();
 
         public int AreaId { get; set; }
         public IArea Area { get; set; }
         public string NemaRating { get; set; }
         public string AreaClassification { get; set; }
+        public int OwnerId { get; set; }
+        public string OwnerType { get; set; }
+        public int SequenceNumber { get; set; }
 
         public void UpdateAreaProperties()
         {
-            throw new NotImplementedException();
+            NemaRating = Area.NemaRating;
+            AreaClassification = Area.AreaClassification;
         }
     }
 }

@@ -90,7 +90,8 @@ namespace EDTLibrary.ProjectSettings
         public static string DteqMaxPercentLoaded { get; set; } 
         public static string DteqDefaultPdTypeLV { get; set; }
 
-        public static string LoadDefaultPdTypeLV { get; set; }
+        public static string LoadDefaultPdTypeLV_NonMotor { get; set; }
+        public static string LoadDefaultPdTypeLV_Motor { get; set; }
         public static string LoadFactorDefault { get; set; }
         public static string DefaultXfrImpedance { get; set; }
 

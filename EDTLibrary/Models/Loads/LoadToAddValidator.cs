@@ -2,6 +2,7 @@
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Validators;
+using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -72,9 +73,9 @@ namespace EDTLibrary.Models.Loads
             {
                 _type = value;
 
-                _loadFactor = "0.8";
+                _loadFactor = EdtSettings.LoadFactorDefault.ToString();
                 LoadFactor = "";
-                LoadFactor = "0.8";
+                LoadFactor = EdtSettings.LoadFactorDefault.ToString();
                 ClearErrors(nameof(Type));
                 if (GlobalConfig.SelectingNew == true) { return; }
 
@@ -267,7 +268,7 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
-        private string _loadFactor = "0.8";
+        private string _loadFactor;
         public string LoadFactor
         {
             get { return _loadFactor; }

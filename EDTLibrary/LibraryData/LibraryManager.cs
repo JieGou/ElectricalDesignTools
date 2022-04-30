@@ -100,6 +100,28 @@ namespace EDTLibrary.LibraryData
             return result;
         }
 
+        public static double GetMcpFrame(IPowerConsumer load)
+        {
+            double result = GlobalConfig.NoValueDouble;
+            if (DataTables.Breakers != null) {
+                DataTable dt = DataTables.MCPs.Copy();
+                DataTable dtFiltered;
+
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.Voltage
+                                                             && x.Field<double>("HP") == (double)load.Size) ;
+
+
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    result = Double.Parse(dtFiltered.Rows[0]["Size"].ToString());
+                }
+                catch { }
+            }
+            return result;
+        }
+
+
+
         public static double GetCableVoltageClass(double voltage)
         {
             double result = GlobalConfig.NoValueDouble;

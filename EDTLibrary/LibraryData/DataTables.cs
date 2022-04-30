@@ -25,6 +25,7 @@ namespace EDTLibrary.LibraryData
 
 
         public static DataTable Breakers { get; set; }
+        public static DataTable MCPs { get; set; }
         public static DataTable Disconnects { get; set; }
         public static DataTable LoadTypes { get; set; }
         public static DataTable Motors { get; set; }

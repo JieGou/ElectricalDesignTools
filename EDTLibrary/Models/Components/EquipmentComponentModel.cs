@@ -27,6 +27,9 @@ namespace EDTLibrary.Models.Components
         public string SubType { get; set; }
         public string Owner { get; set; }
         public ObservableCollection<IComponent> Components { get; set; } = new ObservableCollection<IComponent>();
+        public int OwnerId { get; set; }
+        public string OwnerType { get; set; }
+        public int SequenceNumber { get; set; }
 
         public void UpdateAreaProperties()
         {

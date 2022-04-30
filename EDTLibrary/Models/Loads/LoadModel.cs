@@ -17,8 +17,7 @@ namespace EDTLibrary.Models.Loads
         public LoadModel()
         {
             Category = Categories.LOAD3P.ToString();
-            //LoadFactor = Double.Parse(EdtSettings.LoadFactorDefault);
-            //PdType = EdtSettings.LoadDefaultPdTypeLV;
+            
         }
         public LoadModel(string tag)
         {
@@ -395,9 +394,8 @@ namespace EDTLibrary.Models.Loads
             DemandKvar = Math.Round(DemandKva * (1 - PowerFactor), GlobalConfig.SigFigs);
 
 
-            //PD and Starter
-            PdSizeFrame = LibraryManager.GetBreakerFrame(this);
-            PdSizeTrip = LibraryManager.GetBreakerTrip(this);
+          
+            LoadManager.SetLoadPd(this);
 
             OnLoadingCalculated();
             OnPropertyUpdated();
@@ -406,7 +404,6 @@ namespace EDTLibrary.Models.Loads
 
         private void GetEfficiencyAndPowerFactor()
         {
-            PdType = EdtSettings.LoadDefaultPdTypeLV;
 
             //PowerFactor and Efficiency
             if (Type == LoadTypes.HEATER.ToString()) {
@@ -482,8 +479,8 @@ namespace EDTLibrary.Models.Loads
         {
             NemaRating = Area.NemaRating;
             AreaClassification = Area.AreaClassification;
-            PowerCable.CalculateAmpacityNew(this);
-
+            PowerCable.CalculateAmpacityNew(this); // because of temperature changes
+            //TODO - warnings when cable sizes recalculated
         }
     }
 }
