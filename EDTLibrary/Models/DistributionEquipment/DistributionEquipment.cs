@@ -19,7 +19,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             Category = Categories.DTEQ.ToString();
             Voltage = LineVoltage;
-            PdType = ProjectSettings.EdtSettings.DteqDefaultPdTypeLV;
         }
 
         #region Properties
@@ -368,7 +367,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             PercentLoaded = RunningAmps / Fla * 100;
             PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
 
-            GetMinimumPdSize();
+            DteqManager.SetPd(this);
             SCCR = CalculateSCCR();
             OnLoadingCalculated();
             OnPropertyUpdated();
@@ -392,12 +391,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             PowerCable.CalculateAmpacityNew(this);
         }
-        public void GetMinimumPdSize()
-        {
-            //PD and Starter
-            PdSizeFrame = LibraryManager.GetBreakerFrame(this);
-            PdSizeTrip = LibraryManager.GetBreakerTrip(this);
-        }
+        
 
         //Events
         public event EventHandler LoadingCalculated;

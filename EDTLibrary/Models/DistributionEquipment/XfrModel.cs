@@ -11,7 +11,6 @@ public class XfrModel : DistributionEquipment
     {
         Category = Categories.DTEQ.ToString();
         Voltage = LineVoltage;
-        PdType = ProjectSettings.EdtSettings.DteqDefaultPdTypeLV;
     }
 
     private double _primaryFla;

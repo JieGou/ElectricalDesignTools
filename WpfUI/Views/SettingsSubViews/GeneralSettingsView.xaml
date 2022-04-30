@@ -227,7 +227,11 @@
                     <TextBlock Text="Default OCPD Type for LV Equipment"
                                Grid.Row="3" Grid.Column="0" />
                     <ComboBox Grid.Row="3" Grid.Column="2"
-                              SelectedItem="{Binding Path=DteqDefaultPdTypeLV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                              ItemsSource="{Binding TypeManager.OcpdTypes}"
+                              SelectedValuePath="Type" 
+                              DisplayMemberPath="Description"
+                              SelectedValue="{Binding DteqDefaultPdTypeLV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                              IsSynchronizedWithCurrentItem="False" />
 
                 </Grid>
             </GroupBox>

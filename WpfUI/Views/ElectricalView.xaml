@@ -682,18 +682,18 @@
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource LoadingViewProxy}}"/>
 
                         <!--OCPD-->
-                        <DataGridTextColumn Header=" OCPD &#x0a; Type " x:Name="dteqPdType" 
-                                Binding="{Binding Path=PdType, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        <DataGridTextColumn Header=" OCPD &#x0a; Type "
+                                Binding="{Binding PdType, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
 
-                        <DataGridTextColumn Header=" OCPD &#x0a; Trip " x:Name="dteqPdSizeTrip" 
-                                Binding="{Binding Path=PdSizeTrip, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        <DataGridTextColumn Header=" OCPD &#x0a; Trip "
+                                Binding="{Binding PdSizeTrip, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
 
-                        <DataGridTextColumn Header=" OCPD &#x0a; Frame " x:Name="dteqPdSizeFrame" 
-                                Binding="{Binding Path=PdSizeFrame, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        <DataGridTextColumn Header=" OCPD &#x0a; Frame "
+                                Binding="{Binding PdSizeFrame, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
 

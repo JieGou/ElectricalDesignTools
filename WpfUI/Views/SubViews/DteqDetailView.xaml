@@ -187,11 +187,11 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
-                        <TextBlock Text="Full Load Amps: "/>
+                        <TextBlock Text="Pd Type: "/>
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
-                        <TextBlock d:Text="0.87" Text="{Binding SelectedDteq.Fla}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
+                        <TextBlock d:Text="test" Text="{Binding SelectedDteq.PdType}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
                     </StackPanel>
 
                 </Grid>

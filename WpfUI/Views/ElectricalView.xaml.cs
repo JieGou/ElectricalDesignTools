@@ -329,13 +329,16 @@ public partial class ElectricalView : UserControl
             {
                 elecVm.AssignedLoads.Clear();
                 foreach (var load in listToFilter) {
-                    if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
-                        && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())
-                        && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
-                        && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
-                        ) {
-                        elecVm.AssignedLoads.Add((IPowerConsumer)load);
+                    try { 
+                        if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
+                            && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())
+                            && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
+                            && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
+                            ) {
+                            elecVm.AssignedLoads.Add((IPowerConsumer)load);
+                        }
                     }
+                    catch { }
                 }
             }
         }

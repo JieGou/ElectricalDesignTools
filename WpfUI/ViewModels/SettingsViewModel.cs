@@ -262,6 +262,7 @@ namespace WpfUI.ViewModels
         private string _defaultXfrImpedance;
         private string _loadDefaultPdTypeLV_NonMotor;
         private string _loadDefaultPdTypeLV_Motor;
+        private string _dteqDefaultPdTypeLV;
 
         public string DteqMaxPercentLoaded
         {
@@ -285,7 +286,16 @@ namespace WpfUI.ViewModels
         }
 
 
-        public string DteqDefaultPdTypeLV { get; set; }
+        public string DteqDefaultPdTypeLV
+        {
+            get => _dteqDefaultPdTypeLV;
+            set
+            {
+                _dteqDefaultPdTypeLV = value;
+                SaveVmSetting(nameof(DteqDefaultPdTypeLV), _dteqDefaultPdTypeLV);
+
+            }
+        }
         public string DefaultXfrImpedance
         {
             get { return _defaultXfrImpedance; }

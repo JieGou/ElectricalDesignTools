@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.DistributionEquipment;
 public class DteqManager
 {
-    public static void SetLoadPd(DistributionEquipment dteq)
+    public static void SetPd(DistributionEquipment dteq)
     {
 
-        dteq.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
+        //dteq.PdType = EdtSettings.DteqDefaultPdTypeLV;
         dteq.PdSizeFrame = LibraryManager.GetBreakerFrame(dteq);
         dteq.PdSizeTrip = LibraryManager.GetBreakerTrip(dteq);
 

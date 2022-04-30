@@ -139,6 +139,7 @@ namespace EDTLibrary.Models.Loads
                 }
             }
         }
+
         private string _fedFromTag;
         public string FedFromTag
         {
@@ -313,6 +314,10 @@ namespace EDTLibrary.Models.Loads
             temp = Description;
             Description = fake;
             Description = temp;
+
+            temp = AreaTag;
+            AreaTag = fake;
+            AreaTag = temp;
 
             temp = FedFromTag;
             FedFromTag = fake;
