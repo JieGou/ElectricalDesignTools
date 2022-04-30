@@ -58,7 +58,7 @@ namespace EDTLibrary.ProjectSettings
         public static string CableInsulation35kVPower { get; set; }
 
         public static string DefaultCableInstallationType { get; set; }
-        public static string DefaultCableTypeLoad_3phLt300V { get; set; }
+        public static string DefaultCableTypeLoad_3phLt300V { get; set; } = "Incomplete";
         public static string DefaultCableTypeLoad_3ph300to1kV { get; set; }
         public static string DefaultCableTypeLoad_3ph5kV { get; set; }
         public static string DefaultCableTypeDteq_3ph1kVLt1200A { get; set; }

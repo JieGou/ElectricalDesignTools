@@ -228,7 +228,8 @@ namespace WpfUI.ViewModels
             }
         }
 
-        public string DefaultCableTypeLoad_3ph1kV { get; set; }
+        public string DefaultCableTypeLoad_3ph300to1kV { get; set; }
+        public string DefaultCableTypeLoad_3ph5kV { get; set; }
         public string DefaultCableTypeDteq_3ph1kVLt1200A { get; set; }
         public string DefaultCableTypeDteq_3ph1kVGt1200A { get; set; }
         public string DefaultCableType_3ph5kV { get; set; }

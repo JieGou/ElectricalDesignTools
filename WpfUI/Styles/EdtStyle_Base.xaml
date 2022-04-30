@@ -78,7 +78,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="MinHeight" Value="17"/>
         <Setter Property="Margin" Value="0 1 1 1"/>
-        <Setter Property="ToolTip" Value="Fitler - Enter to apply, ESC to clear."/>
+        <Setter Property="ToolTip" Value="Filter - Enter to apply, ESC to clear."/>
         <Setter Property="ToolTipService.InitialShowDelay" Value="150"/>
     </Style>    
 

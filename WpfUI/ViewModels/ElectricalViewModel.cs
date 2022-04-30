@@ -203,6 +203,27 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     public DataGridColumnViewControl DteqGridViewModifier { get; set; }
 
     #endregion  
+    public bool DteqFilter { get; set; }
+    private ObservableCollection<IDteq> _dteqList = new ObservableCollection<IDteq>();
+
+    public ObservableCollection<IDteq> DteqList
+    {
+        get
+        {
+            if (DteqFilter == true) {
+                return _dteqList;
+            }
+            _dteqList.Clear();
+            foreach (var item in ListManager.IDteqList) {
+                _dteqList.Add(item);
+            }
+            return _dteqList;
+        }
+
+        set { 
+            _dteqList = value; 
+            }
+    }   
 
 
     // DTEQ

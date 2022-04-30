@@ -259,6 +259,45 @@ public partial class ElectricalView : UserControl
         dataGridCell.FastEdit(args);
     }
 
+
+    private void DteqGridFilter(object sender, KeyEventArgs e)
+    {
+        TextBox textBox = (TextBox)sender;
+
+        
+        if (e.Key == Key.Enter /*|| e.Key == Key.Tab*/) {
+            elecVm.DteqFilter = true;
+            ApplyFilter();
+        }
+
+        if (e.Key == Key.Escape) {
+            textBox = (TextBox)sender;
+            textBox.Text = "";
+            if (txtDteqTagFilter.Text == ""
+                           && txtDteqAreaFilter.Text == ""
+                           && txtDteqDescriptionFilter.Text == ""
+                           && txtDteqFedFromFilter.Text == "") {
+                elecVm.DteqFilter = false;
+            }
+            ApplyFilter();
+        }
+
+        void ApplyFilter()
+        {
+            elecVm.DteqList.Clear();
+            foreach (var dteq in elecVm.ListManager.IDteqList) {
+                if (dteq.Tag.ToLower().Contains(txtDteqTagFilter.Text.ToLower())
+                    && dteq.Description.ToLower().Contains(txtDteqDescriptionFilter.Text.ToLower())
+                    && dteq.Area.Tag.ToLower().Contains(txtDteqAreaFilter.Text.ToLower())
+                    && dteq.FedFrom.Tag.ToLower().Contains(txtDteqFedFromFilter.Text.ToLower())
+                    ) {
+                    elecVm.DteqList.Add(dteq);
+                }
+            }
+           
+        }
+    }
+
     private void LoadGridFilter(object sender, KeyEventArgs e)
     {
         TextBox textBox = (TextBox)sender;
@@ -276,19 +315,25 @@ public partial class ElectricalView : UserControl
         void ApplyFilter()
         {
             if (elecVm.LoadListLoaded == false && elecVm.SelectedDteq != null) {
-                elecVm.AssignedLoads.Clear();
-                foreach (var load in elecVm.SelectedDteq.AssignedLoads) {
-                    if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
-                        && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())) {
-                        elecVm.AssignedLoads.Add((IPowerConsumer)load);
-                    }
-                }
+                Filter(elecVm.AssignedLoads);
             }
             else if (elecVm.LoadListLoaded == true) {
+                ObservableCollection<IPowerConsumer> list = new ObservableCollection<IPowerConsumer>();
+                foreach (var item in elecVm.ListManager.LoadList) {
+                    list.Add(item);
+                }               
+                Filter(list);
+            }
+
+            void Filter(ObservableCollection<IPowerConsumer> listToFilter)
+            {
                 elecVm.AssignedLoads.Clear();
-                foreach (var load in elecVm.ListManager.LoadList) {
+                foreach (var load in listToFilter) {
                     if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
-                        && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())) {
+                        && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())
+                        && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
+                        && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
+                        ) {
                         elecVm.AssignedLoads.Add((IPowerConsumer)load);
                     }
                 }
