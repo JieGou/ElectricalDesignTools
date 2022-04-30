@@ -395,7 +395,7 @@ namespace EDTLibrary.Models.Loads
 
 
           
-            LoadManager.SetLoadPd(this);
+            LoadManager.SetLoadPdSize(this);
 
             OnLoadingCalculated();
             OnPropertyUpdated();
@@ -404,7 +404,7 @@ namespace EDTLibrary.Models.Loads
 
         private void GetEfficiencyAndPowerFactor()
         {
-
+            LoadManager.SetLoadPd(this);
             //PowerFactor and Efficiency
             if (Type == LoadTypes.HEATER.ToString()) {
                 Unit = Units.kW.ToString();

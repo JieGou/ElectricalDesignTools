@@ -197,15 +197,19 @@
                         Grid.Column="1" Grid.Row="{StaticResource adding}"
                         Margin="0,10,0,10">
 
-                <Button Name ="btnAddDteq" Content="Add Dist. Eq." 
+                <Button Name ="btnAddDteq" Content="Add Dist. Eq."
+                        Style="{StaticResource GreenButton}"
+                        
                         Command="{Binding Path=AddDteqCommand}"
                         CommandParameter="{Binding DteqToAddValidator}"
-                        Margin="10,15,10,15" Background="#FF68BF51"/>
+                        Margin="10,15,10,15" />
 
                 <Button Name ="btnAddLoad" Content="Add Load" 
+                        Style="{StaticResource GreenButton}"
+                        
                         Command="{Binding Path=AddLoadCommand}"
                         CommandParameter="{Binding LoadToAddValidator}"
-                        Margin="10,15,10,10" Background="#FF68BF51"/>
+                        Margin="10,15,10,10" />
 
             </StackPanel>
 
@@ -1409,18 +1413,19 @@
                                 Binding="{Binding Path=DemandKvar, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
                         <!--OCPD-->
-                        <DataGridTextColumn Header=" OCPD &#x0a;Type" 
+                        <DataGridTextColumn Header="PD / Starter&#x0a;Type" 
                                 Binding="{Binding Path=PdType, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" />
-
-                        <DataGridTextColumn Header=" OCPD &#x0a;Trip" 
-                                Binding="{Binding Path=PdSizeTrip, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                HeaderStyle="{StaticResource OcpdColumnHeader}" />
-
-                        <DataGridTextColumn Header=" OCPD &#x0a;Frame" 
+                        
+                        <DataGridTextColumn Header="PD / MCP&#x0a;Frame" 
                                 Binding="{Binding Path=PdSizeFrame, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" />
 
+                        <DataGridTextColumn Header="PD Trip /&#x0a;Starter Size" 
+                                Binding="{Binding Path=PdSizeTrip, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource OcpdColumnHeader}" />
+
+                       
 
                         <!--COMPONENTS-->
                         <DataGridTemplateColumn Header=" Disc. &#x0a;Switch" x:Name="loadDisconnect" 

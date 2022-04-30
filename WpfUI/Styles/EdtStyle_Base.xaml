@@ -144,7 +144,12 @@
     <Style x:Key="RedButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Background" Value="#FFF7C1C1"/>
     </Style>
-
+    
+    <!--Green Button Style-->
+    <Style x:Key="GreenButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Background" Value="#FA7FCA6B"/>
+    </Style>
+    
     <!--Filter Button Style-->
     <Style x:Key="FilterButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Content" Value="\/"/>

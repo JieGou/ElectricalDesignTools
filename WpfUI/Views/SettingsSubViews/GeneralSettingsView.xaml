@@ -167,7 +167,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-                    
+
                     <TextBlock Text="Electrical Code"  
                                Grid.Row="1" Grid.Column="0" />
                     <ComboBox Grid.Row="1" Grid.Column="2"
@@ -205,7 +205,7 @@
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
                         <TextBox MinWidth="50"
                                  Text="{Binding Path=DteqMaxPercentLoaded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        
+
                         <TextBlock Text="%"/>
                     </StackPanel>
 
@@ -217,13 +217,13 @@
                                    Style="{StaticResource settingDescription}" />
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2">   
+                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
                         <TextBox Grid.Row="2" Grid.Column="2"
                                  MinWidth="50"
                                  Text="{Binding Path=DefaultXfrImpedance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBlock Text="%"/>
                     </StackPanel>
-                    
+
                     <TextBlock Text="Default OCPD Type for LV Equipment"
                                Grid.Row="3" Grid.Column="0" />
                     <ComboBox Grid.Row="3" Grid.Column="2"
@@ -246,7 +246,10 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="30"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="30"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -261,40 +264,49 @@
                                Grid.Row="1" Grid.Column="0" />
                     <TextBox Grid.Row="1" Grid.Column="2"
                              Text="{Binding LoadFactorDefault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    
+
                     <TextBlock Text="Default OCPD Type for Non-Motor Loads"  
-                               Grid.Row="2" Grid.Column="0" />
-                    <ComboBox Grid.Row="2" Grid.Column="2"
+                               Grid.Row="3" Grid.Column="0" />
+                    <ComboBox Grid.Row="3" Grid.Column="2"
                               ItemsSource="{Binding TypeManager.OcpdTypes}"
                               SelectedValuePath="Type" 
-                              DisplayMemberPath="Type"
-                              SelectedValue="{Binding LoadDefaultPdTypeLV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                              DisplayMemberPath="Description"
+                              SelectedValue="{Binding LoadDefaultPdTypeLV_NonMotor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                              IsSynchronizedWithCurrentItem="False" />
+
+                    <TextBlock Text="Default OCPD Type for Motor Loads"  
+                               Grid.Row="4" Grid.Column="0" />
+                    <ComboBox Grid.Row="4" Grid.Column="2"
+                              ItemsSource="{Binding TypeManager.OcpdTypes}"
+                              SelectedValuePath="Type" 
+                              DisplayMemberPath="Description"
+                              SelectedValue="{Binding LoadDefaultPdTypeLV_Motor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                               IsSynchronizedWithCurrentItem="False" />
 
                     <TextBlock Text="Default Efficiency for load type PANEL"
-                               Grid.Row="3" Grid.Column="0" />
-                    <TextBox Grid.Row="3" Grid.Column="2"
+                               Grid.Row="6" Grid.Column="0" />
+                    <TextBox Grid.Row="6" Grid.Column="2"
                              Text="{Binding LoadDefaultEfficiency_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Text="Default Power Factor for load type PANEL"
-                               Grid.Row="4" Grid.Column="0" />
-                    <TextBox Grid.Row="4" Grid.Column="2"
+                               Grid.Row="7" Grid.Column="0" />
+                    <TextBox Grid.Row="7" Grid.Column="2"
                               Text="{Binding LoadDefaultPowerFactor_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Text="Default Efficiency for load type OTHER"
-                               Grid.Row="5" Grid.Column="0" />
-                    <TextBox Grid.Row="5" Grid.Column="2"
+                               Grid.Row="8" Grid.Column="0" />
+                    <TextBox Grid.Row="8" Grid.Column="2"
                              Text="{Binding LoadDefaultEfficiency_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Text="Default Power Factor for load type OTHER"
-                               Grid.Row="6" Grid.Column="0" />
-                    <TextBox Grid.Row="6" Grid.Column="2"
+                               Grid.Row="9" Grid.Column="0" />
+                    <TextBox Grid.Row="9" Grid.Column="2"
                               Text="{Binding LoadDefaultPowerFactor_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 
                 </Grid>
             </GroupBox>
-            
+
         </WrapPanel>
     </Grid>
 
