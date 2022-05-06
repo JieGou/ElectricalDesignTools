@@ -242,13 +242,8 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                 AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
 
                 GlobalConfig.SelectingNew = true;
-                DteqToAddValidator.FedFromTag = _selectedDteq.Tag;
-                LoadToAddValidator.FedFromTag = "";
-                LoadToAddValidator.FedFromTag = _selectedDteq.Tag;
-                LoadToAddValidator.Voltage = _selectedDteq.LoadVoltage.ToString();
+                    CopySelectedDteq();
                 GlobalConfig.SelectingNew = false;
-
-                //BuildDteqCableTypeList(_selectedDteq);
 
                 PerPhaseLabelDteq = "Hidden";
                 if (_selectedDteq.PowerCable.TypeModel != null) {
@@ -256,6 +251,8 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                         PerPhaseLabelDteq = "Visible";
                     }
                 }
+
+                //TODO move to AssingedLoads Summary
                 DteqMotorLoads = new Tuple<int, double, double>(_selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.MOTOR.ToString()),
                     _selectedDteq.AssignedLoads.Where(al => al.Type == LoadTypes.MOTOR.ToString()).Sum(al => al.DemandKva),
                     _selectedDteq.AssignedLoads.Where(al => al.Type == LoadTypes.MOTOR.ToString()).Sum(al => al.DemandKw));
@@ -269,6 +266,8 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             }
         }
     }
+
+
     public int SelectedDteqTab {
         get { return _selectedDteqTab; }
         set { _selectedDteqTab = value; } 
@@ -278,6 +277,35 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     public int DteqPanelLoads { get; set; }
     public int DteqWeldingLoads { get; set; }
     public int DteqOtherLoads { get; set; }
+
+    private async Task CopySelectedDteq()
+    {
+        try {
+            await CopySelectedDteqAsync();
+        }
+        catch (Exception ex) {
+            ErrorHelper.EdtErrorMessage(ex);
+        }
+
+        async Task CopySelectedDteqAsync()
+        {
+            DteqToAddValidator.FedFromTag = "";
+            DteqToAddValidator.FedFromTag = _selectedDteq.FedFromTag;
+            DteqToAddValidator.AreaTag = "";
+            DteqToAddValidator.AreaTag = _selectedDteq.Area.Tag;
+            DteqToAddValidator.Type = "";
+            DteqToAddValidator.Type = _selectedDteq.Type;
+            DteqToAddValidator.Size = "";
+            DteqToAddValidator.Size = _selectedDteq.Size.ToString();
+            DteqToAddValidator.Unit = "";
+            DteqToAddValidator.Unit = _selectedDteq.Unit;
+            DteqToAddValidator.LineVoltage = "";
+            DteqToAddValidator.LineVoltage = _selectedDteq.LineVoltage.ToString();
+            DteqToAddValidator.LoadVoltage = "";
+            DteqToAddValidator.LoadVoltage = _selectedDteq.LoadVoltage.ToString();
+        }
+
+    }
     public DteqToAddValidator DteqToAddValidator { get; set; }
 
     // LOADS
@@ -311,16 +339,18 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     private async Task CopySelectedLoad()
     {
         try {
-            await CopySelectedLoadAsyn();
+            await CopySelectedLoadAsync();
         }
         catch (Exception ex) {
             ErrorHelper.EdtErrorMessage(ex);
         }
 
-        async Task CopySelectedLoadAsyn()
+        async Task CopySelectedLoadAsync()
         {
             LoadToAddValidator.FedFromTag = "";
             LoadToAddValidator.FedFromTag = _selectedLoad.FedFromTag;
+            LoadToAddValidator.AreaTag = "";
+            LoadToAddValidator.AreaTag = _selectedLoad.Area.Tag;
             LoadToAddValidator.Type = "";
             LoadToAddValidator.Type = _selectedLoad.Type;
             LoadToAddValidator.Size = "";
@@ -335,7 +365,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     public LoadToAddValidator LoadToAddValidator { get; set; }
 
 
-    // LISTS                                  //Must be named assigned Lost to match DTEQ.AssignedLoads
+    // LISTS                                  //Must be named AssignedLoads to match DTEQ.AssignedLoads property
     public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
     public bool LoadListLoaded { get; set; }
 
