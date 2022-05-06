@@ -2,6 +2,7 @@
 using EDTLibrary.A_Helpers;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.ProjectSettings;
+using ExcelLibrary;
 using Portable.Licensing;
 using Portable.Licensing.Security.Cryptography;
 using Portable.Licensing.Validation;
@@ -76,6 +77,9 @@ namespace WpfUI.ViewModels
 
             NavigateCableListCommand = new RelayCommand(NavigateCableList, CanExecute_IsProjectLoaded);
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables, CanExecute_IsLibraryLoaded);
+
+            ExportCommand = new RelayCommand(ExcelTest);
+
             ScenarioCommand = new RelayCommand(NewWindow);
 
             startupService.InitializeLibrary();
@@ -91,7 +95,12 @@ namespace WpfUI.ViewModels
 
         }
 
-      
+        private void ExcelTest()
+        {
+            HelperExcelInterop.WriteToExcel();
+        }
+
+
 
         #region Navigation
         public ICommand NavigateStartupCommand { get; }
@@ -100,6 +109,7 @@ namespace WpfUI.ViewModels
         public ICommand NavigateElectricalCommand { get; }
         public ICommand NavigateCableListCommand { get; }
         public ICommand NavigateDataTablesCommand { get; }
+        public ICommand ExportCommand { get; }
         public ICommand ScenarioCommand { get; }
 
         private void NavigateStartup()

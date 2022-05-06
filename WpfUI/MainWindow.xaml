@@ -100,6 +100,10 @@
                 <Button x:Name="btnDataTables" Content="DATA TABLES"
                         VerticalAlignment="Top"                        
                         Command="{Binding NavigateDataTablesCommand}"/>
+                
+                <Button x:Name="btnExport" Content="EXPORT"
+                        VerticalAlignment="Top"                        
+                        Command="{Binding ExportCommand}"/>
 
                 <Button x:Name="btnWindow" Content="EXTRA WINDOW"
                         VerticalAlignment="Top"

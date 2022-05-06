@@ -33,6 +33,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EDTLibrary\EDTLibrary.csproj" />
+    <ProjectReference Include="..\ExcelLibrary\ExcelLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>

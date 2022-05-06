@@ -302,20 +302,21 @@ public partial class ElectricalView : UserControl
     {
         TextBox textBox = (TextBox)sender;
 
-        if (e.Key == Key.Enter /*|| e.Key == Key.Tab*/) {
+        
+        if (e.Key == Key.Enter || e.Key ==Key.Escape /*|| e.Key == Key.Tab*/) {
+            if (e.Key == Key.Escape) {
+                textBox = (TextBox)sender;
+                textBox.Text = "";
+            }
             ApplyFilter();
         }
 
-        if (e.Key == Key.Escape) {
-            textBox = (TextBox)sender;
-            textBox.Text = "";
-            ApplyFilter();
-        }
+
 
         void ApplyFilter()
         {
             if (elecVm.LoadListLoaded == false && elecVm.SelectedDteq != null) {
-                Filter(elecVm.AssignedLoads);
+                Filter(elecVm.SelectedDteq.AssignedLoads);
             }
             else if (elecVm.LoadListLoaded == true) {
                 ObservableCollection<IPowerConsumer> list = new ObservableCollection<IPowerConsumer>();
