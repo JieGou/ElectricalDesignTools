@@ -18,4 +18,7 @@ public class DteqManager
 
     }
 
+    //TODO - Move AddDteq to here
+    //TODO - Move DeleteDteq to here
+
 }

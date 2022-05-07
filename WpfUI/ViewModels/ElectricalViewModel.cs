@@ -77,7 +77,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         CalculateSingleEqCableAmpsCommand = new RelayCommand(CalculateSingleEqCableAmps);
 
         //DeleteDteqCommand = new AsyncRelayCommand(DeleteDteqAsync, (ex) => MessageBox.Show(ex.Message));
-        DeleteDteqCommand = new RelayCommand(DeleteDteq);
+        DeleteDteqCommand = new RelayCommand(DeleteLoad);
 
         AddDteqCommand = new RelayCommand(AddDteq);
         AddLoadCommand = new RelayCommand(AddLoad);
@@ -587,6 +587,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     private void DeletePowerCable(IPowerConsumer powerCableUser)
     {
+        //TODO - Move to Cable Manager
 
         if (powerCableUser.PowerCable != null) {
             int cableId = powerCableUser.PowerCable.Id;
@@ -595,19 +596,10 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         }
         return;
     }
-    private async Task DeletePowerCableAsync(IPowerConsumer powerCableUser)
-    {
-
-        if (powerCableUser.PowerCable != null) {
-            int cableId = powerCableUser.PowerCable.Id;
-            DaManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId); //await
-            _listManager.CableList.Remove(powerCableUser.PowerCable);
-        }
-        return;
-    }
+    
     private void RetagLoadsOfDeleted(IDteq selectedDteq)
     {
-
+        //TODO - Move to Distribution Manager
         //Loads
         List<IPowerConsumer> assignedLoads = new List<IPowerConsumer>();
         if (selectedDteq.AssignedLoads != null) {
@@ -625,48 +617,26 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         }
         return;
     }
-    public void DteqList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) { }
-    public void LoadList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) { }
 
     public void AddLoad(object loadToAddObject)
     {
+        AddLoadAsync(loadToAddObject);
+    }
 
-        LoadToAddValidator loadToAddValidator = (LoadToAddValidator)loadToAddObject;
-        var IsValid = loadToAddValidator.IsValid();
+    public async Task AddLoadAsync(object loadToAddObject)
+    {
         try {
-            var errors = loadToAddValidator._errorDict;
-            if (IsValid) {
-
-                LoadModel newLoad = _loadFactory.CreateLoad(loadToAddValidator);
-
-                IDteq dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newLoad.FedFrom);
-                if (dteqSubscriber != null) {
-                    //dteqSubscriber.AssignedLoads.Add(newLoad); //newLoad is somehow already getting added to Assigned Loads
-                    newLoad.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
-                    newLoad.PropertyUpdated += DaManager.OnLoadPropertyUpdated;
-                }
-
-                //Save to Db
-
-                newLoad.Id = DaManager.SaveLoadGetId(newLoad);
-                _listManager.LoadList.Add(newLoad);
-                newLoad.CalculateLoading(); //after load is inserted to get new Id
-
-                //Cable
-                newLoad.SizeCable();
-                newLoad.CalculateCableAmps();
-                newLoad.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
-                _listManager.CableList.Add(newLoad.PowerCable);
-
-                //GetLoadListAsync(); //await
-                AssignedLoads.Add(newLoad);
-                RefreshLoadTagValidation();
-            }
+            LoadModel newLoad = await LoadManager.AddLoad(loadToAddObject, _listManager);
+            if (newLoad != null) AssignedLoads.Add(newLoad); 
+            RefreshLoadTagValidation();
+            SelectedLoad = newLoad;
         }
         catch (Exception ex) {
             ErrorHelper.SqlErrorMessage(ex);
         }
     }
+
+    
 
     public void DeleteLoad(object selectedLoadObject)
     {
@@ -674,44 +644,31 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     public async Task DeleteLoadAsync(object selectedLoadObject)
     {
-        LoadModel selectedLoad = (LoadModel)selectedLoadObject;
-        if (selectedLoad != null) {
-            IDteq dteqToRecalculate = _listManager.DteqList.FirstOrDefault(d => d == selectedLoad.FedFrom);
-            int loadId = selectedLoad.Id;
+        if (selectedLoadObject == null) return;
 
-            try {
-                selectedLoad.PropertyUpdated -= DaManager.OnLoadPropertyUpdated;
-                await DeletePowerCableAsync(selectedLoad); //await
-                await DaManager.prjDb.DeleteRecordAsync(GlobalConfig.LoadTable, loadId); //await
+        try {
+            int loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
+            var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
+            AssignedLoads.Remove(loadToRemove); 
+            
+            RefreshLoadTagValidation();
 
-                var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
-                AssignedLoads.Remove(loadToRemove);
-
-                var loadToRemove2 = _listManager.LoadList.FirstOrDefault(load => load.Id == loadId);
-                _listManager.LoadList.Remove(loadToRemove2);
-
-                if (dteqToRecalculate != null) {
-                    selectedLoad.LoadingCalculated -= dteqToRecalculate.OnAssignedLoadReCalculated;
-                    dteqToRecalculate.AssignedLoads.Remove(loadToRemove2);
-                    dteqToRecalculate.CalculateLoading();
-                }
-                RefreshLoadTagValidation();
-                //await GetLoadListAsync();
-                if (AssignedLoads.Count > 0) {
-                    SelectedLoad = AssignedLoads[AssignedLoads.Count - 1];
-                }
+            if (AssignedLoads.Count > 0) {
+                SelectedLoad = AssignedLoads[AssignedLoads.Count - 1];
             }
-            catch (Exception ex) {
+        }
+        catch (Exception ex) {
 
-                if (ex.Message.ToLower().Contains("sql")) {
-                    ErrorHelper.SqlErrorMessage(ex);
-                }
-                else {
-                    ErrorHelper.EdtErrorMessage(ex);
-                }
+            if (ex.Message.ToLower().Contains("sql")) {
+                ErrorHelper.SqlErrorMessage(ex);
+            }
+            else {
+                ErrorHelper.EdtErrorMessage(ex);
             }
         }
     }
+
+   
 
     // Loads
     public async void ShowAllLoads()

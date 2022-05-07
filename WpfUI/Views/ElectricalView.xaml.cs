@@ -187,7 +187,7 @@ public partial class ElectricalView : UserControl
     {
         while (elecVm.ListManager.IDteqList.Count > 0) {
             IDteq dteq = elecVm.ListManager.IDteqList[0];
-            elecVm.DeleteDteq(dteq);
+            elecVm.DeleteLoad(dteq);
         }
 
         while (elecVm.ListManager.LoadList.Count > 0) {

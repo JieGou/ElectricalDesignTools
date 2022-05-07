@@ -260,7 +260,7 @@
                 <!--DETAILS VIEW-->
                 <!--Dteq-->
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="Distribution Equipment Details" Margin="10"/>
-                <Border Grid.Row="0" Grid.Column="2" BorderThickness="1" BorderBrush="Black" Background="LightCyan"
+                <Border Grid.Row="0" Grid.Column="2" BorderThickness="1" BorderBrush="Black" Background="Transparent"
                         Margin="10 30 10 10">
                     <ContentControl x:Name="DteqDetailsContent" Grid.Row="{StaticResource dteq}" Grid.Column="4">
                     </ContentControl>
@@ -1059,7 +1059,7 @@
                 <!--LOAD-->
                 <!--DETAILS VIEW-->
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="Load Details" Margin="10"/>
-                <Border Grid.Row="0" Grid.Column="2" BorderThickness="1" BorderBrush="Black" Background="LightCyan"
+                <Border Grid.Row="0" Grid.Column="2" BorderThickness="1" BorderBrush="Black" Background="Transparent"
                         Margin="10 30 10 10">
 
                     <ContentControl x:Name="LoadDetailsContent" Grid.Row="{StaticResource load}" Grid.Column="4">
