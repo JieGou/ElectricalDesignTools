@@ -7,6 +7,7 @@ using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Loads
 {
@@ -16,6 +17,7 @@ namespace EDTLibrary.Models.Loads
     {
         public LoadModel()
         {
+            Description = "";
             Category = Categories.LOAD3P.ToString();
             
         }

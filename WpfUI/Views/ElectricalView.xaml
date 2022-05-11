@@ -48,6 +48,8 @@
             <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
             <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 
+            <CollectionViewSource x:Key="cvsIdteq" Source="{Binding ListManager.IDteqList}"
+                                  Filter="cvsIdteq_Filter"/>
             <CollectionViewSource x:Key="dteqList" Source="{Binding ListManager.DteqList}"/>
 
 
@@ -270,21 +272,21 @@
                                Width="5" Background="AliceBlue" BorderBrush="DarkGray" BorderThickness="0"
                                Margin="0 10 0 0"/>
 
-                <TextBlock x:Name="DteqFilter" Text="{Binding}" DataContext="{Binding Filter}"
-                           Grid.Column="0" Grid.Row="0"
-                           d:Text="False"
-                           Margin="-15 10 0 0"/>
+
+                <!--ItemsSource="{Binding Source={StaticResource cvsIdteq}}"-->
+
                 <!--DTEQ-->
                 <!--DATA GRID-->
                 <DataGrid x:Name="dgdDteq" 
                           Grid.Column="0" Grid.Row="0"
+                          SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                          ItemsSource="{Binding Source={StaticResource cvsIdteq}}"
+
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"
                           d:Height="250"
                           Height="{Binding DteqGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Margin="10"
-                          ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
                           AutoGenerateColumns="False"
@@ -295,6 +297,7 @@
                           VirtualizingPanel.IsVirtualizing="True"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
                           RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}" >
+                    <!--ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
 
 
                     <!--<DataGrid.Triggers>
@@ -355,8 +358,8 @@
                                     <!--<Button Style="{StaticResource FilterButton}"/>-->
                                     <TextBox x:Name="txtDteqTagFilter" 
                                              Style="{StaticResource FilterTextBoxBase}"
-                                             Text="{Binding Filter}" 
                                              PreviewKeyDown="DteqGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
 
                                 </Grid>
                             </DataGridTextColumn.Header>
@@ -385,8 +388,9 @@
                                     <!--<Button Style="{StaticResource FilterButton}"/>-->
                                     <TextBox x:Name="txtDteqDescriptionFilter" 
                                              Style="{StaticResource FilterTextBoxBase}"
-                                             Text="{Binding Filter}" 
                                              PreviewKeyDown="DteqGridFilter" />
+                                             <!--Text="{Binding Filter}"--> 
+                                    
 
                                 </Grid>
                             </DataGridTextColumn.Header>
@@ -425,8 +429,8 @@
                                     <!--<Button Style="{StaticResource FilterButton}"/>-->
                                     <TextBox x:Name="txtDteqAreaFilter" 
                                              Style="{StaticResource FilterTextBoxBase}"
-                                             Text="{Binding Filter}" 
                                              PreviewKeyDown="DteqGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
 
                                 </Grid>
                             </DataGridTemplateColumn.Header>
@@ -495,8 +499,8 @@
                                     <!--<Button Style="{StaticResource FilterButton}"/>-->
                                     <TextBox x:Name="txtDteqFedFromFilter" 
                                              Style="{StaticResource FilterTextBoxBase}"
-                                             Text="{Binding Filter}" 
                                              PreviewKeyDown="DteqGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
 
                                 </Grid>
                             </DataGridTemplateColumn.Header>
@@ -1124,8 +1128,8 @@
                                     <!--<Button Style="{StaticResource FilterButton}"/>-->
                                     <TextBox x:Name="txtLoadTagFilter" 
                                              Style="{StaticResource FilterTextBoxBase}"
-                                             Text="{Binding Filter}" 
                                              PreviewKeyDown="LoadGridFilter" />
+                                            <!--Text="{Binding Filter}"-->
 
                                 </Grid>
                             </DataGridTextColumn.Header>
@@ -1153,8 +1157,8 @@
                                     <!--<Button Style="{StaticResource FilterButton}"/>-->
                                     <TextBox x:Name="txtLoadDescriptionFilter" 
                                              Style="{StaticResource FilterTextBoxBase}"
-                                             Text="{Binding Filter}" 
                                              PreviewKeyDown="LoadGridFilter" />
+                                            <!--Text="{Binding Filter}"-->
 
                                 </Grid>
                             </DataGridTextColumn.Header>
@@ -1195,8 +1199,8 @@
                                     <!--<Button Style="{StaticResource FilterButton}"/>-->
                                     <TextBox x:Name="txtLoadAreaFilter" 
                                              Style="{StaticResource FilterTextBoxBase}"
-                                             Text="{Binding Filter}" 
                                              PreviewKeyDown="LoadGridFilter" />
+                                            <!--Text="{Binding Filter}"-->
 
                                 </Grid>
                             </DataGridTemplateColumn.Header>
@@ -1253,8 +1257,8 @@
                                     <!--<Button Style="{StaticResource FilterButton}"/>-->
                                     <TextBox x:Name="txtLoadFedFromFilter" 
                                              Style="{StaticResource FilterTextBoxBase}"
-                                             Text="{Binding Filter}" 
                                              PreviewKeyDown="LoadGridFilter" />
+                                            <!--Text="{Binding Filter}"-->
 
                                 </Grid>
                             </DataGridTemplateColumn.Header>

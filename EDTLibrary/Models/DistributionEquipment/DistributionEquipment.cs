@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.DistributionEquipment
 {
@@ -17,6 +18,7 @@ namespace EDTLibrary.Models.DistributionEquipment
     {
         public DistributionEquipment()
         {
+            Description = "";
             Category = Categories.DTEQ.ToString();
             Voltage = LineVoltage;
         }

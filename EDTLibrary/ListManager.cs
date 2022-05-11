@@ -196,7 +196,7 @@ namespace EDTLibrary
 
 
         #region MajorEquipment
-        public void CalculateDteqLoading() // LoadList Manager
+        public async Task CalculateDteqLoadingAsync() // LoadList Manager
         {
 
             AssignLoadsAndEventsToAllDteq();

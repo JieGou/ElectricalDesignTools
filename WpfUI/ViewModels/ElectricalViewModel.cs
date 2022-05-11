@@ -70,7 +70,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
         GetAllCommand = new RelayCommand(DbGetAll);
         SaveAllCommand = new RelayCommand(DbSaveAll);
-        SizeCablesCommand = new RelayCommand(SizeCables);
+        SizeCablesCommand = new RelayCommand(SizeAllCables);
         CalculateAllCableAmpsCommand = new RelayCommand(CalculateAllCableAmps);
 
         CalculateSingleEqCableSizeCommand = new RelayCommand(CalculateSingleEqCableSize);
@@ -213,11 +213,8 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             if (DteqFilter == true) {
                 return _dteqList;
             }
-            _dteqList.Clear();
-            foreach (var item in ListManager.IDteqList) {
-                _dteqList.Add(item);
-            }
-            return _dteqList;
+           
+            return ListManager.IDteqList;
         }
 
         set { 
@@ -465,13 +462,22 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             ErrorHelper.SqlErrorMessage(ex);
         }
     }
-    private void SizeCables()
+    private async void SizeAllCables()
     {
-        foreach (var item in _listManager.IDteqList) {
-            item.SizeCable();
+        Task.Run(() => SizeAllCablesAsync());
+    }
+    private void SizeAllCablesAsync()
+    {
+        try {
+            foreach (var item in _listManager.IDteqList) {
+                item.SizeCable();
+            }
+            foreach (var item in _listManager.LoadList) {
+                item.SizeCable();
+            }
         }
-        foreach (var item in _listManager.LoadList) {
-            item.SizeCable();
+        catch (Exception ex) { 
+            ErrorHelper.EdtErrorMessage(ex);
         }
     }
     private void CalculateAllCableAmps()
@@ -642,8 +648,6 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
-    
-
     public void DeleteLoad(object selectedLoadObject)
     {
         DeleteLoadAsync(selectedLoadObject);
@@ -673,8 +677,6 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             }
         }
     }
-
-   
 
     // Loads
     public async void ShowAllLoads()
@@ -707,14 +709,18 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
 
-
     public void CalculateAll()
+    {
+        CalculateAllAsync();
+    }
+    public async Task CalculateAllAsync()
     {
         try {
             GetLoadListAsync();
             _listManager.UnregisterAllDteqFromAllLoadEvents();
             _listManager.CreateDteqDict();
-            _listManager.CalculateDteqLoading();
+            await Task.Run(() => _listManager.CalculateDteqLoadingAsync());
+            //await _listManager.CalculateDteqLoadingAsync();
         }
         catch (Exception ex) {
 
@@ -725,7 +731,6 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                 ErrorHelper.EdtErrorMessage(ex);
             }
         }
-
     }
     #endregion
 

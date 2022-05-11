@@ -4,10 +4,10 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -143,7 +143,6 @@ public partial class ElectricalView : UserControl
     //Testing
     private async Task LoadTestEquipmentData()
     {
-        DteqToAddValidator dteqToAdd;
         ListManager listManager= elecVm.ListManager;
 
         MessageBoxResult result = MessageBox.Show("Dteq, Loads, Both", "Test Data", MessageBoxButton.YesNoCancel);
@@ -152,27 +151,20 @@ public partial class ElectricalView : UserControl
         switch (result) {
             case MessageBoxResult.Yes:
                 start = DateTime.Now.ToString();
-                foreach (var dteq in TestData.TestDteqList) {
-                    dteq.Area = listManager.AreaList[0];
-                    dteqToAdd = new DteqToAddValidator(listManager, dteq);
-                    elecVm.AddDteq(dteqToAdd);
-                    Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
-                }
+                AddTestDteq(listManager, start);
                 break;
 
             case MessageBoxResult.No:
+                AddTestDteq(listManager, start);
                 start = DateTime.Now.ToString();
                 await Task.Run(() => AddTestLoadsAsync(listManager));
+                elecVm.ShowAllLoads();
                 Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
                 break;
 
             case MessageBoxResult.Cancel:
                 start = DateTime.Now.ToString();
-                foreach (var dteq in TestData.TestDteqList) {
-                    dteq.Area = listManager.AreaList[0];
-                    dteqToAdd = new DteqToAddValidator(listManager, dteq);
-                    elecVm.AddDteq(dteqToAdd);
-                }
+                AddTestDteq(listManager, start);
                 foreach (var load in TestData.TestLoadList) {
                     load.Area = listManager.AreaList[0];
                     LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
@@ -188,16 +180,31 @@ public partial class ElectricalView : UserControl
         Debug.Print($"Final start: {start} Final end: {DateTime.Now.ToString()}");
     }
 
+    private void AddTestDteq(ListManager listManager, string start)
+    {
+        foreach (var dteq in TestData.TestDteqList) {
+            dteq.Area = listManager.AreaList[0];
+            DteqToAddValidator dteqToAdd = new DteqToAddValidator(listManager, dteq);
+            elecVm.AddDteq(dteqToAdd);
+            Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
+        }
+    }
+
     private async Task AddTestLoadsAsync( ListManager listManager)
     {
         try {
+
+            //List<Task<LoadModel>> tasks = new List<Task<LoadModel>>();
+
             foreach (var load in TestData.TestLoadList) {
                 load.Area = listManager.AreaList[0];
                 LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
-                //LoadManager.AddLoad(loadToAdd, listManager);
                 await Task.Run(() => LoadManager.AddLoad(loadToAdd, listManager));
-                load.CalculateLoading();
+
+                //tasks.Add  (Task.Run(() => LoadManager.AddLoad(loadToAdd, listManager)));  
+                //load.CalculateLoadingAsync();
             }
+            //var results = await Task.WhenAll(tasks);
         }
         catch (Exception ex) {
             ErrorHelper.EdtErrorMessage(ex);
@@ -272,8 +279,9 @@ public partial class ElectricalView : UserControl
     {
         ILoad load;
         while (dgdAssignedLoads.SelectedItems.Count>0) {
-            //load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
-            //eqVm.DeleteLoad(load);
+            load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
+            elecVm.DeleteLoad(load);
+            dgdAssignedLoads.SelectedItems.Remove(load);
         }
     }
 
@@ -285,27 +293,60 @@ public partial class ElectricalView : UserControl
         dataGridCell.FastEdit(args);
     }
 
+    private void cvsIdteq_Filter(object sender, FilterEventArgs e)
+    {
+        Task t = e.Item as Task;
+
+        IDteq dteq = e.Item as IDteq;
+        if (dteq != null)
+        // If filter is turned on, filter completed items.
+        {
+            if (dteq.Tag == null
+                       || dteq.Description==null
+                       || dteq.Area==null
+                       || dteq.FedFrom==null
+                       ) {
+                e.Accepted = true;
+            }
+            else if (dteq.Tag.ToLower().Contains(txtDteqTagFilter.Text.ToLower())
+                    && dteq.Description.ToLower().Contains(txtDteqDescriptionFilter.Text.ToLower())
+                    && dteq.Area.Tag.ToLower().Contains(txtDteqAreaFilter.Text.ToLower())
+                    && dteq.FedFrom.Tag.ToLower().Contains(txtDteqFedFromFilter.Text.ToLower())
+                    ) {
+                e.Accepted = true;
+
+            }
+            else {
+                e.Accepted = false;
+            }
+        }
+    }
+
+
 
     private void DteqGridFilter(object sender, KeyEventArgs e)
     {
         TextBox textBox = (TextBox)sender;
 
-        
         if (e.Key == Key.Enter /*|| e.Key == Key.Tab*/) {
-            elecVm.DteqFilter = true;
-            ApplyFilter();
+            //elecVm.DteqFilter = true;
+            //ApplyFilter();
+            CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource).Refresh();
         }
 
         if (e.Key == Key.Escape) {
+
             textBox = (TextBox)sender;
             textBox.Text = "";
             if (txtDteqTagFilter.Text == ""
-                           && txtDteqAreaFilter.Text == ""
-                           && txtDteqDescriptionFilter.Text == ""
-                           && txtDteqFedFromFilter.Text == "") {
-                elecVm.DteqFilter = false;
+                    && txtDteqAreaFilter.Text == ""
+                    && txtDteqDescriptionFilter.Text == ""
+                    && txtDteqFedFromFilter.Text == "") {
+
+                //elecVm.DteqFilter = false;
             }
-            ApplyFilter();
+            //ApplyFilter();
+            CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource).Refresh();
         }
 
         void ApplyFilter()
@@ -320,7 +361,6 @@ public partial class ElectricalView : UserControl
                     elecVm.DteqList.Add(dteq);
                 }
             }
-           
         }
     }
 
