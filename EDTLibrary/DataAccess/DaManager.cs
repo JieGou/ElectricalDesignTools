@@ -173,6 +173,7 @@ public class DaManager {
     //Upsert Dteq
     public static void UpsertDteq(IDteq iDteq)
     {
+        if (GlobalConfig.Importing == true) return;
         if (iDteq == GlobalConfig.DteqDeleted) { return; }
 
         if (iDteq.GetType() == typeof(DteqModel)) {
@@ -195,9 +196,16 @@ public class DaManager {
 
     public static void UpsertLoad(LoadModel load)
     {
-        if (load == GlobalConfig.DteqDeleted) { return; }
+        try {
+            if (GlobalConfig.Importing == true) return;
+            if (load == GlobalConfig.DteqDeleted) { return; }
 
-        prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+            prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+        }
+        catch (Exception ex) {
+            throw ex;
+        }
+     
     }
 
     public static void UpsertCable(PowerCableModel cable)

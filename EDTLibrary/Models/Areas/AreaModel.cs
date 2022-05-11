@@ -15,14 +15,17 @@ public class AreaModel : IArea {
         set
         {
             var oldValue = _tag;
-            if (string.IsNullOrWhiteSpace(value) == false) {
-                _tag = value;
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
-                    Undo.UndoList.Add(cmd);
-                }
+            if (string.IsNullOrWhiteSpace(value) == true) 
+                return;
+
+
+            _tag = value;
+            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                var cmd = new CommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
+                Undo.UndoList.Add(cmd);
+
             }
-            
+
         }
     }
 

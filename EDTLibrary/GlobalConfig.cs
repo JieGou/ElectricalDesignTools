@@ -8,6 +8,7 @@ namespace EDTLibrary
 
         //Flags
         public static bool GettingRecords = true;
+        public static bool Importing = false;
         public static bool SelectingNew = false;
         public static bool Testing = false;
 

@@ -20,7 +20,13 @@ namespace EDTLibrary.Models.Loads
         {
             LoadModel newLoad = new LoadModel();
 
-            newLoad.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == loadToAddValidator.FedFromTag);
+            //newLoad.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == loadToAddValidator.FedFromTag); // xx ms
+            
+            foreach (var dteq in _listManager.DteqList) {  // 85 ms
+                if (dteq.Tag == loadToAddValidator.FedFromTag) {
+                    newLoad.FedFrom = dteq;
+                }
+            }
             newLoad.Tag = loadToAddValidator.Tag;
             newLoad.Category = Categories.LOAD3P.ToString();
             newLoad.Type = loadToAddValidator.Type;

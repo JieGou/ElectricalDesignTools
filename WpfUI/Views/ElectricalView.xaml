@@ -1535,12 +1535,16 @@
                     <TextBlock Text="{Binding SelectedDteq.FedFromId}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
 
-
                     <TextBlock Text="   Cable Id:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     <TextBlock Text="{Binding SelectedDteq.PowerCable.Id}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
                     <TextBlock Text="   Loads:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     <TextBlock Text="{Binding SelectedDteq.AssignedLoads.Count}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+
+                    <TextBlock Text="   Area Id:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                    <TextBlock Text="{Binding SelectedDteq.Area.Id}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+
+
 
                     <TextBlock Text="        |       " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
@@ -1553,6 +1557,7 @@
                     <TextBlock Text="   Cable Id:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     <TextBlock Text="{Binding SelectedLoad.PowerCable.Id}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
+                    
                     <TextBlock Text="        |       " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     <TextBlock Text="Counts" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
@@ -1563,6 +1568,7 @@
                     <TextBlock Text="   Cables:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
+                    
                     <TextBlock Text="        |       " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     <TextBlock Text="Cables" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 

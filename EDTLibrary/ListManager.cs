@@ -20,15 +20,15 @@ namespace EDTLibrary
     [AddINotifyPropertyChangedInterface]
     public class ListManager {
 
-        public ObservableCollection<IArea>          AreaList { get; set; } = new ObservableCollection<IArea>();
-        public ObservableCollection<IDteq>              IDteqList { get; set; } = new ObservableCollection<IDteq>();
-        public ObservableCollection<DistributionEquipment>          DteqList { get; set; } = new ObservableCollection<DistributionEquipment>();
-        public ObservableCollection<XfrModel>           XfrList { get; set; } = new ObservableCollection<XfrModel>();
-        public ObservableCollection<SwgModel>           SwgList { get; set; } = new ObservableCollection<SwgModel>();
-        public ObservableCollection<MccModel>           MccList { get; set; } = new ObservableCollection<MccModel>();
+        public ObservableCollection<IArea>                      AreaList { get; set; } = new ObservableCollection<IArea>();
+        public ObservableCollection<IDteq>                      IDteqList { get; set; } = new ObservableCollection<IDteq>();
+        public ObservableCollection<DistributionEquipment>      DteqList { get; set; } = new ObservableCollection<DistributionEquipment>();
+        public ObservableCollection<XfrModel>                   XfrList { get; set; } = new ObservableCollection<XfrModel>();
+        public ObservableCollection<SwgModel>                   SwgList { get; set; } = new ObservableCollection<SwgModel>();
+        public ObservableCollection<MccModel>                   MccList { get; set; } = new ObservableCollection<MccModel>();
 
 
-        public ObservableCollection<ILoad>          LoadList { get; set; } = new ObservableCollection<ILoad>();
+        public ObservableCollection<ILoad>              LoadList { get; set; } = new ObservableCollection<ILoad>();
         public ObservableCollection<PowerCableModel>    CableList { get; set; } = new ObservableCollection<PowerCableModel>();
         public ObservableCollection<CctComponentModel>  CompList { get; set; } = new ObservableCollection<CctComponentModel>();
 
@@ -74,6 +74,9 @@ namespace EDTLibrary
 
             IDteqList.Clear();
             DteqList.Clear();
+            XfrList.Clear();
+            SwgList.Clear();
+            MccList.Clear();
 
             //Dteq
             //TODO - Clean up DteqModel vs abstract Dteq

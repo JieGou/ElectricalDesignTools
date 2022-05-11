@@ -48,7 +48,7 @@ public class LoadManager
         var errors = loadToAddValidator._errorDict;
         if (IsValid) {
 
-            LoadModel newLoad = _loadFactory.CreateLoad(loadToAddValidator);
+            LoadModel newLoad = _loadFactory.CreateLoad(loadToAddValidator); //150ms
 
             IDteq dteqSubscriber = listManager.DteqList.FirstOrDefault(d => d == newLoad.FedFrom);
             if (dteqSubscriber != null) {
@@ -58,14 +58,28 @@ public class LoadManager
             }
 
             //Save to Db
-            newLoad.Id = DaManager.SaveLoadGetId(newLoad);
+            //newLoad.Id = DaManager.SaveLoadGetId(newLoad);
+            if (listManager.LoadList.Count != 0) {
+                newLoad.Id = listManager.LoadList.Max(l => l.Id);
+                newLoad.Id += 1;
+            }
+            else {
+                newLoad.Id = 1;
+            }
             listManager.LoadList.Add(newLoad);
-            newLoad.CalculateLoading(); //after load is inserted to get new Id
+            newLoad.CalculateLoading(); //after load is inserted to get new Id - //150ms
 
             //Cable
-            newLoad.SizeCable();
+            newLoad.SizeCable(); // 51ms
             newLoad.CalculateCableAmps();
-            newLoad.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+            if (listManager.CableList.Count != 0) {
+                newLoad.PowerCable.Id = listManager.LoadList.Max(l => l.Id);
+                newLoad.PowerCable.Id += 1;
+            }
+            else {
+                newLoad.PowerCable.Id = 1;
+            }
+            //newLoad.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
             listManager.CableList.Add(newLoad.PowerCable);
             return newLoad;
         }

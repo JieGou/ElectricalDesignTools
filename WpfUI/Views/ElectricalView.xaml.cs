@@ -5,6 +5,7 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -143,27 +144,30 @@ public partial class ElectricalView : UserControl
     private async Task LoadTestEquipmentData()
     {
         DteqToAddValidator dteqToAdd;
-        LoadToAddValidator loadToAdd;
         ListManager listManager= elecVm.ListManager;
 
         MessageBoxResult result = MessageBox.Show("Dteq, Loads, Both", "Test Data", MessageBoxButton.YesNoCancel);
+        string start = "" ;
+        GlobalConfig.Importing = true;
         switch (result) {
             case MessageBoxResult.Yes:
+                start = DateTime.Now.ToString();
                 foreach (var dteq in TestData.TestDteqList) {
                     dteq.Area = listManager.AreaList[0];
                     dteqToAdd = new DteqToAddValidator(listManager, dteq);
                     elecVm.AddDteq(dteqToAdd);
+                    Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
                 }
                 break;
+
             case MessageBoxResult.No:
-                foreach (var load in TestData.TestLoadList) {
-                    load.Area = listManager.AreaList[0];
-                    loadToAdd = new LoadToAddValidator(listManager, load);
-                    elecVm.AddLoad(loadToAdd);
-                    load.CalculateLoading();
-                }
+                start = DateTime.Now.ToString();
+                await Task.Run(() => AddTestLoadsAsync(listManager));
+                Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
                 break;
+
             case MessageBoxResult.Cancel:
+                start = DateTime.Now.ToString();
                 foreach (var dteq in TestData.TestDteqList) {
                     dteq.Area = listManager.AreaList[0];
                     dteqToAdd = new DteqToAddValidator(listManager, dteq);
@@ -171,13 +175,35 @@ public partial class ElectricalView : UserControl
                 }
                 foreach (var load in TestData.TestLoadList) {
                     load.Area = listManager.AreaList[0];
-                    loadToAdd = new LoadToAddValidator(listManager, load);
+                    LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
                     elecVm.AddLoad(loadToAdd);
                     load.CalculateLoading();
                 }
+                Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
                 break;
         }
-        //TestData.CreateTestDteqList();
+        GlobalConfig.Importing = false;
+        elecVm.DbSaveAll();
+
+        Debug.Print($"Final start: {start} Final end: {DateTime.Now.ToString()}");
+    }
+
+    private async Task AddTestLoadsAsync( ListManager listManager)
+    {
+        try {
+            foreach (var load in TestData.TestLoadList) {
+                load.Area = listManager.AreaList[0];
+                LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
+                //LoadManager.AddLoad(loadToAdd, listManager);
+                await Task.Run(() => LoadManager.AddLoad(loadToAdd, listManager));
+                load.CalculateLoading();
+            }
+        }
+        catch (Exception ex) {
+            ErrorHelper.EdtErrorMessage(ex);
+
+        }
+
     }
 
 
@@ -187,7 +213,7 @@ public partial class ElectricalView : UserControl
     {
         while (elecVm.ListManager.IDteqList.Count > 0) {
             IDteq dteq = elecVm.ListManager.IDteqList[0];
-            elecVm.DeleteLoad(dteq);
+            elecVm.DeleteDteq(dteq);
         }
 
         while (elecVm.ListManager.LoadList.Count > 0) {

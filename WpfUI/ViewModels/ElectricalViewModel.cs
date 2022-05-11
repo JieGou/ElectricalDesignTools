@@ -77,7 +77,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         CalculateSingleEqCableAmpsCommand = new RelayCommand(CalculateSingleEqCableAmps);
 
         //DeleteDteqCommand = new AsyncRelayCommand(DeleteDteqAsync, (ex) => MessageBox.Show(ex.Message));
-        DeleteDteqCommand = new RelayCommand(DeleteLoad);
+        DeleteDteqCommand = new RelayCommand(DeleteDteq);
 
         AddDteqCommand = new RelayCommand(AddDteq);
         AddLoadCommand = new RelayCommand(AddLoad);
@@ -289,20 +289,25 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
         async Task CopySelectedDteqAsync()
         {
-            DteqToAddValidator.FedFromTag = "";
-            DteqToAddValidator.FedFromTag = _selectedDteq.FedFromTag;
-            DteqToAddValidator.AreaTag = "";
-            DteqToAddValidator.AreaTag = _selectedDteq.Area.Tag;
-            DteqToAddValidator.Type = "";
-            DteqToAddValidator.Type = _selectedDteq.Type;
-            DteqToAddValidator.Size = "";
-            DteqToAddValidator.Size = _selectedDteq.Size.ToString();
-            DteqToAddValidator.Unit = "";
-            DteqToAddValidator.Unit = _selectedDteq.Unit;
-            DteqToAddValidator.LineVoltage = "";
-            DteqToAddValidator.LineVoltage = _selectedDteq.LineVoltage.ToString();
-            DteqToAddValidator.LoadVoltage = "";
-            DteqToAddValidator.LoadVoltage = _selectedDteq.LoadVoltage.ToString();
+            try {
+                DteqToAddValidator.FedFromTag = "";
+                DteqToAddValidator.FedFromTag = _selectedDteq.FedFromTag;
+                DteqToAddValidator.AreaTag = "";
+                DteqToAddValidator.AreaTag = _selectedDteq.Area.Tag;
+                DteqToAddValidator.Type = "";
+                DteqToAddValidator.Type = _selectedDteq.Type;
+                DteqToAddValidator.Size = "";
+                DteqToAddValidator.Size = _selectedDteq.Size.ToString();
+                DteqToAddValidator.Unit = "";
+                DteqToAddValidator.Unit = _selectedDteq.Unit;
+                DteqToAddValidator.LineVoltage = "";
+                DteqToAddValidator.LineVoltage = _selectedDteq.LineVoltage.ToString();
+                DteqToAddValidator.LoadVoltage = "";
+                DteqToAddValidator.LoadVoltage = _selectedDteq.LoadVoltage.ToString();
+            }
+            catch (Exception ex) {
+                ErrorHelper.EdtErrorMessage(ex);
+            }
         }
 
     }
@@ -430,7 +435,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         AssignedLoads.Clear();
 
     }
-    private void DbSaveAll()
+    public void DbSaveAll()
     {
         //Task.Run(() => CalculateAll());
 
@@ -585,6 +590,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         return;
     }
 
+    
     private void DeletePowerCable(IPowerConsumer powerCableUser)
     {
         //TODO - Move to Cable Manager
@@ -629,7 +635,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             LoadModel newLoad = await LoadManager.AddLoad(loadToAddObject, _listManager);
             if (newLoad != null) AssignedLoads.Add(newLoad); 
             RefreshLoadTagValidation();
-            SelectedLoad = newLoad;
+            //SelectedLoad = newLoad;
         }
         catch (Exception ex) {
             ErrorHelper.SqlErrorMessage(ex);
@@ -653,9 +659,9 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             
             RefreshLoadTagValidation();
 
-            if (AssignedLoads.Count > 0) {
-                SelectedLoad = AssignedLoads[AssignedLoads.Count - 1];
-            }
+            //if (AssignedLoads.Count > 0) {
+            //    SelectedLoad = AssignedLoads[AssignedLoads.Count - 1];
+            //}
         }
         catch (Exception ex) {
 
