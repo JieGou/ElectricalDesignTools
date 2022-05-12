@@ -126,6 +126,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             { 
                 _areaTag = value; 
                 ClearErrors(nameof(AreaTag));
+                _areaModel= null;
                 if (_areaModel == null) {
                     _areaModel = _listManager.AreaList.FirstOrDefault(a => a.Tag == _areaTag);
                 }

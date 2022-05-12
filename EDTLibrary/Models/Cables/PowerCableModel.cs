@@ -5,6 +5,7 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
@@ -98,7 +99,7 @@ public class PowerCableModel : IPowerCable
         }
     }
 
-    public ObservableCollection<CableTypeModel> TypeList { get; set; } = new ObservableCollection<CableTypeModel>();
+    public List<CableTypeModel> TypeList { get; set; } = new List<CableTypeModel>();
 
 
     public string UsageType { get; set; }

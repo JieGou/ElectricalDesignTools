@@ -44,7 +44,7 @@ namespace WpfUI.ViewModels
 
         private StartupService _startupService;
 
-        private readonly StartupViewModel _startupViewModel;
+        private readonly HomeViewModel _startupViewModel;
         private readonly SettingsViewModel _settingsViewModel;
         private readonly AreasViewModel _areasViewModel;
         private readonly ElectricalViewModel _electricalViewModel;
@@ -63,7 +63,7 @@ namespace WpfUI.ViewModels
             _startupService = startupService;
             _edtSettings = edtSettings;
 
-            _startupViewModel = new StartupViewModel(startupService);
+            _startupViewModel = new HomeViewModel(startupService);
             _settingsViewModel = new SettingsViewModel(edtSettings, typeManager);
             _areasViewModel = new AreasViewModel(listManager);
             _electricalViewModel = new ElectricalViewModel(listManager, typeManager);

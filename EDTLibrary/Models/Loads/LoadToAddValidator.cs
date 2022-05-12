@@ -126,6 +126,7 @@ namespace EDTLibrary.Models.Loads
             {
                 _areaTag = value;
                 ClearErrors(nameof(AreaTag));
+                _areaModel = null;
                 if (_areaModel== null) {
                     _areaModel = _listManager.AreaList.FirstOrDefault(a => a.Tag == _areaTag);
                 }
@@ -344,7 +345,10 @@ namespace EDTLibrary.Models.Loads
                 if (string.IsNullOrWhiteSpace(Type))
                     Type = "HEATER";
                 if (string.IsNullOrWhiteSpace(FedFromTag))
-                    FedFromTag = _listManager.DteqList.FirstOrDefault(d => d.Tag.Contains("MCC")).Tag;
+                    try {
+                        FedFromTag = _listManager.IDteqList.FirstOrDefault(d => d.Type.Contains("MCC")).Tag;
+                    }
+                    catch { }
                 if (string.IsNullOrWhiteSpace(Size))
                     Size = "50";
                 if (string.IsNullOrWhiteSpace(Unit))

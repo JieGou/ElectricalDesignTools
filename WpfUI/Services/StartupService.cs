@@ -1,21 +1,12 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
-using EDTLibrary.Models.Cables;
-using EDTLibrary.Models.DistributionEquipment;
-using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WpfUI.Helpers;
-using WpfUI.ViewModels;
 
 namespace WpfUI.Services
 {
@@ -135,7 +126,7 @@ namespace WpfUI.Services
                 }
             }
             catch (Exception ex) {
-                ErrorHelper.SqlErrorMessage(ex);
+                ErrorHelper.EdtErrorMessage(ex);
             }
         }
                 

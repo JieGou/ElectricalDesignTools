@@ -52,7 +52,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         _dteqFactory = new DteqFactory(listManager);
         _loadFactory = new LoadFactory(listManager);
         //members
-        DteqGridViewModifier = new DataGridColumnViewControl();
+        DteqGridViewModifier = new DataGridColumnViewToggle();
 
         DteqToAddValidator = new DteqToAddValidator(_listManager);
         LoadToAddValidator = new LoadToAddValidator(_listManager);
@@ -200,7 +200,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     //Dteq
     public string? ToggleRowViewDteqProp { get; set; } = "Collapsed";
     public string? PerPhaseLabelDteq { get; set; } = "Hidden";
-    public DataGridColumnViewControl DteqGridViewModifier { get; set; }
+    public DataGridColumnViewToggle DteqGridViewModifier { get; set; }
 
     #endregion  
     public bool DteqFilter { get; set; }
@@ -430,6 +430,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         _listManager.GetProjectTablesAndAssigments();
         AssignedLoads.Clear();
+        DteqToAddValidator = new DteqToAddValidator(ListManager);
 
     }
     public void DbSaveAll()
@@ -459,14 +460,14 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         }
 
         catch (Exception ex) {
-            ErrorHelper.SqlErrorMessage(ex);
+            ErrorHelper.EdtErrorMessage(ex);
         }
     }
-    private async void SizeAllCables()
+    private void SizeAllCables()
     {
         Task.Run(() => SizeAllCablesAsync());
     }
-    private void SizeAllCablesAsync()
+    private async Task SizeAllCablesAsync()
     {
         try {
             foreach (var item in _listManager.IDteqList) {
@@ -562,7 +563,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             }
         }
         catch (Exception ex) {
-            ErrorHelper.SqlErrorMessage(ex);
+            ErrorHelper.EdtErrorMessage(ex);
         }
     }
 
@@ -644,7 +645,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             //SelectedLoad = newLoad;
         }
         catch (Exception ex) {
-            ErrorHelper.SqlErrorMessage(ex);
+            ErrorHelper.EdtErrorMessage(ex);
         }
     }
 
@@ -670,7 +671,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         catch (Exception ex) {
 
             if (ex.Message.ToLower().Contains("sql")) {
-                ErrorHelper.SqlErrorMessage(ex);
+                ErrorHelper.EdtErrorMessage(ex);
             }
             else {
                 ErrorHelper.EdtErrorMessage(ex);
@@ -702,7 +703,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                 }
             }
             catch (Exception ex) {
-                ErrorHelper.SqlErrorMessage(ex);
+                ErrorHelper.EdtErrorMessage(ex);
             }
 
         }
@@ -719,17 +720,11 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             GetLoadListAsync();
             _listManager.UnregisterAllDteqFromAllLoadEvents();
             _listManager.CreateDteqDict();
-            await Task.Run(() => _listManager.CalculateDteqLoadingAsync());
+            Task.Run(() => _listManager.CalculateDteqLoadingAsync());
             //await _listManager.CalculateDteqLoadingAsync();
         }
         catch (Exception ex) {
-
-            if (ex.Message.ToLower().Contains("sql")) {
-                ErrorHelper.SqlErrorMessage(ex);
-            }
-            else {
-                ErrorHelper.EdtErrorMessage(ex);
-            }
+            ErrorHelper.EdtErrorMessage(ex);
         }
     }
     #endregion

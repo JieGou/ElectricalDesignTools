@@ -6,7 +6,7 @@ using WpfUI.Stores;
 
 namespace WpfUI.ViewModels
 {
-    public class StartupViewModel :ViewModelBase
+    public class HomeViewModel :ViewModelBase
     {
         #region Properties and Backing Fields
         public string? ProjectName { get; set; }
@@ -18,7 +18,7 @@ namespace WpfUI.ViewModels
 
         #endregion
 
-        public StartupViewModel(StartupService startupService)
+        public HomeViewModel(StartupService startupService)
         {
             _startupService = startupService;
             SetSelectedProject();
@@ -29,7 +29,7 @@ namespace WpfUI.ViewModels
 
         public void SelectProject()
         {
-            string rootPath = Path.GetDirectoryName(AppSettings.Default.ProjectDb);
+            string? rootPath = Path.GetDirectoryName(AppSettings.Default.ProjectDb);
             _startupService.SelectProject(rootPath);
             SetSelectedProject();            
         }

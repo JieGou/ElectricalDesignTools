@@ -79,7 +79,14 @@ public partial class ElectricalView : UserControl
             ex.Data.Add("UserMessage", "Cannot undo changes made to Distribution Equipment if they are made form the load Grid.");
             //ErrorHelper.EdtErrorMessage(ex);
         }
-        
+        try {
+            if (e.Key == Key.Delete) {
+                DeleteLoads_VM();
+            }
+        }
+        catch (Exception ex) {
+            throw ex;
+        }
     }
 
     static void UpdateBindingTarget(DataGrid dg, DataGridTextColumn col, ILoad item)
@@ -119,24 +126,27 @@ public partial class ElectricalView : UserControl
     private async void eqView_PreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
+
 #if DEBUG
 
             if (e.Key == Key.T) {
                 LoadTestEquipmentData();
+                e.Handled = true;
             }
             if (e.Key == Key.D) {
                 MessageBox.Show("Deleting all Data");
                 DeleteEquipment();
+                e.Handled = true;
+
             }
             if (e.Key == Key.B) {
                 MessageBox.Show("Clearing Equipment from Database");
                 DeleteEquipmentFromDatabase();
+                e.Handled = true;
+
             }
+
 #endif
-            //Moved Ctrl-Z to main window
-            //if (e.Key == Key.Z) {
-            //    Undo.UndoCommand(eqVm.ListManager);
-            //}
         }
     }
 
@@ -277,15 +287,19 @@ public partial class ElectricalView : UserControl
 
     private void LoadGridContextMenu_Delete(object sender, MouseButtonEventArgs e)
     {
+        DeleteLoads_VM();
+    }
+
+    private void DeleteLoads_VM()
+    {
         ILoad load;
-        while (dgdAssignedLoads.SelectedItems.Count>0) {
+        while (dgdAssignedLoads.SelectedItems.Count > 0) {
             load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
             elecVm.DeleteLoad(load);
             dgdAssignedLoads.SelectedItems.Remove(load);
         }
     }
 
-   
     private void FastEditEvent(object sender, RoutedEventArgs args)
     {
         var dataGridCell = (sender as UIElement)?.FindVisualParent<DataGridCell>();

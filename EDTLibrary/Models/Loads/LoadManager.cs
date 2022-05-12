@@ -29,8 +29,9 @@ public class LoadManager
             load.PdType == "FVNR" ||
             load.PdType == "FVR") {
             load.PdSizeFrame = LibraryManager.GetMcpFrame(load);
-            load.PdSizeTrip = Math.Min(load.Fla * 1.25, load.PdSizeFrame);
-            load.PdSizeTrip = Math.Round(load.PdSizeTrip, 0);
+            load.PdSizeTrip = LibraryManager.GetStarterSize(load);
+            //load.PdSizeTrip = Math.Min(load.Fla * 1.25, load.PdSizeFrame);
+            //load.PdSizeTrip = Math.Round(load.PdSizeTrip, 0);
         }
         else if (load.PdType == "BKR" ||
                  load.PdType == "VFD" ||
@@ -87,21 +88,33 @@ public class LoadManager
 
     public static async Task<int> DeleteLoad(object selectedLoadObject, ListManager listManager)
     {
-        LoadModel selectedLoad = (LoadModel)selectedLoadObject;
-        IDteq dteqToRecalculate = listManager.DteqList.FirstOrDefault(d => d == selectedLoad.FedFrom);
-        int loadId = selectedLoad.Id;
-        selectedLoad.PropertyUpdated -= DaManager.OnLoadPropertyUpdated;
-        await CableManager.DeletePowerCableAsync(selectedLoad, listManager); //await
-        await DaManager.prjDb.DeleteRecordAsync(GlobalConfig.LoadTable, loadId); //await
+        try {
+            LoadModel selectedLoad = (LoadModel)selectedLoadObject;
+            IDteq dteqToRecalculate = listManager.DteqList.FirstOrDefault(d => d == selectedLoad.FedFrom);
+            int loadId = selectedLoad.Id;
+            selectedLoad.PropertyUpdated -= DaManager.OnLoadPropertyUpdated;
+            await CableManager.DeletePowerCableAsync(selectedLoad, listManager); //await
+            await DaManager.prjDb.DeleteRecordAsync(GlobalConfig.LoadTable, loadId); //await
 
-        var loadToRemove = listManager.LoadList.FirstOrDefault(load => load.Id == loadId);
-        listManager.LoadList.Remove(loadToRemove);
+            var loadToRemove = listManager.LoadList.FirstOrDefault(load => load.Id == loadId);
+            listManager.LoadList.Remove(loadToRemove);
 
-        if (dteqToRecalculate != null) {
-            selectedLoad.LoadingCalculated -= dteqToRecalculate.OnAssignedLoadReCalculated;
-            dteqToRecalculate.AssignedLoads.Remove(loadToRemove);
-            dteqToRecalculate.CalculateLoading();
+            if (dteqToRecalculate != null) {
+                selectedLoad.LoadingCalculated -= dteqToRecalculate.OnAssignedLoadReCalculated;
+                dteqToRecalculate.AssignedLoads.Remove(loadToRemove);
+                dteqToRecalculate.CalculateLoading();
+            }
+            return loadId;
+
         }
-        return loadId;
+        catch (InvalidCastException ex) {
+            ex.Data.Add("UserMessage", "Cannot delete Distribution Equipment from Load List");
+            throw ex;
+            }
+        catch (Exception ex) {
+            throw ex;
+        }
+        return -1;
+        
     }
 }

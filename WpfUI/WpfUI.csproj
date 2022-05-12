@@ -125,6 +125,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Windows\" />
     <Folder Include="ViewComponents\" />
     <Folder Include="Views\Electrical\" />
   </ItemGroup>

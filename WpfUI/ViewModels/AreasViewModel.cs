@@ -146,7 +146,7 @@ namespace WpfUI.ViewModels
                     }
                 }
                 catch (Exception ex) {
-                        ErrorHelper.SqlErrorMessage(ex);
+                        ErrorHelper.EdtErrorMessage(ex);
                     }
             }
         }
@@ -189,7 +189,7 @@ namespace WpfUI.ViewModels
                 }
             }
             catch(Exception ex) {
-                ErrorHelper.SqlErrorMessage(ex);
+                ErrorHelper.EdtErrorMessage(ex);
             }
         }
 

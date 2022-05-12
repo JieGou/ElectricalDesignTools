@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WpfUI.ViewModifiers
 {
     [AddINotifyPropertyChangedInterface]
-    public class DataGridColumnViewControl
+    public class DataGridColumnViewToggle
     {
         public bool Loading { get; set; } = true;
         public bool Ocpd { get; set; } = false;
