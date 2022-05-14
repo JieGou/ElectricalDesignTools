@@ -20,4 +20,14 @@ public class AreaManager
             caller.AreaClassification = newArea.AreaClassification;
         }
     }
+    public static bool IsAreaInUse(AreaModel area, ListManager listManager)
+    {
+        listManager.CreateEquipmentList();
+        foreach (var item in listManager.EqList) {
+            if (item.Area.Id== area.Id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

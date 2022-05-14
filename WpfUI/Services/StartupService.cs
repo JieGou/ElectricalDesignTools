@@ -40,12 +40,19 @@ namespace WpfUI.Services
 
         public void InitializeProject(string projectFile)
         {
-            if (File.Exists(projectFile)) {
-                prjDb = new SQLiteConnector(projectFile);
-                DaManager.SetProjectDb(new SQLiteConnector(projectFile));
 
-                LoadProjectDb();
-                LoadProjectSettings();
+            try {
+                if (File.Exists(projectFile)) {
+                    prjDb = new SQLiteConnector(projectFile);
+                    DaManager.SetProjectDb(new SQLiteConnector(projectFile));
+
+                    LoadProjectDb();
+                    LoadProjectSettings();
+                }
+            }
+            catch (Exception ex) {
+
+                ErrorHelper.EdtErrorMessage(ex);
             }
         }
 

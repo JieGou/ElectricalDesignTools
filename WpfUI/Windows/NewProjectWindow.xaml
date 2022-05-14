@@ -8,9 +8,8 @@
         
         
         Title="Create New Project" 
-        Height="450" Width="650"
-        WindowStartupLocation="CenterScreen" 
-        Topmost="True" >
+        Height="500" Width="650"
+        WindowStartupLocation="CenterScreen" >
 
     <Window.Resources>
         <ResourceDictionary>

@@ -120,24 +120,7 @@
             <!--**** TEST *****-->
             <!--***************-->
 
-            <StackPanel Orientation="Horizontal"
-                         Grid.Column="3" Grid.Row="4">
-
-                <Button Content="Test" 
-                        HorizontalAlignment="Left"
-                        Margin="10"
-                        Command="{Binding GetAreaByIdCommand}" Click="Button_Click"/>
-
-                <TextBox Text="{Binding AreaToGetId}"
-                         Width="25"/>
-
-                <TextBlock Text="{Binding AreaReceived.Tag}"
-                           Width="50"/>
-
-               
-
-            </StackPanel>
-
+           
             <!--***************-->
             <!--**** TEST *****-->
             <!--***************-->
@@ -456,6 +439,7 @@
                          Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Nema}"
+                          HorizontalAlignment="Left"
                           Template="{DynamicResource ComboBoxBase}" 
                           Width="90"
                           ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,

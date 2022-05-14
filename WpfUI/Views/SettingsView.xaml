@@ -90,7 +90,7 @@
 
                     <Button Content="EQUIPMENT" x:Name="btnEquipment"
                             Style="{StaticResource ToolBarButtonBase}"
-                            Opacity="0"
+                            Opacity="1"
                             d:Opacity="1">
                         <!--<Button.RenderTransform>
                             <TranslateTransform x:Name="TranslateTransformEquipment"

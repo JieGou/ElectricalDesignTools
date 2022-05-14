@@ -13,8 +13,8 @@ namespace WpfUI.ViewModels
     public class HomeViewModel :ViewModelBase
     {
         #region Properties and Backing Fields
-        public string? ProjectName { get; set; }
-        public string? ProjectPath { get; set; }
+        public string? FileName { get; set; }
+        public string? FilePath { get; set; }
 
 
         private string _selectedProject;
@@ -25,6 +25,8 @@ namespace WpfUI.ViewModels
         #endregion
         public ICommand NewProjectCommand { get; }
         public ICommand SelectProjectCommand { get; }
+        public Window NewProjectWindow {get; set;}  
+
         public HomeViewModel(StartupService startupService, ListManager listManager)
         {
             _startupService = startupService;
@@ -34,17 +36,18 @@ namespace WpfUI.ViewModels
             SelectProjectCommand = new RelayCommand(SelectProject);
         }
 
+      
         private void NewProject()
         {
-            Window newProjectWindow = new NewProjectWindow();
-
+            
+            NewProjectWindow = new NewProjectWindow();
             NewProjectViewModel newProjectVm = new NewProjectViewModel(
                 new EDTLibrary.LibraryData.TypeTables.TypeManager(),
                 new StartupService(_listManager),
                 this);
 
-            newProjectWindow.DataContext = newProjectVm;
-            newProjectWindow.Show();
+            NewProjectWindow.DataContext = newProjectVm;
+            NewProjectWindow.ShowDialog();
 
         }
 
@@ -59,13 +62,16 @@ namespace WpfUI.ViewModels
 
         public void SetSelectedProject(string selectedProject)
         {
-            //ProjectName = Path.GetFileNameWithoutExtension(_selectedProject);
-            AppSettings.Default.ProjectDb = selectedProject;
-            AppSettings.Default.Save();
-            ProjectName = Path.GetFileName(selectedProject);
-            ProjectPath = Path.GetDirectoryName(selectedProject);
+            FileName = string.Empty;
+            FilePath = string.Empty;
 
-
+            if (File.Exists(selectedProject)) {
+                //ProjectName = Path.GetFileNameWithoutExtension(_selectedProject);
+                AppSettings.Default.ProjectDb = selectedProject;
+                AppSettings.Default.Save();
+                FileName = Path.GetFileName(selectedProject);
+                FilePath = Path.GetDirectoryName(selectedProject);
+            }
         }
     }
 }

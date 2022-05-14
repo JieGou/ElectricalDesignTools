@@ -7,7 +7,7 @@
              xmlns:homeUc="clr-namespace:WpfUI.UserControls.HomeControls"
              
              mc:Ignorable="d" 
-             d:DesignHeight="650" d:DesignWidth="1000"
+             d:DesignHeight="650" d:DesignWidth="1200"
              Background="white">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -17,12 +17,10 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-        
+
     <Grid Canvas.Top="{Binding ElementName=Canvas}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="1*" x:Name="col2" />
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -32,9 +30,9 @@
         <!--<viewComponents:NavigationBar Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>-->
 
         <StackPanel VerticalAlignment="Center" 
-                    HorizontalAlignment="Center" 
-                    Grid.Column="1">
+                    HorizontalAlignment="Center">
 
+            
             <!--<Canvas>-->
 
             <TextBlock Text="Electrical Design Tools"
@@ -48,89 +46,112 @@
                     Width="350"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Margin=" 0 25 0 0">
+                    Margin=" 0 50 0 50">
 
                 <Image.Triggers>
                     <EventTrigger RoutedEvent="Image.Loaded">
                         <BeginStoryboard>
                             <Storyboard>
                                 <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                Storyboard.TargetName="logo"                                
-                                From="1.0" To="0.75" Duration="0:0:0.35"
+                                                 Storyboard.TargetName="logo"                                
+                                                 From="1.0" To="0.75" Duration="0:0:0.35"
                                                  AccelerationRatio="1"
-                                AutoReverse="False" RepeatBehavior="1x"/>
+                                                 AutoReverse="False" RepeatBehavior="1x"/>
 
                                 <DoubleAnimation Storyboard.TargetProperty="Width"
-                                 Storyboard.TargetName="logo"                                 
-                                 From="350" To="150" Duration="0:0:0.35"
+                                                 Storyboard.TargetName="logo"                                 
+                                                 From="350" To="150" Duration="0:0:0.35"
                                                  AccelerationRatio="1"
-                                 AutoReverse="False" RepeatBehavior="1x"/>
+                                                 AutoReverse="False" RepeatBehavior="1x"/>
 
                                 <DoubleAnimation Storyboard.TargetName="logo"
-                                 Storyboard.TargetProperty="(Canvas.Top)"
-                                 From="0" To="50" Duration="0:0:0.35"
+                                                 Storyboard.TargetProperty="(Canvas.Top)"
+                                                 From="0" To="50" Duration="0:0:0.35"
                                                  AccelerationRatio="1"
-                                 AutoReverse="False" RepeatBehavior="1x"/>
+                                                 AutoReverse="False" RepeatBehavior="1x"/>
 
                                 <DoubleAnimation Storyboard.TargetName="logo"
-                                 Storyboard.TargetProperty="(Canvas.Left)"
-                                 From="0" To="-100" Duration="0:0:0.35"
+                                                 Storyboard.TargetProperty="(Canvas.Left)"
+                                                 From="0" To="-100" Duration="0:0:0.35"
                                                  AccelerationRatio="1"
-                                 AutoReverse="False" RepeatBehavior="1x"/>
+                                                 AutoReverse="False" RepeatBehavior="1x"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
                 </Image.Triggers>
             </Image>
 
+            <!--File-->
+            <Grid HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="*" x:Name="pathCol"/>
+                    <ColumnDefinition Width="50"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-            <TextBlock Text="Current Project:"
-                       HorizontalAlignment="center"
-                       FontSize="18"
-                       Margin=" 0 25 350 0"/>
 
-            <TextBlock Text="{Binding Path=ProjectName, Mode=Default, UpdateSourceTrigger=PropertyChanged}"
-                       HorizontalAlignment="Center"
-                       TextAlignment="Center"
-                       FontSize="16"
-                       FontWeight="SemiBold"
-                       MinWidth="500"
-                       Margin=" 0 15 0 0"/>
-            <TextBlock Text="{Binding Path=ProjectPath, Mode=Default, UpdateSourceTrigger=PropertyChanged}"
-                        TextAlignment="Center"
-                        HorizontalAlignment="Center"
-                        FontSize="14"
-                        MinWidth="500"
-                        Margin=" 0 15 0 25"/>
+                <TextBlock Text="Current Project:"
+                           Grid.Row="0"  Grid.Column="1"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           FontSize="18"
+                           />
 
+                <TextBlock Text="{Binding Path=FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           Grid.Row="0" Grid.Column="3"
+                           d:Text="File Name"
+                           VerticalAlignment="Center"
+                           TextAlignment="Left"
+                           FontSize="18"
+                           FontWeight="SemiBold"
+                           />
+
+
+                <!--Path-->
+
+                <TextBlock Text="Project Location:"
+                           Grid.Row="2" Grid.Column="1" 
+                           HorizontalAlignment="Right"
+                           FontSize="18" 
+                           />
+                <TextBlock Text="{Binding Path=FilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           TextWrapping="Wrap"
+                           MaxWidth="800"
+                           Grid.Row="2" Grid.Column="3"
+                           d:Text="C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files"
+                           TextAlignment="Left"
+                           HorizontalAlignment="Left"
+                           FontSize="14"
+                           />
+
+                <!--Buttons-->
+
+            </Grid>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
-                        Margin="10">
+                        Grid.Row="4" Grid.Column="1"
+                        Grid.ColumnSpan="3"
+                        Margin="50 15">
 
                 <Button Content="New"
                         Command="{Binding NewProjectCommand}" PreviewMouseDown="Button_PreviewMouseDown"/>
-                
+
+                <TextBlock Width=" 50 "/>
+                <!--Spacer-->
+
                 <Button Content="Open" HorizontalAlignment="Center"
                         Command="{Binding SelectProjectCommand}"/>
 
-                
             </StackPanel>
             <!--</Canvas>-->
-        </StackPanel>
-
-        <StackPanel x:Name="newProjectSp" Grid.Column="2">
-            <StackPanel.Triggers>
-                <EventTrigger RoutedEvent="StackPanel.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="Width"
-                                Storyboard.TargetName="newProjectSp"                                
-                                From="0" To="1" Duration="0:0:0.35"
-                                                 AccelerationRatio="1"
-                                AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </StackPanel.Triggers>
         </StackPanel>
 
         <!--<homeUc:NewProjectControl x:Name="newProjectUc" Grid.Row="0" Grid.Column="2"/>-->

@@ -21,6 +21,9 @@ namespace EDTLibrary
     public class ListManager {
 
         public ObservableCollection<IArea>                      AreaList { get; set; } = new ObservableCollection<IArea>();
+
+
+        public ObservableCollection<IEquipment>                 EqList { get; set; } = new ObservableCollection<IEquipment>();
         public ObservableCollection<IDteq>                      IDteqList { get; set; } = new ObservableCollection<IDteq>();
         public ObservableCollection<DistributionEquipment>      DteqList { get; set; } = new ObservableCollection<DistributionEquipment>();
         public ObservableCollection<XfrModel>                   XfrList { get; set; } = new ObservableCollection<XfrModel>();
@@ -28,11 +31,11 @@ namespace EDTLibrary
         public ObservableCollection<MccModel>                   MccList { get; set; } = new ObservableCollection<MccModel>();
 
 
-        public ObservableCollection<ILoad>              LoadList { get; set; } = new ObservableCollection<ILoad>();
-        public ObservableCollection<PowerCableModel>    CableList { get; set; } = new ObservableCollection<PowerCableModel>();
-        public ObservableCollection<CctComponentModel>  CompList { get; set; } = new ObservableCollection<CctComponentModel>();
+        public ObservableCollection<ILoad>                      LoadList { get; set; } = new ObservableCollection<ILoad>();
+        public ObservableCollection<CctComponentModel>          CompList { get; set; } = new ObservableCollection<CctComponentModel>();
 
-        public Dictionary<string, IEquipment>           eqDict { get; set; } = new Dictionary<string, IEquipment>();
+        public ObservableCollection<PowerCableModel> CableList { get; set; } = new ObservableCollection<PowerCableModel>();
+
         public Dictionary<string, IDteq>                dteqDict { get; set; } = new Dictionary<string, IDteq>();
         public Dictionary<string, IPowerConsumer>       iLoadDict { get; set; } = new Dictionary<string, IPowerConsumer>();
 
@@ -43,20 +46,46 @@ namespace EDTLibrary
             await Task.Delay(1000);
             CreateDteqDict();
         }
+
+        public void CreateEquipmentList()
+        {
+            EqList.Clear();
+            foreach (var item in IDteqList) {
+                EqList.Add(item);
+            }
+            foreach (var item in LoadList) {
+                EqList.Add(item);
+            }
+            foreach (var item in CompList) {
+                EqList.Add(item);
+            }
+        }
         public void GetProjectTablesAndAssigments()
         {
             GlobalConfig.GettingRecords = true;
 
-            //Get
-            GetAreas();
-            GetDteq();
-            GetLoads();
-            GetCables();
+            try {
+                //Get
+                GetAreas();
+                GetDteq();
+                GetLoads();
+                GetCables();
 
-            //Assign
-            AssignAreas();
-            AssignLoadsAndEventsToAllDteq();
-            AssignCables();
+                //Assign
+                AssignAreas();
+                AssignLoadsAndEventsToAllDteq();
+                AssignCables();
+            }
+            catch (Exception ex) {
+
+                if (ex.Data.Contains("UserMessage") == false) {
+                    ex.Data.Add("UserMessage", "The project database may have been deleted or corrupted since opening. Go to the home screen and reopen the project.");
+                }
+                else {
+                    ex.Data["UserMessage"] = "The project database may have been deleted or corrupted since opening. Go to the home screen and reopen the project.";
+                }
+                throw ex;
+            }
 
             GlobalConfig.GettingRecords = false;
         }

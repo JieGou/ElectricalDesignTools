@@ -2,11 +2,8 @@
 using EDTLibrary.LibraryData.TypeTables;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using WpfUI.Commands;
@@ -108,17 +105,18 @@ public class NewProjectViewModel
         string errorMessage = "";
 
         try {
-            if (String.IsNullOrEmpty(FileName)) {
-                errorMessage += $"Invalid File Name: '{FileName}'\n\n";
+            if (String.IsNullOrEmpty(FileName)|| FileName.Contains("/") || FileName.Contains("\\")) {
+                errorMessage += $"The file name '{FileName}' is not valid.\n\n";
                 error = true;
             }
             if (Directory.Exists(FolderName) == false) {
-                errorMessage += $"Invalid Folder: '{FolderName}'\n\n";
+                errorMessage += $"The folder '{FolderName} does not exist.'\n\n";
                 error = true;
             }
 
             if (error) {
-                MessageBox.Show(errorMessage);
+                System.Windows.MessageBox.Show(errorMessage,
+                    "File Error", System.Windows.MessageBoxButton.OK, MessageBoxImage.Stop);
             }
             else {
                 string fullFileName = FolderName + "\\" + FileName + ".edp";
@@ -128,8 +126,14 @@ public class NewProjectViewModel
                 _startupService.InitializeLibrary();
                 _homeViewModel.SetSelectedProject(fullFileName);
                 _startupService.InitializeProject(fullFileName);
-
+                var edtSettings = new SettingsViewModel(new EDTLibrary.ProjectSettings.EdtSettings(), _typeManager);
+                edtSettings.ProjectName = ProjectName;
+                _homeViewModel.NewProjectWindow.Close();
             }
+        }
+        catch (IOException ex) {
+            System.Windows.MessageBox.Show("Invalid File Name\n\nThere are invalid characters in the File name or Folder path.",
+                    "File Error", System.Windows.MessageBoxButton.OK, MessageBoxImage.Stop);
         }
         catch (Exception ex) {
 

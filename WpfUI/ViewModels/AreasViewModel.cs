@@ -152,7 +152,14 @@ namespace WpfUI.ViewModels
         }
         private void DeleteArea(object areaToDeleteObject)
         {
+            if (areaToDeleteObject is null) return;
             AreaModel areaToDelete = (AreaModel)areaToDeleteObject;
+            if (areaToDelete.Id == 0) return; //do not delete last area
+            if (AreaManager.IsAreaInUse(areaToDelete, _listManager) == true) {
+                MessageBox.Show("Cannot delete Area.\n\nThere is equipment assigned to this area. Equipment must be re-assigned to another area.",
+                    "Invalid Operation", MessageBoxButton.OK, MessageBoxImage.Stop);
+                return;
+            }
             DaManager.prjDb.DeleteRecord(GlobalConfig.AreaTable, areaToDelete.Id);
             _listManager.AreaList.Remove(areaToDelete);
             RefreshAreaTagValidation();
