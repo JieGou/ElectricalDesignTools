@@ -13,13 +13,17 @@ namespace WpfUI.ViewModels
     public class HomeViewModel :ViewModelBase
     {
         #region Properties and Backing Fields
-        public string? FileName { get; set; }
-        public string? FilePath { get; set; }
-
+        
 
         private string _selectedProject;
 
         private StartupService _startupService;
+        public StartupService StartupService
+        {
+            get { return _startupService; }
+            set { _startupService = value; }
+        }
+
         private readonly ListManager _listManager;
 
         #endregion
@@ -31,7 +35,7 @@ namespace WpfUI.ViewModels
         {
             _startupService = startupService;
             _listManager = listManager;
-            SetSelectedProject(AppSettings.Default.ProjectDb);
+            _startupService.SetSelectedProject(AppSettings.Default.ProjectDb);
             NewProjectCommand = new RelayCommand(NewProject);
             SelectProjectCommand = new RelayCommand(SelectProject);
         }
@@ -57,21 +61,9 @@ namespace WpfUI.ViewModels
         {
             string? rootPath = Path.GetDirectoryName(AppSettings.Default.ProjectDb);
             _startupService.SelectProject(rootPath);
-            SetSelectedProject(AppSettings.Default.ProjectDb);            
+            StartupService.SetSelectedProject(AppSettings.Default.ProjectDb);            
         }
 
-        public void SetSelectedProject(string selectedProject)
-        {
-            FileName = string.Empty;
-            FilePath = string.Empty;
-
-            if (File.Exists(selectedProject)) {
-                //ProjectName = Path.GetFileNameWithoutExtension(_selectedProject);
-                AppSettings.Default.ProjectDb = selectedProject;
-                AppSettings.Default.Save();
-                FileName = Path.GetFileName(selectedProject);
-                FilePath = Path.GetDirectoryName(selectedProject);
-            }
-        }
+        
     }
 }

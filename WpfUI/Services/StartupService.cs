@@ -2,6 +2,7 @@
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.ProjectSettings;
+using PropertyChanged;
 using System;
 using System.IO;
 using System.Windows;
@@ -10,8 +11,11 @@ using WpfUI.Helpers;
 
 namespace WpfUI.Services
 {
+    [AddINotifyPropertyChangedInterface]
     public class StartupService
     {
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
         public StartupService(ListManager listManager)
         {
             _listManager = listManager;
@@ -38,6 +42,20 @@ namespace WpfUI.Services
             }
         }
 
+        public void SetSelectedProject(string selectedProject)
+        {
+            FileName = string.Empty;
+            FilePath = string.Empty;
+
+            if (File.Exists(selectedProject)) {
+                //ProjectName = Path.GetFileNameWithoutExtension(_selectedProject);
+                AppSettings.Default.ProjectDb = selectedProject;
+                AppSettings.Default.Save();
+                FileName = Path.GetFileName(selectedProject);
+                FilePath = Path.GetDirectoryName(selectedProject);
+            }
+        }
+
         public void InitializeProject(string projectFile)
         {
 
@@ -52,7 +70,7 @@ namespace WpfUI.Services
             }
             catch (Exception ex) {
 
-                ErrorHelper.EdtErrorMessage(ex);
+                ErrorHelper.ShowErrorMessage(ex);
             }
         }
 

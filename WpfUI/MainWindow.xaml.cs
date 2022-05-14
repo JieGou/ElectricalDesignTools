@@ -1,41 +1,50 @@
 ﻿using EDTLibrary;
-using EDTLibrary.Models;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using EDTLibrary;
-using EDTLibrary.DataAccess;
+using WpfUI.Helpers;
+using WpfUI.Services;
 using WpfUI.ViewModels;
-using WpfUI.Views;
 
-namespace WpfUI {
+namespace WpfUI
+{
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     ///
-    
 
-    public partial class MainWindow : Window {
+    public partial class MainWindow : Window
+    {
 
         private MainViewModel mainVm { get { return DataContext as MainViewModel; } }
-        public MainWindow() {
-                InitializeComponent();
+        public MainWindow()
+        {
+            InitializeComponent();
+            string[] args = Environment.GetCommandLineArgs();
+
+            if (args[0] != "") {
+                //MessageBox.Show(args[0]);
+            }
+
+            //mainVm.StartupService.SelectProject("C:\\Users\\pdeau\\Desktop\\test.edp");
+            //StartupService ssTest = new StartupService(new ListManager());
+            //ssTest.SetSelectedProject("C:\\Users\\pdeau\\Desktop\\test.edp");
+
+            if (args.Length >= 2) {
+                //MessageBox.Show(args[1]);
+
+                try {
+                    if ((args[1]).Contains(".edp") && File.Exists(args[1])) {
+                        string fullFilePath = args[1];
+                        StartupService ss = new StartupService(new ListManager());
+                        ss.SetSelectedProject(fullFilePath);
+                    }
+                }
+                catch (Exception ex) {
+                    ErrorHelper.ShowErrorMessage(ex);
+                }
+            }
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)

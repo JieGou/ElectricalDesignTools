@@ -42,9 +42,17 @@ namespace WpfUI.ViewModels
         }
 
 
+
         private StartupService _startupService;
 
-        private readonly HomeViewModel _startupViewModel;
+        public StartupService StartupService
+        {
+            get { return _startupService; }
+            set { _startupService = value; }
+        }
+
+
+        private readonly HomeViewModel _homeViewModel;
         private readonly SettingsViewModel _settingsViewModel;
         private readonly AreasViewModel _areasViewModel;
         private readonly ElectricalViewModel _electricalViewModel;
@@ -63,7 +71,7 @@ namespace WpfUI.ViewModels
             _startupService = startupService;
             _edtSettings = edtSettings;
 
-            _startupViewModel = new HomeViewModel(startupService, listManager);
+            _homeViewModel = new HomeViewModel(startupService, listManager);
             _settingsViewModel = new SettingsViewModel(edtSettings, typeManager);
             _areasViewModel = new AreasViewModel(listManager);
             _electricalViewModel = new ElectricalViewModel(listManager, typeManager);
@@ -86,13 +94,10 @@ namespace WpfUI.ViewModels
             _areasViewModel.CreateComboBoxLists();
             _electricalViewModel.CreateComboBoxLists();
 
-
-#if DEBUG
-            if (type == "dev") {
+            //TODO - Application Setting for auto load previous project
+            if (type == "NewInstance") {
                 _startupService.InitializeProject(AppSettings.Default.ProjectDb);
             }
-#endif
-
         }
 
         private void ExcelTest()
@@ -114,7 +119,7 @@ namespace WpfUI.ViewModels
 
         private void NavigateStartup()
         {
-            CurrentViewModel = _startupViewModel;
+            CurrentViewModel = _homeViewModel;
         }
         private void NavigateSettings()
         {
@@ -161,7 +166,7 @@ namespace WpfUI.ViewModels
 
             Window scenario = new MainWindow() {
                 //DataContext = new MainViewModel(startupService, listManager)
-                DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings)
+                DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings, "ExtraWindow")
                 
             };
             

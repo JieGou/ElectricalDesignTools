@@ -6,9 +6,9 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
 	  <UseWindowsForms>true</UseWindowsForms>
-    <ApplicationIcon>ContentFiles\Cjdowner-Cryptocurrency-Power-Ledger.ico</ApplicationIcon>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyName>Electrical Design Tools</AssemblyName>
+    <ApplicationIcon>ContentFiles\Cjdowner-Cryptocurrency-Power-Ledger.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -49,11 +49,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AppSettings.settings</DependentUpon>
     </Compile>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Update="Views\SettingsSubViews\DeveloperSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -79,10 +74,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>AppSettings.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

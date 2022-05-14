@@ -124,7 +124,7 @@ public class NewProjectViewModel
                 File.Copy(GlobalConfig.DevDb, fullFileName, true);
 
                 _startupService.InitializeLibrary();
-                _homeViewModel.SetSelectedProject(fullFileName);
+                _homeViewModel.StartupService.SetSelectedProject(fullFileName);
                 _startupService.InitializeProject(fullFileName);
                 var edtSettings = new SettingsViewModel(new EDTLibrary.ProjectSettings.EdtSettings(), _typeManager);
                 edtSettings.ProjectName = ProjectName;
@@ -137,7 +137,7 @@ public class NewProjectViewModel
         }
         catch (Exception ex) {
 
-            ErrorHelper.EdtErrorMessage(ex);
+            ErrorHelper.ShowErrorMessage(ex);
         }
 
     }

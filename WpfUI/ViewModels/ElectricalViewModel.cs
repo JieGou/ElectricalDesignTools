@@ -278,7 +278,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             await CopySelectedDteqAsync();
         }
         catch (Exception ex) {
-            ErrorHelper.EdtErrorMessage(ex);
+            ErrorHelper.ShowErrorMessage(ex);
         }
         async Task CopySelectedDteqAsync()
         {
@@ -306,7 +306,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                 LoadToAddValidator.Voltage = _selectedDteq.Voltage.ToString();
             }
             catch (Exception ex) {
-                ErrorHelper.EdtErrorMessage(ex);
+                ErrorHelper.ShowErrorMessage(ex);
             }
         }
     }
@@ -346,7 +346,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             await CopySelectedLoadAsync();
         }
         catch (Exception ex) {
-            ErrorHelper.EdtErrorMessage(ex);
+            ErrorHelper.ShowErrorMessage(ex);
         }
 
         async Task CopySelectedLoadAsync()
@@ -462,7 +462,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         }
 
         catch (Exception ex) {
-            ErrorHelper.EdtErrorMessage(ex);
+            ErrorHelper.ShowErrorMessage(ex);
         }
     }
     private void SizeAllCables()
@@ -480,7 +480,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             }
         }
         catch (Exception ex) { 
-            ErrorHelper.EdtErrorMessage(ex);
+            ErrorHelper.ShowErrorMessage(ex);
         }
     }
     private void CalculateAllCableAmps()
@@ -565,7 +565,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             }
         }
         catch (Exception ex) {
-            ErrorHelper.EdtErrorMessage(ex);
+            ErrorHelper.ShowErrorMessage(ex);
         }
     }
 
@@ -647,7 +647,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             //SelectedLoad = newLoad;
         }
         catch (Exception ex) {
-            ErrorHelper.EdtErrorMessage(ex);
+            ErrorHelper.ShowErrorMessage(ex);
         }
     }
 
@@ -673,10 +673,10 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         catch (Exception ex) {
 
             if (ex.Message.ToLower().Contains("sql")) {
-                ErrorHelper.EdtErrorMessage(ex);
+                ErrorHelper.ShowErrorMessage(ex);
             }
             else {
-                ErrorHelper.EdtErrorMessage(ex);
+                ErrorHelper.ShowErrorMessage(ex);
             }
             throw;
         }
@@ -706,7 +706,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                 }
             }
             catch (Exception ex) {
-                ErrorHelper.EdtErrorMessage(ex);
+                ErrorHelper.ShowErrorMessage(ex);
             }
 
         }
@@ -727,7 +727,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             //await _listManager.CalculateDteqLoadingAsync();
         }
         catch (Exception ex) {
-            ErrorHelper.EdtErrorMessage(ex);
+            ErrorHelper.ShowErrorMessage(ex);
         }
     }
     #endregion

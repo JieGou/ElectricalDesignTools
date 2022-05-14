@@ -106,7 +106,7 @@
                            FontSize="18"
                            />
 
-                <TextBlock Text="{Binding Path=FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <TextBlock Text="{Binding Path=StartupService.FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                            Grid.Row="0" Grid.Column="3"
                            d:Text="File Name"
                            VerticalAlignment="Center"
@@ -123,7 +123,7 @@
                            HorizontalAlignment="Right"
                            FontSize="18" 
                            />
-                <TextBlock Text="{Binding Path=FilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <TextBlock Text="{Binding Path=StartupService.FilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                            TextWrapping="Wrap"
                            MaxWidth="800"
                            Grid.Row="2" Grid.Column="3"

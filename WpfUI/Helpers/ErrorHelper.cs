@@ -9,7 +9,7 @@ namespace WpfUI.Helpers
 {
     public class ErrorHelper
     {
-        public static void EdtErrorMessage(Exception ex)
+        public static void ShowErrorMessage(Exception ex)
         {
 #if DEBUG
             if (ex.Data.Contains("UserMessage")) {

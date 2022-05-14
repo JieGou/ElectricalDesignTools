@@ -146,7 +146,7 @@ namespace WpfUI.ViewModels
                     }
                 }
                 catch (Exception ex) {
-                        ErrorHelper.EdtErrorMessage(ex);
+                        ErrorHelper.ShowErrorMessage(ex);
                     }
             }
         }
@@ -196,7 +196,7 @@ namespace WpfUI.ViewModels
                 }
             }
             catch(Exception ex) {
-                ErrorHelper.EdtErrorMessage(ex);
+                ErrorHelper.ShowErrorMessage(ex);
             }
         }
 

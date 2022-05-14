@@ -2,19 +2,12 @@
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.ProjectSettings;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using WpfUI.Services;
-using WpfUI.Stores;
 using WpfUI.ViewModels;
-using WpfUI.Views;
 
-namespace WpfUI {
+namespace WpfUI
+{
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -33,7 +26,7 @@ namespace WpfUI {
             EdtSettings edtSettings = new EdtSettings();
 
             MainWindow = new MainWindow() { 
-                DataContext = new MainViewModel(startupService, listManager, typeManager, edtSettings, "dev") 
+                DataContext = new MainViewModel(startupService, listManager, typeManager, edtSettings, "NewInstance") 
                 //DataContext = new MainViewModel(_navigationStore) 
             };
 

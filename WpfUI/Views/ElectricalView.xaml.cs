@@ -217,7 +217,7 @@ public partial class ElectricalView : UserControl
             //var results = await Task.WhenAll(tasks);
         }
         catch (Exception ex) {
-            ErrorHelper.EdtErrorMessage(ex);
+            ErrorHelper.ShowErrorMessage(ex);
 
         }
 
@@ -256,8 +256,8 @@ public partial class ElectricalView : UserControl
         //dgdDteq.Height = 10;
         //int count = 0;
 
-        //var maxDteqHeight = dteqButtonsStackPanel.ActualHeight - 10;
-        //dgdDteq.Height = maxDteqHeight + 40;
+        var maxDteqHeight = dteqButtonsStackPanel.ActualHeight - 10;
+        dgdDteq.Height = maxDteqHeight + 40;
 
         //var MaxLoadHeight = loadButtonsStackPanel.ActualHeight + 50;
         //dgdAssignedLoads.Height = MaxLoadHeight + 15;
@@ -276,9 +276,9 @@ public partial class ElectricalView : UserControl
 
     private void LoadGridContextMenu_SetFedFrom(object sender, MouseButtonEventArgs e)
     {
-        ILoad load;
+        IPowerConsumer load;
         foreach (var item in dgdAssignedLoads.SelectedItems) {
-            load = (LoadModel)item;
+            load = (IPowerConsumer)item;
             //dteq.Tag = "New Tag";
             load.FedFrom = elecVm.ListManager.IDteqList.FirstOrDefault(d => d.Tag == elecVm.LoadToAddValidator.FedFromTag);
         }
@@ -302,7 +302,7 @@ public partial class ElectricalView : UserControl
         }
         catch (Exception ex) {
             ex.Data.Add("UserMessage", "Cannot delete Distribution Equipment from Load List");
-            ErrorHelper.EdtErrorMessage(ex);
+            ErrorHelper.ShowErrorMessage(ex);
         }
     }
 
