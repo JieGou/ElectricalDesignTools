@@ -55,12 +55,72 @@
                            Margin="0 0 50 0"/>
                
                 <!--//MENU BUTTONS-->
-                    <Button Content="GENERAL"
+                    <Button Content="GENERAL" x:Name="btnGeneral"
                             Style="{StaticResource ToolBarButtonBase}"
-                            ToolTip="Project details and general setup" PreviewMouseDown="btnGeneralSettings_PreviewMouseDown"/>
-                    
-                    <Button Content="EQUIPMENT"
-                            Style="{StaticResource ToolBarButtonBase}"/>
+                            ToolTip="Project details and general setup" PreviewMouseDown="btnGeneralSettings_PreviewMouseDown">
+                        <!--<Button.RenderTransform>
+                            <TranslateTransform x:Name="TranslateTransformGeneral"
+                                        X="0" />
+                        </Button.RenderTransform>
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="StackPanel.Loaded">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="TranslateTransformGeneral"
+                                                 Storyboard.TargetProperty="(TranslateTransform.X)"
+                                                 From="-50"
+                                                 To="0"
+                                                 BeginTime="0:0:0"
+                                                 AutoReverse="False"
+                                                 Duration="0:0:0.3" />
+                                            <DoubleAnimation Storyboard.TargetName="btnGeneral"
+                                                 Storyboard.TargetProperty="Opacity"
+                                                 From="0"
+                                                 To="1"
+                                                 BeginTime="0:0:0"
+                                                 AutoReverse="False"
+                                                 Duration="0:0:0.3" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Button.Triggers>-->
+                    </Button>
+
+                    <Button Content="EQUIPMENT" x:Name="btnEquipment"
+                            Style="{StaticResource ToolBarButtonBase}"
+                            Opacity="0"
+                            d:Opacity="1">
+                        <!--<Button.RenderTransform>
+                            <TranslateTransform x:Name="TranslateTransformEquipment"
+                                        X="0" />
+                        </Button.RenderTransform>
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="StackPanel.Loaded">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="TranslateTransformEquipment"
+                                                 Storyboard.TargetProperty="(TranslateTransform.X)"
+                                                 From="-50"
+                                                 To="0"
+                                                 BeginTime="0:0:0"
+                                                 AutoReverse="False"
+                                                 Duration="0:0:0.3" />
+                                            <DoubleAnimation Storyboard.TargetName="btnEquipment"
+                                                 Storyboard.TargetProperty="Opacity"
+                                                 From="0"
+                                                 To="1"
+                                                 BeginTime="0:0:0"
+                                                 AutoReverse="False"
+                                                 Duration="0:0:0.3" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Button.Triggers>-->
+                    </Button>
                     
                     <Button Content="CABLE"
                             Style="{StaticResource ToolBarButtonBase}" PreviewMouseDown="Button_PreviewMouseDown"

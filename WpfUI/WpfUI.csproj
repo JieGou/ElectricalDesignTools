@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+	  <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>ContentFiles\Cjdowner-Cryptocurrency-Power-Ledger.ico</ApplicationIcon>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyName>Electrical Design Tools</AssemblyName>
@@ -125,7 +126,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Windows\" />
     <Folder Include="ViewComponents\" />
     <Folder Include="Views\Electrical\" />
   </ItemGroup>

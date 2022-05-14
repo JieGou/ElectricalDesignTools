@@ -1,0 +1,140 @@
+﻿<Window x:Class="WpfUI.Windows.NewProjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfUI.Windows"
+        mc:Ignorable="d"
+        
+        
+        Title="Create New Project" 
+        Height="450" Width="650"
+        WindowStartupLocation="CenterScreen" 
+        Topmost="True" >
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/SettingsStyle_Base.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="../Resources/pd.png"
+                        Opacity=".05"/>
+        </Grid.Background>
+
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center"
+                    Grid.Row="1">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Create New Project" 
+                           Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
+                           HorizontalAlignment="Center"
+                           FontSize="18"/>
+
+
+                <TextBlock Text="Project Name" 
+                           Grid.Row="2" Grid.Column="1" />
+                <TextBox d:Text="New Project 1 - Template 1" x:Name="txtProjectName"
+                         Grid.Row="2" Grid.Column="3"
+                         Text="{Binding Path=ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         MinWidth="300" MaxWidth="350"
+                         HorizontalAlignment="Left"
+                         HorizontalContentAlignment="Left"/>
+
+                <TextBlock Text="Project No." 
+                       Grid.Row="3" Grid.Column="1" />
+                <TextBox d:Text="655498761"
+                         Grid.Row="3" Grid.Column="3"
+                         Text="{Binding Path=ProjectNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         HorizontalAlignment="Left"/>
+
+
+                <TextBlock Text="Electrical Code"  
+                           Grid.Row="4" Grid.Column="1"/>
+                <ComboBox d:Text="CEC"  Grid.Row="4" Grid.Column="3"
+                          ItemsSource="{Binding TypeManager.ElectricalCodes}"
+                          SelectedValue="{Binding Path=Code, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                          HorizontalAlignment="Left"/>
+
+
+
+
+                <TextBlock Text="File Name"  
+                           Grid.Row="7" Grid.Column="1" Margin="5,5,5,5"/>
+
+                <TextBox x:Name="txtFileName" 
+                         Grid.Row="7" Grid.Column="3"
+                         Text="{Binding FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         MinWidth="{Binding ElementName=txtProjectName, Path=ActualWidth}"
+                         HorizontalAlignment="Left"
+                         HorizontalContentAlignment="Left" Height="23" Margin="5,0,0,0" VerticalAlignment="Center" Width="300"/>
+
+                <!--MinWidth="{Binding ElementName=txtProjectName, Path=ActualWidth}"-->
+
+                <CheckBox Content="Same as Project Name"
+                          IsChecked="{Binding SameName}"
+                          Grid.Row="8" Grid.Column="3"
+                          Margin="5,3,5,3"/>
+
+                <TextBlock Text="Save Location"  
+                   Grid.Row="10" Grid.Column="1" Margin="5,5,5,5"/>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                        Grid.Row="1" Grid.Column="1"
+                        Grid.ColumnSpan="3">
+
+                <TextBox Grid.Row="6" Grid.Column="2"
+                         MinWidth="450" MaxWidth="550"
+                         Text="{Binding FolderName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="17 5 5 5"/>
+
+                <Button Content=". . ."
+                        Command="{Binding SelectFolderCommand}"
+                    Height="25"
+                    Width="35"
+                    ToolTip="Select Folder"
+                    ToolTipService.InitialShowDelay="50"/>
+
+            </StackPanel>
+
+        </StackPanel>
+
+        <Button Content="Create Project"
+                Grid.Row="3"
+                Margin="5 50"
+                Command="{Binding CreateProjectCommand}"/>
+
+    </Grid>
+
+</Window>

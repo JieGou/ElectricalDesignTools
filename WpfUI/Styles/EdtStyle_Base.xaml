@@ -140,6 +140,11 @@
         </Style.Triggers>
     </Style>
 
+    <!--default button-->
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        
+    </Style>
+        
     <!--Red Button Style-->
     <Style x:Key="RedButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Background" Value="#FFF7C1C1"/>

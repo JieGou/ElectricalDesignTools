@@ -1,8 +1,12 @@
-﻿using System.IO;
+﻿using EDTLibrary;
+using System;
+using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Services;
 using WpfUI.Stores;
+using WpfUI.Windows;
 
 namespace WpfUI.ViewModels
 {
@@ -12,34 +16,55 @@ namespace WpfUI.ViewModels
         public string? ProjectName { get; set; }
         public string? ProjectPath { get; set; }
 
+
         private string _selectedProject;
 
         private StartupService _startupService;
+        private readonly ListManager _listManager;
 
         #endregion
-
-        public HomeViewModel(StartupService startupService)
+        public ICommand NewProjectCommand { get; }
+        public ICommand SelectProjectCommand { get; }
+        public HomeViewModel(StartupService startupService, ListManager listManager)
         {
             _startupService = startupService;
-            SetSelectedProject();
+            _listManager = listManager;
+            SetSelectedProject(AppSettings.Default.ProjectDb);
+            NewProjectCommand = new RelayCommand(NewProject);
             SelectProjectCommand = new RelayCommand(SelectProject);
         }
 
-        public ICommand SelectProjectCommand { get; }
+        private void NewProject()
+        {
+            Window newProjectWindow = new NewProjectWindow();
+
+            NewProjectViewModel newProjectVm = new NewProjectViewModel(
+                new EDTLibrary.LibraryData.TypeTables.TypeManager(),
+                new StartupService(_listManager),
+                this);
+
+            newProjectWindow.DataContext = newProjectVm;
+            newProjectWindow.Show();
+
+        }
+
+
 
         public void SelectProject()
         {
             string? rootPath = Path.GetDirectoryName(AppSettings.Default.ProjectDb);
             _startupService.SelectProject(rootPath);
-            SetSelectedProject();            
+            SetSelectedProject(AppSettings.Default.ProjectDb);            
         }
 
-        public void SetSelectedProject()
+        public void SetSelectedProject(string selectedProject)
         {
-            _selectedProject = AppSettings.Default.ProjectDb; 
             //ProjectName = Path.GetFileNameWithoutExtension(_selectedProject);
-            ProjectName = Path.GetFileName(_selectedProject);
-            ProjectPath = Path.GetDirectoryName(_selectedProject);
+            AppSettings.Default.ProjectDb = selectedProject;
+            AppSettings.Default.Save();
+            ProjectName = Path.GetFileName(selectedProject);
+            ProjectPath = Path.GetDirectoryName(selectedProject);
+
 
         }
     }

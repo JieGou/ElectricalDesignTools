@@ -1,4 +1,5 @@
 ﻿using EDTLibrary;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.ProjectSettings;
 using System;
@@ -25,7 +26,7 @@ namespace WpfUI {
         }
 
         protected override void OnStartup(StartupEventArgs e) {
-
+            DaManager daManager = new DaManager();
             ListManager listManager = new ListManager();
             StartupService startupService = new StartupService(listManager);
             TypeManager typeManager = new TypeManager();

@@ -132,5 +132,18 @@ namespace WpfUI {
                 this["DteqGridHeight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB" +
+            " Files\\EDTProjectTemplate1.1.edp")]
+        public string NewProjectFileTemplate {
+            get {
+                return ((string)(this["NewProjectFileTemplate"]));
+            }
+            set {
+                this["NewProjectFileTemplate"] = value;
+            }
+        }
     }
 }

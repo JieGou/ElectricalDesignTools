@@ -7,20 +7,22 @@
              xmlns:homeUc="clr-namespace:WpfUI.UserControls.HomeControls"
              
              mc:Ignorable="d" 
-             d:DesignHeight="950" d:DesignWidth="1600"
+             d:DesignHeight="650" d:DesignWidth="1000"
              Background="white">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Styles/SettingsStyle_Base.xaml"/>
+                <!--<ResourceDictionary Source="../Styles/EdtStyle_Base.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
         
     <Grid Canvas.Top="{Binding ElementName=Canvas}">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="auto" x:Name="col2" />
+            <ColumnDefinition Width="1*" x:Name="col2" />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -30,7 +32,8 @@
         <!--<viewComponents:NavigationBar Grid.Row="0" DataContext="{Binding NavigationBarViewModel}"/>-->
 
         <StackPanel VerticalAlignment="Center" 
-                    HorizontalAlignment="Center" >
+                    HorizontalAlignment="Center" 
+                    Grid.Column="1">
 
             <!--<Canvas>-->
 
@@ -81,31 +84,32 @@
             </Image>
 
 
-            <TextBlock Text="Selected Project:"
+            <TextBlock Text="Current Project:"
                        HorizontalAlignment="center"
                        FontSize="18"
                        Margin=" 0 25 350 0"/>
 
             <TextBlock Text="{Binding Path=ProjectName, Mode=Default, UpdateSourceTrigger=PropertyChanged}"
-                           HorizontalAlignment="Center"
-                           TextAlignment="Center"
-                           FontSize="12"
-                           MinWidth="500"
-                           Margin=" 0 15 0 0"/>
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       MinWidth="500"
+                       Margin=" 0 15 0 0"/>
             <TextBlock Text="{Binding Path=ProjectPath, Mode=Default, UpdateSourceTrigger=PropertyChanged}"
-                           TextAlignment="Center"
-                           HorizontalAlignment="Center"
-                           FontSize="12"
-                           MinWidth="500"
-                           Margin=" 0 15 0 25"/>
+                        TextAlignment="Center"
+                        HorizontalAlignment="Center"
+                        FontSize="14"
+                        MinWidth="500"
+                        Margin=" 0 15 0 25"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
-                            Margin="10">
+                        Margin="10">
 
                 <Button Content="New"
-                        Command="{Binding NewProjectCommand}"/>
+                        Command="{Binding NewProjectCommand}" PreviewMouseDown="Button_PreviewMouseDown"/>
                 
-                <Button Content="Browse" HorizontalAlignment="Center"
+                <Button Content="Open" HorizontalAlignment="Center"
                         Command="{Binding SelectProjectCommand}"/>
 
                 
@@ -113,7 +117,7 @@
             <!--</Canvas>-->
         </StackPanel>
 
-        <!--<StackPanel x:Name="newProjectSp" Grid.Row="0" Grid.Column="1">
+        <StackPanel x:Name="newProjectSp" Grid.Column="2">
             <StackPanel.Triggers>
                 <EventTrigger RoutedEvent="StackPanel.Loaded">
                     <BeginStoryboard>
@@ -127,9 +131,10 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </StackPanel.Triggers>
-            <homeUc:NewProjectControl x:Name="newProjectUc" Grid.Row="0" Grid.Column="1"/>
         </StackPanel>
-        <homeUc:NewProjectControl x:Name="newProjectUc2" Grid.Row="0" Grid.Column="1"/>-->
+
+        <!--<homeUc:NewProjectControl x:Name="newProjectUc" Grid.Row="0" Grid.Column="2"/>-->
+
 
     </Grid>
 

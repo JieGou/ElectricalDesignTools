@@ -249,7 +249,6 @@ public partial class ElectricalView : UserControl
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.PowerCableTable);
 
         elecVm.DbGetAll();
-       
     }
 
     private void btnGrdSplitAdjust_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -261,7 +260,7 @@ public partial class ElectricalView : UserControl
         //dgdDteq.Height = maxDteqHeight + 40;
 
         //var MaxLoadHeight = loadButtonsStackPanel.ActualHeight + 50;
-        //dgdAssignedLoads.Height = MaxLoadHeight+15;
+        //dgdAssignedLoads.Height = MaxLoadHeight + 15;
 
         if (gridAdding.Visibility == Visibility.Collapsed) {
             gridAdding.Visibility = Visibility.Visible;
@@ -292,11 +291,18 @@ public partial class ElectricalView : UserControl
 
     private void DeleteLoads_VM()
     {
-        ILoad load;
-        while (dgdAssignedLoads.SelectedItems.Count > 0) {
-            load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
-            elecVm.DeleteLoad(load);
-            dgdAssignedLoads.SelectedItems.Remove(load);
+        try {
+
+            ILoad load;
+            while (dgdAssignedLoads.SelectedItems.Count > 0) {
+                load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
+                elecVm.DeleteLoad(load);
+                dgdAssignedLoads.SelectedItems.Remove(load);
+            }
+        }
+        catch (Exception ex) {
+            ex.Data.Add("UserMessage", "Cannot delete Distribution Equipment from Load List");
+            ErrorHelper.EdtErrorMessage(ex);
         }
     }
 

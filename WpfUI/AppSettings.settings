@@ -29,5 +29,8 @@
     <Setting Name="DteqGridHeight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">275</Value>
     </Setting>
+    <Setting Name="NewProjectFileTemplate" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\EDTProjectTemplate1.1.edp</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Win32;
+using System;
+using System.Reflection;
 
 namespace WpfUI.Helpers
 {
@@ -9,17 +11,20 @@ namespace WpfUI.Helpers
             var filePath = string.Empty;
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
-                openFileDialog.InitialDirectory = initialDirectory;
-                openFileDialog.Filter = filterText;
-                openFileDialog.FilterIndex = 1;
-                openFileDialog.RestoreDirectory = true;
-                
-                if (openFileDialog.ShowDialog() == true) {
-                    //Get the path of specified file
-                    filePath = openFileDialog.FileName;
-                }
-            
+            openFileDialog.InitialDirectory = initialDirectory;
+            openFileDialog.Filter = filterText;
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == true) {
+                //Get the path of specified file
+                filePath = openFileDialog.FileName;
+            }
+
             return filePath;
         }
+
     }
+
+
 }

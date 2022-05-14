@@ -109,10 +109,10 @@ public class LoadManager
         }
         catch (InvalidCastException ex) {
             ex.Data.Add("UserMessage", "Cannot delete Distribution Equipment from Load List");
-            throw ex;
+            throw;
             }
         catch (Exception ex) {
-            throw ex;
+            throw;
         }
         return -1;
         

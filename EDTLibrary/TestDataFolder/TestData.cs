@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.Areas;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;

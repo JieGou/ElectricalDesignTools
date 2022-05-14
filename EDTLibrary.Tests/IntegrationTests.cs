@@ -34,6 +34,7 @@ namespace EDTLibrary.Tests
             #region INITIALIZATIONS
 
             //ListManager
+            DaManager daManager = new DaManager();
             ListManager listManager = new ListManager();
             TypeManager typeManager = new TypeManager();
             EdtSettings edtSettings = new EdtSettings();

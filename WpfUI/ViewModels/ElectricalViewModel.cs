@@ -1,14 +1,13 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using PropertyChanged;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,8 +17,6 @@ using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModifiers;
-using PropertyChanged;
-using System.Windows.Controls;
 
 namespace WpfUI.ViewModels;
 
@@ -283,7 +280,6 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         catch (Exception ex) {
             ErrorHelper.EdtErrorMessage(ex);
         }
-
         async Task CopySelectedDteqAsync()
         {
             try {
@@ -301,12 +297,18 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                 DteqToAddValidator.LineVoltage = _selectedDteq.LineVoltage.ToString();
                 DteqToAddValidator.LoadVoltage = "";
                 DteqToAddValidator.LoadVoltage = _selectedDteq.LoadVoltage.ToString();
+
+                LoadToAddValidator.FedFromTag = "";
+                LoadToAddValidator.FedFromTag = _selectedDteq.Tag;
+                LoadToAddValidator.AreaTag = "";
+                LoadToAddValidator.AreaTag = _selectedDteq.Area.Tag;
+                LoadToAddValidator.Voltage = "";
+                LoadToAddValidator.Voltage = _selectedDteq.Voltage.ToString();
             }
             catch (Exception ex) {
                 ErrorHelper.EdtErrorMessage(ex);
             }
         }
-
     }
     public DteqToAddValidator DteqToAddValidator { get; set; }
 
@@ -676,6 +678,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             else {
                 ErrorHelper.EdtErrorMessage(ex);
             }
+            throw;
         }
     }
 

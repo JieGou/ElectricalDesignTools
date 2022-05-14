@@ -71,8 +71,7 @@ namespace WpfUI.Services
                 InitializeProject(selectedFile);
             }
         }
-
-
+       
         // LOAD
 
         public void LoadLibraryDb()
@@ -114,21 +113,5 @@ namespace WpfUI.Services
         {
             SettingsManager.LoadProjectSettings();
         }
-
-        public static void SaveProjectSettings()
-        {
-            Type edtSettingsClass = typeof(EdtSettings); // EdtSettings is a static class
-            string propValue;
-            try {
-                foreach (var prop in edtSettingsClass.GetProperties()) {
-                    propValue = prop.GetValue(null).ToString(); //null for static class
-                    prjDb.UpdateSetting(prop.Name, propValue);
-                }
-            }
-            catch (Exception ex) {
-                ErrorHelper.EdtErrorMessage(ex);
-            }
-        }
-                
     }
 }
