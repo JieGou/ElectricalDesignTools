@@ -9,9 +9,12 @@
              Background="#FFE6D3C1">
     
     <UserControl.Resources>
-        
-        
-        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/SettingsStyle_Base.xaml"/>
+                <ResourceDictionary Source="../Styles/EdtStyle_Base.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     
     

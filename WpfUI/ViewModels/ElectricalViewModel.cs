@@ -220,14 +220,14 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             }
     }
 
-    private ICollectionView _dteqCollectionView;
-    public ICollectionView DteqCollectionView
+    private ListCollectionView _dteqCollectionView;
+    public ListCollectionView DteqCollectionView
     {
         get
         {
             if (_dteqCollectionView == null) {
                 //View = CollectionViewSource.GetDefaultView(_listManager.CableList);
-                _dteqCollectionView = CollectionViewSource.GetDefaultView(_listManager.IDteqList);
+                _dteqCollectionView = new ListCollectionView(DteqList);
             }
             return _dteqCollectionView;
         }

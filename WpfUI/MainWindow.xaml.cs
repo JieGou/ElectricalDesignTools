@@ -6,6 +6,7 @@ using System.Windows.Input;
 using WpfUI.Helpers;
 using WpfUI.Services;
 using WpfUI.ViewModels;
+using Syncfusion.Windows.Tools.Controls;
 
 namespace WpfUI
 {

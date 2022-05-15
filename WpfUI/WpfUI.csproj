@@ -30,6 +30,11 @@
     <PackageReference Include="CefSharp.Wpf.NETCore" Version="99.2.120" />
     <PackageReference Include="CoreCompat.Portable.Licensing" Version="1.2.14" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
+    <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.1.0.55" />
+    <PackageReference Include="Syncfusion.Shared.WPF" Version="20.1.0.55" />
+    <PackageReference Include="Syncfusion.Themes.Office2016White.WPF" Version="20.1.0.55" />
+    <PackageReference Include="Syncfusion.Themes.Office2019Colorful.WPF" Version="20.1.0.55" />
+    <PackageReference Include="Syncfusion.Tools.WPF" Version="20.1.0.55" />
   </ItemGroup>
 
   <ItemGroup>
@@ -86,10 +91,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewComponents\" />
   </ItemGroup>
 
 

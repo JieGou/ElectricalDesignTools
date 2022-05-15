@@ -313,6 +313,7 @@ public partial class ElectricalView : UserControl
         dataGridCell.FastEdit(args);
     }
 
+    //CollectionView in XAML
     private void cvsIdteq_Filter(object sender, FilterEventArgs e)
     {
         Task t = e.Item as Task;
@@ -322,9 +323,9 @@ public partial class ElectricalView : UserControl
         // If filter is turned on, filter completed items.
         {
             if (dteq.Tag == null
-                       || dteq.Description==null
-                       || dteq.Area==null
-                       || dteq.FedFrom==null
+                       || dteq.Description == null
+                       || dteq.Area == null
+                       || dteq.FedFrom == null
                        ) {
                 e.Accepted = true;
             }
@@ -342,16 +343,56 @@ public partial class ElectricalView : UserControl
         }
     }
 
+    //CollectionView in ViewModel
+    private void DteqGridFilter()
+    {
+        try {
 
+            elecVm.DteqCollectionView.Filter = (d) => {
+                IDteq dteq = (IDteq)d;
+                if (dteq != null)
+                // If filter is turned on, filter completed items.
+                {
+                    if (dteq.Tag == null
+                               || dteq.Description == null
+                               || dteq.Area == null
+                               || dteq.FedFrom == null
+                               ) {
+                        return true;
+                    }
+                    else if (dteq.Tag.ToLower().Contains(txtDteqTagFilter.Text.ToLower())
+                            && dteq.Description.ToLower().Contains(txtDteqDescriptionFilter.Text.ToLower())
+                            && dteq.Area.Tag.ToLower().Contains(txtDteqAreaFilter.Text.ToLower())
+                            && dteq.FedFrom.Tag.ToLower().Contains(txtDteqFedFromFilter.Text.ToLower())
+                            ) {
+                        return true;
 
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                return false;
+            };
+        }
+        catch (Exception ex) {
+
+        }
+
+    }
+
+    //Textbox change events
     private void DteqGridFilter(object sender, KeyEventArgs e)
     {
         TextBox textBox = (TextBox)sender;
 
+
         if (e.Key == Key.Enter /*|| e.Key == Key.Tab*/) {
             //elecVm.DteqFilter = true;
             //ApplyFilter();
-            CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource).Refresh();
+            //CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource).Refresh(); //XAML cvs
+            DteqGridFilter();
+
         }
 
         if (e.Key == Key.Escape) {
@@ -366,7 +407,9 @@ public partial class ElectricalView : UserControl
                 //elecVm.DteqFilter = false;
             }
             //ApplyFilter();
-            CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource).Refresh();
+            //CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource).Refresh();  //XMAL cvs
+            DteqGridFilter();
+
         }
 
         void ApplyFilter()
@@ -383,6 +426,8 @@ public partial class ElectricalView : UserControl
             }
         }
     }
+
+
 
     private void LoadGridFilter(object sender, KeyEventArgs e)
     {

@@ -103,6 +103,7 @@
         <Style.Triggers>
             <Trigger Property="Validation.HasError" Value="true">
                 <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+                <Setter Property="ToolTipService.InitialShowDelay" Value="25"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -189,7 +190,75 @@
         </Style.Triggers>-->
     </Style>
 
-   
+
+    <Style x:Key="MainMenuButton" TargetType="ToggleButton" >
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="MinHeight" Value="25"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="Transparent">
+                        <!-- define your not selected template here...-->
+                        <TextBlock Text="{Binding Path=Content,
+                                                    RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged}"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Margin="5 0"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="AliceBlue"
+                                    BorderBrush="Black"
+                                    BorderThickness="1 0 1 0">
+                                <!--<Border Background="{StaticResource ComboBox.MouseOver.Background}">-->
+                                    <TextBlock Text="{Binding Path=Content,
+                                                    RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged}"
+                                       TextAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="5 0"/>
+                            </Border>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        <Trigger Property="IsMouseOver" Value="True">
+
+                <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="AliceBlue"
+                                    BorderBrush="Black"
+                                    BorderThickness="1 0 1 0">
+                                <!--<Border Background="{StaticResource ComboBox.MouseOver.Background}">-->
+                                    <TextBlock Text="{Binding Path=Content,
+                                                    RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged}"
+                                       TextAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="5 0"/>
+                        </Border>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Trigger>
+        </Style.Triggers>
+    </Style>
 
     <!--BUTTON Main Menu Animation-->
     <Style x:Key="MainMenu_Buttons" TargetType="{x:Type Button}">

@@ -5,19 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUI"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+        
         xmlns:viewmodels="clr-namespace:WpfUI.ViewModels"
         xmlns:views="clr-namespace:WpfUI.Views"
         mc:Ignorable="d"
         Title="Electrical Design Tools"
         d:Width="1600" d:Height="950"
         Background="white"
-        WindowState="Maximized" PreviewKeyDown="Window_PreviewKeyDown"
-        
+        WindowState="Maximized" 
+                         
+        xmlns:syncfusionskin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+        syncfusionskin:SfSkinManager.VisualStyle="Office2016White" 
         >
+    <!--PreviewKeyDown="Window_PreviewKeyDown"  > -->
+        
 
-    <!--<Window.DataContext>
-        <viewmodels:MainViewModel/>
-    </Window.DataContext>-->
 
     <Window.Resources>
         <ResourceDictionary>
@@ -25,18 +29,18 @@
                 <ResourceDictionary Source="Styles/SettingsStyle_Base.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         <SolidColorBrush x:Key="MenuBackGround">#FF3A3838</SolidColorBrush>
-        
-        <Style TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
-            <Setter Property="Background" Value="DarkGray"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="FontFamily" Value="Calibri"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
 
-        <sys:Int32 x:Key="button1">1</sys:Int32>
+            <Style TargetType="Button" >
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="MinHeight" Value="25"/>
+                <Setter Property="Margin" Value="5 0"/>
+            </Style>
 
+            <sys:Int32 x:Key="button1">1</sys:Int32>
         <sys:Int32 x:Key="menuRow">0</sys:Int32>
         <sys:Int32 x:Key="contentRow">2</sys:Int32>
         </ResourceDictionary>
@@ -46,12 +50,20 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <!--<syncfusion:Ribbon x:Name="_ribbon" VerticalAlignment="Top">
+            <syncfusion:RibbonTab Caption="HOME"  IsChecked="True"/>
+            <syncfusion:RibbonTab Caption="PROJECT SETTINGS"  IsChecked="False"/>
+            <syncfusion:RibbonTab Caption="ELECTRICAL"  IsChecked="False"/>
+            <syncfusion:RibbonTab Caption="INSTRUMENTATION"  IsChecked="False"/>
+        </syncfusion:Ribbon>-->
+
 
         <!--<Menu Grid.Row="0" Grid.Column="0"
               Grid.ColumnSpan="2">
@@ -65,66 +77,91 @@
         </Menu>-->
 
         <Grid Grid.Row="1">
-            <StackPanel Orientation="Horizontal" 
+            <!--<StackPanel Orientation="Horizontal" 
                         Grid.Row="{StaticResource menuRow}" 
                         Background="white"
-                        Margin=" 0 5 0 5" >
+                        Margin=" 0 0 0 0" >
 
-                <TextBlock Text="MENU"
-                          Grid.Column="1"  
-                          FontSize="24" FontWeight="Bold"
-                          Foreground="black"
-                          Margin="20,2,10,5"/>
+                -->
 
-                <!--<WrapPanel Orientation="Horizontal" 
+            <WrapPanel Orientation="Horizontal" 
                             Grid.Row="{StaticResource menuRow}" 
                             Background="white"
-                            Margin=" 0 5 0 5">-->
+                            Margin=" 0 0 0 0">
 
-                <Button x:Name="btnStartup" Content="HOME"
-                        VerticalAlignment="Top"  
-                        Command="{Binding NavigateStartupCommand}"/>
+                <TextBlock Text="MENU"
+                           Width="150"
+                           Grid.Column="1"  
+                           FontSize="20" FontWeight="Bold"
+                           Foreground="black"
+                           VerticalAlignment="Top"
+                           Margin="50,-3,10,0"/>
 
-                <Button x:Name="btnProjectSettings" Content="SETTINGS"
-                        VerticalAlignment="Top"
-                        Command="{Binding NavigateSettingsCommand}"/>
+                <RadioButton Content="HOME"
+                             Style="{StaticResource MainMenuButton}" 
+                             GroupName="menu"
+                             VerticalAlignment="Top"  
+                            Command="{Binding NavigateStartupCommand}"
+                            Margin="15 0 0 0"/>
 
-                <Button VerticalAlignment="Top"
-                        Content="AREAS"
-                        Command="{Binding NavigateAreasCommand}"/>
+                <!--Style="{StaticResource MainMenuButton}"-->
 
-                <Button x:Name="btnElectrical" Content="ELECTRICAL"
-                        VerticalAlignment="Top"
-                        Command="{Binding NavigateElectricalCommand}"/>
-                
-                <Button x:Name="btnInstrumentation" Content="INSTRUMENTATION"
-                        VerticalAlignment="Top"
-                        Command="{Binding NavigateElectricalCommand}"/>
+                <!--Style="{StaticResource {x:Type ToggleButton}}"-->
 
-                <Button x:Name="btnCableList" Content="CABLE &amp; TRAY"
-                        VerticalAlignment="Top"
-                        Command="{Binding NavigateCableListCommand}"/>
+                <RadioButton Content="PROJECT SETTINGS"
+                             GroupName="menu"
+                             MinWidth="120"
+                             Style="{StaticResource MainMenuButton}" 
+                             VerticalAlignment="Top"
+                             Command="{Binding NavigateSettingsCommand}"/>
 
-                <Button x:Name="btnAutocad" Content="AUTOCAD"
-                        VerticalAlignment="Top"
-                        Command="{Binding NavigateElectricalCommand}"/>
+                <RadioButton VerticalAlignment="Top"
+                             Content="AREAS"
+                             GroupName="menu"
+                             Style="{StaticResource MainMenuButton}"
+                             Command="{Binding NavigateAreasCommand}"/>
 
-                <Button x:Name="btnDataTables" Content="DATA TABLES"
-                        VerticalAlignment="Top"                        
-                        Command="{Binding NavigateDataTablesCommand}"/>
-                
+                <RadioButton Content="ELECTRICAL"
+                             GroupName="menu"
+                             Style="{StaticResource MainMenuButton}"
+                             VerticalAlignment="Top"
+                             Command="{Binding NavigateElectricalCommand}"/>
+
+                <RadioButton Content="INSTRUMENTATION"
+                             GroupName="menu"
+                             Width="120"
+                             Style="{StaticResource MainMenuButton}"
+                             VerticalAlignment="Top"
+                             Command="{Binding NavigateElectricalCommand}"/>
+
+                <RadioButton Content="CABLE &amp; TRAY"
+                             GroupName="menu"
+                             Style="{StaticResource MainMenuButton}"
+                             VerticalAlignment="Top"
+                             Command="{Binding NavigateCableListCommand}"/>
+
+                <!--<Button x:Name="btnAutocad" Content="AUTOCAD"
+                            VerticalAlignment="Top"
+                            Command="{Binding NavigateElectricalCommand}"/>-->
+
+                <RadioButton Content="DATA TABLES"
+                            GroupName="menu"
+                            Style="{StaticResource MainMenuButton}"
+                            VerticalAlignment="Top"                        
+                            Command="{Binding NavigateDataTablesCommand}"/>
+
                 <Button x:Name="btnExport" Content="IMPORT / EXPORT"
-                        VerticalAlignment="Top"                        
-                        Command="{Binding ExportCommand}"/>
+                            VerticalAlignment="Top"                        
+                            Command="{Binding ExportCommand}"/>
 
                 <Button x:Name="btnWindow" Content="EXTRA WINDOW"
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Right"
-                        Command="{Binding ScenarioCommand}"
-                             Margin="50 5 0 0"/>
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Command="{Binding ScenarioCommand}"
+                                 Margin="50 0 0 0"/>
 
-                <!--</WrapPanel>-->
-            </StackPanel>
+            </WrapPanel>
+            <!--</StackPanel>-->
 
         </Grid>
 
