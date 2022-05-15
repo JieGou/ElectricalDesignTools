@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.SubViews
+namespace WpfUI.Views.Electrical.MjeqSubViews
 {
     /// <summary>
     /// Interaction logic for SwgDetailsView.xaml

@@ -48,8 +48,11 @@
             <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
             <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 
+            <!--For quick filtering of DteqGrid-->
             <CollectionViewSource x:Key="cvsIdteq" Source="{Binding ListManager.IDteqList}"
                                   Filter="cvsIdteq_Filter"/>
+            
+            <!--For FedFrom Comboboxes-->
             <CollectionViewSource x:Key="dteqList" Source="{Binding ListManager.DteqList}"/>
 
 
@@ -281,7 +284,8 @@
                           Grid.Column="0" Grid.Row="0"
                           SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                           ItemsSource="{Binding Source={StaticResource cvsIdteq}}"
-
+                          IsSynchronizedWithCurrentItem="True"
+                          
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"
                           d:Height="250"
@@ -1219,13 +1223,28 @@
                                               SelectedItem="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               DisplayMemberPath="Tag"
                                               Text="{Binding Area.Tag}"
-                                              HorizontalContentAlignment="Center"
+                                              HorizontalContentAlignment="Left"
                                               IsEditable="False" IsTextSearchEnabled="True"
-                                              IsSynchronizedWithCurrentItem="False"
+                                              IsSynchronizedWithCurrentItem="False"                                             
                                               BorderThickness="0"
                                               Template="{DynamicResource ComboBoxBase}"
-                                              />
-                                    <!--IsDropDownOpen="True"-->
+                                              >
+                                        <!--IsDropDownOpen="True"-->
+
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding Tag}" HorizontalAlignment="Left" TextAlignment="Left" Width="35" Margin="10 0"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding Name}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -1417,10 +1436,50 @@
                                 Binding="{Binding Path=DemandKvar, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
                         <!--OCPD-->
-                        <DataGridTextColumn Header="PD / Starter&#x0a;Type" 
-                                Binding="{Binding Path=PdType, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                HeaderStyle="{StaticResource OcpdColumnHeader}" />
-                        
+                        <DataGridTemplateColumn Header="PD / Starter&#x0a;Type" 
+                                                HeaderStyle="{StaticResource OcpdColumnHeader}"
+                                                SortMemberPath="PdType">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent"/>
+
+                                    <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding Path=DataContext.TypeManager.OcpdTypes, 
+                                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                    AncestorType={x:Type UserControl},AncestorLevel=1}}"
+                                              SelectedValue="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedValuePath="Type"
+                                              HorizontalContentAlignment="Left"
+                                              IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              >
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding Type}" HorizontalAlignment="Left" TextAlignment="Left" Width="35" Margin="10 0"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding Description}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                        
+                                    </ComboBox>
+                                    <!--IsDropDownOpen="True"-->
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
                         <DataGridTextColumn Header="PD / MCP&#x0a;Frame" 
                                 Binding="{Binding Path=PdSizeFrame, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" />

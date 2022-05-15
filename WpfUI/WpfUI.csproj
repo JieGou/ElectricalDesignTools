@@ -8,7 +8,7 @@
 	  <UseWindowsForms>true</UseWindowsForms>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyName>Electrical Design Tools</AssemblyName>
-    <ApplicationIcon>ContentFiles\Cjdowner-Cryptocurrency-Power-Ledger.ico</ApplicationIcon>
+    <ApplicationIcon>ContentFiles\pd (1).ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="ContentFiles\Cjdowner-Cryptocurrency-Power-Ledger.ico" />
+    <Content Include="ContentFiles\pd (1).ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,18 +53,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\SettingsSubViews\CableSettingsView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SubViews\LoadProtectionDetailsView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SubViews\MccDetailsView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SubViews\LoadComponentDetailsView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Views\SubViews\SwgDetailsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -98,27 +86,10 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\SubViews\LoadProtectionDetailsView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\SubViews\MccDetailsView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\SubViews\LoadComponentDetailsView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\SubViews\SwgDetailsView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="ViewComponents\" />
-    <Folder Include="Views\Electrical\" />
   </ItemGroup>
 
 

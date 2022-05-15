@@ -107,6 +107,15 @@
         </Style.Triggers>
     </Style>
 
+    <!--Smaller ComboBox for Detail Views-->
+    <Style TargetType="ComboBox" x:Key="SmallComboBox">
+        <Setter Property="Padding" Value="3 1"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Margin" Value="0 3"/>
+        <Setter Property="ToolTipService.InitialShowDelay" Value="500"/>
+        <Setter Property="ToolTipService.BetweenShowDelay" Value="0"/>
+    </Style>
+
     <!--Base Button Style-->
     <Style x:Key="BaseButtonStyle"  TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultStyle}">
         <Setter Property="Width" Value="125"/>

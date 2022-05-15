@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Helpers;
@@ -217,8 +218,24 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         set { 
             _dteqList = value; 
             }
-    }   
+    }
 
+    private ICollectionView _dteqCollectionView;
+    public ICollectionView DteqCollectionView
+    {
+        get
+        {
+            if (_dteqCollectionView == null) {
+                //View = CollectionViewSource.GetDefaultView(_listManager.CableList);
+                _dteqCollectionView = CollectionViewSource.GetDefaultView(_listManager.IDteqList);
+            }
+            return _dteqCollectionView;
+        }
+        set
+        {
+            _dteqCollectionView = DteqCollectionView;
+        }
+    }
 
     // DTEQ
     private IDteq _selectedDteq;
