@@ -56,7 +56,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         LoadToAddValidator = new LoadToAddValidator(_listManager);
 
         // Create commands
-        ToggleRowViewDteqCommand = new RelayCommand(ToggleRowViewDteq);
+        ToggleRowDetailViewCommand = new RelayCommand(ToggleDatagridRowdetailView);
 
         ToggleLoadingViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleLoading);
         ToggleOcpdViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleOcpd);
@@ -196,7 +196,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     #region Views States
 
     //Dteq
-    public string? ToggleRowViewDteqProp { get; set; } = "Collapsed";
+    public string? ToggleRowDetailViewProp { get; set; } = "Collapsed";
     public string? PerPhaseLabelDteq { get; set; } = "Hidden";
     public DataGridColumnViewToggle DteqGridViewModifier { get; set; }
 
@@ -399,7 +399,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     // Equipment Commands
 
-    public ICommand ToggleRowViewDteqCommand { get; }
+    public ICommand ToggleRowDetailViewCommand { get; }
     public ICommand ToggleLoadingViewDteqCommand { get; }
     public ICommand ToggleOcpdViewDteqCommand { get; }
     public ICommand ToggleCableViewDteqCommand { get; }
@@ -430,13 +430,13 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     #region View Toggles
     //View
-    private void ToggleRowViewDteq()
+    private void ToggleDatagridRowdetailView()
     {
-        if (ToggleRowViewDteqProp == "VisibleWhenSelected") {
-            ToggleRowViewDteqProp = "Collapsed";
+        if (ToggleRowDetailViewProp == "VisibleWhenSelected") {
+            ToggleRowDetailViewProp = "Collapsed";
         }
-        else if (ToggleRowViewDteqProp == "Collapsed") {
-            ToggleRowViewDteqProp = "VisibleWhenSelected";
+        else if (ToggleRowDetailViewProp == "Collapsed") {
+            ToggleRowDetailViewProp = "VisibleWhenSelected";
         }
     }
 
@@ -449,8 +449,10 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         _listManager.GetProjectTablesAndAssigments();
         AssignedLoads.Clear();
-        DteqToAddValidator = new DteqToAddValidator(ListManager);
 
+        //To clear errors on reload
+        DteqToAddValidator.ClearErrors();
+        LoadToAddValidator.ClearErrors();
     }
     public void DbSaveAll()
     {

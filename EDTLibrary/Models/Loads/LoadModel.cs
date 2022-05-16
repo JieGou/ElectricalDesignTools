@@ -187,11 +187,13 @@ namespace EDTLibrary.Models.Loads
                 IDteq oldValue = _fedFrom;
                 _fedFrom = value;
                 DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
+
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                     var cmd = new CommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
                     Undo.UndoList.Add(cmd);
                 }
                 OnPropertyUpdated();
+
 
             }
         }
@@ -306,6 +308,8 @@ namespace EDTLibrary.Models.Loads
 
             }
         }
+
+
 
         //Methods
         public void CalculateLoading()

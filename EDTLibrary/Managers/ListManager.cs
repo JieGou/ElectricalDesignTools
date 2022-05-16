@@ -286,8 +286,9 @@ namespace EDTLibrary
                     if (load.FedFrom.Tag == dteq.Tag && load.FedFrom.Type == dteq.Type) {
                         dteq.AssignedLoads.Add(load);
                         load.LoadingCalculated += dteq.OnAssignedLoadReCalculated;
-                        load.PropertyUpdated += DaManager.OnLoadPropertyUpdated;
                     }
+                    load.PropertyUpdated += DaManager.OnLoadPropertyUpdated;
+
                 }
             }
         }

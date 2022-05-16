@@ -119,7 +119,7 @@
 
         <!--Main Grid-->
         <Grid Grid.Row="2"
-              x:Name="eqGrid"
+              x:Name="elecGrid"
               d:Opacity="1"
               Opacity="0.0"  Grid.IsSharedSizeScope="True">
             <Grid.ColumnDefinitions>
@@ -141,9 +141,9 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                             Storyboard.TargetName="eqGrid"
+                                             Storyboard.TargetName="elecGrid"
                                              BeginTime="0:0:0"
-                                From="0.0" To="1" Duration="0:0:0.25"
+                                From="0.0" To="1" Duration="0:0:0.5"
                                              AccelerationRatio="1"
                                 AutoReverse="False" RepeatBehavior="1x"/>
 
@@ -159,7 +159,7 @@
                         Grid.Row="{StaticResource dteqViewButtons}" Grid.Column="3" Grid.ColumnSpan="2">
 
                 <Button Content="Toggle Row View"
-                        Command="{Binding Path=ToggleRowViewDteqCommand}"/>
+                        Command="{Binding Path=ToggleRowDetailViewCommand}"/>
 
                 <Button Content="Loading Data"
                         Command="{Binding Path=ToggleLoadingViewDteqCommand}"/>
@@ -305,7 +305,7 @@
                           VirtualizingPanel.IsVirtualizing="True"
                           SelectionChanged="dgdDteq_SelectionChanged"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
-                          RowDetailsVisibilityMode="{Binding ToggleRowViewDteqProp}" Grid.ColumnSpan="2" >
+                          RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}" Grid.ColumnSpan="2" >
                     <!--ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
 
 
@@ -861,7 +861,6 @@
                           Template="{DynamicResource ComboBoxBase}"
                     d:Text="MCC"
                     ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
-                    SelectedValue="{Binding DteqToAdd.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                     Text="{Binding DteqToAddValidator.Type}"                       
                     IsEditable="False" IsTextSearchEnabled="True"
                     Margin="5 0 5 0"/>
@@ -891,7 +890,6 @@
                           
                           Width="75"
                           ItemsSource="{Binding Source={StaticResource dteqList}}"
-                          SelectedItem="{Binding DteqToAddValidator.FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           DisplayMemberPath="Tag"
                           IsSynchronizedWithCurrentItem="False"
                           Text="{Binding DteqToAddValidator.FedFromTag}"
@@ -1102,7 +1100,7 @@
                           ScrollViewer.CanContentScroll="False"
                           VirtualizingPanel.IsVirtualizing="False"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
-                          RowDetailsVisibilityMode="{Binding ToggleRowViewProp}"
+                          RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}"
                           SelectionChanged="dgdAssignedLoads_SelectionChanged" PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown"
                           >
                     <!--Height="{Binding LoadGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
@@ -1530,19 +1528,28 @@
 
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Path=DriveBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                    <CheckBox IsChecked="{Binding Path=DriveBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                                              />
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding Type}" Value="XFR">
                                             <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
+                                            <Setter Property="ToolTip" Value="Disabled for Non Motor Loads"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Type}" Value="SWG">
                                             <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
+                                            <Setter Property="ToolTip" Value="Disabled for Non Motor Loads"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Type}" Value="MCC">
                                             <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
+                                            <Setter Property="ToolTip" Value="Disabled for Non Motor Loads"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Type}" Value="HEATER">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                            <Setter Property="ToolTip" Value="Disabled for Non Motor Loads"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Type}" Value="PANEL">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                            <Setter Property="ToolTip" Value="Disabled for Non Motor Loads"/>
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
@@ -1562,6 +1569,20 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox IsChecked="{Binding Path=LcsBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Type}" Value="XFR">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Type}" Value="SWG">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Type}" Value="MCC">
+                                            <Setter Property="IsEnabled" Value="False" />
+                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>

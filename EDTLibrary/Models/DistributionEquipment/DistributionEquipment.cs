@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
@@ -8,7 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+//using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -115,8 +116,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                 OnPropertyUpdated();
             }
         }
-        private string _areaClassification;
 
+        private string _areaClassification;
         public string AreaClassification
         {
             get { return _areaClassification; }
@@ -130,7 +131,6 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
             }
         }
-
         public double Voltage
         {
             get { return LineVoltage; }
@@ -143,7 +143,6 @@ namespace EDTLibrary.Models.DistributionEquipment
                 OnPropertyUpdated();
             }
         }
-
 
         public double _size;
         public virtual double Size
@@ -195,7 +194,6 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
             }
         }
-
         public int FedFromId { get; set; }
         public string FedFromType { get; set; }
         
@@ -317,6 +315,65 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         //In IComponenetModel
         //public ObservableCollection<IComponent> Components { get; set; }
+        public ObservableCollection<IComponent> Components { get; set; } = new ObservableCollection<IComponent>();
+        //Components
+        private bool _driveBool;
+        public bool DriveBool
+        {
+            get { return _driveBool; }
+            set
+            {
+                _driveBool = value;
+                if (_driveBool == true) {
+                    PdType = "BKR";
+                }
+            }
+        }
+
+        private int _driveId;
+        public int DriveId
+        {
+            get { return _driveId; }
+            set { _driveId = value; }
+        }
+
+        private bool _disconnectBool;
+        public bool DisconnectBool
+        {
+            get { return _disconnectBool; }
+            set
+            {
+                var oldValue = _disconnectBool;
+                _disconnectBool = value;
+
+            }
+        }
+
+        private int _disconnectId;
+        public int DisconnectId
+        {
+            get { return _disconnectId; }
+            set { _disconnectId = value; }
+        }
+
+        public LocalControlStation Lcs { get; set; }
+        private bool _lcsBool;
+        public bool LcsBool
+        {
+            get { return _lcsBool; }
+            set
+            {
+                var _oldValue = _lcsBool;
+                _lcsBool = value;
+                if (_lcsBool == true) {
+                    ComponentManager.CreateLcs(this, ScenarioManager.ListManager);
+                }
+                if (_lcsBool == false) {
+                    ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
+                }
+
+            }
+        }
 
 
         #endregion
@@ -429,7 +486,6 @@ namespace EDTLibrary.Models.DistributionEquipment
             PowerCable.CalculateAmpacityNew(this);
         }
 
-        ObservableCollection<Components.IComponent> IComponentUser.Components { get; set; }
 
 
 
