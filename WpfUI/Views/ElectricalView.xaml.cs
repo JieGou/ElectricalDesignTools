@@ -147,6 +147,11 @@ public partial class ElectricalView : UserControl
 
             }
 
+            //if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
+            //    if (e.Key == Key.Z) {
+            //        Undo.UndoCommand(elecVm.ListManager);
+            //    }
+            //}
 #endif
         }
     }
@@ -497,6 +502,17 @@ public partial class ElectricalView : UserControl
                 txtDteqTag.Text = GlobalConfig.EmptyTag;
             }
         }
+    }
+
+    private void eqView_Unloaded(object sender, RoutedEventArgs e)
+    {
+    }
+
+    private void eqView_MouseLeave(object sender, MouseEventArgs e)
+    {
+        var dataView = (ListCollectionView)CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource);
+        if (dataView.IsEditingItem)
+            dataView.CommitEdit();
     }
 }
 

@@ -21,7 +21,8 @@
              
         mc:Ignorable="d"
         d:Width="1500" d:Height="1000"
-        Background="#FFDAEEF1" PreviewKeyDown="eqView_PreviewKeyDown">
+        Background="#FFDAEEF1" PreviewKeyDown="eqView_PreviewKeyDown" Unloaded="eqView_Unloaded" MouseLeave="eqView_MouseLeave"
+             >
 
     <!--d:Opacity="1"
              Opacity="0.5">
@@ -288,6 +289,7 @@
                           SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                           ItemsSource="{Binding DteqCollectionView}"
                           IsSynchronizedWithCurrentItem="True"
+                          
                           
                           HorizontalAlignment="Left"
                           VerticalAlignment="Center"

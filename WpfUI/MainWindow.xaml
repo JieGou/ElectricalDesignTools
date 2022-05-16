@@ -18,8 +18,8 @@
                          
         xmlns:syncfusionskin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
         syncfusionskin:SfSkinManager.VisualStyle="Office2016White" 
-        >
-    <!--PreviewKeyDown="Window_PreviewKeyDown"  > -->
+        Focusable="True"
+        PreviewKeyDown="Window_PreviewKeyDown"  > 
         
 
 
@@ -80,10 +80,10 @@
             <!--<StackPanel Orientation="Horizontal" 
                         Grid.Row="{StaticResource menuRow}" 
                         Background="white"
-                        Margin=" 0 0 0 0" >
+                        Margin=" 0 0 0 0" > -->
 
-                -->
-
+            <Border BorderBrush="Black"
+                    BorderThickness="0">
             <WrapPanel Orientation="Horizontal" 
                             Grid.Row="{StaticResource menuRow}" 
                             Background="white"
@@ -161,6 +161,7 @@
                                  Margin="50 0 0 0"/>
 
             </WrapPanel>
+            </Border>
             <!--</StackPanel>-->
 
         </Grid>
