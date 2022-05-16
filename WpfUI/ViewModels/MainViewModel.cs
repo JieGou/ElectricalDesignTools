@@ -1,6 +1,7 @@
 ﻿using EDTLibrary;
 using EDTLibrary.A_Helpers;
 using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Models.aMain;
 using EDTLibrary.ProjectSettings;
 using ExcelLibrary;
 using Portable.Licensing;
@@ -23,7 +24,10 @@ namespace WpfUI.ViewModels
         public ListManager ListManager
         {
             get { return _listManager; }
-            set { _listManager = value; }
+            set 
+            { 
+                _listManager = value;
+            }
         }
 
         private TypeManager _typeManager;
@@ -67,6 +71,8 @@ namespace WpfUI.ViewModels
             ValidateLicense();
 
             _listManager = listManager;
+            ScenarioManager.ListManager = _listManager;
+
             _typeManager = typeManager;
             _startupService = startupService;
             _edtSettings = edtSettings;

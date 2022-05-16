@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
@@ -13,7 +14,7 @@ namespace EDTLibrary.Models.Loads
 {
 
     [AddINotifyPropertyChangedInterface]
-    public class LoadModel : ILoad, IComponentUser
+    public class LoadModel : ILoad
     {
         public LoadModel()
         {
@@ -211,8 +212,6 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
-        public ObservableCollection<CctComponentModel> InLineComponents { get; set; } = new ObservableCollection<CctComponentModel>();
-
         private double _efficiency;
 
         public double Efficiency
@@ -246,39 +245,67 @@ namespace EDTLibrary.Models.Loads
 
         public int PowerCableId { get; set; }
         public PowerCableModel PowerCable { get; set; }
-        public ObservableCollection<IComponent> Components { get; set; }
+        public ObservableCollection<IComponent> Components { get; set; } = new ObservableCollection<IComponent>();
 
 
         //Components
         private bool _driveBool;
-
         public bool DriveBool
         {
             get { return _driveBool; }
-            set { _driveBool = value; }
+            set 
+            { 
+                _driveBool = value;
+                if (_driveBool == true) {
+                    PdType = "BKR";
+                }
+            }
         }
-        private int _driveId;
 
+        private int _driveId;
         public int DriveId
         {
             get { return _driveId; }
             set { _driveId = value; }
         }
-        private bool _disconnectBool;
 
+        private bool _disconnectBool;
         public bool DisconnectBool
         {
             get { return _disconnectBool; }
-            set { _disconnectBool = value; }
+            set 
+            { 
+                var oldValue = _disconnectBool;
+                _disconnectBool = value;
+                
+            }
         }
-        private int _disconnectId;
 
+        private int _disconnectId;
         public int DisconnectId
         {
             get { return _disconnectId; }
             set { _disconnectId = value; }
         }
 
+        public LocalControlStation Lcs { get; set; }
+        private bool _lcsBool;
+        public bool LcsBool
+        {
+            get { return _lcsBool; }
+            set 
+            {
+                var _oldValue = _lcsBool;
+                _lcsBool = value;
+                if (_lcsBool == true) {
+                    ComponentManager.CreateLcs(this, ScenarioManager.ListManager);
+                }
+                if (_lcsBool == false) {
+                    ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
+                }
+
+            }
+        }
 
         //Methods
         public void CalculateLoading()

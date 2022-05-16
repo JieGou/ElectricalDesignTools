@@ -94,7 +94,8 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                           DisplayMemberPath="Type"
                           SelectedValue="{Binding NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsSynchronizedWithCurrentItem="False" 
-                          ToolTip="{StaticResource enclosureMessage}"/>
+                          ToolTip="{StaticResource enclosureMessage}"
+                          MaxDropDownHeight="240"/>
 
 
                 <TextBlock Text="Area Classification"

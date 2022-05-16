@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -476,7 +477,29 @@ public partial class ElectricalView : UserControl
         }
     }
 
+    private void btnAddDteq_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (txtDteqTag.Text == GlobalConfig.EmptyTag) {
+            txtDteqTag.Text = "";
+        }
+    }
+
+    private void btnAddDteq_MouseLeave(object sender, MouseEventArgs e)
+    {
+        Task.Run(() => resetTag());
+        resetTag();
+        async Task resetTag()
+        {
+            if (txtDteqTag.Text == "") {
+                await Task.Delay(500);
+
+                if(txtDteqTag.IsFocused == false)
+                txtDteqTag.Text = GlobalConfig.EmptyTag;
+            }
+        }
+    }
 }
+
 
 public static class DataGridExtensions
 {

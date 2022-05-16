@@ -107,6 +107,10 @@ public class DteqToAddValidator : INotifyDataErrorInfo
             else if (_type == "") {
                 Unit = "";
             }
+
+            if (_type != DteqTypes.XFR.ToString()) {
+                LoadVoltage = LineVoltage;
+            }
         }
     }
 
@@ -260,6 +264,11 @@ public class DteqToAddValidator : INotifyDataErrorInfo
             if (string.IsNullOrWhiteSpace(_loadVoltage)) {
                 AddError(nameof(LoadVoltage), "Voltage does not match supply Equipment");
             }
+            else if (Type == DteqTypes.XFR.ToString() == false
+                && _loadVoltage != LineVoltage) {
+                AddError(nameof(LoadVoltage), "Voltage does not match supply Equipment");
+            }
+
             else if (_fedFromTag == GlobalConfig.Utility) {
                 _isValid = true;
             }

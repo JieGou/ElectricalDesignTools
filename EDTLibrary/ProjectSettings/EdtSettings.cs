@@ -49,6 +49,7 @@ namespace EDTLibrary.ProjectSettings
         public static string Code { get; set; }
 
         //Cable
+        //TODO - Populate CableSizesUsedInProject list from Library (copy Database table to Library and create when building new projects)
         public static ObservableCollection<CableSizeModel> CableSizesUsedInProject { get; set; }
 
         public static string CableType3C1kVPower { get; set; }

@@ -21,7 +21,6 @@ namespace EDTLibrary.Models.Cables
 
         bool SizeIsValid { get; set; }
 
-        event EventHandler PropertyUpdated;
-        abstract void OnPropertyUpdated();
+       
     }
 }

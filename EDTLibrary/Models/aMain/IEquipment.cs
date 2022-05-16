@@ -15,6 +15,9 @@ namespace EDTLibrary.Models
         string NemaRating { get; set; }
         string AreaClassification { get; set; }
 
+        event EventHandler PropertyUpdated;
+        abstract void OnPropertyUpdated();
+
         abstract void UpdateAreaProperties();
         public void OnAreaPropertiesChanged(object source, EventArgs e)
         {

@@ -29,6 +29,14 @@ namespace EDTLibrary.Models.Components
         public int OwnerId { get; set; }
         public string OwnerType { get; set; }
         public int SequenceNumber { get; set; }
+        IEquipment IComponent.Owner { get; set; }
+
+        public event EventHandler PropertyUpdated;
+
+        public void OnPropertyUpdated()
+        {
+            throw new NotImplementedException();
+        }
 
         public void UpdateAreaProperties()
         {

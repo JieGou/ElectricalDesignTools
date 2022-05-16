@@ -159,7 +159,8 @@
                                                 Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding AreaCategory}"/>
+                                    <TextBlock Text="{Binding AreaCategory}"
+                                               MouseLeftButtonDown="FastEditEvent"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
@@ -171,7 +172,9 @@
                                               HorizontalContentAlignment="Center"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"/>
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -181,7 +184,8 @@
                                                 Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding AreaClassification}"/>
+                                    <TextBlock Text="{Binding AreaClassification}"
+                                               MouseLeftButtonDown="FastEditEvent"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
 
@@ -194,7 +198,9 @@
                                               HorizontalContentAlignment="Center"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0">
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              >
                                     </ComboBox>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
@@ -227,7 +233,8 @@
                                                 MinWidth="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding NemaRating}"/>
+                                    <TextBlock Text="{Binding NemaRating}"
+                                               MouseLeftButtonDown="FastEditEvent"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
@@ -239,7 +246,9 @@
                                               HorizontalContentAlignment="Left"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"/>
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
@@ -250,7 +259,8 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
 
-                                    <TextBlock Text="{Binding ParentArea.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                                    <TextBlock Text="{Binding ParentArea.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent"/>
 
                                     <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
 
@@ -261,10 +271,11 @@
                                     <ComboBox ItemsSource="{Binding Source={StaticResource areaList}}"
                                               SelectedItem="{Binding ParentArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               DisplayMemberPath="Tag"
-                                              Text="{Binding ParentArea.Tag}"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0">
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              >
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Grid>

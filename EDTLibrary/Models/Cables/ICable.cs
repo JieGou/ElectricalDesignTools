@@ -21,5 +21,8 @@ namespace EDTLibrary.Models.Cables
         double VoltageClass { get; set; }
         string InstallationType { get; set; }
         bool Outdoor { get; set; }
+
+        event EventHandler PropertyUpdated;
+        abstract void OnPropertyUpdated();
     }
 }

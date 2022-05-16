@@ -32,7 +32,7 @@ namespace EDTLibrary
 
 
         public ObservableCollection<ILoad>                      LoadList { get; set; } = new ObservableCollection<ILoad>();
-        public ObservableCollection<CctComponentModel>          CompList { get; set; } = new ObservableCollection<CctComponentModel>();
+        public ObservableCollection<IComponent>          CompList { get; set; } = new ObservableCollection<IComponent>();
 
         public ObservableCollection<PowerCableModel> CableList { get; set; } = new ObservableCollection<PowerCableModel>();
 

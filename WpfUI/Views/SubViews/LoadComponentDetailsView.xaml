@@ -33,7 +33,14 @@
         </Grid.RowDefinitions>
 
         <TextBlock Text="Components In Use" Grid.Row="0" Grid.Column="0"/>
-        <ListBox Grid.Row="1" Grid.Column="0" MinHeight="100" MinWidth="75"/>
+        <ListBox Grid.Row="1" Grid.Column="0" MinHeight="100" MinWidth="75"
+                 ItemsSource="{Binding Components}"
+                 DisplayMemberPath="Tag"/>
+        <ListBox Grid.Row="1" Grid.Column="2" MinHeight="100" MinWidth="75"
+                 ItemsSource="{Binding Path=DataContext.ListManager.CompList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"
+                 DisplayMemberPath="Tag"/>
 
         <TextBlock Text="Component Details " Grid.Row="0" Grid.Column="2"/>
 

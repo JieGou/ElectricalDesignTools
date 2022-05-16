@@ -89,6 +89,7 @@ public class AreaModel : IArea {
         {
             var oldValue = _parentArea;
             _parentArea = value;
+            if (_parentArea == null) return;
             ParentAreaId = _parentArea.Id;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(ParentArea), OldValue = oldValue, NewValue = _parentArea };
