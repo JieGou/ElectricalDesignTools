@@ -2,7 +2,12 @@
 using EDTLibrary.LibraryData.TypeTables;
 using PropertyChanged;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -14,7 +19,7 @@ namespace WpfUI.ViewModels;
 
 [AddINotifyPropertyChangedInterface]
 
-public class NewProjectViewModel
+public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
 {
     public string ProjectName
     {
@@ -24,6 +29,7 @@ public class NewProjectViewModel
             _projectName = value;
             if (SameName == true) {
                 FileName = _projectName;
+                _fileName = _projectName;
             }
         }
     }
@@ -31,14 +37,20 @@ public class NewProjectViewModel
     public string Code { get; set; } = "CEC";
 
 
-    public string FileName 
-    { 
+    public string FileName
+    {
         get => _fileName;
-        set 
-        { 
+        set
+        {
             _fileName = value;
+            ClearErrors(nameof(FileName));
             if (SameName == true) {
                 ProjectName = _fileName;
+            }
+            if (String.IsNullOrEmpty(_fileName) || _fileName.Contains("/") || _fileName.Contains("\\")) {
+                ClearErrors(nameof(FileName));
+                AddError(nameof(FileName), $"The file name '{_fileName}' is not valid.");
+
             }
         }
     }
@@ -51,10 +63,28 @@ public class NewProjectViewModel
             _sameName = value;
             if (_sameName == true) {
                 FileName = ProjectName;
+
+
+
             }
         }
     }
-    public string FolderName { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
+   private string _folderName = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+    public string FolderName
+    {
+        get => _folderName;
+
+        set
+        {
+            _folderName = value;
+            ClearErrors(nameof(FolderName));
+
+            if (Directory.Exists(_folderName) == false) {
+                AddError(nameof(FolderName), $"The folder '{_folderName}' does not exist.");
+            }
+        }
+    }
 
 
     private readonly StartupService _startupService;
@@ -62,11 +92,11 @@ public class NewProjectViewModel
     private bool _sameName = true;
     private string _projectName;
     private string _fileName;
-
+ 
     private readonly TypeManager _typeManager;
     public TypeManager TypeManager => _typeManager; // for Code selection in the View
 
-        public NewProjectViewModel(TypeManager typeManager, StartupService startupService, HomeViewModel homeViewModel)
+    public NewProjectViewModel(TypeManager typeManager, StartupService startupService, HomeViewModel homeViewModel)
     {
         _typeManager = typeManager;
         _startupService = startupService;
@@ -95,30 +125,25 @@ public class NewProjectViewModel
         if (dialog.ShowDialog() == DialogResult.OK) {
 
             FolderName = dialog.SelectedPath;
+            _folderName = dialog.SelectedPath;
         }
 
     }
 
     public void CreateProject()
     {
-        bool error = false;
-        string errorMessage = "";
 
+        ClearErrors();
         try {
-            if (String.IsNullOrEmpty(FileName)|| FileName.Contains("/") || FileName.Contains("\\")) {
-                errorMessage += $"The file name '{FileName}' is not valid.\n\n";
-                error = true;
+            if (String.IsNullOrEmpty(FileName) || FileName.Contains("/") || FileName.Contains("\\")) {
+                AddError(nameof(FileName), $"The file name '{FileName}' is not valid.");
+
             }
             if (Directory.Exists(FolderName) == false) {
-                errorMessage += $"The folder '{FolderName} does not exist.'\n\n";
-                error = true;
+                AddError(nameof(FolderName), $"The folder name '{FolderName}' is not valid.");
             }
 
-            if (error) {
-                System.Windows.MessageBox.Show(errorMessage,
-                    "File Error", System.Windows.MessageBoxButton.OK, MessageBoxImage.Stop);
-            }
-            else {
+            if (HasErrors == false) {
                 string fullFileName = FolderName + "\\" + FileName + ".edp";
 
                 File.Copy(GlobalConfig.DevDb, fullFileName, true);
@@ -139,8 +164,5 @@ public class NewProjectViewModel
 
             ErrorHelper.ShowErrorMessage(ex);
         }
-
     }
-
-
 }

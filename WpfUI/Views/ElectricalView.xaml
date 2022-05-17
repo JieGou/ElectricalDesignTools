@@ -137,7 +137,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.Triggers>
-                <EventTrigger RoutedEvent="DataGrid.Loaded">
+                <EventTrigger RoutedEvent="Grid.Loaded">
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetProperty="Opacity"

@@ -218,7 +218,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
-                            <Border Background="AliceBlue"
+                            <Border Background="{DynamicResource ComboBox.MouseOver.Background}"
                                     BorderBrush="Black"
                                     BorderThickness="1 0 1 0">
                                 <!--<Border Background="{StaticResource ComboBox.MouseOver.Background}">-->

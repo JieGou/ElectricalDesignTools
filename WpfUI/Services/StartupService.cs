@@ -126,11 +126,19 @@ namespace WpfUI.Services
                 _listManager.GetProjectTablesAndAssigments();
 
                 IsProjectLoaded = true;
+                OnProjectLoaded();
                 CommandManager.InvalidateRequerySuggested();  //Fires CanExecuteChanged in Relay Commands (ICommand);
             }
         }
 
-       
+        public event EventHandler ProjectLoaded;
+        public virtual void OnProjectLoaded()
+        {
+            if (ProjectLoaded != null) {
+                ProjectLoaded(this, EventArgs.Empty);
+            }
+        }
+
 
         // SETTINGS
 

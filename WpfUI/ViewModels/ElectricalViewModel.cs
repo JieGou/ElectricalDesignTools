@@ -454,6 +454,12 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         DteqToAddValidator.ClearErrors();
         LoadToAddValidator.ClearErrors();
     }
+
+    public void OnProjectLoaded(object source, EventArgs e)
+    {
+        AssignedLoads.Clear();
+    }
+
     public void DbSaveAll()
     {
         //Task.Run(() => CalculateAll());

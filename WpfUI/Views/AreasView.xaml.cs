@@ -1,4 +1,5 @@
 ﻿using EDTLibrary;
+using EDTLibrary.LibraryData.TypeTables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfUI.Helpers;
 using WpfUI.PopupWindows;
+using WpfUI.ViewModels;
 
 namespace WpfUI.Views;
 
@@ -22,6 +25,9 @@ namespace WpfUI.Views;
 /// </summary>
 public partial class AreasView : UserControl
 {
+
+    private AreasViewModel areaVm { get { return DataContext as AreasViewModel; } }
+
     public AreasView()
     {
         InitializeComponent();
@@ -43,6 +49,17 @@ public partial class AreasView : UserControl
         var dataGridCell = (sender as UIElement)?.FindVisualParent<DataGridCell>();
 
         dataGridCell.FastEdit(args);
+    }
+
+    private void lstAreaClassification_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+
+        if (lstAreaClassification.SelectedItem == null) return;
+
+            areaVm.AreaClassificationsInfoTableItems.Clear();
+            var areaClass = lstAreaClassification.SelectedItem as AreaClassificationType;
+            areaVm.AreaClassificationsInfoTableItems.Add(areaClass);
+
     }
 }
 

@@ -76,6 +76,7 @@ namespace EDTLibrary.LibraryData.TypeTables
         public static ObservableCollection<NemaType> NemaTypes { get; set; }
         public static ObservableCollection<AreaClassificationType> AreaClassifications { get; set; }
         public static ObservableCollection<AreaCategory> AreaCategories { get; set; } = new ObservableCollection<AreaCategory>{
+            new AreaCategory{CategoryName = "None / Dry"},
             new AreaCategory{CategoryName = "Category 1"},
             new AreaCategory{CategoryName = "Category 2"}
         };

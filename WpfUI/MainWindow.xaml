@@ -145,22 +145,27 @@
                             Command="{Binding NavigateElectricalCommand}"/>-->
 
                 <RadioButton Content="DATA TABLES"
-                            GroupName="menu"
-                            Style="{StaticResource MainMenuButton}"
-                            VerticalAlignment="Top"                        
-                            Command="{Binding NavigateDataTablesCommand}"/>
+                             GroupName="menu"
+                             Style="{StaticResource MainMenuButton}"
+                             VerticalAlignment="Top"                        
+                             Command="{Binding NavigateDataTablesCommand}"/>
 
                 <Button x:Name="btnExport" Content="IMPORT / EXPORT"
                             VerticalAlignment="Top"                        
-                            Command="{Binding ExportCommand}"/>
+                            Command="{Binding ExportCommand}"
+                            FontSize="12"
+                        Width="110"/>
 
                 <Button x:Name="btnWindow" Content="EXTRA WINDOW"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Command="{Binding ScenarioCommand}"
-                                 Margin="50 0 0 0"/>
+                            Margin="50 0 0 0"
+                            Width="110"
+                            FontSize="12"/>
 
-            </WrapPanel>
+
+                </WrapPanel>
             </Border>
             <!--</StackPanel>-->
 

@@ -22,6 +22,7 @@ namespace WpfUI.ViewModels
         public ObservableCollection<string> NemaTypes { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> Categories { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> AreaClassifications { get; set; } = new ObservableCollection<string>();
+        public ObservableCollection<AreaClassificationType> AreaClassificationsInfoTableItems { get; set; } = new ObservableCollection<AreaClassificationType>();
 
 
         private ListManager _listManager;

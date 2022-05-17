@@ -83,6 +83,8 @@ namespace WpfUI.ViewModels
             _electricalViewModel = new ElectricalViewModel(listManager, typeManager);
             _cableListViewModel = new CableListViewModel(listManager);
 
+
+
             NavigateStartupCommand = new RelayCommand(NavigateStartup);
             NavigateSettingsCommand = new RelayCommand(NavigateSettings, CanExecute_IsProjectLoaded);
             NavigateAreasCommand = new RelayCommand(NavigateAreas, CanExecute_IsProjectLoaded);
@@ -91,6 +93,8 @@ namespace WpfUI.ViewModels
 
             NavigateCableListCommand = new RelayCommand(NavigateCableList, CanExecute_IsProjectLoaded);
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables, CanExecute_IsLibraryLoaded);
+
+
 
             ExportCommand = new RelayCommand(ExcelTest);
 
@@ -104,6 +108,8 @@ namespace WpfUI.ViewModels
             if (type == "NewInstance") {
                 _startupService.InitializeProject(AppSettings.Default.ProjectDb);
             }
+
+            _startupService.ProjectLoaded += _electricalViewModel.OnProjectLoaded;
         }
 
         private void ExcelTest()

@@ -51,7 +51,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        
+
 
         <Label Content="AREAS &amp; LOCATIONS"
                Style="{StaticResource TitleLabelStyleBase}"
@@ -65,10 +65,14 @@
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -120,7 +124,7 @@
             <!--**** TEST *****-->
             <!--***************-->
 
-           
+
             <!--***************-->
             <!--**** TEST *****-->
             <!--***************-->
@@ -153,7 +157,7 @@
                         <DataGridTextColumn Header="Name" 
                                             MinWidth="150"
                                             Binding="{Binding Name, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-                        
+
                         <!--Area Category-->
                         <DataGridTemplateColumn Header="Area&#x0a;Category"
                                                 Width="120">
@@ -189,8 +193,8 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
 
-                                <DataGridTemplateColumn.CellEditingTemplate>
-                                    <DataTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
                                     <ComboBox ItemsSource="{Binding Path=DataContext.AreaClassifications, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                                                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
                                               SelectedItem="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -253,7 +257,7 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-                    <!--Sub-Area Of-->
+                        <!--Sub-Area Of-->
                         <DataGridTemplateColumn Header="Sub-Area&#x0a;Of"
                                     Width="75">
                             <DataGridTemplateColumn.CellTemplate>
@@ -311,7 +315,7 @@
                                         <RowDefinition Height="Auto"></RowDefinition>
                                     </Grid.RowDefinitions>
 
-                                   
+
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -324,8 +328,101 @@
 
             </StackPanel>
 
+
+            <Grid Grid.Row="1" Grid.Column="4" Grid.RowSpan="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Area Classifications"
+                           Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+                           Margin="10 10 0 0"
+                           FontWeight="SemiBold"/>
+
+                <ListBox x:Name="lstAreaClassification" 
+                         Grid.Row="2" Grid.Column="1"
+                         d:MinWidth="100" d:MinHeight="200"
+                         ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications,
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type Window}}}"
+                         DisplayMemberPath="Zone" PreviewMouseDown="lstAreaClassification_PreviewMouseDown"
+                         />
+                <TextBlock Text="{Binding ElementName=lstAreaClassification, Path=SelectedItem.ZoneDescription}"
+                            Grid.Row="2" Grid.Column="2"
+                           Margin="10"/>
+
+                <!--<DataGrid x:Name="dgdAreaClassifications"
+                          Grid.Row="2" Grid.Column="2"
+                          d:MinWidth="200"
+                          MaxWidth="650"
+                          MinRowHeight="200"
+                          ItemsSource="{Binding AreaClassificationsInfoTableItems}"
+                          AutoGenerateColumns="True">
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                        <ContentControl Content="{TemplateBinding Content}">
+                                            <ContentControl.ContentTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Background="Transparent" 
+                                                               TextWrapping="WrapWithOverflow" 
+                                                               TextTrimming="CharacterEllipsis" 
+                                                               Padding="5 2 5 2"
+                                                               Text="{Binding Text}"
+                                                               FontFamily="calibri"/>
+                                                </DataTemplate>
+                                            </ContentControl.ContentTemplate>
+                                        </ContentControl>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                    <Setter Property="Background" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.Resources>
+                </DataGrid>-->
+
+
+                <TextBlock Text="Nema Ratings"
+                           Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+                           Margin="10 10 0 0"
+                           FontWeight="SemiBold"/>
+
+                <ListBox x:Name="lstNemaRatings" 
+                         Grid.Row="5" Grid.Column="1"
+                         d:MinWidth="100" d:MinHeight="200"
+                         ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes,
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type Window}}}"
+                         DisplayMemberPath="Type" PreviewMouseDown="lstAreaClassification_PreviewMouseDown"
+                         />
+                <TextBlock Text="{Binding ElementName=lstNemaRatings, Path=SelectedItem.Description}"
+                           Grid.Row="5" Grid.Column="2"
+                           Margin="10"/>
+
+            </Grid>
+
+
             <!--ADD Area Grid-->
             <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
+                  VerticalAlignment="Top"
                   Visibility="Visible">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10"/>
@@ -352,7 +449,7 @@
                 <TextBlock Text="Tag" Margin="10 5 0 5"
                            Grid.Row="1" Grid.Column="{StaticResource Tag}" FontSize="10"
                            VerticalAlignment="Bottom" />
-                
+
                 <TextBlock Text="Display Tag" Margin="10 5 0 5"
                            Grid.Row="1" Grid.Column="{StaticResource DisplayTag}" FontSize="10"
                            VerticalAlignment="Bottom" />
@@ -360,7 +457,7 @@
                 <TextBlock Text="Area Name" Margin="10 5 0 5"
                            Grid.Row="1" Grid.Column="{StaticResource Name}" FontSize="10"
                            VerticalAlignment="Bottom" />
-                
+
 
                 <TextBlock Text="Area&#x0a;Category" Margin="10 5 0 5"
                            Grid.Row="1" Grid.Column="{StaticResource AreaCategory}" FontSize="10"
@@ -390,7 +487,7 @@
                          PreviewMouseDown="txtAreaTag_PreviewMouseDown" LostFocus="txtAreaTag_LostFocus"
                          Margin="5 0 5 0"
                          HorizontalContentAlignment="Left"/>
-                
+
                 <TextBox x:Name ="txtAreaDisplayTag"  
                          Grid.Row="2" Grid.Column="{StaticResource DisplayTag}"
                          Width="65" Height="23"
