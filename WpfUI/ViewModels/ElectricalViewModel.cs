@@ -1,6 +1,7 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using PropertyChanged;
@@ -27,8 +28,6 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     #region Constructor
     private DteqFactory _dteqFactory;
-    private LoadFactory _loadFactory;
-
     private ListManager _listManager;
     public ListManager ListManager
     {
@@ -48,7 +47,8 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         _listManager = listManager;
         _typeManager = new TypeManager();
         _dteqFactory = new DteqFactory(listManager);
-        _loadFactory = new LoadFactory(listManager);
+
+
         //members
         DteqGridViewModifier = new DataGridColumnViewToggle();
 
@@ -81,116 +81,76 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         AddLoadCommand = new RelayCommand(AddLoad);
 
 
-        ShowAllLoadsCommand = new RelayCommand(ShowAllLoads);
+        GetLoadListCommand = new RelayCommand(GetLoadList);
         SaveLoadListCommand = new RelayCommand(SaveLoadList);
         DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
 
         CalculateAllCommand = new RelayCommand(CalculateAll);
         //CalculateAllCommand = new RelayCommand(CalculateAll, startupService.IsProjectLoaded);
+
+        ToggleLoadDisconnectCommand = new RelayCommand(ToggleDisconnectLoad);
+    }
+
+    private void ToggleDisconnectLoad()
+    {
+        LoadModel selectedLoad = (LoadModel)SelectedLoad;
+        //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
+        try {
+            CableManager.AssignPowerCables(selectedLoad, _listManager);
+                }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
     }
 
     #endregion
+
+    #region Public Commands
+
+    // Equipment Commands
+
+    public ICommand ToggleRowDetailViewCommand { get; }
+    public ICommand ToggleLoadingViewDteqCommand { get; }
+    public ICommand ToggleOcpdViewDteqCommand { get; }
+    public ICommand ToggleCableViewDteqCommand { get; }
+
+    public ICommand GetAllCommand { get; }
+    public ICommand SaveAllCommand { get; }
+    public ICommand DeleteDteqCommand { get; }
+    public ICommand SizeCablesCommand { get; }
+    public ICommand CalculateAllCableAmpsCommand { get; }
+    public ICommand CalculateSingleEqCableSizeCommand { get; }
+    public ICommand CalculateSingleEqCableAmpsCommand { get; }
+
+    public ICommand AddDteqCommand { get; }
+    public ICommand AddLoadCommand { get; }
+
+
+    // Load Commands
+    public ICommand GetLoadListCommand { get; }
+    public ICommand SaveLoadListCommand { get; }
+    public ICommand DeleteLoadCommand { get; }
+
+    public ICommand CalculateAllCommand { get; }
+
+    public ICommand ToggleOcpdViewLoadCommand { get; }
+
+
+
+
+    public ICommand ToggleLoadDisconnectCommand { get; }
+
+
+
+    #endregion
+
     private void TestCommand()
     {
         _listManager.CreateCableList();
     }
 
-    #region WindowSizing
-
-    //Dteq
-    private System.Windows.GridLength _dteqGridRight = new System.Windows.GridLength(AppSettings.Default.DteqGridRight, GridUnitType.Star);
-    public System.Windows.GridLength DteqGridRight
-    {
-        get { return _dteqGridRight; }
-        set
-        {
-            _dteqGridRight = value;
-            AppSettings.Default.DteqGridRight = _dteqGridRight.Value;
-            AppSettings.Default.Save();
-        }
-    }
-
-    private System.Windows.GridLength _dteqGridBottom = new System.Windows.GridLength(AppSettings.Default.DteqGridBottom, GridUnitType.Pixel);
-    public System.Windows.GridLength DteqGridBottom
-    {
-        get { return _dteqGridBottom; }
-        set
-        {
-            double oldBottom = _dteqGridBottom.Value;
-            _dteqGridBottom = value;
-            AppSettings.Default.DteqGridBottom = _dteqGridBottom.Value;
-            AppSettings.Default.Save();
-
-            //DteqGridHeight = 275; //Uncomment to Position, Comment to Lock
-
-            DteqGridHeight += (_dteqGridBottom.Value - oldBottom);
-            AppSettings.Default.DteqGridHeight = DteqGridHeight;
-            AppSettings.Default.Save();
-
-            LoadGridHeight -= (_dteqGridBottom.Value - oldBottom);
-            AppSettings.Default.LoadGridHeight = LoadGridHeight;
-            AppSettings.Default.Save();
-        }
-    }
-    public double DteqGridHeight { get; set; }
-
-    //Load
-    private System.Windows.GridLength _loadGridRight = new System.Windows.GridLength(AppSettings.Default.LoadGridRight, GridUnitType.Star);
-    public System.Windows.GridLength LoadGridRight
-    {
-        get { return _loadGridRight; }
-        set
-        {
-            _loadGridRight = value;
-            AppSettings.Default.LoadGridRight = _loadGridRight.Value;
-            AppSettings.Default.Save();
-        }
-    }
-
-    private System.Windows.GridLength _loadGridTop = new System.Windows.GridLength(AppSettings.Default.LoadGridTop, GridUnitType.Pixel);
-    public System.Windows.GridLength LoadGridTop
-    {
-        get { return _loadGridTop; }
-        set
-        {
-            double oldTop = _loadGridTop.Value;
-            _loadGridTop = value;
-            AppSettings.Default.LoadGridTop = _loadGridTop.Value;
-            AppSettings.Default.Save();
-
-            //LoadGridHeight = 350; //Uncomment to position, Comment to Lock
-
-            LoadGridHeight -= (_loadGridTop.Value - oldTop);
-            AppSettings.Default.LoadGridHeight = LoadGridHeight;
-            AppSettings.Default.Save();
-        }
-    }
-
-    private System.Windows.GridLength _loadGridBottom = new System.Windows.GridLength(AppSettings.Default.LoadGridBottom, GridUnitType.Pixel);
-    public System.Windows.GridLength LoadGridBottom
-    {
-        get { return _loadGridBottom; }
-        set
-        {
-            _loadGridBottom = value;
-            AppSettings.Default.LoadGridBottom = _loadGridBottom.Value;
-            AppSettings.Default.Save();
-        }
-    }
-    private double _loadGridHeight;
-    public double LoadGridHeight
-    {
-        get { return _loadGridHeight; }
-        set
-        {
-            _loadGridHeight = value;
-            AppSettings.Default.LoadGridBottom = _loadGridBottom.Value;
-            AppSettings.Default.Save();
-        }
-    }
-
-    #endregion
+   
 
 
     #region Views States
@@ -395,37 +355,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
 
 
-    #region Public Commands
-
-    // Equipment Commands
-
-    public ICommand ToggleRowDetailViewCommand { get; }
-    public ICommand ToggleLoadingViewDteqCommand { get; }
-    public ICommand ToggleOcpdViewDteqCommand { get; }
-    public ICommand ToggleCableViewDteqCommand { get; }
-
-    public ICommand GetAllCommand { get; }
-    public ICommand SaveAllCommand { get; }
-    public ICommand DeleteDteqCommand { get; }
-    public ICommand SizeCablesCommand { get; }
-    public ICommand CalculateAllCableAmpsCommand { get; }
-    public ICommand CalculateSingleEqCableSizeCommand { get; }
-    public ICommand CalculateSingleEqCableAmpsCommand { get; }
-
-    public ICommand AddDteqCommand { get; }
-    public ICommand AddLoadCommand { get; }
-
-
-    // Load Commands
-    public ICommand ShowAllLoadsCommand { get; }
-    public ICommand SaveLoadListCommand { get; }
-    public ICommand DeleteLoadCommand { get; }
-
-    public ICommand CalculateAllCommand { get; }
-
-    public ICommand ToggleOcpdViewLoadCommand { get; }
-    #endregion
-
+    
 
 
     #region View Toggles
@@ -498,10 +428,10 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         try {
             foreach (var item in _listManager.IDteqList) {
-                item.SizeCable();
+                item.SizePowerCable();
             }
             foreach (var item in _listManager.LoadList) {
-                item.SizeCable();
+                item.SizePowerCable();
             }
         }
         catch (Exception ex) { 
@@ -581,8 +511,8 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
                 newDteq.CalculateLoading(); //after dteq is inserted to get a new Id
 
                 //Cable
-                newDteq.CreateCable();
-                newDteq.SizeCable();
+                newDteq.CreatePowerCable();
+                newDteq.SizePowerCable();
                 newDteq.CalculateCableAmps();
                 newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
                 _listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
@@ -708,7 +638,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
     // Loads
-    public async void ShowAllLoads()
+    public async void GetLoadList()
     {
         await GetLoadListAsync();
     }
@@ -823,33 +753,133 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     #endregion
 
     #region Error Validation //INotifyDataErrorInfo
-    public bool HasErrors => _errorDict.Any();
-    public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-    public readonly Dictionary<string, List<string>> _errorDict = new Dictionary<string, List<string>>();
+    //public bool HasErrors => _errorDict.Any();
+    //public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
+    //public readonly Dictionary<string, List<string>> _errorDict = new Dictionary<string, List<string>>();
 
-    private void ClearErrors(string propertyName)
-    {
-        _errorDict.Remove(propertyName);
-        OnErrorsChanged(propertyName);
-    }
+    //private void ClearErrors(string propertyName)
+    //{
+    //    _errorDict.Remove(propertyName);
+    //    OnErrorsChanged(propertyName);
+    //}
 
-    public void AddError(string propertyName, string errorMessage)
+    //public void AddError(string propertyName, string errorMessage)
+    //{
+    //    if (!_errorDict.ContainsKey(propertyName)) { // check if error Key exists
+    //        _errorDict.Add(propertyName, new List<string>()); // create if not
+    //    }
+    //    _errorDict[propertyName].Add(errorMessage); //add error message to list of error messages
+    //    OnErrorsChanged(propertyName);
+    //}
+
+    //public IEnumerable GetErrors(string? propertyName)
+    //{
+    //    return _errorDict.GetValueOrDefault(propertyName, null);
+    //}
+
+    //private void OnErrorsChanged(string? propertyName)
+    //{
+    //    ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+    //}
+
+    #endregion
+
+
+
+
+
+    #region WindowSizing
+
+    //Dteq
+    private System.Windows.GridLength _dteqGridRight = new System.Windows.GridLength(AppSettings.Default.DteqGridRight, GridUnitType.Star);
+    public System.Windows.GridLength DteqGridRight
     {
-        if (!_errorDict.ContainsKey(propertyName)) { // check if error Key exists
-            _errorDict.Add(propertyName, new List<string>()); // create if not
+        get { return _dteqGridRight; }
+        set
+        {
+            _dteqGridRight = value;
+            AppSettings.Default.DteqGridRight = _dteqGridRight.Value;
+            AppSettings.Default.Save();
         }
-        _errorDict[propertyName].Add(errorMessage); //add error message to list of error messages
-        OnErrorsChanged(propertyName);
     }
 
-    public IEnumerable GetErrors(string? propertyName)
+    private System.Windows.GridLength _dteqGridBottom = new System.Windows.GridLength(AppSettings.Default.DteqGridBottom, GridUnitType.Pixel);
+    public System.Windows.GridLength DteqGridBottom
     {
-        return _errorDict.GetValueOrDefault(propertyName, null);
+        get { return _dteqGridBottom; }
+        set
+        {
+            double oldBottom = _dteqGridBottom.Value;
+            _dteqGridBottom = value;
+            AppSettings.Default.DteqGridBottom = _dteqGridBottom.Value;
+            AppSettings.Default.Save();
+
+            //DteqGridHeight = 275; //Uncomment to Position, Comment to Lock
+
+            DteqGridHeight += (_dteqGridBottom.Value - oldBottom);
+            AppSettings.Default.DteqGridHeight = DteqGridHeight;
+            AppSettings.Default.Save();
+
+            LoadGridHeight -= (_dteqGridBottom.Value - oldBottom);
+            AppSettings.Default.LoadGridHeight = LoadGridHeight;
+            AppSettings.Default.Save();
+        }
+    }
+    public double DteqGridHeight { get; set; }
+
+    //Load
+    private System.Windows.GridLength _loadGridRight = new System.Windows.GridLength(AppSettings.Default.LoadGridRight, GridUnitType.Star);
+    public System.Windows.GridLength LoadGridRight
+    {
+        get { return _loadGridRight; }
+        set
+        {
+            _loadGridRight = value;
+            AppSettings.Default.LoadGridRight = _loadGridRight.Value;
+            AppSettings.Default.Save();
+        }
     }
 
-    private void OnErrorsChanged(string? propertyName)
+    private System.Windows.GridLength _loadGridTop = new System.Windows.GridLength(AppSettings.Default.LoadGridTop, GridUnitType.Pixel);
+    public System.Windows.GridLength LoadGridTop
     {
-        ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        get { return _loadGridTop; }
+        set
+        {
+            double oldTop = _loadGridTop.Value;
+            _loadGridTop = value;
+            AppSettings.Default.LoadGridTop = _loadGridTop.Value;
+            AppSettings.Default.Save();
+
+            //LoadGridHeight = 350; //Uncomment to position, Comment to Lock
+
+            LoadGridHeight -= (_loadGridTop.Value - oldTop);
+            AppSettings.Default.LoadGridHeight = LoadGridHeight;
+            AppSettings.Default.Save();
+        }
+    }
+
+    private System.Windows.GridLength _loadGridBottom = new System.Windows.GridLength(AppSettings.Default.LoadGridBottom, GridUnitType.Pixel);
+    public System.Windows.GridLength LoadGridBottom
+    {
+        get { return _loadGridBottom; }
+        set
+        {
+            _loadGridBottom = value;
+            AppSettings.Default.LoadGridBottom = _loadGridBottom.Value;
+            AppSettings.Default.Save();
+        }
+    }
+    private double _loadGridHeight;
+    public double LoadGridHeight
+    {
+        get { return _loadGridHeight; }
+        set
+        {
+            _loadGridHeight = value;
+            AppSettings.Default.LoadGridBottom = _loadGridBottom.Value;
+            AppSettings.Default.Save();
+        }
     }
 
     #endregion

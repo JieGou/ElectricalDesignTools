@@ -9,7 +9,8 @@
         
         Title="Create New Project" 
         Height="500" Width="650"
-        WindowStartupLocation="CenterScreen" >
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -106,7 +107,7 @@
                           Margin="5,15,5,15"/>
 
                 <TextBlock Text="Save Location"  
-                   Grid.Row="10" Grid.Column="1" Margin="5,5,5,5"/>
+                   Grid.Row="10" Grid.Column="1" Margin="-40,5,5,5"/>
             </Grid>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"

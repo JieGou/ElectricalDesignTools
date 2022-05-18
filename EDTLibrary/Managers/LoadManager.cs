@@ -70,8 +70,9 @@ public class LoadManager
         listManager.LoadList.Add(newLoad);
         newLoad.CalculateLoading(); //after load is inserted to get new Id - //150ms
 
+
         //Cable
-        newLoad.SizeCable(); // 51ms
+        newLoad.SizePowerCable(); // 51ms
         newLoad.CalculateCableAmps();
         if (listManager.CableList.Count != 0) {
             newLoad.PowerCable.Id = listManager.LoadList.Max(l => l.Id);

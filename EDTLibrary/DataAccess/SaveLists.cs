@@ -13,9 +13,9 @@ namespace EDTLibrary.DataAccess
         {   
             "InLineComponents",
             "AssignedLoads",
-            "CircuitComponents",
             "PowerCable",
             "Components",
+            "CctComponents",
             "FedFrom",
             "Area",
             "LargestMotor",
@@ -31,9 +31,9 @@ namespace EDTLibrary.DataAccess
         static public List<string> LoadSaveList { get; set; } = new List<string>() 
         {
             "InLineComponents",
-            "CircuitComponents",
             "PowerCable",
             "Components",
+            "CctComponents",
             "FedFrom",
             "Area",
             "Lcs",

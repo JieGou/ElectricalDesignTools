@@ -230,7 +230,7 @@
 
 
                 <Button x:Name ="btnLoadList" Content="Load List" Height="27" Width="125"
-                        Command="{Binding ShowAllLoadsCommand}"/>
+                        Command="{Binding GetLoadListCommand}"/>
 
                 <Button x:Name ="btnSaveLoadList" Content="Save Load List" Height="27" Width="125"
                         Command="{Binding SaveLoadListCommand}"/>
@@ -1103,6 +1103,22 @@
                           RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}"
                           SelectionChanged="dgdAssignedLoads_SelectionChanged" PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown"
                           >
+                    <DataGrid.Resources>
+                        <Style x:Key="errorStyle" TargetType="{x:Type TextBlock}">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="ToolTipService.InitialShowDelay" Value="100"/>
+                            <Style.Triggers>
+                                <Trigger Property="Validation.HasError" Value="True">
+                                    <Setter Property="Background" Value="Red"/>
+                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        
+                    </DataGrid.Resources>
+                    
+                    
                     <!--Height="{Binding LoadGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
                     <DataGrid.ContextMenu>
                         <ContextMenu>
@@ -1503,7 +1519,13 @@
                                                 HeaderStyle="{StaticResource ComponentColumnHeader}" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Path=DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                    <CheckBox IsChecked="{Binding Path=DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                                              Command="{Binding Path=DataContext.ToggleLoadDisconnectCommand, 
+                                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"
+                                              />
+                                    <!--CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"-->
+                                    
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding Type}" Value="XFR">
                                             <Setter Property="IsEnabled" Value="False" />
@@ -1626,6 +1648,23 @@
                                 HeaderStyle="{StaticResource CableHeaderColumn}" />
 
                     </DataGrid.Columns>
+
+                    <DataGrid.RowValidationErrorTemplate>
+                        <ControlTemplate>
+                            <Grid Margin="5,2,0,0"
+                                ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=(Validation.Errors)[0].ErrorContent}"
+                                ToolTipService.InitialShowDelay="50">
+
+                                <!--<Ellipse StrokeThickness="0" Fill="Red" 
+                                Width="{TemplateBinding FontSize}" 
+                                Height="{TemplateBinding FontSize}" />-->
+                                <TextBlock Text="X" FontSize="15" 
+                                    FontWeight="UltraBold" Foreground="Red" 
+                                    HorizontalAlignment="Stretch"  />
+                            </Grid>
+                        </ControlTemplate>
+                    </DataGrid.RowValidationErrorTemplate>
+                    
                 </DataGrid>
 
                 <!--***********************************-->

@@ -8,21 +8,12 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Loads
 {
-    public interface IPowerConsumer : IEquipment
+    public interface IPowerConsumer : IPowerCableUser
 
     {
 
-        double Voltage { get; set; }
-        double Size { get; set; }
-        string Unit { get; set; }
-        double Fla { get; set; }
-        string FedFromTag { get; set; }
 
-        int FedFromId { get; set; }
-        string FedFromType { get; set; }
-        IDteq FedFrom { get; set; }
-
-        double AmpacityFactor { get; set; }
+        ObservableCollection<Components.IComponent> CctComponents { get; set; }
 
         ///Lookups
         double PowerFactor { get; set; }
@@ -35,18 +26,11 @@ namespace EDTLibrary.Models.Loads
         double RunningAmps { get; set; }
 
 
-        string PdType { get; set; }
-        double PdSizeTrip { get; set; }
-        double PdSizeFrame { get; set; }
-
-        int PowerCableId { get; set; }
-        PowerCableModel PowerCable { get; set; }
+       
 
         void CalculateLoading();
 
-        void CreateCable();
-        void SizeCable();
-        void CalculateCableAmps();
+        
 
 
 

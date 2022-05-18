@@ -20,24 +20,24 @@ namespace EDTLibrary
     [AddINotifyPropertyChangedInterface]
     public class ListManager {
 
-        public ObservableCollection<IArea>                      AreaList { get; set; } = new ObservableCollection<IArea>();
+        public ObservableCollection<IArea> AreaList { get; set; } = new ObservableCollection<IArea>();
 
 
-        public ObservableCollection<IEquipment>                 EqList { get; set; } = new ObservableCollection<IEquipment>();
-        public ObservableCollection<IDteq>                      IDteqList { get; set; } = new ObservableCollection<IDteq>();
-        public ObservableCollection<DistributionEquipment>      DteqList { get; set; } = new ObservableCollection<DistributionEquipment>();
-        public ObservableCollection<XfrModel>                   XfrList { get; set; } = new ObservableCollection<XfrModel>();
-        public ObservableCollection<SwgModel>                   SwgList { get; set; } = new ObservableCollection<SwgModel>();
-        public ObservableCollection<MccModel>                   MccList { get; set; } = new ObservableCollection<MccModel>();
+        public ObservableCollection<IEquipment>  EqList { get; set; } = new ObservableCollection<IEquipment>();
+        public ObservableCollection<IDteq> IDteqList { get; set; } = new ObservableCollection<IDteq>();
+        public ObservableCollection<DistributionEquipment> DteqList { get; set; } = new ObservableCollection<DistributionEquipment>();
+        public ObservableCollection<XfrModel> XfrList { get; set; } = new ObservableCollection<XfrModel>();
+        public ObservableCollection<SwgModel> SwgList { get; set; } = new ObservableCollection<SwgModel>();
+        public ObservableCollection<MccModel> MccList { get; set; } = new ObservableCollection<MccModel>();
 
 
-        public ObservableCollection<ILoad>                      LoadList { get; set; } = new ObservableCollection<ILoad>();
-        public ObservableCollection<IComponent>          CompList { get; set; } = new ObservableCollection<IComponent>();
+        public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
+        public ObservableCollection<IComponent> CompList { get; set; } = new ObservableCollection<IComponent>();
 
         public ObservableCollection<PowerCableModel> CableList { get; set; } = new ObservableCollection<PowerCableModel>();
 
-        public Dictionary<string, IDteq>                dteqDict { get; set; } = new Dictionary<string, IDteq>();
-        public Dictionary<string, IPowerConsumer>       iLoadDict { get; set; } = new Dictionary<string, IPowerConsumer>();
+        public Dictionary<string, IDteq> dteqDict { get; set; } = new Dictionary<string, IDteq>();
+        public Dictionary<string, IPowerConsumer> iLoadDict { get; set; } = new Dictionary<string, IPowerConsumer>();
 
         public async Task SetDteq()
         {
@@ -69,6 +69,8 @@ namespace EDTLibrary
                 GetAreas();
                 GetDteq();
                 GetLoads();
+                //TODO - Get Components for each type and create a master component list
+                CompList.Clear();
                 GetCables();
 
                 //Assign
@@ -88,6 +90,11 @@ namespace EDTLibrary
             }
 
             GlobalConfig.GettingRecords = false;
+        }
+
+        public void AddCable(IPowerCableUser selectedLoad)
+        {
+            
         }
 
         public ObservableCollection<IArea> GetAreas()
@@ -190,6 +197,7 @@ namespace EDTLibrary
         }
         public ObservableCollection<PowerCableModel> GetCables()
         {
+            CableList.Clear();
             CableList = DaManager.prjDb.GetRecords<PowerCableModel>(GlobalConfig.PowerCableTable);
             AssignCableTypes();
             return CableList;
@@ -262,7 +270,6 @@ namespace EDTLibrary
         {
             foreach (IDteq dteq in DteqList) {
                 dteq.AssignedLoads.Clear();
-                dteq.LoadCount = 0;
 
                 AssignLoadsAndSubscribeToEvents(dteq);
                 dteq.CalculateLoading();

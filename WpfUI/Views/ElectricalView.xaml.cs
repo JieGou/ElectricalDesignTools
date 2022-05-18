@@ -174,7 +174,7 @@ public partial class ElectricalView : UserControl
                 AddTestDteq(listManager, start);
                 start = DateTime.Now.ToString();
                 await Task.Run(() => AddTestLoadsAsync(listManager));
-                elecVm.ShowAllLoads();
+                elecVm.GetLoadList();
                 Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
                 break;
 

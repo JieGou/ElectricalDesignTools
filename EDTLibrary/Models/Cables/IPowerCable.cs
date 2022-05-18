@@ -17,7 +17,7 @@ namespace EDTLibrary.Models.Cables
         double RequiredSizingAmps { get; set; }
         string AmpacityTable { get; set; }
         string InstallationDiagram { get; set; }
-        IPowerConsumer Load { get; set; }
+        IPowerCableUser Load { get; set; }
 
         bool SizeIsValid { get; set; }
 

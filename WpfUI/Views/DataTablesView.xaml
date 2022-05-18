@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:WpfUI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1250"
-             Background="#FFE6D3C1">
-    
+             Background="#FFE6D3C1" Loaded="UserControl_Loaded"
+             >
+
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -16,8 +17,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
-    
+
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -32,11 +33,11 @@
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10" />
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="1020*"/>
+                <ColumnDefinition Width="51*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="10"/>
@@ -48,14 +49,14 @@
             </Grid.RowDefinitions>
 
             <Button Content="Get List"
-                    Grid.Row="1" Grid.Column="2"
+                    Grid.Row="1" Grid.Column="1"
                     Command="{Binding GetDataTablesCommand}"
                     VerticalAlignment="Bottom"/>
-            
+
             <ListBox x:Name="lstDataTables"
-                     Grid.Column="2" Grid.Row="2" 
+                     Grid.Column="1" Grid.Row="2" 
                      MinHeight="100" Height="auto" 
-                     Width="150"
+                     MinWidth="150"
                      ItemsSource="{Binding DataTableList}"
                      SelectedItem="{Binding SelectedDataTable}"/>
 

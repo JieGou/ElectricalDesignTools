@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfUI.ViewModels;
 
 namespace WpfUI.Views
 {
@@ -21,6 +22,8 @@ namespace WpfUI.Views
     /// </summary>
     public partial class DataTablesView : UserControl
     {
+        private DataTablesViewModel dataTableVm { get { return DataContext as DataTablesViewModel; } }
+
         public DataTablesView()
         {
             InitializeComponent();
@@ -47,6 +50,11 @@ namespace WpfUI.Views
                 e.Cancel = true;
             }
 
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            dataTableVm.GetDataTables();
         }
     }
 }

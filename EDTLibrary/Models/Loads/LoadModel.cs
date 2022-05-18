@@ -20,13 +20,13 @@ namespace EDTLibrary.Models.Loads
         {
             Description = "";
             Category = Categories.LOAD3P.ToString();
+            PowerCable = new PowerCableModel();
             
         }
         public LoadModel(string tag)
         {
             Tag = tag;
         }
-
         //Properties
         public int Id { get; set; }
         private string _tag;
@@ -170,7 +170,7 @@ namespace EDTLibrary.Models.Loads
                 if (GlobalConfig.GettingRecords == false) {
                     //OnFedFromChanged();
                     CalculateLoading();
-                    CreateCable();
+                    CreatePowerCable();
                     PowerCable.AssignTagging(this);
                 }
             }
@@ -245,9 +245,10 @@ namespace EDTLibrary.Models.Loads
 
         //Cables
 
-        public int PowerCableId { get; set; }
         public PowerCableModel PowerCable { get; set; }
         public ObservableCollection<IComponent> Components { get; set; } = new ObservableCollection<IComponent>();
+        public ObservableCollection<IComponent> CctComponents { get; set; } = new ObservableCollection<IComponent>();
+
 
 
         //Components
@@ -261,7 +262,18 @@ namespace EDTLibrary.Models.Loads
                 if (_driveBool == true) {
                     PdType = "BKR";
                 }
+
+                if (_driveBool == true) {
+                    ComponentManager.AddDrive(this, ScenarioManager.ListManager);
+                }
+                if (_driveBool == false) {
+                    ComponentManager.RemoveDrive(this, ScenarioManager.ListManager);
+                }
+
+                
+                OnPropertyUpdated();
             }
+
         }
 
         private int _driveId;
@@ -279,7 +291,19 @@ namespace EDTLibrary.Models.Loads
             { 
                 var oldValue = _disconnectBool;
                 _disconnectBool = value;
-                
+
+                if (_disconnectBool == true) {
+                    ComponentManager.AddDisconnect(this, ScenarioManager.ListManager);
+                }
+                if (_disconnectBool == false) {
+                    ComponentManager.RemoveDisconnect(this, ScenarioManager.ListManager);
+                }
+
+                //CableManager.AssignPowerCables(this);
+                OnCctComponentChanged();
+
+                OnPropertyUpdated();
+
             }
         }
 
@@ -299,15 +323,23 @@ namespace EDTLibrary.Models.Loads
             {
                 var _oldValue = _lcsBool;
                 _lcsBool = value;
+
                 if (_lcsBool == true) {
-                    ComponentManager.CreateLcs(this, ScenarioManager.ListManager);
+                    ComponentManager.AddLcs(this, ScenarioManager.ListManager);
                 }
                 if (_lcsBool == false) {
                     ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
                 }
 
+
+                OnPropertyUpdated();
+
             }
         }
+
+
+
+
 
 
 
@@ -472,15 +504,15 @@ namespace EDTLibrary.Models.Loads
             PowerFactor = Math.Round(PowerFactor, 2);
         }
 
-        public void CreateCable()
+        public void CreatePowerCable()
         {
             if (PowerCable == null) {
                 PowerCable = new PowerCableModel(this);
             }
         }
-        public void SizeCable()
+        public void SizePowerCable()
         {
-            CreateCable();
+            CreatePowerCable();
             PowerCable.SetCableParameters(this);
             PowerCable.CreateTypeList(this);
             PowerCable.CalculateCableQtyAndSize();
@@ -508,6 +540,13 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
+        public event EventHandler CctComponentChanged;
+        public virtual void OnCctComponentChanged()
+        {
+            if (CctComponentChanged != null) {
+                CctComponentChanged(this, EventArgs.Empty);
+            }
+        }
         public void UpdateAreaProperties()
         {
             NemaRating = Area.NemaRating;

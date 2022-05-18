@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Components
 {
-    public class CctComponentModel : IComponent
+    public class CctComponentModel : ICircuitComponent
     {
         public CctComponentModel()
         {
@@ -20,7 +20,6 @@ namespace EDTLibrary.Models.Components
         public string Category { get; set; }
         public string Type { get; set; }
         public string SubType { get; set; }
-        public string Owner { get; set; }
 
         public int AreaId { get; set; }
         public IArea Area { get; set; }
@@ -28,8 +27,8 @@ namespace EDTLibrary.Models.Components
         public string AreaClassification { get; set; }
         public int OwnerId { get; set; }
         public string OwnerType { get; set; }
+        public IEquipment Owner { get; set; }
         public int SequenceNumber { get; set; }
-        IEquipment IComponent.Owner { get; set; }
 
         public event EventHandler PropertyUpdated;
 

@@ -308,72 +308,71 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer>();
 
-        public int PowerCableId { get; set; }
-
         public PowerCableModel PowerCable { get; set; }
-        public int LoadCount { get; set; }
 
         //In IComponenetModel
         //public ObservableCollection<IComponent> Components { get; set; }
         public ObservableCollection<IComponent> Components { get; set; } = new ObservableCollection<IComponent>();
+        public ObservableCollection<IComponent> CctComponents { get; set; } = new ObservableCollection<IComponent>();
+
         //Components
-        private bool _driveBool;
-        public bool DriveBool
-        {
-            get { return _driveBool; }
-            set
-            {
-                _driveBool = value;
-                if (_driveBool == true) {
-                    PdType = "BKR";
-                }
-            }
-        }
+        //private bool _driveBool;
+        //public bool DriveBool
+        //{
+        //    get { return _driveBool; }
+        //    set
+        //    {
+        //        _driveBool = value;
+        //        if (_driveBool == true) {
+        //            PdType = "BKR";
+        //        }
+        //    }
+        //}
 
-        private int _driveId;
-        public int DriveId
-        {
-            get { return _driveId; }
-            set { _driveId = value; }
-        }
+        //private int _driveId;
+        //public int DriveId
+        //{
+        //    get { return _driveId; }
+        //    set { _driveId = value; }
+        //}
 
-        private bool _disconnectBool;
-        public bool DisconnectBool
-        {
-            get { return _disconnectBool; }
-            set
-            {
-                var oldValue = _disconnectBool;
-                _disconnectBool = value;
+        //private bool _disconnectBool;
+        //public bool DisconnectBool
+        //{
+        //    get { return _disconnectBool; }
+        //    set
+        //    {
+        //        var oldValue = _disconnectBool;
+        //        _disconnectBool = value;
 
-            }
-        }
+        //    }
+        //}
 
-        private int _disconnectId;
-        public int DisconnectId
-        {
-            get { return _disconnectId; }
-            set { _disconnectId = value; }
-        }
+        //private int _disconnectId;
+        //public int DisconnectId
+        //{
+        //    get { return _disconnectId; }
+        //    set { _disconnectId = value; }
+        //}
 
-        public LocalControlStation Lcs { get; set; }
-        private bool _lcsBool;
-        public bool LcsBool
-        {
-            get { return _lcsBool; }
-            set
-            {
-                var _oldValue = _lcsBool;
-                _lcsBool = value;
-                if (_lcsBool == true) {
-                    ComponentManager.CreateLcs(this, ScenarioManager.ListManager);
-                }
-                if (_lcsBool == false) {
-                    ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
-                }
+        //public LocalControlStation Lcs { get; set; }
+        //private bool _lcsBool;
+        //public bool LcsBool
+        //{
+        //    get { return _lcsBool; }
+        //    set
+        //    {
+        //        var _oldValue = _lcsBool;
+        //        _lcsBool = value;
+        //        if (_lcsBool == true) {
+        //            ComponentManager.AddLcs(this, ScenarioManager.ListManager);
+        //        }
+        //        if (_lcsBool == false) {
+        //            ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
+        //        }
 
-            }
-        }
+        //    }
+        //}
 
 
         #endregion
@@ -439,15 +438,15 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         }
 
-        public void CreateCable()
+        public void CreatePowerCable()
         {
             if (PowerCable == null && GlobalConfig.GettingRecords==false) {
                 PowerCable = new PowerCableModel(this);
             }
         }
-        public void SizeCable()
+        public void SizePowerCable()
         {
-            CreateCable();
+            CreatePowerCable();
             PowerCable.SetCableParameters(this);
             PowerCable.CreateTypeList(this);
             PowerCable.CalculateCableQtyAndSize();

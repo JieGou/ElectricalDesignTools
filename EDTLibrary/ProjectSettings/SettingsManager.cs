@@ -101,7 +101,7 @@ namespace EDTLibrary.ProjectSettings
         private static void AssignCodeSettings()
         {
             if (EdtSettings.Code == "CEC") {
-                CableSizeManager.CableSizer = new CecCableSizer();
+                CableManager.CableSizer = new CecCableSizer();
             }
         }
 

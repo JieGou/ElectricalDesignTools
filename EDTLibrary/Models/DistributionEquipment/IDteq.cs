@@ -12,7 +12,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         double LoadVoltage { get; set; }
 
         ObservableCollection<IPowerConsumer> AssignedLoads { get; set; }
-        int LoadCount { get; set; }
 
         public double SCCR { get; set; }
     }

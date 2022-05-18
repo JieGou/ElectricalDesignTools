@@ -237,8 +237,17 @@ namespace EDTLibrary.DataAccess
                 }
 
                 // removes properties to ignore
+                string input;
+                string pattern;
+                string replace = "";
                 foreach (var prop in propertiesToIgnore) {
-                    sb.Replace($"{prop}, ", "");
+                    input = sb.ToString();
+                    pattern = $@"\b{prop}, ";
+                    replace = "";
+                    sb.Clear();
+                    sb.Append(Regex.Replace(input, pattern, ""));
+
+                    //sb.Replace($"{prop}, ", "");
                 }
 
                 //string input = sb.ToString();
@@ -260,9 +269,15 @@ namespace EDTLibrary.DataAccess
                     }
                 }
 
-                // removes properties to ignore
+                // removes properties to ignore with @
                 foreach (var prop in propertiesToIgnore) {
-                    sb.Replace($"@{prop}, ", "");
+                    input = sb.ToString();
+                    pattern = $@"(@{prop}, )";
+                    replace = "";
+                    sb.Clear();
+                    sb.Append(Regex.Replace(input, pattern, ""));
+
+                    //sb.Replace($"@{prop}, ", "");
                 }
                 //sb.Replace("@Id,", "");
                 sb.Replace(",", "", sb.Length - 2, 2);
@@ -279,6 +294,7 @@ namespace EDTLibrary.DataAccess
 
                 // removes properties to ignore
                 foreach (var prop in propertiesToIgnore) {
+
                     sb.Replace($"{prop} = @{prop}, ", "");
                 }
 
