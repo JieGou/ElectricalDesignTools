@@ -20,7 +20,7 @@ namespace EDTLibrary.Models.Loads
         {
             Description = "";
             Category = Categories.LOAD3P.ToString();
-            PowerCable = new PowerCableModel(this);
+            PowerCable = new PowerCableModel();
             
         }
         public LoadModel(string tag)
@@ -506,7 +506,7 @@ namespace EDTLibrary.Models.Loads
 
         public void CreatePowerCable()
         {
-            if (PowerCable == null) {
+            if (PowerCable.Load == null) {
                 PowerCable = new PowerCableModel(this);
             }
         }

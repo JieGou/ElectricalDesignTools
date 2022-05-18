@@ -86,7 +86,7 @@ namespace EDTLibrary
                 else {
                     ex.Data["UserMessage"] = "The project database may have been deleted or corrupted since opening. Go to the home screen and reopen the project.";
                 }
-                throw ex;
+                throw;
             }
 
             GlobalConfig.GettingRecords = false;
@@ -173,8 +173,8 @@ namespace EDTLibrary
 
             return DteqList;
         }
-        public ObservableCollection<ILoad> GetLoads() {     
-            var list = DaManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable);
+        public ObservableCollection<ILoad> GetLoads() {
+            var list = DaManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable); //new List<LoadModel>(); //
             LoadList.Clear();
             foreach (var item in list) {
                 LoadList.Add(item);

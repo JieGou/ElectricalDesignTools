@@ -95,8 +95,14 @@ public class DaManager {
 
     public static AreaModel GetArea(int locationId)
     {
-        return prjDb.GetRecordById<AreaModel>(GlobalConfig.AreaTable, locationId);
-    }
+        try {
+            return prjDb.GetRecordById<AreaModel>(GlobalConfig.AreaTable, locationId);
+
+        }
+        catch (Exception ex) {
+
+            throw;
+        }    }
 
     //Events
 
