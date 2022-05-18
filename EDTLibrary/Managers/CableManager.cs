@@ -28,15 +28,58 @@ public class CableManager
     
     public static void AssignPowerCables(IPowerConsumer load, ListManager listManager)
     {
-        IComponent previousComponent = null;
-        foreach (var component in load.CctComponents) {
-            PowerCableModel cable = new PowerCableModel();
-            cable.Tag = load.FedFrom.Tag + TagSettings.CableTagSeparator + component.Tag;
-            cable.TypeModel = load.PowerCable.TypeModel;
-            listManager.CableList.Add(cable);
-            previousComponent = component;
+        try {
+            //Todo - delete only component cables
+            List<PowerCableModel> cablesToRemove = new List<PowerCableModel>();
+            foreach (var item in listManager.CableList) {
+                if (item.OwnerId == load.Id
+                    && item.UsageType == "test") {
+                    cablesToRemove.Add(item);
+                }
+            }
+
+            foreach (var item in cablesToRemove) {
+                listManager.CableList.Remove(item);
+            }
+
+            IComponent previousComponent = null;
+            foreach (var component in load.CctComponents) {
+
+                PowerCableModel cable = new PowerCableModel();
+                cable.OwnerId = load.Id;
+
+                if (previousComponent == null) {
+                    cable.Tag = GetCableTag(load.FedFrom.Tag, component.Tag);
+                }
+                else if (previousComponent != null) {
+                    cable.Tag = GetCableTag(previousComponent.Tag, component.Tag);
+                }
+
+                cable.Load = load;
+                cable.TypeModel = load.PowerCable.TypeModel;
+                cable.UsageType = "test";
+
+                listManager.CableList.Add(cable);
+                previousComponent = component;
+            }
+            if (previousComponent == null) {
+                load.PowerCable.Tag = GetCableTag(load.FedFrom.Tag, load.Tag);
+            }
+            else if (previousComponent != null) {
+                load.PowerCable.Tag = GetCableTag(previousComponent.Tag, load.Tag);
+            }
         }
-        if (previousComponent == null) return;
-        load.PowerCable.Tag = previousComponent.Tag + TagSettings.CableTagSeparator + load.Tag;
+        catch (Exception ex) {
+            ex.Data.Add("UserMessage", "Adding cable for components erro");
+            throw;
+        }
+    }
+
+    public static string GetCableTag(string from, string to)
+    {
+        from = from.Replace("-", "");
+        to = to.Replace("-", "");
+        string tag = from + TagSettings.CableTagSeparator + to;
+        return tag;
     }
 }

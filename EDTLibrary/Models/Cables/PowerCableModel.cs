@@ -37,8 +37,8 @@ public class PowerCableModel : IPowerCable
     #region Properties
     [Browsable(false)]
     public int Id { get; set; }
-    public int OwnedById { get; set; }
-    public string OwnedByType { get; set; }
+    public int OwnerId { get; set; }
+    public string OwnerType { get; set; }
     public string Tag { get; set; }
     //public string Type { get; set; } //Not Used
     public string Category { get; set; }
@@ -244,8 +244,8 @@ public class PowerCableModel : IPowerCable
     }
     public void AssignOwner(IPowerCableUser load)
     {
-        OwnedById = load.Id;
-        OwnedByType = load.GetType().ToString();
+        OwnerId = load.Id;
+        OwnerType = load.GetType().ToString();
     }
     /// <summary>
     /// Gets the Source Eq Derating, Destination Eq FLA

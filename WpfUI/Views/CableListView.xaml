@@ -177,7 +177,7 @@
 
             <!--ItemsSource="{Binding Source={StaticResource cableList}}"-->
                 <DataGrid x:Name="dgdCableList" Grid.Column="3" Grid.Row="2"
-                          ItemsSource="{Binding View, Mode=TwoWay}"
+                          ItemsSource="{Binding ListManager.CableList, Mode=TwoWay}"
                           Margin="10"
                           CanUserAddRows="False"
                           HorizontalAlignment="Left"
@@ -294,6 +294,11 @@
                 <DataGrid.Columns>
                     <!--Basic-->
                     <!--Textblock cell padding style in this.resources Move to ResDict-->
+                    <DataGridTextColumn Header="Id"
+                                        Binding="{Binding Path=Id, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        ElementStyle="{StaticResource ColumnElementStyle}" 
+                                        />
+                    
                     <DataGridTextColumn Header="TAG" x:Name="Tag" 
                                         Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         ElementStyle="{StaticResource ColumnElementStyle}" 
@@ -330,11 +335,15 @@
                     <DataGridTextColumn x:Name="Destination" Header="To" 
                                         Binding="{Binding Path=Destination, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         MinWidth="75" />
-                    
+
                     <DataGridTextColumn x:Name="Length" Header="Length" 
                                         Binding="{Binding Path=Length, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         MinWidth="75" />
-                    <!--<DataGridTextColumn x:Name="Derating" Header="Derating" 
+
+                    <DataGridTextColumn Header="Usage Type Test" 
+                                    Binding="{Binding Path=USageType, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    MinWidth="75" />
+                        <!--<DataGridTextColumn x:Name="Derating" Header="Derating" 
                                         Binding="{Binding Path=Derating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <DataGridTextColumn x:Name="DeratedAmps" Header="Derated &#x0a;  Amps"  
                                         Binding="{Binding Path=DeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>

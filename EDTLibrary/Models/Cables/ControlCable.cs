@@ -9,8 +9,8 @@ namespace EDTLibrary.Models.Cables;
 internal class ControlCable : ICable
 {
     public int Id { get; set; }
-    public int OwnedById { get; set; }
-    public string OwnedByType { get; set; }
+    public int OwnerId { get; set; }
+    public string OwnerType { get; set; }
     public string Tag { get; set; }
     public string Type { get; set; }
     public CableTypeModel TypeModel { get; set; }

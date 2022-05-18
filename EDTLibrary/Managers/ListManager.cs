@@ -309,13 +309,13 @@ namespace EDTLibrary
             CableList.Clear();
             foreach (var dteq in IDteqList) {
                 dteq.PowerCable.AssignOwner(dteq);
-                if (dteq.PowerCable.OwnedById != null && dteq.PowerCable.OwnedByType != null) {
+                if (dteq.PowerCable.OwnerId != null && dteq.PowerCable.OwnerType != null) {
                     CableList.Add(dteq.PowerCable);
                 }
             }
             foreach (var load in LoadList) {
                 load.PowerCable.AssignOwner(load);
-                if (load.PowerCable.OwnedById != null && load.PowerCable.OwnedByType != null) {
+                if (load.PowerCable.OwnerId != null && load.PowerCable.OwnerType != null) {
                     CableList.Add(load.PowerCable);
 
                 }
@@ -355,8 +355,8 @@ namespace EDTLibrary
         {
             foreach (var dteq in IDteqList) {
                 foreach (var cable in CableList) {
-                    if (dteq.Id == cable.OwnedById &&
-                        dteq.GetType().ToString() == cable.OwnedByType) {
+                    if (dteq.Id == cable.OwnerId &&
+                        dteq.GetType().ToString() == cable.OwnerType) {
                         dteq.PowerCable = cable;
                         cable.Load = dteq;
                         cable.CreateTypeList(dteq);
@@ -367,8 +367,8 @@ namespace EDTLibrary
             }
             foreach (var load in LoadList) {
                 foreach (var cable in CableList) {
-                    if (load.Id == cable.OwnedById &&
-                        load.GetType().ToString() == cable.OwnedByType) {
+                    if (load.Id == cable.OwnerId &&
+                        load.GetType().ToString() == cable.OwnerType) {
                         load.PowerCable = cable;
                         cable.Load = load;
                         cable.CreateTypeList(load);

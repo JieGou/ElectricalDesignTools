@@ -8,8 +8,8 @@ namespace EDTLibrary.Models.Cables
     public interface ICable
     {
         int Id { get; set; }
-        int OwnedById { get; set; }
-        string OwnedByType { get; set; }
+        int OwnerId { get; set; }
+        string OwnerType { get; set; }
         string Tag { get; set; }
         string Type { get; set; }
         CableTypeModel TypeModel { get; set; }

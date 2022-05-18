@@ -839,17 +839,22 @@
 
                 <TextBlock Text="Fed From" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource FedFrom}" FontSize="10" />
-                <TextBlock Text="Load Voltage" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="{StaticResource Voltage}" FontSize="10" />
+                
                 <TextBlock Text="Size" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource Size}" FontSize="10" />
-                <TextBlock Text="Line Voltage" Margin="10 5 0 5"
+                
+                <TextBlock Text="Unit" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource Unit}" FontSize="10" />
 
+                <TextBlock Text="Line Voltage" Margin="10 5 0 5"
+                    Grid.Row="1" Grid.Column="{StaticResource Voltage}" FontSize="10" />
+                
+                <TextBlock Text="Load Voltage" Margin="10 5 0 5"
+                    Grid.Row="1" Grid.Column="{StaticResource LoadFactor}" FontSize="10" />
 
 
                 <!--ADD DTEQ-->
-                <!--Text/Combo Boxes-->
+                <!--TextBoxes/Combo Boxes-->
                 <TextBox x:Name ="txtDteqTag"  
                     Grid.Row="2" Grid.Column="{StaticResource Tag}"
                     Width="75" Height="23"
@@ -887,7 +892,6 @@
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource FedFrom}"
                           Template="{DynamicResource ComboBoxBase}"
-                          
                           Width="75"
                           ItemsSource="{Binding Source={StaticResource dteqList}}"
                           DisplayMemberPath="Tag"
@@ -907,16 +911,27 @@
                 </TextBox>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Unit}"
-                    Width="65"
+                          Template="{DynamicResource ComboBoxBase}"
+                          
+                    Width="50"
                     d:Text="13800"
-                    ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValue="{Binding DteqToAddValidator.LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding DteqToAddValidator.LineVoltage}"
-                    IsEditable="True" IsTextSearchEnabled="True"
-                          HorizontalContentAlignment="Center"
+                            ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
+                    SelectedValue="{Binding DteqToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                    Text="{Binding DteqToAddValidator.Unit}"
                     Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource Voltage}"
+                    Width="65"
+                    d:Text="4160"
+                    ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedValue="{Binding DteqToAddValidator.LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                    Text="{Binding DteqToAddValidator.LoadVoltage}"
+                    IsEditable="True" IsTextSearchEnabled="True"
+                          HorizontalContentAlignment="Center"
+                          
+                    Margin="5 0 5 0"/>
+                
+                <ComboBox Grid.Row="2" Grid.Column="{StaticResource LoadFactor}"
                     Width="65"
                     d:Text="4160"
                     ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1026,12 +1041,11 @@
 
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource Unit}"
                           Template="{DynamicResource ComboBoxBase}"
-                            Width="65"
-                            ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
-                            SelectedValue="{Binding LoadToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                            Text="{Binding LoadToAddValidator.Unit}"
-                            IsEditable="False" IsTextSearchEnabled="True"
-                            Margin="5 0 5 0"/>
+                          Width="50"
+                          ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
+                          SelectedValue="{Binding LoadToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          Text="{Binding LoadToAddValidator.Unit}"
+                          Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="5" Grid.Column="{StaticResource Voltage}"
                     MinWidth="65"
@@ -1551,7 +1565,9 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox IsChecked="{Binding Path=DriveBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
-                                              />
+                                              Command="{Binding Path=DataContext.ToggleLoadDriveCommand, 
+                                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"/>
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding Type}" Value="XFR">
                                             <Setter Property="IsEnabled" Value="False" />

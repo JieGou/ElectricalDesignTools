@@ -109,7 +109,6 @@ public class DteqToAddValidator : INotifyDataErrorInfo
             }
 
             if (_type != DteqTypes.XFR.ToString()) {
-                LoadVoltage = LineVoltage;
             }
         }
     }
@@ -312,14 +311,15 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         temp = Unit;
         Unit = fake;
         Unit = temp;
-
+        
+        temp = LineVoltage;
+        LineVoltage = fake;
+        LineVoltage = temp;
+        
         temp = LoadVoltage;
         LoadVoltage = fake;
         LoadVoltage = temp;
 
-        temp = LineVoltage;
-        LineVoltage = fake;
-        LineVoltage = temp;
 
 #if DEBUG
         if (GlobalConfig.Testing == false) {

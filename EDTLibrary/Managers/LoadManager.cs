@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
 using System;
@@ -90,7 +91,9 @@ public class LoadManager
     public static async Task<int> DeleteLoad(object selectedLoadObject, ListManager listManager)
     {
         try {
+
             LoadModel selectedLoad = (LoadModel)selectedLoadObject;
+            ComponentManager.DeleteComponents(selectedLoad, listManager);
             IDteq dteqToRecalculate = listManager.DteqList.FirstOrDefault(d => d == selectedLoad.FedFrom);
             int loadId = selectedLoad.Id;
             selectedLoad.PropertyUpdated -= DaManager.OnLoadPropertyUpdated;

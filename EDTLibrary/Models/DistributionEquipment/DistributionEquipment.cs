@@ -277,6 +277,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                     var cmd = new CommandDetail { Item = this, PropName = nameof(LoadVoltage), OldValue = oldValue, NewValue = _loadVoltage };
                     Undo.UndoList.Add(cmd);
                 }
+                OnPropertyUpdated();
+
             }
         }
 

@@ -60,6 +60,7 @@ namespace EDTLibrary.Models.Cables
             }
             return EdtSettings.DefaultCableTypeLoad_3ph300to1kV;
         }
+
         public double GetDefaultCableSpacing(IPowerCable cable)
         {
             double spacing = 100;

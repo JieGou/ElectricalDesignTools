@@ -89,10 +89,11 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         CalculateAllCommand = new RelayCommand(CalculateAll);
         //CalculateAllCommand = new RelayCommand(CalculateAll, startupService.IsProjectLoaded);
 
-        ToggleLoadDisconnectCommand = new RelayCommand(ToggleDisconnectLoad);
+        ToggleLoadDisconnectCommand = new RelayCommand(ToggleLoadDisconnect);
+        ToggleLoadDriveCommand = new RelayCommand(ToggleLoadDrive);
     }
 
-    private void ToggleDisconnectLoad()
+    private void ToggleLoadDisconnect()
     {
         LoadModel selectedLoad = (LoadModel)SelectedLoad;
         //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
@@ -103,7 +104,17 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
             ErrorHelper.ShowErrorMessage(ex);
         }
     }
-
+    private void ToggleLoadDrive()
+    {
+        LoadModel selectedLoad = (LoadModel)SelectedLoad;
+        //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
+        try {
+            CableManager.AssignPowerCables(selectedLoad, _listManager);
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
+    }
     #endregion
 
     #region Public Commands
@@ -140,6 +151,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
 
     public ICommand ToggleLoadDisconnectCommand { get; }
+    public ICommand ToggleLoadDriveCommand { get; }
 
 
 

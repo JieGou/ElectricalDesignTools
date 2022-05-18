@@ -20,7 +20,7 @@ namespace EDTLibrary.Models.Loads
         {
             Description = "";
             Category = Categories.LOAD3P.ToString();
-            PowerCable = new PowerCableModel();
+            PowerCable = new PowerCableModel(this);
             
         }
         public LoadModel(string tag)
@@ -514,6 +514,7 @@ namespace EDTLibrary.Models.Loads
         {
             CreatePowerCable();
             PowerCable.SetCableParameters(this);
+
             PowerCable.CreateTypeList(this);
             PowerCable.CalculateCableQtyAndSize();
         }

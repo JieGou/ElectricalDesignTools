@@ -106,4 +106,15 @@ public class ComponentManager
             load.Lcs = null;
         }
     }
+
+    public static void DeleteComponents(IComponentUser componentUser, ListManager listManager)
+    {
+        foreach (var item in componentUser.Components) {
+            listManager.CompList.Remove(item);
+        }
+        IPowerConsumer load = (IPowerConsumer)componentUser;
+        foreach (var item in load.CctComponents) {
+            listManager.CompList.Remove(item);
+        }
+    }
 }
