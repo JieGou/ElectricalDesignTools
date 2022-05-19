@@ -115,17 +115,20 @@
                              VerticalAlignment="Top"
                              Command="{Binding NavigateSettingsCommand}"/>
 
-                <RadioButton VerticalAlignment="Top"
-                             Content="AREAS"
+                             
+                <RadioButton Content="AREAS"
+                             VerticalAlignment="Top"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
-                             Command="{Binding NavigateAreasCommand}"/>
+                             Command="{Binding NavigateAreasCommand}"
+                             PreviewMouseDown="AreaMenuButton_PreviewMouseDown"/>
 
                 <RadioButton Content="ELECTRICAL"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"
-                             Command="{Binding NavigateElectricalCommand}"/>
+                             Command="{Binding NavigateElectricalCommand}"
+                             PreviewMouseDown="ElectricalMenuButton_PreviewMouseDown"/>
 
                 <RadioButton Content="INSTRUMENTATION"
                              GroupName="menu"
@@ -138,7 +141,9 @@
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"
-                             Command="{Binding NavigateCableListCommand}"/>
+                             Command="{Binding NavigateCableListCommand}"
+                             PreviewMouseDown="CableMenuButton_PreviewMouseDown"
+                             />
 
                 <!--<Button x:Name="btnAutocad" Content="AUTOCAD"
                             VerticalAlignment="Top"
@@ -150,19 +155,19 @@
                              VerticalAlignment="Top"                        
                              Command="{Binding NavigateDataTablesCommand}"/>
 
-                <Button x:Name="btnExport" Content="IMPORT / EXPORT"
+                <Button Content="IMPORT / EXPORT"
                             VerticalAlignment="Top"                        
                             Command="{Binding ExportCommand}"
                             FontSize="12"
-                        Width="110"/>
+                            Width="110"/>
 
-                <Button x:Name="btnWindow" Content="EXTRA WINDOW"
+                <!--<Button Content="EXTRA WINDOW"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Command="{Binding ScenarioCommand}"
                             Margin="50 0 0 0"
                             Width="110"
-                            FontSize="12"/>
+                            FontSize="12"/>-->
 
 
                 </WrapPanel>

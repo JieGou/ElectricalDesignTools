@@ -35,17 +35,10 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         set { _listManager = value; }
     }
 
-    private TypeManager _typeManager;
-    public TypeManager TypeManager
-    {
-        get { return _typeManager; }
-        set { _typeManager = value; }
-    }
-    public ElectricalViewModel(ListManager listManager, TypeManager typeManager)
+    public ElectricalViewModel(ListManager listManager)
     {
         //fields
         _listManager = listManager;
-        _typeManager = new TypeManager();
         _dteqFactory = new DteqFactory(listManager);
 
 

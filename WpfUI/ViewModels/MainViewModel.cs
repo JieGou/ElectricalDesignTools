@@ -80,7 +80,7 @@ namespace WpfUI.ViewModels
             _homeViewModel = new HomeViewModel(startupService, listManager);
             _settingsViewModel = new SettingsViewModel(edtSettings, typeManager);
             _areasViewModel = new AreasViewModel(listManager);
-            _electricalViewModel = new ElectricalViewModel(listManager, typeManager);
+            _electricalViewModel = new ElectricalViewModel(listManager);
             _cableListViewModel = new CableListViewModel(listManager);
 
 
@@ -170,23 +170,41 @@ namespace WpfUI.ViewModels
         }
 
         //NEW WINDOW
-        private void NewWindow()
+        public void NewWindow()
         {
             ListManager listManager = new ListManager();
             StartupService startupService = new StartupService(listManager);
             TypeManager typeManager = new TypeManager();
 
-            Window scenario = new MainWindow() {
+            Window window = new MainWindow() {
                 //DataContext = new MainViewModel(startupService, listManager)
                 DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings, "ExtraWindow")
                 
             };
             
-            scenario.Show();
-            var newMainVm = (MainViewModel)scenario.DataContext;
+            window.Show();
+            var newMainVm = (MainViewModel)window.DataContext;
             newMainVm.CurrentViewModel = CurrentViewModel;
         }
-#endregion
+
+        internal void NewWindow(ViewModelBase viewModel)
+        {
+            ListManager listManager = new ListManager();
+            StartupService startupService = new StartupService(listManager);
+            TypeManager typeManager = new TypeManager();
+
+            Window window = new MainWindow() {
+
+                //DataContext = new MainViewModel(startupService, listManager)
+                DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings, "ExtraWindow")
+
+            };
+
+            window.Show();
+            var newMainVm = (MainViewModel)window.DataContext;
+            newMainVm.CurrentViewModel = viewModel;
+        }
+        #endregion
 
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel

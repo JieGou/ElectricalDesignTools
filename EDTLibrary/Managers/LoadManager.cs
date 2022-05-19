@@ -76,8 +76,7 @@ public class LoadManager
         newLoad.SizePowerCable(); // 51ms
         newLoad.CalculateCableAmps();
         if (listManager.CableList.Count != 0) {
-            newLoad.PowerCable.Id = listManager.LoadList.Max(l => l.Id);
-            newLoad.PowerCable.Id += 1;
+            newLoad.PowerCable.Id = listManager.LoadList.Max(l => l.Id) + 1;
         }
         else {
             newLoad.PowerCable.Id = 1;

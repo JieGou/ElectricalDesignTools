@@ -56,5 +56,26 @@ namespace WpfUI
                 }
             }
         }
+
+        private void AreaMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed) {
+                mainVm.NewWindow(new AreasViewModel(mainVm._listManager));
+            }
+        }
+
+        private void CableMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed) {
+                mainVm.NewWindow(new CableListViewModel(mainVm._listManager));
+            }
+        }
+
+        private void ElectricalMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed) {
+                mainVm.NewWindow(new ElectricalViewModel(mainVm._listManager));
+            }
+        }
     }
 }

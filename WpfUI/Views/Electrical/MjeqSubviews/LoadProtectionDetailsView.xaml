@@ -39,7 +39,7 @@
                   MinWidth="115" HorizontalAlignment="Left"
                   ItemsSource="{Binding Path=DataContext.TypeManager.OcpdTypes, 
                                         RelativeSource={RelativeSource Mode=FindAncestor, 
-                                        AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                                        AncestorType={x:Type Window}}}"
                   DisplayMemberPath="Description"
                   SelectedValuePath="Type" 
                   SelectedValue="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"

@@ -101,7 +101,7 @@ public class PowerCableModel : IPowerCable
 
     public List<CableTypeModel> TypeList { get; set; } = new List<CableTypeModel>();
 
-
+    
     public string UsageType { get; set; }
     public int ConductorQty { get; set; }
     public double VoltageClass { get; set; }
@@ -286,7 +286,7 @@ public class PowerCableModel : IPowerCable
     public double GetRequiredAmps(IPowerCableUser load)
     {
         RequiredAmps = load.Fla;
-        if (load.Type == LoadTypes.MOTOR.ToString() | load.Type == LoadTypes.TRANSFORMER.ToString()) {
+        if (load.Type == LoadTypes.MOTOR.ToString() || load.Type == LoadTypes.TRANSFORMER.ToString()) {
             RequiredAmps *= 1.25;
         }
 

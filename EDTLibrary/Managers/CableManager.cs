@@ -26,60 +26,94 @@ public class CableManager
     }
 
     
-    public static void AssignPowerCables(IPowerConsumer load, ListManager listManager)
+    public static void AssignPowerCables(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
         try {
             //Todo - delete only component cables
             List<PowerCableModel> cablesToRemove = new List<PowerCableModel>();
             foreach (var item in listManager.CableList) {
-                if (item.OwnerId == load.Id
-                    && item.UsageType == "test") {
+                if (item.OwnerId == powerComponentOwner.Id
+                    && item.OwnerType == typeof(IComponent).ToString()) {
                     cablesToRemove.Add(item);
                 }
             }
 
             foreach (var item in cablesToRemove) {
                 listManager.CableList.Remove(item);
+                DaManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, item.Id);
             }
 
             IComponent previousComponent = null;
-            foreach (var component in load.CctComponents) {
+            foreach (var component in powerComponentOwner.CctComponents) {
 
                 PowerCableModel cable = new PowerCableModel();
-                cable.OwnerId = load.Id;
 
                 if (previousComponent == null) {
-                    cable.Tag = GetCableTag(load.FedFrom.Tag, component.Tag);
+                    cable.Source = powerComponentOwner.FedFrom.Tag;
+
                 }
                 else if (previousComponent != null) {
-                    cable.Tag = GetCableTag(previousComponent.Tag, component.Tag);
+                    cable.Source = previousComponent.Tag;
                 }
+                cable.Destination = component.Tag;
+                cable.Tag = GetCableTag(cable.Source, cable.Destination);
 
-                cable.Load = load;
-                cable.TypeModel = load.PowerCable.TypeModel;
-                cable.UsageType = "test";
+                cable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
+                cable.Load = powerComponentOwner;
+
+                cable.OwnerId = powerComponentOwner.Id;
+                cable.OwnerType = typeof(IComponent).ToString();
+
+                cable.TypeModel = powerComponentOwner.PowerCable.TypeModel;
+                cable.TypeList = powerComponentOwner.PowerCable.TypeList;
+                cable.UsageType = powerComponentOwner.PowerCable.UsageType;
+                cable.ConductorQty = powerComponentOwner.PowerCable.ConductorQty;
+                cable.VoltageClass = powerComponentOwner.PowerCable.VoltageClass;
+                cable.Insulation = powerComponentOwner.PowerCable.Insulation;
+                cable.QtyParallel = powerComponentOwner.PowerCable.QtyParallel;
+                cable.Size = powerComponentOwner.PowerCable.Size;
+                cable.BaseAmps = powerComponentOwner.PowerCable.BaseAmps;
+                cable.Spacing = powerComponentOwner.PowerCable.Spacing;
+                cable.Derating = powerComponentOwner.PowerCable.Derating;
+                cable.DeratedAmps = powerComponentOwner.PowerCable.DeratedAmps;
+                cable.RequiredAmps = powerComponentOwner.PowerCable.RequiredAmps;
+                cable.Outdoor= powerComponentOwner.PowerCable.Outdoor;
+                cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
+
+                cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
+
 
                 listManager.CableList.Add(cable);
+                DaManager.UpsertCable(cable);
                 previousComponent = component;
             }
-            if (previousComponent == null) {
-                load.PowerCable.Tag = GetCableTag(load.FedFrom.Tag, load.Tag);
-            }
-            else if (previousComponent != null) {
-                load.PowerCable.Tag = GetCableTag(previousComponent.Tag, load.Tag);
-            }
+            UpdateLoadCable(powerComponentOwner, previousComponent);
         }
         catch (Exception ex) {
-            ex.Data.Add("UserMessage", "Adding cable for components erro");
+            ex.Data.Add("UserMessage", "Adding cable for components error");
             throw;
         }
     }
 
-    public static string GetCableTag(string from, string to)
+    private static void UpdateLoadCable(IPowerConsumer load, IComponent previousComponent)
     {
-        from = from.Replace("-", "");
-        to = to.Replace("-", "");
-        string tag = from + TagSettings.CableTagSeparator + to;
+        if (previousComponent == null) {
+            load.PowerCable.Source = load.FedFrom.Tag;
+        }
+        else if (previousComponent != null) {
+            load.PowerCable.Source = previousComponent.Tag;
+        }
+        load.PowerCable.Tag = GetCableTag(load.PowerCable.Source, load.Tag);
+
+        DaManager.UpsertCable(load.PowerCable);
+
+    }
+
+    public static string GetCableTag(string cableSource, string cableDestination)
+    {
+        cableSource = cableSource.Replace("-", "");
+        cableDestination = cableDestination.Replace("-", "");
+        string tag = cableSource + TagSettings.CableTagSeparator + cableDestination;
         return tag;
     }
 }

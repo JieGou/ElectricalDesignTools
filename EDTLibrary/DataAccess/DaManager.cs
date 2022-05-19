@@ -154,6 +154,15 @@ public class DaManager {
         int id = prjDb.InsertRecordGetId(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
         return id;
     }
+    public static int SavePowerCableGetId(ICable cable)
+    {
+        int id = 0;
+        if (cable.GetType() == typeof(PowerCableModel)) {
+            var cableModel = (PowerCableModel)cable;
+            id= prjDb.InsertRecordGetId(cableModel, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+        }
+        return id;
+    }
 
     //Delete Dteq
     public static void DeleteDteq(IDteq iDteq)

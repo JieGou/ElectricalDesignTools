@@ -340,20 +340,21 @@
                                         Binding="{Binding Path=Length, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         MinWidth="75" />
 
-                    <DataGridTextColumn Header="Usage Type Test" 
+                    <!--<DataGridTextColumn Header="Usage Type Test" 
                                     Binding="{Binding Path=USageType, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                    MinWidth="75" />
-                        <!--<DataGridTextColumn x:Name="Derating" Header="Derating" 
+                                    MinWidth="75" />-->
+                    
+                    <DataGridTextColumn x:Name="Derating" Header="Derating" 
                                         Binding="{Binding Path=Derating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                    <DataGridTextColumn x:Name="DeratedAmps" Header="Derated &#x0a;  Amps"  
+                    <DataGridTextColumn x:Name="DeratedAmps" Header="Derated&#x0a;Amps"  
                                         Binding="{Binding Path=DeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
-                    <DataGridTextColumn x:Name="RequiredAmps" Header="Required &#x0a;   Amps"
+                    <DataGridTextColumn x:Name="RequiredAmps" Header="Required&#x0a;Amps"
                                         Binding="{Binding Path=RequiredAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
 
-                    <DataGridTextColumn x:Name="VoltageClass" Header="Voltage &#x0a;Class" 
+                    <DataGridTextColumn x:Name="VoltageClass" Header="Voltage&#x0a;Class" 
                                         Binding="{Binding Path=TypeModel.VoltageClass, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                     <DataGridTextColumn x:Name="Insulation" Header="Insulation" 
-                                        Binding="{Binding Path=TypeModel.Insulation, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>-->
+                                        Binding="{Binding Path=TypeModel.Insulation, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                    
 
 

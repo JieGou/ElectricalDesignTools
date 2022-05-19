@@ -1489,7 +1489,7 @@
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding Path=DataContext.TypeManager.OcpdTypes, 
                                                                     RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                    AncestorType={x:Type UserControl},AncestorLevel=1}}"
+                                                                    AncestorType={x:Type Window}}}"
                                               SelectedValue="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedValuePath="Type"
                                               HorizontalContentAlignment="Left"
