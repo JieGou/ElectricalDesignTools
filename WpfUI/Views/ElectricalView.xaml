@@ -132,7 +132,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="400"/>
+                <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="400" MinHeight="290"/>
                 <RowDefinition Height="{Binding LoadGridTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="200"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -156,7 +156,8 @@
 
             <!--Dteq View Buttons-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
-                        Grid.Row="{StaticResource dteqViewButtons}" Grid.Column="3" Grid.ColumnSpan="2">
+                        Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"
+                        Margin="200 0">
 
                 <Button Content="Toggle Row View"
                         Command="{Binding Path=ToggleRowDetailViewCommand}"/>
@@ -173,43 +174,53 @@
 
             <!--MENU BUTTONS-->
             <!--Dteq-->
-            <StackPanel Orientation="Vertical" x:Name="dteqButtonsStackPanel"
-                        Grid.Column="1" Grid.Row="{StaticResource dteq}"
-                        Margin="0,50,0,0">
+            <Grid  x:Name="dteqButtonsStackPanel"
+                   Grid.Column="1" Grid.Row="2"
+                   Margin=" 0 50 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical"
+                        Grid.Row="0"
+                        Margin="0,0,0,0">
 
-                <Button Name ="btnGetAll" Content="Get All" 
+                    <Button Name ="btnGetAll" Content="Get All" 
                         Command="{Binding GetAllCommand}"/>
 
-                <Button Name ="btnSaveAll" Content="Save All"
+                    <Button Name ="btnSaveAll" Content="Save All"
                         Command="{Binding SaveAllCommand}"/>
 
-                <Button Name ="btnSizeCables" Content="Size Cables"
+                    <Button Name ="btnSizeCables" Content="Size Cables"
                         Command="{Binding SizeCablesCommand}"/>
 
-                <Button Name ="btnCalcCableAmps" Content="Cable Amps"
+                    <Button Name ="btnCalcCableAmps" Content="Cable Amps"
                         Command="{Binding CalculateAllCableAmpsCommand}"/>
 
-                <Button Name ="btnDeleteDteq" Content="Delete Selected"
+                    <Button Name ="btnDeleteDteq" Content="Delete Selected"
                         Style="{StaticResource RedButton}"
                         Command="{Binding DeleteDteqCommand}"
                         CommandParameter="{Binding SelectedDteq}" />
+                </StackPanel>
 
                 <Button Name ="btnGrdSplitAdjust" Content="Add Equipment" 
+                        Grid.Row="1"
+                        VerticalAlignment="Bottom"
                         FontWeight="Bold"
-                        Margin="0 50 0 0"                         
+                        Margin="0 0 0 20"                         
                         PreviewMouseLeftButtonDown="btnGrdSplitAdjust_PreviewMouseLeftButtonDown"/>
-            </StackPanel>
+            </Grid>
 
             <!--ADD Buttons-->
             <StackPanel Orientation="Vertical"
                         Grid.Column="1" Grid.Row="{StaticResource adding}"
-                        Margin="0,10,0,10">
+                        Margin="0,10,0,0">
 
                 <Button Name ="btnAddDteq" Content="Add Dist. Eq."
                         Style="{StaticResource GreenButton}"
                         Command="{Binding Path=AddDteqCommand}"
                         CommandParameter="{Binding DteqToAddValidator}"
-                        Margin="10,15,10,15" PreviewMouseLeftButtonDown="btnAddDteq_PreviewMouseLeftButtonDown" MouseLeave="btnAddDteq_MouseLeave" 
+                        Margin="10,13,10,15" PreviewMouseLeftButtonDown="btnAddDteq_PreviewMouseLeftButtonDown" MouseLeave="btnAddDteq_MouseLeave" 
                         
                         />
 
@@ -217,7 +228,7 @@
                         Style="{StaticResource GreenButton}"
                         Command="{Binding Path=AddLoadCommand}"
                         CommandParameter="{Binding LoadToAddValidator}"
-                        Margin="10,15,10,10" />
+                        Margin="10,17,10,10" />
 
             </StackPanel>
 
@@ -226,7 +237,8 @@
             <StackPanel Orientation="Vertical" 
                         x:Name="loadButtonsStackPanel"
                         Grid.Column="1" Grid.Row="4"
-                        Margin="0,20,0,50">
+                        Margin="0,75,0,50">
+
 
 
                 <Button x:Name ="btnLoadList" Content="Load List" Height="27" Width="125"
@@ -254,7 +266,9 @@
 
             <!--DTEQ-->
             <!--GRID-->
-            <Grid Grid.Row="{StaticResource dteq}" Grid.Column="3" Grid.ColumnSpan="2">
+            <Grid Grid.Row="{StaticResource dteq}" 
+                  Grid.Column="3" Grid.ColumnSpan="2"
+                  >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*"/>
@@ -263,27 +277,49 @@
                     <ColumnDefinition Width="auto" MinWidth="475" SharedSizeGroup="A"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*" x:Name="dteqGridRow"/>
                 </Grid.RowDefinitions>
 
+                <!--Title-->
+                <TextBlock Text="Distribution Equipment"
+                           Margin="10 5 0 5"
+                           HorizontalAlignment="Left"
+                           FontSize="14" Grid.Row="0"
+                           FontWeight="SemiBold">
+                    <!--<TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Text" Value="Distribution Equipment" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding LoadListLoaded}" Value="False">
+                                    <Setter Property="Text" Value="{Binding SelectedDteq.Tag, StringFormat={}{0:N0} Loads }"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>-->
+                </TextBlock>
+                
                 <!--DETAILS VIEW-->
                 <!--Dteq-->
-                <TextBlock Grid.Row="0" Grid.Column="3" Text="Distribution Equipment Details" Margin="10,10,10,10"/>
-                <Border Grid.Row="0" Grid.Column="3" BorderThickness="1" BorderBrush="Black" Background="Transparent"
+                <TextBlock Grid.Row="1" Grid.Column="3" Text="Distribution Equipment Details" Margin="10,10,10,10"/>
+                <Border Grid.Row="1" Grid.Column="3" BorderThickness="1" BorderBrush="Black" Background="Transparent"
                         Margin="10,30,10,10">
                     <ContentControl x:Name="DteqDetailsContent" Grid.Row="{StaticResource dteq}" Grid.Column="4">
                     </ContentControl>
                 </Border>
 
                 <GridSplitter  Grid.Column="2" HorizontalAlignment="Center"   
-                               Width="6" Background="AliceBlue"
-                               Margin="0,0,0,0"/>
+                               Width="3" Background="AliceBlue"
+                               Margin="0,0,0,0" Grid.Row="1"/>
 
 
                 <!--ItemsSource="{Binding Source={StaticResource cvsIdteq}}"-->
 
                 <!--DTEQ-->
                 <!--DATA GRID-->
+
+                <!--Grid height is adjusted in the View.cs file by the method btnGrdSplitAdjust_PreviewMouseLeftButtonDown-->
                 <DataGrid x:Name="dgdDteq" 
                           Grid.Column="0"
                           SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
@@ -292,7 +328,7 @@
                           
                           
                           HorizontalAlignment="Left"
-                          VerticalAlignment="Center"
+                          VerticalAlignment="Top"
                           d:Height="250"
                           Height="{Binding DteqGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Margin="10,0,10 5"
@@ -305,7 +341,7 @@
                           VirtualizingPanel.IsVirtualizing="True"
                           SelectionChanged="dgdDteq_SelectionChanged"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
-                          RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}" Grid.ColumnSpan="2" >
+                          RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}" Grid.ColumnSpan="2" Grid.Row="1" >
                     <!--ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
 
 
@@ -772,7 +808,7 @@
                     </DataGrid.RowDetailsTemplate>
 
                     <DataGrid.RowValidationRules>
-                        <rules:InvalidFedFromRule ValidatesOnTargetUpdated="True" ValidationStep="CommittedValue"/>
+                        <!--<rules:InvalidFedFromRule ValidatesOnTargetUpdated="True" ValidationStep="CommittedValue"/>-->
                     </DataGrid.RowValidationRules>
 
                     <DataGrid.RowValidationErrorTemplate>
@@ -839,16 +875,16 @@
 
                 <TextBlock Text="Fed From" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource FedFrom}" FontSize="10" />
-                
+
                 <TextBlock Text="Size" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource Size}" FontSize="10" />
-                
+
                 <TextBlock Text="Unit" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource Unit}" FontSize="10" />
 
                 <TextBlock Text="Line Voltage" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource Voltage}" FontSize="10" />
-                
+
                 <TextBlock Text="Load Voltage" Margin="10 5 0 5"
                     Grid.Row="1" Grid.Column="{StaticResource LoadFactor}" FontSize="10" />
 
@@ -930,7 +966,7 @@
                           HorizontalContentAlignment="Center"
                           
                     Margin="5 0 5 0"/>
-                
+
                 <ComboBox Grid.Row="2" Grid.Column="{StaticResource LoadFactor}"
                     Width="65"
                     d:Text="4160"
@@ -1077,16 +1113,34 @@
 
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
 
 
+                <TextBlock Margin="10 10 0 -5"
+                           HorizontalAlignment="Left"
+                           FontSize="14" Grid.Row="0"
+                           FontWeight="SemiBold">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Text" Value="Load List" />
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding LoadListLoaded}" Value="False">
+                                    <Setter Property="Text" Value="{Binding SelectedDteq.Tag, StringFormat={}{0:N0} Loads }"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
                 <!--LOAD-->
                 <!--DETAILS VIEW-->
-                <TextBlock Grid.Row="0" Grid.Column="2" Text="Load Details" Margin="10"/>
-                <Border Grid.Row="0" Grid.Column="2" BorderThickness="1" BorderBrush="Black" Background="Transparent"
+                <TextBlock Grid.Row="1" Grid.Column="2" Text="Load Details" Margin="10"/>
+                <Border Grid.Row="1" Grid.Column="2" BorderThickness="1" BorderBrush="Black" Background="Transparent"
                         Margin="10 30 10 10">
 
                     <ContentControl x:Name="LoadDetailsContent" Grid.Row="{StaticResource load}" Grid.Column="4">
@@ -1095,12 +1149,12 @@
                 </Border>
 
                 <GridSplitter  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"   
-                               Width="5" Background="AliceBlue"
-                               Margin="0 0 0 0"/>
+                               Width="3" Background="AliceBlue"
+                               Margin="0 0 0 0" Grid.Row="1"/>
                 <!--LOAD-->
                 <!--DATA GRID-->
                 <DataGrid x:Name="dgdAssignedLoads" 
-                          Grid.Row="0"  Grid.Column="0"
+                          Grid.Row="1"  Grid.Column="0"
                           HorizontalAlignment="Left" VerticalAlignment="Stretch" 
                           d:Height="250"
                           Margin="10,10,10,5"
@@ -1129,10 +1183,10 @@
                                 </Trigger>
                             </Style.Triggers>
                         </Style>
-                        
+
                     </DataGrid.Resources>
-                    
-                    
+
+
                     <!--Height="{Binding LoadGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
                     <DataGrid.ContextMenu>
                         <ContextMenu>
@@ -1539,7 +1593,7 @@
                                                                 AncestorType={x:Type UserControl}}}"
                                               />
                                     <!--CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"-->
-                                    
+
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding Type}" Value="XFR">
                                             <Setter Property="IsEnabled" Value="False" />
@@ -1680,14 +1734,14 @@
                             </Grid>
                         </ControlTemplate>
                     </DataGrid.RowValidationErrorTemplate>
-                    
+
                 </DataGrid>
 
                 <!--***********************************-->
                 <!--******   BOTTOM STATUS BAR   ******-->
                 <!--***********************************-->
 
-                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0"
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0"
                             Margin="10 0 0 5">
 
                     <TextBlock Text="DTEQ" FontWeight="Bold" Margin="10 0 0 0" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
@@ -1750,13 +1804,15 @@
 
             <!--Below Dteq Grid-->
             <GridSplitter  Grid.Row="2" Grid.ColumnSpan="5" Panel.ZIndex="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
-                           Height="5" Background="AliceBlue"
-                           Margin="3 0 3 0"/>
+                           Height="3" Background="AliceBlue"
+                           Margin="0"
+                           />
 
             <!--Above Load Grid-->
             <GridSplitter  Grid.Row="3" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                           Height="5" Background="AliceBlue"
-                           Margin="3 0 3 0"/>
+                           Height="3" Background="AliceBlue"
+                           Margin="0"
+                           />
         </Grid>
 
 

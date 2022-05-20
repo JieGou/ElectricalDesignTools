@@ -29,7 +29,6 @@ public class CableManager
     public static void AssignPowerCables(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
         try {
-            //Todo - delete only component cables
             List<PowerCableModel> cablesToRemove = new List<PowerCableModel>();
             foreach (var item in listManager.CableList) {
                 if (item.OwnerId == powerComponentOwner.Id

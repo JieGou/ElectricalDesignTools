@@ -199,10 +199,10 @@ namespace WpfUI.ViewModels
                 DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings, "ExtraWindow")
 
             };
-
-            window.Show();
             var newMainVm = (MainViewModel)window.DataContext;
             newMainVm.CurrentViewModel = viewModel;
+            window.Show();
+            
         }
         #endregion
 

@@ -109,7 +109,6 @@ namespace EDTLibrary.Models.Cables
             return output;
         }
 
-
         private static string GetAmpacityTable_LadderTray(IPowerCable cable, CableTypeModel cableType)
         {
             string output = "No Table Assigned";

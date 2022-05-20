@@ -228,5 +228,8 @@ public class DaManager {
         prjDb.UpsertRecord(cable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
     }
 
-    
+    internal static void UpsertArea(AreaModel area)
+    {
+        DaManager.prjDb.UpsertRecord<AreaModel>(area, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
+    }
 }

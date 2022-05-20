@@ -163,7 +163,7 @@ namespace EDTLibrary.LibraryData
         }
         public static double GetCableDerating_CecTable5A(IPowerCable cable, double ambientTemp)
         {
-            Debug.WriteLine("LibraryManager_GetCableDerating_CecTable5A");
+            //Debug.WriteLine("LibraryManager_GetCableDerating_CecTable5A");
 
             double result = .99999;
             if (DataTables.Motors != null) {

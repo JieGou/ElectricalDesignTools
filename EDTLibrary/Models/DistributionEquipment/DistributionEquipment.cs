@@ -455,7 +455,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         public void CalculateCableAmps()
         {
-            PowerCable.CalculateAmpacityNew(this);
+            PowerCable.CalculateAmpacity(this);
         }
         
 
@@ -484,7 +484,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             NemaRating = Area.NemaRating;
             AreaClassification = Area.AreaClassification;
-            PowerCable.CalculateAmpacityNew(this);
+            PowerCable.CalculateAmpacity(this);
         }
 
 

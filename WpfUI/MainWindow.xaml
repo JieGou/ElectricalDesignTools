@@ -161,13 +161,13 @@
                             FontSize="12"
                             Width="110"/>
 
-                <!--<Button Content="EXTRA WINDOW"
+                <Button Content="EXTRA WINDOW"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Command="{Binding ScenarioCommand}"
                             Margin="50 0 0 0"
                             Width="110"
-                            FontSize="12"/>-->
+                            FontSize="12"/>
 
 
                 </WrapPanel>

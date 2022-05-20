@@ -346,26 +346,30 @@ public class PowerCableModel : IPowerCable
 
             CableQtySize_DirectBuriedOrRaceWayConduit(this, ampsColumn);
         }
-        CalculateAmpacityNew(Load);
+        CalculateAmpacity(Load);
         OnPropertyUpdated();
         Undo.Undoing = false; 
         //_calculating = false;
 
     }
-
     //Qty Size
     private void GetCableQtySize_ForLadderTray(IPowerCable cable, string ampsColumn)
     {
-        //Debug.WriteLine("CableQtySize_LadderTray");
 
-        DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
-        DataTable cablesWithHigherAmpsInProject = new DataTable();
+        //TODO - move this into above "CalculateCableQtyAndSize();" for both
+        //TODO - Fix cable spacing default
 
-        foreach (DataColumn column in cableAmpacityTable.Columns) {
-            DataColumn columnToadd = new DataColumn();
-            columnToadd.ColumnName = column.ColumnName;
-            cablesWithHigherAmpsInProject.Columns.Add(columnToadd);
-        }
+                DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
+                var ampacityTableFiltered = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("AmpacityTable") == AmpacityTable);
+                cableAmpacityTable.Rows.Clear();
+                foreach (var cableAmpacityRow in ampacityTableFiltered) {
+                    cableAmpacityTable.Rows.Add(cableAmpacityRow.ItemArray);
+                }
+
+                DataTable cablesWithHigherAmpsInProject = cableAmpacityTable;
+                cablesWithHigherAmpsInProject.Rows.Clear();
+
+
         // 1 - filter cables larger than RequiredAmps first iteration
         SelectValidCables_SizeAmps(ampsColumn, cableAmpacityTable, cablesWithHigherAmpsInProject);
         // 3 - increase quantity until a valid cable is found
@@ -376,7 +380,7 @@ public class PowerCableModel : IPowerCable
         // Helper - 3 Recursive method
         void GetCableQty(int cableQty)
         {
-            if (cableQty < 15) {
+            if (cableQty < 10) {
                 if (cablesWithHigherAmpsInProject.Rows.Count > 0) {
                     cable.Derating = CableManager.CableSizer.GetDerating(cable);
                     //select smallest of 
@@ -432,13 +436,14 @@ public class PowerCableModel : IPowerCable
     private void CableQtySize_DirectBuriedOrRaceWayConduit(IPowerCable cable, string ampsColumn)
     {
         DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
-        DataTable cablesWithHigherAmpsInProject = new DataTable();
-
-        foreach (DataColumn column in cableAmpacityTable.Columns) {
-            DataColumn columnToadd = new DataColumn();
-            columnToadd.ColumnName = column.ColumnName;
-            cablesWithHigherAmpsInProject.Columns.Add(columnToadd);
+        var ampacityTableFiltered = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("AmpacityTable") == AmpacityTable);
+        cableAmpacityTable.Rows.Clear();
+        foreach (var cableAmpacityRow in ampacityTableFiltered) {
+            cableAmpacityTable.Rows.Add(cableAmpacityRow.ItemArray);
         }
+
+        DataTable cablesWithHigherAmpsInProject = cableAmpacityTable;
+        cablesWithHigherAmpsInProject.Rows.Clear();
 
         // 1 - filter cables larger than RequiredAmps first iteration
         // 2 - increase quantity until a valid cable is found
@@ -512,22 +517,25 @@ public class PowerCableModel : IPowerCable
     }
 
     //Ampacity
-    public void CalculateAmpacityNew(IPowerCableUser load)
+    public string CalculateAmpacity(IPowerCableUser load)
     {
         _calculating = true;
         SizeIsValid = true;
         Load = load;
         string ampsColumn = "Amps75";
         RequiredSizingAmps = GetRequiredSizingAmps();
+        string output = "Default";
 
         if (InstallationType == GlobalConfig.CableInstallationType_LadderTray) {
             CalculateAmpacity_LadderTray(this, ampsColumn);
+            output = "CalculateAmpacity_LadderTray";
         }
 
         else if (InstallationType == GlobalConfig.CableInstallationType_DirectBuried
               || InstallationType == GlobalConfig.CableInstallationType_RacewayConduit) {
 
             CalculateAmpacity_DirectBuriedOrRaceWayConduit(this, ampsColumn);
+            output = "CalculateAmpacity_DirectBuriedOrRaceWayConduit";
         }
         if (RequiredAmps > DeratedAmps) {
             SizeIsValid = false;
@@ -535,6 +543,7 @@ public class PowerCableModel : IPowerCable
         }
         OnPropertyUpdated();
         _calculating = false;
+        return output;
 
     }
     private void CalculateAmpacity_LadderTray(IPowerCable cable, string ampsColumn)

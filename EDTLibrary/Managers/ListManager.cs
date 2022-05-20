@@ -36,16 +36,14 @@ namespace EDTLibrary
 
         public ObservableCollection<PowerCableModel> CableList { get; set; } = new ObservableCollection<PowerCableModel>();
 
-        public Dictionary<string, IDteq> dteqDict { get; set; } = new Dictionary<string, IDteq>();
-        public Dictionary<string, IPowerConsumer> iLoadDict { get; set; } = new Dictionary<string, IPowerConsumer>();
 
-        public async Task SetDteq()
-        {
-            Task<ObservableCollection<DteqModel>> dteqList;
-            dteqList = Task.Run(() => DaManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable));
-            await Task.Delay(1000);
-            CreateDteqDict();
-        }
+        //public async Task SetDteq()
+        //{
+        //    Task<ObservableCollection<DteqModel>> dteqList;
+        //    dteqList = Task.Run(() => DaManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable));
+        //    await Task.Delay(1000);
+        //    CreateDteqDict();
+        //}
 
         public void CreateEquipmentList()
         {
@@ -169,7 +167,6 @@ namespace EDTLibrary
                 }
             }
 
-            CreateDteqDict();
 
             return DteqList;
         }
@@ -215,42 +212,58 @@ namespace EDTLibrary
             }        
         }
 
-        public void CreateILoadDict() {
-            iLoadDict.Clear();
-            
-            foreach (var eq in LoadList) {
-                iLoadDict.Add(eq.Tag, eq);
-            }
-        }
-        public void CreateDteqDict() {
-            dteqDict.Clear();
-            foreach (var dteq in DteqList) {
-                if (dteqDict.ContainsKey(dteq.Tag) == false) {
-                    dteqDict.Add(dteq.Tag, dteq);
-                }
-            }
-        }
-
 
         #region MajorEquipment
         public async Task CalculateDteqLoadingAsync() // LoadList Manager
         {
+            await Task.Run(() => {
+                Stopwatch sw = new Stopwatch();
+                sw.Restart();
+                Debug.Print("CalculateDteqLoadingAsync Start");
+                UnregisterAllDteqFromAllLoadEvents();
+                AssignLoadsAndEventsToAllDteq();
+                double total = 0;
+                double subTotal = 0;
+                Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
 
-            AssignLoadsAndEventsToAllDteq();
-            foreach (var load in LoadList) {
-                load.CalculateLoading();
-                //load.PowerCable.GetRequiredAmps(load);
-                load.PowerCable.CalculateCableQtyAndSize();
-                load.PowerCable.CalculateAmpacityNew(load);
-            }
-            foreach (var dteq in IDteqList) {
-                //dteq.CalculateLoading();
-                //dteq.PowerCable.GetRequiredAmps(dteq);
-                dteq.PowerCable.CalculateCableQtyAndSize();
-                dteq.PowerCable.CalculateAmpacityNew(dteq);
-            }
+                //Loads
+                GlobalConfig.GettingRecords = true;
+                {
+                    foreach (var load in LoadList) {
+                        sw.Restart();
+
+                        load.CalculateLoading();
+                        load.PowerCable.CalculateCableQtyAndSize();
+                        load.PowerCable.CalculateAmpacity(load);
+
+                        subTotal += sw.Elapsed.TotalMilliseconds;
+
+                    }
+                }
+                GlobalConfig.GettingRecords = false;
+
+                Debug.Print("Loads: " + subTotal);
+                total += subTotal;
+                subTotal = 0;
+
+                //Dteq
+                foreach (var dteq in IDteqList) {
+                    sw.Restart();
+
+                    dteq.CalculateLoading();
+                    dteq.PowerCable.CalculateCableQtyAndSize();
+                    dteq.PowerCable.CalculateAmpacity(dteq);
+
+                    subTotal += sw.Elapsed.TotalMilliseconds;
+
+                }
+                Debug.Print("Dteq: " + subTotal);
+                total += subTotal;
+                Debug.Print("Total: " + total);
+            });
+           
         }
-       
+
         public void UnregisterAllDteqFromAllLoadEvents()
         {
             foreach (IDteq dteq in DteqList) {
@@ -351,6 +364,35 @@ namespace EDTLibrary
                 }
             }
         }
+
+        public void SaveAll()
+        {
+            //Area
+            foreach (var area in AreaList) {
+                if (area.Tag != GlobalConfig.Utility) {
+                    DaManager.UpsertArea((AreaModel)area);
+                }
+            }
+            //Dteq
+            foreach (var dteq in DteqList) {
+                if (dteq.Tag != GlobalConfig.Utility) {
+                    dteq.PowerCable.AssignOwner(dteq);
+                    DaManager.UpsertDteq(dteq);
+                }
+            }
+
+            //Load
+            foreach (var load in LoadList) {
+                load.PowerCable.AssignOwner(load);
+                DaManager.UpsertLoad((LoadModel)load);
+            }
+
+            //Cables
+            foreach (var cable in CableList) {
+                DaManager.UpsertCable(cable);
+            }
+        }
+
         public void AssignCables()
         {
             foreach (var dteq in IDteqList) {

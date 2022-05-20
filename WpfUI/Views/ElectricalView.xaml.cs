@@ -262,7 +262,7 @@ public partial class ElectricalView : UserControl
         //dgdDteq.Height = 10;
         //int count = 0;
 
-        var maxDteqHeight = dteqButtonsStackPanel.ActualHeight - 10;
+        var maxDteqHeight = dteqButtonsStackPanel.ActualHeight - 25;
         dgdDteq.Height = maxDteqHeight + 40;
 
         //var MaxLoadHeight = loadButtonsStackPanel.ActualHeight + 50;

@@ -520,7 +520,7 @@ namespace EDTLibrary.Models.Loads
         }
         public void CalculateCableAmps()
         {
-            PowerCable.CalculateAmpacityNew(this);
+            PowerCable.CalculateAmpacity(this);
         }
 
 
@@ -552,7 +552,7 @@ namespace EDTLibrary.Models.Loads
         {
             NemaRating = Area.NemaRating;
             AreaClassification = Area.AreaClassification;
-            PowerCable.CalculateAmpacityNew(this); // because of temperature changes
+            PowerCable.CalculateAmpacity(this); // because of temperature changes
             //TODO - warnings when cable sizes recalculated
         }
     }

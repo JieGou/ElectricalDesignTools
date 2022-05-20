@@ -397,28 +397,9 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     public void DbSaveAll()
     {
-        //Task.Run(() => CalculateAll());
 
         try {
-            //Dteq
-            foreach (var dteq in _listManager.DteqList) {
-                if (dteq.Tag != GlobalConfig.Utility) {
-                    dteq.PowerCable.AssignOwner(dteq);
-                    DaManager.UpsertDteq(dteq);
-                }
-            }
-
-            //Load
-            foreach (var load in _listManager.LoadList) {
-                load.PowerCable.AssignOwner(load);
-                DaManager.UpsertLoad((LoadModel)load);
-            }
-
-            //Cables
-            _listManager.CreateCableList();
-            foreach (var cable in _listManager.CableList) {
-                DaManager.UpsertCable(cable);
-            }
+            _listManager.SaveAll();
         }
 
         catch (Exception ex) {
@@ -446,10 +427,10 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     private void CalculateAllCableAmps()
     {
         foreach (var item in _listManager.IDteqList) {
-            item.PowerCable.CalculateAmpacityNew(item);
+            item.PowerCable.CalculateAmpacity(item);
         }
         foreach (var item in _listManager.LoadList) {
-            item.PowerCable.CalculateAmpacityNew(item);
+            item.PowerCable.CalculateAmpacity(item);
         }
     }
     private void CalculateSingleEqCableSize()
@@ -465,29 +446,27 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     private void CalculateSingleDteqCableSize()
     {
         if (_selectedDteq != null && _selectedDteq.PowerCable != null) {
-            _selectedDteq.PowerCable.SetCableParameters(_selectedDteq);
-            _selectedDteq.PowerCable.CalculateCableQtyAndSize();
+            _selectedDteq.SizePowerCable();
         }
 
     }
     private void CalculateSingleDteqCableAmps()
     {
         if (_selectedDteq != null && _selectedDteq.PowerCable != null) {
-            _selectedDteq.PowerCable.CalculateAmpacityNew(_selectedDteq);
+            _selectedDteq.PowerCable.CalculateAmpacity(_selectedDteq);
         }
     }
     private void CalculateSingleLoadCableSize()
     {
         if (_selectedLoad != null && _selectedLoad.PowerCable != null) {
-            _selectedLoad.PowerCable.SetCableParameters(_selectedLoad);
-            _selectedLoad.PowerCable.CalculateCableQtyAndSize();
-        }
+            _selectedLoad.SizePowerCable();
+            }
 
     }
     private void CalculateSingleLoadCableAmps()
     {
         if (_selectedLoad != null && _selectedLoad.PowerCable != null) {
-            _selectedLoad.PowerCable.CalculateAmpacityNew(_selectedLoad);
+            _selectedLoad.PowerCable.CalculateAmpacity(_selectedLoad);
         }
     }
 
@@ -677,14 +656,14 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         CalculateAllAsync();
     }
+
     public async Task CalculateAllAsync()
     {
         try {
             GetLoadListAsync();
-            _listManager.UnregisterAllDteqFromAllLoadEvents();
-            _listManager.CreateDteqDict();
-            Task.Run(() => _listManager.CalculateDteqLoadingAsync());
-            //await _listManager.CalculateDteqLoadingAsync();
+            //Task.Run(() => _listManager.CalculateDteqLoadingAsync());
+             _listManager.CalculateDteqLoadingAsync();
+
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);
