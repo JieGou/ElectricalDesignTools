@@ -136,6 +136,7 @@
         </StackPanel>
 
         <Button Content="Create Project"
+                Style="{StaticResource BaseButtonLarge}"
                 Grid.Row="3"
                 Margin="5 50"
                 Command="{Binding CreateProjectCommand}"/>

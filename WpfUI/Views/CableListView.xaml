@@ -152,17 +152,17 @@
                     </Grid>
             </GroupBox>
                 <Button Name ="btnCreateCableList" Content="Create Cable List" 
-                    Height="27" Width="125"
+                    Style="{StaticResource BaseButtonLarge}"
                     Command="{Binding Path=CreateCableList}"/>
 
                 <Button Name ="btnShowDteqOC" Content="Show Dteq" 
-                    Height="27" Width="125"/>
+                    Style="{StaticResource BaseButtonLarge}"/>
 
                 <Button Name ="btnShowLoadsOC" Content="Show Loads" 
-                    Height="27" Width="125"/>
+                    Style="{StaticResource BaseButtonLarge}"/>
 
                 <Button Name ="btnChangeLoadOC" Content="Change Load" 
-                    Height="27" Width="125"/>
+                    Style="{StaticResource BaseButtonLarge}"/>
 
             </StackPanel>
 

@@ -125,12 +125,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="486*"/>
                 <ColumnDefinition Width="1309*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="400" MinHeight="290"/>
                 <RowDefinition Height="{Binding LoadGridTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="200"/>
@@ -159,17 +159,21 @@
                         Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"
                         Margin="200 0">
 
-                <Button Content="Toggle Row View"
-                        Command="{Binding Path=ToggleRowDetailViewCommand}"/>
+                <Button Content="Row Details"
+                        Command="{Binding Path=ToggleRowDetailViewCommand}"
+                        />
 
                 <Button Content="Loading Data"
-                        Command="{Binding Path=ToggleLoadingViewDteqCommand}"/>
+                        Command="{Binding Path=ToggleLoadingViewDteqCommand}"
+                        />
 
                 <Button Content="OCDP Data"
-                        Command="{Binding Path=ToggleOcpdViewDteqCommand}"/>
+                        Command="{Binding Path=ToggleOcpdViewDteqCommand}"
+                        />
 
                 <Button Content="Cable Data"
-                        Command="{Binding Path=ToggleCableViewDteqCommand}"/>
+                        Command="{Binding Path=ToggleCableViewDteqCommand}"
+                        />
             </StackPanel>
 
             <!--MENU BUTTONS-->
@@ -216,7 +220,7 @@
                         Grid.Column="1" Grid.Row="{StaticResource adding}"
                         Margin="0,10,0,0">
 
-                <Button Name ="btnAddDteq" Content="Add Dist. Eq."
+                <Button Name ="btnAddDteq" Content="Add Dist. Eq." Height="25" Width="100"
                         Style="{StaticResource GreenButton}"
                         Command="{Binding Path=AddDteqCommand}"
                         CommandParameter="{Binding DteqToAddValidator}"
@@ -224,11 +228,11 @@
                         
                         />
 
-                <Button Name ="btnAddLoad" Content="Add Load" 
+                <Button Name ="btnAddLoad" Content="Add Load"  Height="25" Width="100"
                         Style="{StaticResource GreenButton}"
                         Command="{Binding Path=AddLoadCommand}"
                         CommandParameter="{Binding LoadToAddValidator}"
-                        Margin="10,17,10,10" />
+                        Margin="10,20,10,10" />
 
             </StackPanel>
 
@@ -241,19 +245,19 @@
 
 
 
-                <Button x:Name ="btnLoadList" Content="Load List" Height="27" Width="125"
+                <Button x:Name ="btnLoadList" Content="Load List" Height="25" Width="100"
                         Command="{Binding GetLoadListCommand}"/>
 
-                <Button x:Name ="btnSaveLoadList" Content="Save Load List" Height="27" Width="125"
+                <Button x:Name ="btnSaveLoadList" Content="Save Load List" Height="25" Width="100"
                         Command="{Binding SaveLoadListCommand}"/>
 
-                <Button x:Name ="btnDeleteLoad" Content="Delete Load" Height="27" Width="125"
+                <Button x:Name ="btnDeleteLoad" Content="Delete Load" Height="25" Width="100"
                         Style="{StaticResource RedButton}"
                         Command="{Binding DeleteLoadCommand}" 
                         CommandParameter="{Binding SelectedLoad}" />
 
 
-                <Button Name ="btnCalculate" Content="Calculate All" 
+                <Button Name ="btnCalculate" Content="Calculate All"  Height="25" Width="100"
                         Command="{Binding CalculateAllCommand}"
                         FontWeight="Bold"
                         Margin="0 50 0 0"/>
@@ -283,7 +287,7 @@
 
                 <!--Title-->
                 <TextBlock Text="Distribution Equipment"
-                           Margin="10 5 0 5"
+                           Margin="10 5 0 0"
                            HorizontalAlignment="Left"
                            FontSize="14" Grid.Row="0"
                            FontWeight="SemiBold">
@@ -302,9 +306,12 @@
                 
                 <!--DETAILS VIEW-->
                 <!--Dteq-->
-                <TextBlock Grid.Row="1" Grid.Column="3" Text="Distribution Equipment Details" Margin="10,10,10,10"/>
+                <TextBlock Text="Distribution Equipment Details" 
+                           Grid.Row="0" Grid.Column="3" 
+                           VerticalAlignment="Bottom"
+                           Margin="10,0,0,0"/>
                 <Border Grid.Row="1" Grid.Column="3" BorderThickness="1" BorderBrush="Black" Background="Transparent"
-                        Margin="10,30,10,10">
+                        Margin="10,5,0,10">
                     <ContentControl x:Name="DteqDetailsContent" Grid.Row="{StaticResource dteq}" Grid.Column="4">
                     </ContentControl>
                 </Border>
@@ -325,13 +332,14 @@
                           SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
                           ItemsSource="{Binding DteqCollectionView}"
                           IsSynchronizedWithCurrentItem="True"
+                          FrozenColumnCount="1"
                           
                           
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"
                           d:Height="250"
                           Height="{Binding DteqGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          Margin="10,0,10 5"
+                          Margin="10,5,10 5"
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
                           AutoGenerateColumns="False"
@@ -1120,7 +1128,7 @@
 
 
 
-                <TextBlock Margin="10 10 0 -5"
+                <TextBlock Margin="10 5 0 0"
                            HorizontalAlignment="Left"
                            FontSize="14" Grid.Row="0"
                            FontWeight="SemiBold">
@@ -1139,25 +1147,32 @@
 
                 <!--LOAD-->
                 <!--DETAILS VIEW-->
-                <TextBlock Grid.Row="1" Grid.Column="2" Text="Load Details" Margin="10"/>
+                <TextBlock Text="Load Details"
+                           Grid.Row="0" Grid.Column="2" 
+                           VerticalAlignment="Bottom"
+                           Margin="10 0 0 0"/>
                 <Border Grid.Row="1" Grid.Column="2" BorderThickness="1" BorderBrush="Black" Background="Transparent"
-                        Margin="10 30 10 10">
+                        Margin="10 5 10 7">
 
-                    <ContentControl x:Name="LoadDetailsContent" Grid.Row="{StaticResource load}" Grid.Column="4">
+                    <ContentControl x:Name="LoadDetailsContent" Grid.Row="{StaticResource load}" Grid.Column="4"
+                                    >
 
                     </ContentControl>
                 </Border>
 
                 <GridSplitter  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"   
+                               Grid.Row="0" Grid.RowSpan="2"
                                Width="3" Background="AliceBlue"
-                               Margin="0 0 0 0" Grid.Row="1"/>
+                               Margin="0 0 0 0" />
                 <!--LOAD-->
                 <!--DATA GRID-->
                 <DataGrid x:Name="dgdAssignedLoads" 
                           Grid.Row="1"  Grid.Column="0"
                           HorizontalAlignment="Left" VerticalAlignment="Stretch" 
                           d:Height="250"
-                          Margin="10,10,10,5"
+                          Margin="10,5,10,5"
+                          FrozenColumnCount="1"
+                          
                           ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                           SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           CanUserAddRows="False"

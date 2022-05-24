@@ -142,12 +142,14 @@
                         Margin="50 15">
 
                 <Button Content="New"
+                        Style="{StaticResource BaseButtonLarge}"
                         Command="{Binding NewProjectCommand}" PreviewMouseDown="Button_PreviewMouseDown"/>
 
                 <TextBlock Width=" 50 "/>
                 <!--Spacer-->
 
                 <Button Content="Open" HorizontalAlignment="Center"
+                        Style="{StaticResource BaseButtonLarge}"
                         Command="{Binding SelectProjectCommand}"/>
 
             </StackPanel>
