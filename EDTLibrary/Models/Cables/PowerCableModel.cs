@@ -33,6 +33,8 @@ public class PowerCableModel : IPowerCable
 
         UsageType = CableUsageTypes.Power.ToString();
         QtyParallel = 1;
+        Spacing = 100;
+
     }
 
     #region Properties
@@ -300,10 +302,12 @@ public class PowerCableModel : IPowerCable
             RequiredAmps *= 1.25;
         }
 
-        RequiredAmps = Math.Min(load.PdSizeTrip, RequiredAmps);
 
         if (load.GetType() == typeof(LoadModel)) {
             RequiredAmps = Math.Max(load.PdSizeTrip, RequiredAmps);
+        }
+        else {
+            RequiredAmps = Math.Min(load.PdSizeTrip, RequiredAmps);
         }
         return RequiredAmps;
     }
@@ -369,14 +373,14 @@ public class PowerCableModel : IPowerCable
         //TODO - move this into above "CalculateCableQtyAndSize();" for both
         //TODO - Fix cable spacing default
 
-                DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
-                var ampacityTableFiltered = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("AmpacityTable") == AmpacityTable);
-                cableAmpacityTable.Rows.Clear();
-                foreach (var cableAmpacityRow in ampacityTableFiltered) {
-                    cableAmpacityTable.Rows.Add(cableAmpacityRow.ItemArray);
-                }
+        DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
+        //var ampacityTableFiltered = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("AmpacityTable") == AmpacityTable);
+        //cableAmpacityTable.Rows.Clear();
+        //foreach (var cableAmpacityRow in ampacityTableFiltered) {
+        //    cableAmpacityTable.Rows.Add(cableAmpacityRow.ItemArray);
+        //}
 
-                DataTable cablesWithHigherAmpsInProject = cableAmpacityTable;
+        DataTable cablesWithHigherAmpsInProject = cableAmpacityTable.Copy();
                 cablesWithHigherAmpsInProject.Rows.Clear();
 
 
@@ -390,7 +394,7 @@ public class PowerCableModel : IPowerCable
         // Helper - 3 Recursive method
         void GetCableQty(int cableQty)
         {
-            if (cableQty < 10) {
+            if (cableQty < 20) {
                 if (cablesWithHigherAmpsInProject.Rows.Count > 0) {
                     cable.Derating = CableManager.CableSizer.GetDerating(cable);
                     //select smallest of 
@@ -446,13 +450,13 @@ public class PowerCableModel : IPowerCable
     private void CableQtySize_DirectBuriedOrRaceWayConduit(IPowerCable cable, string ampsColumn)
     {
         DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
-        var ampacityTableFiltered = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("AmpacityTable") == AmpacityTable);
-        cableAmpacityTable.Rows.Clear();
-        foreach (var cableAmpacityRow in ampacityTableFiltered) {
-            cableAmpacityTable.Rows.Add(cableAmpacityRow.ItemArray);
-        }
+        //var ampacityTableFiltered = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("AmpacityTable") == AmpacityTable);
+        //cableAmpacityTable.Rows.Clear();
+        //foreach (var cableAmpacityRow in ampacityTableFiltered) {
+        //    cableAmpacityTable.Rows.Add(cableAmpacityRow.ItemArray);
+        //}
 
-        DataTable cablesWithHigherAmpsInProject = cableAmpacityTable;
+        DataTable cablesWithHigherAmpsInProject = cableAmpacityTable.Copy();
         cablesWithHigherAmpsInProject.Rows.Clear();
 
         // 1 - filter cables larger than RequiredAmps first iteration
