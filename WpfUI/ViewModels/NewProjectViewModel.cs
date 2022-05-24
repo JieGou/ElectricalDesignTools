@@ -151,8 +151,8 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
                 _startupService.InitializeLibrary();
                 _homeViewModel.StartupService.SetSelectedProject(fullFileName);
                 _startupService.InitializeProject(fullFileName);
-                var edtSettings = new SettingsViewModel(new EDTLibrary.ProjectSettings.EdtSettings(), _typeManager);
-                edtSettings.ProjectName = ProjectName;
+                var settingVm = new SettingsViewModel(new EDTLibrary.ProjectSettings.EdtSettings(), _typeManager);
+                settingVm.ProjectName = ProjectName;
                 _homeViewModel.NewProjectWindow.Close();
             }
         }

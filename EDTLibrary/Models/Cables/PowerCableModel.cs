@@ -1,6 +1,7 @@
 ﻿
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
@@ -178,8 +179,17 @@ public class PowerCableModel : IPowerCable
 
     public string RequiredAmpsToolTip
     {
-        get { return "OCDP Trip = " + _load.PdSizeTrip + " A"; }
-    
+        get
+        {
+            if (_load != null) {
+                return $"OCDP Trip = {_load.PdSizeTrip} A";
+
+            }
+            else {
+                return "OCDP Trip = xx A";
+            }
+        }
+
     }
 
     public double RequiredSizingAmps { get; set; }

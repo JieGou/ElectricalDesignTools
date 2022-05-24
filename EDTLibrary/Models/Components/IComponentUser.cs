@@ -5,6 +5,8 @@ namespace EDTLibrary.Models.Components
 {
     public interface IComponentUser : IEquipment
     {
-        ObservableCollection<IComponent> Components { get; set; }
+        ObservableCollection<IComponent> AuxComponents { get; set; }
+        ObservableCollection<IComponent> CctComponents { get; set; }
+
     }
 }

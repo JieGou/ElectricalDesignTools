@@ -97,22 +97,28 @@
 
                     <TextBlock Text="Project No." 
                        Grid.Row="1" Grid.Column="0" />
+                    
                     <TextBox Grid.Row="1" Grid.Column="2"
                          Text="{Binding Path=ProjectNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Text="Project Name"  
                        Grid.Row="2" Grid.Column="0" />
+                    <!--<TextBlock Text="{Binding EdtSettings.ProjectName.DisplayName}"
+                       Grid.Row="2" Grid.Column="0" />-->
                     <TextBox Grid.Row="2" Grid.Column="2"
                          Text="{Binding Path=ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    
                     
                     <TextBlock Text="Project Title Line 1"  
                        Grid.Row="4" Grid.Column="0" />
                     <TextBox Grid.Row="4" Grid.Column="2"
                          Text="{Binding Path=ProjectTitleLine1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    
                     <TextBlock Text="Project Title Line 2"
                        Grid.Row="5" Grid.Column="0" />
                     <TextBox Grid.Row="5" Grid.Column="2"
                          Text="{Binding Path=ProjectTitleLine2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    
                     <TextBlock Text="Project Title Line 3"
                        Grid.Row="6" Grid.Column="0" />
                     <TextBox Grid.Row="6" Grid.Column="2"
@@ -129,6 +135,7 @@
                        Grid.Row="10" Grid.Column="0" />
                     <TextBox Grid.Row="10" Grid.Column="2"
                          Text="{Binding Path=ClientNameLine2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    
                     <TextBlock Text="Client Name Line 2" 
                        Grid.Row="11" Grid.Column="0" />
                     <TextBox Grid.Row="11" Grid.Column="2"
@@ -201,7 +208,7 @@
                     <StackPanel Orientation="Vertical"  Grid.Row="2" Grid.Column="0"  >
                         <TextBlock Text="New Transformer Impedance"
                                Grid.Row="2" Grid.Column="0" />
-                        <TextBlock Text="Impedance (%Z) value when creating new Transformers"  
+                        <TextBlock Text="Impedance ( % Z ) value when creating new Transformers"  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}" />
                     </StackPanel>

@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -39,8 +40,11 @@ namespace EDTLibrary.Models.Loads
                 _tag = value;
                 if (GlobalConfig.GettingRecords == false) {
 
-                    if (PowerCable !=null ) {
+                    if (PowerCable != null ) {
                         PowerCable.AssignTagging(this);
+                    }
+                    if (PowerCable != null && FedFrom != null) {
+                        CableManager.AssignPowerCables(this, ScenarioManager.ListManager);
                     }
                 }
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
@@ -246,7 +250,7 @@ namespace EDTLibrary.Models.Loads
         //Cables
 
         public PowerCableModel PowerCable { get; set; }
-        public ObservableCollection<IComponent> Components { get; set; } = new ObservableCollection<IComponent>();
+        public ObservableCollection<IComponent> AuxComponents { get; set; } = new ObservableCollection<IComponent>();
         public ObservableCollection<IComponent> CctComponents { get; set; } = new ObservableCollection<IComponent>();
 
 
@@ -263,15 +267,17 @@ namespace EDTLibrary.Models.Loads
                     PdType = "BKR";
                 }
 
-                if (_driveBool == true) {
-                    ComponentManager.AddDrive(this, ScenarioManager.ListManager);
-                }
-                if (_driveBool == false) {
-                    ComponentManager.RemoveDrive(this, ScenarioManager.ListManager);
-                }
+                if (GlobalConfig.GettingRecords == false) {
+                    if (_driveBool == true) {
+                        ComponentManager.AddDrive(this, ScenarioManager.ListManager);
+                    }
+                    if (_driveBool == false) {
+                        ComponentManager.RemoveDrive(this, ScenarioManager.ListManager);
+                    }
 
-                
-                OnPropertyUpdated();
+                    OnPropertyUpdated();
+                }
+               
             }
 
         }
@@ -292,17 +298,20 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _disconnectBool;
                 _disconnectBool = value;
 
-                if (_disconnectBool == true) {
-                    ComponentManager.AddDisconnect(this, ScenarioManager.ListManager);
-                }
-                if (_disconnectBool == false) {
-                    ComponentManager.RemoveDisconnect(this, ScenarioManager.ListManager);
-                }
+                if (GlobalConfig.GettingRecords==false) {
+                    if (_disconnectBool == true) {
+                        ComponentManager.AddDisconnect(this, ScenarioManager.ListManager);
+                    }
+                    if (_disconnectBool == false) {
+                        ComponentManager.RemoveDisconnect(this, ScenarioManager.ListManager);
+                    }
 
-                //CableManager.AssignPowerCables(this);
-                OnCctComponentChanged();
+                    //CableManager.AssignPowerCables(this);
+                    OnCctComponentChanged();
 
-                OnPropertyUpdated();
+                    OnPropertyUpdated();
+                }
+                
 
             }
         }
@@ -314,7 +323,7 @@ namespace EDTLibrary.Models.Loads
             set { _disconnectId = value; }
         }
 
-        public LocalControlStation Lcs { get; set; }
+        public ComponentModel Lcs { get; set; }
         private bool _lcsBool;
         public bool LcsBool
         {
@@ -324,15 +333,18 @@ namespace EDTLibrary.Models.Loads
                 var _oldValue = _lcsBool;
                 _lcsBool = value;
 
-                if (_lcsBool == true) {
-                    ComponentManager.AddLcs(this, ScenarioManager.ListManager);
-                }
-                if (_lcsBool == false) {
-                    ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
-                }
+                if (GlobalConfig.GettingRecords == false) {
+
+                    if (_lcsBool == true) {
+                        ComponentManager.AddLcs(this, ScenarioManager.ListManager);
+                    }
+                    if (_lcsBool == false) {
+                        ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
+                    }
 
 
-                OnPropertyUpdated();
+                    OnPropertyUpdated();
+                }
 
             }
         }

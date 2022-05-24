@@ -309,12 +309,11 @@ namespace EDTLibrary.Models.DistributionEquipment
         public double PdSizeFrame { get; set; }
 
         public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer>();
-
         public PowerCableModel PowerCable { get; set; }
 
-        //In IComponenetModel
-        //public ObservableCollection<IComponent> Components { get; set; }
-        public ObservableCollection<IComponent> Components { get; set; } = new ObservableCollection<IComponent>();
+
+        //Components
+        public ObservableCollection<IComponent> AuxComponents { get; set; } = new ObservableCollection<IComponent>();
         public ObservableCollection<IComponent> CctComponents { get; set; } = new ObservableCollection<IComponent>();
 
         //Components

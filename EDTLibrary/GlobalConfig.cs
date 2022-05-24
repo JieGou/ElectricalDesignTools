@@ -1,6 +1,8 @@
 ﻿using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using Microsoft.AspNetCore.Components;
 using System.Collections.ObjectModel;
+
 
 namespace EDTLibrary
 {
@@ -28,6 +30,8 @@ namespace EDTLibrary
         public static string XfrTable { get; set; } = "Transformer";
         public static string SwgTable { get; set; } = "Switchgear";
         public static string MccTable { get; set; } = "Mcc";
+        public static string ComponentTable { get; set; } = "Components";
+
         public static string AreaTable { get; set; } = "Areas";
         public static string PowerCableTable { get; set; } = "PowerCables";
         public static string DevDb { get; set; } = "C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB Files\\EDTProjectTemplate1.1.edp";
@@ -64,7 +68,6 @@ namespace EDTLibrary
         public const double OtherEff = 0.85;
 
 
-       
 
     }
 }

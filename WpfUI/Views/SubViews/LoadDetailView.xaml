@@ -116,10 +116,10 @@
                 <ContentControl Content="{Binding SelectedLoad}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                            <subViews:LoadComponentDetailsView/>
+                            <subViews:ComponentDetailsView/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                            <subViews:LoadComponentDetailsView/>
+                            <subViews:ComponentDetailsView/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>

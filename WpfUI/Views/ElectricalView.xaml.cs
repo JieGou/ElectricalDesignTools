@@ -242,6 +242,8 @@ public partial class ElectricalView : UserControl
         while (elecVm.ListManager.LoadList.Count > 0) {
             elecVm.DeleteLoad(elecVm.ListManager.LoadList[0]);
         }
+
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
     }
 
     private void DeleteEquipmentFromDatabase()

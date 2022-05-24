@@ -10,7 +10,9 @@ namespace EDTLibrary {
         DTEQ,
         LOAD3P,
         LOAD1P,
-        COMP,
+        Component,
+        CctComponent,
+        AuxComponent,
         OCPD,
         CABLE,
     }
@@ -35,13 +37,28 @@ namespace EDTLibrary {
         OTHER
     }
 
+    public enum ComponentTypes
+    {
+        CCT,
+        AUX,
+        UDS,
+        FDS,
+        DefaultDcn,
+        VFD,
+        RVS,
+        DefaultDrive,
+        LCS,
+        BREAKER,
+        FUSE,
+    }
     public enum ComponentSubTypes
     {
         UDS,
         FDS,
-        STARTER,
+        DefaultDcn,
         VFD,
         RVS,
+        DefaultDrive,
         BREAKER,
         FUSE,
     }
@@ -50,7 +67,7 @@ namespace EDTLibrary {
         Power,
         Control,
         Instrument,
-        Communication
+        Communication,
         
     }
 

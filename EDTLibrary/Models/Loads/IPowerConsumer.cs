@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,9 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Loads
 {
-    public interface IPowerConsumer : IPowerCableUser
+    public interface IPowerConsumer : IPowerCableUser, IComponentUser
 
     {
-
-
-        ObservableCollection<Components.IComponent> CctComponents { get; set; }
 
         ///Lookups
         double PowerFactor { get; set; }

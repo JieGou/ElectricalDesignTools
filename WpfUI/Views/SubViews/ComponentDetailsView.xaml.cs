@@ -18,9 +18,9 @@ namespace WpfUI.Views.SubViews
     /// <summary>
     /// Interaction logic for SwgDetailsView.xaml
     /// </summary>
-    public partial class LoadComponentDetailsView : UserControl
+    public partial class ComponentDetailsView : UserControl
     {
-        public LoadComponentDetailsView()
+        public ComponentDetailsView()
         {
             InitializeComponent();
         }

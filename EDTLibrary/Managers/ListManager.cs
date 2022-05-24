@@ -68,7 +68,9 @@ namespace EDTLibrary
                 GetDteq();
                 GetLoads();
                 //TODO - Get Components for each type and create a master component list
-                CompList.Clear();
+                GetComponents();
+                AssignComponents();
+
                 GetCables();
 
                 //Assign
@@ -81,20 +83,13 @@ namespace EDTLibrary
                 if (ex.Data.Contains("UserMessage") == false) {
                     ex.Data.Add("UserMessage", "The project database may have been deleted or corrupted since opening. Go to the home screen and reopen the project.");
                 }
-                else {
-                    ex.Data["UserMessage"] = "The project database may have been deleted or corrupted since opening. Go to the home screen and reopen the project.";
-                }
                 throw;
             }
 
             GlobalConfig.GettingRecords = false;
         }
 
-        public void AddCable(IPowerCableUser selectedLoad)
-        {
-            
-        }
-
+        
         public ObservableCollection<IArea> GetAreas()
         {
             AreaList.Clear();
@@ -192,6 +187,39 @@ namespace EDTLibrary
             //CreateILoadDict();
             return LoadList;
         }
+        private void GetComponents()
+        {
+            CompList.Clear();
+            var list = DaManager.prjDb.GetRecords<ComponentModel>(GlobalConfig.ComponentTable);
+            foreach (var item in list) {
+                CompList.Add(item);
+            }
+        }
+        private void AssignComponents()
+        {
+            // Loads
+            foreach (var load in LoadList) {
+                foreach (var comp in CompList) {
+                    if (comp.OwnerId == load.Id && comp.OwnerType == typeof(LoadModel).ToString()) {
+                        comp.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
+                        comp.Owner = load;
+                        //Aux Components
+                        if (comp.Category == Categories.AuxComponent.ToString()) {
+                            load.AuxComponents.Add(comp);
+                            if (comp.Type == ComponentTypes.LCS.ToString()) {
+                                load.Lcs = (ComponentModel)comp;
+                            }
+                        }
+
+                        //Cct Components
+                        else if (comp.Category == Categories.CctComponent.ToString()) {
+                            load.CctComponents.Add(comp);
+                        }
+                    }
+                }
+            }
+        }
+
         public ObservableCollection<PowerCableModel> GetCables()
         {
             CableList.Clear();

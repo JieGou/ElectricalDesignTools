@@ -3,6 +3,7 @@ using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
@@ -119,6 +120,12 @@ public class DaManager {
             prjDb.UpsertRecord<LoadModel>((LoadModel)source, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
         }
     }
+    public static void OnComponentPropertyUpdated(object source, EventArgs e)
+    {
+        if (GlobalConfig.GettingRecords == false) {
+            DaManager.UpsertComponent((ComponentModel)source);
+        }
+    }
     public static void OnPowerCablePropertyUpdated(object source, EventArgs e)
     {
         if (GlobalConfig.GettingRecords == false) {
@@ -213,7 +220,6 @@ public class DaManager {
     {
         try {
             if (GlobalConfig.Importing == true) return;
-            if (load == GlobalConfig.DteqDeleted) { return; }
 
             prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
         }
@@ -223,12 +229,33 @@ public class DaManager {
      
     }
 
+    public static void UpsertComponent(ComponentModel component)
+    {
+        try {
+            if (GlobalConfig.Importing == true) return;
+
+            prjDb.UpsertRecord(component, GlobalConfig.ComponentTable, SaveLists.CompSaveList);
+        }
+        catch (Exception ex) {
+            throw ex;
+        }
+
+    }
+
+    public static void DeleteComponent(ComponentModel component)
+    {
+        if (component == null ) {
+            return;
+        }
+        prjDb.DeleteRecord(GlobalConfig.ComponentTable, component.Id);
+    }
+
     public static void UpsertCable(PowerCableModel cable)
     {
         prjDb.UpsertRecord(cable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
     }
 
-    internal static void UpsertArea(AreaModel area)
+    public static void UpsertArea(AreaModel area)
     {
         DaManager.prjDb.UpsertRecord<AreaModel>(area, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
     }

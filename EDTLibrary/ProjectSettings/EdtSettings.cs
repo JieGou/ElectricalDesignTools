@@ -33,6 +33,10 @@ namespace EDTLibrary.ProjectSettings
 
         //General
         public static string ProjectName { get; set; }
+        public static string ProjectName_Model { get; set; }
+
+
+
         public static string ProjectNumber { get; set; }
         public static string ProjectTitleLine1 { get; set; }
         public static string ProjectTitleLine2 { get; set; }

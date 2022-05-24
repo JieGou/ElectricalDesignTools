@@ -263,13 +263,15 @@
                               DisplayMemberPath="Type"
                               SelectedItem="{Binding SelectedCableType}"
                               RowHeaderWidth="0"
-                              SelectionMode="Single" MouseLeave="DataGrid_MouseLeave">
+                              SelectionMode="Single" MouseLeave="DataGrid_MouseLeave"
+                              >
                         <DataGrid.Columns>
 
                             <!--Type-->
                             <DataGridTextColumn Header="Cable Type"
                                                 Binding="{Binding Path=Type}" 
-                                                MinWidth="175">
+                                                MinWidth="175"
+                                                IsReadOnly="True">
                                 <DataGridTextColumn.ElementStyle>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="HorizontalAlignment" Value="Left" />
@@ -332,12 +334,14 @@
                             <!--Type-->
                             <DataGridTextColumn Header="Type"
                                                 Binding="{Binding Path=Type}"
-                                                MinWidth="175"/>
+                                                MinWidth="175"
+                                                IsReadOnly="True"/>
 
                             <!--Size-->
                             <DataGridTextColumn Header="Size"
                                                 Binding="{Binding Path=Size}"
-                                                MinWidth="65" />
+                                                MinWidth="65" 
+                                                IsReadOnly="True"/>
 
                             <!--Used In Project-->
                             <DataGridTemplateColumn Header=" Used In &#x0a;Project"  

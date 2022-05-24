@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using System;
 using System.Collections;
@@ -24,9 +25,6 @@ namespace EDTLibrary.ProjectSettings
         public static ObservableCollection<SettingModel> StringSettingList { get; set; } = new ObservableCollection<SettingModel>();
         public static ObservableCollection<SettingModel> TableSettingList { get; set; } = new ObservableCollection<SettingModel>();
 
-        public static Dictionary<string, SettingModel> SettingDict { get; set; } = new Dictionary<string, SettingModel>();
-        public static Dictionary<string, SettingModel> StringSettingDict { get; set; } = new Dictionary<string, SettingModel>();
-        public static Dictionary<string, SettingModel> TableSettingDict { get; set; } = new Dictionary<string, SettingModel>();
 
         public static void LoadProjectSettings()
         {
@@ -56,26 +54,43 @@ namespace EDTLibrary.ProjectSettings
             }
 
 
-            // PROPERTIES
+            // Load from Db into Objects
             // -Strings
             DataTable settingsDbTable = DaManager.prjDb.GetDataTable("ProjectSettings");
             Type projectSettingsClass = typeof(EdtSettings);
             string propValue = "";
 
-            for (int i = 0; i < settingsDbTable.Rows.Count; i++) {
+            foreach (var setting in SettingList) {
                 foreach (var property in projectSettingsClass.GetProperties()) {
-                    if (settingsDbTable.Rows[i]["Name"].ToString() == property.Name && settingsDbTable.Rows[i]["Type"].ToString() != "DataTable") {
-                        property.SetValue(propValue, settingsDbTable.Rows[i]["Value"].ToString());
+                    if (setting.Name == property.Name && setting.Type != "DataTable") {
+
+                        try {
+                            property.SetValue(propValue, setting.Value);
+
+                        }
+                        catch (Exception ex) {
+                            property.SetValue(propValue, setting);
+                            //ex.Data.Add("UserMessage", "Error loading project setting from project database file.");
+                        }
+                    }
+                    if (setting.Name + "_Model" == property.Name) {
+
+                        try {
+                            property.SetValue(propValue, setting);
+
+                        }
+                        catch (Exception ex) {
+                            ex.Data.Add("UserMessage", "Error loading project setting from project database file.");
+                        }
                     }
                 }
             }
 
             // -Tables
-            for (int i = 0; i < settingsDbTable.Rows.Count; i++) {
+            foreach (var setting in SettingList) {
                 foreach (var prop in projectSettingsClass.GetProperties()) {
-
-                    if (settingsDbTable.Rows[i]["Name"].ToString() == prop.Name
-                        && settingsDbTable.Rows[i]["Type"].ToString() == "DataTable"
+                    if (setting.Name == prop.Name
+                        && setting.Type == "DataTable"
                         && listOfTablesInDb.Contains(prop.Name))
                     {
                         prop.SetValue(propValue, DaManager.prjDb.GetDataTable(prop.Name));
@@ -83,12 +98,6 @@ namespace EDTLibrary.ProjectSettings
                 }
             }
         
-            SettingDict.Clear();
-            SettingDict = SettingList.ToDictionary(x => x.Name);
-
-            //CreateCableAmpsUsedInProject();
-            //var test = EdtSettings.CableAmpsUsedInProject_3C1kV;
-
             AssignCodeSettings();
             GetCableSizesUsedInProject();
         }
@@ -119,15 +128,16 @@ namespace EDTLibrary.ProjectSettings
             }
         }
 
-        public static void SaveStringSettingToDb(string settingName, string settingValue)
+        public static void SaveSettingToDb(string settingName, string settingValue)
         {
             SettingModel setting = new SettingModel();
-            setting = StringSettingList.FirstOrDefault(s => s.Name == settingName);
+            setting = SettingList.FirstOrDefault(s => s.Name == settingName);
             setting.Value = settingValue;
             DaManager.prjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
         }
 
-        public static void SaveTableSetting(SettingModel tableSetting)
+
+        public static void SaveSettingTableValueToDb(SettingModel tableSetting)
         {
             DaManager.prjDb.SaveDataTable(tableSetting.TableValue, tableSetting.Name);
         }

@@ -1,5 +1,7 @@
 ﻿using EDTLibrary.Models.Areas;
+using EDTLibrary.Models.Components;
 using System;
+using System.Collections.ObjectModel;
 
 namespace EDTLibrary.Models
 {
@@ -14,6 +16,9 @@ namespace EDTLibrary.Models
         IArea Area { get; set; }
         string NemaRating { get; set; }
         string AreaClassification { get; set; }
+
+
+
 
         event EventHandler PropertyUpdated;
         abstract void OnPropertyUpdated();

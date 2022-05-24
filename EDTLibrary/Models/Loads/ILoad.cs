@@ -12,5 +12,12 @@ namespace EDTLibrary.Models.Loads
         double LoadFactor { get; set; }
         double Efficiency { get; set; }
 
+        bool DriveBool { get; set; }
+        int DriveId { get; set; }
+        bool DisconnectBool { get; set; }
+        int DisconnectId { get; set; }
+
+        bool LcsBool { get; set; }
+        public ComponentModel Lcs { get; set; }
     }
 }

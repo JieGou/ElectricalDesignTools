@@ -9,7 +9,7 @@ public class AreaManager
 {
     public static void UpdateArea(IEquipment caller, IArea newArea, IArea oldArea)
     {
-        if (GlobalConfig.GettingRecords==false) {
+        if (GlobalConfig.GettingRecords==false && newArea != oldArea) {
             if (oldArea != null) {
                 oldArea.PropertyChanged -= caller.OnAreaPropertiesChanged;
             }

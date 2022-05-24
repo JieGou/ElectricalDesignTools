@@ -63,12 +63,12 @@ namespace WpfUI.ViewModels
         private readonly CableListViewModel _cableListViewModel;
         private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
-       
 
 
         public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type="")
         {
             ValidateLicense();
+           
 
             _listManager = listManager;
             ScenarioManager.ListManager = _listManager;
@@ -137,7 +137,6 @@ namespace WpfUI.ViewModels
         {
             _settingsViewModel.LoadVmSettings();
             CurrentViewModel = _settingsViewModel;
-            
         }
         private void NavigateAreas()
         {

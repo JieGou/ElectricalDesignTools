@@ -15,6 +15,7 @@ namespace EDTLibrary.DataAccess
             "AssignedLoads",
             "PowerCable",
             "Components",
+            "AuxComponents",
             "CctComponents",
             "FedFrom",
             "Area",
@@ -33,10 +34,17 @@ namespace EDTLibrary.DataAccess
             "InLineComponents",
             "PowerCable",
             "Components",
+            "AuxComponents",
             "CctComponents",
             "FedFrom",
             "Area",
             "Lcs",
+        };
+
+        static public List<string> CompSaveList { get; set; } = new List<string>()
+        {
+            "Area",
+            "Owner",
         };
 
         static public List<string> PowerCableSaveList { get; set; } = new List<string> {

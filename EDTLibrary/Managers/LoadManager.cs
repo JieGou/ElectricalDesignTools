@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;

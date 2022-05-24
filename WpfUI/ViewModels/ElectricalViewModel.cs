@@ -1,7 +1,9 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using PropertyChanged;
@@ -84,6 +86,41 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
         ToggleLoadDisconnectCommand = new RelayCommand(ToggleLoadDisconnect);
         ToggleLoadDriveCommand = new RelayCommand(ToggleLoadDrive);
+
+        ComponentMoveUpCommand = new RelayCommand(ComponentMoveUp);
+        ComponentMoveDownCommand = new RelayCommand(ComponentMoveDown);
+
+    }
+
+    int _compIndex;
+    private void ComponentMoveUp()
+    {
+        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
+            if (SelectedLoad == null || SelectedComponent == null) return;
+
+            if (SelectedComponent.Id == SelectedLoad.CctComponents[i].Id) {
+                _compIndex = Math.Max(0, i - 1);
+                SelectedLoad.CctComponents.Move(i, _compIndex);
+                SelectedComponent = (ComponentModel)SelectedLoad.CctComponents[_compIndex];
+                CableManager.AssignPowerCables(SelectedLoad, _listManager);
+            }
+        }
+    }
+
+    private void ComponentMoveDown()
+    {
+        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
+            if (SelectedLoad == null || SelectedComponent == null) return;
+
+            if (SelectedComponent.Id == SelectedLoad.CctComponents[i].Id) {
+                _compIndex = Math.Min(i + 1, SelectedLoad.CctComponents.Count - 1);
+                SelectedLoad.CctComponents.Move(i, _compIndex);
+
+                SelectedComponent = (ComponentModel)SelectedLoad.CctComponents[_compIndex];
+                CableManager.AssignPowerCables(SelectedLoad, _listManager);
+
+            }
+        }
     }
 
     private void ToggleLoadDisconnect()
@@ -146,6 +183,8 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     public ICommand ToggleLoadDisconnectCommand { get; }
     public ICommand ToggleLoadDriveCommand { get; }
 
+    public ICommand ComponentMoveUpCommand { get; }
+    public ICommand ComponentMoveDownCommand { get; }
 
 
     #endregion
@@ -356,11 +395,20 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     public bool LoadListLoaded { get; set; }
 
 
+    //Components
+    private ComponentModel _selectedComponent;
+    public ComponentModel SelectedComponent
+    {
+        get { return _selectedComponent; }
+        set { _selectedComponent = value; }
+    }
+
+
     //Cables
 
 
 
-    
+
 
 
     #region View Toggles

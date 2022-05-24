@@ -50,7 +50,7 @@ namespace EDTLibrary.Tests
 
             //ViewModels
             AreasViewModel areaVm = new AreasViewModel(listManager);
-            ElectricalViewModel eqVm = new ElectricalViewModel(listManager, typeManager);
+            ElectricalViewModel eqVm = new ElectricalViewModel(listManager);
 
             #endregion
 
