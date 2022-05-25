@@ -16,10 +16,12 @@ namespace EDTLibrary.Models.Validators
             var areaTag = listManager.AreaList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
             var dteqTag = listManager.DteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
             var loadTag = listManager.LoadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
+            var compTag = listManager.CompList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
 
             if (areaTag != null ||
                 dteqTag != null ||
-                loadTag != null) {
+                loadTag != null ||
+                compTag != null) {
                 return false;
             }
 

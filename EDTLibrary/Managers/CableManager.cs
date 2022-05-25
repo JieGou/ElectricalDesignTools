@@ -25,6 +25,18 @@ public class CableManager
             int cableId = powerCableUser.PowerCable.Id;
             DaManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId); //await
             listManager.CableList.Remove(powerCableUser.PowerCable);
+
+            var list = new List<PowerCableModel>();
+            foreach (var cable in listManager.CableList) {
+                if (cable.OwnerType == typeof(IComponent).ToString() && cable.OwnerId== powerCableUser.Id) {
+                    list.Add(cable);
+                    DaManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cable.Id);
+                }
+            }
+
+            foreach (var cable in list) {
+                listManager.CableList.Remove(cable);
+            }
         }
         return;
     }

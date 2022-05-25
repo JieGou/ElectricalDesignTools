@@ -46,7 +46,16 @@
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
     </Style>
+    
+    <!--default button large-->
+    <Style x:Key="ButtonLarge" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonLarge}">
+        <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+    </Style>
 
+    <!--default button small-->
+    <Style x:Key="ButtonSmall" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonSmall}">
+        <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
+    </Style>
 
     <!--BUTTON Main Menu Animation-->
     <Style x:Key="MainMenu_Buttons" TargetType="{x:Type Button}">

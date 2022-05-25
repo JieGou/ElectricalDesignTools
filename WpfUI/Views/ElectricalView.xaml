@@ -132,8 +132,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="400" MinHeight="290"/>
-                <RowDefinition Height="{Binding LoadGridTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="200"/>
+                <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="300" MinHeight="290"/>
+                <RowDefinition Height="{Binding LoadGridTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="125"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.Triggers>
@@ -157,23 +157,36 @@
             <!--Dteq View Buttons-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                         Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"
-                        Margin="200 0">
+                        Height="20" Width="300"
+                        Margin="200 5"
+                        >
+
+                <!--<Button Content="Load All"
+                        Command="{Binding GetAllCommand}"/>
 
                 <Button Content="Row Details"
+                        Width="80" Height="20"
+                        Margin="5 0"
                         Command="{Binding Path=ToggleRowDetailViewCommand}"
                         />
 
                 <Button Content="Loading Data"
+                        Width="80" Height="20"
+                        Margin="5 0"
                         Command="{Binding Path=ToggleLoadingViewDteqCommand}"
                         />
 
                 <Button Content="OCDP Data"
+                        Width="80" Height="20"
+                        Margin="5 0"
                         Command="{Binding Path=ToggleOcpdViewDteqCommand}"
                         />
 
                 <Button Content="Cable Data"
+                        Width="80" Height="20"
+                        Margin="5 0"
                         Command="{Binding Path=ToggleCableViewDteqCommand}"
-                        />
+                        />-->
             </StackPanel>
 
             <!--MENU BUTTONS-->
@@ -189,19 +202,19 @@
                         Grid.Row="0"
                         Margin="0,0,0,0">
 
-                    <Button Name ="btnGetAll" Content="Get All" 
+                    <Button Content="Load All"
                         Command="{Binding GetAllCommand}"/>
 
-                    <Button Name ="btnSaveAll" Content="Save All"
+                    <Button Content="Save All"
                         Command="{Binding SaveAllCommand}"/>
 
-                    <Button Name ="btnSizeCables" Content="Size Cables"
+                    <Button Content="AutoSize Cables"
                         Command="{Binding SizeCablesCommand}"/>
 
-                    <Button Name ="btnCalcCableAmps" Content="Cable Amps"
-                        Command="{Binding CalculateAllCableAmpsCommand}"/>
+                    <!--<Button Content="Calc. Cable Amps" Name ="btnCalcCableAmps" 
+                        Command="{Binding CalculateAllCableAmpsCommand}"/>-->
 
-                    <Button Name ="btnDeleteDteq" Content="Delete Selected"
+                    <Button Content="Delete Selected"
                         Style="{StaticResource RedButton}"
                         Command="{Binding DeleteDteqCommand}"
                         CommandParameter="{Binding SelectedDteq}" />
@@ -210,7 +223,6 @@
                 <Button Name ="btnGrdSplitAdjust" Content="Add Equipment" 
                         Grid.Row="1"
                         VerticalAlignment="Bottom"
-                        FontWeight="Bold"
                         Margin="0 0 0 20"                         
                         PreviewMouseLeftButtonDown="btnGrdSplitAdjust_PreviewMouseLeftButtonDown"/>
             </Grid>
@@ -220,19 +232,23 @@
                         Grid.Column="1" Grid.Row="{StaticResource adding}"
                         Margin="0,10,0,0">
 
-                <Button Name ="btnAddDteq" Content="Add Dist. Eq." Height="25" Width="100"
+                <Button Content="Add Dist. Eq." Height="25" Width="100"
+                        x:Name="btnAddDteq"
                         Style="{StaticResource GreenButton}"
                         Command="{Binding Path=AddDteqCommand}"
                         CommandParameter="{Binding DteqToAddValidator}"
                         Margin="10,13,10,15" PreviewMouseLeftButtonDown="btnAddDteq_PreviewMouseLeftButtonDown" MouseLeave="btnAddDteq_MouseLeave" 
-                        
-                        />
+                        Visibility="Visible" IsDefault="True"
+                         />
 
-                <Button Name ="btnAddLoad" Content="Add Load"  Height="25" Width="100"
+                <Button Content="Add Load"  Height="25" Width="100"
+                        x:Name="btnAddLoad"
                         Style="{StaticResource GreenButton}"
                         Command="{Binding Path=AddLoadCommand}"
                         CommandParameter="{Binding LoadToAddValidator}"
-                        Margin="10,20,10,10" />
+                        Margin="10,21,10,10" 
+                        Visibility="Visible" PreviewMouseLeftButtonDown="btnAddLoad_PreviewMouseLeftButtonDown" MouseLeave="btnAddLoad_MouseLeave" 
+                        />
 
             </StackPanel>
 
@@ -248,8 +264,8 @@
                 <Button x:Name ="btnLoadList" Content="Load List" Height="25" Width="100"
                         Command="{Binding GetLoadListCommand}"/>
 
-                <Button x:Name ="btnSaveLoadList" Content="Save Load List" Height="25" Width="100"
-                        Command="{Binding SaveLoadListCommand}"/>
+                <!--<Button x:Name ="btnSaveLoadList" Content="Save Load List" Height="25" Width="100"
+                        Command="{Binding SaveLoadListCommand}"/>-->
 
                 <Button x:Name ="btnDeleteLoad" Content="Delete Load" Height="25" Width="100"
                         Style="{StaticResource RedButton}"
@@ -276,8 +292,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*"/>
-                    <!--<ColumnDefinition/>-->
-                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto" MinWidth="475" SharedSizeGroup="A"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -286,24 +301,55 @@
                 </Grid.RowDefinitions>
 
                 <!--Title-->
-                <TextBlock Text="Distribution Equipment"
-                           Margin="10 5 0 0"
-                           HorizontalAlignment="Left"
-                           FontSize="14" Grid.Row="0"
-                           FontWeight="SemiBold">
-                    <!--<TextBlock.Style>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Text" Value="Distribution Equipment" />
 
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding LoadListLoaded}" Value="False">
-                                    <Setter Property="Text" Value="{Binding SelectedDteq.Tag, StringFormat={}{0:N0} Loads }"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>-->
-                </TextBlock>
-                
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" 
+                            Grid.ColumnSpan="2">
+
+                    <TextBlock Text="Distribution Equipment"
+                               Margin="10 5 0 0"
+                               Width="200"
+                               HorizontalAlignment="Left"
+                               FontSize="14" Grid.Row="0"
+                               FontWeight="SemiBold"/>
+
+                    <Button 
+                            Width="80" Height="17"
+                            Margin="5 0"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding Path=ToggleRowDetailViewCommand}"
+                            >
+                        <TextBlock Text="Row Details" Margin="0 -1 0 0"/>
+                    </Button>
+
+                    <Button 
+                            Width="80" Height="17"
+                            Margin="5 0"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding Path=ToggleLoadingViewDteqCommand}"
+                            >
+                        <TextBlock Text="Loading Data" Margin="0 -1 0 0"/>
+                    </Button>
+
+                    <Button 
+                            Width="80" Height="17"
+                            Margin="5 0"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding Path=ToggleOcpdViewDteqCommand}"
+                            >
+                        <TextBlock Text="OCDP Data" Margin="0 -1 0 0"/>
+                    </Button>
+
+                    <Button 
+                            Width="80" Height="17"
+                            Margin="5 0"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding Path=ToggleCableViewDteqCommand}"
+                            >
+                        <TextBlock Text="Cable Data" Margin="0 -1 0 0"/>
+                    </Button>
+                </StackPanel>
+
                 <!--DETAILS VIEW-->
                 <!--Dteq-->
                 <TextBlock Text="Distribution Equipment Details" 
@@ -311,14 +357,15 @@
                            VerticalAlignment="Bottom"
                            Margin="10,0,0,0"/>
                 <Border Grid.Row="1" Grid.Column="3" BorderThickness="1" BorderBrush="Black" Background="Transparent"
-                        Margin="10,5,0,10">
+                        Margin="5">
                     <ContentControl x:Name="DteqDetailsContent" Grid.Row="{StaticResource dteq}" Grid.Column="4">
                     </ContentControl>
                 </Border>
 
                 <GridSplitter  Grid.Column="2" HorizontalAlignment="Center"   
                                Width="3" Background="AliceBlue"
-                               Margin="0,0,0,0" Grid.Row="1"/>
+                               Margin="2 0" Grid.Row="1"
+                               />
 
 
                 <!--ItemsSource="{Binding Source={StaticResource cvsIdteq}}"-->
@@ -333,13 +380,13 @@
                           ItemsSource="{Binding DteqCollectionView}"
                           IsSynchronizedWithCurrentItem="True"
                           FrozenColumnCount="1"
+                          Margin="5,5,5 5"
                           
                           
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"
                           d:Height="250"
                           Height="{Binding DteqGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          Margin="10,5,10 5"
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
                           AutoGenerateColumns="False"
@@ -842,6 +889,7 @@
                   Grid.Column="3" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
@@ -853,7 +901,7 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1"/>
@@ -871,58 +919,67 @@
                 <!--ADD DTEQ-->
                 <!--Tags-->
                 <TextBlock Text="Tag" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="{StaticResource Tag}" FontSize="10" />
+                    Grid.Row="1" Grid.Column="2" FontSize="10" />
+
                 <TextBlock Text="Type" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="{StaticResource Type}" FontSize="10" />
+                    Grid.Row="1" Grid.Column="3" FontSize="10" />
 
                 <TextBlock Text="Description" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="{StaticResource Description}" FontSize="10" />
+                    Grid.Row="1" Grid.Column="4" FontSize="10" />
 
                 <TextBlock Text="Area" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="{StaticResource Area}" FontSize="10" />
+                    Grid.Row="1" Grid.Column="5" FontSize="10" />
 
                 <TextBlock Text="Fed From" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="{StaticResource FedFrom}" FontSize="10" />
+                    Grid.Row="1" Grid.Column="6" FontSize="10" />
 
                 <TextBlock Text="Size" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="{StaticResource Size}" FontSize="10" />
+                    Grid.Row="1" Grid.Column="7" FontSize="10" />
 
                 <TextBlock Text="Unit" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="{StaticResource Unit}" FontSize="10" />
+                     Grid.Row="1" Grid.Column="8" FontSize="10" />
 
                 <TextBlock Text="Line Voltage" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="{StaticResource Voltage}" FontSize="10" />
+                    Grid.Row="1" Grid.Column="9" FontSize="10" />
 
                 <TextBlock Text="Load Voltage" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="{StaticResource LoadFactor}" FontSize="10" />
+                    Grid.Row="1" Grid.Column="10" FontSize="10" />
 
 
                 <!--ADD DTEQ-->
+                <Button Content="Add Dist. Eq." Height="23" Width="100"
+                        Grid.Row="2" Grid.Column="1"
+                        Style="{StaticResource GreenButton}"
+                        Command="{Binding Path=AddDteqCommand}"
+                        CommandParameter="{Binding DteqToAddValidator}"
+                        Margin="0 0 10 0" PreviewMouseLeftButtonDown="btnAddDteq_PreviewMouseLeftButtonDown" MouseLeave="btnAddDteq_MouseLeave" 
+                         Visibility="Collapsed"/>
                 <!--TextBoxes/Combo Boxes-->
+
                 <TextBox x:Name ="txtDteqTag"  
-                    Grid.Row="2" Grid.Column="{StaticResource Tag}"
-                    Width="75" Height="23"
-                    Text="{Binding DteqToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    PreviewMouseDown="txtDteqTag_PreviewMouseDown" LostFocus="txtDteqTag_LostFocus"
-                    Margin="5 0 5 0"/>
+                        Grid.Row="2" Grid.Column="2"
+                        Width="75" Height="23"
+                        Text="{Binding DteqToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        PreviewMouseDown="txtDteqTag_PreviewMouseDown" LostFocus="txtDteqTag_LostFocus"
+                        Margin="5 0 5 0"/>
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Type}"
+                <ComboBox Grid.Row="2" Grid.Column="3"
                           Template="{DynamicResource ComboBoxBase}"
-                    d:Text="MCC"
-                    ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
-                    Text="{Binding DteqToAddValidator.Type}"                       
-                    IsEditable="False" IsTextSearchEnabled="True"
-                    Margin="5 0 5 0"/>
+                        d:Text="MCC"
+                        ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
+                        Text="{Binding DteqToAddValidator.Type}"                       
+                        IsEditable="False" IsTextSearchEnabled="True"
+                        Margin="5 0 5 0"/>
 
 
-                <TextBox Grid.Row="2" Grid.Column="{StaticResource Description}"
-                    MinWidth="100" Height="23"
-                    Text="{Binding DteqToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="5 0 5 0">
+                <TextBox Grid.Row="2" Grid.Column="4"
+                        MinWidth="100" Height="23"
+                        Text="{Binding DteqToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="5 0 5 0">
 
                 </TextBox>
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Area}"
+                <ComboBox Grid.Row="2" Grid.Column="5"
                           Template="{DynamicResource ComboBoxBase}"
                           Width="75"
                           ItemsSource="{Binding ListManager.AreaList}"
@@ -934,7 +991,7 @@
                           IsEditable="False" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource FedFrom}"
+                <ComboBox Grid.Row="2" Grid.Column="6"
                           Template="{DynamicResource ComboBoxBase}"
                           Width="75"
                           ItemsSource="{Binding Source={StaticResource dteqList}}"
@@ -946,45 +1003,42 @@
 
 
 
-                <TextBox Grid.Row="2" Grid.Column="{StaticResource Size}"
-                    Width="50" Height="23"
-                    d:Text="10000"
-                    Text="{Binding DteqToAddValidator.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="5 0 5 0">
+                <TextBox Grid.Row="2" Grid.Column="7"
+                            Width="50" Height="23"
+                            d:Text="10000"
+                            Text="{Binding DteqToAddValidator.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Margin="5 0 5 0">
 
                 </TextBox>
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Unit}"
+                <ComboBox Grid.Row="2" Grid.Column="8"
                           Template="{DynamicResource ComboBoxBase}"
-                          
-                    Width="50"
-                    d:Text="13800"
-                            ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
-                    SelectedValue="{Binding DteqToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding DteqToAddValidator.Unit}"
-                    Margin="5 0 5 0"/>
+                          Width="50"
+                          d:Text="13800"
+                          ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
+                          SelectedValue="{Binding DteqToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                          Text="{Binding DteqToAddValidator.Unit}"
+                          Margin="5 0 5 0"/>
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Voltage}"
-                    Width="65"
-                    d:Text="4160"
-                    ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValue="{Binding DteqToAddValidator.LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding DteqToAddValidator.LoadVoltage}"
-                    IsEditable="True" IsTextSearchEnabled="True"
-                          HorizontalContentAlignment="Center"
-                          
-                    Margin="5 0 5 0"/>
+                <ComboBox Grid.Row="2" Grid.Column="9"
+                            Width="65"
+                            d:Text="4160"
+                            ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValue="{Binding DteqToAddValidator.LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                            Text="{Binding DteqToAddValidator.LoadVoltage}"
+                            IsEditable="True" IsTextSearchEnabled="True"
+                            HorizontalContentAlignment="Center"
+                            Margin="5 0 5 0"/>
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource LoadFactor}"
-                    Width="65"
-                    d:Text="4160"
-                    ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValue="{Binding DteqToAddValidator.LoadVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding DteqToAddValidator.LoadVoltage}"
-                    IsEditable="True" IsTextSearchEnabled="True"
-                          HorizontalContentAlignment="Center"
-                          
-                    Margin="5 0 5 0"/>
+                <ComboBox Grid.Row="2" Grid.Column="10"
+                            Width="65"
+                            d:Text="4160"
+                            ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValue="{Binding DteqToAddValidator.LoadVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                            Text="{Binding DteqToAddValidator.LoadVoltage}"
+                            IsEditable="True" IsTextSearchEnabled="True"
+                            HorizontalContentAlignment="Center"
+                            Margin="5 0 5 0"/>
 
                 <!--ADD LOAD-->
                 <!--
@@ -999,38 +1053,47 @@
 
                 <!--Tags-->
                 <TextBlock Text="Tag" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="{StaticResource Tag}" FontSize="10" />
+                    Grid.Row="4" Grid.Column="2" FontSize="10" />
                 <TextBlock Text="Type" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="{StaticResource Type}" FontSize="10" />
+                    Grid.Row="4" Grid.Column="3" FontSize="10" />
 
                 <TextBlock Text="Description" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="{StaticResource Description}" FontSize="10" />
+                    Grid.Row="4" Grid.Column="4" FontSize="10" />
 
                 <TextBlock Text="Area" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="{StaticResource Area}" FontSize="10" />
+                    Grid.Row="4" Grid.Column="5" FontSize="10" />
                 <TextBlock Text="Fed From" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="{StaticResource FedFrom}" FontSize="10" />
+                    Grid.Row="4" Grid.Column="6" FontSize="10" />
 
                 <TextBlock Text="Size" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="{StaticResource Size}" FontSize="10" />
+                    Grid.Row="4" Grid.Column="7" FontSize="10" />
                 <TextBlock Text="Unit" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="{StaticResource Unit}" FontSize="10" />
-                <TextBlock Text="Load Factor" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="{StaticResource LoadFactor}" FontSize="10" />
+                    Grid.Row="4" Grid.Column="8" FontSize="10" />
+
                 <TextBlock Text="Voltage" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="{StaticResource Voltage}" FontSize="10" />
+                    Grid.Row="4" Grid.Column="9" FontSize="10" />
+                <TextBlock Text="Load Factor" Margin="10 5 0 5"
+                    Grid.Row="4" Grid.Column="10" FontSize="10" />
+
 
                 <!--ADD LOAD-->
+                <Button Content="Add Load"  Height="23" Width="100"
+                        Grid.Row="5" Grid.Column="1"
+                        Style="{StaticResource GreenButton}"
+                        Command="{Binding Path=AddLoadCommand}"
+                        CommandParameter="{Binding LoadToAddValidator}"
+                        Margin="0 0 10 0" 
+                        Visibility="Collapsed"/>
                 <!--Text/Combo Boxes-->
                 <TextBox x:Name ="txtLoadTag"  
-                    Grid.Row="5" Grid.Column="{StaticResource Tag}"
+                    Grid.Row="5" Grid.Column="2"
                     Width="75" Height="23"
                     Text="{Binding LoadToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     PreviewMouseDown="txtLoadTag_PreviewMouseDown" LostFocus="txtLoadTag_LostFocus"
                     Margin="5,0,5,0" VerticalAlignment="Bottom">
                 </TextBox>
 
-                <ComboBox Grid.Row="5" Grid.Column="{StaticResource Type}" 
+                <ComboBox Grid.Row="5" Grid.Column="3" 
                           Template="{DynamicResource ComboBoxBase}"
                             d:Text="MOTOR"
                             MinWidth="100"
@@ -1040,13 +1103,13 @@
                             IsEditable="False" IsTextSearchEnabled="True"  
                             Margin="5 0 5 0"/>
 
-                <TextBox Grid.Row="5" Grid.Column="{StaticResource Description}"
+                <TextBox Grid.Row="5" Grid.Column="4"
                     MinWidth="100" Height="23"
                     Text="{Binding LoadToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="5 0 5 0">
                 </TextBox>
 
-                <ComboBox Grid.Row="5" Grid.Column="{StaticResource Area}" 
+                <ComboBox Grid.Row="5" Grid.Column="5" 
                           Template="{DynamicResource ComboBoxBase}"
                           
                           Width="75"
@@ -1060,7 +1123,7 @@
                           Margin="5 0 5 0"/>
 
                 <!--Fed From-->
-                <ComboBox Grid.Row="5" Grid.Column="{StaticResource FedFrom}" 
+                <ComboBox Grid.Row="5" Grid.Column="6" 
                           Template="{DynamicResource ComboBoxBase}"
                           
                           Width="75"
@@ -1076,14 +1139,14 @@
 
 
 
-                <TextBox Grid.Row="5" Grid.Column="{StaticResource Size}"
+                <TextBox Grid.Row="5" Grid.Column="7"
                     Width="50" Height="23"
                     Text="{Binding LoadToAddValidator.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="5 0 5 0">
 
                 </TextBox>
 
-                <ComboBox Grid.Row="5" Grid.Column="{StaticResource Unit}"
+                <ComboBox Grid.Row="5" Grid.Column="8"
                           Template="{DynamicResource ComboBoxBase}"
                           Width="50"
                           ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
@@ -1091,7 +1154,7 @@
                           Text="{Binding LoadToAddValidator.Unit}"
                           Margin="5 0 5 0"/>
 
-                <ComboBox Grid.Row="5" Grid.Column="{StaticResource Voltage}"
+                <ComboBox Grid.Row="5" Grid.Column="9"
                     MinWidth="65"
                     d:Text="13800"
                     ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1101,7 +1164,7 @@
                           HorizontalContentAlignment="Center"
                     Margin="5 0 5 0"/>
 
-                <TextBox Grid.Row="5" Grid.Column="{StaticResource LoadFactor}"
+                <TextBox Grid.Row="5" Grid.Column="10"
                     MinWidth="60" Height="23"
                     Text="{Binding LoadToAddValidator.LoadFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Margin="5 0 5 0">
@@ -1114,9 +1177,8 @@
             <!--<Grid Grid.Row="{StaticResource load}" Grid.Column="3">-->
             <Grid Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding LoadGridRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <!--<ColumnDefinition/>-->
-                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto" MinWidth="475" SharedSizeGroup="A"/>
 
                 </Grid.ColumnDefinitions>
@@ -1128,22 +1190,66 @@
 
 
 
-                <TextBlock Margin="10 5 0 0"
+                
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" 
+                            Grid.ColumnSpan="2">
+
+                    <TextBlock Margin="10 20 0 0"
+                               Width="200"
                            HorizontalAlignment="Left"
                            FontSize="14" Grid.Row="0"
                            FontWeight="SemiBold">
-                    <TextBlock.Style>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="Text" Value="Load List" />
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Text" Value="Load List" />
 
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding LoadListLoaded}" Value="False">
-                                    <Setter Property="Text" Value="{Binding SelectedDteq.Tag, StringFormat={}{0:N0} Loads }"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LoadListLoaded}" Value="False">
+                                        <Setter Property="Text" Value="{Binding SelectedDteq.Tag, StringFormat={}{0:N0} Loads }"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <Button 
+                            Width="80" Height="17"
+                            Margin="5 0"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding Path=ToggleRowDetailViewCommand}"
+                            >
+                        <TextBlock Text="Row Details" Margin="0 -1 0 0"/>
+                    </Button>
+
+                    <Button 
+                            Width="80" Height="17"
+                            Margin="5 0"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding Path=ToggleLoadingViewDteqCommand}"
+                            >
+                        <TextBlock Text="Loading Data" Margin="0 -1 0 0"/>
+                    </Button>
+
+                    <Button 
+                            Width="80" Height="17"
+                            Margin="5 0"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding Path=ToggleOcpdViewDteqCommand}"
+                            >
+                        <TextBlock Text="OCDP Data" Margin="0 -1 0 0"/>
+                    </Button>
+
+                    <Button 
+                            Width="80" Height="17"
+                            Margin="5 0"
+                            VerticalAlignment="Bottom"
+                            Command="{Binding Path=ToggleCableViewDteqCommand}"
+                            >
+                        <TextBlock Text="Cable Data" Margin="0 -1 0 0"/>
+                    </Button>
+                </StackPanel>
+
+
 
                 <!--LOAD-->
                 <!--DETAILS VIEW-->
@@ -1152,7 +1258,7 @@
                            VerticalAlignment="Bottom"
                            Margin="10 0 0 0"/>
                 <Border Grid.Row="1" Grid.Column="2" BorderThickness="1" BorderBrush="Black" Background="Transparent"
-                        Margin="10 5 10 7">
+                        Margin="5">
 
                     <ContentControl x:Name="LoadDetailsContent" Grid.Row="{StaticResource load}" Grid.Column="4"
                                     >
@@ -1163,14 +1269,14 @@
                 <GridSplitter  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"   
                                Grid.Row="0" Grid.RowSpan="2"
                                Width="3" Background="AliceBlue"
-                               Margin="0 0 0 0" />
+                               Margin="2 0" />
                 <!--LOAD-->
                 <!--DATA GRID-->
                 <DataGrid x:Name="dgdAssignedLoads" 
                           Grid.Row="1"  Grid.Column="0"
                           HorizontalAlignment="Left" VerticalAlignment="Stretch" 
-                          d:Height="250"
-                          Margin="10,5,10,5"
+                          d:Height="440"
+                          Margin="5"
                           FrozenColumnCount="1"
                           
                           ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"

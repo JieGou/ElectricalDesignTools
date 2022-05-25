@@ -10,6 +10,8 @@ using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Loads
 {
@@ -99,9 +101,6 @@ namespace EDTLibrary.Models.Loads
                     }
                     OnPropertyUpdated();
                 }
-
-                
-
             }
         }
         public string NemaRating { get; set; }
@@ -274,7 +273,7 @@ namespace EDTLibrary.Models.Loads
                     if (_driveBool == false) {
                         ComponentManager.RemoveDrive(this, ScenarioManager.ListManager);
                     }
-
+                    OnCctComponentChanged();
                     OnPropertyUpdated();
                 }
                
@@ -306,9 +305,7 @@ namespace EDTLibrary.Models.Loads
                         ComponentManager.RemoveDisconnect(this, ScenarioManager.ListManager);
                     }
 
-                    //CableManager.AssignPowerCables(this);
                     OnCctComponentChanged();
-
                     OnPropertyUpdated();
                 }
                 
@@ -560,11 +557,13 @@ namespace EDTLibrary.Models.Loads
                 CctComponentChanged(this, EventArgs.Empty);
             }
         }
-        public void UpdateAreaProperties()
+        public async Task UpdateAreaProperties()
         {
-            NemaRating = Area.NemaRating;
-            AreaClassification = Area.AreaClassification;
-            PowerCable.CalculateAmpacity(this); // because of temperature changes
+            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                NemaRating = Area.NemaRating;
+                AreaClassification = Area.AreaClassification;
+                PowerCable.CalculateAmpacity(this);
+            }));
             //TODO - warnings when cable sizes recalculated
         }
     }

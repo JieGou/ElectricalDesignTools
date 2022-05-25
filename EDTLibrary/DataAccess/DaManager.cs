@@ -126,6 +126,14 @@ public class DaManager {
             DaManager.UpsertComponent((ComponentModel)source);
         }
     }
+
+    public static void OnAreaPropertyUpdated(object source, EventArgs e)
+    {
+        if (GlobalConfig.GettingRecords == false) {
+            prjDb.UpsertRecord<AreaModel>((AreaModel)source, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
+        }
+    }
+
     public static void OnPowerCablePropertyUpdated(object source, EventArgs e)
     {
         if (GlobalConfig.GettingRecords == false) {

@@ -96,6 +96,7 @@ namespace EDTLibrary
             var list = DaManager.prjDb.GetRecords<AreaModel>(GlobalConfig.AreaTable);
             foreach (var item in list) {
                 AreaList.Add(item);
+                item.PropertyUpdated += DaManager.OnAreaPropertyUpdated;
             }
             return AreaList;
         }
@@ -387,6 +388,15 @@ namespace EDTLibrary
                     if (load.AreaId == area.Id) {
                         load.Area = area;
                         area.PropertyChanged += load.OnAreaPropertiesChanged;
+                        break;
+                    }
+                }
+            }
+            foreach (var comp in CompList) {
+                foreach (var area in AreaList) {
+                    if (comp.AreaId == area.Id) {
+                        comp.Area = area;
+                        area.PropertyChanged += comp.OnAreaPropertiesChanged;
                         break;
                     }
                 }

@@ -12,6 +12,8 @@ using System.Collections.ObjectModel;
 //using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace EDTLibrary.Models.DistributionEquipment
 {
@@ -479,11 +481,13 @@ namespace EDTLibrary.Models.DistributionEquipment
             CalculateLoading();
         }
 
-        public void UpdateAreaProperties()
+        public async Task UpdateAreaProperties()
         {
-            NemaRating = Area.NemaRating;
-            AreaClassification = Area.AreaClassification;
-            PowerCable.CalculateAmpacity(this);
+            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                NemaRating = Area.NemaRating;
+                AreaClassification = Area.AreaClassification;
+                PowerCable.CalculateAmpacity(this);
+            }));
         }
 
 

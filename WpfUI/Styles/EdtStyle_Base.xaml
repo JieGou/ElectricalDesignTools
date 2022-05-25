@@ -161,6 +161,12 @@
         <Setter Property="Height" Value="27"/>
     </Style>
 
+    <!--default button small-->
+    <Style x:Key="BaseButtonSmall" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="20"/>
+    </Style>
+
     <!--Red Button Style-->
     <Style x:Key="RedButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Background" Value="#FFF7C1C1"/>

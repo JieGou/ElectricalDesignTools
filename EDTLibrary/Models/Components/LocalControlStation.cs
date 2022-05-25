@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Components;
 public class LocalControlStation : IComponent
@@ -39,9 +41,11 @@ public class LocalControlStation : IComponent
         }
     }
 
-    public void UpdateAreaProperties()
+    public async Task UpdateAreaProperties()
     {
-        NemaRating = Area.NemaRating;
-        AreaClassification = Area.AreaClassification;
+        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            NemaRating = Area.NemaRating;
+            AreaClassification = Area.AreaClassification;
+        }));
     }
 }

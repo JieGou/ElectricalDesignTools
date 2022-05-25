@@ -25,7 +25,7 @@ public class AreaModel : IArea {
                 Undo.UndoList.Add(cmd);
 
             }
-
+            OnPropertyUpdated();
         }
     }
 
@@ -43,6 +43,7 @@ public class AreaModel : IArea {
                     Undo.UndoList.Add(cmd);
                 }
             }
+            OnPropertyUpdated();
 
         }
     }
@@ -60,6 +61,7 @@ public class AreaModel : IArea {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(Name), OldValue = oldValue, NewValue = _name };
                 Undo.UndoList.Add(cmd);
             }
+            OnPropertyUpdated();
         }
     }
 
@@ -76,6 +78,7 @@ public class AreaModel : IArea {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(Description), OldValue = oldValue, NewValue = _description };
                 Undo.UndoList.Add(cmd);
             }
+            OnPropertyUpdated();
         }
     }
 
@@ -95,6 +98,7 @@ public class AreaModel : IArea {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(ParentArea), OldValue = oldValue, NewValue = _parentArea };
                 Undo.UndoList.Add(cmd);
             }
+            OnPropertyUpdated();
         }
     }
 
@@ -112,6 +116,7 @@ public class AreaModel : IArea {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(AreaCategory), OldValue = oldValue, NewValue = _areaCategory };
                 Undo.UndoList.Add(cmd);
             }
+            OnPropertyUpdated();
         }
     }
 
@@ -128,6 +133,7 @@ public class AreaModel : IArea {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(AreaClassification), OldValue = oldValue, NewValue = _areaClassification };
                 Undo.UndoList.Add(cmd);
             }
+            OnPropertyUpdated();
         }
     }
 
@@ -144,6 +150,7 @@ public class AreaModel : IArea {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(MinTemp), OldValue = oldValue, NewValue = _minTemp };
                 Undo.UndoList.Add(cmd);
             }
+            OnPropertyUpdated();
         }
     }
 
@@ -160,6 +167,7 @@ public class AreaModel : IArea {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(MaxTemp), OldValue = oldValue, NewValue = _maxTemp };
                 Undo.UndoList.Add(cmd);
             }
+            OnPropertyUpdated();
         }
     }
 
@@ -179,16 +187,25 @@ public class AreaModel : IArea {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(NemaRating), OldValue = oldValue, NewValue = _nemaRating };
                 Undo.UndoList.Add(cmd);
             }
+            OnPropertyUpdated();
         }
     }
+
+
+    public event EventHandler PropertyUpdated;
+    public void OnPropertyUpdated()
+    {
+        if (PropertyUpdated != null) {
+            PropertyUpdated(this, EventArgs.Empty);
+        }
+    }
+
 
     public event EventHandler AreaPropertiesChanged;
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public void OnPropertyChanged()
-    {
-        OnAreaPropertiesChanged();
-    }
+    //public event PropertyChangedEventHandler PropertyChanged;
+
     public virtual void OnAreaPropertiesChanged()
     {
         if (AreaPropertiesChanged != null) {

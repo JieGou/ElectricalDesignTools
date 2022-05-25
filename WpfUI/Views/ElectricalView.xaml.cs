@@ -516,6 +516,28 @@ public partial class ElectricalView : UserControl
         if (dataView.IsEditingItem)
             dataView.CommitEdit();
     }
+
+    private void btnAddLoad_MouseLeave(object sender, MouseEventArgs e)
+    {
+        Task.Run(() => resetTag());
+        resetTag();
+        async Task resetTag()
+        {
+            if (txtLoadTag.Text == "") {
+                await Task.Delay(500);
+
+                if (txtLoadTag.IsFocused == false)
+                    txtLoadTag.Text = GlobalConfig.EmptyTag;
+            }
+        }
+    }
+
+    private void btnAddLoad_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (txtLoadTag.Text == GlobalConfig.EmptyTag) {
+            txtLoadTag.Text = "";
+        }
+    }
 }
 
 

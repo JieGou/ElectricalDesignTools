@@ -2,6 +2,7 @@
 using EDTLibrary.Models.Components;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace EDTLibrary.Models
 {
@@ -23,7 +24,7 @@ namespace EDTLibrary.Models
         event EventHandler PropertyUpdated;
         abstract void OnPropertyUpdated();
 
-        abstract void UpdateAreaProperties();
+        abstract Task UpdateAreaProperties();
         public void OnAreaPropertiesChanged(object source, EventArgs e)
         {
             UpdateAreaProperties();
