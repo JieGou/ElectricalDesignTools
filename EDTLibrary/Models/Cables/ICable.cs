@@ -3,6 +3,7 @@ using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Cables
 {
@@ -37,6 +38,6 @@ namespace EDTLibrary.Models.Cables
         bool SizeIsValid { get; set; }
 
         event EventHandler PropertyUpdated;
-        abstract void OnPropertyUpdated();
+        abstract Task OnPropertyUpdated();
     }
 }

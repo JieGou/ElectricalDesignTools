@@ -23,7 +23,7 @@ namespace EDTLibrary.Models
 
 
         event EventHandler PropertyUpdated;
-        abstract void OnPropertyUpdated();
+        abstract Task OnPropertyUpdated();
 
         abstract Task UpdateAreaProperties();
         public void OnAreaPropertiesChanged(object source, EventArgs e)

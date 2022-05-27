@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using EDTLibrary.Models.Cables;
+using System.Collections.Generic;
 
 namespace EDTLibrary.Models.Components
 {
-    public interface IComponent : IEquipment
+    public interface IComponent : IEquipment//, ICableUser
     {
         string SubCategory { get; set; }
         string SubType { get; set; }
@@ -10,6 +11,8 @@ namespace EDTLibrary.Models.Components
         string OwnerType { get; set; }
         IEquipment Owner { get; set; }
         int SequenceNumber { get; set; }
+
+        ICable PowerCable { get; set; }
 
     }
 }

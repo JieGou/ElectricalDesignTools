@@ -13,9 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.Electrical.MjeqSubviews;
+namespace WpfUI.Views.Electrical.MjeqSubViews;
 /// <summary>
-/// Interaction logic for LoadSummaryDetailsView.xaml
+/// Interaction logic for SwgDetailsView.xaml
 /// </summary>
 public partial class LoadSummaryDetailsView : UserControl
 {

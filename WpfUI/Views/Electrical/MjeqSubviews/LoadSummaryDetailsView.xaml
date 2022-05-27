@@ -1,22 +1,16 @@
-﻿<UserControl x:Class="WpfUI.Views.Electrical.MjeqSubviews.LoadSummaryDetailsView"
+﻿<UserControl x:Class="WpfUI.Views.Electrical.MjeqSubViews.LoadSummaryDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              
-             
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
-             xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
-             
              
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="550"
-             Background="LightCyan"
-             
-              >
-             
-    
+             Background="LightCyan">
+
     <UserControl.Resources>
         <ResourceDictionary>
             <Style TargetType="ComboBox" BasedOn="{StaticResource SmallComboBox}">
@@ -26,32 +20,148 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition MaxWidth="10"/>
-            <ColumnDefinition Width="auto" MinWidth="165"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="OCPD Type"
-                   Grid.Row="0" Grid.Column="0"
-                   Margin="5 5 0 0"/>
-        <ItemsControl ItemsSource="{Binding CctComponents}" >
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBox Text="{Binding Tag}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+        <!--FEEDER BUS-->
+        <StackPanel Orientation="Vertical" Grid.Column="1">
+            <Border BorderBrush="Black" BorderThickness="0 0 0 2"
+                Grid.Row="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding FedFrom.Tag}" HorizontalAlignment="Center"/>
+                    <!--<TextBlock Text=",  "/>
+                <TextBlock Text="{Binding FedFrom.LoadVoltage}" HorizontalAlignment="Center"/>-->
+                </StackPanel>
+            </Border>
 
-        </ItemsControl>
+            <ItemsControl ItemsSource="{Binding CctComponents}"
+                      Grid.Row="1"
+                      HorizontalAlignment="Center">
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!--Cable Line-->
+                                <Border BorderBrush="Black" BorderThickness="0 0 1 0"
+                                   Grid.Column="0">
+
+                                </Border>
+
+                                <!--Cable Tag-->
+                                <StackPanel Orientation="Vertical" Grid.Column="2"
+                                            HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding PowerCable.Tag}"
+                                       Grid.Row="0" Grid.Column="2"
+                                       Margin="0 15 0 0"
+                                       HorizontalAlignment="Left"
+                                       RenderTransformOrigin="0.5, 0.5">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
+
+                               
+                                <!--Cable Type-->
+                                <TextBlock Text="{Binding PowerCable.Type}"
+                                       Grid.Row="1" Grid.Column="2"
+                                       Margin="0 0 0 15"
+                                       
+                                       HorizontalAlignment="Left"
+                                       RenderTransformOrigin="0.5, 0.5">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="0"/>
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
+                                </StackPanel>
+                            </Grid>
+
+                            <!--Component-->
+                            <Border BorderBrush="Black" BorderThickness="1">
+                                <TextBlock Text="{Binding Tag}"
+                                   HorizontalAlignment="Center"/>
+                            </Border>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!--Load-->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <!--Cable Line-->
+                <Border BorderBrush="Black" BorderThickness="0 0 1 0"
+                                   Grid.Column="0">
+
+                </Border>
+
+                <!--Cable Tag-->
+                <StackPanel Orientation="Vertical" Grid.Column="2"
+                                            HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding PowerCable.Tag}"
+                                       Grid.Row="0" Grid.Column="2"
+                                       Margin="0 15 0 0"
+                                       HorizontalAlignment="Left"
+                                       RenderTransformOrigin="0.5, 0.5">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="0"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+
+
+                    <!--Cable Type-->
+                    <TextBlock Text="{Binding PowerCable.Type}"
+                                Grid.Row="1" Grid.Column="2"
+                                Margin="0 0 0 15"
+                                       
+                                HorizontalAlignment="Left"
+                                RenderTransformOrigin="0.5, 0.5">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="0"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+
+            <!--Component-->
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="3">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
+                    <TextBlock Text=" " HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+            <TextBlock Text="{Binding Tag}" HorizontalAlignment="Center" Margin="0 10 0 0"/>
+            <TextBlock Text="{Binding Description}" HorizontalAlignment="Center"/>
+
+        </StackPanel>
 
 
     </Grid>

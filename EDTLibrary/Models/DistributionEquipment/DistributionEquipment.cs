@@ -72,8 +72,10 @@ namespace EDTLibrary.Models.DistributionEquipment
                     var cmd = new CommandDetail { Item = this, PropName = nameof(Description), OldValue = oldValue, NewValue = _description };
                     Undo.UndoList.Add(cmd);
                 }
+
                 OnPropertyUpdated();
             }
+
         }
         private int _areaId;
         public int AreaId
@@ -477,11 +479,15 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
         public event EventHandler PropertyUpdated;
-        public virtual void OnPropertyUpdated()
+        public virtual async Task OnPropertyUpdated()
         {
-            if (PropertyUpdated != null) {
-                PropertyUpdated(this, EventArgs.Empty);
-            }
+
+            await Task.Run(() => {
+                if (PropertyUpdated != null) {
+                    PropertyUpdated(this, EventArgs.Empty);
+                }
+            });
+
         }
         public void OnAssignedLoadReCalculated(object source, EventArgs e)
         {

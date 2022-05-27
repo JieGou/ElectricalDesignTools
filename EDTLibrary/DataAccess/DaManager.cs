@@ -78,7 +78,7 @@ public class DaManager {
             return prjDb.GetRecordById<AreaModel>(GlobalConfig.AreaTable, locationId);
 
         }
-        catch (Exception ex) {
+        catch (Exception) {
 
             throw;
         }    }
@@ -87,9 +87,14 @@ public class DaManager {
 
     public static void OnDteqPropertyUpdated(object source, EventArgs e)
     {
-        if (GlobalConfig.GettingRecords==false) {
-            DaManager.UpsertDteq((IDteq)source);
 
+        try {
+            if (GlobalConfig.GettingRecords == false) {
+                DaManager.UpsertDteqAsync((IDteq)source);
+            }
+        }
+        catch (Exception) {
+            throw;
         }
     } 
     public static void OnLoadPropertyUpdated(object source, EventArgs e)
@@ -179,40 +184,52 @@ public class DaManager {
     }
 
     //Upsert Dteq
-    public static void UpsertDteq(IDteq iDteq)
+    public static async Task UpsertDteqAsync(IDteq iDteq)
     {
-        if (GlobalConfig.Importing == true) return;
-        if (iDteq == GlobalConfig.DteqDeleted) { return; }
+        try {
 
-        if (iDteq.GetType() == typeof(DteqModel)) {
-            var model = (DteqModel)iDteq;
-            prjDb.UpsertRecord(model, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+            await Task.Run(() => {
+                if (GlobalConfig.Importing == true) return;
+                if (iDteq == GlobalConfig.DteqDeleted) { return; }
+
+                if (iDteq.GetType() == typeof(DteqModel)) {
+                    var model = (DteqModel)iDteq;
+                    prjDb.UpsertRecord(model, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+                }
+                else if (iDteq.GetType() == typeof(XfrModel)) {
+                    var model = (XfrModel)iDteq;
+                    prjDb.UpsertRecord(model, GlobalConfig.XfrTable, SaveLists.DteqSaveList);
+                }
+                else if (iDteq.GetType() == typeof(SwgModel)) {
+                    var model = (SwgModel)iDteq;
+                    prjDb.UpsertRecord(model, GlobalConfig.SwgTable, SaveLists.DteqSaveList);
+                }
+                else if (iDteq.GetType() == typeof(MccModel)) {
+                    var model = (MccModel)iDteq;
+                    prjDb.UpsertRecord(model, GlobalConfig.MccTable, SaveLists.DteqSaveList);
+                }
+            });
         }
-        else if (iDteq.GetType() == typeof(XfrModel)) {
-            var model = (XfrModel)iDteq;
-            prjDb.UpsertRecord(model, GlobalConfig.XfrTable, SaveLists.DteqSaveList);
-        }
-        else if (iDteq.GetType() == typeof(SwgModel)) {
-            var model = (SwgModel)iDteq;
-            prjDb.UpsertRecord(model, GlobalConfig.SwgTable, SaveLists.DteqSaveList);
-        }
-        else if (iDteq.GetType() == typeof(MccModel)) {
-            var model = (MccModel)iDteq;
-            prjDb.UpsertRecord(model, GlobalConfig.MccTable, SaveLists.DteqSaveList);
+
+        catch (Exception ex) {
+
+            throw;
         }
     }
 
-    public static void UpsertLoad(LoadModel load)
+    public static async Task UpsertLoadAsycn(LoadModel load)
     {
-        try {
-            if (GlobalConfig.Importing == true) return;
 
-            prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+        try {
+            await Task.Run(() => {
+                if (GlobalConfig.Importing == true) return;
+                prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+            });
+
         }
         catch (Exception ex) {
             throw ex;
         }
-     
     }
 
     public static void UpsertComponent(ComponentModel component)

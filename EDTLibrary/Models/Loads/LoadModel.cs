@@ -552,11 +552,13 @@ namespace EDTLibrary.Models.Loads
         }
 
         public event EventHandler PropertyUpdated;
-        public virtual void OnPropertyUpdated()
+        public virtual async Task OnPropertyUpdated()
         {
-            if (PropertyUpdated != null) {
-                PropertyUpdated(this, EventArgs.Empty);
-            }
+            await Task.Run(() => {
+                if (PropertyUpdated != null) {
+                    PropertyUpdated(this, EventArgs.Empty);
+                }
+            });
         }
 
         public event EventHandler CctComponentChanged;

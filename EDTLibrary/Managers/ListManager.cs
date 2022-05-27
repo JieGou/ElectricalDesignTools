@@ -424,14 +424,14 @@ namespace EDTLibrary
             foreach (var dteq in DteqList) {
                 if (dteq.Tag != GlobalConfig.Utility) {
                     dteq.PowerCable.AssignOwner(dteq);
-                    DaManager.UpsertDteq(dteq);
+                    DaManager.UpsertDteqAsync(dteq);
                 }
             }
 
             //Load
             foreach (var load in LoadList) {
                 load.PowerCable.AssignOwner(load);
-                DaManager.UpsertLoad((LoadModel)load);
+                DaManager.UpsertLoadAsycn((LoadModel)load);
             }
 
             //Cables
@@ -462,6 +462,19 @@ namespace EDTLibrary
                         cable.Load = load;
                         cable.CreateTypeList(load);
                         cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
+                        break;
+                    }
+                }
+            }
+
+            foreach (var comp in CompList) {
+                string compType = comp.GetType().ToString();
+
+                foreach (var cable in CableList) {
+
+                    if (comp.Id == cable.OwnerId &&
+                        comp.GetType().ToString() == cable.OwnerType || typeof(IComponent).ToString() == cable.OwnerType ) {
+                        comp.PowerCable = cable;
                         break;
                     }
                 }

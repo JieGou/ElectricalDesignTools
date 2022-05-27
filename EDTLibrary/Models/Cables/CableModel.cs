@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Cables;
 
@@ -627,11 +628,13 @@ public class CableModel : ICable
 
     //Events
     public event EventHandler PropertyUpdated;
-    public virtual void OnPropertyUpdated()
+    public virtual async Task OnPropertyUpdated()
     {
-        if (PropertyUpdated != null) {
-            PropertyUpdated(this, EventArgs.Empty);
-        }
+        await Task.Run(() => {
+            if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
+            }
+        });
     }
 }
 

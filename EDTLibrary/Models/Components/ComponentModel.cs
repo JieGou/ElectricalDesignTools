@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.Managers;
 using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
@@ -89,13 +90,17 @@ namespace EDTLibrary.Models.Components
         }
 
 
+        public ICable PowerCable { get; set; }
+
         public event EventHandler PropertyUpdated;
 
-        public void OnPropertyUpdated()
+        public async Task OnPropertyUpdated()
         {
-            if (PropertyUpdated != null) {
-                PropertyUpdated(this, EventArgs.Empty);
-            }
+            await Task.Run(() => {
+                if (PropertyUpdated != null) {
+                    PropertyUpdated(this, EventArgs.Empty);
+                }
+            });
         }
 
         public async Task UpdateAreaProperties()

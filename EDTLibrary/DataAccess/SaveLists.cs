@@ -26,6 +26,8 @@ namespace EDTLibrary.DataAccess
             "DisconnectId",
             "LcsBool",
             "Lcs",
+            "Drive",
+            "Disconnect",
 
         };
 
@@ -47,6 +49,7 @@ namespace EDTLibrary.DataAccess
         {
             "Area",
             "Owner",
+            "PowerCable",
         };
 
         static public List<string> PowerCableSaveList { get; set; } = new List<string> {

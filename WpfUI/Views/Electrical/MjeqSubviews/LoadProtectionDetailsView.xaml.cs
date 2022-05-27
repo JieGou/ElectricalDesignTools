@@ -13,16 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.Electrical.MjeqSubViews
+namespace WpfUI.Views.Electrical.MjeqSubViews;
+/// <summary>
+/// Interaction logic for SwgDetailsView.xaml
+/// </summary>
+public partial class LoadProtectionDetailsView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SwgDetailsView.xaml
-    /// </summary>
-    public partial class LoadProtectionDetailsView : UserControl
+    public LoadProtectionDetailsView()
     {
-        public LoadProtectionDetailsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

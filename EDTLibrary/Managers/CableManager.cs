@@ -28,7 +28,7 @@ public class CableManager
 
             var list = new List<CableModel>();
             foreach (var cable in listManager.CableList) {
-                if (cable.OwnerType == typeof(IComponent).ToString() && cable.OwnerId== powerCableUser.Id) {
+                if (cable.OwnerType == typeof(IComponent).ToString() && cable.OwnerId == powerCableUser.Id) {
                     list.Add(cable);
                     DaManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cable.Id);
                 }
@@ -45,14 +45,14 @@ public class CableManager
     public static async Task AssignPowerCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
 
-        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
 
 
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
-            try {
 
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
+        Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
+        try {
+            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 //Remove Cables
                 List<CableModel> cablesToRemove = new List<CableModel>();
                 foreach (var item in listManager.CableList) {
@@ -117,14 +117,15 @@ public class CableManager
                     previousComponent = component;
                 }
                 UpdateLoadCable(powerComponentOwner, previousComponent);
-            }
-            catch (Exception ex) {
-                ex.Data.Add("UserMessage", "Adding cable for components error");
-                throw;
-            }
-            Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
+            }));
+        }
+        catch (Exception ex) {
+            ex.Data.Add("UserMessage", "Adding cable for components error");
+            throw;
+        }
+        Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
 
-        }));
+
 
         //Local method
         void UpdateLoadCable(IPowerConsumer load, IComponent previousComponent)

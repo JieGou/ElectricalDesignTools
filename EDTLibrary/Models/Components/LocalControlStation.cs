@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.Models.Areas;
+using EDTLibrary.Models.Cables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,14 +33,17 @@ public class LocalControlStation : IComponent
     public IArea Area { get; set; }
     public string NemaRating { get; set; }
     public string AreaClassification { get; set; }
+    public ICable PowerCable { get; set; }
 
     public event EventHandler PropertyUpdated;
 
-    public void OnPropertyUpdated()
+    public async Task OnPropertyUpdated()
     {
-        if (PropertyUpdated != null) {
-            PropertyUpdated(this, EventArgs.Empty);
-        }
+        await Task.Run(() => {
+            if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
+            }
+        });
     }
 
     public async Task UpdateAreaProperties()
