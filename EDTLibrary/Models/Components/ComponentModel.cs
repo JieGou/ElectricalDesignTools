@@ -3,6 +3,7 @@ using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Loads;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,104 +13,105 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace EDTLibrary.Models.Components
-{
-    public class ComponentModel : IComponent
-    {
-        public ComponentModel()
-        {
-            //Category = Categories.Component.ToString();
-        }
-        public int Id { get; set; }
+namespace EDTLibrary.Models.Components;
 
-        private string _tag;
-        public string Tag
+[AddINotifyPropertyChangedInterface]
+
+public class ComponentModel : IComponent
+{
+    public ComponentModel()
+    {
+        //Category = Categories.Component.ToString();
+    }
+    public int Id { get; set; }
+
+    private string _tag;
+    public string Tag
+    {
+        get { return _tag; }
+        set
         {
-            get { return _tag; }
-            set
-            {
-                var oldValue = _tag;
-                _tag = value;
-                if (GlobalConfig.GettingRecords == false) {
-                    if (Owner != null) {
-                        CableManager.AssignPowerCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
-                    }
+            var oldValue = _tag;
+            _tag = value;
+            if (GlobalConfig.GettingRecords == false) {
+                if (Owner != null) {
+                    CableManager.AssignPowerCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
                 }
+            }
+            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                var cmd = new CommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
+                Undo.UndoList.Add(cmd);
+            }
+            OnPropertyUpdated();
+        }
+    }
+
+
+
+    public string Description { get; set; }
+    public string Category { get; set; }
+    public string SubCategory { get; set; }
+    public string Type { get; set; }
+    public string SubType { get; set; }
+
+    public int AreaId { get; set; }
+    private IArea _area;
+    private int _sequenceNumber;
+
+    public IArea Area
+    {
+        get { return _area; }
+        set
+        {
+            var oldValue = _area;
+            _area = value;
+            if (Area != null) {
+                AreaManager.UpdateArea(this, _area, oldValue);
+
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
+                    var cmd = new CommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
                     Undo.UndoList.Add(cmd);
                 }
                 OnPropertyUpdated();
             }
+
         }
-
-
-
-        public string Description { get; set; }
-        public string Category { get; set; }
-        public string SubCategory { get; set; }
-        public string Type { get; set; }
-        public string SubType { get; set; }
-
-        public int AreaId { get; set; }
-        private IArea _area;
-        private int _sequenceNumber;
-
-        public IArea Area
+    }
+    public string NemaRating { get; set; }
+    public string AreaClassification { get; set; }
+    public int OwnerId { get; set; }
+    public string OwnerType { get; set; }
+    public IEquipment Owner { get; set; }
+    public int SequenceNumber
+    {
+        get => _sequenceNumber;
+        set
         {
-            get { return _area; }
-            set
-            {
-                var oldValue = _area;
-                _area = value;
-                if (Area != null) {
-                    AreaManager.UpdateArea(this, _area, oldValue);
+            _sequenceNumber = value;
+            OnPropertyUpdated();
+        }
+    }
 
-                    if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                        var cmd = new CommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
-                        Undo.UndoList.Add(cmd);
-                    }
-                    OnPropertyUpdated();
-                }
 
+    public ICable PowerCable { get; set; }
+
+    public event EventHandler PropertyUpdated;
+
+    public async Task OnPropertyUpdated()
+    {
+        await Task.Run(() => {
+            if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
             }
-        }
-        public string NemaRating { get; set; }
-        public string AreaClassification { get; set; }
-        public int OwnerId { get; set; }
-        public string OwnerType { get; set; }
-        public IEquipment Owner { get; set; }
-        public int SequenceNumber
-        {
-            get => _sequenceNumber;
-            set
-            {
-                _sequenceNumber = value;
-                OnPropertyUpdated();
-            }
-        }
+        });
+    }
 
+    public async Task UpdateAreaProperties()
+    {
+        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            NemaRating = Area.NemaRating;
+            AreaClassification = Area.AreaClassification;
+        }));
 
-        public ICable PowerCable { get; set; }
-
-        public event EventHandler PropertyUpdated;
-
-        public async Task OnPropertyUpdated()
-        {
-            await Task.Run(() => {
-                if (PropertyUpdated != null) {
-                    PropertyUpdated(this, EventArgs.Empty);
-                }
-            });
-        }
-
-        public async Task UpdateAreaProperties()
-        {
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-                NemaRating = Area.NemaRating;
-                AreaClassification = Area.AreaClassification;
-            }));
-
-        }
     }
 }

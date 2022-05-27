@@ -271,7 +271,7 @@ namespace EDTLibrary.Models.Loads
                     if (_lcsBool == true) {
                         ComponentManager.AddLcs(this, ScenarioManager.ListManager);
                     }
-                    if (_lcsBool == false) {
+                    else if (_lcsBool == false) {
                         ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
                     }
 
@@ -299,7 +299,7 @@ namespace EDTLibrary.Models.Loads
                     if (_driveBool == true) {
                         ComponentManager.AddDrive(this, ScenarioManager.ListManager);
                     }
-                    if (_driveBool == false) {
+                    else if (_driveBool == false) {
                         ComponentManager.RemoveDrive(this, ScenarioManager.ListManager);
                     }
                     CableManager.AssignPowerCablesAsync(this, ScenarioManager.ListManager);
@@ -334,7 +334,7 @@ namespace EDTLibrary.Models.Loads
                     if (_disconnectBool == true) {
                         ComponentManager.AddDisconnect(this, ScenarioManager.ListManager);
                     }
-                    if (_disconnectBool == false) {
+                    else if(_disconnectBool == false) {
                         ComponentManager.RemoveDisconnect(this, ScenarioManager.ListManager);
                     }
                     CableManager.AssignPowerCablesAsync(this, ScenarioManager.ListManager);

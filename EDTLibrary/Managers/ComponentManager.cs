@@ -19,7 +19,7 @@ public class ComponentManager
         string subType = "Type Of LCS";
 
         ComponentModel newComponent = ComponentFactory.CreateComponent(componentUser, subCategory, type, subType, listManager);
-        CableManager.AddLcsControlCables(componentUser, newComponent, listManager);
+        CableManager.AddLcsControlCable(componentUser, newComponent, listManager);
 
         //Todo Local Control Station Model
         if (componentUser.GetType() == typeof(LoadModel)) {
@@ -38,8 +38,7 @@ public class ComponentManager
             var componentToRemove = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
             listManager.CompList.Remove(componentToRemove);
             DaManager.DeleteComponent((ComponentModel)load.Lcs);
-            CableManager.DeleteLcsControlCables(componentUser, componentToRemove, listManager);
-
+            CableManager.DeleteLcsControlCable(componentUser, componentToRemove, listManager);
             load.Lcs = null;
         }
     }
@@ -77,7 +76,7 @@ public class ComponentManager
         string type = ComponentTypes.DefaultDcn.ToString();
         string subType = "Type of Disconnect";
         ComponentModel newComponent = ComponentFactory.CreateComponent(componentUser, subCategory, type, subType, listManager);
-        componentUser.Disconnect = newComponent;
+        componentUser.Disconnect = null;
 
     }
 
@@ -92,7 +91,7 @@ public class ComponentManager
                     var componentToRemote = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
                     listManager.CompList.Remove(componentToRemote);
                     DaManager.DeleteComponent((ComponentModel)component);
-                    componentUser.Disconnect = null;
+                    componentUser.Disconnect = new ComponentModel();
                     break;
                 }
             }

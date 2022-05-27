@@ -45,17 +45,18 @@ public class CableManager
     public static async Task AssignPowerCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
 
-
-
-
         Stopwatch sw = new Stopwatch();
         sw.Start();
         Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
+
+        if (powerComponentOwner == null) return;
+
         try {
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 //Remove Cables
                 List<CableModel> cablesToRemove = new List<CableModel>();
                 foreach (var item in listManager.CableList) {
+                    
                     if (item.OwnerId == powerComponentOwner.Id
                         && item.OwnerType == typeof(IComponent).ToString()) {
                         cablesToRemove.Add(item);
@@ -111,6 +112,7 @@ public class CableManager
 
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
 
+                    component.PowerCable = cable;
 
                     listManager.CableList.Add(cable);
                     DaManager.UpsertCable(cable);
@@ -152,12 +154,12 @@ public class CableManager
         return tag;
     }
 
-    public static void AddLcsControlCables(IComponentUser componentUser, IComponent component, ListManager listManager)
+    public static void AddLcsControlCable(IComponentUser componentUser, IComponent component, ListManager listManager)
     {
 
     }
 
-    internal static void DeleteLcsControlCables(IComponentUser componentUser, IComponent componentToRemove, ListManager listManager)
+    internal static void DeleteLcsControlCable(IComponentUser componentUser, IComponent componentToRemove, ListManager listManager)
     {
 
     }

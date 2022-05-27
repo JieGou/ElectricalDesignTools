@@ -2,6 +2,7 @@
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
@@ -98,6 +99,7 @@ public class CableModel : ICable
             }
             if (GlobalConfig.GettingRecords == false) {
                 CalculateCableQtyAndSize();
+                CableManager.AssignPowerCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
             }
             OnPropertyUpdated();
         }
