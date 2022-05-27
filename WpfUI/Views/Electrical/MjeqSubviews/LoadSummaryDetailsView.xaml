@@ -22,12 +22,12 @@
 
             <DataTemplate x:Key="CableTemplate">
                 <StackPanel Orientation="Vertical" Grid.Column="2"
-                            HorizontalAlignment="Center"
+                            HorizontalAlignment="Left"
                             Margin="0 15 0 15">
                     
                     <!--Tag-->
-                    <TextBlock Text="{Binding PowerCable.Tag}"
-                               Grid.Row="0" Grid.Column="2"/>
+                    <!--<TextBlock Text="{Binding PowerCable.Tag}"
+                               Grid.Row="0" Grid.Column="2"/>-->
 
                     <!--Cable Size-->
                     <StackPanel Orientation="Horizontal">
@@ -112,13 +112,15 @@
                 </StackPanel>
             </Border>
 
+            <!--Components-->
             <ItemsControl ItemsSource="{Binding CctComponents}"
                       Grid.Row="1"
-                      HorizontalAlignment="Center">
+                      HorizontalAlignment="Left">
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Left">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40"/>
@@ -132,14 +134,12 @@
 
                                 <!--Cable Line-->
                                 <Border BorderBrush="Black" BorderThickness="0 0 1 0"
-                                   Grid.Column="0">
+                                   Grid.Column="0"/>
 
-                                </Border>
-
-                                <!--Cable Tag-->
+                                <!--Cable Details-->
                                 <ContentControl Content="{Binding}"
-                                ContentTemplate="{StaticResource CableTemplate}"
-                                Grid.Column="2"/>
+                                    ContentTemplate="{StaticResource CableTemplate}"
+                                    Grid.Column="2"/>
                             </Grid>
 
                             <!--Component-->
@@ -150,7 +150,7 @@
                                 </Grid.ColumnDefinitions>
                             <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" >
                                 <TextBlock Text="{Binding Tag}"
-                                   HorizontalAlignment="Center"
+                                           HorizontalAlignment="Center"
                                            Padding="5 15"
                                            Height="50"/>
                             </Border>
@@ -189,7 +189,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Vertical" Grid.Column="1">
+                <StackPanel Orientation="Vertical" Grid.Column="1"
+                            HorizontalAlignment="Center">
 
                     <ContentControl 
                         Content="{Binding}" 

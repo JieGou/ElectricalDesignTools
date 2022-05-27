@@ -34,6 +34,8 @@ public partial class ElectricalView : UserControl
     public ElectricalView()
     {
         InitializeComponent();
+        gridAdding.Visibility = AppSettings.Default.AddEquipmentPanelView == 0 ? Visibility.Visible : Visibility.Collapsed;
+       
     }
 
     private void txtDteqTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -259,7 +261,7 @@ public partial class ElectricalView : UserControl
         elecVm.DbGetAll();
     }
 
-    private void btnGrdSplitAdjust_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void AddEquipmentPanelViewToggle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         //dgdDteq.Height = 10;
         //int count = 0;
@@ -272,9 +274,13 @@ public partial class ElectricalView : UserControl
 
         if (gridAdding.Visibility == Visibility.Collapsed) {
             gridAdding.Visibility = Visibility.Visible;
+            AppSettings.Default.AddEquipmentPanelView = 0;
+            AppSettings.Default.Save();
            elecVm.LoadGridTop = new System.Windows.GridLength(127, GridUnitType.Pixel);
         }
         else {
+            AppSettings.Default.AddEquipmentPanelView = 2;
+            AppSettings.Default.Save();
             gridAdding.Visibility = Visibility.Collapsed;
             elecVm.LoadGridTop = new System.Windows.GridLength(0, GridUnitType.Pixel);
 

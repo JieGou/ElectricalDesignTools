@@ -145,5 +145,17 @@ namespace WpfUI {
                 this["NewProjectFileTemplate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int AddEquipmentPanelView {
+            get {
+                return ((int)(this["AddEquipmentPanelView"]));
+            }
+            set {
+                this["AddEquipmentPanelView"] = value;
+            }
+        }
     }
 }

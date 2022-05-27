@@ -207,11 +207,11 @@
                         CommandParameter="{Binding SelectedDteq}" />
                 </StackPanel>
 
-                <Button Name ="btnGrdSplitAdjust" Content="Add Equipment" 
+                <Button Name ="btnAddEquipmentPanelView" Content="Add Equipment" 
                         Grid.Row="1"
                         VerticalAlignment="Bottom"
                         Margin="0 0 0 20"                         
-                        PreviewMouseLeftButtonDown="btnGrdSplitAdjust_PreviewMouseLeftButtonDown"/>
+                        PreviewMouseLeftButtonDown="AddEquipmentPanelViewToggle_PreviewMouseLeftButtonDown"/>
             </Grid>
 
             <!--ADD Buttons-->

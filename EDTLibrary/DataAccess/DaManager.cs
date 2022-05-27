@@ -9,6 +9,7 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.DataAccess;
@@ -212,7 +213,7 @@ public class DaManager {
         }
 
         catch (Exception ex) {
-
+            Debug.Print(ex.ToString());
             throw;
         }
     }
@@ -228,7 +229,9 @@ public class DaManager {
 
         }
         catch (Exception ex) {
+            Debug.Print(ex.ToString());
             throw ex;
+
         }
     }
 
@@ -240,6 +243,7 @@ public class DaManager {
             prjDb.UpsertRecord(component, GlobalConfig.ComponentTable, SaveLists.CompSaveList);
         }
         catch (Exception ex) {
+            Debug.Print(ex.ToString());
             throw ex;
         }
 
