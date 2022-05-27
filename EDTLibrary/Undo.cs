@@ -13,15 +13,15 @@ public class Undo
     public static void UndoCommand(ListManager listManager)
     {
         if (UndoList.Count>0) {
-            var undoCmd = UndoList[UndoList.Count - 1];
+            var undoCommand = UndoList[UndoList.Count - 1];
 
             
-            var itemProperties = undoCmd.Item.GetType().GetProperties();
-            var prop = itemProperties.FirstOrDefault(p => p.Name == undoCmd.PropName);
+            var itemProperties = undoCommand.Item.GetType().GetProperties();
+            var prop = itemProperties.FirstOrDefault(p => p.Name == undoCommand.PropName);
             Undoing = true;
-                prop.SetValue(undoCmd.Item, undoCmd.OldValue);
+                prop.SetValue(undoCommand.Item, undoCommand.OldValue);
             Undoing = false;
-            UndoList.Remove(undoCmd);
+            UndoList.Remove(undoCommand);
         }
     }
 }

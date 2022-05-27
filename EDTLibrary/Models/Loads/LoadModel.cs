@@ -51,7 +51,9 @@ namespace EDTLibrary.Models.Loads
                 }
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                     var cmd = new CommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
-                    Undo.UndoList.Add(cmd);
+                    if (Tag != "n/a") {
+                        Undo.UndoList.Add(cmd);
+                    }
                 }
                 OnPropertyUpdated();
 
@@ -70,7 +72,10 @@ namespace EDTLibrary.Models.Loads
                 _description = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                     var cmd = new CommandDetail { Item = this, PropName = nameof(Description), OldValue = oldValue, NewValue = _description };
-                    Undo.UndoList.Add(cmd);
+                    if (Tag != null) {
+
+                        Undo.UndoList.Add(cmd);
+                    }
                 }
                 OnPropertyUpdated();
             }
@@ -189,7 +194,10 @@ namespace EDTLibrary.Models.Loads
             {
                 IDteq oldValue = _fedFrom;
                 _fedFrom = value;
-                DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
+
+           
+                    DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
+         
 
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                     var cmd = new CommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };

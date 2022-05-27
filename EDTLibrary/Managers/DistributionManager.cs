@@ -16,7 +16,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             _listManager = listManager;
         }
         //TODO - create Distribution Manager instance inside eqVm
-    
+
         /// <summary>
         /// Transfers the load from the old to the new supplier. (Id, Tag, Type, events, load calculation, cable tag , etc.
         /// </summary>
@@ -25,29 +25,31 @@ namespace EDTLibrary.Models.DistributionEquipment
         /// <param name="oldSupplier"></param>
         public static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
-            if (caller.FedFrom != null) {
-                caller.FedFromId = newSupplier.Id;
-                caller.FedFromTag = newSupplier.Tag;
-                caller.FedFromType = newSupplier.GetType().ToString();
-            }
-
-            if (GlobalConfig.GettingRecords == false) {
-                if (oldSupplier != null) {
-                    caller.LoadingCalculated -= oldSupplier.OnAssignedLoadReCalculated;
-                    oldSupplier.AssignedLoads.Remove(caller);
-                    oldSupplier.CalculateLoading();
+            
+                if (caller.FedFrom != null) {
+                    caller.FedFromId = newSupplier.Id;
+                    caller.FedFromTag = newSupplier.Tag;
+                    caller.FedFromType = newSupplier.GetType().ToString();
                 }
-                caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
-                newSupplier.AssignedLoads.Add(caller);
-                newSupplier.CalculateLoading();
 
-                if (caller.Tag!= "" &&
-                    caller.Voltage!=0 &&
-                    caller.Fla != 0){
-                    caller.CalculateLoading();
-                    caller.PowerCable.AssignTagging(caller);
+                if (GlobalConfig.GettingRecords == false) {
+                    if (oldSupplier != null) {
+                        caller.LoadingCalculated -= oldSupplier.OnAssignedLoadReCalculated;
+                        oldSupplier.AssignedLoads.Remove(caller);
+                        oldSupplier.CalculateLoading();
+                    }
+                    caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
+                    newSupplier.AssignedLoads.Add(caller);
+                    newSupplier.CalculateLoading();
+
+                    if (caller.Tag != "" &&
+                        caller.Voltage != 0 &&
+                        caller.Fla != 0) {
+                        caller.CalculateLoading();
+                        caller.PowerCable.AssignTagging(caller);
+                    }
                 }
-            }
+
         }
 
         //TODO - Load and DTEQ type changes
