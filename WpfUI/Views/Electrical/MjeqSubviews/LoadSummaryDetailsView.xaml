@@ -32,8 +32,8 @@
 
         <!--FEEDER BUS-->
         <StackPanel Orientation="Vertical" Grid.Column="1">
-            <Border BorderBrush="Black" BorderThickness="0 0 0 2"
-                Grid.Row="0">
+            <Border BorderBrush="Black" BorderThickness="0 0 0 3"
+                Grid.Row="0" Width="100" HorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock Text="{Binding FedFrom.Tag}" HorizontalAlignment="Center"/>
                     <!--<TextBlock Text=",  "/>
@@ -50,7 +50,7 @@
                         <StackPanel Orientation="Vertical">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="5"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
@@ -67,37 +67,45 @@
 
                                 <!--Cable Tag-->
                                 <StackPanel Orientation="Vertical" Grid.Column="2"
-                                            HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding PowerCable.Tag}"
-                                       Grid.Row="0" Grid.Column="2"
-                                       Margin="0 15 0 0"
-                                       HorizontalAlignment="Left"
-                                       RenderTransformOrigin="0.5, 0.5">
-                                    <TextBlock.LayoutTransform>
-                                        <RotateTransform Angle="0"/>
-                                    </TextBlock.LayoutTransform>
-                                </TextBlock>
+                            HorizontalAlignment="Center"
+                            Margin="0 15 0 15">
+                                    <TextBlock Text="{Binding PowerCable.Tag}"
+                               Grid.Row="0" Grid.Column="2"
+                               Margin="0"
+                               HorizontalAlignment="Left"
+                               RenderTransformOrigin="0.5, 0.5">
+                                        <TextBlock.LayoutTransform>
+                                            <RotateTransform Angle="0"/>
+                                        </TextBlock.LayoutTransform>
+                                    </TextBlock>
 
-                               
-                                <!--Cable Type-->
-                                <TextBlock Text="{Binding PowerCable.Type}"
-                                       Grid.Row="1" Grid.Column="2"
-                                       Margin="0 0 0 15"
-                                       
-                                       HorizontalAlignment="Left"
-                                       RenderTransformOrigin="0.5, 0.5">
-                                    <TextBlock.LayoutTransform>
-                                        <RotateTransform Angle="0"/>
-                                    </TextBlock.LayoutTransform>
-                                </TextBlock>
+
+                                    <!--Cable Type-->
+                                    <TextBlock Text="{Binding PowerCable.Type}"
+                                Grid.Row="1" Grid.Column="2"
+                               Margin="0"
+                                HorizontalAlignment="Left"
+                                RenderTransformOrigin="0.5, 0.5">
+                                        <TextBlock.LayoutTransform>
+                                            <RotateTransform Angle="0"/>
+                                        </TextBlock.LayoutTransform>
+                                    </TextBlock>
                                 </StackPanel>
                             </Grid>
 
                             <!--Component-->
-                            <Border BorderBrush="Black" BorderThickness="1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" >
                                 <TextBlock Text="{Binding Tag}"
-                                   HorizontalAlignment="Center"/>
+                                   HorizontalAlignment="Center"
+                                           Padding="5 15"
+                                           Height="50"/>
                             </Border>
+                            </Grid>
 
                         </StackPanel>
                     </DataTemplate>
@@ -107,7 +115,7 @@
             <!--Load-->
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
@@ -124,12 +132,13 @@
 
                 <!--Cable Tag-->
                 <StackPanel Orientation="Vertical" Grid.Column="2"
-                                            HorizontalAlignment="Center">
+                            HorizontalAlignment="Center"
+                            Margin="0 15 0 15">
                     <TextBlock Text="{Binding PowerCable.Tag}"
-                                       Grid.Row="0" Grid.Column="2"
-                                       Margin="0 15 0 0"
-                                       HorizontalAlignment="Left"
-                                       RenderTransformOrigin="0.5, 0.5">
+                               Grid.Row="0" Grid.Column="2"
+                               Margin="0"
+                               HorizontalAlignment="Left"
+                               RenderTransformOrigin="0.5, 0.5">
                         <TextBlock.LayoutTransform>
                             <RotateTransform Angle="0"/>
                         </TextBlock.LayoutTransform>
@@ -139,8 +148,7 @@
                     <!--Cable Type-->
                     <TextBlock Text="{Binding PowerCable.Type}"
                                 Grid.Row="1" Grid.Column="2"
-                                Margin="0 0 0 15"
-                                       
+                               Margin="0"
                                 HorizontalAlignment="Left"
                                 RenderTransformOrigin="0.5, 0.5">
                         <TextBlock.LayoutTransform>
@@ -151,16 +159,30 @@
             </Grid>
 
             <!--Component-->
-            <Border BorderBrush="Black" BorderThickness="1" Grid.Row="3">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
-                    <TextBlock Text=" " HorizontalAlignment="Center"/>
-                    <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Vertical" Grid.Column="1">
+                    <Border BorderBrush="Black" BorderThickness="2" 
+                            Width="50"
+                            Height="50"
+                            CornerRadius="50"
+                            HorizontalAlignment="Left"
+                            >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                                    Margin="0 10">
+                            <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
+                            <TextBlock Text=" " HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    <TextBlock Text="{Binding Tag}" HorizontalAlignment="Center" Margin="-15 10 0 0"/>
+                    <TextBlock Text="{Binding Description}" HorizontalAlignment="Center"/>
                 </StackPanel>
-            </Border>
-            <TextBlock Text="{Binding Tag}" HorizontalAlignment="Center" Margin="0 10 0 0"/>
-            <TextBlock Text="{Binding Description}" HorizontalAlignment="Center"/>
-
+            </Grid>
         </StackPanel>
 
 

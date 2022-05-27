@@ -1593,7 +1593,7 @@
                         <DataGridTextColumn Header=" Load &#x0a;Facotor"
                                             MinWidth="50"
                                             Width="50"
-                                            Binding="{Binding Path=FLoadFactor, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            Binding="{Binding Path=LoadFactor, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                             IsReadOnly="True"/>
 
 
