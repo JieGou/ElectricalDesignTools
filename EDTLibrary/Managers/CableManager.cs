@@ -26,7 +26,7 @@ public class CableManager
             DaManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId); //await
             listManager.CableList.Remove(powerCableUser.PowerCable);
 
-            var list = new List<PowerCableModel>();
+            var list = new List<CableModel>();
             foreach (var cable in listManager.CableList) {
                 if (cable.OwnerType == typeof(IComponent).ToString() && cable.OwnerId== powerCableUser.Id) {
                     list.Add(cable);
@@ -42,7 +42,7 @@ public class CableManager
     }
 
 
-    public static async Task AssignPowerCables(IPowerConsumer powerComponentOwner, ListManager listManager)
+    public static async Task AssignPowerCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
 
         await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
@@ -54,7 +54,7 @@ public class CableManager
             try {
 
                 //Remove Cables
-                List<PowerCableModel> cablesToRemove = new List<PowerCableModel>();
+                List<CableModel> cablesToRemove = new List<CableModel>();
                 foreach (var item in listManager.CableList) {
                     if (item.OwnerId == powerComponentOwner.Id
                         && item.OwnerType == typeof(IComponent).ToString()) {
@@ -71,9 +71,9 @@ public class CableManager
                 IComponent previousComponent = null;
                 foreach (var component in powerComponentOwner.CctComponents) {
 
-                    if (component.Category != Categories.CctComponent.ToString()) continue;
+                    if (component.SubCategory != Categories.CctComponent.ToString()) continue;
 
-                    PowerCableModel cable = new PowerCableModel();
+                    CableModel cable = new CableModel();
 
                     if (previousComponent == null) {
                         cable.Source = powerComponentOwner.FedFrom.Tag;
@@ -83,6 +83,8 @@ public class CableManager
                         cable.Source = previousComponent.Tag;
                     }
                     cable.Destination = component.Tag;
+
+
                     cable.Tag = GetCableTag(cable.Source, cable.Destination);
 
                     cable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
@@ -121,22 +123,23 @@ public class CableManager
                 throw;
             }
             Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
+
         }));
 
+        //Local method
+        void UpdateLoadCable(IPowerConsumer load, IComponent previousComponent)
+        {
+            if (previousComponent == null) {
+                load.PowerCable.Source = load.FedFrom.Tag;
+            }
+            else if (previousComponent != null) {
+                load.PowerCable.Source = previousComponent.Tag;
+            }
+            load.PowerCable.Tag = GetCableTag(load.PowerCable.Source, load.Tag);
 
-    }
+            DaManager.UpsertCable(load.PowerCable);
 
-    private static void UpdateLoadCable(IPowerConsumer load, IComponent previousComponent)
-    {
-        if (previousComponent == null) {
-            load.PowerCable.Source = load.FedFrom.Tag;
         }
-        else if (previousComponent != null) {
-            load.PowerCable.Source = previousComponent.Tag;
-        }
-        load.PowerCable.Tag = GetCableTag(load.PowerCable.Source, load.Tag);
-
-        DaManager.UpsertCable(load.PowerCable);
 
     }
 
@@ -146,5 +149,15 @@ public class CableManager
         cableDestination = cableDestination.Replace("-", "");
         string tag = cableSource + TagSettings.CableTagSeparator + cableDestination;
         return tag;
+    }
+
+    public static void AddLcsControlCables(IComponentUser componentUser, IComponent component, ListManager listManager)
+    {
+
+    }
+
+    internal static void DeleteLcsControlCables(IComponentUser componentUser, IComponent componentToRemove, ListManager listManager)
+    {
+
     }
 }

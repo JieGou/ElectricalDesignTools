@@ -23,7 +23,7 @@ namespace WpfUI.Converters
                     int total = 0;
                     foreach (ICable groupItem in items) {
 
-                        if (groupItem.TypeModel.Conductors == 1) {
+                        if (groupItem.TypeModel.ConductorQty == 1) {
                             total += groupItem.QtyParallel * 3;
                         }
                         else {

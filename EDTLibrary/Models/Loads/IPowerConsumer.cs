@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Loads
 {
-    public interface IPowerConsumer : IPowerCableUser, IComponentUser
+    public interface IPowerConsumer : ICableUser, IComponentUser
 
     {
 

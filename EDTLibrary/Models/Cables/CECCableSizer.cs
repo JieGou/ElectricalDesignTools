@@ -18,20 +18,13 @@ namespace EDTLibrary.Models.Cables
 
         }
 
-        private IPowerCable _cable;
-        public IPowerCable Cable
+        private ICable _cable;
+        public ICable Cable
         {
             get { return _cable; }
             set { _cable = value; }
         }
 
-        private string _sizingTable;
-
-        public string SizingTable
-        {
-            get { return _sizingTable; }
-            set { _sizingTable = value; }
-        }
 
         public string GetDefaultCableType(IPowerConsumer load)
         {
@@ -61,14 +54,16 @@ namespace EDTLibrary.Models.Cables
             return EdtSettings.DefaultCableTypeLoad_3ph300to1kV;
         }
 
-        public double GetDefaultCableSpacing(IPowerCable cable)
+
+
+        public double GetDefaultCableSpacing(ICable cable)
         {
             double spacing = 100;
             if (cable == null) return spacing;
 
             //TODO - cable spacing defaults vs lock value vs auto-size/spacing option
-            CableTypeModel cableType = TypeManager.GetCableType(cable.Type);
-            if (cableType.VoltageClass > 2000 || cableType.Conductors == 1) {
+            CableTypeModel cableType = TypeManager.GetCableTypeModel(cable.Type);
+            if (cableType.VoltageClass > 2000 || cableType.ConductorQty == 1) {
                 if (cable.Spacing <100) {
                     spacing = cable.Spacing;
                 }
@@ -81,7 +76,7 @@ namespace EDTLibrary.Models.Cables
                 spacing = 100;
             }
             else if (cableType.VoltageClass < 2000 &&
-                     cableType.Conductors == 3 &&
+                     cableType.ConductorQty == 3 &&
                      cable.Load.Fla <= double.Parse(EdtSettings.CableSpacingMaxAmps_3C1kV)) {
                 spacing = 0;
             }
@@ -89,12 +84,15 @@ namespace EDTLibrary.Models.Cables
             return spacing;
         }
         //TODO - Change Tables to Enum "CecTables"
-        public string GetAmpacityTable(IPowerCable cable)
+
+
+
+        public string GetAmpacityTable(ICable cable)
         {
             if (cable == null) return "Invalid Cable Data";
 
             string output = String.Empty;
-            CableTypeModel cableType = TypeManager.GetCableType(cable.Type);
+            CableTypeModel cableType = TypeManager.GetCableTypeModel(cable.Type);
 
             if (cable.InstallationType == GlobalConfig.CableInstallationType_LadderTray) {
                 output = GetAmpacityTable_LadderTray(cable, cableType);
@@ -109,12 +107,12 @@ namespace EDTLibrary.Models.Cables
             return output;
         }
 
-        private static string GetAmpacityTable_LadderTray(IPowerCable cable, CableTypeModel cableType)
+        private static string GetAmpacityTable_LadderTray(ICable cable, CableTypeModel cableType)
         {
             string output = "No Table Assigned";
 
             // 1C, >=5kV <=15kV, Shielded, 100% spacing
-            if (cableType.Conductors == 1
+            if (cableType.ConductorQty == 1
                         && cableType.VoltageClass >= 5000
                         && cableType.VoltageClass <= 15000
                         && cableType.Shielded == true
@@ -129,7 +127,7 @@ namespace EDTLibrary.Models.Cables
             }
 
             // 1C, >=25kV <=46kV, Shielded, 100% spacing
-            else if (cableType.Conductors == 1
+            else if (cableType.ConductorQty == 1
                   && cableType.VoltageClass >= 25000
                   && cableType.VoltageClass <= 46000
                   && cableType.Shielded == true
@@ -144,7 +142,7 @@ namespace EDTLibrary.Models.Cables
             }
 
             // 1C or 3C, >=5kV <=15kV, Shielded, no spacing
-            else if ((cableType.Conductors == 3 || cable.Spacing < 100)
+            else if ((cableType.ConductorQty == 3 || cable.Spacing < 100)
                   && cableType.VoltageClass >= 5000
                   && cableType.VoltageClass <= 15000
                   && cableType.Shielded == true) {
@@ -158,7 +156,7 @@ namespace EDTLibrary.Models.Cables
             }
 
             // 3C, >=25kV <=46kV, Shielded, Shielded, no spacing
-            else if ((cableType.Conductors == 3 || cable.Spacing < 100)
+            else if ((cableType.ConductorQty == 3 || cable.Spacing < 100)
                   && cableType.VoltageClass >= 25000
                   && cableType.VoltageClass <= 46000
                   && cableType.Shielded == true) {
@@ -176,21 +174,21 @@ namespace EDTLibrary.Models.Cables
                 if (cable.Type.Contains("DLO")) {
                     output = "Table 12E";
                 }
-                else if (cable.TypeModel.Conductors == 1) {
+                else if (cable.TypeModel.ConductorQty == 1) {
                     output = "Table 1";
                 }
-                else if (cable.TypeModel.Conductors == 3) {
+                else if (cable.TypeModel.ConductorQty == 3) {
                     output = "Table 2";
                 }
             }
             return output;
         }
-        private static string GetAmpacityTable_DirectBuried(IPowerCable cable, CableTypeModel cableType)
+        private static string GetAmpacityTable_DirectBuried(ICable cable, CableTypeModel cableType)
         {
             string output;
 
             // 1C, >= 5kV, Shielded
-            if (cableType.Conductors == 1
+            if (cableType.ConductorQty == 1
                         && cableType.VoltageClass >= 5000
                         && cableType.Shielded == true) {
 
@@ -198,7 +196,7 @@ namespace EDTLibrary.Models.Cables
             }
 
             // 3C, >=5kV, Shielded       Table D17N 3C QtyParallel max = 2
-            else if (cableType.Conductors == 3
+            else if (cableType.ConductorQty == 3
             && cableType.VoltageClass >= 5000
             && cableType.Shielded == true) {
 
@@ -206,7 +204,7 @@ namespace EDTLibrary.Models.Cables
             }
 
             // 1C, <= 5kV, Non-Shielded
-            else if (cableType.Conductors == 1
+            else if (cableType.ConductorQty == 1
                         && cableType.VoltageClass <= 5000
                         && cableType.Shielded == false) {
 
@@ -219,12 +217,12 @@ namespace EDTLibrary.Models.Cables
             }
             return output;
         }
-        private static string GetAmpacityTable_RacewayConduit(IPowerCable cable, CableTypeModel cableType)
+        private static string GetAmpacityTable_RacewayConduit(ICable cable, CableTypeModel cableType)
         {
             string output;
 
             // 1C, >= 5kV, Shielded
-            if (cableType.Conductors == 1
+            if (cableType.ConductorQty == 1
                         && cableType.VoltageClass >= 5000
                         && cableType.Shielded == true) {
 
@@ -232,7 +230,7 @@ namespace EDTLibrary.Models.Cables
             }
 
             // 3C, >=5kV, Shielded       Table D17N 3C QtyParallel max = 2
-            else if (cableType.Conductors == 3
+            else if (cableType.ConductorQty == 3
             && cableType.VoltageClass >= 5000
             && cableType.Shielded == true) {
 
@@ -240,7 +238,7 @@ namespace EDTLibrary.Models.Cables
             }
 
             // 1C, <= 5kV, Non-Shielded
-            else if (cableType.Conductors == 1
+            else if (cableType.ConductorQty == 1
                         && cableType.VoltageClass <= 5000
                         && cableType.Shielded == false) {
 
@@ -253,7 +251,9 @@ namespace EDTLibrary.Models.Cables
             }
             return output;
         }
-        public double GetDerating(IPowerCable cable)
+
+
+        public double GetDerating(ICable cable)
         {
              
             double derating = 1;
@@ -283,7 +283,7 @@ namespace EDTLibrary.Models.Cables
             return derating;
         }
 
-        private double GetCableDerating_Table5A(IPowerCable cable, double ambientTemp)
+        private double GetCableDerating_Table5A(ICable cable, double ambientTemp)
         {
             double derating = 1;
             int deratingTemp;
@@ -292,7 +292,6 @@ namespace EDTLibrary.Models.Cables
 
             return derating;
         }
-
         private static int GetDeratingTemp(double ambientTemp)
         {
             int deratingTemp = 30;
@@ -354,8 +353,7 @@ namespace EDTLibrary.Models.Cables
             }
             return deratingTemp;
         }
-
-        private static double GetCableDerating_Table5C(IPowerCable cable)
+        private static double GetCableDerating_Table5C(ICable cable)
         {
             var supplier = cable.Load.FedFrom;
             int conductorQty = cable.ConductorQty * cable.QtyParallel;

@@ -10,7 +10,9 @@ namespace EDTLibrary.LibraryData.TypeTables
         public int Id { get; set; }
         public string Type { get; set; }
         public string TypeDisplayText { get; set; }
-        public int Conductors { get; set; }
+        public int ConductorQty { get; set; }
+        public string ConductorType { get; set; }
+        public string ConductorTag { get; set; }
         public double VoltageClass { get; set; }
         public string SubType { get; set; }
         public string UsageType { get; set; }

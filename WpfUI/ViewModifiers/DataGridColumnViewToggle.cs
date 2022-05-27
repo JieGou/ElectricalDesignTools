@@ -10,37 +10,43 @@ namespace WpfUI.ViewModifiers
     [AddINotifyPropertyChangedInterface]
     public class DataGridColumnViewToggle
     {
-        public bool Loading { get; set; } = true;
-        public bool Ocpd { get; set; } = false;
+        public bool Power { get; set; } = true;
+        public bool Ocpd { get; set; } = true;
         public bool Cable { get; set; } = true;
+        public bool Comp { get; set; } = true;
 
-        public void ToggleLoading()
+        public void HideAll()
         {
-            if (Loading == true) {
-                Loading = false;
-            }
-            else if (Loading == false) {
-                Loading = true;
-            }
+            Power = false;
+            Ocpd = false;
+            Cable = false;
+            Comp = false;
+        }
+        public void TogglePower()
+        {
+            var temp = Power;
+            HideAll();
+            Power = !temp;
         }
 
         public void ToggleOcpd()
         {
-            if (Ocpd == true) {
-                Ocpd = false;
-            }
-            else if (Ocpd == false) {
-                Ocpd = true;
-            }
+            var temp = Ocpd;
+            HideAll();
+            Ocpd = !temp;
         }
         public void ToggleCable()
         {
-            if (Cable == true) {
-                Cable = false;
-            }
-            else if (Cable == false) {
-                Cable = true;
-            }
+            var temp = Cable;
+            HideAll();
+            Cable = !temp;
+        }
+
+        public void ToggleComp()
+        {
+            var temp = Comp;
+            HideAll();
+            Comp = !temp;
         }
     }
 }

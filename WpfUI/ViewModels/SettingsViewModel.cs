@@ -294,6 +294,25 @@ public class SettingsViewModel : ViewModelBase
     public string CableInsulation15kVPower { get; set; }
     public string CableInsulation35kVPower { get; set; }
 
+    public string DefaultLcsControlCableType
+    {
+        get => _defaultLcsControlCableType;
+        set
+        {
+            _defaultLcsControlCableType = value;
+            SaveVmSetting(nameof(DefaultLcsControlCableType), _defaultLcsControlCableType);
+        }
+    }
+
+    public string DefaultLcsControlCableSize
+    {
+        get => _defaultLcsControlCableSize;
+        set
+        {
+            _defaultLcsControlCableSize = value;
+            SaveVmSetting(nameof(DefaultLcsControlCableSize), _defaultLcsControlCableSize);
+        }
+    }
 
 
     //Dteq
@@ -303,6 +322,9 @@ public class SettingsViewModel : ViewModelBase
     private string _loadDefaultPdTypeLV_NonMotor;
     private string _loadDefaultPdTypeLV_Motor;
     private string _dteqDefaultPdTypeLV;
+    private string _defaultLcsControlCableType;
+    private string _defaultLcsControlCableSize;
+    private static string _defaultLcsType;
 
     public string DteqMaxPercentLoaded
     {
@@ -364,11 +386,11 @@ public class SettingsViewModel : ViewModelBase
 
 
     //Load
-    public string LoadDefaultPdTypeLV_NonMotor 
-    { 
+    public string LoadDefaultPdTypeLV_NonMotor
+    {
         get => _loadDefaultPdTypeLV_NonMotor;
-        set 
-        { 
+        set
+        {
             _loadDefaultPdTypeLV_NonMotor = value;
             SaveVmSetting(nameof(LoadDefaultPdTypeLV_NonMotor), _loadDefaultPdTypeLV_NonMotor);
 
@@ -412,6 +434,25 @@ public class SettingsViewModel : ViewModelBase
     public string LoadDefaultPowerFactor_Other { get; set; }
     public string LoadDefaultEfficiency_Panel { get; set; }
     public string LoadDefaultPowerFactor_Panel { get; set; }
+
+
+
+    //Components
+    public string DefaultLcsType
+    {
+        get => _defaultLcsType;
+        set 
+        { 
+            _defaultLcsType = value;
+            SaveVmSetting(nameof(DefaultLcsType), _defaultLcsType);
+
+        }
+    }
+
+
+
+
+
 
 
     //New Settings

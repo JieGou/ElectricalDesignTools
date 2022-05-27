@@ -15,14 +15,14 @@ using System.Linq;
 namespace EDTLibrary.Models.Cables;
 
 [AddINotifyPropertyChangedInterface]
-public class PowerCableModel : IPowerCable
+public class CableModel : ICable
 {
 
-    public PowerCableModel()
+    public CableModel()
     {
 
     }
-    public PowerCableModel(IPowerConsumer load)
+    public CableModel(IPowerConsumer load)
     {
         _load = load;
         AssignOwner(load);
@@ -70,8 +70,8 @@ public class PowerCableModel : IPowerCable
         {
             _type = value;
             if (string.IsNullOrEmpty(_type) == false) {
-                TypeModel = TypeManager.GetCableType(_type);
-                TypeModel = TypeManager.GetCableType(_type);
+                TypeModel = TypeManager.GetCableTypeModel(_type);
+                TypeModel = TypeManager.GetCableTypeModel(_type);
             }
 
         }
@@ -235,8 +235,8 @@ public class PowerCableModel : IPowerCable
     public string InstallationDiagram { get; set; }
 
 
-    private IPowerCableUser _load;
-    public IPowerCableUser Load
+    private ICableUser _load;
+    public ICableUser Load
     {
         get { return _load; }
         set { _load = value; }
@@ -254,7 +254,7 @@ public class PowerCableModel : IPowerCable
         }
         OnPropertyUpdated();
     }
-    public void AssignOwner(IPowerCableUser load)
+    public void AssignOwner(ICableUser load)
     {
         OwnerId = load.Id;
         OwnerType = load.GetType().ToString();
@@ -262,7 +262,7 @@ public class PowerCableModel : IPowerCable
     /// <summary>
     /// Gets the Source Eq Derating, Destination Eq FLA
     /// </summary>
-    public void AssignTagging(IPowerCableUser load)
+    public void AssignTagging(ICableUser load)
     {
         if (load.FedFrom != null) {
             Source = load.FedFrom.Tag;
@@ -270,7 +270,7 @@ public class PowerCableModel : IPowerCable
             CreateTag();
         }
     }
-    public void CreateTypeList(IPowerCableUser load)
+    public void CreateTypeList(ICableUser load)
     {
         TypeList.Clear();
 
@@ -283,7 +283,7 @@ public class PowerCableModel : IPowerCable
             }
         }
     }
-    public void SetCableParameters(IPowerCableUser load)
+    public void SetCableParameters(ICableUser load)
     {
         _load = load;
         AssignTagging(load);
@@ -295,7 +295,7 @@ public class PowerCableModel : IPowerCable
         AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
         OnPropertyUpdated();
     }
-    public double GetRequiredAmps(IPowerCableUser load)
+    public double GetRequiredAmps(ICableUser load)
     {
         RequiredAmps = load.Fla;
         if (load.Type == LoadTypes.MOTOR.ToString() || load.Type == LoadTypes.TRANSFORMER.ToString()) {
@@ -367,7 +367,7 @@ public class PowerCableModel : IPowerCable
 
     }
     //Qty Size
-    private void GetCableQtySize_ForLadderTray(IPowerCable cable, string ampsColumn)
+    private void GetCableQtySize_ForLadderTray(ICable cable, string ampsColumn)
     {
 
         //TODO - move this into above "CalculateCableQtyAndSize();" for both
@@ -447,7 +447,7 @@ public class PowerCableModel : IPowerCable
     }
     
     //Qty Size
-    private void CableQtySize_DirectBuriedOrRaceWayConduit(IPowerCable cable, string ampsColumn)
+    private void CableQtySize_DirectBuriedOrRaceWayConduit(ICable cable, string ampsColumn)
     {
         DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
         //var ampacityTableFiltered = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("AmpacityTable") == AmpacityTable);
@@ -531,7 +531,7 @@ public class PowerCableModel : IPowerCable
     }
 
     //Ampacity
-    public string CalculateAmpacity(IPowerCableUser load)
+    public string CalculateAmpacity(ICableUser load)
     {
         _calculating = true;
         SizeIsValid = true;
@@ -560,7 +560,7 @@ public class PowerCableModel : IPowerCable
         return output;
 
     }
-    private void CalculateAmpacity_LadderTray(IPowerCable cable, string ampsColumn)
+    private void CalculateAmpacity_LadderTray(ICable cable, string ampsColumn)
     {
         cable.Derating = CableManager.CableSizer.GetDerating(cable);
 
@@ -584,7 +584,7 @@ public class PowerCableModel : IPowerCable
             SetCablInvalid(this);
         }
     }
-    private void CalculateAmpacity_DirectBuriedOrRaceWayConduit(IPowerCable cable, string ampsColumn)
+    private void CalculateAmpacity_DirectBuriedOrRaceWayConduit(ICable cable, string ampsColumn)
     {
         cable.Derating = CableManager.CableSizer.GetDerating(cable);
 
@@ -615,7 +615,7 @@ public class PowerCableModel : IPowerCable
         }
     }
 
-    private void SetCablInvalid(IPowerCable cable)
+    private void SetCablInvalid(ICable cable)
     {
         cable.SizeIsValid = false;
         //cable.Size = "n/a";

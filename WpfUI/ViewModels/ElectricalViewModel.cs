@@ -46,6 +46,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
         //members
         DteqGridViewModifier = new DataGridColumnViewToggle();
+        LoadGridViewModifier = new DataGridColumnViewToggle();
 
         DteqToAddValidator = new DteqToAddValidator(_listManager);
         LoadToAddValidator = new LoadToAddValidator(_listManager);
@@ -53,11 +54,14 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         // Create commands
         ToggleRowDetailViewCommand = new RelayCommand(ToggleDatagridRowdetailView);
 
-        ToggleLoadingViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleLoading);
+        TogglePowerViewDteqCommand = new RelayCommand(DteqGridViewModifier.TogglePower);
         ToggleOcpdViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleOcpd);
         ToggleCableViewDteqCommand = new RelayCommand(DteqGridViewModifier.ToggleCable);
 
-        ToggleOcpdViewLoadCommand = new RelayCommand(TestCommand);
+        TogglePowerViewLoadCommand = new RelayCommand(LoadGridViewModifier.TogglePower);
+        ToggleOcpdViewLoadCommand = new RelayCommand(LoadGridViewModifier.ToggleOcpd);
+        ToggleCableViewLoadCommand = new RelayCommand(LoadGridViewModifier.ToggleCable);
+        ToggleCompViewLoadCommand = new RelayCommand(LoadGridViewModifier.ToggleComp);
 
 
 
@@ -90,37 +94,54 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         ComponentMoveUpCommand = new RelayCommand(ComponentMoveUp);
         ComponentMoveDownCommand = new RelayCommand(ComponentMoveDown);
 
+        DeleteComponentCommand = new RelayCommand(DeleteComponent);
+
+    }
+
+    private void DeleteComponent()
+    {
+        ComponentManager.DeleteComponent(SelectedLoad, SelectedComponent, _listManager);
     }
 
     int _compIndex;
     private void ComponentMoveUp()
     {
-        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
-            if (SelectedLoad == null || SelectedComponent == null) return;
+        if (SelectedLoad == null || SelectedComponent == null) return;
 
+        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
             if (SelectedComponent.Id == SelectedLoad.CctComponents[i].Id) {
                 _compIndex = Math.Max(0, i - 1);
                 SelectedLoad.CctComponents.Move(i, _compIndex);
                 SelectedComponent = (ComponentModel)SelectedLoad.CctComponents[_compIndex];
-                CableManager.AssignPowerCables(SelectedLoad, _listManager);
             }
         }
+        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
+            SelectedLoad.CctComponents[i].SequenceNumber = i;
+        }
+        SelectedLoad.CctComponents.OrderBy(x => x.SequenceNumber);
+        CableManager.AssignPowerCablesAsync(SelectedLoad, _listManager);
+
     }
 
     private void ComponentMoveDown()
     {
-        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
-            if (SelectedLoad == null || SelectedComponent == null) return;
+        if (SelectedLoad == null || SelectedComponent == null) return;
 
+        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
             if (SelectedComponent.Id == SelectedLoad.CctComponents[i].Id) {
                 _compIndex = Math.Min(i + 1, SelectedLoad.CctComponents.Count - 1);
                 SelectedLoad.CctComponents.Move(i, _compIndex);
 
                 SelectedComponent = (ComponentModel)SelectedLoad.CctComponents[_compIndex];
-                CableManager.AssignPowerCables(SelectedLoad, _listManager);
 
             }
         }
+        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
+            SelectedLoad.CctComponents[i].SequenceNumber = i;
+        }
+        SelectedLoad.CctComponents.OrderBy(x => x.SequenceNumber);
+        CableManager.AssignPowerCablesAsync(SelectedLoad, _listManager);
+
     }
 
     private void ToggleLoadDisconnect()
@@ -128,7 +149,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         LoadModel selectedLoad = (LoadModel)SelectedLoad;
         //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
         try {
-            CableManager.AssignPowerCables(selectedLoad, _listManager);
+            CableManager.AssignPowerCablesAsync(selectedLoad, _listManager);
                 }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);
@@ -139,7 +160,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
         LoadModel selectedLoad = (LoadModel)SelectedLoad;
         //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
         try {
-            CableManager.AssignPowerCables(selectedLoad, _listManager);
+            CableManager.AssignPowerCablesAsync(selectedLoad, _listManager);
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);
@@ -152,9 +173,16 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     // Equipment Commands
 
     public ICommand ToggleRowDetailViewCommand { get; }
-    public ICommand ToggleLoadingViewDteqCommand { get; }
+
+    public ICommand TogglePowerViewDteqCommand { get; }
     public ICommand ToggleOcpdViewDteqCommand { get; }
     public ICommand ToggleCableViewDteqCommand { get; }
+
+    public ICommand TogglePowerViewLoadCommand { get; }
+    public ICommand ToggleOcpdViewLoadCommand { get; }
+    public ICommand ToggleCableViewLoadCommand { get; }
+    public ICommand ToggleCompViewLoadCommand { get; }
+
 
     public ICommand GetAllCommand { get; }
     public ICommand SaveAllCommand { get; }
@@ -175,8 +203,6 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     public ICommand CalculateAllCommand { get; }
 
-    public ICommand ToggleOcpdViewLoadCommand { get; }
-
 
 
 
@@ -185,6 +211,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     public ICommand ComponentMoveUpCommand { get; }
     public ICommand ComponentMoveDownCommand { get; }
+    public ICommand DeleteComponentCommand { get; }
 
 
     #endregion
@@ -203,6 +230,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     public string? ToggleRowDetailViewProp { get; set; } = "Collapsed";
     public string? PerPhaseLabelDteq { get; set; } = "Hidden";
     public DataGridColumnViewToggle DteqGridViewModifier { get; set; }
+    public DataGridColumnViewToggle LoadGridViewModifier { get; set; }
 
     #endregion  
     public bool DteqFilter { get; set; }
@@ -262,7 +290,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
                 PerPhaseLabelDteq = "Hidden";
                 if (_selectedDteq.PowerCable.TypeModel != null) {
-                    if (_selectedDteq.PowerCable.TypeModel.Conductors == 1) {
+                    if (_selectedDteq.PowerCable.TypeModel.ConductorQty == 1) {
                         PerPhaseLabelDteq = "Visible";
                     }
                 }

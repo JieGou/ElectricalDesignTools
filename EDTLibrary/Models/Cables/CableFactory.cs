@@ -15,7 +15,7 @@ public class CableFactory
         _listManager = listManager;
     }
 
-    public void CreatePowerCable(IPowerCableUser powerCableUser, ListManager listManager)
+    public void CreatePowerCable(IPowerConsumer powerCableUser, ListManager listManager)
     {
 
     }

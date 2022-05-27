@@ -192,7 +192,7 @@ public class CableListViewModel : ViewModelBase
     }
     private bool Contains(object item)
     {
-        PowerCableModel cable = (PowerCableModel)item;
+        CableModel cable = (CableModel)item;
 
         if (TagFilter != "" || TypeFilter != "") {
             return (cable.Tag.ToLower()).Contains(TagFilter.ToLower())

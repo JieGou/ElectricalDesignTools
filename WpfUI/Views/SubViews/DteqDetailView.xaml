@@ -93,16 +93,27 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal"  Grid.Row="0">
+        <Border BorderBrush="Black" BorderThickness="1">
+        <StackPanel Orientation="Horizontal"  Grid.Row="0" Background="#FF31869B">
 
-            <TextBlock Text="{Binding SelectedDteq.Tag}" FontSize="15" FontWeight="Bold"
-                       d:Text="DTEQ TAG" Margin="5 5 0 5 "/>
-            <TextBlock Text=" - " FontSize="15" FontWeight="Bold"
-                       d:Text=" - " Margin="5 5 0 5 "/>
-            <TextBlock Text="{Binding SelectedDteq.Description}" FontSize="15" FontWeight="Bold"
-                       d:Text="Description" Margin="5 5 0 5"/>
+            <TextBlock Text="{Binding SelectedDteq.Tag}" 
+                       d:Text="DTEQ TAG" 
+                       Margin="5 3 0 3 "
+                       FontSize="14" 
+                       Foreground="White"/>
+            <TextBlock Text=" - " FontSize="14" 
+                       d:Text=" - " 
+                       Margin="5 3 0 3 "
+                       Foreground="White"
+                       />
+            <TextBlock Text="{Binding SelectedDteq.Description}" 
+                       d:Text="Description" 
+                       Margin="5 3 0 3"
+                       FontSize="14"
+                       Foreground="White"
+                       />
         </StackPanel>
-
+        </Border>
         <TabControl Grid.Row="1" Background="LightCyan" BorderThickness="0 1 0 0"
                     SelectedIndex="{Binding SelectedDteqTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 

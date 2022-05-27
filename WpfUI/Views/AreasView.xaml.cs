@@ -61,6 +61,13 @@ public partial class AreasView : UserControl
             areaVm.AreaClassificationsInfoTableItems.Add(areaClass);
 
     }
+
+    private void dgdAreas_MouseLeave(object sender, MouseEventArgs e)
+    {
+        var dataGrid = (DataGrid)sender;
+        dataGrid.CancelEdit();
+    }
+
 }
 
 

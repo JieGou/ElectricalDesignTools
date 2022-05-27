@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.LibraryData.TypeModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -23,31 +24,6 @@ namespace EDTLibrary.LibraryData.TypeTables
         public static ObservableCollection<VoltageType> VoltageTypes { get; set; }
 
         //Cables
-        public static ObservableCollection<CableTypeModel> CableTypes { get; set; }
-        public static ObservableCollection<CableTypeModel> OneKvCableTypes
-        {
-            get
-            {
-                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 1000).ToList();
-                return new ObservableCollection<CableTypeModel>(val);
-            }
-        }
-        public static ObservableCollection<CableTypeModel> FiveKvCableTypes
-        {
-            get
-            {
-                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 5000).ToList();
-                return new ObservableCollection<CableTypeModel>(val);
-            }
-        }
-        public static ObservableCollection<CableTypeModel> FifteenKvCableTypes
-        {
-            get
-            {
-                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 15000).ToList();
-                return new ObservableCollection<CableTypeModel>(val);
-            }
-        }
         public static ObservableCollection<string> CableInstallationTypes
         {
             get
@@ -58,12 +34,71 @@ namespace EDTLibrary.LibraryData.TypeTables
                                                          };
             }
         }
+        public static ObservableCollection<CableTypeModel> CableTypes { get; set; }
+        public static ObservableCollection<ControlCableSizeModel> ControlCableSizes { get; set; }
+        public static ObservableCollection<ControlCableSizeModel> InstrumentCableSizes { get; set; }
 
 
+        public static ObservableCollection<CableTypeModel> OneKvPowerCableTypes
+        {
+            get
+            {
+                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 1000
+                                                         && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
+                return new ObservableCollection<CableTypeModel>(val);
+            }
+        }
+        public static ObservableCollection<CableTypeModel> FiveKvPowerCableTypes
+        {
+            get
+            {
+                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 5000
+                                                         && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
+                return new ObservableCollection<CableTypeModel>(val);
+            }
+        }
+        public static ObservableCollection<CableTypeModel> FifteenKvPowerCableTypes
+        {
+            get
+            {
+                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 15000
+                                                         && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
+                return new ObservableCollection<CableTypeModel>(val);
+            }
+        }
 
+
+        public static ObservableCollection<CableTypeModel> PowerCableTypes
+        {
+            get
+            {
+                var val = TypeManager.CableTypes.Where(c => c.UsageType == CableUsageTypes.Power.ToString()).ToList();
+                return new ObservableCollection<CableTypeModel>(val);
+            }
+        }
+        public static ObservableCollection<CableTypeModel> ControlCableTypes
+        {
+            get
+            {
+                var val = TypeManager.CableTypes.Where(c => c.UsageType == CableUsageTypes.Control.ToString()).ToList();
+                return new ObservableCollection<CableTypeModel>(val);
+            }
+        }
+        public static ObservableCollection<CableTypeModel> InstrumentCableTypes
+        {
+            get
+            {
+                var val = TypeManager.CableTypes.Where(c => c.UsageType == CableUsageTypes.Instrument.ToString()).ToList();
+                return new ObservableCollection<CableTypeModel>(val);
+            }
+        }
+
+
+        //Components
+        public static ObservableCollection<LcsTypeModel> LcsTypes { get; set; }
 
         public static ObservableCollection<CecCableSizingRule> CecCableSizingRules { get; set; }
-        public static CableTypeModel GetCableType(string cableType)
+        public static CableTypeModel GetCableTypeModel(string cableType)
         {
             CableTypeModel output = null;
 

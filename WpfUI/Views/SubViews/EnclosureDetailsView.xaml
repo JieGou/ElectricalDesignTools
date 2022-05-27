@@ -7,6 +7,8 @@
              
              xmlns:clr="clr-namespace:System;assembly=mscorlib"
 
+             xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
+             
              
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="550"
@@ -56,9 +58,30 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                                         RelativeSource={RelativeSource Mode=FindAncestor, 
                                         AncestorType={x:Type UserControl},AncestorLevel=2}}"
                   SelectedItem="{Binding Area, StringFormat={}{0} }" 
-                  DisplayMemberPath="Tag"
                   IsSynchronizedWithCurrentItem="True" 
-                  ToolTip="{StaticResource enclosureMessage}"/>
+                  ToolTip="{StaticResource enclosureMessage}">
+            <ComboBox.ItemTemplateSelector>
+                <templateSelectors:ComboBoxItemTemplateSelector>
+                    <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Tag}" FontWeight="Bold" Width="50"/>
+                                <TextBlock Text="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                    <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Tag}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                </templateSelectors:ComboBoxItemTemplateSelector>
+            </ComboBox.ItemTemplateSelector>
+
+
+        </ComboBox>
 
         <GroupBox Header="Enclosure Details" FontWeight="Bold"
                   Style="{DynamicResource GroupBoxStyle1}" 

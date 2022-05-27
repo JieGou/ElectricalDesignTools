@@ -9,7 +9,10 @@ using System.Diagnostics;
 namespace EDTLibrary.LibraryData
 {
     public static class LibraryManager {
+
         public static ObservableCollection<CecCableAmpacityModel> CecCableAmpacities { get; set; }
+
+
         public static double GetMotorEfficiency(ILoad load) {
             double result = GlobalConfig.NoValueDouble;
             if (DataTables.Motors != null) {
@@ -161,7 +164,7 @@ namespace EDTLibrary.LibraryData
                 throw;
             }
         }
-        public static double GetCableDerating_CecTable5A(IPowerCable cable, double ambientTemp)
+        public static double GetCableDerating_CecTable5A(ICable cable, double ambientTemp)
         {
             //Debug.WriteLine("LibraryManager_GetCableDerating_CecTable5A");
 

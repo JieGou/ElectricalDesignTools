@@ -11,7 +11,7 @@
              
              
              mc:Ignorable="d" 
-             d:Width="1400" d:Height="900" 
+             d:Width="1900" d:Height="900" 
              Background="AliceBlue">
 
 
@@ -83,7 +83,293 @@
         <WrapPanel Grid.Row="1" Grid.Column="2">
 
             <!--Cable Settings-->
-            <GroupBox Header="Cable Settings"
+            <GroupBox Header="Power Cable Settings"
+                  Grid.Row="1" Grid.Column="6"
+                  Margin="25 0 25 0">
+                <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+
+                        <StackPanel Orientation="Vertical"
+                                 Grid.Row="1" Grid.Column="0"   >
+                            <TextBlock Text="Default Cable Installation Type" />
+                            <TextBlock Text="Installation type when creating and calculating new cables."  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+                        <ComboBox Grid.Row="1" Grid.Column="2"
+                              ItemsSource="{Binding TypeManager.CableInstallationTypes}"
+                              SelectedValue="{Binding Path=DefaultCableInstallationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <StackPanel Orientation="Vertical"
+                                Grid.Row="2" Grid.Column="0"  >
+                            <TextBlock Text="Cable Spacing Amps 3C1kV"  
+                                   Grid.Row="1" Grid.Column="0"/>
+                            <TextBlock Text="When auto-sizing 3C 1kV cables in Ladder Tray, the cable will be 100% spaced if the load FLA is more than the selected value."  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" 
+                                    Margin="0 0 0 5"/>
+                            <TextBlock Text="100% spacing is the default for other cable types."  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2">
+                            <StackPanel></StackPanel>
+                            <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="2">
+                                <TextBox Text="{Binding Path=CableSpacingMaxAmps_3C1kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     d:Text="200"
+                                     MinWidth="75"
+                                     Padding="1 -1 0 1"/>
+                                <TextBlock Text="Amps" FontWeight="Normal"/>
+                            </StackPanel>
+                            <TextBlock Text="0 Amps = All cables 100% spaced."
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}"
+                                   MaxWidth="200" />
+                        </StackPanel>
+
+
+                        <!--Default Cable Types Label-->
+                        <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3">
+                            <TextBlock Text="Default Cable Types"  
+                                       FontWeight="SemiBold" Margin="5 20 0 5"/>
+                            <TextBlock Text="The default cable type when creating cables for new equipment."  
+                                       Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                       MaxWidth="500"
+                                       Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+
+                        <TextBlock Text="Loads"
+                                   Grid.Row="5" Grid.Column="0" 
+                                   FontWeight="SemiBold" Margin="5 0 0 0"/>
+
+                        <TextBlock Text="Loads &lt; 300V INCOMPLETE"
+                                Grid.Row="6" Grid.Column="0" Margin="20 10"/>
+
+                        <ComboBox Grid.Row="6" Grid.Column="2"
+                                  ItemsSource="{Binding TypeManager.OneKvPowerCableTypes}"
+                                  DisplayMemberPath="Type"
+                                  SelectedValuePath="Type"
+                                  SelectedValue="{Binding Path=DefaultCableTypeLoad_3phLt300V, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Loads 300V to 1kV"
+                                    Grid.Row="7" Grid.Column="0" Margin="20 10"/>
+
+                        <ComboBox Grid.Row="7" Grid.Column="2"
+                                  ItemsSource="{Binding TypeManager.OneKvPowerCableTypes}"
+                                  DisplayMemberPath="Type"
+                                  SelectedValuePath="Type"
+                                  SelectedValue="{Binding Path=DefaultCableTypeLoad_3ph300to1kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+                        <TextBlock Text="Loads 5 kV"
+                                    Grid.Row="8" Grid.Column="0" Margin="20 10"/>
+                        <ComboBox Grid.Row="8" Grid.Column="2"
+                                  ItemsSource="{Binding TypeManager.FiveKvPowerCableTypes}"
+                                  DisplayMemberPath="Type"
+                                  SelectedValuePath="Type"
+                                  SelectedValue="{Binding Path=DefaultCableTypeLoad_3ph5kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Distribution Equipment"
+                                   Grid.Row="9" Grid.Column="0" 
+                                   FontWeight="SemiBold" Margin="5 10 0 0"/>
+
+                        <TextBlock Text="Dist. Equipment 1 kV &lt; 1200 A"
+                                    Grid.Row="10" Grid.Column="0" Margin="20 10"/>
+                        <ComboBox Grid.Row="10" Grid.Column="2"
+                                  ItemsSource="{Binding TypeManager.OneKvPowerCableTypes}"
+                                  DisplayMemberPath="Type"
+                                  SelectedValuePath="Type"
+                                  SelectedValue="{Binding Path=DefaultCableTypeDteq_3ph1kVLt1200A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Dist. Equipment 1 kV > 1200 A"  
+                                Grid.Row="11" Grid.Column="0" Margin="20 10"/>
+                        <ComboBox Grid.Row="11" Grid.Column="2" MinWidth="175"
+                                  ItemsSource="{Binding TypeManager.OneKvPowerCableTypes}"
+                                  DisplayMemberPath="Type"
+                                  SelectedValuePath="Type"
+                                  SelectedValue="{Binding Path=DefaultCableTypeDteq_3ph1kVGt1200A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Dist. Equipment 5 kV"
+                                Grid.Row="12" Grid.Column="0" Margin="20 10"/>
+                        <ComboBox Grid.Row="12" Grid.Column="2" MinWidth="175"
+                                  ItemsSource="{Binding TypeManager.FiveKvPowerCableTypes}"
+                                  DisplayMemberPath="Type"
+                                  SelectedValuePath="Type"
+                                  SelectedValue="{Binding Path=DefaultCableType_3ph5kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Dist. Equipment 15 kV"
+                                   Grid.Row="13" Grid.Column="0" Margin="20 10"/>
+                        <ComboBox Grid.Row="13" Grid.Column="2" MinWidth="175"
+                                  ItemsSource="{Binding TypeManager.FifteenKvPowerCableTypes}"
+                                  DisplayMemberPath="Type"
+                                  SelectedValuePath="Type"
+                                  SelectedValue="{Binding Path=DefaultCableType_3ph15kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    </Grid>
+
+                    <Grid Margin="30 0 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="0"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="250"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="Cable Sizes used in Project"
+                               Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                   Margin="10 5 0 0"
+                               FontSize="14"
+                               HorizontalAlignment="Left"
+                               TextAlignment="Left"
+                               />
+
+                        <TextBlock Text="Cables types available in project when auto-sizing cables"  
+                                   Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                                   MaxWidth="500"
+                                   Margin="20 5 0 10"
+                                   Style="{StaticResource settingDescription}" />
+
+                        <DataGrid Width="auto" MinHeight="200" d:Width="200"
+                              Margin="10 10 0 10"
+                              FontWeight="Normal"
+                              Grid.Row="3" Grid.Column="0"
+                              ItemsSource="{Binding TypeManager.PowerCableTypes}"
+                              AutoGenerateColumns="False"
+                              SelectedItem="{Binding SelectedCableType}"
+                              RowHeaderWidth="0"
+                              SelectionMode="Single" MouseLeave="DataGrid_MouseLeave"
+                              >
+                            <DataGrid.Columns>
+
+                                <!--Type-->
+
+                                <DataGridTextColumn Header="Cable Types In Library"
+                                                Binding="{Binding Path=Type}" 
+                                                MinWidth="175"
+                                                IsReadOnly="True">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Left" />
+                                            <Setter Property="Margin" Value="10 0"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                    <DataGridTextColumn.EditingElementStyle>
+                                        <Style TargetType="TextBox">
+                                            <Setter Property="TextAlignment" Value="Left" />
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Margin" Value="10 0"/>
+                                        </Style>
+                                    </DataGridTextColumn.EditingElementStyle>
+                                </DataGridTextColumn>
+
+                                <!--Display Text-->
+
+                                <!--<DataGridTextColumn Header=" Type Display Text &#x0a;(Text shown on drawings)"
+                                                Binding="{Binding Path=TypeDisplayText}" 
+                                                MinWidth="175">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Left" />
+                                        <Setter Property="Margin" Value="10 0"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                                <DataGridTextColumn.EditingElementStyle>
+                                    <Style TargetType="TextBox">
+                                        <Setter Property="TextAlignment" Value="Left" />
+                                        <Setter Property="BorderThickness" Value="0"/>
+                                        <Setter Property="Margin" Value="10 0"/>
+                                    </Style>
+                                </DataGridTextColumn.EditingElementStyle>
+                            </DataGridTextColumn>-->
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+
+                        <DataGrid x:Name="dgdCableSizes" IsReadOnly="False" MinColumnWidth="50"
+                              Grid.Row="3" Grid.Column="2"
+                              MinWidth="50"
+                              MinHeight="400"
+                              Margin="0 10 10 10"
+                              FontWeight="Normal"
+                              d:Width="175" d:Height="300"
+                              MaxHeight="700"
+                              RowHeaderWidth="0"
+                              SelectionUnit="Cell"
+                              SelectionMode="Single"
+                              ItemsSource="{Binding Path=SelectedCableSizes, Mode=TwoWay, UpdateSourceTrigger=Explicit, IsAsync=True}"
+                              AutoGenerateColumns="False" 
+                              MouseLeave="dgdCableSizes_MouseLeave">
+                            <DataGrid.Columns>
+                                <!--Type-->
+                                <!--<DataGridTextColumn Header="Type"
+                                                Binding="{Binding Path=Type}"
+                                                MinWidth="175"
+                                                IsReadOnly="True"/>-->
+
+                                <!--Size-->
+                                <DataGridTextColumn Header="Size"
+                                                Binding="{Binding Path=Size}"
+                                                MinWidth="85" 
+                                                IsReadOnly="True"/>
+
+                                <!--Used In Project-->
+                                <DataGridTemplateColumn Header=" Used In &#x0a;Project"  
+                                                    MinWidth="85" >
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding Path=UsedInProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                </StackPanel>
+            </GroupBox>
+
+
+            <GroupBox Header="Control and Instrument Cable Settings"
                   Grid.Row="1" Grid.Column="6"
                   Margin="25 0 25 0">
                 <Grid>
@@ -108,255 +394,48 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
 
                     <StackPanel Orientation="Vertical"
                                  Grid.Row="1" Grid.Column="0"   >
-                        <TextBlock Text="Default Cable Installation Type" />
-                        <TextBlock Text="Installation type when creating and calculating new cables."  
+                        <TextBlock Text="Local Control Station Cable Type" />
+                        <TextBlock Text="Default cable type when creating new local control stations."  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}" />
                     </StackPanel>
-                    <ComboBox Grid.Row="1" Grid.Column="2"
-                              ItemsSource="{Binding TypeManager.CableInstallationTypes}"
-                              SelectedValue="{Binding Path=DefaultCableInstallationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                       
+                        <ComboBox Grid.Row="1" Grid.Column="2"
+                                  ItemsSource="{Binding TypeManager.ControlCableTypes}"
+                                  DisplayMemberPath="Type"
+                                  SelectedValuePath="Type"
+                                  SelectedValue="{Binding Path=DefaultLcsControlCableType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                  />
 
                     <StackPanel Orientation="Vertical"
-                                Grid.Row="2" Grid.Column="0"  >
-                        <TextBlock Text="Cable Spacing Amps 3C1kV"  
-                                   Grid.Row="1" Grid.Column="0"/>
-                        <TextBlock Text="When auto-sizing 3C 1kV cables in Ladder Tray, the cable will be 100% spaced if the load FLA is more than the selected value."  
-                                   Grid.Row="1" Grid.Column="0"
-                                   Style="{StaticResource settingDescription}" 
-                                    Margin="0 0 0 5"/>
-                        <TextBlock Text="100% spacing is the default for other cable types."  
-                                   Grid.Row="1" Grid.Column="0"
-                                   Style="{StaticResource settingDescription}"/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2">
-                        <StackPanel></StackPanel>
-                        <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="2">
-                            <TextBox Text="{Binding Path=CableSpacingMaxAmps_3C1kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     VerticalContentAlignment="Center"
-                                     HorizontalContentAlignment="Center"
-                                     d:Text="200"
-                                     MinWidth="75"
-                                     Padding="1 -1 0 1"/>
-                            <TextBlock Text="Amps" FontWeight="Normal"/>
-                        </StackPanel>
-                        <TextBlock Text="0 Amps = All cables 100% spaced."
-                                   Grid.Row="1" Grid.Column="0"
-                                   Style="{StaticResource settingDescription}"
-                                   MaxWidth="200" />
-                    </StackPanel>
-
-
-                    <!--Default Cable Types Label-->
-                    <StackPanel Grid.Row="4" Grid.Column="0" >
-                        <TextBlock Text="Default Cable Types"  
-                               FontWeight="SemiBold" Margin="5 20 0 5"/>
-                        <TextBlock Text="The default cable type when creating cables for new equipment."  
+                                 Grid.Row="2" Grid.Column="0"   >
+                        <TextBlock Text="Local Control Station Cable Size" />
+                        <TextBlock Text="Default cable size when creating new local control station."  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}" />
                     </StackPanel>
 
-                    <TextBlock Text="Loads &lt; 300V INCOMPLETE"
-                               Grid.Row="5" Grid.Column="0" Margin="20 10"/>
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Row="2" Grid.Column="2"
+                                VerticalAlignment="Top">
+                        <ComboBox Grid.Row="1" Grid.Column="2"
+                              MinWidth="75"
+                              HorizontalContentAlignment="Center"
+                              ItemsSource="{Binding TypeManager.ControlCableSizes}"
+                              SelectedValue="{Binding Path=DefaultLcsControlCableSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              DisplayMemberPath="Size"
+                              SelectedValuePath="Size"/>
+                        <TextBlock Text="AWG" FontWeight="Normal"/>
+                    </StackPanel>
 
-                    <ComboBox Grid.Row="5" Grid.Column="2"
-                              ItemsSource="{Binding TypeManager.OneKvCableTypes}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              SelectedValue="{Binding Path=DefaultCableTypeLoad_3phLt300V, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Loads 300V to 1kV"
-                               Grid.Row="6" Grid.Column="0" Margin="20 10"/>
-
-                    <ComboBox Grid.Row="6" Grid.Column="2"
-                              ItemsSource="{Binding TypeManager.OneKvCableTypes}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              SelectedValue="{Binding Path=DefaultCableTypeLoad_3ph300to1kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-
-                    <TextBlock Text="Loads 5 kV"
-                               Grid.Row="7" Grid.Column="0" Margin="20 10"/>
-                    <ComboBox Grid.Row="7" Grid.Column="2"
-                              ItemsSource="{Binding TypeManager.FiveKvCableTypes}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              SelectedValue="{Binding Path=DefaultCableTypeLoad_3ph5kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Dist. Equipment 1 kV &lt; 1200 A"
-                               Grid.Row="8" Grid.Column="0" Margin="20 10"/>
-                    <ComboBox Grid.Row="8" Grid.Column="2"
-                              ItemsSource="{Binding TypeManager.OneKvCableTypes}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              SelectedValue="{Binding Path=DefaultCableTypeDteq_3ph1kVLt1200A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Dist. Equipment 1 kV > 1200 A"  
-                               Grid.Row="9" Grid.Column="0" Margin="20 10"/>
-                    <ComboBox Grid.Row="9" Grid.Column="2" MinWidth="175"
-                              ItemsSource="{Binding TypeManager.OneKvCableTypes}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              SelectedValue="{Binding Path=DefaultCableTypeDteq_3ph1kVGt1200A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Dist. Equipment 5 kV"
-                               Grid.Row="10" Grid.Column="0" Margin="20 10"/>
-                    <ComboBox Grid.Row="10" Grid.Column="2" MinWidth="175"
-                              ItemsSource="{Binding TypeManager.FiveKvCableTypes}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              SelectedValue="{Binding Path=DefaultCableType_3ph5kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Dist. Equipment 15 kV"
-                               Grid.Row="11" Grid.Column="0" Margin="20 10"/>
-                    <ComboBox Grid.Row="11" Grid.Column="2" MinWidth="175"
-                              ItemsSource="{Binding TypeManager.FifteenKvCableTypes}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              SelectedValue="{Binding Path=DefaultCableType_3ph15kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                </Grid>
-            </GroupBox>
-
-            <GroupBox Header="Cable Types and Sizes Used In Project"
-                      Grid.Row="1" Grid.Column="6"
-                      Margin="25 0 25 0" >
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="Types Available in Library"
-                               Grid.Row="1" Grid.Column="0"
-                               FontWeight="SemiBold" FontSize="14"
-                               HorizontalAlignment="Center"
-                               Margin="0 0 0 10"/>
-
-                    <DataGrid Width="auto" MinHeight="200" MinWidth="200"
-                              Margin="10"
-                              FontWeight="Normal"
-                              Grid.Row="2" Grid.Column="0"
-                              ItemsSource="{Binding TypeManager.CableTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              AutoGenerateColumns="False"
-                              DisplayMemberPath="Type"
-                              SelectedItem="{Binding SelectedCableType}"
-                              RowHeaderWidth="0"
-                              SelectionMode="Single" MouseLeave="DataGrid_MouseLeave"
-                              >
-                        <DataGrid.Columns>
-
-                            <!--Type-->
-                            <DataGridTextColumn Header="Cable Type"
-                                                Binding="{Binding Path=Type}" 
-                                                MinWidth="175"
-                                                IsReadOnly="True">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Left" />
-                                        <Setter Property="Margin" Value="10 0"/>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                                <DataGridTextColumn.EditingElementStyle>
-                                    <Style TargetType="TextBox">
-                                        <Setter Property="TextAlignment" Value="Left" />
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="Margin" Value="10 0"/>
-                                    </Style>
-                                </DataGridTextColumn.EditingElementStyle>
-                            </DataGridTextColumn>
-
-                            <!--Display Text-->
-                            <DataGridTextColumn Header=" Type Display Text &#x0a;(Text shown on drawings)"
-                                                Binding="{Binding Path=TypeDisplayText}" 
-                                                MinWidth="175">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Left" />
-                                        <Setter Property="Margin" Value="10 0"/>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                                <DataGridTextColumn.EditingElementStyle>
-                                    <Style TargetType="TextBox">
-                                        <Setter Property="TextAlignment" Value="Left" />
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="Margin" Value="10 0"/>
-                                    </Style>
-                                </DataGridTextColumn.EditingElementStyle>
-                            </DataGridTextColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-
-
-                    <TextBlock Text="Sizes Used in Project"
-                               Grid.Row="1" Grid.Column="2"
-                               FontWeight="SemiBold" FontSize="14"
-                               HorizontalAlignment="Center"
-                               Margin="0 0 0 10"/>
-
-
-                    <DataGrid x:Name="dgdCableSizes" IsReadOnly="False" MinColumnWidth="50"
-                              MinHeight="400"
-                              Margin="10"
-                              FontWeight="Normal"
-                              Grid.Row="2" Grid.Column="2"
-                              d:Width="150" d:Height="300"
-                              MinWidth="300"
-                              MaxHeight="700"
-                              RowHeaderWidth="0"
-                              SelectionUnit="Cell"
-                              SelectionMode="Single"
-                              ItemsSource="{Binding Path=SelectedCableSizes, Mode=TwoWay, UpdateSourceTrigger=Explicit, IsAsync=True}"
-                              AutoGenerateColumns="False" 
-                              MouseLeave="dgdCableSizes_MouseLeave">
-                        <DataGrid.Columns>
-                            <!--Type-->
-                            <DataGridTextColumn Header="Type"
-                                                Binding="{Binding Path=Type}"
-                                                MinWidth="175"
-                                                IsReadOnly="True"/>
-
-                            <!--Size-->
-                            <DataGridTextColumn Header="Size"
-                                                Binding="{Binding Path=Size}"
-                                                MinWidth="65" 
-                                                IsReadOnly="True"/>
-
-                            <!--Used In Project-->
-                            <DataGridTemplateColumn Header=" Used In &#x0a;Project"  
-                                                    MinWidth="60" >
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Path=UsedInProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-
-
-                        </DataGrid.Columns>
-                    </DataGrid>
-
+                    
                 </Grid>
             </GroupBox>
         </WrapPanel>

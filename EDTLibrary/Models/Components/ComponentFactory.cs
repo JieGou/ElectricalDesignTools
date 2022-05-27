@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Components;
 public class ComponentFactory
 {
-    public static ComponentModel CreateComponent(IComponentUser componentUser, string componentCategory, string componentType, string componentSubType, ListManager listManager)
+    public static ComponentModel CreateComponent(IComponentUser componentUser, string componentSubCategory, string componentType, string componentSubType, ListManager listManager)
     {
         ComponentModel newComponent = new ComponentModel();
 
@@ -20,13 +20,13 @@ public class ComponentFactory
         else {
             newComponent.Id = listManager.CompList.Select(c => c.Id).Max() + 1;
         }
-        newComponent.Category = componentCategory;
+        newComponent.Category = Categories.Component.ToString();
+        newComponent.SubCategory = componentSubCategory;
         newComponent.Owner = componentUser;
         newComponent.OwnerId = componentUser.Id;
         newComponent.OwnerType = componentUser.GetType().ToString();
         newComponent.Type = componentType;
         newComponent.SubType = componentSubType;
-
 
         //Tag and Area
         if (componentType == ComponentTypes.DefaultDcn.ToString()) {
@@ -44,15 +44,24 @@ public class ComponentFactory
         }
 
         //AuxComponents vs CctComponents
-        if (componentCategory == Categories.AuxComponent.ToString()) {
+        if (componentSubCategory == Categories.AuxComponent.ToString()) {
             componentUser.AuxComponents.Add(newComponent);
+
         }
-        else if (componentCategory == Categories.CctComponent.ToString()) {
-            componentUser.CctComponents.Add(newComponent);
+        else if (componentSubCategory == Categories.CctComponent.ToString()) {
+            var defaultDcn = componentUser.CctComponents.FirstOrDefault(c => c.Type == ComponentSubTypes.DefaultDcn.ToString());
+            if (componentType != ComponentTypes.DefaultDcn.ToString() && defaultDcn != null) {
+                componentUser.CctComponents.Insert(componentUser.CctComponents.Count - 1, newComponent);
+            }
+            else {
+                componentUser.CctComponents.Add(newComponent);
+            }
         }
 
         listManager.CompList.Add(newComponent);
         DaManager.UpsertComponent(newComponent);
+        newComponent.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
+
 
         return newComponent;
     }

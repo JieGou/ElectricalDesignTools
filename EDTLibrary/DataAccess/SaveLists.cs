@@ -39,6 +39,8 @@ namespace EDTLibrary.DataAccess
             "FedFrom",
             "Area",
             "Lcs",
+            "Drive",
+            "Disconnect",
         };
 
         static public List<string> CompSaveList { get; set; } = new List<string>()

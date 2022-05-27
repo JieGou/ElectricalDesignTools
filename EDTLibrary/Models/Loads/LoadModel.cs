@@ -23,7 +23,7 @@ namespace EDTLibrary.Models.Loads
         {
             Description = "";
             Category = Categories.LOAD3P.ToString();
-            PowerCable = new PowerCableModel();
+            PowerCable = new CableModel();
             
         }
         public LoadModel(string tag)
@@ -46,7 +46,7 @@ namespace EDTLibrary.Models.Loads
                         PowerCable.AssignTagging(this);
                     }
                     if (PowerCable != null && FedFrom != null) {
-                        CableManager.AssignPowerCables(this, ScenarioManager.ListManager);
+                        CableManager.AssignPowerCablesAsync(this, ScenarioManager.ListManager);
                     }
                 }
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
@@ -248,13 +248,42 @@ namespace EDTLibrary.Models.Loads
 
         //Cables
 
-        public PowerCableModel PowerCable { get; set; }
+        public CableModel PowerCable { get; set; }
         public ObservableCollection<IComponent> AuxComponents { get; set; } = new ObservableCollection<IComponent>();
         public ObservableCollection<IComponent> CctComponents { get; set; } = new ObservableCollection<IComponent>();
 
 
 
         //Components
+
+        public IComponent Lcs { get; set; }
+        private bool _lcsBool;
+        public bool LcsBool
+        {
+            get { return _lcsBool; }
+            set
+            {
+                var _oldValue = _lcsBool;
+                _lcsBool = value;
+
+                if (GlobalConfig.GettingRecords == false) {
+
+                    if (_lcsBool == true) {
+                        ComponentManager.AddLcs(this, ScenarioManager.ListManager);
+                    }
+                    if (_lcsBool == false) {
+                        ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
+                    }
+
+                    OnPropertyUpdated();
+                }
+
+            }
+        }
+
+
+        public IComponent Drive { get; set; }
+
         private bool _driveBool;
         public bool DriveBool
         {
@@ -273,7 +302,8 @@ namespace EDTLibrary.Models.Loads
                     if (_driveBool == false) {
                         ComponentManager.RemoveDrive(this, ScenarioManager.ListManager);
                     }
-                    OnCctComponentChanged();
+                    CableManager.AssignPowerCablesAsync(this, ScenarioManager.ListManager);
+                    //OnCctComponentChanged();
                     OnPropertyUpdated();
                 }
                
@@ -287,6 +317,9 @@ namespace EDTLibrary.Models.Loads
             get { return _driveId; }
             set { _driveId = value; }
         }
+
+
+        public IComponent Disconnect { get; set; }
 
         private bool _disconnectBool;
         public bool DisconnectBool
@@ -304,8 +337,8 @@ namespace EDTLibrary.Models.Loads
                     if (_disconnectBool == false) {
                         ComponentManager.RemoveDisconnect(this, ScenarioManager.ListManager);
                     }
-
-                    OnCctComponentChanged();
+                    CableManager.AssignPowerCablesAsync(this, ScenarioManager.ListManager);
+                    //OnCctComponentChanged();
                     OnPropertyUpdated();
                 }
                 
@@ -320,31 +353,7 @@ namespace EDTLibrary.Models.Loads
             set { _disconnectId = value; }
         }
 
-        public ComponentModel Lcs { get; set; }
-        private bool _lcsBool;
-        public bool LcsBool
-        {
-            get { return _lcsBool; }
-            set 
-            {
-                var _oldValue = _lcsBool;
-                _lcsBool = value;
-
-                if (GlobalConfig.GettingRecords == false) {
-
-                    if (_lcsBool == true) {
-                        ComponentManager.AddLcs(this, ScenarioManager.ListManager);
-                    }
-                    if (_lcsBool == false) {
-                        ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
-                    }
-
-
-                    OnPropertyUpdated();
-                }
-
-            }
-        }
+       
 
 
 
@@ -516,7 +525,7 @@ namespace EDTLibrary.Models.Loads
         public void CreatePowerCable()
         {
             if (PowerCable.Load == null) {
-                PowerCable = new PowerCableModel(this);
+                PowerCable = new CableModel(this);
             }
         }
         public void SizePowerCable()
@@ -564,7 +573,6 @@ namespace EDTLibrary.Models.Loads
                 AreaClassification = Area.AreaClassification;
                 PowerCable.CalculateAmpacity(this);
             }));
-            //TODO - warnings when cable sizes recalculated
         }
     }
 }

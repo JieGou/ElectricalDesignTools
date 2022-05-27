@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
+             xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
+             
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="550"
              Background="LightCyan">
@@ -40,56 +43,29 @@
                   ItemsSource="{Binding Path=DataContext.TypeManager.OcpdTypes, 
                                         RelativeSource={RelativeSource Mode=FindAncestor, 
                                         AncestorType={x:Type Window}}}"
-                  DisplayMemberPath="Description"
+                  
                   SelectedValuePath="Type" 
                   SelectedValue="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                   IsSynchronizedWithCurrentItem="False" >
-
-            <!--<ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Type}" HorizontalAlignment="Left" TextAlignment="Left" Width="35" Margin="10 0"/>
-                        <TextBlock Grid.Column="1" Text="{Binding Description}" />
-                    </Grid>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>-->
-
-            <!--<ComboBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ComboBoxItem}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                <Border x:Name="Bd"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                        <Label Content="{Binding Title}" Width="100"/>
-                                        <Label Content="{Binding BranchName}" />
-                                    </StackPanel>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsHighlighted" Value="True">
-                                        <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
-                                    </Trigger>
-                                    <Trigger Property="IsEnabled" Value="False">
-                                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ComboBox.ItemContainerStyle>-->
-
-
+            <ComboBox.ItemTemplateSelector>
+                <templateSelectors:ComboBoxItemTemplateSelector>
+                    <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Type}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                    <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Type}" Width="75"/>
+                                <TextBlock Text="{Binding Description}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                </templateSelectors:ComboBoxItemTemplateSelector>
+            </ComboBox.ItemTemplateSelector>
         </ComboBox>
 
         <TextBlock Text="OCPD Sub-Type"

@@ -91,6 +91,11 @@ namespace EDTLibrary.ProjectSettings
         }
 
 
+        public static string DefaultLcsControlCableType { get; set; }
+        public static string DefaultLcsControlCableSize { get; set; }
+
+
+
         //Dteq
         public static string DteqMaxPercentLoaded { get; set; } 
         public static string DteqDefaultPdTypeLV { get; set; }
@@ -110,8 +115,10 @@ namespace EDTLibrary.ProjectSettings
         public static string LoadDefaultEfficiency_Panel { get; set; }
         public static string LoadDefaultPowerFactor_Panel { get; set; }
 
+        //Components
+        public static string DefaultLcsType { get; set; }
 
-       
+
     }
 }
 

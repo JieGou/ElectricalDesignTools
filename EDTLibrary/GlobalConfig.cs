@@ -33,40 +33,44 @@ namespace EDTLibrary
         public static string ComponentTable { get; set; } = "Components";
 
         public static string AreaTable { get; set; } = "Areas";
-        public static string PowerCableTable { get; set; } = "PowerCables";
+        public static string PowerCableTable { get; set; } = "Cables";
         public static string DevDb { get; set; } = "C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB Files\\EDTProjectTemplate1.1.edp";
         public static string TestDb { get; set; } = "C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB Files\\TestDb.edp";
-        public static string PowerCableTypes { get; internal set; } = "CableTypes";
+        public static string CableTypes { get; internal set; } = "CableTypes";
+        public static string ControlCableSizeTable { get; internal set; } = "CableSizes_Control";
+        public static string InstrumentCableSizeTable { get; internal set; } = "CableSizes_Instrument";
 
-        public const string EmptyTag = "                 ";
+        public const string EmptyTag = "                 "; // 17 spaces
 
-        public const string Code_Cec = "CEC";
-        public const string Code_Nec = "NEC";
-        public const string Code_Iec = "IEC";
+        public static string Code_Cec { get; set; } = "CEC";
+        public static string Code_Nec { get; set; } = "NEC";
+        public static string Code_Iec { get; set; } = "IEC";
 
 
-        public const string CableInstallationType_LadderTray = "LadderTray";
-        public const string CableInstallationType_DirectBuried = "DirectBuried";
-        public const string CableInstallationType_RacewayConduit = "RacewayConduit";
+        public static string CableInstallationType_LadderTray { get; set; } = "LadderTray";
+        public static string CableInstallationType_DirectBuried { get; set; } = "DirectBuried";
+        public static string CableInstallationType_RacewayConduit { get; set; } = "RacewayConduit";
+
+
+        public static string LcsTypesTable { get; set; } = "LocalControlStationTypes";
 
 
         //Constants
-        public const int SigFigs = 1;
-        public const string Separator = "-";
-        public const double NoValueDouble = 0.001;
+        public static int SigFigs { get; set; } = 1;
+        public static string Separator { get; set; } = "-";
+        public static double NoValueDouble { get; set; } = 0.001;
         //Default Power Factor and Efficiency
-        public const double DefaultTransformerPowerFactor = 0.9;
-        public const double DefaultTransformerEfficiency = 0.95;
+        public static double DefaultTransformerPowerFactor { get; set; } = 0.9;
+        public static double DefaultTransformerEfficiency { get; set; } = 0.95;
 
-        public const double DefaultHeaterPowerFactor = 0.99;
-        public const double DefaultHeaterEfficiency = 0.99;
+        public static double DefaultHeaterPowerFactor { get; set; } = 0.99;
+        public static double DefaultHeaterEfficiency { get; set; } = 0.99;
 
         //TODO - figure out motor RPM
-        public const double DefaultMotorRpm = 1800;
+        public static double DefaultMotorRpm { get; set; } = 1800;
 
-        public const double OtherPf = 0.85;
-        public const double OtherEff = 0.85;
-
+        public static double OtherPf { get; set; } = 0.85;
+        public static double OtherEff { get; set; } = 0.85;
 
 
     }

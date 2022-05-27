@@ -34,7 +34,7 @@ namespace EDTLibrary
         public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
         public ObservableCollection<IComponent> CompList { get; set; } = new ObservableCollection<IComponent>();
 
-        public ObservableCollection<PowerCableModel> CableList { get; set; } = new ObservableCollection<PowerCableModel>();
+        public ObservableCollection<CableModel> CableList { get; set; } = new ObservableCollection<CableModel>();
 
 
         //public async Task SetDteq()
@@ -198,14 +198,17 @@ namespace EDTLibrary
         }
         private void AssignComponents()
         {
+
+
             // Loads
             foreach (var load in LoadList) {
                 foreach (var comp in CompList) {
                     if (comp.OwnerId == load.Id && comp.OwnerType == typeof(LoadModel).ToString()) {
                         comp.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
                         comp.Owner = load;
+
                         //Aux Components
-                        if (comp.Category == Categories.AuxComponent.ToString()) {
+                        if (comp.SubCategory == Categories.AuxComponent.ToString()) {
                             load.AuxComponents.Add(comp);
                             if (comp.Type == ComponentTypes.LCS.ToString()) {
                                 load.Lcs = (ComponentModel)comp;
@@ -213,18 +216,24 @@ namespace EDTLibrary
                         }
 
                         //Cct Components
-                        else if (comp.Category == Categories.CctComponent.ToString()) {
+                        else if (comp.SubCategory == Categories.CctComponent.ToString()) {
                             load.CctComponents.Add(comp);
+                            if (comp.Type == ComponentTypes.DefaultDrive.ToString()) {
+                                load.Drive = (ComponentModel)comp;
+                            }
+                            if (comp.Type == ComponentTypes.DefaultDcn.ToString()) {
+                                load.Disconnect = (ComponentModel)comp;
+                            }
                         }
                     }
                 }
             }
         }
 
-        public ObservableCollection<PowerCableModel> GetCables()
+        public ObservableCollection<CableModel> GetCables()
         {
             CableList.Clear();
-            CableList = DaManager.prjDb.GetRecords<PowerCableModel>(GlobalConfig.PowerCableTable);
+            CableList = DaManager.prjDb.GetRecords<CableModel>(GlobalConfig.PowerCableTable);
             AssignCableTypes();
             return CableList;
         }
@@ -232,7 +241,7 @@ namespace EDTLibrary
         {
             Random random = new Random();
             foreach (var cable in CableList) {
-                cable.TypeModel = TypeManager.GetCableType(cable.Type);
+                cable.TypeModel = TypeManager.GetCableTypeModel(cable.Type);
 #if DEBUG
                 //if (cable.Length==0) {
                     cable.Length = random.Next(1, 750);

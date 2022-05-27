@@ -538,6 +538,18 @@ public partial class ElectricalView : UserControl
             txtLoadTag.Text = "";
         }
     }
+
+    private void dgdDteq_MouseLeave(object sender, MouseEventArgs e)
+    {
+        var dataGrid = (DataGrid)sender;
+        dataGrid.CancelEdit();
+    }
+
+    private void dgdAssignedLoads_MouseLeave(object sender, MouseEventArgs e)
+    {
+        var dataGrid = (DataGrid)sender;
+        dataGrid.CancelEdit();
+    }
 }
 
 

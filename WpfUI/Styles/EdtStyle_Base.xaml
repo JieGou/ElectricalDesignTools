@@ -512,6 +512,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="TextBlock.TextAlignment" Value="Center" />
         <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="MinHeight" Value="33"/>
         <Setter Property="Cursor" Value="Hand" />
         <!--<Setter Property="Padding" Value="5 2 5 2"/>-->
         <Setter Property="Padding" Value="5 2 5 2"/>

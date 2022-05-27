@@ -30,8 +30,8 @@ namespace EDTLibrary.Models.Components
                 var oldValue = _tag;
                 _tag = value;
                 if (GlobalConfig.GettingRecords == false) {
-                    if (Owner != null ) {
-                        CableManager.AssignPowerCables((IPowerConsumer)Owner, ScenarioManager.ListManager);
+                    if (Owner != null) {
+                        CableManager.AssignPowerCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
                     }
                 }
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
@@ -46,11 +46,14 @@ namespace EDTLibrary.Models.Components
 
         public string Description { get; set; }
         public string Category { get; set; }
+        public string SubCategory { get; set; }
         public string Type { get; set; }
         public string SubType { get; set; }
 
         public int AreaId { get; set; }
         private IArea _area;
+        private int _sequenceNumber;
+
         public IArea Area
         {
             get { return _area; }
@@ -75,7 +78,15 @@ namespace EDTLibrary.Models.Components
         public int OwnerId { get; set; }
         public string OwnerType { get; set; }
         public IEquipment Owner { get; set; }
-        public int SequenceNumber { get; set; }
+        public int SequenceNumber
+        {
+            get => _sequenceNumber;
+            set
+            {
+                _sequenceNumber = value;
+                OnPropertyUpdated();
+            }
+        }
 
 
         public event EventHandler PropertyUpdated;
@@ -91,7 +102,7 @@ namespace EDTLibrary.Models.Components
         {
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 NemaRating = Area.NemaRating;
-            AreaClassification = Area.AreaClassification;
+                AreaClassification = Area.AreaClassification;
             }));
 
         }

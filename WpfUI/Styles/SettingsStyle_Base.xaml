@@ -40,6 +40,7 @@
         <Setter Property="Height" Value="23"/>
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Template" Value="{DynamicResource ComboBoxBase}"/>
     </Style>
 

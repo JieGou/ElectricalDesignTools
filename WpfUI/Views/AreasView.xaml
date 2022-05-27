@@ -139,7 +139,8 @@
                           SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
                           CanUserAddRows="False"
                           HorizontalAlignment="Left" 
-                          AutoGenerateColumns="False">
+                          AutoGenerateColumns="False" MouseLeave="dgdAreas_MouseLeave"
+                          >
 
                     <DataGrid.Columns>
                         <!--Basic-->

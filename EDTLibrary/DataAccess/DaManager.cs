@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.Cables;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -50,47 +51,24 @@ public class DaManager {
 
     public static void GetTypeTables()
     {
-        GetCableTypes();
-        GetNemaTypes();
-        GetVoltageTypes();
-        GetAreaClassificationTypes();
-        GetCECCableSizingRules();
-        GetCecAmpacities();
-        GetOcpdTypes();
-    }
-
-    private static void GetOcpdTypes()
-    {
-        TypeManager.OcpdTypes = libDb.GetRecords<OcpdType>("OcpdTypes");
-    }
-
-    private static void GetCECCableSizingRules()
-    {
-        TypeManager.CecCableSizingRules = libDb.GetRecords<CecCableSizingRule>("CecCableSizingRules");
-    }
-    private static void GetCecAmpacities()
-    {
-        LibraryManager.CecCableAmpacities = libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
-    }
-
-    private static void GetVoltageTypes()
-    {
-        TypeManager.VoltageTypes = libDb.GetRecords<VoltageType>("VoltageTypes");
-    }
-
-    private static void GetCableTypes()
-    {
-        TypeManager.CableTypes = libDb.GetRecords<CableTypeModel>(GlobalConfig.PowerCableTypes);
-    }
-
-    private static void GetNemaTypes()
-    {
         TypeManager.NemaTypes = libDb.GetRecords<NemaType>("NemaTypes");
-    }
-
-    private static void GetAreaClassificationTypes()
-    {
         TypeManager.AreaClassifications = libDb.GetRecords<AreaClassificationType>("AreaClassifications");
+
+        TypeManager.OcpdTypes = libDb.GetRecords<OcpdType>("OcpdTypes");
+        TypeManager.VoltageTypes = libDb.GetRecords<VoltageType>("VoltageTypes");
+
+
+        TypeManager.LcsTypes = libDb.GetRecords<LcsTypeModel>(GlobalConfig.LcsTypesTable);
+
+
+        TypeManager.CecCableSizingRules = libDb.GetRecords<CecCableSizingRule>("CecCableSizingRules");
+        TypeManager.CableTypes = libDb.GetRecords<CableTypeModel>(GlobalConfig.CableTypes);
+        TypeManager.ControlCableSizes = libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
+        TypeManager.InstrumentCableSizes = libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
+       
+
+
+        LibraryManager.CecCableAmpacities = libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
     }
     #endregion
 
@@ -137,7 +115,7 @@ public class DaManager {
     public static void OnPowerCablePropertyUpdated(object source, EventArgs e)
     {
         if (GlobalConfig.GettingRecords == false) {
-            prjDb.UpsertRecord<PowerCableModel>((PowerCableModel)source, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+            prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
         }
     }
 
@@ -172,8 +150,8 @@ public class DaManager {
     public static int SavePowerCableGetId(ICable cable)
     {
         int id = 0;
-        if (cable.GetType() == typeof(PowerCableModel)) {
-            var cableModel = (PowerCableModel)cable;
+        if (cable.GetType() == typeof(CableModel)) {
+            var cableModel = (CableModel)cable;
             id= prjDb.InsertRecordGetId(cableModel, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
         }
         return id;
@@ -258,7 +236,7 @@ public class DaManager {
         prjDb.DeleteRecord(GlobalConfig.ComponentTable, component.Id);
     }
 
-    public static void UpsertCable(PowerCableModel cable)
+    public static void UpsertCable(CableModel cable)
     {
         prjDb.UpsertRecord(cable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
     }
