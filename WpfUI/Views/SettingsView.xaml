@@ -42,8 +42,6 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 
                 <StackPanel Orientation="Horizontal"
@@ -126,13 +124,7 @@
                             Style="{StaticResource ToolBarButtonBase}" PreviewMouseDown="Button_PreviewMouseDown"
                             />
                 </StackPanel>
-                    <Button Content="APPLICATION SETTINGS"
-                            Grid.Column="1"
-                            Style="{StaticResource ToolBarButtonBase}"/>
-                    <Button Content="DEVELOPER" 
-                            Grid.Column="2"
-                            Style="{StaticResource ToolBarButtonBase}"
-                            PreviewMouseDown="btnDeveloperSettings_PreviewMouseDown"/>
+                   
             </Grid>
         </Border>
         

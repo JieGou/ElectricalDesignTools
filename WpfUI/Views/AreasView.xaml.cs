@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using WpfUI.Helpers;
 using WpfUI.PopupWindows;
 using WpfUI.ViewModels;
+using WpfUI.Views.Electrical.MjeqSubviews;
 
 namespace WpfUI.Views;
 

@@ -107,7 +107,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extension Methods\" />
+    <Folder Include="ViewModels\Electrical\" />
   </ItemGroup>
 
 
