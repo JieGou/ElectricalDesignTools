@@ -106,9 +106,5 @@
     </Page>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\Electrical\" />
-  </ItemGroup>
-
 
 </Project>

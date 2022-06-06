@@ -15,12 +15,21 @@ using System.Windows;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Services;
+using WpfUI.ViewModels.Electrical;
 using WpfUI.Views.SettingsSubViews;
 
 namespace WpfUI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private ViewModelBase _currentViewModel;
+        public ViewModelBase CurrentViewModel
+        {
+            get { return _currentViewModel; }
+            set { _currentViewModel = value; }
+        }
+
+
         public ListManager _listManager;
         public ListManager ListManager
         {
@@ -60,7 +69,15 @@ namespace WpfUI.ViewModels
         public readonly HomeViewModel _homeViewModel;
         public readonly SettingsViewModel _settingsViewModel;
         public readonly AreasViewModel _areasViewModel;
+
+        //Electrical
         public readonly ElectricalViewModel _electricalViewModel;
+
+
+
+
+
+
         public readonly CableListViewModel _cableListViewModel;
         public readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
@@ -82,7 +99,10 @@ namespace WpfUI.ViewModels
             _homeViewModel = new HomeViewModel(startupService, listManager);
             _settingsViewModel = new SettingsViewModel(edtSettings, typeManager);
             _areasViewModel = new AreasViewModel(listManager);
+
+            //Electrical
             _electricalViewModel = new ElectricalViewModel(listManager);
+
             _cableListViewModel = new CableListViewModel(listManager);
 
 
@@ -112,14 +132,13 @@ namespace WpfUI.ViewModels
 
             startupService.InitializeLibrary();
             _areasViewModel.CreateComboBoxLists();
-            _electricalViewModel.CreateComboBoxLists();
 
             //TODO - Application Setting for auto load previous project
             if (type == "NewInstance") {
                 _startupService.InitializeProject(AppSettings.Default.ProjectDb);
             }
 
-            _startupService.ProjectLoaded += _electricalViewModel.OnProjectLoaded;
+            //_startupService.ProjectLoaded += _electricalViewModel.OnProjectLoaded;
         }
 
 
@@ -168,9 +187,9 @@ namespace WpfUI.ViewModels
         private void NavigateEquipment()
         {
             CurrentViewModel = _electricalViewModel;
-            _electricalViewModel.CreateValidators();
-            _electricalViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
-            _electricalViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
+            //_electricalViewModel.CreateValidators();
+            //_electricalViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
+            //_electricalViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
         }
         private void NavigateCableList()
         {
@@ -227,13 +246,7 @@ namespace WpfUI.ViewModels
         }
         #endregion
 
-        private ViewModelBase _currentViewModel;
-        public ViewModelBase CurrentViewModel
-        {
-            get { return _currentViewModel; }
-            set { _currentViewModel = value; }
-        }
-
+       
         private void OnCurrentViewModelChanged() {
             OnPropertyChanged(nameof(CurrentViewModel));
         }

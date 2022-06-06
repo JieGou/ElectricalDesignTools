@@ -1,11 +1,13 @@
-﻿<UserControl x:Class="WpfUI.Views.Electrical.MjeqSubviews._MjeqView"
+﻿<UserControl x:Class="WpfUI.Views.Electrical._MjeqView"
              x:Name="eqView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             
              xmlns:local="clr-namespace:WpfUI.Views"
              xmlns:root="clr-namespace:WpfUI"
+             
              xmlns:rules="clr-namespace:WpfUI.ValidationRules"
              xmlns:converters="clr-namespace:WpfUI.Converters"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -32,7 +34,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../../Styles/EdtStyle_Teal.xaml"/>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
@@ -50,62 +52,18 @@
                 <Setter Property="Margin" Value="10,0,10,0" />
             </Style>
 
-
-
-            <sys:Int32 x:Key="dteqViewButtons">1</sys:Int32>
-            <sys:Int32 x:Key="dteq">2</sys:Int32>
-            <sys:Int32 x:Key="adding">3</sys:Int32>
-
-            <sys:Int32 x:Key="loadViewButtons">4</sys:Int32>
-            <sys:Int32 x:Key="load">5</sys:Int32>
-            <sys:Int32 x:Key="bottom">6</sys:Int32>
-
-            <!--ADD-->
-            <sys:Int32 x:Key="Tag">1</sys:Int32>
-            <sys:Int32 x:Key="Type">2</sys:Int32>
-            <sys:Int32 x:Key="Description">3</sys:Int32>
-            <sys:Int32 x:Key="Area">5</sys:Int32>
-            <sys:Int32 x:Key="FedFrom">6</sys:Int32>
-            <sys:Int32 x:Key="Size">7</sys:Int32>
-            <sys:Int32 x:Key="Unit">8</sys:Int32>
-            <sys:Int32 x:Key="Voltage">9</sys:Int32>
-            <sys:Int32 x:Key="LoadFactor">10</sys:Int32>
-
         </ResourceDictionary>
     </UserControl.Resources>
-
 
 
     <!--TOP-->
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Border BorderThickness="0 0 0 2" BorderBrush="Black" Background="{StaticResource Darkest}">
-
-
-            <StackPanel Orientation="Horizontal">
-
-                <Label Content="ELECTRICAL EQUIPMENT"  Background="Transparent"
-                       MinWidth="300"
-                       Style="{StaticResource TitleLabelStyle}"
-                       BorderThickness="0"
-                       Margin="0 0 50 0"/>
-
-                <!--//BUTTONS-->
-                <Button Content="MAJOR EQUIPMENT"
-                        Style="{StaticResource ToolBarButtonBase}" />
-
-                <Button Content="DIST. PANELS"
-                        Style="{StaticResource ToolBarButtonBase}" />
-            </StackPanel>
-
-        </Border>
-
         <!--Main Grid-->
-        <Grid Grid.Row="2"
+        <Grid Grid.Row="1"
               x:Name="elecGrid"
               d:Opacity="1"
               Opacity="0.0"  Grid.IsSharedSizeScope="True">
@@ -216,7 +174,7 @@
 
             <!--ADD Buttons-->
             <StackPanel Orientation="Vertical"
-                        Grid.Column="1" Grid.Row="{StaticResource adding}"
+                        Grid.Column="1" Grid.Row="3"
                         Margin="0,10,0,0">
 
                 <Button Content="Add Dist. Eq." Height="25" Width="100"
@@ -369,8 +327,6 @@
                           IsSynchronizedWithCurrentItem="True"
                           FrozenColumnCount="1"
                           Margin="5,5,5 5"
-                          
-                          
                           
                           
                           HorizontalAlignment="Left"
@@ -864,7 +820,7 @@
             </Grid>
 
             <!--ADD EQUIPMENT-->
-            <Grid x:Name="gridAdding" Grid.Row="{StaticResource adding}"  
+            <Grid x:Name="gridAdding" Grid.Row="3"  
                   Grid.Column="3" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10"/>

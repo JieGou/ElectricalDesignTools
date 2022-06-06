@@ -5,19 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:WpfUI.Views"
-             xmlns:root="clr-namespace:WpfUI"
-             xmlns:rules="clr-namespace:WpfUI.ValidationRules"
-             xmlns:converters="clr-namespace:WpfUI.Converters"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-              
-             xmlns:h="clr-namespace:WpfUI.Helpers"
-             xmlns:commands="clr-namespace:WpfUI.Commands"
-             xmlns:viewModifiers="clr-namespace:WpfUI.ViewModifiers"
+      
              xmlns:views="clr-namespace:WpfUI.Views"
-             xmlns:subViews="clr-namespace:WpfUI.Views.EquipmentSubViews"
-             xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
-             xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
-             xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
+             xmlns:electricalViews="clr-namespace:WpfUI.Views.Electrical"
+             xmlns:electricalViewModels="clr-namespace:WpfUI.ViewModels.Electrical"
               
              mc:Ignorable="d"
              d:Width="1500" d:Height="1000"
@@ -35,45 +26,8 @@
                 <ResourceDictionary Source="../Styles/EdtStyle_Teal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
-            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
-
-            <!--For quick filtering of DteqGrid-->
-            <CollectionViewSource x:Key="cvsIdteq" Source="{Binding ListManager.IDteqList}"
-                                 />
-
-            <!--For FedFrom Comboboxes-->
-            <CollectionViewSource x:Key="dteqList" Source="{Binding ListManager.DteqList}"/>
-
-
-            <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
-                <Setter Property="Margin" Value="10,0,10,0" />
-            </Style>
-
-
-
-            <sys:Int32 x:Key="dteqViewButtons">1</sys:Int32>
-            <sys:Int32 x:Key="dteq">2</sys:Int32>
-            <sys:Int32 x:Key="adding">3</sys:Int32>
-
-            <sys:Int32 x:Key="loadViewButtons">4</sys:Int32>
-            <sys:Int32 x:Key="load">5</sys:Int32>
-            <sys:Int32 x:Key="bottom">6</sys:Int32>
-
-            <!--ADD-->
-            <sys:Int32 x:Key="Tag">1</sys:Int32>
-            <sys:Int32 x:Key="Type">2</sys:Int32>
-            <sys:Int32 x:Key="Description">3</sys:Int32>
-            <sys:Int32 x:Key="Area">5</sys:Int32>
-            <sys:Int32 x:Key="FedFrom">6</sys:Int32>
-            <sys:Int32 x:Key="Size">7</sys:Int32>
-            <sys:Int32 x:Key="Unit">8</sys:Int32>
-            <sys:Int32 x:Key="Voltage">9</sys:Int32>
-            <sys:Int32 x:Key="LoadFactor">10</sys:Int32>
-
         </ResourceDictionary>
     </UserControl.Resources>
-
 
 
     <!--TOP-->
@@ -83,7 +37,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border BorderThickness="0 0 0 2" BorderBrush="Black" Background="{StaticResource Darkest}">
+        <Border BorderThickness="0 2 0 2" 
+                BorderBrush="Black" 
+                Background="{StaticResource Darkest}">
 
 
             <StackPanel Orientation="Horizontal">
@@ -96,7 +52,8 @@
 
                 <!--//BUTTONS-->
                 <Button Content="MAJOR EQUIPMENT"
-                        Style="{StaticResource ToolBarButtonBase}" />
+                        Style="{StaticResource ToolBarButtonBase}" 
+                        Command="{Binding NavigateMjeqCommand}"/>
 
                 <Button Content="DIST. PANELS"
                         Style="{StaticResource ToolBarButtonBase}" />
@@ -129,7 +86,23 @@
                 </EventTrigger>
             </Grid.Triggers>
 
-            <ContentControl x:Name="ccSettingPage" Content="{Binding SelectedSettingView}"/>
+            <ContentControl x:Name="ccElectrical"
+                 
+                        Content="{Binding CurrentViewModel}"
+                        BorderBrush="Black"
+                        BorderThickness="0 1 0 0">
+
+                <ContentControl.Resources>
+
+                    <DataTemplate DataType="{x:Type electricalViewModels:MjeqViewModel}">
+                        <electricalViews:_MjeqView/>
+                    </DataTemplate>
+
+
+
+                </ContentControl.Resources>
+
+            </ContentControl>
 
         </Grid>
 
