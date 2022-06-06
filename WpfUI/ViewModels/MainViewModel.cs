@@ -22,6 +22,13 @@ namespace WpfUI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
+        private ViewModelBase _menuViewModel;
+        public ViewModelBase MenuViewModel 
+        {
+            get { return _menuViewModel; }
+            set { _menuViewModel = value; }
+        }
+
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel
         {
@@ -72,6 +79,7 @@ namespace WpfUI.ViewModels
 
         //Electrical
         public readonly ElectricalViewModel _electricalViewModel;
+        public readonly MjeqViewModel _mjeqViewModel;
 
 
 
@@ -101,13 +109,13 @@ namespace WpfUI.ViewModels
             _areasViewModel = new AreasViewModel(listManager);
 
             //Electrical
-            _electricalViewModel = new ElectricalViewModel(listManager);
-
+            _electricalViewModel = new ElectricalViewModel(this, listManager);
+            _mjeqViewModel = new MjeqViewModel(listManager);
             _cableListViewModel = new CableListViewModel(listManager);
 
 
 
-            NavigateStartupCommand = new RelayCommand(NavigateStartup);
+            NavigateStartupCommand = new RelayCommand(NavigateHome);
             NavigateSettingsCommand = new RelayCommand(NavigateSettings, CanExecute_IsProjectLoaded);
 
 
@@ -119,7 +127,7 @@ namespace WpfUI.ViewModels
 
             NavigateAreasCommand = new RelayCommand(NavigateAreas, CanExecute_IsProjectLoaded);
 
-            NavigateElectricalCommand = new RelayCommand(NavigateEquipment, startupService);
+            NavigateElectricalCommand = new RelayCommand(NavigateElectical, startupService);
 
             NavigateCableListCommand = new RelayCommand(NavigateCableList, CanExecute_IsProjectLoaded);
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables, CanExecute_IsLibraryLoaded);
@@ -170,8 +178,9 @@ namespace WpfUI.ViewModels
         public ICommand ExportCommand { get; }
         public ICommand ScenarioCommand { get; }
 
-        private void NavigateStartup()
+        private void NavigateHome()
         {
+            MenuViewModel = null;
             CurrentViewModel = _homeViewModel;
         }
         private void NavigateSettings()
@@ -184,12 +193,14 @@ namespace WpfUI.ViewModels
             CurrentViewModel = _areasViewModel;
             //Todo - Map settings to ViewModel
         }
-        private void NavigateEquipment()
+        private void NavigateElectical()
         {
-            CurrentViewModel = _electricalViewModel;
-            //_electricalViewModel.CreateValidators();
-            //_electricalViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
-            //_electricalViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
+            MenuViewModel = _electricalViewModel;
+            //CurrentViewModel = _mjeqViewModel;
+            //_mjeqViewModel.CreateValidators();
+            //_mjeqViewModel.CreateComboBoxLists();
+            //_mjeqViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
+            //_mjeqViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
         }
         private void NavigateCableList()
         {

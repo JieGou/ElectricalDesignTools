@@ -11,7 +11,7 @@
              xmlns:electricalViewModels="clr-namespace:WpfUI.ViewModels.Electrical"
               
              mc:Ignorable="d"
-             d:Width="1500" d:Height="1000"
+             d:Width="1000" d:Height="50"
              Background="#FFDAEEF1" 
              >
 
@@ -29,16 +29,26 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-
     <!--TOP-->
-    <Grid>
+    <Grid x:Name="menuGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <Border BorderThickness="0 2 0 2" 
-                BorderBrush="Black" 
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Grid.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="menuGrid"
+                                Storyboard.TargetProperty="Opacity" From="0" To="1"
+                                BeginTime="0:0:0"  Duration="0:0:0.1"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+        
+        <Border BorderBrush="Black" BorderThickness="0 0 0 0" 
                 Background="{StaticResource Darkest}">
 
 
@@ -61,53 +71,6 @@
 
         </Border>
 
-        <Grid Grid.Row="2" 
-              x:Name="settingsGrid"
-              d:Opacity="1"
-              Opacity="0">
-            <Grid.ColumnDefinitions>
-
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-
-            </Grid.RowDefinitions>
-
-            <Grid.Triggers>
-                <EventTrigger RoutedEvent="Grid.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="settingsGrid"
-                                Storyboard.TargetProperty="Opacity"
-                                From="0" To="1" Duration="0:0:0.5"
-                                AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Grid.Triggers>
-
-            <ContentControl x:Name="ccElectrical"
-                 
-                        Content="{Binding CurrentViewModel}"
-                        BorderBrush="Black"
-                        BorderThickness="0 1 0 0">
-
-                <ContentControl.Resources>
-
-                    <DataTemplate DataType="{x:Type electricalViewModels:MjeqViewModel}">
-                        <electricalViews:_MjeqView/>
-                    </DataTemplate>
-
-
-
-                </ContentControl.Resources>
-
-            </ContentControl>
-
-        </Grid>
-
-
     </Grid>
-
 
 </UserControl>

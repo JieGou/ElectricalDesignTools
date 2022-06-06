@@ -76,7 +76,7 @@ public partial class MainWindow : Window
     private void ElectricalMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
-            mainVm.NewWindow(new ElectricalViewModel(mainVm._listManager));
+            mainVm.NewWindow(new ElectricalViewModel(mainVm, mainVm._listManager));
         }
     }
 

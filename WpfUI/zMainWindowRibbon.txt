@@ -13,6 +13,9 @@
                          
         xmlns:viewmodels="clr-namespace:WpfUI.ViewModels"
         xmlns:views="clr-namespace:WpfUI.Views"
+        xmlns:electricalViews="clr-namespace:WpfUI.Views.Electrical"
+        xmlns:electricalViewModels="clr-namespace:WpfUI.ViewModels.Electrical"
+                         
                          
         mc:Ignorable="d"
         Title="Electrical Design Tools"
@@ -43,7 +46,7 @@
                            EnableSimplifiedLayoutMode="True"
                            LayoutMode="Simplified" SelectedIndexChanged="_ribbon_SelectedIndexChanged"
                            >
-            
+
             <syncfusion:RibbonTab Caption="HOME"  IsChecked="True">
             </syncfusion:RibbonTab>
 
@@ -52,8 +55,8 @@
                                  Background="Blue" >
 
                 <syncfusion:RibbonBar >
-                 
-                
+
+
                     <syncfusion:RibbonRadioButton Content="GENERAL"
                                                   VerticalAlignment="Center"
                                                   Height="50"
@@ -88,11 +91,11 @@
 
             <syncfusion:RibbonTab Caption="AREAS &amp; SYSTEMS"  IsChecked="False">
                 <syncfusion:RibbonBar >
-                    
+
                     <syncfusion:RibbonButton SizeForm="Large" Label="AREAS"
                                              Command="{Binding NavigateAreasCommand}"
                                              />
-                    
+
                     <syncfusion:RibbonButton SizeForm="Large" Label="SYSTEMS"
                                              Command="{Binding NavigateAreasCommand}"
                                              />
@@ -114,7 +117,7 @@
                 </syncfusion:RibbonBar>
 
             </syncfusion:RibbonTab>
-            
+
             <syncfusion:RibbonTab Caption="CABLES"  IsChecked="False">
                 <syncfusion:RibbonBar >
 
@@ -173,7 +176,8 @@
             </Image.Triggers>
         </Image>
 
-
+        <Border BorderBrush="Black" BorderThickness="0 1 0 0"
+                Grid.Row="2" Grid.Column="0">
         <ContentControl x:Name="ccMain"
                         Grid.Row="2" Grid.Column="0"
                         Grid.RowSpan="1"
@@ -198,6 +202,10 @@
                 <DataTemplate DataType="{x:Type viewmodels:ElectricalViewModel}">
                     <views:ElectricalView/>
                 </DataTemplate>
+                
+                <DataTemplate DataType="{x:Type electricalViewModels:MjeqViewModel}">
+                    <electricalViews:_MjeqView/>
+                </DataTemplate>
 
                 <DataTemplate DataType="{x:Type viewmodels:CableListViewModel}">
                     <views:CableListView/>
@@ -212,6 +220,7 @@
             </ContentControl.Resources>
 
         </ContentControl>
+        </Border>
     </Grid>
 </syncfusion:RibbonWindow>
 

@@ -32,6 +32,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     #region Constructor
     private DteqFactory _dteqFactory;
+    private readonly MainViewModel _mainViewModel;
     private ListManager _listManager;
     public ListManager ListManager
     {
@@ -48,14 +49,14 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     private MjeqViewModel _mjeqViewModel;
   
 
-    public ElectricalViewModel(ListManager listManager)
+    public ElectricalViewModel(MainViewModel mainViewModel, ListManager listManager)
     {
-        //fields
+        _mainViewModel = mainViewModel;
         _listManager = listManager;
+
+
         _dteqFactory = new DteqFactory(listManager);
-
         _mjeqViewModel = new MjeqViewModel(_listManager);
-
 
         //Navigation
         NavigateMjeqCommand = new RelayCommand(NavigateMjeq);
@@ -64,7 +65,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     private void NavigateMjeq()
     {
-        CurrentViewModel = _mjeqViewModel;
+        _mainViewModel.CurrentViewModel = _mjeqViewModel;
         _mjeqViewModel.CreateComboBoxLists();
         _mjeqViewModel.CreateValidators();
         _mjeqViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;

@@ -152,15 +152,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     public ICommand ComponentMoveDownCommand { get; }
     public ICommand DeleteComponentCommand { get; }
 
-
     #endregion
-
-    private void TestCommand()
-    {
-        _listManager.CreateCableList();
-    }
-
-
 
 
     #region Views States
@@ -172,6 +164,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     public DataGridColumnViewToggle LoadGridViewModifier { get; set; }
 
     #endregion  
+
+
     public bool DteqFilter { get; set; }
     private ObservableCollection<IDteq> _dteqList = new ObservableCollection<IDteq>();
 
@@ -806,10 +800,12 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     public ObservableCollection<string> CableInstallationTypes { get; set; } = new ObservableCollection<string>();
     public void CreateComboBoxLists()
     {
+        DteqTypes.Clear();
         foreach (var item in Enum.GetNames(typeof(EDTLibrary.DteqTypes))) {
             DteqTypes.Add(item.ToString());
         }
 
+        VoltageTypes.Clear();
         foreach (var item in TypeManager.VoltageTypes) {
             VoltageTypes.Add(item.Voltage.ToString());
         }

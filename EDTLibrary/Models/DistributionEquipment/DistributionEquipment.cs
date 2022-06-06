@@ -256,6 +256,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             get { return _lineVoltage; }
             set
             {
+                if (value == null || value == 0) return;
+
                 var oldValue = _lineVoltage;
                 _lineVoltage = value;
                 Voltage = _lineVoltage;
@@ -275,6 +277,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             get { return _loadVoltage; }
             set 
             {
+                if (value == null || value == 0) return;
+
                 var oldValue = _loadVoltage;
                 _loadVoltage = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
