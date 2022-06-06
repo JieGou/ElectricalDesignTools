@@ -144,7 +144,7 @@
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                            <!--<mjeqSubViews:CableSizingView/>-->
+                            <mjeqSubViews:CableSizingView/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>

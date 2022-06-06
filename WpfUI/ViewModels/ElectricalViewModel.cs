@@ -98,74 +98,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     }
 
-    private void DeleteComponent()
-    {
-        ComponentManager.DeleteComponent(SelectedLoad, SelectedComponent, _listManager);
-    }
-
-    int _compIndex;
-    private void ComponentMoveUp()
-    {
-        if (SelectedLoad == null || SelectedComponent == null) return;
-
-        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
-            if (SelectedComponent.Id == SelectedLoad.CctComponents[i].Id) {
-                _compIndex = Math.Max(0, i - 1);
-                SelectedLoad.CctComponents.Move(i, _compIndex);
-                SelectedComponent = (ComponentModel)SelectedLoad.CctComponents[_compIndex];
-            }
-        }
-        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
-            SelectedLoad.CctComponents[i].SequenceNumber = i;
-        }
-        SelectedLoad.CctComponents.OrderBy(x => x.SequenceNumber);
-        CableManager.AssignPowerCablesAsync(SelectedLoad, _listManager);
-
-    }
-
-    private void ComponentMoveDown()
-    {
-        if (SelectedLoad == null || SelectedComponent == null) return;
-
-        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
-            if (SelectedComponent.Id == SelectedLoad.CctComponents[i].Id) {
-                _compIndex = Math.Min(i + 1, SelectedLoad.CctComponents.Count - 1);
-                SelectedLoad.CctComponents.Move(i, _compIndex);
-
-                SelectedComponent = (ComponentModel)SelectedLoad.CctComponents[_compIndex];
-
-            }
-        }
-        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
-            SelectedLoad.CctComponents[i].SequenceNumber = i;
-        }
-        SelectedLoad.CctComponents.OrderBy(x => x.SequenceNumber);
-        CableManager.AssignPowerCablesAsync(SelectedLoad, _listManager);
-
-    }
-
-    private void ToggleLoadDisconnect()
-    {
-        LoadModel selectedLoad = (LoadModel)SelectedLoad;
-        //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
-        try {
-            CableManager.AssignPowerCablesAsync(selectedLoad, _listManager);
-                }
-        catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
-        }
-    }
-    private void ToggleLoadDrive()
-    {
-        LoadModel selectedLoad = (LoadModel)SelectedLoad;
-        //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
-        try {
-            CableManager.AssignPowerCablesAsync(selectedLoad, _listManager);
-        }
-        catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
-        }
-    }
+    
     #endregion
 
     #region Public Commands
@@ -747,6 +680,77 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     #endregion
 
+    #region ComponentCommands
+    private void DeleteComponent()
+    {
+        ComponentManager.DeleteComponent(SelectedLoad, SelectedComponent, _listManager);
+    }
+
+    int _compIndex;
+    private void ComponentMoveUp()
+    {
+        if (SelectedLoad == null || SelectedComponent == null) return;
+
+        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
+            if (SelectedComponent.Id == SelectedLoad.CctComponents[i].Id) {
+                _compIndex = Math.Max(0, i - 1);
+                SelectedLoad.CctComponents.Move(i, _compIndex);
+                SelectedComponent = (ComponentModel)SelectedLoad.CctComponents[_compIndex];
+            }
+        }
+        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
+            SelectedLoad.CctComponents[i].SequenceNumber = i;
+        }
+        SelectedLoad.CctComponents.OrderBy(x => x.SequenceNumber);
+        CableManager.AssignPowerCablesAsync(SelectedLoad, _listManager);
+
+    }
+
+    private void ComponentMoveDown()
+    {
+        if (SelectedLoad == null || SelectedComponent == null) return;
+
+        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
+            if (SelectedComponent.Id == SelectedLoad.CctComponents[i].Id) {
+                _compIndex = Math.Min(i + 1, SelectedLoad.CctComponents.Count - 1);
+                SelectedLoad.CctComponents.Move(i, _compIndex);
+
+                SelectedComponent = (ComponentModel)SelectedLoad.CctComponents[_compIndex];
+
+            }
+        }
+        for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
+            SelectedLoad.CctComponents[i].SequenceNumber = i;
+        }
+        SelectedLoad.CctComponents.OrderBy(x => x.SequenceNumber);
+        CableManager.AssignPowerCablesAsync(SelectedLoad, _listManager);
+
+    }
+
+    private void ToggleLoadDisconnect()
+    {
+        LoadModel selectedLoad = (LoadModel)SelectedLoad;
+        //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
+        try {
+            CableManager.AssignPowerCablesAsync(selectedLoad, _listManager);
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
+    }
+    private void ToggleLoadDrive()
+    {
+        LoadModel selectedLoad = (LoadModel)SelectedLoad;
+        //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
+        try {
+            CableManager.AssignPowerCablesAsync(selectedLoad, _listManager);
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
+    }
+
+    #endregion  
 
     #region Helper Methods
     public void CreateValidators()
@@ -811,42 +815,6 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
     #endregion
-
-    #region Error Validation //INotifyDataErrorInfo
-    //public bool HasErrors => _errorDict.Any();
-    //public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
-    //public readonly Dictionary<string, List<string>> _errorDict = new Dictionary<string, List<string>>();
-
-    //private void ClearErrors(string propertyName)
-    //{
-    //    _errorDict.Remove(propertyName);
-    //    OnErrorsChanged(propertyName);
-    //}
-
-    //public void AddError(string propertyName, string errorMessage)
-    //{
-    //    if (!_errorDict.ContainsKey(propertyName)) { // check if error Key exists
-    //        _errorDict.Add(propertyName, new List<string>()); // create if not
-    //    }
-    //    _errorDict[propertyName].Add(errorMessage); //add error message to list of error messages
-    //    OnErrorsChanged(propertyName);
-    //}
-
-    //public IEnumerable GetErrors(string? propertyName)
-    //{
-    //    return _errorDict.GetValueOrDefault(propertyName, null);
-    //}
-
-    //private void OnErrorsChanged(string? propertyName)
-    //{
-    //    ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-    //}
-
-    #endregion
-
-
-
-
 
     #region WindowSizing
 
