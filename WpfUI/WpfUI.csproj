@@ -30,10 +30,20 @@
     <PackageReference Include="CefSharp.Wpf.NETCore" Version="99.2.120" />
     <PackageReference Include="CoreCompat.Portable.Licensing" Version="1.2.14" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
-    <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.1.0.55" />
-    <PackageReference Include="Syncfusion.Shared.WPF" Version="20.1.0.55" />
-    <PackageReference Include="Syncfusion.Themes.Office2016White.WPF" Version="20.1.0.55" />
-    <PackageReference Include="Syncfusion.Themes.Office2019Colorful.WPF" Version="20.1.0.55" />
+    <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Shared.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.Blend.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.FluentDark.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.MaterialLight.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.MaterialLightBlue.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.Metro.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.Office2013White.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.Office2016White.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.Office2019Black.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.Office2019Colorful.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.Office2019White.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.Office365.WPF" Version="20.1.0.58" />
+    <PackageReference Include="Syncfusion.Themes.SystemTheme.WPF" Version="20.1.0.58" />
     <PackageReference Include="Syncfusion.Tools.WPF" Version="20.1.0.55" />
   </ItemGroup>
 

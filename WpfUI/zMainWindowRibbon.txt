@@ -1,0 +1,217 @@
+﻿<syncfusion:RibbonWindow x:Class="WpfUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfUI"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                         
+       
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:syncfusionskin ="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+        syncfusionskin:SfSkinManager.VisualStyle="Office2019White"  
+                         
+        xmlns:viewmodels="clr-namespace:WpfUI.ViewModels"
+        xmlns:views="clr-namespace:WpfUI.Views"
+                         
+        mc:Ignorable="d"
+        Title="Electrical Design Tools"
+        d:Width="1600" d:Height="950"
+        Background="white"
+        WindowState="Maximized" 
+                         
+        Focusable="True"
+        PreviewKeyDown="Window_PreviewKeyDown"  >
+
+
+
+
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+
+
+
+        <syncfusion:Ribbon x:Name="_ribbon" VerticalAlignment="Top"
+                           Grid.Row="0" Grid.Column="0"
+                           EnableSimplifiedLayoutMode="True"
+                           LayoutMode="Simplified" SelectedIndexChanged="_ribbon_SelectedIndexChanged"
+                           >
+            
+            <syncfusion:RibbonTab Caption="HOME"  IsChecked="True">
+            </syncfusion:RibbonTab>
+
+
+            <syncfusion:RibbonTab Caption="PROJECT SETUP"  IsChecked="False"
+                                 Background="Blue" >
+
+                <syncfusion:RibbonBar >
+                 
+                
+                    <syncfusion:RibbonRadioButton Content="GENERAL"
+                                                  VerticalAlignment="Center"
+                                                  Height="50"
+                                                  Style="{StaticResource MainMenuButton}" PreviewMouseLeftButtonDown="RibbonRadioButton_PreviewMouseLeftButtonDown" 
+                                                  Command="{Binding NavigateGeneralSettingsCommand}"
+                                                   />
+                    <syncfusion:RibbonRadioButton Content="EQUIPMENT"
+                                                  x:Name="btnEquipmentSettings"
+                                                  VerticalAlignment="Center"
+                                                  Height="50"
+                                                  Style="{StaticResource MainMenuButton}" PreviewMouseLeftButtonDown="RibbonRadioButton_PreviewMouseLeftButtonDown" 
+                                                  Command="{Binding NavigateEquipmentSettingsCommand}"
+                                                  />
+                    <syncfusion:RibbonRadioButton Content="CABLE"
+                                                  x:Name="btnCableSettings"
+                                                  VerticalAlignment="Center"
+                                                  Height="50"
+                                                  Style="{StaticResource MainMenuButton}" PreviewMouseLeftButtonDown="RibbonRadioButton_PreviewMouseLeftButtonDown" 
+                                                  Command="{Binding NavigateCableSettingsCommand}"
+                                                  />
+                    <syncfusion:RibbonButton SizeForm="Large" Label="New Type"/>
+                </syncfusion:RibbonBar>
+                <syncfusion:RibbonBar Name="Manage" Width="auto"  Header="Manage">
+                    <syncfusion:RibbonButton HorizontalContentAlignment="Center" SizeForm="Large" Label="Manage Aircraft" VerticalAlignment="Center"/>
+                    <syncfusion:RibbonButton HorizontalContentAlignment="Center" SizeForm="Large" Label="Manage Types"/>
+                    <syncfusion:RibbonButton HorizontalContentAlignment="Center" SizeForm="Large" Label="Manage Op Configs"/>
+                    <syncfusion:RibbonRadioButton HorizontalContentAlignment="Center" Content="Manage Op Configs" Height="50" 
+                                                  Style="{StaticResource MainMenuButton}"/>
+                </syncfusion:RibbonBar>
+            </syncfusion:RibbonTab>
+
+
+            <syncfusion:RibbonTab Caption="AREAS &amp; SYSTEMS"  IsChecked="False">
+                <syncfusion:RibbonBar >
+                    
+                    <syncfusion:RibbonButton SizeForm="Large" Label="AREAS"
+                                             Command="{Binding NavigateAreasCommand}"
+                                             />
+                    
+                    <syncfusion:RibbonButton SizeForm="Large" Label="SYSTEMS"
+                                             Command="{Binding NavigateAreasCommand}"
+                                             />
+                </syncfusion:RibbonBar>
+            </syncfusion:RibbonTab>
+
+
+            <syncfusion:RibbonTab Caption="ELECTRICAL"  IsChecked="False">
+                <syncfusion:RibbonBar >
+
+                    <syncfusion:RibbonButton SizeForm="Large" Label="MAJOR EQUIPMENT"
+                                             Command="{Binding NavigateElectricalCommand}"
+                                             PreviewMouseDown="ElectricalMenuButton_PreviewMouseDown"/>
+
+                    <syncfusion:RibbonButton SizeForm="Large" Label="DISTRIBUTION PANELS"
+                                             Command="{Binding NavigateElectricalCommand}"
+                                             PreviewMouseDown="ElectricalMenuButton_PreviewMouseDown"/>
+
+                </syncfusion:RibbonBar>
+
+            </syncfusion:RibbonTab>
+            
+            <syncfusion:RibbonTab Caption="CABLES"  IsChecked="False">
+                <syncfusion:RibbonBar >
+
+                    <syncfusion:RibbonButton SizeForm="Large" Label="MAJOR EQUIPMENT"
+                                             Command="{Binding NavigateElectricalCommand}"
+                                             PreviewMouseDown="ElectricalMenuButton_PreviewMouseDown"/>
+
+                    <syncfusion:RibbonButton SizeForm="Large" Label="DISTRIBUTION PANELS"
+                                             Command="{Binding NavigateElectricalCommand}"
+                                             PreviewMouseDown="ElectricalMenuButton_PreviewMouseDown"/>
+
+                </syncfusion:RibbonBar>
+
+            </syncfusion:RibbonTab>
+
+            <syncfusion:Ribbon.BackStage>
+                <syncfusion:Backstage AnimationType="Fade"
+                                      AnimationDuration="0">
+                    <syncfusion:BackStageCommandButton Header="New Project" />
+                    <syncfusion:BackStageCommandButton Header="Open Project" />
+                    <syncfusion:BackStageCommandButton Header="Logout" />
+                    <syncfusion:BackStageSeparator/>
+                    <syncfusion:BackStageCommandButton Header="Exit" />
+                </syncfusion:Backstage>
+            </syncfusion:Ribbon.BackStage>
+        </syncfusion:Ribbon>
+
+
+
+        <!--Conten Control-->
+        <TextBlock  Grid.Row="2"
+                    Text="Electrical Design Tools"
+                    HorizontalAlignment="center"
+                    FontSize="30"
+                    Margin=" 0 100 0 0"/>
+
+        <Image x:Name="logo"
+               Source="Resources/pd.png"
+               Grid.Row="2" 
+               Width="350"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Margin="0 0 0 150">
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Image.Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="logo"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0" To="1" Duration="0:0:0.75"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+
+
+        <ContentControl x:Name="ccMain"
+                        Grid.Row="2" Grid.Column="0"
+                        Grid.RowSpan="1"
+                        Content="{Binding CurrentViewModel}"
+                        BorderBrush="Black"
+                        BorderThickness="0 1 0 0">
+
+            <ContentControl.Resources>
+
+                <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
+                    <views:HomeView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewmodels:SettingsViewModel}">
+                    <views:SettingsView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewmodels:AreasViewModel}">
+                    <views:AreasView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewmodels:ElectricalViewModel}">
+                    <views:ElectricalView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type viewmodels:CableListViewModel}">
+                    <views:CableListView/>
+                </DataTemplate>
+
+
+                <DataTemplate DataType="{x:Type viewmodels:DataTablesViewModel}">
+                    <views:DataTablesView/>
+                </DataTemplate>
+
+
+            </ContentControl.Resources>
+
+        </ContentControl>
+    </Grid>
+</syncfusion:RibbonWindow>
+

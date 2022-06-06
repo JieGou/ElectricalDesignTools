@@ -21,8 +21,10 @@
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property= "Margin" Value="0,0,0,0"/>
         <Setter Property="Padding" Value="20, 7, 10, 7"/>
+        
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="0,2,0,2"/>
+        
         <Setter Property= "HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -209,10 +211,15 @@
         <Setter Property="MinHeight" Value="25"/>
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Margin" Value="0"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="2 2 2 2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Border Background="Transparent">
+                    
+                    <Border Background="Transparent" 
+                            BorderThickness="0 0 0 0"
+                            BorderBrush="Black">
                         <!-- define your not selected template here...-->
                         <TextBlock Text="{Binding Path=Content,
                                                     RelativeSource={RelativeSource TemplatedParent}, 
@@ -226,13 +233,37 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="AliceBlue"
+                                    BorderBrush="Black"
+                                    BorderThickness="0 0 0 0">
+                                <!--<Border Background="{StaticResource ComboBox.MouseOver.Background}">-->
+                                <TextBlock Text="{Binding Path=Content,
+                                                    RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged}"
+                                       TextAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="5 0"/>
+                            </Border>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            
             <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Margin" Value="0 0 0 0" />
+
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
                             <Border Background="{DynamicResource ComboBox.MouseOver.Background}"
                                     BorderBrush="Black"
-                                    BorderThickness="1 0 1 0">
+                                    BorderThickness="1 0">
                                 <!--<Border Background="{StaticResource ComboBox.MouseOver.Background}">-->
                                     <TextBlock Text="{Binding Path=Content,
                                                     RelativeSource={RelativeSource TemplatedParent}, 
@@ -247,28 +278,7 @@
                     </Setter.Value>
                 </Setter>
             </Trigger>
-        <Trigger Property="IsMouseOver" Value="True">
-
-                <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                            <Border Background="AliceBlue"
-                                    BorderBrush="Black"
-                                    BorderThickness="1 0 1 0">
-                                <!--<Border Background="{StaticResource ComboBox.MouseOver.Background}">-->
-                                    <TextBlock Text="{Binding Path=Content,
-                                                    RelativeSource={RelativeSource TemplatedParent}, 
-                                                    Mode=TwoWay,
-                                                    UpdateSourceTrigger=PropertyChanged}"
-                                       TextAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Margin="5 0"/>
-                        </Border>
-
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Trigger>
+            
         </Style.Triggers>
     </Style>
 

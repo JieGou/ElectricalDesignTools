@@ -26,14 +26,17 @@ namespace EDTLibrary.Models.DistributionEquipment
         public static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
             
-                if (caller.FedFrom != null) {
+                if (caller.FedFrom != null) 
+                {
                     caller.FedFromId = newSupplier.Id;
                     caller.FedFromTag = newSupplier.Tag;
                     caller.FedFromType = newSupplier.GetType().ToString();
                 }
 
-                if (GlobalConfig.GettingRecords == false) {
-                    if (oldSupplier != null) {
+                if (GlobalConfig.GettingRecords == false) 
+                {
+                    if (oldSupplier != null) 
+                    {
                         caller.LoadingCalculated -= oldSupplier.OnAssignedLoadReCalculated;
                         oldSupplier.AssignedLoads.Remove(caller);
                         oldSupplier.CalculateLoading();
@@ -44,7 +47,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                     if (caller.Tag != "" &&
                         caller.Voltage != 0 &&
-                        caller.Fla != 0) {
+                        caller.Fla != 0) 
+                    {
                         caller.CalculateLoading();
                         caller.PowerCable.AssignTagging(caller);
                     }

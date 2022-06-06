@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WpfUI.Commands;
-
+using WpfUI.Views.SettingsSubViews;
 
 namespace WpfUI.ViewModels;
 
@@ -42,7 +42,15 @@ public class SettingsViewModel : ViewModelBase
     }
 
 
-    public UserControl SelectedSettingView { get; set; }
+    public UserControl SelectedSettingView
+    {
+        get => _selectedSettingView;
+        set 
+        { 
+            _selectedSettingView = value;
+            LoadVmSettings();
+        }
+    }
     public ObservableCollection<SettingModel> TableSettings { get; set; }
     public SettingModel SelectedTableSetting { get; set; }
 
@@ -50,7 +58,8 @@ public class SettingsViewModel : ViewModelBase
 
     #region Commands
 
-    public ICommand SelectProjectCommand { get; }
+    public ICommand NavigateGeneralSettingsCommand { get; }
+    private GeneralSettingsView _generalSettingsView = new GeneralSettingsView();
     public ICommand ReloadSettingsCommand { get; }
 
     public ICommand SaveStringSettingCommand { get; }
@@ -64,11 +73,17 @@ public class SettingsViewModel : ViewModelBase
         _typeManager = typeManager;
         // Create commands
 
+        NavigateGeneralSettingsCommand = new RelayCommand(NavigateGeneralSettings);
         ReloadSettingsCommand = new RelayCommand(LoadSettings);
 
         SaveStringSettingCommand = new RelayCommand(SaveStringSetting);
         SaveTableSettingCommand = new RelayCommand(SaveTableSettings);
 
+    }
+
+    private void NavigateGeneralSettings()
+    {
+        SelectedSettingView = _generalSettingsView;
     }
 
     //General
@@ -92,27 +107,10 @@ public class SettingsViewModel : ViewModelBase
             }
 
 
-            //if (_projectName != null) {
-            //    _projectName.PropertyChanged -= ProjectNameChanged;
-            //    _projectName.PropertyChanged += ProjectNameChanged;
-            //}
-
-
-            //void ProjectNameChanged(object sender, PropertyChangedEventArgs args)
-            //{ // OnPropertyChanged(nameof(ProjectName));
-            //   bool isValid = Regex.IsMatch(_projectName.Value, @"^[\sA-Z0-9_@#$%^&*()-]+$", RegexOptions.IgnoreCase);
-            //    if (isValid == false) {
-            //        AddError(nameof(ProjectName), "Invalid character");
-            //    }
-            //    else if (isValid) {
-            //        SaveVmSetting(nameof(ProjectName), _projectName);
-            //    }
-            //    OnPropertyChanged(nameof(ProjectName));
-            //}
         }
     }
 
-
+    //Project Details
 
     private string _projectNumber;
     public string ProjectNumber
@@ -127,16 +125,6 @@ public class SettingsViewModel : ViewModelBase
 
             SaveVmSetting(nameof(ProjectNumber), _projectNumber);
 
-
-            //if (_projectNumber != null) {
-            //    _projectNumber.PropertyChanged -= ProjectNumberChanged;
-            //    _projectNumber.PropertyChanged += ProjectNumberChanged;
-            //}
-
-            //void ProjectNumberChanged(object sender, PropertyChangedEventArgs args)
-            //{
-            //    SaveVmSetting(nameof(ProjectNumber), _projectNumber);
-            //}
         }
     }
     private string _projectTitleLine1;
@@ -202,7 +190,7 @@ public class SettingsViewModel : ViewModelBase
     }
 
 
-
+    //General
 
     private string _code;
     public string Code
@@ -325,6 +313,7 @@ public class SettingsViewModel : ViewModelBase
     private string _defaultLcsControlCableType;
     private string _defaultLcsControlCableSize;
     private static string _defaultLcsType;
+    private UserControl _selectedSettingView;
 
     public string DteqMaxPercentLoaded
     {
@@ -441,8 +430,8 @@ public class SettingsViewModel : ViewModelBase
     public string DefaultLcsType
     {
         get => _defaultLcsType;
-        set 
-        { 
+        set
+        {
             _defaultLcsType = value;
             SaveVmSetting(nameof(DefaultLcsType), _defaultLcsType);
 

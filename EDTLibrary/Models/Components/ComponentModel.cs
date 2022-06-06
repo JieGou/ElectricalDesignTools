@@ -35,7 +35,9 @@ public class ComponentModel : IComponent
             _tag = value;
             if (GlobalConfig.GettingRecords == false) {
                 if (Owner != null) {
-                    CableManager.AssignPowerCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
+                    if (CableManager.IsAssigningPowerCables == false) {
+                        CableManager.AssignPowerCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
+                    }
                 }
             }
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {

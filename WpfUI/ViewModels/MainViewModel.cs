@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Services;
+using WpfUI.Views.SettingsSubViews;
 
 namespace WpfUI.ViewModels
 {
@@ -56,14 +57,15 @@ namespace WpfUI.ViewModels
         }
 
 
-        private readonly HomeViewModel _homeViewModel;
-        private readonly SettingsViewModel _settingsViewModel;
-        private readonly AreasViewModel _areasViewModel;
-        private readonly ElectricalViewModel _electricalViewModel;
-        private readonly CableListViewModel _cableListViewModel;
-        private readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
+        public readonly HomeViewModel _homeViewModel;
+        public readonly SettingsViewModel _settingsViewModel;
+        public readonly AreasViewModel _areasViewModel;
+        public readonly ElectricalViewModel _electricalViewModel;
+        public readonly CableListViewModel _cableListViewModel;
+        public readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
-
+        public ICommand NavigateGeneralSettingsCommand { get; }
+        public ICommand NavigateCableSettingsCommand { get; }
 
         public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type="")
         {
@@ -87,6 +89,14 @@ namespace WpfUI.ViewModels
 
             NavigateStartupCommand = new RelayCommand(NavigateStartup);
             NavigateSettingsCommand = new RelayCommand(NavigateSettings, CanExecute_IsProjectLoaded);
+
+
+            //Settings
+            NavigateGeneralSettingsCommand = new RelayCommand(NavigateGeneralSettings, CanExecute_IsProjectLoaded);
+            NavigateCableSettingsCommand = new RelayCommand(NavigateCableSettings, CanExecute_IsProjectLoaded);
+
+
+
             NavigateAreasCommand = new RelayCommand(NavigateAreas, CanExecute_IsProjectLoaded);
 
             NavigateElectricalCommand = new RelayCommand(NavigateEquipment, startupService);
@@ -112,6 +122,18 @@ namespace WpfUI.ViewModels
             _startupService.ProjectLoaded += _electricalViewModel.OnProjectLoaded;
         }
 
+
+        //Settings
+        private void NavigateGeneralSettings()
+        {
+            CurrentViewModel = _settingsViewModel;
+            _settingsViewModel.SelectedSettingView = new GeneralSettingsView();
+        }
+        private void NavigateCableSettings()
+        {
+            CurrentViewModel = _settingsViewModel;
+            _settingsViewModel.SelectedSettingView = new CableSettingsView();
+        }
         private void ExcelTest()
         {
             HelperExcelInterop.WriteToExcel();

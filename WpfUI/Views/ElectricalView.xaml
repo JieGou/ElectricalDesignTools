@@ -83,7 +83,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border BorderThickness="0 2 0 2" BorderBrush="Black" Background="{StaticResource Darkest}">
+        <Border BorderThickness="0 0 0 2" BorderBrush="Black" Background="{StaticResource Darkest}">
 
 
             <StackPanel Orientation="Horizontal">

@@ -46,7 +46,10 @@ namespace EDTLibrary.Models.Loads
                         PowerCable.AssignTagging(this);
                     }
                     if (PowerCable != null && FedFrom != null) {
-                        CableManager.AssignPowerCablesAsync(this, ScenarioManager.ListManager);
+                        if (CableManager.IsAssigningPowerCables == false) {
+                            CableManager.AssignPowerCablesAsync(this, ScenarioManager.ListManager);
+
+                        }
                     }
                 }
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {

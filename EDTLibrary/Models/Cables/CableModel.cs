@@ -1,4 +1,5 @@
 ﻿
+using EDTLibrary;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Managers;
@@ -99,7 +100,9 @@ public class CableModel : ICable
             }
             if (GlobalConfig.GettingRecords == false) {
                 CalculateCableQtyAndSize();
-                CableManager.AssignPowerCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
+                if (CableManager.IsAssigningPowerCables == false) {
+                    CableManager.AssignPowerCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
+                }
             }
             OnPropertyUpdated();
         }

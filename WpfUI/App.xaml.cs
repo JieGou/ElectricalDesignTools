@@ -30,8 +30,12 @@ namespace WpfUI
                 //DataContext = new MainViewModel(_navigationStore) 
             };
 
+
+
             MainWindow.Show();
             base.OnStartup(e);
+
+           
         }
     }
 }

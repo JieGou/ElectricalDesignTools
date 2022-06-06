@@ -19,11 +19,7 @@ namespace WpfUI.Views
             InitializeComponent();
         }
 
-        private void dgdTableSetting_MouseLeave(object sender, MouseEventArgs e)
-        {
-        }
-
-
+      
         /// <summary>
         /// Changes checkbox columsn to Template checkbox columsn for single clickable check boxes
         /// </summary>

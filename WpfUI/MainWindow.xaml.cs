@@ -8,6 +8,7 @@ using WpfUI.Services;
 using WpfUI.ViewModels;
 using Syncfusion.Windows.Tools.Controls;
 using System.Windows.Interop;
+using WpfUI.Views.SettingsSubViews;
 
 namespace WpfUI;
 
@@ -78,7 +79,38 @@ public partial class MainWindow : Window
             mainVm.NewWindow(new ElectricalViewModel(mainVm._listManager));
         }
     }
-    
+
+    private void _ribbon_SelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        //if (mainVm != null) {
+        //    if (_ribbon.SelectedIndex == 0) {
+        //        mainVm.CurrentViewModel = mainVm._homeViewModel;
+        //    }
+        //}
+
+            //else if (_ribbon.SelectedIndex == 1) {
+            //    mainVm.CurrentViewModel = mainVm._settingsViewModel;
+            //}
+            //else if (_ribbon.SelectedIndex == 2) {
+            //    mainVm.CurrentViewModel = mainVm._areasViewModel;
+            //}
+            //else if (_ribbon.SelectedIndex == 3) {
+            //    mainVm.CurrentViewModel = mainVm._electricalViewModel;
+            //}
+            //else if (_ribbon.SelectedIndex == 4) {
+            //    mainVm.CurrentViewModel = mainVm._cableListViewModel;
+            //}
+        
+    }
+
+    private void RibbonRadioButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        //mainVm.CurrentViewModel = mainVm._settingsViewModel;
+        //mainVm._settingsViewModel.SelectedSettingView = new GeneralSettingsView();
+        //mainVm._settingsViewModel.SelectedSettingView.DataContext = mainVm.CurrentViewModel;
+
+
+    }
 }
 
 

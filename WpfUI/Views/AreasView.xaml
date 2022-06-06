@@ -53,7 +53,7 @@
 
 
 
-        <Label Content="AREAS &amp; LOCATIONS"
+        <Label Content="AREAS &amp; SYSTEMS"
                Style="{StaticResource TitleLabelStyleBase}"
                Background="#FF1B5F44"
                Foreground="White"/>

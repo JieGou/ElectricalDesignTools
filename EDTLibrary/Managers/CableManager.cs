@@ -42,12 +42,13 @@ public class CableManager
     }
 
 
+    public static bool IsAssigningPowerCables { get; set; }    
     public static async Task AssignPowerCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
-
+        IsAssigningPowerCables = true;
         Stopwatch sw = new Stopwatch();
         sw.Start();
-        Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
+        Debug.Print($"Start {sw.Elapsed.TotalMilliseconds.ToString()}");
 
         if (powerComponentOwner == null) return;
 
@@ -125,7 +126,9 @@ public class CableManager
             ex.Data.Add("UserMessage", "Adding cable for components error");
             throw;
         }
+        sw.Stop();
         Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
+        IsAssigningPowerCables = false;
 
 
 

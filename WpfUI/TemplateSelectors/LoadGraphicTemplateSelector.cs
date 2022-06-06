@@ -16,10 +16,9 @@ public class LoadGraphicTemplateSelector : DataTemplateSelector
 
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
-        var selectedTemplate = HeaterTemplate;
-        if (item == null) return MotorTemplate;
-
+        var selectedTemplate = MotorTemplate;
         var load = (LoadModel)item;
+        if (load == null) return selectedTemplate;
 
         if (load.Type == LoadTypes.MOTOR.ToString()) {
 
