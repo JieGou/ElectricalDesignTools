@@ -21,6 +21,27 @@ namespace WpfUI.ViewModels;
 
 public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
 {
+    private readonly StartupService _startupService;
+    private readonly HomeViewModel _homeViewModel;
+    private bool _sameName = true;
+    private string _projectName;
+    private string _fileName;
+
+    private readonly TypeManager _typeManager;
+    private readonly MainViewModel _mainViewModel;
+
+    public TypeManager TypeManager => _typeManager; // for Code selection in the View
+
+    public NewProjectViewModel(MainViewModel mainViewModel, TypeManager typeManager, StartupService startupService, HomeViewModel homeViewModel)
+    {
+        _mainViewModel = mainViewModel;
+        _typeManager = typeManager;
+        _startupService = startupService;
+        _homeViewModel = homeViewModel;
+        SelectFolderCommand = new RelayCommand(SelectFolder);
+        CreateProjectCommand = new RelayCommand(CreateProject);
+    }
+
     public string ProjectName
     {
         get => _projectName;
@@ -87,23 +108,7 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
 
-    private readonly StartupService _startupService;
-    private readonly HomeViewModel _homeViewModel;
-    private bool _sameName = true;
-    private string _projectName;
-    private string _fileName;
- 
-    private readonly TypeManager _typeManager;
-    public TypeManager TypeManager => _typeManager; // for Code selection in the View
-
-    public NewProjectViewModel(TypeManager typeManager, StartupService startupService, HomeViewModel homeViewModel)
-    {
-        _typeManager = typeManager;
-        _startupService = startupService;
-        _homeViewModel = homeViewModel;
-        SelectFolderCommand = new RelayCommand(SelectFolder);
-        CreateProjectCommand = new RelayCommand(CreateProject);
-    }
+   
 
     public ICommand SelectFolderCommand { get; }
     public ICommand CreateProjectCommand { get; }
@@ -151,7 +156,7 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
                 _startupService.InitializeLibrary();
                 _homeViewModel.StartupService.SetSelectedProject(fullFileName);
                 _startupService.InitializeProject(fullFileName);
-                var settingVm = new SettingsViewModel(new EDTLibrary.ProjectSettings.EdtSettings(), _typeManager);
+                var settingVm = new SettingsMenuViewModel(_mainViewModel, new EDTLibrary.ProjectSettings.EdtSettings(), _typeManager);
                 settingVm.ProjectName = ProjectName;
                 _homeViewModel.NewProjectWindow.Close();
             }

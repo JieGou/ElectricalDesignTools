@@ -10,6 +10,10 @@
                          
         xmlns:viewmodels="clr-namespace:WpfUI.ViewModels"
         xmlns:views="clr-namespace:WpfUI.Views"
+        
+        xmlns:settingsViews="clr-namespace:WpfUI.Views.Settings"
+        xmlns:settingsViewModels="clr-namespace:WpfUI.ViewModels.Settings"
+        
         xmlns:electricalViews="clr-namespace:WpfUI.Views.Electrical"
         xmlns:electricalViewModels="clr-namespace:WpfUI.ViewModels.Electrical"
         
@@ -93,14 +97,12 @@
 
                     <RadioButton Content="PROJECT SETUP"
                              GroupName="menu"
-                             MinWidth="120"
                              Style="{StaticResource MainMenuButton}" 
                              VerticalAlignment="Top"
                              Command="{Binding NavigateSettingsCommand}"/>
 
 
                     <RadioButton Content="AREAS &amp; SYSTEMS"
-                             MinWidth="120"
                              VerticalAlignment="Top"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
@@ -114,18 +116,18 @@
                              Command="{Binding NavigateElectricalCommand}"
                              PreviewMouseDown="ElectricalMenuButton_PreviewMouseDown"/>
 
-                    <RadioButton Content="INSTRUMENTATION"
+                    <!--<RadioButton Content="INSTRUMENTATION"
                              GroupName="menu"
                              Width="120"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"
-                             Command="{Binding NavigateElectricalCommand}"/>
+                             Command="{Binding NavigateElectricalCommand}"/>-->
 
                     <RadioButton Content="CABLE &amp; TRAY"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"
-                             Command="{Binding NavigateCableListCommand}"
+                             Command="{Binding NavigateCablesCommand}"
                              PreviewMouseDown="CableMenuButton_PreviewMouseDown"
                              />
 
@@ -150,7 +152,6 @@
                             HorizontalAlignment="Right"
                             Command="{Binding ScenarioCommand}"
                             Margin="50 0 0 0"
-                            Width="110"
                             FontSize="12"/>
 
 
@@ -165,7 +166,7 @@
                 Grid.Row="1">
             <ContentControl x:Name="ccMenu"
                             Grid.Row="1"
-                            Height="35"
+                            Height="36"
                             Content="{Binding MenuViewModel}"
                             >
                 <ContentControl.Resources>
@@ -173,10 +174,15 @@
                     <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
                         <views:HomeView/>
                     </DataTemplate>
-
-                    <DataTemplate DataType="{x:Type viewmodels:ElectricalViewModel}">
-                        <views:ElectricalView/>
+                    
+                    <DataTemplate DataType="{x:Type viewmodels:SettingsMenuViewModel}">
+                        <views:SettingsMenuView/>
                     </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewmodels:ElectricalMenuViewModel}">
+                        <views:ElectricalMenuView/>
+                    </DataTemplate>
+                    
                 </ContentControl.Resources>
 
             </ContentControl>
@@ -227,19 +233,31 @@
                     <views:HomeView/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewmodels:SettingsViewModel}">
-                    <views:SettingsView/>
+                <!--Settings-->
+                <DataTemplate DataType="{x:Type viewmodels:SettingsMenuViewModel}">
+                    <views:SettingsMenuView/>
+                </DataTemplate>
+                
+                <DataTemplate DataType="{x:Type settingsViewModels:GeneralSettingsViewModel}">
+                    <settingsViews:GeneralSettingsView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type settingsViewModels:CableSettingsViewModel}">
+                    <settingsViews:CableSettingsView/>
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type viewmodels:AreasViewModel}">
                     <views:AreasView/>
                 </DataTemplate>
 
+                <!--Electrical-->
                 <DataTemplate DataType="{x:Type electricalViewModels:MjeqViewModel}">
                     <electricalViews:_MjeqView/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewmodels:CableListViewModel}">
+                
+                <!--Cables-->
+                <DataTemplate DataType="{x:Type viewmodels:CablesViewModel}">
                     <views:CableListView/>
                 </DataTemplate>
 

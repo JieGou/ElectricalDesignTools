@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.Views.SettingsSubViews.CableSettingsView"
+﻿<UserControl x:Class="WpfUI.Views.Settings.CableSettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -274,7 +274,7 @@
                               AutoGenerateColumns="False"
                               SelectedItem="{Binding SelectedCableType}"
                               RowHeaderWidth="0"
-                              SelectionMode="Single" MouseLeave="DataGrid_MouseLeave"
+                              SelectionMode="Single"
                               >
                             <DataGrid.Columns>
 
@@ -335,8 +335,7 @@
                               SelectionUnit="Cell"
                               SelectionMode="Single"
                               ItemsSource="{Binding Path=SelectedCableSizes, Mode=TwoWay, UpdateSourceTrigger=Explicit, IsAsync=True}"
-                              AutoGenerateColumns="False" 
-                              MouseLeave="dgdCableSizes_MouseLeave">
+                              AutoGenerateColumns="False">
                             <DataGrid.Columns>
                                 <!--Type-->
                                 <!--<DataGridTextColumn Header="Type"

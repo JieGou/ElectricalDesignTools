@@ -16,7 +16,7 @@ namespace WpfUI.ViewModels
         
 
         private string _selectedProject;
-
+        private readonly MainViewModel _mainViewModel;
         private StartupService _startupService;
         public StartupService StartupService
         {
@@ -31,8 +31,9 @@ namespace WpfUI.ViewModels
         public ICommand SelectProjectCommand { get; }
         public Window NewProjectWindow {get; set;}  
 
-        public HomeViewModel(StartupService startupService, ListManager listManager)
+        public HomeViewModel(MainViewModel mainViewModel, StartupService startupService, ListManager listManager)
         {
+            _mainViewModel = mainViewModel;
             _startupService = startupService;
             _listManager = listManager;
             _startupService.SetSelectedProject(AppSettings.Default.ProjectDb);
@@ -46,6 +47,7 @@ namespace WpfUI.ViewModels
             
             NewProjectWindow = new NewProjectWindow();
             NewProjectViewModel newProjectVm = new NewProjectViewModel(
+                _mainViewModel,
                 new EDTLibrary.LibraryData.TypeTables.TypeManager(),
                 new StartupService(_listManager),
                 this);

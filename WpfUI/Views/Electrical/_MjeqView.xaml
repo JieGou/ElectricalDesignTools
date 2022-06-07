@@ -23,7 +23,8 @@
               
              mc:Ignorable="d"
              d:Width="1500" d:Height="1000"
-             Background="#FFDAEEF1" PreviewKeyDown="eqView_PreviewKeyDown" Unloaded="eqView_Unloaded" MouseLeave="eqView_MouseLeave" 
+             Background="#FFDAEEF1" 
+             PreviewKeyDown="eqView_PreviewKeyDown" Unloaded="eqView_Unloaded" MouseLeave="eqView_MouseLeave" 
              >
 
     <!--#FFDAEEF1-->
@@ -569,16 +570,17 @@
                                                  SortMemberPath="LineVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding LineVoltage,  StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"
+                                    <TextBlock Text="{Binding LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"
                                                MouseLeftButtonDown="FastEditEvent"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
 
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes}"
+                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},Path=DataContext.TypeManager.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedValue="{Binding Path=LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Text="{Binding LineVoltage}"
+                                              DisplayMemberPath="Voltage"
+                                              SelectedValuePath="Voltage"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
@@ -596,16 +598,17 @@
                                                 SortMemberPath="LoadVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding LoadVoltage,  StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"
+                                    <TextBlock Text="{Binding LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"
                                                MouseLeftButtonDown="FastEditEvent"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
 
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes}"
+                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},Path=DataContext.TypeManager.VoltageTypes}"
                                               SelectedValue="{Binding Path=LoadVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Text="{Binding LoadVoltage}"
+                                              DisplayMemberPath="Voltage"
+                                              SelectedValuePath="Voltage"
                                               HorizontalContentAlignment="Center"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
@@ -1488,10 +1491,11 @@
 
                             <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},Path=DataContext.TypeManager.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedValue="{Binding Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Text="{Binding Voltage, ValidatesOnDataErrors=True}"
                                               HorizontalContentAlignment="Center"
+                                              DisplayMemberPath="Voltage"
+                                              SelectedValuePath="Voltage"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"

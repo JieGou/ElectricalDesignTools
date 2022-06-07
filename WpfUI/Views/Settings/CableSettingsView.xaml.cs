@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.ProjectSettings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,25 +14,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfUI.ViewModels;
 
-namespace WpfUI.Views.SettingsSubViews;
+namespace WpfUI.Views.Settings;
 /// <summary>
 /// Interaction logic for GeneralSettingsView.xaml
 /// </summary>
-public partial class DeveloperSettingsView : UserControl
+public partial class CableSettingsView : UserControl
 {
-    public DeveloperSettingsView()
+    private SettingsMenuViewModel settingsVm { get { return DataContext as SettingsMenuViewModel; } }
+
+    public CableSettingsView()
     {
         InitializeComponent();
     }
 
-    private void dgdTableSetting_MouseLeave(object sender, MouseEventArgs e)
-    {
-        //dgdTableSetting.CommitEdit();
-        dgdCableSizes.CommitEdit();
-    }
-
-
+   
     /// <summary>
     /// Changes checkbox columsn to Template checkbox columsn for single clickable check boxes
     /// </summary>
@@ -58,6 +56,27 @@ public partial class DeveloperSettingsView : UserControl
             e.Cancel = true;
 
         }
+
+    }
+
+    private void btnSaveSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        foreach (var prop in typeof(EdtSettings).GetProperties()) {
+            foreach (var setting in SettingsManager.SettingList) {
+                if (prop.Name==setting.Name) {
+                    setting.Value = prop.GetValue(settingsVm.EdtSettings).ToString();
+                }
+            }
+        }
+    }
+
+    private void dgdCableSizes_MouseLeave(object sender, MouseEventArgs e)
+    {
+
+    }
+
+    private void DataGrid_MouseLeave(object sender, MouseEventArgs e)
+    {
 
     }
 }

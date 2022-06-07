@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.Views.SettingsView"
+﻿<UserControl x:Class="WpfUI.Views.SettingsMenuView"
              x:Name="settingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,12 +7,11 @@
              
              xmlns:local="clr-namespace:WpfUI.Views"
              xmlns:commands="clr-namespace:WpfUI.Commands"
-             xmlns:subViews="clr-namespace:WpfUI.Views.SettingsSubViews"
              
              
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:Width="1600" d:Height="900" 
+             d:Width="1600" d:Height="36" 
              Background="AliceBlue">
     
 
@@ -34,7 +33,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="Black" BorderThickness="0 1 0 1"
+        <Border BorderBrush="Black" BorderThickness="0 0 0 1"
                 Background="#FF144D80">
 
             <Grid>
@@ -49,11 +48,12 @@
                            MinWidth="300"
                            Style="{StaticResource TitleLabelStyleBase}"
                            BorderThickness="0"
-                           Margin="0 0 50 0"/>
+                           Margin="0 0 0 0"/>
                
                 <!--//MENU BUTTONS-->
                     <Button Content="GENERAL" x:Name="btnGeneral"
                             Style="{StaticResource ToolBarButtonBase}"
+                            Command="{Binding NavigateGeneralSettingsCommand}"
                             ToolTip="Project details and general setup" PreviewMouseDown="btnGeneralSettings_PreviewMouseDown">
                         <!--<Button.RenderTransform>
                             <TranslateTransform x:Name="TranslateTransformGeneral"
@@ -121,13 +121,15 @@
                     
                     <Button Content="CABLE"
                             Style="{StaticResource ToolBarButtonBase}" PreviewMouseDown="Button_PreviewMouseDown"
+                            Command="{Binding NavigateCableSettingsCommand}"
+                            
                             />
                 </StackPanel>
                    
             </Grid>
         </Border>
         
-        <Grid Grid.Row="2" 
+        <!--<Grid Grid.Row="2" 
               x:Name="settingsGrid"
               d:Opacity="1"
               Opacity="0">
@@ -154,6 +156,6 @@
 
             <ContentControl x:Name="ccSettingPage" Content="{Binding SelectedSettingView}"/>
 
-        </Grid>
+        </Grid>-->
     </Grid>
 </UserControl>

@@ -16,7 +16,7 @@ using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Services;
 using WpfUI.ViewModels.Electrical;
-using WpfUI.Views.SettingsSubViews;
+using WpfUI.Views.Settings;
 
 namespace WpfUI.ViewModels
 {
@@ -74,11 +74,11 @@ namespace WpfUI.ViewModels
 
 
         public readonly HomeViewModel _homeViewModel;
-        public readonly SettingsViewModel _settingsViewModel;
+        public readonly SettingsMenuViewModel _settingsMenuViewModel;
         public readonly AreasViewModel _areasViewModel;
 
         //Electrical
-        public readonly ElectricalViewModel _electricalViewModel;
+        public readonly ElectricalMenuViewModel _electricalMenuViewModel;
         public readonly MjeqViewModel _mjeqViewModel;
 
 
@@ -86,11 +86,10 @@ namespace WpfUI.ViewModels
 
 
 
-        public readonly CableListViewModel _cableListViewModel;
+        public readonly CablesViewModel _cableListViewModel;
         public readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
-        public ICommand NavigateGeneralSettingsCommand { get; }
-        public ICommand NavigateCableSettingsCommand { get; }
+      
 
         public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type="")
         {
@@ -104,14 +103,14 @@ namespace WpfUI.ViewModels
             _startupService = startupService;
             _edtSettings = edtSettings;
 
-            _homeViewModel = new HomeViewModel(startupService, listManager);
-            _settingsViewModel = new SettingsViewModel(edtSettings, typeManager);
+            _homeViewModel = new HomeViewModel(this, startupService, listManager);
+            _settingsMenuViewModel = new SettingsMenuViewModel(this, edtSettings, typeManager);
             _areasViewModel = new AreasViewModel(listManager);
 
             //Electrical
-            _electricalViewModel = new ElectricalViewModel(this, listManager);
+            _electricalMenuViewModel = new ElectricalMenuViewModel(this, listManager);
             _mjeqViewModel = new MjeqViewModel(listManager);
-            _cableListViewModel = new CableListViewModel(listManager);
+            _cableListViewModel = new CablesViewModel(listManager);
 
 
 
@@ -129,7 +128,7 @@ namespace WpfUI.ViewModels
 
             NavigateElectricalCommand = new RelayCommand(NavigateElectical, startupService);
 
-            NavigateCableListCommand = new RelayCommand(NavigateCableList, CanExecute_IsProjectLoaded);
+            NavigateCablesCommand = new RelayCommand(NavigateCables, CanExecute_IsProjectLoaded);
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables, CanExecute_IsLibraryLoaded);
 
 
@@ -153,13 +152,13 @@ namespace WpfUI.ViewModels
         //Settings
         private void NavigateGeneralSettings()
         {
-            CurrentViewModel = _settingsViewModel;
-            _settingsViewModel.SelectedSettingView = new GeneralSettingsView();
+            CurrentViewModel = _settingsMenuViewModel;
+            _settingsMenuViewModel.SelectedSettingView = new GeneralSettingsView();
         }
         private void NavigateCableSettings()
         {
-            CurrentViewModel = _settingsViewModel;
-            _settingsViewModel.SelectedSettingView = new CableSettingsView();
+            CurrentViewModel = _settingsMenuViewModel;
+            _settingsMenuViewModel.SelectedSettingView = new CableSettingsView();
         }
         private void ExcelTest()
         {
@@ -170,12 +169,25 @@ namespace WpfUI.ViewModels
 
         #region Navigation
         public ICommand NavigateStartupCommand { get; }
+
+        //Settings
         public ICommand NavigateSettingsCommand { get; }
+        public ICommand NavigateGeneralSettingsCommand { get; }
+        public ICommand NavigateCableSettingsCommand { get; }
+
+        //Area & Systems
         public ICommand NavigateAreasCommand { get; }
+
+        //Electrical
         public ICommand NavigateElectricalCommand { get; }
-        public ICommand NavigateCableListCommand { get; }
+
+        //Cables
+        public ICommand NavigateCablesCommand { get; }
+
         public ICommand NavigateDataTablesCommand { get; }
+
         public ICommand ExportCommand { get; }
+
         public ICommand ScenarioCommand { get; }
 
         private void NavigateHome()
@@ -185,8 +197,9 @@ namespace WpfUI.ViewModels
         }
         private void NavigateSettings()
         {
-            _settingsViewModel.LoadVmSettings();
-            CurrentViewModel = _settingsViewModel;
+            _settingsMenuViewModel.LoadVmSettings();
+            MenuViewModel = _settingsMenuViewModel;
+            //CurrentViewModel = _settingsViewModel;
         }
         private void NavigateAreas()
         {
@@ -195,14 +208,17 @@ namespace WpfUI.ViewModels
         }
         private void NavigateElectical()
         {
-            MenuViewModel = _electricalViewModel;
+            MenuViewModel = _electricalMenuViewModel;
+
+
+            //Below is For Ribbon Window
             //CurrentViewModel = _mjeqViewModel;
             //_mjeqViewModel.CreateValidators();
             //_mjeqViewModel.CreateComboBoxLists();
             //_mjeqViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
             //_mjeqViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
         }
-        private void NavigateCableList()
+        private void NavigateCables()
         {
             CurrentViewModel = _cableListViewModel;
         }

@@ -64,10 +64,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AppSettings.settings</DependentUpon>
     </Compile>
-    <Compile Update="Views\SettingsSubViews\DeveloperSettingsView.xaml.cs">
+    <Compile Update="Views\Settings\DeveloperSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\SettingsSubViews\CableSettingsView.xaml.cs">
+    <Compile Update="Views\Settings\CableSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -96,11 +96,11 @@
     <Page Update="Views\Electrical\MjeqSubviews\LoadSummaryDetailsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Views\SettingsSubViews\DeveloperSettingsView.xaml">
+    <Page Update="Views\Settings\DeveloperSettingsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\SettingsSubViews\CableSettingsView.xaml">
+    <Page Update="Views\Settings\CableSettingsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

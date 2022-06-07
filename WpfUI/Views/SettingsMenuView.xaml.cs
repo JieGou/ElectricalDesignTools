@@ -4,18 +4,18 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using WpfUI.ViewModels;
-using WpfUI.Views.SettingsSubViews;
+using WpfUI.Views.Settings;
 
 namespace WpfUI.Views
 {
     /// <summary>
     /// Interaction logic for ProjectSettingsView.xaml
     /// </summary>
-    public partial class SettingsView : UserControl
+    public partial class SettingsMenuView : UserControl
     {
-        private SettingsViewModel settingsVm { get { return DataContext as SettingsViewModel; } }
+        private SettingsMenuViewModel settingsVm { get { return DataContext as SettingsMenuViewModel; } }
 
-        public SettingsView() {
+        public SettingsMenuView() {
             InitializeComponent();
         }
 

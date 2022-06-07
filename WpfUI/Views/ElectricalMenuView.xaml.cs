@@ -24,14 +24,14 @@ namespace WpfUI.Views;
 /// <summary>
 /// Interaction logic for EqView.xaml
 /// </summary>
-public partial class ElectricalView : UserControl
+public partial class ElectricalMenuView : UserControl
 {
-    private ElectricalViewModel elecVm { get { return DataContext as ElectricalViewModel; } }
+    private ElectricalMenuViewModel elecVm { get { return DataContext as ElectricalMenuViewModel; } }
 
     DteqDetailView _dteqDetailsView = new DteqDetailView();
     LoadDetailView _loaDetailView = new LoadDetailView();
 
-    public ElectricalView()
+    public ElectricalMenuView()
     {
         InitializeComponent();
        

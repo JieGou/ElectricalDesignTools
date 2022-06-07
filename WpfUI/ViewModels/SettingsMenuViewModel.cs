@@ -13,21 +13,51 @@ using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WpfUI.Commands;
-using WpfUI.Views.SettingsSubViews;
+using WpfUI.ViewModels.Settings;
+using WpfUI.Views.Settings;
 
 namespace WpfUI.ViewModels;
 
 [AddINotifyPropertyChangedInterface]
 
-public class SettingsViewModel : ViewModelBase
+public class SettingsMenuViewModel : ViewModelBase
 {
+    public SettingsMenuViewModel(MainViewModel mainViewModel, EdtSettings edtSettings, TypeManager typeManager)
+    {
+        _mainViewModel = mainViewModel;
+        _edtSettings = edtSettings;
+        _typeManager = typeManager;
+        // Create commands
+
+        _generalSettingsViewModel = new GeneralSettingsViewModel(_edtSettings, _typeManager);
+        NavigateGeneralSettingsCommand = new RelayCommand(NavigateGeneralSettings);
+
+        _cableSettingsViewModel = new CableSettingsViewModel(edtSettings, _typeManager);
+        NavigateCableSettingsCommand = new RelayCommand(NavigateCableSettings);
+    }
+
+    private GeneralSettingsViewModel _generalSettingsViewModel;
+    private void NavigateGeneralSettings()
+    {
+        _generalSettingsViewModel.LoadVmSettings(_generalSettingsViewModel);
+        _mainViewModel.CurrentViewModel = _generalSettingsViewModel;
+    }
+
+    private CableSettingsViewModel _cableSettingsViewModel;
+    private void NavigateCableSettings()
+    {
+        _cableSettingsViewModel.LoadVmSettings(_cableSettingsViewModel);
+        _mainViewModel.CurrentViewModel = _cableSettingsViewModel;
+    }
 
     #region Properties and Backing Fields
+
+
 
     public ObservableCollection<SettingModel> StringSettings { get; set; }
     public SettingModel SelectedStringSetting { get; set; }
 
-
+    private readonly MainViewModel _mainViewModel;
     private EdtSettings _edtSettings;
     public EdtSettings EdtSettings
     {
@@ -59,32 +89,14 @@ public class SettingsViewModel : ViewModelBase
     #region Commands
 
     public ICommand NavigateGeneralSettingsCommand { get; }
-    private GeneralSettingsView _generalSettingsView = new GeneralSettingsView();
-    public ICommand ReloadSettingsCommand { get; }
-
-    public ICommand SaveStringSettingCommand { get; }
-    public ICommand SaveTableSettingCommand { get; }
+    public ICommand NavigateCableSettingsCommand { get; }
 
     #endregion
 
-    public SettingsViewModel(EdtSettings edtSettings, TypeManager typeManager)
-    {
-        _edtSettings = edtSettings;
-        _typeManager = typeManager;
-        // Create commands
 
-        NavigateGeneralSettingsCommand = new RelayCommand(NavigateGeneralSettings);
-        ReloadSettingsCommand = new RelayCommand(LoadSettings);
+    
 
-        SaveStringSettingCommand = new RelayCommand(SaveStringSetting);
-        SaveTableSettingCommand = new RelayCommand(SaveTableSettings);
 
-    }
-
-    private void NavigateGeneralSettings()
-    {
-        SelectedSettingView = _generalSettingsView;
-    }
 
     //General
 
@@ -205,6 +217,7 @@ public class SettingsViewModel : ViewModelBase
 
 
     //Cable
+    #region
     public ObservableCollection<CableSizeModel> CableSizesUsedInProject { get; set; }
     private CableTypeModel _selectedCableType;
 
@@ -274,6 +287,7 @@ public class SettingsViewModel : ViewModelBase
     private string _defaultCableType_3ph15kV;
     private string _cableSpacingMaxAmps_3C1kV;
     private string loadFactorDefault;
+    private string _defaultLcsControlCableType;
 
 
     public string CableType3C1kVPower { get; set; }
@@ -302,16 +316,18 @@ public class SettingsViewModel : ViewModelBase
         }
     }
 
+    #endregion
+
 
     //Dteq
-
+    #region
+    private string _defaultLcsControlCableSize;
     private string _dteqMaxPercentLoaded;
     private string _defaultXfrImpedance;
     private string _loadDefaultPdTypeLV_NonMotor;
     private string _loadDefaultPdTypeLV_Motor;
     private string _dteqDefaultPdTypeLV;
-    private string _defaultLcsControlCableType;
-    private string _defaultLcsControlCableSize;
+   
     private static string _defaultLcsType;
     private UserControl _selectedSettingView;
 
@@ -367,7 +383,7 @@ public class SettingsViewModel : ViewModelBase
             }
         }
     }
-
+    #endregion
 
 
     //Voltage
@@ -448,7 +464,7 @@ public class SettingsViewModel : ViewModelBase
     public void LoadVmSettings()
     {
         Type projectSettingsClass = typeof(EdtSettings);
-        Type viewModelSettings = typeof(SettingsViewModel);
+        Type viewModelSettings = typeof(SettingsMenuViewModel);
 
         foreach (var classProperty in projectSettingsClass.GetProperties()) {
             foreach (var viewModelProperty in viewModelSettings.GetProperties()) {
@@ -494,39 +510,4 @@ public class SettingsViewModel : ViewModelBase
         }
     }
 
-
-    //Developer (old)
-    public void LoadSettings()
-    {
-        SettingsManager.LoadProjectSettings();
-        StringSettings = new ObservableCollection<SettingModel>(SettingsManager.StringSettingList);
-        TableSettings = new ObservableCollection<SettingModel>(SettingsManager.TableSettingList);
-
-    }
-    private void SaveStringSetting()
-    {
-        SettingsManager.SaveStringSetting(SelectedStringSetting);
-    }
-    public void SaveTableSettings()
-    {
-        ArrayList tables = DaManager.prjDb.GetListOfTablesNamesInDb();
-
-        //only saves to Db if Db table exists
-
-        if (SelectedTableSetting != null) {
-            if (tables.Contains(SelectedTableSetting.Name)) {
-                SettingsManager.SaveSettingTableValueToDb(SelectedTableSetting);
-            }
-        }
-
-        foreach (CableTypeModel cable in TypeManager.CableTypes) {
-            DaManager.libDb.UpsertRecord(cable, "CableTypes", new List<string>());
-        }
-
-
-        foreach (CableSizeModel cable in SelectedCableSizes) {
-            DaManager.prjDb.UpsertRecord(cable, "CableSizesUsedInProject", new List<string>());
-        }
-        EdtSettings.CableSizesUsedInProject = DaManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
-    }
 }

@@ -16,13 +16,13 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfUI.ViewModels;
 
-namespace WpfUI.Views.SettingsSubViews;
+namespace WpfUI.Views.Settings;
 /// <summary>
 /// Interaction logic for GeneralSettingsView.xaml
 /// </summary>
 public partial class GeneralSettingsView : UserControl
 {
-    private SettingsViewModel settingsVm { get { return DataContext as SettingsViewModel; } }
+    private SettingsMenuViewModel settingsVm { get { return DataContext as SettingsMenuViewModel; } }
 
     public GeneralSettingsView()
     {

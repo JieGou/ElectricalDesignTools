@@ -14,7 +14,7 @@ using WpfUI.Stores;
 namespace WpfUI.ViewModels;
 
 [AddINotifyPropertyChangedInterface]
-public class CableListViewModel : ViewModelBase
+public class CablesViewModel : ViewModelBase
 {
     private ListManager _listManager;
 
@@ -24,7 +24,7 @@ public class CableListViewModel : ViewModelBase
         set { _listManager = value; }
     }
 
-    public CableListViewModel(ListManager listManager)
+    public CablesViewModel(ListManager listManager)
     {
         _listManager = listManager;
         //_view = CollectionViewSource.GetDefaultView(listManager.CableList);

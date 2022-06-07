@@ -30,7 +30,7 @@ namespace WpfUI.Tests.ViewModels
             ListManager listManager = new ListManager();
             TypeManager typeManager = new TypeManager();
 
-            ElectricalViewModel eqv = new ElectricalViewModel(listManager);
+            ElectricalMenuViewModel eqv = new ElectricalViewModel(listManager);
 
             //Act
             bool actual = eqv.IsTagAvailable(_dteqToAddTag, DteqList, LoadList);

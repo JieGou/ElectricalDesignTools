@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.Views.ElectricalView"
+﻿<UserControl x:Class="WpfUI.Views.ElectricalMenuView"
              x:Name="eqView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -33,22 +33,21 @@
     <Grid x:Name="menuGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.Triggers>
+        <!--<Grid.Triggers>
             <EventTrigger RoutedEvent="Grid.Loaded">
                 <BeginStoryboard>
                     <Storyboard>
                         <DoubleAnimation Storyboard.TargetName="menuGrid"
                                 Storyboard.TargetProperty="Opacity" From="0" To="1"
-                                BeginTime="0:0:0"  Duration="0:0:0.1"
+                                BeginTime="0:0:0"  Duration="0:0:0.05"
                                 AutoReverse="False" RepeatBehavior="1x"/>
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
-        </Grid.Triggers>
+        </Grid.Triggers>-->
         
-        <Border BorderBrush="Black" BorderThickness="0 0 0 0" 
+        <Border BorderBrush="Black" BorderThickness="0 0 0 1" 
                 Background="{StaticResource Darkest}">
 
 
@@ -58,7 +57,7 @@
                        MinWidth="300"
                        Style="{StaticResource TitleLabelStyle}"
                        BorderThickness="0"
-                       Margin="0 0 50 0"/>
+                       Margin="0 0 0 0"/>
 
                 <!--//BUTTONS-->
                 <Button Content="MAJOR EQUIPMENT"

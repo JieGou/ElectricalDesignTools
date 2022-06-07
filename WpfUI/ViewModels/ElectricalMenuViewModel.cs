@@ -27,7 +27,7 @@ using WpfUI.ViewModifiers;
 namespace WpfUI.ViewModels;
 
 [AddINotifyPropertyChangedInterface]
-public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
+public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 {
 
     #region Constructor
@@ -49,7 +49,7 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
     private MjeqViewModel _mjeqViewModel;
   
 
-    public ElectricalViewModel(MainViewModel mainViewModel, ListManager listManager)
+    public ElectricalMenuViewModel(MainViewModel mainViewModel, ListManager listManager)
     {
         _mainViewModel = mainViewModel;
         _listManager = listManager;
@@ -63,17 +63,18 @@ public class ElectricalViewModel : ViewModelBase, INotifyDataErrorInfo
 
     }
 
+    #endregion
+
+
     private void NavigateMjeq()
     {
         _mainViewModel.CurrentViewModel = _mjeqViewModel;
-        _mjeqViewModel.CreateComboBoxLists();
         _mjeqViewModel.CreateValidators();
+        _mjeqViewModel.CreateComboBoxLists();
         _mjeqViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
         _mjeqViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
     }
 
-
-    #endregion
 
     #region Public Commands
 
