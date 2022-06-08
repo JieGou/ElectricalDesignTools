@@ -8,6 +8,7 @@ using WpfUI.Services;
 using WpfUI.ViewModels;
 using Syncfusion.Windows.Tools.Controls;
 using System.Windows.Interop;
+using WpfUI.ViewModels.Cables;
 
 namespace WpfUI;
 
@@ -68,7 +69,7 @@ public partial class MainWindow : Window
     private void CableMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
-            mainVm.NewWindow(new CablesViewModel(mainVm._listManager));
+            mainVm.NewWindow(new CableListViewModel(mainVm._listManager));
         }
     }
 

@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 using System.Windows.Data;
 using WpfUI.Stores;
 
-namespace WpfUI.ViewModels;
+namespace WpfUI.ViewModels.Cables;
 
 [AddINotifyPropertyChangedInterface]
-public class CablesViewModel : ViewModelBase
+public class CableListViewModel : ViewModelBase
 {
     private ListManager _listManager;
 
@@ -24,7 +24,7 @@ public class CablesViewModel : ViewModelBase
         set { _listManager = value; }
     }
 
-    public CablesViewModel(ListManager listManager)
+    public CableListViewModel(ListManager listManager)
     {
         _listManager = listManager;
         //_view = CollectionViewSource.GetDefaultView(listManager.CableList);

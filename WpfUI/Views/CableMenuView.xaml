@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.Views.CableListView"
+﻿<UserControl x:Class="WpfUI.Views.CableMenuView"
              x:Name="cableView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -88,11 +88,17 @@
 
                 <!--//MENU BUTTONS-->
                 <Button Content="CABLE LIST"
-                        Style="{StaticResource ToolBarButtonBase}"/>
+                        Style="{StaticResource ToolBarButtonBase}"
+                        Command="{Binding NavigateCableListCommand}"/>
+                
                 <Button Content="USER CABLES"
-                        Style="{StaticResource ToolBarButtonBase}"/>
+                        Style="{StaticResource ToolBarButtonBase}"
+                        Command="{Binding NavigateTraySizerCommand}"/>
+                
                 <Button Content="TRAY"
-                        Style="{StaticResource ToolBarButtonBase}"/>
+                        Style="{StaticResource ToolBarButtonBase}"
+                        Command="{Binding NavigateTraySizerCommand}"/>
+
             </StackPanel>
         </Border>
     </Grid>

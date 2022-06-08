@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Services;
+using WpfUI.ViewModels.Cables;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.Views.Settings;
 
@@ -86,7 +87,9 @@ namespace WpfUI.ViewModels
 
 
 
-        public readonly CablesViewModel _cableListViewModel;
+        public readonly CableMenuViewModel _cableMenuViewModel;
+        public readonly CableListViewModel _cableListViewModel;
+
         public readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
       
@@ -110,8 +113,10 @@ namespace WpfUI.ViewModels
             //Electrical
             _electricalMenuViewModel = new ElectricalMenuViewModel(this, listManager);
             _mjeqViewModel = new MjeqViewModel(listManager);
-            _cableListViewModel = new CablesViewModel(listManager);
 
+            //Cables
+            _cableMenuViewModel = new CableMenuViewModel(this, listManager);
+            _cableListViewModel = new CableListViewModel(listManager);
 
 
             NavigateStartupCommand = new RelayCommand(NavigateHome);
@@ -150,16 +155,7 @@ namespace WpfUI.ViewModels
 
 
         //Settings
-        private void NavigateGeneralSettings()
-        {
-            CurrentViewModel = _settingsMenuViewModel;
-            _settingsMenuViewModel.SelectedSettingView = new GeneralSettingsView();
-        }
-        private void NavigateCableSettings()
-        {
-            CurrentViewModel = _settingsMenuViewModel;
-            _settingsMenuViewModel.SelectedSettingView = new CableSettingsView();
-        }
+       
         private void ExcelTest()
         {
             HelperExcelInterop.WriteToExcel();
@@ -190,17 +186,34 @@ namespace WpfUI.ViewModels
 
         public ICommand ScenarioCommand { get; }
 
+        //HOME
         private void NavigateHome()
         {
             MenuViewModel = null;
             CurrentViewModel = _homeViewModel;
         }
+
+
+        //SETTINGS
         private void NavigateSettings()
         {
             _settingsMenuViewModel.LoadVmSettings();
             MenuViewModel = _settingsMenuViewModel;
             //CurrentViewModel = _settingsViewModel;
         }
+        private void NavigateGeneralSettings()
+        {
+            CurrentViewModel = _settingsMenuViewModel;
+            _settingsMenuViewModel.SelectedSettingView = new GeneralSettingsView();
+        }
+        private void NavigateCableSettings()
+        {
+            CurrentViewModel = _settingsMenuViewModel;
+            _settingsMenuViewModel.SelectedSettingView = new CableSettingsView();
+        }
+
+
+
         private void NavigateAreas()
         {
             CurrentViewModel = _areasViewModel;
@@ -218,10 +231,12 @@ namespace WpfUI.ViewModels
             //_mjeqViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
             //_mjeqViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
         }
+
         private void NavigateCables()
         {
-            CurrentViewModel = _cableListViewModel;
+            MenuViewModel = _cableMenuViewModel;
         }
+
         private void NavigateDataTables()
         {
             CurrentViewModel = _dataTablesViewModel;
@@ -235,6 +250,8 @@ namespace WpfUI.ViewModels
         {
             return _startupService.IsLibraryLoaded;
         }
+
+
 
         //NEW WINDOW
         public void NewWindow()
@@ -277,7 +294,6 @@ namespace WpfUI.ViewModels
         private void OnCurrentViewModelChanged() {
             OnPropertyChanged(nameof(CurrentViewModel));
         }
-
         private static void ValidateLicense()
         {
             string licenseFilePath = @"C:/temp/License.lic";

@@ -2,8 +2,10 @@ using EDTLibrary;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.Models.Validators;
 using System.Collections.ObjectModel;
 using WpfUI.ViewModels;
+using WpfUI.ViewModels.Electrical;
 using Xunit;
 
 namespace WpfUI.Tests.ViewModels
@@ -30,10 +32,10 @@ namespace WpfUI.Tests.ViewModels
             ListManager listManager = new ListManager();
             TypeManager typeManager = new TypeManager();
 
-            ElectricalMenuViewModel eqv = new ElectricalViewModel(listManager);
+            MjeqViewModel eqv = new MjeqViewModel(listManager);
 
             //Act
-            bool actual = eqv.IsTagAvailable(_dteqToAddTag, DteqList, LoadList);
+            bool actual = TagAndNameValidator.IsTagAvailable(_dteqToAddTag, listManager);
 
             //Assert
             Assert.Equal(expected, actual);

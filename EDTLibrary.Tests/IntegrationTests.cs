@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfUI.Services;
 using WpfUI.ViewModels;
+using WpfUI.ViewModels.Electrical;
 using Xunit;
 
 namespace EDTLibrary.Tests
@@ -50,7 +51,7 @@ namespace EDTLibrary.Tests
 
             //ViewModels
             AreasViewModel areaVm = new AreasViewModel(listManager);
-            ElectricalMenuViewModel eqVm = new ElectricalViewModel(listManager);
+            MjeqViewModel eqVm = new MjeqViewModel(listManager);
 
             #endregion
 
@@ -129,7 +130,7 @@ namespace EDTLibrary.Tests
             SelectAllDteqAndLoads(listManager, eqVm);
         }
 
-        private static void SelectAllDteqAndLoads(ListManager listManager, ElectricalMenuViewModel eqVm)
+        private static void SelectAllDteqAndLoads(ListManager listManager, MjeqViewModel eqVm)
         {
             foreach (var dteq in listManager.IDteqList) {
                 Debug.WriteLine(dteq.Tag.ToString());

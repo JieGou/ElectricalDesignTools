@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,22 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfUI.ViewModels;
 
-namespace WpfUI.Views;
-
+namespace WpfUI.Views.Cable;
 /// <summary>
-/// Interaction logic for CableListView.xaml
+/// Interaction logic for TraySizerView.xaml
 /// </summary>
-public partial class CableListView : UserControl
+public partial class TraySizerView : UserControl
 {
-
-    public CableListView()
+    public TraySizerView()
     {
         InitializeComponent();
     }
-   
 }
-
-
-

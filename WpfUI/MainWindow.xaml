@@ -17,6 +17,8 @@
         xmlns:electricalViews="clr-namespace:WpfUI.Views.Electrical"
         xmlns:electricalViewModels="clr-namespace:WpfUI.ViewModels.Electrical"
         
+        xmlns:cableViews="clr-namespace:WpfUI.Views.Cable"
+        xmlns:cableViewModels="clr-namespace:WpfUI.ViewModels.Cables"
                          
         mc:Ignorable="d"
         Title="Electrical Design Tools"
@@ -182,7 +184,11 @@
                     <DataTemplate DataType="{x:Type viewmodels:ElectricalMenuViewModel}">
                         <views:ElectricalMenuView/>
                     </DataTemplate>
-                    
+
+                    <DataTemplate DataType="{x:Type viewmodels:CableMenuViewModel}">
+                        <views:CableMenuView/>
+                    </DataTemplate>
+
                 </ContentControl.Resources>
 
             </ContentControl>
@@ -250,18 +256,27 @@
                     <views:AreasView/>
                 </DataTemplate>
 
+                
+                
                 <!--Electrical-->
                 <DataTemplate DataType="{x:Type electricalViewModels:MjeqViewModel}">
                     <electricalViews:_MjeqView/>
                 </DataTemplate>
 
                 
+                
                 <!--Cables-->
-                <DataTemplate DataType="{x:Type viewmodels:CablesViewModel}">
-                    <views:CableListView/>
+                <DataTemplate DataType="{x:Type cableViewModels:CableListViewModel}">
+                    <cableViews:CableListView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type cableViewModels:TraySizerViewModel}">
+                    <cableViews:TraySizerView/>
                 </DataTemplate>
 
 
+
+                <!--DataTables-->
                 <DataTemplate DataType="{x:Type viewmodels:DataTablesViewModel}">
                     <views:DataTablesView/>
                 </DataTemplate>

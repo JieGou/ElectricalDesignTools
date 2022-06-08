@@ -68,11 +68,15 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
     private void NavigateMjeq()
     {
-        _mainViewModel.CurrentViewModel = _mjeqViewModel;
         _mjeqViewModel.CreateValidators();
         _mjeqViewModel.CreateComboBoxLists();
         _mjeqViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
         _mjeqViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
+
+        CurrentViewModel = _mjeqViewModel;
+        _mainViewModel.CurrentViewModel = CurrentViewModel;
+
+        
     }
 
 
