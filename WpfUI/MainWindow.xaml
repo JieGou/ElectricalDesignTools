@@ -247,7 +247,11 @@
                 <DataTemplate DataType="{x:Type settingsViewModels:GeneralSettingsViewModel}">
                     <settingsViews:GeneralSettingsView/>
                 </DataTemplate>
-
+                
+                <DataTemplate DataType="{x:Type settingsViewModels:EquipmentSettingsViewModel}">
+                    <settingsViews:EquipmentSettingsView/>
+                </DataTemplate>
+                
                 <DataTemplate DataType="{x:Type settingsViewModels:CableSettingsViewModel}">
                     <settingsViews:CableSettingsView/>
                 </DataTemplate>

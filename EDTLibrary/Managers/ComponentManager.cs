@@ -106,6 +106,11 @@ public class ComponentManager
 
     }
     
+    /// <summary>
+    /// Deletes all components owned by a components user. Typically when deleting a component user.
+    /// </summary>
+    /// <param name="componentUser"></param>
+    /// <param name="listManager"></param>
     public static void DeleteComponents(IComponentUser componentUser, ListManager listManager)
     {
         foreach (var item in componentUser.AuxComponents) {

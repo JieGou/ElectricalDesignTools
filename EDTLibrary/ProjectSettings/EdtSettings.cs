@@ -116,7 +116,8 @@ namespace EDTLibrary.ProjectSettings
         public static string LoadDefaultPowerFactor_Panel { get; set; }
 
         //Components
-        public static string DefaultLcsType { get; set; }
+        public static string DefaultLcsTypeDolLoad { get; set; }
+        public static string DefaultLcsTypeVsdLoad { get; set; }
 
 
     }

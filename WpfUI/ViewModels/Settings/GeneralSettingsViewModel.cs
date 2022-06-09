@@ -24,10 +24,6 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
 
     #region Properties and Backing Fields
 
-    public ObservableCollection<SettingModel> StringSettings { get; set; }
-    public SettingModel SelectedStringSetting { get; set; }
-
-
     private EdtSettings _edtSettings;
     public EdtSettings EdtSettings
     {
@@ -40,19 +36,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         get { return _typeManager; }
         set { _typeManager = value; }
     }
-
-
-    #endregion
-
-    #region Commands
-
-    public ICommand NavigateGeneralSettingsCommand { get; }
-    private GeneralSettingsView _generalSettingsView = new GeneralSettingsView();
-    public ICommand ReloadSettingsCommand { get; }
-
-    public ICommand SaveStringSettingCommand { get; }
-    public ICommand SaveTableSettingCommand { get; }
-
+  
     #endregion
 
     public GeneralSettingsViewModel(EdtSettings edtSettings, TypeManager typeManager)

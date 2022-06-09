@@ -16,7 +16,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
 
@@ -51,6 +51,9 @@
         <ItemsControl ItemsSource="{Binding CableTray, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Grid.Row="0" Grid.Column="2"
                       Width="500"
+                      d:Width="400"
+                      d:Height="250"
+                      
                       Background="White"
                       BorderBrush="Black"
                       BorderThickness="1">

@@ -1,4 +1,6 @@
-﻿using EDTLibrary.Managers;
+﻿using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -51,10 +53,12 @@ public class ComponentModel : IComponent
 
 
     public string Description { get; set; }
-    public string Category { get; set; }
-    public string SubCategory { get; set; }
-    public string Type { get; set; }
-    public string SubType { get; set; }
+    public string Category { get; set; } //Component
+    public string SubCategory { get; set; } //Aux vs Cct Component
+
+    public string Type { get; set; } //DefaultDCN, DefaultDrive, FDS, UDS, LCS, VSD, RVS 
+    public string SubType { get; set; } //Lcs Type
+    public ObservableCollection<LcsTypeModel> SubTypeList { get; set; } = new ObservableCollection<LcsTypeModel>();
 
     public int AreaId { get; set; }
     private IArea _area;

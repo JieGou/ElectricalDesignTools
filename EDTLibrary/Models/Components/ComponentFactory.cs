@@ -45,9 +45,14 @@ public class ComponentFactory
 
         //AuxComponents vs CctComponents
         if (componentSubCategory == Categories.AuxComponent.ToString()) {
-            componentUser.AuxComponents.Add(newComponent);
+            var lcs = componentUser.AuxComponents.FirstOrDefault(c => c.Type == ComponentTypes.LCS.ToString());
 
+            if (componentType == ComponentTypes.LCS.ToString() && lcs != null) {
+                componentUser.AuxComponents.Add(newComponent);
+
+            }
         }
+
         else if (componentSubCategory == Categories.CctComponent.ToString()) {
             var defaultDcn = componentUser.CctComponents.FirstOrDefault(c => c.Type == ComponentSubTypes.DefaultDcn.ToString());
             if (componentType != ComponentTypes.DefaultDcn.ToString() && defaultDcn != null) {

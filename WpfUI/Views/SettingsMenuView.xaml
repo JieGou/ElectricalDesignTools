@@ -87,6 +87,8 @@
 
                     <Button Content="EQUIPMENT" x:Name="btnEquipment"
                             Style="{StaticResource ToolBarButtonBase}"
+                            Command="{Binding NavigateEquipmentSettingsCommand}"
+                            
                             Opacity="1"
                             d:Opacity="1">
                         <!--<Button.RenderTransform>

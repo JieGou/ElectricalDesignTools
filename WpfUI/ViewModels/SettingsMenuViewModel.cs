@@ -32,22 +32,39 @@ public class SettingsMenuViewModel : ViewModelBase
         _generalSettingsViewModel = new GeneralSettingsViewModel(_edtSettings, _typeManager);
         NavigateGeneralSettingsCommand = new RelayCommand(NavigateGeneralSettings);
 
+        _equipmentSettingsViewModel = new EquipmentSettingsViewModel(_edtSettings, _typeManager);
+        NavigateEquipmentSettingsCommand = new RelayCommand(NavigateEquipmentSettings);
+
         _cableSettingsViewModel = new CableSettingsViewModel(edtSettings, _typeManager);
         NavigateCableSettingsCommand = new RelayCommand(NavigateCableSettings);
     }
+
+    
 
     private GeneralSettingsViewModel _generalSettingsViewModel;
     private void NavigateGeneralSettings()
     {
         _generalSettingsViewModel.LoadVmSettings(_generalSettingsViewModel);
-        _mainViewModel.CurrentViewModel = _generalSettingsViewModel;
+        CurrentViewModel = _generalSettingsViewModel; 
+        _mainViewModel.CurrentViewModel = CurrentViewModel;
+        
     }
+
+    private EquipmentSettingsViewModel _equipmentSettingsViewModel;
+    private void NavigateEquipmentSettings()
+    {
+        _equipmentSettingsViewModel.LoadVmSettings(_equipmentSettingsViewModel);
+        CurrentViewModel = _equipmentSettingsViewModel;
+        _mainViewModel.CurrentViewModel = CurrentViewModel;
+    }
+
 
     private CableSettingsViewModel _cableSettingsViewModel;
     private void NavigateCableSettings()
     {
         _cableSettingsViewModel.LoadVmSettings(_cableSettingsViewModel);
-        _mainViewModel.CurrentViewModel = _cableSettingsViewModel;
+        CurrentViewModel = _cableSettingsViewModel;
+        _mainViewModel.CurrentViewModel = CurrentViewModel;
     }
 
     #region Properties and Backing Fields
@@ -72,6 +89,7 @@ public class SettingsMenuViewModel : ViewModelBase
     }
 
 
+    ViewModelBase CurrentViewModel { get; set; }
     public UserControl SelectedSettingView
     {
         get => _selectedSettingView;
@@ -89,6 +107,7 @@ public class SettingsMenuViewModel : ViewModelBase
     #region Commands
 
     public ICommand NavigateGeneralSettingsCommand { get; }
+    public ICommand NavigateEquipmentSettingsCommand { get; }
     public ICommand NavigateCableSettingsCommand { get; }
 
     #endregion
@@ -286,7 +305,6 @@ public class SettingsMenuViewModel : ViewModelBase
 
     private string _defaultCableType_3ph15kV;
     private string _cableSpacingMaxAmps_3C1kV;
-    private string loadFactorDefault;
     private string _defaultLcsControlCableType;
 
 
@@ -321,6 +339,8 @@ public class SettingsMenuViewModel : ViewModelBase
 
     //Dteq
     #region
+    private string loadFactorDefault;
+
     private string _defaultLcsControlCableSize;
     private string _dteqMaxPercentLoaded;
     private string _defaultXfrImpedance;
@@ -386,8 +406,6 @@ public class SettingsMenuViewModel : ViewModelBase
     #endregion
 
 
-    //Voltage
-    public string VoltageDefault1kV { get; set; }
 
 
     //Load
@@ -457,7 +475,9 @@ public class SettingsMenuViewModel : ViewModelBase
 
 
 
-
+    //Misc
+    //Voltage
+    public string VoltageDefault1kV { get; set; }
 
 
     //New Settings

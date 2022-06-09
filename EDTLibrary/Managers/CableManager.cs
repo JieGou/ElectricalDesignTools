@@ -159,7 +159,40 @@ public class CableManager
 
     public static void AddLcsControlCable(IComponentUser componentUser, IComponent component, ListManager listManager)
     {
+        CableModel cable = new CableModel();
 
+        cable.Source = componentUser.FedFrom.Tag;
+        cable.Destination = component.Tag;
+
+        cable.Tag = GetCableTag(cable.Source, cable.Destination);
+
+        cable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
+
+        cable.OwnerId = componentUser.Id;
+        cable.OwnerType = typeof(IComponent).ToString();
+        cable.UsageType = CableUsageTypes.Control.ToString();
+
+        //cable.TypeModel = powerComponentOwner.PowerCable.TypeModel;
+
+        //cable.ConductorQty = powerComponentOwner.PowerCable.ConductorQty;
+        //cable.VoltageClass = powerComponentOwner.PowerCable.VoltageClass;
+        //cable.Insulation = powerComponentOwner.PowerCable.Insulation;
+        //cable.QtyParallel = powerComponentOwner.PowerCable.QtyParallel;
+        cable.Size = EdtSettings.DefaultLcsControlCableSize;
+        //cable.BaseAmps = powerComponentOwner.PowerCable.BaseAmps;
+        //cable.Spacing = powerComponentOwner.PowerCable.Spacing;
+        //cable.Derating = powerComponentOwner.PowerCable.Derating;
+        //cable.DeratedAmps = powerComponentOwner.PowerCable.DeratedAmps;
+        //cable.RequiredAmps = powerComponentOwner.PowerCable.RequiredAmps;
+        //cable.Outdoor = powerComponentOwner.PowerCable.Outdoor;
+        //cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
+
+        //cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
+
+        component.PowerCable = cable;
+
+        listManager.CableList.Add(cable);
+        DaManager.UpsertCable(cable);
     }
 
     internal static void DeleteLcsControlCable(IComponentUser componentUser, IComponent componentToRemove, ListManager listManager)

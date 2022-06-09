@@ -281,6 +281,7 @@ namespace EDTLibrary.Models.Loads
 
                     if (_lcsBool == true) {
                         ComponentManager.AddLcs(this, ScenarioManager.ListManager);
+
                     }
                     else if (_lcsBool == false) {
                         ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
