@@ -33,7 +33,7 @@ namespace EDTLibrary
 
         public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
         public ObservableCollection<IComponent> CompList { get; set; } = new ObservableCollection<IComponent>();
-        public ObservableCollection<LocalControlStationModel> LcsList { get; set; } = new ObservableCollection<LocalControlStationModel>();
+        public ObservableCollection<ILocalControlStation> LcsList { get; set; } = new ObservableCollection<ILocalControlStation>();
 
         public ObservableCollection<CableModel> CableList { get; set; } = new ObservableCollection<CableModel>();
 
@@ -204,7 +204,6 @@ namespace EDTLibrary
         private void AssignComponents()
         {
 
-
             // Loads
             foreach (var load in LoadList) {
                 foreach (var comp in CompList) {
@@ -249,9 +248,10 @@ namespace EDTLibrary
                 foreach (var lcs in LcsList) {
                     if (lcs.OwnerId == load.Id && lcs.OwnerType == typeof(LoadModel).ToString()) {
                         //Todo = LcsPropertyUpdated
-                        lcs.PropertyUpdated += DaManager.OnLcsPropertyUpdated;
                         lcs.Owner = load;
                         load.Lcs = lcs;
+                        lcs.PropertyUpdated += DaManager.OnLcsPropertyUpdated;
+                        load.AreaChanged += lcs.UpdateArea;
                     }
                 }
             }
@@ -436,6 +436,15 @@ namespace EDTLibrary
                     if (comp.AreaId == area.Id) {
                         comp.Area = area;
                         area.PropertyChanged += comp.OnAreaPropertiesChanged;
+                        break;
+                    }
+                }
+            }
+            foreach (var lcs in LcsList) {
+                foreach (var area in AreaList) {
+                    if (lcs.AreaId == area.Id) {
+                        lcs.Area = area;
+                        area.PropertyChanged += lcs.OnAreaPropertiesChanged;
                         break;
                     }
                 }

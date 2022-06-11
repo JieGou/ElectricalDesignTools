@@ -327,7 +327,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         //Components
 
 
-        public LocalControlStationModel Lcs { get; set; }
+        public ILocalControlStation Lcs { get; set; }
         private bool _lcsBool;
         public bool LcsBool
         {
@@ -483,6 +483,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
         public event EventHandler PropertyUpdated;
+        public event EventHandler AreaChanged;
+
         public virtual async Task OnPropertyUpdated()
         {
 
@@ -505,6 +507,11 @@ namespace EDTLibrary.Models.DistributionEquipment
                 AreaClassification = Area.AreaClassification;
                 PowerCable.CalculateAmpacity(this);
             }));
+        }
+
+        public Task OnAreaChanged()
+        {
+            throw new NotImplementedException();
         }
 
 

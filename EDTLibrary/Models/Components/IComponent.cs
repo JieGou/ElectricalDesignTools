@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace EDTLibrary.Models.Components
 {
-    public interface IComponent : IEquipment//, ICableUser
+    public interface IComponent : IEquipment
     {
         string SubCategory { get; set; }
         string SubType { get; set; }

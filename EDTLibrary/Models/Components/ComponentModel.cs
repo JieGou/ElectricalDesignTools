@@ -120,4 +120,14 @@ public class ComponentModel : IComponent
         }));
 
     }
+
+    public event EventHandler AreaChanged;
+    public virtual async Task OnAreaChanged()
+    {
+        await Task.Run(() => {
+            if (AreaChanged != null) {
+                AreaChanged(this, EventArgs.Empty);
+            }
+        });
+    }
 }

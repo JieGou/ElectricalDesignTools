@@ -192,7 +192,7 @@ public class CableManager
         DaManager.UpsertCable(cable);
     }
 
-    internal static void DeleteLcsControlCable(IComponentUser componentUser, LocalControlStationModel lcsToRemove, ListManager listManager)
+    internal static void DeleteLcsControlCable(IComponentUser componentUser, ILocalControlStation lcsToRemove, ListManager listManager)
     {
         if (lcsToRemove.ControlCable != null) {
             int cableId = lcsToRemove.ControlCable.Id;

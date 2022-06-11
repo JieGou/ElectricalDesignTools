@@ -31,5 +31,8 @@ namespace EDTLibrary.Models
             UpdateAreaProperties();
         }
 
+        event EventHandler AreaChanged;
+        abstract Task OnAreaChanged();
+
     }
 }

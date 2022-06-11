@@ -121,7 +121,7 @@ public class ComponentManager
             listManager.CompList.Remove(item);
             DaManager.DeleteComponent((ComponentModel)item);
         }
-        DaManager.DeleteLcs(componentUser.Lcs);
+        DaManager.DeleteLcs((LocalControlStationModel)componentUser.Lcs);
     }
 
     public static void DeleteComponent(IComponentUser componentUser, IComponent component, ListManager listManager)

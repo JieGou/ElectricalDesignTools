@@ -107,7 +107,9 @@ namespace EDTLibrary.Models.Loads
                         var cmd = new CommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
                         Undo.UndoList.Add(cmd);
                     }
+                    OnAreaChanged();
                     OnPropertyUpdated();
+
                 }
             }
         }
@@ -267,7 +269,7 @@ namespace EDTLibrary.Models.Loads
 
         //Components
 
-        public LocalControlStationModel Lcs { get; set; }
+        public ILocalControlStation Lcs { get; set; }
         private bool _lcsBool;
         public bool LcsBool
         {
@@ -565,6 +567,7 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
+
         public event EventHandler PropertyUpdated;
         public virtual async Task OnPropertyUpdated()
         {
@@ -575,6 +578,18 @@ namespace EDTLibrary.Models.Loads
             });
         }
 
+
+        public event EventHandler AreaChanged;
+        public virtual async Task OnAreaChanged()
+        {
+            await Task.Run(() => {
+                if (AreaChanged != null) {
+                    AreaChanged(this, EventArgs.Empty);
+                }
+            });
+        }
+
+
         public event EventHandler CctComponentChanged;
         public virtual void OnCctComponentChanged()
         {
@@ -582,6 +597,7 @@ namespace EDTLibrary.Models.Loads
                 CctComponentChanged(this, EventArgs.Empty);
             }
         }
+
         public async Task UpdateAreaProperties()
         {
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {

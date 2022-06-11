@@ -1,2 +1,3 @@
-Adding SubType list to component types
-component is triggering the Updates Load Components Cables method
+
+component Toggle is triggering the UpdatePowerCables for Components Cables method
+Create Separate Components (dicsonnects, Drives, Etc)
