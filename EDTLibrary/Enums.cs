@@ -15,6 +15,7 @@ namespace EDTLibrary {
         AuxComponent,
         OCPD,
         CABLE,
+        LCS,
     }
     
     public enum DteqTypes {

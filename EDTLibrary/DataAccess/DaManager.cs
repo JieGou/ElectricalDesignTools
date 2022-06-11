@@ -111,6 +111,13 @@ public class DaManager {
         }
     }
 
+    public static void OnLcsPropertyUpdated(object source, EventArgs e)
+    {
+        if (GlobalConfig.GettingRecords == false) {
+            DaManager.UpserLcs((LocalControlStationModel)source);
+        }
+    }
+
     public static void OnAreaPropertyUpdated(object source, EventArgs e)
     {
         if (GlobalConfig.GettingRecords == false) {
@@ -121,7 +128,7 @@ public class DaManager {
     public static void OnPowerCablePropertyUpdated(object source, EventArgs e)
     {
         if (GlobalConfig.GettingRecords == false) {
-            prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+            prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, SaveLists.PowerCableSaveList);
         }
     }
 
@@ -158,7 +165,7 @@ public class DaManager {
         int id = 0;
         if (cable.GetType() == typeof(CableModel)) {
             var cableModel = (CableModel)cable;
-            id= prjDb.InsertRecordGetId(cableModel, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+            id= prjDb.InsertRecordGetId(cableModel, GlobalConfig.CableTable, SaveLists.PowerCableSaveList);
         }
         return id;
     }
@@ -257,9 +264,31 @@ public class DaManager {
         prjDb.DeleteRecord(GlobalConfig.ComponentTable, component.Id);
     }
 
+    public static void UpserLcs(LocalControlStationModel lcs)
+    {
+        try {
+            if (GlobalConfig.Importing == true) return;
+
+            prjDb.UpsertRecord(lcs, GlobalConfig.LcsTable, SaveLists.CompSaveList);
+        }
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw ex;
+        }
+    }
+    public static void DeleteLcs(LocalControlStationModel lcs)
+    {
+        if (lcs == null) {
+            return;
+        }
+        prjDb.DeleteRecord(GlobalConfig.LcsTable, lcs.Id);
+    }
+
+
+
     public static void UpsertCable(CableModel cable)
     {
-        prjDb.UpsertRecord(cable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+        prjDb.UpsertRecord(cable, GlobalConfig.CableTable, SaveLists.PowerCableSaveList);
     }
 
     public static void UpsertArea(AreaModel area)

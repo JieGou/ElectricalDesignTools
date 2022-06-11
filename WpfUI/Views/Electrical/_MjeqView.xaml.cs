@@ -255,7 +255,7 @@ public partial class _MjeqView : UserControl
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.PowerCableTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.CableTable);
 
         mjeqVm.DbGetAll();
     }

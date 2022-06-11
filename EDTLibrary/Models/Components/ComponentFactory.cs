@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using System;
@@ -69,5 +70,47 @@ public class ComponentFactory
 
 
         return newComponent;
+    }
+
+
+    public static LocalControlStationModel CreateLocalControlStation(IComponentUser componentUser, string componentSubCategory, string componentType, string componentSubType, ListManager listManager)
+    {
+        LocalControlStationModel newLcs = new LocalControlStationModel();
+        ILoad componentOwner = componentUser as LoadModel;
+
+        //Id
+        if (listManager.LcsList.Count < 1) {
+            newLcs.Id = 1;
+        }
+        else {
+            newLcs.Id = listManager.LcsList.Select(c => c.Id).Max() + 1;
+        }
+        newLcs.Category = Categories.LCS.ToString();
+        newLcs.SubCategory = componentSubCategory;
+
+        if (componentOwner.PdType.Contains("MCP")) {
+            newLcs.Type = EdtSettings.DefaultLcsTypeDolLoad;
+        }
+        else if (componentOwner.DriveBool==true) {
+            newLcs.Type = EdtSettings.DefaultLcsTypeVsdLoad;
+        }
+        else {
+            newLcs.Type = EdtSettings.DefaultLcsTypeDolLoad;
+        }
+        newLcs.TypeModel = TypeManager.GetLcsTypeModel(newLcs.Type);
+        
+
+        newLcs.Owner = componentUser;
+        newLcs.OwnerId = componentUser.Id;
+        newLcs.OwnerType = componentUser.GetType().ToString();
+        newLcs.Tag = componentUser.Tag + TagSettings.SuffixSeparator + TagSettings.LcsSuffix;
+        newLcs.Area = componentUser.Area;
+
+
+        listManager.LcsList.Add(newLcs);
+        DaManager.UpserLcs(newLcs);
+        newLcs.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
+
+        return newLcs;
     }
 }

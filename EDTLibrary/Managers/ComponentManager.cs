@@ -18,26 +18,26 @@ public class ComponentManager
         string type = ComponentTypes.LCS.ToString();
         string subType = "Type Of LCS";
 
-        ComponentModel newComponent = ComponentFactory.CreateComponent(componentUser, subCategory, type, subType, listManager);
-        CableManager.AddLcsControlCable(componentUser, newComponent, listManager);
+        LocalControlStationModel newLcs = ComponentFactory.CreateLocalControlStation(componentUser, subCategory, type, subType, listManager);
+        CableManager.AddLcsControlCableForLoad(componentUser, newLcs, listManager);
 
         //Todo Local Control Station Model
         if (componentUser.GetType() == typeof(LoadModel)) {
             var load = (LoadModel)componentUser;
-            load.Lcs = newComponent;
+            load.Lcs = newLcs;
         }
     }
 
     public static void RemoveLcs(IComponentUser componentUser, ListManager listManager)
     {
-
+        if (componentUser.Lcs == null) return;
+        
         if (componentUser.GetType() == typeof(LoadModel)) {
             var load = (LoadModel)componentUser;
-            load.AuxComponents.Remove(load.Lcs);
             int componentId = load.Lcs.Id;
-            var componentToRemove = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
-            listManager.CompList.Remove(componentToRemove);
-            DaManager.DeleteComponent((ComponentModel)load.Lcs);
+            var componentToRemove = listManager.LcsList.FirstOrDefault(c => c.Id == componentId);
+            listManager.LcsList.Remove(componentToRemove);
+            DaManager.DeleteLcs((LocalControlStationModel)load.Lcs);
             CableManager.DeleteLcsControlCable(componentUser, componentToRemove, listManager);
             load.Lcs = null;
         }
@@ -121,6 +121,7 @@ public class ComponentManager
             listManager.CompList.Remove(item);
             DaManager.DeleteComponent((ComponentModel)item);
         }
+        DaManager.DeleteLcs(componentUser.Lcs);
     }
 
     public static void DeleteComponent(IComponentUser componentUser, IComponent component, ListManager listManager)

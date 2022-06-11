@@ -15,6 +15,7 @@ namespace EDTLibrary.Models.Cables
         string Tag { get; set; }
         string Type { get; set; }
         CableTypeModel TypeModel { get; set; }
+        string UsageType { get; set; }
         string Category { get; set; }
         int QtyParallel { get; set; }
         double Length { get; set; }

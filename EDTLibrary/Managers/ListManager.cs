@@ -33,6 +33,7 @@ namespace EDTLibrary
 
         public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
         public ObservableCollection<IComponent> CompList { get; set; } = new ObservableCollection<IComponent>();
+        public ObservableCollection<LocalControlStationModel> LcsList { get; set; } = new ObservableCollection<LocalControlStationModel>();
 
         public ObservableCollection<CableModel> CableList { get; set; } = new ObservableCollection<CableModel>();
 
@@ -71,6 +72,8 @@ namespace EDTLibrary
                 GetComponents();
                 AssignComponents();
 
+                GetLocalControlStations();
+                AssignLocalControlStations();
                 GetCables();
 
                 //Assign
@@ -195,6 +198,8 @@ namespace EDTLibrary
             foreach (var item in list) {
                 CompList.Add(item);
             }
+
+           
         }
         private void AssignComponents()
         {
@@ -208,15 +213,15 @@ namespace EDTLibrary
                         comp.Owner = load;
 
                         //Aux Components
-                        if (comp.SubCategory == Categories.AuxComponent.ToString()) {
-                            load.AuxComponents.Add(comp);
-                            if (comp.Type == ComponentTypes.LCS.ToString()) {
-                                load.Lcs = (ComponentModel)comp;
-                            }
-                        }
+                        //if (comp.SubCategory == Categories.AuxComponent.ToString()) {
+                        //    load.AuxComponents.Add(comp);
+                        //    if (comp.Type == ComponentTypes.LCS.ToString()) {
+                        //        load.Lcs = (ComponentModel)comp;
+                        //    }
+                        //}
 
                         //Cct Components
-                        else if (comp.SubCategory == Categories.CctComponent.ToString()) {
+                        if (comp.SubCategory == Categories.CctComponent.ToString()) {
                             load.CctComponents.Add(comp);
                             if (comp.Type == ComponentTypes.DefaultDrive.ToString()) {
                                 load.Drive = (ComponentModel)comp;
@@ -230,10 +235,35 @@ namespace EDTLibrary
             }
         }
 
+        private void GetLocalControlStations()
+        {
+            LcsList.Clear();
+            var list = DaManager.prjDb.GetRecords<LocalControlStationModel>(GlobalConfig.LcsTable);
+            foreach (var item in list) {
+                LcsList.Add(item);
+            }
+        }
+        private void AssignLocalControlStations()
+        {
+            foreach (var load in LoadList) {
+                foreach (var lcs in LcsList) {
+                    if (lcs.OwnerId == load.Id && lcs.OwnerType == typeof(LoadModel).ToString()) {
+                        //Todo = LcsPropertyUpdated
+                        lcs.PropertyUpdated += DaManager.OnLcsPropertyUpdated;
+                        lcs.Owner = load;
+                        load.Lcs = lcs;
+                    }
+                }
+            }
+        }
+
+
+
+
         public ObservableCollection<CableModel> GetCables()
         {
             CableList.Clear();
-            CableList = DaManager.prjDb.GetRecords<CableModel>(GlobalConfig.PowerCableTable);
+            CableList = DaManager.prjDb.GetRecords<CableModel>(GlobalConfig.CableTable);
             AssignCableTypes();
             return CableList;
         }
@@ -475,6 +505,24 @@ namespace EDTLibrary
                     if (comp.Id == cable.OwnerId &&
                         comp.GetType().ToString() == cable.OwnerType || typeof(IComponent).ToString() == cable.OwnerType ) {
                         comp.PowerCable = cable;
+                        break;
+                    }
+                }
+            }
+
+            foreach (var lcs in LcsList) {
+                string lcsType = lcs.GetType().ToString();
+
+                foreach (var cable in CableList) {
+
+                    if (lcs.Id == cable.OwnerId &&
+                        lcs.GetType().ToString() == cable.OwnerType && cable.UsageType==CableUsageTypes.Control.ToString()){
+                        lcs.ControlCable = cable;
+                        break;
+                    }
+                    else if (lcs.Id == cable.OwnerId &&
+                        lcs.GetType().ToString() == cable.OwnerType && cable.UsageType == CableUsageTypes.Instrument.ToString()) {
+                        lcs.ControlCable = cable;
                         break;
                     }
                 }

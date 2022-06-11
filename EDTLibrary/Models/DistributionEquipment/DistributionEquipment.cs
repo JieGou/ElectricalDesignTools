@@ -327,7 +327,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         //Components
 
 
-        public IComponent Lcs { get; set; }
+        public LocalControlStationModel Lcs { get; set; }
         private bool _lcsBool;
         public bool LcsBool
         {

@@ -509,7 +509,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 newDteq.CreatePowerCable();
                 newDteq.SizePowerCable();
                 newDteq.CalculateCableAmps();
-                newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
+                newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.CableTable, SaveLists.PowerCableSaveList);
                 _listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
                 RefreshDteqTagValidation();
             }
@@ -556,7 +556,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
         if (powerCableUser.PowerCable != null) {
             int cableId = powerCableUser.PowerCable.Id;
-            DaManager.prjDb.DeleteRecord(GlobalConfig.PowerCableTable, cableId); //await
+            DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
             _listManager.CableList.Remove(powerCableUser.PowerCable);
         }
         return;
@@ -704,7 +704,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             SelectedLoad.CctComponents[i].SequenceNumber = i;
         }
         SelectedLoad.CctComponents.OrderBy(x => x.SequenceNumber);
-        CableManager.AssignPowerCablesAsync(SelectedLoad, _listManager);
+        CableManager.UpdateLoadPowerComponentCablesAsync(SelectedLoad, _listManager);
 
     }
 
@@ -725,7 +725,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             SelectedLoad.CctComponents[i].SequenceNumber = i;
         }
         SelectedLoad.CctComponents.OrderBy(x => x.SequenceNumber);
-        CableManager.AssignPowerCablesAsync(SelectedLoad, _listManager);
+        CableManager.UpdateLoadPowerComponentCablesAsync(SelectedLoad, _listManager);
 
     }
 
@@ -734,7 +734,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         LoadModel selectedLoad = (LoadModel)SelectedLoad;
         //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
         try {
-            CableManager.AssignPowerCablesAsync(selectedLoad, _listManager);
+            CableManager.UpdateLoadPowerComponentCablesAsync(selectedLoad, _listManager);
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);
@@ -745,7 +745,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         LoadModel selectedLoad = (LoadModel)SelectedLoad;
         //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
         try {
-            CableManager.AssignPowerCablesAsync(selectedLoad, _listManager);
+            CableManager.UpdateLoadPowerComponentCablesAsync(selectedLoad, _listManager);
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);

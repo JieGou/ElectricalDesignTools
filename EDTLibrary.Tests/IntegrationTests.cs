@@ -152,7 +152,7 @@ namespace EDTLibrary.Tests
             DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
             DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
             DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
-            DaManager.prjDb.DeleteAllRecords(GlobalConfig.PowerCableTable);
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.CableTable);
         }
 
         [Fact]

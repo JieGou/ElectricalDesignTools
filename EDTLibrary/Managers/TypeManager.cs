@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Models.Components;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -96,7 +97,15 @@ namespace EDTLibrary.LibraryData.TypeTables
 
         //Components
         public static ObservableCollection<LcsTypeModel> LcsTypes { get; set; }
+        public static LcsTypeModel GetLcsTypeModel(string lcsType)
+        {
+            LcsTypeModel output = null;
 
+            output = LcsTypes.SingleOrDefault(l => l.Type == lcsType);
+            return output;
+        }
+
+        //Cables
         public static ObservableCollection<CecCableSizingRule> CecCableSizingRules { get; set; }
         public static CableTypeModel GetCableTypeModel(string cableType)
         {
@@ -105,7 +114,18 @@ namespace EDTLibrary.LibraryData.TypeTables
             output = CableTypes.SingleOrDefault(ct => ct.Type == cableType);
             return output;
         }
+        public static CableTypeModel GetLcsControlCableTypeModel(LocalControlStationModel lcs)
+        {
+            CableTypeModel cableType = new CableTypeModel();
 
+
+            List<CableTypeModel> list = TypeManager.CableTypes.Where(c => c.UsageType == CableUsageTypes.Control.ToString()
+                                                                && c.ConductorQty >= lcs.TypeModel.DigitalConductorQty).ToList();
+            var minValue = list.Min(c => c.ConductorQty);
+            cableType = list.FirstOrDefault(c => c.ConductorQty == minValue);
+
+            return cableType;
+        }
 
         //Enclosures
         public static ObservableCollection<NemaType> NemaTypes { get; set; }

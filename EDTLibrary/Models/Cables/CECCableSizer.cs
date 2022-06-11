@@ -255,7 +255,10 @@ namespace EDTLibrary.Models.Cables
 
         public double GetDerating(ICable cable)
         {
-             
+
+            if (cable.UsageType == CableUsageTypes.Control.ToString()) {
+                return 1;
+            }
             double derating = 1;
             
                 if (cable == null) return derating;

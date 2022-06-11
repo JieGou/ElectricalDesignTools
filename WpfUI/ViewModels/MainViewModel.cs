@@ -268,10 +268,11 @@ namespace WpfUI.ViewModels
             
             window.Show();
             var newMainVm = (MainViewModel)window.DataContext;
+            newMainVm.MenuViewModel = MenuViewModel;
             newMainVm.CurrentViewModel = CurrentViewModel;
         }
 
-        internal void NewWindow(ViewModelBase viewModel)
+        internal void NewWindow(ViewModelBase CurrentVm)
         {
             ListManager listManager = new ListManager();
             StartupService startupService = new StartupService(listManager);
@@ -284,7 +285,8 @@ namespace WpfUI.ViewModels
 
             };
             var newMainVm = (MainViewModel)window.DataContext;
-            newMainVm.CurrentViewModel = viewModel;
+            newMainVm.MenuViewModel= MenuViewModel;
+            newMainVm.CurrentViewModel = CurrentVm;
             window.Show();
             
         }

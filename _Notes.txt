@@ -1,1 +1,2 @@
 Adding SubType list to component types
+component is triggering the Updates Load Components Cables method

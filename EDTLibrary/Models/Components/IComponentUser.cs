@@ -14,7 +14,7 @@ namespace EDTLibrary.Models.Components
         int DisconnectId { get; set; }
 
         bool LcsBool { get; set; }
-        public IComponent Lcs { get; set; }
+        public LocalControlStationModel Lcs { get; set; }
         public IComponent Drive { get; set; }
         public IComponent Disconnect { get; set; }
     }

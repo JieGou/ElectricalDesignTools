@@ -99,9 +99,11 @@ public class CableModel : ICable
                 Undo.UndoList.Add(cmd);
             }
             if (GlobalConfig.GettingRecords == false) {
-                CalculateCableQtyAndSize();
-                if (CableManager.IsAssigningPowerCables == false) {
-                    CableManager.AssignPowerCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
+                if (UsageType==CableUsageTypes.Power.ToString()) {
+                    CalculateCableQtyAndSize();
+                }
+                if (CableManager.IsUpdatingPowerCables == false) {
+                    CableManager.UpdateLoadPowerComponentCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
                 }
             }
             OnPropertyUpdated();
@@ -303,6 +305,7 @@ public class CableModel : ICable
     }
     public double GetRequiredAmps(ICableUser load)
     {
+        
         RequiredAmps = load.Fla;
         if (load.Type == LoadTypes.MOTOR.ToString() || load.Type == LoadTypes.TRANSFORMER.ToString()) {
             RequiredAmps *= 1.25;

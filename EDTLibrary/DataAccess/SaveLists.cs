@@ -50,6 +50,9 @@ namespace EDTLibrary.DataAccess
             "Area",
             "Owner",
             "PowerCable",
+            "ControlCable",
+            "TypeModel",
+            "SubTypeList",
         };
 
         static public List<string> PowerCableSaveList { get; set; } = new List<string> {

@@ -27,6 +27,7 @@ public class LoadManager
 
     public static void SetLoadPdSize(LoadModel load)
     {
+        //TODO - enum for PdTypes
         if (load.PdType == "STR" ||
             load.PdType == "FVNR" ||
             load.PdType == "FVR") {
@@ -36,7 +37,7 @@ public class LoadManager
             //load.PdSizeTrip = Math.Round(load.PdSizeTrip, 0);
         }
         else if (load.PdType == "BKR" ||
-                 load.PdType == "VFD" ||
+                 load.PdType == "VFD" || load.PdType == "VSD" ||
                  load.PdType == "RVS") {
             load.PdSizeFrame = LibraryManager.GetBreakerFrame(load);
             load.PdSizeTrip = LibraryManager.GetBreakerTrip(load);

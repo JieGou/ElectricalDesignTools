@@ -46,8 +46,8 @@ namespace EDTLibrary.Models.Loads
                         PowerCable.AssignTagging(this);
                     }
                     if (PowerCable != null && FedFrom != null) {
-                        if (CableManager.IsAssigningPowerCables == false) {
-                            CableManager.AssignPowerCablesAsync(this, ScenarioManager.ListManager);
+                        if (CableManager.IsUpdatingPowerCables == false) {
+                            CableManager.UpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
 
                         }
                     }
@@ -267,7 +267,7 @@ namespace EDTLibrary.Models.Loads
 
         //Components
 
-        public IComponent Lcs { get; set; }
+        public LocalControlStationModel Lcs { get; set; }
         private bool _lcsBool;
         public bool LcsBool
         {
@@ -314,7 +314,7 @@ namespace EDTLibrary.Models.Loads
                     else if (_driveBool == false) {
                         ComponentManager.RemoveDrive(this, ScenarioManager.ListManager);
                     }
-                    CableManager.AssignPowerCablesAsync(this, ScenarioManager.ListManager);
+                    CableManager.UpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     //OnCctComponentChanged();
                     OnPropertyUpdated();
                 }
@@ -331,7 +331,9 @@ namespace EDTLibrary.Models.Loads
         }
 
 
-        public IComponent Disconnect { get; set; }
+        public IComponent Disconnect { 
+            get; 
+            set; }
 
         private bool _disconnectBool;
         public bool DisconnectBool
@@ -349,7 +351,7 @@ namespace EDTLibrary.Models.Loads
                     else if(_disconnectBool == false) {
                         ComponentManager.RemoveDisconnect(this, ScenarioManager.ListManager);
                     }
-                    CableManager.AssignPowerCablesAsync(this, ScenarioManager.ListManager);
+                    CableManager.UpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     //OnCctComponentChanged();
                     OnPropertyUpdated();
                 }

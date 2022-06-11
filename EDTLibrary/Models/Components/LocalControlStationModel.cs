@@ -1,7 +1,9 @@
-﻿using EDTLibrary.Models.Areas;
+﻿using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +11,9 @@ using System.Windows;
 using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Components;
-public class LocalControlStation : IComponent
+public class LocalControlStationModel
 {
-    public LocalControlStation()
+    public LocalControlStationModel()
     {
         Type = "LCS";
     }
@@ -19,10 +21,18 @@ public class LocalControlStation : IComponent
     public string Tag { get; set; }
     public string Category { get; set; }
     public string SubCategory { get; set; }
+
+
     public string Type { get; set; }
+    public LcsTypeModel TypeModel { get; set; }
+   
     public string Description { get; set; }
+
     
     public string SubType { get; set; }
+
+    public ObservableCollection<LcsTypeModel> SubTypeList { get; set; } = new ObservableCollection<LcsTypeModel>();
+
     public IEquipment Owner { get; set; }
 
     public int OwnerId { get; set; }
@@ -33,7 +43,7 @@ public class LocalControlStation : IComponent
     public IArea Area { get; set; }
     public string NemaRating { get; set; }
     public string AreaClassification { get; set; }
-    public ICable PowerCable { get; set; }
+    public ICable ControlCable { get; set; }
 
     public event EventHandler PropertyUpdated;
 
