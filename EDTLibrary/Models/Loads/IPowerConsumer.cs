@@ -42,7 +42,6 @@ namespace EDTLibrary.Models.Loads
             CalculateLoading();
         }
 
-        event EventHandler AreaChanged;
-        abstract Task OnAreaChanged();
+        
     }
 }

@@ -74,12 +74,7 @@ public class LocalControlStationModel :  ILocalControlStation
             AreaClassification = Area.AreaClassification;
         }));
     }
-
-    public async Task UpdateArea()
-    {
-        AreaManager.UpdateArea(this, Owner.Area, Area);
-    }
-
+   
     public event EventHandler AreaChanged;
     public virtual async Task OnAreaChanged()
     {
@@ -90,14 +85,12 @@ public class LocalControlStationModel :  ILocalControlStation
         });
     }
 
-    public void UpdateArea(object source, EventArgs e)
+    public void MatchOwnerArea(object source, EventArgs e)
     {
-        AreaManager.UpdateArea(this, Owner.Area, Area);
+        IEquipment owner = (IEquipment)source;
+        AreaManager.UpdateArea(this, owner.Area, Area);
         OnPropertyUpdated();
     }
 
-    public void OnAreaPropertiesChanged(object source, EventArgs e)
-    {
-        throw new NotImplementedException();
-    }
+   
 }

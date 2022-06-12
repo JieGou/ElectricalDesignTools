@@ -1,7 +1,9 @@
 ﻿using EDTLibrary;
 using EDTLibrary.A_Helpers;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.aMain;
+using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using ExcelLibrary;
 using Portable.Licensing;
@@ -158,7 +160,13 @@ namespace WpfUI.ViewModels
        
         private void ExcelTest()
         {
-            HelperExcelInterop.WriteToExcel();
+            //HelperExcelInterop.WriteToExcel();
+
+            ExcelHelper excel = new ExcelHelper();
+            excel.Initialize("test");
+            excel.ExportObjectProperties(new LoadModel(), SaveLists.LoadSaveList);
+            excel.SaveWorkbook();
+            excel.Release();
         }
 
 

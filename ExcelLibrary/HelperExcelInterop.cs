@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -38,7 +39,6 @@ namespace ExcelLibrary
                 //Create 
                 xlBooks = xlApp.Workbooks;
                 xlBook = xlBooks.Add();
-                worksheetCount = xlBook.Sheets.Count;
                 xlSheet = xlBook.Sheets["Sheet1"];
 
                 for (int i = 0; i < 10; i++) {
@@ -83,7 +83,6 @@ namespace ExcelLibrary
             }
 
             finally {
-
                 //if (xlSheet != null) {
                 //    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(xlSheet);
                 //    xlSheet = null;
@@ -106,31 +105,39 @@ namespace ExcelLibrary
 
 
                 //must release each object that referenced a COM object
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(xlSheet);
-                xlSheet = null;
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(xlBook);
-                xlBook = null;
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(xlBooks);
-                xlBooks = null;
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
-                xlApp = null;
+                ReleaseExcel(ref xlApp, ref xlBooks, ref xlBook, ref xlSheet);
 
                 //await KillExcelAsync();
 
             }
         }
 
+        private static void ReleaseExcel(ref Excel.Application xlApp, ref Workbooks xlBooks, ref Workbook xlBook, ref Worksheet xlSheet)
+        {
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlSheet);
+            xlSheet = null;
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlBook);
+            xlBook = null;
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlBooks);
+            xlBooks = null;
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
+            xlApp = null;
+        }
+
         private static async Task KillExcelAsync()
         {
-            await Task.Delay(5000);
-            Process[] excelProcesses = Process.GetProcessesByName("excel");
-            foreach (Process p in excelProcesses) {
-                if (string.IsNullOrEmpty(p.MainWindowTitle)) // use MainWindowTitle to distinguish this excel process with other excel processes 
-                {
-                    p.Kill();
-                }
+            //await Task.Delay(5000);
+            //Process[] excelProcesses = Process.GetProcessesByName("excel");
+            //foreach (Process p in excelProcesses) {
+            //    if (string.IsNullOrEmpty(p.MainWindowTitle)) // use MainWindowTitle to distinguish this excel process with other excel processes 
+            //    {
+            //        p.Kill();
+            //    }
 
-            }
+            //}
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }

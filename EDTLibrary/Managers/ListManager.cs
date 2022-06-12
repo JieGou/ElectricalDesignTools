@@ -208,9 +208,9 @@ namespace EDTLibrary
             foreach (var load in LoadList) {
                 foreach (var comp in CompList) {
                     if (comp.OwnerId == load.Id && comp.OwnerType == typeof(LoadModel).ToString()) {
-                        comp.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
                         comp.Owner = load;
-
+                        comp.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
+                        
                         //Aux Components
                         //if (comp.SubCategory == Categories.AuxComponent.ToString()) {
                         //    load.AuxComponents.Add(comp);
@@ -224,9 +224,11 @@ namespace EDTLibrary
                             load.CctComponents.Add(comp);
                             if (comp.Type == ComponentTypes.DefaultDrive.ToString()) {
                                 load.Drive = (ComponentModel)comp;
+                                load.FedFrom.AreaChanged += comp.MatchOwnerArea;
                             }
                             if (comp.Type == ComponentTypes.DefaultDcn.ToString()) {
                                 load.Disconnect = (ComponentModel)comp;
+                                load.AreaChanged += comp.MatchOwnerArea;
                             }
                         }
                     }
@@ -251,7 +253,7 @@ namespace EDTLibrary
                         lcs.Owner = load;
                         load.Lcs = lcs;
                         lcs.PropertyUpdated += DaManager.OnLcsPropertyUpdated;
-                        load.AreaChanged += lcs.UpdateArea;
+                        load.AreaChanged += lcs.MatchOwnerArea;
                     }
                 }
             }

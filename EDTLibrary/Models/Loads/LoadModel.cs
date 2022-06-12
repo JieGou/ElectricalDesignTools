@@ -606,5 +606,12 @@ namespace EDTLibrary.Models.Loads
                 PowerCable.CalculateAmpacity(this);
             }));
         }
+
+        public void MatchOwnerArea(object source, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

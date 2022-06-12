@@ -27,8 +27,5 @@ public interface ILocalControlStation: IEquipment
 
     Task OnPropertyUpdated();
     Task UpdateAreaProperties();
-    void UpdateArea(object source, EventArgs e);
-
-    public void OnAreaPropertiesChanged(object source, EventArgs e);
     
 }

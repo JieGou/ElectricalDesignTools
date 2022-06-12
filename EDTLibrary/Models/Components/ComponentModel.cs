@@ -130,4 +130,11 @@ public class ComponentModel : IComponent
             }
         });
     }
+  
+    public void MatchOwnerArea(object source, EventArgs e)
+    {
+        IEquipment owner = (IEquipment)source;
+        AreaManager.UpdateArea(this, owner.Area, Area);
+        OnPropertyUpdated();
+    }
 }

@@ -33,6 +33,6 @@ namespace EDTLibrary.Models
 
         event EventHandler AreaChanged;
         abstract Task OnAreaChanged();
-
+        void MatchOwnerArea(object source, EventArgs e);
     }
 }

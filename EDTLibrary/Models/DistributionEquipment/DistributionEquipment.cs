@@ -98,7 +98,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                         var cmd = new CommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
                         Undo.UndoList.Add(cmd);
                     }
-                OnPropertyUpdated();
+                    OnAreaChanged();
+                    OnPropertyUpdated();
 
                 }
 
@@ -483,7 +484,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
         public event EventHandler PropertyUpdated;
-        public event EventHandler AreaChanged;
 
         public virtual async Task OnPropertyUpdated()
         {
@@ -509,9 +509,20 @@ namespace EDTLibrary.Models.DistributionEquipment
             }));
         }
 
-        public Task OnAreaChanged()
+        public event EventHandler AreaChanged;
+
+        public async Task OnAreaChanged()
         {
-            throw new NotImplementedException();
+            await Task.Run(() => {
+                if (AreaChanged != null) {
+                    AreaChanged(this, EventArgs.Empty);
+                }
+            });
+        }
+
+        public void MatchOwnerArea(object source, EventArgs e)
+        {
+           
         }
 
 
