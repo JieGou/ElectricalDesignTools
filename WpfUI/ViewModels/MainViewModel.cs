@@ -2,7 +2,9 @@
 using EDTLibrary.A_Helpers;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Mappers;
 using EDTLibrary.Models.aMain;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using ExcelLibrary;
@@ -163,10 +165,31 @@ namespace WpfUI.ViewModels
             //HelperExcelInterop.WriteToExcel();
 
             ExcelHelper excel = new ExcelHelper();
-            excel.Initialize("test");
-            excel.ExportObjectProperties(new LoadModel(), SaveLists.LoadSaveList);
+
+            excel.Initialize();
+            excel.AddSheet("Load List");
+
+            LoadMapper load;
+            List<LoadMapper> loadList = new List<LoadMapper>();
+            foreach (var item in ListManager.LoadList) {
+                loadList.Add( new LoadMapper((LoadModel)item));
+            }
+
+            excel.ExportListProperties<LoadMapper>(loadList, LoadMapper.PropertiesToIgnore);
             excel.SaveWorkbook();
+
+
+            excel.AddSheet("Distribution Equipment List");
+            DteqMapper dteq;
+            List<DteqMapper> dteqList = new List<DteqMapper>();
+            foreach (var item in ListManager.IDteqList) {
+                dteqList.Add(new DteqMapper((DistributionEquipment)item));
+            }
+            excel.ExportListProperties<DteqMapper>(dteqList, DteqMapper.PropertiesToIgnore);
+
             excel.Release();
+
+
         }
 
 

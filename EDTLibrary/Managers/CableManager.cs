@@ -43,9 +43,19 @@ public class CableManager
     }
 
 
-    public static bool IsUpdatingPowerCables { get; set; }    
+    public static bool IsUpdatingPowerCables { get; set; }
+    public static string PreviousEq { get; set; }
+    public static int count { get; set; }
     public static async Task UpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
+        if (PreviousEq == powerComponentOwner.Tag) {
+            count +=1;
+        }
+        if (count >= 3) {
+            return;
+        }
+        PreviousEq = powerComponentOwner.Tag;
+
         IsUpdatingPowerCables = true;
         Stopwatch sw = new Stopwatch();
         sw.Start();
@@ -176,7 +186,9 @@ public class CableManager
         cable.Size = EdtSettings.DefaultLcsControlCableSize;
         cable.ConductorQty = lcs.TypeModel.DigitalConductorQty;
         var voltageClass = TypeManager.ControlCableTypes.FirstOrDefault(c => c.Type == EdtSettings.DefaultLcsControlCableType).VoltageClass;
+        IsUpdatingPowerCables = true;
         cable.TypeModel = TypeManager.GetLcsControlCableTypeModel(lcs);
+        IsUpdatingPowerCables = false;
         cable.VoltageClass = voltageClass;
         cable.QtyParallel = 1;
 
