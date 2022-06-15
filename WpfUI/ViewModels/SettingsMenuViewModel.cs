@@ -67,6 +67,8 @@ public class SettingsMenuViewModel : ViewModelBase
         _mainViewModel.CurrentViewModel = CurrentViewModel;
     }
 
+
+
     #region Properties and Backing Fields
 
 
@@ -109,11 +111,13 @@ public class SettingsMenuViewModel : ViewModelBase
     public ICommand NavigateGeneralSettingsCommand { get; }
     public ICommand NavigateEquipmentSettingsCommand { get; }
     public ICommand NavigateCableSettingsCommand { get; }
+    public ICommand NavigateExportSettingsCommand { get; }
+
 
     #endregion
 
 
-    
+
 
 
 

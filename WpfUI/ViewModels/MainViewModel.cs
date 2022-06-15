@@ -4,6 +4,7 @@ using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Mappers;
 using EDTLibrary.Models.aMain;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
@@ -168,24 +169,31 @@ namespace WpfUI.ViewModels
             try {
 
                 excel.Initialize();
-                excel.AddSheet("Load List");
 
                 LoadMapper load;
+                excel.AddSheet("Load List");
                 List<LoadMapper> loadList = new List<LoadMapper>();
                 foreach (var item in ListManager.LoadList) {
                     loadList.Add(new LoadMapper((LoadModel)item));
                 }
-
                 excel.ExportListProperties<LoadMapper>(loadList, LoadMapper.PropertiesToIgnore);
 
 
-                excel.AddSheet("Distribution Equipment List");
                 DteqMapper dteq;
+                excel.AddSheet("Distribution Equipment List");
                 List<DteqMapper> dteqList = new List<DteqMapper>();
                 foreach (var item in ListManager.IDteqList) {
                     dteqList.Add(new DteqMapper((DistributionEquipment)item));
                 }
                 excel.ExportListProperties<DteqMapper>(dteqList, DteqMapper.PropertiesToIgnore);
+
+                CableMapper cable;
+                excel.AddSheet("Cable List");
+                List<CableMapper> cableList = new List<CableMapper>();
+                foreach (var item in ListManager.CableList) {
+                    cableList.Add(new CableMapper((CableModel)item));
+                }
+                excel.ExportListProperties<CableMapper>(cableList, CableMapper.PropertiesToIgnore);
 
                 excel.SaveWorkbook();
                 excel.Release();

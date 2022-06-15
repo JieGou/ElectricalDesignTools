@@ -20,10 +20,11 @@ public class DteqMapper
         Tag = dteq.Tag;
         Category = dteq.Category;
         Type = dteq.Type;
+        SubType = dteq.SubType;
         Description = dteq.Description;
         AreaTag = dteq.Area.Tag;
         AreaName = dteq.Area.Name;
-        FedFrom = dteq.FedFrom.Tag;
+        FedFromTag = dteq.FedFrom.Tag;
         LineVoltage= dteq.LineVoltage;
         LoadVoltage = dteq.LoadVoltage;
         Size = dteq.Size;
@@ -70,9 +71,10 @@ public class DteqMapper
     public string Category { get; set; }
     public string Description { get; set; }
     public string Type { get; set; }
+    public string SubType { get; set; }
     public string AreaTag { get; set; }
     public string AreaName { get; set; }
-    public string FedFrom { get; set; }
+    public string FedFromTag { get; set; }
 
     public double LineVoltage { get; set; }
     public double LoadVoltage { get; set; }
