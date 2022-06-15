@@ -15,6 +15,7 @@ namespace EDTLibrary.Models.Cables
         string Tag { get; set; }
         string Type { get; set; }
         CableTypeModel TypeModel { get; set; }
+        
         string UsageType { get; set; }
         string Category { get; set; }
         int QtyParallel { get; set; }
@@ -37,6 +38,8 @@ namespace EDTLibrary.Models.Cables
         ICableUser Load { get; set; }
 
         bool SizeIsValid { get; set; }
+
+        void CreateSizeList();
 
         event EventHandler PropertyUpdated;
         abstract Task OnPropertyUpdated();

@@ -76,7 +76,7 @@ public class ComponentManager
         string type = ComponentTypes.DefaultDcn.ToString();
         string subType = "Type of Disconnect";
         ComponentModel newComponent = ComponentFactory.CreateComponent(componentUser, subCategory, type, subType, listManager);
-        componentUser.Disconnect = null;
+        componentUser.Disconnect = newComponent;
 
     }
 

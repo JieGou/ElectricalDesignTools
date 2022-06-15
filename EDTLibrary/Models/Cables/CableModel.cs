@@ -1,4 +1,5 @@
 ﻿
+using EdtLibrary.Commands;
 using EDTLibrary;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
@@ -14,6 +15,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace EDTLibrary.Models.Cables;
 
@@ -23,6 +25,7 @@ public class CableModel : ICable
 
     public CableModel()
     {
+        AutoSizeCableCommand = new RelayCommand(AutoSize);
 
     }
     public CableModel(IPowerConsumer load)
@@ -38,7 +41,10 @@ public class CableModel : ICable
         QtyParallel = 1;
         Spacing = 100;
 
+        AutoSizeCableCommand = new RelayCommand(AutoSize);
+
     }
+    public ICommand AutoSizeCableCommand { get; }
 
     #region Properties
     [Browsable(false)]
@@ -100,18 +106,19 @@ public class CableModel : ICable
             }
             if (GlobalConfig.GettingRecords == false) {
                 if (UsageType==CableUsageTypes.Power.ToString()) {
-                    CalculateCableQtyAndSize();
+                    AutoSize();
                 }
                 if (CableManager.IsUpdatingPowerCables == false) {
                     CableManager.UpdateLoadPowerComponentCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
                 }
             }
+            CreateSizeList();
             OnPropertyUpdated();
         }
     }
 
     public List<CableTypeModel> TypeList { get; set; } = new List<CableTypeModel>();
-
+    public List<string> SizeList { get; set; } = new List<string>();
     
     public string UsageType { get; set; }
     public int ConductorQty { get; set; }
@@ -151,10 +158,16 @@ public class CableModel : ICable
         {
             var oldValue = _size;
             _size = value;
+
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
                 Undo.UndoList.Add(cmd);
             }
+
+            if (GlobalConfig.GettingRecords == false && UsageType == CableUsageTypes.Power.ToString()) {
+                CalculateAmpacity(Load);
+            }
+            OnPropertyUpdated();
         }
     }
     public bool SizeIsValid { get; set; }
@@ -230,7 +243,7 @@ public class CableModel : ICable
             var oldValue = _installationType;
             _installationType = value;
             if (GlobalConfig.GettingRecords == false) {
-                CalculateCableQtyAndSize();
+                AutoSize();
             }
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                 var cmd = new CommandDetail { Item = this, PropName = nameof(InstallationType), OldValue = oldValue, NewValue = _installationType };
@@ -288,6 +301,18 @@ public class CableModel : ICable
             if (cableVoltageClass == cableType.VoltageClass
                 && this.UsageType == cableType.UsageType) {
                 TypeList.Add(cableType);
+            }
+        }
+    }
+    public void CreateSizeList()
+    {
+        SizeList.Clear();
+        if (EdtSettings.CableSizesUsedInProject == null) {
+            return;
+        }
+        foreach (var cable in EdtSettings.CableSizesUsedInProject) {
+            if (cable.Type == this.Type && cable.UsedInProject == true) {
+                SizeList.Add(cable.Size);
             }
         }
     }
@@ -350,7 +375,7 @@ public class CableModel : ICable
     /// </summary>
     
     //Qty Size
-    public void CalculateCableQtyAndSize()
+    public void AutoSize()
     {
         Undo.Undoing=true; 
         //_calculating = true;
@@ -414,6 +439,7 @@ public class CableModel : ICable
                     cable.DeratedAmps = cable.BaseAmps * cable.Derating;
                     cable.DeratedAmps = Math.Round(cable.DeratedAmps, 1);
                     cable.QtyParallel = cableQty;
+                    cable.CreateSizeList();
                     cable.Size = cablesWithHigherAmpsInProject.Rows[0]["Size"].ToString();
                 }
                 else {

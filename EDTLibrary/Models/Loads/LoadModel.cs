@@ -333,9 +333,11 @@ namespace EDTLibrary.Models.Loads
         }
 
 
-        public IComponent Disconnect { 
+        public IComponent Disconnect 
+        { 
             get; 
-            set; }
+            set; 
+        }
 
         private bool _disconnectBool;
         public bool DisconnectBool
@@ -550,7 +552,7 @@ namespace EDTLibrary.Models.Loads
             PowerCable.SetCableParameters(this);
 
             PowerCable.CreateTypeList(this);
-            PowerCable.CalculateCableQtyAndSize();
+            PowerCable.AutoSize();
         }
         public void CalculateCableAmps()
         {

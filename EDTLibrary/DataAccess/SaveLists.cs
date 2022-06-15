@@ -63,6 +63,8 @@ namespace EDTLibrary.DataAccess
             "TypeList",
             "DeratedAmpsToolTip",
             "RequiredAmpsToolTip",
+            "SizeList",
+            "AutoSizeCableCommand",
         };
 
         static public List<string> AreaSaveList { get; set; } = new List<string>() {

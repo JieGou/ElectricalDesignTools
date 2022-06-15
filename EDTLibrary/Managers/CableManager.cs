@@ -45,13 +45,14 @@ public class CableManager
 
     public static bool IsUpdatingPowerCables { get; set; }
     public static string PreviousEq { get; set; }
-    public static int count { get; set; }
+    public static int count { get; set; } = 0;
     public static async Task UpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
         if (PreviousEq == powerComponentOwner.Tag) {
             count +=1;
         }
-        if (count >= 3) {
+        if (count >= 2) {
+            count = 0;
             return;
         }
         PreviousEq = powerComponentOwner.Tag;

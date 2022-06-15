@@ -446,7 +446,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     private void CalculateSingleEqCableSize()
     {
-        //CalculateSingleDteqCableSize();
+        CalculateSingleDteqCableSize();
         CalculateSingleLoadCableSize();
     }
     private void CalculateSingleEqCableAmps()

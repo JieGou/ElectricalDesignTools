@@ -266,14 +266,15 @@ namespace EDTLibrary
         {
             CableList.Clear();
             CableList = DaManager.prjDb.GetRecords<CableModel>(GlobalConfig.CableTable);
-            AssignCableTypes();
+            AssignCableTypesAndSizes();
             return CableList;
         }
-        private void AssignCableTypes()
+        private void AssignCableTypesAndSizes()
         {
             Random random = new Random();
             foreach (var cable in CableList) {
                 cable.TypeModel = TypeManager.GetCableTypeModel(cable.Type);
+                cable.CreateSizeList();
 #if DEBUG
                 //if (cable.Length==0) {
                     cable.Length = random.Next(1, 750);
@@ -303,7 +304,7 @@ namespace EDTLibrary
                         sw.Restart();
 
                         load.CalculateLoading();
-                        load.PowerCable.CalculateCableQtyAndSize();
+                        load.PowerCable.AutoSize();
                         load.PowerCable.CalculateAmpacity(load);
 
                         subTotal += sw.Elapsed.TotalMilliseconds;
@@ -321,7 +322,7 @@ namespace EDTLibrary
                     sw.Restart();
 
                     dteq.CalculateLoading();
-                    dteq.PowerCable.CalculateCableQtyAndSize();
+                    dteq.PowerCable.AutoSize();
                     dteq.PowerCable.CalculateAmpacity(dteq);
 
                     subTotal += sw.Elapsed.TotalMilliseconds;

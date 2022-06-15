@@ -115,9 +115,8 @@
                 </StackPanel>
             </Border>
 
-            <!--Components-->
+            <!--COMPONENTS-->
             <ItemsControl ItemsSource="{Binding CctComponents}"
-                      Grid.Row="1"
                       HorizontalAlignment="Left">
 
                 <ItemsControl.ItemTemplate>
@@ -164,8 +163,9 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <!--Load-->
-            <Grid Grid.Row="2">
+            <!--LOAD-->
+            <!--Cable-->
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="5"/>

@@ -238,7 +238,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto" MinWidth="475" SharedSizeGroup="A"/>
+                    <ColumnDefinition Width="auto" MinWidth="480" SharedSizeGroup="A"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -1118,7 +1118,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto" MinWidth="475" SharedSizeGroup="A"/>
+                    <ColumnDefinition Width="auto" MinWidth="480" SharedSizeGroup="A"/>
 
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -1695,7 +1695,8 @@
 
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Path=DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                                    <CheckBox IsChecked="{Binding Path=DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              HorizontalAlignment="Center"
                                               Command="{Binding Path=DataContext.ToggleLoadDisconnectCommand, 
                                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"

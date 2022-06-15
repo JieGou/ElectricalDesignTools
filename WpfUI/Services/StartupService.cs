@@ -64,8 +64,9 @@ namespace WpfUI.Services
                     prjDb = new SQLiteConnector(projectFile);
                     DaManager.SetProjectDb(new SQLiteConnector(projectFile));
 
-                    LoadProjectDb();
                     LoadProjectSettings();
+                    LoadProjectDb();
+                    //LoadProjectSettings();
                 }
             }
             catch (Exception ex) {
