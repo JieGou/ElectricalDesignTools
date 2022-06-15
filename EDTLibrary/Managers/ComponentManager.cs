@@ -21,7 +21,6 @@ public class ComponentManager
         LocalControlStationModel newLcs = ComponentFactory.CreateLocalControlStation(componentUser, subCategory, type, subType, listManager);
         CableManager.AddLcsControlCableForLoad(componentUser, newLcs, listManager);
 
-        //Todo Local Control Station Model
         if (componentUser.GetType() == typeof(LoadModel)) {
             var load = (LoadModel)componentUser;
             load.Lcs = newLcs;

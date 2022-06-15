@@ -483,7 +483,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
     public void AddDteq(object dteqToAddObject) //typeOf DteqToAddValidator
     {
-
+        //Move AddDteq to DteqManager
         DteqToAddValidator dteqToAddValidator = (DteqToAddValidator)dteqToAddObject;
         try {
             var IsValid = dteqToAddValidator.IsValid(); //to help debug
@@ -521,6 +521,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
     public void DeleteDteq(object dteqObject)
     {
+        //Move DeleteDteq to DteqManager
+
         try {
 
             IDteq dteqToDelete = DteqFactory.Recast(dteqObject);
@@ -529,7 +531,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
                 _listManager.UnregisterDteqFromLoadEvents(dteqToDelete);
                 DeletePowerCable(dteqToDelete); //await 
-                RetagLoadsOfDeleted(dteqToDelete); //await
+                DistributionManager.RetagLoadsOfDeleted(dteqToDelete); //await
 
                 if (dteqToDelete.FedFrom != null) {
                     dteqToDelete.FedFrom.AssignedLoads.Remove(dteqToDelete);
@@ -562,26 +564,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         return;
     }
 
-    private void RetagLoadsOfDeleted(IDteq selectedDteq)
-    {
-        //TODO - Move to Distribution Manager
-        //Loads
-        List<IPowerConsumer> assignedLoads = new List<IPowerConsumer>();
-        if (selectedDteq.AssignedLoads != null) {
-            assignedLoads.AddRange(selectedDteq.AssignedLoads);
-        }
-
-        //Retag Loads to "Deleted"
-        IDteq deleted = GlobalConfig.DteqDeleted;
-        for (int i = 0; i < assignedLoads.Count; i++) {
-            var tag = assignedLoads[i].Tag;
-            var load = assignedLoads[i];
-            load.FedFromTag = GlobalConfig.Deleted;
-            load.FedFromType = GlobalConfig.Deleted;
-            load.FedFrom = deleted;
-        }
-        return;
-    }
+    
 
     public void AddLoad(object loadToAddObject)
     {

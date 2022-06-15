@@ -56,6 +56,26 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         }
 
+        public static void RetagLoadsOfDeleted(IDteq dteq)
+        {
+            //TODO - Move to Distribution Manager
+            //Loads
+            List<IPowerConsumer> assignedLoads = new List<IPowerConsumer>();
+            if (dteq.AssignedLoads != null) {
+                assignedLoads.AddRange(dteq.AssignedLoads);
+            }
+
+            //Retag Loads to "Deleted"
+            IDteq deleted = GlobalConfig.DteqDeleted;
+            for (int i = 0; i < assignedLoads.Count; i++) {
+                var tag = assignedLoads[i].Tag;
+                var load = assignedLoads[i];
+                load.FedFromTag = GlobalConfig.Deleted;
+                load.FedFromType = GlobalConfig.Deleted;
+                load.FedFrom = deleted;
+            }
+            return;
+        }
         //TODO - Load and DTEQ type changes
     }
 }

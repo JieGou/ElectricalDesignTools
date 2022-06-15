@@ -31,9 +31,6 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         AreaTag = dteqToAdd.Area.Tag;
 
         FedFromTag = dteqToAdd.FedFromTag;
-        //TODO - change validator to accept objects instead of strings
-        //FedFromTag = listManager.DteqList.FirstOrDefault(d => d.Tag == dteqToAdd.FedFrom.Tag).Tag;
-
 
         Size = dteqToAdd.Size.ToString();
         Unit = dteqToAdd.Unit;

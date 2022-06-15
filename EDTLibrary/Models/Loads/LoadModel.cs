@@ -64,8 +64,28 @@ namespace EDTLibrary.Models.Loads
         }
         public string Category { get; set; }
         public string Type { get; set; }
-        private string _description;
 
+        private string _subType;
+        public string SubType
+        {
+            get { return _subType; }
+            set
+            {
+                var oldValue = _subType;
+                _subType = value;
+                if (GlobalConfig.GettingRecords == false) {
+
+                }
+                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                    var cmd = new CommandDetail { Item = this, PropName = nameof(SubType), OldValue = oldValue, NewValue = _subType };
+                    Undo.UndoList.Add(cmd);
+                }
+                OnPropertyUpdated();
+            }
+        }
+
+
+        private string _description;
         public string Description
         {
             get { return _description; }

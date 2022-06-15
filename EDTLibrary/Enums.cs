@@ -27,8 +27,6 @@ namespace EDTLibrary {
         SPL,
     }
 
-    
-
     public enum LoadTypes {
         MOTOR,
         HEATER,

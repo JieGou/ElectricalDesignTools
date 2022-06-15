@@ -66,7 +66,11 @@ public class DaManager {
         TypeManager.CableTypes = libDb.GetRecords<CableTypeModel>(GlobalConfig.CableTypes);
         TypeManager.ControlCableSizes = libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
         TypeManager.InstrumentCableSizes = libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
-       
+
+        TypeManager.TransformerSizes = libDb.GetRecords<TransformerSize>("TransformerSizes");
+        TypeManager.TransformerTypes = libDb.GetRecords<TransformerType>("TransformerTypes");
+        TypeManager.GroundingSystemTypes = libDb.GetRecords<GroundingSystemType>("GroundingSystemTypes");
+
 
 
         LibraryManager.CecCableAmpacities = libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");

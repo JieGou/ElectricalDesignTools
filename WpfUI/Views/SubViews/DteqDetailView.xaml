@@ -8,8 +8,10 @@
              mc:Ignorable="d" 
              
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
+             xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
-
+             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubViews"
+             
              d:DesignHeight="400" d:DesignWidth="550"
              Background="LightCyan"
              d:Opacity="1"
@@ -122,10 +124,10 @@
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type edtDteqModels:DteqModel}">
-                            <subViews:TransformerDetailsView/>
+                            <mjeqSubViews:TransformerDetailsView/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
-                            <subViews:TransformerDetailsView/>
+                            <mjeqSubViews:TransformerDetailsView/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
                             <subViews:SwgDetailsView/>

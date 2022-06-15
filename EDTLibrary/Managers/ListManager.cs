@@ -249,7 +249,6 @@ namespace EDTLibrary
             foreach (var load in LoadList) {
                 foreach (var lcs in LcsList) {
                     if (lcs.OwnerId == load.Id && lcs.OwnerType == typeof(LoadModel).ToString()) {
-                        //Todo = LcsPropertyUpdated
                         lcs.Owner = load;
                         load.Lcs = lcs;
                         lcs.PropertyUpdated += DaManager.OnLcsPropertyUpdated;

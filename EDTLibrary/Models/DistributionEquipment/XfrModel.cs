@@ -41,7 +41,22 @@ public class XfrModel : DistributionEquipment
         }
     }
 
-    
+    private string _grounding;
+
+    public string Grounding
+    {
+        get { return _grounding; }
+        set 
+        {
+            var oldValue = _grounding;
+            _grounding = value;
+            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                var cmd = new CommandDetail { Item = this, PropName = nameof(Grounding), OldValue = oldValue, NewValue = _grounding };
+                Undo.UndoList.Add(cmd);
+            }
+            OnPropertyUpdated();
+        }
+    }
 
     private double _reactance;
     public double Reactance

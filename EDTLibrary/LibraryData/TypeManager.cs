@@ -94,7 +94,9 @@ namespace EDTLibrary.LibraryData.TypeTables
             }
         }
 
-
+        public static ObservableCollection<TransformerSize> TransformerSizes { get; set; }
+        public static ObservableCollection<TransformerType> TransformerTypes { get; set; }
+        public static ObservableCollection<GroundingSystemType> GroundingSystemTypes { get; set; }
         //Components
         public static ObservableCollection<LcsTypeModel> LcsTypes { get; set; }
         public static LcsTypeModel GetLcsTypeModel(string lcsType)
