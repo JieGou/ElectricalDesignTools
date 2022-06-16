@@ -49,28 +49,5 @@ namespace WpfUI.Views
 
         }
 
-        private void btnGeneralSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            //GeneralSettingsView settingView = new GeneralSettingsView();
-            //settingView.DataContext = this.DataContext;
-            //ccSettingPage.Content = settingView;
-            settingsVm.SelectedSettingView = new GeneralSettingsView();
-        }
-
-        private void btnDeveloperSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            //DeveloperSettingsView settingView = new DeveloperSettingsView();
-            //settingView.DataContext = this.DataContext;
-            //ccSettingPage.Content = settingView;
-            settingsVm.SelectedSettingView = new DeveloperSettingsView();
-        }
-
-        private void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            //CableSettingsView settingView = new CableSettingsView();
-            //settingView.DataContext = this.DataContext;
-            //ccSettingPage.Content = settingView;
-            settingsVm.SelectedSettingView = new CableSettingsView();
-        }
     }
 }

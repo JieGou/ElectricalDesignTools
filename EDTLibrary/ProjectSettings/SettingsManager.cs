@@ -100,11 +100,16 @@ namespace EDTLibrary.ProjectSettings
         
             AssignCodeSettings();
             GetCableSizesUsedInProject();
+            GetExportMappings();
         }
 
         private static void GetCableSizesUsedInProject()
         {
             EdtSettings.CableSizesUsedInProject = DaManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
+        }
+        private static void GetExportMappings()
+        {
+            EdtSettings.ExportMappings = DaManager.prjDb.GetRecords<ExportMappingModel>("ExportMapping");
         }
 
         private static void AssignCodeSettings()
@@ -142,5 +147,9 @@ namespace EDTLibrary.ProjectSettings
             DaManager.prjDb.SaveDataTable(tableSetting.TableValue, tableSetting.Name);
         }
 
+        public static void SaveExportMappingToDb(ExportMappingModel mapping)
+        {
+            DaManager.prjDb.UpdateRecord(mapping, GlobalConfig.ExportMappingTable);
+        }
     }
 }

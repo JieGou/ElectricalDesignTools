@@ -1,0 +1,156 @@
+﻿<UserControl x:Class="WpfUI.Views.Settings.ExportSettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:WpfUI.Views"
+             xmlns:commands="clr-namespace:WpfUI.Commands"
+             xmlns:projectSettings="clr-namespace:EDTLibrary.ProjectSettings;assembly=EDTLibrary"
+             
+             xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
+             
+             mc:Ignorable="d" 
+             d:Width="1400" d:Height="900" 
+             Background="AliceBlue">
+
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Blue.xaml"/>
+                <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <projectSettings:EdtSettings x:Key="edtSettings"/>
+
+            <CollectionViewSource x:Key="ListBoxItems" Source="{Binding Path=StringSettings}">
+                <CollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="Category" />
+                </CollectionViewSource.GroupDescriptions>
+            </CollectionViewSource>
+
+            <sys:Int32 x:Key="col1">1</sys:Int32>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="settingsGrid"
+              d:Opacity="1"
+              Opacity="0" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <!--Buttons-->
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="*"/>
+            <!--Wrap Panel-->
+
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Grid.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="settingsGrid"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0" To="1" Duration="0:0:0.25"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+
+        <WrapPanel Grid.Row="1" Grid.Column="2">
+
+            <!--Col 1 - Project Details-->
+            <GroupBox Header="Export Settings"
+                  Grid.Row="1" Grid.Column="2"
+                  Margin="25 0 25 25">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                      
+                    </Grid.RowDefinitions>
+
+
+                    <TextBlock Text="Report Type" 
+                       Grid.Row="1" Grid.Column="0" />
+                    
+                    <ListBox Grid.Row="2" Grid.Column="0"
+                             Height="100"
+                             VerticalAlignment="Top"
+                             FontWeight="Normal"
+                             ItemsSource="{Binding Path=ReportTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             SelectedItem="{Binding SelectedReportType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             
+                             />
+                    
+                    <TextBlock Text="Report Attributes" 
+                       Grid.Row="1" Grid.Column="2" />
+
+
+                    <DataGrid x:Name="dgdCableSizes" IsReadOnly="False" MinColumnWidth="50"
+                              Grid.Row="2" Grid.Column="2"
+                              Grid.RowSpan="2"
+                              MinWidth="50"
+                              Margin="0 10 10 10"
+                              FontWeight="Normal"
+                              d:Width="175" d:Height="200"
+                              MaxHeight="700"
+                              RowHeaderWidth="0"
+                              SelectionMode="Single"
+                              ItemsSource="{Binding SelectedExportMappings, Mode=TwoWay, UpdateSourceTrigger=Explicit, IsAsync=True}"
+                              SelectedItem="{Binding SelectedExportMappingModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            
+                            <!--Size-->
+                            <DataGridTextColumn Header="Attribute"
+                                                Binding="{Binding Path=Name}"
+                                                MinWidth="85" 
+                                                IsReadOnly="True"/>
+
+                            <!--Include In Report-->
+                            <DataGridTemplateColumn Header="Include&#x0a;In Report"  
+                                                    MinWidth="85" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Path=IncludeInReport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                                                  Command="{Binding SaveMappingCommand}" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"
+                                                  />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </GroupBox>
+
+
+        </WrapPanel>
+    </Grid>
+
+
+
+</UserControl>

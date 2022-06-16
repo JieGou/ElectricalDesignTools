@@ -120,6 +120,9 @@ namespace EDTLibrary.ProjectSettings
         public static string DefaultLcsTypeVsdLoad { get; set; }
 
 
+
+        public static ObservableCollection<ExportMappingModel> ExportMappings { get; set; }
+
     }
 }
 

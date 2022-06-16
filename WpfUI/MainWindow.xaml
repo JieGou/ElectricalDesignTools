@@ -90,7 +90,7 @@
                              Style="{StaticResource MainMenuButton}" 
                              GroupName="menu"
                              VerticalAlignment="Top"  
-                            Command="{Binding NavigateStartupCommand}"
+                             Command="{Binding NavigateStartupCommand}"
                             />
 
                     <!--Style="{StaticResource MainMenuButton}"-->
@@ -143,11 +143,11 @@
                              VerticalAlignment="Top"                        
                              Command="{Binding NavigateDataTablesCommand}"/>
 
-                    <Button Content="IMPORT / EXPORT"
+                    <Button Content="EXPORT"
                             VerticalAlignment="Top"                        
                             Command="{Binding ExportCommand}"
                             FontSize="12"
-                            Width="110"/>
+                            Width="75"/>
 
                     <Button Content="EXTRA WINDOW"
                             VerticalAlignment="Top"
@@ -251,11 +251,18 @@
                 <DataTemplate DataType="{x:Type settingsViewModels:EquipmentSettingsViewModel}">
                     <settingsViews:EquipmentSettingsView/>
                 </DataTemplate>
-                
+
                 <DataTemplate DataType="{x:Type settingsViewModels:CableSettingsViewModel}">
                     <settingsViews:CableSettingsView/>
                 </DataTemplate>
+                
+                <DataTemplate DataType="{x:Type settingsViewModels:ExportSettingsViewModel}">
+                    <settingsViews:ExportSettingsView/>
+                </DataTemplate>
 
+
+
+                <!--Areas & Systems-->
                 <DataTemplate DataType="{x:Type viewmodels:AreasViewModel}">
                     <views:AreasView/>
                 </DataTemplate>

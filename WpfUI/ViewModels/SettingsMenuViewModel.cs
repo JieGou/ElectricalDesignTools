@@ -27,6 +27,7 @@ public class SettingsMenuViewModel : ViewModelBase
         _mainViewModel = mainViewModel;
         _edtSettings = edtSettings;
         _typeManager = typeManager;
+
         // Create commands
 
         _generalSettingsViewModel = new GeneralSettingsViewModel(_edtSettings, _typeManager);
@@ -37,9 +38,21 @@ public class SettingsMenuViewModel : ViewModelBase
 
         _cableSettingsViewModel = new CableSettingsViewModel(edtSettings, _typeManager);
         NavigateCableSettingsCommand = new RelayCommand(NavigateCableSettings);
+
+        _exportSettingsViewModel = new ExportSettingsViewModel(edtSettings, _typeManager);
+        NavigateExportSettingsCommand = new RelayCommand(NavigateExportSettings);
     }
 
-    
+
+    #region Commands
+
+    public ICommand NavigateGeneralSettingsCommand { get; }
+    public ICommand NavigateEquipmentSettingsCommand { get; }
+    public ICommand NavigateCableSettingsCommand { get; }
+    public ICommand NavigateExportSettingsCommand { get; }
+
+
+    #endregion
 
     private GeneralSettingsViewModel _generalSettingsViewModel;
     private void NavigateGeneralSettings()
@@ -68,10 +81,16 @@ public class SettingsMenuViewModel : ViewModelBase
     }
 
 
+    private ExportSettingsViewModel _exportSettingsViewModel;
+    private void NavigateExportSettings()
+    {
+        _exportSettingsViewModel.LoadVmSettings(_exportSettingsViewModel);
+        CurrentViewModel = _exportSettingsViewModel;
+        _mainViewModel.CurrentViewModel = CurrentViewModel;
+    }
+
 
     #region Properties and Backing Fields
-
-
 
     public ObservableCollection<SettingModel> StringSettings { get; set; }
     public SettingModel SelectedStringSetting { get; set; }
@@ -106,15 +125,6 @@ public class SettingsMenuViewModel : ViewModelBase
 
     #endregion
 
-    #region Commands
-
-    public ICommand NavigateGeneralSettingsCommand { get; }
-    public ICommand NavigateEquipmentSettingsCommand { get; }
-    public ICommand NavigateCableSettingsCommand { get; }
-    public ICommand NavigateExportSettingsCommand { get; }
-
-
-    #endregion
 
 
 
@@ -255,11 +265,7 @@ public class SettingsMenuViewModel : ViewModelBase
         }
     }
 
-
     public ObservableCollection<CableSizeModel> SelectedCableSizes { get; set; } = new ObservableCollection<CableSizeModel>();
-
-
-
 
     private string _defaultCableInstallationType;
     public string DefaultCableInstallationType
@@ -485,7 +491,7 @@ public class SettingsMenuViewModel : ViewModelBase
 
 
     //New Settings
-    public void LoadVmSettings()
+    public void LoadVmSettings() // old way when SettingsMenuViewModel was just SettingsViewModel
     {
         Type projectSettingsClass = typeof(EdtSettings);
         Type viewModelSettings = typeof(SettingsMenuViewModel);

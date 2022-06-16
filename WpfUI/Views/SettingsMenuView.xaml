@@ -54,7 +54,8 @@
                     <Button Content="GENERAL" x:Name="btnGeneral"
                             Style="{StaticResource ToolBarButtonBase}"
                             Command="{Binding NavigateGeneralSettingsCommand}"
-                            ToolTip="Project details and general setup" PreviewMouseDown="btnGeneralSettings_PreviewMouseDown">
+                            ToolTip="Project details and general setup" 
+                            >
                         <!--<Button.RenderTransform>
                             <TranslateTransform x:Name="TranslateTransformGeneral"
                                         X="0" />
@@ -120,10 +121,14 @@
                             </EventTrigger>
                         </Button.Triggers>-->
                     </Button>
-                    
+
                     <Button Content="CABLE"
-                            Style="{StaticResource ToolBarButtonBase}" PreviewMouseDown="Button_PreviewMouseDown"
-                            Command="{Binding NavigateCableSettingsCommand}"
+                            Style="{StaticResource ToolBarButtonBase}" 
+                            Command="{Binding NavigateCableSettingsCommand}"/>
+
+                    <Button Content="REPORTS"
+                            Style="{StaticResource ToolBarButtonBase}" 
+                            Command="{Binding NavigateExportSettingsCommand}"
                             
                             />
                 </StackPanel>
@@ -131,33 +136,5 @@
             </Grid>
         </Border>
         
-        <!--<Grid Grid.Row="2" 
-              x:Name="settingsGrid"
-              d:Opacity="1"
-              Opacity="0">
-            <Grid.ColumnDefinitions>
-         
-            </Grid.ColumnDefinitions>
-            
-            <Grid.RowDefinitions>
-             
-            </Grid.RowDefinitions>
-
-            <Grid.Triggers>
-                <EventTrigger RoutedEvent="Grid.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="settingsGrid"
-                                Storyboard.TargetProperty="Opacity"
-                                From="0" To="1" Duration="0:0:0.5"
-                                AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Grid.Triggers>
-
-            <ContentControl x:Name="ccSettingPage" Content="{Binding SelectedSettingView}"/>
-
-        </Grid>-->
     </Grid>
 </UserControl>
