@@ -62,7 +62,7 @@ public partial class MainWindow : Window
     private void AreaMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
-            mainVm.NewWindow(new AreasViewModel(mainVm._listManager));
+            mainVm.NewWindow(new AreasMenuViewModel(mainVm, mainVm._listManager));
         }
     }
 

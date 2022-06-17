@@ -10,12 +10,23 @@
                          
         xmlns:viewmodels="clr-namespace:WpfUI.ViewModels"
         xmlns:views="clr-namespace:WpfUI.Views"
+        
+        xmlns:settingsViews="clr-namespace:WpfUI.Views.Settings"
+        xmlns:settingsViewModels="clr-namespace:WpfUI.ViewModels.Settings"
+        
+        xmlns:areaViews="clr-namespace:WpfUI.Views.Areas_and_Systems"
+        xmlns:areasViewModels="clr-namespace:WpfUI.ViewModels.Areas_and_Systems"
+        
         xmlns:electricalViews="clr-namespace:WpfUI.Views.Electrical"
         xmlns:electricalViewModels="clr-namespace:WpfUI.ViewModels.Electrical"
         
+        xmlns:cableViews="clr-namespace:WpfUI.Views.Cable"
+        xmlns:cableViewModels="clr-namespace:WpfUI.ViewModels.Cables"
                          
+        
         mc:Ignorable="d"
-        Title="Electrical Design Tools"
+        Title="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"
+        d:Title="Electrical Design Tools"
         d:Width="1600" d:Height="950"
         Background="white"
         WindowState="Maximized" 
@@ -84,7 +95,7 @@
                              Style="{StaticResource MainMenuButton}" 
                              GroupName="menu"
                              VerticalAlignment="Top"  
-                            Command="{Binding NavigateStartupCommand}"
+                             Command="{Binding NavigateStartupCommand}"
                             />
 
                     <!--Style="{StaticResource MainMenuButton}"-->
@@ -93,14 +104,12 @@
 
                     <RadioButton Content="PROJECT SETUP"
                              GroupName="menu"
-                             MinWidth="120"
                              Style="{StaticResource MainMenuButton}" 
                              VerticalAlignment="Top"
                              Command="{Binding NavigateSettingsCommand}"/>
 
 
                     <RadioButton Content="AREAS &amp; SYSTEMS"
-                             MinWidth="120"
                              VerticalAlignment="Top"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
@@ -114,18 +123,18 @@
                              Command="{Binding NavigateElectricalCommand}"
                              PreviewMouseDown="ElectricalMenuButton_PreviewMouseDown"/>
 
-                    <RadioButton Content="INSTRUMENTATION"
+                    <!--<RadioButton Content="INSTRUMENTATION"
                              GroupName="menu"
                              Width="120"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"
-                             Command="{Binding NavigateElectricalCommand}"/>
+                             Command="{Binding NavigateElectricalCommand}"/>-->
 
                     <RadioButton Content="CABLE &amp; TRAY"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"
-                             Command="{Binding NavigateCableListCommand}"
+                             Command="{Binding NavigateCablesCommand}"
                              PreviewMouseDown="CableMenuButton_PreviewMouseDown"
                              />
 
@@ -139,18 +148,17 @@
                              VerticalAlignment="Top"                        
                              Command="{Binding NavigateDataTablesCommand}"/>
 
-                    <Button Content="IMPORT / EXPORT"
+                    <Button Content="EXPORT"
                             VerticalAlignment="Top"                        
                             Command="{Binding ExportCommand}"
                             FontSize="12"
-                            Width="110"/>
+                            Width="75"/>
 
                     <Button Content="EXTRA WINDOW"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Command="{Binding ScenarioCommand}"
                             Margin="50 0 0 0"
-                            Width="110"
                             FontSize="12"/>
 
 
@@ -161,11 +169,11 @@
         </Grid>
 
         <!--Menu Content Control-->
-        <Border BorderBrush="Black" BorderThickness="0 1 0 1"
+        <Border BorderBrush="Black" BorderThickness="0 1 0 0"
                 Grid.Row="1">
             <ContentControl x:Name="ccMenu"
                             Grid.Row="1"
-                            Height="35"
+                            Height="36"
                             Content="{Binding MenuViewModel}"
                             >
                 <ContentControl.Resources>
@@ -174,9 +182,22 @@
                         <views:HomeView/>
                     </DataTemplate>
 
-                    <DataTemplate DataType="{x:Type viewmodels:ElectricalViewModel}">
-                        <views:ElectricalView/>
+                    <DataTemplate DataType="{x:Type viewmodels:SettingsMenuViewModel}">
+                        <views:SettingsMenuView/>
                     </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewmodels:AreasMenuViewModel}">
+                        <views:AreasMenuView/>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewmodels:ElectricalMenuViewModel}">
+                        <views:ElectricalMenuView/>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewmodels:CableMenuViewModel}">
+                        <views:CableMenuView/>
+                    </DataTemplate>
+
                 </ContentControl.Resources>
 
             </ContentControl>
@@ -227,23 +248,55 @@
                     <views:HomeView/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewmodels:SettingsViewModel}">
-                    <views:SettingsView/>
+                <!--Settings-->
+                <DataTemplate DataType="{x:Type viewmodels:SettingsMenuViewModel}">
+                    <views:SettingsMenuView/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewmodels:AreasViewModel}">
-                    <views:AreasView/>
+                <DataTemplate DataType="{x:Type settingsViewModels:GeneralSettingsViewModel}">
+                    <settingsViews:GeneralSettingsView/>
                 </DataTemplate>
 
+                <DataTemplate DataType="{x:Type settingsViewModels:EquipmentSettingsViewModel}">
+                    <settingsViews:EquipmentSettingsView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type settingsViewModels:CableSettingsViewModel}">
+                    <settingsViews:CableSettingsView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type settingsViewModels:ExportSettingsViewModel}">
+                    <settingsViews:ExportSettingsView/>
+                </DataTemplate>
+
+
+
+                <!--Areas & Systems-->
+                <DataTemplate DataType="{x:Type areasViewModels:AreasViewModel}">
+                    <areaViews:AreasView/>
+                </DataTemplate>
+
+
+
+                <!--Electrical-->
                 <DataTemplate DataType="{x:Type electricalViewModels:MjeqViewModel}">
                     <electricalViews:_MjeqView/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type viewmodels:CableListViewModel}">
-                    <views:CableListView/>
+
+
+                <!--Cables-->
+                <DataTemplate DataType="{x:Type cableViewModels:CableListViewModel}">
+                    <cableViews:CableListView/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type cableViewModels:TraySizerViewModel}">
+                    <cableViews:TraySizerView/>
                 </DataTemplate>
 
 
+
+                <!--DataTables-->
                 <DataTemplate DataType="{x:Type viewmodels:DataTablesViewModel}">
                     <views:DataTablesView/>
                 </DataTemplate>
@@ -251,8 +304,8 @@
             </ContentControl.Resources>
         </ContentControl>
 
-        
-        
+
+
 
     </Grid>
 </Window>

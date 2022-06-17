@@ -28,7 +28,7 @@ using WpfUI.ViewModifiers;
 namespace WpfUI.ViewModels.Electrical;
 
 [AddINotifyPropertyChangedInterface]
-public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
+public class DpnViewModel : ViewModelBase, INotifyDataErrorInfo
 {
 
     #region Constructor
@@ -52,7 +52,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
-    public MjeqViewModel(ListManager listManager)
+    public DpnViewModel(ListManager listManager)
     {
         //fields
         _listManager = listManager;

@@ -14,20 +14,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfUI.Helpers;
-using WpfUI.PopupWindows;
 using WpfUI.ViewModels;
 using WpfUI.Views.Electrical.MjeqSubviews;
 
-namespace WpfUI.Views;
-
+namespace WpfUI.Views.Areas_and_Systems;
 /// <summary>
 /// Interaction logic for AreasView.xaml
 /// </summary>
 public partial class AreasView : UserControl
 {
-
-    private AreasViewModel areaVm { get { return DataContext as AreasViewModel; } }
+    private AreasMenuViewModel areaVm { get { return DataContext as AreasMenuViewModel; } }
 
     public AreasView()
     {
@@ -57,9 +53,9 @@ public partial class AreasView : UserControl
 
         if (lstAreaClassification.SelectedItem == null) return;
 
-            areaVm.AreaClassificationsInfoTableItems.Clear();
-            var areaClass = lstAreaClassification.SelectedItem as AreaClassificationType;
-            areaVm.AreaClassificationsInfoTableItems.Add(areaClass);
+        areaVm.AreaClassificationsInfoTableItems.Clear();
+        var areaClass = lstAreaClassification.SelectedItem as AreaClassificationType;
+        areaVm.AreaClassificationsInfoTableItems.Add(areaClass);
 
     }
 
@@ -68,7 +64,4 @@ public partial class AreasView : UserControl
         var dataGrid = (DataGrid)sender;
         dataGrid.CancelEdit();
     }
-
 }
-
-

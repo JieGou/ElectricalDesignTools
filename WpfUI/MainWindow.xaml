@@ -14,14 +14,19 @@
         xmlns:settingsViews="clr-namespace:WpfUI.Views.Settings"
         xmlns:settingsViewModels="clr-namespace:WpfUI.ViewModels.Settings"
         
+        xmlns:areaViews="clr-namespace:WpfUI.Views.Areas_and_Systems"
+        xmlns:areasViewModels="clr-namespace:WpfUI.ViewModels.Areas_and_Systems"
+        
         xmlns:electricalViews="clr-namespace:WpfUI.Views.Electrical"
         xmlns:electricalViewModels="clr-namespace:WpfUI.ViewModels.Electrical"
         
         xmlns:cableViews="clr-namespace:WpfUI.Views.Cable"
         xmlns:cableViewModels="clr-namespace:WpfUI.ViewModels.Cables"
                          
+        
         mc:Ignorable="d"
-        Title="Electrical Design Tools"
+        Title="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"
+        d:Title="Electrical Design Tools"
         d:Width="1600" d:Height="950"
         Background="white"
         WindowState="Maximized" 
@@ -176,9 +181,13 @@
                     <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
                         <views:HomeView/>
                     </DataTemplate>
-                    
+
                     <DataTemplate DataType="{x:Type viewmodels:SettingsMenuViewModel}">
                         <views:SettingsMenuView/>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type viewmodels:AreasMenuViewModel}">
+                        <views:AreasMenuView/>
                     </DataTemplate>
 
                     <DataTemplate DataType="{x:Type viewmodels:ElectricalMenuViewModel}">
@@ -243,11 +252,11 @@
                 <DataTemplate DataType="{x:Type viewmodels:SettingsMenuViewModel}">
                     <views:SettingsMenuView/>
                 </DataTemplate>
-                
+
                 <DataTemplate DataType="{x:Type settingsViewModels:GeneralSettingsViewModel}">
                     <settingsViews:GeneralSettingsView/>
                 </DataTemplate>
-                
+
                 <DataTemplate DataType="{x:Type settingsViewModels:EquipmentSettingsViewModel}">
                     <settingsViews:EquipmentSettingsView/>
                 </DataTemplate>
@@ -255,7 +264,7 @@
                 <DataTemplate DataType="{x:Type settingsViewModels:CableSettingsViewModel}">
                     <settingsViews:CableSettingsView/>
                 </DataTemplate>
-                
+
                 <DataTemplate DataType="{x:Type settingsViewModels:ExportSettingsViewModel}">
                     <settingsViews:ExportSettingsView/>
                 </DataTemplate>
@@ -263,19 +272,19 @@
 
 
                 <!--Areas & Systems-->
-                <DataTemplate DataType="{x:Type viewmodels:AreasViewModel}">
-                    <views:AreasView/>
+                <DataTemplate DataType="{x:Type areasViewModels:AreasViewModel}">
+                    <areaViews:AreasView/>
                 </DataTemplate>
 
-                
-                
+
+
                 <!--Electrical-->
                 <DataTemplate DataType="{x:Type electricalViewModels:MjeqViewModel}">
                     <electricalViews:_MjeqView/>
                 </DataTemplate>
 
-                
-                
+
+
                 <!--Cables-->
                 <DataTemplate DataType="{x:Type cableViewModels:CableListViewModel}">
                     <cableViews:CableListView/>

@@ -65,7 +65,6 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
                 SaveVmSetting(nameof(ProjectName), _projectName);
             }
 
-
         }
     }
 
@@ -159,6 +158,33 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         {
             _code = value;
             SaveVmSetting(nameof(Code), _code);
+        }
+    }
+
+    private bool _areaColumnBool;
+
+    public bool AreaColumnBool
+    {
+        get { return _areaColumnBool; }
+        set { _areaColumnBool = value;
+            if (_areaColumnBool) {
+                AreaColumnVisible = "Visible";
+                return;
+            }
+            AreaColumnVisible = "Collapsed";
+
+        }
+    }
+
+
+    private string _areaColumnVisible;
+    public string AreaColumnVisible
+    {
+        get { return _areaColumnVisible; }
+        set 
+        { 
+            _areaColumnVisible = value; 
+            SaveVmSetting(nameof(AreaColumnVisible), _areaColumnVisible);
         }
     }
 

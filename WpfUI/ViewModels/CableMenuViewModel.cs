@@ -13,8 +13,11 @@ public class CableMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 {
 
     #region Constructor
-    private readonly MainViewModel _mainViewModel;
     private ListManager _listManager;
+    private MainViewModel _mainViewModel;
+    private CableListViewModel _cableListViewModel;
+    private TraySizerViewModel _traySizerViewModel;
+
     public ListManager ListManager
     {
         get { return _listManager; }
@@ -27,10 +30,6 @@ public class CableMenuViewModel : ViewModelBase, INotifyDataErrorInfo
         get { return _currentViewModel; }
         set { _currentViewModel = value; }
     }
-
-
-    CableListViewModel _cableListViewModel;
-    TraySizerViewModel _traySizerViewModel;
 
     public CableMenuViewModel(MainViewModel mainViewModel, ListManager listManager)
     {

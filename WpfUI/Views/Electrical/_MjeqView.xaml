@@ -38,6 +38,9 @@
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+
+            <viewModifiers:BindingProxy x:Key="AreaViewProxy" Data="{Binding AreaColumnVisible}" />
+
             <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
             <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 
@@ -259,7 +262,6 @@
                             Grid.ColumnSpan="2">
 
 
-
                     <!--<Button 
                             Width="80" Height="17"
                             Margin="5 0"
@@ -446,7 +448,9 @@
                         <DataGridTemplateColumn x:Name="dteqArea"
                                                 Width="75"
                                                 SortMemberPath="Area.Tag"
-                                                HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}">
+                                                HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}"
+                                        Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource AreaViewProxy}}"
+                                                >
                             <DataGridTemplateColumn.Header>
 
                                 <Grid>

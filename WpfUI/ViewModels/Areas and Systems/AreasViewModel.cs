@@ -16,7 +16,7 @@ using System.Windows.Threading;
 using WpfUI.Commands;
 using WpfUI.Helpers;
 
-namespace WpfUI.ViewModels
+namespace WpfUI.ViewModels.Areas_and_Systems
 {
     [AddINotifyPropertyChangedInterface]
     public class AreasViewModel : ViewModelBase, INotifyDataErrorInfo

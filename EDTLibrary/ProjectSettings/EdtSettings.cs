@@ -32,7 +32,20 @@ namespace EDTLibrary.ProjectSettings
     {
 
         //General
-        public static string ProjectName { get; set; }
+        public static string ProjectName {
+            get { return _projectName; }
+            set { _projectName = value;
+                OnProjectNameUpdated();
+            }
+        }
+
+        public static event EventHandler ProjectNameUpdated;
+        public static void OnProjectNameUpdated()
+        {
+            if (ProjectNameUpdated != null) {
+                ProjectNameUpdated(null, EventArgs.Empty);
+            }
+        }
         public static string ProjectName_Model { get; set; }
 
 
@@ -72,11 +85,13 @@ namespace EDTLibrary.ProjectSettings
         public static string DefaultCableType_3ph15kV { get; set; }
 
         private static string _cableSpacingMaxAmps_3C1kV;
-        public static string CableSpacingMaxAmps_3C1kV 
-        { 
+        private static string _projectName;
+
+        public static string CableSpacingMaxAmps_3C1kV
+        {
             get { return _cableSpacingMaxAmps_3C1kV; }
-            set 
-            { 
+            set
+            {
                 var oldValue = _cableSpacingMaxAmps_3C1kV;
                 double dblOut;
                 _cableSpacingMaxAmps_3C1kV = value;
@@ -86,7 +101,7 @@ namespace EDTLibrary.ProjectSettings
                 else if (Double.TryParse(_cableSpacingMaxAmps_3C1kV, out dblOut) == false) {
                     _cableSpacingMaxAmps_3C1kV = oldValue;
                 }
-           
+
             }
         }
 
@@ -97,7 +112,7 @@ namespace EDTLibrary.ProjectSettings
 
 
         //Dteq
-        public static string DteqMaxPercentLoaded { get; set; } 
+        public static string DteqMaxPercentLoaded { get; set; }
         public static string DteqDefaultPdTypeLV { get; set; }
 
         public static string LoadDefaultPdTypeLV_NonMotor { get; set; }
@@ -122,7 +137,7 @@ namespace EDTLibrary.ProjectSettings
 
 
         public static ObservableCollection<ExportMappingModel> ExportMappings { get; set; }
-
+        public static string AreaColumnVisible { get; set; }
     }
 }
 

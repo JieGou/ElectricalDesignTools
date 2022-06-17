@@ -98,7 +98,7 @@
 
                     <TextBlock Text="Project No." 
                        Grid.Row="1" Grid.Column="0" />
-                    
+
                     <TextBox Grid.Row="1" Grid.Column="2"
                          Text="{Binding Path=ProjectNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
@@ -108,18 +108,18 @@
                        Grid.Row="2" Grid.Column="0" />-->
                     <TextBox Grid.Row="2" Grid.Column="2"
                          Text="{Binding Path=ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    
-                    
+
+
                     <TextBlock Text="Project Title Line 1"  
                        Grid.Row="4" Grid.Column="0" />
                     <TextBox Grid.Row="4" Grid.Column="2"
                          Text="{Binding Path=ProjectTitleLine1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    
+
                     <TextBlock Text="Project Title Line 2"
                        Grid.Row="5" Grid.Column="0" />
                     <TextBox Grid.Row="5" Grid.Column="2"
                          Text="{Binding Path=ProjectTitleLine2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    
+
                     <TextBlock Text="Project Title Line 3"
                        Grid.Row="6" Grid.Column="0" />
                     <TextBox Grid.Row="6" Grid.Column="2"
@@ -136,7 +136,7 @@
                        Grid.Row="10" Grid.Column="0" />
                     <TextBox Grid.Row="10" Grid.Column="2"
                          Text="{Binding Path=ClientNameLine2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    
+
                     <TextBlock Text="Client Name Line 2" 
                        Grid.Row="11" Grid.Column="0" />
                     <TextBox Grid.Row="11" Grid.Column="2"
@@ -174,7 +174,7 @@
             </GroupBox>
 
             <!--DTEQ Settings-->
-            <GroupBox Header="Distribution Equipment"
+            <GroupBox Header="Equipment Column Options"
                   Grid.Row="1" Grid.Column="6"
                   Margin="25 0 25 25">
                 <Grid>
@@ -190,237 +190,32 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="0"  >
-                        <TextBlock Text="Dteq Max Loading Warning"  
+                    <TextBlock Text="Show or hide columns based on project needs. Refreshing affected pages is required for these settings to take effect. To refresh, navigate to a different page and back."
+                                   Grid.Row="1" Grid.Column="0"
+                               MaxWidth="250"
+                               Grid.ColumnSpan="3"
+                                   Style="{StaticResource settingDescription}"/>
+                    
+                    <StackPanel Orientation="Vertical"  Grid.Row="2" Grid.Column="0"  >
+                        <TextBlock Text="Area Columns"  
                                    Grid.Row="1" Grid.Column="0"/>
-                        <TextBlock Text="Visual warning when Distribution Equipment is loaded at or beyond selected value"  
+                        <TextBlock Text="Equipment Area columns are visible when selected. Disable for smaller projects without areas."  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2">
-                        <TextBox MinWidth="50"
-                                 Text="{Binding Path=DteqMaxPercentLoaded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                        <TextBlock Text="%"/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Vertical"  Grid.Row="2" Grid.Column="0"  >
-                        <TextBlock Text="New Transformer Impedance"
-                               Grid.Row="2" Grid.Column="0" />
-                        <TextBlock Text="Impedance ( % Z ) value when creating new Transformers"  
-                                   Grid.Row="1" Grid.Column="0"
-                                   Style="{StaticResource settingDescription}" />
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
-                        <TextBox Grid.Row="2" Grid.Column="2"
-                                 MinWidth="50"
-                                 Text="{Binding Path=DefaultXfrImpedance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBlock Text="%"/>
-                    </StackPanel>
-
-                    <TextBlock Text="Default OCPD Type for LV Equipment"
-                               Grid.Row="3" Grid.Column="0" />
-                    <ComboBox Grid.Row="3" Grid.Column="2"
-                              ItemsSource="{Binding TypeManager.OcpdTypes}"
-                              SelectedValuePath="Type" 
-                              DisplayMemberPath="Description"
-                              SelectedValue="{Binding DteqDefaultPdTypeLV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                              IsSynchronizedWithCurrentItem="False" />
+                    <CheckBox Grid.Row="2" Grid.Column="3"
+                              IsChecked="{Binding AreaColumnVisible}"
+                              VerticalAlignment="Top"
+                              Margin="10"/>
 
                 </Grid>
             </GroupBox>
 
-            <!--Load Settings-->
-            <GroupBox Header="Loads"
-                  Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 25">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="Default Load Factor"  
-                               Grid.Row="1" Grid.Column="0" />
-                    <TextBox Grid.Row="1" Grid.Column="2"
-                             Text="{Binding LoadFactorDefault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Default OCPD Type for Non-Motor Loads"  
-                               Grid.Row="3" Grid.Column="0" />
-                    <ComboBox Grid.Row="3" Grid.Column="2"
-                              ItemsSource="{Binding TypeManager.OcpdTypes}"
-                              SelectedValuePath="Type" 
-                              SelectedValue="{Binding LoadDefaultPdTypeLV_NonMotor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                              IsSynchronizedWithCurrentItem="False" >
-                        <ComboBox.ItemTemplateSelector>
-                            <templateSelectors:ComboBoxItemTemplateSelector>
-                                <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="100"/>
-                                            <TextBlock Text="{Binding Description}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector>
-                        </ComboBox.ItemTemplateSelector>
-                    </ComboBox>
-
-                    <TextBlock Text="Default OCPD Type for Motor Loads"  
-                               Grid.Row="4" Grid.Column="0" />
-                    <ComboBox Grid.Row="4" Grid.Column="2"
-                              ItemsSource="{Binding TypeManager.OcpdTypes}"
-                              SelectedValuePath="Type" 
-                              SelectedValue="{Binding LoadDefaultPdTypeLV_Motor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                              IsSynchronizedWithCurrentItem="False" >
-                        <ComboBox.ItemTemplateSelector>
-                            <templateSelectors:ComboBoxItemTemplateSelector>
-                                <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="100"/>
-                                            <TextBlock Text="{Binding Description}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector>
-                        </ComboBox.ItemTemplateSelector>
-                    </ComboBox>
-
-                    <TextBlock Text="Default Efficiency for PANEL loads"
-                               Grid.Row="6" Grid.Column="0" />
-                    <TextBox Grid.Row="6" Grid.Column="2"
-                             Text="{Binding LoadDefaultEfficiency_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Default Power Factor for PANEL loads"
-                               Grid.Row="7" Grid.Column="0" />
-                    <TextBox Grid.Row="7" Grid.Column="2"
-                              Text="{Binding LoadDefaultPowerFactor_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Default Efficiency for OTHER loads"
-                               Grid.Row="8" Grid.Column="0" />
-                    <TextBox Grid.Row="8" Grid.Column="2"
-                             Text="{Binding LoadDefaultEfficiency_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Default Power Factor for OTHER loads"
-                               Grid.Row="9" Grid.Column="0" />
-                    <TextBox Grid.Row="9" Grid.Column="2"
-                              Text="{Binding LoadDefaultPowerFactor_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-
-                </Grid>
-            </GroupBox>
-
-            <!--Component Settings-->
-            <GroupBox Header="Components"
-                  Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 25">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-
-                    <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="0"  >
-                        <TextBlock Text="Default Local Control Station Type"  
-                               Grid.Row="1" Grid.Column="0" />
-                        <TextBlock Text="The default LCS type when creating new loads or LCS's"  
-                                   Grid.Row="1" Grid.Column="0"
-                                   Style="{StaticResource settingDescription}" />
-                    </StackPanel>
-
-
-                    <ComboBox Grid.Row="1" Grid.Column="2"
-                              ItemsSource="{Binding TypeManager.LcsTypes}"
-                              SelectedValuePath="Type" 
-                              SelectedValue="{Binding DefaultLcsType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                              IsSynchronizedWithCurrentItem="False" >
-                        <ComboBox.ItemTemplateSelector>
-                            <templateSelectors:ComboBoxItemTemplateSelector>
-                                <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="125"/>
-                                            <TextBlock Text="{Binding Description}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector>
-                        </ComboBox.ItemTemplateSelector>
-                    </ComboBox>
-
-                    <TextBlock Text="Default OCPD Type for Non-Motor Loads"  
-                               Grid.Row="3" Grid.Column="0" />
-                    <ComboBox Grid.Row="3" Grid.Column="2"
-                              ItemsSource="{Binding TypeManager.OcpdTypes}"
-                              SelectedValuePath="Type" 
-                              DisplayMemberPath="Description"
-                              SelectedValue="{Binding LoadDefaultPdTypeLV_NonMotor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                              IsSynchronizedWithCurrentItem="False" />
-
-                </Grid>
-            </GroupBox>
         </WrapPanel>
     </Grid>
 

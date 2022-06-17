@@ -68,8 +68,20 @@ namespace WpfUI.ViewModels
             set { _edtSettings = value; }
         }
 
-
-
+        public string ProjectName { get; set; }
+        public void UpdateProjectName()
+        {
+            if (string.IsNullOrWhiteSpace(EdtSettings.ProjectName)) {
+                ProjectName = "Electrical Design Tools";
+            }
+            else {
+                ProjectName = "Electrical Design Tools - " + EdtSettings.ProjectName;
+            }
+        }
+        public  void OnProjectNameUpdated(object source, EventArgs e)
+        {
+            UpdateProjectName();
+        }
         private StartupService _startupService;
 
         public StartupService StartupService
@@ -79,17 +91,14 @@ namespace WpfUI.ViewModels
         }
 
 
+
         public readonly HomeViewModel _homeViewModel;
         public readonly SettingsMenuViewModel _settingsMenuViewModel;
-        public readonly AreasViewModel _areasViewModel;
+        public readonly AreasMenuViewModel _areasMenuViewModel;
 
         //Electrical
         public readonly ElectricalMenuViewModel _electricalMenuViewModel;
         public readonly MjeqViewModel _mjeqViewModel;
-
-
-
-
 
 
         public readonly CableMenuViewModel _cableMenuViewModel;
@@ -102,7 +111,7 @@ namespace WpfUI.ViewModels
         public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type="")
         {
             ValidateLicense();
-           
+            EdtSettings.ProjectNameUpdated += OnProjectNameUpdated;
 
             _listManager = listManager;
             ScenarioManager.ListManager = _listManager;
@@ -113,7 +122,9 @@ namespace WpfUI.ViewModels
 
             _homeViewModel = new HomeViewModel(this, startupService, listManager);
             _settingsMenuViewModel = new SettingsMenuViewModel(this, edtSettings, typeManager);
-            _areasViewModel = new AreasViewModel(listManager);
+
+            //Areas & Systems
+            _areasMenuViewModel = new AreasMenuViewModel(this, listManager);
 
             //Electrical
             _electricalMenuViewModel = new ElectricalMenuViewModel(this, listManager);
@@ -134,9 +145,10 @@ namespace WpfUI.ViewModels
 
 
 
-            NavigateAreasCommand = new RelayCommand(NavigateAreas, CanExecute_IsProjectLoaded);
+            NavigateAreasCommand = new RelayCommand(NavigateAreasSystems, CanExecute_IsProjectLoaded);
 
             NavigateElectricalCommand = new RelayCommand(NavigateElectical, startupService);
+
 
             NavigateCablesCommand = new RelayCommand(NavigateCables, CanExecute_IsProjectLoaded);
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables, CanExecute_IsLibraryLoaded);
@@ -148,7 +160,7 @@ namespace WpfUI.ViewModels
             ScenarioCommand = new RelayCommand(NewWindow);
 
             startupService.InitializeLibrary();
-            _areasViewModel.CreateComboBoxLists();
+            
 
             //TODO - Application Setting for auto load previous project
             if (type == "NewInstance") {
@@ -258,10 +270,9 @@ namespace WpfUI.ViewModels
 
 
 
-        private void NavigateAreas()
+        private void NavigateAreasSystems()
         {
-            CurrentViewModel = _areasViewModel;
-            //Todo - Map settings to ViewModel
+            MenuViewModel = _areasMenuViewModel;
         }
         private void NavigateElectical()
         {
@@ -269,11 +280,13 @@ namespace WpfUI.ViewModels
 
 
             //Below is For Ribbon Window
-            //CurrentViewModel = _mjeqViewModel;
-            //_mjeqViewModel.CreateValidators();
-            //_mjeqViewModel.CreateComboBoxLists();
-            //_mjeqViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
-            //_mjeqViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
+
+            //CurrentViewModel = MenuViewModel.CurrentViewModel;
+        //    _mjeqViewModel.CreateValidators();
+        //    _mjeqViewModel.CreateComboBoxLists();
+        //    _mjeqViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
+        //    _mjeqViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
+
         }
 
         private void NavigateCables()

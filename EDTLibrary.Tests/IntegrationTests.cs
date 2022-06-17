@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfUI.Services;
 using WpfUI.ViewModels;
+using WpfUI.ViewModels.Areas_and_Systems;
 using WpfUI.ViewModels.Electrical;
 using Xunit;
 

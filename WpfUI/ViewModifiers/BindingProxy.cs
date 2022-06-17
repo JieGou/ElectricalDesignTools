@@ -4,9 +4,7 @@ namespace WpfUI.ViewModifiers
 {
     public class BindingProxy : Freezable
     {
-        public static readonly DependencyProperty DataProperty =
-           DependencyProperty.Register("Data", typeof(object),
-              typeof(BindingProxy));
+        public static readonly DependencyProperty DataProperty = DependencyProperty.Register("Data", typeof(object), typeof(BindingProxy));
 
         public object Data
         {
