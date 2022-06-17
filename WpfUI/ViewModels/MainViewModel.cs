@@ -14,11 +14,15 @@ using Portable.Licensing.Security.Cryptography;
 using Portable.Licensing.Validation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using WpfUI.Commands;
+using WpfUI.PopupWindows;
 using WpfUI.Services;
 using WpfUI.ViewModels.Cables;
 using WpfUI.ViewModels.Electrical;
@@ -171,53 +175,82 @@ namespace WpfUI.ViewModels
         }
 
 
-        //Settings
-       
-        private void ExcelTest()
+
+
+
+
+
+        private void StartCloseTimer()
         {
-            //HelperExcelInterop.WriteToExcel();
-
-            ExcelHelper excel = new ExcelHelper();
-            try {
-
-                excel.Initialize();
-
-                LoadMapper load;
-                excel.AddSheet("Load List");
-                List<LoadMapper> loadList = new List<LoadMapper>();
-                foreach (var item in ListManager.LoadList) {
-                    loadList.Add(new LoadMapper((LoadModel)item));
-                }
-                excel.ExportListProperties<LoadMapper>(loadList, LoadMapper.PropertiesToIgnore);
-
-
-                DteqMapper dteq;
-                excel.AddSheet("Distribution Equipment List");
-                List<DteqMapper> dteqList = new List<DteqMapper>();
-                foreach (var item in ListManager.IDteqList) {
-                    dteqList.Add(new DteqMapper((DistributionEquipment)item));
-                }
-                excel.ExportListProperties<DteqMapper>(dteqList, DteqMapper.PropertiesToIgnore);
-
-                CableMapper cable;
-                excel.AddSheet("Cable List");
-                List<CableMapper> cableList = new List<CableMapper>();
-                foreach (var item in ListManager.CableList) {
-                    cableList.Add(new CableMapper((CableModel)item));
-                }
-                excel.ExportListProperties<CableMapper>(cableList, CableMapper.PropertiesToIgnore);
-
-                excel.SaveWorkbook();
-                excel.Release();
-
-            }
-            catch (Exception) {
-
-                excel.Release();
-            }
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(10d);
+            timer.Tick += TimerTick;
+            timer.Start();
         }
 
+        private void TimerTick(object sender, EventArgs e)
+        {
+            DispatcherTimer timer = (DispatcherTimer)sender;
+            timer.Stop();
+            timer.Tick -= TimerTick;
+            NotificationPopup.Close();
+        }
 
+        public NotificationPopup NotificationPopup { get; set; }
+        private void ExcelTest()
+        {
+            NotificationPopup = new NotificationPopup();
+            NotificationPopup.DataContext = new Notification("Exporting to Excel");
+            NotificationPopup.Show();
+            StartCloseTimer();
+            ExcelTestAsync();
+        }
+
+        private async Task ExcelTestAsync()
+        {
+            await Task.Run(() => {
+                ExcelHelper excel = new ExcelHelper(visible: false);
+                try {
+
+                    excel.Initialize();
+
+                    LoadMapper load;
+                    excel.AddSheet("Load List");
+                    List<LoadMapper> loadList = new List<LoadMapper>();
+                    foreach (var item in ListManager.LoadList) {
+                        loadList.Add(new LoadMapper((LoadModel)item));
+                    }
+                    excel.ExportListProperties<LoadMapper>(loadList, LoadMapper.PropertiesToIgnore);
+
+
+                    DteqMapper dteq;
+                    excel.AddSheet("Distribution Equipment List");
+                    List<DteqMapper> dteqList = new List<DteqMapper>();
+                    foreach (var item in ListManager.IDteqList) {
+                        dteqList.Add(new DteqMapper((DistributionEquipment)item));
+                    }
+                    excel.ExportListProperties<DteqMapper>(dteqList, DteqMapper.PropertiesToIgnore);
+
+                    CableMapper cable;
+                    excel.AddSheet("Cable List");
+                    List<CableMapper> cableList = new List<CableMapper>();
+                    foreach (var item in ListManager.CableList) {
+                        cableList.Add(new CableMapper((CableModel)item));
+                    }
+                    excel.ExportListProperties<CableMapper>(cableList, CableMapper.PropertiesToIgnore);
+
+
+                    excel.SaveWorkbook();
+                    excel.SetVisibility(true);
+                    excel.Release();
+                    Application.Current.Dispatcher.Invoke(NotificationPopup.Close);
+                }
+                catch (Exception) {
+
+                    excel.Release();
+                }
+            });
+        }
 
         #region Navigation
         public ICommand NavigateStartupCommand { get; }
@@ -353,6 +386,8 @@ namespace WpfUI.ViewModels
         private void OnCurrentViewModelChanged() {
             OnPropertyChanged(nameof(CurrentViewModel));
         }
+
+
         private static void ValidateLicense()
         {
             string licenseFilePath = @"C:/temp/License.lic";

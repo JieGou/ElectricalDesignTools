@@ -232,7 +232,10 @@ namespace ExcelLibrary
             }
         }
 
-
+        public void SetVisibility(bool isVisible)
+        {
+            App.Visible = isVisible;
+        }
         public async Task SaveWorkbook(string fileLocation = "C:\\temp\\", string filename = "Edt Excel Test")
         {
 
