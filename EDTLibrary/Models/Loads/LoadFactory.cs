@@ -20,11 +20,14 @@ namespace EDTLibrary.Models.Loads
         {
             LoadModel newLoad = new LoadModel();
 
-            //newLoad.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == loadToAddValidator.FedFromTag); // xx ms
-            
             foreach (var dteq in _listManager.DteqList) {  // 85 ms
                 if (dteq.Tag == loadToAddValidator.FedFromTag) {
-                    newLoad.FedFrom = dteq;
+
+                    GlobalConfig.GettingRecords = true; 
+                    newLoad.FedFrom = dteq; 
+                    GlobalConfig.GettingRecords = true;
+
+                    break;
                 }
             }
             newLoad.Tag = loadToAddValidator.Tag;
@@ -34,7 +37,6 @@ namespace EDTLibrary.Models.Loads
 
             newLoad.Size = Double.Parse(loadToAddValidator.Size);
             newLoad.Description = loadToAddValidator.Description;
-            //newLoad.FedFromTag = loadToAddValidator.FedFromTag;
             newLoad.Voltage = Double.Parse(loadToAddValidator.Voltage);
             newLoad.Unit = loadToAddValidator.Unit;
             newLoad.LoadFactor = Double.Parse(loadToAddValidator.LoadFactor);

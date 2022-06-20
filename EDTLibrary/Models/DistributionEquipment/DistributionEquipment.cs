@@ -251,6 +251,12 @@ namespace EDTLibrary.Models.DistributionEquipment
                 IDteq nextFedFrom = value;
                 //ClearErrors(nameof(FedFrom));
                 try {
+                    if (GlobalConfig.GettingRecords == true) {
+                        // Assigned loads add, and events are subscribed to inside UpdateFedFrom;
+                        _fedFrom = value;
+                        DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
+                        return;
+                    }
                     for (int i = 0; i < 500; i++) {
                         if (nextFedFrom != null) {
                             if (nextFedFrom.Tag == Tag) {
@@ -268,10 +274,6 @@ namespace EDTLibrary.Models.DistributionEquipment
                                 nextFedFrom = nextFedFrom.FedFrom;
                             }
                         }
-                    }
-                    if (GlobalConfig.GettingRecords == true) {
-                        _fedFrom = value;
-                        DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
                     }
                 }
                 catch (Exception ex) {

@@ -54,11 +54,13 @@ public class ComponentModel : IComponent
 
     public string Description { get; set; }
     public string Category { get; set; } //Component
-    public string SubCategory { get; set; } //Aux vs Cct Component
+    public string SubCategory { get; set; } 
 
-    public string Type { get; set; } //DefaultDCN, DefaultDrive, FDS, UDS, LCS, VSD, RVS 
-    public string SubType { get; set; } //Lcs Type
+    public string Type { get; set; } 
+    public string SubType { get; set; } 
     public ObservableCollection<LcsTypeModel> SubTypeList { get; set; } = new ObservableCollection<LcsTypeModel>();
+
+    public double Size { get; set; }
 
     public int AreaId { get; set; }
     private IArea _area;

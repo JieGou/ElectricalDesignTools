@@ -7,6 +7,7 @@ namespace EDTLibrary.Models.Components
 {
     public interface IComponent : IEquipment
     {
+        double Size { get; set; }
         string SubCategory { get; set; }
         string SubType { get; set; }
         ObservableCollection<LcsTypeModel> SubTypeList { get; set; }

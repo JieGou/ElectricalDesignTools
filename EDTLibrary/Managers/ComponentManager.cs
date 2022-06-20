@@ -14,11 +14,8 @@ public class ComponentManager
     public static void AddLcs(IComponentUser componentUser, ListManager listManager)
     {
         if (listManager == null) return;
-        string subCategory = Categories.AuxComponent.ToString();
-        string type = ComponentTypes.LCS.ToString();
-        string subType = "Type Of LCS";
 
-        LocalControlStationModel newLcs = ComponentFactory.CreateLocalControlStation(componentUser, subCategory, type, subType, listManager);
+        LocalControlStationModel newLcs = ComponentFactory.CreateLocalControlStation(componentUser, listManager);
         CableManager.AddLcsControlCableForLoad(componentUser, newLcs, listManager);
 
         if (componentUser.GetType() == typeof(LoadModel)) {
@@ -41,22 +38,23 @@ public class ComponentManager
             load.Lcs = null;
         }
     }
-    public static void AddDrive(IComponentUser componentUser, ListManager listManager)
+    public static void AddDefaultDrive(IComponentUser componentUser, ListManager listManager)
     {
         if (listManager == null) return;
-        string subCategory = Categories.CctComponent.ToString();
-        string type = ComponentTypes.DefaultDrive.ToString();
-        string subType = "Type of Drive";
+        string subCategory = SubCategories.CctComponent.ToString();
+        string type = ComponentTypes.VSD.ToString();
+        string subType = ComponentSubTypes.DefaultDrive.ToString();
         ComponentModel newComponent = ComponentFactory.CreateComponent(componentUser, subCategory, type, subType, listManager);
         componentUser.Drive = newComponent;
 
     }
 
-    public static void RemoveDrive(IComponentUser componentUser, ListManager listManager)
+    public static void RemoveDefaultDrive(IComponentUser componentUser, ListManager listManager)
     {
+        if (componentUser.Drive == null) return;
         if (componentUser.GetType() == typeof(LoadModel)) {
             foreach (var component in componentUser.CctComponents) {
-                if (component.Type == ComponentTypes.DefaultDrive.ToString()) {
+                if (component.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
                     componentUser.CctComponents.Remove(component);
                     int componentId = component.Id;
                     var componentToRemote = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
@@ -68,23 +66,23 @@ public class ComponentManager
             }
         }
     }
-    public static void AddDisconnect(IComponentUser componentUser, ListManager listManager)
+
+    public static void AddDefaultDisconnect(IComponentUser componentUser, ListManager listManager)
     {
         if (listManager == null) return;
-        string subCategory = Categories.CctComponent.ToString();
-        string type = ComponentTypes.DefaultDcn.ToString();
-        string subType = "Type of Disconnect";
+        string subCategory = SubCategories.CctComponent.ToString();
+        string type = "Default UDS or FDS";
+        string subType = ComponentSubTypes.DefaultDcn.ToString();
         ComponentModel newComponent = ComponentFactory.CreateComponent(componentUser, subCategory, type, subType, listManager);
         componentUser.Disconnect = newComponent;
-
     }
 
-    public static void RemoveDisconnect(IComponentUser componentUser, ListManager listManager)
+    public static void RemoveDefaultDisconnect(IComponentUser componentUser, ListManager listManager)
     {
-
+        if (componentUser.Disconnect == null) return;
         if (componentUser.GetType() == typeof(LoadModel)) {
             foreach (var component in componentUser.CctComponents) {
-                if (component.Type == ComponentTypes.DefaultDcn.ToString()) {
+                if (component.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
                     componentUser.CctComponents.Remove(component);
                     int componentId = component.Id;
                     var componentToRemote = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
@@ -96,9 +94,6 @@ public class ComponentManager
             }
         }
     }
-
-    
-
 
     public static void RetagCctComponents(IComponentUser componentUser)
     {
@@ -129,10 +124,10 @@ public class ComponentManager
 
         if (componentUser.GetType() == typeof(LoadModel)) {
             var load = (LoadModel)componentUser;
-            if (component.Type == ComponentTypes.DefaultDcn.ToString()) {
+            if (component.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
                 load.DisconnectBool = false;
             }
-            if (component.Type == ComponentTypes.DefaultDrive.ToString()) {
+            if (component.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
                 load.DriveBool = false;
             }
         }

@@ -28,9 +28,9 @@ public class LoadManager
     public static void SetLoadPdSize(LoadModel load)
     {
         //TODO - enum for PdTypes
-        if (load.PdType == "STR" ||
-            load.PdType == "FVNR" ||
-            load.PdType == "FVR") {
+        if (load.PdType.Contains("MCP") ||
+            load.PdType.Contains("FVNR") ||
+            load.PdType.Contains("FVR")) {
             load.PdSizeFrame = LibraryManager.GetMcpFrame(load);
             load.PdSizeTrip = LibraryManager.GetStarterSize(load);
             //load.PdSizeTrip = Math.Min(load.Fla * 1.25, load.PdSizeFrame);
@@ -54,9 +54,9 @@ public class LoadManager
 
         LoadModel newLoad = _loadFactory.CreateLoad(loadToAddValidator); //150ms
 
-        IDteq dteqSubscriber = listManager.DteqList.FirstOrDefault(d => d == newLoad.FedFrom);
+        IDteq dteqSubscriber = newLoad.FedFrom;
         if (dteqSubscriber != null) {
-            //dteqSubscriber.AssignedLoads.Add(newLoad); //newLoad is somehow already getting added to Assigned Loads
+            dteqSubscriber.AssignedLoads.Add(newLoad); 
             newLoad.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
             newLoad.PropertyUpdated += DaManager.OnLoadPropertyUpdated;
         }
@@ -95,7 +95,7 @@ public class LoadManager
 
             LoadModel selectedLoad = (LoadModel)selectedLoadObject;
             ComponentManager.DeleteComponents(selectedLoad, listManager);
-            IDteq dteqToRecalculate = listManager.DteqList.FirstOrDefault(d => d == selectedLoad.FedFrom);
+            IDteq dteqToRecalculate = selectedLoad.FedFrom;
             int loadId = selectedLoad.Id;
             selectedLoad.PropertyUpdated -= DaManager.OnLoadPropertyUpdated;
             await CableManager.DeletePowerCableAsync(selectedLoad, listManager); //await

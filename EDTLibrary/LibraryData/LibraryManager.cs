@@ -135,12 +135,12 @@ namespace EDTLibrary.LibraryData
                 DataTable dtFiltered;
 
                 var filteredRows = dt.AsEnumerable().Where(x => x.Field<string>("Unit") == load.Unit
-                                                             && x.Field<double>("HP") <= (double)load.Size);
+                                                             && x.Field<double>("HP") >= (double)load.Size);
 
 
                 try {
                     dtFiltered = filteredRows.CopyToDataTable();
-                    dtFiltered = dtFiltered.Select($"Size = Max(Size)").CopyToDataTable();
+                    dtFiltered = dtFiltered.Select($"Size = Min(Size)").CopyToDataTable();
                     result = Double.Parse(dtFiltered.Rows[0]["Size"].ToString());
                 }
                 catch { }
@@ -194,6 +194,39 @@ namespace EDTLibrary.LibraryData
             return result;
         }
 
-        
+        public static double GetDisconnectSize(IPowerConsumer load)
+        {
+
+            double result = .99999;
+            if (DataTables.Motors != null) {
+
+                DataTable dt = DataTables.Disconnects.Copy();
+                DataTable dtFiltered;
+
+                IEnumerable<DataRow> filteredRows;
+                if (load.Type==LoadTypes.MOTOR.ToString()) {
+                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("HP") >= (double)load.Size);
+                    if (load.Unit == Units.kW.ToString()) {
+                        filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("kW") >= (double)load.Size);
+                    }
+                }
+                else {
+                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)load.Size);
+                }
+                
+
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    dtFiltered = dtFiltered.Select($"Amps = Min(Amps)").CopyToDataTable();
+                    result = Double.Parse(dtFiltered.Rows[0]["Amps"].ToString());
+                }
+                catch (InvalidCastException ex) {
+                    //throw;
+                }
+            }
+            return result;
+        }
+
+
     }
 }

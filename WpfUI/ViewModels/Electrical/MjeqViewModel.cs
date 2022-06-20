@@ -506,7 +506,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
                 IDteq dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
                 if (dteqSubscriber != null) {
-                    //dteqSubscriber.AssignedLoads.Add(newDteq); //newDteq is somehow already getting added to Assigned Loads
+                    //dteqSubscriber.AssignedLoads.Add(newDteq); load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom();
                     newDteq.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
                     newDteq.PropertyUpdated += DaManager.OnDteqPropertyUpdated;
                 }
@@ -563,7 +563,6 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         return;
     }
 
-
     private void DeletePowerCable(IPowerConsumer powerCableUser)
     {
         //TODO - Move to Cable Manager
@@ -576,8 +575,6 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         return;
     }
 
-    
-
     public void AddLoad(object loadToAddObject)
     {
         AddLoadAsync(loadToAddObject);
@@ -587,7 +584,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         try {
             LoadModel newLoad = await LoadManager.AddLoad(loadToAddObject, _listManager);
-            if (newLoad != null) AssignedLoads.Add(newLoad);
+            AssignedLoads.Add(newLoad);
             RefreshLoadTagValidation();
             //SelectedLoad = newLoad;
         }
@@ -634,7 +631,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     private async Task GetLoadListAsync()
     {
-        AssignedLoads.Clear(); //Must be named assigned Lost to match DTEQ.AssignedLoads
+        AssignedLoads.Clear(); //Must be named AssignedLoads  to match DTEQ.AssignedLoads
         foreach (var load in _listManager.LoadList) {
             AssignedLoads.Add(load);
         }

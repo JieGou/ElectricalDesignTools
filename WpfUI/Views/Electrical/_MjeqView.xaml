@@ -1675,11 +1675,13 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
+                        <!--Frame-->
                         <DataGridTextColumn Header="PD / MCP&#x0a;Frame" 
                                 Binding="{Binding Path=PdSizeFrame, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                             Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
 
+                        <!--Trip-->
                         <DataGridTextColumn Header="PD Trip /&#x0a;Starter Size" 
                                 Binding="{Binding Path=PdSizeTrip, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 

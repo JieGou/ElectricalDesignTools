@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EDTLibrary.Tests", "EDTLibr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfUI.Tests", "WpfUI.Tests\WpfUI.Tests.csproj", "{9E0F5C73-E827-45E7-9820-D76D64B425D2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{50E08AEB-4A6A-4FA8-BE96-D05F73A87788}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{50E08AEB-4A6A-4FA8-BE96-D05F73A87788}"
 	ProjectSection(SolutionItems) = preProject
 		_Notes.txt = _Notes.txt
 	EndProjectSection

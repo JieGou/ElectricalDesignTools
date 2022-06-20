@@ -35,4 +35,9 @@ public partial class NotificationPopup : Window
         //this.Top = desktopWorkingArea.Top + 50;
 
     }
+
+    private void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        this.Close();
+    }
 }

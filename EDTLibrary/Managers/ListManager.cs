@@ -220,13 +220,13 @@ namespace EDTLibrary
                         //}
 
                         //Cct Components
-                        if (comp.SubCategory == Categories.CctComponent.ToString()) {
+                        if (comp.SubCategory == SubCategories.CctComponent.ToString()) {
                             load.CctComponents.Add(comp);
-                            if (comp.Type == ComponentTypes.DefaultDrive.ToString()) {
+                            if (comp.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
                                 load.Drive = (ComponentModel)comp;
                                 load.FedFrom.AreaChanged += comp.MatchOwnerArea;
                             }
-                            if (comp.Type == ComponentTypes.DefaultDcn.ToString()) {
+                            if (comp.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
                                 load.Disconnect = (ComponentModel)comp;
                                 load.AreaChanged += comp.MatchOwnerArea;
                             }
@@ -297,7 +297,7 @@ namespace EDTLibrary
                 Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
 
                 //Loads
-                GlobalConfig.GettingRecords = true;
+                GlobalConfig.GettingRecords = false;
                 {
                     foreach (var load in LoadList) {
                         sw.Restart();

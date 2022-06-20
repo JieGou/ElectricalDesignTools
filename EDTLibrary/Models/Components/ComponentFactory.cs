@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
@@ -28,55 +29,47 @@ public class ComponentFactory
         newComponent.OwnerType = componentUser.GetType().ToString();
         newComponent.Type = componentType;
         newComponent.SubType = componentSubType;
+        
 
-        //Tag and Area
-        if (componentType == ComponentTypes.DefaultDcn.ToString()) {
+        //Tag, Area, Size
+        if (componentSubType == ComponentSubTypes.DefaultDcn.ToString()) {
             newComponent.Tag = componentUser.Tag + TagSettings.SuffixSeparator + TagSettings.DisconnectSuffix;
             newComponent.Area = componentUser.Area;
+            var load = (IPowerConsumer)componentUser;
+            newComponent.Size = LibraryManager.GetDisconnectSize(load);
         }
-        else if (componentType == ComponentTypes.DefaultDrive.ToString()) {
+        else if (componentSubType == ComponentSubTypes.DefaultDrive.ToString()) {
             newComponent.Tag = componentUser.Tag + TagSettings.SuffixSeparator + TagSettings.DriveSuffix;
             var powerConsumer = (IPowerConsumer)componentUser;
             newComponent.Area = powerConsumer.FedFrom.Area;
         }
-        else if (componentType == ComponentTypes.LCS.ToString()) {
-            newComponent.Tag = componentUser.Tag + TagSettings.SuffixSeparator + TagSettings.LcsSuffix;
-            newComponent.Area = componentUser.Area;
-        }
 
-        //AuxComponents vs CctComponents
-        if (componentSubCategory == Categories.AuxComponent.ToString()) {
-            var lcs = componentUser.AuxComponents.FirstOrDefault(c => c.Type == ComponentTypes.LCS.ToString());
+        //Size
 
-            if (componentType == ComponentTypes.LCS.ToString() && lcs != null) {
-                componentUser.AuxComponents.Add(newComponent);
 
-            }
-        }
-
-        else if (componentSubCategory == Categories.CctComponent.ToString()) {
-            var defaultDcn = componentUser.CctComponents.FirstOrDefault(c => c.Type == ComponentSubTypes.DefaultDcn.ToString());
-            if (componentType != ComponentTypes.DefaultDcn.ToString() && defaultDcn != null) {
+        //Order of components
+       if (newComponent.SubCategory == SubCategories.CctComponent.ToString()) {
+            var defaultDcn = componentUser.CctComponents.FirstOrDefault(c => c.SubType == ComponentSubTypes.DefaultDcn.ToString());
+            if (newComponent.SubType != ComponentSubTypes.DefaultDcn.ToString() && defaultDcn != null) {
                 componentUser.CctComponents.Insert(componentUser.CctComponents.Count - 1, newComponent);
             }
             else {
                 componentUser.CctComponents.Add(newComponent);
             }
         }
-
+       
         listManager.CompList.Add(newComponent);
         DaManager.UpsertComponent(newComponent);
         newComponent.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
-
 
         return newComponent;
     }
 
 
-    public static LocalControlStationModel CreateLocalControlStation(IComponentUser componentUser, string componentSubCategory, string componentType, string componentSubType, ListManager listManager)
+    public static LocalControlStationModel CreateLocalControlStation(IComponentUser componentOwner, ListManager listManager)
     {
         LocalControlStationModel newLcs = new LocalControlStationModel();
-        ILoad componentOwner = componentUser as LoadModel;
+        ILoad owner = componentOwner as LoadModel;
 
         //Id
         if (listManager.LcsList.Count < 1) {
@@ -86,12 +79,12 @@ public class ComponentFactory
             newLcs.Id = listManager.LcsList.Select(c => c.Id).Max() + 1;
         }
         newLcs.Category = Categories.LCS.ToString();
-        newLcs.SubCategory = componentSubCategory;
+        newLcs.SubCategory = SubCategories.AuxComponent.ToString();
 
-        if (componentOwner.PdType.Contains("MCP")) {
+        if (owner.PdType.Contains("MCP")) {
             newLcs.Type = EdtSettings.DefaultLcsTypeDolLoad;
         }
-        else if (componentOwner.DriveBool==true) {
+        else if (owner.DriveBool==true) {
             newLcs.Type = EdtSettings.DefaultLcsTypeVsdLoad;
         }
         else {
@@ -100,12 +93,11 @@ public class ComponentFactory
         newLcs.TypeModel = TypeManager.GetLcsTypeModel(newLcs.Type);
         
 
-        newLcs.Owner = componentUser;
-        newLcs.OwnerId = componentUser.Id;
-        newLcs.OwnerType = componentUser.GetType().ToString();
-        newLcs.Tag = componentUser.Tag + TagSettings.SuffixSeparator + TagSettings.LcsSuffix;
-        newLcs.Area = componentUser.Area;
-
+        newLcs.Owner = componentOwner;
+        newLcs.OwnerId = componentOwner.Id;
+        newLcs.OwnerType = componentOwner.GetType().ToString();
+        newLcs.Tag = componentOwner.Tag + TagSettings.SuffixSeparator + TagSettings.LcsSuffix;
+        newLcs.Area = componentOwner.Area;
 
         listManager.LcsList.Add(newLcs);
         DaManager.UpserLcs(newLcs);

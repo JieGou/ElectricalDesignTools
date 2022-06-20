@@ -8,16 +8,26 @@ namespace EDTLibrary {
     public enum Categories
     {
         DTEQ,
+        LVDTEQ,
+        LOAD,
+        LOAD3P,
+        LOAD1P,
+        Component,
+        OCPD,
+        CABLE,
+        LCS,
+    }
+
+    public enum SubCategories
+    {
         LOAD3P,
         LOAD1P,
         Component,
         CctComponent,
         AuxComponent,
-        OCPD,
-        CABLE,
-        LCS,
+       
     }
-    
+
     public enum DteqTypes {
         XFR,
         SWG,
@@ -38,14 +48,12 @@ namespace EDTLibrary {
 
     public enum ComponentTypes
     {
-        CCT,
         AUX,
         UDS,
         FDS,
-        DefaultDcn,
         VFD,
+        VSD,
         RVS,
-        DefaultDrive,
         LCS,
         BREAKER,
         FUSE,
@@ -54,12 +62,12 @@ namespace EDTLibrary {
     {
         UDS,
         FDS,
-        DefaultDcn,
         VFD,
         RVS,
-        DefaultDrive,
         BREAKER,
         FUSE,
+        DefaultDcn,
+        DefaultDrive,
     }
 
     public enum CableUsageTypes {

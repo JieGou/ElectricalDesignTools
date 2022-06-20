@@ -85,7 +85,7 @@ public class CableManager
                 IComponent previousComponent = null;
                 foreach (var component in powerComponentOwner.CctComponents) {
 
-                    if (component.SubCategory != Categories.CctComponent.ToString()) continue;
+                    if (component.SubCategory != SubCategories.CctComponent.ToString()) continue;
 
                     CableModel cable = new CableModel();
 
