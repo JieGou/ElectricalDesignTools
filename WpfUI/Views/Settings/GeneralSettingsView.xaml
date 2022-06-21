@@ -19,7 +19,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../../Styles/EdtStyle_Blue.xaml"/>-->
+                <ResourceDictionary Source="../../Styles/EdtStyle_Base.xaml"/>
                 <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
@@ -173,7 +173,7 @@
                 </Grid>
             </GroupBox>
 
-            <!--DTEQ Settings-->
+            <!--Column Settings-->
             <GroupBox Header="Equipment Column Options"
                   Grid.Row="1" Grid.Column="6"
                   Margin="25 0 25 25">
@@ -215,7 +215,63 @@
                 </Grid>
             </GroupBox>
 
+            <!--Autocad Settings-->
+            <GroupBox Header="Autocad Settings"
+                  Grid.Row="1" Grid.Column="6"
+                  Margin="25 0 25 25">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Show or hide columns based on project needs. Refreshing affected pages is required for these settings to take effect. To refresh, navigate to a different page and back."
+                                   Grid.Row="1" Grid.Column="0"
+                               MaxWidth="250"
+                               Grid.ColumnSpan="3"
+                                   Style="{StaticResource settingDescription}"/>
+
+                    <StackPanel Orientation="Vertical"  Grid.Row="2" Grid.Column="0"  >
+                        <TextBlock Text="Block Source Folder"  
+                                   Grid.Row="1" Grid.Column="0"/>
+                        <TextBlock Text="Default" 
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}"/>
+                    </StackPanel>
+
+                
+                    <TextBox Text="{Binding AcadBlockFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               d:Text="C:\EDT\Resources\AutoCad Blocks"
+                               Grid.Row="3" Grid.Column="0"
+                               Grid.ColumnSpan="3"
+                               FontSize="10"
+                               FontStyle="Normal"
+                               Foreground="Black"
+                               Background="White"
+                         MinWidth="50" MaxWidth="550"
+                         Margin="3 1"
+                             IsEnabled="False"/>
+                    
+                    <Button Content=". . ."
+                        Command="{Binding SelectFolderCommand}"
+                            Grid.Row="2" Grid.Column="3"
+                        Height="25"
+                        Width="35"
+                        ToolTip="Select Folder"
+                        ToolTipService.InitialShowDelay="50"/>
+
+                </Grid>
+            </GroupBox>
         </WrapPanel>
     </Grid>
 

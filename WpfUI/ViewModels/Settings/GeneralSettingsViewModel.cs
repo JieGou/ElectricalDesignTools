@@ -8,9 +8,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Views.Settings;
@@ -43,6 +45,8 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
     {
         _edtSettings = edtSettings;
         _typeManager = typeManager;
+
+        SelectFolderCommand = new RelayCommand(SelectFolder);
     }
 
     //General
@@ -187,5 +191,42 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
             SaveVmSetting(nameof(AreaColumnVisible), _areaColumnVisible);
         }
     }
+
+
+    public ICommand SelectFolderCommand { get; }
+
+    private string _acadBlockFolder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+    public string AcadBlockFolder
+    {
+        get => _acadBlockFolder;
+
+        set
+        {
+            _acadBlockFolder = value;
+        }
+    }
+    private void SelectFolder()
+    {
+        using var dialog = new FolderBrowserDialog {
+            Description = "Select save location for new project",
+
+            UseDescriptionForTitle = true,
+
+            SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
+
+            + Path.DirectorySeparatorChar,
+
+            ShowNewFolderButton = true
+        };
+
+        if (dialog.ShowDialog() == DialogResult.OK) {
+
+            AcadBlockFolder = dialog.SelectedPath;
+            _acadBlockFolder = dialog.SelectedPath;
+        }
+        SaveVmSetting(nameof(AcadBlockFolder), _acadBlockFolder);
+    }
+
+
 
 }

@@ -60,6 +60,9 @@ namespace EDTLibrary.ProjectSettings
         public static string ClientNameLine3 { get; set; }
 
 
+        public static string AcadBlockFolder { get; set; }
+
+
 
 
 
