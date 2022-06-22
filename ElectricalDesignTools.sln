@@ -13,10 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EDTLibrary.Tests", "EDTLibr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfUI.Tests", "WpfUI.Tests\WpfUI.Tests.csproj", "{9E0F5C73-E827-45E7-9820-D76D64B425D2}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{50E08AEB-4A6A-4FA8-BE96-D05F73A87788}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Notes", "_Notes", "{50E08AEB-4A6A-4FA8-BE96-D05F73A87788}"
 	ProjectSection(SolutionItems) = preProject
 		_Notes.txt = _Notes.txt
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoCad", "AutoCad", "{A1E44858-DB9F-4357-9D7D-69A66AC3FF2A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutocadLibrary", "..\..\Users\pdeau\Google Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj", "{05FE6682-C823-4DA4-8584-E8F26B7A6671}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,9 +92,24 @@ Global
 		{9E0F5C73-E827-45E7-9820-D76D64B425D2}.Release|x64.Build.0 = Release|x64
 		{9E0F5C73-E827-45E7-9820-D76D64B425D2}.Release|x86.ActiveCfg = Release|Any CPU
 		{9E0F5C73-E827-45E7-9820-D76D64B425D2}.Release|x86.Build.0 = Release|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Debug|x64.Build.0 = Debug|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Debug|x86.Build.0 = Debug|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Release|x64.ActiveCfg = Release|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Release|x64.Build.0 = Release|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Release|x86.ActiveCfg = Release|Any CPU
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{05FE6682-C823-4DA4-8584-E8F26B7A6671} = {A1E44858-DB9F-4357-9D7D-69A66AC3FF2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E64C7404-710D-4BDB-8D44-679F864A8A0C}

@@ -7,5 +7,7 @@ Finish excel export
 
 Add Systems & SubSystems
 
+LoadGrid to CollectionListView (same as Dteq Grid)
+
 Component Toggle is triggering the UpdatePowerCables for Components Cables method
 Create Separate Components (dicsonnects, Drives, Etc)

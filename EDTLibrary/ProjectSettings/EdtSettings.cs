@@ -61,6 +61,7 @@ namespace EDTLibrary.ProjectSettings
 
 
         public static string AcadBlockFolder { get; set; }
+        public static string AcadSaveFolder { get; set; }
 
 
 

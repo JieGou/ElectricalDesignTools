@@ -48,8 +48,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Users\pdeau\Google Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
     <ProjectReference Include="..\EDTLibrary\EDTLibrary.csproj" />
     <ProjectReference Include="..\ExcelLibrary\ExcelLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Interop.AutoCAD">
+      <HintPath>..\..\..\Users\pdeau\Google Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\obj\Debug\net5.0\Interop.AutoCAD.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

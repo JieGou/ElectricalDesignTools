@@ -1,4 +1,5 @@
-﻿using EDTLibrary.DataAccess;
+﻿using AutoCAD;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
@@ -16,6 +17,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Views.Settings;
+using AutocadLibrary;
 
 namespace WpfUI.ViewModels.Settings;
 
@@ -46,7 +48,11 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         _edtSettings = edtSettings;
         _typeManager = typeManager;
 
-        SelectFolderCommand = new RelayCommand(SelectFolder);
+        SelectAcadSaveFolderCommand = new RelayCommand(SelectAcadSaveFolder);
+        SelectAcadBlockFolderCommand = new RelayCommand(SelectAcadBlockFolder);
+        TestAcadCommand = new RelayCommand(TestAcad);
+        AddAcadDrawingCommand = new RelayCommand(AddDrawing);
+        AddBlockCommand = new RelayCommand(AddBlock);
     }
 
     //General
@@ -192,8 +198,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         }
     }
 
-
-    public ICommand SelectFolderCommand { get; }
+    public ICommand SelectAcadBlockFolderCommand { get; }
 
     private string _acadBlockFolder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
     public string AcadBlockFolder
@@ -203,9 +208,10 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         set
         {
             _acadBlockFolder = value;
+            SaveVmSetting(nameof(AcadBlockFolder), _acadBlockFolder);
         }
     }
-    private void SelectFolder()
+    private void SelectAcadBlockFolder()
     {
         using var dialog = new FolderBrowserDialog {
             Description = "Select save location for new project",
@@ -222,11 +228,76 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         if (dialog.ShowDialog() == DialogResult.OK) {
 
             AcadBlockFolder = dialog.SelectedPath;
-            _acadBlockFolder = dialog.SelectedPath;
         }
-        SaveVmSetting(nameof(AcadBlockFolder), _acadBlockFolder);
+    }
+
+    public ICommand SelectAcadSaveFolderCommand { get; }
+
+    private string _acadSaveFolder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+    public string AcadSaveFolder
+    {
+        get => _acadSaveFolder;
+
+        set
+        {
+            _acadSaveFolder = value;
+            SaveVmSetting(nameof(AcadSaveFolder), _acadSaveFolder);
+
+        }
+    }
+    private void SelectAcadSaveFolder()
+    {
+        using var dialog = new FolderBrowserDialog {
+            Description = "Select save location for new project",
+
+            UseDescriptionForTitle = true,
+
+            SelectedPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)
+
+            + Path.DirectorySeparatorChar,
+
+            ShowNewFolderButton = true
+        };
+
+        if (dialog.ShowDialog() == DialogResult.OK) {
+
+            AcadSaveFolder = dialog.SelectedPath;
+        }
+    }
+
+    public ICommand TestAcadCommand { get; }
+    public void TestAcad()
+    {
+        AutocadHelper.StartAutocad();
     }
 
 
+    public ICommand AddAcadDrawingCommand { get; }
+    public void AddDrawing()
+    {
+        AutocadHelper.AddDrawing();
+    }
 
+
+    public ICommand AddBlockCommand { get; }
+    public void AddBlock()
+    {
+        if (AutocadHelper.AcadDoc == null) return;
+
+        double[] insertionPoint = new double[3];
+        insertionPoint[0] = 0;
+        insertionPoint[1] = 0;
+        insertionPoint[2] = 0;
+
+        string mccBlock = "BKR";
+        string blockPath = EdtSettings.AcadBlockFolder + "\\Single Line\\";
+        string blockName = "MCC_MAIN_" + mccBlock + ".dwg";
+        blockName = blockPath + blockName;
+
+        double Xscale = 1;
+        double Yscale = 1;
+        double Zscale = 1;
+
+        var acadBlock = AutocadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockName, Xscale,Yscale,Zscale, 0);
+    }
 }
