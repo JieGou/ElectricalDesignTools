@@ -253,7 +253,17 @@
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}"/>
                     </StackPanel>
-
+                    
+                    <Button Content="Select Folder"
+                            Command="{Binding SelectAcadBlockFolderCommand}"
+                            Grid.Row="2" Grid.Column="3"
+                            FontSize="12"
+                            FontWeight="Normal"
+                            Height="25"
+                            ToolTip="Select Folder"
+                            ToolTipService.InitialShowDelay="50"
+                            HorizontalAlignment="Left"/>
+                    
                     <Border BorderBrush="Gray" BorderThickness="0.5"
                             Grid.Row="3" Grid.Column="0"
                             Background="White"
@@ -272,20 +282,8 @@
                                 Margin="3 0 3 0"
                                 IsEnabled="False"/>
                     </Border>
-                    <Button Content="Select Folder"
-                            Command="{Binding SelectAcadBlockFolderCommand}"
-                            Grid.Row="2" Grid.Column="3"
-                            FontSize="12"
-                            FontWeight="Normal"
-                            Height="25"
-                            ToolTip="Select Folder"
-                            ToolTipService.InitialShowDelay="50"
-                            HorizontalAlignment="Left"/>
-
-
-
-
-
+                    
+                    
                     <StackPanel Orientation="Vertical"  Grid.Row="5" Grid.Column="0"  >
                         <TextBlock Text="Drawing Save Folder"  
                                    Grid.Row="1" Grid.Column="0"/>
@@ -294,6 +292,15 @@
                                    Style="{StaticResource settingDescription}"/>
                     </StackPanel>
 
+                    <Button Content="Select Folder"
+                            Command="{Binding SelectAcadSaveFolderCommand}"
+                            Grid.Row="5" Grid.Column="3"
+                            FontSize="12"
+                            FontWeight="Normal"
+                            Height="25"
+                            ToolTip="Select Folder"
+                            ToolTipService.InitialShowDelay="50"/>
+                    
                     <Border BorderBrush="Gray" BorderThickness="0.5"
                             Grid.Row="6" Grid.Column="0"
                             Background="White"
@@ -312,17 +319,12 @@
                                 Margin="3 0 3 0"
                                 IsEnabled="False"/>
                     </Border>
-                    <Button Content="Select Folder"
-                            Command="{Binding SelectAcadSaveFolderCommand}"
-                            Grid.Row="5" Grid.Column="3"
-                            FontSize="12"
-                            FontWeight="Normal"
-                            Height="25"
-                            ToolTip="Select Folder"
-                            ToolTipService.InitialShowDelay="50"/>
+                    
 
+                    
+                    <!--Acad Tests-->
 
-                    <Button Content="Test Acad"
+                    <Button Content="Start Autocad"
                             Command="{Binding TestAcadCommand}"
                             Grid.Row="8" Grid.Column="3"
                             FontSize="12"

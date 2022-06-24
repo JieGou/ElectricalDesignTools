@@ -639,12 +639,16 @@
                 <Setter Property="Background" Value="#FFB7DEE8"/>
                 <Setter Property="Foreground" Value="black"/>
                 <Setter Property="FontWeight" Value="Regular"/>
-
+                <Setter Property="BorderBrush" Value="Blue"/>
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="#FFD6EDF3"/>
                 <Setter Property="Foreground" Value="black"/>
                 <Setter Property="FontWeight" Value="Regular"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="BorderBrush" Value="Blue"/>
+                <Setter Property="BorderThickness" Value="1"/>
             </Trigger>
         </Style.Triggers>
     </Style>
