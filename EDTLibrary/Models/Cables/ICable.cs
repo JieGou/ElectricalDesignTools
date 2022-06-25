@@ -39,6 +39,14 @@ namespace EDTLibrary.Models.Cables
 
         bool SizeIsValid { get; set; }
 
+
+
+
+        public double HeatLoss { get; set; }
+
+
+
+
         void CreateSizeList();
 
         event EventHandler PropertyUpdated;

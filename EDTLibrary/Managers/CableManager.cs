@@ -88,7 +88,7 @@ public class CableManager
                     if (component.SubCategory != SubCategories.CctComponent.ToString()) continue;
 
                     CableModel cable = new CableModel();
-
+                    Undo.Undoing = true;
                     if (previousComponent == null) {
                         cable.Source = powerComponentOwner.FedFrom.Tag;
 
@@ -124,6 +124,7 @@ public class CableManager
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
 
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
+                    Undo.Undoing = false;
 
                     component.PowerCable = cable;
 

@@ -43,8 +43,8 @@ public class ComponentModel : IComponent
                 }
             }
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
+                Undo.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -77,8 +77,8 @@ public class ComponentModel : IComponent
                 AreaManager.UpdateArea(this, _area, oldValue);
 
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
-                    Undo.UndoList.Add(cmd);
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
+                    Undo.AddUndoCommand(cmd);
                 }
                 OnPropertyUpdated();
             }
@@ -100,8 +100,15 @@ public class ComponentModel : IComponent
         }
     }
 
-
     public ICable PowerCable { get; set; }
+
+
+
+
+
+    public double HeatLoss { get; set; }
+
+
 
     public event EventHandler PropertyUpdated;
 

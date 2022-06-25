@@ -10,6 +10,7 @@ namespace EDTLibrary.LibraryData.TypeTables
 {
     public class TypeManager
     {
+        private static ObservableCollection<string> _componentTypes;
 
         //General
         public static ObservableCollection<string> ElectricalCodes
@@ -142,6 +143,17 @@ namespace EDTLibrary.LibraryData.TypeTables
         //OCDP
 
         public static ObservableCollection<OcpdType> OcpdTypes { get; set; }
+        public static ObservableCollection<string> ComponentTypes 
+        { get
+            {
+
+                ObservableCollection<string> componentTypes = new ObservableCollection<string>();
+                foreach (var item in Enum.GetNames(typeof(ComponentTypes))) {
+                    componentTypes.Add(item.ToString());
+                }
+                return componentTypes;
+            }
+        }
 
 
     }

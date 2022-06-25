@@ -55,6 +55,17 @@ namespace EDTLibrary.DataAccess
             "SubTypeList",
         };
 
+        static public List<string> LcsSaveList { get; set; } = new List<string>()
+        {
+            "Area",
+            "Owner",
+            "PowerCable",
+            "ControlCable",
+            "TypeModel",
+            "SubTypeList",
+            "HeatLoss",
+        };
+
         static public List<string> PowerCableSaveList { get; set; } = new List<string> {
 
             "Load",
@@ -70,6 +81,7 @@ namespace EDTLibrary.DataAccess
         static public List<string> AreaSaveList { get; set; } = new List<string>() {
             "none",
             "ParentArea",
+            "EquipmentList",
         };
 
 

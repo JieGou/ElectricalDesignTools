@@ -85,23 +85,23 @@
                             Grid.Row="2" Grid.Column="0" 
                             Width="95" Height="20" 
                              Margin="5"/>
+                    
                 </StackPanel>
                 
-                <ComboBox x:Name="cbxNemaRatings" 
-                          Template="{DynamicResource ComboBoxBase}" 
+                <!--Component Types-->
+                
+                <ComboBox Template="{DynamicResource ComboBoxBase}" 
                           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                           Height="20"
                           Margin="10"
-                          ItemsSource="{Binding Path=DataContext.TypeManager.CctComponentTypes, 
+                          ItemsSource="{Binding Path=DataContext.TypeManager.ComponentTypes, 
                                               RelativeSource={RelativeSource Mode=FindAncestor, 
                                               AncestorType={x:Type Window}}}"
-                          SelectedValuePath="Type"
-                          DisplayMemberPath="Type"
-                          SelectedValue="{Binding Path=DataContext.LoadComponentToAdd, 
-                                              RelativeSource={RelativeSource Mode=FindAncestor, 
-                                              AncestorType={x:Type Window}},
-                                              Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                              ValidatesOnNotifyDataErrors=False}"
+                          
+                          SelectedValue="{Binding Path=DataContext.SelectedComponent.Type, 
+                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                  RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                  AncestorType={x:Type UserControl}, AncestorLevel=2}}"
                           IsSynchronizedWithCurrentItem="False"  />
 
                 <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"

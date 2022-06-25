@@ -118,7 +118,7 @@ public class DaManager {
     public static void OnLcsPropertyUpdated(object source, EventArgs e)
     {
         if (GlobalConfig.GettingRecords == false) {
-            DaManager.UpserLcs((LocalControlStationModel)source);
+            DaManager.UpsertLcs((LocalControlStationModel)source);
         }
     }
 
@@ -268,12 +268,12 @@ public class DaManager {
         prjDb.DeleteRecord(GlobalConfig.ComponentTable, component.Id);
     }
 
-    public static void UpserLcs(LocalControlStationModel lcs)
+    public static void UpsertLcs(LocalControlStationModel lcs)
     {
         try {
             if (GlobalConfig.Importing == true) return;
 
-            prjDb.UpsertRecord(lcs, GlobalConfig.LcsTable, SaveLists.CompSaveList);
+            prjDb.UpsertRecord(lcs, GlobalConfig.LcsTable, SaveLists.LcsSaveList);
         }
         catch (Exception ex) {
             Debug.Print(ex.ToString());

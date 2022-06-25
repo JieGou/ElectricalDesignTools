@@ -32,7 +32,9 @@ public class LoadManager
             load.PdType.Contains("FVNR") ||
             load.PdType.Contains("FVR")) {
             load.PdSizeFrame = LibraryManager.GetMcpFrame(load);
-            load.PdSizeTrip = LibraryManager.GetStarterSize(load);
+            load.PdSizeTrip = LibraryManager.GetBreakerTrip(load);
+            load.StarterType = load.PdType;
+            load.StarterSize = LibraryManager.GetStarterSize(load);
             //load.PdSizeTrip = Math.Min(load.Fla * 1.25, load.PdSizeFrame);
             //load.PdSizeTrip = Math.Round(load.PdSizeTrip, 0);
         }

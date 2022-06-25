@@ -21,6 +21,158 @@
             </Style>
 
 
+            <!--Breaker Template-->
+            <DataTemplate x:Key="BreakerTemplate">
+                <StackPanel Orientation="Vertical">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="26"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Canvas Grid.Column="1"
+                        Width="35" Height="90">
+                            <!--Breaker-->
+                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                            <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="90"/>
+
+
+                        </Canvas>
+
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="27"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Vertical"
+                            Grid.Row="1">
+                                <Border BorderBrush="Black" BorderThickness="0 0 0 1">
+                                    <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} A}" d:Text="70 A" />
+                                </Border>
+                                <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} A}" d:Text="125 A"/>
+                            </StackPanel>
+
+                          
+                        </Grid>
+                    </Grid>
+
+                    <!--Dashed Border-->
+                    <Border BorderThickness="0,0,0,1">
+                        <Border.BorderBrush>
+                            <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+                                <DrawingBrush.Drawing>
+                                    <DrawingGroup>
+                                        <GeometryDrawing Brush="Black">
+                                            <GeometryDrawing.Geometry>
+                                                <GeometryGroup>
+                                                    <RectangleGeometry Rect="0,0,50,50" />
+                                                    <RectangleGeometry Rect="50,50,50,50" />
+                                                </GeometryGroup>
+                                            </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                    </DrawingGroup>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Border.BorderBrush>
+                    </Border>
+                </StackPanel>
+            </DataTemplate>
+
+            <!--FVNR Template-->
+            <DataTemplate x:Key="FvnrTemplate">
+                <StackPanel Orientation="Vertical">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="26"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Canvas Grid.Column="1"
+                        Width="35" Height="90">
+                        <!--Breaker-->
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
+
+                        <!--Overload-->
+                        <Border BorderBrush="Black" BorderThickness="1" 
+                        Canvas.Left="0" Canvas.Top="45" Width="27" Height="15">
+                            <TextBlock Text="O/L" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Margin="0 0 0 1"/>
+                        </Border>
+
+                        <!--<Path Stroke="Black" StrokeThickness="1" Data="M 13,45 A 5,5 0 0 1 13.5, 55" />
+                    <Path Stroke="Black" StrokeThickness="1" Data="M 13.5,55 A 5,5 0 0 0 14, 65" />-->
+
+                        <!--Contactor-->
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="70" X2="27" Y2="70"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="78" X2="27" Y2="78"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
+                    </Canvas>
+
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="27"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Vertical"
+                            Grid.Row="1">
+                            <Border BorderBrush="Black" BorderThickness="0 0 0 1">
+                                <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} A}" d:Text="70 A" />
+                            </Border>
+                            <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} A}" d:Text="125 A"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal"
+                                Grid.Row="3">
+                            <TextBlock Text="Size: " d:Text="2" />
+                            <TextBlock Text="{Binding StarterSize}" d:Text="2" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </Grid>
+
+                </Grid>
+
+                <!--Dashed Border-->
+                <Border BorderThickness="0,0,0,1">
+                    <Border.BorderBrush>
+                        <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+                            <DrawingBrush.Drawing>
+                                <DrawingGroup>
+                                    <GeometryDrawing Brush="Black">
+                                        <GeometryDrawing.Geometry>
+                                            <GeometryGroup>
+                                                <RectangleGeometry Rect="0,0,50,50" />
+                                                <RectangleGeometry Rect="50,50,50,50" />
+                                            </GeometryGroup>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup>
+                            </DrawingBrush.Drawing>
+                        </DrawingBrush>
+                    </Border.BorderBrush>
+                </Border>
+                </StackPanel>
+            </DataTemplate>
+            
+            
+            
+            
             <!--Uds-->
             <DataTemplate x:Key="UdsTemplate">
                 <Grid>
@@ -54,6 +206,13 @@
                         <TextBlock Text="{Binding Size, StringFormat={}{0:N0} A}"
                                    Grid.Column="2"
                                    Margin="5 0 0 0"/>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="{Binding AreaId}" Margin="5 0 0 0"/>
+                            <TextBlock Text=", " Margin="0 0 0 0"/>
+                            <TextBlock Text="{Binding NemaRating}" Margin="0 0 0 0"/>
+                            <TextBlock Text=", " Margin="0 0 0 0"/>
+                            <TextBlock Text="{Binding AreaClassification}" Margin="0 0 0 0"/>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </DataTemplate>
@@ -62,7 +221,7 @@
             <DataTemplate x:Key="FdsTemplate">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="13.5"/>
+                        <ColumnDefinition Width="18.5"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
@@ -70,7 +229,7 @@
 
                     <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center"
                             Grid.Column="1"
-                            Width="50.5" Height="50">
+                            Width="40" Height="55">
 
                         <Canvas Grid.Column="1" Width="50" Height="55">
                             <Line X1="20" X2="20" Y1="0" Y2="7.5"
@@ -100,6 +259,13 @@
                         <TextBlock Text="{Binding Type}"
                                    Grid.Column="2"
                                    Margin="5 0 0 0"/>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="{Binding AreaId}" Margin="5 0 0 0"/>
+                            <TextBlock Text=", " Margin="0 0 0 0"/>
+                            <TextBlock Text="{Binding NemaRating}" Margin="0 0 0 0"/>
+                            <TextBlock Text=", " Margin="0 0 0 0"/>
+                            <TextBlock Text="{Binding AreaClassification}" Margin="0 0 0 0"/>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </DataTemplate>
@@ -125,17 +291,20 @@
                     <StackPanel Orientation="Vertical"
                                 Grid.Column="2"
                                 VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Tag}"
-                                   FontWeight="SemiBold"
-                                   Grid.Column="2"
-                                   Margin="5 0 0 0"/>
-                        <!--<TextBlock Text="{Binding Type}"
-                                   Grid.Column="2"
-                                   Margin="5 0 0 0"/>-->
+                        <TextBlock Text="{Binding Tag}" Margin="5 0 0 0" FontWeight="SemiBold"  />
+                        <TextBlock Text="{Binding Type}" Margin="5 0 0 0"/>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="{Binding AreaId}" Margin="5 0 0 0"/>
+                            <TextBlock Text=", " Margin="0 0 0 0"/>
+                            <TextBlock Text="{Binding NemaRating}" Margin="0 0 0 0"/>
+                            <TextBlock Text=", " Margin="0 0 0 0"/>
+                            <TextBlock Text="{Binding AreaClassification}" Margin="0 0 0 0"/>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </DataTemplate>
 
+            <!--Cable-->
             <DataTemplate x:Key="CableTemplate">
                 <StackPanel Orientation="Vertical" Grid.Column="2"
                             HorizontalAlignment="Left"
@@ -161,7 +330,7 @@
                 </StackPanel>
             </DataTemplate>
 
-
+            <!--Motor Template-->
             <DataTemplate x:Key="MotorTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
                 <Border BorderBrush="Black" BorderThickness="2" 
                                     Width="50"
@@ -181,6 +350,7 @@
                 </Border>
             </DataTemplate>
 
+            <!--Heater Template-->
             <DataTemplate x:Key="HeaterTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
                 <Border BorderBrush="Black" BorderThickness="2" 
                                     Width="50"
@@ -197,10 +367,11 @@
                 </Border>
             </DataTemplate>
 
-            <templateSelectors:LoadGraphicTemplateSelector 
-                x:Key="LoadTemplateSelector"
-                MotorTemplate="{StaticResource MotorTemplate}"
-                HeaterTemplate="{StaticResource HeaterTemplate}" />
+            
+            <templateSelectors:PdStarterGraphicTemplateSelector 
+                x:Key="PdStarterTemplateSelector"
+                FvnrTemplate="{StaticResource FvnrTemplate}"
+                BreakerTemplate="{StaticResource BreakerTemplate}" />
 
             <templateSelectors:ComponentGraphicTemplateSelector 
                 x:Key="ComponentTemplateSelector"
@@ -208,6 +379,12 @@
                 FdsTemplate="{StaticResource FdsTemplate}" 
                 VsdTemplate="{StaticResource VsdTemplate}" />
 
+            <templateSelectors:LoadGraphicTemplateSelector 
+                x:Key="LoadTemplateSelector"
+                MotorTemplate="{StaticResource MotorTemplate}"
+                HeaterTemplate="{StaticResource HeaterTemplate}" />
+
+           
         </ResourceDictionary>
 
     </UserControl.Resources>
@@ -221,6 +398,7 @@
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
 
+            
         <StackPanel Orientation="Vertical" Grid.Column="1"
                     Margin="0 3 0 0">
 
@@ -243,83 +421,12 @@
 
             
             <!--Starter-->
-            
-                <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="26"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <Canvas Grid.Column="1"
-                        Width="35" Height="90">
-                    <!--Breaker-->
-                    <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
-                    <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
-                    <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
-                    <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
-
-                    <!--Overload-->
+            <ContentControl Content="{Binding}" 
+                            ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}">
+                
+            </ContentControl>
 
 
-                    <Border BorderBrush="Black" BorderThickness="1" 
-                        Canvas.Left="0" Canvas.Top="45" Width="27" Height="15">
-                        <TextBlock Text="O/L" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Margin="0 0 0 1"/>
-                    </Border>
-
-
-                    <!--<Path Stroke="Black" StrokeThickness="1" Data="M 13,45 A 5,5 0 0 1 13.5, 55" />
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 13.5,55 A 5,5 0 0 0 14, 65" />-->
-
-                    <!--Contactor-->
-                    <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
-                    <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="70" X2="27" Y2="70"/>
-                    <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="78" X2="27" Y2="78"/>
-                    <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
-                </Canvas>
-
-                <Grid Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    
-                <StackPanel Orientation="Vertical"
-                            Grid.Row="1">
-                        <Border BorderBrush="Black" BorderThickness="0 0 0 1">
-                        <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} A}" d:Text="70 A" />
-                        </Border>
-                        <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} A}" d:Text="125 A"/>
-                    
-                       
-                      
-                    </StackPanel>
-                </Grid>
-
-            </Grid>
-            
-            <!--Dashed Border-->
-            <Border BorderThickness="0,0,0,1">
-                <Border.BorderBrush>
-                    <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
-                        <DrawingBrush.Drawing>
-                            <DrawingGroup>
-                                <GeometryDrawing Brush="Black">
-                                    <GeometryDrawing.Geometry>
-                                        <GeometryGroup>
-                                            <RectangleGeometry Rect="0,0,50,50" />
-                                            <RectangleGeometry Rect="50,50,50,50" />
-                                        </GeometryGroup>
-                                    </GeometryDrawing.Geometry>
-                                </GeometryDrawing>
-                            </DrawingGroup>
-                        </DrawingBrush.Drawing>
-                    </DrawingBrush>
-                </Border.BorderBrush>
-          </Border>
-        
             <!--COMPONENTS-->
             <ItemsControl ItemsSource="{Binding CctComponents}"
                       HorizontalAlignment="Left">
@@ -351,7 +458,7 @@
 
                             <!--Component-->
                             <ContentControl 
-                                Content="{Binding}" 
+                                Content="{Binding, UpdateSourceTrigger=PropertyChanged}" 
                                 ContentTemplateSelector="{StaticResource ComponentTemplateSelector}">
                             </ContentControl>
 
@@ -411,7 +518,6 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
-
 
     </Grid>
 </UserControl>

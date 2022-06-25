@@ -1,5 +1,6 @@
 ﻿using PropertyChanged;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace EDTLibrary.Models.Areas;
@@ -21,8 +22,8 @@ public class AreaModel : IArea {
 
             _tag = value;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
+                Undo.AddUndoCommand(cmd);
 
             }
             OnPropertyUpdated();
@@ -39,8 +40,8 @@ public class AreaModel : IArea {
             if (string.IsNullOrWhiteSpace(value) == false) {
                 _displayTag = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(DisplayTag), OldValue = oldValue, NewValue = _displayTag };
-                    Undo.UndoList.Add(cmd);
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(DisplayTag), OldValue = oldValue, NewValue = _displayTag };
+                    Undo.AddUndoCommand(cmd);
                 }
             }
             OnPropertyUpdated();
@@ -58,8 +59,8 @@ public class AreaModel : IArea {
             var oldValue = Name;
             _name = value;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(Name), OldValue = oldValue, NewValue = _name };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Name), OldValue = oldValue, NewValue = _name };
+                Undo.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -75,8 +76,8 @@ public class AreaModel : IArea {
             var oldValue = _description;
             _description = value;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(Description), OldValue = oldValue, NewValue = _description };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Description), OldValue = oldValue, NewValue = _description };
+                Undo.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -95,8 +96,8 @@ public class AreaModel : IArea {
             if (_parentArea == null) return;
             ParentAreaId = _parentArea.Id;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(ParentArea), OldValue = oldValue, NewValue = _parentArea };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(ParentArea), OldValue = oldValue, NewValue = _parentArea };
+                Undo.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -113,8 +114,8 @@ public class AreaModel : IArea {
             var oldValue = _areaCategory;
             _areaCategory = value;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(AreaCategory), OldValue = oldValue, NewValue = _areaCategory };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(AreaCategory), OldValue = oldValue, NewValue = _areaCategory };
+                Undo.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -130,8 +131,8 @@ public class AreaModel : IArea {
             var oldValue = _areaClassification;
             _areaClassification = value;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(AreaClassification), OldValue = oldValue, NewValue = _areaClassification };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(AreaClassification), OldValue = oldValue, NewValue = _areaClassification };
+                Undo.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -147,8 +148,8 @@ public class AreaModel : IArea {
             var oldValue = _minTemp;
             _minTemp = value;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(MinTemp), OldValue = oldValue, NewValue = _minTemp };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(MinTemp), OldValue = oldValue, NewValue = _minTemp };
+                Undo.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -164,8 +165,8 @@ public class AreaModel : IArea {
             var oldValue = _maxTemp;
             _maxTemp = value;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(MaxTemp), OldValue = oldValue, NewValue = _maxTemp };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(MaxTemp), OldValue = oldValue, NewValue = _maxTemp };
+                Undo.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -184,15 +185,31 @@ public class AreaModel : IArea {
             _nemaRating = value;
             OnAreaPropertiesChanged();
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(NemaRating), OldValue = oldValue, NewValue = _nemaRating };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(NemaRating), OldValue = oldValue, NewValue = _nemaRating };
+                Undo.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
     }
 
+    private ObservableCollection<IEquipment> _equipmentList = new ObservableCollection<IEquipment>();
 
-    public event EventHandler PropertyUpdated;
+    public double HeatLoss { get; set; }
+    public ObservableCollection<IEquipment> EquipmentList
+    {
+        get => _equipmentList;
+
+        set
+        {
+            _equipmentList = value;
+        }
+    }
+
+
+
+
+
+public event EventHandler PropertyUpdated;
     public void OnPropertyUpdated()
     {
         if (PropertyUpdated != null) {

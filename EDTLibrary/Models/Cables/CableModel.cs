@@ -52,7 +52,6 @@ public class CableModel : ICable
     public int OwnerId { get; set; }
     public string OwnerType { get; set; }
     public string Tag { get; set; }
-    //public string Type { get; set; } //Not Used
     public string Category { get; set; }
 
     private string _source;
@@ -101,8 +100,8 @@ public class CableModel : ICable
             _typeModel = value;
             _type = _typeModel.Type;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(TypeModel), OldValue = oldValue, NewValue = _typeModel };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(TypeModel), OldValue = oldValue, NewValue = _typeModel };
+                Undo.AddUndoCommand(cmd);
             }
             if (GlobalConfig.GettingRecords == false) {
                 if (UsageType==CableUsageTypes.Power.ToString()) {
@@ -139,8 +138,8 @@ public class CableModel : ICable
             }
           
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(QtyParallel), OldValue = oldValue, NewValue = _qtyParallel };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(QtyParallel), OldValue = oldValue, NewValue = _qtyParallel };
+                Undo.AddUndoCommand(cmd);
             }
             //if (GlobalConfig.GettingRecords == false && _calculating == false) {
             //    CalculateAmpacityNew(_load);
@@ -160,8 +159,8 @@ public class CableModel : ICable
             _size = value;
 
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
+                Undo.AddUndoCommand(cmd);
             }
 
             if (GlobalConfig.GettingRecords == false && UsageType == CableUsageTypes.Power.ToString()) {
@@ -184,8 +183,8 @@ public class CableModel : ICable
             var oldValue = _spacing;
             _spacing = value;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(Spacing), OldValue = oldValue, NewValue = _spacing };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Spacing), OldValue = oldValue, NewValue = _spacing };
+                Undo.AddUndoCommand(cmd);
             }
         }
     }
@@ -227,8 +226,8 @@ public class CableModel : ICable
             var oldValue = _outdoor;
             _outdoor = value;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(Outdoor), OldValue = oldValue, NewValue = _outdoor };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Outdoor), OldValue = oldValue, NewValue = _outdoor };
+                Undo.AddUndoCommand(cmd);
             }
         }
     }
@@ -246,8 +245,8 @@ public class CableModel : ICable
                 AutoSize();
             }
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(InstallationType), OldValue = oldValue, NewValue = _installationType };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(InstallationType), OldValue = oldValue, NewValue = _installationType };
+                Undo.AddUndoCommand(cmd);
             }
         }
     }
@@ -262,6 +261,13 @@ public class CableModel : ICable
         get { return _load; }
         set { _load = value; }
     }
+
+
+
+
+
+    public double HeatLoss { get; set; }
+
 
 
     #endregion

@@ -1,6 +1,7 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Models;
 using EDTLibrary.Models.Areas;
 using PropertyChanged;
 using System;
@@ -35,18 +36,33 @@ namespace WpfUI.ViewModels.Areas_and_Systems
             set { _listManager = value; }
         }
 
-     
+
         private IArea _selectedArea;
+        private ObservableCollection<IEquipment> _equipmentList;
+
         public IArea SelectedArea
         {
             get { return _selectedArea; }
-            set 
+            set
             {
                 _selectedArea = value;
-                //TODO - set control values
+                _listManager.CreateEquipmentList();
+
+                _selectedArea.HeatLoss = 0;
+                _selectedArea.EquipmentList.Clear();
+
+                foreach (var eq in _listManager.EqList) {
+                    eq.HeatLoss = 10;
+                    if (eq.Area == SelectedArea) {
+                        SelectedArea.HeatLoss += eq.HeatLoss;
+                        _selectedArea.EquipmentList.Add(eq);
+                    }
+                }
+
             }
         }
 
+      
         public AreaToAddValidator AreaToAddValidator { get; set; }
 
 
@@ -65,30 +81,14 @@ namespace WpfUI.ViewModels.Areas_and_Systems
         public AreasViewModel(ListManager listManager)
         {
             _listManager = listManager;
-            AreaToAddValidator  = new AreaToAddValidator(_listManager);
+            AreaToAddValidator = new AreaToAddValidator(_listManager);
 
             GetAreasCommand = new RelayCommand(GetAreas);
             SaveAreasCommand = new RelayCommand(SaveAreas);
             DeleteAreaCommand = new RelayCommand(DeleteArea);
             AddAreaCommand = new RelayCommand(AddArea);
-            GetAreaByIdCommand = new RelayCommand(TestCommand);
 
         }
-
-        public int AreaToGetId { get; set; } = 10;
-        public AreaModel AreaReceived { get; set; } = new AreaModel() { Tag = "test" };
-
-        private void TestCommand()
-        {
-            AreaReceived = DaManager.GetArea(AreaToGetId);
-            if (AreaReceived==null) {
-                AreaReceived = new AreaModel() { Tag = "null" };
-            }
-            AreaModel areaTest = new AreaModel { Tag = "ML" };
-            List<string> list = new List<string>();
-
-        }
-
 
 
         #region Error Validation
@@ -152,8 +152,8 @@ namespace WpfUI.ViewModels.Areas_and_Systems
                     }
                 }
                 catch (Exception ex) {
-                        ErrorHelper.ShowErrorMessage(ex);
-                    }
+                    ErrorHelper.ShowErrorMessage(ex);
+                }
             }
         }
         private void DeleteArea(object areaToDeleteObject)
@@ -172,7 +172,7 @@ namespace WpfUI.ViewModels.Areas_and_Systems
 
             if (_listManager.AreaList.Count >= 1) {
                 var areaCount = _listManager.AreaList.Count;
-                SelectedArea = _listManager.AreaList[areaCount-1];
+                SelectedArea = _listManager.AreaList[areaCount - 1];
             }
         }
         public void AddArea(object areaToAddObject)
@@ -201,7 +201,7 @@ namespace WpfUI.ViewModels.Areas_and_Systems
                     RefreshAreaTagValidation();
                 }
             }
-            catch(Exception ex) {
+            catch (Exception ex) {
                 ErrorHelper.ShowErrorMessage(ex);
             }
         }

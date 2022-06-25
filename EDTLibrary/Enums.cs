@@ -20,12 +20,8 @@ namespace EDTLibrary {
 
     public enum SubCategories
     {
-        LOAD3P,
-        LOAD1P,
-        Component,
         CctComponent,
         AuxComponent,
-       
     }
 
     public enum DteqTypes {
@@ -48,24 +44,15 @@ namespace EDTLibrary {
 
     public enum ComponentTypes
     {
-        AUX,
         UDS,
         FDS,
         VFD,
         VSD,
         RVS,
         LCS,
-        BREAKER,
-        FUSE,
     }
     public enum ComponentSubTypes
     {
-        UDS,
-        FDS,
-        VFD,
-        RVS,
-        BREAKER,
-        FUSE,
         DefaultDcn,
         DefaultDrive,
     }

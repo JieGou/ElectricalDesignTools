@@ -34,8 +34,8 @@ public class XfrModel : DistributionEquipment
             }
             SCCR = CalculateSCCR();
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(Impedance), OldValue = oldValue, NewValue = _impedance };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Impedance), OldValue = oldValue, NewValue = _impedance };
+                Undo.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -51,8 +51,8 @@ public class XfrModel : DistributionEquipment
             var oldValue = _grounding;
             _grounding = value;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new CommandDetail { Item = this, PropName = nameof(Grounding), OldValue = oldValue, NewValue = _grounding };
-                Undo.UndoList.Add(cmd);
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Grounding), OldValue = oldValue, NewValue = _grounding };
+                Undo.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace EDTLibrary;
 public class Undo
 {
-    public static List<CommandDetail> UndoList { get; set; } = new List<CommandDetail>();
+    public static List<UndoCommandDetail> UndoList { get; set; } = new List<UndoCommandDetail>();
 
     public static bool Undoing { get; set; }
     public static void UndoCommand(ListManager listManager)
@@ -24,9 +24,14 @@ public class Undo
             UndoList.Remove(undoCommand);
         }
     }
+
+    public static void AddUndoCommand(UndoCommandDetail command)
+    {
+        UndoList.Add(command);
+    }
 }
 
-public class CommandDetail
+public class UndoCommandDetail
 {
     public object Item { get; set; }
     public string PropName { get; set; }

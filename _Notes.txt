@@ -6,8 +6,14 @@ Finish excel export
 	- cleanup notification
 
 Add Systems & SubSystems
+	- heatloss total by area
+		- add cable to total
+	- proper heatload calculatio for each equipment type
+
+Add component type selection
+	- typelist to components (will need separate classes for each component type)
 
 LoadGrid to CollectionListView (same as Dteq Grid)
 
 Component Toggle is triggering the UpdatePowerCables for Components Cables method
-Create Separate Components (dicsonnects, Drives, Etc)
+Create Separate Components (dicsonnects, Drives, Etc) 

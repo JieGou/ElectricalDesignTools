@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace EDTLibrary.Models.Areas;
@@ -18,6 +19,8 @@ public interface IArea: INotifyPropertyChanged
     string Tag { get; set; }
     string DisplayTag { get; set; }
 
+    public double HeatLoss { get; set; }
+    ObservableCollection<IEquipment> EquipmentList { get; set; }
     //Events
     event EventHandler AreaPropertiesChanged;
 }

@@ -19,6 +19,7 @@ namespace EDTLibrary.Models
         string NemaRating { get; set; }
         string AreaClassification { get; set; }
 
+        double HeatLoss { get; set; }
 
 
 

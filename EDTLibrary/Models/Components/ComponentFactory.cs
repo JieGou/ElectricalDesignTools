@@ -100,7 +100,7 @@ public class ComponentFactory
         newLcs.Area = componentOwner.Area;
 
         listManager.LcsList.Add(newLcs);
-        DaManager.UpserLcs(newLcs);
+        DaManager.UpsertLcs(newLcs);
         newLcs.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
 
         return newLcs;

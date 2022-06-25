@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfUI.ViewModels;
+using WpfUI.ViewModels.Areas_and_Systems;
 using WpfUI.Views.Electrical.MjeqSubviews;
 
 namespace WpfUI.Views.Areas_and_Systems;
@@ -23,7 +24,7 @@ namespace WpfUI.Views.Areas_and_Systems;
 /// </summary>
 public partial class AreasView : UserControl
 {
-    private AreasMenuViewModel areaVm { get { return DataContext as AreasMenuViewModel; } }
+    private AreasViewModel areaVm { get { return DataContext as AreasViewModel; } }
 
     public AreasView()
     {

@@ -26,27 +26,31 @@ namespace WpfUI.ViewModifiers
         {
             var temp = Power;
             HideAll();
-            Power = !temp;
+            Power = true;
+            //Power = !temp;
         }
 
         public void ToggleOcpd()
         {
             var temp = Ocpd;
             HideAll();
-            Ocpd = !temp;
+            Ocpd = true;
+            //Ocpd = !temp;
         }
         public void ToggleCable()
         {
             var temp = Cable;
             HideAll();
-            Cable = !temp;
+            Cable = true;
+            //Cable = !temp;
         }
 
         public void ToggleComp()
         {
             var temp = Comp;
             HideAll();
-            Comp = !temp;
+            Comp = true;
+            //Comp = !temp;
         }
     }
 }

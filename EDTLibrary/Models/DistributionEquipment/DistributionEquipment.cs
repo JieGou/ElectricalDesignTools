@@ -50,8 +50,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                     }
                 }
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
-                    Undo.UndoList.Add(cmd);
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
+                    Undo.AddUndoCommand(cmd);
                 }
                 OnPropertyUpdated();
 
@@ -70,8 +70,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 }
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(Type), OldValue = oldValue, NewValue = _type };
-                    Undo.UndoList.Add(cmd);
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Type), OldValue = oldValue, NewValue = _type };
+                    Undo.AddUndoCommand(cmd);
                 }
                 OnPropertyUpdated(); 
             }
@@ -90,8 +90,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 }
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(SubType), OldValue = oldValue, NewValue = _subType };
-                    Undo.UndoList.Add(cmd);
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(SubType), OldValue = oldValue, NewValue = _subType };
+                    Undo.AddUndoCommand(cmd);
                 }
                 OnPropertyUpdated();
             }
@@ -106,8 +106,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var oldValue = _description;
                 _description = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(Description), OldValue = oldValue, NewValue = _description };
-                    Undo.UndoList.Add(cmd);
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Description), OldValue = oldValue, NewValue = _description };
+                    Undo.AddUndoCommand(cmd);
                 }
 
                 OnPropertyUpdated();
@@ -132,8 +132,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (Area != null) {
                     AreaManager.UpdateArea(this, _area, oldValue);
                     if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                        var cmd = new CommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
-                        Undo.UndoList.Add(cmd);
+                        var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
+                        Undo.AddUndoCommand(cmd);
                     }
                     OnAreaChanged();
                     OnPropertyUpdated();
@@ -152,8 +152,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var oldValue = _nemaRating;
                 _nemaRating = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(NemaRating), OldValue = oldValue, NewValue = _nemaRating };
-                    Undo.UndoList.Add(cmd);
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(NemaRating), OldValue = oldValue, NewValue = _nemaRating };
+                    Undo.AddUndoCommand(cmd);
                 }
                 OnPropertyUpdated();
             }
@@ -168,8 +168,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var oldValue = _areaClassification;
                 _areaClassification = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(AreaClassification), OldValue = oldValue, NewValue = _areaClassification };
-                    Undo.UndoList.Add(cmd);
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(AreaClassification), OldValue = oldValue, NewValue = _areaClassification };
+                    Undo.AddUndoCommand(cmd);
                 }
             }
         }
@@ -201,8 +201,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                         PowerCable.GetRequiredAmps(this);
                     }
                     if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                        var cmd = new CommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
-                        Undo.UndoList.Add(cmd);
+                        var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
+                        Undo.AddUndoCommand(cmd);
                     }
                 }
                 OnPropertyUpdated();
@@ -280,8 +280,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                     throw;
                 }
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
-                    Undo.UndoList.Add(cmd);
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
+                    Undo.AddUndoCommand(cmd);
                 }
                 OnPropertyUpdated();
 
@@ -302,8 +302,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _lineVoltage = value;
                 Voltage = _lineVoltage;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(LineVoltage), OldValue = oldValue, NewValue = _lineVoltage };
-                    Undo.UndoList.Add(cmd);
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(LineVoltage), OldValue = oldValue, NewValue = _lineVoltage };
+                    Undo.AddUndoCommand(cmd);
                 }
                 OnPropertyUpdated();
 
@@ -322,8 +322,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var oldValue = _loadVoltage;
                 _loadVoltage = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new CommandDetail { Item = this, PropName = nameof(LoadVoltage), OldValue = oldValue, NewValue = _loadVoltage };
-                    Undo.UndoList.Add(cmd);
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(LoadVoltage), OldValue = oldValue, NewValue = _loadVoltage };
+                    Undo.AddUndoCommand(cmd);
                 }
                 OnPropertyUpdated();
 
@@ -429,13 +429,15 @@ namespace EDTLibrary.Models.DistributionEquipment
             set { _disconnectId = value; }
         }
 
-       
-
         #endregion
 
 
-        public double SCCR { get; set; }
 
+        public double HeatLoss { get; set; }
+
+
+
+        public double SCCR { get; set; }
         public virtual double CalculateSCCR()
         {
             if (Tag == GlobalConfig.Utility) {

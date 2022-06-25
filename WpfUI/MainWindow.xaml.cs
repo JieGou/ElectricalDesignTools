@@ -57,6 +57,9 @@ public partial class MainWindow : Window
                 Undo.UndoCommand(mainVm._listManager);
             }
         }
+        if (Keyboard.IsKeyDown(Key.Escape)) {
+            Keyboard.ClearFocus();
+        }
     }
 
     private void AreaMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)

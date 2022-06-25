@@ -56,6 +56,17 @@ public class LocalControlStationModel :  ILocalControlStation
     public string AreaClassification { get; set; }
     public ICable ControlCable { get; set; }
 
+
+
+
+    public double HeatLoss { get; set; } //not used
+
+
+
+
+
+
+
     public event EventHandler PropertyUpdated;
 
     public async Task OnPropertyUpdated()
