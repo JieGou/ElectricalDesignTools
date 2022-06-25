@@ -346,7 +346,10 @@ namespace EDTLibrary.Models.Loads
                     Type = "HEATER";
                 if (string.IsNullOrWhiteSpace(FedFromTag))
                     try {
+                        if (FedFromTag != null) {
+
                         FedFromTag = _listManager.IDteqList.FirstOrDefault(d => d.Type.Contains("MCC")).Tag;
+                        }
                     }
                     catch { }
                 if (string.IsNullOrWhiteSpace(Size))

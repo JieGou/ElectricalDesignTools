@@ -185,9 +185,9 @@ public class CableManager
         cable.OwnerType = typeof(LocalControlStationModel).ToString();
         cable.UsageType = CableUsageTypes.Control.ToString();
 
-        cable.Size = EdtSettings.DefaultLcsControlCableSize;
+        cable.Size = EdtSettings.LcsControlCableSize;
         cable.ConductorQty = lcs.TypeModel.DigitalConductorQty;
-        var voltageClass = TypeManager.ControlCableTypes.FirstOrDefault(c => c.Type == EdtSettings.DefaultLcsControlCableType).VoltageClass;
+        var voltageClass = TypeManager.ControlCableTypes.FirstOrDefault(c => c.Type == EdtSettings.LcsControlCableType).VoltageClass;
         IsUpdatingPowerCables = true;
         cable.TypeModel = TypeManager.GetLcsControlCableTypeModel(lcs);
         IsUpdatingPowerCables = false;

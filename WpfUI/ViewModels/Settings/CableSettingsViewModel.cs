@@ -87,13 +87,13 @@ public class CableSettingsViewModel : SettingsViewModelBase
     private string _defaultCableInstallationType;
 
 
-    public string DefaultCableInstallationType
+    public string CableInstallationType
     {
         get { return _defaultCableInstallationType; }
         set
         {
             _defaultCableInstallationType = value;
-            SaveVmSetting(nameof(DefaultCableInstallationType), _defaultCableInstallationType);
+            SaveVmSetting(nameof(CableInstallationType), _defaultCableInstallationType);
         }
     }
     public string CableSpacingMaxAmps_3C1kV
@@ -139,23 +139,23 @@ public class CableSettingsViewModel : SettingsViewModelBase
     public string CableInsulation15kVPower { get; set; }
     public string CableInsulation35kVPower { get; set; }
 
-    public string DefaultLcsControlCableType
+    public string LcsControlCableType
     {
         get => _defaultLcsControlCableType;
         set
         {
             _defaultLcsControlCableType = value;
-            SaveVmSetting(nameof(DefaultLcsControlCableType), _defaultLcsControlCableType);
+            SaveVmSetting(nameof(LcsControlCableType), _defaultLcsControlCableType);
         }
     }
 
-    public string DefaultLcsControlCableSize
+    public string LcsControlCableSize
     {
         get => _defaultLcsControlCableSize;
         set
         {
             _defaultLcsControlCableSize = value;
-            SaveVmSetting(nameof(DefaultLcsControlCableSize), _defaultLcsControlCableSize);
+            SaveVmSetting(nameof(LcsControlCableSize), _defaultLcsControlCableSize);
         }
     }
 

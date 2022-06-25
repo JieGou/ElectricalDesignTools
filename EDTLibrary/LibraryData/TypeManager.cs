@@ -1,4 +1,6 @@
-﻿using EDTLibrary.LibraryData.TypeModels;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData.Cables;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Components;
 using System;
 using System.Collections.Generic;
@@ -143,18 +145,36 @@ namespace EDTLibrary.LibraryData.TypeTables
         //OCDP
 
         public static ObservableCollection<OcpdType> OcpdTypes { get; set; }
-        public static ObservableCollection<string> ComponentTypes 
-        { get
-            {
+        public static ObservableCollection<DisconnectType> DisconnectTypes { get; set; } = new ObservableCollection<DisconnectType>();
+        public static ObservableCollection<string> DriveTypes { get; set; } = new ObservableCollection<string>() { "VSD", "RVS" };
 
-                ObservableCollection<string> componentTypes = new ObservableCollection<string>();
-                foreach (var item in Enum.GetNames(typeof(ComponentTypes))) {
-                    componentTypes.Add(item.ToString());
-                }
-                return componentTypes;
-            }
+
+
+        public static void GetTypeTables()
+        {
+            NemaTypes = DaManager.libDb.GetRecords<NemaType>("NemaTypes");
+            AreaClassifications = DaManager.libDb.GetRecords<AreaClassificationType>("AreaClassifications");
+
+            OcpdTypes = DaManager.libDb.GetRecords<OcpdType>("OcpdTypes");
+            VoltageTypes = DaManager.libDb.GetRecords<VoltageType>("VoltageTypes");
+
+
+            LcsTypes = DaManager.libDb.GetRecords<LcsTypeModel>(GlobalConfig.LcsTypesTable);
+            DisconnectTypes = DaManager.libDb.GetRecords<DisconnectType>("DisconnectTypes");
+
+            CecCableSizingRules = DaManager.libDb.GetRecords<CecCableSizingRule>("CecCableSizingRules");
+            CableTypes = DaManager.libDb.GetRecords<CableTypeModel>(GlobalConfig.CableTypes);
+            ControlCableSizes = DaManager.libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
+            InstrumentCableSizes = DaManager.libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
+
+            TransformerSizes = DaManager.libDb.GetRecords<TransformerSize>("TransformerSizes");
+            TransformerTypes = DaManager.libDb.GetRecords<TransformerType>("TransformerTypes");
+            GroundingSystemTypes = DaManager.libDb.GetRecords<GroundingSystemType>("GroundingSystemTypes");
+
+
+
+            LibraryManager.CecCableAmpacities = DaManager.libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
         }
-
 
     }
 }

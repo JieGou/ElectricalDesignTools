@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.LibraryData
 {
-    public static class DataTables
+    public static class LibraryTables
     {
         public static DataTable CableAmpacities { get; set; }
         public static DataTable CableDimensions { get; set; }
@@ -25,7 +25,7 @@ namespace EDTLibrary.LibraryData
 
         public static DataTable Breakers { get; set; }
         public static DataTable MCPs { get; set; }
-        public static DataTable Disconnects { get; set; }
+        public static DataTable DisconnectSizes { get; set; }
         public static DataTable LoadTypes { get; set; }
         public static DataTable Motors { get; set; }
         public static DataTable Starters { get; set; }

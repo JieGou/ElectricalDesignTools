@@ -79,7 +79,7 @@ namespace EDTLibrary.ProjectSettings
         public static string CableInsulation15kVPower { get; set; }
         public static string CableInsulation35kVPower { get; set; }
 
-        public static string DefaultCableInstallationType { get; set; }
+        public static string CableInstallationType { get; set; }
         public static string DefaultCableTypeLoad_3phLt300V { get; set; } = "Incomplete";
         public static string DefaultCableTypeLoad_3ph300to1kV { get; set; }
         public static string DefaultCableTypeLoad_3ph5kV { get; set; }
@@ -110,8 +110,8 @@ namespace EDTLibrary.ProjectSettings
         }
 
 
-        public static string DefaultLcsControlCableType { get; set; }
-        public static string DefaultLcsControlCableSize { get; set; }
+        public static string LcsControlCableType { get; set; }
+        public static string LcsControlCableSize { get; set; }
 
 
 
@@ -135,8 +135,8 @@ namespace EDTLibrary.ProjectSettings
         public static string LoadDefaultPowerFactor_Panel { get; set; }
 
         //Components
-        public static string DefaultLcsTypeDolLoad { get; set; }
-        public static string DefaultLcsTypeVsdLoad { get; set; }
+        public static string LcsTypeDolLoad { get; set; }
+        public static string LcsTypeVsdLoad { get; set; }
 
 
 

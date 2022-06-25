@@ -82,13 +82,13 @@ public class ComponentFactory
         newLcs.SubCategory = SubCategories.AuxComponent.ToString();
 
         if (owner.PdType.Contains("MCP")) {
-            newLcs.Type = EdtSettings.DefaultLcsTypeDolLoad;
+            newLcs.Type = EdtSettings.LcsTypeDolLoad;
         }
         else if (owner.DriveBool==true) {
-            newLcs.Type = EdtSettings.DefaultLcsTypeVsdLoad;
+            newLcs.Type = EdtSettings.LcsTypeVsdLoad;
         }
         else {
-            newLcs.Type = EdtSettings.DefaultLcsTypeDolLoad;
+            newLcs.Type = EdtSettings.LcsTypeDolLoad;
         }
         newLcs.TypeModel = TypeManager.GetLcsTypeModel(newLcs.Type);
         

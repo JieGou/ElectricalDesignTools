@@ -232,7 +232,7 @@ public class CableModel : ICable
         }
     }
 
-    private string _installationType = EdtSettings.DefaultCableInstallationType;
+    private string _installationType = EdtSettings.CableInstallationType;
 
     public string InstallationType
     {
@@ -365,7 +365,7 @@ public class CableModel : ICable
     public string SelectCableType(double voltageClass, int conductorQty, double insulation, string usageType)
     {
 
-        DataTable cableType = DataTables.CableTypes.Select($"VoltageClass >= {voltageClass}").CopyToDataTable();
+        DataTable cableType = LibraryTables.CableTypes.Select($"VoltageClass >= {voltageClass}").CopyToDataTable();
         cableType = cableType.Select($"VoltageClass = MIN(VoltageClass) " +
                                      $"AND Conductors ={conductorQty}" +
                                      $"AND Insulation ={insulation}" +
@@ -413,7 +413,7 @@ public class CableModel : ICable
         //TODO - move this into above "CalculateCableQtyAndSize();" for both
         //TODO - Fix cable spacing default
 
-        DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
+        DataTable cableAmpacityTable = LibraryTables.CecCableAmpacities.Copy();
         //var ampacityTableFiltered = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("AmpacityTable") == AmpacityTable);
         //cableAmpacityTable.Rows.Clear();
         //foreach (var cableAmpacityRow in ampacityTableFiltered) {
@@ -450,7 +450,7 @@ public class CableModel : ICable
                 }
                 else {
                     cable.QtyParallel += 1;
-                    cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
+                    cableAmpacityTable = LibraryTables.CecCableAmpacities.Copy();
                     foreach (DataRow row in cableAmpacityTable.Rows) {
                         double amps75 = (double)row[ampsColumn];
                         string size = row["Size"].ToString();
@@ -490,7 +490,7 @@ public class CableModel : ICable
     //Qty Size
     private void CableQtySize_DirectBuriedOrRaceWayConduit(ICable cable, string ampsColumn)
     {
-        DataTable cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
+        DataTable cableAmpacityTable = LibraryTables.CecCableAmpacities.Copy();
         //var ampacityTableFiltered = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("AmpacityTable") == AmpacityTable);
         //cableAmpacityTable.Rows.Clear();
         //foreach (var cableAmpacityRow in ampacityTableFiltered) {
@@ -526,7 +526,7 @@ public class CableModel : ICable
                 }
                 else {
                     cable.QtyParallel += 1;
-                    cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
+                    cableAmpacityTable = LibraryTables.CecCableAmpacities.Copy();
                     foreach (DataRow row in cableAmpacityTable.Rows) {
                         double amps75 = (double)row[ampsColumn];
                         string size = row["Size"].ToString();
@@ -605,7 +605,7 @@ public class CableModel : ICable
     {
         cable.Derating = CableManager.CableSizer.GetDerating(cable);
 
-        DataTable cableAmps = DataTables.CecCableAmpacities.Copy(); //the created cable ampacity table
+        DataTable cableAmps = LibraryTables.CecCableAmpacities.Copy(); //the created cable ampacity table
 
         //filter cables larger than RequiredAmps          
         var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
@@ -630,7 +630,7 @@ public class CableModel : ICable
         cable.Derating = CableManager.CableSizer.GetDerating(cable);
 
 
-        DataTable cableAmps = DataTables.CecCableAmpacities.Copy(); //the created cable ampacity table
+        DataTable cableAmps = LibraryTables.CecCableAmpacities.Copy(); //the created cable ampacity table
 
         //filter cables larger than RequiredAmps          
         var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code

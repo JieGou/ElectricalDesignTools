@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.ProjectSettings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,9 +24,7 @@ namespace EDTLibrary.Models.Loads
             foreach (var dteq in _listManager.DteqList) {  // 85 ms
                 if (dteq.Tag == loadToAddValidator.FedFromTag) {
 
-                    GlobalConfig.GettingRecords = true; 
                     newLoad.FedFrom = dteq; 
-                    GlobalConfig.GettingRecords = true;
 
                     break;
                 }
@@ -40,6 +39,13 @@ namespace EDTLibrary.Models.Loads
             newLoad.Voltage = Double.Parse(loadToAddValidator.Voltage);
             newLoad.Unit = loadToAddValidator.Unit;
             newLoad.LoadFactor = Double.Parse(loadToAddValidator.LoadFactor);
+
+            if (newLoad.Type == LoadTypes.MOTOR.ToString()) {
+                newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
+            }
+            else {
+                newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
+            }
 
             return newLoad;
         }

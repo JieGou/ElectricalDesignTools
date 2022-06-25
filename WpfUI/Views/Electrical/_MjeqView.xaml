@@ -82,7 +82,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="300" MinHeight="290"/>
-                <RowDefinition Height="{Binding LoadGridTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="125"/>
+                <RowDefinition Height="{Binding LoadGridTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="125" />
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.Triggers>
@@ -1250,7 +1250,9 @@
                           VirtualizingPanel.IsVirtualizing="False"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
                           RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}"
-                          SelectionChanged="dgdAssignedLoads_SelectionChanged" PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown" MouseLeave="dgdAssignedLoads_MouseLeave"
+                          SelectionChanged="dgdAssignedLoads_SelectionChanged" PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown" MouseLeave="dgdAssignedLoads_MouseLeave" 
+                          BeginningEdit="dgdAssignedLoads_BeginningEdit" CellEditEnding="dgdAssignedLoads_CellEditEnding"
+                          
                           >
                     <DataGrid.Resources>
                         <Style x:Key="errorStyle" TargetType="{x:Type TextBlock}">

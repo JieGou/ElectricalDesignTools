@@ -38,43 +38,19 @@ public class DaManager {
 
     public static bool GetLibraryTables()
     {
-        Type libraryTablesClass = typeof(DataTables); // MyClass is static class with static properties
+        Type libraryTablesClass = typeof(LibraryTables); // MyClass is static class with static properties
         DataTable dt = new DataTable();
         foreach (var prop in libraryTablesClass.GetProperties()) {
             prop.SetValue(dt, libDb.GetDataTable(prop.Name));
         }
         IsLibraryLoaded = true;
-        GetTypeTables();
+        TypeManager.GetTypeTables();
         return IsLibraryLoaded;
     }
 
     #region Type Tables
 
-    public static void GetTypeTables()
-    {
-        TypeManager.NemaTypes = libDb.GetRecords<NemaType>("NemaTypes");
-        TypeManager.AreaClassifications = libDb.GetRecords<AreaClassificationType>("AreaClassifications");
-
-        TypeManager.OcpdTypes = libDb.GetRecords<OcpdType>("OcpdTypes");
-        TypeManager.VoltageTypes = libDb.GetRecords<VoltageType>("VoltageTypes");
-
-
-        TypeManager.LcsTypes = libDb.GetRecords<LcsTypeModel>(GlobalConfig.LcsTypesTable);
-
-
-        TypeManager.CecCableSizingRules = libDb.GetRecords<CecCableSizingRule>("CecCableSizingRules");
-        TypeManager.CableTypes = libDb.GetRecords<CableTypeModel>(GlobalConfig.CableTypes);
-        TypeManager.ControlCableSizes = libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
-        TypeManager.InstrumentCableSizes = libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
-
-        TypeManager.TransformerSizes = libDb.GetRecords<TransformerSize>("TransformerSizes");
-        TypeManager.TransformerTypes = libDb.GetRecords<TransformerType>("TransformerTypes");
-        TypeManager.GroundingSystemTypes = libDb.GetRecords<GroundingSystemType>("GroundingSystemTypes");
-
-
-
-        LibraryManager.CecCableAmpacities = libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
-    }
+    
     #endregion
 
     public static AreaModel GetArea(int locationId)

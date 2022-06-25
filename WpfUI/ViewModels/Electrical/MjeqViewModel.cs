@@ -584,9 +584,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         try {
             LoadModel newLoad = await LoadManager.AddLoad(loadToAddObject, _listManager);
-            AssignedLoads.Add(newLoad);
+            if (newLoad != null) AssignedLoads.Add(newLoad);
             RefreshLoadTagValidation();
-            //SelectedLoad = newLoad;
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);

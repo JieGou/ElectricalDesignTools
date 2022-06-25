@@ -57,8 +57,8 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
     private string _loadDefaultPdTypeLV_Motor;
     private string _dteqDefaultPdTypeLV;
 
-    private static string _defaultLcsTypeDolLoad;
-    private static string _defaultLcsTypeVsdLoad;
+    private static string _lcsTypeDolLoad;
+    private static string _lcsTypeVsdLoad;
 
 
     private string _defaultLcsControlCableSize;
@@ -176,24 +176,24 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
 
 
     //Components
-    public string DefaultLcsTypeDolLoad
+    public string LcsTypeDolLoad
     {
-        get => _defaultLcsTypeDolLoad;
+        get => _lcsTypeDolLoad;
         set
         {
-            _defaultLcsTypeDolLoad = value;
-            SaveVmSetting(nameof(DefaultLcsTypeDolLoad), _defaultLcsTypeDolLoad);
+            _lcsTypeDolLoad = value;
+            SaveVmSetting(nameof(LcsTypeDolLoad), _lcsTypeDolLoad);
 
         }
     }
 
-    public string DefaultLcsTypeVsdLoad
+    public string LcsTypeVsdLoad
     {
-        get => _defaultLcsTypeVsdLoad;
+        get => _lcsTypeVsdLoad;
         set
         {
-            _defaultLcsTypeVsdLoad = value;
-            SaveVmSetting(nameof(DefaultLcsTypeVsdLoad), _defaultLcsTypeVsdLoad);
+            _lcsTypeVsdLoad = value;
+            SaveVmSetting(nameof(LcsTypeVsdLoad), _lcsTypeVsdLoad);
 
         }
     }

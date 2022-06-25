@@ -125,7 +125,7 @@
                         </StackPanel>
                         <ComboBox Grid.Row="1" Grid.Column="2"
                               ItemsSource="{Binding TypeManager.CableInstallationTypes}"
-                              SelectedValue="{Binding Path=DefaultCableInstallationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                              SelectedValue="{Binding Path=CableInstallationType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <StackPanel Orientation="Vertical"
                                 Grid.Row="2" Grid.Column="0"  >
@@ -410,7 +410,7 @@
                                   ItemsSource="{Binding TypeManager.ControlCableTypes}"
                                   DisplayMemberPath="Type"
                                   SelectedValuePath="Type"
-                                  SelectedValue="{Binding Path=DefaultLcsControlCableType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                  SelectedValue="{Binding Path=LcsControlCableType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                   />
 
                     <StackPanel Orientation="Vertical"
@@ -428,7 +428,7 @@
                               MinWidth="75"
                               HorizontalContentAlignment="Center"
                               ItemsSource="{Binding TypeManager.ControlCableSizes}"
-                              SelectedValue="{Binding Path=DefaultLcsControlCableSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedValue="{Binding Path=LcsControlCableSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Size"
                               SelectedValuePath="Size"/>
                         <TextBlock Text="AWG" FontWeight="Normal"/>

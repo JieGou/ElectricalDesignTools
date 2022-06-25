@@ -30,10 +30,13 @@ public partial class _MjeqView : UserControl
 
     DteqDetailView _dteqDetailsView = new DteqDetailView();
     LoadDetailView _loaDetailView = new LoadDetailView();
+    private bool _isEditingLoadGrids;
 
     public _MjeqView()
     {
         InitializeComponent();
+        
+
     }
 
 
@@ -83,7 +86,9 @@ public partial class _MjeqView : UserControl
         }
         try {
             if (e.Key == Key.Delete) {
-                DeleteLoads_VM();
+                if (_isEditingLoadGrids == false) {
+                    DeleteLoads_VM();
+                }
             }
         }
         catch (Exception ex) {
@@ -273,6 +278,7 @@ public partial class _MjeqView : UserControl
         //var MaxLoadHeight = loadButtonsStackPanel.ActualHeight + 50;
         //dgdAssignedLoads.Height = MaxLoadHeight + 15;
 
+     
         if (gridAdding.Visibility == Visibility.Collapsed) {
             gridAdding.Visibility = Visibility.Visible;
             AppSettings.Default.AddEquipmentPanelView = 0;
@@ -556,6 +562,16 @@ public partial class _MjeqView : UserControl
     {
         var dataGrid = (DataGrid)sender;
         dataGrid.CancelEdit();
+    }
+
+    private void dgdAssignedLoads_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+    {
+        _isEditingLoadGrids = true;
+    }
+
+    private void dgdAssignedLoads_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+    {
+        _isEditingLoadGrids = false;
     }
 }
 
