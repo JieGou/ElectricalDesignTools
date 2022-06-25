@@ -1,24 +1,37 @@
 
 Autocad interop single line
 
+
 Power Cable
 	- component cables are not updated when changing the load cable properties
-	- cable derating not updated when loads are added to Supplier
-	- 
+	- cable derating not updated when loads are added to supplier
+		- added default derting for DTEQ load cables
+	- Prompt to recalculate load cables
+
 
 Finish excel export 
 	- columns selection
 	- cleanup notification
+
 
 Add Systems & SubSystems
 	- heatloss total by area
 		- add cable to total
 	- proper heatload calculation for each equipment type
 
+
 Add component type selection
 	- typelist to components (will need separate classes for each component type)
 
-LoadGrid to CollectionListView (same as Dteq Grid)
 
-Component Toggle is triggering the UpdatePowerCables for Components Cables method
-Create Separate Components (dicsonnects, Drives, Etc) 
+
+
+
+
+
+ISSUES
+	- Component Toggle is triggering the UpdatePowerCables for Components Cables method
+	- Create Separate Components (dicsonnects, Drives, Etc) 
+
+	LoadGrid to CollectionListView (same as Dteq Grid)
+		- changed with no speed improvement. Suspect it's a numbers thing

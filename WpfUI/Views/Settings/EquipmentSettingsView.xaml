@@ -132,17 +132,21 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                               IsSynchronizedWithCurrentItem="False" />
 
                     <StackPanel Orientation="Vertical"  Grid.Row="5" Grid.Column="0"  >
-                        <TextBlock Text="Load Cable Qty Derating Factor"
+                        <TextBlock Text="Load Cable Random Fill Derating"
                                Grid.Row="2" Grid.Column="0" />
-                        <TextBlock Text="The default 'conductors in contact derating factor for load power cables added to a distribution equipment."  
+                        <TextBlock Text="The derating factor for random fill load cables when creating a new distribution equipment. This can be changed individually on the equipment settings tab. NOTE - changing this value updates all existing equipment."  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}" />
                     </StackPanel>
 
+                    <StackPanel Grid.Row="5" Grid.Column="2">
                     <TextBox Grid.Row="5" Grid.Column="2"
                                  MinWidth="50"
                                  Text="{Binding Path=DteqLoadCableDerating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
+                        <TextBlock Text="Changing this value updates all existing equipment."  
+                                   Grid.Row="1" Grid.Column="0" Width="100"
+                                   Style="{StaticResource settingDescription}" />
+                    </StackPanel>
 
                 </Grid>
             </GroupBox>

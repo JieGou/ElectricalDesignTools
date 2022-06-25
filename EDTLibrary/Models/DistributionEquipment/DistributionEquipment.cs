@@ -40,8 +40,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _tag;
                 _tag = value;
-                if (GlobalConfig.GettingRecords==false) {
-                 
+                if (GlobalConfig.GettingRecords == false) {
+
                     if (PowerCable != null) {
                         PowerCable.AssignTagging(this);
                     }
@@ -59,10 +59,10 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         public string Category { get; set; }
         private string _type;
-        public string Type 
+        public string Type
         {
             get { return _type; }
-            set 
+            set
             {
                 var oldValue = _type;
                 _type = value;
@@ -73,7 +73,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                     var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Type), OldValue = oldValue, NewValue = _type };
                     Undo.AddUndoCommand(cmd);
                 }
-                OnPropertyUpdated(); 
+                OnPropertyUpdated();
             }
         }
 
@@ -147,8 +147,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         public string NemaRating
         {
             get { return _nemaRating; }
-            set 
-            { 
+            set
+            {
                 var oldValue = _nemaRating;
                 _nemaRating = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
@@ -163,8 +163,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         public string AreaClassification
         {
             get { return _areaClassification; }
-            set 
-            { 
+            set
+            {
                 var oldValue = _areaClassification;
                 _areaClassification = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
@@ -176,8 +176,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         public double Voltage
         {
             get { return LineVoltage; }
-            set 
-            { 
+            set
+            {
                 LineVoltage = value;
                 if (GlobalConfig.GettingRecords == false) {
                     PowerCable.CreateTypeList(this);
@@ -197,7 +197,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (GlobalConfig.GettingRecords == false) {
                     CalculateLoading();
                     SCCR = CalculateSCCR();
-                    if (PowerCable!= null) {
+                    if (PowerCable != null) {
                         PowerCable.GetRequiredAmps(this);
                     }
                     if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
@@ -229,7 +229,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (FedFrom != null && _fedFromTag != GlobalConfig.Deleted) {
                     FedFrom.Tag = _fedFromTag;
                 }
-                
+
                 if (GlobalConfig.GettingRecords == false) {
                     //OnFedFromChanged();
                     //CalculateLoading();
@@ -238,13 +238,14 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         public int FedFromId { get; set; }
         public string FedFromType { get; set; }
-        
+
         private IDteq _fedFrom;
 
         public IDteq FedFrom
         {
             get { return _fedFrom; }
-            set {
+            set
+            {
 
 
                 IDteq oldValue = _fedFrom;
@@ -315,7 +316,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         public double LoadVoltage
         {
             get { return _loadVoltage; }
-            set 
+            set
             {
                 if (value == null || value == 0) return;
 
@@ -338,7 +339,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             get { return _fla; }
             set
             {
-                _fla = value;           
+                _fla = value;
             }
         }
 
@@ -423,6 +424,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
         private int _disconnectId;
+        private double _loadCableDerating;
+
         public int DisconnectId
         {
             get { return _disconnectId; }
@@ -450,7 +453,12 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
         //Todo - recalculate cables when changed
-        public double LoadCableDerating { get; set; } = 1;
+        public double LoadCableDerating { get => _loadCableDerating;
+
+            set { _loadCableDerating = value; 
+                    OnPropertyUpdated();
+            }
+        }
 
 
 
@@ -502,7 +510,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public void CreatePowerCable()
         {
-            if (PowerCable == null && GlobalConfig.GettingRecords==false) {
+            if (PowerCable == null && GlobalConfig.GettingRecords == false) {
                 PowerCable = new CableModel(this);
             }
         }
@@ -517,7 +525,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             PowerCable.CalculateAmpacity(this);
         }
-        
+
 
         //Events
         public event EventHandler LoadingCalculated;
@@ -567,7 +575,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public void MatchOwnerArea(object source, EventArgs e)
         {
-           
+
         }
 
 

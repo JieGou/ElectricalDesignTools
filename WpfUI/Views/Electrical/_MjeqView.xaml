@@ -44,10 +44,16 @@
             <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
             <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 
-            <!--For quick filtering of DteqGrid-->
+            
+            <!--For quick filtering of DteqGrid--><!--
             <CollectionViewSource x:Key="cvsIdteq" Source="{Binding ListManager.IDteqList}"
                                   Filter="cvsIdteq_Filter"/>
 
+            --><!--For quick filtering of LoadGrid--><!--
+            <CollectionViewSource x:Key="cvsLoad" Source="{Binding ListManager.LoadList}"
+                                  Filter="cvsLoad_Filter"/>-->
+            
+            
             <!--For FedFrom Comboboxes-->
             <CollectionViewSource x:Key="dteqList" Source="{Binding ListManager.DteqList}"/>
 
@@ -1239,7 +1245,7 @@
                           
                           
                           
-                          ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                          ItemsSource="{Binding LoadCollectionView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                           SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
