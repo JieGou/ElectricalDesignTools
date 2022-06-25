@@ -340,40 +340,36 @@ public partial class _MjeqView : UserControl
     }
 
     //CollectionView in XAML
-    //private void cvsIdteq_Filter(object sender, FilterEventArgs e)
-    //{
-    //    Task t = e.Item as Task;
+    private void cvsIdteq_Filter(object sender, FilterEventArgs e)
+    {
+        Task t = e.Item as Task;
 
-    //    IDteq dteq = e.Item as IDteq;
-    //    if (dteq != null)
-    //    // If filter is turned on, filter completed items.
-    //    {
-    //        if (dteq.Tag == null
-    //                   || dteq.Description == null
-    //                   || dteq.Area == null
-    //                   || dteq.FedFrom == null
-    //                   ) {
-    //            e.Accepted = true;
-    //        }
-    //        else if (dteq.Tag.ToLower().Contains(txtDteqTagFilter.Text.ToLower())
-    //                && dteq.Description.ToLower().Contains(txtDteqDescriptionFilter.Text.ToLower())
-    //                && dteq.Area.Tag.ToLower().Contains(txtDteqAreaFilter.Text.ToLower())
-    //                && dteq.FedFrom.Tag.ToLower().Contains(txtDteqFedFromFilter.Text.ToLower())
-    //                ) {
-    //            e.Accepted = true;
+        IDteq dteq = e.Item as IDteq;
+        if (dteq != null)
+        // If filter is turned on, filter completed items.
+        {
+            if (dteq.Tag == null
+                       || dteq.Description == null
+                       || dteq.Area == null
+                       || dteq.FedFrom == null
+                       ) {
+                e.Accepted = true;
+            }
+            else if (dteq.Tag.ToLower().Contains(txtDteqTagFilter.Text.ToLower())
+                    && dteq.Description.ToLower().Contains(txtDteqDescriptionFilter.Text.ToLower())
+                    && dteq.Area.Tag.ToLower().Contains(txtDteqAreaFilter.Text.ToLower())
+                    && dteq.FedFrom.Tag.ToLower().Contains(txtDteqFedFromFilter.Text.ToLower())
+                    ) {
+                e.Accepted = true;
 
-    //        }
-    //        else {
-    //            e.Accepted = false;
-    //        }
-    //    }
-    //}
-
+            }
+            else {
+                e.Accepted = false;
+            }
+        }
+    }
 
     //CollectionView in ViewModel
-
-
-
     private void DteqGridFilter()
     {
         try {
@@ -457,92 +453,54 @@ public partial class _MjeqView : UserControl
         }
     }
 
-    private void LoadGridFilter()
-    {
-        try {
 
-            mjeqVm.LoadCollectionView.Filter = (l) => {
-                ILoad load = (ILoad)l;
-                if (load != null)
-                // If filter is turned on, filter completed items.
-                {
-                    if (load.Tag == null
-                               || load.Description == null
-                               || load.Area == null
-                               || load.FedFrom == null
-                               ) {
-                        return true;
-                    }
-                    else if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
-                            && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())
-                            && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
-                            && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
-                            ) {
-                        return true;
 
-                    }
-                    else {
-                        return false;
-                    }
-                }
-                return false;
-            };
-        }
-        catch (Exception ex) {
-
-        }
-
-    }
-
-    //Textbox change events
     private void LoadGridFilter(object sender, KeyEventArgs e)
     {
         TextBox textBox = (TextBox)sender;
 
 
-        if (e.Key == Key.Enter /*|| e.Key == Key.Tab*/) {
-            //elecVm.DteqFilter = true;
-            //ApplyFilter();
-            //CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource).Refresh(); //XAML cvs
-            LoadGridFilter();
-
-        }
-
-        if (e.Key == Key.Escape) {
-
-            textBox = (TextBox)sender;
-            textBox.Text = "";
-            if (txtLoadTagFilter.Text == ""
-                    && txtLoadAreaFilter.Text == ""
-                    && txtLoadDescriptionFilter.Text == ""
-                    && txtLoadFedFromFilter.Text == "") {
-
-                //elecVm.DteqFilter = false;
+        if (e.Key == Key.Enter || e.Key == Key.Escape /*|| e.Key == Key.Tab*/) {
+            if (e.Key == Key.Escape) {
+                textBox = (TextBox)sender;
+                textBox.Text = "";
             }
-            //ApplyFilter();
-            //CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource).Refresh();  //XMAL cvs
-            LoadGridFilter();
-
+            ApplyFilter();
         }
+
+
 
         void ApplyFilter()
         {
-            mjeqVm.LoadList.Clear();
-            foreach (var load in mjeqVm.ListManager.LoadList) {
-                if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
-                    && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())
-                    && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
-                    && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
-                    ) {
-                    mjeqVm.LoadList.Add(load);
+            if (mjeqVm.LoadListLoaded == false && mjeqVm.SelectedDteq != null) {
+                Filter(mjeqVm.SelectedDteq.AssignedLoads);
+            }
+            else if (mjeqVm.LoadListLoaded == true) {
+                ObservableCollection<IPowerConsumer> list = new ObservableCollection<IPowerConsumer>();
+                foreach (var item in mjeqVm.ListManager.LoadList) {
+                    list.Add(item);
+                }
+                Filter(list);
+            }
+
+            void Filter(ObservableCollection<IPowerConsumer> listToFilter)
+            {
+                mjeqVm.AssignedLoads.Clear();
+                foreach (var load in listToFilter) {
+                    try {
+                        if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
+                            && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())
+                            && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
+                            && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
+                            ) {
+                            mjeqVm.AssignedLoads.Add((IPowerConsumer)load);
+                        }
+                    }
+                    catch { }
                 }
             }
         }
     }
-
-
-
-    
 
     private void btnAddDteq_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {

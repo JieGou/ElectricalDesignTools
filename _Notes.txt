@@ -3,10 +3,10 @@ Autocad interop single line
 
 
 Power Cable
+	- Prompt to recalculate load cables
 	- component cables are not updated when changing the load cable properties
 	- cable derating not updated when loads are added to supplier
-		- added default derting for DTEQ load cables
-	- Prompt to recalculate load cables
+		- added default derating for DTEQ load cables
 
 
 Finish excel export 
@@ -22,8 +22,6 @@ Add Systems & SubSystems
 
 Add component type selection
 	- typelist to components (will need separate classes for each component type)
-
-
 
 
 

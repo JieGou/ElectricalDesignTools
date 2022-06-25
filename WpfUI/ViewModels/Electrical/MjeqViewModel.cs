@@ -216,47 +216,6 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
-
-
-    public bool LoadFilter { get; set; }
-    private ObservableCollection<ILoad> _loadList = new ObservableCollection<ILoad>();
-
-    public ObservableCollection<ILoad> LoadList
-    {
-        get
-        {
-            if (LoadFilter == true) {
-                return _loadList;
-            }
-
-            return ListManager.LoadList;
-        }
-
-        set
-        {
-            _loadList = value;
-        }
-    }
-
-    private ListCollectionView _loadCollectionView;
-    public ListCollectionView LoadCollectionView
-    {
-        get
-        {
-            if (_loadCollectionView == null) {
-                //View = CollectionViewSource.GetDefaultView(_listManager.CableList);
-                _loadCollectionView = new ListCollectionView(LoadList);
-            }
-            return _loadCollectionView;
-        }
-        set
-        {
-            _loadCollectionView = LoadCollectionView;
-        }
-    }
-
-
-
     // DTEQ
     private IDteq _selectedDteq;
     public IDteq SelectedDteq
