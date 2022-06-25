@@ -71,7 +71,8 @@ public class ComponentManager
     {
         if (listManager == null) return;
         string subCategory = SubCategories.CctComponent.ToString();
-        string type = "Default UDS or FDS";
+        //Todo - Add setting for local disconnect default type
+        string type = "UDS";
         string subType = ComponentSubTypes.DefaultDcn.ToString();
         ComponentModel newComponent = ComponentFactory.CreateComponent(componentUser, subCategory, type, subType, listManager);
         componentUser.Disconnect = newComponent;

@@ -52,7 +52,7 @@ namespace EDTLibrary.DataAccess
             "PowerCable",
             "ControlCable",
             "TypeModel",
-            "SubTypeList",
+            "TypeList",
         };
 
         static public List<string> LcsSaveList { get; set; } = new List<string>()

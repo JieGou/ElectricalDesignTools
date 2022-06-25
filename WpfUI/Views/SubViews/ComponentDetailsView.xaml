@@ -7,6 +7,54 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="550"
              Background="LightCyan">
+
+
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>-->
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="0 3"/>
+                <Setter Property="FontSize" Value="12"/>
+            </Style>
+
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="0 3"/>
+                <Setter Property="Height" Value="20"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+
+
+            <Style TargetType="CheckBox">
+                <!--<Setter Property="Margin" Value="10 0 0 0"/>-->
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="ComboBox">
+                <Setter Property="Padding" Value="3 1"/>
+                <Setter Property="Height" Value="20"/>
+                <Setter Property="Margin" Value="0 3"/>
+            </Style>
+
+
+            <Style TargetType="TextBlock" x:Key="textBoxMouseOver">
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="Margin" Value="0 3"/>
+                        <Setter Property="FontSize" Value="12"/>
+                        <Setter Property="Height" Value="20"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -89,21 +137,27 @@
                 </StackPanel>
                 
                 <!--Component Types-->
-                
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                <StackPanel Orientation="Horizontal" 
+                            Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" >
+                    <TextBlock Text="Type"
+                         Grid.Row="1" Grid.Column="0" 
+                               Margin="10 10 0 10"/>
+                    <ComboBox Template="{DynamicResource ComboBoxBase}" 
                           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-                          Height="20"
+                          Height="20" Width="83"
                           Margin="10"
-                          ItemsSource="{Binding Path=DataContext.TypeManager.ComponentTypes, 
-                                              RelativeSource={RelativeSource Mode=FindAncestor, 
-                                              AncestorType={x:Type Window}}}"
+                          ItemsSource="{Binding Path=DataContext.SelectedComponent.TypeList, 
+                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                  RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                  AncestorType={x:Type UserControl}, AncestorLevel=2}}"
                           
                           SelectedValue="{Binding Path=DataContext.SelectedComponent.Type, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                   RelativeSource={RelativeSource Mode=FindAncestor, 
                                                   AncestorType={x:Type UserControl}, AncestorLevel=2}}"
                           IsSynchronizedWithCurrentItem="False"  />
-
+                </StackPanel>
+                
                 <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
                             Margin="10 0 0 0">
                     <Grid.ColumnDefinitions>

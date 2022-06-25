@@ -54,17 +54,37 @@ public class ComponentModel : IComponent
 
     public string Description { get; set; }
     public string Category { get; set; } //Component
-    public string SubCategory { get; set; } 
+    public string SubCategory { get; set; }
 
-    public string Type { get; set; } 
-    public string SubType { get; set; } 
-    public ObservableCollection<LcsTypeModel> SubTypeList { get; set; } = new ObservableCollection<LcsTypeModel>();
+    public string Type { get; set; }
+    public string SubType { get; set; }
+    public ObservableCollection<string> TypeList
+    {
+        get
+        {
+            _typelist.Clear();
+            if (Type == ComponentTypes.UDS.ToString() || Type == ComponentTypes.FDS.ToString()) {
+                _typelist.Add(ComponentTypes.UDS.ToString());
+                _typelist.Add(ComponentTypes.FDS.ToString());
+            }
+            else if (Type == ComponentTypes.VSD.ToString() || Type == ComponentTypes.VFD.ToString() || Type == ComponentTypes.RVS.ToString()) {
+                _typelist.Add(ComponentTypes.VSD.ToString());
+                _typelist.Add(ComponentTypes.VFD.ToString());
+                _typelist.Add(ComponentTypes.RVS.ToString());
+            }
+            return _typelist;
+        }
+        set
+        { _typelist = value; }
+    }
+
 
     public double Size { get; set; }
 
     public int AreaId { get; set; }
     private IArea _area;
     private int _sequenceNumber;
+    private ObservableCollection<string> _typelist = new ObservableCollection<string>();
 
     public IArea Area
     {
@@ -139,7 +159,7 @@ public class ComponentModel : IComponent
             }
         });
     }
-  
+
     public void MatchOwnerArea(object source, EventArgs e)
     {
         IEquipment owner = (IEquipment)source;
