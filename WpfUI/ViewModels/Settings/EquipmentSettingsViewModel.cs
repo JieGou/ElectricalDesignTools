@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
@@ -58,10 +59,16 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
     private string _dteqDefaultPdTypeLV;
 
     private static string _lcsTypeDolLoad;
-    private static string _lcsTypeVsdLoad;
+    private static string _localDisconnectType;
 
 
     private string _defaultLcsControlCableSize;
+    private string _lcsTypeVsdLoad;
+    private string _loadDefaultEfficiency_Other;
+    private string _loadDefaultPowerFactor_Other;
+    private string _loadDefaultEfficiency_Panel;
+    private string _loadDefaultPowerFactor_Panel;
+    private string _dteqLoadCableDerating;
 
 
     //Dteq
@@ -118,6 +125,31 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
             }
         }
     }
+
+    public string DteqLoadCableDerating { get => _dteqLoadCableDerating; set 
+        { 
+            var oldValue = _dteqLoadCableDerating;
+            double dblOut;
+            _dteqLoadCableDerating = value; 
+
+            ClearErrors(nameof(DteqLoadCableDerating));
+
+            if (Double.TryParse(_dteqLoadCableDerating, out dblOut) == false) {
+                AddError(nameof(DteqLoadCableDerating), "Invalid Value");
+            }
+            else if (Double.Parse(_dteqLoadCableDerating) > 1 || Double.Parse(_dteqLoadCableDerating) < 0) {
+                AddError(nameof(DteqLoadCableDerating), "Invalid Value");
+            }
+            else {
+                _dteqLoadCableDerating = value;
+                SaveVmSetting(nameof(DteqLoadCableDerating), _dteqLoadCableDerating);
+                foreach (var dteq in ScenarioManager.ListManager.IDteqList) {
+                    dteq.LoadCableDerating = double.Parse(_dteqLoadCableDerating);
+                }
+            }
+        } 
+    }
+
     #endregion
 
 
@@ -168,10 +200,102 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
             }
         }
     }
-    public string LoadDefaultEfficiency_Other { get; set; }
-    public string LoadDefaultPowerFactor_Other { get; set; }
-    public string LoadDefaultEfficiency_Panel { get; set; }
-    public string LoadDefaultPowerFactor_Panel { get; set; }
+    public string LoadDefaultEfficiency_Other
+    {
+        get => _loadDefaultEfficiency_Other;
+        set
+        {
+            var oldValue = _loadDefaultEfficiency_Other;
+            double dblOut;
+            _loadDefaultEfficiency_Other = value;
+
+            ClearErrors(nameof(LoadDefaultEfficiency_Other));
+
+            if (Double.TryParse(_loadDefaultEfficiency_Other, out dblOut) == false) {
+                AddError(nameof(LoadDefaultEfficiency_Other), "Invalid Value");
+            }
+            else if (Double.Parse(_loadDefaultEfficiency_Other) > 1 || Double.Parse(_loadDefaultEfficiency_Other) < 0) {
+                AddError(nameof(LoadDefaultEfficiency_Other), "Invalid Value");
+            }
+            else {
+                _loadDefaultEfficiency_Other = value;
+                SaveVmSetting(nameof(LoadDefaultEfficiency_Other), _loadDefaultEfficiency_Other);
+            }
+        }
+    }
+    public string LoadDefaultPowerFactor_Other
+    {
+        get => _loadDefaultPowerFactor_Other;
+
+        set
+        {
+            var oldValue = _loadDefaultPowerFactor_Other;
+            double dblOut;
+            _loadDefaultPowerFactor_Other = value;
+
+            ClearErrors(nameof(LoadDefaultPowerFactor_Other));
+
+            if (Double.TryParse(_loadDefaultPowerFactor_Other, out dblOut) == false) {
+                AddError(nameof(LoadDefaultPowerFactor_Other), "Invalid Value");
+            }
+            else if (Double.Parse(_loadDefaultPowerFactor_Other) > 1 || Double.Parse(_loadDefaultPowerFactor_Other) < 0) {
+                AddError(nameof(LoadDefaultPowerFactor_Other), "Invalid Value");
+            }
+            else {
+                _loadDefaultPowerFactor_Other = value;
+                SaveVmSetting(nameof(LoadDefaultPowerFactor_Other), _loadDefaultPowerFactor_Other);
+            }
+        }
+    }
+
+    public string LoadDefaultEfficiency_Panel
+    {
+        get => _loadDefaultEfficiency_Panel;
+
+        set
+        {
+            var oldValue = _loadDefaultEfficiency_Panel;
+            double dblOut;
+            _loadDefaultEfficiency_Panel = value;
+
+            ClearErrors(nameof(LoadDefaultEfficiency_Panel));
+
+            if (Double.TryParse(_loadDefaultEfficiency_Panel, out dblOut) == false) {
+                AddError(nameof(LoadDefaultEfficiency_Panel), "Invalid Value");
+            }
+            else if (Double.Parse(_loadDefaultEfficiency_Panel) > 1 || Double.Parse(_loadDefaultEfficiency_Panel) < 0) {
+                AddError(nameof(LoadDefaultEfficiency_Panel), "Invalid Value");
+            }
+            else {
+                _loadDefaultEfficiency_Panel = value;
+                SaveVmSetting(nameof(LoadDefaultEfficiency_Panel), _loadDefaultEfficiency_Panel);
+            }
+        }
+    }
+    public string LoadDefaultPowerFactor_Panel
+    {
+        get => _loadDefaultPowerFactor_Panel;
+
+        set
+        {
+            var oldValue = _loadDefaultPowerFactor_Panel;
+            double dblOut;
+            _loadDefaultPowerFactor_Panel = value;
+
+            ClearErrors(nameof(LoadDefaultPowerFactor_Panel));
+
+            if (Double.TryParse(_loadDefaultPowerFactor_Panel, out dblOut) == false) {
+                AddError(nameof(LoadDefaultPowerFactor_Panel), "Invalid Value");
+            }
+            else if (Double.Parse(_loadDefaultPowerFactor_Panel) > 1 || Double.Parse(_loadDefaultPowerFactor_Panel) < 0) {
+                AddError(nameof(LoadDefaultPowerFactor_Panel), "Invalid Value");
+            }
+            else {
+                _loadDefaultPowerFactor_Panel = value;
+                SaveVmSetting(nameof(LoadDefaultPowerFactor_Panel), _loadDefaultPowerFactor_Panel);
+            }
+        }
+    }
 
 
 
@@ -186,7 +310,6 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
 
         }
     }
-
     public string LcsTypeVsdLoad
     {
         get => _lcsTypeVsdLoad;
@@ -197,4 +320,16 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
 
         }
     }
+    public string LocalDisconnectType
+    {
+        get => _localDisconnectType;
+        set
+        {
+            _localDisconnectType = value;
+            SaveVmSetting(nameof(LocalDisconnectType), _localDisconnectType);
+
+        }
+    }
+
+
 }

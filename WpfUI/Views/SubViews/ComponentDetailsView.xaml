@@ -191,12 +191,7 @@
         
         <!--Column 2-->
         
-        <TextBlock Text="Component Details " Grid.Row="0" Grid.Column="3"/>
-        <ListBox Grid.Row="1" Grid.Column="3" MinHeight="100" MinWidth="75"
-                 ItemsSource="{Binding Path=DataContext.ListManager.CompList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"
-                 DisplayMemberPath="Tag"/>
+       
         
     </Grid>
 </UserControl>

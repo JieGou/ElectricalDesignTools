@@ -62,7 +62,7 @@ public class ComponentModel : IComponent
     {
         get
         {
-            _typelist.Clear();
+       
             if (Type == ComponentTypes.UDS.ToString() || Type == ComponentTypes.FDS.ToString()) {
                 _typelist.Add(ComponentTypes.UDS.ToString());
                 _typelist.Add(ComponentTypes.FDS.ToString());

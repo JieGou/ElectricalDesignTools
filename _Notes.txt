@@ -1,6 +1,11 @@
 
 Autocad interop single line
 
+Power Cable
+	- component cables are not updated when changing the load cable properties
+	- cable derating not updated when loads are added to Supplier
+	- 
+
 Finish excel export 
 	- columns selection
 	- cleanup notification
@@ -8,7 +13,7 @@ Finish excel export
 Add Systems & SubSystems
 	- heatloss total by area
 		- add cable to total
-	- proper heatload calculatio for each equipment type
+	- proper heatload calculation for each equipment type
 
 Add component type selection
 	- typelist to components (will need separate classes for each component type)

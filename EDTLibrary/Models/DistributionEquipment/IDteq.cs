@@ -13,6 +13,9 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         ObservableCollection<IPowerConsumer> AssignedLoads { get; set; }
 
-        public double SCCR { get; set; }
+        double SCCR { get; set; }
+
+        double LoadCableDerating { get; set; }
+
     }
 }

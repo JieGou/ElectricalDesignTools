@@ -123,6 +123,7 @@ namespace EDTLibrary.ProjectSettings
         public static string LoadDefaultPdTypeLV_Motor { get; set; }
         public static string LoadFactorDefault { get; set; }
         public static string DefaultXfrImpedance { get; set; }
+        public static string DteqLoadCableDerating { get; set; }
 
         //Voltage
         public static string VoltageDefault1kV { get; set; }
@@ -137,8 +138,9 @@ namespace EDTLibrary.ProjectSettings
         //Components
         public static string LcsTypeDolLoad { get; set; }
         public static string LcsTypeVsdLoad { get; set; }
+        public static string LocalDisconnectType { get; set; }
 
-
+        
 
         public static ObservableCollection<ExportMappingModel> ExportMappings { get; set; }
         public static string AreaColumnVisible { get; set; }

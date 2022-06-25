@@ -85,7 +85,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="0"  >
@@ -116,15 +116,33 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                  Text="{Binding Path=DefaultXfrImpedance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <TextBlock Text="%"/>
                     </StackPanel>
-
-                    <TextBlock Text="Default OCPD Type for LV Equipment"
-                               Grid.Row="3" Grid.Column="0" />
+                    
+                    <StackPanel Orientation="Vertical"  Grid.Row="3" Grid.Column="0"  >
+                        <TextBlock Text="OCPD Type for new LV Equipment"
+                               Grid.Row="2" Grid.Column="0" />
+                        <TextBlock Text="Default OCPD when adding/creating new low voltage distribution equipment"  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                    </StackPanel>
                     <ComboBox Grid.Row="3" Grid.Column="2"
                               ItemsSource="{Binding TypeManager.OcpdTypes}"
                               SelectedValuePath="Type" 
                               DisplayMemberPath="Description"
                               SelectedValue="{Binding DteqDefaultPdTypeLV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                               IsSynchronizedWithCurrentItem="False" />
+
+                    <StackPanel Orientation="Vertical"  Grid.Row="5" Grid.Column="0"  >
+                        <TextBlock Text="Load Cable Qty Derating Factor"
+                               Grid.Row="2" Grid.Column="0" />
+                        <TextBlock Text="The default 'conductors in contact derating factor for load power cables added to a distribution equipment."  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                    </StackPanel>
+
+                    <TextBox Grid.Row="5" Grid.Column="2"
+                                 MinWidth="50"
+                                 Text="{Binding Path=DteqLoadCableDerating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
 
                 </Grid>
             </GroupBox>
@@ -147,6 +165,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="30"/>
+                        <RowDefinition Height="80"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -218,24 +237,34 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         </ComboBox.ItemTemplateSelector>
                     </ComboBox>
 
-                    <TextBlock Text="Default Efficiency for PANEL loads"
-                               Grid.Row="6" Grid.Column="0" />
-                    <TextBox Grid.Row="6" Grid.Column="2"
-                             Text="{Binding LoadDefaultEfficiency_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Text="Default Power Factor for PANEL loads"
+
+
+                    <StackPanel Orientation="Vertical"  Grid.Row="6" Grid.Column="0"  >
+                        <TextBlock Text="Efficiency and Power Factor"  
+                               Grid.Row="1" Grid.Column="0" />
+                        <TextBlock Text="Default efficiency and Power Factor values for each load type"  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                    </StackPanel>
+                    <TextBlock Text="Panel Loads Efficiency"
                                Grid.Row="7" Grid.Column="0" />
                     <TextBox Grid.Row="7" Grid.Column="2"
-                              Text="{Binding LoadDefaultPowerFactor_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding LoadDefaultEfficiency_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Text="Default Efficiency for OTHER loads"
+                    <TextBlock Text="Panel Loads Power Factor"
                                Grid.Row="8" Grid.Column="0" />
                     <TextBox Grid.Row="8" Grid.Column="2"
-                             Text="{Binding LoadDefaultEfficiency_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                              Text="{Binding LoadDefaultPowerFactor_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Text="Default Power Factor for OTHER loads"
+                    <TextBlock Text="Other Loads Efficiency"
                                Grid.Row="9" Grid.Column="0" />
                     <TextBox Grid.Row="9" Grid.Column="2"
+                             Text="{Binding LoadDefaultEfficiency_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="Other Loads Power Factor"
+                               Grid.Row="10" Grid.Column="0" />
+                    <TextBox Grid.Row="10" Grid.Column="2"
                               Text="{Binding LoadDefaultPowerFactor_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 
@@ -257,9 +286,6 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="80"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="30"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
@@ -333,23 +359,14 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         </ComboBox.ItemTemplateSelector>
                     </ComboBox>
 
-                    <TextBlock Text="OCPD Type for Non-Motor Loads"  
-                               Grid.Row="4" Grid.Column="0" />
-                    <ComboBox Grid.Row="4" Grid.Column="2"
-                              ItemsSource="{Binding TypeManager.OcpdTypes}"
-                              SelectedValuePath="Type" 
-                              DisplayMemberPath="Description"
-                              SelectedValue="{Binding LoadDefaultPdTypeLV_NonMotor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                              IsSynchronizedWithCurrentItem="False" />
-
-                    <StackPanel Orientation="Vertical"  Grid.Row="6" Grid.Column="0"  >
+                    <StackPanel Orientation="Vertical"  Grid.Row="3" Grid.Column="0"  >
                         <TextBlock Text="Local Disconnect Type"  
                                Grid.Row="1" Grid.Column="0" />
                         <TextBlock Text="The default disconnect type when adding a local disconnect to loads."  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}" />
                     </StackPanel>
-                    <ComboBox Grid.Row="6" Grid.Column="2"
+                    <ComboBox Grid.Row="3" Grid.Column="2"
                               ItemsSource="{Binding TypeManager.DisconnectTypes}"
                               SelectedValuePath="Type" 
                               SelectedValue="{Binding LocalDisconnectType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
@@ -374,7 +391,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             </templateSelectors:ComboBoxItemTemplateSelector>
                         </ComboBox.ItemTemplateSelector>
                     </ComboBox>
-                    
+
                 </Grid>
             </GroupBox>
         </WrapPanel>

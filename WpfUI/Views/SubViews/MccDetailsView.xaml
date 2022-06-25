@@ -32,9 +32,7 @@
             <ColumnDefinition Width="30"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -48,8 +46,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--Voltage-->
@@ -76,7 +73,7 @@
                      MinWidth="45"
                      TextAlignment="Right"/>
             <TextBlock Text="  A  " Grid.Row="2" Grid.Column="0"
-                       Margin="0 6 0 0"/>
+                       VerticalAlignment="Center"/>
         </StackPanel>
 
         <!--OCPD-->
@@ -93,7 +90,7 @@
                 <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0}  AT, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                        d:Text="2000" 
                        FontWeight="Bold"/>
-            <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0}  AF, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0}  AF, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                        d:Text="2000" 
                        FontWeight="Bold"/>
             </StackPanel>
@@ -118,7 +115,7 @@
                        FontWeight="Bold"/>
             <TextBlock Text="      " Grid.Row="2" Grid.Column="0" FontWeight="Bold"/>
         </StackPanel>
-        
+
         <!--Connected Load-->
         <TextBlock Text="Connected Load: "
                    Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3"/>
@@ -136,9 +133,9 @@
 
 
         <TextBlock Text="Min Sccr: "
-                   Grid.Row="8" Grid.Column="0"/>
+                   Grid.Row="6" Grid.Column="0"/>
         <StackPanel Orientation="Horizontal"
-                    Grid.Row="8" Grid.Column="2" 
+                    Grid.Row="6" Grid.Column="2" 
                     HorizontalAlignment="Right">
             <TextBlock Text="{Binding SCCR, StringFormat={}{0:N0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                        d:Text="57,276" 
@@ -146,7 +143,19 @@
             <TextBlock Text="  kA" Grid.Row="2" Grid.Column="0"/>
         </StackPanel>
 
-        
+        <TextBlock Text="Load Cable Derating: "
+                   Grid.Row="7" Grid.Column="0"/>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="7" Grid.Column="2" 
+                    HorizontalAlignment="Right">
+            <TextBox Text="{Binding LoadCableDerating, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     d:Text="0.5" 
+                     MinWidth="45"
+                     FontWeight="Bold"/>
+            <TextBlock Text="      " Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/> <!--for alignement-->
+        </StackPanel>
+
+
 
         <!--Column 2-->
         <!--Load Count-->
@@ -188,7 +197,7 @@
                        FontWeight="Bold"/>
                     <TextBlock Text=" kW" Grid.Row="2" Grid.Column="0" FontWeight="Normal"/>
                 </StackPanel>
-                
+
                 <!--MOTORS-->
                 <TextBlock Text="Motors: "
                    Grid.Row="1" Grid.Column="0" FontWeight="Normal" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
@@ -214,7 +223,7 @@
                     <TextBlock Text=" kW" FontWeight="Normal"/>
 
                 </StackPanel>
-                
+
                 <!--HEATERS-->
                 <TextBlock Text="Heaters: "
                    Grid.Row="2" Grid.Column="0" FontWeight="Normal" Grid.ColumnSpan="2" Grid.RowSpan="3"/>
@@ -239,7 +248,7 @@
                                 FontWeight="Bold" />
                     <TextBlock Text=" kW" FontWeight="Normal"/>
                 </StackPanel>
-                
+
                 <!--Panels-->
                 <TextBlock Text="Panels: "
                    Grid.Row="3" Grid.Column="0" FontWeight="Normal" Grid.ColumnSpan="2" Grid.RowSpan="3"/>

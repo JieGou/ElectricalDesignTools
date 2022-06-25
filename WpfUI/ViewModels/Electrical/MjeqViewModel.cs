@@ -24,6 +24,7 @@ using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModels;
 using WpfUI.ViewModifiers;
+using IComponent = EDTLibrary.Models.Components.IComponent;
 
 namespace WpfUI.ViewModels.Electrical;
 
@@ -324,17 +325,20 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 GlobalConfig.SelectingNew = true;
                 CopySelectedLoad();
                 GlobalConfig.SelectingNew = false;
+                if (_selectedLoad.CctComponents.Count>0) {
+                    SelectedComponent = (ComponentModel)_selectedLoad.CctComponents[0];
 
+                }
             }
         }
     }
     private int _selectedLoadTab;
-
     public int SelectedLoadTab
     {
         get { return _selectedLoadTab; }
         set { _selectedLoadTab = value; }
     }
+
 
     private async Task CopySelectedLoad()
     {

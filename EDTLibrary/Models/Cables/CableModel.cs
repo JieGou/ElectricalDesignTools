@@ -191,6 +191,19 @@ public class CableModel : ICable
     public double Length { get; set; }
 
     public double Derating { get; set; }
+
+    public double Derating5A { get; set; }
+    public double Derating5C { get; set; }
+    public string DeratingToolTip
+    {
+        get
+        {
+            return $" {Derating5A} x {Derating5C} = {Derating} \n" +
+                $"Table 5A x Table 5C";
+        }
+    }
+
+
     public double DeratedAmps { get; set; }
     public string DeratedAmpsToolTip
     {

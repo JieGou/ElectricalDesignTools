@@ -30,6 +30,8 @@ namespace EDTLibrary.Models.Cables
         double BaseAmps { get; set; }
         double Spacing { get; set; }
         double Derating { get; set; }
+        double Derating5A { get; set; }
+        double Derating5C { get; set; }
         double DeratedAmps { get; set; }
         double RequiredAmps { get; set; }
         double RequiredSizingAmps { get; set; }

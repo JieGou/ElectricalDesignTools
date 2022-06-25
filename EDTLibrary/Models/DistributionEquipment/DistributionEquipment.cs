@@ -449,6 +449,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             return FedFrom.SCCR;
         }
 
+        //Todo - recalculate cables when changed
+        public double LoadCableDerating { get; set; } = 1;
+
+
 
         //Methods
         public void CalculateLoading()

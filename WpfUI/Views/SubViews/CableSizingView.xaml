@@ -218,8 +218,9 @@
             <TextBlock Text="Derating" Grid.Row="7" Grid.Column="4" HorizontalAlignment="Right"/>
             <TextBlock Text="{Binding PowerCable.Derating}"
                        Grid.Row="7" Grid.Column="6" FontWeight="Bold"
-                       d:Text="0.8"/>
-
+                       d:Text="0.8"
+                       ToolTip="{Binding PowerCable.DeratingToolTip}"
+                       ToolTipService.InitialShowDelay="50"/>
 
             <!--Column 3-->
             <!--<TextBlock Text="Cable Id: " Grid.Row="1" Grid.Column="6" HorizontalAlignment="Left"/>

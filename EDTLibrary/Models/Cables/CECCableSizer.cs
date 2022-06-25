@@ -260,22 +260,25 @@ namespace EDTLibrary.Models.Cables
                 return 1;
             }
             double derating = 1;
-            
-                if (cable == null) return derating;
+            cable.Derating5A = 1;
+            cable.Derating5C = 1;
+
+            if (cable == null) return derating;
 
             try {
-                if (cable.Spacing < 100) {
-
-                    if (cable.AmpacityTable == "Table 1" || cable.AmpacityTable == "Table 2") {
-                        double loadCount = cable.Load.FedFrom.AssignedLoads.Count;
-                        derating *= GetCableDerating_Table5C(cable);
-                    }
-                }
-
                 if (cable.Load.Area != null && cable.Load.FedFrom.Area != null) {
                     double cableAmbientTemp = Math.Max(cable.Load.Area.MaxTemp, cable.Load.FedFrom.Area.MaxTemp);
                     if (cableAmbientTemp > 30) {
                         derating *= GetCableDerating_Table5A(cable, cableAmbientTemp);
+                        cable.Derating5A = GetCableDerating_Table5A(cable, cableAmbientTemp);
+                    }
+                }
+                
+                if (cable.Spacing < 100) {
+                    if (cable.AmpacityTable == "Table 1" || cable.AmpacityTable == "Table 2") {
+                        double loadCount = cable.Load.FedFrom.AssignedLoads.Count;
+                        derating *= GetCableDerating_Table5C(cable);
+                        cable.Derating5C = GetCableDerating_Table5C(cable);
                     }
                 }
             }
@@ -356,8 +359,12 @@ namespace EDTLibrary.Models.Cables
             }
             return deratingTemp;
         }
+
+
         private static double GetCableDerating_Table5C(ICable cable)
         {
+            
+
             var supplier = cable.Load.FedFrom;
             int conductorQty = cable.ConductorQty * cable.QtyParallel;
 
@@ -393,9 +400,14 @@ namespace EDTLibrary.Models.Cables
                 derating = 1;
             }
 
+            double loadCableDerating = cable.Load.FedFrom.LoadCableDerating;
+            if (loadCableDerating != 0 &&
+                loadCableDerating < derating) {
+                derating = loadCableDerating;
+            }
+
             return derating;
         }
-
 
     }
 }
