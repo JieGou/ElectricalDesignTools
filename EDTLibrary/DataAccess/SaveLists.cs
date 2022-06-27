@@ -43,6 +43,7 @@ namespace EDTLibrary.DataAccess
             "Lcs",
             "Drive",
             "Disconnect",
+            "BreakerSize",
         };
 
         static public List<string> CompSaveList { get; set; } = new List<string>()

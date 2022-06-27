@@ -58,7 +58,7 @@ public partial class MainWindow : Window
             }
         }
         if (Keyboard.IsKeyDown(Key.Escape)) {
-            Keyboard.ClearFocus();
+            //Keyboard.ClearFocus();
         }
     }
 

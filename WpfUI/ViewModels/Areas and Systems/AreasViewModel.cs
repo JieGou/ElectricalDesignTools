@@ -3,6 +3,7 @@ using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models;
 using EDTLibrary.Models.Areas;
+using EDTLibrary.Models.DistributionEquipment;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -39,30 +40,55 @@ namespace WpfUI.ViewModels.Areas_and_Systems
 
         private IArea _selectedArea;
         private ObservableCollection<IEquipment> _equipmentList;
+        private IEquipment _selectedEquipment;
 
+        public IEquipment SelectedEquipment 
+        { 
+            get => _selectedEquipment;
+            set 
+            {
+                DteqHeatLossCalculator = new DteqHeatLossCalculator();
+                _selectedEquipment = value;
+                bool typeCheck = _selectedEquipment is DistributionEquipment;
+                if (_selectedEquipment is DistributionEquipment)   {
+                    DteqHeatLossCalculator.CalculateHeatLoss((DistributionEquipment)_selectedEquipment);
+                    _selectedEquipment.HeatLoss = DteqHeatLossCalculator.TotalHeatLoss;
+                }
+            } 
+        }
+
+        public DteqHeatLossCalculator DteqHeatLossCalculator {get;set;} = new DteqHeatLossCalculator();
         public IArea SelectedArea
         {
             get { return _selectedArea; }
             set
             {
                 _selectedArea = value;
-                _listManager.CreateEquipmentList();
 
                 _selectedArea.HeatLoss = 0;
                 _selectedArea.EquipmentList.Clear();
 
-                foreach (var eq in _listManager.EqList) {
-                    eq.HeatLoss = 10;
+                foreach (var eq in _listManager.CreateEquipmentList()) {
+                    eq.HeatLoss = 0;
+                    
                     if (eq.Area == SelectedArea) {
+                        if (eq is DistributionEquipment) {
+                            var dteq = (DistributionEquipment)eq;
+                            var dteqHeatLossCalculator = new DteqHeatLossCalculator();
+                            dteqHeatLossCalculator.CalculateHeatLoss(dteq);
+                            eq.HeatLoss = dteqHeatLossCalculator.TotalHeatLoss;
+                        }
                         SelectedArea.HeatLoss += eq.HeatLoss;
                         _selectedArea.EquipmentList.Add(eq);
                     }
+
+                    
                 }
 
             }
         }
 
-      
+
         public AreaToAddValidator AreaToAddValidator { get; set; }
 
 
@@ -75,6 +101,7 @@ namespace WpfUI.ViewModels.Areas_and_Systems
 
         public ICommand AddAreaCommand { get; }
         public ICommand GetAreaByIdCommand { get; }
+
 
 
         #endregion

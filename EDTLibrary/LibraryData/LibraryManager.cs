@@ -38,7 +38,6 @@ namespace EDTLibrary.LibraryData
 
             return result;
         }
-
         public static double GetMotorPowerFactor(ILoad load) {
             double result = GlobalConfig.NoValueDouble;
             if (LibraryTables.Motors != null) {
@@ -60,11 +59,10 @@ namespace EDTLibrary.LibraryData
 
             return result;
         }
-
         public static double GetBreakerFrame(IPowerConsumer load) {
             double result = GlobalConfig.NoValueDouble;
-            if (LibraryTables.Breakers != null) {
-                DataTable dt = LibraryTables.Breakers.Copy();
+            if (LibraryTables.BreakerSizes != null) {
+                DataTable dt = LibraryTables.BreakerSizes.Copy();
                 DataTable dtFiltered;
 
                 var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)load.Fla);
@@ -82,12 +80,11 @@ namespace EDTLibrary.LibraryData
             }
             return result;
         }
-
         public static double GetBreakerTrip(IPowerConsumer load) {
             double result = GlobalConfig.NoValueDouble;
-            if (LibraryTables.Breakers != null) {
+            if (LibraryTables.BreakerSizes != null) {
 
-                DataTable dt = LibraryTables.Breakers.Copy();
+                DataTable dt = LibraryTables.BreakerSizes.Copy();
                 DataTable dtFiltered;
 
                 var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("TripAmps") >= (int)load.Fla);
@@ -106,7 +103,6 @@ namespace EDTLibrary.LibraryData
             
             return result;
         }
-
         public static double GetMcpFrame(IPowerConsumer load)
         {
             double result = GlobalConfig.NoValueDouble;
@@ -126,7 +122,6 @@ namespace EDTLibrary.LibraryData
             }
             return result;
         }
-
         public static double GetStarterSize(IPowerConsumer load)
         {
             double result = GlobalConfig.NoValueDouble;
@@ -147,8 +142,6 @@ namespace EDTLibrary.LibraryData
             }
             return result;
         }
-
-
         public static double GetCableVoltageClass(double voltage)
         {
             double result = GlobalConfig.NoValueDouble;
@@ -193,7 +186,6 @@ namespace EDTLibrary.LibraryData
             }
             return result;
         }
-
         public static double GetDisconnectSize(IPowerConsumer load)
         {
 
@@ -226,6 +218,8 @@ namespace EDTLibrary.LibraryData
             }
             return result;
         }
+
+
 
 
     }

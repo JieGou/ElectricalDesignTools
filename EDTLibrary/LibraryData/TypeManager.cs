@@ -2,11 +2,9 @@
 using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Components;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace EDTLibrary.LibraryData.TypeTables
 {
@@ -148,7 +146,50 @@ namespace EDTLibrary.LibraryData.TypeTables
         public static ObservableCollection<DisconnectType> DisconnectTypes { get; set; } = new ObservableCollection<DisconnectType>();
         public static ObservableCollection<string> DriveTypes { get; set; } = new ObservableCollection<string>() { "VSD", "RVS" };
 
+        public static ObservableCollection<BreakerSize> BreakerSizes { get; set; } = new ObservableCollection<BreakerSize>();
+        public static BreakerSize GetBreaker(double fla, int breakerRating=80)
+        {
+            var breaker = new BreakerSize();
+            var breakerList = new List<BreakerSize>();
+            if (breakerRating != 100) {
+                breakerList = BreakerSizes.Where(b => b.TripAmps >= fla * 1.25).ToList();
+                if (breakerList.Count > 0) {
+                    breaker = breakerList.OrderBy(b => b.TripAmps).First();
+                }
+            }
+            else {
+                breakerList = BreakerSizes.Where(b => b.TripAmps >= fla ).ToList();
+                if (breakerList.Count > 0) {
+                    breaker = breakerList.OrderBy(b => b.TripAmps).First();
+                }
+            }
 
+            return breaker;
+        }
+
+        public static ObservableCollection<StarterSize> StarterSizes { get; set; } = new ObservableCollection<StarterSize>();
+        public static StarterSize GetStarter(double motorSize, string unit = "HP")
+        {
+            var starter = new StarterSize();
+            var starterList = new List<StarterSize>();
+           
+            starterList = StarterSizes.Where(s => s.Hp >= motorSize && s.Unit.ToLower() == unit.ToLower()).ToList();
+            starter = starterList.OrderBy(b => b.Size).First();
+
+            return starter;
+        }
+
+        public static ObservableCollection<VfdHeatSize> VfdHeatSizes { get; set; } = new ObservableCollection<VfdHeatSize>();
+
+        public static VfdHeatSize GetVfdHeatSize(double motorSize, double voltage)
+        {
+            var vfdSize = new VfdHeatSize();
+            var vfdList = new List<VfdHeatSize>();
+
+            vfdList = VfdHeatSizes.Where(v => v.Hp >= motorSize && v.Voltage == voltage).ToList();
+            vfdSize = vfdList.OrderBy(v => v.Hp).First();
+            return vfdSize;
+        }
 
         public static void GetTypeTables()
         {
@@ -171,7 +212,9 @@ namespace EDTLibrary.LibraryData.TypeTables
             TransformerTypes = DaManager.libDb.GetRecords<TransformerType>("TransformerTypes");
             GroundingSystemTypes = DaManager.libDb.GetRecords<GroundingSystemType>("GroundingSystemTypes");
 
-
+            BreakerSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes");
+            StarterSizes = DaManager.libDb.GetRecords<StarterSize>("Starters");
+            VfdHeatSizes = DaManager.libDb.GetRecords<VfdHeatSize>("VFDHeatLoss");
 
             LibraryManager.CecCableAmpacities = DaManager.libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
         }

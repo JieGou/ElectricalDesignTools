@@ -3,6 +3,7 @@ Autocad interop single line
 
 
 Power Cable
+	- Cable lengths
 	- Prompt to recalculate load cables
 	- component cables are not updated when changing the load cable properties
 	- cable derating not updated when loads are added to supplier

@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
@@ -24,7 +25,7 @@ namespace EDTLibrary.Models.Loads
             Description = "";
             Category = Categories.LOAD3P.ToString();
             PowerCable = new CableModel();
-            
+
         }
         public LoadModel(string tag)
         {
@@ -43,7 +44,7 @@ namespace EDTLibrary.Models.Loads
 
                 if (GlobalConfig.GettingRecords == false) {
 
-                    if (PowerCable != null ) {
+                    if (PowerCable != null) {
                         PowerCable.AssignTagging(this);
                     }
                     if (PowerCable != null && FedFrom != null) {
@@ -91,8 +92,8 @@ namespace EDTLibrary.Models.Loads
         public string Description
         {
             get { return _description; }
-            set 
-            { 
+            set
+            {
                 var oldValue = _description;
                 _description = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
@@ -141,8 +142,8 @@ namespace EDTLibrary.Models.Loads
         public string AreaClassification
         {
             get { return _areaClassification; }
-            set 
-            { 
+            set
+            {
                 var oldValue = _areaClassification;
                 _areaClassification = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
@@ -158,8 +159,8 @@ namespace EDTLibrary.Models.Loads
         public double Voltage
         {
             get { return _voltage; }
-            set 
-            { 
+            set
+            {
                 var oldValue = _voltage;
                 _voltage = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
@@ -184,8 +185,8 @@ namespace EDTLibrary.Models.Loads
                 double oldValue = _size;
                 _size = value;
 
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords==false) {
-                    var cmd = new UndoCommandDetail {Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
+                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
                     Undo.AddUndoCommand(cmd);
                 }
                 CalculateLoading();
@@ -222,7 +223,7 @@ namespace EDTLibrary.Models.Loads
                 IDteq oldValue = _fedFrom;
                 _fedFrom = value;
 
-                if (GlobalConfig.GettingRecords==false) {
+                if (GlobalConfig.GettingRecords == false) {
                     DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
 
                 }
@@ -242,8 +243,8 @@ namespace EDTLibrary.Models.Loads
         public double LoadFactor
         {
             get { return _loadFactor; }
-            set 
-            { 
+            set
+            {
                 var oldValue = _loadFactor;
                 _loadFactor = value;
                 if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
@@ -257,10 +258,10 @@ namespace EDTLibrary.Models.Loads
 
         public double Efficiency
         {
-            get { return _efficiency*100; }
-            set 
+            get { return _efficiency * 100; }
+            set
             {
-                _efficiency = value/100;
+                _efficiency = value / 100;
             }
         }
 
@@ -279,6 +280,8 @@ namespace EDTLibrary.Models.Loads
         public string PdType { get; set; }
         public double PdSizeTrip { get; set; }
         public double PdSizeFrame { get; set; }
+        public BreakerSize BreakerSize { get { return TypeManager.GetBreaker(Fla); } }
+
         public string StarterType { get; set; }
         public double StarterSize { get; set; }
 
@@ -327,8 +330,8 @@ namespace EDTLibrary.Models.Loads
         public bool DriveBool
         {
             get { return _driveBool; }
-            set 
-            { 
+            set
+            {
                 _driveBool = value;
                 if (_driveBool == true) {
                     PdType = "BKR";
@@ -348,7 +351,7 @@ namespace EDTLibrary.Models.Loads
                     //OnCctComponentChanged();
                     OnPropertyUpdated();
                 }
-               
+
             }
 
         }
@@ -361,45 +364,47 @@ namespace EDTLibrary.Models.Loads
         }
 
 
-        public IComponent Disconnect 
-        { 
-            get; 
-            set; 
+        public IComponent Disconnect
+        {
+            get;
+            set;
         }
 
         private bool _disconnectBool;
         public bool DisconnectBool
         {
             get { return _disconnectBool; }
-            set 
-            { 
+            set
+            {
                 var oldValue = _disconnectBool;
                 _disconnectBool = value;
 
-                if (GlobalConfig.GettingRecords==false) {
+                if (GlobalConfig.GettingRecords == false) {
                     if (_disconnectBool == true) {
                         ComponentManager.AddDefaultDisconnect(this, ScenarioManager.ListManager);
                     }
-                    else if(_disconnectBool == false) {
+                    else if (_disconnectBool == false) {
                         ComponentManager.RemoveDefaultDisconnect(this, ScenarioManager.ListManager);
                     }
                     CableManager.UpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     //OnCctComponentChanged();
                     OnPropertyUpdated();
                 }
-                
+
 
             }
         }
 
         private int _disconnectId;
+        private BreakerSize _breakerSize;
+
         public int DisconnectId
         {
             get { return _disconnectId; }
             set { _disconnectId = value; }
         }
 
-       
+
 
 
 
@@ -523,7 +528,7 @@ namespace EDTLibrary.Models.Loads
             DemandKvar = Math.Round(DemandKva * (1 - PowerFactor), GlobalConfig.SigFigs);
 
 
-          
+
             LoadManager.SetLoadPdSize(this);
 
             OnLoadingCalculated();

@@ -46,7 +46,7 @@ namespace EDTLibrary
         //    CreateDteqDict();
         //}
 
-        public void CreateEquipmentList()
+        public ObservableCollection<IEquipment> CreateEquipmentList()
         {
             EqList.Clear();
             foreach (var item in IDteqList) {
@@ -58,6 +58,7 @@ namespace EDTLibrary
             foreach (var item in CompList) {
                 EqList.Add(item);
             }
+            return EqList;
         }
         public void GetProjectTablesAndAssigments()
         {
