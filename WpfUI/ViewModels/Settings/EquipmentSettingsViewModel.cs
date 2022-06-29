@@ -53,7 +53,7 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
     // fields
     private string loadFactorDefault;
     private string _dteqMaxPercentLoaded;
-    private string _defaultXfrImpedance;
+    private string _xfrImpedance;
     private string _loadDefaultPdTypeLV_NonMotor;
     private string _loadDefaultPdTypeLV_Motor;
     private string _dteqDefaultPdTypeLV;
@@ -69,6 +69,8 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
     private string _loadDefaultEfficiency_Panel;
     private string _loadDefaultPowerFactor_Panel;
     private string _dteqLoadCableDerating;
+    private string _xfrSubType;
+    private string _xfrGrounding;
 
 
     //Dteq
@@ -105,24 +107,48 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
 
         }
     }
-    public string DefaultXfrImpedance
+    public string XfrImpedance
     {
-        get { return _defaultXfrImpedance; }
+        get { return _xfrImpedance; }
         set
         {
-            var oldValue = _defaultXfrImpedance;
+            var oldValue = _xfrImpedance;
             double dblOut;
-            _defaultXfrImpedance = value;
-            ClearErrors(nameof(DefaultXfrImpedance));
+            _xfrImpedance = value;
+            ClearErrors(nameof(XfrImpedance));
 
-            if (Double.TryParse(_defaultXfrImpedance, out dblOut) == false) {
-                AddError(nameof(DefaultXfrImpedance), "Invalid Value");
+            if (Double.TryParse(_xfrImpedance, out dblOut) == false) {
+                AddError(nameof(XfrImpedance), "Invalid Value");
             }
             else {
                 //EdtSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
                 //SettingsManager.SaveStringSettingToDb(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
-                SaveVmSetting(nameof(DefaultXfrImpedance), _defaultXfrImpedance);
+                SaveVmSetting(nameof(XfrImpedance), _xfrImpedance);
             }
+        }
+    }
+
+    public string XfrSubType
+    {
+        get { return _xfrSubType; }
+        set
+        {
+            var oldValue = _xfrSubType;
+            _xfrSubType = value;
+            SaveVmSetting(nameof(XfrSubType), _xfrSubType);
+            
+        }
+    }
+
+    public string XfrGrounding
+    {
+        get { return _xfrGrounding; }
+        set
+        {
+            var oldValue = _xfrGrounding;
+            _xfrGrounding = value;
+            SaveVmSetting(nameof(XfrGrounding), _xfrGrounding);
+
         }
     }
 
@@ -149,6 +175,7 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
             }
         } 
     }
+
 
     #endregion
 

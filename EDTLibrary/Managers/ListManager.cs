@@ -33,6 +33,8 @@ namespace EDTLibrary
 
         public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
         public ObservableCollection<IComponent> CompList { get; set; } = new ObservableCollection<IComponent>();
+        public ObservableCollection<DriveModel> DriveList { get; set; } = new ObservableCollection<DriveModel>();
+        public ObservableCollection<DisconnectModel> DisconnectList { get; set; } = new ObservableCollection<DisconnectModel>();
         public ObservableCollection<ILocalControlStation> LcsList { get; set; } = new ObservableCollection<ILocalControlStation>();
 
         public ObservableCollection<CableModel> CableList { get; set; } = new ObservableCollection<CableModel>();
@@ -69,7 +71,10 @@ namespace EDTLibrary
                 GetAreas();
                 GetDteq();
                 GetLoads();
+
                 //TODO - Get Components for each type and create a master component list
+                GetDrives();
+                GetDisconnects();
                 GetComponents();
                 AssignComponents();
 
@@ -93,7 +98,28 @@ namespace EDTLibrary
             GlobalConfig.GettingRecords = false;
         }
 
-        
+        private void GetDisconnects()
+        {
+            DisconnectList.Clear();
+            var list = DaManager.prjDb.GetRecords<DisconnectModel>(GlobalConfig.DisconnectTable);
+            foreach (var item in list) {
+                DisconnectList.Add(item);
+                item.PropertyUpdated += DaManager.OnDisconnectPropertyUpdated;
+
+            }
+        }
+
+        private void GetDrives()
+        {
+            DriveList.Clear();
+            var list = DaManager.prjDb.GetRecords<DriveModel>(GlobalConfig.DriveTable);
+            foreach (var item in list) {
+                DriveList.Add(item);
+                item.PropertyUpdated += DaManager.OnDrivePropertyUpdated;
+                
+            }
+        }
+
         public ObservableCollection<IArea> GetAreas()
         {
             AreaList.Clear();
@@ -211,18 +237,11 @@ namespace EDTLibrary
                     if (comp.OwnerId == load.Id && comp.OwnerType == typeof(LoadModel).ToString()) {
                         comp.Owner = load;
                         comp.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
-                        
-                        //Aux Components
-                        //if (comp.SubCategory == Categories.AuxComponent.ToString()) {
-                        //    load.AuxComponents.Add(comp);
-                        //    if (comp.Type == ComponentTypes.LCS.ToString()) {
-                        //        load.Lcs = (ComponentModel)comp;
-                        //    }
-                        //}
 
                         //Cct Components
                         if (comp.SubCategory == SubCategories.CctComponent.ToString()) {
                             load.CctComponents.Add(comp);
+                            load.CctComponents.OrderBy(c => comp.SequenceNumber);
                             if (comp.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
                                 load.Drive = (ComponentModel)comp;
                                 load.FedFrom.AreaChanged += comp.MatchOwnerArea;
@@ -234,6 +253,7 @@ namespace EDTLibrary
                         }
                     }
                 }
+                load.CctComponents = new ObservableCollection<IComponent>(load.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
             }
         }
 

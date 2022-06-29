@@ -89,13 +89,13 @@
 
     </UserControl.Resources>
 
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="Black" BorderThickness="1">
+        <Border BorderBrush="Black" BorderThickness="0 0 0 1" >
         <StackPanel Orientation="Horizontal"  Grid.Row="0" Background="#FF31869B">
 
             <TextBlock Text="{Binding SelectedDteq.Tag}" 

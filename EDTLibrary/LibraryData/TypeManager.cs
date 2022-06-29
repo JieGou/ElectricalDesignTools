@@ -97,7 +97,7 @@ namespace EDTLibrary.LibraryData.TypeTables
 
         public static ObservableCollection<TransformerSize> TransformerSizes { get; set; }
         public static ObservableCollection<TransformerType> TransformerTypes { get; set; }
-        public static ObservableCollection<GroundingSystemType> GroundingSystemTypes { get; set; }
+        public static ObservableCollection<GroundingSystemType> TransformerGroundingTypes { get; set; }
         //Components
         public static ObservableCollection<LcsTypeModel> LcsTypes { get; set; }
         public static LcsTypeModel GetLcsTypeModel(string lcsType)
@@ -210,7 +210,7 @@ namespace EDTLibrary.LibraryData.TypeTables
 
             TransformerSizes = DaManager.libDb.GetRecords<TransformerSize>("TransformerSizes");
             TransformerTypes = DaManager.libDb.GetRecords<TransformerType>("TransformerTypes");
-            GroundingSystemTypes = DaManager.libDb.GetRecords<GroundingSystemType>("GroundingSystemTypes");
+            TransformerGroundingTypes = DaManager.libDb.GetRecords<GroundingSystemType>("TransformerGroundingTypes");
 
             BreakerSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes");
             StarterSizes = DaManager.libDb.GetRecords<StarterSize>("Starters");

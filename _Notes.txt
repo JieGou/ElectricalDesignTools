@@ -2,9 +2,11 @@
 Autocad interop single line
 
 
-Power Cable
-	- Cable lengths
-	- Prompt to recalculate load cables
+Power Cables
+	- Cable length defaults
+	- Cable length on settings
+	- 1ph cable quantities and totals
+	- Prompt to recalculate load cables when changing settings
 	- component cables are not updated when changing the load cable properties
 	- cable derating not updated when loads are added to supplier
 		- added default derating for DTEQ load cables
@@ -15,14 +17,14 @@ Finish excel export
 	- cleanup notification
 
 
-Add Systems & SubSystems
+Systems & SubSystems
 	- heatloss total by area
-		- add cable to total
+		- add cable to total with note
 	- proper heatload calculation for each equipment type
 
 
-Add component type selection
-	- typelist to components (will need separate classes for each component type)
+Component type selection
+	- add typelist to components (will need separate classes for each component type)
 
 
 

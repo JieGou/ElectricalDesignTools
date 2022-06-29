@@ -52,6 +52,7 @@ public class LocalControlStationModel :  ILocalControlStation
             AreaManager.UpdateArea(this, _area, oldValue);
         }
     }
+    public double Voltage { get; set; }
     public string NemaRating { get; set; }
     public string AreaClassification { get; set; }
     public ICable ControlCable { get; set; }

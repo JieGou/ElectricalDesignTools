@@ -99,7 +99,7 @@
                       Text="{Binding SubType}"  d:Text="100"
                       IsEditable="False" VerticalAlignment="Center"/>
         </StackPanel>
-        
+
         <!--Grounding-->
         <TextBlock Text="Grounding "
                    Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"/>
@@ -109,7 +109,7 @@
             <ComboBox Template="{DynamicResource ComboBoxBase}"
                       Grid.Row="0" Grid.Column="6" Width="60" HorizontalContentAlignment="Left"
                       FontWeight="Bold" FontSize="12"
-                      ItemsSource="{Binding Path=DataContext.TypeManager.GroundingSystemTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                      ItemsSource="{Binding Path=DataContext.TypeManager.TransformerGroundingTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
                                             AncestorType={x:Type Window}}}"
                       SelectedValue="{Binding Grounding}"
@@ -118,7 +118,7 @@
                       Text="{Binding Grounding}"  d:Text="100"
                       IsEditable="False" VerticalAlignment="Center"/>
         </StackPanel>
-        
+
         <!--SIZE-->
         <TextBlock Text="Size " TextAlignment="Left"
                    Grid.Row="2" Grid.Column="0"

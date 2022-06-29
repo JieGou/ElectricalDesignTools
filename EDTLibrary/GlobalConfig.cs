@@ -75,7 +75,7 @@ namespace EDTLibrary
 
         public static double OtherPf { get; set; } = 0.85;
         public static double OtherEff { get; set; } = 0.85;
-
-
+        public static string DriveTable { get; set; } = "Drives";
+        public static string DisconnectTable { get; set; } = "Disconnects";
     }
 }

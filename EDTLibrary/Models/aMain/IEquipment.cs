@@ -16,9 +16,12 @@ namespace EDTLibrary.Models
         string Description { get; set; }
         int AreaId { get; set; }
         IArea Area { get; set; }
+
+
         string NemaRating { get; set; }
         string AreaClassification { get; set; }
 
+        double Voltage { get; set; }
         double HeatLoss { get; set; }
 
 

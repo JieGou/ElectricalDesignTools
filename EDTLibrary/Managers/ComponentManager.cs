@@ -44,7 +44,7 @@ public class ComponentManager
         string subCategory = SubCategories.CctComponent.ToString();
         string type = ComponentTypes.VSD.ToString();
         string subType = ComponentSubTypes.DefaultDrive.ToString();
-        ComponentModel newComponent = ComponentFactory.CreateComponent(componentUser, subCategory, type, subType, listManager);
+        ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);
         componentUser.Drive = newComponent;
 
     }
@@ -74,7 +74,7 @@ public class ComponentManager
         //Todo - Add setting for local disconnect default type
         string type = "UDS";
         string subType = ComponentSubTypes.DefaultDcn.ToString();
-        ComponentModel newComponent = ComponentFactory.CreateComponent(componentUser, subCategory, type, subType, listManager);
+        ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);
         componentUser.Disconnect = newComponent;
     }
 

@@ -90,6 +90,25 @@ public class DaManager {
             DaManager.UpsertComponent((ComponentModel)source);
         }
     }
+    public static void OnDrivePropertyUpdated(object source, EventArgs e)
+    {
+        if (GlobalConfig.GettingRecords == false) {
+            DaManager.UpsertDrive((DriveModel)source);
+        }
+    }
+
+    private static void UpsertDrive(DriveModel drive)
+    {
+        try {
+            if (GlobalConfig.Importing == true) return;
+
+            prjDb.UpsertRecord(drive, GlobalConfig.DriveTable, SaveLists.CompSaveList);
+        }
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw ;
+        }
+    }
 
     public static void OnLcsPropertyUpdated(object source, EventArgs e)
     {
@@ -133,6 +152,26 @@ public class DaManager {
             id = prjDb.InsertRecordGetId(model, GlobalConfig.MccTable, SaveLists.DteqSaveList);
         }
         return id;
+    }
+
+    internal static void OnDisconnectPropertyUpdated(object source, EventArgs e)
+    {
+        if (GlobalConfig.GettingRecords == false) {
+            DaManager.UpsertDisconnect((DisconnectModel)source);
+        }
+    }
+
+    private static void UpsertDisconnect(DisconnectModel disconnect)
+    {
+        try {
+            if (GlobalConfig.Importing == true) return;
+
+            prjDb.UpsertRecord(disconnect, GlobalConfig.DisconnectTable, SaveLists.CompSaveList);
+        }
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw;
+        }
     }
 
     public static int SaveLoadGetId(LoadModel load)
@@ -231,7 +270,7 @@ public class DaManager {
         }
         catch (Exception ex) {
             Debug.Print(ex.ToString());
-            throw ex;
+            throw;
         }
 
     }
@@ -253,7 +292,7 @@ public class DaManager {
         }
         catch (Exception ex) {
             Debug.Print(ex.ToString());
-            throw ex;
+            throw ;
         }
     }
     public static void DeleteLcs(LocalControlStationModel lcs)

@@ -305,9 +305,10 @@
                            Grid.Row="0" Grid.Column="3" 
                            VerticalAlignment="Bottom"
                            Margin="10,0,0,0"/>
-                <Border Grid.Row="1" Grid.Column="3" BorderThickness="1" BorderBrush="Black" Background="Transparent"
-                        Margin="5">
-                    <ContentControl x:Name="DteqDetailsContent" Grid.Row="0" Grid.Column="4">
+                <Border BorderThickness="1 1 1 1" BorderBrush="Black" Background="Transparent"
+                        Grid.Row="1" Grid.Column="3" Margin="5">
+                    <ContentControl x:Name="DteqDetailsContent"
+                                    Grid.Row="1" Grid.Column="3">
                     </ContentControl>
                 </Border>
 
@@ -602,7 +603,7 @@
                                                 SortMemberPath="LoadVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"
+                                    <TextBlock Text="{Binding LoadVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:N0}, ValidatesOnDataErrors=True}"
                                                MouseLeftButtonDown="FastEditEvent"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

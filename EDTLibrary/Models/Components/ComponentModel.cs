@@ -79,6 +79,7 @@ public class ComponentModel : IComponent
     }
 
 
+    public double Voltage { get; set; }
     public double Size { get; set; }
 
     public int AreaId { get; set; }

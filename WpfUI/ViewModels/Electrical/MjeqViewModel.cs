@@ -161,6 +161,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     public ICommand ToggleLoadDisconnectCommand { get; }
     public ICommand ToggleLoadDriveCommand { get; }
 
+
     public ICommand ComponentMoveUpCommand { get; }
     public ICommand ComponentMoveDownCommand { get; }
     public ICommand DeleteComponentCommand { get; }
@@ -698,7 +699,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
             SelectedLoad.CctComponents[i].SequenceNumber = i;
         }
-        SelectedLoad.CctComponents.OrderBy(x => x.SequenceNumber);
+        SelectedLoad.CctComponents = new ObservableCollection<IComponent>(SelectedLoad.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
+
         CableManager.UpdateLoadPowerComponentCablesAsync(SelectedLoad, _listManager);
 
     }

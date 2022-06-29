@@ -60,7 +60,7 @@ public class DisconnectModel : IComponent
     public string SubType { get; set; }
     public ObservableCollection<string> TypeList { get; set; } = new ObservableCollection<string>() { "UDS", "FDS" };
 
-
+    public double Voltage { get; set; }
     public double Size { get; set; }
 
     public int AreaId { get; set; }

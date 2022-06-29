@@ -19,7 +19,9 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (dteqToAddValidator.Type == DteqTypes.XFR.ToString()) {
                 XfrModel model = new XfrModel();
                 //XFR properties
-                model.Impedance = Double.Parse(EdtSettings.DefaultXfrImpedance);
+                model.Impedance = Double.Parse(EdtSettings.XfrImpedance);
+                model.SubType = EdtSettings.XfrSubType;
+                model.Grounding = EdtSettings.XfrGrounding;
                 //Todo - Add default Type and NGR
                 newDteq = model;
             }
