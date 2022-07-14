@@ -127,6 +127,18 @@ namespace EDTLibrary.ProjectSettings
         public static string XfrGrounding { get; set; }
         public static string DteqLoadCableDerating { get; set; }
 
+        public static string CableLengthDteq { get; set; }
+        public static string CableLengthLoad { get; set; }
+        public static string CableLengthDrive { get; set; }
+        public static string CableLengthLocalDisconnect { get; set; }
+        public static string CableLengthLocalControlStation { get; set; }
+
+
+
+
+
+
+
         //Voltage
         public static string VoltageDefault1kV { get; set; }
 

@@ -566,93 +566,99 @@
 
             <StackPanel Orientation="Vertical"
                          Grid.Row="4" Grid.Column="3">
-                
+
                 <TextBlock Text="Heat Loss Info" Margin="10 50 0 0"
                            FontSize="14"
                            FontWeight="SemiBold"/>
                 <StackPanel Orientation="Horizontal"
                          Grid.Row="4" Grid.Column="3">
-                
-                <ListBox ItemsSource="{Binding SelectedArea.EquipmentList}"
+
+                    <ListBox ItemsSource="{Binding SelectedArea.EquipmentList}"
                          SelectedItem="{Binding SelectedEquipment, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                          DisplayMemberPath="Tag"
                          Width="150"
-                         Height="200"/>
+                         Height="225"/>
 
-                <Grid >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5"/>
-                        <ColumnDefinition Width="auto" MinWidth="150"/>
-                        <ColumnDefinition Width="5"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="10"/>
-                    </Grid.RowDefinitions>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="auto" MinWidth="150"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="10"/>
+                        </Grid.RowDefinitions>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-                        <TextBlock Text="{Binding SelectedArea.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                            <TextBlock Text="{Binding SelectedArea.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    Grid.Row="1" Grid.Column="1" d:Text="ML-E"
                                    FontWeight="SemiBold"
                                    FontSize="14"/>
-                        <TextBlock Text=" - "
+                            <TextBlock Text=" - "
                                Grid.Row="1" Grid.Column="1" d:Text=" - "
                                FontWeight="SemiBold"
                                FontSize="14"/>
-                        <TextBlock Text="{Binding SelectedArea.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            <TextBlock Text="{Binding SelectedArea.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                Grid.Row="1" Grid.Column="1" d:Text="Mill Electrical Room"
                                FontWeight="SemiBold"
                                FontSize="14"/>
-                    </StackPanel>
-                    <TextBlock Text="Area Total Heat Loss:" Grid.Row="3" Grid.Column="1"/>
+                        </StackPanel>
+                        <TextBlock Text="Area Total Heat Loss:" Grid.Row="3" Grid.Column="1"/>
                         <TextBlock Text="{Binding SelectedArea.HeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                Grid.Row="3" Grid.Column="3"
                                d:Text="5100"/>
 
-                    <TextBlock Text="{Binding SelectedEquipment.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBlock Text="{Binding SelectedEquipment.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                Grid.Row="5" Grid.Column="1" d:Text="MCC-01"
                                FontWeight="SemiBold"
                                FontSize="14"/>
 
-                    <TextBlock Text="Equipment Total Heat Loss:" Grid.Row="7" Grid.Column="1"/>
-                    <TextBlock Text="{Binding DteqHeatLossCalculator.TotalHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBlock Text="Equipment Total Heat Loss:" Grid.Row="7" Grid.Column="1"/>
+                        <TextBlock Text="{Binding DteqHeatLossCalculator.TotalHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                Grid.Row="7" Grid.Column="3"
                                d:Text="5100"/>
 
-                    <TextBlock Text="Main Breaker Heat Loss:" Grid.Row="9" Grid.Column="1"/>
-                    <TextBlock Text="{Binding DteqHeatLossCalculator.MainBreakerHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               Grid.Row="9" Grid.Column="3"/>
+                        <TextBlock Text="Efficiency Heat Loss:" Grid.Row="8" Grid.Column="1"/>
+                        <TextBlock Text="{Binding DteqHeatLossCalculator.EfficiencyHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Grid.Row="8" Grid.Column="3"
+                               d:Text="3400"/>
 
-                    <TextBlock Text="Load Breakers Heat Loss:" Grid.Row="11" Grid.Column="1"/>
-                    <TextBlock Text="{Binding DteqHeatLossCalculator.LoadBreakersHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               Grid.Row="11" Grid.Column="3"/>
+                        <TextBlock Text="Main Breaker Heat Loss:" Grid.Row="10" Grid.Column="1"/>
+                        <TextBlock Text="{Binding DteqHeatLossCalculator.MainBreakerHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Grid.Row="10" Grid.Column="3"/>
 
-                    <TextBlock Text="Load Starters Heat Loss:" Grid.Row="13" Grid.Column="1"/>
-                    <TextBlock Text="{Binding DteqHeatLossCalculator.LoadStartersHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               Grid.Row="13" Grid.Column="3"/>
+                        <TextBlock Text="Load Breakers Heat Loss:" Grid.Row="12" Grid.Column="1"/>
+                        <TextBlock Text="{Binding DteqHeatLossCalculator.LoadBreakersHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Grid.Row="12" Grid.Column="3"/>
 
-                    <TextBlock Text="Load Drives Heat Loss:" Grid.Row="15" Grid.Column="1"/>
-                    <TextBlock Text="{Binding DteqHeatLossCalculator.LoadDrivesHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               Grid.Row="15" Grid.Column="3"/>
-                </Grid>
-            </StackPanel>
+                        <TextBlock Text="Load Starters Heat Loss:" Grid.Row="14" Grid.Column="1"/>
+                        <TextBlock Text="{Binding DteqHeatLossCalculator.LoadStartersHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Grid.Row="14" Grid.Column="3"/>
+
+                        <TextBlock Text="Load Drives Heat Loss:" Grid.Row="16" Grid.Column="1"/>
+                        <TextBlock Text="{Binding DteqHeatLossCalculator.LoadDrivesHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Grid.Row="16" Grid.Column="3"/>
+                    </Grid>
+                </StackPanel>
             </StackPanel>
         </Grid>
 

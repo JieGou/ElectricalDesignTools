@@ -42,6 +42,27 @@ public class CableManager
         return;
     }
 
+    internal static double GetLength(string category)
+    {
+        double length = 3;
+        if (category == Categories.DTEQ.ToString()) {
+            length = double.Parse(EdtSettings.CableLengthDteq);
+        }
+        else if (category == Categories.LOAD.ToString()) {
+            length = double.Parse(EdtSettings.CableLengthLoad);
+        }
+        else if (category == Categories.DRIVE.ToString() || category == ComponentSubTypes.DefaultDrive.ToString() ) {
+            length = double.Parse(EdtSettings.CableLengthDrive);
+        }
+        else if (category == Categories.LCLDCN.ToString() || category == ComponentSubTypes.DefaultDcn.ToString()) {
+            length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
+        }
+        else if (category == Categories.LCS.ToString()) {
+            length = double.Parse(EdtSettings.CableLengthLocalControlStation);
+        }
+
+        return length;
+    }
 
     public static bool IsUpdatingPowerCables { get; set; }
     public static string PreviousEq { get; set; }
@@ -49,7 +70,7 @@ public class CableManager
     public static async Task UpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
         if (PreviousEq == powerComponentOwner.Tag) {
-            count +=1;
+            count += 1;
         }
         if (count >= 2) {
             count = 0;
@@ -69,7 +90,7 @@ public class CableManager
                 //Remove Cables
                 List<CableModel> cablesToRemove = new List<CableModel>();
                 foreach (var item in listManager.CableList) {
-                    
+
                     if (item.OwnerId == powerComponentOwner.Id
                         && item.OwnerType == typeof(IComponent).ToString()) {
                         cablesToRemove.Add(item);
@@ -98,6 +119,8 @@ public class CableManager
                     }
                     cable.Destination = component.Tag;
 
+                    
+
 
                     cable.Tag = GetCableTag(cable.Source, cable.Destination);
 
@@ -114,7 +137,17 @@ public class CableManager
                     cable.VoltageClass = powerComponentOwner.PowerCable.VoltageClass;
                     cable.Insulation = powerComponentOwner.PowerCable.Insulation;
                     cable.QtyParallel = powerComponentOwner.PowerCable.QtyParallel;
+
                     cable.Size = powerComponentOwner.PowerCable.Size;
+
+                    //Length
+                    if (component.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
+                        cable.Length = double.Parse(EdtSettings.CableLengthDrive);
+                    }
+                    else if (component.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
+                        cable.Length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
+                    }
+
                     cable.BaseAmps = powerComponentOwner.PowerCable.BaseAmps;
                     cable.Spacing = powerComponentOwner.PowerCable.Spacing;
                     cable.Derating = powerComponentOwner.PowerCable.Derating;
@@ -186,6 +219,8 @@ public class CableManager
         cable.UsageType = CableUsageTypes.Control.ToString();
 
         cable.Size = EdtSettings.LcsControlCableSize;
+        cable.Length = double.Parse(EdtSettings.CableLengthLocalControlStation);
+
         cable.ConductorQty = lcs.TypeModel.DigitalConductorQty;
         var voltageClass = TypeManager.ControlCableTypes.FirstOrDefault(c => c.Type == EdtSettings.LcsControlCableType).VoltageClass;
         IsUpdatingPowerCables = true;
@@ -196,7 +231,7 @@ public class CableManager
 
         cable.Spacing = 0;
         cable.Derating = 1;
-       
+
         cable.Outdoor = lcsOwner.PowerCable.Outdoor;
         cable.InstallationType = lcsOwner.PowerCable.InstallationType;
 

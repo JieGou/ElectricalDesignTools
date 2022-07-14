@@ -40,28 +40,6 @@ namespace EDTLibrary
         public ObservableCollection<CableModel> CableList { get; set; } = new ObservableCollection<CableModel>();
 
 
-        //public async Task SetDteq()
-        //{
-        //    Task<ObservableCollection<DteqModel>> dteqList;
-        //    dteqList = Task.Run(() => DaManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable));
-        //    await Task.Delay(1000);
-        //    CreateDteqDict();
-        //}
-
-        public ObservableCollection<IEquipment> CreateEquipmentList()
-        {
-            EqList.Clear();
-            foreach (var item in IDteqList) {
-                EqList.Add(item);
-            }
-            foreach (var item in LoadList) {
-                EqList.Add(item);
-            }
-            foreach (var item in CompList) {
-                EqList.Add(item);
-            }
-            return EqList;
-        }
         public void GetProjectTablesAndAssigments()
         {
             GlobalConfig.GettingRecords = true;
@@ -96,6 +74,20 @@ namespace EDTLibrary
             }
 
             GlobalConfig.GettingRecords = false;
+        }
+        public ObservableCollection<IEquipment> CreateEquipmentList()
+        {
+            EqList.Clear();
+            foreach (var item in IDteqList) {
+                EqList.Add(item);
+            }
+            foreach (var item in LoadList) {
+                EqList.Add(item);
+            }
+            foreach (var item in CompList) {
+                EqList.Add(item);
+            }
+            return EqList;
         }
 
         private void GetDisconnects()
@@ -295,11 +287,6 @@ namespace EDTLibrary
             foreach (var cable in CableList) {
                 cable.TypeModel = TypeManager.GetCableTypeModel(cable.Type);
                 cable.CreateSizeList();
-#if DEBUG
-                //if (cable.Length==0) {
-                    cable.Length = random.Next(1, 750);
-                //}
-#endif
             }        
         }
 

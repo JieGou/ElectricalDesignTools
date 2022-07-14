@@ -40,6 +40,7 @@ public class CableModel : ICable
         UsageType = CableUsageTypes.Power.ToString();
         QtyParallel = 1;
         Spacing = 100;
+        Length = CableManager.GetLength(load.Category);
 
         AutoSizeCableCommand = new RelayCommand(AutoSize);
 

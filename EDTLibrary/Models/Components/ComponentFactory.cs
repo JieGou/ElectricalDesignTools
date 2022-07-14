@@ -23,7 +23,7 @@ public class ComponentFactory
         else {
             newComponent.Id = listManager.CompList.Select(c => c.Id).Max() + 1;
         }
-        newComponent.Category = Categories.Component.ToString();
+        newComponent.Category = Categories.COMPONENT.ToString();
         newComponent.SubCategory = subCategory;
         newComponent.Owner = componentUser;
         newComponent.OwnerId = componentUser.Id;
@@ -105,7 +105,7 @@ public class ComponentFactory
         else {
             newDrive.Id = listManager.CompList.Select(c => c.Id).Max() + 1;
         }
-        newDrive.Category = Categories.Component.ToString();
+        newDrive.Category = Categories.COMPONENT.ToString();
         newDrive.SubCategory = SubCategories.CctComponent.ToString();
         newDrive.Owner = componentUser;
         newDrive.OwnerId = componentUser.Id;

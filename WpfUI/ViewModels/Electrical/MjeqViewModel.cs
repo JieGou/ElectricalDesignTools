@@ -806,10 +806,12 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         foreach (var item in TypeManager.VoltageTypes) {
             VoltageTypes.Add(item.Voltage.ToString());
         }
+
         CableSpacing.Clear();
         CableSpacing.Add(100);
         CableSpacing.Add(0);
 
+        CableInstallationTypes.Clear();
         CableInstallationTypes.Add(GlobalConfig.CableInstallationType_LadderTray);
         CableInstallationTypes.Add(GlobalConfig.CableInstallationType_DirectBuried);
         CableInstallationTypes.Add(GlobalConfig.CableInstallationType_RacewayConduit);

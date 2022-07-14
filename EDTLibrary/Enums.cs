@@ -12,9 +12,11 @@ namespace EDTLibrary {
         LOAD,
         LOAD3P,
         LOAD1P,
-        Component,
-        OCPD,
         CABLE,
+        COMPONENT,
+        DRIVE,
+        DCN,
+        LCLDCN,
         LCS,
     }
 

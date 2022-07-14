@@ -159,5 +159,128 @@ public class CableSettingsViewModel : SettingsViewModelBase
         }
     }
 
+    private string _cableLengthDteq;
+
+    public string CableLengthDteq
+    {
+        get { return _cableLengthDteq; }
+        set 
+        { 
+            var oldValue = _cableLengthDteq;
+            double dblOut;
+            _cableLengthDteq = value;
+            ClearErrors(nameof(CableLengthDteq));
+
+            if (Double.TryParse(_cableLengthDteq, out dblOut) == false) {
+                AddError(nameof(CableLengthDteq), "Invalid Value");
+            }
+            if (dblOut < 3) {
+                AddError(nameof(CableLengthDteq), "Invalid Value");
+            }
+            else {
+                SaveVmSetting(nameof(CableLengthDteq), _cableLengthDteq);
+            }
+        }
+    }
+
+    private string _cableLengthLoad;
+
+    public string CableLengthLoad
+    {
+        get { return _cableLengthLoad; }
+        set
+        {
+            var oldValue = _cableLengthLoad;
+            double dblOut;
+            _cableLengthLoad = value;
+            ClearErrors(nameof(CableLengthLoad));
+
+            if (Double.TryParse(_cableLengthLoad, out dblOut) == false) {
+                AddError(nameof(CableLengthLoad), "Invalid Value");
+            }
+            if (dblOut < 3) {
+                AddError(nameof(CableLengthLoad), "Invalid Value");
+            }
+            else {
+                SaveVmSetting(nameof(CableLengthLoad), _cableLengthLoad);
+            }
+        }
+    }
+
+    private string _cableLengthDrive;
+
+    public string CableLengthDrive
+    {
+        get { return _cableLengthDrive; }
+        set
+        {
+            var oldValue = _cableLengthDrive;
+            double dblOut;
+            _cableLengthDrive = value;
+            ClearErrors(nameof(CableLengthDrive));
+
+            if (Double.TryParse(_cableLengthDrive, out dblOut) == false) {
+                AddError(nameof(CableLengthDrive), "Invalid Value");
+            }
+            if (dblOut < 3) {
+                AddError(nameof(CableLengthDrive), "Invalid Value");
+            }
+            else {
+                SaveVmSetting(nameof(CableLengthDrive), _cableLengthDrive);
+            }
+        }
+    }
+
+    private string _cableLengthLocalDisconnect;
+
+    public string CableLengthLocalDisconnect
+    {
+        get { return _cableLengthLocalDisconnect; }
+        set
+        {
+            var oldValue = _cableLengthLocalDisconnect;
+            double dblOut;
+            _cableLengthLocalDisconnect = value;
+            ClearErrors(nameof(CableLengthLocalDisconnect));
+
+            if (Double.TryParse(_cableLengthLocalDisconnect, out dblOut) == false) {
+                AddError(nameof(CableLengthLocalDisconnect), "Invalid Value");
+            }
+            if (dblOut < 3) {
+                AddError(nameof(CableLengthLocalDisconnect), "Invalid Value");
+            }
+            else {
+                SaveVmSetting(nameof(CableLengthLocalDisconnect), _cableLengthLocalDisconnect);
+            }
+        }
+    }
+
+
+    private string _cableLengthLocalControlStation;
+
+    public string CableLengthLocalControlStation
+    {
+        get { return _cableLengthLocalControlStation; }
+        set
+        {
+            var oldValue = _cableLengthLocalControlStation;
+            double dblOut;
+            _cableLengthLocalControlStation = value;
+            ClearErrors(nameof(CableLengthLocalControlStation));
+
+            if (Double.TryParse(_cableLengthLocalControlStation, out dblOut) == false) {
+                AddError(nameof(CableLengthLocalControlStation), "Invalid Value");
+            }
+            if (dblOut < 3) {
+                AddError(nameof(CableLengthLocalControlStation), "Invalid Value");
+            }
+            else {
+                SaveVmSetting(nameof(CableLengthLocalControlStation), _cableLengthLocalControlStation);
+            }
+        }
+    }
+
+
+
 
 }

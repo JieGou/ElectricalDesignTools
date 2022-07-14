@@ -23,7 +23,7 @@ namespace EDTLibrary.Models.Loads
         public LoadModel()
         {
             Description = "";
-            Category = Categories.LOAD3P.ToString();
+            Category = Categories.LOAD.ToString();
             PowerCable = new CableModel();
 
         }
