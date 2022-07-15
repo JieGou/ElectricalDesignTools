@@ -3,8 +3,6 @@ Autocad interop single line
 
 
 Power Cables
-	- Cable length defaults
-	- Cable length on settings
 	- 1ph cable quantities and totals
 	- Prompt to recalculate load cables when changing settings
 	- component cables are not updated when changing the load cable properties

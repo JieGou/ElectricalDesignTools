@@ -118,10 +118,10 @@ namespace EDTLibrary.Models.Cables
                         && cableType.Shielded == true
                         && cable.Spacing >=100) {
 
-                if (cable.Outdoor == false) {
+                if (cable.IsOutdoor == false) {
                     output = "Table D17M15In";
                 }
-                else if (cable.Outdoor == true) {
+                else if (cable.IsOutdoor == true) {
                     output = "Table D17M15Out";
                 }
             }
@@ -133,10 +133,10 @@ namespace EDTLibrary.Models.Cables
                   && cableType.Shielded == true
                   && cable.Spacing >= 100) {
 
-                if (cable.Outdoor == false) {
+                if (cable.IsOutdoor == false) {
                     output = "Table D17M46In";
                 }
-                else if (cable.Outdoor == true) {
+                else if (cable.IsOutdoor == true) {
                     output = "Table D17M46Out";
                 }
             }
@@ -147,10 +147,10 @@ namespace EDTLibrary.Models.Cables
                   && cableType.VoltageClass <= 15000
                   && cableType.Shielded == true) {
 
-                if (cable.Outdoor == false) {
+                if (cable.IsOutdoor == false) {
                     output = "Table D17N15In";
                 }
-                else if (cable.Outdoor == true) {
+                else if (cable.IsOutdoor == true) {
                     output = "Table D17N15Out";
                 }
             }
@@ -161,10 +161,10 @@ namespace EDTLibrary.Models.Cables
                   && cableType.VoltageClass <= 46000
                   && cableType.Shielded == true) {
 
-                if (cable.Outdoor == false) {
+                if (cable.IsOutdoor == false) {
                     output = "Table D17N46In";
                 }
-                else if (cable.Outdoor == true) {
+                else if (cable.IsOutdoor == true) {
                     output = "Table D17N46Out";
                 }
             }

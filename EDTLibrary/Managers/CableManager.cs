@@ -153,7 +153,7 @@ public class CableManager
                     cable.Derating = powerComponentOwner.PowerCable.Derating;
                     cable.DeratedAmps = powerComponentOwner.PowerCable.DeratedAmps;
                     cable.RequiredAmps = powerComponentOwner.PowerCable.RequiredAmps;
-                    cable.Outdoor = powerComponentOwner.PowerCable.Outdoor;
+                    cable.IsOutdoor = powerComponentOwner.PowerCable.IsOutdoor;
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
 
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
@@ -232,7 +232,7 @@ public class CableManager
         cable.Spacing = 0;
         cable.Derating = 1;
 
-        cable.Outdoor = lcsOwner.PowerCable.Outdoor;
+        cable.IsOutdoor = lcsOwner.PowerCable.IsOutdoor;
         cable.InstallationType = lcsOwner.PowerCable.InstallationType;
 
         lcs.ControlCable = cable;

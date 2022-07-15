@@ -5,16 +5,16 @@ using System.ComponentModel;
 using System.Data;
 using System.Text;
 
-namespace EDTLibrary.ProjectSettings
+namespace EDTLibrary.Mappers
 {
     [AddINotifyPropertyChangedInterface]
     public class ExportMappingModel
     {
         public int Id { get; set; }
-        public string  Type { get; set; }
+        public string Type { get; set; }
         public string PropertyName { get; set; }
         public string Name { get; set; }
         public bool IncludeInReport { get; set; }
-     
+
     }
 }

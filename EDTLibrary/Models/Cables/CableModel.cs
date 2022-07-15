@@ -232,7 +232,7 @@ public class CableModel : ICable
 
     private bool _outdoor;
 
-    public bool Outdoor
+    public bool IsOutdoor
     {
         get { return _outdoor; }
         set
@@ -240,7 +240,7 @@ public class CableModel : ICable
             var oldValue = _outdoor;
             _outdoor = value;
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Outdoor), OldValue = oldValue, NewValue = _outdoor };
+                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(IsOutdoor), OldValue = oldValue, NewValue = _outdoor };
                 Undo.AddUndoCommand(cmd);
             }
         }

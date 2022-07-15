@@ -87,6 +87,13 @@ public class SettingsMenuViewModel : ViewModelBase
         _exportSettingsViewModel.LoadVmSettings(_exportSettingsViewModel);
         CurrentViewModel = _exportSettingsViewModel;
         _mainViewModel.CurrentViewModel = CurrentViewModel;
+
+        //Select the first report type by default instead of a blank list with no selection
+        if (_exportSettingsViewModel.ReportTypes.Count>0 &&
+            _exportSettingsViewModel.SelectedReportType == null) {
+            _exportSettingsViewModel.SelectedReportType = _exportSettingsViewModel.ReportTypes[0];
+
+        }
     }
 
 

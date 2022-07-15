@@ -192,7 +192,7 @@
 
 
             <TextBlock Text="Outdoor" Grid.Row="6" Grid.Column="4" HorizontalAlignment="Right"/>
-            <CheckBox IsChecked="{Binding PowerCable.Outdoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            <CheckBox IsChecked="{Binding PowerCable.IsOutdoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               Grid.Row="6" Grid.Column="6" FontWeight="Bold" HorizontalAlignment="Left"
                               Margin="0 5"/>
             <TextBlock Text="(exposed to sunlight)" Grid.Row="6" Grid.Column="6" 

@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData;
+using EDTLibrary.Mappers;
 using EDTLibrary.Models.Cables;
 using PropertyChanged;
 using System;

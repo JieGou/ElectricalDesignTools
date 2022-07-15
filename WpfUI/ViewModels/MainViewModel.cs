@@ -220,7 +220,10 @@ namespace WpfUI.ViewModels
                     foreach (var item in ListManager.LoadList) {
                         loadList.Add(new LoadMapper((LoadModel)item));
                     }
-                    excel.ExportListProperties<LoadMapper>(loadList, LoadMapper.PropertiesToIgnore);
+
+                    var exportManager = new ExportPropertyManager();
+                   
+                    excel.ExportListOfObjects<LoadMapper>(loadList, exportManager.GetPropertyList("Load List"));
 
 
                     DteqMapper dteq;
@@ -229,7 +232,7 @@ namespace WpfUI.ViewModels
                     foreach (var item in ListManager.IDteqList) {
                         dteqList.Add(new DteqMapper((DistributionEquipment)item));
                     }
-                    excel.ExportListProperties<DteqMapper>(dteqList, DteqMapper.PropertiesToIgnore);
+                    excel.ExportListOfObjects<DteqMapper>(dteqList, exportManager.GetPropertyList("Distribution Equipment List"));
 
                     CableMapper cable;
                     excel.AddSheet("Cable List");
@@ -237,7 +240,7 @@ namespace WpfUI.ViewModels
                     foreach (var item in ListManager.CableList) {
                         cableList.Add(new CableMapper((CableModel)item));
                     }
-                    excel.ExportListProperties<CableMapper>(cableList, CableMapper.PropertiesToIgnore);
+                    excel.ExportListOfObjects<CableMapper>(cableList, exportManager.GetPropertyList("Cable List"));
 
 
                     excel.SaveWorkbook();

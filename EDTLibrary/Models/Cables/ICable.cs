@@ -24,7 +24,7 @@ namespace EDTLibrary.Models.Cables
         string Size { get; set; }
         double VoltageClass { get; set; }
         string InstallationType { get; set; }
-        bool Outdoor { get; set; }
+        bool IsOutdoor { get; set; }
 
 
         double BaseAmps { get; set; }

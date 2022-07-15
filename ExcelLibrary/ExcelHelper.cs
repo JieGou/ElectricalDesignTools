@@ -32,7 +32,8 @@ namespace ExcelLibrary
         public Excel.Worksheet Sheet { get; set; }
         public Excel.ListObject Tbl { get; set; }
 
-
+        public int MinColumnWidth { get; set; } = 5;
+        public string DefaultTableStyle { get; set; } = "TableStyleLight18";
         public void Initialize(string sheetName = "Sheet1")
         {
             App = new Excel.Application();
@@ -98,6 +99,13 @@ namespace ExcelLibrary
                 //KillExcelAsync();
             }
         }
+
+        /// <summary>
+        /// Exports the property names and values of an object
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="classObject"></param>
+        /// <param name="propertiesToIgnore"></param>
         public void ExportObjectProperties<T>(T classObject, List<string> propertiesToIgnore) where T : class, new()
         {
             try {
@@ -157,7 +165,16 @@ namespace ExcelLibrary
 
             }
         }
-        public void ExportListProperties<T>(List<T> list, List<string> propertiesToIgnore, int startRow = 3, string reportName = "Object Export Report") where T : class//, new()
+
+        /// <summary>
+        /// Exports a list of objects with property names as column headers.
+        /// </summary>
+        /// <typeparam name="T">Generic Mapper Object created based of a model object</typeparam>
+        /// <param name="list"></param>
+        /// <param name="propertiesToInclude"></param>
+        /// <param name="startRow"></param>
+        /// <param name="reportName"></param>
+        public void ExportListOfObjects<T>(List<T> list, List<string> propertiesToInclude, int startRow = 3, string reportName = "Object Export Report") where T : class//, new()
         {
             try {
               
@@ -171,13 +188,14 @@ namespace ExcelLibrary
 
                 int row = startRow;
                 int col = 1;
-                //Property Names
-                bool addProp;
+
+                //Create Property List
+                bool addProp = false;
                 foreach (var prop in objectProperties) {
-                    addProp = true;
-                    foreach (var propToIgnore in propertiesToIgnore) {
-                        if (prop.Name == propToIgnore) {
-                            addProp = false;
+                    addProp = false;
+                    foreach (var propToInclude in propertiesToInclude) {
+                        if (prop.Name == propToInclude) {
+                            addProp = true;
                         }
                     }
                     if (addProp == true) {
@@ -186,40 +204,41 @@ namespace ExcelLibrary
 
                 }
 
-                foreach (var prop in propsToWrite) {
-                    Sheet.Cells[row, col] = $"{prop}";
+                //Column Headers
+                foreach (var propName in propsToWrite) {
+                    Sheet.Cells[row, col] = propName;
                     col += 1;
                 }
 
-                
-                foreach (var item in list) {
+                //Property Values
+                foreach (var item in list) { 
                     row += 1;
                     col = 1;
                     foreach (var prop in objectProperties) {
-
                         foreach (var propToWrite in propsToWrite) {
                             if (prop.Name == propToWrite) {
-                                Sheet.Cells[row, col] = $"{prop.GetValue(item)}";
+                                Sheet.Cells[row, col] = prop.GetValue(item);
                                 col += 1;
                             }
                         }
-                   
                     }
                 }
 
+                //Auto-Fit Columns with minimum width
                 Sheet.UsedRange.Columns.AutoFit();
                 foreach (Range column in Sheet.UsedRange.Columns) {
-                    if (column.ColumnWidth < 5) {
-                        column.ColumnWidth = 5;
+                    if (column.ColumnWidth < MinColumnWidth) {
+                        column.ColumnWidth = MinColumnWidth; //property in this class
                     }
                 }
 
+                //Format data as a table.
                 Tbl = (Excel.ListObject)Sheet.ListObjects.AddEx(
                         Source: (Range)Sheet.Range[Sheet.Cells[3, 1], Sheet.Cells[row, propsToWrite.Count]],
                         XlListObjectHasHeaders: Excel.XlYesNoGuess.xlYes);
 
-                Tbl.Name = "TableTest";
-                Tbl.TableStyle = "TableStyleLight18";
+                Tbl.Name = reportName.Replace(" ",""); 
+                Tbl.TableStyle = DefaultTableStyle; //property in this class
 
             }
             catch (Exception ex) {

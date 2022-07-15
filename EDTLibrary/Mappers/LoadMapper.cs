@@ -43,29 +43,7 @@ public class LoadMapper
         AreaClassification = load.AreaClassification;
     }
 
-    public static List<string> PropertiesToIgnore { get; set; } = new List<string>
-    {
-               "PropertiesToIgnore",
-
-               "Id",
-               "AreaName",
-               "Category",
-               "RunningAmps",
-               "NemaRating",
-               "AreaClassification",
-               "AmpacityFactor",
-               "LcsBool",
-               "DriveBool",
-               "DriveId",
-               "DisconnectBool",
-               "DisconnectId",
-               "FedFromId",
-               "FedFromType",
-               "NemaRating",
-               "AreaClassification",
-
-    };
-
+   
     public int Id { get; set; }
     public string Tag { get; set; }
     public string Category { get; set; }

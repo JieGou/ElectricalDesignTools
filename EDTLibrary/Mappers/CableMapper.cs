@@ -19,11 +19,13 @@ public class CableMapper
         Id = cable.Id;
         Tag = cable.Tag;
         Category = cable.Category;
-        UsageType = cable.UsageType;
+        Source = cable.Source;
+        Destination = cable.Destination;
         Type = cable.Type;
+        UsageType = cable.UsageType;
         QtyParallel = cable.QtyParallel;
         ConductorQty = cable.ConductorQty;
-        Size = "'" + cable.Size;
+        Size = "'" + cable.Size; //  ' is for excel formatting
         VoltageClass = cable.VoltageClass;
         Length = cable.Length;
         Spacing = cable.Spacing;
@@ -32,24 +34,19 @@ public class CableMapper
         DeratedAmps = cable.DeratedAmps;
         BaseAmps = cable.BaseAmps;
         AmpacityTable = cable.AmpacityTable;
-        InstallationDiagram = cable.InstallationDiagram;
         InstallationType = cable.InstallationType;
+        IsOutdoor = cable.IsOutdoor;
+        InstallationDiagram = cable.InstallationDiagram;
+        OwnerType = cable.OwnerType;
     }
-
-    public static List<string> PropertiesToIgnore { get; set; } = new List<string>
-    {
-               "PropertiesToIgnore",
-
-               "Id",
-               "Category",
-
-    };
 
     public int Id { get; set; }
     public string Tag { get; set; }
     public string Category { get; set; }
-    public string UsageType { get; set; }
+    public string Source { get; set; }
+    public string Destination { get; set; }
     public string Type { get; set; }
+    public string UsageType { get; set; }
     public int QtyParallel { get; set; }
     public int ConductorQty { get; set; }
     public string Size { get; set; }
@@ -58,7 +55,7 @@ public class CableMapper
 
    
     public string InstallationType { get; set; }
-    public bool Outdoor { get; set; }
+    public bool IsOutdoor { get; set; }
     public double BaseAmps { get; set; }
     public double Spacing { get; set; }
     public double Derating { get; set; }
@@ -67,7 +64,6 @@ public class CableMapper
     public double RequiredSizingAmps { get; set; }
     public string AmpacityTable { get; set; }
     public string InstallationDiagram { get; set; }
-    public int OwnerId { get; set; }
     public string OwnerType { get; set; }
 
 }
