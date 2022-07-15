@@ -21,10 +21,10 @@
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property= "Margin" Value="0,0,0,0"/>
         <Setter Property="Padding" Value="20, 7, 10, 7"/>
-        
+
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="0,2,0,2"/>
-        
+
         <Setter Property= "HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -81,7 +81,7 @@
         <Setter Property="Margin" Value="0 1 1 1"/>
         <Setter Property="ToolTip" Value="Filter - Enter to apply, ESC to clear."/>
         <Setter Property="ToolTipService.InitialShowDelay" Value="150"/>
-    </Style>    
+    </Style>
 
     <!--COMBOBOX with Error-->
     <Style TargetType="ComboBox">
@@ -154,7 +154,7 @@
 
     <!--default button-->
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
-        
+
     </Style>
 
     <!--default button large-->
@@ -173,12 +173,12 @@
     <Style x:Key="RedButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Background" Value="#FFF7C1C1"/>
     </Style>
-    
+
     <!--Green Button Style-->
     <Style x:Key="GreenButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Background" Value="#FA7FCA6B"/>
     </Style>
-    
+
     <!--Filter Button Style-->
     <Style x:Key="FilterButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Content" Value="\/"/>
@@ -190,7 +190,7 @@
         <Setter Property="Height" Value="15"/>
         <Setter Property="Margin" Value="0 0 5 0"/>
     </Style>
-    
+
     <!--Tool Bar Button-->
     <Style x:Key="ToolBarButtonBase" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
         <Setter Property="Foreground" Value="White"/>
@@ -204,18 +204,15 @@
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="MinHeight" Value="25"/>
         <Setter Property="Focusable" Value="False"/>
-        <Setter Property="Margin" Value="0"/>
         <Setter Property="Padding" Value="10 0"/>
         <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderThickness" Value="2 2 2 2"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    
                     <Border Background="Transparent" 
-                            BorderThickness="0 0 0 0"
-                            BorderBrush="Black"
-                            Padding="5 0">
+                            BorderThickness="1 0"
+                            BorderBrush="Transparent"
+                            Padding="0">
                         <!-- define your not selected template here...-->
                         <TextBlock Text="{Binding Path=Content,
                                                     RelativeSource={RelativeSource TemplatedParent}, 
@@ -233,10 +230,10 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
-                            <Border Background="AliceBlue"
-                                    BorderBrush="Black"
-                                    BorderThickness="0 0 0 0"
-                                    Padding="5 0">
+                            <Border Background="{DynamicResource ComboBox.MouseOver.Background}"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="1 0"
+                                    Padding="0">
                                 <!--<Border Background="{StaticResource ComboBox.MouseOver.Background}">-->
                                 <TextBlock Text="{Binding Path=Content,
                                                     RelativeSource={RelativeSource TemplatedParent}, 
@@ -246,12 +243,11 @@
                                        VerticalAlignment="Center"
                                        Margin="5 0"/>
                             </Border>
-
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Trigger>
-            
+
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -259,9 +255,9 @@
                             <Border Background="{DynamicResource ComboBox.MouseOver.Background}"
                                     BorderBrush="Black"
                                     BorderThickness="1 0"
-                                    Padding="5 0">
+                                    Padding="0">
                                 <!--<Border Background="{StaticResource ComboBox.MouseOver.Background}">-->
-                                    <TextBlock Text="{Binding Path=Content,
+                                <TextBlock Text="{Binding Path=Content,
                                                     RelativeSource={RelativeSource TemplatedParent}, 
                                                     Mode=TwoWay,
                                                     UpdateSourceTrigger=PropertyChanged}"
@@ -269,150 +265,20 @@
                                        VerticalAlignment="Center"
                                        Margin="5 0"/>
                             </Border>
-
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Trigger>
-            
-        </Style.Triggers>
-    </Style>
-
-    <!--BUTTON Main Menu Animation-->
-    <Style x:Key="MainMenu_Buttons" TargetType="{x:Type Button}">
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Foreground">
-            <Setter.Value>
-                <SolidColorBrush Opacity="1" Color="black"/>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Background" >
-            <Setter.Value>
-                <SolidColorBrush Opacity="1" Color="LightGray" />
-                <!--<SolidColorBrush Opacity="1" Color="#FF0A669B" />-->
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-
-                    <Border x:Name="border"
-                            SnapsToDevicePixels="True"
-                            Margin="0 0 0 10"
-                             Padding="15,5,15,5"
-                             BorderBrush="black"
-                             BorderThickness="2,2,2,2"
-                             CornerRadius="0"
-                             Background="{TemplateBinding Background}">
-                        <Grid>
-                            <ContentPresenter 
-                                Margin="0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                RecognizesAccessKey="True">
-                            </ContentPresenter>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation To="#FFB7DEE8"
-                                        Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)" 
-                                        FillBehavior="HoldEnd" Duration="0:0:0.15" AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation
-                                            Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)" 
-                                            FillBehavior="HoldEnd" Duration="0:0:0.15" AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
-
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="DarkGray"/>
+                <Setter Property="Foreground" Value="LightGray"/>
             </Trigger>
-
 
         </Style.Triggers>
     </Style>
 
-    <!--BUTTON Round Button-->
-    <Style x:Key="Round_Buttons" TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultStyle}">
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Foreground">
-            <Setter.Value>
-                <SolidColorBrush Opacity="1" Color="black"/>
-            </Setter.Value>
-        </Setter>
-        <!--<Setter Property="FontWeight" Value="DemiBold"/>-->
-        <Setter Property="Background" >
-            <Setter.Value>
-                <SolidColorBrush Opacity="1" Color="#FFB7DEE8" />
-                <!--<SolidColorBrush Opacity="1" Color="#FF0A669B" />-->
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
+    <!--Nice Teal Style Color    "#FFB7DEE8"-->
 
-                    <Border x:Name="border"
-                            Height="{StaticResource buttonHeight}"
-                            SnapsToDevicePixels="True"
-                            Margin="0 0 0 0"
-                            Padding="0"
-                            BorderBrush="#FF215968"
-                            BorderThickness="2,2,2,2"
-                            CornerRadius="13"
-                            Background="{TemplateBinding Background}">
-                        <Grid>
-                            <ContentPresenter 
-                                Margin="0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                RecognizesAccessKey="True">
-                            </ContentPresenter>
-                        </Grid>
-                    </Border>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <!--<Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Trigger.EnterActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation To="LightSeaGreen"
-                                        Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)" 
-                                        FillBehavior="HoldEnd" Duration="0:0:0.15" AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.EnterActions>
-
-                <Trigger.ExitActions>
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation
-                                            Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)" 
-                                            FillBehavior="HoldEnd" Duration="0:0:0.15" AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </Trigger.ExitActions>
-            </Trigger>
-        </Style.Triggers>-->
-    </Style>
-
-   
 
     <!--Textblock Base Style-->
     <Style TargetType="TextBlock">
@@ -457,7 +323,7 @@
 
 
 
-    
+
 
 
     <!--DATA GRID Style-->
@@ -476,8 +342,8 @@
         <Setter Property="RowHeight" Value="20"/>
         <Setter Property="CanUserResizeRows" Value="True"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        
-       
+
+
     </Style>
 
     <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
@@ -494,8 +360,8 @@
     </Style>
 
 
-    
- 
+
+
     <!--Column Header Base WITH SORT ARROW -->
 
     <Style TargetType="{x:Type Thumb}" x:Key="ThumbStyle">
@@ -544,14 +410,14 @@
                               Width="8" Height="6" Fill="White"
                               RenderTransformOrigin="0.5, 0.4"
                               Opacity="0.5"/>
-                        
+
                         <!--<Rectangle Width="1" Fill="Black" HorizontalAlignment="Right" Grid.ColumnSpan="2"/>
                         <Rectangle Width="1" Margin="0,0,1,0" Fill="Black" HorizontalAlignment="Right" Grid.ColumnSpan="2"/>-->
                         <Thumb x:Name="PART_LeftHeaderGripper" HorizontalAlignment="Left" Style="{StaticResource ThumbStyle}"/>
                         <Thumb x:Name="PART_RightHeaderGripper" Grid.Column="1" HorizontalAlignment="Right" Style="{StaticResource ThumbStyle}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
-                       
+
                         <Trigger Property="SortDirection" Value="Ascending">
                             <Setter TargetName="SortArrow" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="SortArrow" Property="RenderTransform">
@@ -586,7 +452,7 @@
         <!--<Setter Property="Padding" Value="5 2 5 2"/>-->
         <Setter Property="Padding" Value="0"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
-       
+
     </Style>
 
     <!--Column Header with Filter-->
@@ -668,7 +534,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-        
+
     <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
         <Setter Property="Margin" Value="10,0,10,0" />
     </Style>

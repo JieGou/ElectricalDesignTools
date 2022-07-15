@@ -93,6 +93,7 @@
                            Margin="0,0,0,0"/>
 
                     <RadioButton Content="HOME"
+                                 Width="65"
                              Style="{StaticResource MainMenuButton}" 
                              GroupName="menu"
                              VerticalAlignment="Top"  
@@ -104,6 +105,7 @@
                     <!--Style="{StaticResource {x:Type ToggleButton}}"-->
 
                     <RadioButton Content="PROJECT SETUP"
+                                 Width="100"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}" 
                              VerticalAlignment="Top"
@@ -111,6 +113,7 @@
 
 
                     <RadioButton Content="AREAS &amp; SYSTEMS"
+                                 Width="120"
                              VerticalAlignment="Top"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
@@ -118,6 +121,7 @@
                              PreviewMouseDown="AreaMenuButton_PreviewMouseDown"/>
 
                     <RadioButton Content="ELECTRICAL"
+                                 Width="85"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"
@@ -132,6 +136,7 @@
                              Command="{Binding NavigateElectricalCommand}"/>-->
 
                     <RadioButton Content="CABLE &amp; TRAY"
+                                 Width="100"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"
@@ -144,6 +149,7 @@
                             Command="{Binding NavigateElectricalCommand}"/>-->
 
                     <RadioButton Content="DATA TABLES"
+                                 Width="85"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"                        

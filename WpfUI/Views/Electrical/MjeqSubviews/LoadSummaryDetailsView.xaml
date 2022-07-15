@@ -20,7 +20,8 @@
                 <Setter Property="Margin" Value="0"/>
             </Style>
 
-
+            
+            <!-- MCC BUCKET / OCPD -->
             <!--Breaker Template-->
             <DataTemplate x:Key="BreakerTemplate">
                 <StackPanel Orientation="Vertical">
@@ -173,9 +174,55 @@
                 </StackPanel>
             </DataTemplate>
             
+            <Style x:Key="OCPDTemplateStyle" TargetType="{x:Type ContentControl}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Type}" Value="BKR">
+                        <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=PdType}" Value="MCP-FVNR">
+                        <Setter Property="ContentTemplate" Value="{StaticResource FvnrTemplate}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+
+            <!--DRIVE-->
+            <!--Vsd-->
+            <DataTemplate x:Key="VsdTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="13.5"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center"
+                            Grid.Column="1"
+                            Width="50.5" Height="50">
+                        <TextBlock Text="VSD"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                    </Border>
+                    <StackPanel Orientation="Vertical"
+                                Grid.Column="2"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Tag}" Margin="5 0 0 0" FontWeight="SemiBold"  />
+                        <TextBlock Text="{Binding Type}" Margin="5 0 0 0"/>
+                        <StackPanel Orientation="Horizontal" >
+                            <TextBlock Text="{Binding AreaId}" Margin="5 0 0 0"/>
+                            <TextBlock Text=", " Margin="0 0 0 0"/>
+                            <TextBlock Text="{Binding NemaRating}" Margin="0 0 0 0"/>
+                            <TextBlock Text=", " Margin="0 0 0 0"/>
+                            <TextBlock Text="{Binding AreaClassification}" Margin="0 0 0 0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
             
             
-            
+            <!--LOCAL DISCONNECT-->
             <!--Uds-->
             <DataTemplate x:Key="UdsTemplate">
                 <Grid>
@@ -277,42 +324,21 @@
                     </StackPanel>
                 </Grid>
             </DataTemplate>
+            
+            <Style x:Key="DisconnectTemplateStyle" TargetType="{x:Type ContentControl}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Type}" Value="UDS">
+                        <Setter Property="ContentTemplate" Value="{StaticResource UdsTemplate}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
+                        <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
 
-            <!--Vsd-->
-            <DataTemplate x:Key="VsdTemplate">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="13.5"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
 
-                    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center"
-                            Grid.Column="1"
-                            Width="50.5" Height="50">
-                        <TextBlock Text="VSD"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
-
-                    </Border>
-                    <StackPanel Orientation="Vertical"
-                                Grid.Column="2"
-                                VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Tag}" Margin="5 0 0 0" FontWeight="SemiBold"  />
-                        <TextBlock Text="{Binding Type}" Margin="5 0 0 0"/>
-                        <StackPanel Orientation="Horizontal" >
-                            <TextBlock Text="{Binding AreaId}" Margin="5 0 0 0"/>
-                            <TextBlock Text=", " Margin="0 0 0 0"/>
-                            <TextBlock Text="{Binding NemaRating}" Margin="0 0 0 0"/>
-                            <TextBlock Text=", " Margin="0 0 0 0"/>
-                            <TextBlock Text="{Binding AreaClassification}" Margin="0 0 0 0"/>
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </DataTemplate>
-
-            <!--Cable-->
+            <!--CABLES-->
+            <!--Cable Template-->
             <DataTemplate x:Key="CableTemplate">
                 <StackPanel Orientation="Vertical" Grid.Column="2"
                             HorizontalAlignment="Left"
@@ -338,6 +364,8 @@
                 </StackPanel>
             </DataTemplate>
 
+            
+            <!--LOADS-->
             <!--Motor Template-->
             <DataTemplate x:Key="MotorTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
                 <Border BorderBrush="Black" BorderThickness="2" 
@@ -375,6 +403,7 @@
                 </Border>
             </DataTemplate>
 
+            
             
             <templateSelectors:PdStarterGraphicTemplateSelector 
                 x:Key="PdStarterTemplateSelector"
@@ -430,6 +459,7 @@
             
             <!--Starter-->
             <ContentControl Content="{Binding}" 
+                            Style="{StaticResource OCPDTemplateStyle}"
                             ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}">
                 
             </ContentControl>
@@ -466,6 +496,7 @@
 
                             <!--Component-->
                             <ContentControl 
+                                Style="{StaticResource DisconnectTemplateStyle}"
                                 Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
                                 ContentTemplateSelector="{StaticResource ComponentTemplateSelector}">
                             </ContentControl>

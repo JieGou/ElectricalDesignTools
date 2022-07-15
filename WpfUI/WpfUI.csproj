@@ -8,7 +8,8 @@
 	  <UseWindowsForms>true</UseWindowsForms>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyName>Electrical Design Tools</AssemblyName>
-    <ApplicationIcon>ContentFiles\pd (1).ico</ApplicationIcon>
+    <ApplicationIcon>ContentFiles\edt.ico</ApplicationIcon>
+    <Copyright>Copyright DCS Inc 2022</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,11 +20,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ContentFiles\edt.ico" />
+    <None Remove="ContentFiles\pd %281%29.ico" />
     <None Remove="Resources\pd.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="ContentFiles\pd (1).ico" />
+    <Resource Include="ContentFiles\edt.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -50,7 +55,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Users\pdeau\Google Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
     <ProjectReference Include="..\EDTLibrary\EDTLibrary.csproj" />
-    <ProjectReference Include="..\ExcelLibrary\ExcelLibrary.csproj" />
+    <ProjectReference Include="..\ExcelLibraryCore\ExcelLibraryCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,6 +65,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="ContentFiles\pd (1).ico" />
     <Resource Include="Resources\pd.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
