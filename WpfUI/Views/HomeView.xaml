@@ -41,7 +41,7 @@
                        Margin=" 0 0 0 0"/>
 
 
-            <Image Source="../Resources/pd.png"
+            <Image Source="../ContentFiles/pd.png"
                     x:Name="logo"
                     Width="350"
                     HorizontalAlignment="Center"

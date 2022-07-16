@@ -10,7 +10,7 @@
     <AssemblyName>Electrical Design Tools</AssemblyName>
     <ApplicationIcon>ContentFiles\edt.ico</ApplicationIcon>
     <Copyright>Copyright DCS Inc 2022</Copyright>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,8 +22,6 @@
 
   <ItemGroup>
     <None Remove="ContentFiles\edt.ico" />
-    <None Remove="Resources\pd.png" />
-    <None Remove="Resources\SplashScreen PD.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CefSharp.Wpf.NETCore" Version="99.2.120" />
     <PackageReference Include="CoreCompat.Portable.Licensing" Version="1.2.14" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.1.0.58" />
@@ -66,13 +63,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\pd.png">
+    <Resource Include="ContentFiles\pd.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <SplashScreen Include="Resources\SplashScreen PD.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -127,6 +127,8 @@ namespace WpfUI.ViewModels
             _homeViewModel = new HomeViewModel(this, startupService, listManager);
             _settingsMenuViewModel = new SettingsMenuViewModel(this, edtSettings, typeManager);
 
+            CurrentViewModel = _homeViewModel;
+
             //Areas & Systems
             _areasMenuViewModel = new AreasMenuViewModel(this, listManager);
 

@@ -5,23 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUI.PopupWindows"
 
-        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        
 
         
         mc:Ignorable="d"
         Title="PdfViewer" Height="875" Width="850">
     <Grid>
-
+        
+        
+    <!--ADD THIS LINE AS NAMESPACE ABOVE-->
+        <!--xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"-->
 
         
-        <cefSharp:ChromiumWebBrowser x:Name="ChromeViewer"
-        Address="https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions" />
+    <!--UNCOMMENT BELOW-->
+        <!--<cefSharp:ChromiumWebBrowser x:Name="ChromeViewer"
+        Address="https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions" />-->
         
-        <!--<WebBrowser x:Name="pdfWebViewer">
-        </WebBrowser>
-
-        <Image x:Name="image">
-        </Image>-->
+        
             
 
     </Grid>

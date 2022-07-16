@@ -219,7 +219,7 @@
                     Margin=" 0 100 0 0"/>
 
         <Image x:Name="logo"
-               Source="Resources/pd.png"
+               Source="ContentFiles/pd.png"
                Grid.Row="2" 
                Width="350"
                HorizontalAlignment="Center"
