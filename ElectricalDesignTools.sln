@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutocadLibrary", "..\..\Use
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelLibraryCore", "ExcelLibraryCore\ExcelLibraryCore.csproj", "{AF0552F1-34DE-48CE-A9CE-00D6764703FE}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EdtInstaller", "EdtInstaller\EdtInstaller.vdproj", "{334F5B75-304C-411D-BEA7-41502508C9AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,12 @@ Global
 		{AF0552F1-34DE-48CE-A9CE-00D6764703FE}.Release|x64.Build.0 = Release|Any CPU
 		{AF0552F1-34DE-48CE-A9CE-00D6764703FE}.Release|x86.ActiveCfg = Release|Any CPU
 		{AF0552F1-34DE-48CE-A9CE-00D6764703FE}.Release|x86.Build.0 = Release|Any CPU
+		{334F5B75-304C-411D-BEA7-41502508C9AF}.Debug|Any CPU.ActiveCfg = Release
+		{334F5B75-304C-411D-BEA7-41502508C9AF}.Debug|x64.ActiveCfg = Debug
+		{334F5B75-304C-411D-BEA7-41502508C9AF}.Debug|x86.ActiveCfg = Debug
+		{334F5B75-304C-411D-BEA7-41502508C9AF}.Release|Any CPU.ActiveCfg = Release
+		{334F5B75-304C-411D-BEA7-41502508C9AF}.Release|x64.ActiveCfg = Release
+		{334F5B75-304C-411D-BEA7-41502508C9AF}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

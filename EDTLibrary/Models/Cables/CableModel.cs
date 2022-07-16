@@ -253,6 +253,8 @@ public class CableModel : ICable
         get { return _installationType; }
         set
         {
+            if (value == null || value == "") return;
+
             var oldValue = _installationType;
             _installationType = value;
             if (GlobalConfig.GettingRecords == false) {

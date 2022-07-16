@@ -28,8 +28,8 @@ public partial class _MjeqView : UserControl
 {
     private MjeqViewModel mjeqVm { get { return DataContext as MjeqViewModel; } }
 
-    DteqDetailView _dteqDetailsView = new DteqDetailView();
-    LoadDetailView _loaDetailView = new LoadDetailView();
+   
+
     private bool _isEditingLoadGrids;
 
     public _MjeqView()
@@ -112,6 +112,9 @@ public partial class _MjeqView : UserControl
         if (be != null) { be.UpdateSource(); }
     }
 
+    DteqDetailsView _dteqDetailsView = new DteqDetailsView();
+    LoadDetailsView _loadDetailsView = new LoadDetailsView();
+
     private void dgdDteq_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         //DteqDetailsContent.Content = null;
@@ -127,8 +130,8 @@ public partial class _MjeqView : UserControl
     {
         if (dgdAssignedLoads.SelectedItem != null) {
             if (dgdAssignedLoads.SelectedItem.GetType() == typeof(LoadModel)) {
-                _loaDetailView.DataContext = this.DataContext;
-                LoadDetailsContent.Content = _loaDetailView;
+                _loadDetailsView.DataContext = this.DataContext;
+                LoadDetailsContent.Content = _loadDetailsView;
             }
         }
     }
