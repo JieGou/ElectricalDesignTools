@@ -17,9 +17,9 @@ namespace WpfUI.Views.Electrical.MjeqSubviews;
 /// <summary>
 /// Interaction logic for DteqDetailsView.xaml
 /// </summary>
-public partial class DteqDetailsView : UserControl
+public partial class DteqTabsView : UserControl
 {
-    public DteqDetailsView()
+    public DteqTabsView()
     {
         InitializeComponent();
     }

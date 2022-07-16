@@ -18,7 +18,6 @@ using WpfUI.Helpers;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.Views.Electrical.MjeqSubviews;
-using WpfUI.Views.SubViews;
 
 namespace WpfUI.Views.Electrical;
 /// <summary>
@@ -112,8 +111,8 @@ public partial class _MjeqView : UserControl
         if (be != null) { be.UpdateSource(); }
     }
 
-    DteqDetailsView _dteqDetailsView = new DteqDetailsView();
-    LoadDetailsView _loadDetailsView = new LoadDetailsView();
+    DteqTabsView _dteqDetailsView = new DteqTabsView();
+    LoadTabsView _loadDetailsView = new LoadTabsView();
 
     private void dgdDteq_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {

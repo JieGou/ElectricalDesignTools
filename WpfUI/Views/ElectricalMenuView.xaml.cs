@@ -28,7 +28,7 @@ public partial class ElectricalMenuView : UserControl
 {
     private ElectricalMenuViewModel elecVm { get { return DataContext as ElectricalMenuViewModel; } }
 
-    DteqDetailView _dteqDetailsView = new DteqDetailView();
+    DteqTabsView _dteqDetailsView = new DteqTabsView();
     LoadDetailView _loaDetailView = new LoadDetailView();
 
     public ElectricalMenuView()

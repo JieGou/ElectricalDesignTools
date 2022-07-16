@@ -19,9 +19,9 @@ namespace WpfUI.Views.SubViews
     /// <summary>
     /// Interaction logic for DteqDetailView.xaml
     /// </summary>
-    public partial class DteqDetailView : UserControl
+    public partial class DteqTabsView : UserControl
     {
-        public DteqDetailView()
+        public DteqTabsView()
         {
             InitializeComponent();
         }
