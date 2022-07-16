@@ -10,6 +10,7 @@
     <AssemblyName>Electrical Design Tools</AssemblyName>
     <ApplicationIcon>ContentFiles\edt.ico</ApplicationIcon>
     <Copyright>Copyright DCS Inc 2022</Copyright>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,8 +22,8 @@
 
   <ItemGroup>
     <None Remove="ContentFiles\edt.ico" />
-    <None Remove="ContentFiles\pd %281%29.ico" />
     <None Remove="Resources\pd.png" />
+    <None Remove="Resources\SplashScreen PD.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -65,10 +66,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="ContentFiles\pd (1).ico" />
     <Resource Include="Resources\pd.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <SplashScreen Include="Resources\SplashScreen PD.png" />
   </ItemGroup>
 
   <ItemGroup>

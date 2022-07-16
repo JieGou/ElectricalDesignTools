@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Notes", "_Notes", "{50E08A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutocadLibrary", "..\..\Users\pdeau\Google Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj", "{05FE6682-C823-4DA4-8584-E8F26B7A6671}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelLibraryCore", "ExcelLibraryCore\ExcelLibraryCore.csproj", "{AF0552F1-34DE-48CE-A9CE-00D6764703FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelLibraryCore", "ExcelLibraryCore\ExcelLibraryCore.csproj", "{AF0552F1-34DE-48CE-A9CE-00D6764703FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
