@@ -145,7 +145,6 @@ namespace EDTLibrary.Models.DistributionEquipment
                     OnPropertyUpdated();
 
                 }
-
             }
         }
 

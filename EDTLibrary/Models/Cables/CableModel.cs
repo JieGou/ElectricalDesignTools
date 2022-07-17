@@ -191,6 +191,7 @@ public class CableModel : ICable
             if (GlobalConfig.GettingRecords == false) {
                 _calculating = true;
                 Derating = CableManager.CableSizer.GetDerating(this);
+                CalculateAmpacity(Load);
                 _calculating = false;
             }
 
