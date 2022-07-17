@@ -13,8 +13,8 @@ public class DteqManager
     {
 
         //dteq.PdType = EdtSettings.DteqDefaultPdTypeLV;
-        dteq.PdSizeFrame = LibraryManager.GetBreakerFrame(dteq);
-        dteq.PdSizeTrip = LibraryManager.GetBreakerTrip(dteq);
+        dteq.PdSizeFrame = DataTableManager.GetBreakerFrame(dteq);
+        dteq.PdSizeTrip = DataTableManager.GetBreakerTrip(dteq);
 
     }
 

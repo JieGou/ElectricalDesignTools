@@ -8,6 +8,9 @@ using System.Linq;
 
 namespace EDTLibrary.LibraryData.TypeTables
 {
+    /// <summary>
+    /// Object Model Type lists and Query methods
+    /// </summary>
     public class TypeManager
     {
         private static ObservableCollection<string> _componentTypes;
@@ -25,6 +28,11 @@ namespace EDTLibrary.LibraryData.TypeTables
         }
         public static ObservableCollection<VoltageType> VoltageTypes { get; set; }
 
+        //Transformers
+        public static ObservableCollection<TransformerSize> TransformerSizes { get; set; }
+        public static ObservableCollection<TransformerType> TransformerTypes { get; set; }
+        public static ObservableCollection<GroundingSystemType> TransformerGroundingTypes { get; set; }
+
         //Cables
         public static ObservableCollection<string> CableInstallationTypes
         {
@@ -39,8 +47,6 @@ namespace EDTLibrary.LibraryData.TypeTables
         public static ObservableCollection<CableTypeModel> CableTypes { get; set; }
         public static ObservableCollection<ControlCableSizeModel> ControlCableSizes { get; set; }
         public static ObservableCollection<ControlCableSizeModel> InstrumentCableSizes { get; set; }
-
-
         public static ObservableCollection<CableTypeModel> OneKvPowerCableTypes
         {
             get
@@ -68,8 +74,6 @@ namespace EDTLibrary.LibraryData.TypeTables
                 return new ObservableCollection<CableTypeModel>(val);
             }
         }
-
-
         public static ObservableCollection<CableTypeModel> PowerCableTypes
         {
             get
@@ -94,41 +98,7 @@ namespace EDTLibrary.LibraryData.TypeTables
                 return new ObservableCollection<CableTypeModel>(val);
             }
         }
-
-        public static ObservableCollection<TransformerSize> TransformerSizes { get; set; }
-        public static ObservableCollection<TransformerType> TransformerTypes { get; set; }
-        public static ObservableCollection<GroundingSystemType> TransformerGroundingTypes { get; set; }
-        //Components
-        public static ObservableCollection<LcsTypeModel> LcsTypes { get; set; }
-        public static LcsTypeModel GetLcsTypeModel(string lcsType)
-        {
-            LcsTypeModel output = null;
-
-            output = LcsTypes.SingleOrDefault(l => l.Type == lcsType);
-            return output;
-        }
-
-        //Cables
         public static ObservableCollection<CecCableSizingRule> CecCableSizingRules { get; set; }
-        public static CableTypeModel GetCableTypeModel(string cableType)
-        {
-            CableTypeModel output = null;
-
-            output = CableTypes.SingleOrDefault(ct => ct.Type == cableType);
-            return output;
-        }
-        public static CableTypeModel GetLcsControlCableTypeModel(LocalControlStationModel lcs)
-        {
-            CableTypeModel cableType = new CableTypeModel();
-
-
-            List<CableTypeModel> list = TypeManager.CableTypes.Where(c => c.UsageType == CableUsageTypes.Control.ToString()
-                                                                && c.ConductorQty >= lcs.TypeModel.DigitalConductorQty).ToList();
-            var minValue = list.Min(c => c.ConductorQty);
-            cableType = list.FirstOrDefault(c => c.ConductorQty == minValue);
-
-            return cableType;
-        }
 
         //Enclosures
         public static ObservableCollection<NemaType> NemaTypes { get; set; }
@@ -139,58 +109,19 @@ namespace EDTLibrary.LibraryData.TypeTables
             new AreaCategory{CategoryName = "Category 2"}
         };
 
-
-        //OCDP
-
+        //OCPD
         public static ObservableCollection<OcpdType> OcpdTypes { get; set; }
         public static ObservableCollection<DisconnectType> DisconnectTypes { get; set; } = new ObservableCollection<DisconnectType>();
+
+        //Components
+        public static ObservableCollection<LcsTypeModel> LcsTypes { get; set; }
         public static ObservableCollection<string> DriveTypes { get; set; } = new ObservableCollection<string>() { "VSD", "RVS" };
-
         public static ObservableCollection<BreakerSize> BreakerSizes { get; set; } = new ObservableCollection<BreakerSize>();
-        public static BreakerSize GetBreaker(double fla, int breakerRating=80)
-        {
-            var breaker = new BreakerSize();
-            var breakerList = new List<BreakerSize>();
-            if (breakerRating != 100) {
-                breakerList = BreakerSizes.Where(b => b.TripAmps >= fla * 1.25).ToList();
-                if (breakerList.Count > 0) {
-                    breaker = breakerList.OrderBy(b => b.TripAmps).First();
-                }
-            }
-            else {
-                breakerList = BreakerSizes.Where(b => b.TripAmps >= fla ).ToList();
-                if (breakerList.Count > 0) {
-                    breaker = breakerList.OrderBy(b => b.TripAmps).First();
-                }
-            }
-
-            return breaker;
-        }
-
         public static ObservableCollection<StarterSize> StarterSizes { get; set; } = new ObservableCollection<StarterSize>();
-        public static StarterSize GetStarter(double motorSize, string unit = "HP")
-        {
-            var starter = new StarterSize();
-            var starterList = new List<StarterSize>();
-           
-            starterList = StarterSizes.Where(s => s.Hp >= motorSize && s.Unit.ToLower() == unit.ToLower()).ToList();
-            starter = starterList.OrderBy(b => b.Size).First();
-
-            return starter;
-        }
-
         public static ObservableCollection<VfdHeatSize> VfdHeatSizes { get; set; } = new ObservableCollection<VfdHeatSize>();
 
-        public static VfdHeatSize GetVfdHeatSize(double motorSize, double voltage)
-        {
-            var vfdSize = new VfdHeatSize();
-            var vfdList = new List<VfdHeatSize>();
 
-            vfdList = VfdHeatSizes.Where(v => v.Hp >= motorSize && v.Voltage == voltage).ToList();
-            vfdSize = vfdList.OrderBy(v => v.Hp).First();
-            return vfdSize;
-        }
-
+        //LOAD DATA
         public static void GetTypeTables()
         {
             NemaTypes = DaManager.libDb.GetRecords<NemaType>("NemaTypes");
@@ -216,7 +147,80 @@ namespace EDTLibrary.LibraryData.TypeTables
             StarterSizes = DaManager.libDb.GetRecords<StarterSize>("Starters");
             VfdHeatSizes = DaManager.libDb.GetRecords<VfdHeatSize>("VFDHeatLoss");
 
-            LibraryManager.CecCableAmpacities = DaManager.libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
+            DataTableManager.CecCableAmpacities = DaManager.libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
+        }
+
+
+        //Local Control Station
+        public static LcsTypeModel GetLcsTypeModel(string lcsType)
+        {
+            LcsTypeModel output = null;
+
+            output = LcsTypes.SingleOrDefault(l => l.Type == lcsType);
+            return output;
+        }
+
+        //Cables
+        public static CableTypeModel GetCableTypeModel(string cableType)
+        {
+            CableTypeModel output = null;
+
+            output = CableTypes.SingleOrDefault(ct => ct.Type == cableType);
+            return output;
+        }
+        public static CableTypeModel GetLcsControlCableTypeModel(LocalControlStationModel lcs)
+        {
+            CableTypeModel cableType = new CableTypeModel();
+
+
+            List<CableTypeModel> list = TypeManager.CableTypes.Where(c => c.UsageType == CableUsageTypes.Control.ToString()
+                                                                && c.ConductorQty >= lcs.TypeModel.DigitalConductorQty).ToList();
+            var minValue = list.Min(c => c.ConductorQty);
+            cableType = list.FirstOrDefault(c => c.ConductorQty == minValue);
+
+            return cableType;
+        }
+
+        //Components
+        public static BreakerSize GetBreaker(double fla, int breakerRating = 80)
+        {
+            var breaker = new BreakerSize();
+            var breakerList = new List<BreakerSize>();
+            if (breakerRating != 100) {
+                breakerList = BreakerSizes.Where(b => b.TripAmps >= fla * 1.25).ToList();
+                if (breakerList.Count > 0) {
+                    breaker = breakerList.OrderBy(b => b.TripAmps).First();
+                }
+            }
+            else {
+                breakerList = BreakerSizes.Where(b => b.TripAmps >= fla).ToList();
+                if (breakerList.Count > 0) {
+                    breaker = breakerList.OrderBy(b => b.TripAmps).First();
+                }
+            }
+
+            return breaker;
+        }
+
+        static string unit = Units.HP.ToString();
+        public static StarterSize GetStarter(double motorSize, string unit = unit)
+        {
+            var starter = new StarterSize();
+            var starterList = new List<StarterSize>();
+
+            starterList = StarterSizes.Where(s => s.Hp >= motorSize && s.Unit.ToLower() == unit.ToLower()).ToList();
+            starter = starterList.OrderBy(b => b.Size).First();
+
+            return starter;
+        }
+        public static VfdHeatSize GetVfdHeatSize(double motorSize, double voltage)
+        {
+            var vfdSize = new VfdHeatSize();
+            var vfdList = new List<VfdHeatSize>();
+
+            vfdList = VfdHeatSizes.Where(v => v.Hp >= motorSize && v.Voltage == voltage).ToList();
+            vfdSize = vfdList.OrderBy(v => v.Hp).First();
+            return vfdSize;
         }
 
     }

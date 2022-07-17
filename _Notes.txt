@@ -1,4 +1,18 @@
 
+Library
+	- add cable dimensions
+	- add connectors
+
+Library Editor
+	- Control Station Types
+	- Cable Types
+	- 
+
+Excel Reports
+	- Cable BOM
+	- Component BOM
+	- cleanup notification
+
 Autocad
 	- drawing list
 	- drawing list manager
@@ -6,20 +20,18 @@ Autocad
 	- schematics
 	- wiring diagrams
 
-
 Dteq 
 	- Dteq as Load view
 	- Supply cable sizing based on upstream breaker (what is upstream breaker)
 	
+Load
+	- Proper PD / Starter selection when calculating to taking into account if a drive is selected
 
 Power Cables
 	- 1ph cable quantities and totals
 	- Prompt to recalculate load cables when changing settings
 	- component cables are not updated when changing the load cable properties
 
-
-Finish excel export 
-	- cleanup notification
 
 
 Systems & SubSystems
@@ -30,12 +42,6 @@ Systems & SubSystems
 
 Component type selection
 	- add typelist to components (will need separate classes for each component type)
-
-
-Library Editor
-	- Add / Modify Control Station Types
-	- Add / Modify Cable Types
-	- 
 
 
 

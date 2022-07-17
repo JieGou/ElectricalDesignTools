@@ -12,16 +12,16 @@ using System.Linq;
 
 namespace EDTLibrary.LibraryData
 {
-    public static class LibraryManager {
+    public static class DataTableManager {
 
         public static ObservableCollection<CecCableAmpacityModel> CecCableAmpacities { get; set; }
 
 
         public static double GetMotorEfficiency(ILoad load) {
             double result = GlobalConfig.NoValueDouble;
-            if (LibraryTables.Motors != null) {
+            if (DataTables.Motors != null) {
 
-                DataTable dt = LibraryTables.Motors.Copy();
+                DataTable dt = DataTables.Motors.Copy();
                 DataTable dtFiltered;
 
                 var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.Voltage
@@ -40,9 +40,9 @@ namespace EDTLibrary.LibraryData
         }
         public static double GetMotorPowerFactor(ILoad load) {
             double result = GlobalConfig.NoValueDouble;
-            if (LibraryTables.Motors != null) {
+            if (DataTables.Motors != null) {
 
-                DataTable dt = LibraryTables.Motors.Copy();
+                DataTable dt = DataTables.Motors.Copy();
                 DataTable dtFiltered;
 
                 var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.Voltage
@@ -61,8 +61,8 @@ namespace EDTLibrary.LibraryData
         }
         public static double GetBreakerFrame(IPowerConsumer load) {
             double result = GlobalConfig.NoValueDouble;
-            if (LibraryTables.BreakerSizes != null) {
-                DataTable dt = LibraryTables.BreakerSizes.Copy();
+            if (DataTables.BreakerSizes != null) {
+                DataTable dt = DataTables.BreakerSizes.Copy();
                 DataTable dtFiltered;
 
                 var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)load.Fla);
@@ -82,9 +82,9 @@ namespace EDTLibrary.LibraryData
         }
         public static double GetBreakerTrip(IPowerConsumer load) {
             double result = GlobalConfig.NoValueDouble;
-            if (LibraryTables.BreakerSizes != null) {
+            if (DataTables.BreakerSizes != null) {
 
-                DataTable dt = LibraryTables.BreakerSizes.Copy();
+                DataTable dt = DataTables.BreakerSizes.Copy();
                 DataTable dtFiltered;
 
                 var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("TripAmps") >= (int)load.Fla);
@@ -106,8 +106,8 @@ namespace EDTLibrary.LibraryData
         public static double GetMcpFrame(IPowerConsumer load)
         {
             double result = GlobalConfig.NoValueDouble;
-            if (LibraryTables.MCPs != null) {
-                DataTable dt = LibraryTables.MCPs.Copy();
+            if (DataTables.MCPs != null) {
+                DataTable dt = DataTables.MCPs.Copy();
                 DataTable dtFiltered;
 
                 var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.Voltage
@@ -125,8 +125,8 @@ namespace EDTLibrary.LibraryData
         public static double GetStarterSize(IPowerConsumer load)
         {
             double result = GlobalConfig.NoValueDouble;
-            if (LibraryTables.Starters != null) {
-                DataTable dt = LibraryTables.Starters.Copy();
+            if (DataTables.Starters != null) {
+                DataTable dt = DataTables.Starters.Copy();
                 DataTable dtFiltered;
 
                 var filteredRows = dt.AsEnumerable().Where(x => x.Field<string>("Unit") == load.Unit
@@ -146,9 +146,9 @@ namespace EDTLibrary.LibraryData
         {
             double result = GlobalConfig.NoValueDouble;
             try {
-                if (LibraryTables.VoltageTypes != null) {
+                if (DataTables.VoltageTypes != null) {
 
-                    DataTable dt = LibraryTables.VoltageTypes.Select($"CableVoltageClass >= {voltage}").CopyToDataTable();
+                    DataTable dt = DataTables.VoltageTypes.Select($"CableVoltageClass >= {voltage}").CopyToDataTable();
                     dt = dt.Select($"CableVoltageClass = MIN(CableVoltageClass)").CopyToDataTable();
                     result = Double.Parse(dt.Rows[0]["CableVoltageClass"].ToString());
                 }
@@ -166,9 +166,9 @@ namespace EDTLibrary.LibraryData
             //Debug.WriteLine("LibraryManager_GetCableDerating_CecTable5A");
 
             double result = .99999;
-            if (LibraryTables.Motors != null) {
+            if (DataTables.Motors != null) {
 
-                DataTable dt = LibraryTables.CEC_Table5A.Copy();
+                DataTable dt = DataTables.CEC_Table5A.Copy();
                 DataTable dtFiltered;
 
                 var filteredRows = dt.AsEnumerable().Where(x => x.Field<long>("AmbientTemp") == (long)ambientTemp);
@@ -190,9 +190,9 @@ namespace EDTLibrary.LibraryData
         {
 
             double result = .99999;
-            if (LibraryTables.Motors != null) {
+            if (DataTables.Motors != null) {
 
-                DataTable dt = LibraryTables.DisconnectSizes.Copy();
+                DataTable dt = DataTables.DisconnectSizes.Copy();
                 DataTable dtFiltered;
 
                 IEnumerable<DataRow> filteredRows;

@@ -557,8 +557,8 @@ namespace EDTLibrary.Models.Loads
                 PowerFactor = GlobalConfig.DefaultTransformerPowerFactor;
             }
             else if (Type == LoadTypes.MOTOR.ToString()) {
-                _efficiency = LibraryManager.GetMotorEfficiency(this);
-                PowerFactor = LibraryManager.GetMotorPowerFactor(this);
+                _efficiency = DataTableManager.GetMotorEfficiency(this);
+                PowerFactor = DataTableManager.GetMotorPowerFactor(this);
             }
             else if (Type == LoadTypes.PANEL.ToString()) {
                 _efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Panel);

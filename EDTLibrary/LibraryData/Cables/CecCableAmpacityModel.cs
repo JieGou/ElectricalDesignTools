@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.LibraryData.Cables
 {
+    /// <summary>
+    /// CecCableAmpacityTable from Library Db
+    /// </summary>
     public class CecCableAmpacityModel
     {
         public int Id { get; set; }

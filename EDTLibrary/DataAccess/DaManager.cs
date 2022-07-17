@@ -38,7 +38,7 @@ public class DaManager {
 
     public static bool GetLibraryTables()
     {
-        Type libraryTablesClass = typeof(LibraryTables); // MyClass is static class with static properties
+        Type libraryTablesClass = typeof(DataTables); // MyClass is static class with static properties
         DataTable dt = new DataTable();
         foreach (var prop in libraryTablesClass.GetProperties()) {
             prop.SetValue(dt, libDb.GetDataTable(prop.Name));

@@ -295,7 +295,7 @@ namespace EDTLibrary.Models.Cables
             double derating = 1;
             int deratingTemp;
             deratingTemp = GetDeratingTemp(ambientTemp);
-            derating = LibraryManager.GetCableDerating_CecTable5A(cable, deratingTemp);
+            derating = DataTableManager.GetCableDerating_CecTable5A(cable, deratingTemp);
 
             return derating;
         }

@@ -31,18 +31,18 @@ public class LoadManager
         if (load.PdType.Contains("MCP") ||
             load.PdType.Contains("FVNR") ||
             load.PdType.Contains("FVR")) {
-            load.PdSizeFrame = LibraryManager.GetMcpFrame(load);
-            load.PdSizeTrip = LibraryManager.GetBreakerTrip(load);
+            load.PdSizeFrame = DataTableManager.GetMcpFrame(load);
+            load.PdSizeTrip = DataTableManager.GetBreakerTrip(load);
             load.StarterType = load.PdType;
-            load.StarterSize = LibraryManager.GetStarterSize(load);
+            load.StarterSize = DataTableManager.GetStarterSize(load);
             //load.PdSizeTrip = Math.Min(load.Fla * 1.25, load.PdSizeFrame);
             //load.PdSizeTrip = Math.Round(load.PdSizeTrip, 0);
         }
         else if (load.PdType == "BKR" ||
                  load.PdType == "VFD" || load.PdType == "VSD" ||
                  load.PdType == "RVS") {
-            load.PdSizeFrame = LibraryManager.GetBreakerFrame(load);
-            load.PdSizeTrip = LibraryManager.GetBreakerTrip(load);
+            load.PdSizeFrame = DataTableManager.GetBreakerFrame(load);
+            load.PdSizeTrip = DataTableManager.GetBreakerTrip(load);
         }
     }
 
