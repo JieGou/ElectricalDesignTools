@@ -39,9 +39,9 @@ namespace EDTLibrary.Models.Cables
         string InstallationDiagram { get; set; }
         ICableUser Load { get; set; }
 
-        bool SizeIsValid { get; set; }
+        bool IsValidSize { get; set; }
 
-
+        bool Is1C { get; set; }
 
 
         public double HeatLoss { get; set; }

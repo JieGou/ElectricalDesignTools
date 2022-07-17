@@ -37,7 +37,7 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition MaxWidth="10"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
@@ -48,40 +48,7 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Area"
-                   Grid.Row="0" Grid.Column="0"
-                   Margin="78 5 0 0"/>
-        <ComboBox Grid.Row="0" Grid.Column="2" Margin="0 5 7 0 "
-                  Template="{DynamicResource ComboBoxBase}"
-                  MinWidth="115" HorizontalAlignment="Right"
-                  ItemsSource="{Binding Path=DataContext.ListManager.AreaList, 
-                                        RelativeSource={RelativeSource Mode=FindAncestor, 
-                                        AncestorType={x:Type UserControl},AncestorLevel=2}}"
-                  SelectedItem="{Binding Area, StringFormat={}{0} }" 
-                  IsSynchronizedWithCurrentItem="True" 
-                  ToolTip="{StaticResource enclosureMessage}">
-            <ComboBox.ItemTemplateSelector>
-                <templateSelectors:ComboBoxItemTemplateSelector>
-                    <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Tag}" FontWeight="Bold" Width="50"/>
-                                <TextBlock Text="{Binding Name}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                    <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Tag}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                </templateSelectors:ComboBoxItemTemplateSelector>
-            </ComboBox.ItemTemplateSelector>
-
-
-        </ComboBox>
+        
 
         <GroupBox Header="Enclosure Details" FontWeight="Bold"
                   Style="{DynamicResource GroupBoxStyle1}" 
@@ -94,20 +61,55 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
+                <TextBlock Text="Area"
+                   Grid.Row="0" Grid.Column="0"
+                   Margin="78 5 0 0"/>
+                <ComboBox Grid.Row="0" Grid.Column="2" Margin="0 5 7 0 "
+                  Template="{DynamicResource ComboBoxBase}"
+                  MinWidth="115" HorizontalAlignment="Right"
+                  ItemsSource="{Binding Path=DataContext.ListManager.AreaList, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, 
+                                        AncestorType={x:Type UserControl},AncestorLevel=2}}"
+                  SelectedItem="{Binding Area, StringFormat={}{0} }" 
+                  IsSynchronizedWithCurrentItem="True" 
+                  ToolTip="{StaticResource enclosureMessage}">
+                    <ComboBox.ItemTemplateSelector>
+                        <templateSelectors:ComboBoxItemTemplateSelector>
+                            <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Tag}" FontWeight="Bold" Width="50"/>
+                                        <TextBlock Text="{Binding Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                            <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Tag}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                        </templateSelectors:ComboBoxItemTemplateSelector>
+                    </ComboBox.ItemTemplateSelector>
+
+
+                </ComboBox>
 
                 <TextBlock Text="NEMA Rating"
-                           Grid.Row="0" Grid.Column="0" 
+                           Grid.Row="1" Grid.Column="0" 
                            FontWeight="Normal"
                            Margin="0 5 0 0"
                            MinWidth="95"
                            TextAlignment="Right"/>
                 <ComboBox x:Name="cbxNemaRatings" 
                           Template="{DynamicResource ComboBoxBase}" 
-                          Grid.Row="0" Grid.Column="2"
+                          Grid.Row="1" Grid.Column="2"
                           MinWidth="115"
                           ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, 
                                               RelativeSource={RelativeSource Mode=FindAncestor, 
@@ -122,11 +124,11 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
 
 
                 <TextBlock Text="Area Classification"
-                           Grid.Row="1" Grid.Column="0" FontWeight="Normal"/>
+                           Grid.Row="2" Grid.Column="0" FontWeight="Normal"/>
 
                 <ComboBox x:Name="cbxAreaClassifications" 
                           Template="{DynamicResource ComboBoxBase}" 
-                          Grid.Row="1" Grid.Column="2"
+                          Grid.Row="2" Grid.Column="2"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type Window}}}"
@@ -138,8 +140,8 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                           ToolTip="{StaticResource enclosureMessage}"/>
             </Grid>
         </GroupBox>
-        
-        
+
+
     </Grid>
 
 </UserControl>

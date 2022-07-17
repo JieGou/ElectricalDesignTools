@@ -9,6 +9,8 @@ using WpfUI.ViewModels;
 using Syncfusion.Windows.Tools.Controls;
 using System.Windows.Interop;
 using WpfUI.ViewModels.Cables;
+using WpfUI.ViewModels.Areas_and_Systems;
+using WpfUI.ViewModels.Electrical;
 
 namespace WpfUI;
 
@@ -65,24 +67,27 @@ public partial class MainWindow : Window
     private void AreaMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
-            mainVm.NewWindow(new AreasMenuViewModel(mainVm, mainVm._listManager));
+            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService, mainVm.ListManager, mainVm.TypeManager, mainVm.EdtSettings, "ExtraWindow");
+            mainVm.NewWindow(new AreasMenuViewModel(newMainVm, mainVm._listManager), new AreasViewModel(mainVm._listManager));
+        }
+    }
+    private void ElectricalMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.MiddleButton == MouseButtonState.Pressed) {
+            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService,mainVm.ListManager,mainVm.TypeManager, mainVm.EdtSettings,"ExtraWindow");
+            mainVm.NewWindow(new ElectricalMenuViewModel(newMainVm, mainVm._listManager), new MjeqViewModel(mainVm._listManager));
         }
     }
 
     private void CableMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
-            mainVm.NewWindow(new CableListViewModel(mainVm._listManager));
+            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService, mainVm.ListManager, mainVm.TypeManager, mainVm.EdtSettings, "ExtraWindow");
+            mainVm.NewWindow(new CableMenuViewModel(newMainVm, mainVm._listManager), new CableListViewModel(mainVm._listManager));
         }
     }
 
-    private void ElectricalMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        if (e.MiddleButton == MouseButtonState.Pressed) {
-            mainVm.NewWindow(new ElectricalMenuViewModel(mainVm, mainVm._listManager));
-        }
-    }
-
+    
     private void _ribbon_SelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         //if (mainVm != null) {

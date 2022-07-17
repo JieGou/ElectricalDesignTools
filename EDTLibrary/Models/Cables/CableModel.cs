@@ -15,7 +15,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Cables;
 
@@ -82,6 +84,7 @@ public class CableModel : ICable
                 TypeModel = TypeManager.GetCableTypeModel(_type);
                 TypeModel = TypeManager.GetCableTypeModel(_type);
             }
+            
 
         }
 
@@ -100,13 +103,16 @@ public class CableModel : ICable
             var oldValue = _typeModel;
             _typeModel = value;
             _type = _typeModel.Type;
+
+            Is1C = _type.Contains("1C") ? true : false;
+
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(TypeModel), OldValue = oldValue, NewValue = _typeModel };
                 Undo.AddUndoCommand(cmd);
             }
             if (GlobalConfig.GettingRecords == false) {
                 if (UsageType==CableUsageTypes.Power.ToString()) {
-                    AutoSize();
+                    AutoSizeAsync();
                 }
                 if (CableManager.IsUpdatingPowerCables == false) {
                     CableManager.UpdateLoadPowerComponentCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
@@ -174,7 +180,8 @@ public class CableModel : ICable
             OnPropertyUpdated();
         }
     }
-    public bool SizeIsValid { get; set; }
+    public bool IsValidSize { get; set; }
+    public bool Is1C { get; set; }
 
     public double BaseAmps { get; set; }
 
@@ -382,7 +389,8 @@ public class CableModel : ICable
     }
     public double GetRequiredAmps(ICableUser load)
     {
-        
+        if (load == null) return 0.1111;
+
         RequiredAmps = load.Fla;
         if (load.Type == LoadTypes.MOTOR.ToString() || load.Type == LoadTypes.TRANSFORMER.ToString()) {
             RequiredAmps *= 1.25;
@@ -429,9 +437,10 @@ public class CableModel : ICable
     //Qty Size
 
     string ampsColumn = "Amps75";
+
     public void AutoSize()
     {
-        Undo.Undoing=true; 
+        Undo.Undoing = true;
         //_calculating = true;
         RequiredSizingAmps = GetRequiredSizingAmps();
         AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
@@ -449,9 +458,14 @@ public class CableModel : ICable
         }
         CalculateAmpacity(Load);
         OnPropertyUpdated();
-        Undo.Undoing = false; 
+        Undo.Undoing = false;
         //_calculating = false;
-
+    }
+    public async Task AutoSizeAsync()
+    {
+        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            AutoSize();
+        }));
     }
 
     //Qty Size
@@ -621,7 +635,7 @@ public class CableModel : ICable
     public string CalculateAmpacity(ICableUser load)
     {
         _calculating = true;
-        SizeIsValid = true;
+        IsValidSize = true;
         Load = load;
         string ampsColumn = "Amps75";
         RequiredSizingAmps = GetRequiredSizingAmps();
@@ -639,7 +653,7 @@ public class CableModel : ICable
             output = "CalculateAmpacity_DirectBuriedOrRaceWayConduit";
         }
         if (RequiredAmps > DeratedAmps) {
-            SizeIsValid = false;
+            IsValidSize = false;
             SetCablInvalid(this);
         }
         OnPropertyUpdated();
@@ -667,7 +681,7 @@ public class CableModel : ICable
             cable.DeratedAmps = Math.Round(cable.DeratedAmps, GlobalConfig.SigFigs);
         }
         catch {
-            SizeIsValid = false;
+            IsValidSize = false;
             SetCablInvalid(this);
         }
     }
@@ -697,14 +711,14 @@ public class CableModel : ICable
 
         }
         catch {
-            SizeIsValid = false;
+            IsValidSize = false;
             SetCablInvalid(this);
         }
     }
 
     private void SetCablInvalid(ICable cable)
     {
-        cable.SizeIsValid = false;
+        cable.IsValidSize = false;
         //cable.Size = "n/a";
         //cable.BaseAmps = 0;
         //cable.DeratedAmps = 0;

@@ -12,6 +12,7 @@ namespace WpfUI.ViewModels {
 
     public class ViewModelBase : INotifyPropertyChanged, INotifyDataErrorInfo
     {
+        public MainViewModel MainViewModel { get; set; }
         public ViewModelBase CurrentViewModel { get; set; }
         public event PropertyChangedEventHandler? PropertyChanged;
 

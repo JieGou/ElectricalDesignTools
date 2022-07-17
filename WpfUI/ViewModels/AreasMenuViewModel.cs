@@ -28,10 +28,17 @@ namespace WpfUI.ViewModels
         public ObservableCollection<AreaClassificationType> AreaClassificationsInfoTableItems { get; set; } = new ObservableCollection<AreaClassificationType>();
 
 
-        private ListManager _listManager;
-        private MainViewModel _mainViewModel;
         private AreasViewModel _areasViewModel;
 
+        
+        private MainViewModel _mainViewModel;
+        public MainViewModel MainViewModel
+        {
+            get { return _mainViewModel; }
+            set { _mainViewModel = value; }
+        }
+
+        private ListManager _listManager;
         public ListManager ListManager
         {
             get { return _listManager; }

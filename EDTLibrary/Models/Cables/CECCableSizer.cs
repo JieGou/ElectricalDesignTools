@@ -400,6 +400,7 @@ namespace EDTLibrary.Models.Cables
                 derating = 1;
             }
 
+            //Get's derating from Supply equipment
             double loadCableDerating = cable.Load.FedFrom.LoadCableDerating;
             if (loadCableDerating != 0 &&
                 loadCableDerating < derating) {

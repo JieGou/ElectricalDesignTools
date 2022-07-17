@@ -11,13 +11,18 @@ namespace WpfUI.ViewModels;
 [AddINotifyPropertyChangedInterface]
 public class CableMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 {
-
-    #region Constructor
-    private ListManager _listManager;
-    private MainViewModel _mainViewModel;
     private CableListViewModel _cableListViewModel;
     private TraySizerViewModel _traySizerViewModel;
 
+    #region Constructor
+    private MainViewModel _mainViewModel;
+    public MainViewModel MainViewModel
+    {
+        get { return _mainViewModel; }
+        set { _mainViewModel = value; }
+    }
+
+    private ListManager _listManager;
     public ListManager ListManager
     {
         get { return _listManager; }
@@ -52,7 +57,7 @@ public class CableMenuViewModel : ViewModelBase, INotifyDataErrorInfo
     private void NavigateCableList()
     {
         CurrentViewModel = _cableListViewModel;
-        _mainViewModel.CurrentViewModel = CurrentViewModel;
+        MainViewModel.CurrentViewModel = CurrentViewModel;
        
     }
 

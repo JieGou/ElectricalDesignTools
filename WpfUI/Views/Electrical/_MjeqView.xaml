@@ -81,7 +81,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="300" MinHeight="290"/>
+                <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="300" MinHeight="300"/>
                 <RowDefinition Height="{Binding LoadGridTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="125" />
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -1568,7 +1568,8 @@
                         <DataGridTemplateColumn Header="Eff"
                                                 MinWidth="50"
                                                 Width="50"
-                                                IsReadOnly="True">
+                                                IsReadOnly="True"
+                                                >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

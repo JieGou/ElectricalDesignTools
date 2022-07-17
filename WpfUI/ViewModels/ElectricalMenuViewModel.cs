@@ -32,7 +32,13 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
     #region Constructor
     private DteqFactory _dteqFactory;
-    private readonly MainViewModel _mainViewModel;
+
+    private MainViewModel _mainViewModel;
+    public MainViewModel MainViewModel
+    {
+        get { return _mainViewModel; }
+        set { _mainViewModel = value; }
+    }
     private ListManager _listManager;
     public ListManager ListManager
     {

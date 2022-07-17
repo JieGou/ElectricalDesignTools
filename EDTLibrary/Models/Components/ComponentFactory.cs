@@ -67,26 +67,6 @@ public class ComponentFactory
         componentUser.CctComponents = new ObservableCollection<IComponent>(componentUser.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
 
 
-        // Order of components OLD
-
-        //if (newComponent.SubCategory == SubCategories.CctComponent.ToString()) {
-        //    var defaultDcn = componentUser.CctComponents.FirstOrDefault(c => c.SubType == ComponentSubTypes.DefaultDcn.ToString());
-
-        //    if (newComponent.SubType != ComponentSubTypes.DefaultDcn.ToString() && defaultDcn != null) {
-        //        componentUser.CctComponents.Insert(componentUser.CctComponents.Count - 1, newComponent);
-        //    }
-        //    else if (newComponent.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
-        //        componentUser.CctComponents.Add(newComponent);
-        //    }
-        //    else {
-        //        componentUser.CctComponents.Add(newComponent);
-        //    }
-        //    componentUser.CctComponents.Add(newComponent);
-        //    componentUser.CctComponents = new ObservableCollection<IComponent>(componentUser.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
-        //}
-
-
-
         listManager.CompList.Add(newComponent);
         DaManager.UpsertComponent((ComponentModel)newComponent);
         newComponent.PropertyUpdated += DaManager.OnComponentPropertyUpdated;

@@ -133,7 +133,7 @@
                             <subViews:SwgDetailsView/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDteqModels:MccModel}">
-                            <subViews:MccDetailsView/>
+                            <mjeqSubViews:MccGraphicView/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>

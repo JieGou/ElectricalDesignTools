@@ -130,17 +130,33 @@
             <TextBlock Text="Cable Qty: " Grid.Row="4" Grid.Column="0"/>
             <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="2" >
 
+                <!--Qty Parallel-->
                 <TextBox Text="{Binding PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
-                         Grid.Row="4" Grid.Column="2"
-                         FontWeight="Bold" Width="30" Background="White" 
-                         TextAlignment="Left" HorizontalAlignment="Left"
+                         Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1" 
+                         FontWeight="Bold" Width="50" Background="White" 
+                         TextAlignment="Center" HorizontalAlignment="Left"
                          BorderThickness="0.5"
                          d:Text="2"/>
+                
+                <!--Per phase Label-->
                 <TextBlock  x:Name="txtPerPhase" 
-                            Visibility="{Binding DataContext.PerPhaseLabelDteq,
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"
-                            Text=" (/ph)" Grid.Row="4" Grid.Column="1"/>
+                            Margin="0 5"
+                            Text=" /ph" Grid.Row="4" Grid.Column="1"
+                            FontWeight="SemiBold">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding PowerCable.Is1C}" Value="False">
+                                    <Setter Property="Foreground" Value="Transparent"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding PowerCable.Is1C}" Value="True">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
             </StackPanel>
 
 
@@ -172,7 +188,7 @@
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding PowerCable.SizeIsValid}" Value="False">
+                            <DataTrigger Binding="{Binding PowerCable.IsValidSize}" Value="False">
                                 <Setter Property="Foreground" Value="#FFD40000"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -260,7 +276,7 @@
                    Grid.Row="1"
                    Margin="0 -2 0 1"
                    Foreground="#FFD40000"
-                   Visibility="{Binding PowerCable.SizeIsValid, Converter={StaticResource _boolToVis}, ConverterParameter=Inverted}"/>
+                   Visibility="{Binding PowerCable.IsValidSize, Converter={StaticResource _boolToVis}, ConverterParameter=Inverted}"/>
         <!--BUTTONS-->
         <StackPanel Orientation="Horizontal" 
                     Grid.Row="2" Grid.ColumnSpan="3" Margin="0,0,0,0">

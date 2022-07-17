@@ -212,7 +212,7 @@ public class CableManager
         cable.Destination = lcs.Tag;
         cable.Tag = GetCableTag(cable.Source, cable.Destination);
 
-        cable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
+        cable.Id = listManager.CableList.Max(c => c.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
 
         cable.OwnerId = lcs.Id;
         cable.OwnerType = typeof(LocalControlStationModel).ToString();

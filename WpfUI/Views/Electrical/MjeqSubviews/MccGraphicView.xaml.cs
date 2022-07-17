@@ -13,16 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.SubViews
+namespace WpfUI.Views.Electrical.MjeqSubviews;
+/// <summary>
+/// Interaction logic for MccGraphicView.xaml
+/// </summary>
+public partial class MccGraphicView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for TransformerDetailsView.xaml
-    /// </summary>
-    public partial class MccDetailsView : UserControl
+    public MccGraphicView()
     {
-        public MccDetailsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

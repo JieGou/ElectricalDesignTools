@@ -13,13 +13,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.Electrical.MjeqSubViews;
+namespace WpfUI.Views.Electrical.MjeqSubviews;
 /// <summary>
-/// Interaction logic for SwgDetailsView.xaml
+/// Interaction logic for MccDetailsView.xaml
 /// </summary>
-public partial class LoadSummaryDetailsView : UserControl
+public partial class MccDetailsView : UserControl
 {
-    public LoadSummaryDetailsView()
+    public MccDetailsView()
     {
         InitializeComponent();
     }

@@ -16,12 +16,17 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using WpfUI.Commands;
+using WpfUI.Helpers;
 using WpfUI.PopupWindows;
 using WpfUI.Services;
 using WpfUI.ViewModels.Cables;
@@ -104,7 +109,7 @@ namespace WpfUI.ViewModels
         public readonly ElectricalMenuViewModel _electricalMenuViewModel;
         public readonly MjeqViewModel _mjeqViewModel;
 
-
+        //Cables
         public readonly CableMenuViewModel _cableMenuViewModel;
         public readonly CableListViewModel _cableListViewModel;
 
@@ -125,9 +130,9 @@ namespace WpfUI.ViewModels
             _edtSettings = edtSettings;
 
             _homeViewModel = new HomeViewModel(this, startupService, listManager);
-            _settingsMenuViewModel = new SettingsMenuViewModel(this, edtSettings, typeManager);
-
             CurrentViewModel = _homeViewModel;
+
+            _settingsMenuViewModel = new SettingsMenuViewModel(this, edtSettings, typeManager);
 
             //Areas & Systems
             _areasMenuViewModel = new AreasMenuViewModel(this, listManager);
@@ -175,12 +180,6 @@ namespace WpfUI.ViewModels
 
             //_startupService.ProjectLoaded += _electricalViewModel.OnProjectLoaded;
         }
-
-
-
-
-
-
 
         private void StartCloseTimer()
         {
@@ -248,7 +247,7 @@ namespace WpfUI.ViewModels
                     excel.SaveWorkbook();
                     excel.SetVisibility(true);
                     excel.Release();
-                    Application.Current.Dispatcher.Invoke(NotificationPopup.Close);
+                    System.Windows.Application.Current.Dispatcher.Invoke(NotificationPopup.Close);
                 }
                 catch (Exception) {
 
@@ -306,8 +305,6 @@ namespace WpfUI.ViewModels
             _settingsMenuViewModel.SelectedSettingView = new CableSettingsView();
         }
 
-
-
         private void NavigateAreasSystems()
         {
             MenuViewModel = _areasMenuViewModel;
@@ -349,45 +346,67 @@ namespace WpfUI.ViewModels
 
 
         //NEW WINDOW
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetActiveWindow();
         public void NewWindow()
         {
-            ListManager listManager = new ListManager();
-            StartupService startupService = new StartupService(listManager);
+            IntPtr active = GetActiveWindow();
+            Window activeWindow = System.Windows.Application.Current.Windows.OfType<Window>()
+                .SingleOrDefault(window => new WindowInteropHelper(window).Handle == active);
+
+            WindowHelper.SnapWindow(activeWindow, true);
+
             TypeManager typeManager = new TypeManager();
 
-            Window window = new MainWindow() {
+            Window newWindow = new MainWindow() {
                 //DataContext = new MainViewModel(startupService, listManager)
                 DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings, "ExtraWindow")
                 
             };
-            
-            window.Show();
-            var newMainVm = (MainViewModel)window.DataContext;
+
+            var newMainVm = (MainViewModel)newWindow.DataContext;
             newMainVm.MenuViewModel = MenuViewModel;
-            newMainVm.CurrentViewModel = CurrentViewModel;
+            newMainVm.CurrentViewModel = null;
+            newWindow.Show();
+            WindowHelper.SnapWindow(newWindow, false);
+
         }
 
-        internal void NewWindow(ViewModelBase CurrentVm)
+
+
+
+        internal void NewWindow(ViewModelBase menuToSet, ViewModelBase viewModelToSet)
         {
-            ListManager listManager = new ListManager();
-            StartupService startupService = new StartupService(listManager);
+            IntPtr active = GetActiveWindow();
+            Window activeWindow = System.Windows.Application.Current.Windows.OfType<Window>()
+                .SingleOrDefault(window => new WindowInteropHelper(window).Handle == active);
+
+            WindowHelper.SnapWindow(activeWindow, true);
+
             TypeManager typeManager = new TypeManager();
 
-            Window window = new MainWindow() {
+            Window newWindow = new MainWindow() {
 
                 //DataContext = new MainViewModel(startupService, listManager)
                 DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings, "ExtraWindow")
 
             };
-            var newMainVm = (MainViewModel)window.DataContext;
-            newMainVm.MenuViewModel= MenuViewModel;
-            newMainVm.CurrentViewModel = CurrentVm;
-            window.Show();
-            
+
+            if (viewModelToSet.GetType().ToString().Contains("Mjeq")) {
+                viewModelToSet = new MjeqViewModel(_listManager);
+            }
+            var newMainVm = (MainViewModel)newWindow.DataContext;
+            menuToSet.MainViewModel = newMainVm;
+            newMainVm.MenuViewModel = menuToSet;
+            newMainVm.CurrentViewModel = viewModelToSet;
+            newWindow.Show();
+            WindowHelper.SnapWindow(newWindow, false);
+
         }
         #endregion
 
-       
+
         private void OnCurrentViewModelChanged() {
             OnPropertyChanged(nameof(CurrentViewModel));
         }
@@ -493,7 +512,7 @@ namespace WpfUI.ViewModels
 #endif
             }
             catch (Exception ex) {
-                MessageBox.Show("Public Key or License file is corrupt or has been modified." + "\n\n" + ex.Message, "EDT - License Validation Failure");
+                System.Windows.Forms.MessageBox.Show("Public Key or License file is corrupt or has been modified." + "\n\n" + ex.Message, "EDT - License Validation Failure");
             }
         }
 
