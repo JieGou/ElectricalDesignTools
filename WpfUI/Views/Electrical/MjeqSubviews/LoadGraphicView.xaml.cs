@@ -13,13 +13,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.SubViews;
+namespace WpfUI.Views.Electrical.MjeqSubviews;
 /// <summary>
-/// Interaction logic for CableView.xaml
+/// Interaction logic for LoadGraphicView.xaml
 /// </summary>
-public partial class CableSizingView : UserControl
+public partial class LoadGraphicView : UserControl
 {
-    public CableSizingView()
+    public LoadGraphicView()
     {
         InitializeComponent();
     }

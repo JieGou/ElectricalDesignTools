@@ -13,16 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.SubViews
+namespace WpfUI.Views.Electrical.MjeqSubviews;
+/// <summary>
+/// Interaction logic for ComponentDetailsView.xaml
+/// </summary>
+public partial class ComponentDetailsView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SwgDetailsView.xaml
-    /// </summary>
-    public partial class ComponentDetailsView : UserControl
+    public ComponentDetailsView()
     {
-        public ComponentDetailsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

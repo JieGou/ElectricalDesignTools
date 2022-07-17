@@ -1,5 +1,5 @@
 ﻿<UserControl x:Class="WpfUI.Views.Electrical.MjeqSubviews.DteqTabsView"
-             x:Name="dteqDetail"
+             x:Name="dteqTabs"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -21,7 +21,7 @@
             <BeginStoryboard>
                 <Storyboard>
                     <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                     Storyboard.TargetName="dteqDetail"
+                                     Storyboard.TargetName="dteqTabs"
                                 
                                 From="0.25" To="1" Duration="0:0:0.15"
                                      AccelerationRatio="1"
