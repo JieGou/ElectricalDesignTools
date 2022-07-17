@@ -438,11 +438,18 @@ public class CableModel : ICable
 
     string ampsColumn = "Amps75";
 
+    public async Task AutoSizeAsync()
+    {
+        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            AutoSize();
+        }));
+    }
     public void AutoSize()
     {
         Undo.Undoing = true;
         //_calculating = true;
         RequiredSizingAmps = GetRequiredSizingAmps();
+        Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
         AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
         InstallationDiagram = "";
 
@@ -461,12 +468,7 @@ public class CableModel : ICable
         Undo.Undoing = false;
         //_calculating = false;
     }
-    public async Task AutoSizeAsync()
-    {
-        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            AutoSize();
-        }));
-    }
+    
 
     //Qty Size
     private void GetCableQtySize_ForLadderTray(ICable cable, string ampsColumn)

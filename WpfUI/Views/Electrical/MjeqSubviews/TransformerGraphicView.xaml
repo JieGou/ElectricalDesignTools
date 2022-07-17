@@ -116,17 +116,18 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
 
                     <StackPanel Orientation="Vertical"
                                 Grid.Column="2"
-                                VerticalAlignment="Center">
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left">
 
-                        <StackPanel Orientation="Horizontal" Grid.Column="2" >
-                            <TextBlock Text="{Binding Size, StringFormat={}{0:N0} AT}" Margin="5 0 0 0"/>
-                            <TextBlock Text=" / "/>
-                            <TextBlock Text="{Binding Size, StringFormat={}{0:N0} AF}" />
-
+                        <StackPanel Orientation="Vertical" Grid.Column="2" HorizontalAlignment="Left" >
+                            <Border BorderBrush="Black" BorderThickness="0 0 0 1">
+                                <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" d:Text="70 A" />
+                            </Border>
+                            <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" d:Text="125 A"/>
                         </StackPanel>
-                        
-                        <StackPanel Orientation="Horizontal" >
-                            <TextBlock Text="{Binding NemaRating}" Margin="5 0 0 0"/>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding NemaRating}" Margin="0"/>
                             <TextBlock Text=", " />
                             <TextBlock Text="{Binding AreaClassification}" />
                         </StackPanel>
