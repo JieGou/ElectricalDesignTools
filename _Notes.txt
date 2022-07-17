@@ -1,5 +1,11 @@
 
-Autocad interop single line
+Autocad
+	- drawing list
+	- drawing list manager
+	- single line
+	- schematics
+	- wiring diagrams
+
 
 Dteq 
 	- Dteq as Load view
@@ -10,12 +16,9 @@ Power Cables
 	- 1ph cable quantities and totals
 	- Prompt to recalculate load cables when changing settings
 	- component cables are not updated when changing the load cable properties
-	- cable derating not updated when loads are added to supplier
-		- added default derating for DTEQ load cables
 
 
 Finish excel export 
-	- columns selection
 	- cleanup notification
 
 
@@ -29,12 +32,13 @@ Component type selection
 	- add typelist to components (will need separate classes for each component type)
 
 
+Library Editor
+	- Add / Modify Control Station Types
+	- Add / Modify Cable Types
+	- 
 
 
 
 ISSUES
 	- Component Toggle is triggering the UpdatePowerCables for Components Cables method
 	- Create Separate Components (dicsonnects, Drives, Etc) 
-
-	LoadGrid to CollectionListView (same as Dteq Grid)
-		- changed with no speed improvement. Suspect it's a numbers thing

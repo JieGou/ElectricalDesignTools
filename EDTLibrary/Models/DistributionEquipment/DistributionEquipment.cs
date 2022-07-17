@@ -460,7 +460,10 @@ namespace EDTLibrary.Models.DistributionEquipment
         //Todo - recalculate cables when changed
         public double LoadCableDerating { get => _loadCableDerating;
 
-            set { _loadCableDerating = value; 
+            set { _loadCableDerating = value;
+                foreach (var load in AssignedLoads) {
+                    load.PowerCable.AutoSizeAsync();
+                }
                     OnPropertyUpdated();
             }
         }
