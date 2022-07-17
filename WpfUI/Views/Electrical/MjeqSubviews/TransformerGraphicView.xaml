@@ -199,13 +199,14 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <!--Graphic-->
         <StackPanel Orientation="Vertical" Grid.Column="1"
-                    Margin="0 3 0 0">
+                    Margin="0 3 0 0" Grid.Row="1">
 
 
             <!--Cable-->
@@ -234,17 +235,20 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                                 Grid.Column="2"/>
             </Grid>-->
 
-            <!--Protection-->
+
+            <!--Protection Graphic-->
             <ContentControl Content="{Binding}" 
                             Style="{StaticResource OCPDTemplateStyle}"
-                            ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"/>
+                            ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
+                            Visibility="Collapsed"/>
 
-            <!--Transformer -->
+
+            <!--Transformer Graphic-->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="9.5"/>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="15"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
@@ -254,7 +258,7 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                
+
                 <!--Graphic-->
                 <Canvas Grid.Column="1" VerticalAlignment="Top"
                         Width="60" Height="65"
@@ -282,41 +286,62 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                 <Grid Grid.Column="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="5"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="0"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
+                    <!--Tag Column-->
                     <StackPanel Orientation="Vertical"
-                        Grid.Row="1">
-                        <TextBlock Text="{Binding Tag, StringFormat={}{0:N0} }" d:Text="XFR-01" FontWeight="Bold" HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding Size, StringFormat={}{0:N0} kVA}" d:Text="1,500 kVA" HorizontalAlignment="Right"/>
-
+                        Grid.Row="1" Grid.Column="0">
+                        <TextBlock Text="{Binding Tag, StringFormat={}{0:N0} }" d:Text="XFR-01" 
+                                   Margin="0 0 0 0"
+                                   FontWeight="Bold" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding Size, StringFormat={}{0:N0} kVA}" d:Text="1,500 kVA" HorizontalAlignment="Right"
+                                   Margin="0 0 0 5"/>
                         <Border BorderBrush="Black" BorderThickness="0 0 0 1">
                             <TextBlock Text="{Binding LineVoltage, StringFormat={}{0:N0} V}" d:Text="70 A" HorizontalAlignment="Right"/>
                         </Border>
                         <TextBlock Text="{Binding LoadVoltage, StringFormat={}{0:N0} V}" d:Text="125 A" HorizontalAlignment="Right"/>
-                       
+
+                    </StackPanel>
+
+                    <!--Imp Column-->
+                    <StackPanel Orientation="Vertical"
+                        Grid.Row="1" Grid.Column="3" Margin="5 25 0 0">
+                        <StackPanel Orientation="Horizontal"  >
+                            <TextBox Text="{Binding Impedance, Mode=TwoWay, UpdateSourceTrigger=Explicit}"
+                                     x:Name="txtImpedance"
+                                     Grid.Row="2" Grid.Column="2" MinWidth="30"
+                                     d:Text="7.5" TextAlignment="Right" VerticalAlignment="Top"
+                                     FontWeight="Bold" Margin="0" KeyDown="txtImpedance_KeyDown"  />
+                            <TextBlock Text=" %Z" Grid.Row="2" Grid.Column="0" />
+                        </StackPanel>
+
+                        <TextBlock Text="{Binding SCCR, StringFormat={}{0:N2} kA}"
+                                   Grid.Row="3" Grid.Column="2"
+                                   d:Text="57,276" TextAlignment="Right" />
                     </StackPanel>
                 </Grid>
-                
+
                 <!--Below Data-->
                 <Grid  Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4">
                     <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <!--Type-->
-                        <TextBlock Text="Type " Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
-                        <ComboBox Template="{DynamicResource ComboBoxBase}"
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--Type-->
+                    <TextBlock Text="Type " Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <ComboBox Template="{DynamicResource ComboBoxBase}"
                                 Grid.Row="0" Grid.Column="2" Width="60" HorizontalContentAlignment="Left"
                                 FontWeight="Bold" FontSize="12"
                                 ItemsSource="{Binding Path=DataContext.TypeManager.TransformerTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
@@ -327,9 +352,9 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                                 DisplayMemberPath="Type"
                                 Text="{Binding SubType}"  d:Text="100"
                                 IsEditable="False" VerticalAlignment="Center"/>
-                        <!--Grounding-->
-                        <TextBlock Text="Grounding " Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
-                        <ComboBox Template="{DynamicResource ComboBoxBase}"
+                    <!--Grounding-->
+                    <TextBlock Text="Grounding " Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"/>
+                    <ComboBox Template="{DynamicResource ComboBoxBase}"
                                 Grid.Row="1" Grid.Column="2" Width="60" HorizontalContentAlignment="Left"
                                 FontWeight="Bold" FontSize="12"
                                 ItemsSource="{Binding Path=DataContext.TypeManager.TransformerGroundingTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
@@ -345,10 +370,11 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
             </Grid>
         </StackPanel>
 
-        <!--Column 2-->
+
+        <!--Main Grid Column 2-->
         <GroupBox Header="Area Details" FontWeight="Bold"
                   Style="{DynamicResource GroupBoxStyle1}" 
-                  Grid.Row="0" Grid.Column="4" 
+                  Grid.Row="1" Grid.Column="4" 
                   HorizontalAlignment="Right"
                   VerticalAlignment="Top" Height="100" 
                   Margin="0 5 0 0" >

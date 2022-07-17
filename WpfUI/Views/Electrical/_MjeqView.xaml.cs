@@ -14,6 +14,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using WpfUI.Helpers;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
@@ -75,9 +76,9 @@ public partial class _MjeqView : UserControl
 
     private void dgdAssignedLoads_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        try {
-            if (e.Key == Key.Enter ||
-                            e.Key == Key.Tab) {
+        try { 
+            //explicit propertyChange for load size
+            if (e.Key == Key.Enter || e.Key == Key.Tab) {
                 //TODO - set specific column by header or name
                 DataGridTextColumn col = (DataGridTextColumn)loadSize;
                 ILoad item = (LoadModel)dgdAssignedLoads.SelectedItem;
@@ -317,15 +318,16 @@ public partial class _MjeqView : UserControl
         DeleteLoads_VM();
     }
 
-    private void DeleteLoads_VM()
+    private async Task DeleteLoads_VM()
     {
         try {
-
             ILoad load;
             while (dgdAssignedLoads.SelectedItems.Count > 0) {
-                load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
-                mjeqVm.DeleteLoad(load);
-                dgdAssignedLoads.SelectedItems.Remove(load);
+                await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                    load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
+                     mjeqVm.DeleteLoad(load);
+                    dgdAssignedLoads.SelectedItems.Remove(load);
+                }));
             }
         }
         catch (Exception ex) {
@@ -494,11 +496,15 @@ public partial class _MjeqView : UserControl
                             && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())
                             && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
                             && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
+                            && load.Voltage.ToString().Contains(txtLoadVoltageFilter.Text.ToLower())
+                            && load.Size.ToString().ToLower().Contains(txtLoadSizeFilter.Text.ToLower())
+                            && load.Unit.ToString().ToLower().Contains(txtLoadUnitFilter.Text.ToLower())
+                            && load.Type.ToString().ToLower().Contains(txtLoadTypeFilter.Text.ToLower())
                             ) {
                             mjeqVm.AssignedLoads.Add((IPowerConsumer)load);
                         }
                     }
-                    catch { }
+                    catch { } //for any empty strings
                 }
             }
         }

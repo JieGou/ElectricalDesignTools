@@ -137,7 +137,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                         Undo.AddUndoCommand(cmd);
                     }
 
-                    if (GlobalConfig.GettingRecords == false) {
+                    if (GlobalConfig.GettingRecords == false && PowerCable != null) {
                         PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
                         PowerCable.CalculateAmpacity(this);
                     }

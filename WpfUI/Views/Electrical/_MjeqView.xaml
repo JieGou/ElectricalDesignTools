@@ -1363,6 +1363,9 @@
                         <!--Area-->
                         <DataGridTemplateColumn x:Name="loadArea"
                                                 MinWidth="75"
+                                                CanUserSort="True"
+                                                CanUserReorder="True"
+                                                SortMemberPath="Area.Tag"
                                                 HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}"
                                                 Width="60">
 
@@ -1487,7 +1490,32 @@
                         </DataGridTemplateColumn>
 
                         <!--Voltage-->
-                        <DataGridTemplateColumn Header=" Voltage ">
+                        <DataGridTemplateColumn CanUserReorder="True"
+                                                CanUserSort="True"
+                                                SortMemberPath="Voltage"
+                                                MinWidth="55"
+                                                HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}">
+                            <DataGridTemplateColumn.Header>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Voltage" 
+                                               Grid.Row="0" Grid.ColumnSpan="2"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadVoltageFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+                                </Grid>
+                                
+                            </DataGridTemplateColumn.Header>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Voltage, ValidatesOnDataErrors=True}"
@@ -1516,11 +1544,34 @@
                         </DataGridTemplateColumn>
 
                         <!--Size-->
-                        <DataGridTextColumn Header=" Size " x:Name="loadSize"
-                                MinWidth="50"
-                                Width="50"
-                                Binding="{Binding Path=Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" 
+                        <DataGridTextColumn x:Name="loadSize"
+                                            CanUserReorder="True"
+                                            CanUserSort="True"
+                                            SortMemberPath="Size"
+                                            HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}"
+                                            Binding="{Binding Path=Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" 
                                             >
+                            <DataGridTextColumn.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Size"
+                                                    Grid.Row="0" Grid.ColumnSpan="2"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadSizeFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+
+                                </Grid>
+                            </DataGridTextColumn.Header>
+                            
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Right" />
@@ -1530,10 +1581,30 @@
                         </DataGridTextColumn>
 
                         <!--Unit-->
-                        <DataGridTextColumn Header=" Unit "
-                                            MinWidth="40"
+                        <DataGridTextColumn MinWidth="40"
                                             Binding="{Binding Unit, ValidatesOnDataErrors=True}"
+                                            HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}"
                                             IsReadOnly="True">
+                            <DataGridTextColumn.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Unit"
+                                                    Grid.Row="0" Grid.ColumnSpan="2"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadUnitFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+
+                                </Grid>
+                            </DataGridTextColumn.Header>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Left" />
@@ -1543,10 +1614,31 @@
                         </DataGridTextColumn>
 
                         <!--Type-->
-                        <DataGridTextColumn Header="EQ Type" x:Name="loadType"
+                        <DataGridTextColumn x:Name="loadType"
                                             MinWidth="75"
                                             Binding="{Binding Type, ValidatesOnDataErrors=True}"
+                                            HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}"
                                             IsReadOnly="True">
+                            <DataGridTextColumn.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Load Type"
+                                                    Grid.Row="0" Grid.ColumnSpan="2"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadTypeFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+
+                                </Grid>
+                            </DataGridTextColumn.Header>
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Left" />
@@ -1569,6 +1661,7 @@
                                                 MinWidth="50"
                                                 Width="50"
                                                 IsReadOnly="True"
+                                                SortMemberPath="Efficiency"
                                                 >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

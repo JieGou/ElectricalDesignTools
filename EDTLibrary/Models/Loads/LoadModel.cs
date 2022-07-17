@@ -131,7 +131,7 @@ namespace EDTLibrary.Models.Loads
                         Undo.AddUndoCommand(cmd);
                     }
 
-                    if (GlobalConfig.GettingRecords == false) {
+                    if (GlobalConfig.GettingRecords == false && PowerCable != null && FedFrom != null) {
                         PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
                         PowerCable.CalculateAmpacity(this);
                     }
