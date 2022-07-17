@@ -124,10 +124,10 @@
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type edtDteqModels:DteqModel}">
-                            <subViews:TransformerDetailsView/>
+                            <mjeqSubViews:TransformerGraphicView/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
-                            <subViews:TransformerDetailsView/>
+                            <mjeqSubViews:TransformerGraphicView/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
                             <subViews:SwgDetailsView/>

@@ -13,6 +13,7 @@ namespace WpfUI.TemplateSelectors;
 public class DteqOCPDTemplateSelector : DataTemplateSelector
 {
     public DataTemplate BreakerTemplate { get; set; }
+    public DataTemplate FdsTemplate { get; set; }
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
         var selectedTemplate = BreakerTemplate;
@@ -22,6 +23,11 @@ public class DteqOCPDTemplateSelector : DataTemplateSelector
         if (dteq.PdType == "BKR") {
 
             selectedTemplate = BreakerTemplate;
+        }
+
+        if (dteq.PdType == "FDS") {
+
+            selectedTemplate = FdsTemplate;
         }
 
         return selectedTemplate;
