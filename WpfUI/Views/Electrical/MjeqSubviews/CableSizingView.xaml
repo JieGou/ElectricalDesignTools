@@ -164,6 +164,7 @@
             <TextBlock Text="Derated Amps: " Grid.Row="6" Grid.Column="0"/>
             <TextBlock Text="{Binding PowerCable.DeratedAmps, StringFormat={}{0:N0}  A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                        Grid.Row="6" Grid.Column="2" FontWeight="Bold"
+                       Margin="0 3"
                        d:Text="400" 
                        ToolTip="{Binding PowerCable.DeratedAmpsToolTip}"
                        ToolTipService.InitialShowDelay="50">
@@ -216,7 +217,7 @@
 
 
             <TextBlock Text="Outdoor" Grid.Row="6" Grid.Column="4" HorizontalAlignment="Right"/>
-            <CheckBox IsChecked="{Binding PowerCable.Outdoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            <CheckBox IsChecked="{Binding PowerCable.IsOutdoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               Grid.Row="6" Grid.Column="6" FontWeight="Bold" HorizontalAlignment="Left"
                               Margin="0 5"/>
             <TextBlock Text="(exposed to sunlight)" Grid.Row="6" Grid.Column="6" 
@@ -225,16 +226,13 @@
                                 FontStyle="Italic"/>
 
             <TextBlock Text="Derating" Grid.Row="7" Grid.Column="4" HorizontalAlignment="Right"/>
-            <TextBlock Text="{Binding PowerCable.Derating}"
+            <TextBlock Text="{Binding PowerCable.Derating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                        Grid.Row="7" Grid.Column="6" FontWeight="Bold"
                        d:Text="0.8"
                        ToolTip="{Binding PowerCable.DeratingToolTip}"
                        ToolTipService.InitialShowDelay="50"/>
 
             <!--Column 3-->
-            <!--<TextBlock Text="Cable Id: " Grid.Row="1" Grid.Column="6" HorizontalAlignment="Left"/>
-            <TextBlock Text="{Binding PowerCable.Id}" Grid.Row="1" Grid.Column="7" FontWeight="Bold" HorizontalAlignment="Left" TextAlignment="Left"/>-->
-
             <TextBlock Text="Sized via: " Grid.Row="2" Grid.Column="6" HorizontalAlignment="Left"/>
             <StackPanel Orientation="Vertical" 
                         Grid.Row="2" Grid.Column="7" Grid.RowSpan="2" Grid.ColumnSpan="1"
@@ -266,7 +264,7 @@
         <!--BUTTONS-->
         <StackPanel Orientation="Horizontal" 
                     Grid.Row="2" Grid.ColumnSpan="3" Margin="0,0,0,0">
-            <Button Content="Calculate Amps" Grid.Row="2" Margin="50 0 0 0" 
+            <Button Content="Calculate Amps" Grid.Row="2" Margin="70 0 0 0" 
                     Command="{Binding Path=DataContext.CalculateSingleEqCableAmpsCommand, 
                                       RelativeSource={RelativeSource Mode=FindAncestor, 
                                       AncestorType={x:Type UserControl}, AncestorLevel=2}}"   />

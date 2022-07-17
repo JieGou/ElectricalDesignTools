@@ -143,7 +143,7 @@ namespace EDTLibrary
                 IDteqList.Add(model);
             }
 
-            DteqList.Insert(0, new DteqModel() { Tag = GlobalConfig.Utility });
+            DteqList.Insert(0, new DteqModel() { Tag = GlobalConfig.Utility, Area = new AreaModel() });
 
 
             //XFR

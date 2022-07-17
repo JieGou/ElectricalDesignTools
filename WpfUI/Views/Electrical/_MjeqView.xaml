@@ -241,7 +241,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto" MinWidth="480" SharedSizeGroup="A"/>
+                    <ColumnDefinition Width="auto" MinWidth="485" SharedSizeGroup="A"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -1123,7 +1123,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto" MinWidth="480" SharedSizeGroup="A"/>
+                    <ColumnDefinition Width="auto" MinWidth="485" SharedSizeGroup="A"/>
 
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>

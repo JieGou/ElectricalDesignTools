@@ -142,12 +142,16 @@ public class CableModel : ICable
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(QtyParallel), OldValue = oldValue, NewValue = _qtyParallel };
                 Undo.AddUndoCommand(cmd);
             }
-            //if (GlobalConfig.GettingRecords == false && _calculating == false) {
-            //    CalculateAmpacityNew(_load);
-            //}
+            if (GlobalConfig.GettingRecords == false && _calculating == false) {
+                _calculatingQty = true;
+                CalculateAmpacity(this.Load);
+                _calculatingQty = false;
+
+            }
+            OnPropertyUpdated();
         }
     }
-
+    private bool _calculatingQty;
     private bool _calculating;
     private string _size;
 
@@ -183,10 +187,20 @@ public class CableModel : ICable
         {
             var oldValue = _spacing;
             _spacing = value;
+
+            if (GlobalConfig.GettingRecords == false) {
+                _calculating = true;
+                Derating = CableManager.CableSizer.GetDerating(this);
+                _calculating = false;
+            }
+
+
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Spacing), OldValue = oldValue, NewValue = _spacing };
                 Undo.AddUndoCommand(cmd);
             }
+            OnPropertyUpdated();
+
         }
     }
     public double Length { get; set; }
@@ -239,11 +253,20 @@ public class CableModel : ICable
         {
             var oldValue = _outdoor;
             _outdoor = value;
+
+            if (GlobalConfig.GettingRecords == false) {
+                _calculating = true;
+                AutoSize();
+                _calculating = false;
+            }
+
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(IsOutdoor), OldValue = oldValue, NewValue = _outdoor };
                 Undo.AddUndoCommand(cmd);
             }
+            OnPropertyUpdated();
         }
+
     }
 
     private string _installationType = EdtSettings.CableInstallationType;
@@ -257,13 +280,19 @@ public class CableModel : ICable
 
             var oldValue = _installationType;
             _installationType = value;
+
             if (GlobalConfig.GettingRecords == false) {
+                _calculating = true;
                 AutoSize();
+                _calculating = false;
             }
+
             if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(InstallationType), OldValue = oldValue, NewValue = _installationType };
                 Undo.AddUndoCommand(cmd);
             }
+            OnPropertyUpdated();
+
         }
     }
 
@@ -395,8 +424,10 @@ public class CableModel : ICable
     /// <summary>
     /// Recursive function that gets the cable qty and size from Ampacity Table based on cable type and required amps
     /// </summary>
-    
+
     //Qty Size
+
+    string ampsColumn = "Amps75";
     public void AutoSize()
     {
         Undo.Undoing=true; 
@@ -405,7 +436,6 @@ public class CableModel : ICable
         AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
         InstallationDiagram = "";
 
-        string ampsColumn = "Amps75";
 
         if (InstallationType == GlobalConfig.CableInstallationType_LadderTray) {
             GetCableQtySize_ForLadderTray(this, ampsColumn);
@@ -422,6 +452,7 @@ public class CableModel : ICable
         //_calculating = false;
 
     }
+
     //Qty Size
     private void GetCableQtySize_ForLadderTray(ICable cable, string ampsColumn)
     {
@@ -450,7 +481,7 @@ public class CableModel : ICable
         // Helper - 3 Recursive method
         void GetCableQty(int cableQty)
         {
-            if (cableQty < 20) {
+            if (cableQty < maxCableQtyTray) {
                 if (cablesWithHigherAmpsInProject.Rows.Count > 0) {
                     cable.Derating = CableManager.CableSizer.GetDerating(cable);
                     //select smallest of 
@@ -480,6 +511,7 @@ public class CableModel : ICable
             }
         }
     }
+    int maxCableQtyTray = 25;
     private void SelectValidCables_SizeAmps(string ampsColumn, DataTable cableAmpacityTable, DataTable cablesWithHigherAmpsInProject)
     {
         var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
@@ -507,11 +539,7 @@ public class CableModel : ICable
     private void CableQtySize_DirectBuriedOrRaceWayConduit(ICable cable, string ampsColumn)
     {
         DataTable cableAmpacityTable = LibraryTables.CecCableAmpacities.Copy();
-        //var ampacityTableFiltered = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("AmpacityTable") == AmpacityTable);
-        //cableAmpacityTable.Rows.Clear();
-        //foreach (var cableAmpacityRow in ampacityTableFiltered) {
-        //    cableAmpacityTable.Rows.Add(cableAmpacityRow.ItemArray);
-        //}
+       
 
         DataTable cablesWithHigherAmpsInProject = cableAmpacityTable.Copy();
         cablesWithHigherAmpsInProject.Rows.Clear();
@@ -526,7 +554,7 @@ public class CableModel : ICable
         // Helper - 3 Recursive method
         void GetCableQty(int cableQty)
         {
-            if (cableQty < 10) {
+            if (cableQty < maxCableQtyRaceWay) {
                 if (cablesWithHigherAmpsInProject.Rows.Count > 0) {
                     cable.Derating = CableManager.CableSizer.GetDerating(cable);
                     //select smallest of 
@@ -561,6 +589,7 @@ public class CableModel : ICable
             //CalculateAmpacityNew(Load);
         }
     }
+    int maxCableQtyRaceWay = 25;
     private void SelectValidCables_SizeAmpsQty(string ampsColumn, DataTable cableAmpacityTable, DataTable cablesWithHigherAmpsInProject, int qtyParallel)
     {
         var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code

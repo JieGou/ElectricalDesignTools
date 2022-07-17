@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -134,6 +135,11 @@ namespace EDTLibrary.Models.DistributionEquipment
                     if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
                         var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
                         Undo.AddUndoCommand(cmd);
+                    }
+
+                    if (GlobalConfig.GettingRecords == false) {
+                        PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
+                        PowerCable.CalculateAmpacity(this);
                     }
                     OnAreaChanged();
                     OnPropertyUpdated();
@@ -558,6 +564,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 NemaRating = Area.NemaRating;
                 AreaClassification = Area.AreaClassification;
+                PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
                 PowerCable.CalculateAmpacity(this);
             }));
         }
