@@ -26,6 +26,7 @@ namespace WpfUI
 
             var splashImage = "ContentFiles\\pd.png";
             SplashScreen splashScreen = new SplashScreen(splashImage);
+
             splashScreen.Show(false, true); // autoClose, topMost
 
             DaManager daManager = new DaManager();

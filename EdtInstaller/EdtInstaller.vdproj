@@ -15,19 +15,25 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_1D529A8DE1AE40629B5B1443B1FFDBB5"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5638733DFDC147209E2A181CB06C67B8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_8552B63E332A4AB9B920663214FC8D1D"
+        "MsmKey" = "8:_77997E33C3544C03997D02FF4F7C696A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_97FB4AA817194C6493E0333B9560DED2"
+        "MsmKey" = "8:_8552B63E332A4AB9B920663214FC8D1D"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -142,6 +148,26 @@
         }
         "File"
         {
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1D529A8DE1AE40629B5B1443B1FFDBB5"
+            {
+            "SourcePath" = "8:..\\WpfUI\\ContentFiles\\Edt Sample Project.edp"
+            "TargetName" = "8:Edt Sample Project.edp"
+            "Tag" = "8:"
+            "Folder" = "8:_1A46F0B326EA4FF5A5DF8BB7A9830994"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5638733DFDC147209E2A181CB06C67B8"
             {
             "SourcePath" = "8:..\\WpfUI\\ContentFiles\\edt.ico"
@@ -162,12 +188,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8552B63E332A4AB9B920663214FC8D1D"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_77997E33C3544C03997D02FF4F7C696A"
             {
-            "SourcePath" = "8:..\\WpfUI\\ContentFiles\\EdtLib.ico"
-            "TargetName" = "8:EdtLib.ico"
+            "SourcePath" = "8:..\\WpfUI\\ContentFiles\\Edt Data Library.edl"
+            "TargetName" = "8:Edt Data Library.edl"
             "Tag" = "8:"
-            "Folder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
+            "Folder" = "8:_1A46F0B326EA4FF5A5DF8BB7A9830994"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -182,10 +208,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_97FB4AA817194C6493E0333B9560DED2"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8552B63E332A4AB9B920663214FC8D1D"
             {
-            "SourcePath" = "8:..\\WpfUI\\ContentFiles\\Edt Sample Project.edp"
-            "TargetName" = "8:Edt Sample Project.edp"
+            "SourcePath" = "8:..\\WpfUI\\ContentFiles\\EdtLib.ico"
+            "TargetName" = "8:EdtLib.ico"
             "Tag" = "8:"
             "Folder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
             "Condition" = "8:"
@@ -267,7 +293,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_5247D8BBAA0E489097C0265AB645D60C"
             {
-            "DefaultLocation" = "8:[ProgramFiles64Folder][Manufacturer]\\[ProductName]"
+            "DefaultLocation" = "8:[WindowsVolume]\\[Manufacturer]\\[ProductName]"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -288,6 +314,28 @@
                 {
                 }
             }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_A42530B8954B4CA8914DCEE18E037B95"
+            {
+            "Name" = "8:#1915"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:AppDataFolder"
+                "Folders"
+                {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_1A46F0B326EA4FF5A5DF8BB7A9830994"
+                    {
+                    "Name" = "8:Electrical Design Tools"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_CAB4FC87D92D41E093CE9F6E44466F00"
+                        "Folders"
+                        {
+                        }
+                    }
+                }
+            }
         }
         "LaunchCondition"
         {
@@ -305,7 +353,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Electrical Design Tools"
         "ProductCode" = "8:{AA1DBD89-D68E-444D-A232-35DA13CC2BFE}"
-        "PackageCode" = "8:{8DF0BF62-03D3-4B1E-AE51-D00406EFC945}"
+        "PackageCode" = "8:{187A4BDF-F535-433C-B2A1-8598916D50EF}"
         "UpgradeCode" = "8:{247680F3-572D-48BB-BFE6-F16B36C4670D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -322,7 +370,7 @@
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
         "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
+        "ARPPRODUCTICON" = "8:_5638733DFDC147209E2A181CB06C67B8"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
@@ -439,7 +487,7 @@
             "Icon" = "8:_5638733DFDC147209E2A181CB06C67B8"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A169EF41E1094BD3BCFC04BFB73C578B"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E60C2B5ADE00425B9919730A15E64D68"
             {
             "Name" = "8:Shortcut to Edt Sample Project.edp"
             "Arguments" = "8:"
@@ -447,9 +495,9 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_97FB4AA817194C6493E0333B9560DED2"
+            "Target" = "8:_1D529A8DE1AE40629B5B1443B1FFDBB5"
             "Folder" = "8:_3FDF45E073DF4B4B94EFB616B1C64792"
-            "WorkingFolder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
+            "WorkingFolder" = "8:_1A46F0B326EA4FF5A5DF8BB7A9830994"
             "Icon" = "8:_5638733DFDC147209E2A181CB06C67B8"
             "Feature" = "8:"
             }

@@ -506,7 +506,7 @@ namespace WpfUI.ViewModels
 #if !DEBUG
                 foreach (var failure in validationFailures) {
                     if (failure.GetType().Name.Contains("ValidationFailure")) {
-                        MessageBox.Show(failure.Message + " \n\n" + "Pleaes contact DCS.Inc to resolve.", "EDT - License Validation Failure");
+                        System.Windows.Forms.MessageBox.Show(failure.Message + " \n\n" + "Pleaes contact DCS.Inc to resolve.", "EDT - License Validation Failure");
                     }
                 }
 #endif

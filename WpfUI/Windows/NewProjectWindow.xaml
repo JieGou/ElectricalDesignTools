@@ -28,7 +28,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="../Resources/pd.png"
+            <ImageBrush ImageSource="../ContentFiles/pd.png"
                         Opacity=".05"/>
         </Grid.Background>
 

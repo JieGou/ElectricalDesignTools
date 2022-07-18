@@ -151,7 +151,7 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
             if (HasErrors == false) {
                 string fullFileName = FolderName + "\\" + FileName + ".edp";
 
-                File.Copy(GlobalConfig.DevDb, fullFileName, true);
+                File.Copy(AppSettings.Default.ProjectDb, fullFileName, true);
 
                 _startupService.InitializeLibrary();
                 _homeViewModel.StartupService.SetSelectedProject(fullFileName);

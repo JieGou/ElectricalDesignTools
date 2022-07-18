@@ -18,18 +18,33 @@ namespace WpfUI.Services
         public string ProjectFileName { get; set; }
         public string ProjectFilePath { get; set; }
 
-        private string _libraryFile = "Edt Data Library.edl";
-        private string _defaultLibrarypath = Path.Combine(Environment.CurrentDirectory, @"ContentFiles\");
+        Environment.SpecialFolder _appDataFolder = Environment.SpecialFolder.ApplicationData;
+        private string _edtFolder = "\\Electrical Design Tools\\";
 
+        private string _libraryFile = "Edt Data Library.edl";
+        private string _projectFile = "Edt Sample Project.edp";
+        
         public StartupService(ListManager listManager)
         {
             _listManager = listManager;
+
+
+            //_libraryFile = Environment.GetFolderPath(_appDataFolder) + _edtFolder + _libraryFile;
+            //_projectFile = Environment.GetFolderPath(_appDataFolder) + _edtFolder + _projectFile;
+            //AppSettings.Default.LibraryDb = _libraryFile;
+            //AppSettings.Default.ProjectDb = _projectFile;
+            //AppSettings.Default.Save();
+
             _libraryFile = Path.Combine(Environment.CurrentDirectory, @"ContentFiles\", _libraryFile);
-            if (AppSettings.Default.FirstStartup==true) {
+            _projectFile = Path.Combine(Environment.CurrentDirectory, @"ContentFiles\", _projectFile);
+
+            if (AppSettings.Default.FirstStartup == true) {
                 AppSettings.Default.FirstStartup = false;
                 AppSettings.Default.LibraryDb = _libraryFile;
+                AppSettings.Default.ProjectDb = _projectFile;
                 AppSettings.Default.Save();
             }
+
         }
 
         ListManager _listManager;
@@ -123,7 +138,7 @@ namespace WpfUI.Services
             else {
                 MessageBox.Show($"The selected Library file \n\n{dbFilename} cannot be found,it may have been moved or deleted. Please select another Library file.");
                 IsLibraryLoaded = false;
-                SelectLibrary(_defaultLibrarypath);
+                SelectLibrary(Environment.GetFolderPath(_appDataFolder) + _edtFolder + _libraryFile);
             }
         }
 
@@ -137,7 +152,7 @@ namespace WpfUI.Services
             else if (IsLibraryLoaded == false) {
                 MessageBox.Show($"The library file is not loaded.");
                 IsProjectLoaded = false;
-                SelectLibrary(_defaultLibrarypath);
+                SelectLibrary(Environment.GetFolderPath(_appDataFolder) + _edtFolder + _libraryFile);
             }
             else {
                 _listManager.GetProjectTablesAndAssigments();
