@@ -27,6 +27,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_97FB4AA817194C6493E0333B9560DED2"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_F509082AEA0F45369C85B7AF28C6F302"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -56,6 +62,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -152,6 +166,26 @@
             {
             "SourcePath" = "8:..\\WpfUI\\ContentFiles\\EdtLib.ico"
             "TargetName" = "8:EdtLib.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_97FB4AA817194C6493E0333B9560DED2"
+            {
+            "SourcePath" = "8:..\\WpfUI\\ContentFiles\\Edt Sample Project.edp"
+            "TargetName" = "8:Edt Sample Project.edp"
             "Tag" = "8:"
             "Folder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
             "Condition" = "8:"
@@ -271,7 +305,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Electrical Design Tools"
         "ProductCode" = "8:{AA1DBD89-D68E-444D-A232-35DA13CC2BFE}"
-        "PackageCode" = "8:{DC20227D-845E-444D-B986-2880BAB41F49}"
+        "PackageCode" = "8:{8DF0BF62-03D3-4B1E-AE51-D00406EFC945}"
         "UpgradeCode" = "8:{247680F3-572D-48BB-BFE6-F16B36C4670D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -400,6 +434,20 @@
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
             "Target" = "8:_F509082AEA0F45369C85B7AF28C6F302"
+            "Folder" = "8:_3FDF45E073DF4B4B94EFB616B1C64792"
+            "WorkingFolder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
+            "Icon" = "8:_5638733DFDC147209E2A181CB06C67B8"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_A169EF41E1094BD3BCFC04BFB73C578B"
+            {
+            "Name" = "8:Shortcut to Edt Sample Project.edp"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_97FB4AA817194C6493E0333B9560DED2"
             "Folder" = "8:_3FDF45E073DF4B4B94EFB616B1C64792"
             "WorkingFolder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
             "Icon" = "8:_5638733DFDC147209E2A181CB06C67B8"

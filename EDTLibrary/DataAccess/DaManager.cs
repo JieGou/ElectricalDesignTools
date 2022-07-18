@@ -33,7 +33,7 @@ public class DaManager {
 
     public static void SetLibraryDb( IDaConnector daConnector) {
         libDb = daConnector;
-        _projectFile = daConnector.ConString;
+        _libraryFile = daConnector.ConString;
     }
 
     public static bool GetLibraryTables()

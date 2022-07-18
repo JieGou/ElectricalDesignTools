@@ -21,7 +21,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ContentFiles\Edt Data Library.edl" />
+    <None Remove="ContentFiles\Edt Sample Project.edp" />
     <None Remove="ContentFiles\edt.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ContentFiles\Edt Sample Project.edp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ContentFiles\Edt Data Library.edl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

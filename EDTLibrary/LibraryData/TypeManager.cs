@@ -202,8 +202,7 @@ namespace EDTLibrary.LibraryData.TypeTables
             return breaker;
         }
 
-        static string unit = Units.HP.ToString();
-        public static StarterSize GetStarter(double motorSize, string unit = unit)
+        public static StarterSize GetStarter(double motorSize, string unit = "HP")
         {
             var starter = new StarterSize();
             var starterList = new List<StarterSize>();

@@ -14,11 +14,22 @@ namespace WpfUI.Services
     [AddINotifyPropertyChangedInterface]
     public class StartupService
     {
-        public string FileName { get; set; }
-        public string FilePath { get; set; }
+        public string LibraryFile { get; set; }
+        public string ProjectFileName { get; set; }
+        public string ProjectFilePath { get; set; }
+
+        private string _libraryFile = "Edt Data Library.edl";
+        private string _defaultLibrarypath = Path.Combine(Environment.CurrentDirectory, @"ContentFiles\");
+
         public StartupService(ListManager listManager)
         {
             _listManager = listManager;
+            _libraryFile = Path.Combine(Environment.CurrentDirectory, @"ContentFiles\", _libraryFile);
+            if (AppSettings.Default.FirstStartup==true) {
+                AppSettings.Default.FirstStartup = false;
+                AppSettings.Default.LibraryDb = _libraryFile;
+                AppSettings.Default.Save();
+            }
         }
 
         ListManager _listManager;
@@ -33,26 +44,30 @@ namespace WpfUI.Services
 
         public void InitializeLibrary()
         {
-            if (File.Exists(AppSettings.Default.LibraryDb)) {
-                libDb = new SQLiteConnector(AppSettings.Default.LibraryDb);
-                DaManager.SetLibraryDb(new SQLiteConnector(AppSettings.Default.LibraryDb));
+            _libraryFile = AppSettings.Default.LibraryDb;
+
+            if (File.Exists(_libraryFile)) {
+                libDb = new SQLiteConnector(_libraryFile);
+                DaManager.SetLibraryDb(new SQLiteConnector(_libraryFile));
 
                 LoadLibraryDb();
                 TypeManager.VoltageTypes = libDb.GetRecords<VoltageType>("VoltageTypes");
+                LibraryFile = _libraryFile;
+                
             }
         }
 
         public void SetSelectedProject(string selectedProject)
         {
-            FileName = string.Empty;
-            FilePath = string.Empty;
+            ProjectFileName = string.Empty;
+            ProjectFilePath = string.Empty;
 
             if (File.Exists(selectedProject)) {
                 //ProjectName = Path.GetFileNameWithoutExtension(_selectedProject);
                 AppSettings.Default.ProjectDb = selectedProject;
                 AppSettings.Default.Save();
-                FileName = Path.GetFileName(selectedProject);
-                FilePath = Path.GetDirectoryName(selectedProject);
+                ProjectFileName = Path.GetFileName(selectedProject);
+                ProjectFilePath = Path.GetDirectoryName(selectedProject);
             }
         }
 
@@ -99,7 +114,6 @@ namespace WpfUI.Services
         }
        
         // LOAD
-
         public void LoadLibraryDb()
         {
             string dbFilename = AppSettings.Default.LibraryDb;
@@ -109,6 +123,7 @@ namespace WpfUI.Services
             else {
                 MessageBox.Show($"The selected Library file \n\n{dbFilename} cannot be found,it may have been moved or deleted. Please select another Library file.");
                 IsLibraryLoaded = false;
+                SelectLibrary(_defaultLibrarypath);
             }
         }
 
@@ -122,6 +137,7 @@ namespace WpfUI.Services
             else if (IsLibraryLoaded == false) {
                 MessageBox.Show($"The library file is not loaded.");
                 IsProjectLoaded = false;
+                SelectLibrary(_defaultLibrarypath);
             }
             else {
                 _listManager.GetProjectTablesAndAssigments();
