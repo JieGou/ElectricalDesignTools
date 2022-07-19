@@ -32,30 +32,21 @@ public class ComponentFactory
         newComponent.SubType = subType;
         
 
-        //Tag, Area, Size
+        //Disconnect
         if (subType == ComponentSubTypes.DefaultDcn.ToString()) {
             newComponent.Tag = componentUser.Tag + TagSettings.SuffixSeparator + TagSettings.DisconnectSuffix;
             newComponent.Area = componentUser.Area;
             var load = (IPowerConsumer)componentUser;
             newComponent.Size = DataTableManager.GetDisconnectSize(load);
             newComponent.SequenceNumber = componentUser.CctComponents.Count+1;
-
-            //DisconnectModel disconnect = (DisconnectModel)newComponent;
-            //disconnect.Voltage = componentUser.Voltage;
-            //listManager.DisconnectList.Add(disconnect);
-            //DaManager.prjDb.UpsertRecord<DisconnectModel>(disconnect, GlobalConfig.DisconnectTable, SaveLists.CompSaveList);
         }
+
+        //Drive
         else if (subType == ComponentSubTypes.DefaultDrive.ToString()) {
             newComponent.Tag = componentUser.Tag + TagSettings.SuffixSeparator + TagSettings.DriveSuffix;
             var powerConsumer = (IPowerConsumer)componentUser;
             newComponent.Area = powerConsumer.FedFrom.Area;
             newComponent.SequenceNumber = 0;
-
-            //DriveModel drive = (DriveModel)newComponent;
-            //drive.Voltage = componentUser.Voltage;
-            //listManager.DriveList.Add(drive);
-            //DaManager.prjDb.UpsertRecord<DriveModel>(drive, GlobalConfig.DriveTable, SaveLists.CompSaveList);
-
         }
 
 
@@ -73,7 +64,6 @@ public class ComponentFactory
         
         return (ComponentModel)newComponent;
     }
-
 
     public static ComponentModel CreateDrive(IComponentUser componentUser, string type, string subType, ListManager listManager)
     {

@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 namespace EDTLibrary.ProjectSettings;
 public  class TagSettings
 {
-
+    
     public static string CableTagSeparator { get; set; } = "-";
-
-
-
     public static string SuffixSeparator { get; set; } = ".";
 
 

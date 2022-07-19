@@ -1,4 +1,5 @@
-﻿using EDTLibrary.LibraryData;
+﻿using EDTLibrary.A_Helpers;
+using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
@@ -263,12 +264,16 @@ namespace EDTLibrary.Models.DistributionEquipment
                         DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
                         return;
                     }
+                    //Fed from validation
                     for (int i = 0; i < 500; i++) {
                         if (nextFedFrom != null) {
                             if (nextFedFrom.Tag == Tag) {
-                                //_fedFrom = oldValue;
-                                //break;
-                                throw new InvalidOperationException("Equipment cannot be fed from itself.");
+                                MessageBox.Show("Equipment Cannot be fed from itself.", "Circular Feed Error");
+                                ErrorHelper.Notify("Equipment Cannot be fed from itself.", "Circular Feed Error");
+                                _fedFrom = oldValue;
+
+                                break;
+                                //throw new InvalidOperationException("Equipment cannot be fed from itself.");
                                 //AddError(nameof(FedFrom),"Equipment cannot be fed from itself.");
                             }
                             else if (nextFedFrom.Tag == GlobalConfig.Utility || nextFedFrom.Tag == GlobalConfig.Deleted) {

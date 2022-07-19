@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace WpfUI.Helpers
+namespace EDTLibrary.A_Helpers
 {
     public class ErrorHelper
     {
@@ -13,7 +13,7 @@ namespace WpfUI.Helpers
         {
 #if DEBUG
             if (ex.Data.Contains("UserMessage")) {
-                MessageBox.Show($"Error: \n\n{ex.Message}\n\n\n" +
+                MessageBox.Show($"{ex.Message}\n\n\n" +
                                 $"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n" +
                                 $"Stack Trace: \n\n {ex}", "Error");
             }
@@ -25,7 +25,7 @@ namespace WpfUI.Helpers
 #if !DEBUG
 
             if (ex.Data.Contains("UserMessage")) {
-                 MessageBox.Show($"Error: \n\n{ex.Message}\n\n\n" +
+                 MessageBox.Show($"{ex.Message}\n\n\n" +
                                 $"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n", "Error");
             }
             else {
@@ -35,6 +35,11 @@ namespace WpfUI.Helpers
 
 
 
+        }
+
+        internal static void Notify(string message, string caption = "Error")
+        {
+            MessageBox.Show(message, caption);
         }
     }
 }

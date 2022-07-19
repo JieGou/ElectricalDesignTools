@@ -94,7 +94,8 @@ namespace WpfUI.Services
                     prjDb = new SQLiteConnector(projectFile);
                     DaManager.SetProjectDb(new SQLiteConnector(projectFile));
 
-                    LoadProjectSettings();
+                    SettingsManager.LoadProjectSettings();
+                    TagManager.LoadTagSettings();
                     LoadProjectDb();
                     //LoadProjectSettings();
                 }
@@ -171,12 +172,5 @@ namespace WpfUI.Services
             }
         }
 
-
-        // SETTINGS
-
-        public static void LoadProjectSettings()
-        {
-            SettingsManager.LoadProjectSettings();
-        }
     }
 }

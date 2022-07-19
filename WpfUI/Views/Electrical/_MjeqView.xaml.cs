@@ -28,7 +28,7 @@ public partial class _MjeqView : UserControl
 {
     private MjeqViewModel mjeqVm { get { return DataContext as MjeqViewModel; } }
 
-   
+
 
     private bool _isEditingLoadGrids;
 
@@ -76,7 +76,7 @@ public partial class _MjeqView : UserControl
 
     private void dgdAssignedLoads_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        try { 
+        try {
             //explicit propertyChange for load size
             if (e.Key == Key.Enter || e.Key == Key.Tab) {
                 //TODO - set specific column by header or name
@@ -286,7 +286,7 @@ public partial class _MjeqView : UserControl
         //var MaxLoadHeight = loadButtonsStackPanel.ActualHeight + 50;
         //dgdAssignedLoads.Height = MaxLoadHeight + 15;
 
-     
+
         if (gridAdding.Visibility == Visibility.Collapsed) {
             gridAdding.Visibility = Visibility.Visible;
             AppSettings.Default.AddEquipmentPanelView = 0;
@@ -325,7 +325,7 @@ public partial class _MjeqView : UserControl
             while (dgdAssignedLoads.SelectedItems.Count > 0) {
                 await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                     load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
-                     mjeqVm.DeleteLoad(load);
+                    mjeqVm.DeleteLoad(load);
                     dgdAssignedLoads.SelectedItems.Remove(load);
                 }));
             }

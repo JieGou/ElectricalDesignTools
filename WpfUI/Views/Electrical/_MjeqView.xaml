@@ -547,7 +547,9 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                               MouseLeftButtonDown="FastEditEvent"/>
+                                               MouseLeftButtonDown="FastEditEvent">
+
+                                    </TextBlock>
 
                                     <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
 
@@ -806,7 +808,7 @@
                     </DataGrid.RowDetailsTemplate>
 
                     <DataGrid.RowValidationRules>
-                        <!--<rules:InvalidFedFromRule ValidatesOnTargetUpdated="True" ValidationStep="CommittedValue"/>-->
+                        <!--<rules:InvalidFedFromRule ValidatesOnTargetUpdated="True" ValidationStep="UpdatedValue" />-->
                     </DataGrid.RowValidationRules>
 
                     <DataGrid.RowValidationErrorTemplate>
@@ -1514,7 +1516,7 @@
                                              PreviewKeyDown="LoadGridFilter" />
                                     <!--Text="{Binding Filter}"-->
                                 </Grid>
-                                
+
                             </DataGridTemplateColumn.Header>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -1571,7 +1573,7 @@
 
                                 </Grid>
                             </DataGridTextColumn.Header>
-                            
+
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Right" />

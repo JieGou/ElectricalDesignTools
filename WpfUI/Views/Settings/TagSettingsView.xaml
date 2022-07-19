@@ -1,0 +1,157 @@
+﻿<UserControl x:Class="WpfUI.Views.Settings.TagSettingsView"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:WpfUI.Views"
+             xmlns:commands="clr-namespace:WpfUI.Commands"
+             xmlns:projectSettings="clr-namespace:EDTLibrary.ProjectSettings;assembly=EDTLibrary"
+             
+             xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
+             
+             mc:Ignorable="d" 
+             d:Width="1400" d:Height="900" 
+             Background="AliceBlue">
+
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Base.xaml"/>
+                <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <projectSettings:EdtSettings x:Key="edtSettings"/>
+
+            <CollectionViewSource x:Key="ListBoxItems" Source="{Binding Path=StringSettings}">
+                <CollectionViewSource.GroupDescriptions>
+                    <PropertyGroupDescription PropertyName="Category" />
+                </CollectionViewSource.GroupDescriptions>
+            </CollectionViewSource>
+
+            <sys:Int32 x:Key="col1">1</sys:Int32>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="settingsGrid"
+              d:Opacity="1"
+              Opacity="0" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <!--Buttons-->
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="*"/>
+            <!--Wrap Panel-->
+
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Grid.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="settingsGrid"
+                                Storyboard.TargetProperty="Opacity"
+                                From="0" To="1" Duration="0:0:0.25"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+
+        <WrapPanel Grid.Row="1" Grid.Column="2">
+
+            <!--Col 1 - Project Details-->
+            <GroupBox Header="Project Details"
+                  Grid.Row="1" Grid.Column="2"
+                  Margin="25 0 25 25">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+
+                    <TextBlock Text="Project No." 
+                       Grid.Row="1" Grid.Column="0" />
+
+                    <TextBox Grid.Row="1" Grid.Column="2"
+                         Text="{Binding Path=ProjectNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="Project Name"  
+                       Grid.Row="2" Grid.Column="0" />
+                    <!--<TextBlock Text="{Binding EdtSettings.ProjectName.DisplayName}"
+                       Grid.Row="2" Grid.Column="0" />-->
+                    <TextBox Grid.Row="2" Grid.Column="2"
+                         Text="{Binding Path=ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+                    <TextBlock Text="Project Title Line 1"  
+                       Grid.Row="4" Grid.Column="0" />
+                    <TextBox Grid.Row="4" Grid.Column="2"
+                         Text="{Binding Path=ProjectTitleLine1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="Project Title Line 2"
+                       Grid.Row="5" Grid.Column="0" />
+                    <TextBox Grid.Row="5" Grid.Column="2"
+                         Text="{Binding Path=ProjectTitleLine2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="Project Title Line 3"
+                       Grid.Row="6" Grid.Column="0" />
+                    <TextBox Grid.Row="6" Grid.Column="2"
+                         Text="{Binding Path=ProjectTitleLine3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+
+                    <TextBlock Text="Client Name Line 1" 
+                       Grid.Row="9" Grid.Column="0" />
+                    <TextBox Grid.Row="9" Grid.Column="2"
+                         Text="{Binding Path=ClientNameLine1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="Client Name Line 2" 
+                       Grid.Row="10" Grid.Column="0" />
+                    <TextBox Grid.Row="10" Grid.Column="2"
+                         Text="{Binding Path=ClientNameLine2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Text="Client Name Line 2" 
+                       Grid.Row="11" Grid.Column="0" />
+                    <TextBox Grid.Row="11" Grid.Column="2"
+                         Text="{Binding Path=ClientNameLine3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                </Grid>
+            </GroupBox>
+
+        </WrapPanel>
+    </Grid>
+
+
+
+
+
+    <!--STRING Settings-->
+
+</UserControl>

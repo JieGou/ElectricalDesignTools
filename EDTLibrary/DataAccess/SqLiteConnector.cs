@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using EDTLibrary.A_Helpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EDTLibrary.DataAccess
 {
@@ -248,7 +250,7 @@ namespace EDTLibrary.DataAccess
                     return objectId;
                 }
                 catch (Exception ex) {
-                    ex.Data.Add("UserMessage", "Query: " + sb.ToString());
+                    ex.Data.Add("UserMessage", "SQL Query Error\nQuery:\n" + sb.ToString());
                     throw;
                 }
             }
@@ -340,7 +342,18 @@ namespace EDTLibrary.DataAccess
                     cnn.Execute("" + sb.ToString(), classObject);
                 }
                 catch (Exception ex) {
-                    ex.Data.Add("UserMessage", "Query: " + sb.ToString());
+                    ex.Data.Add("UserMessage", "SQL Query Error\nQuery:\n" + sb.ToString());
+
+                    //readonyl database error
+                    if (ex.Message.Contains("readonly")) {
+                        MessageBox.Show($"The project file may be saved in a folder that does not have write " +
+                                        "priveliges enabled, like 'Program Files'. Move the file to another " +
+                                        "location and reopen the project\n\n\n" +
+                                        $"Error Details: {ex.Message}", "Error");
+                    }
+                    else {
+                        ErrorHelper.ShowErrorMessage(ex);
+                    }
                     throw;
                 }
             }
@@ -397,7 +410,7 @@ namespace EDTLibrary.DataAccess
                     cnn.Execute("" + sb.ToString());
                 }
                 catch (Exception ex) {
-                    ex.Data.Add("UserMessage", "Query: " + sb.ToString());
+                    ex.Data.Add("UserMessage", "SQL Query Error\nQuery:\n" + sb.ToString());
                     throw;
                 }
             }
