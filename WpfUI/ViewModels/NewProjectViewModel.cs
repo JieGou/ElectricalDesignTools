@@ -14,6 +14,7 @@ using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Services;
+using WpfUI.ViewModels.Menus;
 
 namespace WpfUI.ViewModels;
 

@@ -17,7 +17,7 @@ using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.ViewModels.Areas_and_Systems;
 
-namespace WpfUI.ViewModels
+namespace WpfUI.ViewModels.Menus
 {
     [AddINotifyPropertyChangedInterface]
     public class AreasMenuViewModel : ViewModelBase, INotifyDataErrorInfo
@@ -30,7 +30,7 @@ namespace WpfUI.ViewModels
 
         private AreasViewModel _areasViewModel;
 
-        
+
         private MainViewModel _mainViewModel;
         public MainViewModel MainViewModel
         {
@@ -71,7 +71,7 @@ namespace WpfUI.ViewModels
 
         }
 
-      
+
 
         #region Public Commands
 

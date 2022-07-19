@@ -16,7 +16,7 @@ using WpfUI.Commands;
 using WpfUI.ViewModels.Settings;
 using WpfUI.Views.Settings;
 
-namespace WpfUI.ViewModels;
+namespace WpfUI.ViewModels.Menus;
 
 [AddINotifyPropertyChangedInterface]
 
@@ -41,6 +41,9 @@ public class SettingsMenuViewModel : ViewModelBase
 
         _exportSettingsViewModel = new ExportSettingsViewModel(edtSettings, _typeManager);
         NavigateExportSettingsCommand = new RelayCommand(NavigateExportSettings);
+
+        _exportSettingsViewModel = new ExportSettingsViewModel(edtSettings, _typeManager);
+        NavigateExportSettingsCommand = new RelayCommand(NavigateExportSettings);
     }
 
 
@@ -58,9 +61,9 @@ public class SettingsMenuViewModel : ViewModelBase
     private void NavigateGeneralSettings()
     {
         _generalSettingsViewModel.LoadVmSettings(_generalSettingsViewModel);
-        CurrentViewModel = _generalSettingsViewModel; 
+        CurrentViewModel = _generalSettingsViewModel;
         _mainViewModel.CurrentViewModel = CurrentViewModel;
-        
+
     }
 
     private EquipmentSettingsViewModel _equipmentSettingsViewModel;
@@ -80,6 +83,13 @@ public class SettingsMenuViewModel : ViewModelBase
         _mainViewModel.CurrentViewModel = CurrentViewModel;
     }
 
+    private TagSettingsViewModel _tagSettingsViewModel;
+    private void NavigateTagSettingsCommand()
+    {
+        _tagSettingsViewModel.LoadTagSettings();
+        CurrentViewModel = _tagSettingsViewModel;
+        _mainViewModel.CurrentViewModel = CurrentViewModel;
+    }
 
     private ExportSettingsViewModel _exportSettingsViewModel;
     private void NavigateExportSettings()
@@ -89,7 +99,7 @@ public class SettingsMenuViewModel : ViewModelBase
         _mainViewModel.CurrentViewModel = CurrentViewModel;
 
         //Select the first report type by default instead of a blank list with no selection
-        if (_exportSettingsViewModel.ReportTypes.Count>0 &&
+        if (_exportSettingsViewModel.ReportTypes.Count > 0 &&
             _exportSettingsViewModel.SelectedReportType == null) {
             _exportSettingsViewModel.SelectedReportType = _exportSettingsViewModel.ReportTypes[0];
 
@@ -121,8 +131,8 @@ public class SettingsMenuViewModel : ViewModelBase
     public UserControl SelectedSettingView
     {
         get => _selectedSettingView;
-        set 
-        { 
+        set
+        {
             _selectedSettingView = value;
             LoadVmSettings();
         }
@@ -294,7 +304,7 @@ public class SettingsMenuViewModel : ViewModelBase
             _cableSpacingMaxAmps_3C1kV = value;
             ClearErrors(nameof(CableSpacingMaxAmps_3C1kV));
 
-            if (Double.TryParse(_cableSpacingMaxAmps_3C1kV, out dblOut) == false) {
+            if (double.TryParse(_cableSpacingMaxAmps_3C1kV, out dblOut) == false) {
                 AddError(nameof(CableSpacingMaxAmps_3C1kV), "Invalid Value");
             }
             else {
@@ -364,7 +374,7 @@ public class SettingsMenuViewModel : ViewModelBase
     private string _loadDefaultPdTypeLV_NonMotor;
     private string _loadDefaultPdTypeLV_Motor;
     private string _dteqDefaultPdTypeLV;
-   
+
     private static string _defaultLcsType;
     private UserControl _selectedSettingView;
 
@@ -378,7 +388,7 @@ public class SettingsMenuViewModel : ViewModelBase
             _dteqMaxPercentLoaded = value;
             ClearErrors(nameof(DteqMaxPercentLoaded));
 
-            if (Double.TryParse(_dteqMaxPercentLoaded, out dblOut) == false) {
+            if (double.TryParse(_dteqMaxPercentLoaded, out dblOut) == false) {
                 AddError(nameof(DteqMaxPercentLoaded), "Invalid Value");
             }
             else {
@@ -410,7 +420,7 @@ public class SettingsMenuViewModel : ViewModelBase
             _defaultXfrImpedance = value;
             ClearErrors(nameof(DefaultXfrImpedance));
 
-            if (Double.TryParse(_defaultXfrImpedance, out dblOut) == false) {
+            if (double.TryParse(_defaultXfrImpedance, out dblOut) == false) {
                 AddError(nameof(DefaultXfrImpedance), "Invalid Value");
             }
             else {
@@ -458,10 +468,10 @@ public class SettingsMenuViewModel : ViewModelBase
             loadFactorDefault = value;
             ClearErrors(nameof(LoadFactorDefault));
 
-            if (Double.TryParse(loadFactorDefault, out dblOut) == false) {
+            if (double.TryParse(loadFactorDefault, out dblOut) == false) {
                 AddError(nameof(LoadFactorDefault), "Invalid Value");
             }
-            else if (Double.Parse(loadFactorDefault) > 1 || Double.Parse(loadFactorDefault) < 0) {
+            else if (double.Parse(loadFactorDefault) > 1 || double.Parse(loadFactorDefault) < 0) {
                 AddError(nameof(LoadFactorDefault), "Invalid Value");
             }
             else {

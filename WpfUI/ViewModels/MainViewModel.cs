@@ -31,6 +31,7 @@ using WpfUI.PopupWindows;
 using WpfUI.Services;
 using WpfUI.ViewModels.Cables;
 using WpfUI.ViewModels.Electrical;
+using WpfUI.ViewModels.Menus;
 using WpfUI.Views.Settings;
 
 namespace WpfUI.ViewModels
@@ -75,6 +76,14 @@ namespace WpfUI.ViewModels
         {
             get { return _edtSettings; }
             set { _edtSettings = value; }
+        }
+
+        private TagSettings _tagSettings;
+
+        public TagSettings TagSettings
+        {
+            get { return _tagSettings; }
+            set { _tagSettings = value; }
         }
 
         public string ProjectName { get; set; }

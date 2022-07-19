@@ -126,11 +126,13 @@
                             Style="{StaticResource ToolBarButtonBase}" 
                             Command="{Binding NavigateCableSettingsCommand}"/>
 
+                    <Button Content="TAGGING"
+                            Style="{StaticResource ToolBarButtonBase}" 
+                            Command="{Binding NavigateExportSettingsCommand}" />
+
                     <Button Content="REPORTS"
                             Style="{StaticResource ToolBarButtonBase}" 
-                            Command="{Binding NavigateExportSettingsCommand}"
-                            
-                            />
+                            Command="{Binding NavigateExportSettingsCommand}" />
                 </StackPanel>
                    
             </Grid>

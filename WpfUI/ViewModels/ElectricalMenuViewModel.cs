@@ -24,7 +24,7 @@ using WpfUI.Stores;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.ViewModifiers;
 
-namespace WpfUI.ViewModels;
+namespace WpfUI.ViewModels.Menus;
 
 [AddINotifyPropertyChangedInterface]
 public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
@@ -53,7 +53,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
         set { _currentViewModel = value; }
     }
     private MjeqViewModel _mjeqViewModel;
-  
+
 
     public ElectricalMenuViewModel(MainViewModel mainViewModel, ListManager listManager)
     {
@@ -82,7 +82,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
         CurrentViewModel = _mjeqViewModel;
         _mainViewModel.CurrentViewModel = CurrentViewModel;
 
-        
+
     }
 
 

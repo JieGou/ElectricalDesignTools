@@ -4,6 +4,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using WpfUI.ViewModels;
+using WpfUI.ViewModels.Menus;
 using WpfUI.Views.Settings;
 
 namespace WpfUI.Views

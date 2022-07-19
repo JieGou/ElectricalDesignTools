@@ -46,6 +46,13 @@ public class SettingsViewModelBase: ViewModelBase
             }
         }
     }
+
+    //string
+    /// <summary>
+    /// Saves a String setting to the DB and to the settings class
+    /// </summary>
+    /// <param name="settingName">Name of setting being saved</param>
+    /// <param name="settingValue">New value of setting</param>
     public void SaveVmSetting(string settingName, string settingValue)
     {
         Type projectSettingsClass = typeof(EdtSettings);
@@ -59,6 +66,12 @@ public class SettingsViewModelBase: ViewModelBase
         }
     }
 
+    //Model
+    /// <summary>
+    /// Saves a Model setting to the DB and to the settings class
+    /// </summary>
+    /// <param name="settingName">Name of setting being saved</param>
+    /// <param name="settingValue">New value of setting</param>
     public void SaveVmSetting(string settingName, SettingModel settingModel)
     {
         Type projectSettingsClass = typeof(EdtSettings);

@@ -6,7 +6,7 @@ using WpfUI.Commands;
 using WpfUI.ViewModels.Cable;
 using WpfUI.ViewModels.Cables;
 
-namespace WpfUI.ViewModels;
+namespace WpfUI.ViewModels.Menus;
 
 [AddINotifyPropertyChangedInterface]
 public class CableMenuViewModel : ViewModelBase, INotifyDataErrorInfo
@@ -58,7 +58,7 @@ public class CableMenuViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         CurrentViewModel = _cableListViewModel;
         MainViewModel.CurrentViewModel = CurrentViewModel;
-       
+
     }
 
     private void NavigateTraySizer()
