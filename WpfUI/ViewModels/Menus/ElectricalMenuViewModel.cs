@@ -23,6 +23,7 @@ using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.ViewModifiers;
+using WpfUI.Windows;
 
 namespace WpfUI.ViewModels.Menus;
 
@@ -71,7 +72,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
     #endregion
 
-
+    TestWindow testWindow = null;
     private void NavigateMjeq()
     {
         _mjeqViewModel.CreateValidators();
@@ -82,7 +83,18 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
         CurrentViewModel = _mjeqViewModel;
         _mainViewModel.CurrentViewModel = CurrentViewModel;
 
-
+        if (testWindow == null ) {
+            testWindow = new TestWindow();
+            testWindow.DataContext = _mjeqViewModel;
+            testWindow.Show();
+        }
+        else if (testWindow.IsLoaded == false) {
+            testWindow = new TestWindow();
+            testWindow.DataContext = _mjeqViewModel;
+            testWindow.Show();
+        } 
+            
+        
     }
 
 

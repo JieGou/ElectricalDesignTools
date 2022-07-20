@@ -313,7 +313,7 @@
                                         Binding="{Binding Path=Source, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         MinWidth="75" />
                     <DataGridTextColumn x:Name="Destination" Header="To" 
-                                        Binding="{Binding Path=Destination, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        Binding="{Binding Path=Load.Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         MinWidth="75" />
 
                     <DataGridTextColumn x:Name="Length" Header="Length" 

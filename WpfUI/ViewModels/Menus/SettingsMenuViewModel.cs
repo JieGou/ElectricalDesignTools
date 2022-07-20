@@ -39,8 +39,8 @@ public class SettingsMenuViewModel : ViewModelBase
         _cableSettingsViewModel = new CableSettingsViewModel(edtSettings, _typeManager);
         NavigateCableSettingsCommand = new RelayCommand(NavigateCableSettings);
 
-        _exportSettingsViewModel = new ExportSettingsViewModel(edtSettings, _typeManager);
-        NavigateExportSettingsCommand = new RelayCommand(NavigateExportSettings);
+        _tagSettingsViewModel = new TagSettingsViewModel();
+        NavigateTagSettingsCommand = new RelayCommand(NavigateTagSettings);
 
         _exportSettingsViewModel = new ExportSettingsViewModel(edtSettings, _typeManager);
         NavigateExportSettingsCommand = new RelayCommand(NavigateExportSettings);
@@ -52,6 +52,7 @@ public class SettingsMenuViewModel : ViewModelBase
     public ICommand NavigateGeneralSettingsCommand { get; }
     public ICommand NavigateEquipmentSettingsCommand { get; }
     public ICommand NavigateCableSettingsCommand { get; }
+    public ICommand NavigateTagSettingsCommand { get; }
     public ICommand NavigateExportSettingsCommand { get; }
 
 
@@ -84,7 +85,7 @@ public class SettingsMenuViewModel : ViewModelBase
     }
 
     private TagSettingsViewModel _tagSettingsViewModel;
-    private void NavigateTagSettingsCommand()
+    private void NavigateTagSettings()
     {
         _tagSettingsViewModel.LoadTagSettings();
         CurrentViewModel = _tagSettingsViewModel;

@@ -128,7 +128,7 @@
 
                     <Button Content="TAGGING"
                             Style="{StaticResource ToolBarButtonBase}" 
-                            Command="{Binding NavigateExportSettingsCommand}" />
+                            Command="{Binding NavigateTagSettingsCommand}" />
 
                     <Button Content="REPORTS"
                             Style="{StaticResource ToolBarButtonBase}" 

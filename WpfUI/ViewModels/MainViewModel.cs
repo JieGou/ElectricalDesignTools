@@ -33,6 +33,7 @@ using WpfUI.ViewModels.Cables;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.ViewModels.Menus;
 using WpfUI.Views.Settings;
+using WpfUI.Windows;
 
 namespace WpfUI.ViewModels
 {
@@ -321,7 +322,7 @@ namespace WpfUI.ViewModels
         private void NavigateElectical()
         {
             MenuViewModel = _electricalMenuViewModel;
-
+            
 
             //Below is For Ribbon Window
 

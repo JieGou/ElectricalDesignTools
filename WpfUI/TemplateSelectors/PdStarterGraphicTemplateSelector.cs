@@ -17,7 +17,14 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
         var selectedTemplate = BreakerTemplate;
-        var load = (LoadModel)item;
+
+        LoadModel load = null;
+        try {
+            load = (LoadModel)item;
+        }
+        catch (Exception) { }
+
+
         if (load == null) return selectedTemplate;
 
         if (load.PdType.Contains("MCP")) {

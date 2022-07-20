@@ -8,9 +8,10 @@
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             
              d:DesignHeight="300" d:DesignWidth="550"
-             Background="LightCyan">
+             Background="Transparent">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -20,7 +21,8 @@
                 <Setter Property="Margin" Value="0"/>
             </Style>
 
-
+            <!--#region Templates-->
+            
             <!-- MCC BUCKET / OCPD -->
             <!--Breaker Template-->
             <DataTemplate x:Key="BreakerTemplate">
@@ -420,6 +422,7 @@
                 x:Key="LoadTemplateSelector"
                 MotorTemplate="{StaticResource MotorTemplate}"
                 HeaterTemplate="{StaticResource HeaterTemplate}" />
+            <!--#endregion-->
 
 
         </ResourceDictionary>
@@ -427,21 +430,29 @@
     </UserControl.Resources>
 
 
-
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
-
-
-        <StackPanel Orientation="Vertical" Grid.Column="1"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!--**********-->
+        <!--GRAPHIC-->
+        <!--**********-->
+        <Viewbox Grid.Row="0" Grid.Column="1"
+                 HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Stretch="Uniform" MaxWidth="200" >
+            <DockPanel Grid.Column="1" 
                     Margin="0 3 0 0">
 
             <!--FEEDER BUS-->
             <Border BorderBrush="Black" BorderThickness="0 0 0 3"
-                Grid.Row="0" Width="200" HorizontalAlignment="Left">
+                Grid.Row="0" Width="200" HorizontalAlignment="Left" DockPanel.Dock="Top">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                             Margin="15 0 0 0">
                     <TextBlock Text="{Binding FedFrom.Tag}" HorizontalAlignment="Center" FontWeight="SemiBold"/>
@@ -452,13 +463,13 @@
                     <TextBlock Text=" A,  "/>
                     <TextBlock Text="{Binding FedFrom.SCCR}" HorizontalAlignment="Center"/>
                     <TextBlock Text=" kA"/>
+                    
 
-                </StackPanel>
+                    </StackPanel>
             </Border>
 
-
-            <!--Starter-->
-            <ContentControl Content="{Binding}" 
+                <!--Starter-->
+            <ContentControl Content="{Binding}" DockPanel.Dock="Top"
                             Style="{StaticResource OCPDTemplateStyle}"
                             ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}">
 
@@ -466,7 +477,8 @@
 
 
             <!--COMPONENTS-->
-            <ItemsControl ItemsSource="{Binding CctComponents}"
+            <ItemsControl ItemsSource="{Binding CctComponents}" 
+                          DockPanel.Dock="Top"
                       HorizontalAlignment="Left">
 
                 <ItemsControl.ItemTemplate>
@@ -509,7 +521,7 @@
 
             <!--LOAD-->
             <!--Cable-->
-            <Grid>
+                <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="5"/>
@@ -553,10 +565,11 @@
                                d:Text="Tag"/>
                     <TextBlock Text="{Binding Description}" HorizontalAlignment="Left"
                                d:Text="Description"
-                               MaxWidth="150"/>
+                               MaxWidth="150"
+                               TextWrapping="WrapWithOverflow"/>
                 </StackPanel>
             </Grid>
-        </StackPanel>
-
+        </DockPanel>
+        </Viewbox>
     </Grid>
 </UserControl>

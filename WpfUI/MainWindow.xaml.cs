@@ -12,6 +12,7 @@ using WpfUI.ViewModels.Cables;
 using WpfUI.ViewModels.Areas_and_Systems;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.ViewModels.Menus;
+using WpfUI.Windows;
 
 namespace WpfUI;
 

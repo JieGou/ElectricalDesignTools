@@ -41,16 +41,33 @@ public class TagSettingsViewModel : ViewModelBase
         AutocadHelper.StartAutocad();
     }
 
-    private string _cableTagSeparator;
 
+    
+
+    private string _suffixSeparator;
+    public string SuffixSeparator
+    {
+        get { return _suffixSeparator; }
+        set
+        {
+            _suffixSeparator = value;
+            SaveTagSetting(nameof(SuffixSeparator), value);
+        }
+    }
+
+
+    private string _cableTagSeparator;
     public string CableTagSeparator
     {
         get { return _cableTagSeparator; }
-        set {
+        set
+        {
             _cableTagSeparator = value;
             SaveTagSetting(nameof(CableTagSeparator), value);
         }
     }
+
+
 
     public ICommand RestoreDefaultTagsCommand { get; }
     public void RestoreDefaultTags()
@@ -67,7 +84,7 @@ public class TagSettingsViewModel : ViewModelBase
         foreach (var classProperty in tagSettingsClass.GetProperties()) {
             foreach (var viewModelProperty in tagSettingsViewModel.GetProperties()) {
                 if (classProperty.Name == viewModelProperty.Name) {
-                    viewModelProperty.SetValue(string.Empty, classProperty.GetValue(null));
+                    viewModelProperty.SetValue(this, classProperty.GetValue(null));
                 }
 
             }

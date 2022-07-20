@@ -18,6 +18,9 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            
+            
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Base.xaml"/>
                 <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
@@ -31,9 +34,18 @@
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
 
-            <sys:Int32 x:Key="col1">1</sys:Int32>
+            <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="MinWidth" Value="100"/>
+                <Setter Property="Height" Value="23"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
+            </Style>
 
         </ResourceDictionary>
+
     </UserControl.Resources>
 
     <Grid x:Name="settingsGrid"
@@ -69,8 +81,76 @@
 
         <WrapPanel Grid.Row="1" Grid.Column="2">
 
-            <!--Col 1 - Project Details-->
-            <GroupBox Header="Project Details"
+            <!--Col 1 General -->
+            <GroupBox Header="General Tag Settings"
+                  Grid.Row="1" Grid.Column="2"
+                  Margin="25 0 25 25">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                        <TextBlock Text="Tag Suffix Separator"   Grid.Row="1" Grid.Column="0" />
+                        <TextBlock Text=""  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                    </StackPanel>
+                    <TextBox Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=SuffixSeparator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                </Grid>
+            </GroupBox>
+            
+            <!--Col 2 - Equipment -->
+            <GroupBox Header="Equipment Tag Settings"
+                  Grid.Row="1" Grid.Column="2"
+                  Margin="25 0 25 25">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                </Grid>
+            </GroupBox>
+
+            
+            <!--Col 3 - Cable -->
+            <GroupBox Header="Cable Tag Settings"
                   Grid.Row="1" Grid.Column="2"
                   Margin="25 0 25 25">
                 <Grid>
@@ -96,51 +176,44 @@
                     </Grid.RowDefinitions>
 
 
-                    <TextBlock Text="Project No." 
-                       Grid.Row="1" Grid.Column="0" />
+                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                        <TextBlock Text="Cable Tag Separator"   Grid.Row="1" Grid.Column="0" />
+                        <TextBlock Text="Separating the FROM - TO cable tag   "  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                    </StackPanel>
+                    <TextBox Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=CableTagSeparator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBox Grid.Row="1" Grid.Column="2"
-                         Text="{Binding Path=ProjectNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </GroupBox>
 
-                    <TextBlock Text="Project Name"  
-                       Grid.Row="2" Grid.Column="0" />
-                    <!--<TextBlock Text="{Binding EdtSettings.ProjectName.DisplayName}"
-                       Grid.Row="2" Grid.Column="0" />-->
-                    <TextBox Grid.Row="2" Grid.Column="2"
-                         Text="{Binding Path=ProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <!--Col 4 - Component -->
+            <GroupBox Header="Component Tag Settings"
+                  Grid.Row="1" Grid.Column="2"
+                  Margin="25 0 25 25">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
 
-                    <TextBlock Text="Project Title Line 1"  
-                       Grid.Row="4" Grid.Column="0" />
-                    <TextBox Grid.Row="4" Grid.Column="2"
-                         Text="{Binding Path=ProjectTitleLine1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Project Title Line 2"
-                       Grid.Row="5" Grid.Column="0" />
-                    <TextBox Grid.Row="5" Grid.Column="2"
-                         Text="{Binding Path=ProjectTitleLine2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Project Title Line 3"
-                       Grid.Row="6" Grid.Column="0" />
-                    <TextBox Grid.Row="6" Grid.Column="2"
-                         Text="{Binding Path=ProjectTitleLine3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-
-
-                    <TextBlock Text="Client Name Line 1" 
-                       Grid.Row="9" Grid.Column="0" />
-                    <TextBox Grid.Row="9" Grid.Column="2"
-                         Text="{Binding Path=ClientNameLine1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Client Name Line 2" 
-                       Grid.Row="10" Grid.Column="0" />
-                    <TextBox Grid.Row="10" Grid.Column="2"
-                         Text="{Binding Path=ClientNameLine2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBlock Text="Client Name Line 2" 
-                       Grid.Row="11" Grid.Column="0" />
-                    <TextBox Grid.Row="11" Grid.Column="2"
-                         Text="{Binding Path=ClientNameLine3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 </Grid>
             </GroupBox>
