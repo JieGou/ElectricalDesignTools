@@ -1,6 +1,6 @@
 Confirmation Dialogs
 	- delete loads
-	- 
+	- delete dteq bug (copying back to database)
 
 Error Handling
 	- add ExceptionController in library and publish notification events
@@ -30,12 +30,14 @@ Excel Reports
 	- include / exclude all and multi-select
 
 Dteq 
+	- recalculate load cable derating when AssignedLoads changes
 	- Dteq as Load view
 	- Supply cable sizing based on upstream breaker (what is upstream breaker)
 	
 Load
-	- Proper PD / Starter selection when calculating to taking into account if a drive is selected
+	- Proper PD / Starter selection when calculating to take into account if a drive is selected
 	- calculate single
+	- sequence number/ordering
 
 Grid Context Menu
 	- Change Area to Area

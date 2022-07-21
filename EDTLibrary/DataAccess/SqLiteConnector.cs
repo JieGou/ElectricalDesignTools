@@ -424,7 +424,7 @@ namespace EDTLibrary.DataAccess
                     cmd.CommandText = ($"DELETE FROM {tableName} WHERE Id = @Id");
                     cmd.Parameters.AddWithValue("@Id", id);
                     cmd.ExecuteNonQuery();
-                    return;
+                    
                 }
                 catch (Exception ex) {
                     ex.Data.Add("UserMessage", $"Error deleting Id: {id}    From: {tableName}");

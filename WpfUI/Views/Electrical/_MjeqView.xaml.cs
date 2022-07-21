@@ -19,6 +19,7 @@ using WpfUI.Helpers;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.Views.Electrical.MjeqSubviews;
+using WpfUI.Windows;
 
 namespace WpfUI.Views.Electrical;
 /// <summary>
@@ -138,6 +139,9 @@ public partial class _MjeqView : UserControl
 
 
     //Testing/Shortcuts
+    DebugWindow debugWindow = null;
+    TestWindow testWindow = null;
+
     private async void eqView_PreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
@@ -159,6 +163,21 @@ public partial class _MjeqView : UserControl
                 DeleteEquipmentFromDatabase();
                 e.Handled = true;
 
+            }
+            if (e.Key == Key.F) {
+                if (debugWindow == null || debugWindow.IsLoaded == false) {
+                    debugWindow = new DebugWindow();
+                    debugWindow.DataContext = mjeqVm.DebugViewModel;
+                    debugWindow.Show();
+                }
+                e.Handled = true;
+            }
+            if (e.Key == Key.S) {
+                if (testWindow == null || testWindow.IsLoaded == false) {
+                    testWindow = new TestWindow();
+                    testWindow.DataContext = mjeqVm;
+                    testWindow.Show();
+                } 
             }
 
             //if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {

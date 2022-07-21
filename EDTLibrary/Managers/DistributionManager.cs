@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.Loads;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,9 +39,15 @@ namespace EDTLibrary.Models.DistributionEquipment
                     if (oldSupplier != null) 
                     {
                         caller.LoadingCalculated -= oldSupplier.OnAssignedLoadReCalculated;
+                        
                         oldSupplier.AssignedLoads.Remove(caller);
-                        oldSupplier.CalculateLoading();
+
+
+                    if (oldSupplier.Tag != GlobalConfig.Deleted) {
+                        oldSupplier.CalculateLoading(); //possible cause of resaving dteq to databse
                     }
+
+                }
                     caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
                     newSupplier.AssignedLoads.Add(caller);
                     newSupplier.CalculateLoading();
@@ -68,7 +75,6 @@ namespace EDTLibrary.Models.DistributionEquipment
             //Retag Loads to "Deleted"
             IDteq deleted = GlobalConfig.DteqDeleted;
             for (int i = 0; i < assignedLoads.Count; i++) {
-                var tag = assignedLoads[i].Tag;
                 var load = assignedLoads[i];
                 load.FedFromTag = GlobalConfig.Deleted;
                 load.FedFromType = GlobalConfig.Deleted;

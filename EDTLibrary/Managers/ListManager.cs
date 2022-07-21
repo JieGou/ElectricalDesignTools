@@ -582,23 +582,27 @@ namespace EDTLibrary
             if (IDteq.GetType() == typeof(DteqModel)) {
                 var model = IDteq as DteqModel;
                 DteqList.Remove(model);
+                IDteqList.Remove(model);
             }
             else if (IDteq.GetType() == typeof(XfrModel)) {
                 var model = IDteq as XfrModel;
                 XfrList.Remove(model);
                 DteqList.Remove(model);
+                IDteqList.Remove(model);
 
             }
             else if (IDteq.GetType() == typeof(SwgModel)) {
                 var model = IDteq as SwgModel;
                 SwgList.Remove(model);
                 DteqList.Remove(model);
+                IDteqList.Remove(model);
 
             }
             else if (IDteq.GetType() == typeof(MccModel)) {
                 var model = IDteq as MccModel;
                 MccList.Remove(model);
                 DteqList.Remove(model);
+                IDteqList.Remove(model);
 
             }
             return;

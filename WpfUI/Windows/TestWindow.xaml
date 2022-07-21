@@ -8,7 +8,11 @@
         
         xmlns:subViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
         
-        Title="TestWindow" >
+        Title="TestWindow"  
+        
+        d:Height="500" d:Width="500"
+        Background="{Binding SingleLineViewBackground}"
+        >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

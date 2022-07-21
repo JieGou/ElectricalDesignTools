@@ -267,17 +267,20 @@ namespace EDTLibrary.Models.Cables
             if (cable == null) return derating;
 
             try {
-                if (cable.Load.Area != null && cable.Load.FedFrom.Area != null) {
+                if (cable.Load.FedFrom != null) {
+                    double loadCount = cable.Load.FedFrom.AssignedLoads.Count;
+
+                    if (cable.Load.Area != null&& cable.Load.FedFrom.Area != null) {
                     double cableAmbientTemp = Math.Max(cable.Load.Area.MaxTemp, cable.Load.FedFrom.Area.MaxTemp);
                     if (cableAmbientTemp > 30) {
                         derating *= GetCableDerating_Table5A(cable, cableAmbientTemp);
                         cable.Derating5A = GetCableDerating_Table5A(cable, cableAmbientTemp);
                     }
                 }
-                
+                }
+
                 if (cable.Spacing < 100) {
                     if (cable.AmpacityTable == "Table 1" || cable.AmpacityTable == "Table 2") {
-                        double loadCount = cable.Load.FedFrom.AssignedLoads.Count;
                         derating *= GetCableDerating_Table5C(cable);
                         cable.Derating5C = GetCableDerating_Table5C(cable);
                     }
@@ -364,8 +367,8 @@ namespace EDTLibrary.Models.Cables
 
         private static double GetCableDerating_Table5C(ICable cable)
         {
-            
 
+            if (cable.Load.FedFrom == null) return 1;  
             var supplier = cable.Load.FedFrom;
             int conductorQty = cable.ConductorQty * cable.QtyParallel;
 

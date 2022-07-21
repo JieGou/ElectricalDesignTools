@@ -19,11 +19,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModels;
+using WpfUI.ViewModels.Debug;
 using WpfUI.ViewModifiers;
+using WpfUI.Windows;
 using IComponent = EDTLibrary.Models.Components.IComponent;
 
 namespace WpfUI.ViewModels.Electrical;
@@ -53,12 +56,17 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
+    public SolidColorBrush SingleLineViewBackground { get; set; } = new SolidColorBrush(Colors.White);
+
+    public DebugViewModel DebugViewModel { get; set; }
     public MjeqViewModel(ListManager listManager)
     {
+        DebugViewModel = new DebugViewModel();
+
         //fields
         _listManager = listManager;
         _dteqFactory = new DteqFactory(listManager);
-
+        
 
         //members
         DteqGridViewModifier = new DataGridColumnViewToggle();
@@ -546,15 +554,16 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             if (dteqToDelete != null) {
                 //children first
 
+                dteqToDelete.Tag = GlobalConfig.Deleted;
                 _listManager.UnregisterDteqFromLoadEvents(dteqToDelete);
-                DeletePowerCable(dteqToDelete); //await 
-                DistributionManager.RetagLoadsOfDeleted(dteqToDelete); //await
+                DeletePowerCable(dteqToDelete);  
+                DistributionManager.RetagLoadsOfDeleted(dteqToDelete); 
 
                 if (dteqToDelete.FedFrom != null) {
                     dteqToDelete.FedFrom.AssignedLoads.Remove(dteqToDelete);
                 }
+                _listManager.DeleteDteq(dteqToDelete);
                 DaManager.DeleteDteq(dteqToDelete);
-                _listManager.DeleteDteq(dteqToDelete); //await
                 RefreshDteqTagValidation();
 
                 if (_listManager.IDteqList.Count > 0) {
@@ -597,9 +606,15 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
+    ObservableCollection<IPowerConsumer> Selectedloads = new ObservableCollection<IPowerConsumer>();
     public void DeleteLoad(object selectedLoadObject)
     {
-        DeleteLoadAsync(selectedLoadObject);
+
+        if (SelectedLoad == null) return;
+      
+        if (ConfirmationHelper.Confirm($"Delete load {SelectedLoad.Tag}? \n\n This cannot be undone.")) {
+            DeleteLoadAsync(selectedLoadObject);
+        }
     }
     public async Task DeleteLoadAsync(object selectedLoadObject)
     {

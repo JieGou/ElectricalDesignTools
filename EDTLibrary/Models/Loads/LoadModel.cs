@@ -10,6 +10,7 @@ using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -200,6 +201,8 @@ namespace EDTLibrary.Models.Loads
             }
         }
         public string Unit { get; set; }
+        public int FedFromId { get; set; }
+        public string FedFromType { get; set; }
 
         private string _fedFromTag;
         public string FedFromTag
@@ -210,16 +213,14 @@ namespace EDTLibrary.Models.Loads
                 _fedFromTag = value;
                 if (GlobalConfig.GettingRecords == false) {
                     //OnFedFromChanged();
-                    CalculateLoading();
+                    //CalculateLoading();
                     CreatePowerCable();
                     PowerCable.AssignTagging(this);
                 }
             }
         }
-        public int FedFromId { get; set; }
-        public string FedFromType { get; set; }
+        
         private IDteq _fedFrom;
-
         public IDteq FedFrom
         {
             get { return _fedFrom; }
@@ -232,14 +233,14 @@ namespace EDTLibrary.Models.Loads
                     DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
 
                 }
+                if (FedFrom.Tag != GlobalConfig.Deleted) {
 
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
-                    Undo.AddUndoCommand(cmd);
+                    if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                        var cmd = new UndoCommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
+                        Undo.AddUndoCommand(cmd);
+                    }
+                    OnPropertyUpdated();
                 }
-                OnPropertyUpdated();
-
-
             }
         }
 
@@ -604,6 +605,13 @@ namespace EDTLibrary.Models.Loads
         {
             if (LoadingCalculated != null) {
                 LoadingCalculated(this, EventArgs.Empty);
+
+                //Debug.Print(LoadingCalculated.GetInvocationList().Length.ToString());
+                //var list = LoadingCalculated.GetInvocationList();
+                //foreach (var item in list) {
+                //    DteqModel subscriber = (DteqModel)item.Target;
+                //    Debug.Print(subscriber.Tag);
+                //}
             }
         }
 

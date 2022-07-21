@@ -326,7 +326,8 @@
                 <!--Grid height is adjusted in the View.cs file by the method btnGrdSplitAdjust_PreviewMouseLeftButtonDown-->
                 <DataGrid x:Name="dgdDteq" 
                           Grid.Column="0"
-                          SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                          SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          
                           ItemsSource="{Binding DteqCollectionView}"
                           IsSynchronizedWithCurrentItem="True"
                           FrozenColumnCount="1"

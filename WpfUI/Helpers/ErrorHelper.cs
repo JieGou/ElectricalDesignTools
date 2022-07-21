@@ -13,8 +13,8 @@ namespace WpfUI.Helpers
         {
 #if DEBUG
             if (ex.Data.Contains("UserMessage")) {
-                MessageBox.Show($"Error: \n\n{ex.Message}\n\n\n" +
-                                $"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n" +
+                MessageBox.Show($"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n" + 
+                    $"Error: \n\n{ex.Message}\n\n\n" +
                                 $"Stack Trace: \n\n {ex}", "Error");
             }
             else {

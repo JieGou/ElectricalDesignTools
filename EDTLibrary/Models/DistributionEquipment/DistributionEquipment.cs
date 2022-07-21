@@ -290,11 +290,16 @@ namespace EDTLibrary.Models.DistributionEquipment
                 catch (Exception ex) {
                     throw;
                 }
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
-                    Undo.AddUndoCommand(cmd);
+
+
+                if (FedFrom.Tag != GlobalConfig.Deleted) {
+
+                    if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                        var cmd = new UndoCommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
+                        Undo.AddUndoCommand(cmd);
+                    }
+                    OnPropertyUpdated();
                 }
-                OnPropertyUpdated();
 
             }
         }
@@ -480,7 +485,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
 
             Voltage = LineVoltage;
-
+            var dis = this;
             //Sums values from Assinged loads
             ConnectedKva = (from x in AssignedLoads select x.ConnectedKva).Sum();
             ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
