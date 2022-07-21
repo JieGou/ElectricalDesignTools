@@ -71,6 +71,8 @@ public class DaManager {
 
         try {
             if (GlobalConfig.GettingRecords == false) {
+                IDteq dteq = (IDteq)source;
+                if (dteq.Tag == GlobalConfig.Deleted ) return;
                 DaManager.UpsertDteqAsync((IDteq)source);
             }
         }

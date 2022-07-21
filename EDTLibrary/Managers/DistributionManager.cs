@@ -65,7 +65,6 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public static void RetagLoadsOfDeleted(IDteq dteq)
         {
-            //TODO - Move to Distribution Manager
             //Loads
             List<IPowerConsumer> assignedLoads = new List<IPowerConsumer>();
             if (dteq.AssignedLoads != null) {
@@ -77,8 +76,12 @@ namespace EDTLibrary.Models.DistributionEquipment
             for (int i = 0; i < assignedLoads.Count; i++) {
                 var load = assignedLoads[i];
                 load.FedFromTag = GlobalConfig.Deleted;
-                load.FedFromType = GlobalConfig.Deleted;
                 load.FedFrom = deleted;
+
+                // to trigger upsert but not working
+                var tag = load.Tag;
+                load.Tag = "temp"; 
+                load.Tag = tag;
             }
             return;
         }

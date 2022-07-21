@@ -233,14 +233,11 @@ namespace EDTLibrary.Models.Loads
                     DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
 
                 }
-                if (FedFrom.Tag != GlobalConfig.Deleted) {
-
-                    if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                        var cmd = new UndoCommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
-                        Undo.AddUndoCommand(cmd);
-                    }
-                    OnPropertyUpdated();
+                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
+                    Undo.AddUndoCommand(cmd);
                 }
+                OnPropertyUpdated();
             }
         }
 

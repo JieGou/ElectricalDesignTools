@@ -215,6 +215,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
         public string Unit { get; set; }
+        public int FedFromId { get; set; }
+        public string FedFromType { get; set; }
 
         private string _fedFromTag;
         public string FedFromTag
@@ -242,11 +244,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
             }
         }
-        public int FedFromId { get; set; }
-        public string FedFromType { get; set; }
-
+      
         private IDteq _fedFrom;
-
         public IDteq FedFrom
         {
             get { return _fedFrom; }
@@ -290,16 +289,11 @@ namespace EDTLibrary.Models.DistributionEquipment
                 catch (Exception ex) {
                     throw;
                 }
-
-
-                if (FedFrom.Tag != GlobalConfig.Deleted) {
-
-                    if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                        var cmd = new UndoCommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
-                        Undo.AddUndoCommand(cmd);
-                    }
-                    OnPropertyUpdated();
+                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
+                    Undo.AddUndoCommand(cmd);
                 }
+                OnPropertyUpdated();
 
             }
         }

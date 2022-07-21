@@ -13,8 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfUI.Tests", "WpfUI.Tests\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Notes", "_Notes", "{50E08AEB-4A6A-4FA8-BE96-D05F73A87788}"
 	ProjectSection(SolutionItems) = preProject
-		_bugs.txt = _bugs.txt
 		_Notes.txt = _Notes.txt
+		_Bugs.txt = _Bugs.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutocadLibrary", "..\..\Users\pdeau\Google Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj", "{05FE6682-C823-4DA4-8584-E8F26B7A6671}"
