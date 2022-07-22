@@ -1,2 +1,1 @@
-Delete Dteq
-	- delete dteq, reload all, dteq supplier != * Deleted *
+

@@ -30,6 +30,8 @@
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
     </Style>
 
+    <SolidColorBrush x:Key="ErrorColor_Base" Color="#FFD40000"/>
+
     <!--TEXTBOX Style with Error -->
     <Style x:Key="TextBoxBaseErrorTemplate" TargetType="TextBox" BasedOn="{StaticResource DefaultStyle}">
         <Setter Property="Validation.ErrorTemplate">

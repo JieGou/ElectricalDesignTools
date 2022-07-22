@@ -354,7 +354,7 @@ namespace EDTLibrary
         {
             foreach (var assignedLoad in dteq.AssignedLoads) {
                 assignedLoad.LoadingCalculated -= dteq.OnAssignedLoadReCalculated;
-                assignedLoad.PropertyUpdated -= DaManager.OnDteqPropertyUpdated;
+                //assignedLoad.PropertyUpdated -= DaManager.OnDteqPropertyUpdated;
             }
         }
         public void AssignLoadsAndEventsToAllDteq()

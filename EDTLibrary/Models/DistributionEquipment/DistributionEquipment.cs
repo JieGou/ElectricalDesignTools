@@ -263,11 +263,15 @@ namespace EDTLibrary.Models.DistributionEquipment
                         DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
                         return;
                     }
+                    _fedFrom = nextFedFrom;
                     //Fed from validation
                     for (int i = 0; i < 500; i++) {
-                        if (nextFedFrom != null) {
+                        if (nextFedFrom == null) {
+                            DistributionManager.UpdateFedFrom(this, _fedFrom, new DteqModel()) ;
+                            break;
+                        }
+                        else {
                             if (nextFedFrom.Tag == Tag) {
-                                MessageBox.Show("Equipment Cannot be fed from itself.", "Circular Feed Error");
                                 ErrorHelper.Notify("Equipment Cannot be fed from itself.", "Circular Feed Error");
                                 _fedFrom = oldValue;
 
@@ -275,7 +279,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                                 //throw new InvalidOperationException("Equipment cannot be fed from itself.");
                                 //AddError(nameof(FedFrom),"Equipment cannot be fed from itself.");
                             }
-                            else if (nextFedFrom.Tag == GlobalConfig.Utility || nextFedFrom.Tag == GlobalConfig.Deleted) {
+                            else if (nextFedFrom.Tag == GlobalConfig.Utility || nextFedFrom.Tag == GlobalConfig.Deleted || i == 5) {
                                 _fedFrom = value;
                                 DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
                                 break;

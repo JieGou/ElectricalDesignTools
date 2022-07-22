@@ -357,8 +357,8 @@
                             <Setter Property="ToolTipService.InitialShowDelay" Value="100"/>
                             <Style.Triggers>
                                 <Trigger Property="Validation.HasError" Value="True">
-                                    <Setter Property="Background" Value="Red"/>
-                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Setter Property="Background" Value="{StaticResource ErrorColor_Base}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource ErrorColor_Base}"/>
                                     <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
                                 </Trigger>
                             </Style.Triggers>
@@ -549,7 +549,15 @@
                                 <DataTemplate>
                                     <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                MouseLeftButtonDown="FastEditEvent">
-
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding FedFrom.Tag}" Value="* Deleted *">
+                                                        <Setter Property="Foreground"  Value="{StaticResource ErrorColor_Base}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
                                     </TextBlock>
 
                                     <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
@@ -822,7 +830,7 @@
                                 Width="{TemplateBinding FontSize}" 
                                 Height="{TemplateBinding FontSize}" />-->
                                 <TextBlock Text="X" FontSize="15" 
-                                    FontWeight="UltraBold" Foreground="Red" 
+                                    FontWeight="UltraBold" Foreground="{StaticResource ErrorColor_Base}" 
                                     HorizontalAlignment="Stretch"  />
                             </Grid>
                         </ControlTemplate>
@@ -1264,8 +1272,8 @@
                             <Setter Property="ToolTipService.InitialShowDelay" Value="100"/>
                             <Style.Triggers>
                                 <Trigger Property="Validation.HasError" Value="True">
-                                    <Setter Property="Background" Value="Red"/>
-                                    <Setter Property="Foreground" Value="Red"/>
+                                    <Setter Property="Background" Value="{StaticResource ErrorColor_Base}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource ErrorColor_Base}"/>
                                     <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
                                 </Trigger>
                             </Style.Triggers>
@@ -1469,7 +1477,17 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                               MouseLeftButtonDown="FastEditEvent" />
+                                               MouseLeftButtonDown="FastEditEvent" >
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding FedFrom.Tag}" Value="* Deleted *">
+                                                        <Setter Property="Foreground"  Value="{StaticResource ErrorColor_Base}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
 
                                     <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
 
@@ -1978,7 +1996,7 @@
                                 Width="{TemplateBinding FontSize}" 
                                 Height="{TemplateBinding FontSize}" />-->
                                 <TextBlock Text="X" FontSize="15" 
-                                    FontWeight="UltraBold" Foreground="Red" 
+                                    FontWeight="UltraBold" Foreground="{StaticResource ErrorColor_Base}" 
                                     HorizontalAlignment="Stretch"  />
                             </Grid>
                         </ControlTemplate>
