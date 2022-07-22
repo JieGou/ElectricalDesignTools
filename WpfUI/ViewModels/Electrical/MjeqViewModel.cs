@@ -20,6 +20,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Stores;
@@ -105,6 +106,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
 
         GetLoadListCommand = new RelayCommand(GetLoadList);
+        CalculateLoadCommand = new RelayCommand(CalculateLoad);
         SaveLoadListCommand = new RelayCommand(SaveLoadList);
         DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
@@ -122,6 +124,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
     }
 
+   
+
     public UserControl SelectedElectricalVieModel { get; set; }
     #endregion
 
@@ -131,7 +135,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     public ICommand NavigateMjeqCommand { get; }
 
 
-
+    //view commands
     public ICommand ToggleRowDetailViewCommand { get; }
 
     public ICommand TogglePowerViewDteqCommand { get; }
@@ -158,11 +162,13 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
     // Load Commands
     public ICommand GetLoadListCommand { get; }
-    public ICommand SaveLoadListCommand { get; }
+    public ICommand CalculateLoadCommand { get; }
     public ICommand DeleteLoadCommand { get; }
 
     public ICommand CalculateAllCommand { get; }
 
+
+    public ICommand SaveLoadListCommand { get; }
 
 
 
@@ -266,7 +272,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
-
+    private int _selectedDteqTab;
     public int SelectedDteqTab
     {
         get { return _selectedDteqTab; }
@@ -320,9 +326,10 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
     // LOADS
 
+    
+   
+   
     private IPowerConsumer _selectedLoad;
-    private int _selectedDteqTab;
-
     public IPowerConsumer SelectedLoad
     {
         get { return _selectedLoad; }
@@ -341,6 +348,9 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             }
         }
     }
+
+    public IList SelectedLoads { get; internal set; }
+
     private int _selectedLoadTab;
     public int SelectedLoadTab
     {
@@ -607,41 +617,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
     ObservableCollection<IPowerConsumer> Selectedloads = new ObservableCollection<IPowerConsumer>();
-    public void DeleteLoad(object selectedLoadObject)
-    {
-
-        if (SelectedLoad == null) return;
-      
-        if (ConfirmationHelper.Confirm($"Delete load {SelectedLoad.Tag}? \n\n This cannot be undone.")) {
-            DeleteLoadAsync(selectedLoadObject);
-        }
-    }
-    public async Task DeleteLoadAsync(object selectedLoadObject)
-    {
-        if (selectedLoadObject == null) return;
-
-        try {
-            int loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
-            var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
-            AssignedLoads.Remove(loadToRemove);
-
-            RefreshLoadTagValidation();
-
-            //if (AssignedLoads.Count > 0) {
-            //    SelectedLoad = AssignedLoads[AssignedLoads.Count - 1];
-            //}
-        }
-        catch (Exception ex) {
-
-            if (ex.Message.ToLower().Contains("sql")) {
-                ErrorHelper.ShowErrorMessage(ex);
-            }
-            else {
-                ErrorHelper.ShowErrorMessage(ex);
-            }
-            throw;
-        }
-    }
+   
 
     // Loads
     public async void GetLoadList()
@@ -655,6 +631,61 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             AssignedLoads.Add(load);
         }
         LoadListLoaded = true;
+    }
+    private void CalculateLoad()
+    {
+        if (SelectedLoad != null) {
+            SelectedLoad.CalculateLoading();
+        }
+    }
+    public void DeleteLoad(object selectedLoadObject)
+    {
+
+        if (SelectedLoad == null || SelectedLoad is DistributionEquipment) return;
+
+        var message = $"Delete load {SelectedLoad.Tag}? \n\nThis cannot be undone.";
+
+        if (SelectedLoads.Count>1) {
+            message = $"Delete {SelectedLoads.Count} loads? \n\nThis cannot be undone.";
+        }
+
+        if (ConfirmationHelper.Confirm(message)) {
+            if (SelectedLoads.Count == 1) {
+                DeleteLoadAsync(selectedLoadObject);
+            }
+            else {
+                ILoad load;
+                while (SelectedLoads.Count > 0) {
+                        load = (LoadModel)SelectedLoads[0];
+                        DeleteLoadAsync(load);
+                        SelectedLoads.Remove(load);
+                }
+            }
+            
+        }
+    }
+    public async Task DeleteLoadAsync(object selectedLoadObject)
+    {
+        if (selectedLoadObject == null) return;
+
+        try {
+            int loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
+            var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
+            AssignedLoads.Remove(loadToRemove);
+
+            RefreshLoadTagValidation();
+            
+        }
+        catch (Exception ex) {
+
+            if (ex.Message.ToLower().Contains("sql")) {
+                ErrorHelper.ShowErrorMessage(ex);
+            }
+            else {
+                ErrorHelper.ShowErrorMessage(ex);
+            }
+            throw;
+        }
     }
     private void SaveLoadList()
     {
@@ -927,6 +958,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             AppSettings.Default.Save();
         }
     }
+
+   
 
     #endregion
 

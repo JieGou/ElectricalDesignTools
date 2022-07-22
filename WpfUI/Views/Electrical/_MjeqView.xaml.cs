@@ -135,6 +135,7 @@ public partial class _MjeqView : UserControl
                 LoadDetailsContent.Content = _loadDetailsView;
             }
         }
+        mjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;
     }
 
 
@@ -335,23 +336,28 @@ public partial class _MjeqView : UserControl
     private void LoadGridContextMenu_Delete(object sender, MouseButtonEventArgs e)
     {
         DeleteLoads_VM();
+
+        
     }
 
     private async Task DeleteLoads_VM()
     {
-        try {
-            ILoad load;
-            while (dgdAssignedLoads.SelectedItems.Count > 0) {
-                await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-                    load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
-                    mjeqVm.DeleteLoad(load);
-                    dgdAssignedLoads.SelectedItems.Remove(load);
-                }));
+        if (ConfirmationHelper.Confirm($"Delete {dgdAssignedLoads.SelectedItems.Count} loads? \n\nThis cannot be undone.")) {
+
+            try {
+                ILoad load;
+                while (dgdAssignedLoads.SelectedItems.Count > 0) {
+                    await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                        load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
+                        mjeqVm.DeleteLoadAsync(load);
+                        dgdAssignedLoads.SelectedItems.Remove(load);
+                    }));
+                }
             }
-        }
-        catch (Exception ex) {
-            ex.Data.Add("UserMessage", "Cannot delete Distribution Equipment from Load List");
-            ErrorHelper.ShowErrorMessage(ex);
+            catch (Exception ex) {
+                ex.Data.Add("UserMessage", "Cannot delete Distribution Equipment from Load List");
+                ErrorHelper.ShowErrorMessage(ex);
+            }
         }
     }
 

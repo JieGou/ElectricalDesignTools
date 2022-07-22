@@ -212,11 +212,14 @@
 
                 <Button x:Name ="btnLoadList" Content="Load List" Height="25" Width="100"
                         Command="{Binding GetLoadListCommand}"/>
+                
+                <Button x:Name ="btnCalculateSelectedLoad" Content="Calculate" Height="25" Width="100"
+                        Command="{Binding CalculateLoad}"/>
 
                 <!--<Button x:Name ="btnSaveLoadList" Content="Save Load List" Height="25" Width="100"
                         Command="{Binding SaveLoadListCommand}"/>-->
 
-                <Button x:Name ="btnDeleteLoad" Content="Delete Load" Height="25" Width="100"
+                <Button x:Name ="btnDeleteLoad" Content="Delete Selected" Height="25" Width="100"
                         Style="{StaticResource RedButton}"
                         Command="{Binding DeleteLoadCommand}" 
                         CommandParameter="{Binding SelectedLoad}" />
@@ -1262,8 +1265,11 @@
                           VirtualizingPanel.IsVirtualizing="False"
                           VirtualizingStackPanel.VirtualizationMode="Recycling"
                           RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}"
-                          SelectionChanged="dgdAssignedLoads_SelectionChanged" PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown" MouseLeave="dgdAssignedLoads_MouseLeave" 
-                          BeginningEdit="dgdAssignedLoads_BeginningEdit" CellEditEnding="dgdAssignedLoads_CellEditEnding"
+                          SelectionChanged="dgdAssignedLoads_SelectionChanged" 
+                          PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown" 
+                          MouseLeave="dgdAssignedLoads_MouseLeave" 
+                          BeginningEdit="dgdAssignedLoads_BeginningEdit" 
+                          CellEditEnding="dgdAssignedLoads_CellEditEnding"
                           
                           >
                     <DataGrid.Resources>

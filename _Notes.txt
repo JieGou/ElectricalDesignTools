@@ -1,6 +1,7 @@
+Cable Sizing
+	- voltage drop and length calculation
+
 Confirmation Dialogs
-	- delete loads
-	- delete dteq bug (copying back to database)
 
 Error Handling
 	- add ExceptionController in library and publish notification events
@@ -18,10 +19,8 @@ Tag Settings
 	- settings page
 	- basic tagging system
 	- tagging logic
-	- bluk updates on tag changes
+	- bulk updates on tag changes
 
-Cable Sizing
-	- voltage drop and length calculation
 
 Excel Reports
 	- Cable BOM
@@ -31,12 +30,12 @@ Excel Reports
 
 Dteq 
 	- recalculate load cable derating when AssignedLoads changes
-	- Dteq as Load view
+	- dteq as LoadGraphicVew
 	- Supply cable sizing based on upstream breaker (what is upstream breaker)
 	
 Load
-	- Proper PD / Starter selection when calculating to take into account if a drive is selected
 	- calculate single
+	- Proper PD / Starter selection when calculating to take into account if a drive is selected
 	- sequence number/ordering
 
 Grid Context Menu
