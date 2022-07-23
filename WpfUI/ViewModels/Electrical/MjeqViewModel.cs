@@ -50,16 +50,18 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         get
         {
-            if (EdtSettings.AreaColumnVisible=="True") {
+            if (EdtSettings.AreaColumnVisible == "True") {
                 return true;
-            } 
-            return false; 
+            }
+            return false;
         }
     }
 
     public SolidColorBrush SingleLineViewBackground { get; set; } = new SolidColorBrush(Colors.White);
 
     public DebugViewModel DebugViewModel { get; set; }
+
+    //CONSTRUCTOR
     public MjeqViewModel(ListManager listManager)
     {
         DebugViewModel = new DebugViewModel();
@@ -67,7 +69,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         //fields
         _listManager = listManager;
         _dteqFactory = new DteqFactory(listManager);
-        
+
 
         //members
         DteqGridViewModifier = new DataGridColumnViewToggle();
@@ -87,7 +89,6 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         ToggleOcpdViewLoadCommand = new RelayCommand(LoadGridViewModifier.ToggleOcpd);
         ToggleCableViewLoadCommand = new RelayCommand(LoadGridViewModifier.ToggleCable);
         ToggleCompViewLoadCommand = new RelayCommand(LoadGridViewModifier.ToggleComp);
-
 
 
         GetAllCommand = new RelayCommand(DbGetAll);
@@ -122,9 +123,15 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
         DeleteComponentCommand = new RelayCommand(DeleteComponent);
 
+
+        //Window Commands
+        CloseWindowCommand = new RelayCommand(CloseSelectionWindow);
+        SetFedFromCommand = new RelayCommand(SetFedFrom);
+
+
     }
 
-   
+
 
     public UserControl SelectedElectricalVieModel { get; set; }
     #endregion
@@ -180,6 +187,33 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     public ICommand ComponentMoveDownCommand { get; }
     public ICommand DeleteComponentCommand { get; }
 
+
+    public Window SelectionWindow { get; set; }
+    public ICommand CloseWindowCommand { get; }
+    public ICommand SetFedFromCommand { get; }
+
+
+    #endregion
+
+    #region Window Commands
+    public void CloseSelectionWindow()
+    {
+        SelectionWindow.Close();
+        SelectionWindow = null;
+    }
+    public void SetFedFrom()
+    {
+        IPowerConsumer load;
+        foreach (var item in SelectedLoads) {
+            load = (IPowerConsumer)item;
+            //dteq.Tag = "New Tag";
+            load.FedFrom = ListManager.IDteqList.FirstOrDefault(d => d.Tag == LoadToAddValidator.FedFromTag);
+        }
+        if (SelectionWindow != null) {
+            CloseSelectionWindow();
+        }
+    }
+
     #endregion
 
 
@@ -191,9 +225,10 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     public DataGridColumnViewToggle DteqGridViewModifier { get; set; }
     public DataGridColumnViewToggle LoadGridViewModifier { get; set; }
 
-    #endregion  
+    #endregion
 
 
+    #region Properties
     public bool DteqFilter { get; set; }
     private ObservableCollection<IDteq> _dteqList = new ObservableCollection<IDteq>();
 
@@ -230,6 +265,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             _dteqCollectionView = DteqCollectionView;
         }
     }
+
+
 
     // DTEQ
     private IDteq _selectedDteq;
@@ -324,11 +361,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     public DteqToAddValidator DteqToAddValidator { get; set; }
 
-    // LOADS
 
-    
-   
-   
+    // LOADS
     private IPowerConsumer _selectedLoad;
     public IPowerConsumer SelectedLoad
     {
@@ -341,7 +375,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 GlobalConfig.SelectingNew = true;
                 CopySelectedLoad();
                 GlobalConfig.SelectingNew = false;
-                if (_selectedLoad.CctComponents.Count>0) {
+                if (_selectedLoad.CctComponents.Count > 0) {
                     SelectedComponent = (ComponentModel)_selectedLoad.CctComponents[0];
 
                 }
@@ -405,7 +439,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     //Cables
 
 
-
+    #endregion
 
 
 
@@ -566,8 +600,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
                 dteqToDelete.Tag = GlobalConfig.Deleted;
                 _listManager.UnregisterDteqFromLoadEvents(dteqToDelete);
-                DeletePowerCable(dteqToDelete);  
-                DistributionManager.RetagLoadsOfDeleted(dteqToDelete); 
+                DeletePowerCable(dteqToDelete);
+                DistributionManager.RetagLoadsOfDeleted(dteqToDelete);
 
                 if (dteqToDelete.FedFrom != null) {
                     dteqToDelete.FedFrom.AssignedLoads.Remove(dteqToDelete);
@@ -617,7 +651,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
     ObservableCollection<IPowerConsumer> Selectedloads = new ObservableCollection<IPowerConsumer>();
-   
+
 
     // Loads
     public async void GetLoadList()
@@ -645,7 +679,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
         var message = $"Delete load {SelectedLoad.Tag}? \n\nThis cannot be undone.";
 
-        if (SelectedLoads.Count>1) {
+        if (SelectedLoads.Count > 1) {
             message = $"Delete {SelectedLoads.Count} loads? \n\nThis cannot be undone.";
         }
 
@@ -682,7 +716,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             AssignedLoads.Remove(loadToRemove);
 
             RefreshLoadTagValidation();
-            
+
         }
         catch (Exception ex) {
 
@@ -731,6 +765,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
     #endregion
+
 
     #region ComponentCommands
     private void DeleteComponent()
@@ -839,10 +874,9 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
         return true;
     }
+    #endregion
 
-
-
-    //ComboBox Lists
+    #region ComboBox Lists
     public ObservableCollection<string> DteqTypes { get; set; } = new ObservableCollection<string>();
     public ObservableCollection<string> VoltageTypes { get; set; } = new ObservableCollection<string>();
     public ObservableCollection<CableTypeModel> DteqCableTypes { get; set; } = new ObservableCollection<CableTypeModel>();
@@ -870,8 +904,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         CableInstallationTypes.Add(GlobalConfig.CableInstallationType_DirectBuried);
         CableInstallationTypes.Add(GlobalConfig.CableInstallationType_RacewayConduit);
     }
-
     #endregion
+
 
     #region WindowSizing
 
@@ -967,7 +1001,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
-   
+
 
     #endregion
 

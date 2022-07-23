@@ -20,15 +20,15 @@ using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.Views.Electrical.MjeqSubviews;
 using WpfUI.Windows;
+using WpfUI.Windows.SelectionWindows;
 
 namespace WpfUI.Views.Electrical;
 /// <summary>
-/// Interaction logic for AMjeqView.xaml
+/// Interaction logic for MjeqView.xaml
 /// </summary>
 public partial class _MjeqView : UserControl
 {
     private MjeqViewModel mjeqVm { get { return DataContext as MjeqViewModel; } }
-
 
 
     private bool _isEditingLoadGrids;
@@ -46,26 +46,7 @@ public partial class _MjeqView : UserControl
     }
 
 
-    private void txtDteqTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        if (txtDteqTag.Text == "" || txtDteqTag.Text == GlobalConfig.EmptyTag) txtDteqTag.Text = "";
-    }
 
-    private void txtDteqTag_LostFocus(object sender, RoutedEventArgs e)
-    {
-        if (txtDteqTag.Text == "") txtDteqTag.Text = GlobalConfig.EmptyTag;
-    }
-
-
-    private void txtLoadTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        if (txtLoadTag.Text == "" || txtLoadTag.Text == GlobalConfig.EmptyTag) txtLoadTag.Text = "";
-    }
-
-    private void txtLoadTag_LostFocus(object sender, RoutedEventArgs e)
-    {
-        if (txtLoadTag.Text == "") txtLoadTag.Text = GlobalConfig.EmptyTag;
-    }
 
     private void dgdDteq_KeyDown(object sender, KeyEventArgs e)
     {
@@ -181,7 +162,7 @@ public partial class _MjeqView : UserControl
                     testWindow = new TestWindow();
                     testWindow.DataContext = mjeqVm;
                     testWindow.Show();
-                } 
+                }
             }
 
             //if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
@@ -194,108 +175,16 @@ public partial class _MjeqView : UserControl
     }
 
     //Testing
-    private async Task LoadTestEquipmentData()
-    {
-        ListManager listManager = mjeqVm.ListManager;
-
-        MessageBoxResult result = MessageBox.Show("Dteq, Loads, Both", "Test Data", MessageBoxButton.YesNoCancel);
-        string start = "";
-        GlobalConfig.Importing = true;
-        switch (result) {
-            case MessageBoxResult.Yes:
-                start = DateTime.Now.ToString();
-                AddTestDteq(listManager, start);
-                break;
-
-            case MessageBoxResult.No:
-                AddTestDteq(listManager, start);
-                start = DateTime.Now.ToString();
-                await Task.Run(() => AddTestLoadsAsync(listManager));
-                mjeqVm.GetLoadList();
-                Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
-                break;
-
-            case MessageBoxResult.Cancel:
-                start = DateTime.Now.ToString();
-                AddTestDteq(listManager, start);
-                foreach (var load in TestData.TestLoadList) {
-                    load.Area = listManager.AreaList[0];
-                    LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
-                    mjeqVm.AddLoad(loadToAdd);
-                    load.CalculateLoading();
-                }
-                Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
-                break;
-        }
-        GlobalConfig.Importing = false;
-        mjeqVm.DbSaveAll();
-
-        Debug.Print($"Final start: {start} Final end: {DateTime.Now.ToString()}");
-    }
-
-    private void AddTestDteq(ListManager listManager, string start)
-    {
-        foreach (var dteq in TestData.TestDteqList) {
-            dteq.Area = listManager.AreaList[0];
-            DteqToAddValidator dteqToAdd = new DteqToAddValidator(listManager, dteq);
-            mjeqVm.AddDteq(dteqToAdd);
-            Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
-        }
-    }
-
-    private async Task AddTestLoadsAsync(ListManager listManager)
-    {
-        try {
-
-            //List<Task<LoadModel>> tasks = new List<Task<LoadModel>>();
-
-            foreach (var load in TestData.TestLoadList) {
-                load.Area = listManager.AreaList[0];
-                LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
-                await Task.Run(() => LoadManager.AddLoad(loadToAdd, listManager));
-
-                //tasks.Add  (Task.Run(() => LoadManager.AddLoad(loadToAdd, listManager)));  
-                //load.CalculateLoadingAsync();
-            }
-            //var results = await Task.WhenAll(tasks);
-        }
-        catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
-
-        }
-
-    }
 
 
 
-    //Testing
-    private void DeleteEquipment()
-    {
-        while (mjeqVm.ListManager.IDteqList.Count > 0) {
-            IDteq dteq = mjeqVm.ListManager.IDteqList[0];
-            mjeqVm.DeleteDteq(dteq);
-        }
 
-        while (mjeqVm.ListManager.LoadList.Count > 0) {
-            mjeqVm.DeleteLoad(mjeqVm.ListManager.LoadList[0]);
-        }
 
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
-    }
 
-    private void DeleteEquipmentFromDatabase()
-    {
-        //Delete records
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.CableTable);
 
-        mjeqVm.DbGetAll();
-    }
+    #region Context Menus
 
+    //LOAD
     private void AddEquipmentPanelViewToggle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         //dgdDteq.Height = 10;
@@ -328,19 +217,25 @@ public partial class _MjeqView : UserControl
 
     private void LoadGridContextMenu_SetFedFrom(object sender, MouseButtonEventArgs e)
     {
-        IPowerConsumer load;
-        foreach (var item in dgdAssignedLoads.SelectedItems) {
-            load = (IPowerConsumer)item;
-            //dteq.Tag = "New Tag";
-            load.FedFrom = mjeqVm.ListManager.IDteqList.FirstOrDefault(d => d.Tag == mjeqVm.LoadToAddValidator.FedFromTag);
-        }
+        FedFromSelectionWindow fedFromSelectionWindow = new FedFromSelectionWindow();
+        fedFromSelectionWindow.DataContext = mjeqVm;
+        mjeqVm.SelectionWindow = fedFromSelectionWindow;
+        fedFromSelectionWindow.ShowDialog();
+
+
+        //IPowerConsumer load;
+        //foreach (var item in dgdAssignedLoads.SelectedItems) {
+        //    load = (IPowerConsumer)item;
+        //    //dteq.Tag = "New Tag";
+        //    load.FedFrom = mjeqVm.ListManager.IDteqList.FirstOrDefault(d => d.Tag == mjeqVm.LoadToAddValidator.FedFromTag);
+        //}
     }
 
     private void LoadGridContextMenu_Delete(object sender, MouseButtonEventArgs e)
     {
         DeleteLoads_VM();
 
-        
+
     }
 
     private async Task DeleteLoads_VM()
@@ -371,6 +266,10 @@ public partial class _MjeqView : UserControl
         dataGridCell.FastEdit(args);
     }
 
+    #endregion
+
+
+    #region Filters
     //CollectionView in XAML
     private void cvsIdteq_Filter(object sender, FilterEventArgs e)
     {
@@ -484,9 +383,6 @@ public partial class _MjeqView : UserControl
             }
         }
     }
-
-
-
     private void LoadGridFilter(object sender, KeyEventArgs e)
     {
         TextBox textBox = (TextBox)sender;
@@ -546,14 +442,37 @@ public partial class _MjeqView : UserControl
                                 mjeqVm.AssignedLoads.Add((IPowerConsumer)load);
                             }
                         }
-                        
-                        
+
+
                     }
                     catch { } //for any empty strings
                 }
             }
         }
     }
+    #endregion
+
+    #region Editing and Add Eq Control Events
+
+    private void txtDteqTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (txtDteqTag.Text == "" || txtDteqTag.Text == GlobalConfig.EmptyTag) txtDteqTag.Text = "";
+    }
+    private void txtDteqTag_LostFocus(object sender, RoutedEventArgs e)
+    {
+        if (txtDteqTag.Text == "") txtDteqTag.Text = GlobalConfig.EmptyTag;
+    }
+
+
+    private void txtLoadTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (txtLoadTag.Text == "" || txtLoadTag.Text == GlobalConfig.EmptyTag) txtLoadTag.Text = "";
+    }
+    private void txtLoadTag_LostFocus(object sender, RoutedEventArgs e)
+    {
+        if (txtLoadTag.Text == "") txtLoadTag.Text = GlobalConfig.EmptyTag;
+    }
+
 
     private void btnAddDteq_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
@@ -561,7 +480,6 @@ public partial class _MjeqView : UserControl
             txtDteqTag.Text = "";
         }
     }
-
     private void btnAddDteq_MouseLeave(object sender, MouseEventArgs e)
     {
         Task.Run(() => resetTag());
@@ -580,14 +498,12 @@ public partial class _MjeqView : UserControl
     private void eqView_Unloaded(object sender, RoutedEventArgs e)
     {
     }
-
     private void eqView_MouseLeave(object sender, MouseEventArgs e)
     {
         var dataView = (ListCollectionView)CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource);
         if (dataView.IsEditingItem)
             dataView.CommitEdit();
     }
-
     private void btnAddLoad_MouseLeave(object sender, MouseEventArgs e)
     {
         Task.Run(() => resetTag());
@@ -602,36 +518,134 @@ public partial class _MjeqView : UserControl
             }
         }
     }
-
     private void btnAddLoad_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         if (txtLoadTag.Text == GlobalConfig.EmptyTag) {
             txtLoadTag.Text = "";
         }
     }
-
     private void dgdDteq_MouseLeave(object sender, MouseEventArgs e)
     {
         var dataGrid = (DataGrid)sender;
         dataGrid.CancelEdit();
     }
-
     private void dgdAssignedLoads_MouseLeave(object sender, MouseEventArgs e)
     {
         var dataGrid = (DataGrid)sender;
         dataGrid.CancelEdit();
     }
-
     private void dgdAssignedLoads_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
     {
         _isEditingLoadGrids = true;
     }
-
     private void dgdAssignedLoads_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
     {
         _isEditingLoadGrids = false;
     }
+    #endregion
+
+    #region Testing
+    //Testing
+    private async Task LoadTestEquipmentData()
+    {
+        ListManager listManager = mjeqVm.ListManager;
+
+        MessageBoxResult result = MessageBox.Show("Dteq, Loads, Both", "Test Data", MessageBoxButton.YesNoCancel);
+        string start = "";
+        GlobalConfig.Importing = true;
+        switch (result) {
+            case MessageBoxResult.Yes:
+                start = DateTime.Now.ToString();
+                AddTestDteq(listManager, start);
+                break;
+
+            case MessageBoxResult.No:
+                AddTestDteq(listManager, start);
+                start = DateTime.Now.ToString();
+                await Task.Run(() => AddTestLoadsAsync(listManager));
+                mjeqVm.GetLoadList();
+                Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
+                break;
+
+            case MessageBoxResult.Cancel:
+                start = DateTime.Now.ToString();
+                AddTestDteq(listManager, start);
+                foreach (var load in TestData.TestLoadList) {
+                    load.Area = listManager.AreaList[0];
+                    LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
+                    mjeqVm.AddLoad(loadToAdd);
+                    load.CalculateLoading();
+                }
+                Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
+                break;
+        }
+        GlobalConfig.Importing = false;
+        mjeqVm.DbSaveAll();
+
+        Debug.Print($"Final start: {start} Final end: {DateTime.Now.ToString()}");
+    }
+
+    private void AddTestDteq(ListManager listManager, string start)
+    {
+        foreach (var dteq in TestData.TestDteqList) {
+            dteq.Area = listManager.AreaList[0];
+            DteqToAddValidator dteqToAdd = new DteqToAddValidator(listManager, dteq);
+            mjeqVm.AddDteq(dteqToAdd);
+            Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
+        }
+    }
+
+    private async Task AddTestLoadsAsync(ListManager listManager)
+    {
+        try {
+
+            //List<Task<LoadModel>> tasks = new List<Task<LoadModel>>();
+
+            foreach (var load in TestData.TestLoadList) {
+                load.Area = listManager.AreaList[0];
+                LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
+                await Task.Run(() => LoadManager.AddLoad(loadToAdd, listManager));
+
+                //tasks.Add  (Task.Run(() => LoadManager.AddLoad(loadToAdd, listManager)));  
+                //load.CalculateLoadingAsync();
+            }
+            //var results = await Task.WhenAll(tasks);
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+
+        }
+
+    }
+
+    private void DeleteEquipment()
+    {
+        while (mjeqVm.ListManager.IDteqList.Count > 0) {
+            IDteq dteq = mjeqVm.ListManager.IDteqList[0];
+            mjeqVm.DeleteDteq(dteq);
+        }
+
+        while (mjeqVm.ListManager.LoadList.Count > 0) {
+            mjeqVm.DeleteLoad(mjeqVm.ListManager.LoadList[0]);
+        }
+
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
+    }
+
+    private void DeleteEquipmentFromDatabase()
+    {
+        //Delete records
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.CableTable);
+
+        mjeqVm.DbGetAll();
+    }
 }
+    #endregion
 
 
 
