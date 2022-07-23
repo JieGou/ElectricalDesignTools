@@ -39,6 +39,7 @@ public class ComponentFactory
             var load = (IPowerConsumer)componentUser;
             newComponent.Size = DataTableManager.GetDisconnectSize(load);
             newComponent.SequenceNumber = componentUser.CctComponents.Count+1;
+            
         }
 
         //Drive
@@ -47,6 +48,8 @@ public class ComponentFactory
             var powerConsumer = (IPowerConsumer)componentUser;
             newComponent.Area = powerConsumer.FedFrom.Area;
             newComponent.SequenceNumber = 0;
+            LoadModel load = (LoadModel)newComponent.Owner;
+
         }
 
 

@@ -91,23 +91,24 @@ public class LoadManager
     }      
     
 
-    public static async Task<int> DeleteLoad(object selectedLoadObject, ListManager listManager)
+    public static async Task<int> DeleteLoad(object loadToDeleteObject, ListManager listManager)
     {
         try {
 
-            LoadModel selectedLoad = (LoadModel)selectedLoadObject;
-            ComponentManager.DeleteComponents(selectedLoad, listManager);
-            IDteq dteqToRecalculate = selectedLoad.FedFrom;
-            int loadId = selectedLoad.Id;
-            selectedLoad.PropertyUpdated -= DaManager.OnLoadPropertyUpdated;
-            await CableManager.DeletePowerCableAsync(selectedLoad, listManager); //await
+            LoadModel loadToDelete = (LoadModel)loadToDeleteObject;
+            ComponentManager.DeleteComponents(loadToDelete, listManager);
+            IDteq dteqToRecalculate = loadToDelete.FedFrom;
+            int loadId = loadToDelete.Id;
+            await CableManager.DeletePowerCableAsync(loadToDelete, listManager); //await
             await DaManager.prjDb.DeleteRecordAsync(GlobalConfig.LoadTable, loadId); //await
 
             var loadToRemove = listManager.LoadList.FirstOrDefault(load => load.Id == loadId);
             listManager.LoadList.Remove(loadToRemove);
 
+            loadToDelete.PropertyUpdated -= DaManager.OnLoadPropertyUpdated;
             if (dteqToRecalculate != null) {
-                selectedLoad.LoadingCalculated -= dteqToRecalculate.OnAssignedLoadReCalculated;
+                loadToDelete.LoadingCalculated -= dteqToRecalculate.OnAssignedLoadReCalculated;
+
                 dteqToRecalculate.AssignedLoads.Remove(loadToRemove);
                 dteqToRecalculate.CalculateLoading();
             }

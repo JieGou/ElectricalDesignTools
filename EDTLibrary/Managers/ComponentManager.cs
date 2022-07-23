@@ -21,6 +21,7 @@ public class ComponentManager
         if (componentUser.GetType() == typeof(LoadModel)) {
             var load = (LoadModel)componentUser;
             load.Lcs = newLcs;
+            load.AreaChanged += newLcs.MatchOwnerArea;
         }
     }
 
@@ -36,6 +37,7 @@ public class ComponentManager
             DaManager.DeleteLcs((LocalControlStationModel)load.Lcs);
             CableManager.DeleteLcsControlCable(componentUser, componentToRemove, listManager);
             load.Lcs = null;
+            load.AreaChanged -= componentToRemove.MatchOwnerArea;
         }
     }
     public static void AddDefaultDrive(IComponentUser componentUser, ListManager listManager)
@@ -46,6 +48,10 @@ public class ComponentManager
         string subType = ComponentSubTypes.DefaultDrive.ToString();
         ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);
         componentUser.Drive = newComponent;
+        if (componentUser.GetType() == typeof(LoadModel)) {
+            var load = (LoadModel)componentUser;
+            load.FedFrom.AreaChanged += newComponent.MatchOwnerArea;
+        }
 
     }
 
@@ -53,15 +59,18 @@ public class ComponentManager
     {
         if (componentUser.Drive == null) return;
         if (componentUser.GetType() == typeof(LoadModel)) {
-            foreach (var component in componentUser.CctComponents) {
+            var load = (LoadModel)componentUser;
+            foreach (var component in load.CctComponents) {
                 if (component.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
-                    componentUser.CctComponents.Remove(component);
+                    load.CctComponents.Remove(component);
                     int componentId = component.Id;
                     var componentToRemote = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
                     listManager.CompList.Remove(componentToRemote);
                     DaManager.DeleteComponent((ComponentModel)component);
                     componentUser.Drive = null;
                     break;
+                    load.FedFrom.AreaChanged -= component.MatchOwnerArea;
+
                 }
             }
         }
@@ -75,13 +84,19 @@ public class ComponentManager
         string type = "UDS";
         string subType = ComponentSubTypes.DefaultDcn.ToString();
         ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);
-        componentUser.Disconnect = newComponent;
+
+        if (componentUser.GetType() == typeof(LoadModel)) {
+            var load = (LoadModel)componentUser;
+            load.Disconnect = newComponent;
+            load.AreaChanged += newComponent.MatchOwnerArea;
+        }
     }
 
     public static void RemoveDefaultDisconnect(IComponentUser componentUser, ListManager listManager)
     {
         if (componentUser.Disconnect == null) return;
         if (componentUser.GetType() == typeof(LoadModel)) {
+            var load = (LoadModel)componentUser;
             foreach (var component in componentUser.CctComponents) {
                 if (component.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
                     componentUser.CctComponents.Remove(component);
@@ -91,6 +106,7 @@ public class ComponentManager
                     DaManager.DeleteComponent((ComponentModel)component);
                     componentUser.Disconnect = new ComponentModel();
                     break;
+                    load.AreaChanged -= component.MatchOwnerArea;
                 }
             }
         }
