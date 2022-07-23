@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WpfUI.Windows.SelectionWindows"
         mc:Ignorable="d"
         
-        Title="Select New Supplier" Height="150" Width="300"
+        WindowStyle="SingleBorderWindow"
+        Title="Select New Supplier" Height="200" Width="350"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
 
@@ -29,19 +30,23 @@
                        Margin="30 15"/>
             <ComboBox Grid.Row="2" Grid.Column="6"
                           Template="{DynamicResource ComboBoxBase}"
-                          Width="75"
+                          Width="100"
                           ItemsSource="{Binding Source={StaticResource dteqList}}"
                           DisplayMemberPath="Tag"
+                      HorizontalContentAlignment="Center"
                           IsSynchronizedWithCurrentItem="False"
                           Text="{Binding LoadToAddValidator.FedFromTag}"
                           IsEditable="False" IsTextSearchEnabled="True"
-                          Margin="5 0 5 0"/>
+                          Margin="10"/>
+            
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Ok" Margin="15" 
-                    Command="{Binding SetFedFromCommand}"/>
-                <Button Content="Cancel" Margin="15" 
+                <Button Content="Cancel" Margin="20 15" 
                     Command="{Binding CloseWindowCommand}"/>
+                
+                <Button Content="Ok" Margin="20 15" 
+                    Command="{Binding SetFedFromCommand}"/>
             </StackPanel>
+            
         </StackPanel>
     </Grid>
 </Window>
