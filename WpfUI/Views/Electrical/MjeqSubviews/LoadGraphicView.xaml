@@ -11,6 +11,8 @@
              mc:Ignorable="d"
              
              d:DesignHeight="300" d:DesignWidth="550"
+             d:Background="LightCyan"
+             
              Background="Transparent">
 
     <UserControl.Resources>

@@ -18,11 +18,15 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../Stores/ToolTips.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
             <Style TargetType="ComboBox">
                 <Setter Property="Padding" Value="3 1"/>
                 <Setter Property="Height" Value="20"/>
                 <Setter Property="Margin" Value="0 3"/>
-                <Setter Property="ToolTipService.InitialShowDelay" Value="500"/>
+                <Setter Property="ToolTipService.InitialShowDelay" Value="150"/>
                 <Setter Property="ToolTipService.BetweenShowDelay" Value="0"/>
             </Style>
             <Style TargetType="TextBlock">
@@ -402,7 +406,7 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                                         AncestorType={x:Type UserControl},AncestorLevel=2}}"
                   SelectedItem="{Binding Area, StringFormat={}{0} }" 
                   IsSynchronizedWithCurrentItem="True" 
-                  ToolTip="{StaticResource enclosureMessage}">
+                  ToolTip="{StaticResource AreaChangeMessage}">
                     <ComboBox.ItemTemplateSelector>
                         <templateSelectors:ComboBoxItemTemplateSelector>
                             <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
@@ -426,12 +430,23 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
 
                 </ComboBox>
 
-                <TextBlock Text="NEMA Rating"
+                    <Image Source="..\..\..\ResourceFiles\InfoIconBlue.png"
+                           Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"
+                           Margin="0 5 0 0"
+                           HorizontalAlignment="Left"
+                           Height="17"
+                           Stretch="Uniform"
+                           ToolTip="{StaticResource AreaPropertyChangeMessage}"
+                           ToolTipService.InitialShowDelay="150"
+                           ToolTipService.BetweenShowDelay="0"/>
+                
+                    <TextBlock Text="NEMA Ratings"
                            Grid.Row="1" Grid.Column="0" 
                            FontWeight="Normal"
                            Margin="0 5 0 0"
                            MinWidth="95"
                            TextAlignment="Right"/>
+                
                 <ComboBox x:Name="cbxNemaRatings" 
                           Template="{DynamicResource ComboBoxBase}" 
                           Grid.Row="1" Grid.Column="2"
@@ -444,13 +459,14 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                           DisplayMemberPath="Type"
                           SelectedValue="{Binding NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsSynchronizedWithCurrentItem="False" 
-                          ToolTip="{StaticResource enclosureMessage}"
+                          ToolTip="{StaticResource AreaPropertyChangeMessage}"
                           MaxDropDownHeight="240"/>
 
 
-                <TextBlock Text="Area Classification"
+                <TextBlock Text="Area Class."
                            Grid.Row="2" Grid.Column="0" FontWeight="Normal"
-                           TextAlignment="Right"/>
+                           TextAlignment="Right"
+                           Margin="0 5 0 0"/>
 
                 <ComboBox x:Name="cbxAreaClassifications" 
                           Template="{DynamicResource ComboBoxBase}" 
@@ -463,7 +479,7 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                           DisplayMemberPath="Zone"
                           SelectedValue="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                           IsSynchronizedWithCurrentItem="False" 
-                          ToolTip="{StaticResource enclosureMessage}"/>
+                          ToolTip="{StaticResource AreaPropertyChangeMessage}"/>
             </Grid>
         </GroupBox>
 

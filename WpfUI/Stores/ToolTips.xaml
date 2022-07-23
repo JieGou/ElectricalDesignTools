@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:clr="clr-namespace:System;assembly=mscorlib"
+                    >
+
+    <clr:String x:Key="AreaChangeInfoMessage" xml:space="preserve">Changing the area will override / update all area properties of this 
+equipment and all sub-equipment and components.
+Ex: VFD's fed from this equipment.
+    
+Chaning the are proprties affects only this equipment</clr:String>
+    
+    <clr:String x:Key="AreaChangeMessage" xml:space="preserve">Updates this equipment and all its components and sub-components. 
+Changing this will override the below values.</clr:String>
+
+    <clr:String x:Key="AreaPropertyChangeMessage" xml:space="preserve">Updates this property on this equipment only.
+Will not update other properties or sub-components.</clr:String>
+    
+</ResourceDictionary>

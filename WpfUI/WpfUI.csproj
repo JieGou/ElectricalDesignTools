@@ -24,6 +24,12 @@
     <None Remove="ContentFiles\Edt Data Library.edl" />
     <None Remove="ContentFiles\Edt Sample Project.edp" />
     <None Remove="ContentFiles\edt.ico" />
+    <None Remove="ContentFiles\InAppIcons\infoIcon.png" />
+    <None Remove="ContentFiles\InAppIcons\InfoIcon2.png" />
+    <None Remove="ResourceFiles\infoIcon.png" />
+    <None Remove="ResourceFiles\InfoIcon2.png" />
+    <None Remove="ResourceFiles\InfoIconBlack.png" />
+    <None Remove="ResourceFiles\InfoIconBlue.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -74,7 +80,28 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ContentFiles\InAppIcons\InfoIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ContentFiles\InAppIcons\InfoIcon2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="ContentFiles\pd.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\InfoIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\InfoIcon2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\InfoIconBlack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ResourceFiles\InfoIconBlue.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
