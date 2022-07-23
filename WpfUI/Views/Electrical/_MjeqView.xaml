@@ -982,7 +982,7 @@
                             d:Text="4160"
                             ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             SelectedValue="{Binding DteqToAddValidator.LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                            Text="{Binding DteqToAddValidator.LoadVoltage}"
+                            Text="{Binding DteqToAddValidator.LineVoltage}"
                             IsEditable="True" IsTextSearchEnabled="True"
                             HorizontalContentAlignment="Center"
                             Margin="5 0 5 0"/>
@@ -1675,12 +1675,12 @@
                         </DataGridTextColumn>
 
                         <!--LOADING-->
-
+                        <!--Load Factor-->
                         <DataGridTextColumn Header=" Load &#x0a;Facotor"
                                             MinWidth="50"
                                             Width="50"
                                             Binding="{Binding Path=LoadFactor, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                            IsReadOnly="True"/>
+                                            IsReadOnly="False"/>
 
 
                         <!--Efficiency-->

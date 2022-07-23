@@ -1,7 +1,17 @@
 Cable Sizing
-	- voltage drop and length calculation
+	- length and voltage drop calculation
 
-Confirmation Dialogs
+Grid Context Menu
+	- Change Area
+	- ReFeed From
+	- Add / Remove Local Disconnect
+	- Add / Remove Drive
+	- Add / Remove LCS
+	- Set load factor
+
+
+Misc. General
+	- 
 
 Error Handling
 	- add ExceptionController in library and publish notification events
@@ -21,7 +31,6 @@ Tag Settings
 	- tagging logic
 	- bulk updates on tag changes
 
-
 Excel Reports
 	- Cable BOM
 	- Component BOM
@@ -38,25 +47,18 @@ Load
 	- Proper PD / Starter selection when calculating to take into account if a drive is selected
 	- sequence number/ordering
 
-Grid Context Menu
-	- Change Area to Area
-	- ReFeed From
-	- Add / Remove Local Disconnect
-	- Add / Remove Drive
-	- Add / Remove LCS
-	- Set load factor
 
 
-CABLES
+Cables
 	- add cable tray
 
-Power Cables
-	- 1ph cable quantities and totals
-	- Prompt to recalculate load cables when changing settings
-	- component cables are not updated when changing the load cable properties
+	Power Cables
+		- 1ph cable quantities and totals
+		- Prompt to recalculate load cables when changing settings
+		- component cables are not updated when changing the load cable properties
 
-Cable List
-	- Tray
+	Cable List
+		- Tray
 
 
 Areas, Systems & SubSystems

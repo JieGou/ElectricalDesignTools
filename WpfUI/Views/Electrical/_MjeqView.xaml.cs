@@ -135,7 +135,11 @@ public partial class _MjeqView : UserControl
                 LoadDetailsContent.Content = _loadDetailsView;
             }
         }
-        mjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;
+        if (mjeqVm == null) return;
+        {
+            mjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;
+        }
+        
     }
 
 
@@ -517,7 +521,9 @@ public partial class _MjeqView : UserControl
                 mjeqVm.AssignedLoads.Clear();
                 foreach (var load in listToFilter) {
                     try {
-                        if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
+
+                        if (load.Description != null) {
+                            if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
                             && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())
                             && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
                             && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
@@ -526,8 +532,23 @@ public partial class _MjeqView : UserControl
                             && load.Unit.ToString().ToLower().Contains(txtLoadUnitFilter.Text.ToLower())
                             && load.Type.ToString().ToLower().Contains(txtLoadTypeFilter.Text.ToLower())
                             ) {
-                            mjeqVm.AssignedLoads.Add((IPowerConsumer)load);
+                                mjeqVm.AssignedLoads.Add((IPowerConsumer)load);
+                            }
                         }
+                        else {
+                            if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
+                            && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
+                            && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
+                            && load.Voltage.ToString().Contains(txtLoadVoltageFilter.Text.ToLower())
+                            && load.Size.ToString().ToLower().Contains(txtLoadSizeFilter.Text.ToLower())
+                            && load.Unit.ToString().ToLower().Contains(txtLoadUnitFilter.Text.ToLower())
+                            && load.Type.ToString().ToLower().Contains(txtLoadTypeFilter.Text.ToLower())
+                            ) {
+                                mjeqVm.AssignedLoads.Add((IPowerConsumer)load);
+                            }
+                        }
+                        
+                        
                     }
                     catch { } //for any empty strings
                 }

@@ -241,7 +241,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
                 }
                 else if (_feedingDteq != null && _feedingDteq.Tag != "UTILITY") {
                     if (_lineVoltage != _feedingDteq.LoadVoltage.ToString()) {
-                        AddError(nameof(LineVoltage), "Voltage does not match supply Equipment");
+                        AddError(nameof(LineVoltage), "Voltage does not match supply voltage");
                     }
                 }
                 else { _isValid = true; }
@@ -258,11 +258,11 @@ public class DteqToAddValidator : INotifyDataErrorInfo
             _loadVoltage = value;
             ClearErrors(nameof(LoadVoltage));
             if (string.IsNullOrWhiteSpace(_loadVoltage)) {
-                AddError(nameof(LoadVoltage), "Voltage does not match supply Equipment");
+                AddError(nameof(LoadVoltage), "Invalid voltage");
             }
-            else if (Type == DteqTypes.XFR.ToString() == false
+            else if (Type != DteqTypes.XFR.ToString()
                 && _loadVoltage != LineVoltage) {
-                AddError(nameof(LoadVoltage), "Voltage does not match supply Equipment");
+                AddError(nameof(LoadVoltage), "Voltage does not match supply voltage");
             }
 
             else if (_fedFromTag == GlobalConfig.Utility) {
@@ -319,20 +319,20 @@ public class DteqToAddValidator : INotifyDataErrorInfo
 
 
 #if DEBUG
-        if (GlobalConfig.Testing == false) {
-            if (string.IsNullOrWhiteSpace(Type))
-                Type = "MCC";
-            if (string.IsNullOrWhiteSpace(FedFromTag))
-                FedFromTag = "SWG-01";
-            if (string.IsNullOrWhiteSpace(Size))
-                Size = "800";
-            if (string.IsNullOrWhiteSpace(Unit))
-                Unit = "A";
-            if (string.IsNullOrWhiteSpace(LineVoltage))
-                LineVoltage = "480";
-            if (string.IsNullOrWhiteSpace(LoadVoltage))
-                LoadVoltage = "480";
-        }
+        //if (GlobalConfig.Testing == false) {
+        //    if (string.IsNullOrWhiteSpace(Type))
+        //        Type = "MCC";
+        //    if (string.IsNullOrWhiteSpace(FedFromTag))
+        //        FedFromTag = "SWG-01";
+        //    if (string.IsNullOrWhiteSpace(Size))
+        //        Size = "800";
+        //    if (string.IsNullOrWhiteSpace(Unit))
+        //        Unit = "A";
+        //    if (string.IsNullOrWhiteSpace(LineVoltage))
+        //        LineVoltage = "480";
+        //    if (string.IsNullOrWhiteSpace(LoadVoltage))
+        //        LoadVoltage = "480";
+        //}
 #endif
         if (Tag == GlobalConfig.EmptyTag) {
             ClearErrors();

@@ -7,6 +7,7 @@ using System.IO;
 using System.Net.Mail;
 using System.Reflection;
 using System.Windows;
+using WpfUI.Helpers;
 using WpfUI.Services;
 using WpfUI.ViewModels;
 
@@ -21,8 +22,16 @@ namespace WpfUI
         {
 
         }
+        static void MainHandler(object sender, UnhandledExceptionEventArgs args)
+        {
+            Exception e = (Exception)args.ExceptionObject;
+            MessageBox.Show($"Main Handler caught: { e.Message}\n\n" +
+                        $"Runtime terminating: {args.IsTerminating.ToString()}");
+        }
 
         protected override void OnStartup(StartupEventArgs e) {
+
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainHandler);
 
             var splashImage = "ContentFiles\\pd.png";
             SplashScreen splashScreen = new SplashScreen(splashImage);

@@ -219,7 +219,7 @@ namespace EDTLibrary.Models.Loads
                 }
             }
         }
-        
+
         private IDteq _fedFrom;
         public IDteq FedFrom
         {
@@ -421,7 +421,9 @@ namespace EDTLibrary.Models.Loads
             if (GlobalConfig.GettingRecords == true) {
                 return;
             }
-            LoadFactor = double.Parse(EdtSettings.LoadFactorDefault);
+            if (LoadFactor == null || LoadFactor == 0) {
+                LoadFactor = double.Parse(EdtSettings.LoadFactorDefault); 
+            }
 
             GetEfficiencyAndPowerFactor(); //PdType is determined here
 
@@ -438,7 +440,7 @@ namespace EDTLibrary.Models.Loads
             //else if (Type == LoadTypes.TRANSFORMER.ToString()) {
             //    ConnectedKva = Size;
             //    PdFactor = 1.25
-
+            //
             //}
             //else if (Type == LoadTypes.HEATER.ToString()) {
             //    ConnectedKva = Size / Efficiency / PowerFactor;
