@@ -654,16 +654,24 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 DeleteLoadAsync(selectedLoadObject);
             }
             else {
-                ILoad load;
-                while (SelectedLoads.Count > 0) {
-                        load = (LoadModel)SelectedLoads[0];
-                        DeleteLoadAsync(load);
-                        SelectedLoads.Remove(load);
-                }
+                DeleteLoadsAsync();
             }
-            
         }
     }
+
+    private async Task DeleteLoadsAsync()
+    {
+        ILoad load;
+        while (SelectedLoads.Count > 0) {
+            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                load = (LoadModel)SelectedLoads[0];
+                DeleteLoadAsync(load);
+                SelectedLoads.Remove(load);
+            }));
+
+        }
+    }
+
     public async Task DeleteLoadAsync(object selectedLoadObject)
     {
         if (selectedLoadObject == null) return;

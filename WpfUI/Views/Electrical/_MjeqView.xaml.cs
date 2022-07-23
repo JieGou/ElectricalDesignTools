@@ -139,7 +139,6 @@ public partial class _MjeqView : UserControl
         {
             mjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;
         }
-        
     }
 
 
