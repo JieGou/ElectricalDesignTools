@@ -481,8 +481,6 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                             </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
                         </templateSelectors:ComboBoxItemTemplateSelector>
                     </ComboBox.ItemTemplateSelector>
-
-
                 </ComboBox>
 
                 <Image Source="..\..\..\ResourceFiles\InfoIconBlue.png"

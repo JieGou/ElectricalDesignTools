@@ -44,7 +44,7 @@ namespace EDTLibrary.TestDataFolder
 
 
         public static ObservableCollection<DistributionEquipment> TestDteqList = new ObservableCollection<DistributionEquipment>() {
-            new DteqModel {Tag = "XFR-01", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage = Mv15, LoadVoltage = 4160, Size = 5000, Unit = Units.kVA.ToString() },
+            new DteqModel {Tag = "XFR-01", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage = 13800, LoadVoltage = 4160, Size = 5000, Unit = Units.kVA.ToString() },
             new DteqModel {Tag = "SWG-01", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-01", LineVoltage = 4160, LoadVoltage = 4160, Size = 5000, Unit = Units.A.ToString() },
             
             new DteqModel {Tag = "XFR-03", Type = DteqTypes.XFR.ToString(), FedFromTag = "SWG-01", LineVoltage=4160, LoadVoltage=480, Size=1500, Unit= Units.kVA.ToString() },

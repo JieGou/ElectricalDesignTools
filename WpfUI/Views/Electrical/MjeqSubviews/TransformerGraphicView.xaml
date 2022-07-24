@@ -436,7 +436,7 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                            HorizontalAlignment="Left"
                            Height="17"
                            Stretch="Uniform"
-                           ToolTip="{StaticResource AreaPropertyChangeMessage}"
+                           ToolTip="{StaticResource AreaChangeInfoMessage}"
                            ToolTipService.InitialShowDelay="150"
                            ToolTipService.BetweenShowDelay="0"/>
                 

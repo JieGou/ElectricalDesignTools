@@ -129,6 +129,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             get { return _area; }
             set
             {
+                if (value == null) return;
                 var oldValue = _area;
                 _area = value;
                 if (Area != null) {
@@ -252,6 +253,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
 
+                if (value == null) return;
 
                 IDteq oldValue = _fedFrom;
                 IDteq nextFedFrom = value;

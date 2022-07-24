@@ -25,8 +25,9 @@ namespace WpfUI
         static void MainHandler(object sender, UnhandledExceptionEventArgs args)
         {
             Exception e = (Exception)args.ExceptionObject;
-            MessageBox.Show($"Main Handler caught: { e.Message}\n\n" +
-                        $"Runtime terminating: {args.IsTerminating.ToString()}");
+            MessageBox.Show($"Error: { e.Message}\n\n" +
+                        $"Application Closed? - {args.IsTerminating.ToString()}", 
+                        "Fatal Error");
         }
 
         protected override void OnStartup(StartupEventArgs e) {

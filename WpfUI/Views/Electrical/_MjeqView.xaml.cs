@@ -591,7 +591,7 @@ public partial class _MjeqView : UserControl
             dteq.Area = listManager.AreaList[0];
             DteqToAddValidator dteqToAdd = new DteqToAddValidator(listManager, dteq);
             mjeqVm.AddDteq(dteqToAdd);
-            Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
+            //Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
         }
     }
 

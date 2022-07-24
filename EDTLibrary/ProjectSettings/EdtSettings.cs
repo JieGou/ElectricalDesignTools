@@ -122,7 +122,7 @@ namespace EDTLibrary.ProjectSettings
 
         public static string LoadDefaultPdTypeLV_NonMotor { get; set; }
         public static string LoadDefaultPdTypeLV_Motor { get; set; }
-        public static string LoadFactorDefault { get; set; }
+        public static string LoadFactorDefault { get; set; } = "0.8";
         public static string XfrImpedance { get; set; }
         public static string XfrSubType { get; set; }
         public static string XfrGrounding { get; set; }

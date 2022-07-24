@@ -14,7 +14,7 @@ namespace EDTLibrary.Tests.Models.DistributionEquipment
     {
         [Theory]
         [InlineData("XFR-07", "XFR", "ML", GlobalConfig.Utility, "2000", "kVA", "480", "460")]
-        [InlineData("MCC-08", "MCC", "FL", "SWG-03", "2000", "A", "480", "460" )]
+        [InlineData("MCC-08", "MCC", "ML", "SWG-03", "2000", "A", "480", "480" )]
         [InlineData("MCC-09", "MCC", "ML", "SWG-02", "2000", "A", "600", "600" )]
         public void IsValid_True(string tag, string type, string areaTag, string fedFrom, string size, string unit,string lineVoltage, string loadVoltage )
         {

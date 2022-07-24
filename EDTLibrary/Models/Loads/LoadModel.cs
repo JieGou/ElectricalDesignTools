@@ -652,8 +652,9 @@ namespace EDTLibrary.Models.Loads
                 AreaClassification = Area.AreaClassification;
                 PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
                 PowerCable.CalculateAmpacity(this);
-
-                Drive.Area = Area;
+                if (Drive != null) {
+                    Drive.Area = Area;
+                }
             }));
         }
 

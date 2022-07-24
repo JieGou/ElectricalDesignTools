@@ -16,26 +16,24 @@ namespace WpfUI.Tests.ViewModels
         [Theory]
         [InlineData("MCC-01", false)]
         [InlineData("PP-01", true)]
-        public void IsTagAvailable_BothCases(string _dteqToAddTag, bool expected)
+        public void IsTagAvailable_BothCases(string eqTagToAdd, bool expected)
         {
             //Arrange
-            ObservableCollection<DteqModel> DteqList = new ObservableCollection<DteqModel>()
+            ObservableCollection<DistributionEquipment> dteqList = new ObservableCollection<DistributionEquipment>()
             {
                 new DteqModel() { Tag = "MCC-01" },
                 new DteqModel() { Tag = "SWG-01" }
             };
-            ObservableCollection<LoadModel> LoadList = new ObservableCollection<LoadModel>()
+            ObservableCollection<ILoad> loadList = new ObservableCollection<ILoad>()
             {
                 new LoadModel("MTR-01"),
                 new LoadModel("HTR-01")
             };
             ListManager listManager = new ListManager();
-            TypeManager typeManager = new TypeManager();
-
-            MjeqViewModel eqv = new MjeqViewModel(listManager);
-
+            listManager.DteqList = dteqList;
+            listManager.LoadList = loadList;
             //Act
-            bool actual = TagAndNameValidator.IsTagAvailable(_dteqToAddTag, listManager);
+            bool actual = TagAndNameValidator.IsTagAvailable(eqTagToAdd, listManager);
 
             //Assert
             Assert.Equal(expected, actual);
