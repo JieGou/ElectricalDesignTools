@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.Areas;
+﻿using EDTLibrary.A_Helpers;
+using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Validators;
 using PropertyChanged;
@@ -333,11 +334,17 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         //    if (string.IsNullOrWhiteSpace(LoadVoltage))
         //        LoadVoltage = "480";
         //}
+
+        //foreach (var item in _errorDict) {
+        //    ErrorHelper.Log($"DteqToAddValidator - Error: {item.Key}, {item.Value}");
+        //}
 #endif
         if (Tag == GlobalConfig.EmptyTag) {
             ClearErrors();
             return false;
         }
+        
+        
         var errors = _errorDict;
         if (_isValid && HasErrors == false) {
 
@@ -373,6 +380,10 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         }
         _errorDict[propertyName].Add(errorMessage); //add error message to list of error messages
         OnErrorsChanged(propertyName);
+
+#if DEBUG
+        ErrorHelper.Log($"DteqToAddValidator - Error: {Tag}, {propertyName}, {errorMessage}");
+#endif
     }
 
     public IEnumerable GetErrors(string propertyName)

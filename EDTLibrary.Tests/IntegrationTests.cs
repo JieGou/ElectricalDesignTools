@@ -1,5 +1,7 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EDTLibrary.A_Helpers;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
@@ -12,6 +14,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WpfUI.Services;
 using WpfUI.ViewModels;
@@ -26,18 +29,22 @@ namespace EDTLibrary.Tests
         [Fact]
         public void IntegrationTest()
         {
+            int sleepTime = 100;
             CopyDb();
             //Assert.True(File.Exists(GlobalConfig.TestDb));
 
             DaManager.prjDb = new SQLiteConnector(GlobalConfig.TestDb);
-            DeleteAllRecords();
 
+            //Clear Database
+            DaManager.prjDb.DeleteAllRecords(GlobalConfig.AreaTable);
+            DaManager.DeleteAllEquipmentRecords();
 
             #region INITIALIZATIONS
 
             //ListManager
             DaManager daManager = new DaManager();
             ListManager listManager = new ListManager();
+            ScenarioManager.ListManager = listManager;
             TypeManager typeManager = new TypeManager();
             EdtSettings edtSettings = new EdtSettings();
 
@@ -65,37 +72,37 @@ namespace EDTLibrary.Tests
             }
             Assert.True(listManager.AreaList.Count == TestData.TestAreasList.Count);
 
+
             //Dteq
-            //TestData.CreateTestDteqList();
             foreach (var dteq in TestData.TestDteqList) {
                 dteq.Area = listManager.AreaList[0];
                 dteqToAdd = new DteqToAddValidator(listManager, dteq);
                 eqVm.AddDteq(dteqToAdd);
             }
-
-            Assert.True(listManager.IDteqList.Count > 0); //causes an assert exception
+            ErrorHelper.Log($"IDteqList.Count = {listManager.IDteqList.Count}");
+            listManager.GetProjectTablesAndAssigments();
+            ErrorHelper.Log($"IDteqList.Count = {listManager.IDteqList.Count}");
             Assert.True(listManager.IDteqList.Count == TestData.TestDteqList.Count);
+
 
             //Loads
             foreach (var load in TestData.TestLoadList) {
                 load.Area = listManager.AreaList[0];
                 loadToAdd = new LoadToAddValidator(listManager, load);
                 eqVm.AddLoad(loadToAdd);
-                load.CalculateLoading();
             }
-            Assert.True(listManager.LoadList.Count > 0); 
+            ErrorHelper.Log($"LoadList.Count = {listManager.LoadList.Count}");
+            listManager.GetProjectTablesAndAssigments();
+            ErrorHelper.Log($"LoadList.Count = {listManager.LoadList.Count}");
             Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count);
 
             //Cables
+            listManager.GetProjectTablesAndAssigments();
+            ErrorHelper.Log($"CableList.Count = {listManager.CableList.Count}");
             int cableCount = listManager.IDteqList.Count + listManager.LoadList.Count;
+            ErrorHelper.Log($"CableList.Count = {listManager.CableList.Count}");
             Assert.True(listManager.CableList.Count == cableCount);
-            SelectAllDteqAndLoads(listManager, eqVm);
 
-            IDteq dteqToCheck = listManager.IDteqList[2];
-            Assert.True(dteqToCheck.DemandKva > 0);
-            Assert.True(listManager.LoadList[0].DemandKva > 0);
-            
-            
             #endregion
 
 
@@ -126,9 +133,8 @@ namespace EDTLibrary.Tests
             foreach (var item in list) {
                 listManager.DteqList.Add(item);
             }
-            Assert.True(listManager.DteqList.Count > 0);
-
             SelectAllDteqAndLoads(listManager, eqVm);
+
         }
 
         private static void SelectAllDteqAndLoads(ListManager listManager, MjeqViewModel eqVm)
@@ -143,19 +149,7 @@ namespace EDTLibrary.Tests
             }
         }
 
-        private static void DeleteAllRecords()
-        {
-            //Delete records
-            DaManager.prjDb.DeleteAllRecords(GlobalConfig.AreaTable);
-
-            DaManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);
-            DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
-            DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
-            DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
-            DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
-            DaManager.prjDb.DeleteAllRecords(GlobalConfig.CableTable);
-        }
-
+       
         [Fact]
         public void CopyDb()
         {

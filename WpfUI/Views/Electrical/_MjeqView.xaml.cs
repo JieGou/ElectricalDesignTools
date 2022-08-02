@@ -452,7 +452,7 @@ public partial class _MjeqView : UserControl
     }
     #endregion
 
-    #region Editing and Add Eq Control Events
+    #region Add Eq Control Events and Grid edit Events
 
     private void txtDteqTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -635,12 +635,7 @@ public partial class _MjeqView : UserControl
     private void DeleteEquipmentFromDatabase()
     {
         //Delete records
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.CableTable);
+        DaManager.DeleteAllEquipmentRecords();
 
         mjeqVm.DbGetAll();
     }

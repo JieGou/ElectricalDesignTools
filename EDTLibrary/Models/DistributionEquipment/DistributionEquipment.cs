@@ -51,11 +51,9 @@ namespace EDTLibrary.Models.DistributionEquipment
                         load.PowerCable.AssignTagging(load);
                     }
                 }
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
-                    Undo.AddUndoCommand(cmd);
-                }
-                OnPropertyUpdated();
+
+                Undo.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
+                OnPropertyUpdated(nameof(Tag));
 
             }
         }
@@ -71,11 +69,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (GlobalConfig.GettingRecords == false) {
 
                 }
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Type), OldValue = oldValue, NewValue = _type };
-                    Undo.AddUndoCommand(cmd);
-                }
-                OnPropertyUpdated();
+                Undo.AddUndoCommand(this, nameof(Type), oldValue, _type);
             }
         }
 
@@ -91,11 +85,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (GlobalConfig.GettingRecords == false) {
 
                 }
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(SubType), OldValue = oldValue, NewValue = _subType };
-                    Undo.AddUndoCommand(cmd);
-                }
-                OnPropertyUpdated();
+                Undo.AddUndoCommand(this, nameof(SubType), oldValue, _subType);
             }
         }
 
@@ -107,12 +97,9 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _description;
                 _description = value;
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Description), OldValue = oldValue, NewValue = _description };
-                    Undo.AddUndoCommand(cmd);
-                }
+                Undo.AddUndoCommand(this, nameof(Description), oldValue, _description);
 
-                OnPropertyUpdated();
+                OnPropertyUpdated(nameof(Description));
             }
 
         }
@@ -134,18 +121,14 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _area = value;
                 if (Area != null) {
                     AreaManager.UpdateArea(this, _area, oldValue);
-                    if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                        var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
-                        Undo.AddUndoCommand(cmd);
-                    }
+                    Undo.AddUndoCommand(this, nameof(Area), oldValue, _area);
 
                     if (GlobalConfig.GettingRecords == false && PowerCable != null) {
                         PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
                         PowerCable.CalculateAmpacity(this);
                     }
                     OnAreaChanged();
-                    OnPropertyUpdated();
-
+                    OnPropertyUpdated(nameof(Area));
                 }
             }
         }
@@ -158,11 +141,9 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _nemaRating;
                 _nemaRating = value;
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(NemaRating), OldValue = oldValue, NewValue = _nemaRating };
-                    Undo.AddUndoCommand(cmd);
-                }
-                OnPropertyUpdated();
+
+                Undo.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
+                OnPropertyUpdated(nameof(NemaRating));
             }
         }
 
@@ -174,10 +155,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _areaClassification;
                 _areaClassification = value;
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(AreaClassification), OldValue = oldValue, NewValue = _areaClassification };
-                    Undo.AddUndoCommand(cmd);
-                }
+                Undo.AddUndoCommand(this, nameof(AreaClassification), oldValue, _areaClassification);
+                OnPropertyUpdated(nameof(AreaClassification));
             }
         }
         public double Voltage
@@ -189,7 +168,6 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (GlobalConfig.GettingRecords == false) {
                     PowerCable.CreateTypeList(this);
                 }
-                OnPropertyUpdated();
             }
         }
 
@@ -212,7 +190,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                         Undo.AddUndoCommand(cmd);
                     }
                 }
-                OnPropertyUpdated();
+                OnPropertyUpdated(nameof(Size));
             }
         }
         public string Unit { get; set; }
@@ -237,11 +215,6 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _fedFromTag = value;
                 if (FedFrom != null && _fedFromTag != GlobalConfig.Deleted) {
                     FedFrom.Tag = _fedFromTag;
-                }
-
-                if (GlobalConfig.GettingRecords == false) {
-                    //OnFedFromChanged();
-                    //CalculateLoading();
                 }
             }
         }
@@ -295,12 +268,9 @@ namespace EDTLibrary.Models.DistributionEquipment
                 catch (Exception ex) {
                     throw;
                 }
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(FedFrom), OldValue = oldValue, NewValue = _fedFrom };
-                    Undo.AddUndoCommand(cmd);
-                }
-                OnPropertyUpdated();
 
+                Undo.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
+                OnPropertyUpdated(nameof(FedFrom));
             }
         }
 
@@ -317,12 +287,10 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var oldValue = _lineVoltage;
                 _lineVoltage = value;
                 Voltage = _lineVoltage;
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(LineVoltage), OldValue = oldValue, NewValue = _lineVoltage };
-                    Undo.AddUndoCommand(cmd);
-                }
-                OnPropertyUpdated();
 
+                Undo.AddUndoCommand(this, nameof(LineVoltage), oldValue, _lineVoltage);
+
+                OnPropertyUpdated(nameof(LineVoltage));
             }
         }
 
@@ -337,11 +305,10 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 var oldValue = _loadVoltage;
                 _loadVoltage = value;
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(LoadVoltage), OldValue = oldValue, NewValue = _loadVoltage };
-                    Undo.AddUndoCommand(cmd);
-                }
-                OnPropertyUpdated();
+
+                Undo.AddUndoCommand(this, nameof(LoadVoltage), oldValue, _loadVoltage);
+
+                OnPropertyUpdated(nameof(LoadVoltage));
 
             }
         }
@@ -474,7 +441,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 foreach (var load in AssignedLoads) {
                     load.PowerCable.AutoSizeAsync();
                 }
-                    OnPropertyUpdated();
+                OnPropertyUpdated(nameof(LoadCableDerating));
             }
         }
 
@@ -522,7 +489,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             DteqManager.SetPd(this);
             SCCR = CalculateSCCR();
             OnLoadingCalculated();
-            OnPropertyUpdated();
+            OnPropertyUpdated(nameof(CalculateLoading));
 
         }
 
@@ -544,6 +511,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             PowerCable.CalculateAmpacity(this);
         }
 
+        public void OnAssignedLoadReCalculated(object source, EventArgs e)
+        {
+            CalculateLoading();
+        }
 
         //Events
         public event EventHandler LoadingCalculated;
@@ -554,23 +525,21 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
 
+
         public event EventHandler PropertyUpdated;
-
-        public virtual async Task OnPropertyUpdated()
+        public async Task OnPropertyUpdated(string property = "default")
         {
-
-            await Task.Run(() => {
-                if (PropertyUpdated != null) {
-                    PropertyUpdated(this, EventArgs.Empty);
-                }
-            });
+            if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
+            }
+            ErrorHelper.Log($"Dteq_OnPropertyUpdated - Tag = {Tag}, Property = {property}");
+            //await Task.Run(() => {
+                
+            //});
 
         }
-        public void OnAssignedLoadReCalculated(object source, EventArgs e)
-        {
-            CalculateLoading();
-        }
 
+      
         public async Task UpdateAreaProperties()
         {
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
@@ -582,7 +551,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
         public event EventHandler AreaChanged;
-
         public async Task OnAreaChanged()
         {
             await Task.Run(() => {
@@ -596,49 +564,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
 
         }
-
-
-
-
-
-
-        //public bool HasErrors => _errorDict.Any();
-        //public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-        //public readonly Dictionary<string, ObservableCollection<string>> _errorDict = new Dictionary<string, ObservableCollection<string>>();
-
-
-        //public void ClearErrors()
-        //{
-        //    foreach (var item in _errorDict) {
-        //        string errorType = item.Key;
-        //        ClearErrors(errorType);
-        //        OnErrorsChanged(errorType);
-        //    }
-        //}
-        //private void ClearErrors(string propertyName)
-        //{
-        //    _errorDict.Remove(propertyName);
-        //    OnErrorsChanged(propertyName);
-        //}
-
-        //public void AddError(string propertyName, string errorMessage)
-        //{
-        //    if (!_errorDict.ContainsKey(propertyName)) { // check if error Key exists
-        //        _errorDict.Add(propertyName, new ObservableCollection<string>()); // create if not
-        //    }
-        //    _errorDict[propertyName].Add(errorMessage); //add error message to list of error messages
-        //    OnErrorsChanged(propertyName);
-        //}
-
-        //public IEnumerable GetErrors(string propertyName)
-        //{
-        //    return _errorDict.GetValueOrDefault(propertyName, null);
-        //}
-
-        //private void OnErrorsChanged(string propertyName)
-        //{
-        //    ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
-        //}
 
     }
 }

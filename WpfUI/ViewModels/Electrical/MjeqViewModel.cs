@@ -557,6 +557,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         try {
             var IsValid = dteqToAddValidator.IsValid(); //to help debug
             var errors = dteqToAddValidator._errorDict; //to help debug
+            
             if (IsValid) {
 
                 IDteq newDteq = _dteqFactory.CreateDteq(dteqToAddValidator);
@@ -568,11 +569,21 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                     newDteq.PropertyUpdated += DaManager.OnDteqPropertyUpdated;
                 }
 
-                //Save to Db
-                newDteq.Id = DaManager.SaveDteqGetId(newDteq);
+                //Get Id from DB
+                //newDteq.Id = DaManager.SaveDteqGetId(newDteq);
+                
+                //Get Id manually
+                if (ListManager.IDteqList.Count != 0) {
+                    newDteq.Id = ListManager.IDteqList.Max(l => l.Id);
+                    newDteq.Id += 1;
+                }
+                else {
+                    newDteq.Id = 1;
+                }
 
-                _listManager.AddDteq(newDteq);
+                //Save to Db when calculating inside DteqModel
                 newDteq.CalculateLoading(); //after dteq is inserted to get a new Id
+                _listManager.AddDteq(newDteq);
 
                 //Cable
                 newDteq.CreatePowerCable();

@@ -483,37 +483,10 @@
                                     <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                MouseLeftButtonDown="FastEditEvent" />
                                     
-                                    <!--<ComboBox ItemsSource="{Binding Path=DataContext.ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-                                                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                                              SelectedItem="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DisplayMemberPath="Tag"
-                                              Text="{Binding Area.Tag}"
-                                              HorizontalContentAlignment="Left"
-                                              IsEditable="False" IsTextSearchEnabled="True"
-                                              IsSynchronizedWithCurrentItem="False"                                             
-                                              BorderThickness="0"
-                                              SelectedValue="{Binding Area.Tag}"
-                                              Template="{DynamicResource ComboBoxBase}"  
-                                        
-                                        --><!--IsDropDownOpen="True"--><!--
-
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <ColumnDefinition Width="auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Grid.Column="0" Text="{Binding Tag}" HorizontalAlignment="Left" TextAlignment="Left" Width="35" Margin="10 0"/>
-                                                    <TextBlock Grid.Column="1" Text="{Binding Name}" />
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>-->
-
+                                  
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
+                           <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding Path=DataContext.ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                                                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
@@ -524,8 +497,6 @@
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"                                             
                                               BorderThickness="0"
-                                              SelectedValue="{Binding Area.Tag}"
-                                              
                                               Template="{DynamicResource ComboBoxBase}"
                                               >
                                         <!--IsDropDownOpen="True"-->

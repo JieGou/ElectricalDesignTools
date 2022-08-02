@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,23 @@ namespace EDTLibrary.A_Helpers
 {
     public class ErrorHelper
     {
+        public static List<string> ErrorLog { get; set; } = new List<string>();
+
+        public static void Log(string errorMessage)
+        {
+            ErrorLog.Add(errorMessage);
+            SaveLog();
+        }
+        public static void LogNoSave(string errorMessage)
+        {
+            ErrorLog.Add(errorMessage);
+        }
+        public static void SaveLog()
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            path += @"\Edt Error Log.txt";
+            File.WriteAllLines(path, ErrorLog);
+        }
         public static void ShowErrorMessage(Exception ex)
         {
 #if DEBUG

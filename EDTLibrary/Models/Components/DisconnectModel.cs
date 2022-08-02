@@ -114,7 +114,7 @@ public class DisconnectModel : IComponent
 
     public event EventHandler PropertyUpdated;
 
-    public async Task OnPropertyUpdated()
+    public async Task OnPropertyUpdated(string property = "default")
     {
         await Task.Run(() => {
             if (PropertyUpdated != null) {

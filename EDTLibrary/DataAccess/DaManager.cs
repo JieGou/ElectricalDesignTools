@@ -22,7 +22,7 @@ public class DaManager {
     public static bool IsProjectLoaded { get; private set; }
     public static bool IsLibraryLoaded { get; private set; }
 
-
+    public static bool GettingRecords = false;
     public static IDaConnector prjDb { get; set; }
     public static IDaConnector libDb { get; set; }
 
@@ -48,9 +48,20 @@ public class DaManager {
         return IsLibraryLoaded;
     }
 
-    #region Type Tables
+    #region General
+    public static void DeleteAllEquipmentRecords()
+    {
+        //Delete records
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.CableTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.LcsTable);
+    }
 
-    
     #endregion
 
     public static AreaModel GetArea(int locationId)
@@ -74,7 +85,7 @@ public class DaManager {
                 IDteq dteq = (IDteq)source;
                 if (dteq.Tag == GlobalConfig.Deleted ) return;
                 DaManager.UpsertDteqAsync((IDteq)source);
-            }
+            } 
         }
         catch (Exception) {
             throw;

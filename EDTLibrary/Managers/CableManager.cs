@@ -86,7 +86,7 @@ public class CableManager
         if (powerComponentOwner == null) return;
 
         try {
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 //Remove Cables
                 List<CableModel> cablesToRemove = new List<CableModel>();
                 foreach (var item in listManager.CableList) {

@@ -668,7 +668,6 @@ public class DpnViewModel : ViewModelBase, INotifyDataErrorInfo
         try {
             GetLoadListAsync();
             //Task.Run(() => _listManager.CalculateDteqLoadingAsync());
-            _listManager.CalculateDteqLoadingAsync();
 
         }
         catch (Exception ex) {

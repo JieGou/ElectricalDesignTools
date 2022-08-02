@@ -25,7 +25,7 @@ public interface ILocalControlStation: IEquipment
 
     event EventHandler PropertyUpdated;
 
-    Task OnPropertyUpdated();
+    Task OnPropertyUpdated(string property = "default");
     Task UpdateAreaProperties();
     
 }

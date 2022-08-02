@@ -272,6 +272,7 @@ namespace EDTLibrary.DataAccess
                 }
 
                 // removes properties to ignore
+                string tag="";
                 string input;
                 string pattern;
                 string replace = "";
@@ -282,14 +283,7 @@ namespace EDTLibrary.DataAccess
                     sb.Clear();
                     sb.Append(Regex.Replace(input, pattern, ""));
 
-                    //sb.Replace($"{prop}, ", "");
                 }
-
-                //string input = sb.ToString();
-                //string pattern = @"\bId,";
-                //string replace = "";
-                //sb.Clear();
-                //sb.Append(Regex.Replace(input, pattern, ""));
 
                 sb.Replace(",", "", sb.Length - 2, 2);
                 sb.Replace(" ", "", sb.Length - 2, 2);
@@ -301,6 +295,9 @@ namespace EDTLibrary.DataAccess
                     cmd.Parameters.AddWithValue($"@{prop.Name}", prop.GetValue(classObject));
                     if (prop.Name == "Id") {
                         id = (int)prop.GetValue(classObject);
+                    }
+                    if (prop.Name == "Tag") {
+                        tag = (string)prop.GetValue(classObject);
                     }
                 }
 
@@ -340,10 +337,13 @@ namespace EDTLibrary.DataAccess
 
                 try {
                     cnn.Execute("" + sb.ToString(), classObject);
+                    var debug = tag;
+                    //ErrorHelper.LogNoSave($"SqLiteConnector.Upsert - Success Tag = {tag}");
+
                 }
                 catch (Exception ex) {
                     ex.Data.Add("UserMessage", "SQL Query Error\nQuery:\n" + sb.ToString());
-
+                    var debugHelper = classObject;
                     //readonyl database error
                     if (ex.Message.Contains("readonly")) {
                         MessageBox.Show($"The project file may be saved in a folder that does not have write " +
@@ -354,6 +354,7 @@ namespace EDTLibrary.DataAccess
                     else {
                         ErrorHelper.ShowErrorMessage(ex);
                     }
+                    ErrorHelper.Log($"SqLiteConnector.Upsert - Error = {ex.Message}, Tag = {tag}");
                     throw;
                 }
             }

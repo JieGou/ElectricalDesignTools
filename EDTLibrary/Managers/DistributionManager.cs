@@ -2,6 +2,7 @@
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,57 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             _listManager = listManager;
         }
-        //TODO - create Distribution Manager instance inside eqVm
+
+        public async Task CalculateDteqLoadingAsync() // LoadList Manager
+        {
+            await Task.Run(() => {
+                Stopwatch sw = new Stopwatch();
+                sw.Restart();
+                Debug.Print("CalculateDteqLoadingAsync Start");
+                _listManager.UnregisterAllDteqFromAllLoadEvents();
+                _listManager.AssignLoadsAndEventsToAllDteq();
+                double total = 0;
+                double subTotal = 0;
+                Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
+
+                //Loads
+                GlobalConfig.GettingRecords = false;
+                {
+                    foreach (var load in _listManager.LoadList) {
+                        sw.Restart();
+
+                        load.CalculateLoading();
+                        load.PowerCable.AutoSize();
+                        load.PowerCable.CalculateAmpacity(load);
+
+                        subTotal += sw.Elapsed.TotalMilliseconds;
+
+                    }
+                }
+                GlobalConfig.GettingRecords = false;
+
+                Debug.Print("Loads: " + subTotal);
+                total += subTotal;
+                subTotal = 0;
+
+                //Dteq
+                foreach (var dteq in _listManager.IDteqList) {
+                    sw.Restart();
+
+                    dteq.CalculateLoading();
+                    dteq.PowerCable.AutoSize();
+                    dteq.PowerCable.CalculateAmpacity(dteq);
+
+                    subTotal += sw.Elapsed.TotalMilliseconds;
+
+                }
+                Debug.Print("Dteq: " + subTotal);
+                total += subTotal;
+                Debug.Print("Total: " + total);
+            });
+
+        }
+
 
         /// <summary>
         /// Transfers the load from the old to the new supplier. (Id, Tag, Type, events, load calculation, cable tag , etc.

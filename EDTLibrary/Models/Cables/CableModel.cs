@@ -389,7 +389,7 @@ public class CableModel : ICable
     }
     public double GetRequiredAmps(ICableUser load)
     {
-        if (load == null) return 0.1111;
+        if (load == null) return 99999;
 
         RequiredAmps = load.Fla;
         if (load.Type == LoadTypes.MOTOR.ToString() || load.Type == LoadTypes.TRANSFORMER.ToString()) {
@@ -403,6 +403,7 @@ public class CableModel : ICable
         else {
             RequiredAmps = Math.Min(load.PdSizeTrip, RequiredAmps);
         }
+        ValidateCableSize(this);
         return RequiredAmps;
     }
     public double GetRequiredSizingAmps()
@@ -654,10 +655,7 @@ public class CableModel : ICable
             CalculateAmpacity_DirectBuriedOrRaceWayConduit(this, ampsColumn);
             output = "CalculateAmpacity_DirectBuriedOrRaceWayConduit";
         }
-        if (RequiredAmps > DeratedAmps) {
-            IsValidSize = false;
-            SetCablInvalid(this);
-        }
+        ValidateCableSize(this);
         OnPropertyUpdated();
         _calculating = false;
         return output;
@@ -683,8 +681,7 @@ public class CableModel : ICable
             cable.DeratedAmps = Math.Round(cable.DeratedAmps, GlobalConfig.SigFigs);
         }
         catch {
-            IsValidSize = false;
-            SetCablInvalid(this);
+            SetCableInvalid(this);
         }
     }
     private void CalculateAmpacity_DirectBuriedOrRaceWayConduit(ICable cable, string ampsColumn)
@@ -713,18 +710,22 @@ public class CableModel : ICable
 
         }
         catch {
-            IsValidSize = false;
-            SetCablInvalid(this);
+            SetCableInvalid(this);
         }
     }
 
-    private void SetCablInvalid(ICable cable)
+    public void ValidateCableSize(ICable cable)
+    {
+        if (cable.RequiredAmps > cable.DeratedAmps) {
+            cable.SetCableInvalid(this);
+        }
+        else {
+            cable.IsValidSize = true;
+        }
+    }
+    public void SetCableInvalid(ICable cable)
     {
         cable.IsValidSize = false;
-        //cable.Size = "n/a";
-        //cable.BaseAmps = 0;
-        //cable.DeratedAmps = 0;
-        //cable.QtyParallel = 99;
         cable.InstallationDiagram = "n/a";
     }
 

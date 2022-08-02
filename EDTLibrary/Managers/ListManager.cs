@@ -122,7 +122,8 @@ namespace EDTLibrary
             }
             return AreaList;
         }
-        public ObservableCollection<DistributionEquipment> GetDteq() {
+        private void GetDteq() 
+        {
 
             IDteqList.Clear();
             DteqList.Clear();
@@ -184,11 +185,10 @@ namespace EDTLibrary
                     dteq.FedFrom = fedFrom;
                 }
             }
-
-
-            return DteqList;
         }
-        public ObservableCollection<ILoad> GetLoads() {
+        private void GetLoads() 
+        {
+
             var list = DaManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable); //new List<LoadModel>(); //
             LoadList.Clear();
             foreach (var item in list) {
@@ -207,8 +207,6 @@ namespace EDTLibrary
 
                 if (load.Description == null) load.Description = "";
             }
-            //CreateILoadDict();
-            return LoadList;
         }
         private void GetComponents()
         {
@@ -218,7 +216,6 @@ namespace EDTLibrary
                 CompList.Add(item);
             }
 
-           
         }
         private void AssignComponents()
         {
@@ -248,7 +245,6 @@ namespace EDTLibrary
                 load.CctComponents = new ObservableCollection<IComponent>(load.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
             }
         }
-
         private void GetLocalControlStations()
         {
             LcsList.Clear();
@@ -270,16 +266,11 @@ namespace EDTLibrary
                 }
             }
         }
-
-
-
-
-        public ObservableCollection<CableModel> GetCables()
+        private void GetCables()
         {
             CableList.Clear();
             CableList = DaManager.prjDb.GetRecords<CableModel>(GlobalConfig.CableTable);
             AssignCableTypesAndSizes();
-            return CableList;
         }
         private void AssignCableTypesAndSizes()
         {
@@ -292,7 +283,8 @@ namespace EDTLibrary
 
 
         #region MajorEquipment
-        public async Task CalculateDteqLoadingAsync() // LoadList Manager
+        //Move to Distribution Manager
+        public async Task CalculateDteqLoadingAsync() 
         {
             await Task.Run(() => {
                 Stopwatch sw = new Stopwatch();
@@ -393,25 +385,7 @@ namespace EDTLibrary
 
         #endregion
 
-
-        //Lists
         #region Lists
-        public void CreateCableList() {
-            CableList.Clear();
-            foreach (var dteq in IDteqList) {
-                dteq.PowerCable.AssignOwner(dteq);
-                if (dteq.PowerCable.OwnerId != null && dteq.PowerCable.OwnerType != null) {
-                    CableList.Add(dteq.PowerCable);
-                }
-            }
-            foreach (var load in LoadList) {
-                load.PowerCable.AssignOwner(load);
-                if (load.PowerCable.OwnerId != null && load.PowerCable.OwnerType != null) {
-                    CableList.Add(load.PowerCable);
-
-                }
-            }
-        }
         public void AssignAreas()
         {
             foreach (var childArea in AreaList) {
@@ -575,7 +549,7 @@ namespace EDTLibrary
         }
 
         //TODO move to Distribution Manager with _listManager as parameter
-        public void DeleteDteq(IDteq IDteq) //where T : class
+        public void DeleteDteq(IDteq IDteq)
         {
             IDteqList.Remove(IDteq);
 

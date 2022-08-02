@@ -70,7 +70,7 @@ public class LocalControlStationModel :  ILocalControlStation
 
     public event EventHandler PropertyUpdated;
 
-    public async Task OnPropertyUpdated()
+    public virtual async Task OnPropertyUpdated(string property = "default")
     {
         await Task.Run(() => {
             if (PropertyUpdated != null) {
@@ -88,7 +88,7 @@ public class LocalControlStationModel :  ILocalControlStation
     }
    
     public event EventHandler AreaChanged;
-    public virtual async Task OnAreaChanged()
+    public async Task OnAreaChanged()
     {
         await Task.Run(() => {
             if (AreaChanged != null) {

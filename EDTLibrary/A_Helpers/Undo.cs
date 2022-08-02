@@ -27,7 +27,17 @@ public class Undo
 
     public static void AddUndoCommand(UndoCommandDetail command)
     {
-        UndoList.Add(command);
+        if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+            UndoList.Add(command);
+        }
+    }
+
+    public static void AddUndoCommand(object item, string propName, object oldValue, object newValue)
+    {
+        if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+            var cmd = new UndoCommandDetail { Item = item, PropName = propName, OldValue = oldValue, NewValue = newValue }; 
+            UndoList.Add(cmd);
+        }
     }
 }
 

@@ -44,11 +44,11 @@ namespace EDTLibrary.Models.Cables
         bool Is1C { get; set; }
 
 
-        public double HeatLoss { get; set; }
+        double HeatLoss { get; set; }
 
 
 
-
+        void SetCableInvalid(ICable cable);
         void CreateSizeList();
 
         event EventHandler PropertyUpdated;
