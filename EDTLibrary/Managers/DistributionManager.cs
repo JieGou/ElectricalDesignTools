@@ -31,7 +31,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
 
                 //Loads
-                GlobalConfig.GettingRecords = false;
+                DaManager.GettingRecords = false;
                 {
                     foreach (var load in _listManager.LoadList) {
                         sw.Restart();
@@ -44,7 +44,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                     }
                 }
-                GlobalConfig.GettingRecords = false;
+                DaManager.GettingRecords = false;
 
                 Debug.Print("Loads: " + subTotal);
                 total += subTotal;
@@ -85,7 +85,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                     caller.FedFromType = newSupplier.GetType().ToString();
                 }
 
-                if (GlobalConfig.GettingRecords == false) 
+                if (DaManager.GettingRecords == false) 
                 {
                     if (oldSupplier != null) 
                     {

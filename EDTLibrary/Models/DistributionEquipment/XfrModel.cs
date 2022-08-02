@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.Loads;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Models.Loads;
 using PropertyChanged;
 using System;
 
@@ -33,7 +34,7 @@ public class XfrModel : DistributionEquipment
                 _impedance = oldValue;
             }
             SCCR = CalculateSCCR();
-            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Impedance), OldValue = oldValue, NewValue = _impedance };
                 Undo.AddUndoCommand(cmd);
             }
@@ -50,7 +51,7 @@ public class XfrModel : DistributionEquipment
         {
             var oldValue = _grounding;
             _grounding = value;
-            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Grounding), OldValue = oldValue, NewValue = _grounding };
                 Undo.AddUndoCommand(cmd);
             }
@@ -85,7 +86,7 @@ public class XfrModel : DistributionEquipment
         get 
         {   
             { 
-                return FindLargestMotor(this, new LoadModel { Tag = "n/a", ConnectedKva = 0 }); 
+                return FindLargestMotor(this, new LoadModel { Tag = GlobalConfig.LargestMotor_StartLoad, ConnectedKva = 0 }); 
             }
         }
     }

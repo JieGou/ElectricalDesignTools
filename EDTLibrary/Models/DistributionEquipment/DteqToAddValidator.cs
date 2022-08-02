@@ -336,7 +336,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         //}
 
         //foreach (var item in _errorDict) {
-        //    ErrorHelper.Log($"DteqToAddValidator - Error: {item.Key}, {item.Value}");
+        //    ErrorHelper.Log($"DteqToAddValidator_IsValid - Error: {item.Key}, {item.Value}");
         //}
 #endif
         if (Tag == GlobalConfig.EmptyTag) {
@@ -382,7 +382,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         OnErrorsChanged(propertyName);
 
 #if DEBUG
-        ErrorHelper.Log($"DteqToAddValidator - Error: {Tag}, {propertyName}, {errorMessage}");
+        //ErrorHelper.Log($"DteqToAddValidator_AddError - Error: {Tag}, {propertyName}, {errorMessage}");
 #endif
     }
 

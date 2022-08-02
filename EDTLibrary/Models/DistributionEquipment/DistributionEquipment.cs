@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.A_Helpers;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.aMain;
@@ -13,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 //using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -42,7 +44,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _tag;
                 _tag = value;
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
 
                     if (PowerCable != null) {
                         PowerCable.AssignTagging(this);
@@ -53,7 +55,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
 
                 Undo.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
-                OnPropertyUpdated(nameof(Tag));
+                OnPropertyUpdated(nameof(Tag) + ": " + Tag.ToString());
 
             }
         }
@@ -66,7 +68,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _type;
                 _type = value;
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
 
                 }
                 Undo.AddUndoCommand(this, nameof(Type), oldValue, _type);
@@ -82,7 +84,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _subType;
                 _subType = value;
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
 
                 }
                 Undo.AddUndoCommand(this, nameof(SubType), oldValue, _subType);
@@ -99,7 +101,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _description = value;
                 Undo.AddUndoCommand(this, nameof(Description), oldValue, _description);
 
-                OnPropertyUpdated(nameof(Description));
+                OnPropertyUpdated(nameof(Description) + ": " + Description.ToString());
             }
 
         }
@@ -123,12 +125,12 @@ namespace EDTLibrary.Models.DistributionEquipment
                     AreaManager.UpdateArea(this, _area, oldValue);
                     Undo.AddUndoCommand(this, nameof(Area), oldValue, _area);
 
-                    if (GlobalConfig.GettingRecords == false && PowerCable != null) {
+                    if (DaManager.GettingRecords == false && PowerCable != null) {
                         PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
                         PowerCable.CalculateAmpacity(this);
                     }
                     OnAreaChanged();
-                    OnPropertyUpdated(nameof(Area));
+                    OnPropertyUpdated(nameof(Area) + ": " + Area.ToString());
                 }
             }
         }
@@ -143,7 +145,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _nemaRating = value;
 
                 Undo.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
-                OnPropertyUpdated(nameof(NemaRating));
+                OnPropertyUpdated(nameof(NemaRating) + ": " + NemaRating.ToString());
             }
         }
 
@@ -156,7 +158,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var oldValue = _areaClassification;
                 _areaClassification = value;
                 Undo.AddUndoCommand(this, nameof(AreaClassification), oldValue, _areaClassification);
-                OnPropertyUpdated(nameof(AreaClassification));
+                OnPropertyUpdated(nameof(AreaClassification) + ": " + AreaClassification.ToString());
             }
         }
         public double Voltage
@@ -165,7 +167,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 LineVoltage = value;
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
                     PowerCable.CreateTypeList(this);
                 }
             }
@@ -179,18 +181,18 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _size;
                 _size = value;
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
                     CalculateLoading();
                     SCCR = CalculateSCCR();
                     if (PowerCable != null) {
                         PowerCable.GetRequiredAmps(this);
                     }
-                    if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                    if (Undo.Undoing == false && DaManager.GettingRecords == false) {
                         var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
                         Undo.AddUndoCommand(cmd);
                     }
                 }
-                OnPropertyUpdated(nameof(Size));
+                OnPropertyUpdated(nameof(Size) + ": " + Size.ToString());
             }
         }
         public string Unit { get; set; }
@@ -232,7 +234,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 IDteq nextFedFrom = value;
                 //ClearErrors(nameof(FedFrom));
                 try {
-                    if (GlobalConfig.GettingRecords == true) {
+                    if (DaManager.GettingRecords == true) {
                         // Assigned loads add, and events are subscribed to inside UpdateFedFrom;
                         _fedFrom = value;
                         DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
@@ -270,7 +272,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
 
                 Undo.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
-                OnPropertyUpdated(nameof(FedFrom));
+                OnPropertyUpdated(nameof(FedFrom) + ": " + FedFrom.Tag.ToString());
             }
         }
 
@@ -290,7 +292,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 Undo.AddUndoCommand(this, nameof(LineVoltage), oldValue, _lineVoltage);
 
-                OnPropertyUpdated(nameof(LineVoltage));
+                OnPropertyUpdated(nameof(LineVoltage) + ": " + LineVoltage.ToString());
             }
         }
 
@@ -308,7 +310,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 Undo.AddUndoCommand(this, nameof(LoadVoltage), oldValue, _loadVoltage);
 
-                OnPropertyUpdated(nameof(LoadVoltage));
+                OnPropertyUpdated(nameof(LoadVoltage) + ": " + LoadVoltage.ToString());
 
             }
         }
@@ -441,7 +443,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 foreach (var load in AssignedLoads) {
                     load.PowerCable.AutoSizeAsync();
                 }
-                OnPropertyUpdated(nameof(LoadCableDerating));
+                OnPropertyUpdated(nameof(LoadCableDerating) + ": " + LoadCableDerating.ToString());
             }
         }
 
@@ -495,7 +497,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public void CreatePowerCable()
         {
-            if (PowerCable == null && GlobalConfig.GettingRecords == false) {
+            if (PowerCable == null && DaManager.GettingRecords == false) {
                 PowerCable = new CableModel(this);
             }
         }
@@ -513,6 +515,10 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public void OnAssignedLoadReCalculated(object source, EventArgs e)
         {
+            IEquipment eq = (IEquipment)source;
+            if (GlobalConfig.Testing == true) {
+                ErrorHelper.LogNoSave($"Tag: {Tag}, Load: {eq.Tag}");
+            }
             CalculateLoading();
         }
 
@@ -527,16 +533,21 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
         public event EventHandler PropertyUpdated;
-        public async Task OnPropertyUpdated(string property = "default")
+        public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
         {
-            if (PropertyUpdated != null) {
-                PropertyUpdated(this, EventArgs.Empty);
-            }
-            ErrorHelper.Log($"Dteq_OnPropertyUpdated - Tag = {Tag}, Property = {property}");
-            //await Task.Run(() => {
-                
-            //});
+            if (DaManager.GettingRecords == false) {
 
+                //await Task.Run(() => {
+                if (PropertyUpdated != null) {
+                    PropertyUpdated(this, EventArgs.Empty);
+                }
+                //});
+
+                if (GlobalConfig.Testing == true && DaManager.GettingRecords == false) {
+                    //ErrorHelper.Log($"Tag: {Tag}, Property: {property}");
+                    ErrorHelper.LogNoSave($"Tag: {Tag}, {callerMethod}");
+                }
+            }
         }
 
       

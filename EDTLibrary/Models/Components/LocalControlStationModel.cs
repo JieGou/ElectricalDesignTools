@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -70,7 +71,7 @@ public class LocalControlStationModel :  ILocalControlStation
 
     public event EventHandler PropertyUpdated;
 
-    public virtual async Task OnPropertyUpdated(string property = "default")
+    public virtual async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
     {
         await Task.Run(() => {
             if (PropertyUpdated != null) {

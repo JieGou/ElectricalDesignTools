@@ -1,4 +1,6 @@
-﻿using EDTLibrary.LibraryData;
+﻿using EDTLibrary.A_Helpers;
+using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.aMain;
@@ -11,6 +13,7 @@ using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -40,10 +43,11 @@ namespace EDTLibrary.Models.Loads
             get { return _tag; }
             set
             {
+                if (value == null) return;
                 var oldValue = _tag;
                 _tag = value;
 
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
 
                     if (PowerCable != null) {
                         PowerCable.AssignTagging(this);
@@ -57,10 +61,8 @@ namespace EDTLibrary.Models.Loads
 
                 }
 
-                
-                if (Tag != "n/a") {
-                    Undo.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
-                }
+                if (Tag == GlobalConfig.LargestMotor_StartLoad) return;
+                Undo.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
                 OnPropertyUpdated();
 
             }
@@ -74,9 +76,11 @@ namespace EDTLibrary.Models.Loads
             get { return _subType; }
             set
             {
+                if (value == null) return;
+
                 var oldValue = _subType;
                 _subType = value;
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
 
                 }
               
@@ -117,6 +121,8 @@ namespace EDTLibrary.Models.Loads
             get { return _area; }
             set
             {
+                if (value == null) return;
+
                 var oldValue = _area;
                 _area = value;
                 if (Area != null) {
@@ -124,7 +130,7 @@ namespace EDTLibrary.Models.Loads
 
                     Undo.AddUndoCommand(this, nameof(Area), oldValue, _area);
 
-                    if (GlobalConfig.GettingRecords == false && PowerCable != null && FedFrom != null) {
+                    if (DaManager.GettingRecords == false && PowerCable != null && FedFrom != null) {
                         PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
                         PowerCable.CalculateAmpacity(this);
                     }
@@ -140,6 +146,8 @@ namespace EDTLibrary.Models.Loads
             get { return _nemaRating; }
             set
             {
+                if (value == null) return;
+
                 var oldValue = _nemaRating;
                 _nemaRating = value;
                 Undo.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
@@ -153,6 +161,8 @@ namespace EDTLibrary.Models.Loads
             get { return _areaClassification; }
             set
             {
+                if (value == null) return;
+
                 var oldValue = _areaClassification;
                 _areaClassification = value;
                 Undo.AddUndoCommand(this, nameof(AreaClassification), oldValue, _areaClassification);
@@ -168,12 +178,14 @@ namespace EDTLibrary.Models.Loads
             get { return _voltage; }
             set
             {
+                if (value == null) return;
+
                 var oldValue = _voltage;
                 _voltage = value;
 
                 Undo.AddUndoCommand(this, nameof(Voltage), oldValue, _voltage);
 
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
                     PowerCable.CreateTypeList(this);
                 }
                 OnPropertyUpdated();
@@ -188,6 +200,8 @@ namespace EDTLibrary.Models.Loads
             get { return _size; }
             set
             {
+                if (value == null) return;
+
                 double oldValue = _size;
                 _size = value;
 
@@ -206,8 +220,10 @@ namespace EDTLibrary.Models.Loads
             get { return _fedFromTag; }
             set
             {
+                if (value == null) return;
+
                 _fedFromTag = value;
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
                     //OnFedFromChanged();
                     //CalculateLoading();
                     CreatePowerCable();
@@ -222,10 +238,12 @@ namespace EDTLibrary.Models.Loads
             get { return _fedFrom; }
             set
             {
+                if (value == null) return;
+
                 IDteq oldValue = _fedFrom;
                 _fedFrom = value;
 
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
                     DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
                 }
                
@@ -241,6 +259,7 @@ namespace EDTLibrary.Models.Loads
             get { return _loadFactor; }
             set
             {
+
                 var oldValue = _loadFactor;
                 _loadFactor = value;
                 
@@ -319,7 +338,7 @@ namespace EDTLibrary.Models.Loads
                 var _oldValue = _lcsBool;
                 _lcsBool = value;
 
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
 
                     if (_lcsBool == true) {
                         ComponentManager.AddLcs(this, ScenarioManager.ListManager);
@@ -352,7 +371,7 @@ namespace EDTLibrary.Models.Loads
                     PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
                 }
 
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
                     if (_driveBool == true) {
                         ComponentManager.AddDefaultDrive(this, ScenarioManager.ListManager);
                     }
@@ -391,7 +410,7 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _disconnectBool;
                 _disconnectBool = value;
 
-                if (GlobalConfig.GettingRecords == false) {
+                if (DaManager.GettingRecords == false) {
                     if (_disconnectBool == true) {
                         ComponentManager.AddDefaultDisconnect(this, ScenarioManager.ListManager);
                     }
@@ -427,7 +446,7 @@ namespace EDTLibrary.Models.Loads
         //Methods
         public void CalculateLoading()
         {
-            if (GlobalConfig.GettingRecords == true) {
+            if (DaManager.GettingRecords == true) {
                 return;
             }
             if (LoadFactor == null || LoadFactor == 0) {
@@ -625,13 +644,20 @@ namespace EDTLibrary.Models.Loads
 
 
         public event EventHandler PropertyUpdated;
-        public async Task OnPropertyUpdated(string property = "default")
+        public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
         {
-            await Task.Run(() => {
+
+            if (DaManager.GettingRecords == false) {
+                //await Task.Run(() => {
                 if (PropertyUpdated != null) {
                     PropertyUpdated(this, EventArgs.Empty);
                 }
-            });
+                //});
+
+                if (GlobalConfig.Testing == true) {
+                    ErrorHelper.LogNoSave($"Tag: {Tag}, {callerMethod}");
+                } 
+            }
         }
 
 

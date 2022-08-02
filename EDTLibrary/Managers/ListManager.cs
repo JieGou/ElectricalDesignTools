@@ -42,7 +42,7 @@ namespace EDTLibrary
 
         public void GetProjectTablesAndAssigments()
         {
-            GlobalConfig.GettingRecords = true;
+            DaManager.GettingRecords = true;
 
             try {
                 //Get
@@ -73,7 +73,7 @@ namespace EDTLibrary
                 throw;
             }
 
-            GlobalConfig.GettingRecords = false;
+            DaManager.GettingRecords = false;
         }
         public ObservableCollection<IEquipment> CreateEquipmentList()
         {
@@ -297,7 +297,7 @@ namespace EDTLibrary
                 Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
 
                 //Loads
-                GlobalConfig.GettingRecords = false;
+                DaManager.GettingRecords = false;
                 {
                     foreach (var load in LoadList) {
                         sw.Restart();
@@ -310,7 +310,7 @@ namespace EDTLibrary
 
                     }
                 }
-                GlobalConfig.GettingRecords = false;
+                DaManager.GettingRecords = false;
 
                 Debug.Print("Loads: " + subTotal);
                 total += subTotal;

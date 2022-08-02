@@ -1,6 +1,7 @@
 ﻿
 using EdtLibrary.Commands;
 using EDTLibrary;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Managers;
@@ -35,9 +36,9 @@ public class CableModel : ICable
         _load = load;
         AssignOwner(load);
         AssignTagging(load);
-        GlobalConfig.GettingRecords = true;
+        DaManager.GettingRecords = true;
         Type = CableManager.CableSizer.GetDefaultCableType(load);
-        GlobalConfig.GettingRecords = false;
+        DaManager.GettingRecords = false;
 
         UsageType = CableUsageTypes.Power.ToString();
         QtyParallel = 1;
@@ -106,11 +107,11 @@ public class CableModel : ICable
 
             Is1C = _type.Contains("1C") ? true : false;
 
-            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(TypeModel), OldValue = oldValue, NewValue = _typeModel };
                 Undo.AddUndoCommand(cmd);
             }
-            if (GlobalConfig.GettingRecords == false) {
+            if (DaManager.GettingRecords == false) {
                 if (UsageType==CableUsageTypes.Power.ToString()) {
                     AutoSizeAsync();
                 }
@@ -144,11 +145,11 @@ public class CableModel : ICable
                 _qtyParallel = 1;
             }
           
-            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(QtyParallel), OldValue = oldValue, NewValue = _qtyParallel };
                 Undo.AddUndoCommand(cmd);
             }
-            if (GlobalConfig.GettingRecords == false && _calculating == false) {
+            if (DaManager.GettingRecords == false && _calculating == false) {
                 _calculatingQty = true;
                 CalculateAmpacity(this.Load);
                 _calculatingQty = false;
@@ -169,12 +170,12 @@ public class CableModel : ICable
             var oldValue = _size;
             _size = value;
 
-            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
                 Undo.AddUndoCommand(cmd);
             }
 
-            if (GlobalConfig.GettingRecords == false && UsageType == CableUsageTypes.Power.ToString()) {
+            if (DaManager.GettingRecords == false && UsageType == CableUsageTypes.Power.ToString()) {
                 CalculateAmpacity(Load);
             }
             OnPropertyUpdated();
@@ -195,7 +196,7 @@ public class CableModel : ICable
             var oldValue = _spacing;
             _spacing = value;
 
-            if (GlobalConfig.GettingRecords == false) {
+            if (DaManager.GettingRecords == false) {
                 _calculating = true;
                 Derating = CableManager.CableSizer.GetDerating(this);
                 CalculateAmpacity(Load);
@@ -203,7 +204,7 @@ public class CableModel : ICable
             }
 
 
-            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Spacing), OldValue = oldValue, NewValue = _spacing };
                 Undo.AddUndoCommand(cmd);
             }
@@ -262,13 +263,13 @@ public class CableModel : ICable
             var oldValue = _outdoor;
             _outdoor = value;
 
-            if (GlobalConfig.GettingRecords == false) {
+            if (DaManager.GettingRecords == false) {
                 _calculating = true;
                 AutoSize();
                 _calculating = false;
             }
 
-            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(IsOutdoor), OldValue = oldValue, NewValue = _outdoor };
                 Undo.AddUndoCommand(cmd);
             }
@@ -289,13 +290,13 @@ public class CableModel : ICable
             var oldValue = _installationType;
             _installationType = value;
 
-            if (GlobalConfig.GettingRecords == false) {
+            if (DaManager.GettingRecords == false) {
                 _calculating = true;
                 AutoSize();
                 _calculating = false;
             }
 
-            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(InstallationType), OldValue = oldValue, NewValue = _installationType };
                 Undo.AddUndoCommand(cmd);
             }

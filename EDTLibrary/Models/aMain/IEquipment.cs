@@ -2,6 +2,7 @@
 using EDTLibrary.Models.Components;
 using System;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.Models
@@ -27,7 +28,7 @@ namespace EDTLibrary.Models
 
 
         event EventHandler PropertyUpdated;
-        abstract Task OnPropertyUpdated(string property ="default");
+        abstract Task OnPropertyUpdated(string property ="default", [CallerMemberName] string callerMethod = "");
 
         abstract Task UpdateAreaProperties();
         public void OnAreaPropertiesChanged(object source, EventArgs e)

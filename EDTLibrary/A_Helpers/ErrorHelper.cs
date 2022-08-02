@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,13 +14,17 @@ namespace EDTLibrary.A_Helpers
     {
         public static List<string> ErrorLog { get; set; } = new List<string>();
 
-        public static void Log(string errorMessage)
+        public static void Log(string errorMessage, [CallerFilePath] string callerClass = "", [CallerMemberName] string callerMethod = "")
         {
+            callerClass = Path.GetFileName(callerClass);
+            errorMessage = $"{callerClass}_{callerMethod} - {errorMessage}";
             ErrorLog.Add(errorMessage);
             SaveLog();
         }
-        public static void LogNoSave(string errorMessage)
+        public static void LogNoSave(string errorMessage, [CallerFilePath] string callerClass = "", [CallerMemberName] string callerMethod = "")
         {
+            callerClass = Path.GetFileName(callerClass);
+            errorMessage = $"{callerClass}_{callerMethod} - {errorMessage}";
             ErrorLog.Add(errorMessage);
         }
         public static void SaveLog()

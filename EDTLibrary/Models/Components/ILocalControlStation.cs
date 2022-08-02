@@ -23,9 +23,11 @@ public interface ILocalControlStation: IEquipment
     string Type { get; set; }
     LcsTypeModel TypeModel { get; set; }
 
-    event EventHandler PropertyUpdated;
 
-    Task OnPropertyUpdated(string property = "default");
-    Task UpdateAreaProperties();
+    //already in IEquipment
+
+    //event EventHandler PropertyUpdated;
+    //Task OnPropertyUpdated(string property = "default");
+    //Task UpdateAreaProperties();
     
 }

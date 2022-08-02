@@ -1,4 +1,5 @@
-﻿using EDTLibrary.LibraryData.TypeModels;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.aMain;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,14 +37,14 @@ public class DisconnectModel : IComponent
         {
             var oldValue = _tag;
             _tag = value;
-            if (GlobalConfig.GettingRecords == false) {
+            if (DaManager.GettingRecords == false) {
                 if (Owner != null) {
                     if (CableManager.IsUpdatingPowerCables == false) {
                         CableManager.UpdateLoadPowerComponentCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
                     }
                 }
             }
-            if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
                 Undo.AddUndoCommand(cmd);
             }
@@ -78,7 +80,7 @@ public class DisconnectModel : IComponent
             if (Area != null) {
                 AreaManager.UpdateArea(this, _area, oldValue);
 
-                if (Undo.Undoing == false && GlobalConfig.GettingRecords == false) {
+                if (Undo.Undoing == false && DaManager.GettingRecords == false) {
                     var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
                     Undo.AddUndoCommand(cmd);
                 }
@@ -114,7 +116,7 @@ public class DisconnectModel : IComponent
 
     public event EventHandler PropertyUpdated;
 
-    public async Task OnPropertyUpdated(string property = "default")
+    public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
     {
         await Task.Run(() => {
             if (PropertyUpdated != null) {

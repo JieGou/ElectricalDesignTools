@@ -22,7 +22,9 @@ public class DaManager {
     public static bool IsProjectLoaded { get; private set; }
     public static bool IsLibraryLoaded { get; private set; }
 
-    public static bool GettingRecords = false;
+    public static bool GettingRecords = true;
+    public static bool AddingEquipment = true;
+
     public static IDaConnector prjDb { get; set; }
     public static IDaConnector libDb { get; set; }
 
@@ -81,31 +83,81 @@ public class DaManager {
     {
 
         try {
-            if (GlobalConfig.GettingRecords == false) {
+            if (DaManager.GettingRecords == false) {
                 IDteq dteq = (IDteq)source;
                 if (dteq.Tag == GlobalConfig.Deleted ) return;
-                DaManager.UpsertDteqAsync((IDteq)source);
+                DaManager.UpsertDteqAsync(dteq);
             } 
         }
         catch (Exception) {
             throw;
         }
-    } 
+    }
+
+    //Upsert Dteq
+    public static async Task UpsertDteqAsync(IDteq iDteq)
+    {
+        try {
+            // removed await to test speed
+            Task.Run(() => {
+                if (GlobalConfig.Importing == true) return;
+                if (iDteq == GlobalConfig.DteqDeleted) { return; }
+
+                if (iDteq.GetType() == typeof(DteqModel)) {
+                    var model = (DteqModel)iDteq;
+                    prjDb.UpsertRecord(model, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+                }
+                else if (iDteq.GetType() == typeof(XfrModel)) {
+                    var model = (XfrModel)iDteq;
+                    prjDb.UpsertRecord(model, GlobalConfig.XfrTable, SaveLists.DteqSaveList);
+                }
+                else if (iDteq.GetType() == typeof(SwgModel)) {
+                    var model = (SwgModel)iDteq;
+                    prjDb.UpsertRecord(model, GlobalConfig.SwgTable, SaveLists.DteqSaveList);
+                }
+                else if (iDteq.GetType() == typeof(MccModel)) {
+                    var model = (MccModel)iDteq;
+                    prjDb.UpsertRecord(model, GlobalConfig.MccTable, SaveLists.DteqSaveList);
+                }
+            });
+        }
+
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw;
+        }
+    }
     public static void OnLoadPropertyUpdated(object source, EventArgs e)
     {
-        if (GlobalConfig.GettingRecords == false) {
-            prjDb.UpsertRecord<LoadModel>((LoadModel)source, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+        if (DaManager.GettingRecords == false) {
+            DaManager.UpsertLoadAsync((LoadModel)source);
+        }
+    }
+
+    private static async Task UpsertLoadAsync(LoadModel load)
+    {
+        try {
+            //removed await to test speed
+            Task.Run(() => {
+                if (GlobalConfig.Importing == true) return;
+                prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+            });
+        }
+
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw;
         }
     }
     public static void OnComponentPropertyUpdated(object source, EventArgs e)
     {
-        if (GlobalConfig.GettingRecords == false) {
+        if (DaManager.GettingRecords == false) {
             DaManager.UpsertComponent((ComponentModel)source);
         }
     }
     public static void OnDrivePropertyUpdated(object source, EventArgs e)
     {
-        if (GlobalConfig.GettingRecords == false) {
+        if (DaManager.GettingRecords == false) {
             DaManager.UpsertDrive((DriveModel)source);
         }
     }
@@ -125,21 +177,21 @@ public class DaManager {
 
     public static void OnLcsPropertyUpdated(object source, EventArgs e)
     {
-        if (GlobalConfig.GettingRecords == false) {
+        if (DaManager.GettingRecords == false) {
             DaManager.UpsertLcs((LocalControlStationModel)source);
         }
     }
 
     public static void OnAreaPropertyUpdated(object source, EventArgs e)
     {
-        if (GlobalConfig.GettingRecords == false) {
+        if (DaManager.GettingRecords == false) {
             prjDb.UpsertRecord<AreaModel>((AreaModel)source, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
         }
     }
 
     public static void OnPowerCablePropertyUpdated(object source, EventArgs e)
     {
-        if (GlobalConfig.GettingRecords == false) {
+        if (DaManager.GettingRecords == false) {
             prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, SaveLists.PowerCableSaveList);
         }
     }
@@ -169,7 +221,7 @@ public class DaManager {
 
     internal static void OnDisconnectPropertyUpdated(object source, EventArgs e)
     {
-        if (GlobalConfig.GettingRecords == false) {
+        if (DaManager.GettingRecords == false) {
             DaManager.UpsertDisconnect((DisconnectModel)source);
         }
     }
@@ -223,39 +275,7 @@ public class DaManager {
         }
     }
 
-    //Upsert Dteq
-    public static async Task UpsertDteqAsync(IDteq iDteq)
-    {
-        try {
-
-            await Task.Run(() => {
-                if (GlobalConfig.Importing == true) return;
-                if (iDteq == GlobalConfig.DteqDeleted) { return; }
-
-                if (iDteq.GetType() == typeof(DteqModel)) {
-                    var model = (DteqModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
-                }
-                else if (iDteq.GetType() == typeof(XfrModel)) {
-                    var model = (XfrModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.XfrTable, SaveLists.DteqSaveList);
-                }
-                else if (iDteq.GetType() == typeof(SwgModel)) {
-                    var model = (SwgModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.SwgTable, SaveLists.DteqSaveList);
-                }
-                else if (iDteq.GetType() == typeof(MccModel)) {
-                    var model = (MccModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.MccTable, SaveLists.DteqSaveList);
-                }
-            });
-        }
-
-        catch (Exception ex) {
-            Debug.Print(ex.ToString());
-            throw;
-        }
-    }
+    
 
     public static async Task UpsertLoadAsycn(LoadModel load)
     {
@@ -315,8 +335,6 @@ public class DaManager {
         }
         prjDb.DeleteRecord(GlobalConfig.LcsTable, lcs.Id);
     }
-
-
 
     public static void UpsertCable(CableModel cable)
     {

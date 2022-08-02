@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ public class AreaManager
 {
     public static void UpdateArea(IEquipment caller, IArea newArea, IArea oldArea)
     {
-        if (GlobalConfig.GettingRecords==false && newArea != oldArea) {
+        if (DaManager.GettingRecords == false && newArea != oldArea) {
             if (oldArea != null) {
                 oldArea.PropertyChanged -= caller.OnAreaPropertiesChanged;
             }

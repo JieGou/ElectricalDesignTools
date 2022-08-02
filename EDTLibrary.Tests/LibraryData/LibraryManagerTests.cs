@@ -19,7 +19,7 @@ namespace EDTLibrary.Tests.LibraryData
         [InlineData(460,50,"HP",0.941)]
         public void GetMotorEfficiency_CorrectAndDefault(double voltage, double size, string unit, double expected)
         {
-            GlobalConfig.GettingRecords = true;
+            DaManager.GettingRecords = true;
             ILoad load = new LoadModel() { Voltage = voltage, Size = size, Unit = unit};
             DataTables.Motors = CreateSampleMotorTable();
 
