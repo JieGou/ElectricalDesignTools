@@ -287,7 +287,7 @@ namespace EDTLibrary.Models.Loads
 
         public double PowerFactor
         {
-            get { return _powerFactor * 100; }
+            get { return Math.Round(_powerFactor * 100,2); }
             set
             {
                 var oldValue = _powerFactor;

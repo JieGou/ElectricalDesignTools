@@ -97,7 +97,6 @@ namespace WpfUI.Services
                     SettingsManager.LoadProjectSettings();
                     TagManager.LoadTagSettings();
                     LoadProjectDb();
-                    //LoadProjectSettings();
                 }
             }
             catch (Exception ex) {

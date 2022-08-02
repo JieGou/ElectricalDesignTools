@@ -33,9 +33,7 @@ namespace EDTLibrary.Tests
 
             try {
                 GlobalConfig.Testing = true;
-                int sleepTime = 100;
                 CopyDb();
-                //Assert.True(File.Exists(GlobalConfig.TestDb));
 
                 DaManager.prjDb = new SQLiteConnector(GlobalConfig.TestDb);
 
@@ -73,6 +71,7 @@ namespace EDTLibrary.Tests
                 ErrorHelper.LogNoSave("\n\n\n-----------------AREA----------------- \n\n\n");
 
                 foreach (var loopArea in TestData.TestAreasList) {
+                    ErrorHelper.LogNoSave("--------Add Area");
                     areaToAdd = new AreaToAddValidator(listManager, loopArea);
                     areaVm.AddArea(areaToAdd);
                 }
@@ -83,6 +82,8 @@ namespace EDTLibrary.Tests
                 ErrorHelper.LogNoSave("\n\n\n-----------------DTEQ----------------- \n\n\n");
 
                 foreach (var loopDteq in TestData.TestDteqList) {
+                    ErrorHelper.LogNoSave("--------Add dteq");
+
                     loopDteq.Area = listManager.AreaList[0];
                     dteqToAdd = new DteqToAddValidator(listManager, loopDteq);
                     eqVm.AddDteq(dteqToAdd);
@@ -95,6 +96,8 @@ namespace EDTLibrary.Tests
                 ErrorHelper.LogNoSave("\n\n\n-----------------LOAD----------------- \n\n\n");
 
                 foreach (var loopLoad in TestData.TestLoadList) {
+                    ErrorHelper.LogNoSave("--------Add load");
+
                     loopLoad.Area = listManager.AreaList[0];
                     loadToAdd = new LoadToAddValidator(listManager, loopLoad);
                     eqVm.AddLoad(loadToAdd);
