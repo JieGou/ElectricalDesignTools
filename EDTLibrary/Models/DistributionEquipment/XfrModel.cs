@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
 
@@ -34,9 +35,9 @@ public class XfrModel : DistributionEquipment
                 _impedance = oldValue;
             }
             SCCR = CalculateSCCR();
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Impedance), OldValue = oldValue, NewValue = _impedance };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -51,9 +52,9 @@ public class XfrModel : DistributionEquipment
         {
             var oldValue = _grounding;
             _grounding = value;
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Grounding), OldValue = oldValue, NewValue = _grounding };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }

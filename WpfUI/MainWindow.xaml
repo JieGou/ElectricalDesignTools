@@ -95,7 +95,7 @@
                            VerticalAlignment="Top"
                            Margin="0,0,0,0"/>
 
-                    <RadioButton Content="HOME"
+                    <RadioButton Content="HOME" x:Name="btnHome"
                                  Width="65"
                              Style="{StaticResource MainMenuButton}" 
                              GroupName="menu"

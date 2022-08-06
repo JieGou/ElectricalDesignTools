@@ -7,6 +7,7 @@ using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -54,7 +55,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                     }
                 }
 
-                Undo.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
+                UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
                 OnPropertyUpdated(nameof(Tag) + ": " + Tag.ToString());
 
             }
@@ -71,7 +72,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (DaManager.GettingRecords == false) {
 
                 }
-                Undo.AddUndoCommand(this, nameof(Type), oldValue, _type);
+                UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _type);
             }
         }
 
@@ -87,7 +88,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (DaManager.GettingRecords == false) {
 
                 }
-                Undo.AddUndoCommand(this, nameof(SubType), oldValue, _subType);
+                UndoManager.AddUndoCommand(this, nameof(SubType), oldValue, _subType);
             }
         }
 
@@ -99,7 +100,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _description;
                 _description = value;
-                Undo.AddUndoCommand(this, nameof(Description), oldValue, _description);
+                UndoManager.AddUndoCommand(this, nameof(Description), oldValue, _description);
 
                 OnPropertyUpdated(nameof(Description) + ": " + Description.ToString());
             }
@@ -123,7 +124,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _area = value;
                 if (Area != null) {
                     AreaManager.UpdateArea(this, _area, oldValue);
-                    Undo.AddUndoCommand(this, nameof(Area), oldValue, _area);
+                    UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
 
                     if (DaManager.GettingRecords == false && PowerCable != null) {
                         PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
@@ -144,7 +145,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var oldValue = _nemaRating;
                 _nemaRating = value;
 
-                Undo.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
+                UndoManager.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
                 OnPropertyUpdated(nameof(NemaRating) + ": " + NemaRating.ToString());
             }
         }
@@ -157,7 +158,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _areaClassification;
                 _areaClassification = value;
-                Undo.AddUndoCommand(this, nameof(AreaClassification), oldValue, _areaClassification);
+                UndoManager.AddUndoCommand(this, nameof(AreaClassification), oldValue, _areaClassification);
                 OnPropertyUpdated(nameof(AreaClassification) + ": " + AreaClassification.ToString());
             }
         }
@@ -187,9 +188,9 @@ namespace EDTLibrary.Models.DistributionEquipment
                     if (PowerCable != null) {
                         PowerCable.GetRequiredAmps(this);
                     }
-                    if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+                    if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                         var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
-                        Undo.AddUndoCommand(cmd);
+                        UndoManager.AddUndoCommand(cmd);
                     }
                 }
                 OnPropertyUpdated(nameof(Size) + ": " + Size.ToString());
@@ -271,7 +272,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                     throw;
                 }
 
-                Undo.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
+                UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
                 OnPropertyUpdated(nameof(FedFrom) + ": " + FedFrom.Tag.ToString());
             }
         }
@@ -290,7 +291,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _lineVoltage = value;
                 Voltage = _lineVoltage;
 
-                Undo.AddUndoCommand(this, nameof(LineVoltage), oldValue, _lineVoltage);
+                UndoManager.AddUndoCommand(this, nameof(LineVoltage), oldValue, _lineVoltage);
 
                 OnPropertyUpdated(nameof(LineVoltage) + ": " + LineVoltage.ToString());
             }
@@ -308,7 +309,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var oldValue = _loadVoltage;
                 _loadVoltage = value;
 
-                Undo.AddUndoCommand(this, nameof(LoadVoltage), oldValue, _loadVoltage);
+                UndoManager.AddUndoCommand(this, nameof(LoadVoltage), oldValue, _loadVoltage);
 
                 OnPropertyUpdated(nameof(LoadVoltage) + ": " + LoadVoltage.ToString());
 

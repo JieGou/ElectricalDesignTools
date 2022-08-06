@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EDTLibrary.Models;
+using EDTLibrary.UndoSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfUI.ViewModels.Debug;
 
 namespace WpfUI.Windows;
 /// <summary>
@@ -18,8 +21,24 @@ namespace WpfUI.Windows;
 /// </summary>
 public partial class DebugWindow : Window
 {
+    DebugViewModel dataContextVm;
     public DebugWindow()
     {
         InitializeComponent();
+        
+        this.DataContext = new DebugViewModel(new UndoManager());
+        //    lstDebug.Items.Clear();
+        //    foreach (var item in UndoManager.UndoList) {
+        //        lstDebug.Items.Add(item.ToString());
+        //    }
     }
+
+    private void Button_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        //lstDebug.Items.Clear();
+        //foreach (var item in UndoManager.UndoList) {
+        //    lstDebug.Items.Add(item.ToString());
+        //}
+    }
+
 }

@@ -5,12 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUI.Windows"
         mc:Ignorable="d"
-        Title="DebugWindow" Height="450" Width="600">
+        
+        xmlns:UndoSystem="clr-namespace:EDTLibrary.UndoSystem;assembly=EDTLibrary"
+
+        
+        Title="DebugWindow" Height="600" Width="1000"
+        >
+    
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <TextBlock Text="Log"/>
-            <ListBox ItemsSource="{Binding DebugList}"
-                     MinHeight="250"/>
-        </StackPanel>
+        <TabControl>
+            <TabItem Header="Undo List">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="lstDebug"
+                             ItemsSource="{Binding UndoList}"
+                             Grid.Row="0" MinHeight="250"
+                             ScrollViewer.VerticalScrollBarVisibility="Visible">
+                        <ListBox.DataContext>
+                            <UndoSystem:UndoManager/>
+                        </ListBox.DataContext>
+                    </ListBox>
+                    <Button Content="Update"
+                            Grid.Row="1" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" />
+                </Grid>
+            </TabItem>
+        </TabControl>
+        
     </Grid>
 </Window>

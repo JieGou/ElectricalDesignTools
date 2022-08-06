@@ -99,25 +99,25 @@ public class DaManager {
     {
         try {
             // removed await to test speed
-            Task.Run(() => {
+            await Task.Run(() => {
                 if (GlobalConfig.Importing == true) return;
                 if (iDteq == GlobalConfig.DteqDeleted) { return; }
 
                 if (iDteq.GetType() == typeof(DteqModel)) {
                     var model = (DteqModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+                    prjDb.UpsertRecord(model, GlobalConfig.DteqTable, SaveLists.DteqNoSaveList);
                 }
                 else if (iDteq.GetType() == typeof(XfrModel)) {
                     var model = (XfrModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.XfrTable, SaveLists.DteqSaveList);
+                    prjDb.UpsertRecord(model, GlobalConfig.XfrTable, SaveLists.DteqNoSaveList);
                 }
                 else if (iDteq.GetType() == typeof(SwgModel)) {
                     var model = (SwgModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.SwgTable, SaveLists.DteqSaveList);
+                    prjDb.UpsertRecord(model, GlobalConfig.SwgTable, SaveLists.DteqNoSaveList);
                 }
                 else if (iDteq.GetType() == typeof(MccModel)) {
                     var model = (MccModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.MccTable, SaveLists.DteqSaveList);
+                    prjDb.UpsertRecord(model, GlobalConfig.MccTable, SaveLists.DteqNoSaveList);
                 }
             });
         }
@@ -138,9 +138,9 @@ public class DaManager {
     {
         try {
             //removed await to test speed
-            Task.Run(() => {
+            await Task.Run(() => {
                 if (GlobalConfig.Importing == true) return;
-                prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+                prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadNoSaveList);
             });
         }
 
@@ -167,7 +167,7 @@ public class DaManager {
         try {
             if (GlobalConfig.Importing == true) return;
 
-            prjDb.UpsertRecord(drive, GlobalConfig.DriveTable, SaveLists.CompSaveList);
+            prjDb.UpsertRecord(drive, GlobalConfig.DriveTable, SaveLists.CompNoSaveList);
         }
         catch (Exception ex) {
             Debug.Print(ex.ToString());
@@ -185,14 +185,14 @@ public class DaManager {
     public static void OnAreaPropertyUpdated(object source, EventArgs e)
     {
         if (DaManager.GettingRecords == false) {
-            prjDb.UpsertRecord<AreaModel>((AreaModel)source, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
+            prjDb.UpsertRecord<AreaModel>((AreaModel)source, GlobalConfig.AreaTable, SaveLists.AreaNoSaveList);
         }
     }
 
     public static void OnPowerCablePropertyUpdated(object source, EventArgs e)
     {
         if (DaManager.GettingRecords == false) {
-            prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, SaveLists.PowerCableSaveList);
+            prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, SaveLists.PowerCableNoSaveList);
         }
     }
 
@@ -202,19 +202,19 @@ public class DaManager {
         int id = 0;
         if (iDteq.GetType() == typeof(DteqModel)) {
            var model = (DteqModel)iDteq;
-           id = prjDb.InsertRecordGetId(model, GlobalConfig.DteqTable, SaveLists.DteqSaveList);
+           id = prjDb.InsertRecordGetId(model, GlobalConfig.DteqTable, SaveLists.DteqNoSaveList);
         }
         else if (iDteq.GetType() == typeof(XfrModel)) {
             var model = (XfrModel)iDteq;
-            id = prjDb.InsertRecordGetId(model, GlobalConfig.XfrTable, SaveLists.DteqSaveList);
+            id = prjDb.InsertRecordGetId(model, GlobalConfig.XfrTable, SaveLists.DteqNoSaveList);
         }
         else if (iDteq.GetType() == typeof(SwgModel)) {
             var model = (SwgModel)iDteq;
-            id = prjDb.InsertRecordGetId(model, GlobalConfig.SwgTable, SaveLists.DteqSaveList);
+            id = prjDb.InsertRecordGetId(model, GlobalConfig.SwgTable, SaveLists.DteqNoSaveList);
         }
         else if (iDteq.GetType() == typeof(MccModel)) {
             var model = (MccModel)iDteq;
-            id = prjDb.InsertRecordGetId(model, GlobalConfig.MccTable, SaveLists.DteqSaveList);
+            id = prjDb.InsertRecordGetId(model, GlobalConfig.MccTable, SaveLists.DteqNoSaveList);
         }
         return id;
     }
@@ -231,7 +231,7 @@ public class DaManager {
         try {
             if (GlobalConfig.Importing == true) return;
 
-            prjDb.UpsertRecord(disconnect, GlobalConfig.DisconnectTable, SaveLists.CompSaveList);
+            prjDb.UpsertRecord(disconnect, GlobalConfig.DisconnectTable, SaveLists.CompNoSaveList);
         }
         catch (Exception ex) {
             Debug.Print(ex.ToString());
@@ -241,7 +241,7 @@ public class DaManager {
 
     public static int SaveLoadGetId(LoadModel load)
     {
-        int id = prjDb.InsertRecordGetId(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+        int id = prjDb.InsertRecordGetId(load, GlobalConfig.LoadTable, SaveLists.LoadNoSaveList);
         return id;
     }
     public static int SavePowerCableGetId(ICable cable)
@@ -249,7 +249,7 @@ public class DaManager {
         int id = 0;
         if (cable.GetType() == typeof(CableModel)) {
             var cableModel = (CableModel)cable;
-            id= prjDb.InsertRecordGetId(cableModel, GlobalConfig.CableTable, SaveLists.PowerCableSaveList);
+            id= prjDb.InsertRecordGetId(cableModel, GlobalConfig.CableTable, SaveLists.PowerCableNoSaveList);
         }
         return id;
     }
@@ -283,7 +283,7 @@ public class DaManager {
         try {
             await Task.Run(() => {
                 if (GlobalConfig.Importing == true) return;
-                prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+                prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadNoSaveList);
             });
 
         }
@@ -299,7 +299,7 @@ public class DaManager {
         try {
             if (GlobalConfig.Importing == true) return;
 
-            prjDb.UpsertRecord(component, GlobalConfig.ComponentTable, SaveLists.CompSaveList);
+            prjDb.UpsertRecord(component, GlobalConfig.ComponentTable, SaveLists.CompNoSaveList);
         }
         catch (Exception ex) {
             Debug.Print(ex.ToString());
@@ -321,7 +321,7 @@ public class DaManager {
         try {
             if (GlobalConfig.Importing == true) return;
 
-            prjDb.UpsertRecord(lcs, GlobalConfig.LcsTable, SaveLists.LcsSaveList);
+            prjDb.UpsertRecord(lcs, GlobalConfig.LcsTable, SaveLists.LcsNoSaveList);
         }
         catch (Exception ex) {
             Debug.Print(ex.ToString());
@@ -338,11 +338,11 @@ public class DaManager {
 
     public static void UpsertCable(CableModel cable)
     {
-        prjDb.UpsertRecord(cable, GlobalConfig.CableTable, SaveLists.PowerCableSaveList);
+        prjDb.UpsertRecord(cable, GlobalConfig.CableTable, SaveLists.PowerCableNoSaveList);
     }
 
     public static void UpsertArea(AreaModel area)
     {
-        DaManager.prjDb.UpsertRecord<AreaModel>(area, GlobalConfig.AreaTable, SaveLists.AreaSaveList);
+        DaManager.prjDb.UpsertRecord<AreaModel>(area, GlobalConfig.AreaTable, SaveLists.AreaNoSaveList);
     }
 }

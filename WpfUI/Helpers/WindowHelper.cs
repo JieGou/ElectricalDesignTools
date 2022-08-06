@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Windows.Interop;
 
 namespace WpfUI.Helpers;
-public class WindowHelper
+public class WindowController
 {
     [DllImport("user32.dll")]
     private static extern int ShowWindow(int hwnd, int nCmdShow);

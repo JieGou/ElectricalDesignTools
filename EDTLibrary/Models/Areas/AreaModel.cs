@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
@@ -22,9 +23,9 @@ public class AreaModel : IArea {
 
 
             _tag = value;
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
 
             }
             OnPropertyUpdated();
@@ -40,9 +41,9 @@ public class AreaModel : IArea {
             var oldValue = _displayTag;
             if (string.IsNullOrWhiteSpace(value) == false) {
                 _displayTag = value;
-                if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+                if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                     var cmd = new UndoCommandDetail { Item = this, PropName = nameof(DisplayTag), OldValue = oldValue, NewValue = _displayTag };
-                    Undo.AddUndoCommand(cmd);
+                    UndoManager.AddUndoCommand(cmd);
                 }
             }
             OnPropertyUpdated();
@@ -59,9 +60,9 @@ public class AreaModel : IArea {
         { 
             var oldValue = Name;
             _name = value;
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Name), OldValue = oldValue, NewValue = _name };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -76,9 +77,9 @@ public class AreaModel : IArea {
         {
             var oldValue = _description;
             _description = value;
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Description), OldValue = oldValue, NewValue = _description };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -96,9 +97,9 @@ public class AreaModel : IArea {
             _parentArea = value;
             if (_parentArea == null) return;
             ParentAreaId = _parentArea.Id;
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(ParentArea), OldValue = oldValue, NewValue = _parentArea };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -114,9 +115,9 @@ public class AreaModel : IArea {
         { 
             var oldValue = _areaCategory;
             _areaCategory = value;
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(AreaCategory), OldValue = oldValue, NewValue = _areaCategory };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -131,9 +132,9 @@ public class AreaModel : IArea {
         { 
             var oldValue = _areaClassification;
             _areaClassification = value;
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(AreaClassification), OldValue = oldValue, NewValue = _areaClassification };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -148,9 +149,9 @@ public class AreaModel : IArea {
         {
             var oldValue = _minTemp;
             _minTemp = value;
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(MinTemp), OldValue = oldValue, NewValue = _minTemp };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -165,9 +166,9 @@ public class AreaModel : IArea {
         {
             var oldValue = _maxTemp;
             _maxTemp = value;
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(MaxTemp), OldValue = oldValue, NewValue = _maxTemp };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -185,9 +186,9 @@ public class AreaModel : IArea {
             var oldValue = _nemaRating;
             _nemaRating = value;
             OnAreaPropertiesChanged();
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(NemaRating), OldValue = oldValue, NewValue = _nemaRating };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }

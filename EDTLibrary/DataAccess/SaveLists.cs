@@ -9,7 +9,7 @@ namespace EDTLibrary.DataAccess
     /// </summary>
     public class SaveLists
     {
-        static public List<string> DteqSaveList { get; set; } = new List<string>()
+        static public List<string> DteqNoSaveList { get; set; } = new List<string>()
         {   
             "InLineComponents",
             "AssignedLoads",
@@ -31,7 +31,7 @@ namespace EDTLibrary.DataAccess
 
         };
 
-        static public List<string> LoadSaveList { get; set; } = new List<string>() 
+        static public List<string> LoadNoSaveList { get; set; } = new List<string>() 
         {
             "InLineComponents",
             "PowerCable",
@@ -46,7 +46,7 @@ namespace EDTLibrary.DataAccess
             "BreakerSize",
         };
 
-        static public List<string> CompSaveList { get; set; } = new List<string>()
+        static public List<string> CompNoSaveList { get; set; } = new List<string>()
         {
             "Area",
             "Owner",
@@ -56,7 +56,7 @@ namespace EDTLibrary.DataAccess
             "TypeList",
         };
 
-        static public List<string> LcsSaveList { get; set; } = new List<string>()
+        static public List<string> LcsNoSaveList { get; set; } = new List<string>()
         {
             "Area",
             "Owner",
@@ -67,7 +67,7 @@ namespace EDTLibrary.DataAccess
             "HeatLoss",
         };
 
-        static public List<string> PowerCableSaveList { get; set; } = new List<string> {
+        static public List<string> PowerCableNoSaveList { get; set; } = new List<string> {
 
             "Load",
             "InLineComponents",
@@ -80,7 +80,7 @@ namespace EDTLibrary.DataAccess
             "DeratingToolTip",
         };
 
-        static public List<string> AreaSaveList { get; set; } = new List<string>() {
+        static public List<string> AreaNoSaveList { get; set; } = new List<string>() {
             "none",
             "ParentArea",
             "EquipmentList",

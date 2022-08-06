@@ -9,6 +9,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
@@ -47,22 +48,23 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _tag;
                 _tag = value;
 
-                if (DaManager.GettingRecords == false) {
 
+                UndoManager.CanAdd = false;
+                if (DaManager.GettingRecords == false) {
                     if (PowerCable != null) {
                         PowerCable.AssignTagging(this);
                     }
                     if (PowerCable != null && FedFrom != null) {
                         if (CableManager.IsUpdatingPowerCables == false) {
                             CableManager.UpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
-
                         }
                     }
-
                 }
 
                 if (Tag == GlobalConfig.LargestMotor_StartLoad) return;
-                Undo.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
+
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
                 OnPropertyUpdated();
 
             }
@@ -101,7 +103,7 @@ namespace EDTLibrary.Models.Loads
 
            
                 if (Tag != null) {
-                    Undo.AddUndoCommand(this, nameof(Description), oldValue, _description);
+                    UndoManager.AddUndoCommand(this, nameof(Description), oldValue, _description);
                 }
                 OnPropertyUpdated();
             }
@@ -125,19 +127,23 @@ namespace EDTLibrary.Models.Loads
 
                 var oldValue = _area;
                 _area = value;
-                if (Area != null) {
-                    AreaManager.UpdateArea(this, _area, oldValue);
 
-                    Undo.AddUndoCommand(this, nameof(Area), oldValue, _area);
+                UndoManager.CanAdd = false;
 
-                    if (DaManager.GettingRecords == false && PowerCable != null && FedFrom != null) {
-                        PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
-                        PowerCable.CalculateAmpacity(this);
-                    }
-                    OnAreaChanged();
-                    OnPropertyUpdated();
+               
+                AreaManager.UpdateArea(this, _area, oldValue);
 
+                if (DaManager.GettingRecords == false && PowerCable != null && FedFrom != null) {
+                    PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
+                    PowerCable.CalculateAmpacity(this);
                 }
+
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
+
+                OnAreaChanged();
+                OnPropertyUpdated();
+
             }
         }
         private string _nemaRating;
@@ -150,7 +156,9 @@ namespace EDTLibrary.Models.Loads
 
                 var oldValue = _nemaRating;
                 _nemaRating = value;
-                Undo.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
+
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
                 OnPropertyUpdated();
             }
         }
@@ -165,7 +173,7 @@ namespace EDTLibrary.Models.Loads
 
                 var oldValue = _areaClassification;
                 _areaClassification = value;
-                Undo.AddUndoCommand(this, nameof(AreaClassification), oldValue, _areaClassification);
+                UndoManager.AddUndoCommand(this, nameof(AreaClassification), oldValue, _areaClassification);
                 OnPropertyUpdated();
             }
         }
@@ -183,7 +191,7 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _voltage;
                 _voltage = value;
 
-                Undo.AddUndoCommand(this, nameof(Voltage), oldValue, _voltage);
+                UndoManager.AddUndoCommand(this, nameof(Voltage), oldValue, _voltage);
 
                 if (DaManager.GettingRecords == false) {
                     PowerCable.CreateTypeList(this);
@@ -205,7 +213,8 @@ namespace EDTLibrary.Models.Loads
                 double oldValue = _size;
                 _size = value;
 
-                Undo.AddUndoCommand(this, nameof(Size), oldValue, _size);
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
                 CalculateLoading();
 
             }
@@ -243,11 +252,12 @@ namespace EDTLibrary.Models.Loads
                 IDteq oldValue = _fedFrom;
                 _fedFrom = value;
 
+                UndoManager.CanAdd = false;
                 if (DaManager.GettingRecords == false) {
                     DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
                 }
-               
-                Undo.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
                 OnPropertyUpdated();
             }
         }
@@ -262,8 +272,9 @@ namespace EDTLibrary.Models.Loads
 
                 var oldValue = _loadFactor;
                 _loadFactor = value;
-                
-                Undo.AddUndoCommand(this, nameof(LoadFactor), oldValue, _loadFactor);
+
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(LoadFactor), oldValue, _loadFactor);
                 OnPropertyUpdated();
             }
         }
@@ -278,7 +289,7 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _efficiency;
                 _efficiency = value / 100;
 
-                Undo.AddUndoCommand(this, nameof(Efficiency), oldValue, _efficiency);
+                UndoManager.AddUndoCommand(this, nameof(Efficiency), oldValue, _efficiency);
                 OnPropertyUpdated();
             }
         }
@@ -293,7 +304,7 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _powerFactor;
                 _powerFactor = value / 100;
 
-                Undo.AddUndoCommand(this, nameof(PowerFactor), oldValue, _powerFactor);
+                UndoManager.AddUndoCommand(this, nameof(PowerFactor), oldValue, _powerFactor);
                 OnPropertyUpdated();
             }
         }
@@ -335,22 +346,23 @@ namespace EDTLibrary.Models.Loads
             get { return _lcsBool; }
             set
             {
-                var _oldValue = _lcsBool;
+                var oldValue = _lcsBool;
                 _lcsBool = value;
 
-                if (DaManager.GettingRecords == false) {
 
+                UndoManager.CanAdd = false;
+                if (DaManager.GettingRecords == false) {
                     if (_lcsBool == true) {
                         ComponentManager.AddLcs(this, ScenarioManager.ListManager);
-
                     }
                     else if (_lcsBool == false) {
                         ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
                     }
-
-                    OnPropertyUpdated();
                 }
 
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(LcsBool), oldValue, _lcsBool);
+                OnPropertyUpdated();
             }
         }
 
@@ -363,6 +375,7 @@ namespace EDTLibrary.Models.Loads
             get { return _driveBool; }
             set
             {
+                var oldValue = _driveBool;
                 _driveBool = value;
                 if (_driveBool == true) {
                     PdType = "BKR";
@@ -371,6 +384,7 @@ namespace EDTLibrary.Models.Loads
                     PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
                 }
 
+                UndoManager.CanAdd = false;
                 if (DaManager.GettingRecords == false) {
                     if (_driveBool == true) {
                         ComponentManager.AddDefaultDrive(this, ScenarioManager.ListManager);
@@ -379,10 +393,11 @@ namespace EDTLibrary.Models.Loads
                         ComponentManager.RemoveDefaultDrive(this, ScenarioManager.ListManager);
                     }
                     CableManager.UpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
-                    //OnCctComponentChanged();
-                    OnPropertyUpdated();
                 }
 
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(DriveBool), oldValue, _driveBool);
+                OnPropertyUpdated();
             }
 
         }
@@ -410,6 +425,7 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _disconnectBool;
                 _disconnectBool = value;
 
+                UndoManager.CanAdd = false;
                 if (DaManager.GettingRecords == false) {
                     if (_disconnectBool == true) {
                         ComponentManager.AddDefaultDisconnect(this, ScenarioManager.ListManager);
@@ -419,9 +435,12 @@ namespace EDTLibrary.Models.Loads
                     }
                     CableManager.UpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     //OnCctComponentChanged();
-                    OnPropertyUpdated();
                 }
 
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(DisconnectBool), oldValue, _disconnectBool);
+
+                OnPropertyUpdated();
 
             }
         }
@@ -446,6 +465,7 @@ namespace EDTLibrary.Models.Loads
         //Methods
         public void CalculateLoading()
         {
+            UndoManager.CanAdd = false;
             if (DaManager.GettingRecords == true) {
                 return;
             }
@@ -564,6 +584,8 @@ namespace EDTLibrary.Models.Loads
 
             LoadManager.SetLoadPdSize(this);
             PowerCable.GetRequiredAmps(this);
+            UndoManager.CanAdd = true;
+
             OnLoadingCalculated();
             OnPropertyUpdated();
 

@@ -13,6 +13,7 @@ using WpfUI.ViewModels.Areas_and_Systems;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.ViewModels.Menus;
 using WpfUI.Windows;
+using EDTLibrary.UndoSystem;
 
 namespace WpfUI;
 
@@ -28,6 +29,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        btnHome.IsChecked = true;
         string[] args = Environment.GetCommandLineArgs();
 
         if (args[0] != "") {
@@ -54,11 +56,20 @@ public partial class MainWindow : Window
         }
     }
 
+    DebugWindow debugWindow = null;
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
             if (e.Key == Key.Z) {
-                Undo.UndoCommand(mainVm._listManager);
+                UndoManager.UndoCommand(mainVm._listManager);
+            }
+            if (e.Key == Key.F) {
+                if (debugWindow == null || debugWindow.IsLoaded == false) {
+                    debugWindow = new DebugWindow();
+                    debugWindow.DataContext = mainVm.DebugViewModel;
+                    debugWindow.Show();
+                }
+                e.Handled = true;
             }
         }
         if (Keyboard.IsKeyDown(Key.Escape)) {

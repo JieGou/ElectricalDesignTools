@@ -30,6 +30,7 @@ using WpfUI.Helpers;
 using WpfUI.PopupWindows;
 using WpfUI.Services;
 using WpfUI.ViewModels.Cables;
+using WpfUI.ViewModels.Debug;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.ViewModels.Menus;
 using WpfUI.Views.Settings;
@@ -125,10 +126,11 @@ namespace WpfUI.ViewModels
 
         public readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
 
-      
+        public DebugViewModel DebugViewModel { get; set; }
 
         public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type="")
         {
+
             ValidateLicense();
             EdtSettings.ProjectNameUpdated += OnProjectNameUpdated;
 
@@ -365,7 +367,7 @@ namespace WpfUI.ViewModels
             Window activeWindow = System.Windows.Application.Current.Windows.OfType<Window>()
                 .SingleOrDefault(window => new WindowInteropHelper(window).Handle == active);
 
-            WindowHelper.SnapWindow(activeWindow, true);
+            WindowController.SnapWindow(activeWindow, true);
 
             TypeManager typeManager = new TypeManager();
 
@@ -379,7 +381,7 @@ namespace WpfUI.ViewModels
             newMainVm.MenuViewModel = MenuViewModel;
             newMainVm.CurrentViewModel = null;
             newWindow.Show();
-            WindowHelper.SnapWindow(newWindow, false);
+            WindowController.SnapWindow(newWindow, false);
 
         }
 
@@ -392,7 +394,7 @@ namespace WpfUI.ViewModels
             Window activeWindow = System.Windows.Application.Current.Windows.OfType<Window>()
                 .SingleOrDefault(window => new WindowInteropHelper(window).Handle == active);
 
-            WindowHelper.SnapWindow(activeWindow, true);
+            WindowController.SnapWindow(activeWindow, true);
 
             TypeManager typeManager = new TypeManager();
 
@@ -411,7 +413,7 @@ namespace WpfUI.ViewModels
             newMainVm.MenuViewModel = menuToSet;
             newMainVm.CurrentViewModel = viewModelToSet;
             newWindow.Show();
-            WindowHelper.SnapWindow(newWindow, false);
+            WindowController.SnapWindow(newWindow, false);
 
         }
         #endregion

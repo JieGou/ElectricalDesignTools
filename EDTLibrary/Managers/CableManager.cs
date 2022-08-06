@@ -1,14 +1,17 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EDTLibrary.A_Helpers;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -109,7 +112,7 @@ public class CableManager
                     if (component.SubCategory != SubCategories.CctComponent.ToString()) continue;
 
                     CableModel cable = new CableModel();
-                    Undo.Undoing = true;
+                    UndoManager.Undoing = true;
                     if (previousComponent == null) {
                         cable.Source = powerComponentOwner.FedFrom.Tag;
 
@@ -157,7 +160,7 @@ public class CableManager
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
 
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
-                    Undo.Undoing = false;
+                    UndoManager.Undoing = false;
 
                     component.PowerCable = cable;
 
@@ -195,12 +198,19 @@ public class CableManager
 
     }
 
-    public static string GetCableTag(string cableSource, string cableDestination)
+    public static string GetCableTag(string cableSource, string cableDestination, [CallerMemberName] string callerMethod = "")
     {
-        cableSource = cableSource.Replace("-", "");
-        cableDestination = cableDestination.Replace("-", "");
-        string tag = cableSource + TagSettings.CableTagSeparator + cableDestination;
-        return tag;
+        try {
+            cableSource = cableSource.Replace("-", "");
+            cableDestination = cableDestination.Replace("-", "");
+            string tag = cableSource + TagSettings.CableTagSeparator + cableDestination;
+            return tag;
+        }
+        catch (Exception) {
+
+            ErrorHelper.Notify(callerMethod);
+            return "error";
+        }
     }
 
     public static void AddLcsControlCableForLoad(IComponentUser componentUser, LocalControlStationModel lcs, ListManager listManager)

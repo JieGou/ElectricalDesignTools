@@ -352,15 +352,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Electrical Design Tools"
-        "ProductCode" = "8:{FD646F9D-B9BB-40F5-B4AD-E84258AA3C8B}"
-        "PackageCode" = "8:{CE150422-36C5-4553-BC2E-9E39A6A3D690}"
+        "ProductCode" = "8:{95289B42-611A-4174-A6AB-A56A37105CDE}"
+        "PackageCode" = "8:{294A3951-BAE4-43C8-ABDE-BADB1C377899}"
         "UpgradeCode" = "8:{247680F3-572D-48BB-BFE6-F16B36C4670D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0b"
+        "ProductVersion" = "8:1.0.001"
         "Manufacturer" = "8:DCS Inc"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -902,7 +902,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F509082AEA0F45369C85B7AF28C6F302"
             {
-            "SourcePath" = "8:..\\WpfUI\\obj\\Debug\\net6.0-windows10.0.22000.0\\win-x64\\apphost.exe"
+            "SourcePath" = "8:..\\WpfUI\\obj\\Release\\net6.0-windows10.0.22000.0\\win-x64\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5247D8BBAA0E489097C0265AB645D60C"

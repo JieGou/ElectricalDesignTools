@@ -64,7 +64,6 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     //CONSTRUCTOR
     public MjeqViewModel(ListManager listManager)
     {
-        DebugViewModel = new DebugViewModel();
 
         //fields
         _listManager = listManager;
@@ -591,7 +590,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 newDteq.CreatePowerCable();
                 newDteq.SizePowerCable();
                 newDteq.CalculateCableAmps();
-                newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.CableTable, SaveLists.PowerCableSaveList);
+                newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.CableTable, SaveLists.PowerCableNoSaveList);
                 _listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
                 RefreshDteqTagValidation();
             }
@@ -749,7 +748,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
             try {
                 foreach (var load in _listManager.LoadList) {
-                    DaManager.prjDb.UpsertRecord<LoadModel>((LoadModel)load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+                    DaManager.prjDb.UpsertRecord<LoadModel>((LoadModel)load, GlobalConfig.LoadTable, SaveLists.LoadNoSaveList);
                 }
             }
             catch (Exception ex) {
@@ -872,21 +871,6 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         LoadToAddValidator.Tag = tag;
     }
 
-    public bool IsTagAvailable(string tag, ObservableCollection<DteqModel> dteqList, ObservableCollection<LoadModel> loadList)
-    {
-        if (tag == null) {
-            return false;
-        }
-        var dteqTag = dteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
-        var loadTag = loadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
-
-        if (dteqTag != null ||
-            loadTag != null) {
-            return false;
-        }
-
-        return true;
-    }
     #endregion
 
     #region ComboBox Lists

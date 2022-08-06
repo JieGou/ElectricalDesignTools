@@ -6,6 +6,7 @@ using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -44,9 +45,9 @@ public class DriveModel : IComponent
                     }
                 }
             }
-            if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
-                Undo.AddUndoCommand(cmd);
+                UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
         }
@@ -80,9 +81,9 @@ public class DriveModel : IComponent
             if (Area != null) {
                 AreaManager.UpdateArea(this, _area, oldValue);
 
-                if (Undo.Undoing == false && DaManager.GettingRecords == false) {
+                if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
                     var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
-                    Undo.AddUndoCommand(cmd);
+                    UndoManager.AddUndoCommand(cmd);
                 }
                 OnPropertyUpdated();
             }

@@ -91,7 +91,7 @@ public class LoadManager
         }
 
         //Save to Db
-        DaManager.prjDb.UpsertRecord<CableModel>((CableModel)newLoad.PowerCable, GlobalConfig.CableTable, SaveLists.PowerCableSaveList);
+        DaManager.prjDb.UpsertRecord<CableModel>((CableModel)newLoad.PowerCable, GlobalConfig.CableTable, SaveLists.PowerCableNoSaveList);
 
         newLoad.CalculateCableAmps();
         listManager.CableList.Add(newLoad.PowerCable);

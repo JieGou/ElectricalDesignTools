@@ -521,7 +521,7 @@ public class DpnViewModel : ViewModelBase, INotifyDataErrorInfo
                 newDteq.CreatePowerCable();
                 newDteq.SizePowerCable();
                 newDteq.CalculateCableAmps();
-                newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.CableTable, SaveLists.PowerCableSaveList);
+                newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.CableTable, SaveLists.PowerCableNoSaveList);
                 _listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
                 RefreshDteqTagValidation();
             }
@@ -647,7 +647,7 @@ public class DpnViewModel : ViewModelBase, INotifyDataErrorInfo
 
             try {
                 foreach (var load in _listManager.LoadList) {
-                    DaManager.prjDb.UpsertRecord<LoadModel>((LoadModel)load, GlobalConfig.LoadTable, SaveLists.LoadSaveList);
+                    DaManager.prjDb.UpsertRecord<LoadModel>((LoadModel)load, GlobalConfig.LoadTable, SaveLists.LoadNoSaveList);
                 }
             }
             catch (Exception ex) {
