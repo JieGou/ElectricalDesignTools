@@ -51,6 +51,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!--Page Title-->
+        <TextBlock Text="Areas"
+                       Grid.Row="0"
+                       Grid.RowSpan="2"
+                       Style="{StaticResource PageTitleStyle}"/>
+       
 
         <Grid Grid.Row="2"
               x:Name="areasGrid">

@@ -63,11 +63,20 @@
     <!--TOP-->
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
+        <!--Page Title-->
+        <TextBlock Text="Major Equipment"
+                       Grid.Row="0"
+                       Grid.RowSpan="2"
+                       Style="{StaticResource PageTitleStyle}"/>
+        
+        
+
         <!--Main Grid-->
-        <Grid Grid.Row="1"
+        <Grid Grid.Row="2"
               x:Name="elecGrid"
               d:Opacity="1"
               Opacity="0.0"  Grid.IsSharedSizeScope="True">
@@ -101,7 +110,7 @@
                 </EventTrigger>
             </Grid.Triggers>
 
-
+           
 
             <!--Dteq View Buttons-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
@@ -212,7 +221,7 @@
 
                 <Button x:Name ="btnLoadList" Content="Load List" Height="25" Width="100"
                         Command="{Binding GetLoadListCommand}"/>
-                
+
                 <Button x:Name ="btnCalculateSelectedLoad" Content="Calculate" Height="25" Width="100"
                         Command="{Binding CalculateLoad}"/>
 
@@ -482,11 +491,11 @@
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                MouseLeftButtonDown="FastEditEvent" />
-                                    
-                                  
+
+
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                           <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding Path=DataContext.ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                                                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
@@ -561,7 +570,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                               
+
                                     <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
 
                                 </DataTemplate>
@@ -1798,7 +1807,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
-                        
+
                         <!--Trip-->
                         <DataGridTextColumn Header="PD / MCP&#x0a;Trip" 
                                 Binding="{Binding Path=PdSizeTrip, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -1850,7 +1859,7 @@
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}">
 
-                           
+
                         </DataGridTextColumn>
 
 

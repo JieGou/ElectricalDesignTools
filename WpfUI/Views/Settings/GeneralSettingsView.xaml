@@ -42,7 +42,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <!--Buttons-->
-            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
             <!--Wrap Panel-->
 
@@ -50,6 +50,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -67,7 +68,12 @@
             </EventTrigger>
         </Grid.Triggers>
 
-        <WrapPanel Grid.Row="1" Grid.Column="2">
+        <!--Page Title-->
+        <TextBlock Text="General Settings"
+                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                   Style="{StaticResource PageTitleStyle}"/>
+
+        <WrapPanel Grid.Row="2" Grid.Column="2">
 
             <!--Col 1 - Project Details-->
             <GroupBox Header="Project Details"
@@ -253,7 +259,7 @@
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}"/>
                     </StackPanel>
-                    
+
                     <Button Content="Select Folder"
                             Command="{Binding SelectAcadBlockFolderCommand}"
                             Grid.Row="2" Grid.Column="3"
@@ -263,7 +269,7 @@
                             ToolTip="Select Folder"
                             ToolTipService.InitialShowDelay="50"
                             HorizontalAlignment="Left"/>
-                    
+
                     <Border BorderBrush="Gray" BorderThickness="0.5"
                             Grid.Row="3" Grid.Column="0"
                             Background="White"
@@ -282,8 +288,8 @@
                                 Margin="3 0 3 0"
                                 IsEnabled="False"/>
                     </Border>
-                    
-                    
+
+
                     <StackPanel Orientation="Vertical"  Grid.Row="5" Grid.Column="0"  >
                         <TextBlock Text="Drawing Save Folder"  
                                    Grid.Row="1" Grid.Column="0"/>
@@ -300,7 +306,7 @@
                             Height="25"
                             ToolTip="Select Folder"
                             ToolTipService.InitialShowDelay="50"/>
-                    
+
                     <Border BorderBrush="Gray" BorderThickness="0.5"
                             Grid.Row="6" Grid.Column="0"
                             Background="White"
@@ -319,9 +325,9 @@
                                 Margin="3 0 3 0"
                                 IsEnabled="False"/>
                     </Border>
-                    
 
-                    
+
+
                     <!--Acad Tests-->
 
                     <Button Content="Start Autocad"
@@ -332,7 +338,7 @@
                             Height="25"
                             ToolTip="Select Folder"
                             ToolTipService.InitialShowDelay="50"/>
-                    
+
                     <Button Content="Add Drawing"
                             Command="{Binding AddAcadDrawingCommand}"
                             Grid.Row="9" Grid.Column="3"
@@ -341,7 +347,7 @@
                             Height="25"
                             ToolTip="Select Folder"
                             ToolTipService.InitialShowDelay="50"/>
-                    
+
                     <Button Content="Add Block"
                             Command="{Binding AddBlockCommand}"
                             Grid.Row="10" Grid.Column="3"

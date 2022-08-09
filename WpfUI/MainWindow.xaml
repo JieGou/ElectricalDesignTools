@@ -31,17 +31,23 @@
                          
         
         mc:Ignorable="d"
-        Title="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"
         d:Title="Electrical Design Tools"
         d:Width="1600" d:Height="950"
         Background="white"
         WindowState="Maximized" 
                  
         Focusable="True"
-        PreviewKeyDown="Window_PreviewKeyDown" 
-            
-    >
+        PreviewKeyDown="Window_PreviewKeyDown"
+        
+        Title="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"
+        TitleCharacterCasing="Normal"
+        BorderBrush="#FF3A3838"
+        BorderThickness="2"
+        FontSize="12"        
+         >
     
+    <!--Title="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"-->
+
 
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
@@ -59,7 +65,8 @@
     
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
-            <StackPanel Orientation="Horizontal">
+            <WrapPanel Orientation="Horizontal"
+                       >
                 <RadioButton Content="HOME" x:Name="btnHome"
                              Width="65"
                              Style="{StaticResource MainMenuButton}" 
@@ -126,14 +133,14 @@
                             FontSize="12"
                             Width="75"/>
 
-            <Button Content="EXTRA WINDOW"
+            <!--<Button Content="EXTRA WINDOW"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Command="{Binding ScenarioCommand}"
                             Margin="50 0 0 0"
-                            FontSize="12"/>
+                            FontSize="12"/>-->
 
-            </StackPanel>
+            </WrapPanel>
 
 
 
@@ -144,10 +151,12 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/EdtStyle_Base.xaml"/>
                 <ResourceDictionary Source="Styles/SettingsStyle_Base.xaml"/>
+                
                 <ResourceDictionary Source="Styles/MahStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <SolidColorBrush x:Key="MenuBackGround">#FF3A3838</SolidColorBrush>
+            
 
             <Style TargetType="{x:Type mah:WindowButtonCommands}" BasedOn="{StaticResource {x:Type mah:WindowButtonCommands}}">
                 <Setter Property="LightCloseButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
@@ -167,9 +176,7 @@
                 <Setter Property="Margin" Value="5 0"/>
             </Style>
 
-            <sys:Int32 x:Key="button1">1</sys:Int32>
-            <sys:Int32 x:Key="menuRow">0</sys:Int32>
-            <sys:Int32 x:Key="contentRow">2</sys:Int32>
+        
         </ResourceDictionary>
 
     </Window.Resources>
@@ -183,17 +190,12 @@
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
 
-
+        <!--Old SubMenu Grid - Below Title Bar-->
         <Grid Grid.Row="0" Visibility="Collapsed">
-            <!--<StackPanel Orientation="Horizontal" 
-                        Grid.Row="{StaticResource menuRow}" 
-                        Background="white"
-                        Margin=" 0 0 0 0" > -->
-
             <Border BorderBrush="Black"
                     BorderThickness="0">
                 <WrapPanel Orientation="Horizontal" 
-                            Grid.Row="{StaticResource menuRow}" 
+                            Grid.Row="0" 
                             Background="white"
                             Margin=" 0 0 0 0">
 
@@ -290,7 +292,7 @@
                 Grid.Row="1">
             <ContentControl x:Name="ccMenu"
                             Grid.Row="1"
-                            Height="36"
+                            Height="{StaticResource SubMenuHeight}"
                             Content="{Binding MenuViewModel}"
                             >
                 <ContentControl.Resources>

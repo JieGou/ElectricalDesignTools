@@ -22,25 +22,6 @@
 
             <CollectionViewSource x:Key="areaList" Source="{Binding ListManager.AreaList}"/>
 
-            <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
-                <Setter Property="Margin" Value="500,0,10,0" />
-            </Style>
-
-            <Style TargetType="DataGridRowHeader">
-                <Setter Property="Background" Value="Transparent"/>
-            </Style>
-
-            <!--Add Columns-->
-            <sys:Int32 x:Key="Tag">1</sys:Int32>
-            <sys:Int32 x:Key="DisplayTag">2</sys:Int32>
-            <sys:Int32 x:Key="Name">3</sys:Int32>
-            <sys:Int32 x:Key="Description">4</sys:Int32>
-            <sys:Int32 x:Key="AreaCategory">5</sys:Int32>
-            <sys:Int32 x:Key="AreaClass">6</sys:Int32>
-            <sys:Int32 x:Key="MinTemp">7</sys:Int32>
-            <sys:Int32 x:Key="MaxTemp">8</sys:Int32>
-            <sys:Int32 x:Key="Nema">9</sys:Int32>
-
         </ResourceDictionary>
     </UserControl.Resources>
 

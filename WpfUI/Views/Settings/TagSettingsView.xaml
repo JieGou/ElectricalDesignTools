@@ -54,7 +54,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <!--Buttons-->
-            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
             <!--Wrap Panel-->
 
@@ -62,6 +62,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -79,7 +80,12 @@
             </EventTrigger>
         </Grid.Triggers>
 
-        <WrapPanel Grid.Row="1" Grid.Column="2">
+        <!--Page Title-->
+        <TextBlock Text="Tag Settings"
+                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                   Style="{StaticResource PageTitleStyle}"/>
+
+        <WrapPanel Grid.Row="2" Grid.Column="2">
 
             <!--Col 1 General -->
             <GroupBox Header="General Tag Settings"

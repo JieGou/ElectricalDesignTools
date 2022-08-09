@@ -1,4 +1,5 @@
-﻿using EDTLibrary.LibraryData;
+﻿using EDTLibrary.A_Helpers;
+using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
@@ -414,11 +415,17 @@ namespace EDTLibrary.Models.Cables
 
         public void SetVoltageDrop(ICable cable)
         {
-            if (cable.Load != null) {
-                double resistance = TypeManager.CableResistances.FirstOrDefault(cr => cr.Size == cable.Size).Resistance75C1kMeter;
-                cable.VoltageDrop = Math.Sqrt(3) * cable.Load.Fla * cable.Length * resistance / 1000;
-                cable.VoltageDrop = Math.Round(cable.VoltageDrop, 2);
-                cable.VoltageDropPercentage = Math.Round(cable.VoltageDrop / cable.Load.Voltage * 100, 2);
+            try {
+                if (cable.Load != null) {
+                    double resistance = TypeManager.ConductorProperties.FirstOrDefault(cr => cr.Size == cable.Size).Resistance75C1kMeter;
+                    cable.VoltageDrop = Math.Sqrt(3) * cable.Load.Fla * cable.Length * resistance / 1000;
+                    cable.VoltageDrop = Math.Round(cable.VoltageDrop, 2);
+                    cable.VoltageDropPercentage = Math.Round(cable.VoltageDrop / cable.Load.Voltage * 100, 2);
+                }
+            }
+            catch (Exception ex) {
+
+                ErrorHelper.ShowErrorMessage(ex);
             }
 
         }

@@ -43,7 +43,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <!--Buttons-->
-            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
             <!--Wrap Panel-->
 
@@ -51,6 +51,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -68,19 +69,12 @@
             </EventTrigger>
         </Grid.Triggers>
 
+        <!--Page Title-->
+        <TextBlock Text="Cable Settings"
+                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                   Style="{StaticResource PageTitleStyle}"/>
 
-        <!--Buttons-->
-        <!--<StackPanel Orientation="Vertical"
-                    Grid.Row="1" Grid.Column="0">
-
-            <Button x:Name="btnReLoadSettings" Content="Reload Settings" 
-                    Height="27" Margin="0 50 0 10"
-                    Command="{Binding Path=ReloadSettingsCommand}"/>
-            <Button x:Name="btnSaveSettings" Content="Save Settings tmp" 
-                    Height="27" PreviewMouseDown="btnSaveSettings_PreviewMouseDown"/>
-        </StackPanel>-->
-
-        <WrapPanel Grid.Row="1" Grid.Column="2">
+        <WrapPanel Grid.Row="2" Grid.Column="2">
 
             <!--Cable Settings-->
             <GroupBox Header="Power Cable Settings"

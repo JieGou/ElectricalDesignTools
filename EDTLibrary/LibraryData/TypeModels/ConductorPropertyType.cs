@@ -2,7 +2,7 @@
 
 namespace EDTLibrary.LibraryData.TypeTables
 {
-    public class CableResistanceType
+    public class ConductorPropertyType
     {
         public int Id { get; set; }
         public string Size { get; set; }

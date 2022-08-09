@@ -3,7 +3,10 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     >
 
-    <sys:Double x:Key="buttonHeight">27</sys:Double>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="EdtColorsAndDimensions.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
 
     <!--ALL CONTROLS DEFAULT-->
@@ -13,14 +16,14 @@
 
     <Style TargetType="ListBox" BasedOn="{StaticResource DefaultStyle}"/>
 
-    <!--TITLE Label Style-->
+    <!--MENU TITLE Style-->
     <Style TargetType="Label" x:Key="TitleLabelStyleBase">
-        <Setter Property ="FontSize" Value="15"/>
+        <Setter Property ="FontSize" Value="14"/>
         <Setter Property ="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property= "Margin" Value="0,0,0,0"/>
-        <Setter Property="Padding" Value="20, 7, 10, 7"/>
+        <Setter Property="Padding" Value="20, 0, 10, 0"/>
 
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="0,2,0,2"/>
@@ -28,6 +31,15 @@
         <Setter Property= "HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
+    </Style>
+
+    <!--PAGE TITLE Style-->
+    <Style TargetType="TextBlock" x:Key="PageTitleStyle">
+        <Setter Property ="FontSize" Value="15"/>
+        <Setter Property ="Foreground" Value="Black"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
+        <Setter Property= "Margin" Value="20,0,0,0"/>
     </Style>
 
     <SolidColorBrush x:Key="ErrorColor_Base" Color="#FFD40000"/>
@@ -196,10 +208,11 @@
     <!--Tool Bar Button-->
     <Style x:Key="ToolBarButtonBase" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
         <Setter Property="Foreground" Value="White"/>
-        <Setter Property="MinHeight" Value="35"/>
+        <Setter Property="MinHeight" Value="{StaticResource SubMenuButtonHeight}"/>
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Padding" Value="10 0"/>
     </Style>
+    
     <!--Main Menu Button-->
     <Style x:Key="MainMenuButton" TargetType="ToggleButton" >
         <Setter Property="Foreground" Value="Gray"/>

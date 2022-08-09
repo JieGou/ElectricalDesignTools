@@ -69,11 +69,16 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-
+        <!--Page Title-->
+        <TextBlock Text="Cable List"
+                       Grid.Row="0"
+                       Grid.RowSpan="2"
+                       Style="{StaticResource PageTitleStyle}"/>
+        
         <!--Background="#FF4C184C"-->
 
 
@@ -105,8 +110,9 @@
                     </BeginStoryboard>
                 </EventTrigger>
             </Grid.Triggers>
-            <TextBlock Text="Cable List"
-           Grid.Row="0" Grid.Column="1"/>
+            
+            
+            
             <!--LeftButtons-->
             <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical" Margin="0 50 0 0">
                 <GroupBox Header="Cable Grouping" Grid.Column="1" Grid.Row="2" Margin="0 0 0 30"
