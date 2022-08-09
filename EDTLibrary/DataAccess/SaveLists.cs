@@ -28,7 +28,6 @@ namespace EDTLibrary.DataAccess
             "Lcs",
             "Drive",
             "Disconnect",
-
         };
 
         static public List<string> LoadNoSaveList { get; set; } = new List<string>() 
@@ -44,6 +43,7 @@ namespace EDTLibrary.DataAccess
             "Drive",
             "Disconnect",
             "BreakerSize",
+            "EfficiencyDisplay",
         };
 
         static public List<string> CompNoSaveList { get; set; } = new List<string>()

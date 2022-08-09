@@ -14,6 +14,7 @@ using WpfUI.ViewModels.Electrical;
 using WpfUI.ViewModels.Menus;
 using WpfUI.Windows;
 using EDTLibrary.UndoSystem;
+using MahApps.Metro.Controls;
 
 namespace WpfUI;
 
@@ -22,7 +23,7 @@ namespace WpfUI;
 /// </summary>
 ///
 
-public partial class MainWindow : Window
+public partial class MainWindow : MetroWindow
 {
 
     private MainViewModel mainVm { get { return DataContext as MainViewModel; } }

@@ -36,6 +36,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\ProtectiveDevices\" />
     <Folder Include="Services\" />
   </ItemGroup>
 </Project>

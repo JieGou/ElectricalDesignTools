@@ -99,6 +99,7 @@ namespace EDTLibrary.LibraryData.TypeTables
             }
         }
         public static ObservableCollection<CecCableSizingRule> CecCableSizingRules { get; set; }
+        public static ObservableCollection<CableResistanceType> CableResistances { get; set; }
 
         //Enclosures
         public static ObservableCollection<NemaType> NemaTypes { get; set; }
@@ -138,6 +139,8 @@ namespace EDTLibrary.LibraryData.TypeTables
             CableTypes = DaManager.libDb.GetRecords<CableTypeModel>(GlobalConfig.CableTypes);
             ControlCableSizes = DaManager.libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
             InstrumentCableSizes = DaManager.libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
+            CableResistances = DaManager.libDb.GetRecords<CableResistanceType>("CableResistances");
+
 
             TransformerSizes = DaManager.libDb.GetRecords<TransformerSize>("TransformerSizes");
             TransformerTypes = DaManager.libDb.GetRecords<TransformerType>("TransformerTypes");

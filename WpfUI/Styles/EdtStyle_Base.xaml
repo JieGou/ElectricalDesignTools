@@ -200,11 +200,94 @@
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Padding" Value="10 0"/>
     </Style>
-
     <!--Main Menu Button-->
     <Style x:Key="MainMenuButton" TargetType="ToggleButton" >
+        <Setter Property="Foreground" Value="Gray"/>
+        <Setter Property="MinHeight" Value="25"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Padding" Value="10 0"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="Transparent" 
+                            BorderThickness="1 0"
+                            BorderBrush="Transparent"
+                            Padding="0">
+                        <!-- define your not selected template here...-->
+                        <TextBlock Text="{Binding Path=Content,
+                                                    RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged}"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Margin="5 0"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="White"/>
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="1 0"
+                                    Padding="0">
+                                <!--<Border Background="{StaticResource ComboBox.MouseOver.Background}">-->
+                                <TextBlock Text="{Binding Path=Content,
+                                                    RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged}"
+                                       TextAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="5 0"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="White"/>
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Border Background="Transparent"
+                                    BorderBrush="Black"
+                                    BorderThickness="1 0"
+                                    Padding="0">
+                                <!--<Border Background="{StaticResource ComboBox.MouseOver.Background}">-->
+                                <TextBlock Text="{Binding Path=Content,
+                                                    RelativeSource={RelativeSource TemplatedParent}, 
+                                                    Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged}"
+                                       TextAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="5 0"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="DarkGray"/>
+                <Setter Property="Foreground" Value="LightGray"/>
+            </Trigger>
+
+        </Style.Triggers>
+    </Style>
+    
+    <!--Main Menu Button-->
+    <Style x:Key="MainMenuButtonLight" TargetType="ToggleButton" >
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="MinHeight" Value="25"/>
+        <Setter Property="Height" Value="30"/>
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Padding" Value="10 0"/>
         <Setter Property="BorderBrush" Value="Black"/>

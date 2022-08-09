@@ -76,7 +76,7 @@ namespace EDTLibrary
         public static double DefaultTransformerEfficiency { get; set; } = 0.95;
 
         public static double DefaultHeaterPowerFactor { get; set; } = 0.99;
-        public static double DefaultHeaterEfficiency { get; set; } = 0.99;
+        public static double DefaultHeaterEfficiency { get; set; } = 0.98;
 
         //TODO - figure out motor RPM
         public static double DefaultMotorRpm { get; set; } = 1800;
@@ -85,5 +85,6 @@ namespace EDTLibrary
         public static double OtherEff { get; set; } = 0.85;
         public static string DriveTable { get; set; } = "Drives";
         public static string DisconnectTable { get; set; } = "Disconnects";
+        public static string CableResistancesTable { get; internal set; }
     }
 }

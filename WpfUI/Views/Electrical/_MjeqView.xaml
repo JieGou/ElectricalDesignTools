@@ -1693,7 +1693,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <TextBlock Text="{Binding Path=Efficiency, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                        <TextBlock Text="{Binding Path=EfficiencyDisplay, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                    HorizontalAlignment="Center"
                                                    Margin="0"/>
                                         <TextBlock Text=" %"
@@ -1798,6 +1798,12 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
+                        
+                        <!--Trip-->
+                        <DataGridTextColumn Header="PD / MCP&#x0a;Trip" 
+                                Binding="{Binding Path=PdSizeTrip, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource OcpdColumnHeader}" 
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
 
                         <!--Frame-->
                         <DataGridTextColumn Header="PD / MCP&#x0a;Frame" 
@@ -1805,11 +1811,48 @@
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                             Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
 
-                        <!--Trip-->
-                        <DataGridTextColumn Header="PD Trip /&#x0a;Starter Size" 
-                                Binding="{Binding Path=PdSizeTrip, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        <!--Starter Size-->
+                        <DataGridTemplateColumn HeaderStyle="{StaticResource OcpdColumnHeader}" 
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="Starter&#x0a;Size" 
+                                           ToolTip="Motor loads only" 
+                                           ToolTipService.InitialShowDelay="50"/>
+
+                            </DataGridTemplateColumn.Header>
+
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Path=StarterSize, NotifyOnSourceUpdated=True, 
+                                                                                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                                                    ValidatesOnDataErrors=True}"
+                                             Foreground="Black"
+                                             Visibility="Visible"
+                                             HorizontalAlignment="Center" />
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Type}" Value="MOTOR">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox>
+                                    </ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="Starter&#x0a;Size" 
+                                Binding="{Binding Path=StarterSize, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
-                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
+                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}">
+
+                           
+                        </DataGridTextColumn>
+
 
 
 
@@ -1831,7 +1874,6 @@
                                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
                                               />
-                                    <!--CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"-->
 
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding Type}" Value="XFR">

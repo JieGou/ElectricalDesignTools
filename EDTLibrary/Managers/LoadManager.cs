@@ -14,12 +14,12 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Loads;
 public class LoadManager
 {
+
     public static void SetLoadPd(LoadModel load)
     {
         if (load.Type == LoadTypes.MOTOR.ToString()) {
             load.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
         }
-
         else {
             load.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
         }

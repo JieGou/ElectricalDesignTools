@@ -1,7 +1,8 @@
+Sizing Validation
+	- 
+
 DistributionManager
 	- FedFrom Voltage checks on FedFrom Changed
-	- Bulk set FedFrom  does not add all to Undo
-
 
 DaAccess
 	- Create positive upsert/SaveList

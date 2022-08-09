@@ -20,6 +20,9 @@ namespace EDTLibrary.Models.Cables
         string Category { get; set; }
         int QtyParallel { get; set; }
         double Length { get; set; }
+        double VoltageDrop { get; set; }
+        double VoltageDropPercentage { get; set; }
+        double MaxVoltageDropPercentage { get; set; }
         int ConductorQty { get; set; }
         string Size { get; set; }
         double VoltageClass { get; set; }
@@ -45,8 +48,7 @@ namespace EDTLibrary.Models.Cables
 
 
         double HeatLoss { get; set; }
-
-
+        
 
         void SetCableInvalid(ICable cable);
         void CreateSizeList();

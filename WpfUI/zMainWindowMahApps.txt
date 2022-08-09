@@ -8,9 +8,8 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        WindowTitleBrush="#FF383838"
-        NonActiveWindowTitleBrush="#FF383838"  
-                 
+
+                         
         xmlns:viewmodels="clr-namespace:WpfUI.ViewModels"
         xmlns:views="clr-namespace:WpfUI.Views"
         
@@ -36,32 +35,32 @@
         d:Width="1600" d:Height="950"
         Background="white"
         WindowState="Maximized" 
-                 
+                         
         Focusable="True"
-        PreviewKeyDown="Window_PreviewKeyDown" 
-            
-    >
-    
+        PreviewKeyDown="Window_PreviewKeyDown"  >
 
-    <mah:MetroWindow.IconTemplate>
-        <DataTemplate>
-            <Grid Width="{TemplateBinding Width}"
-                 Height="{TemplateBinding Height}"
-                 Margin="10 5"
-                 Background="Transparent"
-                 RenderOptions.EdgeMode="Aliased"
-                 RenderOptions.BitmapScalingMode="HighQuality">
-                <Image Source="ContentFiles/edt.ico"></Image>
-            </Grid>
-        </DataTemplate>
-    </mah:MetroWindow.IconTemplate>
-
-    
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
-            <StackPanel Orientation="Horizontal">
-                <RadioButton Content="HOME" x:Name="btnHome"
-                             Width="65"
+            <Border BorderBrush="Black"
+                    BorderThickness="0">
+                <WrapPanel Orientation="Horizontal" 
+                            Grid.Row="{StaticResource menuRow}" 
+                            Background="white"
+                            Margin=" 0 0 0 0"
+                           >
+
+                    <Menu VerticalAlignment="Center" >
+                        <MenuItem Header="File">
+                            <Button Content="New"/>
+                        </MenuItem>
+                        <MenuItem Header="Window">
+                            <Button Content="New"/>
+                        </MenuItem>
+                    </Menu>
+                    
+
+                    <RadioButton Content="HOME"
+                                 Width="65" Height="30"
                              Style="{StaticResource MainMenuButton}" 
                              GroupName="menu"
                              VerticalAlignment="Top"  
@@ -69,7 +68,7 @@
                             />
 
 
-            <RadioButton Content="PROJECT SETUP"
+                    <RadioButton Content="PROJECT SETUP"
                                  Width="100"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}" 
@@ -77,7 +76,7 @@
                              Command="{Binding NavigateSettingsCommand}"/>
 
 
-            <RadioButton Content="AREAS &amp; SYSTEMS"
+                    <RadioButton Content="AREAS &amp; SYSTEMS"
                                  Width="120"
                              VerticalAlignment="Top"
                              GroupName="menu"
@@ -85,7 +84,7 @@
                              Command="{Binding NavigateAreasCommand}"
                              PreviewMouseDown="AreaMenuButton_PreviewMouseDown"/>
 
-            <RadioButton Content="ELECTRICAL"
+                    <RadioButton Content="ELECTRICAL"
                                  Width="85"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
@@ -93,14 +92,14 @@
                              Command="{Binding NavigateElectricalCommand}"
                              PreviewMouseDown="ElectricalMenuButton_PreviewMouseDown"/>
 
-            <!--<RadioButton Content="INSTRUMENTATION"
+                    <!--<RadioButton Content="INSTRUMENTATION"
                              GroupName="menu"
                              Width="120"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"
                              Command="{Binding NavigateElectricalCommand}"/>-->
 
-            <RadioButton Content="CABLE &amp; TRAY"
+                    <RadioButton Content="CABLE &amp; TRAY"
                                  Width="100"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
@@ -109,31 +108,33 @@
                              PreviewMouseDown="CableMenuButton_PreviewMouseDown"
                              />
 
-            <!--<Button x:Name="btnAutocad" Content="AUTOCAD"
+                    <!--<Button x:Name="btnAutocad" Content="AUTOCAD"
                             VerticalAlignment="Top"
                             Command="{Binding NavigateElectricalCommand}"/>-->
 
-            <RadioButton Content="DATA TABLES"
+                    <RadioButton Content="DATA TABLES"
                                  Width="85"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"                        
                              Command="{Binding NavigateDataTablesCommand}"/>
 
-            <Button Content="EXPORT"
+                    <!--<Button Content="EXPORT"
                             VerticalAlignment="Top"                        
                             Command="{Binding ExportCommand}"
                             FontSize="12"
                             Width="75"/>
 
-            <Button Content="EXTRA WINDOW"
+                    <Button Content="EXTRA WINDOW"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Right"
                             Command="{Binding ScenarioCommand}"
                             Margin="50 0 0 0"
-                            FontSize="12"/>
+                            FontSize="12"/>-->
 
-            </StackPanel>
+
+                </WrapPanel>
+            </Border>
 
 
 
@@ -142,20 +143,10 @@
 
     <Window.Resources>
         <ResourceDictionary>
-
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/SettingsStyle_Base.xaml"/>
-                <ResourceDictionary Source="Styles/MahStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <SolidColorBrush x:Key="MenuBackGround">#FF3A3838</SolidColorBrush>
-
-            <Style TargetType="{x:Type mah:WindowButtonCommands}" BasedOn="{StaticResource {x:Type mah:WindowButtonCommands}}">
-                <Setter Property="LightCloseButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
-                <Setter Property="LightMinButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
-                <Setter Property="LightMaxButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
-                <Setter Property="DarkCloseButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
-            </Style>
-
 
             <Style TargetType="Button" >
                 <Setter Property="FontSize" Value="14"/>
@@ -205,7 +196,7 @@
                            VerticalAlignment="Top"
                            Margin="0,0,0,0"/>
 
-                    <RadioButton Content="HOME" 
+                    <RadioButton Content="HOME"
                                  Width="65"
                              Style="{StaticResource MainMenuButton}" 
                              GroupName="menu"

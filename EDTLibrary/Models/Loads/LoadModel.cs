@@ -85,7 +85,7 @@ namespace EDTLibrary.Models.Loads
                 if (DaManager.GettingRecords == false) {
 
                 }
-              
+
                 OnPropertyUpdated();
             }
         }
@@ -101,7 +101,7 @@ namespace EDTLibrary.Models.Loads
                 _description = value;
 
 
-           
+
                 if (Tag != null) {
                     UndoManager.AddUndoCommand(this, nameof(Description), oldValue, _description);
                 }
@@ -130,7 +130,7 @@ namespace EDTLibrary.Models.Loads
 
                 UndoManager.CanAdd = false;
 
-               
+
                 AreaManager.UpdateArea(this, _area, oldValue);
 
                 if (DaManager.GettingRecords == false && PowerCable != null && FedFrom != null) {
@@ -263,7 +263,6 @@ namespace EDTLibrary.Models.Loads
         }
 
         private double _loadFactor;
-
         public double LoadFactor
         {
             get { return _loadFactor; }
@@ -280,25 +279,30 @@ namespace EDTLibrary.Models.Loads
         }
 
         private double _efficiency;
-
         public double Efficiency
         {
-            get { return _efficiency * 100; }
+            get { return _efficiency ; }
             set
             {
                 var oldValue = _efficiency;
-                _efficiency = value / 100;
-
+                _efficiency = value;
+                EfficiencyDisplay = _efficiency * 100;
                 UndoManager.AddUndoCommand(this, nameof(Efficiency), oldValue, _efficiency);
                 OnPropertyUpdated();
             }
         }
 
-        private double _powerFactor;
+        public double _efficiencyDisplay;
+        public double EfficiencyDisplay
+        {
+            get { return _efficiencyDisplay; }
+            set {  _efficiencyDisplay = Math.Round(value,3);}
+        }
 
+        private double _powerFactor;
         public double PowerFactor
         {
-            get { return Math.Round(_powerFactor * 100,2); }
+            get { return Math.Round(_powerFactor * 100, 2); }
             set
             {
                 var oldValue = _powerFactor;
@@ -455,13 +459,6 @@ namespace EDTLibrary.Models.Loads
         }
 
 
-
-
-
-
-
-
-
         //Methods
         public void CalculateLoading()
         {
@@ -470,79 +467,67 @@ namespace EDTLibrary.Models.Loads
                 return;
             }
             if (LoadFactor == null || LoadFactor == 0) {
-                LoadFactor = double.Parse(EdtSettings.LoadFactorDefault); 
+                LoadFactor = double.Parse(EdtSettings.LoadFactorDefault);
             }
 
-            GetEfficiencyAndPowerFactor(); //PdType is determined here
 
+            GetEfficiencyAndPowerFactor(this);
 
-            //if (Type == LoadTypes.MOTOR.ToString()) {
-            //    PdFactor = 1.25
-            //    if (Unit == Units.HP.ToString()) {
-            //        ConnectedKva = Size * 0.746 / Efficiency / PowerFactor;
-            //    }
-            //    else if (Unit == Units.kW.ToString()) {
-            //        ConnectedKva = Size / Efficiency / PowerFactor;
-            //    }
-            //}
-            //else if (Type == LoadTypes.TRANSFORMER.ToString()) {
-            //    ConnectedKva = Size;
-            //    PdFactor = 1.25
-            //
-            //}
-            //else if (Type == LoadTypes.HEATER.ToString()) {
-            //    ConnectedKva = Size / Efficiency / PowerFactor;
-            //}
-            //else if (Type == LoadTypes.OTHER.ToString()) {
-            //    switch (Unit) {
-            //        case "kVA":
-            //            ConnectedKva = Size;
-            //            break;
-            //        case "kW":
-            //            ConnectedKva = Size / Efficiency / PowerFactor;
-            //            break;
-            //        case "AMPS":
-            //            ConnectedKva = Size * Vol_tage * Math.Sqrt(3); //   / Efficiency / PowerFactor;
-            //            Fla = Size;
-            //            break;
-            //    }
-            //}
-
+            // Ampacity Factor
             switch (Type) {
                 case "MOTOR":
                     AmpacityFactor = 1.25;
                     switch (Unit) {
                         case "HP":
-                            ConnectedKva = _size * 0.746 / _efficiency / PowerFactor;
+                            ConnectedKva = Size * 0.746 / Efficiency / PowerFactor;
                             break;
                         case "kW":
-                            ConnectedKva = _size / _efficiency / PowerFactor;
+                            ConnectedKva = Size / Efficiency / PowerFactor;
                             break;
                     }
                     break;
 
                 case "TRANSFORMER":
                     AmpacityFactor = 1.25;
-                    ConnectedKva = _size;
+                    break;
+            }
+
+            //ConnectedKva
+            switch (Type) {
+                case "MOTOR":
+                    AmpacityFactor = 1.25;
+                    switch (Unit) {
+                        case "HP":
+                            ConnectedKva = Size * 0.746 / Efficiency / PowerFactor;
+                            break;
+                        case "kW":
+                            ConnectedKva = Size / Efficiency / PowerFactor;
+                            break;
+                    }
+                    break;
+
+                case "TRANSFORMER":
+                    AmpacityFactor = 1.25;
+                    ConnectedKva = Size;
                     break;
 
                 case "HEATER":
-                    ConnectedKva = _size / _efficiency / PowerFactor;
+                    ConnectedKva = Size / Efficiency / PowerFactor;
                     break;
 
                 case "OTHER":
                     switch (Unit) {
                         case "kVA":
-                            ConnectedKva = _size;
+                            ConnectedKva = Size;
                             break;
 
                         case "kW":
-                            ConnectedKva = _size / _efficiency / PowerFactor;
+                            ConnectedKva = Size / Efficiency / PowerFactor;
                             break;
 
                         case "A":
-                            ConnectedKva = _size * Voltage * Math.Sqrt(3) / 1000; //   / Efficiency / PowerFactor;
-                            Fla = _size;
+                            ConnectedKva = Size * Voltage * Math.Sqrt(3) / 1000; //   / Efficiency / PowerFactor;
+                            Fla = Size;
                             break;
                     }
                     break;
@@ -550,38 +535,39 @@ namespace EDTLibrary.Models.Loads
                 case "PANEL":
                     switch (Unit) {
                         case "kVA":
-                            ConnectedKva = _size;
+                            ConnectedKva = Size;
                             break;
 
                         case "kW":
-                            ConnectedKva = _size / _efficiency / PowerFactor;
+                            ConnectedKva = Size / Efficiency / PowerFactor;
                             break;
 
                         case "A":
-                            var variant = Tag;
-                            ConnectedKva = _size * Voltage * Math.Sqrt(3) / 1000; //   / Efficiency / PowerFactor;
-                            Fla = _size;
+                            ConnectedKva = Size * Voltage * Math.Sqrt(3) / 1000; //   / Efficiency / PowerFactor;
+                            Fla = Size;
                             break;
                     }
                     break;
             }
+
             if (ConnectedKva >= 9999999) {
                 ConnectedKva = 9999999;
             }
 
-            //FLA and Power
+            //FLA
             if (Unit != "A") {
                 Fla = ConnectedKva * 1000 / Voltage / Math.Sqrt(3);
                 Fla = Math.Round(Fla, GlobalConfig.SigFigs);
             }
 
+
+            //Power
             ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
             DemandKva = Math.Round(ConnectedKva * LoadFactor, GlobalConfig.SigFigs);
             DemandKw = Math.Round(DemandKva * PowerFactor, GlobalConfig.SigFigs);
             DemandKvar = Math.Round(DemandKva * (1 - PowerFactor), GlobalConfig.SigFigs);
 
-
-
+            LoadManager.SetLoadPd(this);
             LoadManager.SetLoadPdSize(this);
             PowerCable.GetRequiredAmps(this);
             UndoManager.CanAdd = true;
@@ -591,41 +577,40 @@ namespace EDTLibrary.Models.Loads
 
         }
 
-        private void GetEfficiencyAndPowerFactor()
+        private void GetEfficiencyAndPowerFactor(LoadModel load)
         {
-            LoadManager.SetLoadPd(this);
             //PowerFactor and Efficiency
-            if (Type == LoadTypes.HEATER.ToString()) {
-                Unit = Units.kW.ToString();
-                _efficiency = GlobalConfig.DefaultHeaterEfficiency;
-                PowerFactor = GlobalConfig.DefaultHeaterPowerFactor;
+            if (load.Type == LoadTypes.HEATER.ToString()) {
+                load.Unit = Units.kW.ToString();
+                load.Efficiency = GlobalConfig.DefaultHeaterEfficiency;
+                load.PowerFactor = GlobalConfig.DefaultHeaterPowerFactor;
             }
             else if (Type == LoadTypes.TRANSFORMER.ToString()) {
                 //TODO - Transformer efficiency tables
-                Unit = Units.kW.ToString();
-                _efficiency = GlobalConfig.DefaultTransformerEfficiency;
-                PowerFactor = GlobalConfig.DefaultTransformerPowerFactor;
+                load.Unit = Units.kW.ToString();
+                load.Efficiency = GlobalConfig.DefaultTransformerEfficiency;
+                load.PowerFactor = GlobalConfig.DefaultTransformerPowerFactor;
             }
             else if (Type == LoadTypes.MOTOR.ToString()) {
-                _efficiency = DataTableManager.GetMotorEfficiency(this);
-                PowerFactor = DataTableManager.GetMotorPowerFactor(this);
+                load.Efficiency = DataTableManager.GetMotorEfficiency(this);
+                load.PowerFactor = DataTableManager.GetMotorPowerFactor(this);
             }
             else if (Type == LoadTypes.PANEL.ToString()) {
-                _efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Panel);
-                PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Panel);
+                load.Efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Panel);
+                load.PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Panel);
             }
             else {
-                _efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Other);
-                PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Other);
+                load.Efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Other);
+                load.PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Other);
             }
 
-            if (_efficiency > 1)
-                _efficiency /= 100;
-            if (PowerFactor > 1)
-                PowerFactor /= 100;
+            if (load.Efficiency > 1)
+                load.Efficiency /= 100;
+            if (load.PowerFactor > 1)
+                load.PowerFactor /= 100;
 
-            _efficiency = Math.Round(_efficiency, 2);
-            PowerFactor = Math.Round(PowerFactor, 2);
+            load.Efficiency = Math.Round(load.Efficiency, 3);
+            load.PowerFactor = Math.Round(load.PowerFactor, 2);
         }
 
         public void CreatePowerCable()
@@ -678,7 +663,7 @@ namespace EDTLibrary.Models.Loads
 
                 if (GlobalConfig.Testing == true) {
                     ErrorHelper.LogNoSave($"Tag: {Tag}, {callerMethod}");
-                } 
+                }
             }
         }
 

@@ -18,7 +18,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../Styles/EDTBlueStyle.xaml"/>-->
+                
             </ResourceDictionary.MergedDictionaries>
 
             <sys:Int32 x:Key="col1">1</sys:Int32>

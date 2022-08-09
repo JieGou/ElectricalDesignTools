@@ -414,5 +414,14 @@ namespace EDTLibrary.Models.Cables
             return derating;
         }
 
+
+        public static double CalculateVoltageDrop(ICable cable)
+        {
+            double voltageDrop = 0;
+            double resistance = TypeManager.CableResistances.FirstOrDefault(cr => cr.Size == cable.Size).Resistance75C1kMeter;
+            cable.VoltageDrop = Math.Sqrt(3) * cable.Load.Fla * cable.Length * resistance/1000;
+
+            return voltageDrop;
+        }
     }
 }
