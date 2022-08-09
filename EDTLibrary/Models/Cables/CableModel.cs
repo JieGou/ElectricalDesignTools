@@ -177,6 +177,7 @@ public class CableModel : ICable
 
             if (DaManager.GettingRecords == false && UsageType == CableUsageTypes.Power.ToString()) {
                 CalculateAmpacity(Load);
+                CableManager.CableSizer.SetVoltageDrop(this);
             }
             OnPropertyUpdated();
         }
@@ -212,7 +213,22 @@ public class CableModel : ICable
 
         }
     }
-    public double Length { get; set; }
+
+    public double _length;
+    public double Length 
+    { 
+        get { return _length; }
+        set
+        {
+            var oldValue = _length;
+            _length = value;
+            CableManager.CableSizer.SetVoltageDrop(this);
+        }
+    }
+
+    public double VoltageDrop { get; set; }
+    public double VoltageDropPercentage { get; set; }
+    public double MaxVoltageDropPercentage { get; set; }
 
     public double Derating { get; set; }
 
@@ -657,6 +673,7 @@ public class CableModel : ICable
             output = "CalculateAmpacity_DirectBuriedOrRaceWayConduit";
         }
         ValidateCableSize(this);
+        CableManager.CableSizer.SetVoltageDrop(this);
         OnPropertyUpdated();
         _calculating = false;
         return output;

@@ -25,7 +25,6 @@ using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModels;
-using WpfUI.ViewModels.Debug;
 using WpfUI.ViewModifiers;
 using WpfUI.Windows;
 using IComponent = EDTLibrary.Models.Components.IComponent;
@@ -59,7 +58,6 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
     public SolidColorBrush SingleLineViewBackground { get; set; } = new SolidColorBrush(Colors.White);
 
-    public DebugViewModel DebugViewModel { get; set; }
 
     //CONSTRUCTOR
     public MjeqViewModel(ListManager listManager)

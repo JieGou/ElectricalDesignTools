@@ -30,7 +30,6 @@ using WpfUI.Helpers;
 using WpfUI.PopupWindows;
 using WpfUI.Services;
 using WpfUI.ViewModels.Cables;
-using WpfUI.ViewModels.Debug;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.ViewModels.Menus;
 using WpfUI.Views.Settings;
@@ -125,8 +124,6 @@ namespace WpfUI.ViewModels
         public readonly CableListViewModel _cableListViewModel;
 
         public readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
-
-        public DebugViewModel DebugViewModel { get; set; }
 
         public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type="")
         {

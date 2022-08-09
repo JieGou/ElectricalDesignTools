@@ -67,7 +67,6 @@ public partial class MainWindow : MetroWindow
             if (e.Key == Key.F) {
                 if (debugWindow == null || debugWindow.IsLoaded == false) {
                     debugWindow = new DebugWindow();
-                    debugWindow.DataContext = mainVm.DebugViewModel;
                     debugWindow.Show();
                 }
                 e.Handled = true;

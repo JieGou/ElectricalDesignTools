@@ -8,6 +8,6 @@ namespace EDTLibrary.Models.Cables
         double GetDefaultCableSpacing(ICable cable);
         string GetAmpacityTable(ICable cable);
         double GetDerating(ICable cable);
-        double GetVoltageDrop(ICable cable);
+        void SetVoltageDrop(ICable cable);
     }
 }

@@ -13,6 +13,7 @@ namespace EDTLibrary.Models.Cables
 {
     public class CecCableSizer : ICableSizer
     {
+        
         public CecCableSizer()
         {
 
@@ -24,7 +25,6 @@ namespace EDTLibrary.Models.Cables
             get { return _cable; }
             set { _cable = value; }
         }
-
 
         public string GetDefaultCableType(IPowerConsumer load)
         {
@@ -55,7 +55,6 @@ namespace EDTLibrary.Models.Cables
         }
 
 
-
         public double GetDefaultCableSpacing(ICable cable)
         {
             double spacing = 100;
@@ -84,8 +83,6 @@ namespace EDTLibrary.Models.Cables
             return spacing;
         }
         //TODO - Change Tables to Enum "CecTables"
-
-
 
         public string GetAmpacityTable(ICable cable)
         {
@@ -415,13 +412,15 @@ namespace EDTLibrary.Models.Cables
         }
 
 
-        public static double CalculateVoltageDrop(ICable cable)
+        public void SetVoltageDrop(ICable cable)
         {
-            double voltageDrop = 0;
-            double resistance = TypeManager.CableResistances.FirstOrDefault(cr => cr.Size == cable.Size).Resistance75C1kMeter;
-            cable.VoltageDrop = Math.Sqrt(3) * cable.Load.Fla * cable.Length * resistance/1000;
+            if (cable.Load != null) {
+                double resistance = TypeManager.CableResistances.FirstOrDefault(cr => cr.Size == cable.Size).Resistance75C1kMeter;
+                cable.VoltageDrop = Math.Sqrt(3) * cable.Load.Fla * cable.Length * resistance / 1000;
+                cable.VoltageDrop = Math.Round(cable.VoltageDrop, 2);
+                cable.VoltageDropPercentage = Math.Round(cable.VoltageDrop / cable.Load.Voltage * 100, 2);
+            }
 
-            return voltageDrop;
         }
     }
 }

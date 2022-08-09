@@ -81,6 +81,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.ColumnSpan="3">
@@ -137,7 +138,7 @@
                          TextAlignment="Center" HorizontalAlignment="Left"
                          BorderThickness="0.5"
                          d:Text="2"/>
-                
+
                 <!--Per phase Label-->
                 <TextBlock  x:Name="txtPerPhase" 
                             Margin="0 5"
@@ -203,10 +204,25 @@
                        ToolTip="{Binding PowerCable.RequiredAmpsToolTip}"
                        ToolTipService.InitialShowDelay="50"/>
 
+            <!--Voltage Drop-->
+            <TextBlock Text="Voltage Drop: " Grid.Row="8" Grid.Column="0"/>
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2"> 
+            <TextBlock Text="{Binding PowerCable.VoltageDrop, StringFormat={}{0:N1} V /}" 
+                       Grid.Row="8" Grid.Column="2" FontWeight="Bold"
+                       d:Text="300"
+                       />
+                
+                <TextBlock Text="{Binding PowerCable.VoltageDropPercentage, StringFormat={}{0:N2} %}" 
+                       Grid.Row="8" Grid.Column="2" FontWeight="Bold"
+                       d:Text="300"
+                           Margin="5 3"
+                       />
+            </StackPanel>
 
+            
+            
             <!--Column 2-->
-
-
             <TextBlock Text="Installation Type" Grid.Row="4" Grid.Column="4" HorizontalAlignment="Right"/>
             <ComboBox Template="{DynamicResource ComboBoxBase}" 
                       Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" HorizontalAlignment="Left"
@@ -248,6 +264,20 @@
                        ToolTip="{Binding PowerCable.DeratingToolTip}"
                        ToolTipService.InitialShowDelay="50"/>
 
+            <TextBlock Text="Length" Grid.Row="8" Grid.Column="4" HorizontalAlignment="Right"/>
+            
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="8" Grid.Column="6"
+                        Grid.ColumnSpan="2">
+            <TextBox Text="{Binding PowerCable.Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Grid.Row="8" Grid.Column="6" FontWeight="Bold"
+                     Width="50"
+                     HorizontalContentAlignment="Center"
+                     d:Text="0.8" />
+                <TextBlock Text="  meters"/>
+            </StackPanel>
+
+
             <!--Column 3-->
             <TextBlock Text="Sized via: " Grid.Row="2" Grid.Column="6" HorizontalAlignment="Left"/>
             <StackPanel Orientation="Vertical" 
@@ -277,9 +307,13 @@
                    Margin="0 -2 0 1"
                    Foreground="#FFD40000"
                    Visibility="{Binding PowerCable.IsValidSize, Converter={StaticResource _boolToVis}, ConverterParameter=Inverted}"/>
+        
+        
+
+
         <!--BUTTONS-->
         <StackPanel Orientation="Horizontal" 
-                    Grid.Row="2" Grid.ColumnSpan="3" Margin="0,0,0,0">
+                    Grid.Row="3" Grid.ColumnSpan="3" Margin="0,0,0,0">
             <Button Content="Calculate Amps" Grid.Row="2" Margin="70 0 0 0" 
                     Command="{Binding Path=DataContext.CalculateSingleEqCableAmpsCommand, 
                                       RelativeSource={RelativeSource Mode=FindAncestor, 

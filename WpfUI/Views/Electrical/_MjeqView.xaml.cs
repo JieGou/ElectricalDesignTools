@@ -152,7 +152,6 @@ public partial class _MjeqView : UserControl
             if (e.Key == Key.F) {
                 if (debugWindow == null || debugWindow.IsLoaded == false) {
                     debugWindow = new DebugWindow();
-                    debugWindow.DataContext = mjeqVm.DebugViewModel;
                     debugWindow.Show();
                 }
                 e.Handled = true;

@@ -22,6 +22,9 @@ public class CableManager
 {
     public static ICableSizer CableSizer { get; set; }
 
+    //reference for quick navigation
+    private CecCableSizer cecCableSizer;
+
     public static async Task DeletePowerCableAsync(IPowerConsumer powerCableUser, ListManager listManager)
     {
 
