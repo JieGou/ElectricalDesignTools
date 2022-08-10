@@ -4,7 +4,7 @@
                     >
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="EdtColorsAndDimensions.xaml" />
+        <ResourceDictionary Source="EdtColorsAndDimensions.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>

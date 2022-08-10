@@ -13,14 +13,15 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              
              mc:Ignorable="d" 
              d:Width="1400" d:Height="900" 
-             Background="AliceBlue">
+             Background="LightGray">
 
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../../Styles/EdtStyle_Blue.xaml"/>-->
+                <ResourceDictionary Source="../../Styles/EdtStyle_Blue.xaml"/>
                 <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
+                
             </ResourceDictionary.MergedDictionaries>
 
             <projectSettings:EdtSettings x:Key="edtSettings"/>
@@ -51,8 +52,8 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
         <Grid.Triggers>
@@ -73,13 +74,31 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
                    Style="{StaticResource PageTitleStyle}"/>
 
-        <WrapPanel Grid.Row="2" Grid.Column="2">
+        <ScrollViewer x:Name="MyScrollViewer" 
+                      Grid.Row="2" Grid.Column="2"
+                      VerticalScrollBarVisibility="Auto">
+
+            <WrapPanel Grid.Row="2" Grid.Column="2"
+                   ScrollViewer.VerticalScrollBarVisibility="Auto"
+                   MinWidth="250" 
+                   Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
 
             <!--DTEQ Settings-->
-            <GroupBox Header="Distribution Equipment"
+            <!--<GroupBox Header="Distribution Equipment"
                   Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 25">
-                <Grid>
+                  Margin="25 0 25 25" >-->
+                <Border BorderBrush="Black" BorderThickness="1" Margin="25 0 25 25">
+                    <StackPanel Orientation="Vertical"
+                                Grid.Row="1" Grid.Column="6"
+                                Background="AliceBlue">
+                        
+                    <TextBlock Text="Distribution Equipment"
+                               Foreground="White"
+                               Margin="0"
+                               Padding="5"
+                               Background="{StaticResource Dark}"/>
+                    <Border BorderBrush="Black" BorderThickness="0 1 0 0">
+                <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="20"/>
@@ -239,9 +258,12 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     </ComboBox>
 
                 </Grid>
-            </GroupBox>
+                    </Border>
+                    </StackPanel>
+                </Border>
+                <!--</GroupBox>-->
 
-            <!--Load Settings-->
+                <!--Load Settings-->
             <GroupBox Header="Loads"
                   Grid.Row="1" Grid.Column="6"
                   Margin="25 0 25 25">
@@ -489,6 +511,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 </Grid>
             </GroupBox>
         </WrapPanel>
+        </ScrollViewer>
     </Grid>
 
 

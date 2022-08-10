@@ -416,7 +416,7 @@ namespace EDTLibrary.Models.Cables
         public void SetVoltageDrop(ICable cable)
         {
             try {
-                if (cable.Load != null) {
+                if (cable.Load != null && cable.Size != null && cable.Length != null ) {
                     double resistance = TypeManager.ConductorProperties.FirstOrDefault(cr => cr.Size == cable.Size).Resistance75C1kMeter;
                     cable.VoltageDrop = Math.Sqrt(3) * cable.Load.Fla * cable.Length * resistance / 1000;
                     cable.VoltageDrop = Math.Round(cable.VoltageDrop, 2);

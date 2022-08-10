@@ -12,10 +12,10 @@
     <SolidColorBrush x:Key="Dark" Color="#FF206DB1"></SolidColorBrush>
     <SolidColorBrush x:Key="Medium" Color="#FF2991ED"></SolidColorBrush>
     <SolidColorBrush x:Key="Light" Color="#FF67B1F3"></SolidColorBrush>
-    <SolidColorBrush x:Key="Background" Color="#FFDADCF3"></SolidColorBrush>
+    <SolidColorBrush x:Key="Background" Color="AliceBlue"></SolidColorBrush>
 
     <!--Accent Colors-->
-    <SolidColorBrush x:Key="ButtonColor">#FF206DB1</SolidColorBrush>
+    <SolidColorBrush x:Key="ButtonColor" Color="LightGray"></SolidColorBrush>
     <!--<SolidColorBrush x:Key="DatagridSelection">#FFD6EDF3</SolidColorBrush>-->
     <SolidColorBrush x:Key="DatagridSelection">#FFB7DEE8</SolidColorBrush>
     

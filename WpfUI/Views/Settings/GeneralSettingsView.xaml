@@ -13,15 +13,46 @@
              
              mc:Ignorable="d" 
              d:Width="1400" d:Height="900" 
-             Background="AliceBlue">
+             Background="LightGray">
 
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/EdtStyle_Base.xaml"/>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Blue.xaml"/>
                 <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
+
+            <!--Group Box Template-->
+            <ControlTemplate TargetType="GroupBox" x:Key="EdtGroupBoxTemplate">
+                <Grid Background="{StaticResource Background}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0"
+                            BorderThickness="1"
+                            BorderBrush="Black"
+                            Background="{StaticResource Dark}">
+                        <Label Foreground="White"
+                               FontSize="14"
+                               FontWeight="SemiBold">
+                            <ContentPresenter Margin="0"
+                                              ContentSource="Header"
+                                              RecognizesAccessKey="True" />
+                        </Label>
+                    </Border>
+
+                    <Border Grid.Row="1"
+                            BorderThickness="1,0,1,1"
+                            BorderBrush="Black">
+                        <ContentPresenter Margin="10" />
+                    </Border>
+
+                </Grid>
+            </ControlTemplate>
 
             <projectSettings:EdtSettings x:Key="edtSettings"/>
 
@@ -51,8 +82,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
         <Grid.Triggers>
@@ -73,12 +104,20 @@
                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
                    Style="{StaticResource PageTitleStyle}"/>
 
-        <WrapPanel Grid.Row="2" Grid.Column="2">
+        <ScrollViewer x:Name="MyScrollViewer" 
+                      Grid.Row="2" Grid.Column="2"
+                      VerticalScrollBarVisibility="Auto">
+
+            <WrapPanel Grid.Row="2" Grid.Column="2"
+                   ScrollViewer.VerticalScrollBarVisibility="Auto"
+                   MinWidth="250" 
+                   Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
 
             <!--Col 1 - Project Details-->
             <GroupBox Header="Project Details"
-                  Grid.Row="1" Grid.Column="2"
-                  Margin="25 0 25 25">
+                      Grid.Row="1" Grid.Column="2"
+                      Margin="25 0 25 25"
+                      Template="{StaticResource EdtGroupBoxTemplate}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -154,8 +193,9 @@
 
             <!--Electrcial Setup-->
             <GroupBox Header="Electrical Setup" 
-                  Grid.Row="1" Grid.Column="4"
-                  Margin="25 0 25 25">
+                      Grid.Row="1" Grid.Column="4"
+                      Margin="25 0 25 25"
+                      Template="{StaticResource EdtGroupBoxTemplate}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -181,8 +221,9 @@
 
             <!--Column Settings-->
             <GroupBox Header="Equipment Column Options"
-                  Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 25">
+                      Grid.Row="1" Grid.Column="6"
+                      Margin="25 0 25 25"
+                      Template="{StaticResource EdtGroupBoxTemplate}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -223,8 +264,9 @@
 
             <!--Autocad Settings-->
             <GroupBox Header="Autocad Settings"
-                  Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 25">
+                      Grid.Row="1" Grid.Column="6"
+                      Margin="25 0 25 25"
+                      Template="{StaticResource EdtGroupBoxTemplate}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -266,7 +308,6 @@
                             FontSize="12"
                             FontWeight="Normal"
                             Height="25"
-                            ToolTip="Select Folder"
                             ToolTipService.InitialShowDelay="50"
                             HorizontalAlignment="Left"/>
 
@@ -304,7 +345,6 @@
                             FontSize="12"
                             FontWeight="Normal"
                             Height="25"
-                            ToolTip="Select Folder"
                             ToolTipService.InitialShowDelay="50"/>
 
                     <Border BorderBrush="Gray" BorderThickness="0.5"
@@ -336,7 +376,6 @@
                             FontSize="12"
                             FontWeight="Normal"
                             Height="25"
-                            ToolTip="Select Folder"
                             ToolTipService.InitialShowDelay="50"/>
 
                     <Button Content="Add Drawing"
@@ -345,7 +384,6 @@
                             FontSize="12"
                             FontWeight="Normal"
                             Height="25"
-                            ToolTip="Select Folder"
                             ToolTipService.InitialShowDelay="50"/>
 
                     <Button Content="Add Block"
@@ -354,12 +392,13 @@
                             FontSize="12"
                             FontWeight="Normal"
                             Height="25"
-                            ToolTip="Select Folder"
                             ToolTipService.InitialShowDelay="50"/>
 
                 </Grid>
             </GroupBox>
         </WrapPanel>
+
+        </ScrollViewer>
     </Grid>
 
 
