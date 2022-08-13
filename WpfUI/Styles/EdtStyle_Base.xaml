@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    >
+
+                    xmlns:controls="clr-namespace:WpfUI.Controls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="EdtColorsAndDimensions.xaml"/>
@@ -644,7 +645,10 @@
         <Setter Property="Margin" Value="10,0,10,0" />
     </Style>
 
-
+    <!--EdtGroupBox Template, Custom Control-->
+    <Style x:Key="EdtGroupBoxTemplate2" TargetType="controls:EdtGroupBox">
+        <Setter Property="HeaderBackground" Value="black"/>
+    </Style>
 
     <!--GroupBox Edt Template-->
     <Style x:Key="EdtGroupBoxTemplate" TargetType="GroupBox">
@@ -659,20 +663,21 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-
+                        
                         <Border Grid.Row="0"
                             BorderThickness="1"
                             BorderBrush="Black"
                             Background="{TemplateBinding Background}">
                             <Label Foreground="White"
                                FontSize="14"
-                               FontWeight="SemiBold">
+                               FontWeight="Normal">
                                 <ContentPresenter Margin="0"
                                               ContentSource="Header"
                                               RecognizesAccessKey="True" />
                             </Label>
+                            
                         </Border>
-
+                        
                         <Border Grid.Row="1"
                             BorderThickness="1,0,1,1"
                             BorderBrush="Black">
@@ -686,9 +691,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-            
     </Style>
-    
     
     <!--GroupBox Modified Default Style-->
     <Style TargetType="{x:Type GroupBox}">

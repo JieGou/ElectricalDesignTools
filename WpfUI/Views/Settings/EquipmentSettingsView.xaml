@@ -77,207 +77,194 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 
         <ScrollViewer x:Name="MyScrollViewer" 
                       Grid.Row="2" Grid.Column="2"
-                      VerticalScrollBarVisibility="Auto">
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
 
             <WrapPanel Grid.Row="2" Grid.Column="2"
-                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                   MinWidth="250" 
-                   Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
-                <controls:EdtGroupBox HeaderBackground="{StaticResource Dark}"
+                       VerticalAlignment="Top"
+                       ScrollViewer.VerticalScrollBarVisibility="Auto"
+                       MinWidth="250" 
+                       Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
+
+                <!--DTEQ Settings NEW NEW NEW-->
+                <controls:EdtGroupBox Header="Distribution Equipment"
+                                      HeaderBackground="{StaticResource Dark}"
                                       HeaderForeGround="White"
-                                      ContentBackground="{StaticResource Background}">
-                    <controls:EdtGroupBox.Content>
-                        <TextBox Text="testsdfg"/>
-                    </controls:EdtGroupBox.Content>
-                </controls:EdtGroupBox>
-                <!--DTEQ Settings-->
-                <GroupBox Header="Distribution Equipment"
-                          Grid.Row="1" Grid.Column="6"
-                          Margin="25 0 25 25"
-                          Style="{StaticResource EdtGroupBoxTemplate}"
-                          Background="{StaticResource Dark}">
-                    <Border BorderBrush="Black" BorderThickness="1" Margin="25 0 25 25">
-                        <StackPanel Orientation="Vertical"
-                                    Grid.Row="1" Grid.Column="6"
-                                    Background="AliceBlue">
+                                      ContentBackground="{StaticResource Background}" 
+                                      Margin="25 0 25 25"
+                                      VerticalContentAlignment="Top">
 
-                            <TextBlock Text="Distribution Equipment"
-                                       Foreground="White"
-                                       Margin="0"
-                                       Padding="5"
-                                       Background="{StaticResource Dark}"/>
-                            <Border BorderBrush="Black" BorderThickness="0 1 0 0">
-                                <Grid Margin="10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="20"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="20"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="80"/>
-                                        <RowDefinition Height="80"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-                                    <!--General-->
-                                    <TextBlock Text="General / All"
+                        <!--General-->
+                        <TextBlock Text="General / All"
                                    Grid.Row="1" Grid.Column="0"
                                    FontWeight="SemiBold"
                                    FontSize="16"/>
 
-                                    <StackPanel Orientation="Vertical"  Grid.Row="2" Grid.Column="0"  >
-                                        <TextBlock Text="Dteq Max Loading Warning"  
+                        <StackPanel Orientation="Vertical"  Grid.Row="2" Grid.Column="0"  >
+                            <TextBlock Text="Dteq Max Loading Warning"  
                                        Grid.Row="1" Grid.Column="0"/>
-                                        <TextBlock Text="Visual warning when Distribution Equipment is loaded at or beyond selected value"  
+                            <TextBlock Text="Visual warning when Distribution Equipment is loaded at or beyond selected value"  
                                        Grid.Row="1" Grid.Column="0"
                                        Style="{StaticResource settingDescription}"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
-                                        <TextBox MinWidth="50"
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="2">
+                            <TextBox MinWidth="50"
                                      Text="{Binding Path=DteqMaxPercentLoaded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                                        <TextBlock Text="%"/>
-                                    </StackPanel>
+                            <TextBlock Text="%"/>
+                        </StackPanel>
 
-                                    <StackPanel Orientation="Vertical"  Grid.Row="3" Grid.Column="0"  >
-                                        <TextBlock Text="OCPD Type for new LV Equipment" Grid.Row="2" Grid.Column="0" />
-                                        <TextBlock Text="Default OCPD when adding/creating new low voltage distribution equipment"  
+                        <StackPanel Orientation="Vertical"  Grid.Row="3" Grid.Column="0"  >
+                            <TextBlock Text="OCPD Type for new LV Equipment" Grid.Row="2" Grid.Column="0" />
+                            <TextBlock Text="Default OCPD when adding/creating new low voltage distribution equipment"  
                                        Grid.Row="1" Grid.Column="0"
                                        Style="{StaticResource settingDescription}" />
-                                    </StackPanel>
-                                    <ComboBox Grid.Row="3" Grid.Column="2"
+                        </StackPanel>
+                        <ComboBox Grid.Row="3" Grid.Column="2"
                                   ItemsSource="{Binding TypeManager.OcpdTypes}"
                                   SelectedValuePath="Type" 
                                   DisplayMemberPath="Description"
                                   SelectedValue="{Binding DteqDefaultPdTypeLV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                                   IsSynchronizedWithCurrentItem="False" />
 
-                                    <StackPanel Orientation="Vertical"  Grid.Row="4" Grid.Column="0"  >
-                                        <TextBlock Text="Load Cable Random Fill Derating" />
-                                        <TextBlock Text="The derating factor for random fill load cables when creating a new distribution equipment. This can be changed individually on the equipment settings tab. NOTE - changing this value updates all existing equipment."  
+                        <StackPanel Orientation="Vertical"  Grid.Row="4" Grid.Column="0"  >
+                            <TextBlock Text="Load Cable Random Fill Derating" />
+                            <TextBlock Text="The derating factor for random fill load cables when creating a new distribution equipment. This can be changed individually on the equipment settings tab. NOTE - changing this value updates all existing equipment."  
                                        Grid.Row="1" Grid.Column="0"
                                        Style="{StaticResource settingDescription}" />
-                                    </StackPanel>
+                        </StackPanel>
 
-                                    <StackPanel Grid.Row="4" Grid.Column="2">
-                                        <TextBox Text="{Binding Path=DteqLoadCableDerating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <StackPanel Grid.Row="4" Grid.Column="2">
+                            <TextBox Text="{Binding Path=DteqLoadCableDerating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      MinWidth="50" />
-                                        <TextBlock Text="Changing this value updates all existing equipment."  
+                            <TextBlock Text="Changing this value updates all existing equipment."  
                                        Grid.Row="1" Grid.Column="0" Width="100"
                                        Style="{StaticResource settingDescription}" />
-                                    </StackPanel>
+                        </StackPanel>
 
 
 
-                                    <!--Transformers-->
-                                    <TextBlock Text="Transformers"
+                        <!--Transformers-->
+                        <TextBlock Text="Transformers"
                                    Grid.Row="6" Grid.Column="0"
                                    Margin="5 10 0 0"
                                    FontWeight="SemiBold"
                                    FontSize="16"/>
 
-                                    <!--Transformer Impedance-->
+                        <!--Transformer Impedance-->
 
-                                    <StackPanel Orientation="Vertical"  Grid.Row="7" Grid.Column="0"  >
-                                        <TextBlock Text="New Transformer Impedance" />
-                                        <TextBlock Text="Impedance ( % Z ) value when creating new Transformers"  
+                        <StackPanel Orientation="Vertical"  Grid.Row="7" Grid.Column="0"  >
+                            <TextBlock Text="New Transformer Impedance" />
+                            <TextBlock Text="Impedance ( % Z ) value when creating new Transformers"  
                                        Grid.Row="1" Grid.Column="0"
                                        Style="{StaticResource settingDescription}" />
-                                    </StackPanel>
+                        </StackPanel>
 
-                                    <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="2">
-                                        <TextBox Text="{Binding Path=XfrImpedance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="2">
+                            <TextBox Text="{Binding Path=XfrImpedance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      MinWidth="50" />
-                                        <TextBlock Text="%"/>
-                                    </StackPanel>
+                            <TextBlock Text="%"/>
+                        </StackPanel>
 
-                                    <!--Transformer SubType / Cooling-->
-                                    <StackPanel Orientation="Vertical"  Grid.Row="8" Grid.Column="0"  >
-                                        <TextBlock Text="New Transformer Cooling System" Grid.Row="2" Grid.Column="0" />
-                                        <TextBlock Text="Default transformer cooling system when creating new trasnformers"  
+                        <!--Transformer SubType / Cooling-->
+                        <StackPanel Orientation="Vertical"  Grid.Row="8" Grid.Column="0"  >
+                            <TextBlock Text="New Transformer Cooling System" Grid.Row="2" Grid.Column="0" />
+                            <TextBlock Text="Default transformer cooling system when creating new trasnformers"  
                                        Grid.Row="1" Grid.Column="0"
                                        Style="{StaticResource settingDescription}" />
-                                    </StackPanel>
-                                    <ComboBox Grid.Row="8" Grid.Column="2"
+                        </StackPanel>
+                        <ComboBox Grid.Row="8" Grid.Column="2"
                                   ItemsSource="{Binding TypeManager.TransformerTypes}"
                                   SelectedValuePath="Type" 
                                   SelectedValue="{Binding XfrSubType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                                   IsSynchronizedWithCurrentItem="False" >
-                                        <ComboBox.ItemTemplateSelector>
-                                            <templateSelectors:ComboBoxItemTemplateSelector>
-                                                <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding Type}"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                                <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="75"/>
-                                                            <TextBlock Text="{Binding Description}"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                            </templateSelectors:ComboBoxItemTemplateSelector>
-                                        </ComboBox.ItemTemplateSelector>
-                                    </ComboBox>
+                            <ComboBox.ItemTemplateSelector>
+                                <templateSelectors:ComboBoxItemTemplateSelector>
+                                    <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Type}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                    <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="75"/>
+                                                <TextBlock Text="{Binding Description}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                                </templateSelectors:ComboBoxItemTemplateSelector>
+                            </ComboBox.ItemTemplateSelector>
+                        </ComboBox>
 
-                                    <!--Transformer Grounding-->
-                                    <StackPanel Orientation="Vertical"  Grid.Row="9" Grid.Column="0"  >
-                                        <TextBlock Text="New Transformer Grounding System" Grid.Row="2" Grid.Column="0" />
-                                        <TextBlock Text="Default transformer grounding system when creating new trasnformers"  
+                        <!--Transformer Grounding-->
+                        <StackPanel Orientation="Vertical"  Grid.Row="9" Grid.Column="0"  >
+                            <TextBlock Text="New Transformer Grounding System" Grid.Row="2" Grid.Column="0" />
+                            <TextBlock Text="Default transformer grounding system when creating new trasnformers"  
                                        Grid.Row="1" Grid.Column="0"
                                        Style="{StaticResource settingDescription}" />
-                                    </StackPanel>
-                                    <ComboBox Grid.Row="9" Grid.Column="2"
+                        </StackPanel>
+                        <ComboBox Grid.Row="9" Grid.Column="2"
                                   ItemsSource="{Binding TypeManager.TransformerGroundingTypes}"
                                   SelectedValuePath="Type" 
                                   SelectedValue="{Binding XfrGrounding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                                   IsSynchronizedWithCurrentItem="False" >
-                                        <ComboBox.ItemTemplateSelector>
-                                            <templateSelectors:ComboBoxItemTemplateSelector>
-                                                <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding Type}"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                                <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="50"/>
-                                                            <TextBlock Text="{Binding Description}"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                            </templateSelectors:ComboBoxItemTemplateSelector>
-                                        </ComboBox.ItemTemplateSelector>
-                                    </ComboBox>
+                            <ComboBox.ItemTemplateSelector>
+                                <templateSelectors:ComboBoxItemTemplateSelector>
+                                    <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Type}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                    <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="50"/>
+                                                <TextBlock Text="{Binding Description}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                                </templateSelectors:ComboBoxItemTemplateSelector>
+                            </ComboBox.ItemTemplateSelector>
+                        </ComboBox>
 
-                                </Grid>
-                            </Border>
-                        </StackPanel>
-                    </Border>
-                </GroupBox>
-
+                    </Grid>
+                    
+                </controls:EdtGroupBox>
+              
                 <!--Load Settings-->
-                <GroupBox Header="Loads"
-                    Grid.Row="1" Grid.Column="6"
-                    Margin="25 0 25 25"
-                    Style="{StaticResource EdtGroupBoxTemplate}"
-                    Background="{StaticResource Dark}">
+                <controls:EdtGroupBox Header="Loads"
+                                      HeaderBackground="{StaticResource Dark}"
+                                      HeaderForeGround="White"
+                                      ContentBackground="{StaticResource Background}" 
+                                      Margin="25 0 25 25"
+                                      VerticalContentAlignment="Top">
+
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -393,19 +380,19 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             Grid.Row="10" Grid.Column="0" />
                         <TextBox Grid.Row="10" Grid.Column="2"
                             Text="{Binding LoadDefaultPowerFactor_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-
                     </Grid>
-                </GroupBox>
+
+                </controls:EdtGroupBox>
+               
 
                 <!--Component Settings-->
-            <GroupBox Header="Components"
-                  Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 25"
-                      Style="{StaticResource EdtGroupBoxTemplate}"
-                      Background="{StaticResource Dark}" 
-                      ScrollViewer.HorizontalScrollBarVisibility="Visible">
-                <Grid>
+                <controls:EdtGroupBox Header="Components"
+                                      HeaderBackground="{StaticResource Dark}"
+                                      HeaderForeGround="White"
+                                      ContentBackground="{StaticResource Background}" 
+                                      Margin="25 0 25 25"
+                                      VerticalContentAlignment="Top">
+                    <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="20"/>
@@ -523,7 +510,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     </ComboBox>
 
                 </Grid>
-            </GroupBox>
+                </controls:EdtGroupBox>
         </WrapPanel>
         </ScrollViewer>
     </Grid>
