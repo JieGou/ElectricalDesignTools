@@ -121,8 +121,8 @@ namespace EDTLibrary.Tests
                 ILoad load = listManager.LoadList[0];
                 load.DriveBool = true;
                 load.DisconnectBool = true;
-                IComponent drive = listManager.CompList[0]; // drive
-                IComponent disc = listManager.CompList[1]; // load
+                IComponentEdt drive = listManager.CompList[0]; // drive
+                IComponentEdt disc = listManager.CompList[1]; // load
 
                 listManager.GetProjectTablesAndAssigments();
                 //Assert.True(listManager.CompList.Count == 2);

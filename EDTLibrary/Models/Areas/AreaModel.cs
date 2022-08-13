@@ -23,7 +23,7 @@ public class AreaModel : IArea {
 
 
             _tag = value;
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
                 UndoManager.AddUndoCommand(cmd);
 
@@ -41,7 +41,7 @@ public class AreaModel : IArea {
             var oldValue = _displayTag;
             if (string.IsNullOrWhiteSpace(value) == false) {
                 _displayTag = value;
-                if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+                if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                     var cmd = new UndoCommandDetail { Item = this, PropName = nameof(DisplayTag), OldValue = oldValue, NewValue = _displayTag };
                     UndoManager.AddUndoCommand(cmd);
                 }
@@ -60,7 +60,7 @@ public class AreaModel : IArea {
         { 
             var oldValue = Name;
             _name = value;
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Name), OldValue = oldValue, NewValue = _name };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -77,7 +77,7 @@ public class AreaModel : IArea {
         {
             var oldValue = _description;
             _description = value;
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Description), OldValue = oldValue, NewValue = _description };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -97,7 +97,7 @@ public class AreaModel : IArea {
             _parentArea = value;
             if (_parentArea == null) return;
             ParentAreaId = _parentArea.Id;
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(ParentArea), OldValue = oldValue, NewValue = _parentArea };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -115,7 +115,7 @@ public class AreaModel : IArea {
         { 
             var oldValue = _areaCategory;
             _areaCategory = value;
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(AreaCategory), OldValue = oldValue, NewValue = _areaCategory };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -132,7 +132,7 @@ public class AreaModel : IArea {
         { 
             var oldValue = _areaClassification;
             _areaClassification = value;
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(AreaClassification), OldValue = oldValue, NewValue = _areaClassification };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -149,7 +149,7 @@ public class AreaModel : IArea {
         {
             var oldValue = _minTemp;
             _minTemp = value;
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(MinTemp), OldValue = oldValue, NewValue = _minTemp };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -166,7 +166,7 @@ public class AreaModel : IArea {
         {
             var oldValue = _maxTemp;
             _maxTemp = value;
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(MaxTemp), OldValue = oldValue, NewValue = _maxTemp };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -186,7 +186,7 @@ public class AreaModel : IArea {
             var oldValue = _nemaRating;
             _nemaRating = value;
             OnAreaPropertiesChanged();
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(NemaRating), OldValue = oldValue, NewValue = _nemaRating };
                 UndoManager.AddUndoCommand(cmd);
             }

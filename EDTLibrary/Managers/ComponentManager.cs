@@ -135,7 +135,7 @@ public class ComponentManager
         DaManager.DeleteLcs((LocalControlStationModel)componentUser.Lcs);
     }
 
-    public static void DeleteComponent(IComponentUser componentUser, IComponent component, ListManager listManager)
+    public static void DeleteComponent(IComponentUser componentUser, IComponentEdt component, ListManager listManager)
     {
         if (component == null) return;
 

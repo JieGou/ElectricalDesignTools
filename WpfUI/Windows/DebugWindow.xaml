@@ -15,21 +15,43 @@
     <Grid>
         <TabControl>
             <TabItem Header="Undo List">
+                <TabItem.DataContext>
+                    <UndoSystem:UndoManager/>
+                </TabItem.DataContext>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="7*"/>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <ListBox x:Name="lstDebug"
                              ItemsSource="{Binding UndoList}"
                              Grid.Row="0" MinHeight="250"
                              ScrollViewer.VerticalScrollBarVisibility="Visible">
-                        <ListBox.DataContext>
-                            <UndoSystem:UndoManager/>
-                        </ListBox.DataContext>
+                        
                     </ListBox>
-                    <Button Content="Update"
-                            Grid.Row="1" PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown" />
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Row="1">
+                        <TextBlock Text="Count: "/>
+                        <TextBlock  Grid.Row="1"
+                                    Text="{Binding UndoList.Count,UpdateSourceTrigger=PropertyChanged}"
+                                    d:Text="23"
+                                    HorizontalAlignment="Left"
+                                Width="50"
+                                    Margin="20 0"/>
+                        <TextBlock Text="CanAdd: "/>
+                        <TextBlock  Grid.Row="1"
+                                    Text="{Binding CanAdd, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    d:Text="false"
+                                    HorizontalAlignment="Left"
+                                    Width="50"/>
+                        <TextBlock Text="IsUndoing: "/>
+                        <TextBlock  Grid.Row="1"
+                                    Text="{Binding IsUndoing, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                    d:Text="false"
+                                    HorizontalAlignment="Left"
+                                    Width="50"/>
+                    </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>

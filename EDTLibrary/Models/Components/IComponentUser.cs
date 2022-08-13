@@ -5,8 +5,8 @@ namespace EDTLibrary.Models.Components
 {
     public interface IComponentUser : IEquipment
     {
-        ObservableCollection<IComponent> AuxComponents { get; set; }
-        ObservableCollection<IComponent> CctComponents { get; set; }
+        ObservableCollection<IComponentEdt> AuxComponents { get; set; }
+        ObservableCollection<IComponentEdt> CctComponents { get; set; }
 
         bool DriveBool { get; set; }
         int DriveId { get; set; }
@@ -15,7 +15,7 @@ namespace EDTLibrary.Models.Components
 
         bool LcsBool { get; set; }
         public ILocalControlStation Lcs { get; set; }
-        public IComponent Drive { get; set; }
-        public IComponent Disconnect { get; set; }
+        public IComponentEdt Drive { get; set; }
+        public IComponentEdt Disconnect { get; set; }
     }
 }

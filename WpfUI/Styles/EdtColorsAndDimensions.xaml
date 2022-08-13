@@ -5,10 +5,20 @@
                     >
 
 
-    <sys:Double x:Key="RoundButtonHeight">27</sys:Double>
+    
+<!--DIMENSIONS-->
 
+    <!--Sub Menu-->
     <sys:Double x:Key="SubMenuHeight">30</sys:Double>
     <sys:Double x:Key="SubMenuButtonHeight">29</sys:Double>
+
+    <!--Misc-->
+    <sys:Double x:Key="RoundButtonHeight">27</sys:Double>
+
     
-    
+<!--COLORS-->
+    <SolidColorBrush x:Key="Background" Color="AliceBlue"></SolidColorBrush>
+
+
+
 </ResourceDictionary>

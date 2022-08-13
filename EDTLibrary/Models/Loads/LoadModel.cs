@@ -336,8 +336,8 @@ namespace EDTLibrary.Models.Loads
         //Cables
 
         public CableModel PowerCable { get; set; }
-        public ObservableCollection<IComponent> AuxComponents { get; set; } = new ObservableCollection<IComponent>();
-        public ObservableCollection<IComponent> CctComponents { get; set; } = new ObservableCollection<IComponent>();
+        public ObservableCollection<IComponentEdt> AuxComponents { get; set; } = new ObservableCollection<IComponentEdt>();
+        public ObservableCollection<IComponentEdt> CctComponents { get; set; } = new ObservableCollection<IComponentEdt>();
 
 
 
@@ -371,7 +371,7 @@ namespace EDTLibrary.Models.Loads
         }
 
 
-        public IComponent Drive { get; set; }
+        public IComponentEdt Drive { get; set; }
 
         private bool _driveBool;
         public bool DriveBool
@@ -414,7 +414,7 @@ namespace EDTLibrary.Models.Loads
         }
 
 
-        public IComponent Disconnect
+        public IComponentEdt Disconnect
         {
             get;
             set;

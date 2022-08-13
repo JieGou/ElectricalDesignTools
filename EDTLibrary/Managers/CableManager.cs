@@ -35,7 +35,7 @@ public class CableManager
 
             var list = new List<CableModel>();
             foreach (var cable in listManager.CableList) {
-                if (cable.OwnerType == typeof(IComponent).ToString() && cable.OwnerId == powerCableUser.Id) {
+                if (cable.OwnerType == typeof(IComponentEdt).ToString() && cable.OwnerId == powerCableUser.Id) {
                     list.Add(cable);
                     DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cable.Id);
                 }
@@ -98,7 +98,7 @@ public class CableManager
                 foreach (var item in listManager.CableList) {
 
                     if (item.OwnerId == powerComponentOwner.Id
-                        && item.OwnerType == typeof(IComponent).ToString()) {
+                        && item.OwnerType == typeof(IComponentEdt).ToString()) {
                         cablesToRemove.Add(item);
                     }
                 }
@@ -109,13 +109,13 @@ public class CableManager
                 }
 
                 //Add Cables
-                IComponent previousComponent = null;
+                IComponentEdt previousComponent = null;
                 foreach (var component in powerComponentOwner.CctComponents) {
 
                     if (component.SubCategory != SubCategories.CctComponent.ToString()) continue;
 
                     CableModel cable = new CableModel();
-                    UndoManager.Undoing = true;
+                    UndoManager.IsUndoing = true;
                     if (previousComponent == null) {
                         cable.Source = powerComponentOwner.FedFrom.Tag;
 
@@ -134,7 +134,7 @@ public class CableManager
                     cable.Load = powerComponentOwner;
 
                     cable.OwnerId = powerComponentOwner.Id;
-                    cable.OwnerType = typeof(IComponent).ToString();
+                    cable.OwnerType = typeof(IComponentEdt).ToString();
 
                     cable.TypeModel = powerComponentOwner.PowerCable.TypeModel;
                     cable.TypeList = powerComponentOwner.PowerCable.TypeList;
@@ -163,7 +163,7 @@ public class CableManager
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
 
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
-                    UndoManager.Undoing = false;
+                    UndoManager.IsUndoing = false;
 
                     component.PowerCable = cable;
 
@@ -185,7 +185,7 @@ public class CableManager
 
 
         //Local method
-        void UpdateLoadCable(IPowerConsumer load, IComponent previousComponent)
+        void UpdateLoadCable(IPowerConsumer load, IComponentEdt previousComponent)
         {
             if (previousComponent == null) {
                 load.PowerCable.Source = load.FedFrom.Tag;

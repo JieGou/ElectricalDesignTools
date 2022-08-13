@@ -24,7 +24,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 {
 
     [AddINotifyPropertyChangedInterface]
-    public abstract class DistributionEquipment : IDteq, IComponentUser//, INotifyDataErrorInfo 
+    public abstract class DistributionEquipment : IDteq, IComponentUser //, INotifyDataErrorInfo 
     {
         public DistributionEquipment()
         {
@@ -122,15 +122,21 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (value == null) return;
                 var oldValue = _area;
                 _area = value;
+                UndoManager.CanAdd = false;
+
                 if (Area != null) {
                     AreaManager.UpdateArea(this, _area, oldValue);
-                    UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
 
                     if (DaManager.GettingRecords == false && PowerCable != null) {
                         PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
                         PowerCable.CalculateAmpacity(this);
                     }
+
                     OnAreaChanged();
+                    UndoManager.CanAdd = true;
+
+                    UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
+
                     OnPropertyUpdated(nameof(Area) + ": " + Area.ToString());
                 }
             }
@@ -188,7 +194,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                     if (PowerCable != null) {
                         PowerCable.GetRequiredAmps(this);
                     }
-                    if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+                    if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                         var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
                         UndoManager.AddUndoCommand(cmd);
                     }
@@ -229,11 +235,12 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
 
-                if (value == null) return;
+                if (value == null || value == _fedFrom) return;
 
                 IDteq oldValue = _fedFrom;
                 IDteq nextFedFrom = value;
-                //ClearErrors(nameof(FedFrom));
+
+                UndoManager.CanAdd = false;
                 try {
                     if (DaManager.GettingRecords == true) {
                         // Assigned loads add, and events are subscribed to inside UpdateFedFrom;
@@ -242,24 +249,28 @@ namespace EDTLibrary.Models.DistributionEquipment
                         return;
                     }
                     _fedFrom = nextFedFrom;
-                    //Fed from validation
+
+                    //Fed from validation - Checks if the equipment is fed from itself and does not allow the change to proceed.
                     for (int i = 0; i < 500; i++) {
                         if (nextFedFrom == null) {
                             DistributionManager.UpdateFedFrom(this, _fedFrom, new DteqModel()) ;
-                            break;
+                            return;
                         }
                         else {
+                            //invalid
                             if (nextFedFrom.Tag == Tag) {
                                 ErrorHelper.Notify("Equipment Cannot be fed from itself.", "Circular Feed Error");
-                                _fedFrom = oldValue;
 
+                                // does not properly set value back to oldValue;
+                                //_fedFrom = oldValue;
+                                //FedFrom = oldValue;
                                 break;
-                                //throw new InvalidOperationException("Equipment cannot be fed from itself.");
-                                //AddError(nameof(FedFrom),"Equipment cannot be fed from itself.");
                             }
-                            else if (nextFedFrom.Tag == GlobalConfig.Utility || nextFedFrom.Tag == GlobalConfig.Deleted || i == 5) {
+                            //Valid
+                            else if (nextFedFrom.Tag == GlobalConfig.Utility || nextFedFrom.Tag == GlobalConfig.Deleted || i == 500) {
                                 _fedFrom = value;
                                 DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
+                                UndoManager.CanAdd = true;
                                 break;
                             }
                             else {
@@ -273,6 +284,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
 
                 UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
+                UndoManager.CanAdd = true;
                 OnPropertyUpdated(nameof(FedFrom) + ": " + FedFrom.Tag.ToString());
             }
         }
@@ -347,8 +359,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
         //Components
-        public ObservableCollection<IComponent> AuxComponents { get; set; } = new ObservableCollection<IComponent>();
-        public ObservableCollection<IComponent> CctComponents { get; set; } = new ObservableCollection<IComponent>();
+        public ObservableCollection<IComponentEdt> AuxComponents { get; set; } = new ObservableCollection<IComponentEdt>();
+        public ObservableCollection<IComponentEdt> CctComponents { get; set; } = new ObservableCollection<IComponentEdt>();
 
         //Components
 
@@ -372,7 +384,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
 
-        public IComponent Drive { get; set; }
+        public IComponentEdt Drive { get; set; }
 
         private bool _driveBool;
         public bool DriveBool
@@ -394,7 +406,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             set { _driveId = value; }
         }
 
-        public IComponent Disconnect { get; set; }
+        public IComponentEdt Disconnect { get; set; }
 
         private bool _disconnectBool;
         public bool DisconnectBool

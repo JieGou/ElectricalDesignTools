@@ -36,12 +36,13 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
+                <ResourceDictionary Source="../../Converters/Converters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
 
             <viewModifiers:BindingProxy x:Key="AreaViewProxy" Data="{Binding AreaColumnVisible}" />
 
-            <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
+            
             <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
 
             <!--For quick filtering of DteqGrid-->
@@ -362,7 +363,6 @@
                           RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}" Grid.ColumnSpan="2" Grid.Row="1" MouseLeave="dgdDteq_MouseLeave" >
                     <!--ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
 
-
                     <DataGrid.Resources>
                         <Style x:Key="errorStyle" TargetType="{x:Type TextBlock}">
                             <Setter Property="Padding" Value="0"/>
@@ -528,8 +528,6 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-
-
                         <!--Fed From Model-->
                         <DataGridTemplateColumn x:Name="dteqFedFrom" MinWidth="75"
                                                 SortMemberPath="FedFrom.Tag"
@@ -590,7 +588,6 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
-
 
                         <!--Line Voltage-->
                         <DataGridTemplateColumn  Header=" Line &#x0a; Voltage " x:Name="dteqLineVoltage"
@@ -1457,10 +1454,6 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-
-
-
-
                         <!--Fed From Model-->
                         <DataGridTemplateColumn x:Name="loadFedFrom" MinWidth="75"
                                                 CanUserSort="True"
@@ -1691,7 +1684,6 @@
                                             Binding="{Binding Path=LoadFactor, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                             IsReadOnly="False"/>
 
-
                         <!--Efficiency-->
                         <DataGridTemplateColumn Header="Eff"
                                                 MinWidth="50"
@@ -1719,8 +1711,7 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-
-
+                        <!--FLA-->
                         <DataGridTextColumn Header="FLA"
                                             MinWidth="50"
                                             Width="50"
@@ -1854,6 +1845,7 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
+                        
                         <DataGridTextColumn Header="Starter&#x0a;Size" 
                                 Binding="{Binding Path=StarterSize, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
@@ -1866,6 +1858,7 @@
 
 
                         <!--COMPONENTS-->
+                        <!--Disconnect-->
                         <DataGridTemplateColumn  x:Name="loadDisconnect" 
                                                 MinWidth="40"
                                                 HeaderStyle="{StaticResource ComponentColumnHeader}" 
@@ -1902,6 +1895,7 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
+                        <!--Drive-->
                         <DataGridTemplateColumn Header="Drive" x:Name="loadDrive" 
                                                 MinWidth="40"
                                                 HeaderStyle="{StaticResource ComponentColumnHeader}" 
@@ -1912,29 +1906,8 @@
                                     <CheckBox IsChecked="{Binding Path=DriveBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
                                               Command="{Binding Path=DataContext.ToggleLoadDriveCommand, 
                                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>
-                                    <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding Type}" Value="XFR">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="ToolTip" Value="Disabled for Non Motor Loads"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Type}" Value="SWG">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="ToolTip" Value="Disabled for Non Motor Loads"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Type}" Value="MCC">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="ToolTip" Value="Disabled for Non Motor Loads"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Type}" Value="HEATER">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="ToolTip" Value="Disabled for Non Motor Loads"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Type}" Value="PANEL">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="ToolTip" Value="Disabled for Non Motor Loads"/>
-                                        </DataTrigger>
-                                    </DataTemplate.Triggers>
+                                                                AncestorType={x:Type UserControl}}}"
+                                              Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
@@ -1945,28 +1918,15 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
+                        <!--LCS-->
                         <DataGridTemplateColumn Header="LCS"
                                                 MinWidth="40"
                                                 HeaderStyle="{StaticResource ComponentColumnHeader}" 
                                                 Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CompViewProxy}}">
-
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox IsChecked="{Binding Path=LcsBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
-                                    <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding Type}" Value="XFR">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Type}" Value="SWG">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Type}" Value="MCC">
-                                            <Setter Property="IsEnabled" Value="False" />
-                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
-                                        </DataTrigger>
-                                    </DataTemplate.Triggers>
+                                    <CheckBox IsChecked="{Binding Path=LcsBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                                              Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                             <DataGridTemplateColumn.CellEditingTemplate>
@@ -2018,7 +1978,6 @@
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                             Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"
                                             />
-
 
                         <DataGridTextColumn Header="Cable&#x0a;Derating" x:Name="loadCableDerating" 
                                 Width="60"

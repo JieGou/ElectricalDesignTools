@@ -35,7 +35,7 @@ public class XfrModel : DistributionEquipment
                 _impedance = oldValue;
             }
             SCCR = CalculateSCCR();
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Impedance), OldValue = oldValue, NewValue = _impedance };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -52,7 +52,7 @@ public class XfrModel : DistributionEquipment
         {
             var oldValue = _grounding;
             _grounding = value;
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Grounding), OldValue = oldValue, NewValue = _grounding };
                 UndoManager.AddUndoCommand(cmd);
             }

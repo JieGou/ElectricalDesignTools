@@ -84,10 +84,12 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                    Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
 
             <!--DTEQ Settings-->
-            <!--<GroupBox Header="Distribution Equipment"
-                  Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 25" >-->
-                <Border BorderBrush="Black" BorderThickness="1" Margin="25 0 25 25">
+            <GroupBox Header="Distribution Equipment"
+                      Grid.Row="1" Grid.Column="6"
+                      Margin="25 0 25 25"
+                      Style="{StaticResource EdtGroupBoxTemplate}"
+                      Background="{StaticResource Dark}">
+                <!--<Border BorderBrush="Black" BorderThickness="1" Margin="25 0 25 25">
                     <StackPanel Orientation="Vertical"
                                 Grid.Row="1" Grid.Column="6"
                                 Background="AliceBlue">
@@ -97,7 +99,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                Margin="0"
                                Padding="5"
                                Background="{StaticResource Dark}"/>
-                    <Border BorderBrush="Black" BorderThickness="0 1 0 0">
+                    <Border BorderBrush="Black" BorderThickness="0 1 0 0">-->
                 <Grid Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -258,16 +260,18 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     </ComboBox>
 
                 </Grid>
-                    </Border>
-                    </StackPanel>
-                </Border>
-                <!--</GroupBox>-->
+                    <!--</Border>-->
+                    <!--</StackPanel>-->
+                <!--</Border>-->
+                </GroupBox>
 
                 <!--Load Settings-->
-            <GroupBox Header="Loads"
-                  Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 25">
-                <Grid>
+                <GroupBox Header="Loads"
+                      Grid.Row="1" Grid.Column="6"
+                      Margin="25 0 25 25"
+                      Style="{StaticResource EdtGroupBoxTemplate}"
+                      Background="{StaticResource Dark}">
+                    <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="20"/>
@@ -390,7 +394,10 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             <!--Component Settings-->
             <GroupBox Header="Components"
                   Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 25">
+                  Margin="25 0 25 25"
+                      Style="{StaticResource EdtGroupBoxTemplate}"
+                      Background="{StaticResource Dark}" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Visible">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>

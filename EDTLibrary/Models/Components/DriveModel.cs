@@ -22,7 +22,7 @@ namespace EDTLibrary.Models.Components;
 
 [AddINotifyPropertyChangedInterface]
 
-public class DriveModel : IComponent
+public class DriveModel : IComponentEdt
 {
     public DriveModel()
     {
@@ -45,7 +45,7 @@ public class DriveModel : IComponent
                     }
                 }
             }
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -81,7 +81,7 @@ public class DriveModel : IComponent
             if (Area != null) {
                 AreaManager.UpdateArea(this, _area, oldValue);
 
-                if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+                if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                     var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
                     UndoManager.AddUndoCommand(cmd);
                 }

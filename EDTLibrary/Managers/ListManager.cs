@@ -32,7 +32,7 @@ namespace EDTLibrary
 
 
         public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
-        public ObservableCollection<IComponent> CompList { get; set; } = new ObservableCollection<IComponent>();
+        public ObservableCollection<IComponentEdt> CompList { get; set; } = new ObservableCollection<IComponentEdt>();
         public ObservableCollection<DriveModel> DriveList { get; set; } = new ObservableCollection<DriveModel>();
         public ObservableCollection<DisconnectModel> DisconnectList { get; set; } = new ObservableCollection<DisconnectModel>();
         public ObservableCollection<ILocalControlStation> LcsList { get; set; } = new ObservableCollection<ILocalControlStation>();
@@ -242,7 +242,7 @@ namespace EDTLibrary
                         }
                     }
                 }
-                load.CctComponents = new ObservableCollection<IComponent>(load.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
+                load.CctComponents = new ObservableCollection<IComponentEdt>(load.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
             }
         }
         private void GetLocalControlStations()
@@ -496,7 +496,7 @@ namespace EDTLibrary
                 foreach (var cable in CableList) {
 
                     if (comp.Id == cable.OwnerId &&
-                        comp.GetType().ToString() == cable.OwnerType || typeof(IComponent).ToString() == cable.OwnerType ) {
+                        comp.GetType().ToString() == cable.OwnerType || typeof(IComponentEdt).ToString() == cable.OwnerType ) {
                         comp.PowerCable = cable;
                         break;
                     }

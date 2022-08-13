@@ -27,7 +27,7 @@ using WpfUI.Stores;
 using WpfUI.ViewModels;
 using WpfUI.ViewModifiers;
 using WpfUI.Windows;
-using IComponent = EDTLibrary.Models.Components.IComponent;
+using IComponentEdt = EDTLibrary.Models.Components.IComponentEdt;
 
 namespace WpfUI.ViewModels.Electrical;
 
@@ -798,7 +798,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
             SelectedLoad.CctComponents[i].SequenceNumber = i;
         }
-        SelectedLoad.CctComponents = new ObservableCollection<IComponent>(SelectedLoad.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
+        SelectedLoad.CctComponents = new ObservableCollection<IComponentEdt>(SelectedLoad.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
 
         CableManager.UpdateLoadPowerComponentCablesAsync(SelectedLoad, _listManager);
 

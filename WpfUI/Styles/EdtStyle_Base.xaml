@@ -7,6 +7,8 @@
         <ResourceDictionary Source="EdtColorsAndDimensions.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    
+    
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
 
     <!--ALL CONTROLS DEFAULT-->
@@ -16,7 +18,7 @@
 
     <Style TargetType="ListBox" BasedOn="{StaticResource DefaultStyle}"/>
 
-    <!--MENU TITLE Style-->
+    <!--SUB-MENU TITLE Style-->
     <Style TargetType="Label" x:Key="TitleLabelStyleBase">
         <Setter Property ="FontSize" Value="14"/>
         <Setter Property ="Foreground" Value="White"/>
@@ -138,6 +140,11 @@
         <Setter Property="Width" Value="100"/>
         <Setter Property="Height" Value="23"/>
         <Setter Property="Margin" Value="10 5"/>
+        <Setter Property="Button.Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.5" />
+            </Setter.Value>
+        </Setter>
         <!--<Setter Property="Background" Value="Transparent"/>-->
 
         <Setter Property="Template">
@@ -193,7 +200,7 @@
         <Setter Property="Background" Value="#FA7FCA6B"/>
     </Style>
 
-    <!--Filter Button Style-->
+    <!--DataGrid Filter Button Style-->
     <Style x:Key="FilterButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Content" Value="\/"/>
         <Setter Property="FontSize" Value="8"/>
@@ -205,7 +212,7 @@
         <Setter Property="Margin" Value="0 0 5 0"/>
     </Style>
 
-    <!--Tool Bar Button-->
+    <!--Tool Bar / Sub-Menu Button-->
     <Style x:Key="ToolBarButtonBase" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="MinHeight" Value="{StaticResource SubMenuButtonHeight}"/>
@@ -213,7 +220,7 @@
         <Setter Property="Padding" Value="10 0"/>
     </Style>
     
-    <!--Main Menu Button-->
+    <!--Main Menu Button Dark-->
     <Style x:Key="MainMenuButton" TargetType="ToggleButton" >
         <Setter Property="Foreground" Value="Gray"/>
         <Setter Property="MinHeight" Value="25"/>
@@ -296,7 +303,7 @@
         </Style.Triggers>
     </Style>
     
-    <!--Main Menu Button-->
+    <!--Main Menu Button Light-->
     <Style x:Key="MainMenuButtonLight" TargetType="ToggleButton" >
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="MinHeight" Value="25"/>
@@ -408,7 +415,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Right"/>
     </Style>
 
-    <!--Lable Dteq Data Style-->
+    <!--Label Dteq Data Style-->
     <Style TargetType="Label" x:Key="lblDteqDataStyle" BasedOn="{StaticResource DefaultStyle}">
         <Setter Property ="FontSize" Value="15"/>
         <Setter Property="FontWeight" Value="Bold"/>
@@ -444,6 +451,7 @@
 
     </Style>
 
+    <!--Column Header Gripper / Sort Arrow Style-->
     <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
         <Setter Property="Width" Value="8"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -461,7 +469,6 @@
 
 
     <!--Column Header Base WITH SORT ARROW -->
-
     <Style TargetType="{x:Type Thumb}" x:Key="ThumbStyle">
         <Setter Property="Template">
             <Setter.Value>
@@ -472,7 +479,7 @@
         </Setter>
     </Style>
 
-
+    <!--DataGrid Column Header Style-->
     <Style TargetType="DataGridColumnHeader"  x:Key="DataGridColumnHeaderBase">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderThickness" Value="1 0 1 1" />
@@ -566,7 +573,7 @@
         <Setter Property="BorderThickness" Value="0 0 1 0" />
     </Style>
 
-    <!--Cell-->
+    <!--DataGrid Cell Style-->
     <Style TargetType="{x:Type DataGridCell}" x:Key="DataGridCellBase">
         <Setter Property="FontSize" Value="11.5"/>
         <Setter Property="TextBlock.TextAlignment" Value="Center"/>
@@ -639,7 +646,51 @@
 
 
 
+    <!--GroupBox Edt Template-->
+    <Style x:Key="EdtGroupBoxTemplate" TargetType="GroupBox">
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
 
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GroupBox" >
+                    <Grid Background="{StaticResource Background}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0"
+                            BorderThickness="1"
+                            BorderBrush="Black"
+                            Background="{TemplateBinding Background}">
+                            <Label Foreground="White"
+                               FontSize="14"
+                               FontWeight="SemiBold">
+                                <ContentPresenter Margin="0"
+                                              ContentSource="Header"
+                                              RecognizesAccessKey="True" />
+                            </Label>
+                        </Border>
+
+                        <Border Grid.Row="1"
+                            BorderThickness="1,0,1,1"
+                            BorderBrush="Black">
+                            <ScrollViewer Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=GroupBox}, Path=ActualHeight}">
+                                <ContentPresenter Margin="10" />
+
+                            </ScrollViewer>
+                        </Border>
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+            
+    </Style>
+    
+    
+    <!--GroupBox Modified Default Style-->
     <Style TargetType="{x:Type GroupBox}">
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="1"/>

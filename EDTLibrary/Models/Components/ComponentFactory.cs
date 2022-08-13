@@ -15,7 +15,7 @@ public class ComponentFactory
 {
     public static ComponentModel CreateCircuitComponent(IComponentUser componentUser, string subCategory, string type, string subType, ListManager listManager)
     {
-        IComponent newComponent = new ComponentModel();
+        IComponentEdt newComponent = new ComponentModel();
 
         if (listManager.CompList.Count<1) {
             newComponent.Id = 1;
@@ -58,7 +58,7 @@ public class ComponentFactory
 
         //Order of components
         componentUser.CctComponents.Add(newComponent);
-        componentUser.CctComponents = new ObservableCollection<IComponent>(componentUser.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
+        componentUser.CctComponents = new ObservableCollection<IComponentEdt>(componentUser.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
 
 
         listManager.CompList.Add(newComponent);
@@ -70,7 +70,7 @@ public class ComponentFactory
 
     public static ComponentModel CreateDrive(IComponentUser componentUser, string type, string subType, ListManager listManager)
     {
-        IComponent newDrive = new ComponentModel();
+        IComponentEdt newDrive = new ComponentModel();
 
         if (listManager.CompList.Count < 1) {
             newDrive.Id = 1;

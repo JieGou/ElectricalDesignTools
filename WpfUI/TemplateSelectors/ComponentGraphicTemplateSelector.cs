@@ -20,7 +20,7 @@ public class ComponentGraphicTemplateSelector : DataTemplateSelector
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
         var selectedTemplate = UdsTemplate;
-        var component = (IComponent)item;
+        var component = (IComponentEdt)item;
         if (component == null) return selectedTemplate;
 
         if (component.Type == ComponentTypes.UDS.ToString()) {

@@ -12,8 +12,8 @@
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
              
              mc:Ignorable="d" 
-             d:Width="1400" d:Height="900" 
-             Background="LightGray">
+             d:Width="1400" d:Height="950" 
+             Background="AliceBlue">
 
 
     <UserControl.Resources>
@@ -25,7 +25,8 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!--Group Box Template-->
-            <ControlTemplate TargetType="GroupBox" x:Key="EdtGroupBoxTemplate">
+            
+            <!--<ControlTemplate TargetType="GroupBox" x:Key="EdtGroupBoxTemplate">
                 <Grid Background="{StaticResource Background}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
@@ -52,7 +53,7 @@
                     </Border>
 
                 </Grid>
-            </ControlTemplate>
+            </ControlTemplate>-->
 
             <projectSettings:EdtSettings x:Key="edtSettings"/>
 
@@ -117,7 +118,8 @@
             <GroupBox Header="Project Details"
                       Grid.Row="1" Grid.Column="2"
                       Margin="25 0 25 25"
-                      Template="{StaticResource EdtGroupBoxTemplate}">
+                      Style="{StaticResource EdtGroupBoxTemplate}"
+                      Background="{StaticResource Dark}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -195,7 +197,8 @@
             <GroupBox Header="Electrical Setup" 
                       Grid.Row="1" Grid.Column="4"
                       Margin="25 0 25 25"
-                      Template="{StaticResource EdtGroupBoxTemplate}">
+                      Style="{StaticResource EdtGroupBoxTemplate}"
+                      Background="{StaticResource Dark}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -223,7 +226,8 @@
             <GroupBox Header="Equipment Column Options"
                       Grid.Row="1" Grid.Column="6"
                       Margin="25 0 25 25"
-                      Template="{StaticResource EdtGroupBoxTemplate}">
+                      Style="{StaticResource EdtGroupBoxTemplate}"
+                      Background="{StaticResource Dark}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -266,7 +270,8 @@
             <GroupBox Header="Autocad Settings"
                       Grid.Row="1" Grid.Column="6"
                       Margin="25 0 25 25"
-                      Template="{StaticResource EdtGroupBoxTemplate}">
+                      Style="{StaticResource EdtGroupBoxTemplate}"
+                      Background="{StaticResource Dark}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -396,6 +401,7 @@
 
                 </Grid>
             </GroupBox>
+                
         </WrapPanel>
 
         </ScrollViewer>

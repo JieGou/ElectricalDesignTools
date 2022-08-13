@@ -107,7 +107,7 @@ public class CableModel : ICable
 
             Is1C = _type.Contains("1C") ? true : false;
 
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(TypeModel), OldValue = oldValue, NewValue = _typeModel };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -145,7 +145,7 @@ public class CableModel : ICable
                 _qtyParallel = 1;
             }
           
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(QtyParallel), OldValue = oldValue, NewValue = _qtyParallel };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -170,7 +170,7 @@ public class CableModel : ICable
             var oldValue = _size;
             _size = value;
 
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -205,7 +205,7 @@ public class CableModel : ICable
             }
 
 
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Spacing), OldValue = oldValue, NewValue = _spacing };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -285,7 +285,7 @@ public class CableModel : ICable
                 _calculating = false;
             }
 
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(IsOutdoor), OldValue = oldValue, NewValue = _outdoor };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -312,7 +312,7 @@ public class CableModel : ICable
                 _calculating = false;
             }
 
-            if (UndoManager.Undoing == false && DaManager.GettingRecords == false) {
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(InstallationType), OldValue = oldValue, NewValue = _installationType };
                 UndoManager.AddUndoCommand(cmd);
             }
@@ -464,7 +464,7 @@ public class CableModel : ICable
     }
     public void AutoSize()
     {
-        UndoManager.Undoing = true;
+        UndoManager.IsUndoing = true;
         //_calculating = true;
         RequiredSizingAmps = GetRequiredSizingAmps();
         Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
@@ -483,7 +483,7 @@ public class CableModel : ICable
         }
         CalculateAmpacity(Load);
         OnPropertyUpdated();
-        UndoManager.Undoing = false;
+        UndoManager.IsUndoing = false;
         //_calculating = false;
     }
     
