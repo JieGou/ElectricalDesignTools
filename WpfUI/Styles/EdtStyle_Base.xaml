@@ -1,16 +1,22 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-
+                    
+                    xmlns:converters="clr-namespace:WpfUI.Converters"
                     xmlns:controls="clr-namespace:WpfUI.Controls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="EdtColorsAndDimensions.xaml"/>
+        
+                                            
     </ResourceDictionary.MergedDictionaries>
 
     
     
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
+    <converters:WarningIdentifierConverter x:Key="WarningIdentifierConverter"/>
+    <converters:WarningStringConverter x:Key="WarningStringConverter"/>
+
 
     <!--ALL CONTROLS DEFAULT-->
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
@@ -45,10 +51,10 @@
         <Setter Property= "Margin" Value="20,0,0,0"/>
     </Style>
 
-    <SolidColorBrush x:Key="ErrorColor_Base" Color="#FFD40000"/>
 
     <!--TEXTBOX Style with Error -->
     <Style x:Key="TextBoxBaseErrorTemplate" TargetType="TextBox" BasedOn="{StaticResource DefaultStyle}">
+        
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
@@ -60,8 +66,22 @@
                             <ItemsControl ItemsSource="{Binding}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding ErrorContent}" Foreground="#FFD40000"/>
+                                        <!--<TextBlock Text="{Binding ErrorContent}" Foreground="{Binding ErrorContent, Converter={StaticResource ErrorToWarningConverter}}"/>-->
+                                        <StackPanel>
+                                            
+                                        <TextBlock Text="{Binding ErrorContent}" Foreground="{StaticResource ErrorColor_Base}"
+                                                   Visibility="{Binding ErrorContent, Converter={StaticResource WarningIdentifierConverter}, ConverterParameter=Error}" />
+
+                                            <StackPanel Orientation="Horizontal"
+                                                        Visibility="{Binding ErrorContent, Converter={StaticResource WarningIdentifierConverter}, ConverterParameter=Warning}" >
+                                                <Image Source="..\..\ResourceFiles\InfoIconBlue.png"
+                                                       Height="15"
+                                                       Margin="0 0 2 0"/>
+                                                <TextBlock Text="{Binding ErrorContent, Converter={StaticResource WarningStringConverter}}" FontSize="12" Foreground="DarkOrange"/>
+                                            </StackPanel>
+                                        </StackPanel>
                                     </DataTemplate>
+                                    
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </StackPanel>
@@ -69,6 +89,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
         <Style.Triggers>
             <Trigger Property="Validation.HasError" Value="true">
                 <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>

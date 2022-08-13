@@ -91,8 +91,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                       HeaderBackground="{StaticResource Dark}"
                                       HeaderForeGround="White"
                                       ContentBackground="{StaticResource Background}" 
-                                      Margin="25 0 25 25"
-                                      VerticalContentAlignment="Top">
+                                      Margin="25 0 25 25" >
 
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
@@ -102,7 +101,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="0"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -119,7 +118,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         <TextBlock Text="General / All"
                                    Grid.Row="1" Grid.Column="0"
                                    FontWeight="SemiBold"
-                                   FontSize="16"/>
+                                   FontSize="16" />
 
                         <StackPanel Orientation="Vertical"  Grid.Row="2" Grid.Column="0"  >
                             <TextBlock Text="Dteq Max Loading Warning"  
@@ -262,8 +261,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                       HeaderBackground="{StaticResource Dark}"
                                       HeaderForeGround="White"
                                       ContentBackground="{StaticResource Background}" 
-                                      Margin="25 0 25 25"
-                                      VerticalContentAlignment="Top">
+                                      Margin="25 0 25 25" >
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -390,8 +388,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                       HeaderBackground="{StaticResource Dark}"
                                       HeaderForeGround="White"
                                       ContentBackground="{StaticResource Background}" 
-                                      Margin="25 0 25 25"
-                                      VerticalContentAlignment="Top">
+                                      Margin="25 0 25 25" >
                     <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>

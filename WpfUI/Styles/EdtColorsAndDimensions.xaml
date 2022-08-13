@@ -17,6 +17,8 @@
 
     
 <!--COLORS-->
+    <SolidColorBrush x:Key="ErrorColor_Base" Color="#FFD40000"/>
+
     <SolidColorBrush x:Key="Background" Color="AliceBlue"></SolidColorBrush>
 
 

@@ -259,11 +259,12 @@ namespace EDTLibrary.Models.DistributionEquipment
                         else {
                             //invalid
                             if (nextFedFrom.Tag == Tag) {
-                                ErrorHelper.Notify("Equipment Cannot be fed from itself.", "Circular Feed Error");
 
-                                // does not properly set value back to oldValue;
-                                //_fedFrom = oldValue;
-                                //FedFrom = oldValue;
+                                //Must change value back before showing message box
+                                _fedFrom = oldValue;
+
+                                //Message must be executed last
+                                ErrorHelper.Notify("Equipment Cannot be fed from itself.", "Circular Feed Error");
                                 break;
                             }
                             //Valid

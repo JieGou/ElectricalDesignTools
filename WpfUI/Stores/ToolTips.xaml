@@ -7,7 +7,7 @@
 equipment and all sub-equipment and components.
 Ex: VFD's fed from this equipment.
     
-Chaning the are proprties affects only this equipment</clr:String>
+Changing the area proprties affects only this equipment</clr:String>
     
     <clr:String x:Key="AreaChangeMessage" xml:space="preserve">Updates this equipment and all its components and sub-components. 
 Changing this will override the below values.</clr:String>
