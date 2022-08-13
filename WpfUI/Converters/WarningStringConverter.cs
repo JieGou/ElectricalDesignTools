@@ -19,9 +19,9 @@ namespace WpfUI.Converters
             string errorContent = (string)value;
             
 
-            if (errorContent.Contains("Temp")) {
+            if (errorContent.Contains("Warning")) {
                 //return new SolidColorBrush(Colors.DarkOrange);
-                return errorContent.Replace("Temp", "");
+                return errorContent.Replace("Warning - ", "");
             }
 
             //return new SolidColorBrush(Colors.Red);

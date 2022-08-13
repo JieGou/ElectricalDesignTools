@@ -57,36 +57,46 @@
         
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
+                
+                
+                
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        <Border BorderBrush="Red"/>
+                        
                         <!-- Align text box and error list vertically -->
                         <StackPanel Orientation="Vertical">
                             <AdornedElementPlaceholder x:Name="textBox"/>
                             <ItemsControl ItemsSource="{Binding}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <!--<TextBlock Text="{Binding ErrorContent}" Foreground="{Binding ErrorContent, Converter={StaticResource ErrorToWarningConverter}}"/>-->
                                         <StackPanel>
-                                            
-                                        <TextBlock Text="{Binding ErrorContent}" Foreground="{StaticResource ErrorColor_Base}"
-                                                   Visibility="{Binding ErrorContent, Converter={StaticResource WarningIdentifierConverter}, ConverterParameter=Error}" />
-
+                                            <!--Error-->
+                                            <StackPanel Orientation="Horizontal"
+                                                        Visibility="{Binding ErrorContent, Converter={StaticResource WarningIdentifierConverter}, ConverterParameter=Error}" >
+                                                <Image Source="..\..\ResourceFiles\ErrorIconTriangle48.png"
+                                                       Height="13"
+                                                       Margin="0 0 3 0"/>
+                                                <TextBlock Text="{Binding ErrorContent}" Foreground="{StaticResource ErrorColor_Base}"
+                                                           Visibility="{Binding ErrorContent, Converter={StaticResource WarningIdentifierConverter}, ConverterParameter=Error}" />
+                                            </StackPanel>
+                                            <!--Warning-->
                                             <StackPanel Orientation="Horizontal"
                                                         Visibility="{Binding ErrorContent, Converter={StaticResource WarningIdentifierConverter}, ConverterParameter=Warning}" >
-                                                <Image Source="..\..\ResourceFiles\InfoIconBlue.png"
-                                                       Height="15"
-                                                       Margin="0 0 2 0"/>
+                                                <Image Source="..\..\ResourceFiles\WarningIcon48.png"
+                                                       Height="13"
+                                                       Margin="0 0 3 0"/>
                                                 <TextBlock Text="{Binding ErrorContent, Converter={StaticResource WarningStringConverter}}" FontSize="12" Foreground="DarkOrange"/>
                                             </StackPanel>
                                         </StackPanel>
                                     </DataTemplate>
-                                    
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </StackPanel>
+                       
                     </DockPanel>
                 </ControlTemplate>
+                
+                
             </Setter.Value>
         </Setter>
 

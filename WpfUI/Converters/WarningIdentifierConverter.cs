@@ -27,9 +27,9 @@ namespace WpfUI.Converters
 
 
             if (type == Parameters.Warning)
-                return errorContent.Contains("Temp") ? Visibility.Visible : Visibility.Collapsed;
+                return errorContent.Contains("Warning") ? Visibility.Visible : Visibility.Collapsed;
 
-            return errorContent.Contains("Temp") ? Visibility.Collapsed : Visibility.Visible;
+            return errorContent.Contains("Warning") ? Visibility.Collapsed : Visibility.Visible;
 
         }
 

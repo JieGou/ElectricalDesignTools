@@ -264,7 +264,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                                 _fedFrom = oldValue;
 
                                 //Message must be executed last
-                                ErrorHelper.Notify("Equipment Cannot be fed from itself.", "Circular Feed Error");
+                                ErrorHelper.Notify("Equipment Cannot be fed from itself, directly or through other equipment.", "Circular Feed Error");
                                 break;
                             }
                             //Valid
