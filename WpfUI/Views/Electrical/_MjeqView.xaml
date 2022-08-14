@@ -1152,11 +1152,10 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-
+                <!--Load List Header/Contents-->
                 <TextBlock Margin="10 20 0 0"
                            Grid.Row="0" Grid.Column="0"
                            Width="200"
-                           
                            HorizontalAlignment="Left"
                            FontSize="14" 
                            FontWeight="SemiBold">
@@ -1173,6 +1172,7 @@
                     </TextBlock.Style>
                 </TextBlock>
 
+                <!--Column Toggle Buttons-->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" 
                             Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
 
@@ -1223,8 +1223,6 @@
                     </Button>
                 </StackPanel>
 
-
-
                 <!--LOAD-->
                 <!--DETAILS VIEW-->
                 <TextBlock Text="Load Details"
@@ -1265,12 +1263,15 @@
                           CanUserAddRows="False"
                           CanUserDeleteRows="False"
                           AutoGenerateColumns="False"
-                          EnableRowVirtualization="False"
+                          
+                          EnableRowVirtualization="True"
                           EnableColumnVirtualization="False"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          VirtualizingStackPanel.VirtualizationMode="Standard"
+                          
                           ScrollViewer.CanContentScroll="False"
-                          VirtualizingPanel.IsVirtualizing="False"
-                          VirtualizingStackPanel.VirtualizationMode="Recycling"
                           RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}"
+                          
                           SelectionChanged="dgdAssignedLoads_SelectionChanged" 
                           PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown" 
                           MouseLeave="dgdAssignedLoads_MouseLeave" 

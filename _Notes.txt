@@ -1,11 +1,20 @@
+Validations
+	- PD
+	- Cable
+	
 Modularize Calculations
 	- Load
+
 	- Dteq
+
 	- Cable
+		- Cable.LoadId
+		- Source.Id, Source.Type
+		- Destination.Id, Destination.Type
 
 Optional Auto-Calculations
-	- Load
-	- Dteq
+	- Component Sizing
+	- PD
 	- Cable
 
 Cables

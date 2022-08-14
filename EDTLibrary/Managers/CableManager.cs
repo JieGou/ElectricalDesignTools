@@ -94,6 +94,7 @@ public class CableManager
         try {
             await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 //Remove Cables
+
                 List<CableModel> cablesToRemove = new List<CableModel>();
                 foreach (var item in listManager.CableList) {
 

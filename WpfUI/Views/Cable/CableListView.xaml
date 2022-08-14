@@ -163,11 +163,17 @@
 
             <!--ItemsSource="{Binding Source={StaticResource cableList}}"-->
             <DataGrid x:Name="dgdCableList" Grid.Column="3" Grid.Row="2"
-                          ItemsSource="{Binding ListManager.CableList, Mode=TwoWay}"
-                          Margin="10"
-                          CanUserAddRows="False"
-                          HorizontalAlignment="Left"
-                          AutoGenerateColumns="False" >
+                      ItemsSource="{Binding ListManager.CableList, Mode=TwoWay}"
+                      Margin="10"
+                      CanUserAddRows="False"
+                      HorizontalAlignment="Left"
+                      AutoGenerateColumns="False" 
+                      
+                      EnableRowVirtualization="True"
+                      EnableColumnVirtualization="False"
+                      VirtualizingPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.VirtualizationMode="Standard" >
+                
                 <DataGrid.GroupStyle>
 
                     <!--<GroupStyle HeaderTemplateSelector="{StaticResource templateSelector}"/>-->

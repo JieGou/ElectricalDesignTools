@@ -10,7 +10,7 @@
              
              mc:Ignorable="d"
              
-             d:DesignHeight="300" d:DesignWidth="550"
+             d:DesignHeight="300" d:DesignWidth="250"
              d:Background="LightCyan"
              
              Background="Transparent">
@@ -30,7 +30,7 @@
             <DataTemplate x:Key="BreakerTemplate">
                 <StackPanel Orientation="Vertical">
 
-                    <Grid>
+                    <Grid Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="26"/>
                             <ColumnDefinition Width="auto"/>
@@ -96,7 +96,7 @@
             <DataTemplate x:Key="FvnrTemplate">
                 <StackPanel Orientation="Vertical">
 
-                    <Grid>
+                    <Grid Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="26"/>
                             <ColumnDefinition Width="auto"/>
@@ -193,7 +193,7 @@
             <!--DRIVE-->
             <!--Vsd-->
             <DataTemplate x:Key="VsdTemplate">
-                <Grid>
+                <Grid Background="Transparent">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="13.5"/>
                         <ColumnDefinition Width="auto"/>
@@ -228,7 +228,7 @@
             <!--LOCAL DISCONNECT-->
             <!--Uds-->
             <DataTemplate x:Key="UdsTemplate">
-                <Grid>
+                <Grid Background="Transparent">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="18.5"/>
                         <ColumnDefinition Width="auto"/>
@@ -273,7 +273,7 @@
 
             <!--Fds-->
             <DataTemplate x:Key="FdsTemplate">
-                <Grid>
+                <Grid Background="Transparent">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="18.5"/>
                         <ColumnDefinition Width="auto"/>
@@ -345,6 +345,7 @@
             <DataTemplate x:Key="CableTemplate">
                 <StackPanel Orientation="Vertical" Grid.Column="2"
                             HorizontalAlignment="Left"
+                            Background="Transparent"
                             Margin="0 15 0 15">
 
                     <!--Tag-->
@@ -371,7 +372,8 @@
             <!--LOADS-->
             <!--Motor Template-->
             <DataTemplate x:Key="MotorTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
-                <Border BorderBrush="Black" BorderThickness="2" 
+                <Border BorderBrush="Black" BorderThickness="2"
+                        Background="Transparent"
                                     Width="50"
                                     Height="50"
                                     CornerRadius="50"
@@ -392,9 +394,10 @@
             <!--Heater Template-->
             <DataTemplate x:Key="HeaterTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
                 <Border BorderBrush="Black" BorderThickness="2" 
-                                    Width="50"
-                                    Height="50"
-                                    HorizontalAlignment="Left" >
+                        Background="Transparent"
+                        Width="50"
+                        Height="50"
+                        HorizontalAlignment="Left" >
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
                                             Margin="0 13">
@@ -472,7 +475,9 @@
                 <!--Starter-->
             <ContentControl Content="{Binding}" DockPanel.Dock="Top"
                             Style="{StaticResource OCPDTemplateStyle}"
-                            ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}">
+                            ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
+                            PreviewMouseLeftButtonDown="ContentControl_PreviewMouseLeftButtonDown"
+                            >
 
             </ContentControl>
 
@@ -503,15 +508,20 @@
 
                                 <!--Cable Details-->
                                 <ContentControl Content="{Binding}"
-                                    ContentTemplate="{StaticResource CableTemplate}"
-                                    Grid.Column="2"/>
+                                                ContentTemplate="{StaticResource CableTemplate}"
+                                                Grid.Column="2"
+                                                PreviewMouseLeftButtonDown="ContentControl_PreviewMouseLeftButtonDown_1"
+                                                Focusable="True"/>
                             </Grid>
 
                             <!--Component-->
+                            
                             <ContentControl 
                                 Style="{StaticResource DisconnectTemplateStyle}"
                                 Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
-                                ContentTemplateSelector="{StaticResource ComponentTemplateSelector}">
+                                ContentTemplateSelector="{StaticResource ComponentTemplateSelector}"
+                                PreviewMouseLeftButtonDown="ContentControl_PreviewMouseLeftButtonDown_2"
+                                >
                             </ContentControl>
 
 
@@ -521,26 +531,27 @@
             </ItemsControl>
 
             <!--LOAD-->
-            <!--Cable-->
-                <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40"/>
-                    <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
+            <!--Load Cable-->
+                <Grid DockPanel.Dock="Top" Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
 
-                <!--Cable Line-->
-                <Border BorderBrush="Black" BorderThickness="0 0 1 0"
-                                   Grid.Column="0"/>
-                <!--Cable Tag-->
-                <ContentControl Content="{Binding}"
-                                ContentTemplate="{StaticResource CableTemplate}"
-                                Grid.Column="2"/>
-            </Grid>
+                    <!--Cable Line-->
+                    <Border BorderBrush="Black" BorderThickness="0 0 1 0"
+                                       Grid.Column="0"/>
+                    <!--Cable Tag-->
+                    <ContentControl Content="{Binding}"
+                                    ContentTemplate="{StaticResource CableTemplate}"
+                                    Grid.Column="2" PreviewMouseDown="ContentControl_PreviewMouseDown"
+                                    />
+                </Grid>
 
             <!--Load-->
             <Grid>
@@ -553,7 +564,8 @@
                             HorizontalAlignment="Left">
 
                     <ContentControl Content="{Binding}" 
-                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"/>
+                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}" PreviewMouseDown="ContentControl_PreviewMouseDown_1"
+                                    />
 
                 </StackPanel>
                 <StackPanel Grid.Column="2"

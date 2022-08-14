@@ -439,16 +439,6 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
         public double SCCR { get; set; }
-        public virtual double CalculateSCCR()
-        {
-            if (Tag == GlobalConfig.Utility) {
-                return 0;
-            }
-            else if (FedFrom == null) {
-                return 0;
-            }
-            return FedFrom.SCCR;
-        }
 
         //Todo - recalculate cables when changed
         public double LoadCableDerating { get => _loadCableDerating;
@@ -504,9 +494,21 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             DteqManager.SetPd(this);
             SCCR = CalculateSCCR();
+
             OnLoadingCalculated();
             OnPropertyUpdated(nameof(CalculateLoading));
 
+        }
+
+        public virtual double CalculateSCCR()
+        {
+            if (Tag == GlobalConfig.Utility) {
+                return 0;
+            }
+            else if (FedFrom == null) {
+                return 0;
+            }
+            return FedFrom.SCCR;
         }
 
         public void CreatePowerCable()
