@@ -1,6 +1,5 @@
 ﻿using AutoCAD;
 using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
@@ -18,6 +17,7 @@ using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Views.Settings;
 using AutocadLibrary;
+using EDTLibrary.LibraryData;
 
 namespace WpfUI.ViewModels.Settings;
 

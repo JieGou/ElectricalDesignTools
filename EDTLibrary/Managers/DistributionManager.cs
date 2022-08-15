@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models.DistributionEquipment
+namespace EDTLibrary.Managers
 {
     public class DistributionManager
     {
@@ -18,7 +19,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             _listManager = listManager;
         }
 
-        
+
 
         /// <summary>
         /// Transfers the load from the old to the new supplier. (Id, Tag, Type, events, load calculation, cable tag , etc.
@@ -28,18 +29,15 @@ namespace EDTLibrary.Models.DistributionEquipment
         /// <param name="oldSupplier"></param>
         public static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
-            
-            if (caller.FedFrom != null) 
-            {
+
+            if (caller.FedFrom != null) {
                 caller.FedFromId = newSupplier.Id;
                 caller.FedFromTag = newSupplier.Tag;
                 caller.FedFromType = newSupplier.GetType().ToString();
             }
 
-            if (DaManager.GettingRecords == false) 
-            {
-                if (oldSupplier != null) 
-                {
+            if (DaManager.GettingRecords == false) {
+                if (oldSupplier != null) {
                     caller.LoadingCalculated -= oldSupplier.OnAssignedLoadReCalculated;
                     oldSupplier.AssignedLoads.Remove(caller);
 
@@ -54,8 +52,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 if (caller.Tag != "" &&
                     caller.Voltage != 0 &&
-                    caller.Fla != 0) 
-                {
+                    caller.Fla != 0) {
                     caller.CalculateLoading();
                     caller.PowerCable.AssignTagging(caller);
                 }
@@ -80,7 +77,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 // to trigger upsert but not working
                 var tag = load.Tag;
-                load.Tag = "temp"; 
+                load.Tag = "temp";
                 load.Tag = tag;
             }
             return;

@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;

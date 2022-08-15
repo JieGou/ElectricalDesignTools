@@ -1,5 +1,5 @@
 ﻿using EDTLibrary.LibraryData.Cables;
-using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Loads;

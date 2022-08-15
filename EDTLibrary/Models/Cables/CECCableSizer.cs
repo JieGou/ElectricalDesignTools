@@ -1,6 +1,6 @@
 ﻿using EDTLibrary.A_Helpers;
 using EDTLibrary.LibraryData;
-using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;

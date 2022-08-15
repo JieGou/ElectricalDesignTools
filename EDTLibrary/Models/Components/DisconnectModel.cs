@@ -1,10 +1,9 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeModels;
-using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Managers;
-using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;

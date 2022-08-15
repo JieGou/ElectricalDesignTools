@@ -1,4 +1,4 @@
-﻿using EDTLibrary;
+﻿using EDTLibrary.Managers;
 using System;
 using System.IO;
 using System.Windows;
@@ -48,7 +48,7 @@ namespace WpfUI.ViewModels
             NewProjectWindow = new NewProjectWindow();
             NewProjectViewModel newProjectVm = new NewProjectViewModel(
                 _mainViewModel,
-                new EDTLibrary.LibraryData.TypeTables.TypeManager(),
+                new EDTLibrary.LibraryData.TypeManager(),
                 new StartupService(_listManager),
                 this);
 

@@ -1,10 +1,13 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
+using EDTLibrary.Models;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
@@ -130,7 +133,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
 
 
-    public UserControl SelectedElectricalVieModel { get; set; }
+    public UserControl SelectedElectricalViewModel { get; set; }
     #endregion
 
     #region Public Commands
@@ -264,6 +267,22 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     }
 
 
+    //Equipment
+    private IEquipment _selectedLoadEquipment;
+    public IEquipment SelectedLoadEquipment
+    {
+        get { return _selectedLoadEquipment; }
+        set { _selectedLoadEquipment = value; }
+    }
+
+    public bool IsSelectedLoadCable { get; set; }
+
+    private IEquipment _selectedLoadCable;
+    public IEquipment SelectedLoadCable
+    {
+        get { return _selectedLoadCable; }
+        set { _selectedLoadCable = value; }
+    }
 
     // DTEQ
     private IDteq _selectedDteq;
@@ -376,6 +395,9 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                     SelectedComponent = (ComponentModel)_selectedLoad.CctComponents[0];
 
                 }
+                SelectedLoadEquipment = _selectedLoad;
+                SelectedLoadCable   = _selectedLoad;
+
             }
         }
     }

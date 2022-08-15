@@ -1,9 +1,12 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Managers;
 using EDTLibrary.Models;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Equipment;
 using PropertyChanged;
 using System;
 using System.Collections;

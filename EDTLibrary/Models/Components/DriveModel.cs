@@ -1,10 +1,9 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeModels;
-using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Managers;
-using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
@@ -94,7 +93,7 @@ public class DriveModel : IComponentEdt
     public string AreaClassification { get; set; }
     public int OwnerId { get; set; }
     public string OwnerType { get; set; }
-    public IEquipment Owner { get; set; }
+    public Equipment.IEquipment Owner { get; set; }
     public int SequenceNumber
     {
         get => _sequenceNumber;

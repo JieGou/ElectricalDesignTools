@@ -1,6 +1,5 @@
 ﻿using AutoCAD;
 using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData.TypeTables;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;

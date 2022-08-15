@@ -1,6 +1,7 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;

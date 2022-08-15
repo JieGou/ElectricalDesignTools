@@ -137,6 +137,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AppSettings.settings</DependentUpon>
     </Compile>
+    <Compile Update="Views\Electrical\MjeqSubviews\CableSizingViewNarrow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Electrical\MjeqSubviews\EquipmentDetailsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Settings\DeveloperSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -166,6 +172,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\EdtStyle_Purple.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Electrical\MjeqSubviews\CableSizingViewNarrow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Electrical\MjeqSubviews\EquipmentDetailsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

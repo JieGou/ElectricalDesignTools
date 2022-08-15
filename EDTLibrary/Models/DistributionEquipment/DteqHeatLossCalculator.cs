@@ -1,4 +1,4 @@
-﻿using EDTLibrary.LibraryData.TypeTables;
+﻿using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Loads;
 using PropertyChanged;
 using System;

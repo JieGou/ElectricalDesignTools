@@ -1,8 +1,11 @@
 ﻿using EDTLibrary.Models;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +18,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfUI.Controls;
+using WpfUI.ViewModels.Electrical;
 
 namespace WpfUI.Views.Electrical.MjeqSubviews;
 /// <summary>
@@ -22,75 +27,97 @@ namespace WpfUI.Views.Electrical.MjeqSubviews;
 /// </summary>
 public partial class LoadGraphicView : UserControl
 {
+    public static RoutedEvent LoadEquipmentSelectedEvent = EventManager.RegisterRoutedEvent("LoadEquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
+    public static RoutedEvent LoadCableSelectedEvent = EventManager.RegisterRoutedEvent("LoadCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
+
+
     public LoadGraphicView()
     {
         InitializeComponent();
     }
 
-    private void ContentControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    public event RoutedEventHandler LoadEquipmentSelected
+    {
+        add { AddHandler(LoadEquipmentSelectedEvent, value); }
+        remove { RemoveHandler(LoadEquipmentSelectedEvent, value); }
+    }
+    protected virtual void OnLoadEquipmentSelected(IEquipment eq)
+    {
+        RaiseEvent(new RoutedEventArgs(LoadEquipmentSelectedEvent, eq));
+    }
+
+    public event RoutedEventHandler LoadCableSelected
+    {
+        add { AddHandler(LoadCableSelectedEvent, value); }
+        remove { RemoveHandler(LoadCableSelectedEvent, value); }
+    }
+    protected virtual void OnLoadCableSelected(IEquipment eq)
+    {
+        RaiseEvent(new RoutedEventArgs(LoadCableSelectedEvent, eq));
+    }
+
+    
+
+
+    #region Click Events
+    private void Bucket_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         ContentControl senderControl = (ContentControl)sender;
         var dataContext = senderControl.DataContext;
 
-        if (dataContext is IEquipment) {
-            LoadModel load = (LoadModel)dataContext;
-            MessageBox.Show($"PD Trip: {load.PdSizeTrip.ToString()} \n" +
-                $"PD: Frame: {load.PdSizeFrame}");
+        try {
+
+            if (dataContext is IEquipment) {
+               OnLoadEquipmentSelected(dataContext as IEquipment);
+            }
+
+        }
+        catch (Exception) {
+
         }
     }
 
-    private void ContentControl_PreviewMouseLeftButtonDown_1(object sender, MouseButtonEventArgs e)
+    private void ComponentCable_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         ContentControl senderControl = (ContentControl)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
             ComponentModel component = (ComponentModel)dataContext;
-            MessageBox.Show($"Cable Tag: {component.PowerCable.Tag}");
+            OnLoadCableSelected(component);
         }
     }
 
-    private void ContentControl_PreviewMouseLeftButtonDown_2(object sender, MouseButtonEventArgs e)
+    private void Component_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         ContentControl senderControl = (ContentControl)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
-            ComponentModel component = (ComponentModel)dataContext;
-            MessageBox.Show($"Component Tag: {component.Tag}");
+            OnLoadEquipmentSelected(dataContext as IEquipment);
         }
     }
 
-    private void ContentControl_PreviewMouseMove(object sender, MouseEventArgs e)
-    {
-        ContentControl senderControl = (ContentControl)sender;
-        var dataContext = senderControl.DataContext;
-
-        if (dataContext is IEquipment) {
-            ComponentModel component = (ComponentModel)dataContext;
-            MessageBox.Show($"Component Tag: {component.Tag}");
-        }
-    }
-
-    private void ContentControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    private void LoadCable_ContentControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         ContentControl senderControl = (ContentControl)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
             LoadModel load = (LoadModel)dataContext;
-            MessageBox.Show($"Load Cable: {load.PowerCable.Tag}");
+            OnLoadCableSelected(load);
+
         }
     }
 
-    private void ContentControl_PreviewMouseDown_1(object sender, MouseButtonEventArgs e)
+    private void Load_ContentControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         ContentControl senderControl = (ContentControl)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
-            LoadModel load = (LoadModel)dataContext;
-            MessageBox.Show($"Load: {load.Tag}");
+            OnLoadEquipmentSelected(dataContext as IEquipment);
         }
     }
+    #endregion
 }

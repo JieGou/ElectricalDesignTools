@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.Models.Equipment;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 

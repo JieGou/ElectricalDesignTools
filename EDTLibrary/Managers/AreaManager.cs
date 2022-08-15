@@ -1,11 +1,13 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Models.Areas;
+using EDTLibrary.Models.Equipment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models.Areas;
+namespace EDTLibrary.Managers;
 public class AreaManager
 {
     public static void UpdateArea(IEquipment caller, IArea newArea, IArea oldArea)
@@ -25,7 +27,7 @@ public class AreaManager
     {
         listManager.CreateEquipmentList();
         foreach (var item in listManager.EqList) {
-            if (item.Area.Id== area.Id) {
+            if (item.Area.Id == area.Id) {
                 return true;
             }
         }

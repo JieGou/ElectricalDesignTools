@@ -1,4 +1,4 @@
-﻿using EDTLibrary;
+﻿using EDTLibrary.Managers;
 using PropertyChanged;
 using System.ComponentModel;
 using System.Windows.Input;

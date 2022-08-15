@@ -1,5 +1,5 @@
 ﻿using EDTLibrary;
-using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.LibraryData;
 using PropertyChanged;
 using System;
 using System.Collections;

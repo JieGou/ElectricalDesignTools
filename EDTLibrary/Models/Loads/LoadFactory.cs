@@ -1,4 +1,5 @@
-﻿using EDTLibrary.ProjectSettings;
+﻿using EDTLibrary.Managers;
+using EDTLibrary.ProjectSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

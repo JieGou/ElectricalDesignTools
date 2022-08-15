@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EDTLibrary.Models.Equipment;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace EDTLibrary.Models.Components

@@ -1,7 +1,7 @@
 ﻿using EDTLibrary.A_Helpers;
 using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData.TypeTables;
-using EDTLibrary.Models.aMain;
+using EDTLibrary.LibraryData;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;

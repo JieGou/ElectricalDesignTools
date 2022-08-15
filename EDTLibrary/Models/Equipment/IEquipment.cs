@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models
+namespace EDTLibrary.Models.Equipment
 {
     public interface IEquipment
     {

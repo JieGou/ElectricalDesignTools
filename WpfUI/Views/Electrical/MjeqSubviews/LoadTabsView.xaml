@@ -8,8 +8,15 @@
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              mc:Ignorable="d" 
              
+             xmlns:edtEqModels="clr-namespace:EDTLibrary.Models.Equipment;assembly=EDTLibrary"
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
+             xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
+             xmlns:edtCables="clr-namespace:EDTLibrary.Models.Cables;assembly=EDTLibrary"
+             
+             xmlns:converters="clr-namespace:WpfUI.Converters"
+             
+             
              xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
 
@@ -31,14 +38,14 @@
             </BeginStoryboard>
         </EventTrigger>
     </UserControl.Triggers>
+
     <UserControl.Resources>
-
-
-
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--<ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVis"/>
 
             <x:Array xmlns:s="clr-namespace:System;assembly=mscorlib" x:Key="array" Type="{x:Type s:Int32}">
                 <s:Int32>1</s:Int32>
@@ -86,8 +93,6 @@
 
         </ResourceDictionary>
 
-
-
     </UserControl.Resources>
 
     <Grid>
@@ -111,7 +116,7 @@
                        Foreground="White"
                        />
                 <TextBlock Text="{Binding SelectedLoad.Description}" 
-                       d:Text="Description - DTEQ xaml code to troubleshoot reference subViews" 
+                       d:Text="Description " 
                        Margin="5 3 0 3"
                        FontSize="14"
                        Foreground="White"
@@ -120,61 +125,115 @@
         </Border>
 
 
-        <TabControl Grid.Row="1" Background="LightCyan" BorderThickness="0 1 0 0"
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" d:Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Graphic on left -->
+            <ContentControl Content="{Binding SelectedLoad}"
+                                    Grid.Column="0">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                        <mjeqSubViews:LoadGraphicView 
+                            LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
+                            LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+
+            <!--Tabs on right-->
+            <TabControl Grid.Column="1" Background="LightCyan" BorderThickness="0 1 0 0"
                     SelectedIndex="{Binding SelectedLoadTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
-            <!--Graphic / Summary  -->
-            <TabItem Header="Load Summary" Background="LightCyan">
-                <ContentControl Content="{Binding SelectedLoad}">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                            <mjeqSubViews:LoadGraphicView/>
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
-            </TabItem>
 
-            <!--Cable -->
-            <TabItem Header="Cable Sizing" Background="LightCyan">
-                <ContentControl Content="{Binding SelectedLoad}">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                            <mjeqSubViews:CableSizingView/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                            <mjeqSubViews:CableSizingView/>
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
-            </TabItem>
+                <!--General-->
+                <TabItem Header="General" Background="LightCyan">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-            <!--Enclosure-->
-            <TabItem Header="Enclosure" Background="LightCyan">
-                <ContentControl Content="{Binding SelectedLoad}">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                            <subViews:EnclosureDetailsView/>
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
-            </TabItem>
+                        <!--Equipment-->
+                        <ContentControl Content="{Binding SelectedLoadEquipment}"
+                        Grid.Row="0">
+                            <ContentControl.Resources>
 
-            <!--Components-->
-            <TabItem Header="Components" Background="LightCyan" Height="25">
-                <ContentControl Content="{Binding SelectedLoad}">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                            <mjeqSubViews:ComponentDetailsView/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                            <mjeqSubViews:ComponentDetailsView/>
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
-            </TabItem>
+                                <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                    <mjeqSubViews:EquipmentDetailsView/>
+                                </DataTemplate>
 
-        </TabControl>
+                                <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                    <mjeqSubViews:EquipmentDetailsView/>
+                                </DataTemplate>
 
+                            </ContentControl.Resources>
+                        </ContentControl>
+
+                        <!--Cable-->
+                        <ContentControl Content="{Binding SelectedLoadCable}"
+                                        Grid.Row="0"
+                                        Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}">
+                            <ContentControl.Resources>
+
+                                <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                    <mjeqSubViews:CableSizingViewNarrow/>
+                                </DataTemplate>
+
+                                <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                    <mjeqSubViews:CableSizingViewNarrow/>
+                                </DataTemplate>
+
+                            </ContentControl.Resources>
+                        </ContentControl>
+
+                    </Grid>
+
+                </TabItem>
+
+                <!--Cable -->
+                <TabItem Header="Cable Sizing" Background="LightCyan">
+                    <ContentControl Content="{Binding SelectedLoad}">
+                        <ContentControl.Resources>
+                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                <mjeqSubViews:CableSizingViewNarrow/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                <mjeqSubViews:CableSizingViewNarrow/>
+                            </DataTemplate>
+                        </ContentControl.Resources>
+                    </ContentControl>
+                </TabItem>
+
+                <!--Enclosure-->
+                <TabItem Header="Enclosure" Background="LightCyan">
+                    <ContentControl Content="{Binding SelectedLoad}">
+                        <ContentControl.Resources>
+                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                <subViews:EnclosureDetailsView/>
+                            </DataTemplate>
+                        </ContentControl.Resources>
+                    </ContentControl>
+                </TabItem>
+
+                <!--Components-->
+                <TabItem Header="Components" Background="LightCyan" Height="25">
+                    <ContentControl Content="{Binding SelectedLoad}">
+                        <ContentControl.Resources>
+                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                <mjeqSubViews:ComponentDetailsView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                <mjeqSubViews:ComponentDetailsView/>
+                            </DataTemplate>
+                        </ContentControl.Resources>
+                    </ContentControl>
+                </TabItem>
+
+            </TabControl>
+        </Grid>
     </Grid>
 </UserControl>
 

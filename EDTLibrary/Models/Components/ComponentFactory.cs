@@ -1,6 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
-using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using System;

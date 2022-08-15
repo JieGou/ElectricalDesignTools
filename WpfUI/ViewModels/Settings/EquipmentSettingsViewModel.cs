@@ -1,6 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData.TypeTables;
-using EDTLibrary.Models.aMain;
+using EDTLibrary.LibraryData;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;

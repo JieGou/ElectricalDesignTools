@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Managers;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;

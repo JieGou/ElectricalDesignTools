@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.LibraryData;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models.DistributionEquipment;
+namespace EDTLibrary.Managers;
 public class DteqManager
 {
     public static void SetPd(DistributionEquipment dteq)

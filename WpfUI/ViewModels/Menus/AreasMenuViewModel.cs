@@ -1,6 +1,6 @@
-﻿using EDTLibrary;
-using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData.TypeTables;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using PropertyChanged;
 using System;

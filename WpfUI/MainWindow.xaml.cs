@@ -15,6 +15,7 @@ using WpfUI.ViewModels.Menus;
 using WpfUI.Windows;
 using EDTLibrary.UndoSystem;
 using MahApps.Metro.Controls;
+using EDTLibrary.Managers;
 
 namespace WpfUI;
 

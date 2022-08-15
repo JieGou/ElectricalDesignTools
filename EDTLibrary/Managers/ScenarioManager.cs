@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models.aMain;
+namespace EDTLibrary.Managers;
 public class ScenarioManager
 {
-    public static ListManager ListManager {get; set;}
+    public static ListManager ListManager { get; set; }
 }

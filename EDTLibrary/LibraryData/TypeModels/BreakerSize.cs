@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EDTLibrary.LibraryData.TypeTables
+namespace EDTLibrary.LibraryData.TypeModels
 {
     public class BreakerSize
     {

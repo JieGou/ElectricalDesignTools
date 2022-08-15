@@ -1,5 +1,5 @@
 ﻿using EDTLibrary;
-using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.LibraryData.TypeModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

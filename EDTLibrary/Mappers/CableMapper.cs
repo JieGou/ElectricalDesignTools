@@ -1,4 +1,4 @@
-﻿using EDTLibrary.LibraryData.TypeTables;
+﻿using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;

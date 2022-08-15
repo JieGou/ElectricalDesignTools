@@ -3,7 +3,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models;
+namespace EDTLibrary.Models.Equipment;
 public class EquipmentModel : IEquipment
 {
     public int Id { get; set; }

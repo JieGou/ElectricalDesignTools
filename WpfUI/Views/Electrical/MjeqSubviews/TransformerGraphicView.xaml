@@ -376,6 +376,7 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
 
 
         <!--Main Grid Column 2-->
+        <!--Area Detaisl-->
         <GroupBox Header="Area Details" FontWeight="Bold"
                   Style="{DynamicResource GroupBoxStyle1}" 
                   Grid.Row="1" Grid.Column="4" 

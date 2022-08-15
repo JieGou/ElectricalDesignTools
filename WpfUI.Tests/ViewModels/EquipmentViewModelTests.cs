@@ -1,5 +1,5 @@
-using EDTLibrary;
-using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.LibraryData;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Validators;

@@ -1,4 +1,4 @@
-﻿using EDTLibrary;
+﻿using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using PropertyChanged;
 using System;

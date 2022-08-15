@@ -1,9 +1,8 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
-using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
-using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models.Loads;
+namespace EDTLibrary.Managers;
 public class LoadManager
 {
 
@@ -91,13 +90,13 @@ public class LoadManager
         }
 
         //Save to Db
-        DaManager.prjDb.UpsertRecord<CableModel>((CableModel)newLoad.PowerCable, GlobalConfig.CableTable, SaveLists.PowerCableNoSaveList);
+        DaManager.prjDb.UpsertRecord(newLoad.PowerCable, GlobalConfig.CableTable, SaveLists.PowerCableNoSaveList);
 
         newLoad.CalculateCableAmps();
         listManager.CableList.Add(newLoad.PowerCable);
         return newLoad;
-    }      
-    
+    }
+
 
     public static async Task<int> DeleteLoad(object loadToDeleteObject, ListManager listManager)
     {
@@ -126,11 +125,11 @@ public class LoadManager
         catch (InvalidCastException ex) {
             ex.Data.Add("UserMessage", "Cannot delete Distribution Equipment from Load List");
             throw;
-            }
+        }
         catch (Exception ex) {
             throw;
         }
         return -1;
-        
+
     }
 }

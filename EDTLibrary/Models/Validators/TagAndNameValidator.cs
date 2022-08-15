@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.DistributionEquipment;
+﻿using EDTLibrary.Managers;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System.Collections.ObjectModel;
 using System.Linq;

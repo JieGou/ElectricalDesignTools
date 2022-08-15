@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace EDTLibrary.LibraryData.TypeTables
+namespace EDTLibrary.LibraryData
 {
     /// <summary>
     /// Object Model Type lists and Query methods
@@ -51,7 +51,7 @@ namespace EDTLibrary.LibraryData.TypeTables
         {
             get
             {
-                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 1000
+                var val = CableTypes.Where(c => c.VoltageClass == 1000
                                                          && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
                 return new ObservableCollection<CableTypeModel>(val);
             }
@@ -60,7 +60,7 @@ namespace EDTLibrary.LibraryData.TypeTables
         {
             get
             {
-                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 5000
+                var val = CableTypes.Where(c => c.VoltageClass == 5000
                                                          && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
                 return new ObservableCollection<CableTypeModel>(val);
             }
@@ -69,7 +69,7 @@ namespace EDTLibrary.LibraryData.TypeTables
         {
             get
             {
-                var val = TypeManager.CableTypes.Where(c => c.VoltageClass == 15000
+                var val = CableTypes.Where(c => c.VoltageClass == 15000
                                                          && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
                 return new ObservableCollection<CableTypeModel>(val);
             }
@@ -78,7 +78,7 @@ namespace EDTLibrary.LibraryData.TypeTables
         {
             get
             {
-                var val = TypeManager.CableTypes.Where(c => c.UsageType == CableUsageTypes.Power.ToString()).ToList();
+                var val = CableTypes.Where(c => c.UsageType == CableUsageTypes.Power.ToString()).ToList();
                 return new ObservableCollection<CableTypeModel>(val);
             }
         }
@@ -86,7 +86,7 @@ namespace EDTLibrary.LibraryData.TypeTables
         {
             get
             {
-                var val = TypeManager.CableTypes.Where(c => c.UsageType == CableUsageTypes.Control.ToString()).ToList();
+                var val = CableTypes.Where(c => c.UsageType == CableUsageTypes.Control.ToString()).ToList();
                 return new ObservableCollection<CableTypeModel>(val);
             }
         }
@@ -94,7 +94,7 @@ namespace EDTLibrary.LibraryData.TypeTables
         {
             get
             {
-                var val = TypeManager.CableTypes.Where(c => c.UsageType == CableUsageTypes.Instrument.ToString()).ToList();
+                var val = CableTypes.Where(c => c.UsageType == CableUsageTypes.Instrument.ToString()).ToList();
                 return new ObservableCollection<CableTypeModel>(val);
             }
         }
@@ -176,7 +176,7 @@ namespace EDTLibrary.LibraryData.TypeTables
             CableTypeModel cableType = new CableTypeModel();
 
 
-            List<CableTypeModel> list = TypeManager.CableTypes.Where(c => c.UsageType == CableUsageTypes.Control.ToString()
+            List<CableTypeModel> list = CableTypes.Where(c => c.UsageType == CableUsageTypes.Control.ToString()
                                                                 && c.ConductorQty >= lcs.TypeModel.DigitalConductorQty).ToList();
             var minValue = list.Min(c => c.ConductorQty);
             cableType = list.FirstOrDefault(c => c.ConductorQty == minValue);

@@ -1,5 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
-using EDTLibrary.Managers;
+using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models.Components;
+namespace EDTLibrary.Managers;
 public class ComponentManager
 {
     public static void AddLcs(IComponentUser componentUser, ListManager listManager)
@@ -28,7 +28,7 @@ public class ComponentManager
     public static void RemoveLcs(IComponentUser componentUser, ListManager listManager)
     {
         if (componentUser.Lcs == null) return;
-        
+
         if (componentUser.GetType() == typeof(LoadModel)) {
             var load = (LoadModel)componentUser;
             int componentId = load.Lcs.Id;
@@ -116,7 +116,7 @@ public class ComponentManager
     {
 
     }
-    
+
     /// <summary>
     /// Deletes all components owned by a components user. Typically when deleting a component user.
     /// </summary>
@@ -148,7 +148,7 @@ public class ComponentManager
                 load.DriveBool = false;
             }
         }
-        
+
         componentUser.AuxComponents.Remove(component);
         componentUser.CctComponents.Remove(component);
         listManager.CompList.Remove(component);

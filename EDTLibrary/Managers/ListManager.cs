@@ -1,10 +1,11 @@
 ﻿using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.LibraryData;
 using EDTLibrary.Models;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using PropertyChanged;
 using System;
@@ -15,15 +16,16 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EDTLibrary
+namespace EDTLibrary.Managers
 {
     [AddINotifyPropertyChangedInterface]
-    public class ListManager {
+    public class ListManager
+    {
 
         public ObservableCollection<IArea> AreaList { get; set; } = new ObservableCollection<IArea>();
 
 
-        public ObservableCollection<IEquipment>  EqList { get; set; } = new ObservableCollection<IEquipment>();
+        public ObservableCollection<IEquipment> EqList { get; set; } = new ObservableCollection<IEquipment>();
         public ObservableCollection<IDteq> IDteqList { get; set; } = new ObservableCollection<IDteq>();
         public ObservableCollection<DistributionEquipment> DteqList { get; set; } = new ObservableCollection<DistributionEquipment>();
         public ObservableCollection<XfrModel> XfrList { get; set; } = new ObservableCollection<XfrModel>();
@@ -108,7 +110,7 @@ namespace EDTLibrary
             foreach (var item in list) {
                 DriveList.Add(item);
                 item.PropertyUpdated += DaManager.OnDrivePropertyUpdated;
-                
+
             }
         }
 
@@ -122,7 +124,7 @@ namespace EDTLibrary
             }
             return AreaList;
         }
-        private void GetDteq() 
+        private void GetDteq()
         {
 
             IDteqList.Clear();
@@ -186,7 +188,7 @@ namespace EDTLibrary
                 }
             }
         }
-        private void GetLoads() 
+        private void GetLoads()
         {
 
             var list = DaManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable); //new List<LoadModel>(); //
@@ -197,7 +199,7 @@ namespace EDTLibrary
             IDteq fedFrom;
 
             foreach (var load in LoadList) {
-               
+
                 if (load.FedFromTag.Contains("Deleted") || load.FedFromType.Contains("Deleted")) {
                     load.FedFrom = GlobalConfig.DteqDeleted;
                 }
@@ -278,13 +280,13 @@ namespace EDTLibrary
             foreach (var cable in CableList) {
                 cable.TypeModel = TypeManager.GetCableTypeModel(cable.Type);
                 cable.CreateSizeList();
-            }        
+            }
         }
 
 
         #region MajorEquipment
         //Move to Distribution Manager
-        public async Task CalculateDteqLoadingAsync() 
+        public async Task CalculateDteqLoadingAsync()
         {
             await Task.Run(() => {
                 Stopwatch sw = new Stopwatch();
@@ -331,7 +333,7 @@ namespace EDTLibrary
                 total += subTotal;
                 Debug.Print("Total: " + total);
             });
-           
+
         }
 
         public void UnregisterAllDteqFromAllLoadEvents()
@@ -496,8 +498,9 @@ namespace EDTLibrary
                 foreach (var cable in CableList) {
 
                     if (comp.Id == cable.OwnerId &&
-                        comp.GetType().ToString() == cable.OwnerType || typeof(IComponentEdt).ToString() == cable.OwnerType ) {
+                        comp.GetType().ToString() == cable.OwnerType || typeof(IComponentEdt).ToString() == cable.OwnerType) {
                         comp.PowerCable = cable;
+                        comp.PowerCable.Load = (LoadModel)comp.Owner;
                         break;
                     }
                 }
@@ -509,7 +512,7 @@ namespace EDTLibrary
                 foreach (var cable in CableList) {
 
                     if (lcs.Id == cable.OwnerId &&
-                        lcs.GetType().ToString() == cable.OwnerType && cable.UsageType==CableUsageTypes.Control.ToString()){
+                        lcs.GetType().ToString() == cable.OwnerType && cable.UsageType == CableUsageTypes.Control.ToString()) {
                         lcs.ControlCable = cable;
                         break;
                     }

@@ -1,4 +1,4 @@
-﻿using EDTLibrary;
+﻿using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Validators;

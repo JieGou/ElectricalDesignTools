@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EDTLibrary.LibraryData.TypeTables
+namespace EDTLibrary.LibraryData.TypeModels
 {
     public class AreaClassificationType
     {

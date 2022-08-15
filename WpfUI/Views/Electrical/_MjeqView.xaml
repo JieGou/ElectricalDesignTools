@@ -1237,7 +1237,6 @@
                     <ContentControl x:Name="LoadDetailsContent" 
                                     Grid.Row="0" Grid.Column="3"
                                     >
-
                     </ContentControl>
                 </Border>
 

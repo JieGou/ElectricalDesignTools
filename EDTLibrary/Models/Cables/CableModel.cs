@@ -2,9 +2,8 @@
 using EdtLibrary.Commands;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
-using EDTLibrary.LibraryData.TypeTables;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
-using EDTLibrary.Models.aMain;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.UndoSystem;

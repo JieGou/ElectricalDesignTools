@@ -1,6 +1,8 @@
 ﻿using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Equipment;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

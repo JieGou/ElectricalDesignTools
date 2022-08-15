@@ -476,7 +476,7 @@
             <ContentControl Content="{Binding}" DockPanel.Dock="Top"
                             Style="{StaticResource OCPDTemplateStyle}"
                             ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
-                            PreviewMouseLeftButtonDown="ContentControl_PreviewMouseLeftButtonDown"
+                            PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"
                             >
 
             </ContentControl>
@@ -510,7 +510,7 @@
                                 <ContentControl Content="{Binding}"
                                                 ContentTemplate="{StaticResource CableTemplate}"
                                                 Grid.Column="2"
-                                                PreviewMouseLeftButtonDown="ContentControl_PreviewMouseLeftButtonDown_1"
+                                                PreviewMouseLeftButtonDown="ComponentCable_PreviewMouseLeftButtonDown"
                                                 Focusable="True"/>
                             </Grid>
 
@@ -520,7 +520,7 @@
                                 Style="{StaticResource DisconnectTemplateStyle}"
                                 Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
                                 ContentTemplateSelector="{StaticResource ComponentTemplateSelector}"
-                                PreviewMouseLeftButtonDown="ContentControl_PreviewMouseLeftButtonDown_2"
+                                PreviewMouseLeftButtonDown="Component_PreviewMouseLeftButtonDown"
                                 >
                             </ContentControl>
 
@@ -549,7 +549,8 @@
                     <!--Cable Tag-->
                     <ContentControl Content="{Binding}"
                                     ContentTemplate="{StaticResource CableTemplate}"
-                                    Grid.Column="2" PreviewMouseDown="ContentControl_PreviewMouseDown"
+                                    Grid.Column="2" 
+                                    PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown"
                                     />
                 </Grid>
 
@@ -564,7 +565,8 @@
                             HorizontalAlignment="Left">
 
                     <ContentControl Content="{Binding}" 
-                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}" PreviewMouseDown="ContentControl_PreviewMouseDown_1"
+                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                                    PreviewMouseDown="Load_ContentControl_PreviewMouseDown"
                                     />
 
                 </StackPanel>
