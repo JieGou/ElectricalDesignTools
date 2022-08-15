@@ -113,12 +113,17 @@
                                Grid.ColumnSpan="3" FontWeight="Bold"/>-->
 
             <!--Tag-->
+            <StackPanel Orientation="Vertical"
+                        Grid.Row="0" Grid.ColumnSpan="3" >
             <TextBlock Text="{Binding PowerCable.Tag}"
                        Grid.Row="0" Grid.ColumnSpan="3"
                        FontSize="15"
                        FontWeight="Bold"
                        Margin="5"/>
-
+                <TextBlock Text="{Binding PowerCable.Load.Tag}"
+                       Grid.Row="0" Grid.ColumnSpan="3"
+                       Margin="5"/>
+            </StackPanel>
             <!--Cable Type-->
             <TextBlock Text="Cable Type: " Grid.Row="1" Grid.Column="0"/>
             <ComboBox Template="{DynamicResource ComboBoxBase}"

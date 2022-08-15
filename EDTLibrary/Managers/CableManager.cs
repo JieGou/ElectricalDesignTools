@@ -31,18 +31,38 @@ public class CableManager
             int cableId = powerCableUser.PowerCable.Id;
             DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
             listManager.CableList.Remove(powerCableUser.PowerCable);
+        }
+        return;
+    }
 
-            var list = new List<CableModel>();
-            foreach (var cable in listManager.CableList) {
-                if (cable.OwnerType == typeof(IComponentEdt).ToString() && cable.OwnerId == powerCableUser.Id) {
-                    list.Add(cable);
-                    DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cable.Id);
+    public static async Task DeleteLoadComponentsCablesAsync(ILoad loadModel, ListManager listManager)
+    {
+
+        if (loadModel.PowerCable != null) {
+            int cableId = loadModel.PowerCable.Id;
+            DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
+            listManager.CableList.Remove(loadModel.PowerCable);
+
+            var cablesToRemove = new List<CableModel>();
+
+            foreach (var item in listManager.CableList) {
+
+                if (item.LoadId == loadModel.Id && item.LoadType == loadModel.GetType().ToString()) {
+                    cablesToRemove.Add(item);
                 }
             }
 
-            foreach (var cable in list) {
-                listManager.CableList.Remove(cable);
+            foreach (var item in cablesToRemove) {
+                listManager.CableList.Remove(item);
+                DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, item.Id);
             }
+
+            if (loadModel.Lcs!= null) {
+                listManager.CableList.Remove((CableModel)loadModel.Lcs.ControlCable);
+                DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, loadModel.Lcs.ControlCable.Id);
+            }
+            
+
         }
         return;
     }
@@ -72,6 +92,9 @@ public class CableManager
     public static bool IsUpdatingPowerCables { get; set; }
     public static string PreviousEq { get; set; }
     public static int count { get; set; } = 0;
+
+
+
     public static async Task UpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
         if (PreviousEq == powerComponentOwner.Tag) {
@@ -84,21 +107,24 @@ public class CableManager
         PreviousEq = powerComponentOwner.Tag;
 
         IsUpdatingPowerCables = true;
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
-        Debug.Print($"Start {sw.Elapsed.TotalMilliseconds.ToString()}");
 
-        if (powerComponentOwner == null) return;
+        //Stopwatch sw = new Stopwatch();
+        //sw.Start();
+        //Debug.Print($"Start {sw.Elapsed.TotalMilliseconds.ToString()}");
+
+        //if (load == null) return;
 
         try {
             await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-                //Remove Cables
 
+                //Remove Cables
                 List<CableModel> cablesToRemove = new List<CableModel>();
+
+                //TODO add Load Id and LoadType to cable model
+                //TODO add PowerCableId to Equipment
                 foreach (var item in listManager.CableList) {
 
-                    if (item.OwnerId == powerComponentOwner.Id
-                        && item.OwnerType == typeof(IComponentEdt).ToString()) {
+                    if (item.LoadId == powerComponentOwner.Id && item.LoadType == powerComponentOwner.GetType().ToString()) {
                         cablesToRemove.Add(item);
                     }
                 }
@@ -132,9 +158,11 @@ public class CableManager
 
                     cable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
                     cable.Load = powerComponentOwner;
+                    cable.LoadId = powerComponentOwner.Id;
+                    cable.LoadType = powerComponentOwner.GetType().ToString();
 
-                    cable.OwnerId = powerComponentOwner.Id;
-                    cable.OwnerType = typeof(IComponentEdt).ToString();
+                    cable.OwnerId = component.Id;
+                    cable.OwnerType = component.GetType().ToString();
 
                     cable.TypeModel = powerComponentOwner.PowerCable.TypeModel;
                     cable.TypeList = powerComponentOwner.PowerCable.TypeList;
@@ -178,8 +206,10 @@ public class CableManager
             ex.Data.Add("UserMessage", "Adding cable for components error");
             throw;
         }
-        sw.Stop();
-        Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
+
+        //sw.Stop();
+        //Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
+
         IsUpdatingPowerCables = false;
 
 

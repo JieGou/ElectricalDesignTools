@@ -107,6 +107,7 @@ public class LoadManager
             IDteq dteqToRecalculate = loadToDelete.FedFrom;
             int loadId = loadToDelete.Id;
             await CableManager.DeletePowerCableAsync(loadToDelete, listManager); //await
+            await CableManager.DeleteLoadComponentsCablesAsync(loadToDelete, listManager); //await
             await DaManager.prjDb.DeleteRecordAsync(GlobalConfig.LoadTable, loadId); //await
 
             var loadToRemove = listManager.LoadList.FirstOrDefault(load => load.Id == loadId);

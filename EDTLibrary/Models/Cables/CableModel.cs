@@ -32,7 +32,7 @@ public class CableModel : ICable
     }
     public CableModel(IPowerConsumer load)
     {
-        _load = load;
+        Load = load;
         AssignOwner(load);
         AssignTagging(load);
         DaManager.GettingRecords = true;
@@ -64,8 +64,10 @@ public class CableModel : ICable
 
         set { _source = value; }
     }
-
     public string Destination { get; set; }
+    public int LoadId { get; set; }
+    public string LoadType { get; set; }
+    public ICableUser Load { get; set; }
 
     private string _type;
     public string Type
@@ -255,8 +257,8 @@ public class CableModel : ICable
     {
         get
         {
-            if (_load != null) {
-                return $"OCDP Trip = {_load.PdSizeTrip} A";
+            if (Load != null) {
+                return $"OCDP Trip = {Load.PdSizeTrip} A";
 
             }
             else {
@@ -323,19 +325,14 @@ public class CableModel : ICable
     public string AmpacityTable { get; set; }
     public string InstallationDiagram { get; set; }
 
-
-    private ICableUser _load;
-    public ICableUser Load
-    {
-        get { return _load; }
-        set { _load = value; }
-    }
+    
 
 
 
 
 
     public double HeatLoss { get; set; }
+    
 
 
 
@@ -393,7 +390,7 @@ public class CableModel : ICable
     }
     public void SetCableParameters(ICableUser load)
     {
-        _load = load;
+        Load = load;
         AssignTagging(load);
         AssignOwner(load);
         GetRequiredAmps(load);
@@ -419,7 +416,7 @@ public class CableModel : ICable
         else {
             RequiredAmps = Math.Min(load.PdSizeTrip, RequiredAmps);
         }
-        ValidateCableSize(this);
+        //ValidateCableSize(this);
         return RequiredAmps;
     }
     public double GetRequiredSizingAmps()
@@ -427,7 +424,7 @@ public class CableModel : ICable
         //Debug.WriteLine("GetRequiredSizingAmps");
 
         Derating = CableManager.CableSizer.GetDerating(this);
-        RequiredSizingAmps = GetRequiredAmps(_load) / Derating;
+        RequiredSizingAmps = GetRequiredAmps(Load) / Derating;
         RequiredSizingAmps = Math.Round(RequiredSizingAmps, 1);
         return RequiredSizingAmps;
 
@@ -733,6 +730,7 @@ public class CableModel : ICable
 
     public void ValidateCableSize(ICable cable)
     {
+        GetRequiredAmps(Load);
         if (cable.RequiredAmps > cable.DeratedAmps) {
             cable.SetCableInvalid(this);
         }

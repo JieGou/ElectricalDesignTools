@@ -12,10 +12,14 @@ namespace EDTLibrary.Models.Cables
         int Id { get; set; }
         int OwnerId { get; set; }
         string OwnerType { get; set; }
+        public int LoadId { get; set; }
+        public string LoadType { get; set; }
+        ICableUser Load { get; set; }
+
         string Tag { get; set; }
         string Type { get; set; }
         CableTypeModel TypeModel { get; set; }
-        
+
         string UsageType { get; set; }
         string Category { get; set; }
         int QtyParallel { get; set; }
@@ -40,7 +44,6 @@ namespace EDTLibrary.Models.Cables
         double RequiredSizingAmps { get; set; }
         string AmpacityTable { get; set; }
         string InstallationDiagram { get; set; }
-        ICableUser Load { get; set; }
 
         bool IsValidSize { get; set; }
 

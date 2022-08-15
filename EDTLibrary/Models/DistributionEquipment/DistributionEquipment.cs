@@ -515,6 +515,9 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             if (PowerCable == null && DaManager.GettingRecords == false) {
                 PowerCable = new CableModel(this);
+                PowerCable.Load = this;
+                PowerCable.LoadId = Id;
+                PowerCable.LoadType = this.GetType().ToString();
             }
         }
         public void SizePowerCable()
