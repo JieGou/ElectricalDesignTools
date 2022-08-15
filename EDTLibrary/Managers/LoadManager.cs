@@ -77,7 +77,8 @@ public class LoadManager
 
         //Cable
         newLoad.SizePowerCable(); // 51ms
-
+        newLoad.PowerCable.LoadId = newLoad.Id;
+        newLoad.PowerCable.LoadType = newLoad.GetType().ToString();
 
         //Get Id
         //newLoad.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);

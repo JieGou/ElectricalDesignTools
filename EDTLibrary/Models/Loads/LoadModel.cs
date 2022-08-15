@@ -616,15 +616,12 @@ namespace EDTLibrary.Models.Loads
         {
             if (PowerCable.Load == null) {
                 PowerCable = new CableModel(this);
-                PowerCable.LoadId = Id;
-                PowerCable.LoadType = this.GetType().ToString();           
             }
         }
         public void SizePowerCable()
         {
             CreatePowerCable();
             PowerCable.SetCableParameters(this);
-
             PowerCable.CreateTypeList(this);
             PowerCable.AutoSize();
         }
