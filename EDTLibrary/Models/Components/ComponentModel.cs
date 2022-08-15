@@ -123,7 +123,7 @@ public class ComponentModel : IComponentEdt
         }
     }
 
-    public ICable PowerCable { get; set; }
+    public CableModel PowerCable { get; set; }
 
 
 

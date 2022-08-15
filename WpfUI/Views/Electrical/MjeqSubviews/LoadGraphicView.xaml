@@ -182,9 +182,11 @@
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=Type}" Value="BKR">
                         <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate}"/>
+                        <Setter Property="Cursor" Value="Hand"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=PdType}" Value="MCP-FVNR">
                         <Setter Property="ContentTemplate" Value="{StaticResource FvnrTemplate}"/>
+                        <Setter Property="Cursor" Value="Hand"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -332,9 +334,11 @@
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=Type}" Value="UDS">
                         <Setter Property="ContentTemplate" Value="{StaticResource UdsTemplate}"/>
+                        <Setter Property="Cursor" Value="Hand"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
                         <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
+                        <Setter Property="Cursor" Value="Hand"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -473,11 +477,26 @@
             </Border>
 
                 <!--Starter-->
-            <ContentControl Content="{Binding}" DockPanel.Dock="Top"
+                <!--Style is for instant graphic updates-->
+                <ContentControl Content="{Binding}" DockPanel.Dock="Top"
                             Style="{StaticResource OCPDTemplateStyle}"
+                            ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
+                            PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown" >
+                    
+                    <!--<ContentControl Content="{Binding}" DockPanel.Dock="Top"
                             ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
                             PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"
                             >
+
+                        <ContentControl.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <Trigger Property="ContentControl.IsMouseOver" Value="True">
+                                    <Setter Property="ContentControl.Cursor" Value="Hand"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>-->
 
             </ContentControl>
 
@@ -507,11 +526,21 @@
                                    Grid.Column="0"/>
 
                                 <!--Cable Details-->
-                                <ContentControl Content="{Binding}"
+                                    <ContentControl Content="{Binding}"
                                                 ContentTemplate="{StaticResource CableTemplate}"
                                                 Grid.Column="2"
                                                 PreviewMouseLeftButtonDown="ComponentCable_PreviewMouseLeftButtonDown"
-                                                Focusable="True"/>
+                                                Focusable="True">
+                                        <ContentControl.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <Trigger Property="ContentControl.IsMouseOver" Value="True">
+                                                        <Setter Property="ContentControl.Cursor" Value="Hand"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ContentControl.Style>
+                                    </ContentControl>
                             </Grid>
 
                             <!--Component-->
@@ -520,8 +549,8 @@
                                 Style="{StaticResource DisconnectTemplateStyle}"
                                 Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
                                 ContentTemplateSelector="{StaticResource ComponentTemplateSelector}"
-                                PreviewMouseLeftButtonDown="Component_PreviewMouseLeftButtonDown"
-                                >
+                                PreviewMouseLeftButtonDown="Component_PreviewMouseLeftButtonDown" >
+                                
                             </ContentControl>
 
 
@@ -550,8 +579,17 @@
                     <ContentControl Content="{Binding}"
                                     ContentTemplate="{StaticResource CableTemplate}"
                                     Grid.Column="2" 
-                                    PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown"
-                                    />
+                                    PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown">
+                        <ContentControl.Style>
+                            <Style>
+                                <Style.Triggers>
+                                    <Trigger Property="ContentControl.IsMouseOver" Value="True">
+                                        <Setter Property="ContentControl.Cursor" Value="Hand"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
                 </Grid>
 
             <!--Load-->
@@ -564,10 +602,19 @@
                 <StackPanel Orientation="Vertical" Grid.Column="1"
                             HorizontalAlignment="Left">
 
-                    <ContentControl Content="{Binding}" 
+                        <ContentControl Content="{Binding}" 
                                     ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                    PreviewMouseDown="Load_ContentControl_PreviewMouseDown"
-                                    />
+                                    PreviewMouseDown="Load_ContentControl_PreviewMouseDown">
+                            <ContentControl.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <Trigger Property="ContentControl.IsMouseOver" Value="True">
+                                            <Setter Property="ContentControl.Cursor" Value="Hand"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
 
                 </StackPanel>
                 <StackPanel Grid.Column="2"

@@ -281,7 +281,20 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     public IEquipment SelectedLoadCable
     {
         get { return _selectedLoadCable; }
-        set { _selectedLoadCable = value; }
+        set { 
+            _selectedLoadCable = value;
+            if (_selectedLoadCable.GetType()==typeof(LoadModel)) {
+                var load = (LoadModel)(_selectedLoadCable);
+                load.PowerCable.ValidateCableSize(load.PowerCable);
+                load.PowerCable.CreateTypeList(load);
+            }
+            else if (_selectedLoadCable.GetType() == typeof(ComponentModel)) {
+                var component = (ComponentModel)(_selectedLoadCable);
+                component.PowerCable.ValidateCableSize(component.PowerCable);
+                component.PowerCable.CreateTypeList((LoadModel)component.Owner);
+            }
+
+        }
     }
 
     // DTEQ
@@ -397,6 +410,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 }
                 SelectedLoadEquipment = _selectedLoad;
                 SelectedLoadCable   = _selectedLoad;
+                
 
             }
         }

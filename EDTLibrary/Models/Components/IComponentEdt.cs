@@ -19,7 +19,7 @@ namespace EDTLibrary.Models.Components
         IEquipment Owner { get; set; }
         int SequenceNumber { get; set; }
 
-        ICable PowerCable { get; set; }
+        CableModel PowerCable { get; set; }
 
     }
 }

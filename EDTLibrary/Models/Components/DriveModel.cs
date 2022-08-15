@@ -104,7 +104,7 @@ public class DriveModel : IComponentEdt
         }
     }
 
-    public ICable PowerCable { get; set; }
+    public CableModel PowerCable { get; set; }
 
 
 
