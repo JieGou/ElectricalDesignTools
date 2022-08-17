@@ -55,7 +55,7 @@ namespace EDTLibrary.Models.Loads
                     }
                     if (PowerCable != null && FedFrom != null) {
                         if (CableManager.IsUpdatingPowerCables == false) {
-                            CableManager.UpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                            CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                         }
                     }
                 }
@@ -395,7 +395,7 @@ namespace EDTLibrary.Models.Loads
                     else if (_driveBool == false) {
                         ComponentManager.RemoveDefaultDrive(this, ScenarioManager.ListManager);
                     }
-                    CableManager.UpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                 }
 
                 UndoManager.CanAdd = true;
@@ -436,7 +436,7 @@ namespace EDTLibrary.Models.Loads
                     else if (_disconnectBool == false) {
                         ComponentManager.RemoveDefaultDisconnect(this, ScenarioManager.ListManager);
                     }
-                    CableManager.UpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     //OnCctComponentChanged();
                 }
 
@@ -572,6 +572,8 @@ namespace EDTLibrary.Models.Loads
             UndoManager.CanAdd = true;
 
             OnLoadingCalculated();
+            PowerCable.ValidateCableSize(PowerCable);
+            CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
             OnPropertyUpdated();
 
         }

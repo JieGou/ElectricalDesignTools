@@ -36,6 +36,7 @@
     <None Remove="ResourceFiles\WarningIcon.png" />
     <None Remove="ResourceFiles\WarningIcon16.png" />
     <None Remove="ResourceFiles\WarningIcon48.png" />
+    <None Remove="ResourceFiles\WarningIconYellow48.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -127,6 +128,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="ResourceFiles\WarningIcon48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\WarningIconYellow48.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

@@ -460,7 +460,7 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                                         RelativeSource={RelativeSource Mode=FindAncestor, 
                                         AncestorType={x:Type UserControl},AncestorLevel=2}}"
                   SelectedItem="{Binding Area, StringFormat={}{0} }" 
-                  IsSynchronizedWithCurrentItem="True" 
+                  IsSynchronizedWithCurrentItem="False" 
                   ToolTip="{StaticResource AreaChangeMessage}">
                     <ComboBox.ItemTemplateSelector>
                         <templateSelectors:ComboBoxItemTemplateSelector>

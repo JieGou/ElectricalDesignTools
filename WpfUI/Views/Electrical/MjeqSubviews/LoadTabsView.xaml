@@ -42,7 +42,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>-->
+                <ResourceDictionary Source="../../../Styles/EdtStyle_Teal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVis"/>
@@ -103,7 +103,7 @@
 
         <!--Title Bar-->
         <Border BorderBrush="Black" BorderThickness="1">
-            <StackPanel Orientation="Horizontal"  Grid.Row="0" Background="#FF31869B">
+            <StackPanel Orientation="Horizontal"  Grid.Row="0" Background="{StaticResource Dark}">
 
                 <TextBlock Text="{Binding SelectedLoad.Tag}" 
                        d:Text="LOAD TAG " 
@@ -144,12 +144,12 @@
             </ContentControl>
 
             <!--Tabs on right-->
-            <TabControl Grid.Column="1" Background="LightCyan" BorderThickness="0 1 0 0"
+            <TabControl Grid.Column="1" Background="Transparent" BorderThickness="0 1 0 0"
                     SelectedIndex="{Binding SelectedLoadTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
 
                 <!--General-->
-                <TabItem Header="General" Background="LightCyan">
+                <TabItem Header="General" Background="Transparent">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -157,8 +157,8 @@
                         </Grid.RowDefinitions>
 
                         <!--Equipment-->
-                        <ContentControl Content="{Binding SelectedLoadEquipment}"
-                        Grid.Row="0">
+                        <ContentControl Content="{Binding SelectedLoad}"
+                                        Grid.Row="0">
                             <ContentControl.Resources>
 
                                 <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">

@@ -117,7 +117,7 @@ public class CableModel : ICable
                     AutoSizeAsync();
                 }
                 if (CableManager.IsUpdatingPowerCables == false) {
-                    CableManager.UpdateLoadPowerComponentCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
+                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
                 }
             }
             CreateSizeList();

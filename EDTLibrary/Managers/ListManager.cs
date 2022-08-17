@@ -487,7 +487,6 @@ namespace EDTLibrary.Managers
                             cable.Load = load;
                             cable.CreateTypeList(load);
                             cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
-                            break;
                     }
                 }
             }

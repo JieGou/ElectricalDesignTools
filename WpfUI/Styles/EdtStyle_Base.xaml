@@ -131,6 +131,7 @@
         <Setter Property="ToolTipService.InitialShowDelay" Value="150"/>
     </Style>
 
+    
     <!--COMBOBOX with Error-->
     <Style TargetType="ComboBox">
         <Setter Property="Validation.ErrorTemplate">
@@ -177,6 +178,7 @@
                 <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.5" />
             </Setter.Value>
         </Setter>
+        <Setter Property="UseLayoutRounding" Value="True"/>
         <!--<Setter Property="Background" Value="Transparent"/>-->
 
         <Setter Property="Template">

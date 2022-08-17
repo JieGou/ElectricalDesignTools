@@ -44,7 +44,7 @@
         BorderBrush="#FF3A3838"
         BorderThickness="2"
         FontSize="12"        
-         >
+        WindowTransitionsEnabled="False">
     
     <!--Title="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"-->
 

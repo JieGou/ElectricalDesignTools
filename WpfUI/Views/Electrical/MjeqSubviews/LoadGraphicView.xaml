@@ -8,6 +8,9 @@
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              
+             xmlns:Converters="clr-namespace:WpfUI.Converters"
+             
+             
              mc:Ignorable="d"
              
              d:DesignHeight="300" d:DesignWidth="250"
@@ -17,6 +20,9 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
+            
+            <Converters:InvertableBooleanToVisibilityConverter x:Key="_boolToVis"/>
+            
             <Style TargetType="ComboBox" BasedOn="{StaticResource SmallComboBox}">
             </Style>
             <Style TargetType="TextBlock">
@@ -216,6 +222,10 @@
                                 VerticalAlignment="Center">
                         <TextBlock Text="{Binding Tag}" Margin="5 0 0 0" FontWeight="SemiBold"  />
                         <TextBlock Text="{Binding Type}" Margin="5 0 0 0"/>
+                        <TextBlock Text="{Binding Area.Tag}"
+                                   FontWeight="SemiBold"
+                                   Grid.Column="2"
+                                   Margin="5 0 0 0"/>
                         <StackPanel Orientation="Horizontal" >
                             <TextBlock Text=", " Margin="0 0 0 0"/>
                             <TextBlock Text="{Binding NemaRating}" Margin="0 0 0 0"/>
@@ -259,6 +269,10 @@
                                    Grid.Column="2"
                                    Margin="5 0 0 0"/>
                         <TextBlock Text="{Binding Size, StringFormat={}{0:N0} A}"
+                                   Grid.Column="2"
+                                   Margin="5 0 0 0"/>
+                        <TextBlock Text="{Binding Area.Tag}"
+                                   FontWeight="SemiBold"
                                    Grid.Column="2"
                                    Margin="5 0 0 0"/>
                         <StackPanel Orientation="Horizontal" >
@@ -310,14 +324,17 @@
                                    FontWeight="SemiBold"
                                    Grid.Column="2"
                                    Margin="5 0 0 0"/>
-
                         <StackPanel Orientation="Horizontal" Grid.Column="2" >
-                            <TextBlock Text="{Binding Size, StringFormat={}{0:N0} AT}" Margin="5 0 0 0"/>
+                            <TextBlock Text="(Trip)" Margin="5 0 0 0"/>
+                            <TextBlock Text="{Binding Trip, StringFormat={}{0:N0} AT}" Margin="5 0 0 0"/>
                             <TextBlock Text=" / "/>
                             <TextBlock Text="{Binding Size, StringFormat={}{0:N0} AF}" Margin="5 0 0 0"/>
 
                         </StackPanel>
-
+                        <TextBlock Text="{Binding Area.Tag}"
+                                   FontWeight="SemiBold"
+                                   Grid.Column="2"
+                                   Margin="5 0 0 0"/>
                         <StackPanel Orientation="Horizontal" >
                             <TextBlock Text="" Margin="5 0 0 0"/>
                             <!--<TextBlock Text="{Binding AreaId}"/>
@@ -347,7 +364,13 @@
             <!--CABLES-->
             <!--Cable Template-->
             <DataTemplate x:Key="CableTemplate">
-                <StackPanel Orientation="Vertical" Grid.Column="2"
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Vertical" Grid.Column="0"
                             HorizontalAlignment="Left"
                             Background="Transparent"
                             Margin="0 15 0 15">
@@ -370,6 +393,13 @@
                     <TextBlock Text="{Binding PowerCable.Type}"
                                 Grid.Row="1" Grid.Column="2"/>
                 </StackPanel>
+                    <Image Source="..\..\..\ResourceFiles\ErrorIcon48.png"
+                           Grid.Column="1" HorizontalAlignment="Left"
+                           Height="13"
+                           Margin="5"
+                           VerticalAlignment="Center"
+                           Visibility="{Binding PowerCable.IsValidSize, Converter={StaticResource _boolToVis}, ConverterParameter=Inverted}"/>
+                </Grid>
             </DataTemplate>
 
 

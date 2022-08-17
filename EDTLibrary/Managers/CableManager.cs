@@ -94,8 +94,14 @@ public class CableManager
     public static int count { get; set; } = 0;
 
 
+    public static async Task ValidateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
+    {
+        foreach (var components in powerComponentOwner.CctComponents) {
+            components.PowerCable.ValidateCableSize(components.PowerCable);
+        }
+    }
 
-    public static async Task UpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
+    public static async Task AddAndUpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
         if (PreviousEq == powerComponentOwner.Tag) {
             count += 1;
@@ -191,10 +197,11 @@ public class CableManager
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
 
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
+                    cable.ValidateCableSize(cable);
                     UndoManager.IsUndoing = false;
 
                     component.PowerCable = cable;
-
+                    
                     listManager.CableList.Add(cable);
                     DaManager.UpsertCable(cable);
                     previousComponent = component;
@@ -230,6 +237,7 @@ public class CableManager
         }
 
     }
+
 
     public static string GetCableTag(string cableSource, string cableDestination, [CallerMemberName] string callerMethod = "")
     {

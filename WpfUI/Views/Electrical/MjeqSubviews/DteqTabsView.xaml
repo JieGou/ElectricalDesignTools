@@ -123,9 +123,6 @@
             <TabItem Header="Summary" Background="LightCyan">
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type edtDteqModels:DteqModel}">
-                            <mjeqSubViews:TransformerGraphicView/>
-                        </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
                             <mjeqSubViews:TransformerGraphicView/>
                         </DataTemplate>

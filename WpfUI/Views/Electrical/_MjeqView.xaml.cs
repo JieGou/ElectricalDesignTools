@@ -183,37 +183,7 @@ public partial class _MjeqView : UserControl
 
     #region Context Menus
 
-    //LOAD
-    private void AddEquipmentPanelViewToggle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        //dgdDteq.Height = 10;
-        //int count = 0;
-
-        var maxDteqHeight = dteqButtonsStackPanel.ActualHeight - 25;
-        dgdDteq.Height = maxDteqHeight + 40;
-        AppSettings.Default.DteqGridHeight = dgdDteq.Height;
-        AppSettings.Default.Save();
-
-        //var MaxLoadHeight = loadButtonsStackPanel.ActualHeight + 50;
-        //dgdAssignedLoads.Height = MaxLoadHeight + 15;
-
-
-        if (gridAdding.Visibility == Visibility.Collapsed) {
-            gridAdding.Visibility = Visibility.Visible;
-            AppSettings.Default.AddEquipmentPanelView = 0;
-            AppSettings.Default.Save();
-            MjeqVm.LoadGridTop = new System.Windows.GridLength(127, GridUnitType.Pixel);
-        }
-        else {
-            AppSettings.Default.AddEquipmentPanelView = 2;
-            AppSettings.Default.Save();
-            gridAdding.Visibility = Visibility.Collapsed;
-            MjeqVm.LoadGridTop = new System.Windows.GridLength(0, GridUnitType.Pixel);
-
-        }
-
-    }
-
+    //LOAD   
     private void LoadGridContextMenu_SetFedFrom(object sender, MouseButtonEventArgs e)
     {
         FedFromSelectionWindow fedFromSelectionWindow = new FedFromSelectionWindow();
@@ -451,6 +421,7 @@ public partial class _MjeqView : UserControl
     }
     #endregion
 
+
     #region Add Eq Control Events and Grid edit Events
 
     private void txtDteqTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -542,6 +513,7 @@ public partial class _MjeqView : UserControl
         _isEditingLoadGrids = false;
     }
     #endregion
+
 
     #region Testing
     //Testing
@@ -638,8 +610,41 @@ public partial class _MjeqView : UserControl
 
         MjeqVm.DbGetAll();
     }
-}
+
     #endregion
+
+    #region View Modifiers
+    private void AddEquipmentPanelViewToggle_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        //dgdDteq.Height = 10;
+        //int count = 0;
+
+        var maxDteqHeight = dteqButtonsStackPanel.ActualHeight - 25;
+        dgdDteq.Height = maxDteqHeight + 40;
+        AppSettings.Default.DteqGridHeight = dgdDteq.Height;
+        AppSettings.Default.Save();
+
+        //var MaxLoadHeight = loadButtonsStackPanel.ActualHeight + 50;
+        //dgdAssignedLoads.Height = MaxLoadHeight + 15;
+
+
+        if (gridAdding.Visibility == Visibility.Collapsed) {
+            gridAdding.Visibility = Visibility.Visible;
+            AppSettings.Default.AddEquipmentPanelView = 0;
+            AppSettings.Default.Save();
+            MjeqVm.LoadGridTop = new System.Windows.GridLength(127, GridUnitType.Pixel);
+        }
+        else {
+            AppSettings.Default.AddEquipmentPanelView = 2;
+            AppSettings.Default.Save();
+            gridAdding.Visibility = Visibility.Collapsed;
+            MjeqVm.LoadGridTop = new System.Windows.GridLength(0, GridUnitType.Pixel);
+
+        }
+
+    }
+    #endregion
+}
 
 
 
