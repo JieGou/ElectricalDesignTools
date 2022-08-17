@@ -28,6 +28,9 @@
         
         xmlns:cableViews="clr-namespace:WpfUI.Views.Cable"
         xmlns:cableViewModels="clr-namespace:WpfUI.ViewModels.Cables"
+                 
+        xmlns:libraryViews="clr-namespace:WpfUI.Views.Library"
+        xmlns:librarViewModels="clr-namespace:WpfUI.ViewModels.Library"
                          
         
         mc:Ignorable="d"
@@ -125,7 +128,7 @@
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"                        
-                             Command="{Binding NavigateDataTablesCommand}"/>
+                             Command="{Binding NavigateLibraryCommand}"/>
 
             <Button Content="EXPORT"
                             VerticalAlignment="Top"                        
@@ -317,6 +320,10 @@
                         <views:CableMenuView/>
                     </DataTemplate>
 
+                    <DataTemplate DataType="{x:Type menuViewModels:LibraryMenuViewModel}">
+                        <views:LibraryMenuView/>
+                    </DataTemplate>
+
                 </ContentControl.Resources>
 
             </ContentControl>
@@ -420,8 +427,8 @@
 
 
                 <!--DataTables-->
-                <DataTemplate DataType="{x:Type viewmodels:DataTablesViewModel}">
-                    <views:DataTablesView/>
+                <DataTemplate DataType="{x:Type librarViewModels:DataTablesViewModel}">
+                    <libraryViews:DataTablesView/>
                 </DataTemplate>
 
             </ContentControl.Resources>

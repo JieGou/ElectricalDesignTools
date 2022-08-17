@@ -30,6 +30,7 @@ using WpfUI.PopupWindows;
 using WpfUI.Services;
 using WpfUI.ViewModels.Cables;
 using WpfUI.ViewModels.Electrical;
+using WpfUI.ViewModels.Library;
 using WpfUI.ViewModels.Menus;
 using WpfUI.Views.Settings;
 using WpfUI.Windows;
@@ -122,7 +123,8 @@ namespace WpfUI.ViewModels
         public readonly CableMenuViewModel _cableMenuViewModel;
         public readonly CableListViewModel _cableListViewModel;
 
-        public readonly DataTablesViewModel _dataTablesViewModel = new DataTablesViewModel();
+        public readonly LibraryMenuViewModel _libraryMenuViewModel;
+        public readonly DataTablesViewModel _dataTablesViewModel;
 
         public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type="")
         {
@@ -153,6 +155,10 @@ namespace WpfUI.ViewModels
             _cableMenuViewModel = new CableMenuViewModel(this, listManager);
             _cableListViewModel = new CableListViewModel(listManager);
 
+            //Library
+            _libraryMenuViewModel = new LibraryMenuViewModel(this);
+            _dataTablesViewModel = new DataTablesViewModel();
+
 
             NavigateStartupCommand = new RelayCommand(NavigateHome);
             NavigateSettingsCommand = new RelayCommand(NavigateSettings, CanExecute_IsProjectLoaded);
@@ -170,8 +176,8 @@ namespace WpfUI.ViewModels
 
 
             NavigateCablesCommand = new RelayCommand(NavigateCables, CanExecute_IsProjectLoaded);
-            NavigateDataTablesCommand = new RelayCommand(NavigateDataTables, CanExecute_IsLibraryLoaded);
 
+            NavigateLibraryCommand = new RelayCommand(NavigateLibrary, CanExecute_IsLibraryLoaded);
 
 
             ExportCommand = new RelayCommand(ExcelTest);
@@ -281,7 +287,7 @@ namespace WpfUI.ViewModels
         //Cables
         public ICommand NavigateCablesCommand { get; }
 
-        public ICommand NavigateDataTablesCommand { get; }
+        public ICommand NavigateLibraryCommand { get; }
 
         public ICommand ExportCommand { get; }
 
@@ -337,9 +343,9 @@ namespace WpfUI.ViewModels
             MenuViewModel = _cableMenuViewModel;
         }
 
-        private void NavigateDataTables()
+        private void NavigateLibrary()
         {
-            CurrentViewModel = _dataTablesViewModel;
+            MenuViewModel = _libraryMenuViewModel;
         }
 
         private bool CanExecute_IsProjectLoaded()

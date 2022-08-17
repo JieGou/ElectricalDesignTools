@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfUI.Commands;
 
-namespace WpfUI.ViewModels
+namespace WpfUI.ViewModels.Library
 {
     public class DataTablesViewModel : ViewModelBase
     {
@@ -22,19 +22,19 @@ namespace WpfUI.ViewModels
         }
 
         string _selectedDataTable;
-        public string SelectedDataTable 
-        { 
-            get { return _selectedDataTable; } 
-            set 
-            { 
-                _selectedDataTable = value; 
+        public string SelectedDataTable
+        {
+            get { return _selectedDataTable; }
+            set
+            {
+                _selectedDataTable = value;
                 _dataTableToLoad = DaManager.libDb.GetDataTable(_selectedDataTable);
                 DataTableToLoad = DaManager.libDb.GetDataTable(_selectedDataTable);
             }
         }
 
         DataTable _dataTableToLoad;
-        public DataTable DataTableToLoad 
+        public DataTable DataTableToLoad
         {
             get { return _dataTableToLoad; }
             set { _dataTableToLoad = value; }
@@ -51,7 +51,6 @@ namespace WpfUI.ViewModels
 
         public void GetDataTables()
         {
-            _dataTableList = DaManager.libDb.GetListOfTablesNamesInDb();
             DataTableList = DaManager.libDb.GetListOfTablesNamesInDb();
         }
 

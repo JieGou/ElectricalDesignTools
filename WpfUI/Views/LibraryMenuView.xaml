@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="WpfUI.Views.LibraryMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfUI.Views"
+             mc:Ignorable="d" 
+             d:DesignWidth="1000"
+             Background="#FFE6D3C1"
+             >
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/EdtStyle_Orange.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+   
+
+    <!--TOP-->
+    <Grid x:Name="menuGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <!--<Grid.Triggers>
+            <EventTrigger RoutedEvent="Grid.Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="menuGrid"
+                                Storyboard.TargetProperty="Opacity" From="0" To="1"
+                                BeginTime="0:0:0"  Duration="0:0:0.05"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>-->
+
+        <Border BorderBrush="Black" BorderThickness="0 0 0 1" 
+                Background="{StaticResource Darkest}">
+
+
+            <StackPanel Orientation="Horizontal">
+
+                <Label Content="LIBRARY"  Background="Transparent"
+                       MinWidth="300"
+                       Style="{StaticResource TitleLabelStyle}"
+                       BorderThickness="0"
+                       Margin="0 0 0 0"/>
+
+                <!--//BUTTONS-->
+                <Button Content="DATA TABLES"
+                        Style="{StaticResource ToolBarButtonBase}" 
+                        Command="{Binding NavigateDataTablesCommand}"/>
+
+               
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
+
+
+
+</UserControl>
