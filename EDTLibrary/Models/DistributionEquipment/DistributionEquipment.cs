@@ -128,7 +128,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                     AreaManager.UpdateArea(this, _area, oldValue);
 
                     if (DaManager.GettingRecords == false && PowerCable != null) {
-                        PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
+                        PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
                         PowerCable.CalculateAmpacity(this);
                     }
 
@@ -575,7 +575,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 NemaRating = Area.NemaRating;
                 AreaClassification = Area.AreaClassification;
-                PowerCable.Derating = CableManager.CableSizer.GetDerating(PowerCable);
+                PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
                 PowerCable.CalculateAmpacity(this);
             }));
         }

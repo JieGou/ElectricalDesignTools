@@ -251,7 +251,7 @@ namespace EDTLibrary.Models.Cables
         }
 
 
-        public double GetDerating(ICable cable)
+        public double SetDerating(ICable cable)
         {
             if (cable == null) return 0;
 
@@ -288,6 +288,7 @@ namespace EDTLibrary.Models.Cables
                 throw;
             }
             derating = Math.Round(derating, 2);
+            cable.Derating = derating;
             return derating;
         }
 

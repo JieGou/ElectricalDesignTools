@@ -178,6 +178,7 @@
                 <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.5" />
             </Setter.Value>
         </Setter>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <!--<Setter Property="Background" Value="Transparent"/>-->
 

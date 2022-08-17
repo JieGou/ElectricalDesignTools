@@ -200,7 +200,7 @@ public class CableModel : ICable
 
             if (DaManager.GettingRecords == false) {
                 _calculating = true;
-                Derating = CableManager.CableSizer.GetDerating(this);
+                Derating = CableManager.CableSizer.SetDerating(this);
                 CalculateAmpacity(Load);
                 _calculating = false;
             }
@@ -423,7 +423,7 @@ public class CableModel : ICable
     {
         //Debug.WriteLine("GetRequiredSizingAmps");
 
-        Derating = CableManager.CableSizer.GetDerating(this);
+        Derating = CableManager.CableSizer.SetDerating(this);
         RequiredSizingAmps = GetRequiredAmps(Load) / Derating;
         RequiredSizingAmps = Math.Round(RequiredSizingAmps, 1);
         return RequiredSizingAmps;
@@ -514,7 +514,7 @@ public class CableModel : ICable
         {
             if (cableQty < maxCableQtyTray) {
                 if (cablesWithHigherAmpsInProject.Rows.Count > 0) {
-                    cable.Derating = CableManager.CableSizer.GetDerating(cable);
+                    cable.Derating = CableManager.CableSizer.SetDerating(cable);
                     //select smallest of 
                     cablesWithHigherAmpsInProject = cablesWithHigherAmpsInProject.Select($"{ampsColumn} = MIN({ampsColumn})").CopyToDataTable();
 
@@ -587,7 +587,7 @@ public class CableModel : ICable
         {
             if (cableQty < maxCableQtyRaceWay) {
                 if (cablesWithHigherAmpsInProject.Rows.Count > 0) {
-                    cable.Derating = CableManager.CableSizer.GetDerating(cable);
+                    cable.Derating = CableManager.CableSizer.SetDerating(cable);
                     //select smallest of 
                     cablesWithHigherAmpsInProject = cablesWithHigherAmpsInProject.Select($"{ampsColumn} = MIN({ampsColumn})").CopyToDataTable();
 
@@ -677,7 +677,7 @@ public class CableModel : ICable
     }
     private void CalculateAmpacity_LadderTray(ICable cable, string ampsColumn)
     {
-        cable.Derating = CableManager.CableSizer.GetDerating(cable);
+        cable.Derating = CableManager.CableSizer.SetDerating(cable);
 
         DataTable cableAmps = DataTables.CecCableAmpacities.Copy(); //the created cable ampacity table
 
@@ -700,7 +700,7 @@ public class CableModel : ICable
     }
     private void CalculateAmpacity_DirectBuriedOrRaceWayConduit(ICable cable, string ampsColumn)
     {
-        cable.Derating = CableManager.CableSizer.GetDerating(cable);
+        cable.Derating = CableManager.CableSizer.SetDerating(cable);
 
 
         DataTable cableAmps = DataTables.CecCableAmpacities.Copy(); //the created cable ampacity table
@@ -730,6 +730,7 @@ public class CableModel : ICable
 
     public void ValidateCableSize(ICable cable)
     {
+        CableManager.CableSizer.SetDerating(this);
         GetRequiredAmps(Load);
         if (cable.RequiredAmps > cable.DeratedAmps) {
             cable.SetCableInvalid(this);

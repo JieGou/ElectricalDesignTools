@@ -433,10 +433,6 @@
 
             </ContentControl.Resources>
         </ContentControl>
-
-
-
-
     </Grid>
 </mah:MetroWindow>
 
