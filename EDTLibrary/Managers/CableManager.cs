@@ -91,9 +91,9 @@ public class CableManager
 
     public static bool IsUpdatingPowerCables { get; set; }
     public static string PreviousEq { get; set; }
-    public static int count { get; set; } = 0;
 
 
+    public static int ValidateLoadPowerComponentCablesAsync_Count { get; set; } = 0;
     public static async Task ValidateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
         foreach (var components in powerComponentOwner.CctComponents) {
@@ -103,16 +103,14 @@ public class CableManager
 
     public static async Task AddAndUpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
-        if (PreviousEq == powerComponentOwner.Tag) {
-            count += 1;
-        }
-        if (count >= 2) {
-            count = 0;
-            return;
-        }
+        
+
+        //cable length to load
+        double loadCableLength = powerComponentOwner.PowerCable.Length;
+
+        
         PreviousEq = powerComponentOwner.Tag;
 
-        IsUpdatingPowerCables = true;
 
         //Stopwatch sw = new Stopwatch();
         //sw.Start();
@@ -130,7 +128,11 @@ public class CableManager
                 //TODO add PowerCableId to Equipment
                 foreach (var item in listManager.CableList) {
 
-                    if (item.LoadId == powerComponentOwner.Id && item.LoadType == powerComponentOwner.GetType().ToString()) {
+                    if (item.LoadId == powerComponentOwner.Id && item.LoadType == powerComponentOwner.GetType().ToString() )
+                    {
+                        if (true) {
+
+                        }
                         cablesToRemove.Add(item);
                     }
                 }
@@ -141,25 +143,26 @@ public class CableManager
                 }
 
                 //Add Cables
+                IsUpdatingPowerCables = true;
+                UndoManager.CanAdd = false;
+
                 IComponentEdt previousComponent = null;
                 foreach (var component in powerComponentOwner.CctComponents) {
 
                     if (component.SubCategory != SubCategories.CctComponent.ToString()) continue;
 
                     CableModel cable = new CableModel();
-                    UndoManager.IsUndoing = true;
+                    //UndoManager.IsUndoing = true;
+                    //UndoManager.CanAdd = false;
+
+
                     if (previousComponent == null) {
                         cable.Source = powerComponentOwner.FedFrom.Tag;
-
                     }
                     else if (previousComponent != null) {
                         cable.Source = previousComponent.Tag;
                     }
                     cable.Destination = component.Tag;
-
-                    
-
-
                     cable.Tag = GetCableTag(cable.Source, cable.Destination);
 
                     cable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
@@ -185,7 +188,8 @@ public class CableManager
                         cable.Length = double.Parse(EdtSettings.CableLengthDrive);
                     }
                     else if (component.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
-                        cable.Length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
+                        //TODO - Rename CableLenght variabls (LocalDcnToLoad)
+                        cable.Length = loadCableLength ;
                     }
 
                     cable.BaseAmps = powerComponentOwner.PowerCable.BaseAmps;
@@ -198,7 +202,9 @@ public class CableManager
 
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
                     cable.ValidateCableSize(cable);
-                    UndoManager.IsUndoing = false;
+
+                    //UndoManager.CanAdd = true;
+                    //UndoManager.IsUndoing = false;
 
                     component.PowerCable = cable;
                     
@@ -207,6 +213,10 @@ public class CableManager
                     previousComponent = component;
                 }
                 UpdateLoadCable(powerComponentOwner, previousComponent);
+
+                //needs to be inside awaited method
+                IsUpdatingPowerCables = false;
+                UndoManager.CanAdd = true;
             }));
         }
         catch (Exception ex) {
@@ -217,9 +227,7 @@ public class CableManager
         //sw.Stop();
         //Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
 
-        IsUpdatingPowerCables = false;
-
-
+        
 
         //Local method
         void UpdateLoadCable(IPowerConsumer load, IComponentEdt previousComponent)
@@ -228,14 +236,16 @@ public class CableManager
                 load.PowerCable.Source = load.FedFrom.Tag;
             }
             else if (previousComponent != null) {
+                if (previousComponent.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
+                    load.PowerCable.Length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
+                }
                 load.PowerCable.Source = previousComponent.Tag;
             }
             load.PowerCable.Tag = GetCableTag(load.PowerCable.Source, load.Tag);
-
+            load.PowerCable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
+            listManager.CableList.Add(load.PowerCable);
             DaManager.UpsertCable(load.PowerCable);
-
         }
-
     }
 
 

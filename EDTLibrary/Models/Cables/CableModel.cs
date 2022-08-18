@@ -34,7 +34,7 @@ public class CableModel : ICable
     {
         Load = load;
         AssignOwner(load);
-        AssignTagging(load);
+        SetTagging(load);
         DaManager.GettingRecords = true;
         Type = CableManager.CableSizer.GetDefaultCableType(load);
         DaManager.GettingRecords = false;
@@ -117,7 +117,8 @@ public class CableModel : ICable
                     AutoSizeAsync();
                 }
                 if (CableManager.IsUpdatingPowerCables == false) {
-                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
+
+                    //CableManager.AddAndUpdateLoadPowerComponentCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
                 }
             }
             CreateSizeList();
@@ -176,10 +177,7 @@ public class CableModel : ICable
                 UndoManager.AddUndoCommand(cmd);
             }
 
-            if (DaManager.GettingRecords == false && UsageType == CableUsageTypes.Power.ToString()) {
-                CalculateAmpacity(Load);
-                CableManager.CableSizer.SetVoltageDrop(this);
-            }
+            UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
             OnPropertyUpdated();
         }
     }
@@ -205,13 +203,8 @@ public class CableModel : ICable
                 _calculating = false;
             }
 
-
-            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Spacing), OldValue = oldValue, NewValue = _spacing };
-                UndoManager.AddUndoCommand(cmd);
-            }
+            UndoManager.AddUndoCommand(this, nameof(Spacing), oldValue, _spacing);
             OnPropertyUpdated();
-
         }
     }
 
@@ -224,6 +217,7 @@ public class CableModel : ICable
             var oldValue = _length;
             _length = value;
             CableManager.CableSizer.SetVoltageDrop(this);
+            UndoManager.AddUndoCommand(this, nameof(Length), oldValue, _length);
         }
     }
 
@@ -355,7 +349,7 @@ public class CableModel : ICable
     /// <summary>
     /// Gets the Source Eq Derating, Destination Eq FLA
     /// </summary>
-    public void AssignTagging(ICableUser load)
+    public void SetTagging(ICableUser load)
     {
         if (load.FedFrom != null) {
             Source = load.FedFrom.Tag;
@@ -391,7 +385,7 @@ public class CableModel : ICable
     public void SetCableParameters(ICableUser load)
     {
         Load = load;
-        AssignTagging(load);
+        SetTagging(load);
         AssignOwner(load);
         GetRequiredAmps(load);
 
@@ -460,7 +454,7 @@ public class CableModel : ICable
     }
     public void AutoSize()
     {
-        UndoManager.IsUndoing = true;
+        UndoManager.CanAdd = false;
         //_calculating = true;
         RequiredSizingAmps = GetRequiredSizingAmps();
         Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
@@ -479,10 +473,10 @@ public class CableModel : ICable
         }
         CalculateAmpacity(Load);
         OnPropertyUpdated();
-        UndoManager.IsUndoing = false;
+        UndoManager.CanAdd = true;
         //_calculating = false;
     }
-    
+
 
     //Qty Size
     private void GetCableQtySize_ForLadderTray(ICable cable, string ampsColumn)

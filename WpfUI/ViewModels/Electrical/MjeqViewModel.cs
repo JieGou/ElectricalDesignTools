@@ -283,6 +283,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         get { return _selectedLoadCable; }
         set { 
             _selectedLoadCable = value;
+
             if (_selectedLoadCable.GetType()==typeof(LoadModel)) {
                 var load = (LoadModel)(_selectedLoadCable);
                 load.PowerCable.ValidateCableSize(load.PowerCable);
@@ -867,23 +868,23 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         LoadModel selectedLoad = (LoadModel)SelectedLoad;
         //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
-        try {
-            CableManager.AddAndUpdateLoadPowerComponentCablesAsync(selectedLoad, _listManager);
-        }
-        catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
-        }
+        //try {
+        //    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(selectedLoad, _listManager);
+        //}
+        //catch (Exception ex) {
+        //    ErrorHelper.ShowErrorMessage(ex);
+        //}
     }
     private void ToggleLoadDrive()
     {
         LoadModel selectedLoad = (LoadModel)SelectedLoad;
         //selectedLoad.DisconnectBool = !selectedLoad.DisconnectBool;
-        try {
-            CableManager.AddAndUpdateLoadPowerComponentCablesAsync(selectedLoad, _listManager);
-        }
-        catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
-        }
+        //try {
+        //    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(selectedLoad, _listManager);
+        //}
+        //catch (Exception ex) {
+        //    ErrorHelper.ShowErrorMessage(ex);
+        //}
     }
 
     #endregion  

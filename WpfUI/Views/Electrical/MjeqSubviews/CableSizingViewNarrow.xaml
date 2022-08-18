@@ -115,14 +115,37 @@
             <!--Tag-->
             <StackPanel Orientation="Vertical"
                         Grid.Row="0" Grid.ColumnSpan="3" >
-            <TextBlock Text="{Binding PowerCable.Tag}"
-                       Grid.Row="0" Grid.ColumnSpan="3"
-                       FontSize="15"
-                       FontWeight="Bold"
-                       Margin="5"/>
-                <TextBlock Text="{Binding PowerCable.Load.Tag}"
-                       Grid.Row="0" Grid.ColumnSpan="3"
-                       Margin="5"/>
+                <TextBlock Text="{Binding PowerCable.Tag}"
+                           d:Text="Cable Tag"
+                           Grid.Row="0" Grid.ColumnSpan="3"
+                           FontSize="15"
+                           FontWeight="Bold"
+                           Margin="5 0"/>
+                
+                <StackPanel Orientation="Horizontal"
+                            Grid.Row="0" Grid.ColumnSpan="3">
+                    <TextBlock Text="Cable Id: "
+                               d:Text="Cable Id: "
+                               FontWeight="SemiBold"
+                               Grid.Row="0" Grid.ColumnSpan="3"
+                               Margin="0 0 0 5"/>
+                    <TextBlock Text="{Binding PowerCable.Id}"
+                               d:Text="Id"
+                               FontWeight="SemiBold"
+                               Grid.Row="0" Grid.ColumnSpan="3"
+                               Margin="5 0 0 5"/>
+                    <TextBlock Text=", Load: "
+                               d:Text=", Load: "
+                               FontWeight="SemiBold"
+                               Grid.Row="0" Grid.ColumnSpan="3"
+                               Margin="0 0 0 5"/>
+                    <TextBlock Text="{Binding PowerCable.Load.Tag}"
+                               d:Text="Tag"
+                               FontWeight="SemiBold"
+                               Grid.Row="0" Grid.ColumnSpan="3"
+                               Margin="0 0 0 5"/>
+                </StackPanel>
+                
             </StackPanel>
             <!--Cable Type-->
             <TextBlock Text="Cable Type: " Grid.Row="1" Grid.Column="0"/>

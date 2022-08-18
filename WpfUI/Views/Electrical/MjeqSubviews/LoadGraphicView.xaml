@@ -20,17 +20,50 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            
+
             <Converters:InvertableBooleanToVisibilityConverter x:Key="_boolToVis"/>
-            
-            <Style TargetType="ComboBox" BasedOn="{StaticResource SmallComboBox}">
-            </Style>
+
             <Style TargetType="TextBlock">
                 <Setter Property="Margin" Value="0"/>
+
+            </Style>
+
+            <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.3"/>
+
+            <!--Grid Style-->
+            <Style TargetType="Grid" x:Key="GraphicHighlightStyle">
+                <Style.Triggers>
+                    <Trigger Property="Grid.IsMouseOver" Value="True">
+
+                    </Trigger>
+                </Style.Triggers>
+
+                <Style.Resources>
+
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
+                                <!--<Setter Property="Background" Value="{StaticResource WhiteHighlightBrush}"/>-->
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                    <Style TargetType="Border">
+                        <Setter Property="BorderBrush" Value="Black"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
+                                <Setter Property="Background" Value="{StaticResource WhiteHighlightBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+
+                </Style.Resources>
             </Style>
 
             <!--#region Templates-->
-            
+
             <!-- MCC BUCKET / OCPD -->
             <!--Breaker Template-->
             <DataTemplate x:Key="BreakerTemplate">
@@ -201,7 +234,9 @@
             <!--DRIVE-->
             <!--Vsd-->
             <DataTemplate x:Key="VsdTemplate">
-                <Grid Background="Transparent">
+                <Grid Background="Transparent"
+                      Cursor="Hand"
+                      Style="{StaticResource GraphicHighlightStyle}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="13.5"/>
                         <ColumnDefinition Width="auto"/>
@@ -209,30 +244,49 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+
                     <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center"
-                            Grid.Column="1"
+                            Grid.Row="0" Grid.Column="1"
                             Width="50.5" Height="50">
                         <TextBlock Text="VSD"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
-
                     </Border>
-                    <StackPanel Orientation="Vertical"
-                                Grid.Column="2"
-                                VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Tag}" Margin="5 0 0 0" FontWeight="SemiBold"  />
-                        <TextBlock Text="{Binding Type}" Margin="5 0 0 0"/>
-                        <TextBlock Text="{Binding Area.Tag}"
+
+                    <!--Delete this border when enabling additional tags to allow expanding-->
+                    <Border Grid.Row="0" Grid.Column="2"
+                             Grid.RowSpan="2">
+                        <StackPanel Orientation="Vertical"
+                                VerticalAlignment="Top">
+                            <TextBlock Text="{Binding Tag}" Margin="5 0 0 0" FontWeight="SemiBold"  />
+                            <TextBlock Text="{Binding Type}" Margin="5 0 0 0"/>
+
+                            <StackPanel x:Name="extraDetails"
+                                    Orientation="Vertical">
+                                <TextBlock Text="{Binding Area.Tag}"
                                    FontWeight="SemiBold"
                                    Grid.Column="2"
-                                   Margin="5 0 0 0"/>
-                        <StackPanel Orientation="Horizontal" >
-                            <TextBlock Text=", " Margin="0 0 0 0"/>
-                            <TextBlock Text="{Binding NemaRating}" Margin="0 0 0 0"/>
-                            <TextBlock Text=", " Margin="0 0 0 0"/>
-                            <TextBlock Text="{Binding AreaClassification}" Margin="0 0 0 0"/>
+                                   Margin="5 0 0 0"
+                                   Visibility="Collapsed"/>
+                                <StackPanel Orientation="Horizontal" >
+                                    <TextBlock Text="" Margin="5 0 0 0"/>
+                                    <TextBlock Text="{Binding NemaRating}" Margin="0 0 0 0"/>
+                                    <TextBlock Text=", " Margin="0 0 0 0"/>
+                                    <TextBlock Text="{Binding AreaClassification}" Margin="0 0 0 0"/>
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="0 0 1 0" HorizontalAlignment="Center"
+                            Grid.Row="2" Grid.Column="1"
+                            Margin="1 0 0 0"
+                            Height="{Binding ActualHeight, ElementName=extraDetails}">
+                    </Border>
                 </Grid>
             </DataTemplate>
 
@@ -240,16 +294,19 @@
             <!--LOCAL DISCONNECT-->
             <!--Uds-->
             <DataTemplate x:Key="UdsTemplate">
-                <Grid Background="Transparent">
+                <Grid Style="{StaticResource GraphicHighlightStyle}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="18.5"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
                     <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center"
-                            Grid.Column="1"
+                            Grid.Row="0" Grid.Column="1"
                             Width="40" Height="55">
                         <Canvas Grid.Column="1" Width="50" Height="55">
                             <Line X1="20" X2="20" Y1="0" Y2="15"
@@ -259,46 +316,72 @@
                             <Line X1="20" X2="20" Y1="35" Y2="55"
                                   Stroke="Black" StrokeThickness="1"/>
                         </Canvas>
-
                     </Border>
-                    <StackPanel Orientation="Vertical"
-                                Grid.Column="2"
-                                VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Tag}"
+
+                    <Border Grid.Row="0" Grid.Column="2"
+                            Grid.RowSpan="2">
+                        <StackPanel Orientation="Vertical"
+                                VerticalAlignment="Top">
+                            <TextBlock Text="{Binding Tag}"
                                    FontWeight="SemiBold"
                                    Grid.Column="2"
                                    Margin="5 0 0 0"/>
-                        <TextBlock Text="{Binding Size, StringFormat={}{0:N0} A}"
+                            <TextBlock Text="{Binding Size, StringFormat={}{0:N0} A}"
                                    Grid.Column="2"
                                    Margin="5 0 0 0"/>
-                        <TextBlock Text="{Binding Area.Tag}"
+                            <!--Area Properties-->
+                            <StackPanel Orientation="Horizontal" 
+                                        Visibility="Visible">
+                                <TextBlock Text="" Margin="5 0 0 0"/>
+                                <TextBlock Text="{Binding NemaRating}"/>
+                                <TextBlock Text=", " Margin="0 0 0 0"/>
+                                <TextBlock Text="{Binding AreaClassification}" />
+                            </StackPanel>
+
+                            <!--Extra Details-->
+                            <StackPanel x:Name="extraDetails"
+                                    Orientation="Vertical">
+                                <!--Area Tag-->
+                                <TextBlock Text="{Binding Area.Tag}"
                                    FontWeight="SemiBold"
                                    Grid.Column="2"
-                                   Margin="5 0 0 0"/>
-                        <StackPanel Orientation="Horizontal" >
-                            <TextBlock Text="" Margin="5 0 0 0"/>
-                            <!--<TextBlock Text="{Binding AreaId}"/>
-                            <TextBlock Text=", " Margin="0 0 0 0"/>-->
-                            <TextBlock Text="{Binding NemaRating}"/>
-                            <TextBlock Text=", " Margin="0 0 0 0"/>
-                            <TextBlock Text="{Binding AreaClassification}" />
+                                   Margin="5 0 0 0"
+                                   Visibility="Visible"/>
+                                <!--Area Properties-->
+                                <StackPanel Orientation="Horizontal" 
+                                        Visibility="Collapsed">
+                                    <TextBlock Text="" Margin="5 0 0 0"/>
+                                    <TextBlock Text="{Binding NemaRating}"/>
+                                    <TextBlock Text=", " Margin="0 0 0 0"/>
+                                    <TextBlock Text="{Binding AreaClassification}" />
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="0 0 1 0" HorizontalAlignment="Center"
+                            Grid.Row="2" Grid.Column="1"
+                            Margin="1 0 0 0"
+                            Height="{Binding ActualHeight, ElementName=extraDetails}">
+                    </Border>
                 </Grid>
             </DataTemplate>
 
             <!--Fds-->
             <DataTemplate x:Key="FdsTemplate">
-                <Grid Background="Transparent">
+                <Grid Style="{StaticResource GraphicHighlightStyle}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="18.5"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <!--Delete this border when enabling additional tags to allow expanding-->
                     <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center"
-                            Grid.Column="1"
+                            Grid.Row="0" Grid.Column="1"
                             Width="40" Height="55">
 
                         <Canvas Grid.Column="1" Width="50" Height="55">
@@ -316,34 +399,48 @@
                         </Canvas>
                     </Border>
 
-
-                    <StackPanel Orientation="Vertical"
-                                Grid.Column="2"
-                                VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Tag}"
+                    <Border Grid.Row="0" Grid.Column="2"
+                            Grid.RowSpan="2">
+                        <StackPanel Orientation="Vertical"
+                                VerticalAlignment="Top">
+                            <TextBlock Text="{Binding Tag}"
                                    FontWeight="SemiBold"
-                                   Grid.Column="2"
                                    Margin="5 0 0 0"/>
-                        <StackPanel Orientation="Horizontal" Grid.Column="2" >
-                            <TextBlock Text="(Trip)" Margin="5 0 0 0"/>
-                            <TextBlock Text="{Binding Trip, StringFormat={}{0:N0} AT}" Margin="5 0 0 0"/>
-                            <TextBlock Text=" / "/>
-                            <TextBlock Text="{Binding Size, StringFormat={}{0:N0} AF}" Margin="5 0 0 0"/>
+                            <TextBlock Text="{Binding Size, StringFormat={}{0:N0} A}"
+                                   Margin="5 0 0 0"/>
+                            <!--Area Properties-->
+                            <StackPanel Orientation="Horizontal" 
+                                        Visibility="Visible">
+                                <TextBlock Text="" Margin="5 0 0 0"/>
+                                <TextBlock Text="{Binding NemaRating}"/>
+                                <TextBlock Text=", " Margin="0 0 0 0"/>
+                                <TextBlock Text="{Binding AreaClassification}" />
+                            </StackPanel>
 
-                        </StackPanel>
-                        <TextBlock Text="{Binding Area.Tag}"
+                            <!--Extra Details-->
+                            <StackPanel x:Name="extraDetails"
+                                    Orientation="Vertical">
+                                <!--Area Tag-->
+                                <TextBlock Text="{Binding Area.Tag}"
                                    FontWeight="SemiBold"
-                                   Grid.Column="2"
-                                   Margin="5 0 0 0"/>
-                        <StackPanel Orientation="Horizontal" >
-                            <TextBlock Text="" Margin="5 0 0 0"/>
-                            <!--<TextBlock Text="{Binding AreaId}"/>
-                            <TextBlock Text=", " Margin="0 0 0 0"/>-->
-                            <TextBlock Text="{Binding NemaRating}"/>
-                            <TextBlock Text=", " Margin="0 0 0 0"/>
-                            <TextBlock Text="{Binding AreaClassification}" />
+                                   Margin="5 0 0 0"
+                                   Visibility="Collapsed"/>
+                                <!--Area Properties-->
+                                <StackPanel Orientation="Horizontal" 
+                                            Visibility="Collapsed">
+                                    <TextBlock Text="" Margin="5 0 0 0"/>
+                                    <TextBlock Text="{Binding NemaRating}"/>
+                                    <TextBlock Text=", " Margin="0 0 0 0"/>
+                                    <TextBlock Text="{Binding AreaClassification}" />
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
+                    </Border>
+                    <Border BorderBrush="Black" BorderThickness="0 0 1 0" HorizontalAlignment="Center"
+                            Grid.Row="2" Grid.Column="1"
+                            Margin="0 0 1 0"
+                            Height="{Binding ActualHeight, ElementName=extraDetails}">
+                    </Border>
                 </Grid>
             </DataTemplate>
 
@@ -364,35 +461,39 @@
             <!--CABLES-->
             <!--Cable Template-->
             <DataTemplate x:Key="CableTemplate">
-                <Grid>
+                <Grid Style="{StaticResource GraphicHighlightStyle}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Vertical" Grid.Column="0"
-                            HorizontalAlignment="Left"
-                            Background="Transparent"
-                            Margin="0 15 0 15">
 
-                    <!--Tag-->
-                    <!--<TextBlock Text="{Binding PowerCable.Tag}"
-                               Grid.Row="0" Grid.Column="2"/>-->
+                    <Border Grid.Column="0" >
+                        <StackPanel x:Name="stackPanel"
+                                    Orientation="Vertical"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Background="Transparent"
+                                    Margin="0 15 0 15">
 
-                    <!--Cable Size-->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding PowerCable.QtyParallel}"
-                               Grid.Row="0" Grid.Column="2"/>
-                        <TextBlock Text="x #" Margin="0"/>
+                            <!--Tag-->
+                            <TextBlock Text="{Binding PowerCable.Tag}"
+                               FontWeight="SemiBold"
+                               Visibility="Visible"/>
 
-                        <TextBlock Text="{Binding PowerCable.Size}"
-                               Grid.Row="0" Grid.Column="2"/>
-                    </StackPanel>
+                            <!--Cable Size-->
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding PowerCable.QtyParallel}" />
+                                <TextBlock Text="x #" Margin="0"/>
 
-                    <!--Cable Type-->
-                    <TextBlock Text="{Binding PowerCable.Type}"
-                                Grid.Row="1" Grid.Column="2"/>
-                </StackPanel>
+                                <TextBlock Text="{Binding PowerCable.Size}" />
+                            </StackPanel>
+
+                            <!--Cable Type-->
+                            <TextBlock Text="{Binding PowerCable.Type}" />
+                        </StackPanel>
+                    </Border>
                     <Image Source="..\..\..\ResourceFiles\ErrorIcon48.png"
                            Grid.Column="1" HorizontalAlignment="Left"
                            Height="13"
@@ -406,23 +507,28 @@
             <!--LOADS-->
             <!--Motor Template-->
             <DataTemplate x:Key="MotorTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
-                <Border BorderBrush="Black" BorderThickness="2"
-                        Background="Transparent"
-                                    Width="50"
-                                    Height="50"
-                                    CornerRadius="50"
-                                    HorizontalAlignment="Left" >
+                <Grid Style="{StaticResource GraphicHighlightStyle}">
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                    <!--Graphic-->
+                    <Border BorderThickness="2" 
+                                Width="50"
+                                Height="50"
+                                CornerRadius="50"
+                                HorizontalAlignment="Left" >
+
+                        <!--Data-->
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
                                             Margin="0 13">
-                        <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"
-                                   d:Text="Sz" />
-                        <TextBlock Text=" " HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"
-                                   d:Text ="Unit"/>
-                    </StackPanel>
+                            <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"
+                                       d:Text="Sz" />
+                            <TextBlock Text=" " HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"
+                                       d:Text ="Unit"/>
+                        </StackPanel>
 
-                </Border>
+                    </Border>
+                </Grid>
+
             </DataTemplate>
 
             <!--Heater Template-->
@@ -468,7 +574,7 @@
     </UserControl.Resources>
 
 
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -478,7 +584,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <!--**********-->
         <!--GRAPHIC-->
         <!--**********-->
@@ -488,23 +594,23 @@
             <DockPanel Grid.Column="1" 
                     Margin="0 3 0 0">
 
-            <!--FEEDER BUS-->
-            <Border BorderBrush="Black" BorderThickness="0 0 0 3"
+                <!--FEEDER BUS-->
+                <Border BorderBrush="Black" BorderThickness="0 0 0 3"
                 Grid.Row="0" Width="200" HorizontalAlignment="Left" DockPanel.Dock="Top">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                             Margin="15 0 0 0">
-                    <TextBlock Text="{Binding FedFrom.Tag}" HorizontalAlignment="Center" FontWeight="SemiBold"/>
-                    <TextBlock Text=",  "/>
-                    <TextBlock Text="{Binding FedFrom.LoadVoltage}" HorizontalAlignment="Center"/>
-                    <TextBlock Text=" V,  "/>
-                    <TextBlock Text="{Binding FedFrom.Size}" HorizontalAlignment="Center"/>
-                    <TextBlock Text=" A,  "/>
-                    <TextBlock Text="{Binding FedFrom.SCCR}" HorizontalAlignment="Center"/>
-                    <TextBlock Text=" kA"/>
-                    
+                        <TextBlock Text="{Binding FedFrom.Tag}" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                        <TextBlock Text=",  "/>
+                        <TextBlock Text="{Binding FedFrom.LoadVoltage}" HorizontalAlignment="Center"/>
+                        <TextBlock Text=" V,  "/>
+                        <TextBlock Text="{Binding FedFrom.Size}" HorizontalAlignment="Center"/>
+                        <TextBlock Text=" A,  "/>
+                        <TextBlock Text="{Binding FedFrom.SCCR}" HorizontalAlignment="Center"/>
+                        <TextBlock Text=" kA"/>
+
 
                     </StackPanel>
-            </Border>
+                </Border>
 
                 <!--Starter-->
                 <!--Style is for instant graphic updates-->
@@ -512,50 +618,34 @@
                             Style="{StaticResource OCPDTemplateStyle}"
                             ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
                             PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown" >
-                    
-                    <!--<ContentControl Content="{Binding}" DockPanel.Dock="Top"
-                            ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
-                            PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"
-                            >
-
-                        <ContentControl.Style>
-                        <Style>
-                            <Style.Triggers>
-                                <Trigger Property="ContentControl.IsMouseOver" Value="True">
-                                    <Setter Property="ContentControl.Cursor" Value="Hand"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ContentControl.Style>-->
-
-            </ContentControl>
+                </ContentControl>
 
 
-            <!--COMPONENTS-->
-            <ItemsControl ItemsSource="{Binding CctComponents}" 
+                <!--COMPONENTS-->
+                <ItemsControl ItemsSource="{Binding CctComponents}" 
                           DockPanel.Dock="Top"
                       HorizontalAlignment="Left">
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical"
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical"
                                     HorizontalAlignment="Left">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40"/>
-                                    <ColumnDefinition Width="5"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition Width="5"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
 
-                                <!--Cable Line-->
-                                <Border BorderBrush="Black" BorderThickness="0 0 1 0"
-                                   Grid.Column="0"/>
+                                    <!--Cable Line-->
+                                    <Border BorderBrush="Black" BorderThickness="0 0 1 0"
+                                            Grid.Column="0"/>
 
-                                <!--Cable Details-->
+                                    <!--Cable Details-->
                                     <ContentControl Content="{Binding}"
                                                 ContentTemplate="{StaticResource CableTemplate}"
                                                 Grid.Column="2"
@@ -571,27 +661,27 @@
                                             </Style>
                                         </ContentControl.Style>
                                     </ContentControl>
-                            </Grid>
+                                </Grid>
 
-                            <!--Component-->
-                            
-                            <ContentControl 
+                                <!--Component-->
+
+                                <ContentControl 
                                 Style="{StaticResource DisconnectTemplateStyle}"
                                 Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
                                 ContentTemplateSelector="{StaticResource ComponentTemplateSelector}"
                                 PreviewMouseLeftButtonDown="Component_PreviewMouseLeftButtonDown" >
-                                
-                            </ContentControl>
+
+                                </ContentControl>
 
 
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-            <!--LOAD-->
-            <!--Load Cable-->
-                <Grid DockPanel.Dock="Top" Background="Transparent">
+                <!--LOAD-->
+                <!--Load Cable-->
+                <Grid DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="40"/>
                         <ColumnDefinition Width="5"/>
@@ -622,14 +712,14 @@
                     </ContentControl>
                 </Grid>
 
-            <!--Load-->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="15"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Vertical" Grid.Column="1"
+                <!--Load-->
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical" Grid.Column="1"
                             HorizontalAlignment="Left">
 
                         <ContentControl Content="{Binding}" 
@@ -645,23 +735,24 @@
                                 </Style>
                             </ContentControl.Style>
                         </ContentControl>
+                    </StackPanel>
 
-                </StackPanel>
-                <StackPanel Grid.Column="2"
+                    <StackPanel Grid.Column="2"
                             Margin="5 0 0 0">
-                    <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              HorizontalAlignment="Left" Margin="0 10 0 0"
                              Background="Transparent"
                              BorderBrush="LightGray"
                                FontWeight="SemiBold"
                                d:Text="Tag"/>
-                    <TextBlock Text="{Binding Description}" HorizontalAlignment="Left"
+                        <TextBlock Text="{Binding Description}" HorizontalAlignment="Left"
                                d:Text="Description"
                                MaxWidth="150"
                                TextWrapping="WrapWithOverflow"/>
-                </StackPanel>
-            </Grid>
-        </DockPanel>
+                    </StackPanel>
+                </Grid>
+            </DockPanel>
         </Viewbox>
+
     </Grid>
 </UserControl>

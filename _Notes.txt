@@ -1,3 +1,12 @@
+Refactorings
+	- proper IPowerCableUser members
+	- cable owner needs to reference the cable
+	- cable needs to reference source and destination
+
+Bugs
+	- Delete Dteq does not delete cable
+	- load cable length when updating components
+
 Validations
 	- PD
 	- Cable

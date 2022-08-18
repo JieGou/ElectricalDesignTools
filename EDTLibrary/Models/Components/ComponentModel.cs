@@ -40,7 +40,7 @@ public class ComponentModel : IComponentEdt
             if (DaManager.GettingRecords == false) {
                 if (Owner != null) {
                     if (CableManager.IsUpdatingPowerCables == false) {
-                        CableManager.AddAndUpdateLoadPowerComponentCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
+                        //CableManager.AddAndUpdateLoadPowerComponentCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
                     }
                 }
             }

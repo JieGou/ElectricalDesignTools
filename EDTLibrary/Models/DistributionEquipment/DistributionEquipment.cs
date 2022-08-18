@@ -48,10 +48,10 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (DaManager.GettingRecords == false) {
 
                     if (PowerCable != null) {
-                        PowerCable.AssignTagging(this);
+                        PowerCable.SetTagging(this);
                     }
                     foreach (var load in AssignedLoads) {
-                        load.PowerCable.AssignTagging(load);
+                        load.PowerCable.SetTagging(load);
                     }
                 }
 

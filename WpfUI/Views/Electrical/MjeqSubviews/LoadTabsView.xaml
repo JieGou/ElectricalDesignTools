@@ -157,7 +157,7 @@
                         </Grid.RowDefinitions>
 
                         <!--Equipment-->
-                        <ContentControl Content="{Binding SelectedLoad}"
+                        <ContentControl Content="{Binding SelectedLoadEquipment}"
                                         Grid.Row="0">
                             <ContentControl.Resources>
 

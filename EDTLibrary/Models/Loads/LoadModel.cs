@@ -51,7 +51,7 @@ namespace EDTLibrary.Models.Loads
                 UndoManager.CanAdd = false;
                 if (DaManager.GettingRecords == false) {
                     if (PowerCable != null) {
-                        PowerCable.AssignTagging(this);
+                        PowerCable.SetTagging(this);
                     }
                     if (PowerCable != null && FedFrom != null) {
                         if (CableManager.IsUpdatingPowerCables == false) {
@@ -128,15 +128,14 @@ namespace EDTLibrary.Models.Loads
                 _area = value;
 
                 UndoManager.CanAdd = false;
+                {
+                    AreaManager.UpdateArea(this, _area, oldValue);
 
-
-                AreaManager.UpdateArea(this, _area, oldValue);
-
-                if (DaManager.GettingRecords == false && PowerCable != null && FedFrom != null) {
-                    PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
-                    PowerCable.CalculateAmpacity(this);
+                    if (DaManager.GettingRecords == false && PowerCable != null && FedFrom != null) {
+                        PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
+                        PowerCable.CalculateAmpacity(this);
+                    }
                 }
-
                 UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
 
@@ -235,7 +234,7 @@ namespace EDTLibrary.Models.Loads
                     //OnFedFromChanged();
                     //CalculateLoading();
                     CreatePowerCable();
-                    PowerCable.AssignTagging(this);
+                    PowerCable.SetTagging(this);
                 }
             }
         }
@@ -254,6 +253,7 @@ namespace EDTLibrary.Models.Loads
                 UndoManager.CanAdd = false;
                 if (DaManager.GettingRecords == false) {
                     DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
+                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                 }
                 UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
@@ -439,8 +439,8 @@ namespace EDTLibrary.Models.Loads
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     //OnCctComponentChanged();
                 }
-
                 UndoManager.CanAdd = true;
+
                 UndoManager.AddUndoCommand(this, nameof(DisconnectBool), oldValue, _disconnectBool);
 
                 OnPropertyUpdated();

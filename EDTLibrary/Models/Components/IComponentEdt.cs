@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace EDTLibrary.Models.Components
 {
-    public interface IComponentEdt : IEquipment
+    public interface IComponentEdt :  IEquipment
     {
         double Size { get; set; }
         string SubCategory { get; set; }

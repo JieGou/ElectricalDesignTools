@@ -17,7 +17,10 @@ public class UndoManager
     public static ObservableCollection<UndoCommandDetail> UndoList { get; set; } = new ObservableCollection<UndoCommandDetail>();
 
     public static bool IsUndoing { get; set; }
-    public static bool CanAdd { get; set; }
+
+    //default is true. Only set to false when doing bulk changes and set back to true when complete
+    //to always allow user changes to be added.
+    public static bool CanAdd { get; set; } = true;
 
     public static void UndoCommand(ListManager listManager)
     {
