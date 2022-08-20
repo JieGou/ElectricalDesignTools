@@ -21,8 +21,9 @@ public class DaManager {
     public static bool IsProjectLoaded { get; private set; }
     public static bool IsLibraryLoaded { get; private set; }
 
-    public static bool GettingRecords = true;
-    public static bool AddingEquipment = true;
+    public static bool Importing { get; set; } = true;
+    public static bool GettingRecords { get; set; } = true;
+    public static bool AddingEquipment { get; set; } = true;
 
     public static IDaConnector prjDb { get; set; }
     public static IDaConnector libDb { get; set; }

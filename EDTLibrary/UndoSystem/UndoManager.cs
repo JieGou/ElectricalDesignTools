@@ -42,6 +42,7 @@ public class UndoManager
     {
         if (IsUndoing == false &&
             CanAdd == true &&
+            DaManager.Importing == false &&
             DaManager.GettingRecords == false &&
             command.NewValue != command.OldValue) {
             UndoList.Add(command);
@@ -52,6 +53,7 @@ public class UndoManager
     {
         if (IsUndoing == false &&
             CanAdd == true &&
+            DaManager.Importing == false &&
             DaManager.GettingRecords == false &&
             newValue != oldValue) {
             var cmd = new UndoCommandDetail { Item = item, PropName = propName, OldValue = oldValue, NewValue = newValue };

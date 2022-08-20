@@ -4,6 +4,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
+using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -208,8 +209,6 @@ public partial class _MjeqView : UserControl
     private void LoadGridContextMenu_Delete(object sender, MouseButtonEventArgs e)
     {
         DeleteLoads_VM();
-
-
     }
 
     private async Task DeleteLoads_VM()
@@ -527,38 +526,43 @@ public partial class _MjeqView : UserControl
         ListManager listManager = MjeqVm.ListManager;
 
         MessageBoxResult result = MessageBox.Show("Dteq, Loads, Both", "Test Data", MessageBoxButton.YesNoCancel);
-        string start = "";
-        GlobalConfig.Importing = true;
+        var start = DateTime.Now;
+
+        DaManager.Importing = true;
+
         switch (result) {
             case MessageBoxResult.Yes:
-                start = DateTime.Now.ToString();
-                AddTestDteq(listManager, start);
+                start = DateTime.Now;
+                AddTestDteq(listManager, start.ToString());
                 break;
 
             case MessageBoxResult.No:
-                AddTestDteq(listManager, start);
-                start = DateTime.Now.ToString();
+                AddTestDteq(listManager, start.ToString());
+                start = DateTime.Now;
                 await Task.Run(() => AddTestLoadsAsync(listManager));
                 MjeqVm.GetLoadList();
-                Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
+                Debug.Print($"start: {start.ToString()} end: {DateTime.Now.ToString()}");
                 break;
 
             case MessageBoxResult.Cancel:
-                start = DateTime.Now.ToString();
-                AddTestDteq(listManager, start);
+                start = DateTime.Now;
+                AddTestDteq(listManager, start.ToString());
                 foreach (var load in TestData.TestLoadList) {
                     load.Area = listManager.AreaList[0];
                     LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
                     MjeqVm.AddLoad(loadToAdd);
                     load.CalculateLoading();
                 }
-                Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
+                Debug.Print($"start: {start.ToString()} end: {DateTime.Now.ToString()}");
                 break;
         }
-        GlobalConfig.Importing = false;
+
+        DaManager.Importing = false;
         MjeqVm.DbSaveAll();
 
+        var elapsedTime = DateTime.Now - start;
         Debug.Print($"Final start: {start} Final end: {DateTime.Now.ToString()}");
+        Debug.Print($"Importing Total Time: {elapsedTime}");
     }
 
     private void AddTestDteq(ListManager listManager, string start)
@@ -569,6 +573,7 @@ public partial class _MjeqView : UserControl
             MjeqVm.AddDteq(dteqToAdd);
             //Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
         }
+
     }
 
     private async Task AddTestLoadsAsync(ListManager listManager)
@@ -586,6 +591,7 @@ public partial class _MjeqView : UserControl
                 //load.CalculateLoadingAsync();
             }
             //var results = await Task.WhenAll(tasks);
+
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);
@@ -596,6 +602,7 @@ public partial class _MjeqView : UserControl
 
     private void DeleteEquipment()
     {
+
         while (MjeqVm.ListManager.IDteqList.Count > 0) {
             IDteq dteq = MjeqVm.ListManager.IDteqList[0];
             MjeqVm.DeleteDteq(dteq);
@@ -606,6 +613,7 @@ public partial class _MjeqView : UserControl
         }
 
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
+
     }
 
     private void DeleteEquipmentFromDatabase()
@@ -669,6 +677,7 @@ public partial class _MjeqView : UserControl
             dgdAssignedLoads.ClearFilters();
         }
     }
+
 }
 
 

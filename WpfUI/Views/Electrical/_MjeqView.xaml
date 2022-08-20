@@ -1308,7 +1308,14 @@
                             <Setter Property="Visibility" Value="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
                         </Style>
                     </sf:SfDataGrid.Resources>
-                   
+
+                    <sf:SfDataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Set FedFrom" PreviewMouseDown="LoadGridContextMenu_SetFedFrom" Height="20"/>
+                            <MenuItem Header="Delete" Height="20" PreviewMouseDown="LoadGridContextMenu_Delete"/>
+                        </ContextMenu>
+                    </sf:SfDataGrid.ContextMenu>
+
                     <sf:SfDataGrid.Columns>
 
                         <!--Line Break code:     &#xA;    -->
