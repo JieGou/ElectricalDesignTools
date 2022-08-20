@@ -546,13 +546,7 @@ public partial class _MjeqView : UserControl
 
             case MessageBoxResult.Cancel:
                 start = DateTime.Now;
-                AddTestDteq(listManager, start.ToString());
-                foreach (var load in TestData.TestLoadList) {
-                    load.Area = listManager.AreaList[0];
-                    LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
-                    MjeqVm.AddLoad(loadToAdd);
-                    load.CalculateLoading();
-                }
+                AddExtraLoads(listManager);
                 Debug.Print($"start: {start.ToString()} end: {DateTime.Now.ToString()}");
                 break;
         }
@@ -563,6 +557,32 @@ public partial class _MjeqView : UserControl
         var elapsedTime = DateTime.Now - start;
         Debug.Print($"Final start: {start} Final end: {DateTime.Now.ToString()}");
         Debug.Print($"Importing Total Time: {elapsedTime}");
+    }
+
+    private async Task AddExtraLoads(ListManager listManager)
+    {
+        int count = listManager.LoadList.Count;
+        ILoad load = new LoadModel() {
+            Tag = "MTR-",
+            Type = LoadTypes.MOTOR.ToString(),
+            FedFromTag = "MCC-01",
+            Voltage = 460,
+            Size = 50,
+            Unit = Units.HP.ToString()
+        };
+
+        for (int i = 0; i < 50; i++) {
+            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                load.Tag = "M-" + count.ToString();
+                load.Area = listManager.AreaList[3];
+
+                LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
+                LoadManager.AddLoad(loadToAdd, listManager);
+                load.CalculateLoading();
+                count += i;
+            }));
+
+        }
     }
 
     private void AddTestDteq(ListManager listManager, string start)
@@ -678,6 +698,54 @@ public partial class _MjeqView : UserControl
         }
     }
 
+    private void LoadGridContextMenu_AddDiscoonnect(object sender, MouseButtonEventArgs e)
+    {
+        AddDisconnectAsync();
+    }
+
+    private async Task AddDisconnectAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+                LoadModel load = (LoadModel)loadObject;
+                load.DisconnectBool = true;
+            }
+        }));
+    }
+
+    private async void LoadGridContextMenu_AddDrive(object sender, MouseButtonEventArgs e)
+    {
+        await AddDriveAsync();
+    }
+
+    private async Task AddDriveAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+                LoadModel load = (LoadModel)loadObject;
+                if (load.Type == LoadTypes.MOTOR.ToString()) {
+                    load.DriveBool = true;
+                }
+            }
+        }));
+    }
+
+    private async void LoadGridContextMenu_AddLcs(object sender, MouseButtonEventArgs e)
+    {
+        await AddLcsAsync();
+    }
+
+    private async Task AddLcsAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+                LoadModel load = (LoadModel)loadObject;
+                if (load.Type == LoadTypes.MOTOR.ToString()) {
+                    load.LcsBool = true;
+                }
+            }
+        }));
+    }
 }
 
 
