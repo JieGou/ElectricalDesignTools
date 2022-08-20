@@ -49,6 +49,7 @@
         FontSize="12"        
         WindowTransitionsEnabled="False">
     
+    
     <!--Title="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"-->
 
 
@@ -179,9 +180,8 @@
                 <Setter Property="Margin" Value="5 0"/>
             </Style>
 
-        
         </ResourceDictionary>
-
+        
     </Window.Resources>
 
     <Grid>

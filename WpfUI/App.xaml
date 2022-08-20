@@ -83,14 +83,14 @@
                 <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/ColorPicker/ColorPicker.xaml" /> -->
 
 
-
+                <ResourceDictionary Source="/Converters/Converters.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
 
-           
+            
 
-            
-            
+
+
             <converters:CableListGroupsToTotalConverter x:Key="groupsConverter" />
 
             <!--Cable List Groups Template-->
@@ -186,7 +186,12 @@
             <Style x:Key="CustomLightMetroWindowButtonStyle" TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="Red"/>
             </Style>
-           
+
+            <Style x:Key="LcsCheckBoxVisibility" TargetType="{x:Type CheckBox}">
+                <Setter Property="Visibility" Value="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
+            </Style>
+
+            
 
             <Style x:Key="GroupBoxStyle1" TargetType="{x:Type GroupBox}">
                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -230,7 +235,6 @@
                 </Setter>
             </Style>
 
-           
             
             <Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
                 <Setter Property="OverridesDefaultStyle" Value="true"/>

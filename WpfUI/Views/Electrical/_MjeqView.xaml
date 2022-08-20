@@ -1415,12 +1415,14 @@
                                            AllowEditing="True"
                                            TextAlignment="Right"/>
 
+                        <!--Unit-->
                         <sf:GridTextColumn HeaderText="Unit" MappingName="Unit"
                                            Width="50"
                                            AllowEditing="False"
                                            UseBindingValue="True"
                                            FilterRowCondition="Contains" />
 
+                        <!--Type-->
                         <sf:GridTextColumn HeaderText="Load&#x0a;Type" MappingName="Type"
                                            Width="60"
                                            AllowEditing="False"
@@ -1504,8 +1506,9 @@
                                                                 AncestorType={x:Type UserControl}}}"/>
 
                         <!--COMPONENTS-->
+                        <!--These checkboxes have no rendering issues but require double click-->
                         <!--Disconnect-->
-                        <sf:GridTemplateColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool"
+                        <!--<sf:GridTemplateColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool"
                                                Width="45"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
@@ -1530,10 +1533,10 @@
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </sf:GridTemplateColumn.CellTemplate>
-                        </sf:GridTemplateColumn>
+                        </sf:GridTemplateColumn>-->
 
                         <!--Drive-->
-                        <sf:GridTemplateColumn HeaderText="Drive" MappingName="DriveBool"
+                        <!--<sf:GridTemplateColumn HeaderText="Drive" MappingName="DriveBool"
                                                Width="45"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
@@ -1547,10 +1550,10 @@
                                 </DataTemplate>
                             </sf:GridTemplateColumn.CellTemplate>
                             
-                        </sf:GridTemplateColumn>
+                        </sf:GridTemplateColumn>-->
 
                         <!--Lcs-->
-                        <sf:GridTemplateColumn HeaderText="LCS" MappingName="LcsBool"
+                        <!--<sf:GridTemplateColumn HeaderText="LCS" MappingName="LcsBool"
                                                Width="45"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
@@ -1562,10 +1565,11 @@
                                                Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
                                 </DataTemplate>
                             </sf:GridTemplateColumn.CellTemplate>
-                        </sf:GridTemplateColumn>
+                        </sf:GridTemplateColumn>-->
 
                         <!--Comp CheckBoxes-->
-                        <!--<sf:GridCheckBoxColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool" 
+                        <!--These checkboxes are single click but have had some rendering issues-->
+                        <sf:GridCheckBoxColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool" 
                                                Width="45"
                                                UseBindingValue="True"
                                                AllowEditing="True"
@@ -1589,7 +1593,7 @@
                                                AllowEditing="True"
                                                FilterRowCondition="Equals"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>-->
+                                                                AncestorType={x:Type UserControl}}}"/>
 
                         <!--Comp Tags-->
                         <sf:GridTextColumn HeaderText="Local&#x0a;Disc. Tag" MappingName="Disconnect.Tag"

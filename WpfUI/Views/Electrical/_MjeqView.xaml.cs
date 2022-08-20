@@ -47,7 +47,7 @@ public partial class _MjeqView : UserControl
 
         //dgdAssignedLoads.CellRenderers.Remove("ComboBox");
         //dgdAssignedLoads.CellRenderers.Add("ComboBox", new ComboBoxSingleClickRenderer());
-        //dgdAssignedLoads.CellRenderers["ComboBox"] = new ComboBoxSingleClickRenderer();
+        dgdAssignedLoads.CellRenderers["ComboBox"] = new CustomGridCellComboBoxRenderer();
     }
 
     private void dgdDteq_KeyDown(object sender, KeyEventArgs e)

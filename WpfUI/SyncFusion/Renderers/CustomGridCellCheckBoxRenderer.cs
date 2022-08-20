@@ -21,15 +21,19 @@ public class CustomGridCellCheckBoxRenderer : GridCellCheckBoxRenderer
 		try {
             var record = dataContext as IPowerConsumer;
 
+            uiElement.Visibility = Visibility.Visible;
+
             if (record.Category != Categories.LOAD3P.ToString()) {
                 uiElement.Visibility = Visibility.Hidden;
-
             }
+
             else if (dataColumn.GridColumn.MappingName != "DisconnectBool") {
-				if (record.Type != LoadTypes.MOTOR.ToString())
-					uiElement.Visibility = Visibility.Hidden; 
-			}
-            
+                //uiElement.Style = App.Current.Resources["LcsCheckBoxVisibility"] as Style;
+
+                if (record.Type != LoadTypes.MOTOR.ToString()) {
+                    uiElement.Visibility = Visibility.Hidden;
+                }
+            }
         }
 		catch (Exception) {
 
