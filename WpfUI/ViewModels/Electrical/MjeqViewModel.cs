@@ -306,6 +306,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         get { return _selectedDteq; }
         set
         {
+            if (value == null) return;
+
             //used for fedfrom Validation
             DictionaryStore.CreateDteqDict(_listManager.IDteqList);
             _selectedDteq = value;
@@ -400,6 +402,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         get { return _selectedLoad; }
         set
         {
+            if (value == null) return;
             _selectedLoad = value;
             if (_selectedLoad != null) {
                 _selectedLoad.PowerCable.GetRequiredAmps(_selectedLoad);

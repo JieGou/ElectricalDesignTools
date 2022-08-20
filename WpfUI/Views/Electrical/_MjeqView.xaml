@@ -1271,7 +1271,9 @@
                 <sf:SfDataGrid x:Name="dgdAssignedLoads"  
                                Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="3"
                                ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                               CurrentItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               SelectedItems="{Binding SelectedLoads, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False"
                                HorizontalAlignment="Left" 
                                Margin="5 5 13 5"
@@ -1280,10 +1282,11 @@
                                HeaderRowHeight="40"
                                RowHeight="20"
                                
-                               
+                               EditTrigger="OnTap"
                                Background="White"
                                CurrentCellBorderBrush="Black"
-                               CurrentCellBorderThickness="0.5"
+                               CurrentCellBorderThickness="0"
+                             
                                RowSelectionBrush="{StaticResource RowSelectionBrush_Teal}"
                                
                                NavigationMode="Cell"
@@ -1300,11 +1303,17 @@
                                ColumnSizer="AutoLastColumnFill"
                                SelectionChanged="dgdAssignedLoads_SelectionChanged_1"  
                                FilterRowPosition="FixedTop" PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1" >
-                    
+                    <sf:SfDataGrid.Resources>
+                        <Style TargetType="CheckBox" x:Key="MotorOnlyCheckBoxStyle">
+                            <Setter Property="Visibility" Value="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
+                        </Style>
+                    </sf:SfDataGrid.Resources>
                    
                     <sf:SfDataGrid.Columns>
 
                         <!--Line Break code:     &#xA;    -->
+                        
+                        <!--Tag-->
                         <sf:GridTextColumn HeaderText="Tag" MappingName="Tag"
                                            Width="75"
                                            TextAlignment="Center"
@@ -1325,6 +1334,7 @@
                             </sf:GridTextColumn.CellTemplate>
                         </sf:GridTextColumn>
 
+                        <!--Descrription-->
                         <sf:GridTextColumn HeaderText="Description" MappingName="Description" 
                                            Width="150"
                                            AllowEditing="True"
@@ -1397,8 +1407,7 @@
                             </sf:GridComboBoxColumn.CellTemplate>
                         </sf:GridComboBoxColumn>
 
-                       
-                        
+                        <!--Size--> 
                         <sf:GridTextColumn HeaderText="Size" MappingName="Size"
                                            Width="50"
                                            UseBindingValue="True"
@@ -1475,6 +1484,7 @@
                                            TextAlignment="Center"
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
+                        
                         <sf:GridTextColumn HeaderText="Dem&#x0a;kW" MappingName="DemandKw"
                                            Width="40"
                                            AllowEditing="False"
@@ -1495,7 +1505,11 @@
 
                         <!--COMPONENTS-->
                         <!--Disconnect-->
-                        <!--<sf:GridTemplateColumn HeaderText="Local&#x0a;TDisconnect" MappingName="DisconnectBool">
+                        <sf:GridTemplateColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool"
+                                               Width="45"
+                                               IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"
+                                               >
                             <sf:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox  IsChecked="{Binding DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1516,56 +1530,42 @@
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
                             </sf:GridTemplateColumn.CellTemplate>
-                            <sf:GridTemplateColumn.EditTemplate>
-                                <DataTemplate>
-                                    <CheckBox  IsChecked="{Binding DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </DataTemplate>
-                            </sf:GridTemplateColumn.EditTemplate>
-                        </sf:GridTemplateColumn>-->
+                        </sf:GridTemplateColumn>
 
                         <!--Drive-->
-                        <!--<sf:GridTemplateColumn HeaderText="Drive" MappingName="DriveBool">
+                        <sf:GridTemplateColumn HeaderText="Drive" MappingName="DriveBool"
+                                               Width="45"
+                                               IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"
+                                               >
                             <sf:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox  IsChecked="{Binding DriveBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                HorizontalAlignment="Center" VerticalAlignment="Center"
-                                               
-                                               Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"
-                                               sf:FocusManagerHelper.FocusedElement="True">
-                                       
+                                               Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}" >
                                     </CheckBox>
                                 </DataTemplate>
                             </sf:GridTemplateColumn.CellTemplate>
-                            <sf:GridTemplateColumn.EditTemplate>
-                                <DataTemplate>
-                                    <CheckBox>
-                                    </CheckBox>
-                                </DataTemplate>
-                            </sf:GridTemplateColumn.EditTemplate>
-                        </sf:GridTemplateColumn>-->
+                            
+                        </sf:GridTemplateColumn>
 
                         <!--Lcs-->
-                        <!--<sf:GridTemplateColumn HeaderText="LCS" MappingName="LcsBool">
+                        <sf:GridTemplateColumn HeaderText="LCS" MappingName="LcsBool"
+                                               Width="45"
+                                               IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"
+                                               >
                             <sf:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <CheckBox  IsChecked="{Binding LcsBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                HorizontalAlignment="Center" VerticalAlignment="Center"
-                                               
                                                Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
                                 </DataTemplate>
                             </sf:GridTemplateColumn.CellTemplate>
-                            <sf:GridTemplateColumn.EditTemplate>
-                                <DataTemplate>
-                                    <CheckBox>
-                                        
-                                    </CheckBox>
-                                </DataTemplate>
-                            </sf:GridTemplateColumn.EditTemplate>
-                        </sf:GridTemplateColumn>-->
+                        </sf:GridTemplateColumn>
 
-
-                        <sf:GridCheckBoxColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool" 
+                        <!--Comp CheckBoxes-->
+                        <!--<sf:GridCheckBoxColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool" 
                                                Width="45"
                                                UseBindingValue="True"
                                                AllowEditing="True"
@@ -1580,7 +1580,8 @@
                                                AllowEditing="True"
                                                FilterRowCondition="Equals"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>
+                                                                AncestorType={x:Type UserControl}}}"
+                                               />
 
                         <sf:GridCheckBoxColumn HeaderText="LCS" MappingName="LcsBool" 
                                                Width="45"
@@ -1588,8 +1589,9 @@
                                                AllowEditing="True"
                                                FilterRowCondition="Equals"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>
+                                                                AncestorType={x:Type UserControl}}}"/>-->
 
+                        <!--Comp Tags-->
                         <sf:GridTextColumn HeaderText="Local&#x0a;Disc. Tag" MappingName="Disconnect.Tag"
                                            Width="100"
                                            AllowEditing="True"

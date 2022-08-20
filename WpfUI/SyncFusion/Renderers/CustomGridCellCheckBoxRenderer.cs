@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace WpfUI.SyncFusion.Renderers;
+
 public class CustomGridCellCheckBoxRenderer : GridCellCheckBoxRenderer
 {
     public override void OnInitializeEditElement(DataColumnBase dataColumn, CheckBox uiElement, object dataContext)
