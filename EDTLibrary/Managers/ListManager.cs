@@ -235,7 +235,9 @@ namespace EDTLibrary.Managers
                             load.CctComponents.OrderBy(c => comp.SequenceNumber);
                             if (comp.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
                                 load.Drive = (ComponentModel)comp;
-                                load.FedFrom.AreaChanged += comp.MatchOwnerArea;
+                                if (load.FedFrom != null) {
+                                    load.FedFrom.AreaChanged += comp.MatchOwnerArea;
+                                }
                             }
                             if (comp.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
                                 load.Disconnect = (ComponentModel)comp;

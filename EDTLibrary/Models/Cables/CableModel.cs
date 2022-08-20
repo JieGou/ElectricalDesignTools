@@ -106,14 +106,15 @@ public class CableModel : ICable
             _typeModel = value;
             _type = _typeModel.Type;
 
+
             Is1C = _type.Contains("1C") ? true : false;
 
-            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(TypeModel), OldValue = oldValue, NewValue = _typeModel };
-                UndoManager.AddUndoCommand(cmd);
-            }
+            var cmd = new UndoCommandDetail { Item = this, PropName = nameof(TypeModel), OldValue = oldValue, NewValue = _typeModel };
+            UndoManager.AddUndoCommand(cmd);
+            
             if (DaManager.GettingRecords == false) {
                 if (UsageType==CableUsageTypes.Power.ToString()) {
+                    SetTypeProperties();
                     AutoSizeAsync();
                 }
                 if (CableManager.IsUpdatingPowerCables == false) {
@@ -357,6 +358,7 @@ public class CableModel : ICable
             CreateTag();
         }
     }
+
     public void CreateTypeList(ICableUser load)
     {
         TypeList.Clear();
@@ -382,11 +384,22 @@ public class CableModel : ICable
             }
         }
     }
+    public void SetTypeProperties()
+    {
+        VoltageClass = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).VoltageClass;
+        ConductorQty = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).ConductorQty;
+        AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
+    }
     public void SetCableParameters(ICableUser load)
     {
         Load = load;
         SetTagging(load);
         AssignOwner(load);
+
+        VoltageClass = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).VoltageClass;
+        ConductorQty = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).ConductorQty;
+
+        CableManager.CableSizer.SetDerating(this);
         GetRequiredAmps(load);
 
         RequiredSizingAmps = GetRequiredSizingAmps();
@@ -456,6 +469,7 @@ public class CableModel : ICable
     {
         UndoManager.CanAdd = false;
         //_calculating = true;
+        SetTypeProperties();
         RequiredSizingAmps = GetRequiredSizingAmps();
         Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
         AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);

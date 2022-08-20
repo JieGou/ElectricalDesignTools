@@ -172,10 +172,10 @@ public class CableManager
 
                     cable.OwnerId = component.Id;
                     cable.OwnerType = component.GetType().ToString();
+                    cable.UsageType = powerComponentOwner.PowerCable.UsageType;
 
                     cable.TypeModel = powerComponentOwner.PowerCable.TypeModel;
                     cable.TypeList = powerComponentOwner.PowerCable.TypeList;
-                    cable.UsageType = powerComponentOwner.PowerCable.UsageType;
                     cable.ConductorQty = powerComponentOwner.PowerCable.ConductorQty;
                     cable.VoltageClass = powerComponentOwner.PowerCable.VoltageClass;
                     cable.Insulation = powerComponentOwner.PowerCable.Insulation;
