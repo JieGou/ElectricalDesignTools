@@ -20,6 +20,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                
                 <ResourceDictionary Source="../../Styles/EdtStyle_Purple.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
@@ -90,7 +91,7 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="350"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
@@ -169,17 +170,29 @@
                                    AutoGenerateColumns="False"
                                    
                                    HorizontalAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   ColumnSizer="Star"
+                                   VerticalAlignment="Stretch"
+                                   HeaderRowHeight="40"
+                                   RowHeight="20"
                                    
+                                   Background="White"
+                                   CurrentCellBorderBrush="Black"
+                                   CurrentCellBorderThickness="0"
+                                   
+                                   RowSelectionBrush="{StaticResource RowSelectionBrush_Teal}"
+                                   
+                                   NavigationMode="Cell"
                                    SelectionMode="Extended"
                                    AllowEditing="True"
-                                   AllowFiltering="True"
-                                   >
+                                   AllowSorting="True" 
+                                   AllowFiltering="True" 
+                                   ShowGroupDropArea="True"
+                                   AllowResizingColumns="True"
+                                   ColumnSizer="AutoLastColumnFill" >
                 
                 <syncfusion:SfDataGrid.Columns>
                     <syncfusion:GridTextColumn MappingName="Id"/>
                     <syncfusion:GridTextColumn MappingName="Tag"/>
+                    <syncfusion:GridTextColumn MappingName="Type"/>
                     <syncfusion:GridTextColumn MappingName="Source"/>
                     <syncfusion:GridTextColumn MappingName="Destination"/>
                     <syncfusion:GridTextColumn MappingName="QtyParallel"/>

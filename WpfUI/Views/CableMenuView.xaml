@@ -91,9 +91,9 @@
                         Style="{StaticResource ToolBarButtonBase}"
                         Command="{Binding NavigateCableListCommand}"/>
                 
-                <Button Content="USER CABLES"
+                <!--<Button Content="USER CABLES"
                         Style="{StaticResource ToolBarButtonBase}"
-                        Command="{Binding NavigateTraySizerCommand}"/>
+                        Command="{Binding NavigateTraySizerCommand}"/>-->
                 
                 <Button Content="TRAY"
                         Style="{StaticResource ToolBarButtonBase}"
