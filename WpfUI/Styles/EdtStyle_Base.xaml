@@ -20,7 +20,7 @@
 
     <!--ALL CONTROLS DEFAULT-->
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
-        <Setter Property="Margin" Value="10 10 10 10 "/>
+        <!--<Setter Property="Margin" Value="10 10 10 10 "/>-->
     </Style>
 
     <Style TargetType="ListBox" BasedOn="{StaticResource DefaultStyle}"/>
@@ -679,6 +679,11 @@
         <Setter Property="Margin" Value="10,0,10,0" />
     </Style>
 
+    
+    
+    
+    
+    <!--GROUP BOX-->
     <!--EdtGroupBox Template, Custom Control-->
     <Style x:Key="EdtGroupBoxTemplate2" TargetType="controls:EdtGroupBox">
         <Setter Property="HeaderBackground" Value="black"/>

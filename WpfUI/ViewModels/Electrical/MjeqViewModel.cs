@@ -721,6 +721,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             SelectedLoad.CalculateLoading();
         }
     }
+
     public void DeleteLoad(object selectedLoadObject)
     {
 
@@ -744,15 +745,28 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
     private async Task DeleteLoadsAsync()
     {
-        ILoad load;
-        while (SelectedLoads.Count > 0) {
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-                load = (LoadModel)SelectedLoads[0];
-                DeleteLoadAsync(load);
-                SelectedLoads.Remove(load);
-            }));
+        LoadModel load;
 
+        var selectedLoads = new ObservableCollection<LoadModel>();
+        foreach (var item in SelectedLoads) {
+            load = (LoadModel)item;
+            selectedLoads.Add(load);
         }
+        foreach (var load2 in selectedLoads) {
+            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                DeleteLoadAsync(load2);
+            }));
+        }
+
+        //old WPF datagrid way
+
+        //while (SelectedLoads.Count > 0) {
+        //    await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+        //        load = (LoadModel)SelectedLoads[0];
+        //        DeleteLoadAsync(load);
+        //        SelectedLoads.Remove(load);
+        //    }));
+        //}
     }
 
     public async Task DeleteLoadAsync(object selectedLoadObject)
@@ -760,9 +774,12 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         if (selectedLoadObject == null) return;
 
         try {
-            int loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
-            var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
-            AssignedLoads.Remove(loadToRemove);
+
+            LoadModel load = (LoadModel)selectedLoadObject;
+                await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
+                //var loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
+            //var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
+            AssignedLoads.Remove(load);
 
             RefreshLoadTagValidation();
 

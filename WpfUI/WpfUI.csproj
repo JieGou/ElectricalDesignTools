@@ -58,6 +58,7 @@
     <PackageReference Include="CoreCompat.Portable.Licensing" Version="1.2.14" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
+    <PackageReference Include="Syncfusion.Licensing" Version="20.2.0.44" />
     <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.1.0.58" />
     <PackageReference Include="Syncfusion.Shared.WPF" Version="20.1.0.58" />
     <PackageReference Include="Syncfusion.Themes.Blend.WPF" Version="20.1.0.58" />
@@ -73,6 +74,7 @@
     <PackageReference Include="Syncfusion.Themes.Office365.WPF" Version="20.1.0.58" />
     <PackageReference Include="Syncfusion.Themes.SystemTheme.WPF" Version="20.1.0.58" />
     <PackageReference Include="Syncfusion.Tools.WPF" Version="20.1.0.55" />
+    <PackageReference Include="syncfusion.ui.wpf.net" Version="20.1.0.47" />
   </ItemGroup>
 
   <ItemGroup>

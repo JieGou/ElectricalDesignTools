@@ -20,7 +20,7 @@ namespace WpfUI
 
         public App()
         {
-
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Njk5OTgxQDMyMzAyZTMyMmUzMGJCSWJsOE44RWhRcWhXSmFwdS96NlBvRlBqREtOcHZKU0xNMGtiemNCVWM9");
         }
         static void MainHandler(object sender, UnhandledExceptionEventArgs args)
         {

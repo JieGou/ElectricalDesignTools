@@ -21,6 +21,29 @@
 
     <SolidColorBrush x:Key="Background" Color="AliceBlue"></SolidColorBrush>
 
+    
+    
+    <!--TEAL-->
+    <SolidColorBrush x:Key="Darkest_Teal" Color="#FF215967"></SolidColorBrush>
+    <SolidColorBrush x:Key="Dark_Teal" Color="#FF31869B"></SolidColorBrush>
+    <SolidColorBrush x:Key="Medium_Teal" Color="#FF94CDDB"></SolidColorBrush>
+    <SolidColorBrush x:Key="Light_Teal" Color="#FFDBEEF3"></SolidColorBrush>
+    <SolidColorBrush x:Key="Background_Teal" Color="#FFDAEEF3"></SolidColorBrush>
 
+    <!--Accent Colors-->
+    <SolidColorBrush x:Key="ButtonColor_Teal" Color="#FFA7DAE8"></SolidColorBrush>
+    <!--<SolidColorBrush x:Key="DatagridSelection">#FFD6EDF3</SolidColorBrush>-->
+
+    <SolidColorBrush x:Key="RowSelectionBrush_Teal" Color="#FFB7DEE8"></SolidColorBrush>
+
+    <SolidColorBrush x:Key="RowHighlightBrush_Teal" Color="AliceBlue"></SolidColorBrush>
+    <SolidColorBrush x:Key="CellHighlightBrush_Teal" Color="#FFD6EDF3"></SolidColorBrush>
+
+
+
+    <!--Other Color-->
+    <SolidColorBrush x:Key="LightRed">#FFFFBABA</SolidColorBrush>
+    <SolidColorBrush x:Key="LightOrange">#FFFFB193</SolidColorBrush>
+    <SolidColorBrush x:Key="LightYellow">#FFFFEDA1</SolidColorBrush>
 
 </ResourceDictionary>

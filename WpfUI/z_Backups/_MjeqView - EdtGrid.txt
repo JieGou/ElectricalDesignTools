@@ -20,7 +20,7 @@
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
               
-             xmlns:sf="http://schemas.syncfusion.com/wpf"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              x:Name="eqView"
               
              mc:Ignorable="d"
@@ -37,32 +37,10 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/SfEdtStyle_Base.xaml"/>
-                
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
                 <ResourceDictionary Source="../../Converters/Converters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <Style TargetType="sf:GridCell">
-                <Setter Property="BorderBrush">
-                    <Setter.Value>
-                        <DrawingBrush Viewport="0,0,7,7" ViewportUnits="Absolute" TileMode="Tile">
-                            <DrawingBrush.Drawing>
-                                <DrawingGroup>
-                                    <GeometryDrawing Brush="Black">
-                                        <GeometryDrawing.Geometry>
-                                            <GeometryGroup>
-                                                <RectangleGeometry Rect="0,0,50,50" />
-                                                <RectangleGeometry Rect="50,50,50,50" />
-                                            </GeometryGroup>
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup>
-                            </DrawingBrush.Drawing>
-                        </DrawingBrush>
-                    </Setter.Value>
-                </Setter>
-            </Style>
 
             <viewModifiers:BindingProxy x:Key="AreaViewProxy" Data="{Binding AreaColumnVisible}" />
 
@@ -284,7 +262,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto" MinWidth="521" SharedSizeGroup="A"/> <!--Details Column-->
+                    <ColumnDefinition Width="auto" MinWidth="485" SharedSizeGroup="A"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -1163,7 +1141,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto" MinWidth="521" SharedSizeGroup="A"/> <!--Details Column-->
+                    <ColumnDefinition Width="auto" MinWidth="485" SharedSizeGroup="A"/>
 
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -1268,122 +1246,635 @@
                 <!--LOAD-->
                 <!--DATA GRID-->
 
-                <sf:SfDataGrid x:Name="dgdAssignedLoads"  
-                               Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="3"
-                               ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
-                               SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               AutoGenerateColumns="False"
-                               HorizontalAlignment="Left" 
-                               Margin="5 5 13 5"
-                               d:Height="440"
-                               
-                               HeaderRowHeight="40"
-                               RowHeight="20"
-                               
-                               
-                               Background="White"
-                               RowSelectionBrush="{StaticResource RowSelectionBrush_Teal}"
-                               
-                               NavigationMode="Cell"
-                               SelectionMode="Extended"
-                               FrozenColumnCount="1"
-                               
-                               AllowEditing="False"
-                               AllowSorting="True" 
-                               AllowFiltering="True" 
-                               AllowTriStateSorting="False"
-                               
-                               ShowGroupDropArea="False"
-                               AllowResizingColumns="True"
-                               ColumnSizer="AutoLastColumnFill"
-                               SelectionChanged="dgdAssignedLoads_SelectionChanged_1"  
-                               FilterRowPosition="FixedTop" PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1" >
-                    
-                   
-                    <sf:SfDataGrid.Columns>
+                <DataGrid x:Name="dgdAssignedLoads" 
+                          Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="3"
+                          HorizontalAlignment="Left" VerticalAlignment="Stretch" 
+                          d:Height="440"
+                          Margin="5 5 13 5"
+                          FrozenColumnCount="1"
+                          
+                          
+                          
+                          ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                          SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          AutoGenerateColumns="False"
+                          
+                          EnableRowVirtualization="True"
+                          EnableColumnVirtualization="False"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          VirtualizingStackPanel.VirtualizationMode="Standard"
+                          
+                          ScrollViewer.CanContentScroll="False"
+                          RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}"
+                          
+                          SelectionChanged="dgdAssignedLoads_SelectionChanged" 
+                          PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown" 
+                          MouseLeave="dgdAssignedLoads_MouseLeave" 
+                          BeginningEdit="dgdAssignedLoads_BeginningEdit" 
+                          CellEditEnding="dgdAssignedLoads_CellEditEnding"
+                          
+                          >
+                    <DataGrid.Resources>
+                        <Style x:Key="errorStyle" TargetType="{x:Type TextBlock}">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="ToolTipService.InitialShowDelay" Value="100"/>
+                            <Style.Triggers>
+                                <Trigger Property="Validation.HasError" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource ErrorColor_Base}"/>
+                                    <Setter Property="Foreground" Value="{StaticResource ErrorColor_Base}"/>
+                                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
 
-                        <!--Line Break code:     &#xA;    -->
-                        <sf:GridTextColumn HeaderText="Tag" MappingName="Tag"
-                                           Width="75"
-                                           AllowSorting="True" 
-                                           AllowEditing="True"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"
-                                           ImmediateUpdateColumnFilter="True"
-                                           HorizontalHeaderContentAlignment="Center"/>
+                        <viewModifiers:BindingProxy x:Key="PowerViewProxy" Data="{Binding LoadGridViewModifier.Power}" />
+                        <viewModifiers:BindingProxy x:Key="OcpdViewProxy" Data="{Binding LoadGridViewModifier.Ocpd}" />
+                        <viewModifiers:BindingProxy x:Key="CableViewProxy" Data="{Binding LoadGridViewModifier.Cable}" />
+                        <viewModifiers:BindingProxy x:Key="CompViewProxy" Data="{Binding LoadGridViewModifier.Comp}" />
+
+                    </DataGrid.Resources>
 
 
-                        <sf:GridTextColumn HeaderText="Description" MappingName="Description" 
-                                           Width="150"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"
-                                           HorizontalHeaderContentAlignment="Center"/>
-                        
-                        <sf:GridTextColumn HeaderText="Area" MappingName="Area.Tag"
-                                           Width="75"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"/>
+                    <!--Height="{Binding LoadGridHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Set FedFrom" PreviewMouseDown="LoadGridContextMenu_SetFedFrom" Height="20"/>
+                            <MenuItem Header="Delete" Height="20" PreviewMouseDown="LoadGridContextMenu_Delete"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+
+                    <DataGrid.Columns>
+                        <!--Textblock cell padding style in this.resources Move to ResDict-->
+
+                        <!--Tag-->
+                        <DataGridTextColumn x:Name="loadTag"
+                                            MinWidth="75"
+                                            Binding="{Binding Path=Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            ElementStyle="{StaticResource ColumnElementStyle}"
+                                            HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}">
+
+                            <DataGridTextColumn.Header>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Tag" 
+                                                    Grid.Row="0" Grid.ColumnSpan="2"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadTagFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+
+                                </Grid>
+                            </DataGridTextColumn.Header>
+
+                        </DataGridTextColumn>
+
+                        <!--Description-->
+                        <DataGridTextColumn x:Name="loadDescription" MinWidth="150" 
+                                            Binding="{Binding Path=Description, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}">
+
+                            <DataGridTextColumn.Header>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Description" 
+                                                    Grid.Row="0" Grid.ColumnSpan="2"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadDescriptionFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+
+                                </Grid>
+                            </DataGridTextColumn.Header>
+
+
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Left" />
+                                    <Setter Property="Margin" Value="5 0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                            <DataGridTextColumn.EditingElementStyle>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="TextAlignment" Value="Left" />
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                </Style>
+                            </DataGridTextColumn.EditingElementStyle>
+                        </DataGridTextColumn>
 
                         <!--Area-->
-                        <sf:GridComboBoxColumn HeaderText="Area" MappingName="Area"
-                                               Width="75"
-                                               AllowEditing="True"
-                                               ItemsSource="{Binding Path=DataContext.ListManager.AreaList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               DisplayMemberPath="Tag"
-                                               UseBindingValue="True"
-                                               FilterRowCondition="Contains"
-                                               SortMode="Display">
-                            <sf:GridComboBoxColumn.CellTemplate>
+                        <DataGridTemplateColumn x:Name="loadArea"
+                                                MinWidth="75"
+                                                CanUserSort="True"
+                                                CanUserReorder="True"
+                                                SortMemberPath="Area.Tag"
+                                                HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}"
+                                                Width="60">
+
+                            <DataGridTemplateColumn.Header>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Area" 
+                                               Grid.Row="0" Grid.ColumnSpan="2"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadAreaFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+
+                                </Grid>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent" 
+                                               />
+
                                 </DataTemplate>
-                            </sf:GridComboBoxColumn.CellTemplate>
-                        </sf:GridComboBoxColumn>
-                        
-                        <!--FedFrom-->
-                        <sf:GridComboBoxColumn HeaderText="Fed From" MappingName="FedFrom"
-                                               Width="75"
-                                               AllowEditing="True"
-                                               ItemsSource="{Binding Path=DataContext.ListManager.DteqList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               DisplayMemberPath="Tag"
-                                               UseBindingValue="True"
-                                               FilterRowCondition="Contains"
-                                               SortMode="Display">
-                            <sf:GridComboBoxColumn.CellTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <ComboBox ItemsSource="{Binding Path=DataContext.ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                              SelectedItem="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="Tag"
+                                              Text="{Binding Area.Tag}"
+                                              HorizontalContentAlignment="Left"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"                                             
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              >
+                                        <!--IsDropDownOpen="True"-->
+
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="{Binding Tag}" HorizontalAlignment="Left" TextAlignment="Left" Width="35" Margin="10 0"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding Name}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
                                 </DataTemplate>
-                            </sf:GridComboBoxColumn.CellTemplate>
-                        </sf:GridComboBoxColumn>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--Fed From Model-->
+                        <DataGridTemplateColumn x:Name="loadFedFrom" MinWidth="75"
+                                                CanUserSort="True"
+                                                CanUserReorder="True"
+                                                SortMemberPath="FedFrom.Tag"
+                                                HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}">
+
+                            <DataGridTemplateColumn.Header>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Fed From" 
+                                               Grid.Row="0" Grid.ColumnSpan="2"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadFedFromFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+
+                                </Grid>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent" >
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding FedFrom.Tag}" Value="* Deleted *">
+                                                        <Setter Property="Foreground"  Value="{StaticResource ErrorColor_Base}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                    <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.ListManager.DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedItem="{Binding Path=FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="Tag"
+                                              HorizontalContentAlignment="Center"
+                                              IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0" 
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              
+                                              />
+                                    <!--IsDropDownOpen="True"-->
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
 
                         <!--Voltage-->
-                        <sf:GridTextColumn HeaderText="Voltage" MappingName="Voltage"
-                                           Width="75"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"
-                                           />
-                        
-                        <sf:GridTextColumn HeaderText="Size" MappingName="Size"
-                                           Width="60"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"/>
+                        <DataGridTemplateColumn CanUserReorder="True"
+                                                CanUserSort="True"
+                                                SortMemberPath="Voltage"
+                                                MinWidth="55"
+                                                HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}">
+                            <DataGridTemplateColumn.Header>
 
-                        <sf:GridTextColumn HeaderText="Unit" MappingName="Unit"
-                                           Width="60"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Voltage" 
+                                               Grid.Row="0" Grid.ColumnSpan="2"
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadVoltageFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+                                </Grid>
 
-                        <sf:GridTextColumn HeaderText="Load&#x0a;Type" MappingName="Type"
-                                           Width="75"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"/>
-
-                        <!--Disconnect-->
-                        <!--<sf:GridTemplateColumn HeaderText="Local&#x0a;TDisconnect" MappingName="DisconnectBool">
-                            <sf:GridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox  IsChecked="{Binding DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Voltage, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent"
+                                              />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},Path=DataContext.TypeManager.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedValue="{Binding Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              HorizontalContentAlignment="Center"
+                                              DisplayMemberPath="Voltage"
+                                              SelectedValuePath="Voltage"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"
+                                              Width="50"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              
+                                              />
+                                    <!--IsDropDownOpen="True"-->
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--Size-->
+                        <DataGridTextColumn x:Name="loadSize"
+                                            CanUserReorder="True"
+                                            CanUserSort="True"
+                                            SortMemberPath="Size"
+                                            HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}"
+                                            Binding="{Binding Path=Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" 
+                                            >
+                            <DataGridTextColumn.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Size"
+                                                    Grid.Row="0" Grid.ColumnSpan="2"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadSizeFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+
+                                </Grid>
+                            </DataGridTextColumn.Header>
+
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Right" />
+                                    <Setter Property="Margin" Value="5 0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!--Unit-->
+                        <DataGridTextColumn MinWidth="40"
+                                            Binding="{Binding Unit, ValidatesOnDataErrors=True}"
+                                            HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}"
+                                            IsReadOnly="True">
+                            <DataGridTextColumn.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Unit"
+                                                    Grid.Row="0" Grid.ColumnSpan="2"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadUnitFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+
+                                </Grid>
+                            </DataGridTextColumn.Header>
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Left" />
+                                    <Setter Property="Margin" Value="5 0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!--Type-->
+                        <DataGridTextColumn x:Name="loadType"
+                                            MinWidth="75"
+                                            Binding="{Binding Type, ValidatesOnDataErrors=True}"
+                                            HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}"
+                                            IsReadOnly="True">
+                            <DataGridTextColumn.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Load Type"
+                                                    Grid.Row="0" Grid.ColumnSpan="2"
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5 2 5 2"/>
+                                    <!--<Button Style="{StaticResource FilterButton}"/>-->
+                                    <TextBox x:Name="txtLoadTypeFilter" 
+                                             Style="{StaticResource FilterTextBoxBase}"
+                                             PreviewKeyDown="LoadGridFilter" />
+                                    <!--Text="{Binding Filter}"-->
+
+                                </Grid>
+                            </DataGridTextColumn.Header>
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Left" />
+                                    <Setter Property="Margin" Value="5 0"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+                        <!--LOADING-->
+                        <!--Load Factor-->
+                        <DataGridTextColumn Header=" Load &#x0a;Facotor"
+                                            MinWidth="50"
+                                            Width="50"
+                                            Binding="{Binding Path=LoadFactor, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            IsReadOnly="False"/>
+
+                        <!--Efficiency-->
+                        <DataGridTemplateColumn Header="Eff"
+                                                MinWidth="50"
+                                                Width="50"
+                                                IsReadOnly="True"
+                                                SortMemberPath="Efficiency"
+                                                >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Path=EfficiencyDisplay, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                                   HorizontalAlignment="Center"
+                                                   Margin="0"/>
+                                        <TextBlock Text=" %"
+                                                   HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Path=Efficiency, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    BorderThickness="0"
+                                    Margin="0"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--FLA-->
+                        <DataGridTextColumn Header="FLA"
+                                            MinWidth="50"
+                                            Width="50"
+                                            Binding="{Binding Path=Fla, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            IsReadOnly="True"/>
+
+                        <!--POWER-->
+
+                        <DataGridTextColumn Header=" PF " 
+                                MinWidth="40"
+                                Width="40"
+                                Binding="{Binding Path=PowerFactor, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            IsReadOnly="True"/>
+
+                        <DataGridTextColumn Header="Running&#x0a;Amps"
+                                IsReadOnly="True"
+                                Binding="{Binding Path=RunningAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Visibility="Hidden"            />
+
+                        <DataGridTextColumn Header=" Conn &#x0a;kVA"
+                                IsReadOnly="True"
+                                Binding="{Binding Path=ConnectedKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource PowerViewProxy}}"
+                                            />
+
+                        <DataGridTextColumn Header=" Dem &#x0a;kVA"  
+                                IsReadOnly="True"
+                                Binding="{Binding Path=DemandKva, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource PowerViewProxy}}"
+                                            />
+
+                        <DataGridTextColumn Header=" Dem &#x0a;kW" 
+                                IsReadOnly="True"
+                                Binding="{Binding Path=DemandKw, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource PowerViewProxy}}"
+                                            />
+
+                        <DataGridTextColumn Header=" Dem &#x0a;kVAR" 
+                                IsReadOnly="True"
+                                Binding="{Binding Path=DemandKvar, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource PowerViewProxy}}"
+                                            />
+
+                        <!--OCPD-->
+                        <DataGridTemplateColumn Header="PD / Starter&#x0a;Type" 
+                                                HeaderStyle="{StaticResource OcpdColumnHeader}"
+                                                SortMemberPath="PdType"
+                                                MaxWidth="85"
+                                                Width="85"
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                               MouseLeftButtonDown="FastEditEvent"/>
+
+                                    <!-- CAUSES Disapearing when inside "Text" : UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True-->
+
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding Path=DataContext.TypeManager.OcpdTypes, 
+                                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                    AncestorType={x:Type Window}}}"
+                                              SelectedValue="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedValuePath="Type"
+                                              HorizontalContentAlignment="Left"
+                                              IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              Padding="0 3 0 3">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Grid.Column="0" Text="{Binding Type}" HorizontalAlignment="Left" TextAlignment="Left" Width="75" Margin="15 0 0 0"/>
+                                                    <TextBlock Grid.Column="1" Text="{Binding Description}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+
+                                    </ComboBox>
+                                    <!--IsDropDownOpen="True"-->
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--Trip-->
+                        <DataGridTextColumn Header="PD / MCP&#x0a;Trip" 
+                                Binding="{Binding Path=PdSizeTrip, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource OcpdColumnHeader}" 
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
+
+                        <!--Frame-->
+                        <DataGridTextColumn Header="PD / MCP&#x0a;Frame" 
+                                Binding="{Binding Path=PdSizeFrame, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource OcpdColumnHeader}" 
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}"/>
+
+                        <!--Starter Size-->
+                        <DataGridTemplateColumn HeaderStyle="{StaticResource OcpdColumnHeader}" 
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="Starter&#x0a;Size" 
+                                           ToolTip="Motor loads only" 
+                                           ToolTipService.InitialShowDelay="50"/>
+
+                            </DataGridTemplateColumn.Header>
+
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Path=StarterSize, NotifyOnSourceUpdated=True, 
+                                                                                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                                                    ValidatesOnDataErrors=True}"
+                                             Foreground="Black"
+                                             Visibility="Visible"
+                                             HorizontalAlignment="Center" />
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding Type}" Value="MOTOR">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox>
+                                    </ComboBox>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+
+                        <DataGridTextColumn Header="Starter&#x0a;Size" 
+                                Binding="{Binding Path=StarterSize, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource OcpdColumnHeader}" 
+                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource OcpdViewProxy}}">
+
+
+                        </DataGridTextColumn>
+
+
+
+
+                        <!--COMPONENTS-->
+                        <!--Disconnect-->
+                        <DataGridTemplateColumn  x:Name="loadDisconnect" 
+                                                MinWidth="40"
+                                                HeaderStyle="{StaticResource ComponentColumnHeader}" 
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CompViewProxy}}">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="Local &#x0a;Disc. Sw." ToolTip="The last component in the circuit before the load." ToolTipService.InitialShowDelay="50"/>
+
+                            </DataGridTemplateColumn.Header>
+
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              HorizontalAlignment="Center"
+                                              Command="{Binding Path=DataContext.ToggleLoadDisconnectCommand, 
+                                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"
+                                              />
+
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding Type}" Value="XFR">
                                             <Setter Property="IsEnabled" Value="False" />
@@ -1399,105 +1890,135 @@
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
-                            </sf:GridTemplateColumn.CellTemplate>
-                            <sf:GridTemplateColumn.EditTemplate>
-                                <DataTemplate>
-                                    <CheckBox  IsChecked="{Binding DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </DataTemplate>
-                            </sf:GridTemplateColumn.EditTemplate>
-                        </sf:GridTemplateColumn>-->
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
                         <!--Drive-->
-                        <!--<sf:GridTemplateColumn HeaderText="Drive" MappingName="DriveBool">
-                            <sf:GridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn Header="Drive" x:Name="loadDrive" 
+                                                MinWidth="40"
+                                                HeaderStyle="{StaticResource ComponentColumnHeader}" 
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CompViewProxy}}">
+
+                            <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox  IsChecked="{Binding DriveBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                                               
-                                               Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"
-                                               sf:FocusManagerHelper.FocusedElement="True">
-                                       
+                                    <CheckBox IsChecked="{Binding Path=DriveBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                                              Command="{Binding Path=DataContext.ToggleLoadDriveCommand, 
+                                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"
+                                              Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <CheckBox>
                                     </CheckBox>
                                 </DataTemplate>
-                            </sf:GridTemplateColumn.CellTemplate>
-                            <sf:GridTemplateColumn.EditTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--LCS-->
+                        <DataGridTemplateColumn Header="LCS"
+                                                MinWidth="40"
+                                                HeaderStyle="{StaticResource ComponentColumnHeader}" 
+                                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CompViewProxy}}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Path=LcsBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+                                              Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
                                 <DataTemplate>
                                     <CheckBox>
                                     </CheckBox>
                                 </DataTemplate>
-                            </sf:GridTemplateColumn.EditTemplate>
-                        </sf:GridTemplateColumn>-->
-
-                        <!--Lcs-->
-                        <!--<sf:GridTemplateColumn HeaderText="LCS" MappingName="LcsBool">
-                            <sf:GridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox  IsChecked="{Binding LcsBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                                               
-                                               Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
-                                </DataTemplate>
-                            </sf:GridTemplateColumn.CellTemplate>
-                            <sf:GridTemplateColumn.EditTemplate>
-                                <DataTemplate>
-                                    <CheckBox>
-                                        
-                                    </CheckBox>
-                                </DataTemplate>
-                            </sf:GridTemplateColumn.EditTemplate>
-                        </sf:GridTemplateColumn>-->
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
 
 
-                        <sf:GridCheckBoxColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool" 
-                                               Width="70"
-                                               UseBindingValue="True"
-                                               AllowEditing="True"
-                                               FilterRowCondition="Equals"
-                                               IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>
+                        <DataGridTextColumn Header="Local Disc.&#x0a;Tag"
+                                MinWidth="75"
+                                Binding="{Binding Path=Disconnect.Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource ComponentColumnHeader}" 
+                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CompViewProxy}}"
+                                            />
 
-                        <sf:GridCheckBoxColumn HeaderText="Drive" MappingName="DriveBool" 
-                                               Width="65"
-                                               UseBindingValue="True"
-                                               AllowEditing="True"
-                                               FilterRowCondition="Equals"
-                                               IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>
+                        <DataGridTextColumn Header="Drive.&#x0a;Tag"
+                                MinWidth="75"
+                                Binding="{Binding Path=Drive.Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource ComponentColumnHeader}" 
+                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CompViewProxy}}"/>
 
-                        <sf:GridCheckBoxColumn HeaderText="LCS" MappingName="LcsBool" 
-                                               Width="55"
-                                               UseBindingValue="True"
-                                               AllowEditing="True"
-                                               FilterRowCondition="Equals"
-                                               IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>
+                        <DataGridTextColumn Header="Lcs&#x0a;Tag"
+                                MinWidth="75"
+                                Binding="{Binding Path=Lcs.Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource ComponentColumnHeader}" 
+                                Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CompViewProxy}}"/>
 
-                        <sf:GridTextColumn HeaderText="Local&#x0a;Disc. Tag" MappingName="Disconnect.Tag"
-                                           Width="100"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"
-                                           IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>
+                        <!--CABLE-->
+                        <DataGridTextColumn Header="Cable&#x0a;Qty" x:Name="loadCableQty" 
+                                Width="50"
+                                Binding="{Binding Path=PowerCable.QtyParallel, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource CableHeaderColumn}" 
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"
+                                            />
 
-                        <sf:GridTextColumn HeaderText="Drive&#x0a;Tag" MappingName="Drive.Tag"
-                                           Width="100"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"
-                                           IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>
+                        <DataGridTextColumn Header="Cable&#x0a;Size" x:Name="loadCableSize" 
+                                Width="50"
+                                Binding="{Binding Path=PowerCable.Size, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource CableHeaderColumn}" 
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"
+                                            />
 
-                        <sf:GridTextColumn HeaderText="Lcs&#x0a;Tag" MappingName="Lcs.Tag"
-                                           Width="100"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"
-                                           IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>
+                        <DataGridTextColumn Header="Base&#x0a;Amps" x:Name="loadCableBaseAmps" 
+                                Width="50"
+                                Binding="{Binding Path=PowerCable.BaseAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource CableHeaderColumn}" 
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"
+                                            />
 
-                        
+                        <DataGridTextColumn Header="Cable&#x0a;Derating" x:Name="loadCableDerating" 
+                                Width="60"
+                                Binding="{Binding Path=PowerCable.Derating, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource CableHeaderColumn}" 
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"
+                                            />
 
-                    </sf:SfDataGrid.Columns>
-                </sf:SfDataGrid>
+                        <DataGridTextColumn Header="Derated&#x0a;Amps" x:Name="loadCableDeratedAmps" 
+                                Width="60"
+                                Binding="{Binding Path=PowerCable.DeratedAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource CableHeaderColumn}" 
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"
+                                            />
+
+                        <DataGridTextColumn Header="Req'd&#x0a;Amps" x:Name="loadCableRequiredAmps" 
+                                Width="50"
+                                Binding="{Binding Path=PowerCable.RequiredAmps, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                HeaderStyle="{StaticResource CableHeaderColumn}" 
+                                            Visibility="{Binding Data, Converter={StaticResource BoolToVisibility}, Source={StaticResource CableViewProxy}}"
+                                            />
+
+                    </DataGrid.Columns>
+
+                    <DataGrid.RowValidationErrorTemplate>
+                        <ControlTemplate>
+                            <Grid Margin="5,2,0,0"
+                                ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=(Validation.Errors)[0].ErrorContent}"
+                                ToolTipService.InitialShowDelay="50">
+
+                                <!--<Ellipse StrokeThickness="0" Fill="Red" 
+                                Width="{TemplateBinding FontSize}" 
+                                Height="{TemplateBinding FontSize}" />-->
+                                <TextBlock Text="X" FontSize="15" 
+                                    FontWeight="UltraBold" Foreground="{StaticResource ErrorColor_Base}" 
+                                    HorizontalAlignment="Stretch"  />
+                            </Grid>
+                        </ControlTemplate>
+                    </DataGrid.RowValidationErrorTemplate>
+
+                </DataGrid>
+
+
 
                 <!--***********************************-->
                 <!--******   BOTTOM STATUS BAR   ******-->
@@ -1506,10 +2027,6 @@
                 <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                             Margin="10 0 0 5">
 
-
-                    <TextBlock Text="{Binding DataContext.LoadGridViewModifier.Power, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}" FontWeight="Bold" Margin="10 0 0 0" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                    
                     <TextBlock Text="DTEQ" FontWeight="Bold" Margin="10 0 0 0" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     <TextBlock Text="   Id:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     <TextBlock Text="{Binding SelectedDteq.Id}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
@@ -1563,7 +2080,7 @@
                     <TextBlock Text="{Binding SelectedLoad.PowerCable.Type}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                     <TextBlock Text="{Binding SelectedDteq.SCCR}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                 </StackPanel>
-
+               
                 <!--***********************************-->
                 <!--***********************************-->
                 <!--***********************************-->

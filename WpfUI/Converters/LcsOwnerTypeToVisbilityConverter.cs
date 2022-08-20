@@ -19,11 +19,7 @@ namespace WpfUI.Converters
             string val = value.ToString();
 
             //yel
-            if (val == LoadTypes.MOTOR.ToString()) {
-                return Visibility.Visible;
-            }
-           
-            return Visibility.Hidden;
+            return val == LoadTypes.MOTOR.ToString() ? Visibility.Visible : (object)Visibility.Hidden;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

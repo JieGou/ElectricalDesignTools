@@ -1,9 +1,7 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
 using EDTLibrary.Managers;
-using EDTLibrary.Models;
 using EDTLibrary.Models.DistributionEquipment;
-using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
 using System;
@@ -11,7 +9,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,7 +16,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using WpfUI.Helpers;
-using WpfUI.ViewModels;
+using WpfUI.SyncFusion.Renderers;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.Views.Electrical.MjeqSubviews;
 using WpfUI.Windows;
@@ -46,6 +43,7 @@ public partial class _MjeqView : UserControl
             gridAdding.Visibility = Visibility.Collapsed;
         }
 
+        dgdAssignedLoads.CellRenderers["CheckBox"] = new CustomGridCellCheckBoxRenderer();
     }
 
     private void dgdDteq_KeyDown(object sender, KeyEventArgs e)
@@ -58,19 +56,20 @@ public partial class _MjeqView : UserControl
 
     private void dgdAssignedLoads_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        try {
-            //explicit propertyChange for load size
-            if (e.Key == Key.Enter || e.Key == Key.Tab) {
-                //TODO - set specific column by header or name
-                DataGridTextColumn col = (DataGridTextColumn)loadSize;
-                ILoad item = (LoadModel)dgdAssignedLoads.SelectedItem;
-                UpdateBindingTarget(dgdAssignedLoads, col, item);
-            }
-        }
-        catch (Exception ex) {
-            ex.Data.Add("UserMessage", "Cannot undo changes made to Distribution Equipment if they are made form the load Grid.");
-            //ErrorHelper.EdtErrorMessage(ex);
-        }
+        //try {
+        //    //explicit propertyChange for load size
+        //    if (e.Key == Key.Enter || e.Key == Key.Tab) {
+        //        //TODO - set specific column by header or name
+        //        DataGridTextColumn col = (DataGridTextColumn)loadSize;
+        //        ILoad item = (LoadModel)dgdAssignedLoads.SelectedItem;
+        //        UpdateBindingTarget(dgdAssignedLoads, col, item);
+        //    }
+        //}
+        //catch (Exception ex) {
+        //    //ErrorHelper.EdtErrorMessage(ex);
+        //}
+
+
         try {
             if (e.Key == Key.Delete) {
                 if (_isEditingLoadGrids == false) {
@@ -110,6 +109,8 @@ public partial class _MjeqView : UserControl
     }
 
     //Sets the datacontext for the details view panel on the right
+
+
     private void dgdAssignedLoads_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (dgdAssignedLoads.SelectedItem != null) {
@@ -386,31 +387,31 @@ public partial class _MjeqView : UserControl
                 foreach (var load in listToFilter) {
                     try {
 
-                        if (load.Description != null) {
-                            if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
-                            && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())
-                            && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
-                            && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
-                            && load.Voltage.ToString().Contains(txtLoadVoltageFilter.Text.ToLower())
-                            && load.Size.ToString().ToLower().Contains(txtLoadSizeFilter.Text.ToLower())
-                            && load.Unit.ToString().ToLower().Contains(txtLoadUnitFilter.Text.ToLower())
-                            && load.Type.ToString().ToLower().Contains(txtLoadTypeFilter.Text.ToLower())
-                            ) {
-                                MjeqVm.AssignedLoads.Add((IPowerConsumer)load);
-                            }
-                        }
-                        else {
-                            if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
-                            && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
-                            && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
-                            && load.Voltage.ToString().Contains(txtLoadVoltageFilter.Text.ToLower())
-                            && load.Size.ToString().ToLower().Contains(txtLoadSizeFilter.Text.ToLower())
-                            && load.Unit.ToString().ToLower().Contains(txtLoadUnitFilter.Text.ToLower())
-                            && load.Type.ToString().ToLower().Contains(txtLoadTypeFilter.Text.ToLower())
-                            ) {
-                                MjeqVm.AssignedLoads.Add((IPowerConsumer)load);
-                            }
-                        }
+                        //if (load.Description != null) {
+                        //    if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
+                        //    && load.Description.ToLower().Contains(txtLoadDescriptionFilter.Text.ToLower())
+                        //    && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
+                        //    && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
+                        //    && load.Voltage.ToString().Contains(txtLoadVoltageFilter.Text.ToLower())
+                        //    && load.Size.ToString().ToLower().Contains(txtLoadSizeFilter.Text.ToLower())
+                        //    && load.Unit.ToString().ToLower().Contains(txtLoadUnitFilter.Text.ToLower())
+                        //    && load.Type.ToString().ToLower().Contains(txtLoadTypeFilter.Text.ToLower())
+                        //    ) {
+                        //        MjeqVm.AssignedLoads.Add((IPowerConsumer)load);
+                        //    }
+                        //}
+                        //else {
+                        //    if (load.Tag.ToLower().Contains(txtLoadTagFilter.Text.ToLower())
+                        //    && load.Area.Tag.ToLower().Contains(txtLoadAreaFilter.Text.ToLower())
+                        //    && load.FedFrom.Tag.ToLower().Contains(txtLoadFedFromFilter.Text.ToLower())
+                        //    && load.Voltage.ToString().Contains(txtLoadVoltageFilter.Text.ToLower())
+                        //    && load.Size.ToString().ToLower().Contains(txtLoadSizeFilter.Text.ToLower())
+                        //    && load.Unit.ToString().ToLower().Contains(txtLoadUnitFilter.Text.ToLower())
+                        //    && load.Type.ToString().ToLower().Contains(txtLoadTypeFilter.Text.ToLower())
+                        //    ) {
+                        //        MjeqVm.AssignedLoads.Add((IPowerConsumer)load);
+                        //    }
+                        //}
 
 
                     }
@@ -644,6 +645,26 @@ public partial class _MjeqView : UserControl
 
     }
     #endregion
+
+    private void dgdAssignedLoads_SelectionChanged_1(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
+    {
+        if (dgdAssignedLoads.SelectedItem != null) {
+            if (dgdAssignedLoads.SelectedItem.GetType() == typeof(LoadModel)) {
+                _loadDetailsView.DataContext = this.DataContext;
+                LoadDetailsContent.Content = _loadDetailsView;
+            }
+        }
+        if (MjeqVm == null) return;
+        MjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;
+    }
+
+    private void dgdAssignedLoads_PreviewKeyDown_1(object sender, KeyEventArgs e)
+    {
+        dgdAssignedLoads.SearchHelper.SearchType = Syncfusion.UI.Xaml.Grid.SearchType.Contains;
+        if (e.Key==Key.Escape) {
+            dgdAssignedLoads.ClearFilters();
+        }
+    }
 }
 
 
