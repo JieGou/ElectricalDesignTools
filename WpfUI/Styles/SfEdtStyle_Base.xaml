@@ -38,7 +38,7 @@
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="sf:VisualContainer.WantsMouseInput" Value="True" />
+        <!--<Setter Property="sf:VisualContainer.WantsMouseInput" Value="True" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="sf:GridHeaderCellControl">
