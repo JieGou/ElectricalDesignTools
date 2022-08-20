@@ -44,7 +44,7 @@ public partial class _MjeqView : UserControl
             gridAdding.Visibility = Visibility.Collapsed;
         }
 
-        dgdAssignedLoads.CellRenderers["CheckBox"] = new CustomGridCellCheckBoxRenderer();
+        //dgdAssignedLoads.CellRenderers["CheckBox"] = new CustomGridCellCheckBoxRenderer();
 
         //dgdAssignedLoads.CellRenderers.Remove("ComboBox");
         //dgdAssignedLoads.CellRenderers.Add("ComboBox", new ComboBoxSingleClickRenderer());

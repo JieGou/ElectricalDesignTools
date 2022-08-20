@@ -7,6 +7,8 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="EdtColorsAndDimensions.xaml"/>
+        <ResourceDictionary Source="../Converters/Converters.xaml"/>
+
     </ResourceDictionary.MergedDictionaries>
 
     <SolidColorBrush x:Key="sfFilterRow_SolidColorBrush" Color="LightGreen" Opacity="0.1"/>
@@ -245,6 +247,7 @@
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="ToolTip" Value="Filter - Esc. 2x to clear"/>
         <Setter Property="ToolTipService.InitialShowDelay" Value="50"/>
+        
     </Style>
 
     <!--Cell-->
@@ -257,6 +260,11 @@
                 <Setter Property="FontWeight" Value="Regular"/>
             </Trigger>
         </Style.Triggers>
+        <Style.Resources>
+            <Style TargetType="CheckBox">
+                <Setter Property="Visibility" Value="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
+            </Style>
+        </Style.Resources>
     </Style>
     
     <!--Row-->
@@ -272,8 +280,6 @@
     </Style>
 
    
-
-
     <Style TargetType="sf:FilterToggleButton">
         <Setter Property="Background" Value="Transparent"/>
 
