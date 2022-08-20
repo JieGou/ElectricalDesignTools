@@ -1282,15 +1282,17 @@
                                
                                
                                Background="White"
+                               CurrentCellBorderBrush="Black"
+                               CurrentCellBorderThickness="0.5"
                                RowSelectionBrush="{StaticResource RowSelectionBrush_Teal}"
                                
                                NavigationMode="Cell"
                                SelectionMode="Extended"
                                FrozenColumnCount="1"
                                
-                               AllowEditing="False"
+                               AllowEditing="True"
                                AllowSorting="True" 
-                               AllowFiltering="True" 
+                               AllowFiltering="False" 
                                AllowTriStateSorting="False"
                                
                                ShowGroupDropArea="False"
@@ -1305,24 +1307,40 @@
                         <!--Line Break code:     &#xA;    -->
                         <sf:GridTextColumn HeaderText="Tag" MappingName="Tag"
                                            Width="75"
+                                           TextAlignment="Center"
                                            AllowSorting="True" 
                                            AllowEditing="True"
                                            UseBindingValue="True"
                                            FilterRowCondition="Contains"
                                            ImmediateUpdateColumnFilter="True"
-                                           HorizontalHeaderContentAlignment="Center"/>
-
+                                           HorizontalHeaderContentAlignment="Center"
+                                           
+                                           >
+                            <sf:GridTextColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               Padding="5 0"
+                                               FontWeight="SemiBold"/>
+                                </DataTemplate>
+                            </sf:GridTextColumn.CellTemplate>
+                        </sf:GridTextColumn>
 
                         <sf:GridTextColumn HeaderText="Description" MappingName="Description" 
                                            Width="150"
+                                           AllowEditing="True"
+                                           AllowSorting="True"
                                            UseBindingValue="True"
                                            FilterRowCondition="Contains"
-                                           HorizontalHeaderContentAlignment="Center"/>
-                        
-                        <sf:GridTextColumn HeaderText="Area" MappingName="Area.Tag"
-                                           Width="75"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"/>
+                                           ImmediateUpdateColumnFilter="True"
+                                           HorizontalHeaderContentAlignment="Center"
+                                           >
+                            <sf:GridTextColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               Padding="5 0"/>
+                                </DataTemplate>
+                            </sf:GridTextColumn.CellTemplate>
+                        </sf:GridTextColumn>
 
                         <!--Area-->
                         <sf:GridComboBoxColumn HeaderText="Area" MappingName="Area"
@@ -1332,14 +1350,16 @@
                                                DisplayMemberPath="Tag"
                                                UseBindingValue="True"
                                                FilterRowCondition="Contains"
-                                               SortMode="Display">
+                                               SortMode="Display"
+                                               TextAlignment="Center">
                             <sf:GridComboBoxColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               Padding="5 0"/>
                                 </DataTemplate>
                             </sf:GridComboBoxColumn.CellTemplate>
                         </sf:GridComboBoxColumn>
-                        
+
                         <!--FedFrom-->
                         <sf:GridComboBoxColumn HeaderText="Fed From" MappingName="FedFrom"
                                                Width="75"
@@ -1348,36 +1368,132 @@
                                                DisplayMemberPath="Tag"
                                                UseBindingValue="True"
                                                FilterRowCondition="Contains"
-                                               SortMode="Display">
+                                               SortMode="Display"
+                                               TextAlignment="Center">
                             <sf:GridComboBoxColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               TextAlignment="Center"/>
+                                </DataTemplate>
+                            </sf:GridComboBoxColumn.CellTemplate>
+                        </sf:GridComboBoxColumn>
+                        
+                        <!--Voltage-->
+                        <sf:GridComboBoxColumn HeaderText="Voltage" MappingName="Voltage"
+                                               Width="75"
+                                               AllowEditing="True"
+                                               ItemsSource="{Binding Path=DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               DisplayMemberPath="Voltage"
+                                               SelectedValuePath="Voltage"
+                                               UseBindingValue="True"
+                                               FilterRowCondition="Contains"
+                                               SortMode="Display"
+                                               TextAlignment="Center" >
+                            <sf:GridComboBoxColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               TextAlignment="Center"/>
                                 </DataTemplate>
                             </sf:GridComboBoxColumn.CellTemplate>
                         </sf:GridComboBoxColumn>
 
-                        <!--Voltage-->
-                        <sf:GridTextColumn HeaderText="Voltage" MappingName="Voltage"
-                                           Width="75"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"
-                                           />
+                       
                         
                         <sf:GridTextColumn HeaderText="Size" MappingName="Size"
-                                           Width="60"
+                                           Width="50"
                                            UseBindingValue="True"
-                                           FilterRowCondition="Contains"/>
+                                           FilterRowCondition="Contains"
+                                           AllowEditing="True"
+                                           TextAlignment="Right"/>
 
                         <sf:GridTextColumn HeaderText="Unit" MappingName="Unit"
-                                           Width="60"
+                                           Width="50"
+                                           AllowEditing="False"
                                            UseBindingValue="True"
-                                           FilterRowCondition="Contains"/>
+                                           FilterRowCondition="Contains" />
 
                         <sf:GridTextColumn HeaderText="Load&#x0a;Type" MappingName="Type"
-                                           Width="75"
+                                           Width="60"
+                                           AllowEditing="False"
                                            UseBindingValue="True"
-                                           FilterRowCondition="Contains"/>
+                                           FilterRowCondition="Contains"
+                                           TextAlignment="Center"
+                                           AllowFiltering="True"/>
 
+
+                        <sf:GridTextColumn HeaderText="FLA" MappingName="Fla"
+                                           Width="50"
+                                           AllowEditing="False"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="Contains"
+                                           TextAlignment="Center"/>
+
+                        <!--<sf:GridTextColumn HeaderText="Running&#x0a;Amps" MappingName="RunningAmps"
+                                           Width="60"
+                                           AllowEditing="False"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="Contains"
+                                           TextAlignment="Center"/>-->
+
+                        <sf:GridTextColumn HeaderText="Load&#x0a;Factor" MappingName="LoadFactor"
+                                           Width="60"
+                                           AllowEditing="False"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="Contains"
+                                           TextAlignment="Center"/>
+
+                        <sf:GridTextColumn HeaderText="Efficiency" MappingName="Efficiency"
+                                           Width="60"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="Contains"
+                                           TextAlignment="Center"/>
+
+                        <sf:GridTextColumn HeaderText="PF  " MappingName="PowerFactor"
+                                           Width="60"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="Contains"
+                                           TextAlignment="Center"
+                                           HorizontalHeaderContentAlignment="Center"
+                                           IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"/>
+
+                        <!--POWER-->
+                        <sf:GridTextColumn HeaderText="Conn&#x0a;kVA" MappingName="ConnectedKva"
+                                           Width="40"
+                                           AllowEditing="False"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="Contains"
+                                           TextAlignment="Center"
+                                           IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"/>
+
+                        <sf:GridTextColumn HeaderText="Dem&#x0a;kVA" MappingName="DemandKva"
+                                           Width="40"
+                                           AllowEditing="False"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="Contains"
+                                           TextAlignment="Center"
+                                           IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"/>
+                        <sf:GridTextColumn HeaderText="Dem&#x0a;kW" MappingName="DemandKw"
+                                           Width="40"
+                                           AllowEditing="False"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="Contains"
+                                           TextAlignment="Center"
+                                           IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"/>
+
+                        <sf:GridTextColumn HeaderText="Dem&#x0a;kVAR" MappingName="DemandKvar"
+                                           Width="40"
+                                           AllowEditing="False"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="Contains"
+                                           TextAlignment="Center"
+                                           IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"/>
+
+                        <!--COMPONENTS-->
                         <!--Disconnect-->
                         <!--<sf:GridTemplateColumn HeaderText="Local&#x0a;TDisconnect" MappingName="DisconnectBool">
                             <sf:GridTemplateColumn.CellTemplate>
@@ -1450,15 +1566,16 @@
 
 
                         <sf:GridCheckBoxColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool" 
-                                               Width="70"
+                                               Width="45"
                                                UseBindingValue="True"
                                                AllowEditing="True"
                                                FilterRowCondition="Equals"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>
+                                                                AncestorType={x:Type UserControl}}}"
+                                               />
 
                         <sf:GridCheckBoxColumn HeaderText="Drive" MappingName="DriveBool" 
-                                               Width="65"
+                                               Width="45"
                                                UseBindingValue="True"
                                                AllowEditing="True"
                                                FilterRowCondition="Equals"
@@ -1466,7 +1583,7 @@
                                                                 AncestorType={x:Type UserControl}}}"/>
 
                         <sf:GridCheckBoxColumn HeaderText="LCS" MappingName="LcsBool" 
-                                               Width="55"
+                                               Width="45"
                                                UseBindingValue="True"
                                                AllowEditing="True"
                                                FilterRowCondition="Equals"
@@ -1475,6 +1592,7 @@
 
                         <sf:GridTextColumn HeaderText="Local&#x0a;Disc. Tag" MappingName="Disconnect.Tag"
                                            Width="100"
+                                           AllowEditing="True"
                                            UseBindingValue="True"
                                            FilterRowCondition="Contains"
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
@@ -1482,6 +1600,7 @@
 
                         <sf:GridTextColumn HeaderText="Drive&#x0a;Tag" MappingName="Drive.Tag"
                                            Width="100"
+                                           AllowEditing="True"
                                            UseBindingValue="True"
                                            FilterRowCondition="Contains"
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
@@ -1489,6 +1608,7 @@
 
                         <sf:GridTextColumn HeaderText="Lcs&#x0a;Tag" MappingName="Lcs.Tag"
                                            Width="100"
+                                           AllowEditing="True"
                                            UseBindingValue="True"
                                            FilterRowCondition="Contains"
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 

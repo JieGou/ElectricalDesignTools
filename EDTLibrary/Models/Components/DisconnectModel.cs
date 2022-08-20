@@ -60,7 +60,7 @@ public class DisconnectModel : IComponentEdt
 
     public string Type { get; set; }
     public string SubType { get; set; }
-    public ObservableCollection<string> TypeList { get; set; } = new ObservableCollection<string>() { "UDS", "FDS" };
+    public List<string> TypeList { get; set; } = new List<string>() { "UDS", "FDS" };
 
     public double Voltage { get; set; }
     public double Size { get; set; }
@@ -68,7 +68,7 @@ public class DisconnectModel : IComponentEdt
     public int AreaId { get; set; }
     private IArea _area;
     private int _sequenceNumber;
-    private ObservableCollection<string> _typelist = new ObservableCollection<string>();
+    private List<string> _typelist = new List<string>();
 
     public IArea Area
     {

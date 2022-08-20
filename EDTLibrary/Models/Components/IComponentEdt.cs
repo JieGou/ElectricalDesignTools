@@ -11,7 +11,7 @@ namespace EDTLibrary.Models.Components
         double Size { get; set; }
         string SubCategory { get; set; }
         string SubType { get; set; }
-        ObservableCollection<string> TypeList { get; set; }
+        List<string> TypeList { get; set; }
 
 
         int OwnerId { get; set; }

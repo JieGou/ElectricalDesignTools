@@ -60,11 +60,11 @@ public class ComponentModel : IComponentEdt
 
     public string Type { get; set; }
     public string SubType { get; set; }
-    public ObservableCollection<string> TypeList
+    public List<string> TypeList
     {
         get
         {
-       
+            _typelist.Clear();
             if (Type == ComponentTypes.UDS.ToString() || Type == ComponentTypes.FDS.ToString()) {
                 _typelist.Add(ComponentTypes.UDS.ToString());
                 _typelist.Add(ComponentTypes.FDS.ToString());
@@ -87,7 +87,7 @@ public class ComponentModel : IComponentEdt
     public int AreaId { get; set; }
     private IArea _area;
     private int _sequenceNumber;
-    private ObservableCollection<string> _typelist = new ObservableCollection<string>();
+    private List<string> _typelist = new List<string>();
 
     public IArea Area
     {

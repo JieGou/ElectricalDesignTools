@@ -39,8 +39,13 @@
     <SolidColorBrush x:Key="RowHighlightBrush_Teal" Color="AliceBlue"></SolidColorBrush>
     <SolidColorBrush x:Key="CellHighlightBrush_Teal" Color="#FFD6EDF3"></SolidColorBrush>
 
+    
+    <SolidColorBrush x:Key="Medium_Blue" Color="#FF1962A4"></SolidColorBrush>
+    <SolidColorBrush x:Key="Medium_Purple" Color="#FF7A6BE2"></SolidColorBrush>
+    <SolidColorBrush x:Key="Medium_Orange" Color="#FFE09E4D"></SolidColorBrush>
 
-
+    
+    
     <!--Other Color-->
     <SolidColorBrush x:Key="LightRed">#FFFFBABA</SolidColorBrush>
     <SolidColorBrush x:Key="LightOrange">#FFFFB193</SolidColorBrush>

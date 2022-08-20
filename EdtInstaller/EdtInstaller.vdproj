@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_26B6019FF1204427B40AA100A918171C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_4B012A6118A34FFA8AFC0B1D8577B6A3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -34,12 +40,6 @@
         "Entry"
         {
         "MsmKey" = "8:_8552B63E332A4AB9B920663214FC8D1D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A63160F9CCE24870A177D89A57F22EC2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -106,6 +106,11 @@
                     {
                     "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
                     "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.NetCore.DesktopRuntime.6.0.x64"
+                    {
+                    "Name" = "8:.NET Desktop Runtime 6.0.8 (x64)"
+                    "ProductCode" = "8:Microsoft.NetCore.DesktopRuntime.6.0.x64"
                     }
                 }
             }
@@ -241,7 +246,7 @@
             "IconIndex" = "3:0"
                 "Command"
                 {
-                "Command" = "8:_A63160F9CCE24870A177D89A57F22EC2"
+                "Command" = "8:_26B6019FF1204427B40AA100A918171C"
                 }
                 "Verbs"
                 {
@@ -264,7 +269,7 @@
             "IconIndex" = "3:0"
                 "Command"
                 {
-                "Command" = "8:_A63160F9CCE24870A177D89A57F22EC2"
+                "Command" = "8:_26B6019FF1204427B40AA100A918171C"
                 }
                 "Verbs"
                 {
@@ -353,7 +358,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Electrical Design Tools"
         "ProductCode" = "8:{6F54DE64-0911-4FEC-B2BD-FC6A85A86945}"
-        "PackageCode" = "8:{443B10A1-C7E3-45F7-AF7C-F6DB9C8DE771}"
+        "PackageCode" = "8:{66669E13-2E3C-439A-9ADC-3534175CC794}"
         "UpgradeCode" = "8:{247680F3-572D-48BB-BFE6-F16B36C4670D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -473,7 +478,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_678AF1B86B4E4C21B1609B1F5D28CB9B"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0A2E3E3414DB4BF98C900E6942A3F2F8"
             {
             "Name" = "8:Shortcut to Electrical Design Tools"
             "Arguments" = "8:"
@@ -481,7 +486,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_A63160F9CCE24870A177D89A57F22EC2"
+            "Target" = "8:_26B6019FF1204427B40AA100A918171C"
             "Folder" = "8:_3FDF45E073DF4B4B94EFB616B1C64792"
             "WorkingFolder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
             "Icon" = "8:_5638733DFDC147209E2A181CB06C67B8"
@@ -900,9 +905,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A63160F9CCE24870A177D89A57F22EC2"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_26B6019FF1204427B40AA100A918171C"
             {
-            "SourcePath" = "8:..\\WpfUI\\obj\\Debug\\net6.0-windows10.0.22000.0\\apphost.exe"
+            "SourcePath" = "8:..\\WpfUI\\obj\\Debug\\net6.0-windows10.0.22000.0\\win-x64\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
@@ -924,6 +929,7 @@
             "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{4BF24413-4E32-4AFB-83D0-1272A63CECDE}"
             "ShowKeyOutput" = "11:TRUE"
+            "PublishProfilePath" = "8:Properties\\PublishProfiles\\Edt Core Full.pubxml"
                 "ExcludeFilters"
                 {
                 }
