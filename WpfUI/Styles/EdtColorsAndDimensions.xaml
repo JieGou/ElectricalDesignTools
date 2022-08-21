@@ -35,6 +35,7 @@
     <!--<SolidColorBrush x:Key="DatagridSelection">#FFD6EDF3</SolidColorBrush>-->
 
     <SolidColorBrush x:Key="RowSelectionBrush_Teal" Color="#FFB7DEE8"></SolidColorBrush>
+    <SolidColorBrush x:Key="RowSelectionBrushOpacity_Teal" Color="#FFB7DEE8" Opacity="0.3"></SolidColorBrush>
 
     <SolidColorBrush x:Key="RowHighlightBrush_Teal" Color="AliceBlue"></SolidColorBrush>
     <SolidColorBrush x:Key="CellHighlightBrush_Teal" Color="#FFD6EDF3"></SolidColorBrush>

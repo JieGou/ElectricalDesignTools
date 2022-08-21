@@ -304,7 +304,10 @@ public class CableModel : ICable
 
             if (DaManager.GettingRecords == false) {
                 _calculating = true;
-                AutoSize();
+                if (UsageType == CableUsageTypes.Power.ToString()) {
+                    AutoSize();
+
+                }
                 _calculating = false;
             }
 
@@ -386,9 +389,12 @@ public class CableModel : ICable
     }
     public void SetTypeProperties()
     {
-        VoltageClass = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).VoltageClass;
-        ConductorQty = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).ConductorQty;
-        AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
+        if (UsageType==CableUsageTypes.Power.ToString()) {
+            VoltageClass = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).VoltageClass;
+            ConductorQty = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).ConductorQty;
+            AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
+        }
+
     }
     public void SetCableParameters(ICableUser load)
     {

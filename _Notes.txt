@@ -6,6 +6,7 @@ Refactorings
 Bugs
 	- Delete Dteq does not delete cable
 	- load cable length when updating components
+	- SCCR calculation on DTEQ size change
 
 Validations
 	- PD

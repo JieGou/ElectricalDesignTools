@@ -571,7 +571,7 @@ public partial class _MjeqView : UserControl
             Unit = Units.HP.ToString()
         };
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 10; i++) {
             await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 load.Tag = "M-" + count.ToString();
                 load.Area = listManager.AreaList[3];
