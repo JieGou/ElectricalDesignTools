@@ -90,7 +90,7 @@
 
             </ResourceDictionary.MergedDictionaries>
 
-            <Style TargetType="sfgrid:GridCell" x:Key="NonMotorComponentCheckBoxStyle">
+            <Style TargetType="sfgrid:GridCell" x:Key="NonMotorLoadVisibilityStyle">
                 <Setter Property="BorderBrush" Value="LightGray" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
@@ -101,6 +101,9 @@
                 </Style.Triggers>
                 <Style.Resources>
                     <Style TargetType="CheckBox">
+                        <Setter Property="Visibility" Value="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
+                    </Style>
+                    <Style TargetType="TextBlock">
                         <Setter Property="Visibility" Value="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
                     </Style>
                 </Style.Resources>

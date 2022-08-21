@@ -9,14 +9,14 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary;
 
 namespace WpfUI.SyncFusion.StyleSelectors;
-public class NonMotorComponentCheckBoxStyleSelector : StyleSelector
+public class NonMotorLoadVisibilityStyleSelector : StyleSelector 
 {
     public override Style SelectStyle(object item, DependencyObject container)
     {
         var row = item as IPowerConsumer;
         if (row != null) {
             if (row.Type != LoadTypes.MOTOR.ToString())
-                return App.Current.Resources["NonMotorComponentCheckBoxStyle"] as Style;
+                return App.Current.Resources["NonMotorLoadVisibilityStyle"] as Style;
         }
         return base.SelectStyle(item, container);
     }

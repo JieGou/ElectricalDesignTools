@@ -46,7 +46,7 @@
 
             </ResourceDictionary.MergedDictionaries>
 
-            <styleSelectors:NonMotorComponentCheckBoxStyleSelector x:Key="NonMotorComponentCheckBoxStyleSelector"/>
+            <styleSelectors:NonMotorLoadVisibilityStyleSelector x:Key="NonMotorLoadVisibilityStyleSelector"/>
 
 
             <Style TargetType="sf:GridCell">
@@ -1562,6 +1562,65 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
+                        <sf:GridComboBoxColumn HeaderText="OCPD&#x0a;Type" MappingName="PdType"
+                                               Width="80"
+                                               AllowEditing="True"
+                                               AllowFiltering="True"
+                                               ItemsSource="{Binding Path=DataContext.TypeManager.OcpdTypes, 
+                                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                    AncestorType={x:Type Window}}}"
+                                               DisplayMemberPath="Type"
+                                               SelectedValuePath="Type"
+                                               UseBindingValue="True"
+                                               FilterRowCondition="LessThanOrEqual"
+                                               SortMode="Display"
+                                               TextAlignment="Center" 
+                                               FilterRowOptionsVisibility="Collapsed"
+                                               IsHidden="{Binding DataContext.LoadGridViewModifier.OcpdInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"
+                                               >
+                            <sf:GridComboBoxColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               TextAlignment="Center"/>
+                                </DataTemplate>
+                            </sf:GridComboBoxColumn.CellTemplate>
+                        </sf:GridComboBoxColumn>
+
+                        <sf:GridTextColumn HeaderText="PD / MCP&#x0a;Trip" MappingName="PdSizeTrip"
+                                           Width="60"
+                                           AllowEditing="False"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="LessThanOrEqual"
+                                           TextAlignment="Center"
+                                           FilterRowOptionsVisibility="Collapsed"
+                                           
+                                           IsHidden="{Binding DataContext.LoadGridViewModifier.OcpdInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"/>
+
+                        <sf:GridTextColumn HeaderText="PD / MCP&#x0a;Frame" MappingName="PdSizeFrame"
+                                           Width="60"
+                                           AllowEditing="False"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="LessThanOrEqual"
+                                           TextAlignment="Center"
+                                           FilterRowOptionsVisibility="Collapsed"
+                                           
+                                           IsHidden="{Binding DataContext.LoadGridViewModifier.OcpdInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"/>
+
+                        <sf:GridTextColumn HeaderText="Starter&#x0a;Size" MappingName="StarterSize"
+                                           Width="60"
+                                           AllowEditing="False"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="LessThanOrEqual"
+                                           TextAlignment="Center"
+                                           FilterRowOptionsVisibility="Collapsed"
+                                           CellStyleSelector="{StaticResource NonMotorLoadVisibilityStyleSelector}"
+                                           IsHidden="{Binding DataContext.LoadGridViewModifier.OcpdInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"
+                                           />
+
                         <!--COMPONENTS-->
                         <!--These checkboxes have no rendering issues but require double click-->
                         <!--Disconnect-->
@@ -1657,7 +1716,7 @@
                                                FilterRowCondition="Equals"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
-                                               CellStyleSelector="{StaticResource NonMotorComponentCheckBoxStyleSelector}"
+                                               CellStyleSelector="{StaticResource NonMotorLoadVisibilityStyleSelector}"
                                                FilterRowEditorType="MultiSelectComboBox"
                                                />
                         
@@ -1668,7 +1727,7 @@
                                                UseBindingValue="True"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
-                                               CellStyleSelector="{StaticResource NonMotorComponentCheckBoxStyleSelector}"
+                                               CellStyleSelector="{StaticResource NonMotorLoadVisibilityStyleSelector}"
                                                FilterRowEditorType="MultiSelectComboBox"
                                                />
 
