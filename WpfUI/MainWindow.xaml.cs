@@ -9,7 +9,7 @@ using WpfUI.ViewModels;
 using Syncfusion.Windows.Tools.Controls;
 using System.Windows.Interop;
 using WpfUI.ViewModels.Cables;
-using WpfUI.ViewModels.Areas_and_Systems;
+using WpfUI.ViewModels.AreasAndSystems;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.ViewModels.Menus;
 using WpfUI.Windows;

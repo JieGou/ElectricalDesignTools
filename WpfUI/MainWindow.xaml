@@ -20,8 +20,8 @@
         xmlns:settingsViews="clr-namespace:WpfUI.Views.Settings"
         xmlns:settingsViewModels="clr-namespace:WpfUI.ViewModels.Settings"
         
-        xmlns:areaViews="clr-namespace:WpfUI.Views.Areas_and_Systems"
-        xmlns:areasViewModels="clr-namespace:WpfUI.ViewModels.Areas_and_Systems"
+        xmlns:areaViews="clr-namespace:WpfUI.Views.AreasAndSystems"
+        xmlns:areasViewModels="clr-namespace:WpfUI.ViewModels.AreasAndSystems"
         
         xmlns:electricalViews="clr-namespace:WpfUI.Views.Electrical"
         xmlns:electricalViewModels="clr-namespace:WpfUI.ViewModels.Electrical"

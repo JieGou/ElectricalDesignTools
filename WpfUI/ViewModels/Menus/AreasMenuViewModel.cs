@@ -15,7 +15,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using WpfUI.Commands;
 using WpfUI.Helpers;
-using WpfUI.ViewModels.Areas_and_Systems;
+using WpfUI.ViewModels.AreasAndSystems;
 
 namespace WpfUI.ViewModels.Menus
 {
