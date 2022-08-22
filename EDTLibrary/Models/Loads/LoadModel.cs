@@ -469,7 +469,7 @@ namespace EDTLibrary.Models.Loads
         //Methods
         public void CalculateLoading()
         {
-            IsCalculating = true;
+           
             UndoManager.CanAdd = false;
             if (DaManager.GettingRecords == true) {
                 return;
@@ -478,7 +478,7 @@ namespace EDTLibrary.Models.Loads
                 LoadFactor = double.Parse(EdtSettings.LoadFactorDefault);
             }
 
-
+            IsCalculating = true;
             GetEfficiencyAndPowerFactor(this);
 
             // Ampacity Factor

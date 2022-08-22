@@ -36,7 +36,7 @@
                                 Grid.Row="1">
                         <TextBlock Text="Count: "/>
                         <TextBlock  Grid.Row="1"
-                                    Text="{Binding ErrorList.Count,UpdateSourceTrigger=PropertyChanged}"
+                                    Text="{Binding ErrorLog.Count,UpdateSourceTrigger=PropertyChanged}"
                                     d:Text="23"
                                     HorizontalAlignment="Left"
                                 Width="50"
