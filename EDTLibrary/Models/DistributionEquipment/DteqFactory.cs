@@ -13,12 +13,12 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             _listManager = listManager;
         }
-        public IDteq CreateDteq(DteqToAddValidator dteqToAddValidator)
+        public IDteq CreateDteq(DteqToAddValidator dteqToAddValidator, ListManager listManager)
         {
             IDteq newDteq;
 
             if (dteqToAddValidator.Type == DteqTypes.XFR.ToString()) {
-                XfrModel model = new XfrModel();
+                XfrModel model = new XfrModel(listManager);
                 //XFR properties
                 model.Impedance = Double.Parse(EdtSettings.XfrImpedance);
                 model.SubType = EdtSettings.XfrSubType;
@@ -27,17 +27,17 @@ namespace EDTLibrary.Models.DistributionEquipment
                 newDteq = model;
             }
             else if (dteqToAddValidator.Type == DteqTypes.SWG.ToString()) {
-                SwgModel model = new SwgModel();
+                SwgModel model = new SwgModel(listManager);
                 //SWG properties
                 newDteq = model;
             }
             else if (dteqToAddValidator.Type == DteqTypes.MCC.ToString()) {
-                MccModel model = new MccModel();
+                MccModel model = new MccModel(listManager);
                 //MCC properties
                 newDteq = model;
             }
             else {
-                newDteq = new DteqModel();
+                newDteq = new DteqModel(listManager);
             }
 
             newDteq.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == dteqToAddValidator.FedFromTag);

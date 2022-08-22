@@ -6,9 +6,12 @@ using System.Collections.ObjectModel;
 
 namespace EDTLibrary.Models.Components
 {
-    public interface IComponentEdt :  IEquipment
+    public interface IComponentEdt :  IPowerCableUser
     {
         double Size { get; set; }
+        string Unit { get; set; }
+        double PdTrip { get; set; }
+        double PdFrame { get; set; }
         string SubCategory { get; set; }
         string SubType { get; set; }
         List<string> TypeList { get; set; }

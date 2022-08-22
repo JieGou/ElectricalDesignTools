@@ -6,9 +6,9 @@ using System.ComponentModel;
 
 namespace EDTLibrary.Models.Cables;
 
-public interface ICableUser : IEquipment
+public interface IPowerCableUser : IEquipment
 {
-
+    int PowerCableId { get; set; }
     double Voltage { get; set; }
     double Size { get; set; }
     string Unit { get; set; }

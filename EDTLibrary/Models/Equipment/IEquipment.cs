@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.Areas;
+﻿using EDTLibrary.Managers;
+using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Components;
 using System;
 using System.Collections.ObjectModel;
@@ -9,6 +10,7 @@ namespace EDTLibrary.Models.Equipment
 {
     public interface IEquipment
     {
+        ListManager ListManager { get; set; }
         int Id { get; set; }
         string Tag { get; set; }
         string Category { get; set; }

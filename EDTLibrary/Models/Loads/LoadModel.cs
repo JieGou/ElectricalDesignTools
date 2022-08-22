@@ -7,6 +7,7 @@ using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Validators;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
@@ -24,12 +25,22 @@ namespace EDTLibrary.Models.Loads
     [AddINotifyPropertyChangedInterface]
     public class LoadModel : ILoad
     {
+        public ListManager ListManager { get; set; }
+
         public LoadModel()
         {
             Description = "";
             Category = Categories.LOAD.ToString();
-            PowerCable = new CableModel();
+            PowerCable = new CableModel( ListManager);
 
+        }
+
+        public LoadModel(ListManager listManager)
+        {
+            ListManager = listManager;
+            Description = "";
+            Category = Categories.LOAD.ToString();
+            PowerCable = new CableModel(this, ListManager);
         }
         public LoadModel(string tag)
         {
@@ -43,29 +54,26 @@ namespace EDTLibrary.Models.Loads
             get { return _tag; }
             set
             {
+                //Cancel conditions
                 if (value == null) return;
+                if (Tag == GlobalConfig.LargestMotor_StartLoad) return;
+                if (TagAndNameValidator.IsTagAvailable(value, ListManager ) == false) return;
+
                 var oldValue = _tag;
                 _tag = value;
-
+                if (DaManager.GettingRecords == true) return;
 
                 UndoManager.CanAdd = false;
-                if (DaManager.GettingRecords == false) {
-                    if (PowerCable != null) {
-                        PowerCable.SetTagging(this);
-                    }
-                    if (PowerCable != null && FedFrom != null) {
-                        if (CableManager.IsUpdatingPowerCables == false) {
-                            CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
-                        }
+                
+                if (PowerCable != null && FedFrom != null) {
+                    if (CableManager.IsUpdatingPowerCables == false) {
+                        CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ListManager);
                     }
                 }
-
-                if (Tag == GlobalConfig.LargestMotor_StartLoad) return;
 
                 UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
                 OnPropertyUpdated();
-
             }
         }
         public string Category { get; set; }
@@ -123,7 +131,6 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 if (value == null) return;
-
                 var oldValue = _area;
                 _area = value;
 
@@ -228,11 +235,9 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 if (value == null) return;
-
                 _fedFromTag = value;
-                if (DaManager.GettingRecords == false) {
-                    //OnFedFromChanged();
-                    //CalculateLoading();
+
+                if (ListManager!=null) {
                     CreatePowerCable();
                     PowerCable.SetTagging(this);
                 }
@@ -253,7 +258,7 @@ namespace EDTLibrary.Models.Loads
                 UndoManager.CanAdd = false;
                 if (DaManager.GettingRecords == false) {
                     DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
-                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ListManager);
                 }
                 UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
@@ -333,7 +338,7 @@ namespace EDTLibrary.Models.Loads
         public double HeatLoss { get; set; }
 
         //Cables
-
+        public int PowerCableId { get; set; }
         public CableModel PowerCable { get; set; }
         public ObservableCollection<IComponentEdt> AuxComponents { get; set; } = new ObservableCollection<IComponentEdt>();
         public ObservableCollection<IComponentEdt> CctComponents { get; set; } = new ObservableCollection<IComponentEdt>();
@@ -356,10 +361,10 @@ namespace EDTLibrary.Models.Loads
                 UndoManager.CanAdd = false;
                 if (DaManager.GettingRecords == false) {
                     if (_lcsBool == true) {
-                        ComponentManager.AddLcs(this, ScenarioManager.ListManager);
+                        ComponentManager.AddLcs(this, ListManager);
                     }
                     else if (_lcsBool == false) {
-                        ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
+                        ComponentManager.RemoveLcs(this, ListManager);
                     }
                 }
 
@@ -390,12 +395,12 @@ namespace EDTLibrary.Models.Loads
                 UndoManager.CanAdd = false;
                 if (DaManager.GettingRecords == false) {
                     if (_driveBool == true) {
-                        ComponentManager.AddDefaultDrive(this, ScenarioManager.ListManager);
+                        ComponentManager.AddDefaultDrive(this, ListManager);
                     }
                     else if (_driveBool == false) {
-                        ComponentManager.RemoveDefaultDrive(this, ScenarioManager.ListManager);
+                        ComponentManager.RemoveDefaultDrive(this, ListManager);
                     }
-                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ListManager);
                 }
 
                 UndoManager.CanAdd = true;
@@ -431,12 +436,12 @@ namespace EDTLibrary.Models.Loads
                 UndoManager.CanAdd = false;
                 if (DaManager.GettingRecords == false) {
                     if (_disconnectBool == true) {
-                        ComponentManager.AddDefaultDisconnect(this, ScenarioManager.ListManager);
+                        ComponentManager.AddDefaultDisconnect(this, ListManager);
                     }
                     else if (_disconnectBool == false) {
-                        ComponentManager.RemoveDefaultDisconnect(this, ScenarioManager.ListManager);
+                        ComponentManager.RemoveDefaultDisconnect(this, ListManager);
                     }
-                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ListManager);
                     //OnCctComponentChanged();
                 }
                 UndoManager.CanAdd = true;
@@ -573,7 +578,7 @@ namespace EDTLibrary.Models.Loads
 
             OnLoadingCalculated();
             PowerCable.ValidateCableSize(PowerCable);
-            CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+            CableManager.ValidateLoadPowerComponentCablesAsync(this, ListManager);
             OnPropertyUpdated();
 
         }
@@ -617,7 +622,12 @@ namespace EDTLibrary.Models.Loads
         public void CreatePowerCable()
         {
             if (PowerCable.Load == null) {
-                PowerCable = new CableModel(this);
+                PowerCable = (CableModel)CableFactory.CreatePowerCable(this, ListManager);
+
+                PowerCable.Load = this;
+                PowerCable.LoadId = Id;
+                PowerCable.LoadType = this.GetType().ToString();
+                PowerCable.Type = CableManager.CableSizer.GetDefaultCableType(this);
             }
         }
         public void SizePowerCable()
@@ -662,7 +672,7 @@ namespace EDTLibrary.Models.Loads
                 //});
 
                 if (GlobalConfig.Testing == true) {
-                    ErrorHelper.LogNoSave($"Tag: {Tag}, {callerMethod}");
+                    //ErrorHelper.LogNoSave($"Tag: {Tag}, {callerMethod}");
                 }
             }
         }

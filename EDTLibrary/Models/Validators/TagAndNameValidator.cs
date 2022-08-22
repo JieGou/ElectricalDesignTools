@@ -10,9 +10,8 @@ namespace EDTLibrary.Models.Validators
     {
         public static bool IsTagAvailable(string tag, ListManager listManager)
         {
-            if (string.IsNullOrEmpty(tag)) {
-                return true;
-            }
+            if (string.IsNullOrEmpty(tag))  return true;
+            if (listManager == null) return true;
 
             var areaTag = listManager.AreaList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
             var dteqTag = listManager.DteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());

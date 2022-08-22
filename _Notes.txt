@@ -1,7 +1,8 @@
 Refactorings
 	- proper IPowerCableUser members
-	- cable owner needs to reference the cable
+	- cable owners need to reference the cable
 	- cable needs to reference source and destination
+	- add reference to list manager inside each model object
 
 Bugs
 	- Delete Dteq does not delete cable

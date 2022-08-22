@@ -17,14 +17,14 @@ namespace EDTLibrary.A_Helpers
         public static void Log(string errorMessage, [CallerFilePath] string callerClass = "", [CallerMemberName] string callerMethod = "")
         {
             callerClass = Path.GetFileName(callerClass);
-            errorMessage = $"{callerClass}_{callerMethod} - {errorMessage}";
+            errorMessage = $"C:{callerClass}, M:{callerMethod} - {errorMessage}";
             ErrorLog.Add(errorMessage);
             SaveLog();
         }
         public static void LogNoSave(string errorMessage, [CallerFilePath] string callerClass = "", [CallerMemberName] string callerMethod = "")
         {
             callerClass = Path.GetFileName(callerClass);
-            errorMessage = $"{callerClass}_{callerMethod} - {errorMessage}";
+            errorMessage = $"C:{callerClass}, M:{callerMethod} - {errorMessage}";
             ErrorLog.Add(errorMessage);
         }
         public static void SaveLog()

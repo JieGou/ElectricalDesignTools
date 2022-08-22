@@ -14,7 +14,7 @@ namespace EDTLibrary.Models.Cables
         string OwnerType { get; set; }
         public int LoadId { get; set; }
         public string LoadType { get; set; }
-        ICableUser Load { get; set; }
+        IPowerCableUser Load { get; set; }
 
         string Tag { get; set; }
         string Type { get; set; }

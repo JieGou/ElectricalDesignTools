@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.DataAccess;
@@ -24,5 +25,5 @@ public interface IDaConnector
     void SaveDataTable(DataTable dataTable, string tableName);
     Tuple<bool, string> UpdateRecord<T>(T classObject, string tableName) where T : class, new();
     void UpdateSetting(string settingName, string settingValue);
-    void UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new();
+    void UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore, [CallerMemberName] string callerMethod = "") where T : class, new();
 }

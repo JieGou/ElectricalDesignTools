@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using System;
@@ -23,6 +24,8 @@ public class ComponentFactory
         else {
             newComponent.Id = listManager.CompList.Select(c => c.Id).Max() + 1;
         }
+        newComponent.PowerCable = (CableModel)CableFactory.CreatePowerCable(newComponent, listManager);
+        newComponent.PowerCableId = newComponent.PowerCableId;
         newComponent.Category = Categories.COMPONENT.ToString();
         newComponent.SubCategory = subCategory;
         newComponent.Owner = componentUser;

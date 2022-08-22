@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Managers;
+﻿using EDTLibrary.A_Helpers;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Validators;
@@ -368,6 +369,9 @@ namespace EDTLibrary.Models.Loads
 
             if (_isValid && HasErrors == false) {
                 return true;
+            }
+            if (Tag!=null) {
+                ErrorHelper.Log($"LoadToAddValidator - Failed validation: {Tag}");
             }
             return false;
         }

@@ -66,6 +66,7 @@ namespace WpfUI.ViewModels.AreasAndSystems
             get { return _selectedArea; }
             set
             {
+                if (value == null) return;
                 _selectedArea = value;
 
                 _selectedArea.HeatLoss = 0;
@@ -207,29 +208,10 @@ namespace WpfUI.ViewModels.AreasAndSystems
         }
         public void AddArea(object areaToAddObject)
         {
-            AreaToAddValidator areaToAdd = (AreaToAddValidator)areaToAddObject;
-            AreaModel newArea = new AreaModel();
+            
             try {
-                bool newAreaIsValid = areaToAdd.IsValid();
-                var errors = areaToAdd._errorDict;
-                if (newAreaIsValid) {
-
-                    newArea.Tag = areaToAdd.Tag;
-                    newArea.DisplayTag = areaToAdd.DisplayTag;
-                    newArea.Name = areaToAdd.Name;
-                    newArea.Description = areaToAdd.Description;
-                    newArea.AreaCategory = areaToAdd.AreaCategory;
-                    newArea.AreaClassification = areaToAdd.AreaClassification;
-                    newArea.MinTemp = double.Parse(areaToAdd.MinTemp);
-                    newArea.MaxTemp = double.Parse(areaToAdd.MaxTemp);
-                    newArea.NemaRating = areaToAdd.NemaRating;
-
-
-                    newArea.Id = DaManager.prjDb.InsertRecordGetId(newArea, GlobalConfig.AreaTable, SaveLists.AreaNoSaveList);
-
-                    ListManager.AreaList.Add(newArea);
-                    RefreshAreaTagValidation();
-                }
+                AreaFactory.CreateArea(ListManager, areaToAddObject);
+                RefreshAreaTagValidation();
             }
             catch (Exception ex) {
                 ErrorHelper.ShowErrorMessage(ex);

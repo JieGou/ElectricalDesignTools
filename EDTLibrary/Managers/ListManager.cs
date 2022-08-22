@@ -50,7 +50,7 @@ namespace EDTLibrary.Managers
                 //Get
                 GetAreas();
                 GetDteq();
-                GetLoads();
+                GetLoadsAndAssignPropertyUpdatedEvent();
 
                 //TODO - Get Components for each type and create a master component list
                 GetDrives();
@@ -66,6 +66,8 @@ namespace EDTLibrary.Managers
                 AssignAreas();
                 AssignLoadsAndEventsToAllDteq();
                 AssignCables();
+                CreateEquipmentList();
+                AssignListManagerToEquipment(EqList);
             }
             catch (Exception ex) {
 
@@ -92,6 +94,12 @@ namespace EDTLibrary.Managers
             return EqList;
         }
 
+        public void AssignListManagerToEquipment(ObservableCollection<IEquipment> equipmentList)
+        {
+            foreach (var item in equipmentList) {
+                item.ListManager = this;
+            }
+        }
         private void GetDisconnects()
         {
             DisconnectList.Clear();
@@ -188,26 +196,34 @@ namespace EDTLibrary.Managers
                 }
             }
         }
-        private void GetLoads()
+        private void GetLoadsAndAssignPropertyUpdatedEvent()
         {
 
-            var list = DaManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable); //new List<LoadModel>(); //
+            var list = DaManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable);
             LoadList.Clear();
             foreach (var item in list) {
                 LoadList.Add(item);
             }
+
             IDteq fedFrom;
 
             foreach (var load in LoadList) {
 
+                //Set FedFromrom to Deleted if supplier was previously deleted
                 if (load.FedFromTag.Contains("Deleted") || load.FedFromType.Contains("Deleted")) {
                     load.FedFrom = GlobalConfig.DteqDeleted;
                 }
+
+                //Set FedFromrom
                 fedFrom = IDteqList.FirstOrDefault(d => d.Id == load.FedFromId &&
                                                    d.GetType().ToString() == load.FedFromType);
                 if (fedFrom != null) load.FedFrom = fedFrom;
 
+                //DbNull error prevention
                 if (load.Description == null) load.Description = "";
+
+                load.PropertyUpdated += DaManager.OnLoadPropertyUpdated;
+
             }
         }
         private void GetComponents()
@@ -381,7 +397,6 @@ namespace EDTLibrary.Managers
                         dteq.AssignedLoads.Add(load);
                         load.LoadingCalculated += dteq.OnAssignedLoadReCalculated;
                     }
-                    load.PropertyUpdated += DaManager.OnLoadPropertyUpdated;
 
                 }
             }

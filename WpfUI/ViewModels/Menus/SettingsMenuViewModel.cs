@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
@@ -23,18 +24,19 @@ namespace WpfUI.ViewModels.Menus;
 
 public class SettingsMenuViewModel : ViewModelBase
 {
-    public SettingsMenuViewModel(MainViewModel mainViewModel, EdtSettings edtSettings, TypeManager typeManager)
+    public SettingsMenuViewModel(MainViewModel mainViewModel, EdtSettings edtSettings, TypeManager typeManager, ListManager listManager)
     {
         _mainViewModel = mainViewModel;
         _edtSettings = edtSettings;
         _typeManager = typeManager;
+        _listManager = listManager;
 
         // Create commands
 
         _generalSettingsViewModel = new GeneralSettingsViewModel(_edtSettings, _typeManager);
         NavigateGeneralSettingsCommand = new RelayCommand(NavigateGeneralSettings);
 
-        _equipmentSettingsViewModel = new EquipmentSettingsViewModel(_edtSettings, _typeManager);
+        _equipmentSettingsViewModel = new EquipmentSettingsViewModel(_edtSettings, _typeManager, _listManager);
         NavigateEquipmentSettingsCommand = new RelayCommand(NavigateEquipmentSettings);
 
         _cableSettingsViewModel = new CableSettingsViewModel(edtSettings, _typeManager);
@@ -122,6 +124,8 @@ public class SettingsMenuViewModel : ViewModelBase
         set { _edtSettings = value; }
     }
     private TypeManager _typeManager;
+    private readonly ListManager _listManager;
+
     public TypeManager TypeManager
     {
         get { return _typeManager; }

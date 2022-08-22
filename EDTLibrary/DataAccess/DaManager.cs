@@ -138,10 +138,10 @@ public class DaManager {
     {
         try {
             //removed await to test speed
-            await Task.Run(() => {
+            //await Task.Run(() => {
                 if (GlobalConfig.Importing == true) return;
                 prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadNoSaveList);
-            });
+            //});
         }
 
         catch (Exception ex) {

@@ -28,6 +28,7 @@ namespace EDTLibrary.DataAccess
             "Lcs",
             "Drive",
             "Disconnect",
+            "ListManager",
         };
 
         static public List<string> LoadNoSaveList { get; set; } = new List<string>() 
@@ -44,27 +45,35 @@ namespace EDTLibrary.DataAccess
             "Disconnect",
             "BreakerSize",
             "EfficiencyDisplay",
+            "ListManager",
+
         };
 
         static public List<string> CompNoSaveList { get; set; } = new List<string>()
         {
             "Area",
             "Owner",
+            "FedFrom",
             "PowerCable",
             "ControlCable",
             "TypeModel",
             "TypeList",
+            "ListManager",
+
         };
 
         static public List<string> LcsNoSaveList { get; set; } = new List<string>()
         {
             "Area",
             "Owner",
+            "FedFrom",
             "PowerCable",
             "ControlCable",
             "TypeModel",
             "SubTypeList",
             "HeatLoss",
+            "ListManager",
+
         };
 
         static public List<string> PowerCableNoSaveList { get; set; } = new List<string> {
@@ -78,12 +87,16 @@ namespace EDTLibrary.DataAccess
             "SizeList",
             "AutoSizeCableCommand",
             "DeratingToolTip",
+            "ListManager",
+
         };
 
         static public List<string> AreaNoSaveList { get; set; } = new List<string>() {
             "none",
             "ParentArea",
             "EquipmentList",
+            "ListManager",
+
         };
 
 

@@ -351,6 +351,9 @@ public class DteqToAddValidator : INotifyDataErrorInfo
 
             return true;
         }
+        if (Tag != null) {
+            ErrorHelper.Log($"DteqToAddValidator - Failed validation: {Tag}");
+        }
         return false;
     }
 

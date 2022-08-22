@@ -49,8 +49,10 @@ namespace WpfUI.ViewModels
             NewProjectViewModel newProjectVm = new NewProjectViewModel(
                 _mainViewModel,
                 new EDTLibrary.LibraryData.TypeManager(),
+                _listManager,
                 new StartupService(_listManager),
-                this);
+                this
+                );
 
             NewProjectWindow.DataContext = newProjectVm;
             NewProjectWindow.ShowDialog();

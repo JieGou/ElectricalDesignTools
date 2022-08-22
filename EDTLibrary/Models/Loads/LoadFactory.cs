@@ -20,7 +20,7 @@ namespace EDTLibrary.Models.Loads
 
         public LoadModel CreateLoad(LoadToAddValidator loadToAddValidator)
         {
-            LoadModel newLoad = new LoadModel();
+            LoadModel newLoad = new LoadModel(_listManager);
 
             foreach (var dteq in _listManager.DteqList) {  // 85 ms
                 if (dteq.Tag == loadToAddValidator.FedFromTag) {

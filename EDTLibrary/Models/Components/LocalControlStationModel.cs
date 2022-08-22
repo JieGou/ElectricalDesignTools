@@ -16,6 +16,8 @@ using System.Windows.Threading;
 namespace EDTLibrary.Models.Components;
 public class LocalControlStationModel :  ILocalControlStation
 {
+    public ListManager ListManager { get; set; }
+
     public LocalControlStationModel()
     {
         Type = "LCS";

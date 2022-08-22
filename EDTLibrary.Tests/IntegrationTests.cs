@@ -19,7 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using WpfUI.Services;
 using WpfUI.ViewModels;
-using WpfUI.ViewModels.Areas_and_Systems;
+using WpfUI.ViewModels.AreasAndSystems;
 using WpfUI.ViewModels.Electrical;
 using Xunit;
 
@@ -68,7 +68,7 @@ namespace EDTLibrary.Tests
                 #region Add Objects
 
                 //Area
-                ErrorHelper.LogNoSave("\n\n\n-----------------AREA----------------- \n\n\n");
+                ErrorHelper.LogNoSave("\n\n-----------------AREA----------------- \n");
 
                 foreach (var loopArea in TestData.TestAreasList) {
                     ErrorHelper.LogNoSave("--------Add Area");
@@ -79,10 +79,10 @@ namespace EDTLibrary.Tests
 
 
                 //Dteq
-                ErrorHelper.LogNoSave("\n\n\n-----------------DTEQ----------------- \n\n\n");
+                ErrorHelper.LogNoSave("\n\n-----------------DTEQ----------------- \n");
 
                 foreach (var loopDteq in TestData.TestDteqList) {
-                    ErrorHelper.LogNoSave("--------Add dteq");
+                    ErrorHelper.LogNoSave($"--------Adding dteq: {loopDteq.Tag}");
 
                     loopDteq.Area = listManager.AreaList[0];
                     dteqToAdd = new DteqToAddValidator(listManager, loopDteq);
@@ -93,10 +93,10 @@ namespace EDTLibrary.Tests
 
 
                 //Loads
-                ErrorHelper.LogNoSave("\n\n\n-----------------LOAD----------------- \n\n\n");
+                ErrorHelper.LogNoSave("\n\n-----------------LOAD----------------- \n");
 
                 foreach (var loopLoad in TestData.TestLoadList) {
-                    ErrorHelper.LogNoSave("--------Add load");
+                    ErrorHelper.LogNoSave($"--------Adding load: {loopLoad.Tag}");
 
                     loopLoad.Area = listManager.AreaList[0];
                     loadToAdd = new LoadToAddValidator(listManager, loopLoad);
@@ -116,36 +116,37 @@ namespace EDTLibrary.Tests
 
 
                 //Components
-                ErrorHelper.LogNoSave("\n\n\n-----------------Components----------------- \n\n\n");
+                ErrorHelper.LogNoSave("\n\n-----------------Components----------------- \n");
 
                 ILoad load = listManager.LoadList[0];
                 load.DriveBool = true;
                 load.DisconnectBool = true;
                 IComponentEdt drive = listManager.CompList[0]; // drive
-                IComponentEdt disc = listManager.CompList[1]; // load
+                IComponentEdt disconnect = listManager.CompList[1]; // load
 
                 listManager.GetProjectTablesAndAssigments();
                 //Assert.True(listManager.CompList.Count == 2);
 
 
                 //Dteq.Area for Drive.Area
-                ErrorHelper.LogNoSave("\n\n\n-----------------Dteq.Area for Drive.Area----------------- \n\n\n");
+                ErrorHelper.LogNoSave("\n\n-----------------Dteq.Area for Drive.Area----------------- \n");
 
-                DistributionEquipment dteq = listManager.DteqList.FirstOrDefault(d => d.Tag == "MCC-01");
-                dteq.Area = listManager.AreaList[1];
+                DistributionEquipment mcc01 = listManager.DteqList.FirstOrDefault(d => d.Tag == "MCC-01");
+                mcc01.Area = listManager.AreaList[2];
                 listManager.GetProjectTablesAndAssigments();
                 // Assert.True(listManager.CompList[0].Area == dteq.Area);
 
 
                 //Load.Area for Dcn.Area
-                ErrorHelper.LogNoSave("\n\n\n-----------------Load.Area for Dcn.Area----------------- \n\n\n");
+                ErrorHelper.LogNoSave("\n\n-----------------Load.Area for Dcn.Area----------------- \n");
 
                 listManager.LoadList[0].Area = listManager.AreaList[1];
-                disc = listManager.CompList[1];
+                disconnect = listManager.CompList[1];
+
+                Thread.Sleep(3000);
                 listManager.GetProjectTablesAndAssigments();
                 //Assert.True(listManager.CompList[1].Area == listManager.AreaList[1]);
 
-                Thread.Sleep(1000);
 
                 Assert.True(listManager.AreaList.Count == TestData.TestAreasList.Count);
                 Assert.True(listManager.IDteqList.Count == TestData.TestDteqList.Count);
@@ -155,6 +156,7 @@ namespace EDTLibrary.Tests
 
                 //Assert.True(listManager.CompList[0].Area == listManager.AreaList[1]);
                 Assert.True(listManager.CompList[1].Area == listManager.AreaList[1]);
+                Assert.True(listManager.CompList[0].Area == listManager.AreaList[2]);
 
 
 

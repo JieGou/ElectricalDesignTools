@@ -76,20 +76,11 @@ public class LoadManager
 
 
         //Cable
-        newLoad.SizePowerCable(); // 51ms
+        newLoad.PowerCable = (CableModel)CableFactory.CreatePowerCable(newLoad, listManager); // 51ms
+        newLoad.PowerCableId = newLoad.PowerCable.Id;
         newLoad.PowerCable.LoadId = newLoad.Id;
         newLoad.PowerCable.LoadType = newLoad.GetType().ToString();
-
-        //Get Id
-        //newLoad.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
-
-        if (listManager.CableList.Count != 0) {
-            newLoad.PowerCable.Id = listManager.LoadList.Max(l => l.Id) + 1;
-        }
-        else {
-            newLoad.PowerCable.Id = 1;
-        }
-
+        newLoad.SizePowerCable();
         //Save to Db
         DaManager.prjDb.UpsertRecord(newLoad.PowerCable, GlobalConfig.CableTable, SaveLists.PowerCableNoSaveList);
 

@@ -34,37 +34,42 @@ public class CableManager
         }
         return;
     }
-
+    /// <summary>
+    /// Deletes all components of a load. Use when deleting a load.
+    /// </summary>
+    /// <param name="loadModel">Load being deleted</param>
+    /// <param name="listManager"></param>
+    /// <returns></returns>
     public static async Task DeleteLoadComponentsCablesAsync(ILoad loadModel, ListManager listManager)
     {
 
         if (loadModel.PowerCable != null) {
-            int cableId = loadModel.PowerCable.Id;
-            DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
-            listManager.CableList.Remove(loadModel.PowerCable);
-
-            var cablesToRemove = new List<CableModel>();
-
-            foreach (var item in listManager.CableList) {
-
-                if (item.LoadId == loadModel.Id && item.LoadType == loadModel.GetType().ToString()) {
-                    cablesToRemove.Add(item);
-                }
-            }
-
-            foreach (var item in cablesToRemove) {
-                listManager.CableList.Remove(item);
-                DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, item.Id);
-            }
-
-            if (loadModel.Lcs!= null) {
+            DeleteLoadCircuitPowerCables(loadModel, listManager);
+            //Delete Lcs cable
+            if (loadModel.Lcs != null) {
                 listManager.CableList.Remove((CableModel)loadModel.Lcs.ControlCable);
                 DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, loadModel.Lcs.ControlCable.Id);
             }
-            
-
         }
         return;
+    }
+
+    private static void DeleteLoadCircuitPowerCables(ILoad loadModel, ListManager listManager)
+    {
+        var cablesToRemove = new List<CableModel>();
+
+        //find all cables in this load's branch circuit
+        foreach (var cables in listManager.CableList) {
+            if (cables.LoadId == loadModel.Id && cables.LoadType == loadModel.GetType().ToString()) {
+                cablesToRemove.Add(cables);
+            }
+        }
+
+        //delete cables
+        foreach (var item in cablesToRemove) {
+            listManager.CableList.Remove(item);
+            DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, item.Id);
+        }
     }
 
     internal static double GetLength(string category)
@@ -100,15 +105,20 @@ public class CableManager
             components.PowerCable.ValidateCableSize(components.PowerCable);
         }
     }
-
+    /// <summary>
+    /// Deletes the load's components cables and recreates them for the new list of components
+    /// </summary>
+    /// <param name="powerComponentOwner"></param>
+    /// <param name="listManager"></param>
+    /// <returns></returns>
     public static async Task AddAndUpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
-        
+
 
         //cable length to load
         double loadCableLength = powerComponentOwner.PowerCable.Length;
 
-        
+
         PreviousEq = powerComponentOwner.Tag;
 
 
@@ -121,26 +131,7 @@ public class CableManager
         try {
             await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
 
-                //Remove Cables
-                List<CableModel> cablesToRemove = new List<CableModel>();
-
-                //TODO add Load Id and LoadType to cable model
-                //TODO add PowerCableId to Equipment
-                foreach (var item in listManager.CableList) {
-
-                    if (item.LoadId == powerComponentOwner.Id && item.LoadType == powerComponentOwner.GetType().ToString() )
-                    {
-                        if (true) {
-
-                        }
-                        cablesToRemove.Add(item);
-                    }
-                }
-
-                foreach (var item in cablesToRemove) {
-                    listManager.CableList.Remove(item);
-                    DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, item.Id);
-                }
+                DeleteLoadCircuitPowerCables((LoadModel)powerComponentOwner, listManager);
 
                 //Add Cables
                 IsUpdatingPowerCables = true;
@@ -189,7 +180,7 @@ public class CableManager
                     }
                     else if (component.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
                         //TODO - Rename CableLenght variabls (LocalDcnToLoad)
-                        cable.Length = loadCableLength ;
+                        cable.Length = loadCableLength;
                     }
 
                     cable.BaseAmps = powerComponentOwner.PowerCable.BaseAmps;
@@ -207,7 +198,7 @@ public class CableManager
                     //UndoManager.IsUndoing = false;
 
                     component.PowerCable = cable;
-                    
+
                     listManager.CableList.Add(cable);
                     DaManager.UpsertCable(cable);
                     previousComponent = component;
@@ -227,7 +218,7 @@ public class CableManager
         //sw.Stop();
         //Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
 
-        
+
 
         //Local method
         void UpdateLoadCable(IPowerConsumer load, IComponentEdt previousComponent)
@@ -267,7 +258,7 @@ public class CableManager
     public static void AddLcsControlCableForLoad(IComponentUser componentUser, LocalControlStationModel lcs, ListManager listManager)
     {
         ILoad lcsOwner = componentUser as LoadModel;
-        CableModel cable = new CableModel();
+        CableModel cable = new CableModel(listManager);
 
         cable.Source = lcsOwner.FedFrom.Tag;
         cable.Destination = lcs.Tag;

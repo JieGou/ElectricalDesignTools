@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SQLite;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -255,7 +256,7 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
-        public void UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new()
+        public void UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore, [CallerMemberName] string callerMethod = "") where T : class, new()
         {
             using (IDbConnection cnn = new SQLiteConnection(ConString)) {
                 StringBuilder sb = new StringBuilder();
@@ -338,24 +339,25 @@ namespace EDTLibrary.DataAccess
                 try {
                     cnn.Execute("" + sb.ToString(), classObject);
                     var debug = tag;
-                    //ErrorHelper.LogNoSave($"SqLiteConnector.Upsert - Success Tag = {tag}");
-
+                    //ErrorHelper.LogNoSave($"SqLiteConnector.Upsert - Success Tag: {tag},      Caller: {callerMethod}");
                 }
                 catch (Exception ex) {
                     ex.Data.Add("UserMessage", "SQL Query Error\nQuery:\n" + sb.ToString());
                     var debugHelper = classObject;
                     //readonyl database error
                     if (ex.Message.Contains("readonly")) {
-                        MessageBox.Show($"The project file may be saved in a folder that does not have write " +
-                                        "priveliges enabled, like 'Program Files'. Move the file to another " +
-                                        "location and reopen the project\n\n\n" +
-                                        $"Error Details: {ex.Message}", "Error");
+                        //MessageBox.Show($"The project file may be saved in a folder that does not have write " +
+                        //                "priveliges enabled, like 'Program Files'. Move the file to another " +
+                        //                "location and reopen the project\n\n\n" +
+                        //                $"Error Details: {ex.Message}", "Error");
                     }
                     else {
-                        ErrorHelper.ShowErrorMessage(ex);
+                        //ErrorHelper.ShowErrorMessage(ex);
                     }
-                    ErrorHelper.Log($"SqLiteConnector.Upsert - Error = {ex.Message}, Tag = {tag}");
-                    throw;
+                    ErrorHelper.LogNoSave($"SqLiteConnector.Upsert - Failure Tag: {tag},      Caller: {callerMethod}");
+                    ErrorHelper.ShowErrorMessage(ex);
+
+                    //throw;
                 }
             }
         }

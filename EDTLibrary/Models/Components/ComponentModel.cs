@@ -3,6 +3,7 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.UndoSystem;
@@ -23,6 +24,8 @@ namespace EDTLibrary.Models.Components;
 
 public class ComponentModel : IComponentEdt
 {
+    public ListManager ListManager { get; set; }
+
     public ComponentModel()
     {
         //Category = Categories.Component.ToString();
@@ -51,8 +54,6 @@ public class ComponentModel : IComponentEdt
             OnPropertyUpdated();
         }
     }
-
-
 
     public string Description { get; set; }
     public string Category { get; set; } //Component
@@ -123,6 +124,8 @@ public class ComponentModel : IComponentEdt
         }
     }
 
+    public int PowerCableId { get; set; }
+
     public CableModel PowerCable { get; set; }
 
 
@@ -130,8 +133,18 @@ public class ComponentModel : IComponentEdt
 
 
     public double HeatLoss { get; set; }
-
-
+    public string Unit { get; set; }
+    public double PdTrip { get; set; }
+    public double PdFrame { get; set; }
+    public double Fla { get; set; }
+    public string FedFromTag { get; set; }
+    public int FedFromId { get; set; }
+    public string FedFromType { get; set; }
+    public IDteq FedFrom { get; set; }
+    public double AmpacityFactor { get; set; }
+    public string PdType { get; set; }
+    public double PdSizeTrip { get; set; }
+    public double PdSizeFrame { get; set; }
 
     public event EventHandler PropertyUpdated;
 
@@ -168,5 +181,20 @@ public class ComponentModel : IComponentEdt
         IEquipment owner = (IEquipment)source;
         AreaManager.UpdateArea(this, owner.Area, Area);
         OnPropertyUpdated();
+    }
+
+    public void CreatePowerCable()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SizePowerCable()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void CalculateCableAmps()
+    {
+        throw new NotImplementedException();
     }
 }
