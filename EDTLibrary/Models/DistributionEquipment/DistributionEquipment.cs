@@ -1,5 +1,5 @@
-﻿using EDTLibrary.A_Helpers;
-using EDTLibrary.DataAccess;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
@@ -52,7 +52,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 if (value == null) return;
-                if (TagAndNameValidator.IsTagAvailable(value, ListManager) == false) return;
+                if (TagAndNameValidator.IsTagAvailable(value, ListManager) == false) {
+                    ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage);
+                    return;
+                }
 
                 var oldValue = _tag;
                 _tag = value;
@@ -63,7 +66,13 @@ namespace EDTLibrary.Models.DistributionEquipment
                     PowerCable.SetTagging(this);
                 }
                 foreach (var load in AssignedLoads) {
-                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(load, ListManager);
+
+                    if (load.GetType() == typeof(LoadModel)) {
+                        CableManager.AddAndUpdateLoadPowerComponentCablesAsync(load, ListManager);
+                    }
+                    else{
+                        PowerCable.SetTagging(load);
+                    }
                 }
 
                 UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
@@ -275,7 +284,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                                 _fedFrom = oldValue;
 
                                 //Message must be executed last
-                                ErrorHelper.Notify("Equipment Cannot be fed from itself, directly or through other equipment.", "Circular Feed Error");
+                                ErrorHelper.NotifyUserError("Equipment Cannot be fed from itself, directly or through other equipment.", "Circular Feed Error");
                                 break;
                             }
                             //Valid
@@ -529,11 +538,12 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             if (PowerCable == null && DaManager.GettingRecords == false) {
                 PowerCable = (CableModel)CableFactory.CreatePowerCable(this, ListManager);
-                PowerCable.Load = this;
-                PowerCable.LoadId = Id;
-                PowerCable.LoadType = this.GetType().ToString();
-                PowerCable.Type = CableManager.CableSizer.GetDefaultCableType(this);
             }
+            PowerCable.Load = this;
+            PowerCable.LoadId = Id;
+            PowerCable.LoadType = this.GetType().ToString();
+            PowerCable.Type = CableManager.CableSizer.GetDefaultCableType(this);
+            PowerCable.UsageType = CableUsageTypes.Power.ToString();
         }
         public void SizePowerCable()
         {

@@ -7,8 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
-namespace EDTLibrary.A_Helpers
+namespace EDTLibrary.ErrorManagement
 {
     public class ErrorHelper
     {
@@ -33,37 +34,28 @@ namespace EDTLibrary.A_Helpers
             path += @"\Edt Error Log.txt";
             File.WriteAllLines(path, ErrorLog);
         }
-        public static void ShowErrorMessage(Exception ex)
+
+        internal static void NotifyExeptionMessage(Exception ex)
         {
-#if DEBUG
-            if (ex.Data.Contains("UserMessage")) {
-                MessageBox.Show($"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n" +
-                    $"Error: \n\n{ex.Message}\n\n\n" +
-                                $"Stack Trace: \n\n {ex}", "Error");
-            }
-            else {
-                MessageBox.Show(ex.ToString());
-            }
-#endif
 
-#if !DEBUG
-
-            if (ex.Data.Contains("UserMessage")) {
-                 MessageBox.Show($"{ex.Message}\n\n\n" +
-                                $"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n", "Error");
-            }
-            else {
-                MessageBox.Show(ex.ToString());
-            }
-#endif
-
-
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+                if (ex.Data.Contains("UserMessage")) {
+                    MessageBox.Show($"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n" +
+                        $"Error: \n\n{ex.Message}\n\n\n" +
+                                    $"Stack Trace: \n\n {ex}", "Error");
+                }
+                else {
+                    MessageBox.Show(ex.ToString());
+                }
+            }));
 
         }
 
-        internal static void Notify(string message, string caption = "Error")
+        internal static void NotifyUserError(string message, string caption = "User Error")
         {
-            MessageBox.Show(message, caption);
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+                MessageBox.Show(message, caption);
+            }));
         }
     }
 }

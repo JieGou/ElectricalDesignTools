@@ -8,24 +8,15 @@ namespace EDTLibrary.Models.Validators
 {
     public static class TagAndNameValidator
     {
-        public static bool IsTagAvailable(string tag, ListManager listManager)
+        public static bool IsTagAvailable(string tagToCheck, ListManager listManager)
         {
-            if (string.IsNullOrEmpty(tag))  return true;
-            if (listManager == null) return true;
+            if (string.IsNullOrEmpty(tagToCheck))  return true;
+            if (listManager == null) return true; //for test data
 
-            var areaTag = listManager.AreaList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
-            var dteqTag = listManager.DteqList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
-            var loadTag = listManager.LoadList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
-            var compTag = listManager.CompList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
-            var lcsTag = listManager.LcsList.FirstOrDefault(t => t.Tag.ToLower() == tag.ToLower());
+            listManager.CreateEquipmentList();
+            var tag = listManager.EqList.FirstOrDefault(eq => eq.Tag.ToLower() == tagToCheck.ToLower());
 
-            if (areaTag != null ||
-                dteqTag != null ||
-                loadTag != null ||
-                lcsTag != null ||
-                compTag != null) {
-                return false;
-            }
+            if (tag != null)  return false;
 
             return true;
         }

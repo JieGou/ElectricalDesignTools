@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
@@ -6,6 +7,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.Models.Validators;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
@@ -38,6 +40,11 @@ public class DriveModel : IComponentEdt
         get { return _tag; }
         set
         {
+            if (value == null) return;
+            if (TagAndNameValidator.IsTagAvailable(value, ListManager) == false) {
+                ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage);
+                return;
+            }
             var oldValue = _tag;
             _tag = value;
             if (DaManager.GettingRecords == false) {

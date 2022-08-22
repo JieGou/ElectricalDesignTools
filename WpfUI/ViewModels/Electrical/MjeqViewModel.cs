@@ -592,7 +592,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         //Move AddDteq to DteqManager
         DteqToAddValidator dteqToAddValidator = (DteqToAddValidator)dteqToAddObject;
-        EDTLibrary.A_Helpers.ErrorHelper.LogNoSave($"Add Dteq - Tag:{dteqToAddValidator.Tag}");
+        EDTLibrary.ErrorManagement.ErrorHelper.LogNoSave($"Add Dteq - Tag:{dteqToAddValidator.Tag}");
 
         try {
             var IsValid = dteqToAddValidator.IsValid(); //to help debug

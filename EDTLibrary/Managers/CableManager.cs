@@ -1,5 +1,5 @@
-﻿using EDTLibrary.A_Helpers;
-using EDTLibrary.DataAccess;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
@@ -113,8 +113,7 @@ public class CableManager
     /// <returns></returns>
     public static async Task AddAndUpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
-
-
+        
         //cable length to load
         double loadCableLength = powerComponentOwner.PowerCable.Length;
 
@@ -250,7 +249,7 @@ public class CableManager
         }
         catch (Exception) {
 
-            ErrorHelper.Notify(callerMethod);
+            ErrorHelper.NotifyUserError(callerMethod);
             return "error";
         }
     }

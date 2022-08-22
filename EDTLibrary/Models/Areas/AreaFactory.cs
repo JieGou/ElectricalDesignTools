@@ -1,5 +1,5 @@
-﻿using EDTLibrary.A_Helpers;
-using EDTLibrary.DataAccess;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.ErrorManagement;
 using EDTLibrary.Managers;
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ public class AreaFactory
             }
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            ErrorHelper.NotifyExeptionMessage(ex);
         }
     }
 

@@ -1,8 +1,10 @@
-﻿using EDTLibrary.LibraryData.TypeModels;
+﻿using EDTLibrary.ErrorManagement;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
+using EDTLibrary.Models.Validators;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,7 +16,7 @@ using System.Windows;
 using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Components;
-public class LocalControlStationModel :  ILocalControlStation
+public class LocalControlStationModel : ILocalControlStation
 {
     public ListManager ListManager { get; set; }
 
@@ -23,7 +25,20 @@ public class LocalControlStationModel :  ILocalControlStation
         Type = "LCS";
     }
     public int Id { get; set; }
-    public string Tag { get; set; }
+    public string Tag
+    {
+        get => _tag;
+        set
+        {
+            if (value == null) return;
+            if (TagAndNameValidator.IsTagAvailable(value, ListManager) == false) {
+                ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage);
+                return;
+            }
+            _tag = value;
+            OnPropertyUpdated(nameof(Tag) + ": " + Tag.ToString());
+        }
+    }
     public string Category { get; set; }
     public string SubCategory { get; set; }
 
@@ -47,6 +62,8 @@ public class LocalControlStationModel :  ILocalControlStation
     public int AreaId { get; set; }
 
     public IArea _area;
+    private string _tag;
+
     public IArea Area
     {
         get { return _area; }
@@ -91,7 +108,7 @@ public class LocalControlStationModel :  ILocalControlStation
             AreaClassification = Area.AreaClassification;
         }));
     }
-   
+
     public event EventHandler AreaChanged;
     public async Task OnAreaChanged()
     {
@@ -109,5 +126,5 @@ public class LocalControlStationModel :  ILocalControlStation
         OnPropertyUpdated();
     }
 
-   
+
 }

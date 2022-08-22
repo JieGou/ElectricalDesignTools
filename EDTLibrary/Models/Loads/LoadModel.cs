@@ -1,5 +1,5 @@
-﻿using EDTLibrary.A_Helpers;
-using EDTLibrary.DataAccess;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
@@ -31,7 +31,7 @@ namespace EDTLibrary.Models.Loads
         {
             Description = "";
             Category = Categories.LOAD.ToString();
-            PowerCable = new CableModel( ListManager);
+            PowerCable = new CableModel(ListManager);
 
         }
 
@@ -57,7 +57,10 @@ namespace EDTLibrary.Models.Loads
                 //Cancel conditions
                 if (value == null) return;
                 if (Tag == GlobalConfig.LargestMotor_StartLoad) return;
-                if (TagAndNameValidator.IsTagAvailable(value, ListManager ) == false) return;
+                if (TagAndNameValidator.IsTagAvailable(value, ListManager) == false) {
+                    ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage);
+                    return;
+                }
 
                 var oldValue = _tag;
                 _tag = value;
@@ -73,7 +76,7 @@ namespace EDTLibrary.Models.Loads
 
                 UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
-                OnPropertyUpdated();
+                OnPropertyUpdated(nameof(Tag) + ": " + Tag.ToString());
             }
         }
         public string Category { get; set; }
@@ -623,12 +626,12 @@ namespace EDTLibrary.Models.Loads
         {
             if (PowerCable.Load == null) {
                 PowerCable = (CableModel)CableFactory.CreatePowerCable(this, ListManager);
-
-                PowerCable.Load = this;
-                PowerCable.LoadId = Id;
-                PowerCable.LoadType = this.GetType().ToString();
-                PowerCable.Type = CableManager.CableSizer.GetDefaultCableType(this);
             }
+            PowerCable.Load = this;
+            PowerCable.LoadId = Id;
+            PowerCable.LoadType = this.GetType().ToString();
+            PowerCable.Type = CableManager.CableSizer.GetDefaultCableType(this);
+            PowerCable.UsageType = CableUsageTypes.Power.ToString();
         }
         public void SizePowerCable()
         {

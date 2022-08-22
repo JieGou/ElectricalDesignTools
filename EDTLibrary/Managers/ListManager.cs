@@ -91,6 +91,9 @@ namespace EDTLibrary.Managers
             foreach (var item in CompList) {
                 EqList.Add(item);
             }
+            foreach (var item in LcsList) {
+                EqList.Add(item);
+            }
             return EqList;
         }
 

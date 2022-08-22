@@ -1,4 +1,4 @@
-﻿using EDTLibrary.A_Helpers;
+﻿using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.DistributionEquipment;
@@ -426,7 +426,7 @@ namespace EDTLibrary.Models.Cables
             }
             catch (Exception ex) {
 
-                ErrorHelper.ShowErrorMessage(ex);
+                ErrorHelper.NotifyExeptionMessage(ex);
             }
 
         }

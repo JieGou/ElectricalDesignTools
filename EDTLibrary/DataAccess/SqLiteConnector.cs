@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using EDTLibrary.A_Helpers;
+using EDTLibrary.ErrorManagement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -75,6 +75,7 @@ namespace EDTLibrary.DataAccess
                     }
                     catch (Exception ex) {
                         ex.Data.Add("UserMessage", $"Error getting records from: {tableName}");
+                        ErrorHelper.NotifyExeptionMessage(ex);
                         throw;
                     }
                 }
@@ -252,6 +253,7 @@ namespace EDTLibrary.DataAccess
                 }
                 catch (Exception ex) {
                     ex.Data.Add("UserMessage", "SQL Query Error\nQuery:\n" + sb.ToString());
+                    ErrorHelper.NotifyExeptionMessage(ex);
                     throw;
                 }
             }
@@ -346,16 +348,16 @@ namespace EDTLibrary.DataAccess
                     var debugHelper = classObject;
                     //readonyl database error
                     if (ex.Message.Contains("readonly")) {
-                        //MessageBox.Show($"The project file may be saved in a folder that does not have write " +
-                        //                "priveliges enabled, like 'Program Files'. Move the file to another " +
-                        //                "location and reopen the project\n\n\n" +
-                        //                $"Error Details: {ex.Message}", "Error");
+                        ErrorHelper.NotifyUserError($"The project file may be saved in a folder that does not have write " +
+                                        "priveliges enabled, like 'Program Files'. Move the file to another " +
+                                        "location and reopen the project\n\n\n" +
+                                        $"Error Details: {ex.Message}");
                     }
                     else {
                         //ErrorHelper.ShowErrorMessage(ex);
                     }
                     ErrorHelper.LogNoSave($"SqLiteConnector.Upsert - Failure Tag: {tag},      Caller: {callerMethod}");
-                    ErrorHelper.ShowErrorMessage(ex);
+                    ErrorHelper.NotifyExeptionMessage(ex);
 
                     //throw;
                 }
@@ -414,6 +416,7 @@ namespace EDTLibrary.DataAccess
                 }
                 catch (Exception ex) {
                     ex.Data.Add("UserMessage", "SQL Query Error\nQuery:\n" + sb.ToString());
+                    ErrorHelper.NotifyExeptionMessage(ex);
                     throw;
                 }
             }
