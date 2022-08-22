@@ -1,5 +1,4 @@
 ﻿using EDTLibrary.LibraryData;
-using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
@@ -16,17 +15,8 @@ namespace EDTLibrary.Models.DistributionEquipment
     [AddINotifyPropertyChangedInterface]
     public class SwgModel : DistributionEquipment
     {
-        public SwgModel()
-        {
-
-        }
-        public SwgModel(ListManager listManager)
-        {
-            Category = Categories.DTEQ.ToString();
-            Voltage = LineVoltage;
-            ListManager = listManager;
-        }
-
+       
+        
     }
 
 }

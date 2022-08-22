@@ -1,5 +1,4 @@
 ﻿using EDTLibrary.DataAccess;
-using EDTLibrary.Managers;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
@@ -15,12 +14,7 @@ public class XfrModel : DistributionEquipment
         Category = Categories.DTEQ.ToString();
         Voltage = LineVoltage;
     }
-    public XfrModel(ListManager listManager)
-    {
-        Category = Categories.DTEQ.ToString();
-        Voltage = LineVoltage;
-        ListManager = listManager;
-    }
+
     private double _primaryFla;
 
     public double PrimaryFla
@@ -97,6 +91,7 @@ public class XfrModel : DistributionEquipment
             }
         }
     }
+
 
     public override double CalculateSCCR()
     {

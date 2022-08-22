@@ -1,4 +1,4 @@
-﻿using EDTLibrary.ErrorManagement;
+﻿using EDTLibrary.A_Helpers;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Loads;
@@ -350,9 +350,6 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         if (_isValid && HasErrors == false) {
 
             return true;
-        }
-        if (Tag != null) {
-            ErrorHelper.Log($"DteqToAddValidator - Failed validation: {Tag}");
         }
         return false;
     }

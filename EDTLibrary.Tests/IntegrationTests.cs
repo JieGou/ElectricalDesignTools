@@ -68,10 +68,10 @@ namespace EDTLibrary.Tests
                 #region Add Objects
 
                 //Area
-                ErrorHelper.LogNoSave("\n\n-----------------AREA----------------- \n");
+                ErrorHelper.Log("\n\n-----------------AREA----------------- \n");
 
                 foreach (var loopArea in TestData.TestAreasList) {
-                    ErrorHelper.LogNoSave("--------Add Area");
+                    ErrorHelper.Log("--------Add Area");
                     areaToAdd = new AreaToAddValidator(listManager, loopArea);
                     areaVm.AddArea(areaToAdd);
                 }
@@ -79,10 +79,10 @@ namespace EDTLibrary.Tests
 
 
                 //Dteq
-                ErrorHelper.LogNoSave("\n\n-----------------DTEQ----------------- \n");
+                ErrorHelper.Log("\n\n-----------------DTEQ----------------- \n");
 
                 foreach (var loopDteq in TestData.TestDteqList) {
-                    ErrorHelper.LogNoSave($"--------Adding dteq: {loopDteq.Tag}");
+                    ErrorHelper.Log($"--------Adding dteq: {loopDteq.Tag}");
 
                     loopDteq.Area = listManager.AreaList[0];
                     dteqToAdd = new DteqToAddValidator(listManager, loopDteq);
@@ -93,10 +93,10 @@ namespace EDTLibrary.Tests
 
 
                 //Loads
-                ErrorHelper.LogNoSave("\n\n-----------------LOAD----------------- \n");
+                ErrorHelper.Log("\n\n-----------------LOAD----------------- \n");
 
                 foreach (var loopLoad in TestData.TestLoadList) {
-                    ErrorHelper.LogNoSave($"--------Adding load: {loopLoad.Tag}");
+                    ErrorHelper.Log($"--------Adding load: {loopLoad.Tag}");
 
                     loopLoad.Area = listManager.AreaList[0];
                     loadToAdd = new LoadToAddValidator(listManager, loopLoad);
@@ -116,7 +116,7 @@ namespace EDTLibrary.Tests
 
 
                 //Components
-                ErrorHelper.LogNoSave("\n\n-----------------Components----------------- \n");
+                ErrorHelper.Log("\n\n-----------------Components----------------- \n");
 
                 ILoad load = listManager.LoadList[0];
                 load.DriveBool = true;
@@ -129,7 +129,7 @@ namespace EDTLibrary.Tests
 
 
                 //Dteq.Area for Drive.Area
-                ErrorHelper.LogNoSave("\n\n-----------------Dteq.Area for Drive.Area----------------- \n");
+                ErrorHelper.Log("\n\n-----------------Dteq.Area for Drive.Area----------------- \n");
 
                 DistributionEquipment mcc01 = listManager.DteqList.FirstOrDefault(d => d.Tag == "MCC-01");
                 mcc01.Area = listManager.AreaList[2];
@@ -138,7 +138,7 @@ namespace EDTLibrary.Tests
 
 
                 //Load.Area for Dcn.Area
-                ErrorHelper.LogNoSave("\n\n-----------------Load.Area for Dcn.Area----------------- \n");
+                ErrorHelper.Log("\n\n-----------------Load.Area for Dcn.Area----------------- \n");
 
                 listManager.LoadList[0].Area = listManager.AreaList[1];
                 disconnect = listManager.CompList[1];
@@ -193,7 +193,7 @@ namespace EDTLibrary.Tests
             }
 
             finally {
-                ErrorHelper.LogNoSave("IntegrationTest_finally");
+                ErrorHelper.Log("IntegrationTest_finally");
                 ErrorHelper.SaveLog();
                 GlobalConfig.Testing = false;
             }

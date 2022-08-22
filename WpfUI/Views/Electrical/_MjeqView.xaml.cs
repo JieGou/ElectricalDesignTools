@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -50,14 +49,7 @@ public partial class _MjeqView : UserControl
         //dgdAssignedLoads.CellRenderers.Remove("ComboBox");
         //dgdAssignedLoads.CellRenderers.Add("ComboBox", new ComboBoxSingleClickRenderer());
         dgdAssignedLoads.CellRenderers["ComboBox"] = new CustomGridCellComboBoxRenderer();
-
-
-        //LoadGrid Deserialization
-        DeserializeLoadDataGrid();
-
     }
-
-    
 
     private void dgdDteq_KeyDown(object sender, KeyEventArgs e)
     {
@@ -570,7 +562,7 @@ public partial class _MjeqView : UserControl
     private async Task AddExtraLoads(ListManager listManager)
     {
         int count = listManager.LoadList.Count;
-        ILoad load = new LoadModel(listManager) {
+        ILoad load = new LoadModel() {
             Tag = "MTR-",
             Type = LoadTypes.MOTOR.ToString(),
             FedFromTag = "MCC-01",
@@ -701,7 +693,7 @@ public partial class _MjeqView : UserControl
     private void dgdAssignedLoads_PreviewKeyDown_1(object sender, KeyEventArgs e)
     {
         dgdAssignedLoads.SearchHelper.SearchType = Syncfusion.UI.Xaml.Grid.SearchType.Contains;
-        if (e.Key == Key.Escape) {
+        if (e.Key==Key.Escape) {
             dgdAssignedLoads.ClearFilters();
         }
     }
@@ -753,150 +745,6 @@ public partial class _MjeqView : UserControl
                 }
             }
         }));
-    }
-
-    private void Grid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-
-    }
-
-    private void dgdAssignedLoads_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        CreateLoadDataGridColumnBindings();
-    }
-
-    private void CreateLoadDataGridColumnBindings()
-    {
-        Binding myBinding = new Binding();
-        DependencyObject column;
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "ConnectedKva");
-        myBinding.Path = new PropertyPath("PowerInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "DemandKva");
-        myBinding.Path = new PropertyPath("PowerInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "DemandKw");
-        myBinding.Path = new PropertyPath("PowerInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "DemandKvar");
-        myBinding.Path = new PropertyPath("PowerInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "PdType");
-        myBinding.Path = new PropertyPath("OcpdInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "PdSizeTrip");
-        myBinding.Path = new PropertyPath("OcpdInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "PdSizeFrame");
-        myBinding.Path = new PropertyPath("OcpdInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "DisconnectBool");
-        myBinding.Path = new PropertyPath("CompInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "DriveBool");
-        myBinding.Path = new PropertyPath("CompInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "LcsBool");
-        myBinding.Path = new PropertyPath("CompInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "Disconnect.Tag");
-        myBinding.Path = new PropertyPath("CompInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "Drive.Tag");
-        myBinding.Path = new PropertyPath("CompInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-
-        myBinding = new Binding();
-        column = dgdAssignedLoads.Columns.FirstOrDefault(x => x.MappingName == "Lcs.Tag");
-        myBinding.Path = new PropertyPath("CompInv");
-        myBinding.Source = MjeqVm.LoadGridViewModifier;
-        myBinding.Mode = BindingMode.TwoWay;
-        myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        BindingOperations.SetBinding(column, Syncfusion.UI.Xaml.Grid.GridColumnBase.IsHiddenProperty, myBinding);
-    }
-
-    private void SerializeLoadDataGrid()
-    {
-        using (var file = File.Create("EdtLoadGrid.xlm")) {
-            dgdAssignedLoads.Serialize(file);
-        }
-    }
-    private void DeserializeLoadDataGrid()
-    {
-        if (File.Exists("EdtLoadGrid.xlm")) {
-            using (var file = File.Open("EdtLoadGrid.xlm", FileMode.Open)) {
-                Syncfusion.UI.Xaml.Grid.DeserializationOptions options = new Syncfusion.UI.Xaml.Grid.DeserializationOptions();
-                options.DeserializeColumns = false;
-
-                //dgdAssignedLoads.Deserialize(file);
-            }
-        }
-    }
-    private void dgdAssignedLoads_MouseLeave_1(object sender, MouseEventArgs e)
-    {
-        using (var file = File.Create("EdtLoadGrid.xlm")) {
-            dgdAssignedLoads.Serialize(file);
-        }
     }
 }
 

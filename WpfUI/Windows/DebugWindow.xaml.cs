@@ -31,4 +31,8 @@ public partial class DebugWindow : Window
        
     }
 
+    private void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        EDTLibrary.ErrorManagement.ErrorHelper.SaveLog();
+    }
 }

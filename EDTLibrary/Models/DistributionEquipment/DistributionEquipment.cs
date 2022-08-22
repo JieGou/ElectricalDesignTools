@@ -27,13 +27,6 @@ namespace EDTLibrary.Models.DistributionEquipment
     [AddINotifyPropertyChangedInterface]
     public abstract class DistributionEquipment : IDteq, IComponentUser //, INotifyDataErrorInfo 
     {
-        public ListManager ListManager { get; set; }
-
-        protected DistributionEquipment(ListManager listManager)
-        {
-            ListManager = listManager;
-        }
-
         public DistributionEquipment()
         {
             Description = "";
@@ -52,7 +45,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 if (value == null) return;
-                if (TagAndNameValidator.IsTagAvailable(value, ListManager) == false) {
+                if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
                     ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage);
                     return;
                 }
@@ -61,18 +54,12 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _tag = value;
 
                 if (DaManager.GettingRecords == true) return;
-
+                
                 if (PowerCable != null) {
                     PowerCable.SetTagging(this);
                 }
                 foreach (var load in AssignedLoads) {
-
-                    if (load.GetType() == typeof(LoadModel)) {
-                        CableManager.AddAndUpdateLoadPowerComponentCablesAsync(load, ListManager);
-                    }
-                    else{
-                        PowerCable.SetTagging(load);
-                    }
+                    load.PowerCable.SetTagging(load);
                 }
 
                 UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
@@ -376,8 +363,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         public double PdSizeFrame { get; set; }
 
         public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer>();
-        public int PowerCableId { get; set; }
-
         public CableModel PowerCable { get; set; }
 
 
@@ -398,10 +383,10 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var _oldValue = _lcsBool;
                 _lcsBool = value;
                 if (_lcsBool == true) {
-                    ComponentManager.AddLcs(this, ListManager);
+                    ComponentManager.AddLcs(this, ScenarioManager.ListManager);
                 }
                 if (_lcsBool == false) {
-                    ComponentManager.RemoveLcs(this, ListManager);
+                    ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
                 }
 
             }
@@ -474,12 +459,11 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
 
-
-
+        public bool IsCalculating { get; set; }
         //Methods
         public void CalculateLoading()
         {
-
+            IsCalculating = true;
             Voltage = LineVoltage;
             var dis = this;
             //Sums values from Assinged loads
@@ -518,6 +502,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             DteqManager.SetPd(this);
             SCCR = CalculateSCCR();
 
+            IsCalculating = false;
+
             OnLoadingCalculated();
             OnPropertyUpdated(nameof(CalculateLoading));
 
@@ -537,13 +523,11 @@ namespace EDTLibrary.Models.DistributionEquipment
         public void CreatePowerCable()
         {
             if (PowerCable == null && DaManager.GettingRecords == false) {
-                PowerCable = (CableModel)CableFactory.CreatePowerCable(this, ListManager);
+                PowerCable = new CableModel(this);
+                PowerCable.Load = this;
+                PowerCable.LoadId = Id;
+                PowerCable.LoadType = this.GetType().ToString();
             }
-            PowerCable.Load = this;
-            PowerCable.LoadId = Id;
-            PowerCable.LoadType = this.GetType().ToString();
-            PowerCable.Type = CableManager.CableSizer.GetDefaultCableType(this);
-            PowerCable.UsageType = CableUsageTypes.Power.ToString();
         }
         public void SizePowerCable()
         {
@@ -560,9 +544,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         public void OnAssignedLoadReCalculated(object source, EventArgs e)
         {
             IEquipment eq = (IEquipment)source;
-
             if (GlobalConfig.Testing == true) {
-                //ErrorHelper.LogNoSave($"Tag: {Tag}, Load: {eq.Tag}");
+                ErrorHelper.Log($"Tag: {Tag}, Load: {eq.Tag}");
             }
             CalculateLoading();
         }
@@ -580,17 +563,18 @@ namespace EDTLibrary.Models.DistributionEquipment
         public event EventHandler PropertyUpdated;
         public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
         {
-            if (DaManager.GettingRecords == false) {
+            if (DaManager.GettingRecords == true) return;
+            if (IsCalculating) return;
 
-                //await Task.Run(() => {
-                if (PropertyUpdated != null) {
-                    PropertyUpdated(this, EventArgs.Empty);
-                }
-                //});
+            //await Task.Run(() => {
+            if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
+            }
+            //});
+            ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
 
-                if (GlobalConfig.Testing == true && DaManager.GettingRecords == false) {
-                    //ErrorHelper.LogNoSave($"Tag: {Tag}, {callerMethod}");
-                }
+            if (GlobalConfig.Testing == true) {
+                ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
             }
         }
 

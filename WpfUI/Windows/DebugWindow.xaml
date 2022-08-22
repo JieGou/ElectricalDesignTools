@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         
         xmlns:UndoSystem="clr-namespace:EDTLibrary.UndoSystem;assembly=EDTLibrary"
+        xmlns:ErrorSystem="clr-namespace:EDTLibrary.ErrorManagement;assembly=EDTLibrary"
 
         
         Title="DebugWindow" Height="600" Width="1000"
@@ -14,6 +15,38 @@
     
     <Grid>
         <TabControl>
+            <TabItem Header="Log List">
+
+                <TabItem.DataContext>
+                    <ErrorSystem:ErrorHelper/>
+                </TabItem.DataContext>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="7*"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ListBox x:Name="lstLog"
+                             ItemsSource="{Binding ErrorLog}"
+                             Grid.Row="0" MinHeight="250"
+                             ScrollViewer.VerticalScrollBarVisibility="Visible">
+
+                    </ListBox>
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Row="1">
+                        <TextBlock Text="Count: "/>
+                        <TextBlock  Grid.Row="1"
+                                    Text="{Binding ErrorList.Count,UpdateSourceTrigger=PropertyChanged}"
+                                    d:Text="23"
+                                    HorizontalAlignment="Left"
+                                Width="50"
+                                    Margin="20 0"/>
+                        <Button Content="Save Log" PreviewMouseDown="Button_PreviewMouseDown"/>
+                    </StackPanel>
+                </Grid>
+
+            </TabItem>
+
             <TabItem Header="Undo List">
                 <TabItem.DataContext>
                     <UndoSystem:UndoManager/>
@@ -28,7 +61,7 @@
                              ItemsSource="{Binding UndoList}"
                              Grid.Row="0" MinHeight="250"
                              ScrollViewer.VerticalScrollBarVisibility="Visible">
-                        
+
                     </ListBox>
                     <StackPanel Orientation="Horizontal"
                                 Grid.Row="1">
@@ -53,7 +86,9 @@
                                     Width="50"/>
                     </StackPanel>
                 </Grid>
+
             </TabItem>
+           
         </TabControl>
         
     </Grid>

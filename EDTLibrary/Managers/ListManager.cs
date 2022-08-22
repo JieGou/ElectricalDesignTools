@@ -99,9 +99,9 @@ namespace EDTLibrary.Managers
 
         public void AssignListManagerToEquipment(ObservableCollection<IEquipment> equipmentList)
         {
-            foreach (var item in equipmentList) {
-                item.ListManager = this;
-            }
+            //foreach (var item in equipmentList) {
+            //    item.ListManager = this;
+            //}
         }
         private void GetDisconnects()
         {
@@ -491,11 +491,11 @@ namespace EDTLibrary.Managers
                 foreach (var cable in CableList) {
                     //if (dteq.Id == cable.OwnerId && dteq.GetType().ToString() == cable.OwnerType) {
                     if (dteq.Id == cable.LoadId && cable.LoadType == dteq.GetType().ToString()) {
-                            dteq.PowerCable = cable;
-                            cable.Load = dteq;
-                            cable.CreateTypeList(dteq);
-                            cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
-                            break;
+                        dteq.PowerCable = cable;
+                        cable.Load = dteq;
+                        cable.CreateTypeList(dteq);
+                        cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
+                        break;
                     }
                 }
             }
@@ -503,18 +503,17 @@ namespace EDTLibrary.Managers
                 foreach (var cable in CableList) {
                     //if (load.Id == cable.OwnerId && load.GetType().ToString() == cable.OwnerType) {
                     if (load.Id == cable.LoadId && cable.LoadType == load.GetType().ToString()) {
-                            load.PowerCable = cable;
-                            cable.Load = load;
-                            cable.CreateTypeList(load);
-                            cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
+                        load.PowerCable = cable;
+                        cable.Load = load;
+                        cable.CreateTypeList(load);
+                        cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
                     }
                 }
             }
 
             foreach (var comp in CompList) {
                 foreach (var cable in CableList) {
-                    if (comp.Id == cable.OwnerId &&  comp.GetType().ToString() == cable.OwnerType) 
-                    {
+                    if (comp.Id == cable.OwnerId && comp.GetType().ToString() == cable.OwnerType) {
                         comp.PowerCable = cable;
                         break;
                     }

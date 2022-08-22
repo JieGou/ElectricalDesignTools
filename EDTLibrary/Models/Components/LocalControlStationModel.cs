@@ -18,8 +18,6 @@ using System.Windows.Threading;
 namespace EDTLibrary.Models.Components;
 public class LocalControlStationModel : ILocalControlStation
 {
-    public ListManager ListManager { get; set; }
-
     public LocalControlStationModel()
     {
         Type = "LCS";
@@ -31,12 +29,13 @@ public class LocalControlStationModel : ILocalControlStation
         set
         {
             if (value == null) return;
-            if (TagAndNameValidator.IsTagAvailable(value, ListManager) == false) {
+            if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
                 ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage);
                 return;
             }
+            var oldValue = _tag;
             _tag = value;
-            OnPropertyUpdated(nameof(Tag) + ": " + Tag.ToString());
+            OnPropertyUpdated($"{nameof(Tag)}: {Tag}");
         }
     }
     public string Category { get; set; }

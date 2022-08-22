@@ -1,5 +1,4 @@
-﻿using EDTLibrary.Managers;
-using EDTLibrary.Models.Areas;
+﻿using EDTLibrary.Models.Areas;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -7,8 +6,6 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Equipment;
 public class EquipmentModel : IEquipment
 {
-    public ListManager ListManager { get; set; }
-
     public int Id { get; set; }
     public string Tag { get; set; }
     public string Category { get; set; }

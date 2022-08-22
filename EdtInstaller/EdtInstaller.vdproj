@@ -358,7 +358,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Electrical Design Tools"
         "ProductCode" = "8:{6F54DE64-0911-4FEC-B2BD-FC6A85A86945}"
-        "PackageCode" = "8:{66669E13-2E3C-439A-9ADC-3534175CC794}"
+        "PackageCode" = "8:{96CC51A2-0A04-48F3-969B-D8D06A1AE8CD}"
         "UpgradeCode" = "8:{247680F3-572D-48BB-BFE6-F16B36C4670D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using EDTLibrary.DataAccess;
+using PropertyChanged;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -11,22 +14,29 @@ using System.Windows.Threading;
 
 namespace EDTLibrary.ErrorManagement
 {
+    [AddINotifyPropertyChangedInterface]
     public class ErrorHelper
     {
-        public static List<string> ErrorLog { get; set; } = new List<string>();
+        public static ObservableCollection<string> ErrorLog { get; set; } = new ObservableCollection<string>();
 
+        public static void LogAndSaveToFile(string errorMessage, [CallerFilePath] string callerClass = "", [CallerMemberName] string callerMethod = "")
+        {
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                callerClass = Path.GetFileName(callerClass);
+                errorMessage = $"{ErrorLog.Count} - C:{callerClass}, M:{callerMethod} - {errorMessage}";
+                ErrorLog.Add(errorMessage);
+                SaveLog();
+            }));
+
+        }
         public static void Log(string errorMessage, [CallerFilePath] string callerClass = "", [CallerMemberName] string callerMethod = "")
         {
-            callerClass = Path.GetFileName(callerClass);
-            errorMessage = $"C:{callerClass}, M:{callerMethod} - {errorMessage}";
-            ErrorLog.Add(errorMessage);
-            SaveLog();
-        }
-        public static void LogNoSave(string errorMessage, [CallerFilePath] string callerClass = "", [CallerMemberName] string callerMethod = "")
-        {
-            callerClass = Path.GetFileName(callerClass);
-            errorMessage = $"C:{callerClass}, M:{callerMethod} - {errorMessage}";
-            ErrorLog.Add(errorMessage);
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                callerClass = Path.GetFileName(callerClass);
+                errorMessage = $"{ErrorLog.Count} - C:{callerClass}, M:{callerMethod} - {errorMessage}";
+                ErrorLog.Add(errorMessage);
+            }));
+
         }
         public static void SaveLog()
         {
@@ -53,6 +63,7 @@ namespace EDTLibrary.ErrorManagement
 
         internal static void NotifyUserError(string message, string caption = "User Error")
         {
+            if (DaManager.Importing == true) return;
             Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
                 MessageBox.Show(message, caption);
             }));

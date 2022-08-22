@@ -18,7 +18,7 @@ namespace EDTLibrary.DataAccess
     public class SQLiteConnector : IDaConnector
     {
         public string ConString { get; set; }
-       
+
         public SQLiteConnector(string dbFileName)
         {
             try {
@@ -28,7 +28,7 @@ namespace EDTLibrary.DataAccess
                 throw;
             }
         }
-      
+
         #region GenericSQLite Calls
         /// <summary>
         ///Maps a SQLite table to a list of Class objects
@@ -260,6 +260,9 @@ namespace EDTLibrary.DataAccess
         }
         public void UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore, [CallerMemberName] string callerMethod = "") where T : class, new()
         {
+            if (DaManager.Importing==true) {
+                return;
+            }
             using (IDbConnection cnn = new SQLiteConnection(ConString)) {
                 StringBuilder sb = new StringBuilder();
                 var objectProperties = classObject.GetType().GetProperties();
@@ -275,7 +278,7 @@ namespace EDTLibrary.DataAccess
                 }
 
                 // removes properties to ignore
-                string tag="";
+                string tag = "";
                 string input;
                 string pattern;
                 string replace = "";
@@ -341,7 +344,7 @@ namespace EDTLibrary.DataAccess
                 try {
                     cnn.Execute("" + sb.ToString(), classObject);
                     var debug = tag;
-                    //ErrorHelper.LogNoSave($"SqLiteConnector.Upsert - Success Tag: {tag},      Caller: {callerMethod}");
+                    ErrorHelper.Log($"SqLiteConnector.Upsert - Success Tag: {tag},      Caller: {callerMethod}");
                 }
                 catch (Exception ex) {
                     ex.Data.Add("UserMessage", "SQL Query Error\nQuery:\n" + sb.ToString());
@@ -356,7 +359,7 @@ namespace EDTLibrary.DataAccess
                     else {
                         //ErrorHelper.ShowErrorMessage(ex);
                     }
-                    ErrorHelper.LogNoSave($"SqLiteConnector.Upsert - Failure Tag: {tag},      Caller: {callerMethod}");
+                    ErrorHelper.Log($"SqLiteConnector.Upsert - Failure Tag: {tag},      Caller: {callerMethod}");
                     ErrorHelper.NotifyExeptionMessage(ex);
 
                     //throw;
@@ -430,7 +433,7 @@ namespace EDTLibrary.DataAccess
                     cmd.CommandText = ($"DELETE FROM {tableName} WHERE Id = @Id");
                     cmd.Parameters.AddWithValue("@Id", id);
                     cmd.ExecuteNonQuery();
-                    
+
                 }
                 catch (Exception ex) {
                     ex.Data.Add("UserMessage", $"Error deleting Id: {id}    From: {tableName}");

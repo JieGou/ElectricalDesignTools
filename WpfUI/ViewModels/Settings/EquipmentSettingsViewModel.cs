@@ -32,18 +32,19 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
         get { return _edtSettings; }
         set { _edtSettings = value; }
     }
-    public TypeManager TypeManager => _typeManager;
     private TypeManager _typeManager;
-    public ListManager ListManager => _listManager;
-    private ListManager _listManager;
+    public TypeManager TypeManager
+    {
+        get { return _typeManager; }
+        set { _typeManager = value; }
+    }
 
     #endregion
 
-    public EquipmentSettingsViewModel(EdtSettings edtSettings, TypeManager typeManager, ListManager listManager)
+    public EquipmentSettingsViewModel(EdtSettings edtSettings, TypeManager typeManager)
     {
         _edtSettings = edtSettings;
         _typeManager = typeManager;
-        _listManager = listManager;
     }
 
 
@@ -70,7 +71,6 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
     private string _dteqLoadCableDerating;
     private string _xfrSubType;
     private string _xfrGrounding;
-    
 
 
     //Dteq
@@ -136,7 +136,7 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
             var oldValue = _xfrSubType;
             _xfrSubType = value;
             SaveVmSetting(nameof(XfrSubType), _xfrSubType);
-
+            
         }
     }
 
@@ -152,13 +152,11 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
         }
     }
 
-    public string DteqLoadCableDerating
-    {
-        get => _dteqLoadCableDerating; set
-        {
+    public string DteqLoadCableDerating { get => _dteqLoadCableDerating; set 
+        { 
             var oldValue = _dteqLoadCableDerating;
             double dblOut;
-            _dteqLoadCableDerating = value;
+            _dteqLoadCableDerating = value; 
 
             ClearErrors(nameof(DteqLoadCableDerating));
 
@@ -171,11 +169,11 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
             else {
                 _dteqLoadCableDerating = value;
                 SaveVmSetting(nameof(DteqLoadCableDerating), _dteqLoadCableDerating);
-                foreach (var dteq in ListManager.IDteqList) {
+                foreach (var dteq in ScenarioManager.ListManager.IDteqList) {
                     dteq.LoadCableDerating = double.Parse(_dteqLoadCableDerating);
                 }
             }
-        }
+        } 
     }
 
 

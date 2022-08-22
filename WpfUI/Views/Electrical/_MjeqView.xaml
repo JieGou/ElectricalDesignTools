@@ -1312,7 +1312,8 @@
                                ColumnSizer="AutoLastColumnFill"
                                SelectionChanged="dgdAssignedLoads_SelectionChanged_1"  
                                FilterRowPosition="FixedTop"
-                               PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1" PreviewMouseLeftButtonDown="dgdAssignedLoads_PreviewMouseLeftButtonDown" MouseLeave="dgdAssignedLoads_MouseLeave_1" >
+                               PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1"
+                               >
 
                     <sf:SfDataGrid.Resources>
                         <Style TargetType="CheckBox" x:Key="MotorOnlyCheckBoxStyle">

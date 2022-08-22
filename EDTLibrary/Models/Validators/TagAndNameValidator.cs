@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Managers;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System.Collections.ObjectModel;
@@ -10,13 +11,17 @@ namespace EDTLibrary.Models.Validators
     {
         public static bool IsTagAvailable(string tagToCheck, ListManager listManager)
         {
-            if (string.IsNullOrEmpty(tagToCheck))  return true;
-            if (listManager == null) return true; //for test data
+            if (string.IsNullOrEmpty(tagToCheck)) return true;
+            if (listManager == null) return true; //for test dat
+            if (DaManager.GettingRecords == true) return true;                                                
+            if (tagToCheck == GlobalConfig.Utility) return true;
+            if (tagToCheck == GlobalConfig.Deleted) return true;
+            if (tagToCheck == GlobalConfig.LargestMotor_StartLoad) return true;
 
             listManager.CreateEquipmentList();
             var tag = listManager.EqList.FirstOrDefault(eq => eq.Tag.ToLower() == tagToCheck.ToLower());
 
-            if (tag != null)  return false;
+            if (tag != null) return false;
 
             return true;
         }
@@ -28,7 +33,7 @@ namespace EDTLibrary.Models.Validators
             }
 
             var areaNAme = listManager.AreaList.FirstOrDefault(t => t.Name.ToLower() == name.ToLower());
-        
+
             if (areaNAme != null) {
                 return false;
             }

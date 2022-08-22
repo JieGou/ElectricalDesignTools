@@ -592,7 +592,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         //Move AddDteq to DteqManager
         DteqToAddValidator dteqToAddValidator = (DteqToAddValidator)dteqToAddObject;
-        EDTLibrary.ErrorManagement.ErrorHelper.LogNoSave($"Add Dteq - Tag:{dteqToAddValidator.Tag}");
+        EDTLibrary.A_Helpers.ErrorHelper.LogNoSave($"\n\n ******************* Add Dteq - Tag:{dteqToAddValidator.Tag}");
 
         try {
             var IsValid = dteqToAddValidator.IsValid(); //to help debug
@@ -600,7 +600,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             
             if (IsValid) {
 
-                IDteq newDteq = _dteqFactory.CreateDteq(dteqToAddValidator, ListManager);
+                IDteq newDteq = _dteqFactory.CreateDteq(dteqToAddValidator);
 
                 IDteq dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
                 if (dteqSubscriber != null) {

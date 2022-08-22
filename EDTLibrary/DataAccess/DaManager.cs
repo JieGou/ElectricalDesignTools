@@ -129,19 +129,19 @@ public class DaManager {
     }
     public static void OnLoadPropertyUpdated(object source, EventArgs e)
     {
-        if (DaManager.GettingRecords == false) {
-            DaManager.UpsertLoadAsync((LoadModel)source);
-        }
+       
+        if (DaManager.GettingRecords == true) return;
+        DaManager.UpsertLoadAsync((LoadModel)source);
     }
 
     private static async Task UpsertLoadAsync(LoadModel load)
     {
         try {
             //removed await to test speed
-            //await Task.Run(() => {
+            await Task.Run(() => {
                 if (GlobalConfig.Importing == true) return;
                 prjDb.UpsertRecord(load, GlobalConfig.LoadTable, SaveLists.LoadNoSaveList);
-            //});
+            });
         }
 
         catch (Exception ex) {

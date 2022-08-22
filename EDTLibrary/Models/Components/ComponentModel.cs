@@ -4,7 +4,6 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
-using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Validators;
@@ -26,8 +25,6 @@ namespace EDTLibrary.Models.Components;
 
 public class ComponentModel : IComponentEdt
 {
-    public ListManager ListManager { get; set; }
-
     public ComponentModel()
     {
         //Category = Categories.Component.ToString();
@@ -41,26 +38,28 @@ public class ComponentModel : IComponentEdt
         set
         {
             if (value == null) return;
-            if (TagAndNameValidator.IsTagAvailable(value, ListManager) == false) {
+            if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
                 ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage);
                 return;
             }
             var oldValue = _tag;
             _tag = value;
-            if (DaManager.GettingRecords == false) {
-                if (Owner != null) {
-                    if (CableManager.IsUpdatingPowerCables == false) {
-                        //CableManager.AddAndUpdateLoadPowerComponentCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
-                    }
+
+            if (DaManager.GettingRecords == true) return;
+            if (Owner != null) {
+                if (CableManager.IsUpdatingPowerCables == false) {
+                    //CableManager.AddAndUpdateLoadPowerComponentCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
                 }
             }
-            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
-                UndoManager.AddUndoCommand(cmd);
-            }
+
+            var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
+            UndoManager.AddUndoCommand(cmd);
+            
             OnPropertyUpdated();
         }
     }
+
+
 
     public string Description { get; set; }
     public string Category { get; set; } //Component
@@ -131,8 +130,6 @@ public class ComponentModel : IComponentEdt
         }
     }
 
-    public int PowerCableId { get; set; }
-
     public CableModel PowerCable { get; set; }
 
 
@@ -140,18 +137,8 @@ public class ComponentModel : IComponentEdt
 
 
     public double HeatLoss { get; set; }
-    public string Unit { get; set; }
-    public double PdTrip { get; set; }
-    public double PdFrame { get; set; }
-    public double Fla { get; set; }
-    public string FedFromTag { get; set; }
-    public int FedFromId { get; set; }
-    public string FedFromType { get; set; }
-    public IDteq FedFrom { get; set; }
-    public double AmpacityFactor { get; set; }
-    public string PdType { get; set; }
-    public double PdSizeTrip { get; set; }
-    public double PdSizeFrame { get; set; }
+
+
 
     public event EventHandler PropertyUpdated;
 
@@ -188,20 +175,5 @@ public class ComponentModel : IComponentEdt
         IEquipment owner = (IEquipment)source;
         AreaManager.UpdateArea(this, owner.Area, Area);
         OnPropertyUpdated();
-    }
-
-    public void CreatePowerCable()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void SizePowerCable()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void CalculateCableAmps()
-    {
-        throw new NotImplementedException();
     }
 }
