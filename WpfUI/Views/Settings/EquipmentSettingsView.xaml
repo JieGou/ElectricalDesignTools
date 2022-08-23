@@ -80,8 +80,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
 
-            <WrapPanel Grid.Row="2" Grid.Column="2"
-                       VerticalAlignment="Top"
+            <WrapPanel VerticalAlignment="Top"
                        ScrollViewer.VerticalScrollBarVisibility="Auto"
                        MinWidth="250" 
                        Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">

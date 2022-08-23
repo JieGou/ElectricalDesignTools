@@ -20,8 +20,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                
-                <ResourceDictionary Source="../../Styles/EdtStyle_Purple.xaml"/>
+                <!--<ResourceDictionary Source="../../Styles/EdtStyle_Purple.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
             <!--Cable List Grid Expanders-->
@@ -117,7 +116,8 @@
             <!--LeftButtons-->
             <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Vertical" Margin="0 50 0 0">
                 <GroupBox Header="Cable Grouping" Grid.Column="1" Grid.Row="2" Margin="0 0 0 30"
-                          Style="{DynamicResource GroupBoxStyle1}"  >
+                          Style="{DynamicResource GroupBoxStyle1}"  
+                          Visibility="Collapsed">
                     <Grid>
                         <StackPanel Orientation="Vertical">
                             <StackPanel Orientation="Horizontal">
@@ -138,7 +138,7 @@
 
                     </Grid>
                 </GroupBox>
-                <Button x:Name ="btnCreateCableList" Content="Create Cable List" 
+                <!--<Button x:Name ="btnCreateCableList" Content="Create Cable List" 
                     Style="{StaticResource BaseButtonLarge}"
                     Command="{Binding CreateCableList}"/>
 
@@ -149,7 +149,7 @@
                     Style="{StaticResource BaseButtonLarge}"/>
 
                 <Button x:Name ="btnChangeLoadOC" Content="Change Load" 
-                    Style="{StaticResource BaseButtonLarge}"/>
+                    Style="{StaticResource BaseButtonLarge}"/>-->
 
             </StackPanel>
 
@@ -165,7 +165,8 @@
             <!--ItemsSource="{Binding Source={StaticResource cableList}}"-->
 
 
-            <syncfusion:SfDataGrid Grid.Column="3" Grid.Row="2"
+            <syncfusion:SfDataGrid x:Name="dgdCableList"
+                                   Grid.Column="3" Grid.Row="2"
                                    ItemsSource="{Binding ListManager.CableList, Mode=TwoWay}"
                                    AutoGenerateColumns="False"
                                    
@@ -177,8 +178,8 @@
                                    Background="White"
                                    CurrentCellBorderBrush="Black"
                                    CurrentCellBorderThickness="0"
-                                   
-                                   RowSelectionBrush="{StaticResource RowSelectionBrush_Teal}"
+                                   FilterRowPosition="FixedTop"
+                                   RowSelectionBrush="{StaticResource Light}"
                                    
                                    NavigationMode="Cell"
                                    SelectionMode="Extended"
@@ -187,25 +188,90 @@
                                    AllowFiltering="True" 
                                    ShowGroupDropArea="True"
                                    AllowResizingColumns="True"
-                                   ColumnSizer="AutoLastColumnFill" >
+                                   ColumnSizer="AutoLastColumnFill" KeyDown="SfDataGrid_KeyDown" 
+                                   >
                 
                 <syncfusion:SfDataGrid.Columns>
-                    <syncfusion:GridTextColumn MappingName="Id"/>
-                    <syncfusion:GridTextColumn MappingName="Tag"/>
-                    <syncfusion:GridTextColumn MappingName="Type"/>
-                    <syncfusion:GridTextColumn MappingName="Source"/>
-                    <syncfusion:GridTextColumn MappingName="Destination"/>
-                    <syncfusion:GridTextColumn MappingName="QtyParallel"/>
-                    <syncfusion:GridTextColumn MappingName="ConductorQty"/>
-                    <syncfusion:GridTextColumn MappingName="Size"/>
-                    <syncfusion:GridTextColumn MappingName="Length"/>
-                    <syncfusion:GridTextColumn MappingName="Spacing"/>
-                    <syncfusion:GridTextColumn MappingName="UsageType"/>
-                    <syncfusion:GridTextColumn MappingName="Derating"/>
-                    <syncfusion:GridTextColumn MappingName="DeratedAmps"/>
-                    <syncfusion:GridTextColumn MappingName="RequiredAmps"/>
-                    <syncfusion:GridTextColumn MappingName="VoltageClass"/>
-                    <syncfusion:GridTextColumn MappingName="Insulation"/>
+                    <syncfusion:GridTextColumn MappingName="Id"
+                                               UseBindingValue="True" 
+                                               FilterBehavior="StringTyped"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="Tag"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Contains"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="Type"
+                                               UseBindingValue="True" 
+                                               FilterBehavior="StringTyped"
+                                               FilterRowCondition="Contains"
+                                               ImmediateUpdateColumnFilter="True"  
+                                               />
+                    <syncfusion:GridTextColumn MappingName="Source"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Contains"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="Destination"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Contains"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="QtyParallel"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Equals"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="ConductorQty"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Equals"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="Size"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Contains"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="Length"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="LessThanOrEqual"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="Spacing"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Equals"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="UsageType"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Contains"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="Derating"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Equals"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="DeratedAmps"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="LessThanOrEqual"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="RequiredAmps"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="LessThanOrEqual"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="VoltageClass"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="LessThanOrEqual"
+                                               ImmediateUpdateColumnFilter="True"/>
+                    
+                    <syncfusion:GridTextColumn MappingName="Insulation"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="LessThanOrEqual"
+                                               ImmediateUpdateColumnFilter="True"/>
                 </syncfusion:SfDataGrid.Columns>
 
 

@@ -9,7 +9,7 @@
              
              xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
              
-                    xmlns:sfgrid="clr-namespace:Syncfusion.UI.Xaml.Grid;assembly=Syncfusion.SfGrid.WPF"
+             xmlns:sfgrid="clr-namespace:Syncfusion.UI.Xaml.Grid;assembly=Syncfusion.SfGrid.WPF"
              >
     
     
@@ -20,6 +20,14 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/EdtColorsAndDimensions.xaml"/>
                 <ResourceDictionary Source="Styles/EdtStyle_Base.xaml"/>
+                <ResourceDictionary Source="Styles/SfEdtStyle_Base.xaml"/>
+
+                <!--<ResourceDictionary Source="Styles/EdtStyle_Teal.xaml"/>-->
+                <!--<ResourceDictionary Source="Styles/EdtStyle_Purple.xaml"/>-->
+
+                <ResourceDictionary Source="Converters/Converters.xaml"/>
+                
+
                 <ResourceDictionary Source="Styles/MahStyles.xaml"/>
 
                 <!-- Mah Apps Theme setting -->
@@ -85,11 +93,9 @@
                 <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/ColorPicker/ColorPalette.xaml" /> -->
                 <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/ColorPicker/ColorPicker.xaml" /> -->
 
-
-                <ResourceDictionary Source="/Converters/Converters.xaml"/>
-
             </ResourceDictionary.MergedDictionaries>
 
+            <!--Style for hiding Non-Motor load cell content in SfDataGrid-->
             <Style TargetType="sfgrid:GridCell" x:Key="NonMotorLoadVisibilityStyle">
                 <Setter Property="BorderBrush" Value="LightGray" />
                 <Style.Triggers>
@@ -103,59 +109,17 @@
                     <Style TargetType="CheckBox">
                         <Setter Property="Visibility" Value="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
                     </Style>
+                    
                     <Style TargetType="TextBlock">
                         <Setter Property="Visibility" Value="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
                     </Style>
                 </Style.Resources>
             </Style>
 
-
-
-            <converters:CableListGroupsToTotalConverter x:Key="groupsConverter" />
-
-            <!--Cable List Groups Template-->
-            <DataTemplate x:Key="UsageTemplate" >
-                <Expander IsExpanded="True" BorderBrush="#FFA4B97F" 
-                              BorderThickness="0,0,0,1">
-                    <Expander.Header>
-                        <DockPanel Width="350" Background="Lavender">
-                            <!--<TextBlock Text="Usage Type:  " Margin="15,0,0,0" />-->
-                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
-                            <TextBlock Text="Total Runs:  " Margin="15,0,0,0" />
-                            <TextBlock Text="{Binding Path=Items, Converter={StaticResource groupsConverter}}" FontWeight="Bold"/>
-                            <TextBlock Text="Count:  " Margin="15,0,0,0" />
-                            <TextBlock Text="{Binding Path=ItemCount}" MinWidth="25" FontWeight="Bold" />
-                        </DockPanel>
-                    </Expander.Header>
-                    <Expander.Content>
-                        <ItemsPresenter />
-                    </Expander.Content>
-                </Expander>
-            </DataTemplate>
-
-            <DataTemplate x:Key="TypeTemplate">
-                <Border Margin="2" BorderBrush="Brown" BorderThickness="1" CornerRadius="5">
-                    <TextBlock Margin="2" FontSize="16" FontWeight="Bold" Foreground="DarkBlue" Text="{Binding Path=Name}"/>
-                </Border>
-            </DataTemplate>
-
-            <DataTemplate x:Key="SizeTemplate">
-                <Expander IsExpanded="True" BorderBrush="#FFA4B97F" 
-                              BorderThickness="0,0,0,1">
-                    <Expander.Header>
-                        <DockPanel Width="350" Background="Lavender">
-                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
-                            <TextBlock Text="Total Runs:  " Margin="15,0,0,0" />
-                            <TextBlock Text="{Binding Path=Items, Converter={StaticResource groupsConverter}}" FontWeight="Bold"/>
-                            <TextBlock Text="Count:  " Margin="15,0,0,0" />
-                            <TextBlock Text="{Binding Path=ItemCount}" MinWidth="25" FontWeight="Bold" />
-                        </DockPanel>
-                    </Expander.Header>
-                    <Expander.Content>
-                        <ItemsPresenter />
-                    </Expander.Content>
-                </Expander>
-            </DataTemplate>
+            <!--Window Close Button Styel-->
+            <Style x:Key="CustomLightMetroWindowButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="Red"/>
+            </Style>
 
            
             <LinearGradientBrush x:Key="ComboBox.Static.Background" EndPoint="0,1" StartPoint="0,0">
@@ -203,14 +167,7 @@
             <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Border" Color="Transparent"/>
             <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
 
-            <Style x:Key="CustomLightMetroWindowButtonStyle" TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="Red"/>
-            </Style>
-
-            <Style x:Key="LcsCheckBoxVisibility" TargetType="{x:Type CheckBox}">
-                <Setter Property="Visibility" Value="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
-            </Style>
-
+            
             
 
             <Style x:Key="GroupBoxStyle1" TargetType="{x:Type GroupBox}">

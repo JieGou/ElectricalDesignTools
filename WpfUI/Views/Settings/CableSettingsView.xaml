@@ -7,11 +7,12 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:WpfUI.Views"
              xmlns:commands="clr-namespace:WpfUI.Commands"
+             xmlns:controls="clr-namespace:WpfUI.Controls"
              xmlns:projectSettings="clr-namespace:EDTLibrary.ProjectSettings;assembly=EDTLibrary"
              
              
              mc:Ignorable="d" 
-             d:Width="1900" d:Height="900" 
+             d:Width="1900" d:Height="1000" 
              Background="AliceBlue">
 
 
@@ -74,18 +75,29 @@
                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
                    Style="{StaticResource PageTitleStyle}"/>
 
-        <WrapPanel Grid.Row="2" Grid.Column="2">
+        <ScrollViewer x:Name="MyScrollViewer" 
+                      Grid.Row="2" Grid.Column="2"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">
 
-            <!--Cable Settings-->
-            <GroupBox Header="Power Cable Settings"
+            <WrapPanel VerticalAlignment="Top"
+                       ScrollViewer.VerticalScrollBarVisibility="Auto"
+                       MinWidth="250" 
+                       Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
+
+                <!--Cable Settings-->
+            <controls:EdtGroupBox Header="Power Cable Settings"
                   Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 0">
+                  Margin="25 0 25 0" 
+                                  HeaderBackground="{StaticResource Dark}"
+                                  HeaderForeGround="white">
                 <StackPanel Orientation="Horizontal">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition Width="20"/>
-                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
@@ -106,7 +118,7 @@
                             <RowDefinition Height="80"/>
                             <RowDefinition Height="80"/>
                             <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
 
@@ -385,20 +397,20 @@
 
                         <StackPanel Orientation="Horizontal"
                                     Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3">
+                            
+                            <!--Cable Types-->
                             <DataGrid Width="auto" MinHeight="200" d:Width="200"
-                              Margin="10 10 0 10"
-                              FontWeight="Normal"
-                              Grid.Row="5" Grid.Column="0"
-                              ItemsSource="{Binding TypeManager.PowerCableTypes}"
-                              AutoGenerateColumns="False"
-                              SelectedItem="{Binding SelectedCableType}"
-                              RowHeaderWidth="0"
-                              SelectionMode="Single"
-                              >
+                                      Margin="10 10 0 10"
+                                      FontWeight="Normal"
+                                      Grid.Row="5" Grid.Column="0"
+                                      ItemsSource="{Binding TypeManager.PowerCableTypes}"
+                                      AutoGenerateColumns="False"
+                                      SelectedItem="{Binding SelectedCableType}"
+                                      RowHeaderWidth="0"
+                                      SelectionMode="Single"  
+                                      >
                                 <DataGrid.Columns>
-
-                                    <!--Type-->
-
+                                    
                                     <DataGridTextColumn Header="Cable Types In Library"
                                                 Binding="{Binding Path=Type}" 
                                                 MinWidth="175"
@@ -418,31 +430,11 @@
                                         </DataGridTextColumn.EditingElementStyle>
                                     </DataGridTextColumn>
 
-                                    <!--Display Text-->
-
-                                    <!--<DataGridTextColumn Header=" Type Display Text &#x0a;(Text shown on drawings)"
-                                                Binding="{Binding Path=TypeDisplayText}" 
-                                                MinWidth="175">
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Left" />
-                                        <Setter Property="Margin" Value="10 0"/>
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
-                                <DataGridTextColumn.EditingElementStyle>
-                                    <Style TargetType="TextBox">
-                                        <Setter Property="TextAlignment" Value="Left" />
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="Margin" Value="10 0"/>
-                                    </Style>
-                                </DataGridTextColumn.EditingElementStyle>
-                            </DataGridTextColumn>-->
-
                                 </DataGrid.Columns>
                             </DataGrid>
 
-
-                            <DataGrid x:Name="dgdCableSizes" IsReadOnly="False" MinColumnWidth="50"
+                            <!--Cable Sizes-->
+                            <DataGrid IsReadOnly="False" MinColumnWidth="50"
                               Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"
                               MinWidth="50"
                               MinHeight="400"
@@ -453,7 +445,8 @@
                               RowHeaderWidth="0"
                               SelectionUnit="Cell"
                               SelectionMode="Single"
-                              ItemsSource="{Binding Path=SelectedCableSizes, Mode=TwoWay, UpdateSourceTrigger=Explicit, IsAsync=True}"
+                              ItemsSource="{Binding Path=SelectedCableSizes, Mode=TwoWay, 
+                                            UpdateSourceTrigger=Explicit, IsAsync=True}"
                               AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <!--Type-->
@@ -473,7 +466,9 @@
                                                     MinWidth="85" >
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <CheckBox IsChecked="{Binding Path=UsedInProject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+                                                <CheckBox IsChecked="{Binding Path=UsedInProject, Mode=TwoWay, 
+                                                          UpdateSourceTrigger=PropertyChanged}" 
+                                                          HorizontalAlignment="Center"/>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -484,7 +479,7 @@
                         </StackPanel>
                     </Grid>
                 </StackPanel>
-            </GroupBox>
+            </controls:EdtGroupBox>
 
 
             <GroupBox Header="Control and Instrument Cable Settings"
@@ -494,7 +489,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <Grid.RowDefinitions>
@@ -512,7 +507,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
                     <!--Lcs cable type-->
@@ -584,12 +579,7 @@
                 </Grid>
             </GroupBox>
         </WrapPanel>
+        </ScrollViewer>
     </Grid>
-
-
-
-
-
-    <!--STRING Settings-->
 
 </UserControl>

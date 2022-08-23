@@ -30,6 +30,8 @@
 
     <sf:SortDirectionToVisibilityConverter x:Key="sortDirectionToVisibilityConverter" />
     <sf:SortDirectionToWidthConverter x:Key="sortDirectionToWidthConverter" />
+    
+    <!--Header Cell with sort Arrow in upper center-->
     <Style TargetType="sf:GridHeaderCellControl">
         <Setter Property="Background" Value="{StaticResource Dark_Teal}" />
         <Setter Property="BorderBrush" Value="Black" />
@@ -277,7 +279,6 @@
    
     <Style TargetType="sf:FilterToggleButton">
         <Setter Property="Background" Value="Transparent"/>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="sf:FilterToggleButton">
@@ -378,6 +379,7 @@
     </Style>
 
 
+    <!--ComboBox GridCell with drop down arrow-->
     <Style x:Key="comboBoxCellStyle" TargetType="sfgrid:GridCell">
         <Setter Property="Template">
             <Setter.Value>

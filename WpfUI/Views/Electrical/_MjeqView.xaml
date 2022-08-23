@@ -39,36 +39,12 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/SfEdtStyle_Base.xaml"/>
-
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
-                <ResourceDictionary Source="../../Converters/Converters.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
 
             <styleSelectors:NonMotorLoadVisibilityStyleSelector x:Key="NonMotorLoadVisibilityStyleSelector"/>
 
-
-            <Style TargetType="sf:GridCell">
-                <Setter Property="BorderBrush">
-                    <Setter.Value>
-                        <DrawingBrush Viewport="0,0,7,7" ViewportUnits="Absolute" TileMode="Tile">
-                            <DrawingBrush.Drawing>
-                                <DrawingGroup>
-                                    <GeometryDrawing Brush="Black">
-                                        <GeometryDrawing.Geometry>
-                                            <GeometryGroup>
-                                                <RectangleGeometry Rect="0,0,50,50" />
-                                                <RectangleGeometry Rect="50,50,50,50" />
-                                            </GeometryGroup>
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup>
-                            </DrawingBrush.Drawing>
-                        </DrawingBrush>
-                    </Setter.Value>
-                </Setter>
-            </Style>
 
             <viewModifiers:BindingProxy x:Key="AreaViewProxy" Data="{Binding AreaColumnVisible}" />
 

@@ -56,7 +56,6 @@ public partial class _MjeqView : UserControl
         if (e.Key == Key.Escape) {
             dgdDteq.CancelEdit();
         }
-
     }
 
     private void dgdAssignedLoads_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -87,6 +86,7 @@ public partial class _MjeqView : UserControl
         }
     }
 
+    //explicit update source for LoadModel??
     static void UpdateBindingTarget(DataGrid dg, DataGridTextColumn col, ILoad item)
     {
         DataGridRow row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromItem(item);
@@ -170,22 +170,9 @@ public partial class _MjeqView : UserControl
                 }
             }
 
-            //if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
-            //    if (e.Key == Key.Z) {
-            //        Undo.UndoCommand(elecVm.ListManager);
-            //    }
-            //}
 #endif
         }
     }
-
-    //Testing
-
-
-
-
-
-
 
     #region Context Menus
 
@@ -232,6 +219,77 @@ public partial class _MjeqView : UserControl
         }
     }
 
+
+    private void dgdAssignedLoads_SelectionChanged_1(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
+    {
+        if (dgdAssignedLoads.SelectedItem != null) {
+            if (dgdAssignedLoads.SelectedItem.GetType() == typeof(LoadModel)) {
+                _loadDetailsView.DataContext = this.DataContext;
+                LoadDetailsContent.Content = _loadDetailsView;
+            }
+        }
+        if (MjeqVm == null) return;
+        MjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;
+    }
+
+    private void dgdAssignedLoads_PreviewKeyDown_1(object sender, KeyEventArgs e)
+    {
+        dgdAssignedLoads.SearchHelper.SearchType = Syncfusion.UI.Xaml.Grid.SearchType.Contains;
+        if (e.Key == Key.Escape) {
+            dgdAssignedLoads.ClearFilters();
+        }
+    }
+
+    private void LoadGridContextMenu_AddDiscoonnect(object sender, MouseButtonEventArgs e)
+    {
+        AddDisconnectAsync();
+    }
+
+    private async Task AddDisconnectAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+                LoadModel load = (LoadModel)loadObject;
+                load.DisconnectBool = true;
+            }
+        }));
+    }
+
+    private async void LoadGridContextMenu_AddDrive(object sender, MouseButtonEventArgs e)
+    {
+        await AddDriveAsync();
+    }
+
+    private async Task AddDriveAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+                LoadModel load = (LoadModel)loadObject;
+                if (load.Type == LoadTypes.MOTOR.ToString()) {
+                    load.DriveBool = true;
+                }
+            }
+        }));
+    }
+
+    private async void LoadGridContextMenu_AddLcs(object sender, MouseButtonEventArgs e)
+    {
+        await AddLcsAsync();
+    }
+
+    private async Task AddLcsAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+                LoadModel load = (LoadModel)loadObject;
+                if (load.Type == LoadTypes.MOTOR.ToString()) {
+                    load.LcsBool = true;
+                }
+            }
+        }));
+    }
+    #endregion
+
     private void FastEditEvent(object sender, RoutedEventArgs args)
     {
         var dataGridCell = (sender as UIElement)?.FindVisualParent<DataGridCell>();
@@ -245,8 +303,6 @@ public partial class _MjeqView : UserControl
 
         //dataGridCell.FastEdit(args);
     }
-
-    #endregion
 
 
     #region Filters
@@ -432,7 +488,6 @@ public partial class _MjeqView : UserControl
     }
     #endregion
 
-
     #region Add Eq Control Events and Grid edit Events
 
     private void txtDteqTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -525,7 +580,6 @@ public partial class _MjeqView : UserControl
     }
     #endregion
 
-
     #region Testing
     //Testing
     private async Task LoadTestEquipmentData()
@@ -553,7 +607,7 @@ public partial class _MjeqView : UserControl
 
             case MessageBoxResult.Cancel:
                 start = DateTime.Now;
-                AddExtraLoads(listManager);
+                AddExtraLoadsAsync(listManager);
                 Debug.Print($"start: {start.ToString()} end: {DateTime.Now.ToString()}");
                 break;
         }
@@ -566,7 +620,7 @@ public partial class _MjeqView : UserControl
         Debug.Print($"Importing Total Time: {elapsedTime}");
     }
 
-    private async Task AddExtraLoads(ListManager listManager)
+    private async Task AddExtraLoadsAsync(ListManager listManager)
     {
         int count = listManager.LoadList.Count;
         ILoad load = new LoadModel() {
@@ -574,7 +628,7 @@ public partial class _MjeqView : UserControl
             Type = LoadTypes.MOTOR.ToString(),
             FedFromTag = "MCC-01",
             Voltage = 460,
-            Size = 50,
+            Size = 15,
             Unit = Units.HP.ToString()
         };
 
@@ -585,8 +639,8 @@ public partial class _MjeqView : UserControl
 
                 LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
                 LoadManager.AddLoad(loadToAdd, listManager);
-                load.CalculateLoading();
-                count += i;
+                //load.CalculateLoading();
+                count += 1;
             }));
 
         }
@@ -606,25 +660,15 @@ public partial class _MjeqView : UserControl
     private async Task AddTestLoadsAsync(ListManager listManager)
     {
         try {
-
-            //List<Task<LoadModel>> tasks = new List<Task<LoadModel>>();
-
             foreach (var load in TestData.TestLoadList) {
                 load.Area = listManager.AreaList[0];
                 LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
                 await Task.Run(() => LoadManager.AddLoad(loadToAdd, listManager));
-
-                //tasks.Add  (Task.Run(() => LoadManager.AddLoad(loadToAdd, listManager)));  
-                //load.CalculateLoadingAsync();
             }
-            //var results = await Task.WhenAll(tasks);
-
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);
-
         }
-
     }
 
     private void DeleteEquipment()
@@ -685,74 +729,7 @@ public partial class _MjeqView : UserControl
     }
     #endregion
 
-    private void dgdAssignedLoads_SelectionChanged_1(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
-    {
-        if (dgdAssignedLoads.SelectedItem != null) {
-            if (dgdAssignedLoads.SelectedItem.GetType() == typeof(LoadModel)) {
-                _loadDetailsView.DataContext = this.DataContext;
-                LoadDetailsContent.Content = _loadDetailsView;
-            }
-        }
-        if (MjeqVm == null) return;
-        MjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;
-    }
 
-    private void dgdAssignedLoads_PreviewKeyDown_1(object sender, KeyEventArgs e)
-    {
-        dgdAssignedLoads.SearchHelper.SearchType = Syncfusion.UI.Xaml.Grid.SearchType.Contains;
-        if (e.Key==Key.Escape) {
-            dgdAssignedLoads.ClearFilters();
-        }
-    }
-
-    private void LoadGridContextMenu_AddDiscoonnect(object sender, MouseButtonEventArgs e)
-    {
-        AddDisconnectAsync();
-    }
-
-    private async Task AddDisconnectAsync()
-    {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                LoadModel load = (LoadModel)loadObject;
-                load.DisconnectBool = true;
-            }
-        }));
-    }
-
-    private async void LoadGridContextMenu_AddDrive(object sender, MouseButtonEventArgs e)
-    {
-        await AddDriveAsync();
-    }
-
-    private async Task AddDriveAsync()
-    {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                LoadModel load = (LoadModel)loadObject;
-                if (load.Type == LoadTypes.MOTOR.ToString()) {
-                    load.DriveBool = true;
-                }
-            }
-        }));
-    }
-
-    private async void LoadGridContextMenu_AddLcs(object sender, MouseButtonEventArgs e)
-    {
-        await AddLcsAsync();
-    }
-
-    private async Task AddLcsAsync()
-    {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                LoadModel load = (LoadModel)loadObject;
-                if (load.Type == LoadTypes.MOTOR.ToString()) {
-                    load.LcsBool = true;
-                }
-            }
-        }));
-    }
 
     private void dgdAssignedLoads_CurrentCellActivated(object sender, Syncfusion.UI.Xaml.Grid.CurrentCellActivatedEventArgs e)
     {

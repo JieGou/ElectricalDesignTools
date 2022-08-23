@@ -23,4 +23,11 @@ public partial class CableListView : UserControl
     {
         InitializeComponent();
     }
+
+    private void SfDataGrid_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key ==Key.Escape) {
+            dgdCableList.ClearFilters();
+        }
+    }
 }

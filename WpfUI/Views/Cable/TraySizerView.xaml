@@ -12,7 +12,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              
-             Background="AliceBlue">
+             Background="#FFC5BCCA">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
