@@ -667,12 +667,12 @@ namespace EDTLibrary.Models.Loads
             if (DaManager.GettingRecords == true) return;
             if (IsCalculating) return;
 
-                //await Task.Run(() => {
+            await Task.Run(() => {
                 if (PropertyUpdated != null) {
                     PropertyUpdated(this, EventArgs.Empty);
                 }
-                //});
-                ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
+            });
+            ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
 
                 if (GlobalConfig.Testing == true) {
                     ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");

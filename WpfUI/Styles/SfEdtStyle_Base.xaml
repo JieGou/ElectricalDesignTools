@@ -377,4 +377,33 @@
         </Setter>
     </Style>
 
+
+    <Style x:Key="comboBoxCellStyle" TargetType="sfgrid:GridCell">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="sfgrid:GridCell">
+                    <Grid SnapsToDevicePixels="True">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="LightGray"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="True">
+                            <Grid>
+                                <ContentPresenter Margin="{TemplateBinding Padding}" />
+                                <Path Width="5.3"
+                                      Height="4.2"
+                                      Margin="0,0,7,0"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      Data="F1M0,0L2.667,2.66665 5.3334,0 5.3334,-1.78168 2.6667,0.88501 0,-1.78168 0,0z"
+                                      Fill="Gray"
+                                      Stretch="Uniform" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
 </ResourceDictionary>

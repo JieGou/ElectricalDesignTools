@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace WpfUI.SyncFusion.Renderers;
 
@@ -19,4 +20,12 @@ public class CustomGridCellComboBoxRenderer : GridCellComboBoxRenderer
         base.OnInitializeEditElement(dataColumn, uiElement, dataContext);
         uiElement.Template = App.Current.Resources["ComboBoxBase"] as ControlTemplate;
     }
+    protected override void OnEditElementLoaded(object sender, System.Windows.RoutedEventArgs e)
+    {
+        base.OnEditElementLoaded(sender, e);
+        var combobox = sender as ComboBox;
+        combobox.IsDropDownOpen = true;
+    }
+    
+
 }

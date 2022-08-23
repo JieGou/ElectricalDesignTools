@@ -1290,7 +1290,7 @@
                                HeaderRowHeight="40"
                                RowHeight="20"
                                
-                               EditTrigger="OnTap"
+                               EditTrigger="OnDoubleTap"
                                Background="White"
                                CurrentCellBorderBrush="Black"
                                CurrentCellBorderThickness="0"
@@ -1312,7 +1312,7 @@
                                ColumnSizer="AutoLastColumnFill"
                                SelectionChanged="dgdAssignedLoads_SelectionChanged_1"  
                                FilterRowPosition="FixedTop"
-                               PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1"
+                               PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1" CurrentCellActivated="dgdAssignedLoads_CurrentCellActivated"
                                >
 
                     <sf:SfDataGrid.Resources>
@@ -1391,7 +1391,8 @@
                                                SortMode="Display"
                                                TextAlignment="Center"
                                            ImmediateUpdateColumnFilter="True"
-                                           FilterRowOptionsVisibility="Collapsed"
+                                           FilterRowOptionsVisibility="Collapsed" IsReadOnly="False"
+                                               CellStyle="{StaticResource comboBoxCellStyle}"
                                                >
                             <sf:GridComboBoxColumn.CellTemplate>
                                 <DataTemplate>
@@ -1414,6 +1415,7 @@
                                                TextAlignment="Center"
                                                ImmediateUpdateColumnFilter="True"
                                            FilterRowOptionsVisibility="Collapsed"
+                                               CellStyle="{StaticResource comboBoxCellStyle}"
                                                >
                             <sf:GridComboBoxColumn.CellTemplate>
                                 <DataTemplate>
@@ -1437,6 +1439,7 @@
                                                TextAlignment="Center" 
                                                ImmediateUpdateColumnFilter="True"
                                            FilterRowOptionsVisibility="Collapsed"
+                                               CellStyle="{StaticResource comboBoxCellStyle}"
                                                >
                             <sf:GridComboBoxColumn.CellTemplate>
                                 <DataTemplate>
@@ -1584,6 +1587,7 @@
                                                ItemsSource="{Binding Path=DataContext.TypeManager.OcpdTypes, 
                                                                     RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                     AncestorType={x:Type Window}}}"
+                                               
                                                DisplayMemberPath="Type"
                                                SelectedValuePath="Type"
                                                UseBindingValue="True"
@@ -1593,11 +1597,13 @@
                                                FilterRowOptionsVisibility="Collapsed"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.OcpdInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
+                                               CellStyle="{StaticResource comboBoxCellStyle}"
                                                >
                             <sf:GridComboBoxColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               TextAlignment="Center"/>
+                                               TextAlignment="Center"
+                                               Padding="5 0 0 0"/>
                                 </DataTemplate>
                             </sf:GridComboBoxColumn.CellTemplate>
                         </sf:GridComboBoxColumn>

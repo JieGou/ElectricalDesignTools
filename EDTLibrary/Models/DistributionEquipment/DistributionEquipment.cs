@@ -566,11 +566,11 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (DaManager.GettingRecords == true) return;
             if (IsCalculating) return;
 
-            //await Task.Run(() => {
-            if (PropertyUpdated != null) {
+            await Task.Run(() => {
+                if (PropertyUpdated != null) {
                 PropertyUpdated(this, EventArgs.Empty);
             }
-            //});
+            });
             ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
 
             if (GlobalConfig.Testing == true) {

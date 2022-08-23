@@ -5,6 +5,7 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
 using EDTLibrary.UndoSystem;
+using Syncfusion.UI.Xaml.CellGrid;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,10 +45,9 @@ public partial class _MjeqView : UserControl
             gridAdding.Visibility = Visibility.Collapsed;
         }
 
-        //dgdAssignedLoads.CellRenderers["CheckBox"] = new CustomGridCellCheckBoxRenderer();
-
-        //dgdAssignedLoads.CellRenderers.Remove("ComboBox");
-        //dgdAssignedLoads.CellRenderers.Add("ComboBox", new ComboBoxSingleClickRenderer());
+        dgdAssignedLoads.CellRenderers.Remove("ComboBox");
+        dgdAssignedLoads.CellRenderers.Add("ComboBox", new ComboBoxRenderer());
+        
         dgdAssignedLoads.CellRenderers["ComboBox"] = new CustomGridCellComboBoxRenderer();
     }
 
@@ -237,6 +237,13 @@ public partial class _MjeqView : UserControl
         var dataGridCell = (sender as UIElement)?.FindVisualParent<DataGridCell>();
 
         dataGridCell.FastEdit(args);
+    }
+
+    private void FastEditEventSyncFusion(object sender, RoutedEventArgs args)
+    {
+        var dataGridCell = (sender as UIElement)?.FindVisualParent<Syncfusion.UI.Xaml.Grid.GridCell>();
+
+        //dataGridCell.FastEdit(args);
     }
 
     #endregion
@@ -745,6 +752,11 @@ public partial class _MjeqView : UserControl
                 }
             }
         }));
+    }
+
+    private void dgdAssignedLoads_CurrentCellActivated(object sender, Syncfusion.UI.Xaml.Grid.CurrentCellActivatedEventArgs e)
+    {
+        
     }
 }
 
