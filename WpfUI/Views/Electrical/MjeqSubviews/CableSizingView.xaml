@@ -12,13 +12,12 @@
              xmlns:Converters="clr-namespace:WpfUI.Converters"
 
              d:DesignHeight="225" d:DesignWidth="450"
-             Background="LightCyan"  >
+             >
 
     <UserControl.Resources>
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="boolToVis" />

@@ -19,31 +19,33 @@
 <!--COLORS-->
     <SolidColorBrush x:Key="ErrorColor_Base" Color="#FFD40000"/>
 
-    <SolidColorBrush x:Key="Background" Color="AliceBlue"></SolidColorBrush>
+    <SolidColorBrush x:Key="Background" Color="AliceBlue"/>
 
-    
+    <!--Text Color-->
+    <SolidColorBrush x:Key="ForeGround_Light1" Color="White"/>
+    <SolidColorBrush x:Key="ForeGround_Dark1" Color="Black"/>
     
     <!--TEAL-->
-    <SolidColorBrush x:Key="Darkest_Teal" Color="#FF215967"></SolidColorBrush>
-    <SolidColorBrush x:Key="Dark_Teal" Color="#FF31869B"></SolidColorBrush>
-    <SolidColorBrush x:Key="Medium_Teal" Color="#FF94CDDB"></SolidColorBrush>
-    <SolidColorBrush x:Key="Light_Teal" Color="#FFDBEEF3"></SolidColorBrush>
-    <SolidColorBrush x:Key="Background_Teal" Color="#FFDAEEF3"></SolidColorBrush>
+    <SolidColorBrush x:Key="Darkest_Teal" Color="#FF215967"/>
+    <SolidColorBrush x:Key="Dark_Teal" Color="#FF31869B"/>
+    <SolidColorBrush x:Key="Medium_Teal" Color="#FF94CDDB"/>
+    <SolidColorBrush x:Key="Light_Teal" Color="#FFDBEEF3"/>
+    <SolidColorBrush x:Key="Background_Teal" Color="#FFDAEEF3"/>
 
     <!--Accent Colors-->
-    <SolidColorBrush x:Key="ButtonColor_Teal" Color="#FFA7DAE8"></SolidColorBrush>
+    <SolidColorBrush x:Key="ButtonColor_Teal" Color="#FFA7DAE8"/>
     <!--<SolidColorBrush x:Key="DatagridSelection">#FFD6EDF3</SolidColorBrush>-->
 
-    <SolidColorBrush x:Key="RowSelectionBrush_Teal" Color="#FFB7DEE8"></SolidColorBrush>
-    <SolidColorBrush x:Key="RowSelectionBrushOpacity_Teal" Color="#FFB7DEE8" Opacity="0.3"></SolidColorBrush>
+    <SolidColorBrush x:Key="RowSelectionBrush_Teal" Color="#FFB7DEE8"/>
+    <SolidColorBrush x:Key="RowSelectionBrushOpacity_Teal" Color="#FFB7DEE8" Opacity="0.3"/>
 
-    <SolidColorBrush x:Key="RowHighlightBrush_Teal" Color="AliceBlue"></SolidColorBrush>
-    <SolidColorBrush x:Key="CellHighlightBrush_Teal" Color="#FFD6EDF3"></SolidColorBrush>
+    <SolidColorBrush x:Key="RowHighlightBrush_Teal" Color="AliceBlue"/>
+    <SolidColorBrush x:Key="CellHighlightBrush_Teal" Color="#FFD6EDF3"/>
 
     
-    <SolidColorBrush x:Key="Medium_Blue" Color="#FF1962A4"></SolidColorBrush>
-    <SolidColorBrush x:Key="Medium_Purple" Color="#FF7A6BE2"></SolidColorBrush>
-    <SolidColorBrush x:Key="Medium_Orange" Color="#FFE09E4D"></SolidColorBrush>
+    <SolidColorBrush x:Key="Medium_Blue" Color="#FF1962A4"/>
+    <SolidColorBrush x:Key="Medium_Purple" Color="#FF7A6BE2"/>
+    <SolidColorBrush x:Key="Medium_Orange" Color="#FFE09E4D"/>
 
     
     

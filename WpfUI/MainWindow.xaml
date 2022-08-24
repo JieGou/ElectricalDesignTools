@@ -52,7 +52,26 @@
     
     <!--Title="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"-->
 
+    <Window.Resources>
+        <ResourceDictionary>
 
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/MahStyles.xaml"/>
+                <!--<ResourceDictionary Source="Styles/EdtStyle_Base.xaml"/>-->
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <Style TargetType="{x:Type mah:WindowButtonCommands}" BasedOn="{StaticResource {x:Type mah:WindowButtonCommands}}">
+                <Setter Property="LightCloseButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
+                <Setter Property="LightMinButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
+                <Setter Property="LightMaxButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
+                <Setter Property="DarkCloseButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
+            </Style>
+            
+        </ResourceDictionary>
+
+    </Window.Resources>
+    
     <mah:MetroWindow.IconTemplate>
         <DataTemplate>
             <Grid Width="{TemplateBinding Width}"
@@ -151,38 +170,7 @@
         </mah:WindowCommands>
     </mah:MetroWindow.LeftWindowCommands>
 
-    <Window.Resources>
-        <ResourceDictionary>
-
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/EdtStyle_Base.xaml"/>
-                <ResourceDictionary Source="Styles/SettingsStyle_Base.xaml"/>
-                
-                <ResourceDictionary Source="Styles/MahStyles.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-            
-
-            <Style TargetType="{x:Type mah:WindowButtonCommands}" BasedOn="{StaticResource {x:Type mah:WindowButtonCommands}}">
-                <Setter Property="LightCloseButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
-                <Setter Property="LightMinButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
-                <Setter Property="LightMaxButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
-                <Setter Property="DarkCloseButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
-            </Style>
-
-
-            <Style TargetType="Button" >
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="FontWeight" Value="Normal"/>
-                <Setter Property="Foreground" Value="Black"/>
-                <Setter Property="Background" Value="White"/>
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="MinHeight" Value="25"/>
-                <Setter Property="Margin" Value="5 0"/>
-            </Style>
-
-        </ResourceDictionary>
-        
-    </Window.Resources>
+    
 
     <Grid>
         <Grid.RowDefinitions>

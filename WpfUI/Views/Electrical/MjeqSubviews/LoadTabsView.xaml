@@ -20,10 +20,11 @@
              xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
 
+             Background="{DynamicResource BackGroundLight}"
              d:DesignHeight="400" d:DesignWidth="550"
-             Background="LightCyan"
              d:Opacity="1"
              Opacity="0.25">
+    
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="UserControl.Loaded">
             <BeginStoryboard>
@@ -109,17 +110,17 @@
                        d:Text="LOAD TAG " 
                        Margin="5 3 0 3 "
                        FontSize="14" 
-                       Foreground="White"/>
+                       Foreground="{StaticResource ForeGround_Light1}"/>
                 <TextBlock Text=" - " FontSize="14" 
                        d:Text=" - " 
                        Margin="5 3 0 3 "
-                       Foreground="White"
+                       Foreground="{StaticResource ForeGround_Light1}"
                        />
                 <TextBlock Text="{Binding SelectedLoad.Description}" 
                        d:Text="Description " 
                        Margin="5 3 0 3"
                        FontSize="14"
-                       Foreground="White"
+                       Foreground="{StaticResource ForeGround_Light1}"
                        />
             </StackPanel>
         </Border>
@@ -149,7 +150,7 @@
 
 
                 <!--General-->
-                <TabItem Header="General" Background="Transparent">
+                <TabItem Header="General" Background="{StaticResource BackGroundLight}">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto">
                         <Grid Margin="5">
@@ -196,7 +197,7 @@
                 </TabItem>
 
                 <!--Cable -->
-                <TabItem Header="Cable Sizing" Background="LightCyan">
+                <TabItem Header="Cable Sizing" Background="{StaticResource BackGroundLight}">
                     <ContentControl Content="{Binding SelectedLoad}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
@@ -210,7 +211,7 @@
                 </TabItem>
 
                 <!--Enclosure-->
-                <TabItem Header="Enclosure" Background="LightCyan">
+                <TabItem Header="Enclosure" Background="{StaticResource BackGroundLight}">
                     <ContentControl Content="{Binding SelectedLoad}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
@@ -221,7 +222,7 @@
                 </TabItem>
 
                 <!--Components-->
-                <TabItem Header="Components" Background="LightCyan" Height="25">
+                <TabItem Header="Components" Background="{StaticResource BackGroundLight}">
                     <ContentControl Content="{Binding SelectedLoad}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">

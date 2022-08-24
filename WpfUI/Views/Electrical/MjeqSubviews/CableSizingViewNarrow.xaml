@@ -11,14 +11,16 @@
              xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
              xmlns:Converters="clr-namespace:WpfUI.Converters"
 
-             d:DesignHeight="400" d:DesignWidth="315"
-             Background="LightCyan"  >
+             d:DesignHeight="450" d:DesignWidth="315"
+             Background="{DynamicResource BackGroundLight}"
+             >
 
     <UserControl.Resources>
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>-->
+                <ResourceDictionary Source="../../../Styles/EdtStyle_Teal.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="boolToVis" />
@@ -360,8 +362,7 @@
         <!--Below Buttons-->
         <Button Content="Auto-Size" 
                 Grid.Row="4"
-                HorizontalAlignment="Left"
-                Margin="70 0"
+                HorizontalAlignment="Center"
                 Command="{Binding PowerCable.AutoSizeCableCommand}"   />
 
         <!--<StackPanel Orientation="Horizontal" 

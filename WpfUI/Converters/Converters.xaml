@@ -2,9 +2,26 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:WpfUI.Converters">
 
+    
+    
     <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
     <converters:LcsOwnerTypeToVisbilityConverter x:Key="LscOwnerTypeVisibilityConverter"/>
     <converters:ComponentOwnerTypeToBooleanConverter x:Key="ComponentOwnerTypeToBooleanConverter"/>
 
+    
 
+    <!--MjeqView-->
+    <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+    
+    <!--LoadGraphics-->
+    <converters:InvertableBooleanToVisibilityConverter x:Key="_boolToVis"/>
+
+
+    <!--CableListView-->
+    <converters:DataGridGroupTemplateSelector x:Key="templateSelector" cableListUsageTypeTemplate="{StaticResource UsageTemplate}"/>
+    <converters:CableListGroupsToTotalConverter x:Key="groupsConverter" />
+    <BooleanToVisibilityConverter x:Key="boolToVis"/>
+    
+    
+    
 </ResourceDictionary>

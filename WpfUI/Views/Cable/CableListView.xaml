@@ -20,7 +20,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../../Styles/EdtStyle_Purple.xaml"/>-->
+                <ResourceDictionary Source="../../Styles/EdtStyle_Purple.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!--Cable List Grid Expanders-->

@@ -7,6 +7,8 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="EdtColorsAndDimensions.xaml"/>
+        
+                                            
     </ResourceDictionary.MergedDictionaries>
 
     
@@ -15,8 +17,6 @@
     <converters:WarningIdentifierConverter x:Key="WarningIdentifierConverter"/>
     <converters:WarningStringConverter x:Key="WarningStringConverter"/>
 
-    
-    
 
     <!--ALL CONTROLS DEFAULT-->
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
@@ -27,7 +27,7 @@
 
     <!--SUB-MENU TITLE Style-->
     <Style TargetType="Label" x:Key="TitleLabelStyleBase">
-        <Setter Property ="FontSize" Value="14"/>
+        <!--<Setter Property ="FontSize" Value="14"/>
         <Setter Property ="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
@@ -39,38 +39,34 @@
 
         <Setter Property= "HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>-->
     </Style>
 
     <!--PAGE TITLE Style-->
     <Style TargetType="TextBlock" x:Key="PageTitleStyle">
-        <Setter Property ="FontSize" Value="15"/>
+        <!--<Setter Property ="FontSize" Value="15"/>
         <Setter Property ="Foreground" Value="Black"/>
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
-        <Setter Property= "Margin" Value="20,0,0,0"/>
+        <Setter Property= "Margin" Value="20,0,0,0"/>-->
     </Style>
 
 
     <!--TEXTBOX Style with Error -->
     <Style x:Key="TextBoxBaseErrorTemplate" TargetType="TextBox" BasedOn="{StaticResource DefaultStyle}">
         
-        <Setter Property="Validation.ErrorTemplate">
+        <!--<Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
-                
-                
-                
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
-                        
-                        <!-- Align text box and error list vertically -->
+                         Align text box and error list vertically 
                         <StackPanel Orientation="Vertical">
                             <AdornedElementPlaceholder x:Name="textBox"/>
                             <ItemsControl ItemsSource="{Binding}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel>
-                                            <!--Error-->
+                                            Error
                                             <StackPanel Orientation="Horizontal"
                                                         Visibility="{Binding ErrorContent, Converter={StaticResource WarningIdentifierConverter}, ConverterParameter=Error}" >
                                                 <Image Source="..\..\ResourceFiles\ErrorIconTriangle48.png"
@@ -79,7 +75,7 @@
                                                 <TextBlock Text="{Binding ErrorContent}" Foreground="{StaticResource ErrorColor_Base}"
                                                            Visibility="{Binding ErrorContent, Converter={StaticResource WarningIdentifierConverter}, ConverterParameter=Error}" />
                                             </StackPanel>
-                                            <!--Warning-->
+                                            Warning
                                             <StackPanel Orientation="Horizontal"
                                                         Visibility="{Binding ErrorContent, Converter={StaticResource WarningIdentifierConverter}, ConverterParameter=Warning}" >
                                                 <Image Source="..\..\ResourceFiles\WarningIcon48.png"
@@ -104,20 +100,20 @@
             <Trigger Property="Validation.HasError" Value="true">
                 <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
 
     <!--TEXTBOX Style with Error -->
     <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
-        <Setter Property="FontSize" Value="12"/>
+        <!--<Setter Property="FontSize" Value="12"/>
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>-->
     </Style>
 
     <!--TEXTBOX - DataGrid Header Filter -->
     <Style x:Key="FilterTextBoxBase" TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
-        <Setter Property="FontSize" Value="12"/>
+        <!--<Setter Property="FontSize" Value="12"/>
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -128,16 +124,16 @@
         <Setter Property="MinHeight" Value="17"/>
         <Setter Property="Margin" Value="0 1 1 1"/>
         <Setter Property="ToolTip" Value="Filter - Enter to apply, ESC to clear."/>
-        <Setter Property="ToolTipService.InitialShowDelay" Value="150"/>
+        <Setter Property="ToolTipService.InitialShowDelay" Value="150"/>-->
     </Style>
 
     
     <!--COMBOBOX with Error-->
     <Style TargetType="ComboBox">
-        <Setter Property="Validation.ErrorTemplate">
+        <!--<Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    <!-- Align text box and error list vertically -->
+                    --><!-- Align text box and error list vertically --><!--
                     <StackPanel Orientation="Vertical">
                         <AdornedElementPlaceholder x:Name="textBox"/>
                         <ItemsControl ItemsSource="{Binding}">
@@ -156,9 +152,12 @@
                 <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
                 <Setter Property="ToolTipService.InitialShowDelay" Value="25"/>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
 
+    
+    
+    <!--BUTTONS-->
     <!--Smaller ComboBox for Detail Views-->
     <Style TargetType="ComboBox" x:Key="SmallComboBox">
         <Setter Property="Padding" Value="3 1"/>
@@ -167,86 +166,6 @@
         <Setter Property="ToolTipService.InitialShowDelay" Value="500"/>
         <Setter Property="ToolTipService.BetweenShowDelay" Value="0"/>
     </Style>
-
-    <!--Base Button Style-->
-    <Style x:Key="BaseButtonStyle"  TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultStyle}">
-        <Setter Property="Width" Value="100"/>
-        <Setter Property="Height" Value="23"/>
-        <Setter Property="Margin" Value="10 5"/>
-        <Setter Property="Button.Effect">
-            <Setter.Value>
-                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.5" />
-            </Setter.Value>
-        </Setter>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="UseLayoutRounding" Value="True"/>
-        <!--<Setter Property="Background" Value="Transparent"/>-->
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border CornerRadius="4" 
-                            Background="{TemplateBinding Background}" 
-                            BorderBrush="Black" 
-                            BorderThickness="1">
-                        <ContentPresenter HorizontalAlignment="Center" 
-                                          VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="AliceBlue"/>
-                <Setter Property="Foreground" Value="black"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Background" Value="DarkGray"/>
-                <Setter Property="Foreground" Value="LightGray"/>
-
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <!--default button-->
-    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
-
-    </Style>
-
-    <!--default button large-->
-    <Style x:Key="BaseButtonLarge" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
-        <Setter Property="Width" Value="125"/>
-        <Setter Property="Height" Value="27"/>
-    </Style>
-
-    <!--default button small-->
-    <Style x:Key="BaseButtonSmall" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
-        <Setter Property="Width" Value="100"/>
-        <Setter Property="Height" Value="20"/>
-    </Style>
-
-    <!--Red Button Style-->
-    <Style x:Key="RedButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
-        <Setter Property="Background" Value="#FFF7C1C1"/>
-    </Style>
-
-    <!--Green Button Style-->
-    <Style x:Key="GreenButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
-        <Setter Property="Background" Value="#FA7FCA6B"/>
-    </Style>
-
-    <!--DataGrid Filter Button Style-->
-    <Style x:Key="FilterButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
-        <Setter Property="Content" Value="\/"/>
-        <Setter Property="FontSize" Value="8"/>
-        <Setter Property="Grid.Row" Value="0"/>
-        <Setter Property="Grid.Column" Value="1"/>
-        <Setter Property="HorizontalAlignment" Value="Right"/>
-        <Setter Property="Width" Value="15"/>
-        <Setter Property="Height" Value="15"/>
-        <Setter Property="Margin" Value="0 0 5 0"/>
-    </Style>
-
     <!--Tool Bar / Sub-Menu Button-->
     <Style x:Key="ToolBarButtonBase" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="Button">
         <Setter Property="Foreground" Value="White"/>
@@ -254,7 +173,7 @@
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Padding" Value="10 0"/>
     </Style>
-    
+
     <!--Main Menu Button Dark-->
     <Style x:Key="MainMenuButton" TargetType="ToggleButton" >
         <Setter Property="Foreground" Value="Gray"/>
@@ -337,7 +256,7 @@
 
         </Style.Triggers>
     </Style>
-    
+
     <!--Main Menu Button Light-->
     <Style x:Key="MainMenuButtonLight" TargetType="ToggleButton" >
         <Setter Property="Foreground" Value="Black"/>
@@ -417,58 +336,78 @@
         </Style.Triggers>
     </Style>
 
-    <!--Nice Teal Style Color    "#FFB7DEE8"-->
+    
 
+    <!--Base Button Style-->
+    <Style x:Key="BaseButtonStyle"  TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultStyle}">
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="23"/>
+        <Setter Property="Margin" Value="10 5"/>
+        <Setter Property="Button.Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.5" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <!--<Setter Property="Background" Value="Transparent"/>-->
 
-    <!--Textblock Base Style-->
-    <Style TargetType="TextBlock">
-        <!--<Setter Property ="FontSize" Value="25"/>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="4" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="Black" 
+                            BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="AliceBlue"/>
+                <Setter Property="Foreground" Value="black"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="DarkGray"/>
+                <Setter Property="Foreground" Value="LightGray"/>
+
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!--default button -->
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Width" Value="125"/>
+        <Setter Property="Height" Value="27"/>
+    </Style>
+    
+    <!--default button large-->
+    <Style x:Key="BaseButtonLarge" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Width" Value="125"/>
+        <Setter Property="Height" Value="27"/>
     </Style>
 
-    <!--Textblock Label Style-->
-    <Style TargetType="TextBlock" x:Key="txtDteqLabelStyle">
-        <!--<Setter Property ="FontSize" Value="25"/>-->
-        <Setter Property="TextAlignment" Value="Right"/>
-
+    <!--default button small-->
+    <Style x:Key="BaseButtonSmall" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="20"/>
     </Style>
 
-    <!--Textblock Data Style-->
-    <Style TargetType="TextBlock" x:Key="txtDteqDataStyle">
-        <Setter Property="FontSize" Value="15"/>
-        <Setter Property="FontWeight" Value="DemiBold"/>
-        <Setter Property="TextAlignment" Value="Left"/>
+    <!--Red Button Style-->
+    <Style x:Key="RedButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Background" Value="#FFF7C1C1"/>
     </Style>
 
-
-    <!--Label Dteq Label Style-->
-    <Style TargetType="Label" x:Key="lblDteqLabelStyle" BasedOn="{StaticResource DefaultStyle}">
-        <Setter Property ="FontSize" Value="15"/>
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property= "HorizontalAlignment" Value="Right"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+    <!--Green Button Style-->
+    <Style x:Key="GreenButton"  TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Background" Value="#FA7FCA6B"/>
     </Style>
 
-    <!--Label Dteq Data Style-->
-    <Style TargetType="Label" x:Key="lblDteqDataStyle" BasedOn="{StaticResource DefaultStyle}">
-        <Setter Property ="FontSize" Value="15"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property= "HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-    </Style>
-
-
-
-
-
-
-    <!--DATA GRID Style-->
     <Style TargetType="DataGrid" x:Key="DataGridStyleBase" BasedOn="{StaticResource DefaultStyle}">
-        <Setter Property="Background" Value="DarkGray"/>
+        <!--<Setter Property="Background" Value="DarkGray"/>
         <Setter Property="BorderBrush" Value="black" />
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="RowHeaderWidth" Value="20"/>
@@ -481,41 +420,13 @@
         <Setter Property="VerticalGridLinesBrush" Value="LightGray" />
         <Setter Property="RowHeight" Value="20"/>
         <Setter Property="CanUserResizeRows" Value="True"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>-->
     </Style>
 
-    <!--Column Header Gripper / Sort Arrow Style-->
-    <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
-        <Setter Property="Width" Value="8"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Cursor" Value="SizeWE"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-
-
-
-    <!--Column Header Base WITH SORT ARROW -->
-    <Style TargetType="{x:Type Thumb}" x:Key="ThumbStyle">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Rectangle Width="1" Stroke="Transparent" Cursor="SizeWE"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
+    
     <!--DataGrid Column Header Style-->
     <Style TargetType="DataGridColumnHeader"  x:Key="DataGridColumnHeaderBase">
-        <!--<Setter Property="Foreground" Value="White" />-->
-        <Setter Property="BorderThickness" Value="0 0 1 0" />
+        <!--<Setter Property="BorderThickness" Value="0 0 1 0" />
         <Setter Property="BorderBrush" Value="black" />
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -524,7 +435,6 @@
         <Setter Property="MinWidth" Value="0"/>
         <Setter Property="MinHeight" Value="33"/>
         <Setter Property="Cursor" Value="Hand" />
-        <!--<Setter Property="Padding" Value="5 2 5 2"/>-->
         <Setter Property="Padding" Value="5 2 5 2"/>
         <Setter Property="FontWeight" Value="Normal"/>
 
@@ -571,31 +481,19 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
     </Style>
 
 
-    <!--Column Header Base OLD-->
-    <Style TargetType="DataGridColumnHeader">
-        <Setter Property="BorderBrush" Value="black" />
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="MinWidth" Value="0"/>
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-    </Style>
 
     <!--Column Header with Filter-->
-    <Style TargetType="DataGridColumnHeader" x:Key="DataGridColumnHeaderWithFilterBase" BasedOn="{StaticResource DataGridColumnHeaderBase}">
+    <Style TargetType="DataGridColumnHeader" x:Key="DataGridColumnHeaderWithFilterBase">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{StaticResource ForeGround_Light1}"/>
+        <!--<Setter Property="Foreground" Value="White" />-->
     </Style>
 
     <!--OCPD Column Header-->
-    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
+    <Style TargetType="DataGridColumnHeader" 
            x:Key="OcpdColumnHeader">
         <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
@@ -606,7 +504,7 @@
     </Style>
 
     <!--COMPONENT Column Header-->
-    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
+    <Style TargetType="DataGridColumnHeader" 
            x:Key="ComponentColumnHeader">
         <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
@@ -617,7 +515,7 @@
     </Style>
 
     <!--CABLE Column Header-->
-    <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
+    <Style TargetType="DataGridColumnHeader"
            x:Key="CableHeaderColumn">
         <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
@@ -627,24 +525,12 @@
         </Style.Triggers>-->
     </Style>
 
-
-
-
-    <!--Row Header-->
-    <Style TargetType="DataGridRowHeader">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="Black" />
-        <Setter Property="BorderThickness" Value="0 0 1 0" />
-    </Style>
-
     <!--DataGrid Cell Style-->
     <Style TargetType="{x:Type DataGridCell}" x:Key="DataGridCellBase">
-        <Setter Property="FontSize" Value="11.5"/>
+        <!--<Setter Property="FontSize" Value="11.5"/>
         <Setter Property="TextBlock.TextAlignment" Value="Center"/>
         <Setter Property="TextBlock.Padding" Value="10,10,10,10"/>
         <Setter Property="Padding" Value="50"/>
-        <!--<EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown" />
-        <EventSetter Event="PreviewTextInput" Handler="DataGridCell_PreviewTextInput" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -685,127 +571,7 @@
                 <Setter Property="BorderBrush" Value="Blue"/>
                 <Setter Property="BorderThickness" Value="1"/>
             </Trigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
-
-    <!--x:Key="DataGridRowBase"-->
-    <Style TargetType="{x:Type DataGridRow}" >
-        <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#FFB7DEE8"/>
-                <Setter Property="Foreground" Value="black"/>
-                <Setter Property="FontWeight" Value="Regular"/>
-            </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="AliceBlue"/>
-                <Setter Property="Foreground" Value="black"/>
-                <Setter Property="FontWeight" Value="Regular"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
-        <Setter Property="Margin" Value="10,0,10,0" />
-    </Style>
-
-    
-    
-    
-    
-    <!--GROUP BOX-->
-    <!--EdtGroupBox Template, Custom Control-->
-    <Style x:Key="EdtGroupBoxTemplate2" TargetType="controls:EdtGroupBox">
-        <Setter Property="HeaderBackground" Value="black"/>
-    </Style>
-
-    <!--GroupBox Edt Template-->
-    <Style x:Key="EdtGroupBoxTemplate" TargetType="GroupBox">
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="GroupBox" >
-                    <Grid Background="{StaticResource Background}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        
-                        <Border Grid.Row="0"
-                            BorderThickness="1"
-                            BorderBrush="Black"
-                            Background="{TemplateBinding Background}">
-                            <Label Foreground="White"
-                               FontSize="14"
-                               FontWeight="Normal">
-                                <ContentPresenter Margin="0"
-                                              ContentSource="Header"
-                                              RecognizesAccessKey="True" />
-                            </Label>
-                            
-                        </Border>
-                        
-                        <Border Grid.Row="1"
-                            BorderThickness="1,0,1,1"
-                            BorderBrush="Black">
-                            <!--<ScrollViewer Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=GroupBox}, Path=ActualHeight}">-->
-                                <ContentPresenter Margin="10" />
-
-                            <!--</ScrollViewer>-->
-                        </Border>
-
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <!--GroupBox Modified Default Style-->
-    <Style TargetType="{x:Type GroupBox}">
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type GroupBox}">
-                    <Grid SnapsToDevicePixels="true">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="6"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="6"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="6"/>
-                        </Grid.RowDefinitions>
-                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4" Grid.Column="0" Grid.ColumnSpan="4" Grid.RowSpan="3" Grid.Row="1"/>
-                        <Border BorderBrush="Transparent" BorderThickness="0" CornerRadius="4" Grid.ColumnSpan="4" Grid.RowSpan="3" Grid.Row="1">
-                            <Border.OpacityMask>
-                                <MultiBinding ConverterParameter="7" Converter="{StaticResource BorderGapMaskConverter}">
-                                    <Binding ElementName="Header" Path="ActualWidth"/>
-                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource Self}"/>
-                                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource Self}"/>
-                                </MultiBinding>
-                            </Border.OpacityMask>
-                            <Border BorderBrush="Transparent" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3">
-                                <Border BorderBrush="Black" BorderThickness="0.5" CornerRadius="2"/>
-                            </Border>
-                        </Border>
-                        <Border x:Name="Header" Grid.Column="1" Padding="3,1,3,0" Grid.RowSpan="2" Grid.Row="0">
-                            <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </Border>
-                        <ContentPresenter Grid.Column="1" Grid.ColumnSpan="2" Margin="{TemplateBinding Padding}" Grid.Row="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-
-
-
 
 </ResourceDictionary>

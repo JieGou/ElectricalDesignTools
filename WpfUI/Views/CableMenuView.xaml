@@ -16,7 +16,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Styles/EdtStyle_Purple.xaml"/>
+                <!--<ResourceDictionary Source="../Styles/EdtStyle_Purple.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
             <!--Cable List Grid Expanders-->
@@ -30,37 +30,13 @@
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
 
-            <!--Templates and Selector-->
-            <converters:DataGridGroupTemplateSelector x:Key="templateSelector" cableListUsageTypeTemplate="{StaticResource UsageTemplate}"/>
-
-            <DataTemplate x:Key="UsageTemplate" >
-                <Expander IsExpanded="True" BorderBrush="#FFA4B97F" 
-                              BorderThickness="0,0,0,1">
-                    <Expander.Header>
-                        <DockPanel Width="350" Background="Lavender">
-                            <!--<TextBlock Text="Usage Type:  " Margin="15,0,0,0" />-->
-                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
-                            <TextBlock Text="Total Runs:  " Margin="15,0,0,0" />
-                            <TextBlock Text="{Binding Path=Items, Converter={StaticResource groupsConverter}}" FontWeight="Bold"/>
-                            <TextBlock Text="Count:  " Margin="15,0,0,0" />
-                            <TextBlock Text="{Binding Path=ItemCount}" MinWidth="25" FontWeight="Bold" />
-                        </DockPanel>
-                    </Expander.Header>
-                    <Expander.Content>
-                        <ItemsPresenter />
-                    </Expander.Content>
-                </Expander>
-            </DataTemplate>
-
 
             <!--Cell Padding-->
             <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
                 <Setter Property="Margin" Value="5,0,10,0" />
             </Style>
 
-            <converters:CableListGroupsToTotalConverter x:Key="groupsConverter" />
-            <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
-            <BooleanToVisibilityConverter x:Key="boolToVis"/>
+            
 
 
         </ResourceDictionary>

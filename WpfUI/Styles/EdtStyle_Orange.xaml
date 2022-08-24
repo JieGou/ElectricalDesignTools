@@ -8,21 +8,22 @@
     
     
 <!--MAIN COLORS-->
-    <SolidColorBrush x:Key="Darkest" Color="#FF9C5309"></SolidColorBrush>
-    <SolidColorBrush x:Key="Dark" Color="#FFD4781B"></SolidColorBrush>
-    <SolidColorBrush x:Key="Medium" Color="#FFFF860B"></SolidColorBrush>
-    <SolidColorBrush x:Key="Light" Color="#FFFDB164"></SolidColorBrush>
-    <SolidColorBrush x:Key="Background" Color="#FFFFCEAB"></SolidColorBrush>
+    <SolidColorBrush x:Key="Darkest" Color="#FF9C5309"/>
+    <SolidColorBrush x:Key="Dark" Color="#FFD4781B"/>
+    <SolidColorBrush x:Key="Medium" Color="#FFFF860B"/>
+    <SolidColorBrush x:Key="Light" Color="#FFFDB164"/>
+    <SolidColorBrush x:Key="Background" Color="#FFFFCEAB"/>
 
     <!--Accent Colors-->
-    <SolidColorBrush x:Key="ButtonColor" Color="#FFC7813A"></SolidColorBrush>
+    <SolidColorBrush x:Key="ButtonColor" Color="#FFC7813A"/>
     <!--<SolidColorBrush x:Key="DatagridSelection">#FFD6EDF3</SolidColorBrush>-->
-    <SolidColorBrush x:Key="DatagridSelection" Color="#FFFFD6AB"></SolidColorBrush>
-    
+    <SolidColorBrush x:Key="DatagridSelection" Color="#FFFFD6AB"/>
+
     <!--Other Color-->
     <SolidColorBrush x:Key="LightRed">#FFFFBABA</SolidColorBrush>
     <SolidColorBrush x:Key="LightOrange">#FFFFB193</SolidColorBrush>
     <SolidColorBrush x:Key="LightYellow">#FFFFEDA1</SolidColorBrush>
+
 
 
 
@@ -46,7 +47,7 @@
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
     </Style>
-    
+
     <!--default button large-->
     <Style x:Key="ButtonLarge" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonLarge}">
         <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
@@ -59,7 +60,7 @@
 
     <!--BUTTON Main Menu Animation-->
     <Style x:Key="MainMenu_Buttons" TargetType="{x:Type Button}">
-       
+
         <Setter Property="Background" >
             <Setter.Value>
                 <SolidColorBrush Opacity="1" Color="LightGray" />
@@ -154,18 +155,18 @@
 
 
 
-    
+
 
     <!--DATA GRID Style-->
     <Style TargetType="DataGrid" BasedOn="{StaticResource DataGridStyleBase}">
-        <Setter Property="Background" Value="white"/>
+        <Setter Property="Background" Value="{StaticResource ForeGround_Light1}"/>
         <!--<Setter Property="AlternatingRowBackground" Value="LightGray"/>-->
     </Style>
 
     <!--Column Header-->
     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}">
         <Setter Property="Background" Value="{StaticResource Dark}"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="{StaticResource ForeGround_Light1}"/>
 
         <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
@@ -179,7 +180,7 @@
     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
            x:Key="OcpdColumnHeader">
         <Setter Property="Background" Value="#FF1962A4"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="{StaticResource ForeGround_Light1}"/>
         <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
                 <Setter Property="Background" Value="#FF268DEA"/>
@@ -192,7 +193,7 @@
     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
            x:Key="ComponentColumnHeader">
         <Setter Property="Background" Value="#FFD27D16"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="{StaticResource ForeGround_Light1}"/>
         <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
                 <Setter Property="Background" Value="#FFCECEFF"/>
@@ -205,7 +206,7 @@
     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}"
            x:Key="CableHeaderColumn">
         <Setter Property="Background" Value="#FF675AC1"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="{StaticResource ForeGround_Light1}"/>
         <!--<Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true" >
                 <Setter Property="Background" Value="#FFCECEFF"/>
@@ -213,7 +214,7 @@
             </Trigger>
         </Style.Triggers>-->
     </Style>
-    
+
 
 
     <!--Row Header Header-->
@@ -221,13 +222,13 @@
         <Setter Property="Background" Value="{StaticResource Dark}" />
     </Style>
 
-    
+
     <!--Cell-->
     <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellBase}">
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource DatagridSelection}"/>
-                <Setter Property="Foreground" Value="black"/>
+                <Setter Property="Foreground" Value="{StaticResource ForeGround_Dark1}"/>
                 <Setter Property="FontWeight" Value="Regular"/>
             </Trigger>
         </Style.Triggers>
