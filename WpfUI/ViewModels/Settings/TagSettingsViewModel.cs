@@ -1,22 +1,10 @@
-﻿using AutoCAD;
-using EDTLibrary.DataAccess;
-using EDTLibrary.Models.Cables;
+﻿using AutocadLibrary;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using WpfUI.Commands;
-using WpfUI.Views.Settings;
-using AutocadLibrary;
 
 namespace WpfUI.ViewModels.Settings;
 
@@ -33,15 +21,6 @@ public class TagSettingsViewModel : ViewModelBase
        
 
     //General
-   
-    public ICommand TestAcadCommand { get; }
-    public void TestAcad()
-    {
-        AutocadHelper.StartAutocad();
-    }
-
-
-    
 
     private string _suffixSeparator;
     public string SuffixSeparator

@@ -81,6 +81,7 @@ namespace EDTLibrary.DataAccess
             "SizeList",
             "AutoSizeCableCommand",
             "DeratingToolTip",
+            "SizeTag",
         };
 
         static public List<string> AreaNoSaveList { get; set; } = new List<string>() {

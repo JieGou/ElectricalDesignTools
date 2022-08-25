@@ -1299,10 +1299,36 @@
                     <sf:SfDataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Set FedFrom" PreviewMouseDown="LoadGridContextMenu_SetFedFrom" Height="20"/>
+                            <MenuItem Header="Add" Height="20" >
+                                <MenuItem.Icon>
+                                    <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
+                                           Height="10"/>
+                                    <!--<TextBlock Text="+" 
+                                               FontSize="16" 
+                                               FontWeight="SemiBold" 
+                                               HorizontalAlignment="Center"
+                                               Margin="3 0 0 -2"/>-->
+                                </MenuItem.Icon>
+                                <MenuItem Header="Add Disconnect" Height="20" PreviewMouseDown="LoadGridContextMenu_AddDiscoonnect"/>
+                                <MenuItem Header="Add Drive" Height="20" PreviewMouseDown="LoadGridContextMenu_AddDrive"/>
+                                    <MenuItem Header="Add LCS" Height="20" PreviewMouseDown="LoadGridContextMenu_AddLcs"/>
+                            </MenuItem>
+                            <MenuItem Header="Remove" Height="20">
+                                <MenuItem.Icon>
+                                    <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
+                                           Height="10"/>
+                                    <!--<TextBlock Text="-" FontSize="16" 
+                                               FontWeight="SemiBold" 
+                                               HorizontalAlignment="Center"
+                                               Margin="3 0 0 3"/>-->
+                                </MenuItem.Icon>
+                                <MenuItem Header="Remove Disconnect" Height="20" PreviewMouseDown="LoadGridContextMenu_RemoveDiscoonnect"/>
+                                <MenuItem Header="Remove Drive" Height="20" PreviewMouseDown="LoadGridContextMenu_RemoveDrive"/>
+                                <MenuItem Header="Remove LCS" Height="20" PreviewMouseDown="LoadGridContextMenu_RemoveLcs"/>
+                            </MenuItem>
+                            <Separator/>
                             <MenuItem Header="Delete" Height="20" PreviewMouseDown="LoadGridContextMenu_Delete"/>
-                            <MenuItem Header="Add Disconnect" Height="20" PreviewMouseDown="LoadGridContextMenu_AddDiscoonnect"/>
-                            <MenuItem Header="Add Drive" Height="20" PreviewMouseDown="LoadGridContextMenu_AddDrive"/>
-                            <MenuItem Header="Add LCS" Height="20" PreviewMouseDown="LoadGridContextMenu_AddLcs"/>
+
                         </ContextMenu>
                     </sf:SfDataGrid.ContextMenu>
 

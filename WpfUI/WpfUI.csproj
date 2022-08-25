@@ -33,6 +33,8 @@
     <None Remove="ResourceFiles\ErrorIconTriangle16.png" />
     <None Remove="ResourceFiles\ErrorIconTriangle48.png" />
     <None Remove="ResourceFiles\InfoIconBlue.png" />
+    <None Remove="ResourceFiles\MenuIcons\minus24.png" />
+    <None Remove="ResourceFiles\MenuIcons\plus24.png" />
     <None Remove="ResourceFiles\WarningIcon.png" />
     <None Remove="ResourceFiles\WarningIcon16.png" />
     <None Remove="ResourceFiles\WarningIcon48.png" />
@@ -121,6 +123,12 @@
 
   <ItemGroup>
     <Resource Include="ResourceFiles\InfoIconBlue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\minus24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\plus24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="ResourceFiles\WarningIcon.png">

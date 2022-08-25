@@ -25,25 +25,11 @@
              d:Opacity="1"
              Opacity="0.25">
     
-    <UserControl.Triggers>
-        <EventTrigger RoutedEvent="UserControl.Loaded">
-            <BeginStoryboard>
-                <Storyboard>
-                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                     Storyboard.TargetName="loadTabs"
-                                
-                                From="0.25" To="1" Duration="0:0:0.15"
-                                     AccelerationRatio="1"
-                                AutoReverse="False" RepeatBehavior="1x"/>
-                </Storyboard>
-            </BeginStoryboard>
-        </EventTrigger>
-    </UserControl.Triggers>
+    
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../../Styles/EdtStyle_Teal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVis"/>
@@ -95,7 +81,21 @@
         </ResourceDictionary>
 
     </UserControl.Resources>
-
+    
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                     Storyboard.TargetName="loadTabs"
+                                
+                                From="0.25" To="1" Duration="0:0:0.15"
+                                     AccelerationRatio="1"
+                                AutoReverse="False" RepeatBehavior="1x"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -104,7 +104,8 @@
 
         <!--Title Bar-->
         <Border BorderBrush="Black" BorderThickness="1">
-            <StackPanel Orientation="Horizontal"  Grid.Row="0" Background="{StaticResource Dark}">
+            <StackPanel Orientation="Horizontal"  Grid.Row="0" Background="{DynamicResource Dark}"
+                        d:Background="Teal">
 
                 <TextBlock Text="{Binding SelectedLoad.Tag}" 
                        d:Text="LOAD TAG " 
@@ -126,7 +127,7 @@
         </Border>
 
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" d:Background="LightCyan">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" d:Width="200"/>
                 <ColumnDefinition Width="*"/>
@@ -134,7 +135,7 @@
 
             <!-- Graphic on left -->
             <ContentControl Content="{Binding SelectedLoad}"
-                                    Grid.Column="0">
+                                    Grid.Column="0" >
                 <ContentControl.Resources>
                     <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
                         <mjeqSubViews:LoadGraphicView 
@@ -146,11 +147,12 @@
 
             <!--Tabs on right-->
             <TabControl Grid.Column="1" Background="Transparent" BorderThickness="0 1 0 0"
-                    SelectedIndex="{Binding SelectedLoadTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        SelectedIndex="{Binding SelectedLoadTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
 
                 <!--General-->
-                <TabItem Header="General" Background="{StaticResource BackGroundLight}">
+                <TabItem Header="General" Background="{DynamicResource BackGroundLight}"
+                         d:Background="LightCyan">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto">
                         <Grid Margin="5">
@@ -197,7 +199,8 @@
                 </TabItem>
 
                 <!--Cable -->
-                <TabItem Header="Cable Sizing" Background="{StaticResource BackGroundLight}">
+                <TabItem Header="Cable Sizing" Background="{DynamicResource BackGroundLight}"
+                         d:Background="LightCyan">
                     <ContentControl Content="{Binding SelectedLoad}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
@@ -211,7 +214,8 @@
                 </TabItem>
 
                 <!--Enclosure-->
-                <TabItem Header="Enclosure" Background="{StaticResource BackGroundLight}">
+                <TabItem Header="Enclosure" Background="{DynamicResource BackGroundLight}"
+                         d:Background="LightCyan">
                     <ContentControl Content="{Binding SelectedLoad}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
@@ -222,7 +226,8 @@
                 </TabItem>
 
                 <!--Components-->
-                <TabItem Header="Components" Background="{StaticResource BackGroundLight}">
+                <TabItem Header="Components" Background="{DynamicResource BackGroundLight}"
+                         d:Background="LightCyan">
                     <ContentControl Content="{Binding SelectedLoad}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">

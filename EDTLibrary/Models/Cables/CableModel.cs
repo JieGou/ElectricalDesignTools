@@ -55,6 +55,19 @@ public class CableModel : ICable
     public int OwnerId { get; set; }
     public string OwnerType { get; set; }
     public string Tag { get; set; }
+    private string _sizeTag;
+
+    public string SizeTag
+    {
+        get {
+            string voltage = TypeModel.VoltageClass.ToString() +"V";
+            if (TypeModel.VoltageClass>=1000) {
+                voltage = (TypeModel.VoltageClass / 1000).ToString() + "kV";
+            }
+            return $"{TypeModel.ConductorQty}C-#{Size}-{TypeModel.SubType}-{voltage}"; }
+        set { _sizeTag = value; }
+    }
+
     public string Category { get; set; }
 
     private string _source;

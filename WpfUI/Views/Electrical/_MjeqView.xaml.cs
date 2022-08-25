@@ -735,6 +735,47 @@ public partial class _MjeqView : UserControl
     {
         
     }
+
+    private void LoadGridContextMenu_RemoveDiscoonnect(object sender, MouseButtonEventArgs e)
+    {
+        RemoveDisconnectAsync();
+    }
+    private async Task RemoveDisconnectAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+                LoadModel load = (LoadModel)loadObject;
+                load.DisconnectBool = false;
+            }
+        }));
+    }
+    private void LoadGridContextMenu_RemoveDrive(object sender, MouseButtonEventArgs e)
+    {
+        RemoveDriveAsync();
+    }
+    private async Task RemoveDriveAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+                LoadModel load = (LoadModel)loadObject;
+                load.DriveBool = false;
+            }
+        }));
+    }
+    private void LoadGridContextMenu_RemoveLcs(object sender, MouseButtonEventArgs e)
+    {
+        RemoveLcsAsync();
+    }
+
+    private async Task RemoveLcsAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+                LoadModel load = (LoadModel)loadObject;
+                load.LcsBool = false;
+            }
+        }));
+    }
 }
 
 

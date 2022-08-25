@@ -1,23 +1,21 @@
 ﻿using AutoCAD;
+using AutocadLibrary;
+using EDTLibrary.A_Helpers;
+using EDTLibrary.Autocad.Interop;
 using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using WpfUI.Commands;
-using WpfUI.Views.Settings;
-using AutocadLibrary;
-using EDTLibrary.LibraryData;
 
 namespace WpfUI.ViewModels.Settings;
 
@@ -50,7 +48,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
 
         SelectAcadSaveFolderCommand = new RelayCommand(SelectAcadSaveFolder);
         SelectAcadBlockFolderCommand = new RelayCommand(SelectAcadBlockFolder);
-        TestAcadCommand = new RelayCommand(TestAcad);
+        TestAcadCommand = new RelayCommand(StartAutocad);
         AddAcadDrawingCommand = new RelayCommand(AddDrawing);
         AddBlockCommand = new RelayCommand(AddBlock);
     }
@@ -266,38 +264,69 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
     }
 
     public ICommand TestAcadCommand { get; }
-    public void TestAcad()
+
+    public AutocadHelper Acad { get; set; }
+
+    #region Autocad
+    public void StartAutocad()
     {
-        AutocadHelper.StartAutocad();
+        Acad = new AutocadHelper();
+        Acad.StartAutocad();
     }
 
 
     public ICommand AddAcadDrawingCommand { get; }
     public void AddDrawing()
     {
-        AutocadHelper.AddDrawing();
+        if (Acad == null) {
+            MessageBox.Show("Connect to Autocad First");
+            return;
+        }
+        Acad.AddDrawing();
     }
 
 
     public ICommand AddBlockCommand { get; }
     public void AddBlock()
     {
-        if (AutocadHelper.AcadDoc == null) return;
+        if (Acad == null ) {
+            MessageBox.Show("Connect to Autocad First");
+            return;
+        }
+        if (Acad.AcadDoc==null) {
+            Acad.AcadDoc = Acad.AcadApp.ActiveDocument;
+        }
 
-        double[] insertionPoint = new double[3];
-        insertionPoint[0] = 0;
-        insertionPoint[1] = 0;
-        insertionPoint[2] = 0;
+        try {
 
-        string mccBlock = "BKR";
-        string blockPath = EdtSettings.AcadBlockFolder + "\\Single Line\\";
-        string blockName = "MCC_MAIN_" + mccBlock + ".dwg";
-        blockName = blockPath + blockName;
+            var powerCable = new CableModel {
+                Tag = "cable Tag",
+                TypeModel = DaManager.libDb.GetRecordById<CableTypeModel>("CableTypes", 1)
+            };
+            var mcc = new MccModel {
+                Tag = "Test MCC",
+                PowerCable = powerCable,
+            };
 
-        double Xscale = 1;
-        double Yscale = 1;
-        double Zscale = 1;
 
-        var acadBlock = AutocadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockName, Xscale,Yscale,Zscale, 0);
+            SingleLineDrawer slDrawer = new SingleLineDrawer(Acad);
+            slDrawer.DrawMccSingleLine(mcc, 10);
+
+        }
+   
+        catch (Exception ex) {
+
+            if (ex.Message.Contains("not found")) {
+                MessageBox.Show(
+                    "Check the Blocks Source Folder path and make sure that the selected blocks exist.", 
+                    "Error - File Not Found", 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Error);
+            }
+            else {
+                ErrorHelper.ShowErrorMessage(ex);
+            }
+        }
     }
+    #endregion
 }
