@@ -6,6 +6,7 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
 using EDTLibrary.UndoSystem;
 using Syncfusion.UI.Xaml.CellGrid;
+using Syncfusion.Windows.Controls.PivotGrid;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -200,6 +201,7 @@ public partial class _MjeqView : UserControl
 
     private async Task DeleteLoads_VM()
     {
+        if (dgdAssignedLoads.SelectedItems == null) return; 
         if (ConfirmationHelper.Confirm($"Delete {dgdAssignedLoads.SelectedItems.Count} loads? \n\nThis cannot be undone.")) {
 
             try {
@@ -264,9 +266,11 @@ public partial class _MjeqView : UserControl
     {
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
             foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                LoadModel load = (LoadModel)loadObject;
-                if (load.Type == LoadTypes.MOTOR.ToString()) {
-                    load.DriveBool = true;
+                if (loadObject.GetType() == typeof(LoadModel)) {
+                    LoadModel load = (LoadModel)loadObject;
+                    if (load.Type == LoadTypes.MOTOR.ToString()) {
+                        load.DriveBool = true;
+                    }
                 }
             }
         }));
@@ -281,10 +285,13 @@ public partial class _MjeqView : UserControl
     {
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
             foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                LoadModel load = (LoadModel)loadObject;
-                if (load.Type == LoadTypes.MOTOR.ToString()) {
-                    load.LcsBool = true;
+                if (loadObject.GetType() == typeof(LoadModel)) {
+                    LoadModel load = (LoadModel)loadObject;
+                    if (load.Type == LoadTypes.MOTOR.ToString()) {
+                        load.LcsBool = true;
+                    }
                 }
+               
             }
         }));
     }
@@ -744,7 +751,8 @@ public partial class _MjeqView : UserControl
     {
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
             foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                LoadModel load = (LoadModel)loadObject;
+                
+                IPowerConsumer load = (IPowerConsumer)loadObject;
                 load.DisconnectBool = false;
             }
         }));
@@ -757,8 +765,11 @@ public partial class _MjeqView : UserControl
     {
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
             foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                LoadModel load = (LoadModel)loadObject;
-                load.DriveBool = false;
+                if (loadObject.GetType() == typeof(LoadModel)) {
+                    LoadModel load = (LoadModel)loadObject;
+                    load.DriveBool = false;
+                }
+                
             }
         }));
     }
@@ -771,8 +782,10 @@ public partial class _MjeqView : UserControl
     {
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
             foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                LoadModel load = (LoadModel)loadObject;
-                load.LcsBool = false;
+                if (loadObject.GetType() == typeof(LoadModel)) {
+                    LoadModel load = (LoadModel)loadObject;
+                    load.LcsBool = false;
+                }
             }
         }));
     }

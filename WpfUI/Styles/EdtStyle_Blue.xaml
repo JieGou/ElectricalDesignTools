@@ -13,6 +13,7 @@
     <SolidColorBrush x:Key="Medium" Color="#FF2991ED"/>
     <SolidColorBrush x:Key="Light" Color="#FF67B1F3"/>
     <SolidColorBrush x:Key="Background" Color="AliceBlue"/>
+    <SolidColorBrush x:Key="BackGroundLight" Color="AliceBlue"/>
 
     <!--Accent Colors-->
     <SolidColorBrush x:Key="ButtonColor" Color="LightGray"/>

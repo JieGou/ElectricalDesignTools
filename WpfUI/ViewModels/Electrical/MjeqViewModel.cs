@@ -203,7 +203,9 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     public void SetFedFrom()
     {
+        if (SelectedLoads == null) return;
         IPowerConsumer load;
+
         foreach (var item in SelectedLoads) {
             load = (IPowerConsumer)item;
             //dteq.Tag = "New Tag";
