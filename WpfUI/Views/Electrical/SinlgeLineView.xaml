@@ -44,13 +44,14 @@
                 Grid.Row="1" Grid.Column="2"
                 Grid.RowSpan="3"
                 VerticalAlignment="Bottom"
-                Margin="25">
+                Margin="25"
+                >
             <ScrollViewer Grid.Row="2" Grid.Column="2"
                       Grid.RowSpan="2"
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       VerticalAlignment="Center"
-                      >
+                       >
                 <Grid>
                     <Grid.ColumnDefinitions>
                         
@@ -66,7 +67,8 @@
                     <ItemsControl x:Name="items"
                                   Grid.Row="1"
                                   ItemsSource="{Binding AssignedLoads}"
-                                  Margin="0 0 0 50">
+                                  Margin="0 0 0 0"
+                                  MinHeight="550">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal"/>
@@ -77,6 +79,7 @@
                                 <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Left">
                                     <singleLineSubViews:LoadGraphicView DataContext="{Binding}"
+                                                                        MinWidth="200"
                                                       Margin="0"/>
                                 </StackPanel>
                             </DataTemplate>

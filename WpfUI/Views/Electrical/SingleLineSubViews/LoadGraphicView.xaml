@@ -588,9 +588,9 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -601,8 +601,8 @@
         <!--**********-->
         <Viewbox Grid.Row="0" Grid.Column="1"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Stretch="Uniform" MaxWidth="200" >
-            <DockPanel Grid.Column="1" 
+                 Stretch="None" MaxWidth="250" >
+            <DockPanel Grid.Row="0" Grid.Column="1"
                     Margin="0 0 0 0">
 
                
