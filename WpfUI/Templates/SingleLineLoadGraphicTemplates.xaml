@@ -55,44 +55,50 @@
     <DataTemplate x:Key="BreakerTemplate">
         <StackPanel Orientation="Vertical">
 
-            <Grid Background="Transparent">
+            <Grid Background="Transparent"
+                  Style="{StaticResource GraphicHighlightStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="26"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <Canvas Grid.Column="1"
-                        Width="35" Height="90">
+                
+                
+                <Border BorderThickness="0"
+                        Grid.Column="1">
+                    
+                    <Canvas Grid.Column="1"
+                                Width="35" Height="90">
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="90"/>
+                    </Canvas>
+                    
+                </Border>
 
+                <Border BorderThickness="0"
+                        Grid.Column="2">
 
-                    <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
-                    <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
-                    <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
-                    <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="90"/>
+                    <Grid Grid.Column="2" Style="{StaticResource GraphicHighlightStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="27"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
 
-
-                </Canvas>
-
-                <Grid Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="27"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Orientation="Vertical"
-                            Grid.Row="1">
-                        <Border BorderBrush="Black" BorderThickness="0 0 0 1">
+                        <StackPanel Orientation="Vertical"
+                                Grid.Row="1">
                             <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" />
-                        </Border>
-                        <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
-                    </StackPanel>
+                            <Border BorderBrush="Black" BorderThickness="0 0 0 1"/>
+                            <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
 
-
-                </Grid>
             </Grid>
 
             <!--Dashed Border-->
@@ -121,63 +127,70 @@
     <DataTemplate x:Key="FvnrTemplate">
         <StackPanel Orientation="Vertical">
 
-            <Grid Background="Transparent">
+            <Grid Background="Transparent"
+                  Style="{StaticResource GraphicHighlightStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="26"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <Canvas Grid.Column="1"
-                        Width="35" Height="90">
-                    <!--Breaker-->
-                    <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
-                    <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
-                    <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
-                    <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
 
-                    <!--Overload-->
-                    <Border BorderBrush="Black" BorderThickness="1" 
-                        Canvas.Left="0" Canvas.Top="45" Width="27" Height="15">
-                        <TextBlock Text="O/L" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Margin="0 0 0 1"/>
-                    </Border>
+                <Border BorderThickness="0"
+                        Grid.Column="1">
+                    <Canvas Grid.Column="1"
+                            Width="35" Height="90">
+                        <!--Breaker-->
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
 
-                    <!--<Path Stroke="Black" StrokeThickness="1" Data="M 13,45 A 5,5 0 0 1 13.5, 55" />
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 13.5,55 A 5,5 0 0 0 14, 65" />-->
-
-                    <!--Contactor-->
-                    <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
-                    <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="70" X2="27" Y2="70"/>
-                    <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="78" X2="27" Y2="78"/>
-                    <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
-                </Canvas>
-
-                <Grid Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="5"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="27"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <!--Breaker Size-->
-                    <StackPanel Orientation="Vertical"
-                            Grid.Row="1">
-                        <Border BorderBrush="Black" BorderThickness="0 0 0 1">
-                            <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" />
+                        <!--Overload-->
+                        <Border BorderBrush="Black" BorderThickness="1" 
+                            Canvas.Left="0" Canvas.Top="45" Width="27" Height="15">
+                            <TextBlock Text="O/L" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Margin="0 0 0 1"/>
                         </Border>
-                        <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
-                    </StackPanel>
+                        <!--<Path Stroke="Black" StrokeThickness="1" Data="M 13,45 A 5,5 0 0 1 13.5, 55" />
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 13.5,55 A 5,5 0 0 0 14, 65" /> -->
 
-                    <!--Starter Size-->
-                    <StackPanel Orientation="Horizontal"
-                                Grid.Row="3">
-                        <TextBlock Text="Size: "/>
-                        <TextBlock Text="{Binding StarterSize}" FontWeight="SemiBold"/>
-                    </StackPanel>
-                </Grid>
+                        <!--Contactor-->
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="70" X2="27" Y2="70"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="78" X2="27" Y2="78"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
+                    </Canvas>
+                </Border>
+
+                <Border BorderThickness="0"
+                            Grid.Column="2">
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="27"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+
+                        <!--Breaker Size-->
+                        <StackPanel Orientation="Vertical"
+                                Grid.Row="1">
+                            <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" />
+                            <Border BorderBrush="Black" BorderThickness="0 0 0 1"/>
+                            <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
+                        </StackPanel>
+
+                        <!--Starter Size-->
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Row="3">
+                            <TextBlock Text="Size: "/>
+                            <TextBlock Text="{Binding StarterSize}" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
 
             </Grid>
 
@@ -221,7 +234,6 @@
     <!--Vsd-->
     <DataTemplate x:Key="VsdTemplate">
         <Grid Background="Transparent"
-                      Cursor="Hand"
                       Style="{StaticResource GraphicHighlightStyle}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="13.5"/>
@@ -492,7 +504,7 @@
                     <TextBlock Text="{Binding PowerCable.Type}" />
                 </StackPanel>
             </Border>
-            <Image Source="..\..\..\ResourceFiles\ErrorIcon48.png"
+            <Image Source="..\..\ResourceFiles\ErrorIcon48.png"
                            Grid.Column="1" HorizontalAlignment="Left"
                            Height="13"
                            Margin="5"
@@ -507,44 +519,96 @@
     <DataTemplate x:Key="MotorTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
         <Grid Style="{StaticResource GraphicHighlightStyle}">
 
-            <!--Graphic-->
-            <Border BorderThickness="2" 
-                                Width="50"
-                                Height="50"
-                                CornerRadius="50"
-                                HorizontalAlignment="Left" >
+            <StackPanel Orientation="Horizontal">
 
-                <!--Data-->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
-                                            Margin="0 13">
-                    <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"
-                                       />
-                    <TextBlock Text=" " HorizontalAlignment="Center"/>
-                    <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"
-                                       />
-                </StackPanel>
+                <!--Graphic-->
+                <Border BorderBrush="Black" BorderThickness="2" 
+                        Width="50"
+                        Height="50"
+                        CornerRadius="50"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                                VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
+                        <TextBlock Text=" " HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+                
+                <!--Text-->
+                <Border BorderThickness="0" 
+                        HorizontalAlignment="Left"
+                        >
+                    <StackPanel Orientation="Vertical"
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Center"
+                                Margin="10 0 0 0">
+                        <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 HorizontalAlignment="Left"
+                                 Background="Transparent"
+                                 BorderBrush="LightGray"
+                                 FontWeight="SemiBold"
+                                 />
+                        <TextBlock Text="{Binding Description}" HorizontalAlignment="Left"
+                                   MaxWidth="140"
+                                   TextWrapping="WrapWithOverflow"/>
+                    </StackPanel>
 
-            </Border>
+
+                </Border>
+            </StackPanel>
+
         </Grid>
 
     </DataTemplate>
 
     <!--Heater Template-->
     <DataTemplate x:Key="HeaterTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
-        <Border BorderBrush="Black" BorderThickness="2" 
-                        Background="Transparent"
+        <Grid Style="{StaticResource GraphicHighlightStyle}">
+
+            <StackPanel Orientation="Horizontal">
+
+                <!--Graphic-->
+                <Border BorderBrush="Black" BorderThickness="2" 
                         Width="50"
                         Height="50"
-                        HorizontalAlignment="Left" >
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top">
+                    
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+                                VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
+                        <TextBlock Text=" " HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
-                                            Margin="0 13">
-                <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
-                <TextBlock Text=" " HorizontalAlignment="Center"/>
-                <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"/>
+                <!--Text-->
+                <Border BorderThickness="0" 
+                        HorizontalAlignment="Left"
+                        >
+                    <StackPanel Orientation="Vertical"
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Center"
+                                Margin="10 0 0 0">
+                        <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 HorizontalAlignment="Left"
+                                 Background="Transparent"
+                                 BorderBrush="LightGray"
+                                 FontWeight="SemiBold"
+                                 />
+                        <TextBlock Text="{Binding Description}" HorizontalAlignment="Left"
+                                   MaxWidth="130"
+                                   TextWrapping="WrapWithOverflow"/>
+                    </StackPanel>
+
+
+                </Border>
             </StackPanel>
 
-        </Border>
+        </Grid>
     </DataTemplate>
 
 

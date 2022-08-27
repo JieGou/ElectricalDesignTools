@@ -38,6 +38,19 @@ internal class SingleLineViewModel: ViewModelBase
 
     public SolidColorBrush SingleLineViewBackground { get; set; } = new SolidColorBrush(Colors.White);
 
+
+    public ObservableCollection<IDteq> ViewableDteqList
+
+    {
+        get
+        {
+            List<IDteq> subList = new List<IDteq>();
+            subList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.MCC.ToString()).ToList();
+            return new ObservableCollection<IDteq>(subList);
+        }
+    }
+
+
     public SingleLineViewModel(ListManager listManager)
     {
         ListManager = listManager;

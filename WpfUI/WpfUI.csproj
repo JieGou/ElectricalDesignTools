@@ -157,7 +157,7 @@
     <Compile Update="Views\Electrical\MjeqSubviews\EquipmentDetailsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Electrical\SingleLineSubViews\LoadGraphicView.xaml.cs">
+    <Compile Update="Views\Electrical\SingleLineSubViews\SL_LoadGraphicView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Electrical\SingleLineSubViews\MccGraphicView.xaml.cs">
@@ -207,7 +207,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Electrical\SingleLineSubViews\LoadGraphicView.xaml">
+    <Page Update="Views\Electrical\SingleLineSubViews\SL_LoadGraphicView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

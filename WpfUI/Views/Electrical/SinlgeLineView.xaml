@@ -11,7 +11,7 @@
         
         d:Height="500" d:Width="500"
              d:Background="AliceBlue"
-        Background="{Binding SingleLineViewBackground}"
+        Background="{Binding SingleLineViewBackground}" Loaded="UserControl_Loaded"
         >
     <!--Main Grid-->
     <Grid>
@@ -31,7 +31,7 @@
         <!--Left Menu-->
         <StackPanel Orientation="Vertical"
                     Grid.Row="1" Grid.Column="1">
-            <ListBox ItemsSource="{Binding ListManager.IDteqList}"
+            <ListBox ItemsSource="{Binding ViewableDteqList}"
                  Grid.Row="1" Grid.Column="1"
                  SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  DisplayMemberPath="Tag"
@@ -78,7 +78,8 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Left">
-                                    <singleLineSubViews:LoadGraphicView DataContext="{Binding}"
+
+                                    <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}"
                                                                         MinWidth="200"
                                                       Margin="0"/>
                                 </StackPanel>

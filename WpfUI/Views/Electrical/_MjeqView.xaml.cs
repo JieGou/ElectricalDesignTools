@@ -144,25 +144,21 @@ public partial class _MjeqView : UserControl
                 LoadTestEquipmentData();
                 e.Handled = true;
             }
-            if (e.Key == Key.D) {
-                MessageBox.Show("Deleting all Data");
-                DeleteEquipment();
-                e.Handled = true;
-
-            }
+           
             if (e.Key == Key.B) {
                 MessageBox.Show("Clearing Equipment from Database");
                 DeleteEquipmentFromDatabase();
                 e.Handled = true;
 
             }
-            if (e.Key == Key.F) {
+            if (e.Key == Key.D) {
                 if (debugWindow == null || debugWindow.IsLoaded == false) {
                     debugWindow = new DebugWindow();
                     debugWindow.Show();
                 }
                 e.Handled = true;
             }
+
             if (e.Key == Key.S) {
                 if (testWindow == null || testWindow.IsLoaded == false) {
                     testWindow = new TestWindow();
@@ -593,7 +589,7 @@ public partial class _MjeqView : UserControl
     {
         ListManager listManager = MjeqVm.ListManager;
 
-        MessageBoxResult result = MessageBox.Show("Dteq, Loads, Both", "Test Data", MessageBoxButton.YesNoCancel);
+        MessageBoxResult result = MessageBox.Show("Defautlt Dteq, Default Loads, Extra Loads", "Test Data", MessageBoxButton.YesNoCancel);
         var start = DateTime.Now;
 
         DaManager.Importing = true;
