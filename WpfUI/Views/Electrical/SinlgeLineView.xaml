@@ -9,65 +9,127 @@
         xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
         xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
         
-        d:Height="500" d:Width="500"
+        d:Height="900" d:Width="1200"
              d:Background="AliceBlue"
         Background="{Binding SingleLineViewBackground}" Loaded="UserControl_Loaded"
         >
+
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="0 5 0 0"/>
+        </Style>
+    </UserControl.Resources>
+    
     <!--Main Grid-->
-    <Grid>
+    <Grid Margin="10 10 10 0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-
+       
         <!--Left Menu-->
         <StackPanel Orientation="Vertical"
-                    Grid.Row="1" Grid.Column="1">
+                    Grid.Row="2" >
+            
+            <TextBlock Text="Selected Equipment"
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       Margin="0 0 0 10"/>
+            
             <ListBox ItemsSource="{Binding ViewableDteqList}"
                  Grid.Row="1" Grid.Column="1"
                  SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  DisplayMemberPath="Tag"
-                 MinWidth="100" MinHeight="100"/>
-            
+                 MinWidth="100" MinHeight="100"
+                 />
+
+            <Button Content="Create Drawing"
+                    Command="{Binding DrawSingleLineAcadCommand}"/>
         </StackPanel>
+
+        <!--Top Data-->
+        <Grid Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+
+            <TextBlock Text="Tag:" Grid.Row="1" Grid.Column="1"/>
+            <TextBlock Text="{Binding SelectedDteq.Tag}" d:Text="MCC-01"
+                   Grid.Row="1" Grid.Column="3"
+                   FontWeight="SemiBold" />
+
+            <TextBlock Text="Description:" Grid.Row="2" Grid.Column="1"/>
+            <TextBlock Text="{Binding SelectedDteq.Description}"  d:Text="Ultimo MCC"
+                       Grid.Row="2" Grid.Column="3"
+                       FontWeight="SemiBold"  />
+
+            <TextBlock Text="Size:" Grid.Row="3" Grid.Column="1"/>
+            
+            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="3">
+                <TextBlock Text="{Binding SelectedDteq.Size}"  d:Text="2000"
+                           Grid.Row="3" Grid.Column="3"
+                           FontWeight="SemiBold"  />
+                <TextBlock Text="   "/>
+                <TextBlock Text="{Binding Unit}" d:Text="A"/>
+            </StackPanel>
+            
+            <TextBlock Text="Fed From:" Grid.Row="1" Grid.Column="5"/>
+            <TextBlock Text="{Binding SelectedDteq.FedFrom.Tag}"  d:Text="SWG-01"
+                       Grid.Row="1" Grid.Column="7"
+                       FontSize="12"  FontWeight="SemiBold"  />
+
+
+        </Grid>
 
         <!--Sinlge Line-->
         <Border BorderBrush="LightGray" BorderThickness="1"
-                Grid.Row="1" Grid.Column="2"
-                Grid.RowSpan="3"
+                Grid.Row="2" Grid.Column="2"
                 VerticalAlignment="Bottom"
-                Margin="25"
                 >
-            <ScrollViewer Grid.Row="2" Grid.Column="2"
+            <ScrollViewer Grid.Row="1" Grid.Column="2"
                       Grid.RowSpan="2"
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       VerticalAlignment="Center"
                        >
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        
-                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
-                    <singleLineSubViews:MccGraphicView DataContext="{Binding SelectedDteq}"/>
-                    
+                    <singleLineSubViews:MccGraphicView DataContext="{Binding SelectedDteq}"
+                                                       Grid.Row="0"/>
+
                     <ItemsControl x:Name="items"
                                   Grid.Row="1"
                                   ItemsSource="{Binding AssignedLoads}"
-                                  Margin="0 0 0 0"
                                   MinHeight="550">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -76,13 +138,12 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
+
                                 <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Left">
-
-                                    <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}"
-                                                                        MinWidth="200"
-                                                      Margin="0"/>
+                                    <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}" />
                                 </StackPanel>
+
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

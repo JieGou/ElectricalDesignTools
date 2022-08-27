@@ -25,7 +25,7 @@ public class SingleLineDrawer
     public double[] _insertionPoint = new double[3];
     int firstLoadSpacing = 1;
 
-    public void DrawMccSingleLine(MccModel mcc, double blockSpacing = 1.5)
+    public void DrawMccSingleLine(IDteq mcc, double blockSpacing = 1.5)
     {
 
         try {
@@ -51,7 +51,7 @@ public class SingleLineDrawer
             throw;
         }
     }
-    private void InsertMainBlock(MccModel mcc, double[] insertionPoint, string blockType = "Default")
+    private void InsertMainBlock(IDteq mcc, double[] insertionPoint, string blockType = "Default")
     {
         //Instert Main Block
         insertionPoint[0] = 0;
