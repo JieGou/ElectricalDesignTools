@@ -7,14 +7,12 @@
                     xmlns:Converters="clr-namespace:WpfUI.Converters"
                     >
 
-
-
     <Style TargetType="TextBlock">
         <Setter Property="Margin" Value="0"/>
 
     </Style>
 
-    <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.3"/>
+    <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.5"/>
 
     <!--Grid Style-->
     <Style TargetType="Grid" x:Key="GraphicHighlightStyle">
@@ -220,11 +218,9 @@
         <Style.Triggers>
             <DataTrigger Binding="{Binding Path=Type}" Value="BKR">
                 <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate}"/>
-                <Setter Property="Cursor" Value="Hand"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=PdType}" Value="MCP-FVNR">
                 <Setter Property="ContentTemplate" Value="{StaticResource FvnrTemplate}"/>
-                <Setter Property="Cursor" Value="Hand"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
@@ -458,11 +454,9 @@
         <Style.Triggers>
             <DataTrigger Binding="{Binding Path=Type}" Value="UDS">
                 <Setter Property="ContentTemplate" Value="{StaticResource UdsTemplate}"/>
-                <Setter Property="Cursor" Value="Hand"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
                 <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
-                <Setter Property="Cursor" Value="Hand"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>

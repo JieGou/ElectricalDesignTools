@@ -107,15 +107,7 @@
                                                 Grid.Column="2"
                                                 PreviewMouseLeftButtonDown="ComponentCable_PreviewMouseLeftButtonDown"
                                                 Focusable="True">
-                                        <ContentControl.Style>
-                                            <Style>
-                                                <Style.Triggers>
-                                                    <Trigger Property="ContentControl.IsMouseOver" Value="True">
-                                                        <Setter Property="ContentControl.Cursor" Value="Hand"/>
-                                                    </Trigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </ContentControl.Style>
+                                      
                                     </ContentControl>
                                 </Grid>
 
@@ -156,15 +148,6 @@
                                     ContentTemplate="{StaticResource CableTemplate}"
                                     Grid.Column="2" 
                                     PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown">
-                        <ContentControl.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <Trigger Property="ContentControl.IsMouseOver" Value="True">
-                                        <Setter Property="ContentControl.Cursor" Value="Hand"/>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ContentControl.Style>
                     </ContentControl>
                 </Grid>
 
