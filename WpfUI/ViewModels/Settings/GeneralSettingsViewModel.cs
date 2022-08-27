@@ -5,6 +5,7 @@ using EDTLibrary.Autocad.Interop;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
@@ -12,6 +13,7 @@ using PropertyChanged;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -33,6 +35,8 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         set { _edtSettings = value; }
     }
     private TypeManager _typeManager;
+    private readonly ListManager _listManager;
+
     public TypeManager TypeManager
     {
         get { return _typeManager; }
@@ -41,11 +45,11 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
   
     #endregion
 
-    public GeneralSettingsViewModel(EdtSettings edtSettings, TypeManager typeManager)
+    public GeneralSettingsViewModel(EdtSettings edtSettings, TypeManager typeManager, ListManager listManager = null)
     {
         _edtSettings = edtSettings;
         _typeManager = typeManager;
-
+        _listManager = listManager;
         SelectAcadSaveFolderCommand = new RelayCommand(SelectAcadSaveFolder);
         SelectAcadBlockFolderCommand = new RelayCommand(SelectAcadBlockFolder);
         TestAcadCommand = new RelayCommand(StartAutocad);
@@ -72,7 +76,6 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
             else if (isValid) {
                 SaveVmSetting(nameof(ProjectName), _projectName);
             }
-
         }
     }
 
@@ -90,9 +93,9 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
             ClearErrors(nameof(ProjectNumber));
 
             SaveVmSetting(nameof(ProjectNumber), _projectNumber);
-
         }
     }
+
     private string _projectTitleLine1;
     public string ProjectTitleLine1
     {
@@ -114,6 +117,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
             SaveVmSetting(nameof(ProjectTitleLine2), _projectTitleLine2);
         }
     }
+
     private string _projectTitleLine3;
     public string ProjectTitleLine3
     {
@@ -124,6 +128,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
             SaveVmSetting(nameof(ProjectTitleLine3), _projectTitleLine3);
         }
     }
+
     private string _clientTitleLine1;
     public string ClientNameLine1
     {
@@ -134,6 +139,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
             SaveVmSetting(nameof(ClientNameLine1), _clientTitleLine1);
         }
     }
+
     private string _clientTitleLine2;
     public string ClientNameLine2
     {
@@ -144,6 +150,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
             SaveVmSetting(nameof(ClientNameLine2), _clientTitleLine2);
         }
     }
+
     private string _clientTitleLine3;
     public string ClientNameLine3
     {
@@ -170,7 +177,6 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
     }
 
     private bool _areaColumnBool;
-
     public bool AreaColumnBool
     {
         get { return _areaColumnBool; }
@@ -195,6 +201,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
             SaveVmSetting(nameof(AreaColumnVisible), _areaColumnVisible);
         }
     }
+
 
     public ICommand SelectAcadBlockFolderCommand { get; }
 
@@ -228,6 +235,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
             AcadBlockFolder = dialog.SelectedPath;
         }
     }
+
 
     public ICommand SelectAcadSaveFolderCommand { get; }
 
@@ -263,8 +271,8 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         }
     }
 
-    public ICommand TestAcadCommand { get; }
 
+    public ICommand TestAcadCommand { get; }
     public AutocadHelper Acad { get; set; }
 
     #region Autocad
@@ -298,20 +306,13 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         }
 
         try {
+            SingleLineDrawer slDrawer = new SingleLineDrawer(Acad, EdtSettings.AcadBlockFolder);
 
-            var powerCable = new CableModel {
-                Tag = "cable Tag",
-                TypeModel = DaManager.libDb.GetRecordById<CableTypeModel>("CableTypes", 1)
-            };
-            var mcc = new MccModel {
-                Tag = "Test MCC",
-                PowerCable = powerCable,
-            };
+            MccModel mcc = _listManager.MccList.FirstOrDefault(m => m.Tag.Contains("MCC"));
 
-
-            SingleLineDrawer slDrawer = new SingleLineDrawer(Acad);
-            slDrawer.DrawMccSingleLine(mcc, 10);
-
+            if (mcc == null) return;
+            slDrawer.DrawMccSingleLine(mcc, 1.5);
+            Acad.AcadApp.ZoomExtents();
         }
    
         catch (Exception ex) {

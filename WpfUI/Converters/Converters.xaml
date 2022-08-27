@@ -18,8 +18,6 @@
 
 
     <!--CableListView-->
-    <converters:DataGridGroupTemplateSelector x:Key="templateSelector" cableListUsageTypeTemplate="{StaticResource UsageTemplate}"/>
-    <converters:CableListGroupsToTotalConverter x:Key="groupsConverter" />
     <BooleanToVisibilityConverter x:Key="boolToVis"/>
     
     

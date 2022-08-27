@@ -21,7 +21,7 @@ using System.Windows.Shapes;
 using WpfUI.Controls;
 using WpfUI.ViewModels.Electrical;
 
-namespace WpfUI.Views.Electrical.MjeqSubviews;
+namespace WpfUI.Views.Electrical.SingleLineSubViews;
 /// <summary>
 /// Interaction logic for LoadGraphicView.xaml
 /// </summary>

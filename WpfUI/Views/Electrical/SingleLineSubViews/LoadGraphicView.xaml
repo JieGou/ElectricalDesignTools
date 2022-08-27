@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.Views.Electrical.MjeqSubviews.LoadGraphicView"
+﻿<UserControl x:Class="WpfUI.Views.Electrical.SingleLineSubViews.LoadGraphicView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -66,8 +66,7 @@
             <!-- MCC BUCKET / OCPD -->
             <!--Breaker Template-->
             <DataTemplate x:Key="BreakerTemplate">
-                <StackPanel Orientation="Vertical"
-                            SnapsToDevicePixels="True">
+                <StackPanel Orientation="Vertical">
 
                     <Grid Background="Transparent">
                         <Grid.ColumnDefinitions>
@@ -110,7 +109,7 @@
                     </Grid>
 
                     <!--Dashed Border-->
-                    <Border BorderThickness="0,0,0,1" SnapsToDevicePixels="True">
+                    <Border BorderThickness="0,0,0,1">
                         <Border.BorderBrush>
                             <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
                                 <DrawingBrush.Drawing>
@@ -133,7 +132,7 @@
 
             <!--FVNR Template-->
             <DataTemplate x:Key="FvnrTemplate">
-                <StackPanel Orientation="Vertical" SnapsToDevicePixels="True">
+                <StackPanel Orientation="Vertical">
 
                     <Grid Background="Transparent">
                         <Grid.ColumnDefinitions>
@@ -604,26 +603,9 @@
                  HorizontalAlignment="Left" VerticalAlignment="Top"
                  Stretch="Uniform" MaxWidth="200" >
             <DockPanel Grid.Column="1" 
-                    Margin="0 3 0 0">
+                    Margin="0 0 0 0">
 
-                <!--FEEDER BUS-->
-                <Border BorderBrush="Black" BorderThickness="0 0 0 3"
-                Grid.Row="0" Width="200" HorizontalAlignment="Left" DockPanel.Dock="Top">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
-                            Margin="15 0 0 0">
-                        <TextBlock Text="{Binding FedFrom.Tag}" HorizontalAlignment="Center" FontWeight="SemiBold"/>
-                        <TextBlock Text=",  "/>
-                        <TextBlock Text="{Binding FedFrom.LoadVoltage}" HorizontalAlignment="Center"/>
-                        <TextBlock Text=" V,  "/>
-                        <TextBlock Text="{Binding FedFrom.Size}" HorizontalAlignment="Center"/>
-                        <TextBlock Text=" A,  "/>
-                        <TextBlock Text="{Binding FedFrom.SCCR}" HorizontalAlignment="Center"/>
-                        <TextBlock Text=" kA"/>
-
-
-                    </StackPanel>
-                </Border>
-
+               
                 <!--Starter-->
                 <!--Style is for instant graphic updates-->
                 <ContentControl Content="{Binding}" DockPanel.Dock="Top"

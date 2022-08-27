@@ -36,7 +36,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>-->
+             
             </ResourceDictionary.MergedDictionaries>
 
             <x:Array xmlns:s="clr-namespace:System;assembly=mscorlib" x:Key="array" Type="{x:Type s:Int32}">
@@ -90,13 +90,17 @@
     </UserControl.Resources>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="Black" BorderThickness="0 1 0 1">
-            <StackPanel Orientation="Horizontal"  Grid.Row="0" Background="#FF31869B">
+        <Border BorderBrush="Black" BorderThickness="0 1 0 1"
+                Grid.Row="0">
+            <StackPanel Orientation="Horizontal"  
+                        Background="{DynamicResource Dark}">
 
                 <TextBlock Text="{Binding SelectedDteq.Tag}" 
                        d:Text="DTEQ TAG" 
@@ -116,7 +120,9 @@
                        />
             </StackPanel>
         </Border>
-        <TabControl Grid.Row="1" Background="LightCyan" BorderThickness="0 1 0 0"
+        
+        <TabControl Grid.Row="1" Grid.Column="2"
+                    Background="LightCyan" BorderThickness="0 1 0 0"
                     SelectedIndex="{Binding SelectedDteqTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
             <!--Equipment Specific Details-->

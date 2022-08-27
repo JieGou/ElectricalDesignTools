@@ -64,8 +64,9 @@
                         Style="{StaticResource ToolBarButtonBase}" 
                         Command="{Binding NavigateMjeqCommand}"/>
 
-                <Button Content="DIST. PANELS"
-                        Style="{StaticResource ToolBarButtonBase}" />
+                <Button Content="SINGLE LINE VIEW"
+                        Style="{StaticResource ToolBarButtonBase}" 
+                        Command="{Binding NavigateSingleLineCommand}"/>
             </StackPanel>
 
         </Border>

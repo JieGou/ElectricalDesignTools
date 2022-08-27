@@ -52,6 +52,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
         set { _currentViewModel = value; }
     }
     private MjeqViewModel _mjeqViewModel;
+    private SingleLineViewModel _singleLineViewModel;
 
 
     public ElectricalMenuViewModel(MainViewModel mainViewModel, ListManager listManager)
@@ -62,9 +63,11 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
         _dteqFactory = new DteqFactory(listManager);
         _mjeqViewModel = new MjeqViewModel(_listManager);
+        _singleLineViewModel = new SingleLineViewModel(_listManager);
 
         //Navigation
         NavigateMjeqCommand = new RelayCommand(NavigateMjeq);
+        NavigateSingleLineCommand = new RelayCommand(NavigateSingleLine);
 
     }
 
@@ -83,11 +86,19 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
         
     }
 
+    private void NavigateSingleLine()
+    {
+        
+        CurrentViewModel = _singleLineViewModel;
+        _mainViewModel.CurrentViewModel = CurrentViewModel;
 
+
+    }
     #region Public Commands
 
     // Equipment Commands
     public ICommand NavigateMjeqCommand { get; }
+    public ICommand NavigateSingleLineCommand { get; }
     #endregion
 
 

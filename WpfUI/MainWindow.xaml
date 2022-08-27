@@ -30,7 +30,7 @@
         xmlns:cableViewModels="clr-namespace:WpfUI.ViewModels.Cables"
                  
         xmlns:libraryViews="clr-namespace:WpfUI.Views.Library"
-        xmlns:librarViewModels="clr-namespace:WpfUI.ViewModels.Library"
+        xmlns:libraryViewModels="clr-namespace:WpfUI.ViewModels.Library"
                          
         
         mc:Ignorable="d"
@@ -181,7 +181,7 @@
         <Grid.ColumnDefinitions>
         </Grid.ColumnDefinitions>
 
-        <!--Old SubMenu Grid - Below Title Bar-->
+        <!--Old Menu Grid - Below Title Bar-->
         <Grid Grid.Row="0" Visibility="Collapsed">
             <Border BorderBrush="Black"
                     BorderThickness="0">
@@ -278,7 +278,7 @@
 
         </Grid>
 
-        <!--Menu Content Control-->
+        <!--Submenu Content Control-->
         <Border BorderBrush="Black" BorderThickness="0 1 0 0"
                 Grid.Row="1">
             <ContentControl x:Name="ccMenu"
@@ -400,7 +400,10 @@
                 <DataTemplate DataType="{x:Type electricalViewModels:MjeqViewModel}">
                     <electricalViews:_MjeqView/>
                 </DataTemplate>
-
+                
+                <DataTemplate DataType="{x:Type electricalViewModels:SingleLineViewModel}">
+                    <electricalViews:SinlgeLineView/>
+                </DataTemplate>
 
 
                 <!--Cables-->
@@ -415,7 +418,7 @@
 
 
                 <!--DataTables-->
-                <DataTemplate DataType="{x:Type librarViewModels:DataTablesViewModel}">
+                <DataTemplate DataType="{x:Type libraryViewModels:DataTablesViewModel}">
                     <libraryViews:DataTablesView/>
                 </DataTemplate>
 
