@@ -318,6 +318,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             if (_selectedDteq != null) {
                 AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
 
+                //UpdateAssignedLoadsAsync();
+
                 GlobalConfig.SelectingNew = true;
                 CopySelectedDteq();
                 GlobalConfig.SelectingNew = false;
@@ -341,6 +343,19 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 DteqWeldingLoads = _selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.WELDING.ToString());
                 DteqOtherLoads = _selectedDteq.AssignedLoads.Count(al => al.Type == LoadTypes.OTHER.ToString());
             }
+        }
+    }
+
+    private async Task UpdateAssignedLoadsAsync()
+    {
+       await Task.Run(() =>  UpdateAssignedLoads());
+    }
+
+    private void UpdateAssignedLoads()
+    {
+        AssignedLoads.Clear();
+        foreach (var item in _selectedDteq.AssignedLoads) {
+            AssignedLoads.Add(item);
         }
     }
 

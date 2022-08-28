@@ -1,4 +1,5 @@
-﻿using AutocadLibrary;
+﻿using AutoCAD;
+using AutocadLibrary;
 using EdtLibrary.Commands;
 using EDTLibrary;
 using EDTLibrary.Autocad.Interop;
@@ -6,6 +7,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using Syncfusion.XlsIO.Parser.Biff_Records;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,7 +45,7 @@ internal class SingleLineViewModel: ViewModelBase
         }
     }
 
-    public SolidColorBrush SingleLineViewBackground { get; set; } = new SolidColorBrush(Colors.White);
+    public SolidColorBrush SingleLineViewBackground { get; set; } = new SolidColorBrush(Colors.LightCyan);
 
 
     public ObservableCollection<IDteq> ViewableDteqList
@@ -169,6 +171,13 @@ internal class SingleLineViewModel: ViewModelBase
                     MessageBoxIcon.Error);
             }
             else if (ex.Message.Contains("rejected")) {
+                if (Acad.AcadDoc!= null) {
+                    AcadSelectionSet sSet = Acad.AcadDoc.SelectionSets.Add("sSetAll");
+                    sSet.Select(AcSelect.acSelectionSetAll);
+                    foreach (AcadEntity item in sSet) {
+                        item.Delete();
+                    }
+                }
                 DrawSingleLine(false);
             }
             else {

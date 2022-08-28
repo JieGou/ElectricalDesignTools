@@ -6,12 +6,14 @@
              xmlns:local="clr-namespace:WpfUI.Windows"
              mc:Ignorable="d"
         
-        xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
-        xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
-        
-        d:Height="900" d:Width="1200"
-             d:Background="AliceBlue"
-        Background="{Binding SingleLineViewBackground}" Loaded="UserControl_Loaded"
+             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
+             xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
+             
+             d:Height="900" d:Width="1200"
+              
+             Background="{Binding SingleLineViewBackground}"  d:Background="AliceBlue"
+              
+             Loaded="UserControl_Loaded"
         >
 
     <UserControl.Resources>
@@ -30,7 +32,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="9*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
@@ -109,8 +111,10 @@
 
         <!--Sinlge Line-->
         <Border BorderBrush="LightGray" BorderThickness="1"
+                Background="White"
                 Grid.Row="2" Grid.Column="2"
                 VerticalAlignment="Bottom"
+                Height="685"
                 >
             <ScrollViewer Grid.Row="1" Grid.Column="2"
                       Grid.RowSpan="2"

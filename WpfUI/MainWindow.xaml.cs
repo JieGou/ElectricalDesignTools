@@ -65,7 +65,7 @@ public partial class MainWindow : MetroWindow
             if (e.Key == Key.Z) {
                 UndoManager.UndoCommand(mainVm._listManager);
             }
-            if (e.Key == Key.F) {
+            if (e.Key == Key.D) {
                 if (debugWindow == null || debugWindow.IsLoaded == false) {
                     debugWindow = new DebugWindow();
                     debugWindow.Show();

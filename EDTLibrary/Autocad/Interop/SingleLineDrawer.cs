@@ -35,16 +35,26 @@ public class SingleLineDrawer
             
 
             foreach (var powerConsumer in mcc.AssignedLoads) {
+
                 if (powerConsumer.GetType() == typeof(LoadModel)) {
                     var load = (LoadModel)powerConsumer;
+
                     InsertLoadBucket(load, _insertionPoint);
+
                     _insertionPoint[1] -= 1.65;
                     InsertLoad(load, _insertionPoint);
                     _insertionPoint[1] += 1.65;
-
+                    //check if graphic is wide and move next load over to make room for this wide block
+                    if (load.DisconnectBool == true && load.DriveBool == true) {
+                        _insertionPoint[0] += .5;
+                    }
                 }
+
                 _insertionPoint[0] += blockSpacing;
             }
+
+            InsertMccBus(mcc, _insertionPoint, blockSpacing);
+            InsertMccBorder(mcc, _insertionPoint, blockSpacing);
         }
         catch (Exception ex) {
 
@@ -114,10 +124,9 @@ public class SingleLineDrawer
         string blockName = "MCC_" + blockType + ".dwg";
         string blockPath = sourcePath + blockName;
 
-
         var acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+        
         var blockAtts = acadBlock.GetAttributes();
-
         foreach (AcadAttributeReference att in blockAtts) {
             switch (att.TagString) {
 
@@ -159,9 +168,11 @@ public class SingleLineDrawer
     private void InsertLoad(LoadModel load, double[] insertionPoint, double Xscale = 1, double Yscale = 1, double Zscale = 1, bool isDriveInternal = false)
     {
 
+        //default Load
         string blockType = "Load";
         var tag = load.Tag;
 
+        //select load type
         if (load.Type == LoadTypes.MOTOR.ToString()) {
             blockType = "Motor";
         }
@@ -188,10 +199,13 @@ public class SingleLineDrawer
         string blockName = "SL_" + blockType + ".dwg";
         string blockPath = sourcePath + blockName;
 
-
+        
+        //instert block
         var acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+
         var blockAtts = acadBlock.GetAttributes();
 
+        //update attributes
         foreach (AcadAttributeReference att in blockAtts) {
             switch (att.TagString) {
 
@@ -260,7 +274,7 @@ public class SingleLineDrawer
                 }
             }
 
-            //Disconnect
+            //Disconnect only
             else if (load.DisconnectBool == true && load.DriveBool == false) {
                 switch (att.TagString) {
                     case "CABLE_TAG1":
@@ -277,7 +291,7 @@ public class SingleLineDrawer
                         break;
                 }
             }
-            //Drive
+            //Drive only
             else if (load.DisconnectBool == false && load.DriveBool == true && isDriveInternal==false) {
                 switch (att.TagString) {
                     case "CABLE_TAG1":
@@ -296,6 +310,29 @@ public class SingleLineDrawer
             }
 
         }
+    }
+
+    private void InsertMccBus(IDteq mcc, double[] insertionPoint, double blockSpacing)
+    {
+        double[] linePoint1 = new double[3];
+        linePoint1[0] = -1.5;
+        linePoint1[1] = 0;
+        double[] linePoint2 = new double[3];
+        linePoint2[0] = blockSpacing * mcc.AssignedLoads.Count + 1;
+        linePoint2[1] = 0;
+
+        AcadLine busLine = AcadHelper.AcadDoc.ModelSpace.AddLine(linePoint1, linePoint2);
+        busLine.Layer = "ECT_CONN_GENERAL_WIRES";
+    }
+
+    private void InsertMccBorder(IDteq mcc, double[] insertionPoint, double blockSpacing, double Xscale = 1, double Yscale = 1, double Zscale = 1)
+    {
+        string blockPath = EdtSettings.AcadBlockFolder + @"\Single Line\MCC_BORDER.dwg";
+        double borderScale = blockSpacing * (mcc.AssignedLoads.Count + 2.5);
+        insertionPoint[0] = 0-2;
+        insertionPoint[1] = 0;
+        insertionPoint[2] = 0;
+        var border = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, borderScale, Yscale, Zscale, 0);
     }
 
 
