@@ -540,9 +540,10 @@ public partial class _MjeqView : UserControl
     private void eqView_MouseLeave(object sender, MouseEventArgs e)
     {
         var dataView = (ListCollectionView)CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource);
-        if (dataView.IsEditingItem)
-            dataView.CommitEdit();
+        if (dataView == null) return;
+        if (dataView.IsEditingItem) dataView.CommitEdit();
     }
+
     private void btnAddLoad_MouseLeave(object sender, MouseEventArgs e)
     {
         Task.Run(() => resetTag());
@@ -784,6 +785,20 @@ public partial class _MjeqView : UserControl
                 }
             }
         }));
+    }
+
+    private void eqView_Loaded(object sender, RoutedEventArgs e)
+    {
+        //Binding myBinding = new Binding();
+        //DependencyObject column;
+
+        //myBinding = new Binding();
+        //myBinding.Path = new PropertyPath("AssignedLoads");
+        //myBinding.Source = MjeqVm;
+        //myBinding.Mode = BindingMode.TwoWay;
+        //myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+        //myBinding.IsAsync = true;
+        //BindingOperations.SetBinding(dgdAssignedLoads, Syncfusion.UI.Xaml.Grid.SfDataGrid.ItemsSourceProperty, myBinding);
     }
 }
 

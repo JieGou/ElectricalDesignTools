@@ -167,7 +167,7 @@
 
             <syncfusion:SfDataGrid x:Name="dgdCableList"
                                    Grid.Column="3" Grid.Row="2"
-                                   ItemsSource="{Binding ListManager.CableList, Mode=TwoWay}"
+                                   ItemsSource="{Binding ListManager.CableList, Mode=TwoWay, IsAsync=True}"
                                    AutoGenerateColumns="False"
                                    
                                    HorizontalAlignment="Left"

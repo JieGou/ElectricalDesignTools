@@ -414,6 +414,7 @@ namespace WpfUI.ViewModels
             menuToSet.MainViewModel = newMainVm;
             newMainVm.MenuViewModel = menuToSet;
             newMainVm.CurrentViewModel = viewModelToSet;
+            newMainVm.UpdateProjectName();
             newWindow.Show();
             WindowController.SnapWindow(newWindow, false);
 

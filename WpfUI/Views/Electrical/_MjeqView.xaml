@@ -28,7 +28,7 @@
              mc:Ignorable="d"
              d:Width="1500" d:Height="1000"
              Background="#FFDAEEF1" 
-             PreviewKeyDown="eqView_PreviewKeyDown" Unloaded="eqView_Unloaded" MouseLeave="eqView_MouseLeave" 
+             PreviewKeyDown="eqView_PreviewKeyDown" Unloaded="eqView_Unloaded" MouseLeave="eqView_MouseLeave" Loaded="eqView_Loaded" 
              >
 
     <!--#FFDAEEF1-->
@@ -1251,9 +1251,13 @@
                 <!--LOAD-->
                 <!--DATA GRID-->
 
+                <!--ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"-->
+
                 <sf:SfDataGrid x:Name="dgdAssignedLoads"  
                                Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="3"
+                               
                                ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+
                                CurrentItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                SelectedItems="{Binding SelectedLoads, UpdateSourceTrigger=PropertyChanged}"

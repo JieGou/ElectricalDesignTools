@@ -202,45 +202,23 @@
                 <!--Cable -->
                 <TabItem Header="Cable Sizing" Background="{DynamicResource BackGroundLight}"
                          d:Background="LightCyan">
-                    <ContentControl Content="{Binding SelectedLoad}">
+                    <ContentControl Content="{Binding SelectedLoadCable}"
+                                        Grid.Row="0"
+                                        >
                         <ContentControl.Resources>
+
                             <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
                                 <mjeqSubViews:CableSizingViewNarrow/>
                             </DataTemplate>
-                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+
+                            <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
                                 <mjeqSubViews:CableSizingViewNarrow/>
                             </DataTemplate>
+
                         </ContentControl.Resources>
                     </ContentControl>
                 </TabItem>
-
-                <!--Enclosure-->
-                <TabItem Header="Enclosure" Background="{DynamicResource BackGroundLight}"
-                         d:Background="LightCyan">
-                    <ContentControl Content="{Binding SelectedLoad}">
-                        <ContentControl.Resources>
-                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                <subViews:EnclosureDetailsView/>
-                            </DataTemplate>
-                        </ContentControl.Resources>
-                    </ContentControl>
-                </TabItem>
-
-                <!--Components-->
-                <TabItem Header="Components" Background="{DynamicResource BackGroundLight}"
-                         d:Background="LightCyan">
-                    <ContentControl Content="{Binding SelectedLoad}">
-                        <ContentControl.Resources>
-                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                <mjeqSubViews:LoadCompListDetailsView/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                <mjeqSubViews:LoadCompListDetailsView/>
-                            </DataTemplate>
-                        </ContentControl.Resources>
-                    </ContentControl>
-                </TabItem>
-
+              
             </TabControl>
         </Grid>
     </Grid>

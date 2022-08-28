@@ -98,7 +98,8 @@
         </Grid.RowDefinitions>
 
         <Border BorderBrush="Black" BorderThickness="0 1 0 1"
-                Grid.Row="0">
+                Grid.Row="0"
+                d:Background="Teal">
             <StackPanel Orientation="Horizontal"  
                         Background="{DynamicResource Dark}">
 
@@ -152,67 +153,6 @@
                     </ContentControl.Resources>
                 </ContentControl>
             </TabItem>
-
-            <!--Enclosure-->
-            <TabItem Header="Enclosure" Background="LightCyan">
-                <ContentControl Content="{Binding SelectedDteq}">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                            <subViews:EnclosureDetailsView/>
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
-            </TabItem>
-
-
-
-            <TabItem Header="Components" Background="LightCyan" Height="25">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Text="Components In Use" Grid.Row="0" Grid.Column="0"/>
-                    <ListBox Grid.Row="1" Grid.Column="0" MinHeight="100" MinWidth="150"/>
-
-                    <TextBlock Text="Component Details " Grid.Row="0" Grid.Column="2"/>
-                    <ListBox Grid.Row="1" Grid.Column="2" MinHeight="100" MinWidth="150"/>
-
-                </Grid>
-            </TabItem>
-
-            <TabItem Header="Protection" Background="LightCyan" Height="25">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
-                        <TextBlock Text="Pd Type: "/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
-                        <TextBlock d:Text="test" Text="{Binding SelectedDteq.PdType}" Grid.Row="1" Grid.Column="2" FontWeight="Bold"/>
-                    </StackPanel>
-
-                </Grid>
-            </TabItem>
-
 
         </TabControl>
 
