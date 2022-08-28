@@ -30,7 +30,7 @@ public class LocalControlStationModel : ILocalControlStation
         {
             if (value == null) return;
             if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
-                ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage);
+                ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                 return;
             }
             var oldValue = _tag;

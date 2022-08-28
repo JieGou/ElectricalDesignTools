@@ -13,13 +13,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.Electrical.MjeqSubviews;
+namespace WpfUI.UserControls.Editors;
 /// <summary>
-/// Interaction logic for LoadCompListDetailsView.xaml
+/// Interaction logic for AreaEditor.xaml
 /// </summary>
-public partial class EquipmentDetailsView : UserControl
+public partial class AreaEditor : UserControl
 {
-    public EquipmentDetailsView()
+    public AreaEditor()
     {
         InitializeComponent();
     }

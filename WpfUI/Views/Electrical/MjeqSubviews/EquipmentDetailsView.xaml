@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
+             xmlns:Editors="clr-namespace:WpfUI.UserControls.Editors"
+             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
              
              
              
@@ -13,8 +15,8 @@
              
              
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="250"
-                         
+             d:DesignHeight="350" d:DesignWidth="250"
+             d:Background="AliceBlue"                         
              >
 
 
@@ -88,122 +90,21 @@
                    Margin="5"/>
 
         <!--Area Details-->
-        <GroupBox Header="Area Details" FontWeight="Bold"
-                  Style="{DynamicResource GroupBoxStyle1}" 
-                  Grid.Row="1" Grid.Column="0"
-                  HorizontalAlignment="Right"
-                  VerticalAlignment="Top" Height="100" 
-                  Margin="0 5 0 0" >
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-
-                <!--Area-->
-                <TextBlock Text="Area"
-                           Grid.Row="0" Grid.Column="0"
-                           FontWeight="Normal"
-                           Margin="78 5 0 0"/>
-                <ComboBox Grid.Row="0" Grid.Column="2" 
-                  Template="{DynamicResource ComboBoxBase}"
-                  MinWidth="115" HorizontalAlignment="Right"
-                  ItemsSource="{Binding Path=DataContext.ListManager.AreaList, 
-                                        RelativeSource={RelativeSource Mode=FindAncestor, 
-                                        AncestorType={x:Type UserControl},AncestorLevel=2}}"
-                  SelectedItem="{Binding Area, StringFormat={}{0} }" 
-                  IsSynchronizedWithCurrentItem="False" 
-                  ToolTip="{StaticResource AreaChangeMessage}">
-                    <ComboBox.ItemTemplateSelector>
-                        <templateSelectors:ComboBoxItemTemplateSelector>
-                            <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Tag}" FontWeight="Bold" Width="50"/>
-                                        <TextBlock Text="{Binding Name}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                            <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Tag}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                        </templateSelectors:ComboBoxItemTemplateSelector>
-                    </ComboBox.ItemTemplateSelector>
-                </ComboBox>
-
-                <Image Source="..\..\..\ResourceFiles\InfoIconBlue.png"
-                           Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"
-                           Margin="0 5 0 0"
-                           HorizontalAlignment="Left"
-                           Height="17"
-                           Stretch="Uniform"
-                           ToolTip="{StaticResource AreaChangeInfoMessage}"
-                           ToolTipService.InitialShowDelay="150"
-                           ToolTipService.BetweenShowDelay="0"/>
-
-                <!--Nema-->
-                <TextBlock Text="NEMA Ratings"
-                           Grid.Row="1" Grid.Column="0" 
-                           FontWeight="Normal"
-                           Margin="0 5 0 0"
-                           MinWidth="95"
-                           TextAlignment="Right"/>
-
-                <ComboBox x:Name="cbxNemaRatings" 
-                          Template="{DynamicResource ComboBoxBase}" 
-                          Grid.Row="1" Grid.Column="2"
-                          MinWidth="115"
-                          ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, 
-                                              RelativeSource={RelativeSource Mode=FindAncestor, 
-                                              AncestorType={x:Type Window}}}"
-                          Text="{Binding NemaRating, StringFormat={}{0} }" 
-                          SelectedValuePath="Type"
-                          DisplayMemberPath="Type"
-                          SelectedValue="{Binding NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          IsSynchronizedWithCurrentItem="False" 
-                          ToolTip="{StaticResource AreaPropertyChangeMessage}"
-                          MaxDropDownHeight="240"/>
-
-                <!--Area Class-->
-                <TextBlock Text="Area Class."
-                           Grid.Row="2" Grid.Column="0" FontWeight="Normal"
-                           TextAlignment="Right"
-                           Margin="0 5 0 0"/>
-
-                <ComboBox x:Name="cbxAreaClassifications" 
-                          Template="{DynamicResource ComboBoxBase}" 
-                          Grid.Row="2" Grid.Column="2"
-                          ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, 
-                                                RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                AncestorType={x:Type Window}}}"
-                          Text="{Binding AreaClassification, StringFormat={}{0} }" 
-                          SelectedValuePath="Zone"
-                          DisplayMemberPath="Zone"
-                          SelectedValue="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          IsSynchronizedWithCurrentItem="False" 
-                          ToolTip="{StaticResource AreaPropertyChangeMessage}"/>
-
-            </Grid>
-        </GroupBox>
-
+        <Editors:AreaEditor Grid.Row="1" Grid.Column="0"/>
+        
 
         <!--Components-->
-        <GroupBox Header="Circuit Components" 
+        <mjeqSubViews:LoadCompListDetailsView Grid.Row="2" Grid.Column="0"
+                                              Margin="0 20 0 0"/>
+        
+        <!--Local control Station-->
+        <!--Column 1-->
+
+        <GroupBox Header="Local Control Station" 
                   Style="{DynamicResource GroupBoxStyle1}" 
-                  Grid.Row="2" Grid.Column="0"
+                  Grid.Row="3" Grid.Column="0"
                   Grid.RowSpan="2"
-                  Margin="0 15 0 0" 
-                  >
+                  Margin="0 20 0 0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -220,48 +121,21 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <ListBox Grid.Row="0" Grid.Column="0" Height="50" MinWidth="75"
-                         Margin="10 10 5 10"
-                         ItemsSource="{Binding CctComponents}"
-                         SelectedItem="{Binding Path=DataContext.SelectedComponent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=2}}"
-                         DisplayMemberPath="Tag"
-                         />
-
-                <StackPanel Grid.Row="0" Grid.Column="1"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Margin="0">
-                    <Button FontFamily="Marlett" FontSize="12" Content="5" 
-                            Width="20" Height="20"
-                            Margin="0 5"
-                            Command="{Binding Path=DataContext.ComponentMoveUpCommand, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
-                    <Button FontFamily="Marlett" FontSize="12" Content="6" 
-                            Width="20" Height="20"
-                            Margin="0 5 "
-                            Command="{Binding Path=DataContext.ComponentMoveDownCommand, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
 
 
-                </StackPanel>
-
+                <!--Tag-->
                 <StackPanel Orientation="Horizontal" 
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
                     <TextBlock Text="Tag"
-                         Grid.Row="1" Grid.Column="0" 
-                               
+                               Grid.Row="1" Grid.Column="0" 
                                Width="40"/>
-                    <TextBox Text="{Binding Path=DataContext.SelectedComponent.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                    <TextBox Text="{Binding Path=DataContext.Lcs.Tag, 
+                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"
+                                            AncestorType={x:Type UserControl}, AncestorLevel=1}}"
                             Grid.Row="2" Grid.Column="0" 
                             Width="95" Height="20" 
                              />
-
                 </StackPanel>
 
                 <!--Component Types-->
@@ -278,62 +152,16 @@
                           ItemsSource="{Binding Path=DataContext.SelectedComponent.TypeList, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                   RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                  AncestorType={x:Type UserControl}, AncestorLevel=2}}"
+                                                  AncestorType={x:Type UserControl}, AncestorLevel=1}}"
                           
                           SelectedValue="{Binding Path=DataContext.SelectedComponent.Type, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                   RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                  AncestorType={x:Type UserControl}, AncestorLevel=2}}"
+                                                  AncestorType={x:Type UserControl}, AncestorLevel=1}}"
                           IsSynchronizedWithCurrentItem="False"  />
                 </StackPanel>
 
-                <!--Component Size -->
-                <StackPanel Orientation="Horizontal" 
-                            Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" >
-                    <TextBlock Text="Size"
-                               Grid.Row="1" Grid.Column="0" 
-                               Width="40"/>
-                    <ComboBox Template="{DynamicResource ComboBoxBase}" 
-                          Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-                          Height="20" Width="83"
-                          Margin="0"
-                          ItemsSource="{Binding Path=DataContext.SelectedComponent.TypeList, 
-                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                                  RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                  AncestorType={x:Type UserControl}, AncestorLevel=2}}"
-                          
-                          SelectedValue="{Binding Path=DataContext.SelectedComponent.Type, 
-                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                                  RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                  AncestorType={x:Type UserControl}, AncestorLevel=2}}"
-                          IsSynchronizedWithCurrentItem="False"  />
-                </StackPanel>
-
-                <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
-                            Margin="10 0 0 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button Content="Delete" 
-                            Grid.Column="0"
-                            Style="{StaticResource RedButton}"
-                            Width="50" Height="20"
-                            Margin="0 0 0 0 "
-                            ToolTip="Delete"
-                            Command="{Binding Path=DataContext.DeleteComponentCommand, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
-                    <Button Content="Add"
-                            Grid.Column="2"
-                            Style="{StaticResource GreenButton}"
-                            Width="50" Height="20"
-                            Command="{Binding Path=DataContext.AddComponentCommand, 
-                                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
-                </Grid>
+                <!--Column 2-->
 
             </Grid>
         </GroupBox>

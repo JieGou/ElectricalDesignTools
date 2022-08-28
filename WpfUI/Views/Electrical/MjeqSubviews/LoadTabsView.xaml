@@ -171,7 +171,7 @@
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                        <mjeqSubViews:EquipmentDetailsView/>
+                                        <mjeqSubViews:ComponentDetailsView/>
                                     </DataTemplate>
 
                                 </ContentControl.Resources>
@@ -231,10 +231,10 @@
                     <ContentControl Content="{Binding SelectedLoad}">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                <mjeqSubViews:ComponentDetailsView/>
+                                <mjeqSubViews:LoadCompListDetailsView/>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                <mjeqSubViews:ComponentDetailsView/>
+                                <mjeqSubViews:LoadCompListDetailsView/>
                             </DataTemplate>
                         </ContentControl.Resources>
                     </ContentControl>

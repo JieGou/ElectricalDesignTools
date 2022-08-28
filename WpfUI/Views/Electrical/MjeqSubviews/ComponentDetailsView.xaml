@@ -3,17 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
+             xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
+             xmlns:Editors="clr-namespace:WpfUI.UserControls.Editors"
+             
+             
+             
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
+             
+             
+             
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="150"
-             Background="LightCyan">
+             d:DesignHeight="300" d:DesignWidth="250"
+             d:Background="AliceBlue"
+                         
+             >
 
 
     <UserControl.Resources>
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../Styles/EdtTealStyle.xaml"/>-->
+                <ResourceDictionary Source="../../../Stores/ToolTips.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="TextBlock">
@@ -26,12 +38,6 @@
                 <Setter Property="Height" Value="20"/>
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
-            </Style>
-
-
-            <Style TargetType="CheckBox">
-                <!--<Setter Property="Margin" Value="10 0 0 0"/>-->
-                <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
 
             <Style TargetType="ComboBox">
@@ -64,24 +70,36 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
 
+        <TextBlock Text="{Binding Tag}"
+                   FontSize="15"
+                   FontWeight="Bold"
+                   Margin="5"/>
 
-        <!--Column 1-->
+        
 
-        <GroupBox Header="Circuit Components" 
+
+        <!--Components Options-->
+        
+        <GroupBox Header="Component Options" 
                   Style="{DynamicResource GroupBoxStyle1}" 
-                  Grid.Row="0" Grid.Column="0"
-                  Grid.RowSpan="2"
-                  Margin="0 0 0 0" >
+                  Grid.Row="1" Grid.Column="0" >
+            <GroupBox.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Width" Value="60"/>
+                </Style>
+            </GroupBox.Resources>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -93,46 +111,17 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-                <ListBox Grid.Row="0" Grid.Column="0" Height="50" MinWidth="75"
-                         Margin="10 10 5 10"
-                         ItemsSource="{Binding CctComponents}"
-                         SelectedItem="{Binding Path=DataContext.SelectedComponent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=2}}"
-                         DisplayMemberPath="Tag"
-                         />
 
-                <StackPanel Grid.Row="0" Grid.Column="1"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Margin="0">
-                    <Button FontFamily="Marlett" FontSize="12" Content="5" 
-                            Width="20" Height="20"
-                            Margin="0 5"
-                            Command="{Binding Path=DataContext.ComponentMoveUpCommand, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
-                    <Button FontFamily="Marlett" FontSize="12" Content="6" 
-                            Width="20" Height="20"
-                            Margin="0 5 "
-                            Command="{Binding Path=DataContext.ComponentMoveDownCommand, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
-
-
-                </StackPanel>
-
+                <!--Tag-->
                 <StackPanel Orientation="Horizontal" 
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
                     <TextBlock Text="Tag"
-                         Grid.Row="1" Grid.Column="0" 
-                               
-                               Width="40"/>
-                    <TextBox Text="{Binding Path=DataContext.SelectedComponent.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                               Grid.Row="1" Grid.Column="0"  />
+                    <TextBox Text="{Binding Path=DataContext.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"
-                            Grid.Row="2" Grid.Column="0" 
-                            Width="95" Height="20" 
+                                            AncestorType={x:Type UserControl}, AncestorLevel=1}}"
+                             Grid.Row="2" Grid.Column="0" 
+                             Width="95" Height="20" 
                              />
 
                 </StackPanel>
@@ -141,79 +130,93 @@
                 <StackPanel Orientation="Horizontal" 
                             Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" >
                     <TextBlock Text="Type"
-                         Grid.Row="1" Grid.Column="0" 
-                               
-                               Width="40"/>
+                               Grid.Row="1" Grid.Column="0"  />
                     <ComboBox Template="{DynamicResource ComboBoxBase}" 
                           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                           Height="20" Width="83"
                           Margin="0"
-                          ItemsSource="{Binding Path=DataContext.SelectedComponent.TypeList, 
-                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                                  RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                  AncestorType={x:Type UserControl}, AncestorLevel=2}}"
+                          ItemsSource="{Binding Path=DataContext.TypeList, 
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl}, AncestorLevel=1}}"
                           
-                          SelectedValue="{Binding Path=DataContext.SelectedComponent.Type, 
+                          SelectedValue="{Binding Path=DataContext.Type, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                   RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                  AncestorType={x:Type UserControl}, AncestorLevel=2}}"
+                                                  AncestorType={x:Type UserControl}, AncestorLevel=1}}"
                           IsSynchronizedWithCurrentItem="False"  />
                 </StackPanel>
-                
-                <!--Component Size -->
+
+                <!--Component Frame Size -->
                 <StackPanel Orientation="Horizontal" 
                             Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" >
                     <TextBlock Text="Size"
-                               Grid.Row="1" Grid.Column="0" 
-                               Width="40"/>
+                               Grid.Row="1" Grid.Column="0"  />
                     <ComboBox Template="{DynamicResource ComboBoxBase}" 
                           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                           Height="20" Width="83"
                           Margin="0"
-                          ItemsSource="{Binding Path=DataContext.SelectedComponent.TypeList, 
+                          ItemsSource="{Binding Path=DataContext.TypeList, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                   RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                  AncestorType={x:Type UserControl}, AncestorLevel=2}}"
+                                                  AncestorType={x:Type UserControl}, AncestorLevel=1}}"
                           
-                          SelectedValue="{Binding Path=DataContext.SelectedComponent.Type, 
+                          SelectedValue="{Binding Path=DataContext.Type, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                   RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                  AncestorType={x:Type UserControl}, AncestorLevel=2}}"
+                                                  AncestorType={x:Type UserControl}, AncestorLevel=1}}"
                           IsSynchronizedWithCurrentItem="False"  />
                 </StackPanel>
 
-                <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
-                            Margin="10 0 0 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+                <!--Component Trip Size -->
+                <StackPanel Orientation="Horizontal" 
+                            Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" >
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Type}" Value="FDS">
+                                    <Setter Property="Visibility"  Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <TextBlock Text="Trip/Fuse"
+                               Grid.Row="1" Grid.Column="0"  />
+                    <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                          Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                          Height="20" Width="83"
+                          Margin="0"
+                          ItemsSource="{Binding Path=DataContext.TypeList, 
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl}, AncestorLevel=1}}"
+                          
+                          SelectedValue="{Binding Path=DataContext.Type, 
+                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                  RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                  AncestorType={x:Type UserControl}, AncestorLevel=1}}"
+                          IsSynchronizedWithCurrentItem="False"  />
+                </StackPanel>
 
-                    <Button Content="Delete" 
-                            Grid.Column="0"
-                            Style="{StaticResource RedButton}"
-                            Width="50" Height="20"
-                            Margin="0 0 0 0 "
-                            ToolTip="Delete"
-                            Command="{Binding Path=DataContext.DeleteComponentCommand, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
-                    <Button Content="Add"
-                            Grid.Column="2"
-                            Style="{StaticResource GreenButton}"
-                            Width="50" Height="20"
-                            Command="{Binding Path=DataContext.AddComponentCommand, 
-                                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
-                </Grid>
+                <!--Column 2-->
+                <Button Content="Delete" 
+                        Grid.Row="3" Grid.Column="2"
+                        Style="{StaticResource RedButton}"
+                        Width="50" Height="20"
+                        Margin="0 0 0 0 "
+                        ToolTip="Delete"
+                        Command="{Binding Path=DataContext.DeleteComponentCommand, 
+                                          RelativeSource={RelativeSource Mode=FindAncestor, 
+                                          AncestorType={x:Type UserControl}, AncestorLevel=2}}"
+                        Visibility="Hidden"/>
 
             </Grid>
         </GroupBox>
 
+        <Editors:AreaEditor Grid.Row="2" Grid.Column="0"/>
 
-
-        <!--Column 2-->
+        
 
 
 

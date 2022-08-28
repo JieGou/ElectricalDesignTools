@@ -49,7 +49,7 @@ namespace EDTLibrary.Models.Loads
                 if (string.IsNullOrEmpty(value.ToString())) return;
                 if (Tag == GlobalConfig.LargestMotor_StartLoad) return;
                 if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
-                    ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage);
+                    ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                     return;
                 }
 

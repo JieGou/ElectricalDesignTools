@@ -1502,8 +1502,9 @@
                                            FilterRowCondition="Contains"
                                            ImmediateUpdateColumnFilter="True"
                                            FilterRowOptionsVisibility="Collapsed"
-                                           
-                                           TextAlignment="Center"/>
+                                           TextAlignment="Center"
+                                           IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"/>
 
                         <sf:GridTextColumn HeaderText="Efficiency" MappingName="Efficiency"
                                            Width="60"
@@ -1512,7 +1513,8 @@
                                            TextAlignment="Center"
                                            FilterRowOptionsVisibility="Collapsed"
                                            FilterRowEditorType="MultiSelectComboBox"
-                                           />
+                                           IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"/>
 
                         <sf:GridTextColumn HeaderText="PF  " MappingName="PowerFactor"
                                            Width="60"

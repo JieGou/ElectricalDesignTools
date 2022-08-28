@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 
 namespace WpfUI.Views.Electrical.MjeqSubviews;
 /// <summary>
-/// Interaction logic for ComponentDetailsView.xaml
+/// Interaction logic for LoadCompListDetailsView.xaml
 /// </summary>
 public partial class ComponentDetailsView : UserControl
 {

@@ -17,9 +17,9 @@ namespace WpfUI.Views.Electrical.MjeqSubviews;
 /// <summary>
 /// Interaction logic for LoadCompListDetailsView.xaml
 /// </summary>
-public partial class EquipmentDetailsView : UserControl
+public partial class LoadCompListDetailsView : UserControl
 {
-    public EquipmentDetailsView()
+    public LoadCompListDetailsView()
     {
         InitializeComponent();
     }

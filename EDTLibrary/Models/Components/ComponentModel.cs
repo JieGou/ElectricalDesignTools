@@ -39,7 +39,7 @@ public class ComponentModel : IComponentEdt
         {
             if (value == null) return;
             if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
-                ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage);
+                ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                 return;
             }
             var oldValue = _tag;
@@ -54,7 +54,7 @@ public class ComponentModel : IComponentEdt
 
             var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
             UndoManager.AddUndoCommand(cmd);
-            
+
             OnPropertyUpdated();
         }
     }
@@ -95,6 +95,8 @@ public class ComponentModel : IComponentEdt
     private IArea _area;
     private int _sequenceNumber;
     private List<string> _typelist = new List<string>();
+    private string _nemaRating;
+    private string _areaClassification;
 
     public IArea Area
     {
@@ -115,8 +117,24 @@ public class ComponentModel : IComponentEdt
 
         }
     }
-    public string NemaRating { get; set; }
-    public string AreaClassification { get; set; }
+    public string NemaRating
+    {
+        get => _nemaRating;
+        set
+        {
+            _nemaRating = value;
+            OnPropertyUpdated();
+        }
+    }
+    public string AreaClassification
+    {
+        get => _areaClassification;
+        set
+        {
+            _areaClassification = value;
+            OnPropertyUpdated();
+        }
+    }
     public int OwnerId { get; set; }
     public string OwnerType { get; set; }
     public IEquipment Owner { get; set; }

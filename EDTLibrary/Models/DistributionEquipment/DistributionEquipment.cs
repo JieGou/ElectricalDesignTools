@@ -46,7 +46,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 if (value == null) return;
                 if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
-                    ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage);
+                    ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                     return;
                 }
 
@@ -271,7 +271,9 @@ namespace EDTLibrary.Models.DistributionEquipment
                                 _fedFrom = oldValue;
 
                                 //Message must be executed last
-                                ErrorHelper.NotifyUserError("Equipment Cannot be fed from itself, directly or through other equipment.", "Circular Feed Error");
+                                ErrorHelper.NotifyUserError( "Equipment Cannot be fed from itself, directly or through other equipment.", 
+                                    "Circular Feed Error", 
+                                    MessageBoxImage.Warning);
                                 break;
                             }
                             //Valid

@@ -61,11 +61,11 @@ namespace EDTLibrary.ErrorManagement
 
         }
 
-        internal static void NotifyUserError(string message, string caption = "User Error")
+        internal static void NotifyUserError(string message, string caption = "User Error", MessageBoxImage image = MessageBoxImage.None)
         {
             if (DaManager.Importing == true) return;
             Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
-                MessageBox.Show(message, caption);
+                MessageBox.Show(message, caption, MessageBoxButton.OK, image);
             }));
         }
     }
