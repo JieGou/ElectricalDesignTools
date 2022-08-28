@@ -10,11 +10,11 @@
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
              
              d:Height="900" d:Width="1200"
-              
-             Background="{Binding SingleLineViewBackground}"  d:Background="AliceBlue"
-              
+             d:Background="{DynamicResource Background_Teal}"
+             
+             Background="{DynamicResource Background_Teal}"  
              Loaded="UserControl_Loaded"
-        >
+             >
 
     <UserControl.Resources>
         <Style TargetType="TextBlock">

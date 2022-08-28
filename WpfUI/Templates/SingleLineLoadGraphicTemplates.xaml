@@ -503,7 +503,7 @@
                            Height="13"
                            Margin="5"
                            VerticalAlignment="Center"
-                           Visibility="{Binding PowerCable.IsValidSize, Converter={StaticResource _boolToVis}, ConverterParameter=Inverted}"/>
+                           Visibility="{Binding PowerCable.IsValidSize, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
         </Grid>
     </DataTemplate>
 

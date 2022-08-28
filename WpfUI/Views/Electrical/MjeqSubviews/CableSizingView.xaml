@@ -20,8 +20,8 @@
             <ResourceDictionary.MergedDictionaries>
             </ResourceDictionary.MergedDictionaries>
 
-            <BooleanToVisibilityConverter x:Key="boolToVis" />
-            <Converters:InvertableBooleanToVisibilityConverter x:Key="_boolToVis"/>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+            <Converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>
 
             <x:Array xmlns:s="clr-namespace:System;assembly=mscorlib" x:Key="array" Type="{x:Type s:Int32}">
                 <s:Int32>1</s:Int32>
@@ -305,7 +305,7 @@
                    Grid.Row="1"
                    Margin="0 -2 0 1"
                    Foreground="#FFD40000"
-                   Visibility="{Binding PowerCable.IsValidSize, Converter={StaticResource _boolToVis}, ConverterParameter=Inverted}"/>
+                   Visibility="{Binding PowerCable.IsValidSize, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
         
         
 

@@ -163,7 +163,8 @@
 
                             <!--Equipment-->
                             <ContentControl Content="{Binding SelectedLoadEquipment}"
-                                        Grid.Row="0">
+                                        Grid.Row="0"
+                                            Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
                                 <ContentControl.Resources>
 
                                     <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">

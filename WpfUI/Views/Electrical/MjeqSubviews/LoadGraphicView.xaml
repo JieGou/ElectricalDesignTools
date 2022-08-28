@@ -23,7 +23,7 @@
                 <ResourceDictionary Source="../../../Templates/SingleLineLoadGraphicTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
-            <Converters:InvertableBooleanToVisibilityConverter x:Key="_boolToVis"/>
+            <Converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>
 
         </ResourceDictionary>
 

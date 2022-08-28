@@ -44,7 +44,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
-            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
             <CollectionViewSource x:Key="dteqList"
                                   Source="{Binding ListManager.DteqList}"/>

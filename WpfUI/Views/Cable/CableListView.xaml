@@ -59,7 +59,7 @@
 
             <converters:CableListGroupsToTotalConverter x:Key="groupsConverter" />
             <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
-            <BooleanToVisibilityConverter x:Key="boolToVis"/>
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
 
         </ResourceDictionary>
@@ -104,7 +104,7 @@
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="cableGrid"
                                 Storyboard.TargetProperty="Opacity"
-                                From="-1" To="1" Duration="0:0:0.75"
+                                From="-1" To="1" Duration="0:0:0.3"
                                 AutoReverse="False" RepeatBehavior="1x"/>
                         </Storyboard>
                     </BeginStoryboard>

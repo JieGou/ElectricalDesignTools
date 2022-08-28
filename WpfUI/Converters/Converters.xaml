@@ -11,14 +11,14 @@
     
 
     <!--MjeqView-->
-    <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+    <BooleanToVisibilityConverter x:Key="BoolToVis"/>
     
     <!--LoadGraphics-->
-    <converters:InvertableBooleanToVisibilityConverter x:Key="_boolToVis"/>
+    <converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>
 
 
     <!--CableListView-->
-    <BooleanToVisibilityConverter x:Key="boolToVis"/>
+    <!--<BooleanToVisibilityConverter x:Key="BoolToVis"/>-->
     
     
     
