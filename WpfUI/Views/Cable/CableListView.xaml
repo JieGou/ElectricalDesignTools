@@ -68,14 +68,13 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
         <!--Page Title-->
         <TextBlock Text="Cable List"
                        Grid.Row="0"
-                       Grid.RowSpan="2"
                        Style="{StaticResource PageTitleStyle}"/>
 
         <!--Background="#FF4C184C"-->
@@ -153,12 +152,6 @@
 
             </StackPanel>
 
-
-            <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="3" >
-                <TextBlock Text="Tag: " Margin="10 0"/>
-                <TextBox x:Name="txtTagFilter" Text="{Binding TagFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0" Width="125"/>
-                <TextBox x:Name="txtTypeFilter" Text="{Binding TypeFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0" Width="125"/>
-            </StackPanel>
 
             <!--Power Cables-->
 

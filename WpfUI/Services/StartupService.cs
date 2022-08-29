@@ -5,10 +5,12 @@ using EDTLibrary.Managers;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using WpfUI.Helpers;
+using WpfUI.ViewModels.Home;
 
 namespace WpfUI.Services
 {
@@ -25,9 +27,10 @@ namespace WpfUI.Services
         private string _libraryFile = "Edt Data Library.edl";
         private string _projectFile = "Edt Sample Project.edp";
         
-        public StartupService(ListManager listManager)
+        public StartupService(ListManager listManager, ObservableCollection<PreviousProject> previousProjects)
         {
             _listManager = listManager;
+            PreviousProjects = previousProjects;
 
 
             //_libraryFile = Environment.GetFolderPath(_appDataFolder) + _edtFolder + _libraryFile;
@@ -49,6 +52,7 @@ namespace WpfUI.Services
         }
 
         ListManager _listManager;
+
         public bool IsProjectLoaded { get; set; }
         public bool IsLibraryLoaded { get; set; }
 
@@ -57,6 +61,7 @@ namespace WpfUI.Services
 
         public static SQLiteConnector prjDb { get; set; }
         public static SQLiteConnector libDb { get; set; }
+        public ObservableCollection<PreviousProject> PreviousProjects { get; set; }
 
         public void InitializeLibrary()
         {
@@ -85,7 +90,26 @@ namespace WpfUI.Services
                 ProjectFileName = Path.GetFileName(selectedProject);
                 ProjectFilePath = Path.GetDirectoryName(selectedProject);
             }
+            UpdatePreviousProjects(selectedProject);
         }
+
+        private void UpdatePreviousProjects(string selectedProject)
+        {
+            var tempList = new ObservableCollection<PreviousProject>();
+
+            foreach (var previousProject in PreviousProjects) {
+                tempList.Add(previousProject);
+                if (selectedProject == previousProject.FullPath) {
+                    tempList.Remove(previousProject);
+                }               
+            }
+            PreviousProjects.Clear();
+            foreach (var item in tempList) {
+                PreviousProjects.Add(item);
+            }
+            PreviousProjects.Insert(0, new PreviousProject(this, selectedProject));
+        }
+
 
         public void InitializeProject(string projectFile)
         {

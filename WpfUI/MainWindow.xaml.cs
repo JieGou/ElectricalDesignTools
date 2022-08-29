@@ -16,6 +16,8 @@ using WpfUI.Windows;
 using EDTLibrary.UndoSystem;
 using MahApps.Metro.Controls;
 using EDTLibrary.Managers;
+using System.Collections.ObjectModel;
+using WpfUI.ViewModels.Home;
 
 namespace WpfUI;
 
@@ -26,6 +28,7 @@ namespace WpfUI;
 
 public partial class MainWindow : MetroWindow
 {
+    public ObservableCollection<PreviousProject> PreviousProjects { get; set; } = new ObservableCollection<PreviousProject>();
 
     private MainViewModel mainVm { get { return DataContext as MainViewModel; } }
     public MainWindow()
@@ -48,7 +51,7 @@ public partial class MainWindow : MetroWindow
             try {
                 if ((args[1]).Contains(".edp") && File.Exists(args[1])) {
                     string fullFilePath = args[1];
-                    StartupService ss = new StartupService(new ListManager());
+                    StartupService ss = new StartupService(new ListManager(), PreviousProjects);
                     ss.SetSelectedProject(fullFilePath);
                 }
             }

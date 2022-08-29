@@ -41,19 +41,11 @@ namespace WpfUI.ViewModels
             _startupService = startupService;
             _listManager = listManager;
             _startupService.SetSelectedProject(AppSettings.Default.ProjectDb);
-
+            PreviousProjects = _startupService.PreviousProjects;
             NewProjectCommand = new RelayCommand(NewProject);
             SelectProjectCommand = new RelayCommand(SelectProject);
 
-#if DEBUG
-            PreviousProjects.Add(new PreviousProject(_startupService, @"C:\C - Visual Studio Projects\ElectricalDesignTools\WpfUI\ContentFiles\Edt Sample Project.edp"));
-            PreviousProjects.Add(new PreviousProject(_startupService, @"C:\C - Visual Studio Projects\ElectricalDesignTools\WpfUI\ContentFiles\test.edp"));
-            PreviousProjects.Add(new PreviousProject(_startupService, @"C:\Users\pdeau\Desktop\test.edp"));
 
-            //PreviousProjects.Add(new PreviousProject(_startupService, @"C:\Projects\Big Bob's Big Blue Barn"));
-            //PreviousProjects.Add(new PreviousProject(_startupService, @"C:\Projects\Giggly Gary's Great Green Gates" ));
-            //PreviousProjects.Add(new PreviousProject(_startupService, @"C:\Projects\Rowdy Rogers's Ridiculous Red Raft" ));
-#endif
         }
 
         private void NewProject()
@@ -63,7 +55,7 @@ namespace WpfUI.ViewModels
             NewProjectViewModel newProjectVm = new NewProjectViewModel(
                 _mainViewModel,
                 new EDTLibrary.LibraryData.TypeManager(),
-                new StartupService(_listManager),
+                new StartupService(_listManager, PreviousProjects),
                 this);
 
             NewProjectWindow.DataContext = newProjectVm;

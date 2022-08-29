@@ -3,6 +3,7 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.ProjectSettings;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Net.Mail;
 using System.Reflection;
@@ -10,6 +11,7 @@ using System.Windows;
 using WpfUI.Helpers;
 using WpfUI.Services;
 using WpfUI.ViewModels;
+using WpfUI.ViewModels.Home;
 
 namespace WpfUI
 {
@@ -18,6 +20,7 @@ namespace WpfUI
     /// </summary>
     public partial class App : Application {
 
+        ObservableCollection<PreviousProject> PreviousProjects { get; set; } = new ObservableCollection<PreviousProject>();
         public App()
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Njk5OTgxQDMyMzAyZTMyMmUzMGJCSWJsOE44RWhRcWhXSmFwdS96NlBvRlBqREtOcHZKU0xNMGtiemNCVWM9");
@@ -41,7 +44,7 @@ namespace WpfUI
 
             DaManager daManager = new DaManager();
             ListManager listManager = new ListManager();
-            StartupService startupService = new StartupService(listManager);
+            StartupService startupService = new StartupService(listManager, PreviousProjects);
             TypeManager typeManager = new TypeManager();
             EdtSettings edtSettings = new EdtSettings();
 

@@ -143,12 +143,12 @@
                        Style="{StaticResource Value}"  />
 
             <!--SCCR-->
-            <TextBlock Text="SCCR" 
+            <!--<TextBlock Text="SCCR" 
                        Grid.Row="5" Grid.Column="1"
                        Style="{StaticResource Label}"/>
             <TextBlock Text="{Binding SelectedDteq.SCCR, StringFormat=\{0:N0\} kA}"  d:Text="SWG-01"
                        Grid.Row="5" Grid.Column="3"
-                       Style="{StaticResource Value}"  />
+                       Style="{StaticResource Value}"  />-->
 
 
 
@@ -177,10 +177,10 @@
                        Grid.Row="3" Grid.Column="7"
                        Style="{StaticResource Value}"  />
             
-            <TextBlock Text="Motor Voltage:" 
+            <TextBlock Text="SCCA:" 
                        Grid.Row="4" Grid.Column="5"
                        Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.LoadVoltage, StringFormat=\{0:N0\} V}"  d:Text="575 V"
+            <TextBlock Text="{Binding SelectedDteq.SCCR, StringFormat=\{0:N0\} kA}"  d:Text="45 kA"
                        Grid.Row="4" Grid.Column="7"
                        Style="{StaticResource Value}"  />
 

@@ -13,11 +13,12 @@ public class PreviousProject
 {
     public string FileName { get; set; }
     public string FilePath { get; set; }
+    public string FullPath { get; }
 
     public PreviousProject(StartupService startupService, string project)
     {
         _startupService = startupService;
-        _project = project;
+        FullPath = project;
         FileName = Path.GetFileName(project);
         FilePath = Path.GetFullPath(project);
 
@@ -27,11 +28,10 @@ public class PreviousProject
     public ICommand OpenProjectCommand;
 
     private readonly StartupService _startupService;
-    private readonly string _project;
 
     public void OpenProject()
     {
-        _startupService.InitializeProject(_project);
-        _startupService.SetSelectedProject(_project);
+        _startupService.InitializeProject(FullPath);
+        _startupService.SetSelectedProject(FullPath);
     }
 }
