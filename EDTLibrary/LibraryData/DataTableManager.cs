@@ -166,7 +166,7 @@ namespace EDTLibrary.LibraryData
             //Debug.WriteLine("LibraryManager_GetCableDerating_CecTable5A");
 
             double result = .99999;
-            if (DataTables.Motors != null) {
+            if (DataTables.CEC_Table5A != null) {
 
                 DataTable dt = DataTables.CEC_Table5A.Copy();
                 DataTable dtFiltered;
@@ -188,9 +188,8 @@ namespace EDTLibrary.LibraryData
         }
         public static double GetDisconnectSize(IPowerConsumer load)
         {
-
             double result = .99999;
-            if (DataTables.Motors != null) {
+            if (DataTables.DisconnectSizes != null) {
 
                 DataTable dt = DataTables.DisconnectSizes.Copy();
                 DataTable dtFiltered;
@@ -219,7 +218,30 @@ namespace EDTLibrary.LibraryData
             return result;
         }
 
+        public static double GetDisconnectFuse(IPowerConsumer load)
+        {
+            double result = GlobalConfig.NoValueDouble;
+            if (DataTables.BreakerSizes != null) {
 
+                DataTable dt = DataTables.BreakerSizes.Copy();
+                DataTable dtFiltered;
+
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("TripAmps") >= (int)load.Fla);
+
+                if (load.Type == DteqTypes.XFR.ToString() || load.Type == LoadTypes.MOTOR.ToString() || load.Type == LoadTypes.TRANSFORMER.ToString()) {
+                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("TripAmps") >= (int)load.Fla * 1.5);
+                }
+
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    dtFiltered = dtFiltered.Select($"TripAmps = MIN(TripAmps)").CopyToDataTable();
+                    result = Double.Parse(dtFiltered.Rows[0]["TripAmps"].ToString());
+                }
+                catch { }
+            }
+
+            return result;
+        }
 
 
     }

@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
+using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
@@ -14,6 +15,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -101,6 +103,7 @@ public class ComponentModel : IComponentEdt
 
     public double Voltage { get; set; }
     public double Size { get; set; }
+    public double Trip { get; set; }
 
     public int AreaId { get; set; }
     private IArea _area;
@@ -176,12 +179,19 @@ public class ComponentModel : IComponentEdt
     public CableModel PowerCable { get; set; }
 
 
-
-
-
     public double HeatLoss { get; set; }
 
+    public void CalculateSize(IPowerConsumer load)
+    {
+        if (Type == ComponentTypes.UDS.ToString() || Type == ComponentTypes.FDS.ToString()) {
+            Size = DataTableManager.GetDisconnectSize(load);
 
+        }
+        if (Type == ComponentTypes.UDS.ToString()){
+            Trip = DataTableManager.GetDisconnectFuse(load);
+        }
+        OnPropertyUpdated();
+    }
 
     public event EventHandler PropertyUpdated;
 

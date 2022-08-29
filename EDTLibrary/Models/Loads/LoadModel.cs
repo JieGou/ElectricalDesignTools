@@ -584,6 +584,10 @@ namespace EDTLibrary.Models.Loads
             OnLoadingCalculated();
             PowerCable.ValidateCableSize(PowerCable);
             CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+
+            foreach (var item in CctComponents) {
+                item.CalculateSize(this);
+            }
             OnPropertyUpdated();
 
         }

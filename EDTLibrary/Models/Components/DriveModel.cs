@@ -150,4 +150,9 @@ public class DriveModel : IComponentEdt
         AreaManager.UpdateArea(this, owner.Area, Area);
         OnPropertyUpdated();
     }
+
+    public void CalculateSize(IPowerConsumer load)
+    {
+        throw new NotImplementedException();
+    }
 }

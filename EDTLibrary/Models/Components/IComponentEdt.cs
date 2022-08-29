@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
+using EDTLibrary.Models.Loads;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -20,6 +21,8 @@ namespace EDTLibrary.Models.Components
         int SequenceNumber { get; set; }
 
         CableModel PowerCable { get; set; }
+
+        void CalculateSize(IPowerConsumer load);
 
     }
 }

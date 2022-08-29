@@ -155,13 +155,18 @@
                     <ComboBox Template="{DynamicResource ComboBoxBase}" 
                           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                           Height="20" Width="83"
-                          Margin="0"
+                          Margin="0 3 0 0"
                           ItemsSource="{Binding Path=DataContext.TypeList, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                   RelativeSource={RelativeSource Mode=FindAncestor, 
                                                   AncestorType={x:Type UserControl}, AncestorLevel=1}}"
                           
-                          SelectedValue="{Binding Path=DataContext.Type, 
+                          Text ="{Binding Path=DataContext.Size, 
+                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                                            AncestorType={x:Type UserControl}, AncestorLevel=1}}"
+                              
+                          SelectedValue="{Binding Path=DataContext.Size, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                   RelativeSource={RelativeSource Mode=FindAncestor, 
                                                   AncestorType={x:Type UserControl}, AncestorLevel=1}}"
@@ -170,7 +175,8 @@
 
                 <!--Component Trip Size -->
                 <StackPanel Orientation="Horizontal" 
-                            Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" >
+                            Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" 
+                            d:Visibility="Visible">
                     <StackPanel.Style>
                         <Style TargetType="StackPanel">
                             <Setter Property="Visibility" Value="Hidden"/>
@@ -192,7 +198,7 @@
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type UserControl}, AncestorLevel=1}}"
                           
-                          SelectedValue="{Binding Path=DataContext.Type, 
+                          SelectedValue="{Binding Path=DataContext.Trip, 
                                                   Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                   RelativeSource={RelativeSource Mode=FindAncestor, 
                                                   AncestorType={x:Type UserControl}, AncestorLevel=1}}"
