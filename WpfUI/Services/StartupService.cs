@@ -99,6 +99,12 @@ namespace WpfUI.Services
                     TagManager.LoadTagSettings();
                     LoadProjectDb();
                 }
+                else {
+                    MessageBox.Show("Selected project not found. The file may have been moved or renamed",
+                        "File Not Found", 
+                        MessageBoxButton.OK, 
+                        MessageBoxImage.Exclamation);
+                }
             }
             catch (Exception ex) {
 

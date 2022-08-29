@@ -151,6 +151,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AppSettings.settings</DependentUpon>
     </Compile>
+    <Compile Update="UserControls\HomeControls\PreviousProjectItem.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Electrical\MjeqSubviews\CableSizingViewNarrow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -199,6 +202,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\EdtStyle_Purple.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\HomeControls\PreviousProjectItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

@@ -1,11 +1,13 @@
 ﻿using EDTLibrary.Managers;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Services;
 using WpfUI.Stores;
+using WpfUI.ViewModels.Home;
 using WpfUI.Windows;
 
 namespace WpfUI.ViewModels
@@ -29,7 +31,9 @@ namespace WpfUI.ViewModels
         #endregion
         public ICommand NewProjectCommand { get; }
         public ICommand SelectProjectCommand { get; }
-        public Window NewProjectWindow {get; set;}  
+        public Window NewProjectWindow {get; set;}
+
+        public ObservableCollection<PreviousProject> PreviousProjects { get; set; } = new ObservableCollection<PreviousProject>();
 
         public HomeViewModel(MainViewModel mainViewModel, StartupService startupService, ListManager listManager)
         {
@@ -37,11 +41,21 @@ namespace WpfUI.ViewModels
             _startupService = startupService;
             _listManager = listManager;
             _startupService.SetSelectedProject(AppSettings.Default.ProjectDb);
+
             NewProjectCommand = new RelayCommand(NewProject);
             SelectProjectCommand = new RelayCommand(SelectProject);
+
+#if DEBUG
+            PreviousProjects.Add(new PreviousProject(_startupService, @"C:\C - Visual Studio Projects\ElectricalDesignTools\WpfUI\ContentFiles\Edt Sample Project.edp"));
+            PreviousProjects.Add(new PreviousProject(_startupService, @"C:\C - Visual Studio Projects\ElectricalDesignTools\WpfUI\ContentFiles\test.edp"));
+            PreviousProjects.Add(new PreviousProject(_startupService, @"C:\Users\pdeau\Desktop\test.edp"));
+
+            //PreviousProjects.Add(new PreviousProject(_startupService, @"C:\Projects\Big Bob's Big Blue Barn"));
+            //PreviousProjects.Add(new PreviousProject(_startupService, @"C:\Projects\Giggly Gary's Great Green Gates" ));
+            //PreviousProjects.Add(new PreviousProject(_startupService, @"C:\Projects\Rowdy Rogers's Ridiculous Red Raft" ));
+#endif
         }
 
-      
         private void NewProject()
         {
             
@@ -57,15 +71,11 @@ namespace WpfUI.ViewModels
 
         }
 
-
-
         public void SelectProject()
         {
             string? rootPath = Path.GetDirectoryName(AppSettings.Default.ProjectDb);
-            _startupService.SelectProject(rootPath);
+            _startupService.SelectProject(rootPath); //Initializes project as well
             StartupService.SetSelectedProject(AppSettings.Default.ProjectDb);            
         }
-
-        
     }
 }

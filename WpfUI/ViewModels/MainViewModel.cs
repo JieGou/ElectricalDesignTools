@@ -191,8 +191,6 @@ namespace WpfUI.ViewModels
             if (type == "NewInstance") {
                 _startupService.InitializeProject(AppSettings.Default.ProjectDb);
             }
-
-            //_startupService.ProjectLoaded += _electricalViewModel.OnProjectLoaded;
         }
 
         private void StartCloseTimer()
