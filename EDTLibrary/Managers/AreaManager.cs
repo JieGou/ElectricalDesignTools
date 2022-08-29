@@ -1,6 +1,9 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Equipment;
+using EDTLibrary.Models.Loads;
+using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +21,23 @@ public class AreaManager
             }
             newArea.PropertyChanged += caller.OnAreaPropertiesChanged;
             caller.Area = newArea;
+            UndoManager.CanAdd = false;
             caller.AreaId = newArea.Id;
             caller.NemaRating = newArea.NemaRating;
             caller.AreaClassification = newArea.AreaClassification;
+
+            if (caller is LoadModel) {
+                var load = (LoadModel)caller;
+                foreach (var component in load.CctComponents) {
+                    if (component.SubType != ComponentSubTypes.DefaultDrive.ToString()) {
+                        component.Area = newArea;
+                    }
+                    if (load.LcsBool == true) {
+                        load.Lcs.Area = newArea;
+                    }
+                }
+            }
+
         }
     }
     public static bool IsAreaInUse(AreaModel area, ListManager listManager)

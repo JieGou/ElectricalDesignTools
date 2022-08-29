@@ -7,6 +7,7 @@
     <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
     <converters:LcsOwnerTypeToVisbilityConverter x:Key="LscOwnerTypeVisibilityConverter"/>
     <converters:ComponentOwnerTypeToBooleanConverter x:Key="ComponentOwnerTypeToBooleanConverter"/>
+    <converters:ComponentOwnerTypeToVisibilityConverter x:Key="ComponentOwnerTypeToVisibilityConverter"/>
 
     
 

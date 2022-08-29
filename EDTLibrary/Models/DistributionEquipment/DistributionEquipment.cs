@@ -44,7 +44,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             get { return _tag; }
             set
             {
-                if (value == null) return;
+                if (value == null || value ==_tag) return;
                 if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
                     ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                     return;
@@ -105,6 +105,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             get { return _description; }
             set
             {
+                if (value == _description) return;
                 var oldValue = _description;
                 _description = value;
                 UndoManager.AddUndoCommand(this, nameof(Description), oldValue, _description);
@@ -155,6 +156,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             get { return _nemaRating; }
             set
             {
+                if (value == null) return;
                 var oldValue = _nemaRating;
                 _nemaRating = value;
 
@@ -583,12 +585,16 @@ namespace EDTLibrary.Models.DistributionEquipment
       
         public async Task UpdateAreaProperties()
         {
+            UndoManager.CanAdd = false;
+
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 NemaRating = Area.NemaRating;
                 AreaClassification = Area.AreaClassification;
                 PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
                 PowerCable.CalculateAmpacity(this);
             }));
+            UndoManager.CanAdd = true;
+
         }
 
         public event EventHandler AreaChanged;

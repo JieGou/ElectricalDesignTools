@@ -84,6 +84,9 @@
                                     d:Text="false"
                                     HorizontalAlignment="Left"
                                     Width="50"/>
+
+                        <Button Content="Clear List" x:Name="btnClearUndo" PreviewMouseLeftButtonDown="btnClearUndo_PreviewMouseLeftButtonDown"/>
+
                     </StackPanel>
                 </Grid>
 

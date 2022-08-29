@@ -5,6 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              mc:Ignorable="d" 
+             
+             xmlns:converters="clr-namespace:WpfUI.Converters"
+             
+             
              d:DesignHeight="200" d:DesignWidth="350"
              d:Background="AliceBlue"
              d:Padding="10"
@@ -56,23 +60,6 @@
 
         </ResourceDictionary>
     </UserControl.Resources>
-
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-
-
-
-        <!--Column 1-->
 
         <GroupBox Header="Circuit Components" 
                   Style="{DynamicResource GroupBoxStyle1}" 
@@ -213,17 +200,25 @@
                               IsChecked="{Binding Path=DataContext.SelectedLoadEquipment.DriveBool, 
                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}"/>
+                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}"
+                              Visibility="{Binding DataContext.SelectedLoadEquipment.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                                            AncestorType={x:Type UserControl}, AncestorLevel=3},
+                                            Converter={StaticResource ComponentOwnerTypeToVisibilityConverter}}"/>
                     
-                    <CheckBox Content="Local Control Station"
+                    <CheckBox Content="LCS / HS"
                               Grid.Row="2" Grid.Column="0"
                               Grid.ColumnSpan="3"
                               IsChecked="{Binding Path=DataContext.SelectedLoadEquipment.LcsBool, 
                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}"/>
-
-                    
+                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}"
+                              Visibility="{Binding DataContext.SelectedLoadEquipment.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                                            AncestorType={x:Type UserControl}, AncestorLevel=3},
+                                            Converter={StaticResource ComponentOwnerTypeToVisibilityConverter}}"
+                              ToolTip="Local Control Statoin / Hand Station" 
+                              ToolTipService.InitialShowDelay="200"/>
                 </Grid>
                 <StackPanel Orientation="Vertical"
                             Grid.Row="1" Grid.Column="3"
@@ -251,10 +246,4 @@
             </Grid>
         </GroupBox>
 
-
-
-
-
-
-    </Grid>
 </UserControl>

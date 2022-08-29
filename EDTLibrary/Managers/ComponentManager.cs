@@ -2,6 +2,7 @@
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,13 @@ public class ComponentManager
 {
     public static void AddLcs(IComponentUser componentUser, ListManager listManager)
     {
+        
         if (listManager == null) return;
 
         LocalControlStationModel newLcs = ComponentFactory.CreateLocalControlStation(componentUser, listManager);
+        UndoManager.CanAdd = false;
         CableManager.AddLcsControlCableForLoad(componentUser, newLcs, listManager);
+        UndoManager.CanAdd = true;
 
         if (componentUser.GetType() == typeof(LoadModel)) {
             var load = (LoadModel)componentUser;

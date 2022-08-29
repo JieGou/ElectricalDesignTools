@@ -5,6 +5,7 @@ using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Validators;
+using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -35,6 +36,8 @@ public class LocalControlStationModel : ILocalControlStation
             }
             var oldValue = _tag;
             _tag = value;
+
+
             OnPropertyUpdated($"{nameof(Tag)}: {Tag}");
         }
     }
@@ -68,14 +71,51 @@ public class LocalControlStationModel : ILocalControlStation
         get { return _area; }
         set
         {
+            if (value == null) return;
             var oldValue = _area;
             _area = value;
+
+            UndoManager.CanAdd = false;
             AreaManager.UpdateArea(this, _area, oldValue);
+
+            UndoManager.CanAdd = true;
+            UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
+
+            OnPropertyUpdated();
         }
     }
     public double Voltage { get; set; }
-    public string NemaRating { get; set; }
-    public string AreaClassification { get; set; }
+    private string _nemaRating;
+    public string NemaRating
+    {
+        get => _nemaRating;
+        set
+        {
+            if (value == null) return;
+
+            var oldValue = _nemaRating;
+            _nemaRating = value;
+
+            UndoManager.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
+            OnPropertyUpdated();
+        }
+    }
+    private string _areaClassification;
+
+    public string AreaClassification
+    {
+        get => _areaClassification;
+        set
+        {
+            if (value == null) return;
+
+            var oldValue = _areaClassification;
+            _areaClassification = value;
+
+            UndoManager.AddUndoCommand(this, nameof(AreaClassification), oldValue, _areaClassification);
+            OnPropertyUpdated();
+        }
+    }
     public ICable ControlCable { get; set; }
 
 

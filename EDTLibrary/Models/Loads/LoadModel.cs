@@ -104,7 +104,7 @@ namespace EDTLibrary.Models.Loads
             get { return _description; }
             set
             {
-                if (value == null || value == _description) return;
+                if (value == _description) return;
                 if (string.IsNullOrEmpty(value.ToString())) return;
                 var oldValue = _description;
                 _description = value;
@@ -144,10 +144,11 @@ namespace EDTLibrary.Models.Loads
                         PowerCable.CalculateAmpacity(this);
                     }
                 }
+
+                //OnAreaChanged(); the changes this event is responsible for are done in  AreaManager.UpdateArea
                 UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
 
-                OnAreaChanged();
                 OnPropertyUpdated();
 
             }
@@ -163,7 +164,6 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _nemaRating;
                 _nemaRating = value;
 
-                UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
                 OnPropertyUpdated();
             }
@@ -711,6 +711,7 @@ namespace EDTLibrary.Models.Loads
                     Drive.Area = Area;
                 }
             }));
+
         }
 
         public void MatchOwnerArea(object source, EventArgs e)

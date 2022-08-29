@@ -3,6 +3,7 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -116,6 +117,7 @@ public class ComponentFactory
 
     public static LocalControlStationModel CreateLocalControlStation(IComponentUser componentOwner, ListManager listManager)
     {
+        UndoManager.CanAdd = false;
         LocalControlStationModel newLcs = new LocalControlStationModel();
         ILoad owner = componentOwner as LoadModel;
 
@@ -146,10 +148,12 @@ public class ComponentFactory
         newLcs.OwnerType = componentOwner.GetType().ToString();
         newLcs.Tag = componentOwner.Tag + TagSettings.SuffixSeparator + TagSettings.LcsSuffix;
         newLcs.Area = componentOwner.Area;
+        UndoManager.CanAdd = false;
 
         listManager.LcsList.Add(newLcs);
         DaManager.UpsertLcs(newLcs);
-        newLcs.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
+        newLcs.PropertyUpdated += DaManager.OnLcsPropertyUpdated;
+        UndoManager.CanAdd = true;
 
         return newLcs;
     }

@@ -17,6 +17,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Components;
@@ -37,7 +38,7 @@ public class ComponentModel : IComponentEdt
         get { return _tag; }
         set
         {
-            if (value == null) return;
+            if (value == null || value == _tag) return;
             if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
                 ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                 return;
@@ -52,9 +53,7 @@ public class ComponentModel : IComponentEdt
                 }
             }
 
-            var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
-            UndoManager.AddUndoCommand(cmd);
-
+            UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag); 
             OnPropertyUpdated();
         }
     }
@@ -65,7 +64,19 @@ public class ComponentModel : IComponentEdt
     public string Category { get; set; } //Component
     public string SubCategory { get; set; }
 
-    public string Type { get; set; }
+    public string Type
+    {
+        get => _type;
+        set
+        {
+            if (value == _type) return;
+            var oldValue = _type;
+            _type = value;
+
+            UndoManager.AddUndoCommand(this, nameof(Type),oldValue,_type);
+            OnPropertyUpdated();
+        }
+    }
     public string SubType { get; set; }
     public List<string> TypeList
     {
@@ -95,8 +106,8 @@ public class ComponentModel : IComponentEdt
     private IArea _area;
     private int _sequenceNumber;
     private List<string> _typelist = new List<string>();
-    private string _nemaRating;
-    private string _areaClassification;
+    
+    private string _type;
 
     public IArea Area
     {
@@ -106,32 +117,46 @@ public class ComponentModel : IComponentEdt
             var oldValue = _area;
             _area = value;
             if (Area != null) {
+
+                UndoManager.CanAdd = false;
                 AreaManager.UpdateArea(this, _area, oldValue);
 
-                if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
-                    UndoManager.AddUndoCommand(cmd);
-                }
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
+
                 OnPropertyUpdated();
             }
 
         }
     }
+    private string _nemaRating;
     public string NemaRating
     {
         get => _nemaRating;
         set
         {
+            if (value == null) return;
+
+            var oldValue = _nemaRating;
             _nemaRating = value;
+
+            UndoManager.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
             OnPropertyUpdated();
         }
     }
+    private string _areaClassification;
+
     public string AreaClassification
     {
         get => _areaClassification;
         set
         {
+            if (value == null) return;
+
+            var oldValue = _areaClassification;
             _areaClassification = value;
+
+            UndoManager.AddUndoCommand(this, nameof(AreaClassification), oldValue, _areaClassification);
             OnPropertyUpdated();
         }
     }
@@ -183,7 +208,9 @@ public class ComponentModel : IComponentEdt
     {
         await Task.Run(() => {
             if (AreaChanged != null) {
+                UndoManager.CanAdd = false;
                 AreaChanged(this, EventArgs.Empty);
+                UndoManager.CanAdd = true;
             }
         });
     }
@@ -191,7 +218,9 @@ public class ComponentModel : IComponentEdt
     public void MatchOwnerArea(object source, EventArgs e)
     {
         IEquipment owner = (IEquipment)source;
-        AreaManager.UpdateArea(this, owner.Area, Area);
+        UndoManager.CanAdd = false;
+            AreaManager.UpdateArea(this, owner.Area, Area);
+        UndoManager.CanAdd = true;
         OnPropertyUpdated();
     }
 }

@@ -220,9 +220,16 @@ namespace EDTLibrary.LibraryData
             var vfdSize = new VfdHeatSize();
             var vfdList = new List<VfdHeatSize>();
 
-            vfdList = VfdHeatSizes.Where(v => v.Hp >= motorSize && v.Voltage == voltage).ToList();
-            vfdSize = vfdList.OrderBy(v => v.Hp).First();
+            try {
+                vfdList = VfdHeatSizes.Where(v => v.Hp >= motorSize && v.Voltage == voltage).ToList();
+                vfdSize = vfdList.OrderBy(v => v.Hp).First();
+                return vfdSize;
+            }
+            catch (System.Exception) {
+
+            }
             return vfdSize;
+
         }
 
     }

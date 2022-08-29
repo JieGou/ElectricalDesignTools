@@ -1,4 +1,5 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EDTLibrary.A_Helpers;
+using EDTLibrary.DataAccess;
 using EDTLibrary.Managers;
 using PropertyChanged;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Utilities;
 
 namespace EDTLibrary.UndoSystem;
@@ -40,25 +42,34 @@ public class UndoManager
 
     public static void AddUndoCommand(UndoCommandDetail command)
     {
-        if (IsUndoing == false &&
-            CanAdd == true &&
+        if (CanAdd == true && 
+            IsUndoing == false &&
             DaManager.Importing == false &&
             DaManager.GettingRecords == false &&
             command.NewValue != command.OldValue) {
-            UndoList.Add(command);
+            Application.Current.Dispatcher.BeginInvoke(new Action(() => UndoList.Add(command)));
+            ErrorHelper.LogNoSave("UndoHelper");
         }
     }
 
     public static void AddUndoCommand(object item, string propName, object oldValue, object newValue)
     {
-        if (IsUndoing == false &&
-            CanAdd == true &&
+        if (CanAdd == true &&
+            IsUndoing == false &&
             DaManager.Importing == false &&
             DaManager.GettingRecords == false &&
             newValue != oldValue) {
             var cmd = new UndoCommandDetail { Item = item, PropName = propName, OldValue = oldValue, NewValue = newValue };
-            UndoList.Add(cmd);
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() => UndoList.Add(cmd)));
+            ErrorHelper.LogNoSave("UndoHelper");
+
         }
+    }
+
+    public static void ClearUndoList()
+    {
+        UndoList.Clear();
     }
 }
 

@@ -35,4 +35,9 @@ public partial class DebugWindow : Window
     {
         EDTLibrary.ErrorManagement.ErrorHelper.SaveLog();
     }
+
+    private void btnClearUndo_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        UndoManager.ClearUndoList();
+    }
 }
