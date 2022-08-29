@@ -17,8 +17,17 @@
              >
 
     <UserControl.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="Margin" Value="0 5 0 0"/>
+        <Style TargetType="TextBlock" x:Key="Label">
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="5 5 0 0"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="Value">
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="5 5 0 0"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
         </Style>
     </UserControl.Resources>
     
@@ -40,18 +49,17 @@
         <!--Left Menu-->
         <StackPanel Orientation="Vertical"
                     Grid.Row="2" >
-            
             <TextBlock Text="Selected Equipment"
                        FontSize="16"
                        FontWeight="SemiBold"
                        Margin="0 0 0 10"/>
             
             <ListBox ItemsSource="{Binding ViewableDteqList}"
-                 Grid.Row="1" Grid.Column="1"
-                 SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 DisplayMemberPath="Tag"
-                 MinWidth="100" MinHeight="100"
-                 />
+                     Grid.Row="1" Grid.Column="1"
+                     SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     DisplayMemberPath="Tag"
+                     MinWidth="100" MinHeight="100"
+                     />
 
             <Button Content="Create Drawing"
                     Command="{Binding DrawSingleLineAcadCommand}"/>
@@ -68,6 +76,10 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -77,36 +89,125 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
 
-            <TextBlock Text="Tag:" Grid.Row="1" Grid.Column="1"/>
+            <!--Tag-->
+            <!--<TextBlock Text="Tag:"
+                       Grid.Row="1" Grid.Column="1"/>-->
             <TextBlock Text="{Binding SelectedDteq.Tag}" d:Text="MCC-01"
-                   Grid.Row="1" Grid.Column="3"
-                   FontWeight="SemiBold" />
+                       Grid.Row="1" Grid.Column="1"
+                       Grid.ColumnSpan="3"
+                       HorizontalAlignment="Left"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Margin="10"
+                       />
 
-            <TextBlock Text="Description:" Grid.Row="2" Grid.Column="1"/>
-            <TextBlock Text="{Binding SelectedDteq.Description}"  d:Text="Ultimo MCC"
+            <!--Description-->
+            <!--<TextBlock Text="{Binding SelectedDteq.Description}"  d:Text="Ultimo MCC"
+                       Grid.Row="1" Grid.Column="3"
+                       Grid.ColumnSpan="3"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Margin="30 10"
+                       MinWidth="250"/>-->
+
+            <!--Area-->
+            <TextBlock Text="Area:"
+                       Grid.Row="2" Grid.Column="1"
+                       Style="{StaticResource Label}"/>
+            <TextBlock Text="{Binding SelectedDteq.Area.Name}"  d:Text="On Site"
                        Grid.Row="2" Grid.Column="3"
-                       FontWeight="SemiBold"  />
+                       Style="{StaticResource Value}"  />
 
-            <TextBlock Text="Size:" Grid.Row="3" Grid.Column="1"/>
+            <!--Area Tag-->
+            <TextBlock Text="Area Tag:"
+                       Grid.Row="3" Grid.Column="1"
+                       Style="{StaticResource Label}"/>
+            <TextBlock Text="{Binding SelectedDteq.Area.Tag}"  d:Text="On Site"
+                       Grid.Row="3" Grid.Column="3"
+                       Style="{StaticResource Value}"  />
+
             
-            <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="3">
+            <!--Fed From-->
+            <TextBlock Text="Fed From:" 
+                       Grid.Row="4" Grid.Column="1"
+                       Style="{StaticResource Label}"/>
+            <TextBlock Text="{Binding SelectedDteq.FedFrom.Tag}"  d:Text="SWG-01"
+                       Grid.Row="4" Grid.Column="3"
+                       Style="{StaticResource Value}"  />
+
+            <!--SCCR-->
+            <TextBlock Text="SCCR" 
+                       Grid.Row="5" Grid.Column="1"
+                       Style="{StaticResource Label}"/>
+            <TextBlock Text="{Binding SelectedDteq.SCCR, StringFormat=\{0:N0\} kA}"  d:Text="SWG-01"
+                       Grid.Row="5" Grid.Column="3"
+                       Style="{StaticResource Value}"  />
+
+
+
+
+
+            <!--Column 2-->
+            
+            <!--Size-->
+            <TextBlock Text="Size:"
+                       Grid.Row="2" Grid.Column="5"
+                       Style="{StaticResource Label}"/>
+            <StackPanel Orientation="Horizontal" 
+                        Grid.Row="2" Grid.Column="7">
                 <TextBlock Text="{Binding SelectedDteq.Size}"  d:Text="2000"
-                           Grid.Row="3" Grid.Column="3"
-                           FontWeight="SemiBold"  />
-                <TextBlock Text="   "/>
-                <TextBlock Text="{Binding Unit}" d:Text="A"/>
+                           Grid.Row="4" Grid.Column="3"
+                           Style="{StaticResource Value}"  />
+                <TextBlock Text="{Binding SelectedDteq.Unit}" d:Text="A"
+                           Style="{StaticResource Value}"  />
             </StackPanel>
             
-            <TextBlock Text="Fed From:" Grid.Row="1" Grid.Column="5"/>
-            <TextBlock Text="{Binding SelectedDteq.FedFrom.Tag}"  d:Text="SWG-01"
-                       Grid.Row="1" Grid.Column="7"
-                       FontSize="12"  FontWeight="SemiBold"  />
+            
+            <TextBlock Text="Line Voltage:" 
+                       Grid.Row="3" Grid.Column="5"
+                       Style="{StaticResource Label}"/>
+            <TextBlock Text="{Binding SelectedDteq.LineVoltage, StringFormat=\{0:N0\} V}"  d:Text="600 V"
+                       Grid.Row="3" Grid.Column="7"
+                       Style="{StaticResource Value}"  />
+            
+            <TextBlock Text="Motor Voltage:" 
+                       Grid.Row="4" Grid.Column="5"
+                       Style="{StaticResource Label}"/>
+            <TextBlock Text="{Binding SelectedDteq.LoadVoltage, StringFormat=\{0:N0\} V}"  d:Text="575 V"
+                       Grid.Row="4" Grid.Column="7"
+                       Style="{StaticResource Value}"  />
+
+            <!--Column 3-->
+
+            <!--Size-->
+            <TextBlock Text="Running Amps:"
+                       Grid.Row="2" Grid.Column="9"
+                       Style="{StaticResource Label}"/>
+            <TextBlock Text="{Binding SelectedDteq.RunningAmps, StringFormat=\{0:N1\} A}"  d:Text="2000"
+                        Grid.Row="2" Grid.Column="11"
+                        Style="{StaticResource Value}"  />
 
 
+            <TextBlock Text="Available Amps:"
+                       Grid.Row="3" Grid.Column="9"
+                       Style="{StaticResource Label}"/>
+            <TextBlock Text="{Binding SelectedDteq.Size, StringFormat=\{0:N0\} A}"  d:Text="2000 "
+                        Grid.Row="3" Grid.Column="11"
+                        Style="{StaticResource Value}"  />
+
+            <TextBlock Text="Percent Loaded:" 
+                       Grid.Row="4" Grid.Column="9"
+                       Style="{StaticResource Label}"/>
+            <TextBlock Text="{Binding SelectedDteq.PercentLoaded, StringFormat=\{0:N0\} %}"  d:Text="575 V"
+                       Grid.Row="4" Grid.Column="11"
+                       Style="{StaticResource Value}"  />
         </Grid>
 
         <!--Sinlge Line-->
@@ -115,6 +216,7 @@
                 Grid.Row="2" Grid.Column="2"
                 VerticalAlignment="Bottom"
                 Height="685"
+                CornerRadius="5"
                 >
             <ScrollViewer Grid.Row="1" Grid.Column="2"
                       Grid.RowSpan="2"

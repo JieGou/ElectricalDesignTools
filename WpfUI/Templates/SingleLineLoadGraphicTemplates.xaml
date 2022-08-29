@@ -12,13 +12,13 @@
 
     </Style>
 
-    <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.5"/>
+    <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.3"/>
 
     <!--Grid Style-->
     <Style TargetType="Grid" x:Key="GraphicHighlightStyle">
         <Style.Triggers>
             <Trigger Property="Grid.IsMouseOver" Value="True">
-
+            
             </Trigger>
         </Style.Triggers>
 
@@ -26,9 +26,14 @@
 
             <Style TargetType="TextBlock">
                 <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="Black"/>
+
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
-                        <!--<Setter Property="Background" Value="{StaticResource WhiteHighlightBrush}"/>-->
+                        <!--<Setter Property="Foreground" Value="Blue"/>-->
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
+                        <!--<Setter Property="Foreground" Value="Blue"/>-->
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -39,6 +44,7 @@
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
                         <Setter Property="Background" Value="{StaticResource WhiteHighlightBrush}"/>
+                        <Setter Property="BorderBrush" Value="Blue"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
@@ -66,7 +72,7 @@
                         Grid.Column="1">
                     
                     <Canvas Grid.Column="1"
-                                Width="35" Height="90">
+                            Width="35" Height="90">
                         <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
                         <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
                         <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
@@ -91,7 +97,7 @@
                         <StackPanel Orientation="Vertical"
                                 Grid.Row="1">
                             <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" />
-                            <Border BorderBrush="Black" BorderThickness="0 0 0 1"/>
+                            <Border BorderThickness="0 0 0 1"/>
                             <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
                         </StackPanel>
                     </Grid>
@@ -145,7 +151,7 @@
                         <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
 
                         <!--Overload-->
-                        <Border BorderBrush="Black" BorderThickness="1" 
+                        <Border BorderThickness="1" 
                             Canvas.Left="0" Canvas.Top="45" Width="27" Height="15">
                             <TextBlock Text="O/L" HorizontalAlignment="Center" VerticalAlignment="Center"
                                        Margin="0 0 0 1"/>
@@ -244,24 +250,24 @@
             </Grid.RowDefinitions>
 
 
-            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center"
-                            Grid.Row="0" Grid.Column="1"
-                            Width="50.5" Height="50">
+            <Border BorderThickness="1" HorizontalAlignment="Center"
+                    Grid.Row="0" Grid.Column="1"
+                    Width="50.5" Height="50">
                 <TextBlock Text="VSD"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
             </Border>
 
             <!--Delete this border when enabling additional tags to allow expanding-->
             <Border Grid.Row="0" Grid.Column="2"
-                             Grid.RowSpan="2">
+                    Grid.RowSpan="2">
                 <StackPanel Orientation="Vertical"
-                                VerticalAlignment="Top">
+                            VerticalAlignment="Top">
                     <TextBlock Text="{Binding Tag}" Margin="5 0 0 0" FontWeight="SemiBold"  />
                     <TextBlock Text="{Binding Type}" Margin="5 0 0 0"/>
                     <!--Area Properties-->
                     <StackPanel Orientation="Horizontal" 
-                                        Visibility="Visible">
+                                Visibility="Visible">
                         <TextBlock Text="" Margin="5 0 0 0"/>
                         <TextBlock Text="{Binding NemaRating}"/>
                         <TextBlock Text=", " Margin="0 0 0 0"/>
@@ -288,10 +294,10 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-            <Border BorderBrush="Black" BorderThickness="0 0 1 0" HorizontalAlignment="Center"
-                            Grid.Row="2" Grid.Column="1"
-                            Margin="1 0 0 0"
-                            Height="{Binding ActualHeight, ElementName=extraDetails}">
+            <Border BorderThickness="0 0 1 0" HorizontalAlignment="Center"
+                    Grid.Row="2" Grid.Column="1"
+                    Margin="1 0 0 0"
+                    Height="{Binding ActualHeight, ElementName=extraDetails}">
             </Border>
         </Grid>
     </DataTemplate>
@@ -311,7 +317,8 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center"
+            
+            <Border BorderThickness="1" HorizontalAlignment="Center"
                             Grid.Row="0" Grid.Column="1"
                             Width="40" Height="55">
                 <Canvas Grid.Column="1" Width="50" Height="55">
@@ -325,19 +332,19 @@
             </Border>
 
             <Border Grid.Row="0" Grid.Column="2"
-                            Grid.RowSpan="2">
+                    Grid.RowSpan="2">
                 <StackPanel Orientation="Vertical"
-                                VerticalAlignment="Top">
+                            VerticalAlignment="Top">
                     <TextBlock Text="{Binding Tag}"
-                                   FontWeight="SemiBold"
-                                   Grid.Column="2"
-                                   Margin="5 0 0 0"/>
+                                FontWeight="SemiBold"
+                                Grid.Column="2"
+                                Margin="5 0 0 0"/>
                     <TextBlock Text="{Binding Size, StringFormat={}{0:N0} A}"
-                                   Grid.Column="2"
-                                   Margin="5 0 0 0"/>
+                                Grid.Column="2"
+                                Margin="5 0 0 0"/>
                     <!--Area Properties-->
                     <StackPanel Orientation="Horizontal" 
-                                        Visibility="Visible">
+                                Visibility="Visible">
                         <TextBlock Text="" Margin="5 0 0 0"/>
                         <TextBlock Text="{Binding NemaRating}"/>
                         <TextBlock Text=", " Margin="0 0 0 0"/>
@@ -346,7 +353,7 @@
 
                     <!--Extra Details-->
                     <StackPanel x:Name="extraDetails"
-                                    Orientation="Vertical">
+                                Orientation="Vertical">
                         <!--Area Tag-->
                         <TextBlock Text="{Binding Area.Tag}"
                                    FontWeight="SemiBold"
@@ -355,7 +362,7 @@
                                    Visibility="Collapsed"/>
                         <!--Area Properties-->
                         <StackPanel Orientation="Horizontal" 
-                                        Visibility="Collapsed">
+                                    Visibility="Collapsed">
                             <TextBlock Text="" Margin="5 0 0 0"/>
                             <TextBlock Text="{Binding NemaRating}"/>
                             <TextBlock Text=", " Margin="0 0 0 0"/>
@@ -364,10 +371,10 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-            <Border BorderBrush="Black" BorderThickness="0 0 1 0" HorizontalAlignment="Center"
-                            Grid.Row="2" Grid.Column="1"
-                            Margin="1 0 0 0"
-                            Height="{Binding ActualHeight, ElementName=extraDetails}">
+            <Border BorderThickness="0 0 1 0" HorizontalAlignment="Center"
+                    Grid.Row="2" Grid.Column="1"
+                    Margin="1 0 0 0"
+                    Height="{Binding ActualHeight, ElementName=extraDetails}">
             </Border>
         </Grid>
     </DataTemplate>
@@ -386,37 +393,37 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <!--Delete this border when enabling additional tags to allow expanding-->
-            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center"
-                            Grid.Row="0" Grid.Column="1"
-                            Width="40" Height="55">
+            <Border BorderThickness="1" HorizontalAlignment="Center"
+                    Grid.Row="0" Grid.Column="1"
+                    Width="40" Height="55">
 
                 <Canvas Grid.Column="1" Width="50" Height="55">
                     <Line X1="20" X2="20" Y1="0" Y2="7.5"
-                                  Stroke="Black" StrokeThickness="1"/>
+                          Stroke="Black" StrokeThickness="1"/>
                     <Line X1="10" X2="20" Y1="7.5" Y2="18"
-                                  Stroke="Black" StrokeThickness="1"/>
+                          Stroke="Black" StrokeThickness="1"/>
                     <Line X1="20" X2="20" Y1="18" Y2="25"
-                                  Stroke="Black" StrokeThickness="1"/>
+                          Stroke="Black" StrokeThickness="1"/>
                     <Rectangle Width="10.5" Height="20"
-                                       Canvas.Left="14.5" Canvas.Top="25"
-                                       Stroke="Black" StrokeThickness="1"/>
+                                Canvas.Left="14.5" Canvas.Top="25"
+                                Stroke="Black" StrokeThickness="1"/>
                     <Line X1="20" X2="20" Y1="45" Y2="55"
-                                  Stroke="Black" StrokeThickness="1"/>
+                          Stroke="Black" StrokeThickness="1"/>
                 </Canvas>
             </Border>
 
             <Border Grid.Row="0" Grid.Column="2"
-                            Grid.RowSpan="2">
+                    Grid.RowSpan="2">
                 <StackPanel Orientation="Vertical"
-                                VerticalAlignment="Top">
+                            VerticalAlignment="Top">
                     <TextBlock Text="{Binding Tag}"
-                                   FontWeight="SemiBold"
-                                   Margin="5 0 0 0"/>
+                                FontWeight="SemiBold"
+                                Margin="5 0 0 0"/>
                     <TextBlock Text="{Binding Size, StringFormat={}{0:N0} A}"
-                                   Margin="5 0 0 0"/>
+                                Margin="5 0 0 0"/>
                     <!--Area Properties-->
                     <StackPanel Orientation="Horizontal" 
-                                        Visibility="Visible">
+                                Visibility="Visible">
                         <TextBlock Text="" Margin="5 0 0 0"/>
                         <TextBlock Text="{Binding NemaRating}"/>
                         <TextBlock Text=", " Margin="0 0 0 0"/>
@@ -425,7 +432,7 @@
 
                     <!--Extra Details-->
                     <StackPanel x:Name="extraDetails"
-                                    Orientation="Vertical">
+                                Orientation="Vertical">
                         <!--Area Tag-->
                         <TextBlock Text="{Binding Area.Tag}"
                                    FontWeight="SemiBold"
@@ -433,7 +440,7 @@
                                    Visibility="Collapsed"/>
                         <!--Area Properties-->
                         <StackPanel Orientation="Horizontal" 
-                                            Visibility="Collapsed">
+                                    Visibility="Collapsed">
                             <TextBlock Text="" Margin="5 0 0 0"/>
                             <TextBlock Text="{Binding NemaRating}"/>
                             <TextBlock Text=", " Margin="0 0 0 0"/>
@@ -442,10 +449,10 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-            <Border BorderBrush="Black" BorderThickness="0 0 1 0" HorizontalAlignment="Center"
-                            Grid.Row="2" Grid.Column="1"
-                            Margin="0 0 1 0"
-                            Height="{Binding ActualHeight, ElementName=extraDetails}">
+            <Border BorderThickness="0 0 1 0" HorizontalAlignment="Center"
+                    Grid.Row="2" Grid.Column="1"
+                    Margin="0 0 1 0"
+                    Height="{Binding ActualHeight, ElementName=extraDetails}">
             </Border>
         </Grid>
     </DataTemplate>
@@ -516,7 +523,7 @@
             <StackPanel Orientation="Horizontal">
 
                 <!--Graphic-->
-                <Border BorderBrush="Black" BorderThickness="2" 
+                <Border BorderThickness="2" 
                         Width="50"
                         Height="50"
                         CornerRadius="50"
@@ -565,7 +572,7 @@
             <StackPanel Orientation="Horizontal">
 
                 <!--Graphic-->
-                <Border BorderBrush="Black" BorderThickness="2" 
+                <Border BorderThickness="2" 
                         Width="50"
                         Height="50"
                         HorizontalAlignment="Left"

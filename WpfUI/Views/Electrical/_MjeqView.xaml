@@ -613,7 +613,7 @@
                                                  SortMemberPath="LineVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding LineVoltage, Mode=TwoWay, StringFormat=\{0:N0\}, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    <TextBlock Text="{Binding LineVoltage, Mode=TwoWay, StringFormat=\{0:N0\} V, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                MouseLeftButtonDown="FastEditEvent"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -642,7 +642,7 @@
                                                 SortMemberPath="LoadVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding LoadVoltage, Mode=TwoWay, StringFormat=\{0:N0\}, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    <TextBlock Text="{Binding LoadVoltage, Mode=TwoWay, StringFormat=\{0:N0\} V, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                MouseLeftButtonDown="FastEditEvent"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -1427,7 +1427,8 @@
                                                Width="75"
                                                AllowEditing="True"
                                                AllowFiltering="True"
-                                               ItemsSource="{Binding Path=DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               ItemsSource="{Binding Path=DataContext.TypeManager.VoltageTypes, 
+                                                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                DisplayMemberPath="Voltage"
                                                SelectedValuePath="Voltage"
                                                UseBindingValue="True"
@@ -1440,7 +1441,8 @@
                                                >
                             <sf:GridComboBoxColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    <TextBlock Text="{Binding Voltage, StringFormat=\{0:N0\} V,
+                                                              Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
                                                TextAlignment="Center"/>
                                 </DataTemplate>
                             </sf:GridComboBoxColumn.CellTemplate>
