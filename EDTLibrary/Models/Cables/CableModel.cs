@@ -65,7 +65,12 @@ public class CableModel : ICable
                 voltage = (TypeModel.VoltageClass / 1000).ToString() + "kV";
             }
             return $"{TypeModel.ConductorQty}C-#{Size}-{TypeModel.SubType}-{voltage}"; }
-        set { _sizeTag = value; }
+        set 
+        {
+            var oldValue = _sizeTag;
+            _sizeTag = value;
+            UndoManager.AddUndoCommand(this, nameof(SizeTag), oldValue, _sizeTag);
+        }
     }
 
     public string Category { get; set; }
@@ -122,9 +127,9 @@ public class CableModel : ICable
 
             Is1C = _type.Contains("1C") ? true : false;
 
-            var cmd = new UndoCommandDetail { Item = this, PropName = nameof(TypeModel), OldValue = oldValue, NewValue = _typeModel };
-            UndoManager.AddUndoCommand(cmd);
-            
+            UndoManager.AddUndoCommand(this, nameof(TypeModel), oldValue, _typeModel);
+
+
             if (DaManager.GettingRecords == false) {
                 if (UsageType==CableUsageTypes.Power.ToString()) {
                     SetTypeProperties();
@@ -186,11 +191,6 @@ public class CableModel : ICable
             var oldValue = _size;
             _size = value;
 
-            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
-                UndoManager.AddUndoCommand(cmd);
-            }
-
             UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
             OnPropertyUpdated();
         }
@@ -207,9 +207,12 @@ public class CableModel : ICable
         get { return _spacing; }
         set
         {
+            if (value == _spacing) return;
+
             var oldValue = _spacing;
             _spacing = value;
 
+            UndoManager.Lock(this, nameof(Spacing));
             if (DaManager.GettingRecords == false) {
                 _calculating = true;
                 Derating = CableManager.CableSizer.SetDerating(this);
@@ -400,6 +403,9 @@ public class CableModel : ICable
             }
         }
     }
+    /// <summary>
+    /// Sets VoltageClass, ConductorQty, AmpacityTable
+    /// </summary>
     public void SetTypeProperties()
     {
         if (UsageType==CableUsageTypes.Power.ToString()) {

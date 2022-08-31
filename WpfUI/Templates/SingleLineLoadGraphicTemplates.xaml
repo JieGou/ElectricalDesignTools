@@ -253,7 +253,7 @@
             <Border BorderThickness="1" HorizontalAlignment="Center"
                     Grid.Row="0" Grid.Column="1"
                     Width="50.5" Height="50">
-                <TextBlock Text="VSD"
+                <TextBlock Text="{Binding Type}"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"/>
             </Border>

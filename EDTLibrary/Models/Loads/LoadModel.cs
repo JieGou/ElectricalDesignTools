@@ -105,7 +105,6 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 if (value == _description) return;
-                if (string.IsNullOrEmpty(value.ToString())) return;
                 var oldValue = _description;
                 _description = value;
 
@@ -136,6 +135,8 @@ namespace EDTLibrary.Models.Loads
                 _area = value;
 
                 UndoManager.CanAdd = false;
+                UndoManager.Lock(this, nameof(Area));
+
                 {
                     AreaManager.UpdateArea(this, _area, oldValue);
 
@@ -259,6 +260,8 @@ namespace EDTLibrary.Models.Loads
                 _fedFrom = value;
 
                 UndoManager.CanAdd = false;
+                UndoManager.Lock(this, nameof(FedFrom));
+
                 if (DaManager.GettingRecords == false) {
                     DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
@@ -349,6 +352,46 @@ namespace EDTLibrary.Models.Loads
 
 
         //Components
+        public IComponentEdt Disconnect
+        {
+            get;
+            set;
+        }
+
+        private bool _disconnectBool;
+        public bool DisconnectBool
+        {
+            get { return _disconnectBool; }
+            set
+            {
+                var oldValue = _disconnectBool;
+                _disconnectBool = value;
+
+                UndoManager.Lock(this, nameof(DisconnectBool));
+                if (DaManager.GettingRecords == false) {
+                    if (_disconnectBool == true) {
+                        ComponentManager.AddDefaultDisconnect(this, ScenarioManager.ListManager);
+                    }
+                    else if (_disconnectBool == false) {
+                        ComponentManager.RemoveDefaultDisconnect(this, ScenarioManager.ListManager);
+                    }
+                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                    //OnCctComponentChanged();
+                }
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(DisconnectBool), oldValue, _disconnectBool);
+
+                OnPropertyUpdated();
+
+            }
+        }
+
+        private int _disconnectId;
+        public int DisconnectId
+        {
+            get { return _disconnectId; }
+            set { _disconnectId = value; }
+        }
 
         public ILocalControlStation Lcs { get; set; }
         private bool _lcsBool;
@@ -421,49 +464,9 @@ namespace EDTLibrary.Models.Loads
         }
 
 
-        public IComponentEdt Disconnect
-        {
-            get;
-            set;
-        }
+       
 
-        private bool _disconnectBool;
-        public bool DisconnectBool
-        {
-            get { return _disconnectBool; }
-            set
-            {
-                var oldValue = _disconnectBool;
-                _disconnectBool = value;
-
-                UndoManager.CanAdd = false;
-                if (DaManager.GettingRecords == false) {
-                    if (_disconnectBool == true) {
-                        ComponentManager.AddDefaultDisconnect(this, ScenarioManager.ListManager);
-                    }
-                    else if (_disconnectBool == false) {
-                        ComponentManager.RemoveDefaultDisconnect(this, ScenarioManager.ListManager);
-                    }
-                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
-                    //OnCctComponentChanged();
-                }
-                UndoManager.CanAdd = true;
-
-                UndoManager.AddUndoCommand(this, nameof(DisconnectBool), oldValue, _disconnectBool);
-
-                OnPropertyUpdated();
-
-            }
-        }
-
-        private int _disconnectId;
         private BreakerSize _breakerSize;
-
-        public int DisconnectId
-        {
-            get { return _disconnectId; }
-            set { _disconnectId = value; }
-        }
 
         public bool IsCalculating { get; set; }
         //Methods

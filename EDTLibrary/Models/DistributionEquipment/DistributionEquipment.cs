@@ -131,7 +131,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var oldValue = _area;
                 _area = value;
                 UndoManager.CanAdd = false;
-
+                UndoManager.Lock(this, nameof(Area));
                 if (Area != null) {
                     AreaManager.UpdateArea(this, _area, oldValue);
 
@@ -142,7 +142,6 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                     OnAreaChanged();
                     UndoManager.CanAdd = true;
-
                     UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
 
                     OnPropertyUpdated(nameof(Area) + ": " + Area.ToString());

@@ -11,26 +11,18 @@ using WpfUI.Services;
 namespace WpfUI.ViewModels.Home;
 
 [Serializable()]
-public class PreviousProject
+public class PreviousProjectDto
 {
     public string FileName { get; set; }
     public string FilePath { get; set; }
     public string Project { get; }
 
-    public PreviousProject(StartupService startupService, string project)
+    public PreviousProjectDto(string project)
     {
-        _startupService = startupService;
         Project = project;
         FileName = Path.GetFileName(project);
         FilePath = Path.GetFullPath(project);
 
     }
-
-    private readonly StartupService _startupService;
-
-    public void OpenProject()
-    {
-        _startupService.InitializeProject(Project);
-        _startupService.SetSelectedProject(Project);
-    }
+   
 }

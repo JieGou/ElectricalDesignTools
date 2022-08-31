@@ -7,6 +7,7 @@ using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using WpfUI.Helpers;
@@ -20,6 +21,9 @@ namespace WpfUI.Services
         public string LibraryFile { get; set; }
         public string ProjectFileName { get; set; }
         public string ProjectFilePath { get; set; }
+
+        public ObservableCollection<PreviousProject> PreviousProjects { get; set; }
+
 
         Environment.SpecialFolder _appDataFolder = Environment.SpecialFolder.ApplicationData;
         private string _edtFolder = "\\Electrical Design Tools\\";
@@ -61,7 +65,6 @@ namespace WpfUI.Services
 
         public static SQLiteConnector prjDb { get; set; }
         public static SQLiteConnector libDb { get; set; }
-        public ObservableCollection<PreviousProject> PreviousProjects { get; set; }
 
         public void InitializeLibrary()
         {
@@ -89,8 +92,8 @@ namespace WpfUI.Services
                 AppSettings.Default.Save();
                 ProjectFileName = Path.GetFileName(selectedProject);
                 ProjectFilePath = Path.GetDirectoryName(selectedProject);
+                UpdatePreviousProjects(selectedProject);
             }
-            UpdatePreviousProjects(selectedProject);
         }
 
         private void UpdatePreviousProjects(string selectedProject)
@@ -99,7 +102,7 @@ namespace WpfUI.Services
 
             foreach (var previousProject in PreviousProjects) {
                 tempList.Add(previousProject);
-                if (selectedProject == previousProject.FullPath) {
+                if (selectedProject == previousProject.Project) {
                     tempList.Remove(previousProject);
                 }               
             }
@@ -128,6 +131,8 @@ namespace WpfUI.Services
                         "File Not Found", 
                         MessageBoxButton.OK, 
                         MessageBoxImage.Exclamation);
+                    var project = PreviousProjects.FirstOrDefault(p => p.Project == projectFile);
+                    PreviousProjects.Remove(project);
                 }
             }
             catch (Exception ex) {

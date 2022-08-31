@@ -43,10 +43,8 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               Opacity="0" Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <!--Buttons-->
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="*"/>
-            <!--Wrap Panel-->
 
         </Grid.ColumnDefinitions>
 
@@ -81,7 +79,6 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       HorizontalScrollBarVisibility="Auto">
 
             <WrapPanel VerticalAlignment="Top"
-                       ScrollViewer.VerticalScrollBarVisibility="Auto"
                        MinWidth="250" 
                        Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
 
@@ -90,7 +87,8 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                       HeaderBackground="{StaticResource Dark}"
                                       HeaderForeGround="White"
                                       ContentBackground="{StaticResource Background}" 
-                                      Margin="25 0 25 25" >
+                                      Margin="25 0 25 25" 
+                                      >
 
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
@@ -508,6 +506,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 </Grid>
                 </controls:EdtGroupBox>
         </WrapPanel>
+            
         </ScrollViewer>
     </Grid>
 

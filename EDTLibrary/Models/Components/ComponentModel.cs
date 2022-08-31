@@ -121,10 +121,8 @@ public class ComponentModel : IComponentEdt
             _area = value;
             if (Area != null) {
 
-                UndoManager.CanAdd = false;
+                UndoManager.Lock(this, nameof(Area));
                 AreaManager.UpdateArea(this, _area, oldValue);
-
-                UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
 
                 OnPropertyUpdated();

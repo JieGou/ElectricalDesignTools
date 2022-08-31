@@ -19,41 +19,10 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Blue.xaml"/>
+                <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
-
-            <!--Group Box Template-->
-            
-            <!--<ControlTemplate TargetType="GroupBox" x:Key="EdtGroupBoxTemplate">
-                <Grid Background="{StaticResource Background}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Border Grid.Row="0"
-                            BorderThickness="1"
-                            BorderBrush="Black"
-                            Background="{StaticResource Dark}">
-                        <Label Foreground="White"
-                               FontSize="14"
-                               FontWeight="SemiBold">
-                            <ContentPresenter Margin="0"
-                                              ContentSource="Header"
-                                              RecognizesAccessKey="True" />
-                        </Label>
-                    </Border>
-
-                    <Border Grid.Row="1"
-                            BorderThickness="1,0,1,1"
-                            BorderBrush="Black">
-                        <ContentPresenter Margin="10" />
-                    </Border>
-
-                </Grid>
-            </ControlTemplate>-->
 
             <projectSettings:EdtSettings x:Key="edtSettings"/>
 
@@ -62,8 +31,6 @@
                     <PropertyGroupDescription PropertyName="Category" />
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
-
-            <sys:Int32 x:Key="col1">1</sys:Int32>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -110,7 +77,6 @@
                       VerticalScrollBarVisibility="Auto">
 
             <WrapPanel Grid.Row="2" Grid.Column="2"
-                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                    MinWidth="250" 
                    Width="{Binding ElementName=MyScrollViewer, Path=ViewportWidth}">
 

@@ -18,6 +18,8 @@ using MahApps.Metro.Controls;
 using EDTLibrary.Managers;
 using System.Collections.ObjectModel;
 using WpfUI.ViewModels.Home;
+using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace WpfUI;
 
@@ -29,8 +31,8 @@ namespace WpfUI;
 public partial class MainWindow : MetroWindow
 {
     public ObservableCollection<PreviousProject> PreviousProjects { get; set; } = new ObservableCollection<PreviousProject>();
-
     private MainViewModel mainVm { get { return DataContext as MainViewModel; } }
+
     public MainWindow()
     {
         InitializeComponent();
@@ -38,19 +40,24 @@ public partial class MainWindow : MetroWindow
         string[] args = Environment.GetCommandLineArgs();
 
         if (args[0] != "") {
-            //MessageBox.Show(args[0]);
+            
         }
 
-        //mainVm.StartupService.SelectProject("C:\\Users\\pdeau\\Desktop\\test.edp");
-        //StartupService ssTest = new StartupService(new ListManager());
-        //ssTest.SetSelectedProject("C:\\Users\\pdeau\\Desktop\\test.edp");
+#if DEBUG
+        //args = new string[2];
+        //args[0] = "C:\\C - Visual Studio Projects\\ElectricalDesignTools\\WpfUI\\bin\\Debug\\net6.0-windows10.0.22000.0\\Electrical Design Tools.dll";
+        //args[1] = @"C:\Users\pdeau\Desktop\asdf.edp";
 
+#endif
+
+        //File Open
         if (args.Length >= 2) {
             //MessageBox.Show(args[1]);
 
             try {
                 if ((args[1]).Contains(".edp") && File.Exists(args[1])) {
                     string fullFilePath = args[1];
+
                     StartupService ss = new StartupService(new ListManager(), PreviousProjects);
                     ss.SetSelectedProject(fullFilePath);
                 }
@@ -71,7 +78,11 @@ public partial class MainWindow : MetroWindow
             if (e.Key == Key.D) {
                 if (debugWindow == null || debugWindow.IsLoaded == false) {
                     debugWindow = new DebugWindow();
+                    //debugWindow.Owner = this;
                     debugWindow.Show();
+                }
+                else {
+                    debugWindow.Focus();
                 }
                 e.Handled = true;
             }
@@ -134,6 +145,33 @@ public partial class MainWindow : MetroWindow
         //mainVm._settingsViewModel.SelectedSettingView = new GeneralSettingsView();
         //mainVm._settingsViewModel.SelectedSettingView.DataContext = mainVm.CurrentViewModel;
 
+
+    }
+
+    private void winMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+        if (debugWindow!= null) {
+            debugWindow.Close();
+
+        }
+
+        try {
+            //Create Recent Projects DTO List
+            var ppDtos = new ObservableCollection<PreviousProjectDto>();
+            foreach (var item in mainVm.StartupService.PreviousProjects) {
+                ppDtos.Add(new PreviousProjectDto(item.Project));
+            }
+
+
+            //Serialize Recent Projects DTOs
+            using (Stream stream = File.Open("RecentProjects.bin", FileMode.Create)) {
+                BinaryFormatter bin = new BinaryFormatter();
+                bin.Serialize(stream, ppDtos);
+            }
+        }
+
+        catch (IOException) {
+        }
 
     }
 }

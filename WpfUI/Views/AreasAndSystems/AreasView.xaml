@@ -11,7 +11,7 @@
         xmlns:commands="clr-namespace:WpfUI.Commands"
         xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
         mc:Ignorable="d"
-             d:Width="1600" d:Height="800"
+             d:Width="1800" d:Height="800"
         Background="#FFCCEDE4">
 
     <UserControl.Resources>
@@ -31,15 +31,6 @@
             </Style>
 
             <!--Add Columns-->
-            <sys:Int32 x:Key="Tag">1</sys:Int32>
-            <sys:Int32 x:Key="DisplayTag">2</sys:Int32>
-            <sys:Int32 x:Key="Name">3</sys:Int32>
-            <sys:Int32 x:Key="Description">4</sys:Int32>
-            <sys:Int32 x:Key="AreaCategory">5</sys:Int32>
-            <sys:Int32 x:Key="AreaClass">6</sys:Int32>
-            <sys:Int32 x:Key="MinTemp">7</sys:Int32>
-            <sys:Int32 x:Key="MaxTemp">8</sys:Int32>
-            <sys:Int32 x:Key="Nema">9</sys:Int32>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -47,27 +38,28 @@
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="10"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <!--Page Title-->
         <TextBlock Text="Areas"
                        Grid.Row="0"
-                       Grid.RowSpan="2"
                        Style="{StaticResource PageTitleStyle}"/>
 
 
-        <Grid Grid.Row="2"
+        <!--<ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Auto">-->
+
+        <Grid Grid.Row="1"
               x:Name="areasGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="80*"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="5"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
@@ -106,6 +98,7 @@
                         Command="{Binding SaveAreasCommand}"/>
 
                 <Button Name ="btnDelete" Content="Delete Selected"
+                        Style="{StaticResource RedButton}"
                         Command="{Binding DeleteAreaCommand}"
                         CommandParameter="{Binding SelectedArea}"/>
 
@@ -114,9 +107,9 @@
             <Button Name ="btnAdd" Content="Add Area" 
                     Grid.Column="3" Grid.Row="3"
                     HorizontalAlignment="Left"
-                    Margin="10"
+                    Margin="10,10,0,10"
                     Command="{Binding AddAreaCommand}"
-                    CommandParameter="{Binding AreaToAddValidator}"/>
+                    CommandParameter="{Binding AreaToAddValidator}" Width="100"/>
 
 
             <!--***************-->
@@ -129,10 +122,10 @@
             <!--***************-->
 
 
-            <!--LOCATION Datagrid-->
-            <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Vertical">
+            <!--AREA DATAGRID-->
 
-                <DataGrid x:Name="dgdAreas" RowDetailsVisibilityMode="Collapsed"                      
+            <DataGrid x:Name="dgdAreas" RowDetailsVisibilityMode="Collapsed"  
+                          Grid.Column="3" Grid.Row="1" 
                           MinHeight="200" Margin="10 10 10 10"
                           ItemsSource="{Binding Path=ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
@@ -326,81 +319,76 @@
                     </DataGrid.RowValidationRules>
                 </DataGrid>
 
-            </StackPanel>
 
+            <!--ZONE AND NEMA DETAILs-->
+            <DockPanel Grid.Row="1" Grid.Column="4" Grid.RowSpan="5" Grid.ColumnSpan="2"
+                       Margin="0 0 0 25">
+                
+                 <!--Title-->  
+                <Border BorderBrush="Black" BorderThickness="1"
+                        DockPanel.Dock="Top"
+                        Grid.Row="0" 
+                        Grid.Column="4" Grid.ColumnSpan="2">
 
-            <Grid Grid.Row="1" Grid.Column="4" Grid.RowSpan="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
+                    <TextBlock Text="Zone and Nema Descriptions"
+                               Margin="5"
+                               FontSize="14"
+                               FontWeight="SemiBold"/>
+                </Border>
+
+                <!--Content-->
+                <Border BorderBrush="DarkGray" BorderThickness="1 0 1 1"
+                    Grid.Row="1" Grid.Column="4" Grid.RowSpan="5" Grid.ColumnSpan="2">
+                    <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Area Classifications"
-                           Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
+
+                    
+
+                    <TextBlock Text="Area Classifications"
+                           Grid.Row="1" 
+                           Grid.Column="1" Grid.ColumnSpan="2"
                            Margin="10 10 0 0"
                            FontWeight="SemiBold"/>
 
                 <ListBox x:Name="lstAreaClassification" 
-                         Grid.Row="2" Grid.Column="1"
-                         d:MinWidth="100" d:MinHeight="200"
+                         Grid.Row="2" 
+                         Grid.Column="1"
+                         d:MinWidth="100" 
+                         MaxHeight="250" d:MinHeight="200"
+                         VerticalAlignment="Top"
                          ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications,
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type Window}}}"
-                         DisplayMemberPath="Zone" PreviewMouseDown="lstAreaClassification_PreviewMouseDown"
-                         />
-                <TextBlock Text="{Binding ElementName=lstAreaClassification, Path=SelectedItem.ZoneDescription}"
-                           d:Text="" 
-                           Grid.Row="2" Grid.Column="2"
-                           MaxWidth="550"
-                           TextWrapping="Wrap"
-                           Margin="10"/>
+                        DisplayMemberPath="Zone" 
+                        PreviewMouseDown="lstAreaClassification_PreviewMouseDown" />
 
-                <!--<DataGrid x:Name="dgdAreaClassifications"
-                          Grid.Row="2" Grid.Column="2"
-                          d:MinWidth="200"
-                          MaxWidth="650"
-                          MinRowHeight="200"
-                          ItemsSource="{Binding AreaClassificationsInfoTableItems}"
-                          AutoGenerateColumns="True">
-                    <DataGrid.Resources>
-                        <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
-                                        <ContentControl Content="{TemplateBinding Content}">
-                                            <ContentControl.ContentTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Background="Transparent" 
-                                                               TextWrapping="WrapWithOverflow" 
-                                                               TextTrimming="CharacterEllipsis" 
-                                                               Padding="5 2 5 2"
-                                                               Text="{Binding Text}"
-                                                               FontFamily="calibri"/>
-                                                </DataTemplate>
-                                            </ContentControl.ContentTemplate>
-                                        </ContentControl>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Foreground" Value="Black"/>
-                                    <Setter Property="Background" Value="White"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGrid.Resources>
-                </DataGrid>-->
+                <!--Zone Description-->
+                <ScrollViewer Grid.Row="2" Grid.Column="2"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              HorizontalAlignment="Left">
+
+                    <TextBlock Text="{Binding ElementName=lstAreaClassification, Path=SelectedItem.ZoneDescription}" d:Text="" 
+                               TextWrapping="Wrap"
+                               HorizontalAlignment="Left"
+                               Margin="10"/>
+
+                </ScrollViewer>
+
 
 
                 <TextBlock Text="Nema Ratings"
@@ -409,110 +397,126 @@
                            FontWeight="SemiBold"/>
 
                 <ListBox x:Name="lstNemaRatings" 
-                         Grid.Row="5" Grid.Column="1"
-                         d:MinWidth="100" d:MinHeight="200"
-                         ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes,
-                                                RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                AncestorType={x:Type Window}}}"
-                         DisplayMemberPath="Type" PreviewMouseDown="lstAreaClassification_PreviewMouseDown"
-                         />
-                <TextBlock Text="{Binding ElementName=lstNemaRatings, Path=SelectedItem.Description}"
-                           d:Text="Description" 
-                           Grid.Row="5" Grid.Column="2"
-                           Margin="10"/>
+                             Grid.Row="5" Grid.Column="1"
+                             d:MinWidth="100" 
+                             MaxHeight="350" d:MinHeight="200"
+                         VerticalAlignment="Top"
+                             ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes,
+                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                    AncestorType={x:Type Window}}}"
+                             DisplayMemberPath="Type" 
+                             PreviewMouseDown="lstAreaClassification_PreviewMouseDown" />
 
+                <!--Nema Description-->
+                <ScrollViewer Grid.Row="5" Grid.Column="2"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              HorizontalAlignment="Left">
+                    <TextBlock Text="{Binding ElementName=lstNemaRatings, Path=SelectedItem.Description}" d:Text="Description" 
+                               Grid.Row="5" Grid.Column="2"
+                               Margin="10"
+                               TextWrapping="Wrap"/>
+
+                </ScrollViewer>
             </Grid>
+                </Border>
+
+            </DockPanel>
+            <!--ADD AREA GRID-->
+            <ScrollViewer Grid.Row="2" Grid.Column="3"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="2" Margin="0,0,313,0">
+
+                <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="4"
+                  VerticalAlignment="Center"
+                  Visibility="Visible" Height="75" 
+                  Margin="0,0,0,0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
 
-            <!--ADD Area Grid-->
-            <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
-                  VerticalAlignment="Top"
-                  Visibility="Visible">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="5"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="10"/>
-                </Grid.RowDefinitions>
 
-
-
-                <!--Tags-->
-                <TextBlock Text="Tag" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource Tag}" FontSize="10"
+                    <!--Tags-->
+                    <TextBlock Text="Tag" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="1" FontSize="10"
                            VerticalAlignment="Bottom" />
 
-                <TextBlock Text="Display Tag" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource DisplayTag}" FontSize="10"
+                    <TextBlock Text="Display Tag" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="2" FontSize="10"
                            VerticalAlignment="Bottom" />
 
-                <TextBlock Text="Area Name" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource Name}" FontSize="10"
+                    <TextBlock Text="Area Name" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="3" FontSize="10"
                            VerticalAlignment="Bottom" />
 
 
-                <TextBlock Text="Area&#x0a;Category" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource AreaCategory}" FontSize="10"
+                    <TextBlock Text="Area&#x0a;Category" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="5" FontSize="10"
                            VerticalAlignment="Bottom"/>
 
-                <TextBlock Text="Area&#x0a;Classification" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource AreaClass}" FontSize="10"
+                    <TextBlock Text="Area&#x0a;Classification" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="6" FontSize="10"
                            VerticalAlignment="Bottom" />
 
-                <TextBlock Text="Min Temp&#x0a;(°C)" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource MinTemp}" FontSize="10"
+                    <TextBlock Text="Min Temp&#x0a;(°C)" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="7" FontSize="10"
                            VerticalAlignment="Bottom" />
-                <TextBlock Text="Max Temp&#x0a;(°C)" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource MaxTemp}" FontSize="10"
-                           VerticalAlignment="Bottom" />
-
-                <TextBlock Text="Nema Rating" Margin="10 5 0 5"
-                           Grid.Row="1" Grid.Column="{StaticResource Nema}" FontSize="10"
+                    <TextBlock Text="Max Temp&#x0a;(°C)" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="8" FontSize="10"
                            VerticalAlignment="Bottom" />
 
+                    <TextBlock Text="Nema Rating" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="9" FontSize="10"
+                           VerticalAlignment="Bottom" />
 
-                <!--Controls-->
-                <TextBox x:Name ="txtAreaTag"  
-                         Grid.Row="2" Grid.Column="{StaticResource Tag}"
+
+                    <!--Controls-->
+                    <TextBox x:Name ="txtAreaTag"  
+                         Grid.Row="2" Grid.Column="1"
                          Width="65" Height="23"
                          Text="{Binding AreaToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          PreviewMouseDown="txtAreaTag_PreviewMouseDown" LostFocus="txtAreaTag_LostFocus"
                          Margin="5 0 5 0"
                          HorizontalContentAlignment="Left"/>
 
-                <TextBox x:Name ="txtAreaDisplayTag"  
-                         Grid.Row="2" Grid.Column="{StaticResource DisplayTag}"
+                    <TextBox x:Name ="txtAreaDisplayTag"  
+                         Grid.Row="2" Grid.Column="2"
                          Width="65" Height="23"
                          Text="{Binding AreaToAddValidator.DisplayTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0"
                          HorizontalContentAlignment="Left"/>
 
-                <TextBox x:Name ="txtAreaName"  
-                         Grid.Row="2" Grid.Column="{StaticResource Name}"
+                    <TextBox x:Name ="txtAreaName"  
+                         Grid.Row="2" Grid.Column="3"
                          Width="140" Height="23"
                          Text="{Binding AreaToAddValidator.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0"
                          HorizontalContentAlignment="Left"/>
 
-                <!--<TextBox Grid.Row="2" Grid.Column="{StaticResource Description}"
+                    <!--<TextBox Grid.Row="2" Grid.Column="{StaticResource Description}"
                          MinWidth="140" Height="23"
                          Text="{Binding AreaToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0"
                          HorizontalContentAlignment="Left"/>-->
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource AreaCategory}"
+                    <ComboBox Grid.Row="2" Grid.Column="5"
                           Template="{DynamicResource ComboBoxBase}" 
                           Width="110"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaCategories,
@@ -525,7 +529,7 @@
                           IsEditable="False" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource AreaClass}"
+                    <ComboBox Grid.Row="2" Grid.Column="6"
                           Template="{DynamicResource ComboBoxBase}" 
                           Width="110"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications,
@@ -538,19 +542,19 @@
                           IsEditable="False" IsTextSearchEnabled="True"
                           Margin="5 0 5 0"/>
 
-                <TextBox Grid.Row="2" Grid.Column="{StaticResource MinTemp}"
+                    <TextBox Grid.Row="2" Grid.Column="7"
                          Width="60" Height="23"
                          d:Text="-40"
                          Text="{Binding AreaToAddValidator.MinTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0"/>
 
-                <TextBox Grid.Row="2" Grid.Column="{StaticResource MaxTemp}"
+                    <TextBox Grid.Row="2" Grid.Column="8"
                          Width="60" Height="23"
                          d:Text="35"
                          Text="{Binding AreaToAddValidator.MaxTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Margin="5 0 5 0"/>
 
-                <ComboBox Grid.Row="2" Grid.Column="{StaticResource Nema}"
+                    <ComboBox Grid.Row="2" Grid.Column="9"
                           HorizontalAlignment="Left"
                           Template="{DynamicResource ComboBoxBase}" 
                           Width="90"
@@ -566,14 +570,17 @@
 
 
 
-            </Grid>
+                </Grid>
+
+            </ScrollViewer>
 
 
+            <!--HEAT LOADING-->
+            <ScrollViewer Grid.Row="4" Grid.Column="3"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto" Margin="0,0,250,57" Grid.RowSpan="2">
 
-            <StackPanel Orientation="Vertical"
-                         Grid.Row="4" Grid.Column="3">
-
-                <Grid>
+                <Grid Grid.Row="4" Grid.Column="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="auto"/>
@@ -619,7 +626,7 @@
                              DisplayMemberPath="Tag"
                              HorizontalAlignment="Left"
                              Width="150"
-                             Height="350"/>
+                             Height="250"/>
 
                     <Grid Grid.Row="2" Grid.Column="1">
                         <Grid.ColumnDefinitions>
@@ -692,8 +699,9 @@
                     </Grid>
                 </Grid>
 
-            </StackPanel>
+            </ScrollViewer>
         </Grid>
 
+        <!--</ScrollViewer>-->
     </Grid>
 </UserControl>
