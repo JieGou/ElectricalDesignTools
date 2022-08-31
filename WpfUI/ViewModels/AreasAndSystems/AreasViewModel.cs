@@ -252,13 +252,16 @@ namespace WpfUI.ViewModels.AreasAndSystems
 
         public void CreateComboBoxLists()
         {
+            Categories.Clear();
             Categories.Add("Category 1");
             Categories.Add("Category 2");
 
+            NemaTypes.Clear();
             foreach (var item in TypeManager.NemaTypes) {
                 NemaTypes.Add(item.Type.ToString());
             }
 
+            AreaClassifications.Clear();
             foreach (var item in TypeManager.AreaClassifications) {
                 AreaClassifications.Add(item.Zone);
             }

@@ -357,6 +357,7 @@
                           FrozenColumnCount="1"
                           Margin="5,5,5 5"
                           
+                          RowHeaderWidth="0"
                           
                           HorizontalAlignment="Left"
                           VerticalAlignment="Top"

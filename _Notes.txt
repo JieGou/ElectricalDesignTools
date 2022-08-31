@@ -1,3 +1,11 @@
+Priorities
+	- Disconnect Sizes
+	- Disconnects Types
+	- LCS types
+	- Splitter
+	- Distribution Panel
+
+
 Refactorings
 	- proper IPowerCableUser members
 	- cable owners need to reference the cable

@@ -58,9 +58,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="80*"/>
-                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="30*" MinWidth="250" MaxWidth="450"/>
                 <ColumnDefinition Width="5"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -651,7 +651,6 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
@@ -681,12 +680,14 @@
                                    FontWeight="SemiBold"/>
 
                             <ListBox Grid.Row="2" Grid.Column="0"
+                                     VerticalAlignment="Top"
                                      ItemsSource="{Binding SelectedArea.EquipmentList}"
                                      SelectedItem="{Binding SelectedEquipment, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
                                      DisplayMemberPath="Tag"
                                      HorizontalAlignment="Left"
                                      Width="150"
-                                     Height="250"/>
+                                     MaxHeight="250"
+                                     />
 
                             <Grid Grid.Row="2" Grid.Column="1">
                                 <Grid.ColumnDefinitions>
