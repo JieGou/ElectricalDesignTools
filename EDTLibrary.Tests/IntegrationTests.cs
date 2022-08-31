@@ -21,6 +21,7 @@ using WpfUI.Services;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.AreasAndSystems;
 using WpfUI.ViewModels.Electrical;
+using WpfUI.ViewModels.Home;
 using Xunit;
 
 namespace EDTLibrary.Tests
@@ -50,7 +51,7 @@ namespace EDTLibrary.Tests
                 TypeManager typeManager = new TypeManager();
                 EdtSettings edtSettings = new EdtSettings();
 
-                StartupService startupService = new StartupService(listManager);
+                StartupService startupService = new StartupService(listManager, new ObservableCollection<PreviousProject>());
                 startupService.InitializeLibrary();
                 startupService.InitializeProject(GlobalConfig.TestDb);
 

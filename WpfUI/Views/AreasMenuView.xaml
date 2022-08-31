@@ -12,12 +12,12 @@
         xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
         mc:Ignorable="d"
              d:Width="1600" d:Height="36"
-        Background="#FFCCEDE4">
+        >
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                
+                <ResourceDictionary Source="../Styles/EdtColorsAndDimensions.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <CollectionViewSource x:Key="areaList" Source="{Binding ListManager.AreaList}"/>
@@ -33,7 +33,7 @@
         </Grid.RowDefinitions>
 
 
-        <Border BorderThickness="0 0 0 1" BorderBrush="Black" Background="#FF1B5F44">
+        <Border BorderThickness="0 0 0 1" BorderBrush="Black" Background="#FF19563E">
             <StackPanel Orientation="Horizontal">
 
                 <Label Content="AREAS &amp; SYSTEMS"  Background="Transparent"

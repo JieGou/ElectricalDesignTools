@@ -10,17 +10,14 @@
         xmlns:h="clr-namespace:WpfUI.Helpers"
         xmlns:commands="clr-namespace:WpfUI.Commands"
         xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
-        
-             mc:Ignorable="d"
-             
-             d:Width="1800" d:Height="850"
-             
-        >
+        mc:Ignorable="d"
+             d:Width="1800" d:Height="800"
+        Background="#FFCCEDE4">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/EdtStyle_Green.xaml"/>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <CollectionViewSource x:Key="areaList" Source="{Binding ListManager.AreaList}"/>
@@ -38,7 +35,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="{StaticResource PageBackground}">
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
@@ -53,6 +50,7 @@
         <!--<ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">-->
+
         <Grid Grid.Row="1"
               x:Name="areasGrid">
             <Grid.ColumnDefinitions>
@@ -65,11 +63,10 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="20"/>
-                <RowDefinition Height="40*"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="60*"/>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.Triggers>
                 <EventTrigger RoutedEvent="DataGrid.Loaded">
@@ -116,19 +113,26 @@
 
 
             <!--***************-->
-            <!--AREA DATAGRID-->
+            <!--**** TEST *****-->
             <!--***************-->
+
+
+            <!--***************-->
+            <!--**** TEST *****-->
+            <!--***************-->
+
+
+            <!--AREA DATAGRID-->
+
             <DataGrid x:Name="dgdAreas" RowDetailsVisibilityMode="Collapsed"  
-                      RowHeaderWidth="0"
-                      Grid.Column="3" Grid.Row="1" 
-                      Margin="5"
-                      VerticalAlignment="Stretch"
-                      ItemsSource="{Binding Path=ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
-                      CanUserAddRows="False"
-                      HorizontalAlignment="Left" 
-                      AutoGenerateColumns="False" MouseLeave="dgdAreas_MouseLeave"
-                      >
+                          Grid.Column="3" Grid.Row="1" 
+                          MinHeight="200" Margin="10 10 10 10"
+                          ItemsSource="{Binding Path=ListManager.AreaList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding SelectedArea, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"    
+                          CanUserAddRows="False"
+                          HorizontalAlignment="Left" 
+                          AutoGenerateColumns="False" MouseLeave="dgdAreas_MouseLeave"
+                          >
 
                     <DataGrid.Columns>
                         <!--Basic-->
@@ -136,13 +140,11 @@
 
                         <!--Tag-->
                         <DataGridTextColumn Header="Tag&#x0a;ID"
-                                            Width="*"
-                                            MinWidth="60"
+                                            Width="75"
                                             Binding="{Binding Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" />
                         <!--Tag-->
                         <DataGridTextColumn Header="Display&#x0a;Tag"
-                                            Width="*"
-                                            MinWidth="60"
+                                            Width="75"
                                             Binding="{Binding DisplayTag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" />
                         <!--Name-->
                         <DataGridTextColumn Header="Name" 
@@ -151,8 +153,7 @@
 
                         <!--Area Category-->
                         <DataGridTemplateColumn Header="Area&#x0a;Category"
-                                                Width="*"
-                                                MinWidth="150">
+                                                Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding AreaCategory}"
@@ -177,8 +178,7 @@
 
                         <!--Area Classification-->
                         <DataGridTemplateColumn Header="Area&#x0a;Classification"
-                                                Width="*"
-                                                MinWidth="150">
+                                                Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding AreaClassification}"
@@ -205,11 +205,7 @@
 
                         <!--MinTemp-->
                         <DataGridTextColumn Header="Min Temp&#x0a;(°C)" x:Name="MinTemp" 
-                                            Binding="{Binding MinTemp, NotifyOnSourceUpdated=True, 
-                                                              Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                            Width="*"
-                                            MinWidth="60">
-                            
+                                            Binding="{Binding MinTemp, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center" />
@@ -220,10 +216,7 @@
 
                         <!--MaxTemp-->
                         <DataGridTextColumn Header="Max Temp&#x0a;(°C)" x:Name="MaxTemp" 
-                                            Binding="{Binding MaxTemp, NotifyOnSourceUpdated=True, Mode=TwoWay,
-                                                              UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                            Width="*"
-                                            MinWidth="60">
+                                            Binding="{Binding MaxTemp, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style TargetType="TextBlock">
                                     <Setter Property="HorizontalAlignment" Value="Center" />
@@ -234,8 +227,7 @@
 
                         <!--NemaRating-->
                         <DataGridTemplateColumn Header="NEMA&#x0a;Rating"
-                                                MinWidth="100"
-                                                Width="*">
+                                                MinWidth="100">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding NemaRating}"
@@ -260,8 +252,7 @@
 
                         <!--Sub-Area Of-->
                         <DataGridTemplateColumn Header="Sub-Area&#x0a;Of"
-                                                Width="*"
-                                                MinWidth="60">
+                                    Width="75">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
 
@@ -329,55 +320,50 @@
                 </DataGrid>
 
 
-            <!--***************-->
             <!--ZONE AND NEMA DETAILs-->
-            <!--***************-->
-            <DockPanel Grid.Row="1" Grid.Column="4" Grid.RowSpan="4" Grid.ColumnSpan="2"
-                       Margin="5">
+            <DockPanel Grid.Row="4" Grid.Column="3"
+                       Margin="0 0 0 25">
                 
-                 <!--Title-->
-                <Border BorderBrush="{StaticResource WindowGridBorderBrush}" BorderThickness="1"
-                        Background="{StaticResource Dark}"
+                 <!--Title-->  
+                <Border BorderBrush="Black" BorderThickness="1"
                         DockPanel.Dock="Top"
                         Grid.Row="0" 
                         Grid.Column="4" Grid.ColumnSpan="2">
 
                     <TextBlock Text="Zone and Nema Descriptions"
-                               Style="{StaticResource SectionTitleStyle}"
-                               Foreground="{StaticResource ForeGround_Light1}"
-                               />
+                               Margin="5"
+                               FontSize="14"
+                               FontWeight="SemiBold"/>
                 </Border>
 
                 <!--Content-->
-                <Border BorderBrush="{StaticResource WindowGridBorderBrush}" BorderThickness="1 0 1 1"
-                        Background="{StaticResource BackGroundLight}"
-                        Grid.Row="1" Grid.Column="4" Grid.RowSpan="5" Grid.ColumnSpan="2">
+                <Border BorderBrush="DarkGray" BorderThickness="1 0 1 1"
+                    Grid.Row="1" Grid.Column="4" Grid.RowSpan="5" Grid.ColumnSpan="2">
                     <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="10"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                           
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
 
-                    
 
-                    <TextBlock Text="Area Classifications"
-                           Grid.Row="1" 
-                           Grid.Column="1" Grid.ColumnSpan="2"
-                           Margin="10 10 0 0"
-                           FontWeight="SemiBold"/>
 
-                <ListBox x:Name="lstAreaClassification" 
+                        <TextBlock Text="Area Classifications"
+                               Grid.Row="1" 
+                               Grid.Column="1" Grid.ColumnSpan="2"
+                               Margin="10 10 0 0"
+                               FontWeight="SemiBold"/>
+
+                        <ListBox x:Name="lstAreaClassification" 
                          Grid.Row="2" 
                          Grid.Column="1"
                          d:MinWidth="100" 
@@ -405,23 +391,23 @@
 
 
                 <TextBlock Text="Nema Ratings"
-                           Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+                           Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"
                            Margin="10 10 0 0"
                            FontWeight="SemiBold"/>
 
                 <ListBox x:Name="lstNemaRatings" 
-                             Grid.Row="5" Grid.Column="1"
-                             d:MinWidth="100" 
-                             MaxHeight="350" d:MinHeight="200"
+                         Grid.Row="2" Grid.Column="3"
+                         d:MinWidth="100" 
+                         MaxHeight="350" d:MinHeight="200"
                          VerticalAlignment="Top"
-                             ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes,
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type Window}}}"
-                             DisplayMemberPath="Type" 
-                             PreviewMouseDown="lstAreaClassification_PreviewMouseDown" />
+                         ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes,
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type Window}}}"
+                         DisplayMemberPath="Type" 
+                         PreviewMouseDown="lstAreaClassification_PreviewMouseDown" />
 
                 <!--Nema Description-->
-                <ScrollViewer Grid.Row="5" Grid.Column="2"
+                <ScrollViewer Grid.Row="2" Grid.Column="4"
                               VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled"
                               HorizontalAlignment="Left">
@@ -435,214 +421,175 @@
                 </Border>
 
             </DockPanel>
-
-
-            <!--***************-->
-            <!--ADD AREA GRID-->
-            <!--***************-->
-            <DockPanel Grid.Row="2" Grid.Column="3"
-                       Margin="5 10">
-
-
-                <Border BorderBrush="{StaticResource WindowGridBorderBrush}" BorderThickness="1"
-                        Background="{StaticResource Dark}"
-                        
-                        DockPanel.Dock="Top">
-                    <TextBlock Text="Add Area"
-                               Style="{StaticResource SectionTitleStyle}"
-                               Foreground="{StaticResource ForeGround_Light1}"
-                               />
-                </Border>
-                <Border BorderBrush="{StaticResource WindowGridBorderBrush}" BorderThickness="1 0 1 1"
-                        Background="{StaticResource BackGroundLight}">
-                    <ScrollViewer Grid.Row="2" 
-                              Grid.Column="3"
-                              VerticalAlignment="Top"
-                              VerticalScrollBarVisibility="Auto"
-                              HorizontalScrollBarVisibility="Auto" 
-                              >
-
-                        <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="4"
-                      VerticalAlignment="Center"
-                      Visibility="Visible" Height="75" 
-                      Margin="0,0,0,20">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            
-
-                            <!--Tags-->
-                            <TextBlock Text="Tag" Margin="10 5 0 5"
-                               Grid.Row="1" Grid.Column="1" FontSize="10"
-                               VerticalAlignment="Bottom" 
-                                       SnapsToDevicePixels="True"/>
-
-                            <TextBlock Text="Display Tag" Margin="10 5 0 5"
-                               Grid.Row="1" Grid.Column="2" FontSize="10"
-                               VerticalAlignment="Bottom" />
-
-                            <TextBlock Text="Area Name" Margin="10 5 0 5"
-                               Grid.Row="1" Grid.Column="3" FontSize="10"
-                               VerticalAlignment="Bottom" />
-
-
-                            <TextBlock Text="Area&#x0a;Category" Margin="10 5 0 5"
-                               Grid.Row="1" Grid.Column="5" FontSize="10"
-                               VerticalAlignment="Bottom"/>
-
-                            <TextBlock Text="Area&#x0a;Classification" Margin="10 5 0 5"
-                               Grid.Row="1" Grid.Column="6" FontSize="10"
-                               VerticalAlignment="Bottom" />
-
-                            <TextBlock Text="Min Temp&#x0a;(°C)" Margin="10 5 0 5"
-                               Grid.Row="1" Grid.Column="7" FontSize="10"
-                               VerticalAlignment="Bottom" />
-                            <TextBlock Text="Max Temp&#x0a;(°C)" Margin="10 5 0 5"
-                               Grid.Row="1" Grid.Column="8" FontSize="10"
-                               VerticalAlignment="Bottom" />
-
-                            <TextBlock Text="Nema Rating" Margin="10 5 0 5"
-                               Grid.Row="1" Grid.Column="9" FontSize="10"
-                               VerticalAlignment="Bottom" />
-
-
-                            <!--Controls-->
-                            <TextBox x:Name ="txtAreaTag"  
-                             Grid.Row="2" Grid.Column="1"
-                             Width="65" Height="23"
-                             Text="{Binding AreaToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             PreviewMouseDown="txtAreaTag_PreviewMouseDown" LostFocus="txtAreaTag_LostFocus"
-                             Margin="5 0 5 0"
-                             HorizontalContentAlignment="Left"
-                                     SnapsToDevicePixels="True"/>
-
-                            <TextBox x:Name ="txtAreaDisplayTag"  
-                             Grid.Row="2" Grid.Column="2"
-                             Width="65" Height="23"
-                             Text="{Binding AreaToAddValidator.DisplayTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="5 0 5 0"
-                             HorizontalContentAlignment="Left"/>
-
-                            <TextBox x:Name ="txtAreaName"  
-                             Grid.Row="2" Grid.Column="3"
-                             Width="140" Height="23"
-                             Text="{Binding AreaToAddValidator.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="5 0 5 0"
-                             HorizontalContentAlignment="Left"/>
-
-                            <!--<TextBox Grid.Row="2" Grid.Column="{StaticResource Description}"
-                             MinWidth="140" Height="23"
-                             Text="{Binding AreaToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="5 0 5 0"
-                             HorizontalContentAlignment="Left"/>-->
-
-                            <ComboBox Grid.Row="2" Grid.Column="5"
-                              Template="{DynamicResource ComboBoxBase}" 
-                              Width="110"
-                              ItemsSource="{Binding Path=DataContext.TypeManager.AreaCategories,
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type Window}}}"
-                              SelectedValue="{Binding AreaToAddValidator.AreaCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="CategoryName"
-                              SelectedValuePath="CategoryName"
-                              Text="{Binding AreaToAddValidator.AreaCategory}"
-                              IsEditable="False" IsTextSearchEnabled="True"
-                              Margin="5 0 5 0"/>
-
-                            <ComboBox Grid.Row="2" Grid.Column="6"
-                              Template="{DynamicResource ComboBoxBase}" 
-                              Width="110"
-                              ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications,
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type Window}}}"
-                              SelectedValue="{Binding AreaToAddValidator.AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Zone"
-                              SelectedValuePath="Zone"
-                              Text="{Binding AreaToAddValidator.AreaClassification}"                        
-                              IsEditable="False" IsTextSearchEnabled="True"
-                              Margin="5 0 5 0"/>
-
-                            <TextBox Grid.Row="2" Grid.Column="7"
-                             Width="60" Height="23"
-                             d:Text="-40"
-                             Text="{Binding AreaToAddValidator.MinTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="5 0 5 0"/>
-
-                            <TextBox Grid.Row="2" Grid.Column="8"
-                             Width="60" Height="23"
-                             d:Text="35"
-                             Text="{Binding AreaToAddValidator.MaxTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                             Margin="5 0 5 0"/>
-
-                            <ComboBox Grid.Row="2" Grid.Column="9"
-                              HorizontalAlignment="Left"
-                              Template="{DynamicResource ComboBoxBase}" 
-                              Width="90"
-                              ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type Window}}}"
-                              SelectedValue="{Binding AreaToAddValidator.NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="Type"
-                              SelectedValuePath="Type"
-                              Text="{Binding AreaToAddValidator.NemaRating}"
-                              IsEditable="False" IsTextSearchEnabled="True"
-                              Margin="5 0 5 0"/>
-
-
-
-                        </Grid>
-
-                    </ScrollViewer>
-                </Border>
-            </DockPanel>
-
-
-            <!--***************-->
-            <!--HEAT LOADING-->
-            <!--***************-->
-            <DockPanel Grid.Row="4" Grid.Column="3"
-                       Margin="5">
                 
-                <Border BorderBrush="{StaticResource WindowGridBorderBrush}" BorderThickness="1 1 0 1" 
-                        Background="{StaticResource Dark}"
-                        DockPanel.Dock="Top">
-                    
-                    <TextBlock Text="Area Heat Load"
-                               Style="{StaticResource SectionTitleStyle}"
-                               Foreground="{StaticResource ForeGround_Light1}"
-                               />
+            <!--ADD AREA GRID-->
+            <ScrollViewer Grid.Row="2" 
+                          Grid.Column="3"
+                          VerticalAlignment="Top"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto" 
+                          Margin="0">
 
-                </Border>
-                <Border BorderBrush="{StaticResource WindowGridBorderBrush}" BorderThickness="1 0 1 1"
-                            Background="{StaticResource BackGroundLight}">
-                    <ScrollViewer Grid.Row="4" Grid.Column="3"
+                <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="4"
+                  VerticalAlignment="Center"
+                  Visibility="Visible" Height="75" 
+                  Margin="0,0,0,0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+
+
+                    <!--Tags-->
+                    <TextBlock Text="Tag" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="1" FontSize="10"
+                           VerticalAlignment="Bottom" />
+
+                    <TextBlock Text="Display Tag" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="2" FontSize="10"
+                           VerticalAlignment="Bottom" />
+
+                    <TextBlock Text="Area Name" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="3" FontSize="10"
+                           VerticalAlignment="Bottom" />
+
+
+                    <TextBlock Text="Area&#x0a;Category" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="5" FontSize="10"
+                           VerticalAlignment="Bottom"/>
+
+                    <TextBlock Text="Area&#x0a;Classification" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="6" FontSize="10"
+                           VerticalAlignment="Bottom" />
+
+                    <TextBlock Text="Min Temp&#x0a;(°C)" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="7" FontSize="10"
+                           VerticalAlignment="Bottom" />
+                    <TextBlock Text="Max Temp&#x0a;(°C)" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="8" FontSize="10"
+                           VerticalAlignment="Bottom" />
+
+                    <TextBlock Text="Nema Rating" Margin="10 5 0 5"
+                           Grid.Row="1" Grid.Column="9" FontSize="10"
+                           VerticalAlignment="Bottom" />
+
+
+                    <!--Controls-->
+                    <TextBox x:Name ="txtAreaTag"  
+                         Grid.Row="2" Grid.Column="1"
+                         Width="65" Height="23"
+                         Text="{Binding AreaToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         PreviewMouseDown="txtAreaTag_PreviewMouseDown" LostFocus="txtAreaTag_LostFocus"
+                         Margin="5 0 5 0"
+                         HorizontalContentAlignment="Left"/>
+
+                    <TextBox x:Name ="txtAreaDisplayTag"  
+                         Grid.Row="2" Grid.Column="2"
+                         Width="65" Height="23"
+                         Text="{Binding AreaToAddValidator.DisplayTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5 0 5 0"
+                         HorizontalContentAlignment="Left"/>
+
+                    <TextBox x:Name ="txtAreaName"  
+                         Grid.Row="2" Grid.Column="3"
+                         Width="140" Height="23"
+                         Text="{Binding AreaToAddValidator.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5 0 5 0"
+                         HorizontalContentAlignment="Left"/>
+
+                    <!--<TextBox Grid.Row="2" Grid.Column="{StaticResource Description}"
+                         MinWidth="140" Height="23"
+                         Text="{Binding AreaToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5 0 5 0"
+                         HorizontalContentAlignment="Left"/>-->
+
+                    <ComboBox Grid.Row="2" Grid.Column="5"
+                          Template="{DynamicResource ComboBoxBase}" 
+                          Width="110"
+                          ItemsSource="{Binding Path=DataContext.TypeManager.AreaCategories,
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type Window}}}"
+                          SelectedValue="{Binding AreaToAddValidator.AreaCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          DisplayMemberPath="CategoryName"
+                          SelectedValuePath="CategoryName"
+                          Text="{Binding AreaToAddValidator.AreaCategory}"
+                          IsEditable="False" IsTextSearchEnabled="True"
+                          Margin="5 0 5 0"/>
+
+                    <ComboBox Grid.Row="2" Grid.Column="6"
+                          Template="{DynamicResource ComboBoxBase}" 
+                          Width="110"
+                          ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications,
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type Window}}}"
+                          SelectedValue="{Binding AreaToAddValidator.AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          DisplayMemberPath="Zone"
+                          SelectedValuePath="Zone"
+                          Text="{Binding AreaToAddValidator.AreaClassification}"                        
+                          IsEditable="False" IsTextSearchEnabled="True"
+                          Margin="5 0 5 0"/>
+
+                    <TextBox Grid.Row="2" Grid.Column="7"
+                         Width="60" Height="23"
+                         d:Text="-40"
+                         Text="{Binding AreaToAddValidator.MinTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5 0 5 0"/>
+
+                    <TextBox Grid.Row="2" Grid.Column="8"
+                         Width="60" Height="23"
+                         d:Text="35"
+                         Text="{Binding AreaToAddValidator.MaxTemp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5 0 5 0"/>
+
+                    <ComboBox Grid.Row="2" Grid.Column="9"
+                          HorizontalAlignment="Left"
+                          Template="{DynamicResource ComboBoxBase}" 
+                          Width="90"
+                          ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type Window}}}"
+                          SelectedValue="{Binding AreaToAddValidator.NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          DisplayMemberPath="Type"
+                          SelectedValuePath="Type"
+                          Text="{Binding AreaToAddValidator.NemaRating}"
+                          IsEditable="False" IsTextSearchEnabled="True"
+                          Margin="5 0 5 0"/>
+
+
+
+                </Grid>
+
+            </ScrollViewer>
+
+
+            <!--HEAT LOADING-->
+            <DockPanel Grid.Row="1" Grid.RowSpan="4"
+                       Grid.Column="4">
+                <Border BorderBrush="Black" BorderThickness="1"
+                        Grid.Row="1" Grid.RowSpan="4"
+                        Grid.Column="4">
+                    <ScrollViewer Grid.Row="1" Grid.Column="4"
                               VerticalScrollBarVisibility="Auto"
-                              HorizontalScrollBarVisibility="Auto" 
-                              Grid.RowSpan="2">
+                              HorizontalScrollBarVisibility="Auto">
 
-                    
-                        
-                        <Grid Grid.Row="4" Grid.Column="3">
+                        <Grid >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -656,36 +603,36 @@
 
 
                             <StackPanel Orientation="Horizontal"
-                                        Grid.Row="0" Grid.Column="0"
-                                        Margin="10 10 0 0">
+                                    Grid.Row="0" Grid.Column="0"
+                                    Margin="10 0 0 0">
                                 <TextBlock Text="{Binding SelectedArea.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                           Grid.Row="1" Grid.Column="1" d:Text="ML-E"
-                                           FontWeight="SemiBold"
-                                           FontSize="14"/>
+                                       Grid.Row="1" Grid.Column="1" d:Text="ML-E"
+                                       FontWeight="SemiBold"
+                                       FontSize="14"/>
                                 <TextBlock Text=" - "
-                                       Grid.Row="1" Grid.Column="1" d:Text=" - "
-                                       FontWeight="SemiBold"
-                                       FontSize="14"/>
+                                   Grid.Row="1" Grid.Column="1" d:Text=" - "
+                                   FontWeight="SemiBold"
+                                   FontSize="14"/>
                                 <TextBlock Text="{Binding SelectedArea.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Grid.Row="1" Grid.Column="1" d:Text="Mill Electrical Room"
-                                       FontWeight="SemiBold"
-                                       FontSize="14"/>
+                                   Grid.Row="1" Grid.Column="1" d:Text="Mill Electrical Room"
+                                   FontWeight="SemiBold"
+                                   FontSize="14"/>
                             </StackPanel>
 
 
                             <TextBlock Text="Equipment List:"
-                                   Grid.Row="1" Grid.Column="0"
-                                       Margin="10 10 0 0"
-                                   FontSize="12"
-                                   FontWeight="SemiBold"/>
+                               Grid.Row="1" Grid.Column="0"
+                                   Margin="10 10 0 0"
+                               FontSize="12"
+                               FontWeight="SemiBold"/>
 
                             <ListBox Grid.Row="2" Grid.Column="0"
-                                     ItemsSource="{Binding SelectedArea.EquipmentList}"
-                                     SelectedItem="{Binding SelectedEquipment, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                                     DisplayMemberPath="Tag"
-                                     HorizontalAlignment="Left"
-                                     Width="150"
-                                     Height="250"/>
+                                 ItemsSource="{Binding SelectedArea.EquipmentList}"
+                                 SelectedItem="{Binding SelectedEquipment, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                                 DisplayMemberPath="Tag"
+                                 HorizontalAlignment="Left"
+                                 MinWidth="100"
+                                 Height="250"/>
 
                             <Grid Grid.Row="2" Grid.Column="1">
                                 <Grid.ColumnDefinitions>
@@ -718,49 +665,50 @@
 
 
                                 <TextBlock Text="Area Total Heat Loss:"
-                                           Grid.Row="3" Grid.Column="1"
-                                           FontSize="14" FontWeight="SemiBold"/>
+                                       Grid.Row="3" Grid.Column="1"
+                                       FontSize="14" FontWeight="SemiBold"/>
                                 <TextBlock Text="{Binding SelectedArea.HeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Grid.Row="3" Grid.Column="3"
-                                       d:Text="5100"/>
+                                   Grid.Row="3" Grid.Column="3"
+                                   d:Text="5100"/>
 
                                 <TextBlock Text="{Binding SelectedEquipment.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Grid.Row="5" Grid.Column="1" d:Text="MCC-01"
-                                       FontWeight="SemiBold"
-                                       FontSize="14"/>
+                                   Grid.Row="5" Grid.Column="1" d:Text="MCC-01"
+                                   FontWeight="SemiBold"
+                                   FontSize="14"/>
 
                                 <TextBlock Text="Equipment Total Heat Loss:" Grid.Row="7" Grid.Column="1"/>
                                 <TextBlock Text="{Binding DteqHeatLossCalculator.TotalHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Grid.Row="7" Grid.Column="3"
-                                       d:Text="5100"/>
+                                   Grid.Row="7" Grid.Column="3"
+                                   d:Text="5100"/>
 
                                 <TextBlock Text="Efficiency Heat Loss:" Grid.Row="9" Grid.Column="1"/>
                                 <TextBlock Text="{Binding DteqHeatLossCalculator.EfficiencyHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Grid.Row="9" Grid.Column="3"
-                                       d:Text="3400"/>
+                                   Grid.Row="9" Grid.Column="3"
+                                   d:Text="3400"/>
 
                                 <TextBlock Text="Main Breaker Heat Loss:" Grid.Row="11" Grid.Column="1"/>
                                 <TextBlock Text="{Binding DteqHeatLossCalculator.MainBreakerHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Grid.Row="11" Grid.Column="3"/>
+                                   Grid.Row="11" Grid.Column="3"/>
 
                                 <TextBlock Text="Load Breakers Heat Loss:" Grid.Row="13" Grid.Column="1"/>
                                 <TextBlock Text="{Binding DteqHeatLossCalculator.LoadBreakersHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Grid.Row="13" Grid.Column="3"/>
+                                   Grid.Row="13" Grid.Column="3"/>
 
                                 <TextBlock Text="Load Starters Heat Loss:" Grid.Row="15" Grid.Column="1"/>
                                 <TextBlock Text="{Binding DteqHeatLossCalculator.LoadStartersHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Grid.Row="15" Grid.Column="3"/>
+                                   Grid.Row="15" Grid.Column="3"/>
 
                                 <TextBlock Text="Load Drives Heat Loss:" Grid.Row="17" Grid.Column="1"/>
                                 <TextBlock Text="{Binding DteqHeatLossCalculator.LoadDrivesHeatLoss, StringFormat={}{0:N0} W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                       Grid.Row="17" Grid.Column="3"/>
+                                   Grid.Row="17" Grid.Column="3"/>
                             </Grid>
                         </Grid>
+
                     </ScrollViewer>
                 </Border>
             </DockPanel>
         </Grid>
 
-        
+        <!--</ScrollViewer>-->
     </Grid>
 </UserControl>

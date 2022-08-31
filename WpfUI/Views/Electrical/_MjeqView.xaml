@@ -67,7 +67,7 @@
 
 
     <!--TOP-->
-    <Grid>
+    <Grid Background="{StaticResource PageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>

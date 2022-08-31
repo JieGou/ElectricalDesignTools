@@ -52,6 +52,13 @@
     </Style>
 
 
+    <!--Section Title Style-->
+    <Style TargetType="TextBlock" x:Key="SectionTitleStyle">
+        <Setter Property ="FontSize" Value="14"/>
+        <Setter Property ="Foreground" Value="Black"/>
+        <Setter Property= "Padding" Value="3"/>
+    </Style>
+
     <!--TEXTBOX Style with Error -->
     <Style x:Key="TextBoxBaseErrorTemplate" TargetType="TextBox" BasedOn="{StaticResource DefaultStyle}">
         

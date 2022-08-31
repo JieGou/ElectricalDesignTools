@@ -10,42 +10,48 @@
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
              
              d:Height="900" d:Width="1200"
-             d:Background="{DynamicResource Background_Teal}"
-             
-             Background="{DynamicResource Background_Teal}"  
              Loaded="UserControl_Loaded"
              >
 
     <UserControl.Resources>
-        <Style TargetType="TextBlock" x:Key="Label">
-            <Setter Property="TextAlignment" Value="Right"/>
-            <Setter Property="Margin" Value="5 5 0 0"/>
-            <Setter Property="FontSize" Value="14"/>
-        </Style>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <Style TargetType="TextBlock" x:Key="Label">
+                <Setter Property="TextAlignment" Value="Right"/>
+                <Setter Property="Margin" Value="5 5 0 0"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
 
-        <Style TargetType="TextBlock" x:Key="Value">
-            <Setter Property="TextAlignment" Value="Left"/>
-            <Setter Property="Margin" Value="5 5 0 0"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-        </Style>
+            <Style TargetType="TextBlock" x:Key="Value">
+                <Setter Property="TextAlignment" Value="Left"/>
+                <Setter Property="Margin" Value="5 5 0 0"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>
+            
+        </ResourceDictionary>
     </UserControl.Resources>
     
     <!--Main Grid-->
-    <Grid Margin="10 10 10 0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+    <Grid Background="{StaticResource PageBackground}">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="9*"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="25"/>
+        </Grid.ColumnDefinitions>
 
-       
         <!--Left Menu-->
         <StackPanel Orientation="Vertical"
                     Grid.Row="2" >
@@ -214,15 +220,14 @@
         <Border BorderBrush="LightGray" BorderThickness="1"
                 Background="White"
                 Grid.Row="2" Grid.Column="2"
-                VerticalAlignment="Bottom"
-                Height="685"
-                CornerRadius="5"
+                VerticalAlignment="Stretch"
+                CornerRadius="5" 
                 >
             <ScrollViewer Grid.Row="1" Grid.Column="2"
                       Grid.RowSpan="2"
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
-                      VerticalAlignment="Center"
+                      VerticalAlignment="Stretch"
                        >
                 <Grid>
                     <Grid.RowDefinitions>
@@ -236,7 +241,7 @@
                     <ItemsControl x:Name="items"
                                   Grid.Row="1"
                                   ItemsSource="{Binding AssignedLoads}"
-                                  MinHeight="550">
+                                  VerticalAlignment="Top">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Horizontal"/>

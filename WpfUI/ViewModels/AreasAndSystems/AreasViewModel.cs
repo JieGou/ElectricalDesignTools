@@ -66,7 +66,9 @@ namespace WpfUI.ViewModels.AreasAndSystems
             get { return _selectedArea; }
             set
             {
+                if (value == null) return;
                 _selectedArea = value;
+
 
                 _selectedArea.HeatLoss = 0;
                 _selectedArea.EquipmentList.Clear();

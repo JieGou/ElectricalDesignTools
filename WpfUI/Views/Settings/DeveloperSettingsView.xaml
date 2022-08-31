@@ -14,8 +14,10 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../Styles/EDTBlueStyle.xaml"/>-->
+                <ResourceDictionary Source="../../Styles/EdtStyle_Blue.xaml"/>
+                <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
 
             <CollectionViewSource x:Key="ListBoxItems" Source="{Binding Path=StringSettings}">
                 <CollectionViewSource.GroupDescriptions>
@@ -41,7 +43,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Background="{StaticResource PageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="10"/>

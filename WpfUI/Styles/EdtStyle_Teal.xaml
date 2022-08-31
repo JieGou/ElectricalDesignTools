@@ -8,24 +8,18 @@
     
     
 <!--MAIN COLORS-->
-    <SolidColorBrush x:Key="Darkest">#FF215967</SolidColorBrush>
+    <SolidColorBrush x:Key="Darkest" Color="#FF215967"/>
     <SolidColorBrush x:Key="Dark" Color="#FF31869B"/>
     <SolidColorBrush x:Key="Medium" Color="#FF94CDDB"/>
     <SolidColorBrush x:Key="Light" Color="#FFDBEEF3"/>
+    
     <SolidColorBrush x:Key="Background" Color="#FFDAEEF3"/>
-
+    <SolidColorBrush x:Key="PageBackground" Color="#FFDAEEF3"/>
     <SolidColorBrush x:Key="BackGroundLight" Color="LightCyan"/>
 
     <!--Accent Colors-->
     <SolidColorBrush x:Key="ButtonColor">#FFA7DAE8</SolidColorBrush>
     <SolidColorBrush x:Key="DatagridSelection">#FFB7DEE8</SolidColorBrush>
-    
-    <!--Other Color-->
-    <SolidColorBrush x:Key="LightRed">#FFFFBABA</SolidColorBrush>
-    <SolidColorBrush x:Key="LightOrange">#FFFFB193</SolidColorBrush>
-    <SolidColorBrush x:Key="LightYellow">#FFFFEDA1</SolidColorBrush>
-
-
 
 
     <!--ALL CONTROLS DEFAULT-->

@@ -6,7 +6,13 @@
 
 
     
-<!--DIMENSIONS-->
+    
+    
+<!--WINDOW LAYOUT-->
+
+    <SolidColorBrush x:Key="WindowGridBorderBrush" Color="Black"/>
+
+    <!--DIMENSIONS-->
 
     <!--Sub Menu-->
     <sys:Double x:Key="SubMenuHeight">30</sys:Double>
@@ -20,11 +26,19 @@
     <SolidColorBrush x:Key="ErrorColor_Base" Color="#FFD40000"/>
 
     <SolidColorBrush x:Key="Background" Color="AliceBlue"/>
+    
+   
+    
 
     <!--Text Color-->
     <SolidColorBrush x:Key="ForeGround_Light1" Color="White"/>
     <SolidColorBrush x:Key="ForeGround_Dark1" Color="Black"/>
     
+    <!--GREEN-->
+    <SolidColorBrush x:Key="WindowBackGround_Green" Color="#FFB7D4C8"/>
+
+
+
     <!--TEAL-->
     <SolidColorBrush x:Key="Darkest_Teal" Color="#FF215967"/>
     <SolidColorBrush x:Key="Dark_Teal" Color="#FF31869B"/>
@@ -32,9 +46,10 @@
     <SolidColorBrush x:Key="Light_Teal" Color="#FFDBEEF3"/>
     <SolidColorBrush x:Key="Background_Teal" Color="#FFDAEEF3"/>
 
+    
+    
     <!--Accent Colors-->
     <SolidColorBrush x:Key="ButtonColor_Teal" Color="#FFA7DAE8"/>
-    <!--<SolidColorBrush x:Key="DatagridSelection">#FFD6EDF3</SolidColorBrush>-->
 
     <SolidColorBrush x:Key="RowSelectionBrush_Teal" Color="#FFB7DEE8"/>
     <SolidColorBrush x:Key="RowSelectionBrushOpacity_Teal" Color="#FFB7DEE8" Opacity="0.3"/>

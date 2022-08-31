@@ -37,8 +37,7 @@
     </UserControl.Resources>
 
     <Grid x:Name="settingsGrid"
-              d:Opacity="1"
-              Opacity="0" Margin="10">
+          Background="{StaticResource PageBackground}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <!--Buttons-->

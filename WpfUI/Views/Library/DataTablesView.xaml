@@ -12,14 +12,13 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
-                <ResourceDictionary Source="../../Styles/EdtStyle_Base.xaml"/>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Orange.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
 
-    <Grid>
+    <Grid Background="{StaticResource PageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="10"/>

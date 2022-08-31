@@ -27,37 +27,6 @@
 
             </ResourceDictionary.MergedDictionaries>
 
-            <!--Group Box Template-->
-
-            <!--<ControlTemplate TargetType="GroupBox" x:Key="EdtGroupBoxTemplate">
-                <Grid Background="{StaticResource Background}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <Border Grid.Row="0"
-                            BorderThickness="1"
-                            BorderBrush="Black"
-                            Background="{StaticResource Dark}">
-                        <Label Foreground="White"
-                               FontSize="14"
-                               FontWeight="SemiBold">
-                            <ContentPresenter Margin="0"
-                                              ContentSource="Header"
-                                              RecognizesAccessKey="True" />
-                        </Label>
-                    </Border>
-
-                    <Border Grid.Row="1"
-                            BorderThickness="1,0,1,1"
-                            BorderBrush="Black">
-                        <ContentPresenter Margin="10" />
-                    </Border>
-
-                </Grid>
-            </ControlTemplate>-->
-
             <projectSettings:EdtSettings x:Key="edtSettings"/>
 
             <CollectionViewSource x:Key="ListBoxItems" Source="{Binding Path=StringSettings}">
@@ -71,7 +40,7 @@
 
     <Grid x:Name="settingsGrid"
               d:Opacity="1"
-              Opacity="0" Margin="10">
+               Background="{StaticResource PageBackground}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <!--Buttons-->
