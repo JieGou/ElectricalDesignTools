@@ -77,7 +77,8 @@
 
         <ScrollViewer x:Name="MyScrollViewer" 
                       Grid.Row="2" Grid.Column="2"
-                      VerticalScrollBarVisibility="Auto">
+                      VerticalScrollBarVisibility="Auto" PreviewMouseWheel="MyScrollViewer_PreviewMouseWheel"
+                      >
 
             <WrapPanel VerticalAlignment="Top"
                        MinWidth="250" 
@@ -85,10 +86,11 @@
 
                 <!--Cable Settings-->
                 <controls:EdtGroupBox Header="Power Cable Settings"
-                  Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 0" 
+                                  Grid.Row="1" Grid.Column="6"
+                                  Margin="25 0 25 0" 
                                   HeaderBackground="{StaticResource Dark}"
-                                  HeaderForeGround="white">
+                                  HeaderForeGround="white"
+                                  >
                     <StackPanel Orientation="Horizontal">
                         <Grid>
                             <Grid.ColumnDefinitions>

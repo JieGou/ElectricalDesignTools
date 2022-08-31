@@ -446,8 +446,9 @@
 
                 <Border BorderBrush="{StaticResource WindowGridBorderBrush}" BorderThickness="1"
                         Background="{StaticResource Dark}"
-                        
-                        DockPanel.Dock="Top">
+                        DockPanel.Dock="Top"
+                        >
+                    
                     <TextBlock Text="Add Area"
                                Style="{StaticResource SectionTitleStyle}"
                                Foreground="{StaticResource ForeGround_Light1}"

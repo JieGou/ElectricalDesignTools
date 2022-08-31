@@ -79,4 +79,11 @@ public partial class CableSettingsView : UserControl
     {
 
     }
+
+    private void MyScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        ScrollViewer scv = (ScrollViewer)sender;
+        scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta * AppSettings.Default.ScrollSpeed);
+        e.Handled = true;
+    }
 }
