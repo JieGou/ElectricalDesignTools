@@ -720,7 +720,10 @@ namespace EDTLibrary.Models.Loads
                 PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
                 PowerCable.CalculateAmpacity(this);
                 if (Drive != null) {
-                    Drive.Area = Area;
+                    Drive.Area = FedFrom.Area;
+                }
+                if (Disconnect != null) {
+                    Disconnect.Area = Area;
                 }
             }));
 

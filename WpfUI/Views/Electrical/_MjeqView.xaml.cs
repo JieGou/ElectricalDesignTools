@@ -174,50 +174,6 @@ public partial class _MjeqView : UserControl
     #region Context Menus
 
     //LOAD   
-    private void LoadGridContextMenu_SetFedFrom(object sender, MouseButtonEventArgs e)
-    {
-        FedFromSelectionWindow fedFromSelectionWindow = new FedFromSelectionWindow();
-        fedFromSelectionWindow.DataContext = MjeqVm;
-        MjeqVm.SelectionWindow = fedFromSelectionWindow;
-        fedFromSelectionWindow.ShowDialog();
-
-
-        //IPowerConsumer load;
-        //foreach (var item in dgdAssignedLoads.SelectedItems) {
-        //    load = (IPowerConsumer)item;
-        //    //dteq.Tag = "New Tag";
-        //    load.FedFrom = mjeqVm.ListManager.IDteqList.FirstOrDefault(d => d.Tag == mjeqVm.LoadToAddValidator.FedFromTag);
-        //}
-    }
-
-    private void LoadGridContextMenu_Delete(object sender, MouseButtonEventArgs e)
-    {
-        DeleteLoads_VM();
-    }
-
-    private async Task DeleteLoads_VM()
-    {
-        if (dgdAssignedLoads.SelectedItems == null) return; 
-        if (ConfirmationHelper.Confirm($"Delete {dgdAssignedLoads.SelectedItems.Count} loads? \n\nThis cannot be undone.")) {
-
-            try {
-                ILoad load;
-                while (dgdAssignedLoads.SelectedItems.Count > 0) {
-                    await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-                        load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
-                        MjeqVm.DeleteLoadAsync(load);
-                        dgdAssignedLoads.SelectedItems.Remove(load);
-                    }));
-                }
-            }
-            catch (Exception ex) {
-                ex.Data.Add("UserMessage", "Cannot delete Distribution Equipment from Load List");
-                ErrorHelper.ShowErrorMessage(ex);
-            }
-        }
-    }
-
-
     private void dgdAssignedLoads_SelectionChanged_1(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
     {
         if (dgdAssignedLoads.SelectedItem != null) {
@@ -238,11 +194,36 @@ public partial class _MjeqView : UserControl
         }
     }
 
+    private void LoadGridContextMenu_SetArea(object sender, MouseButtonEventArgs e)
+    {
+        AreaSelectionWindow areaSelectionWindow = new AreaSelectionWindow();
+        areaSelectionWindow.DataContext = MjeqVm;
+        MjeqVm.SelectionWindow = areaSelectionWindow;
+        areaSelectionWindow.ShowDialog();
+
+    }
+
+    private void LoadGridContextMenu_SetFedFrom(object sender, MouseButtonEventArgs e)
+    {
+        FedFromSelectionWindow fedFromSelectionWindow = new FedFromSelectionWindow();
+        fedFromSelectionWindow.DataContext = MjeqVm;
+        MjeqVm.SelectionWindow = fedFromSelectionWindow;
+        fedFromSelectionWindow.ShowDialog();
+
+    }
+
+    private void LoadGridContextMenu_Delete(object sender, MouseButtonEventArgs e)
+    {
+        DeleteLoads_VM();
+    }
+
+
+   
+
     private void LoadGridContextMenu_AddDiscoonnect(object sender, MouseButtonEventArgs e)
     {
         AddDisconnectAsync();
     }
-
     private async Task AddDisconnectAsync()
     {
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
@@ -257,7 +238,6 @@ public partial class _MjeqView : UserControl
     {
         await AddDriveAsync();
     }
-
     private async Task AddDriveAsync()
     {
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
@@ -276,7 +256,6 @@ public partial class _MjeqView : UserControl
     {
         await AddLcsAsync();
     }
-
     private async Task AddLcsAsync()
     {
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
@@ -291,7 +270,81 @@ public partial class _MjeqView : UserControl
             }
         }));
     }
+
+    private void LoadGridContextMenu_RemoveDiscoonnect(object sender, MouseButtonEventArgs e)
+    {
+        RemoveDisconnectAsync();
+    }
+    private async Task RemoveDisconnectAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+
+                IPowerConsumer load = (IPowerConsumer)loadObject;
+                load.DisconnectBool = false;
+            }
+        }));
+    }
+
+    private void LoadGridContextMenu_RemoveDrive(object sender, MouseButtonEventArgs e)
+    {
+        RemoveDriveAsync();
+    }
+    private async Task RemoveDriveAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+                if (loadObject.GetType() == typeof(LoadModel)) {
+                    LoadModel load = (LoadModel)loadObject;
+                    load.DriveBool = false;
+                }
+
+            }
+        }));
+    }
+
+    private void LoadGridContextMenu_RemoveLcs(object sender, MouseButtonEventArgs e)
+    {
+        RemoveLcsAsync();
+    }
+    private async Task RemoveLcsAsync()
+    {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
+                if (loadObject.GetType() == typeof(LoadModel)) {
+                    LoadModel load = (LoadModel)loadObject;
+                    load.LcsBool = false;
+                }
+            }
+        }));
+    }
+
+    private async Task DeleteLoads_VM()
+    {
+        if (dgdAssignedLoads.SelectedItems == null) return;
+        if (ConfirmationHelper.Confirm($"Delete {dgdAssignedLoads.SelectedItems.Count} loads? \n\nThis cannot be undone.")) {
+
+            try {
+                ILoad load;
+                while (dgdAssignedLoads.SelectedItems.Count > 0) {
+                    await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                        load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
+                        MjeqVm.DeleteLoadAsync(load);
+                        dgdAssignedLoads.SelectedItems.Remove(load);
+                    }));
+                }
+            }
+            catch (Exception ex) {
+                ex.Data.Add("UserMessage", "Cannot delete Distribution Equipment from Load List");
+                ErrorHelper.ShowErrorMessage(ex);
+            }
+        }
+    }
+
+
     #endregion
+
+
 
     private void FastEditEvent(object sender, RoutedEventArgs args)
     {
@@ -740,52 +793,9 @@ public partial class _MjeqView : UserControl
         
     }
 
-    private void LoadGridContextMenu_RemoveDiscoonnect(object sender, MouseButtonEventArgs e)
-    {
-        RemoveDisconnectAsync();
-    }
-    private async Task RemoveDisconnectAsync()
-    {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                
-                IPowerConsumer load = (IPowerConsumer)loadObject;
-                load.DisconnectBool = false;
-            }
-        }));
-    }
-    private void LoadGridContextMenu_RemoveDrive(object sender, MouseButtonEventArgs e)
-    {
-        RemoveDriveAsync();
-    }
-    private async Task RemoveDriveAsync()
-    {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    LoadModel load = (LoadModel)loadObject;
-                    load.DriveBool = false;
-                }
-                
-            }
-        }));
-    }
-    private void LoadGridContextMenu_RemoveLcs(object sender, MouseButtonEventArgs e)
-    {
-        RemoveLcsAsync();
-    }
+  
 
-    private async Task RemoveLcsAsync()
-    {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    LoadModel load = (LoadModel)loadObject;
-                    load.LcsBool = false;
-                }
-            }
-        }));
-    }
+
 
     private void eqView_Loaded(object sender, RoutedEventArgs e)
     {

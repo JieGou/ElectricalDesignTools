@@ -76,14 +76,14 @@ namespace WpfUI.ViewModels.AreasAndSystems
                 foreach (var eq in _listManager.CreateEquipmentList()) {
                     eq.HeatLoss = 0;
                     
-                    if (eq.Area == SelectedArea) {
+                    if (eq.Area == _selectedArea) {
                         if (eq is DistributionEquipment) {
                             var dteq = (DistributionEquipment)eq;
                             var dteqHeatLossCalculator = new DteqHeatLossCalculator();
                             dteqHeatLossCalculator.CalculateHeatLoss(dteq);
                             eq.HeatLoss = dteqHeatLossCalculator.TotalHeatLoss;
                         }
-                        SelectedArea.HeatLoss += eq.HeatLoss;
+                        _selectedArea.HeatLoss += eq.HeatLoss;
                         _selectedArea.EquipmentList.Add(eq);
                     }
 

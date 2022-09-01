@@ -1304,6 +1304,7 @@
 
                     <sf:SfDataGrid.ContextMenu>
                         <ContextMenu >
+                            <MenuItem Header="Move to Area" PreviewMouseDown="LoadGridContextMenu_SetArea" Height="25"/>
                             <MenuItem Header="Set FedFrom" PreviewMouseDown="LoadGridContextMenu_SetFedFrom" Height="20"/>
                             <MenuItem Header="Add" Height="20" >
                                 <MenuItem.Icon>

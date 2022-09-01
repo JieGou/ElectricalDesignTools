@@ -589,8 +589,13 @@ namespace EDTLibrary.Models.DistributionEquipment
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 NemaRating = Area.NemaRating;
                 AreaClassification = Area.AreaClassification;
-                PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
-                PowerCable.CalculateAmpacity(this);
+
+                //when selecting area on AreasView datagrid, PowerCable is null after Db reload
+                if (PowerCable!= null) {
+                    PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
+                    PowerCable.CalculateAmpacity(this);
+                }
+               
             }));
             UndoManager.CanAdd = true;
 

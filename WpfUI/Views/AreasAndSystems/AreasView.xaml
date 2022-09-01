@@ -203,6 +203,32 @@
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
 
+                    <!--NemaRating-->
+                    <DataGridTemplateColumn Header="NEMA&#x0a;Rating"
+                                                MinWidth="100"
+                                                Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding NemaRating}"
+                                               MouseLeftButtonDown="FastEditEvent"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+                                                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                              SelectedItem="{Binding NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              Text="{Binding NemaRating}"
+                                              HorizontalContentAlignment="Left"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    
                     <!--MinTemp-->
                     <DataGridTextColumn Header="Min Temp&#x0a;(°C)" x:Name="MinTemp" 
                                             Binding="{Binding MinTemp, NotifyOnSourceUpdated=True, 
@@ -231,32 +257,6 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-
-                    <!--NemaRating-->
-                    <DataGridTemplateColumn Header="NEMA&#x0a;Rating"
-                                                MinWidth="100"
-                                                Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding NemaRating}"
-                                               MouseLeftButtonDown="FastEditEvent"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <ComboBox ItemsSource="{Binding Path=DataContext.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
-                                                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
-                                              SelectedItem="{Binding NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              Text="{Binding NemaRating}"
-                                              HorizontalContentAlignment="Left"
-                                              IsEditable="False" IsTextSearchEnabled="True"
-                                              IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"
-                                              Template="{DynamicResource ComboBoxBase}"
-                                              />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
-                    </DataGridTemplateColumn>
 
                     <!--Sub-Area Of-->
                     <DataGridTemplateColumn Header="Sub-Area&#x0a;Of"

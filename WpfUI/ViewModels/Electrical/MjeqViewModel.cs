@@ -126,6 +126,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
         //Window Commands
         CloseWindowCommand = new RelayCommand(CloseSelectionWindow);
+        SetAreaCommand = new RelayCommand(SetArea);
         SetFedFromCommand = new RelayCommand(SetFedFrom);
 
 
@@ -190,6 +191,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
     public Window SelectionWindow { get; set; }
     public ICommand CloseWindowCommand { get; }
+    public ICommand SetAreaCommand { get; }
     public ICommand SetFedFromCommand { get; }
 
 
@@ -200,6 +202,21 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         SelectionWindow.Close();
         SelectionWindow = null;
+    }
+
+    public void SetArea()
+    {
+        if (SelectedLoads == null) return;
+        IPowerConsumer load;
+
+        foreach (var item in SelectedLoads) {
+            load = (IPowerConsumer)item;
+            //dteq.Tag = "New Tag";
+            load.Area = ListManager.AreaList.FirstOrDefault(d => d.Tag == LoadToAddValidator.AreaTag);
+        }
+        if (SelectionWindow != null) {
+            CloseSelectionWindow();
+        }
     }
     public void SetFedFrom()
     {

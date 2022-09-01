@@ -119,7 +119,7 @@ public class ComponentModel : IComponentEdt
         {
             var oldValue = _area;
             _area = value;
-            if (Area != null) {
+            if (_area != null) {
 
                 UndoManager.Lock(this, nameof(Area));
                 AreaManager.UpdateArea(this, _area, oldValue);
