@@ -48,6 +48,7 @@ namespace EDTLibrary.Models.Loads
                 if (value == null || value == _tag) return;
                 if (string.IsNullOrEmpty(value.ToString())) return;
                 if (Tag == GlobalConfig.LargestMotor_StartLoad) return;
+
                 if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
                     ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                     return;
@@ -405,6 +406,8 @@ namespace EDTLibrary.Models.Loads
 
 
                 UndoManager.CanAdd = false;
+                UndoManager.Lock(this, nameof(LcsBool));
+
                 if (DaManager.GettingRecords == false) {
                     if (_lcsBool == true) {
                         ComponentManager.AddLcs(this, ScenarioManager.ListManager);
@@ -439,6 +442,8 @@ namespace EDTLibrary.Models.Loads
                 }
 
                 UndoManager.CanAdd = false;
+                UndoManager.Lock(this, nameof(DriveBool));
+
                 if (DaManager.GettingRecords == false) {
                     if (_driveBool == true) {
                         ComponentManager.AddDefaultDrive(this, ScenarioManager.ListManager);

@@ -161,8 +161,6 @@ namespace WpfUI.ViewModels.AreasAndSystems
         #endregion
 
 
-
-
         #region Command Methods
 
         private async void GetAreas()
