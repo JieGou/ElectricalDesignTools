@@ -56,10 +56,10 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (DaManager.GettingRecords == true) return;
                 
                 if (PowerCable != null) {
-                    PowerCable.SetTagging(this);
+                    PowerCable.SetSourceAndDestinationTags(this);
                 }
                 foreach (var load in AssignedLoads) {
-                    load.PowerCable.SetTagging(load);
+                    load.PowerCable.SetSourceAndDestinationTags(load);
                 }
 
                 UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);

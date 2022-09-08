@@ -9,65 +9,142 @@ namespace EDTLibrary.DataAccess
     /// </summary>
     public class SaveLists
     {
-        static public List<string> DteqNoSaveList { get; set; } = new List<string>()
+        static public List<string> DteqSaveList { get; set; } = new List<string>()
         {   
-            "InLineComponents",
-            "AssignedLoads",
-            "PowerCable",
-            "Components",
-            "AuxComponents",
-            "CctComponents",
-            "FedFrom",
-            "Area",
-            "LargestMotor",
-            "DriveBool",
-            "DriveId",
-            "DisconnectBool",
-            "DisconnectId",
-            "LcsBool",
-            "Lcs",
-            "Drive",
-            "Disconnect",
-            "IsCalculating",
+            "Id",
+            "Tag",
+            "Category",
+            "Type",
+            "SubType",
+            "Description",
+
+            "AreaId",
+            "NemaRating",
+            "AreaClassification",
+
+            "FedFromId",
+            "FedFromTag",
+            "FedFromType",
+            
+            "Voltage",
+            "LineVoltage",
+            "LoadVoltage",
+            "Size",
+            "Unit",
+
+            "Efficiency",
+            "PowerFactor",
+            "ConnectedKva",
+            "DemandKva",
+            "DemandKw",
+            "DemandKvar",
+
+            "RunningAmps",
+            "Fla",
+            "AmpacityFactor",
+
+            "PdType",
+            "PdSizeTrip",
+            "PdSizeFrame",
+            "PercentLoaded",
+
+            "SCCR",
+            "LoadCableDerating",
         };
 
-        static public List<string> LoadNoSaveList { get; set; } = new List<string>() 
+        static public List<string> LoadSaveList { get; set; } = new List<string>() 
         {
-            "InLineComponents",
-            "PowerCable",
-            "Components",
-            "AuxComponents",
-            "CctComponents",
-            "FedFrom",
-            "Area",
-            "Lcs",
-            "Drive",
-            "Disconnect",
-            "BreakerSize",
-            "EfficiencyDisplay",
-            "IsCalculating",
+            "Id",
+            "Tag",
+            "Category",
+            "Type",
+            "SubType",
+            "Description",
+
+            "AreaId",
+            "NemaRating",
+            "AreaClassification",
+
+            "FedFromId",
+            "FedFromTag",
+            "FedFromType",
+
+            "Voltage",
+            "LineVoltage",
+            "LoadVoltage",
+            "Size",
+            "Unit",
+
+            "LoadFactor",
+            "Efficiency",
+            "PowerFactor",
+            "ConnectedKva",
+            "DemandKva",
+            "DemandKw",
+            "DemandKvar",
+
+            "RunningAmps",
+            "Fla",
+            "AmpacityFactor",
+
+            "PdType",
+            "PdSizeTrip",
+            "PdSizeFrame",
+            "StarterSize",
+
+            "DisconnectBool",
+            "DriveBool",
+            "LcsBool",
+            "HeatLoss",
 
         };
 
         static public List<string> CompNoSaveList { get; set; } = new List<string>()
         {
-            "Area",
-            "Owner",
-            "PowerCable",
-            "ControlCable",
-            "TypeModel",
-            "TypeList",
+            "Id",
+            "Tag",
+            "Category",
+            "SubCategory",
+            "Type",
+            "SubType",
+            "Description",
+
+            "AreaId",
+            "NemaRating",
+            "AreaClassification",
+
+            "FrameAmps",
+            "TripAmps",
+
+            "OwnerId",
+            "OwnerType",
+            "SequenceNumber",
+
+            "HeatLoss",
+            "Voltage",
+            "Default",
+
         };
 
         static public List<string> LcsNoSaveList { get; set; } = new List<string>()
         {
-            "Area",
-            "Owner",
-            "PowerCable",
-            "ControlCable",
-            "TypeModel",
-            "SubTypeList",
-            "HeatLoss",
+            "Id",
+            "Tag",
+            "Category",
+            "SubCategory",
+            "Type",
+            "SubType",
+            "Description",
+
+            "AreaId",
+            "NemaRating",
+            "AreaClassification",
+
+            "OwnerId",
+            "OwnerType",
+            "SequenceNumber",
+
+            "Voltage",
         };
 
         static public List<string> PowerCableNoSaveList { get; set; } = new List<string> {

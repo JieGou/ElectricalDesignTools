@@ -154,6 +154,12 @@
     <Compile Update="UserControls\HomeControls\PreviousProjectItem.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Electrical\DistributionPanelSubViews\DPanelCircuitBreaker.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Electrical\DistributionPanelSubViews\DPanelCircuitLeft.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Electrical\MjeqSubviews\CableSizingViewNarrow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -163,10 +169,16 @@
     <Compile Update="Views\Electrical\MjeqSubviews\EquipmentDetailsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Electrical\MjeqSubviews\DteqCompListDetailsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Electrical\SingleLineSubViews\SL_LoadGraphicView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Electrical\SingleLineSubViews\MccGraphicView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Electrical\DistributionPanelsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Settings\DeveloperSettingsView.xaml.cs">
@@ -216,6 +228,14 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\Electrical\DistributionPanelSubViews\DPanelCircuitBreaker.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Electrical\DistributionPanelSubViews\DPanelCircuitLeft.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Electrical\MjeqSubviews\CableSizingViewNarrow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -228,11 +248,19 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Views\Electrical\MjeqSubviews\DteqCompListDetailsView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Electrical\SingleLineSubViews\SL_LoadGraphicView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Electrical\SingleLineSubViews\MccGraphicView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Electrical\DistributionPanelsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

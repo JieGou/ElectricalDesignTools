@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.LibraryData.TypeModels;
+namespace EDTLibrary.LibraryData.LocalControlStations;
 public class LcsTypeModel
 {
     public int Id { get; set; }

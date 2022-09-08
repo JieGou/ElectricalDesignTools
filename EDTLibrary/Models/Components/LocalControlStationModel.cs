@@ -1,5 +1,6 @@
-﻿using EDTLibrary.ErrorManagement;
-using EDTLibrary.LibraryData.TypeModels;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.ErrorManagement;
+using EDTLibrary.LibraryData.LocalControlStations;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -37,6 +38,13 @@ public class LocalControlStationModel : ILocalControlStation
             var oldValue = _tag;
             _tag = value;
 
+            UndoManager.Lock(this, nameof(Tag));
+            if (DaManager.GettingRecords==false) {
+                if (Cable!= null) {
+
+                }
+            }
+            UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
 
             OnPropertyUpdated($"{nameof(Tag)}: {Tag}");
         }
@@ -45,7 +53,20 @@ public class LocalControlStationModel : ILocalControlStation
     public string SubCategory { get; set; }
 
 
-    public string Type { get; set; }
+    public string Type
+    {
+        get => _type;
+
+        set
+        {
+            var oldValue = _type;
+            _type = value;
+
+            UndoManager.Lock(this, nameof(Type));
+            UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _type);
+            OnPropertyUpdated(nameof(Type));
+        }
+    }
     public LcsTypeModel TypeModel { get; set; }
 
     public string Description { get; set; }
@@ -101,6 +122,7 @@ public class LocalControlStationModel : ILocalControlStation
         }
     }
     private string _areaClassification;
+    private string _type;
 
     public string AreaClassification
     {
@@ -116,7 +138,7 @@ public class LocalControlStationModel : ILocalControlStation
             OnPropertyUpdated();
         }
     }
-    public ICable ControlCable { get; set; }
+    public ICable Cable { get; set; }
 
 
 

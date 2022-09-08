@@ -406,6 +406,10 @@
                     <electricalViews:SinlgeLineView/>
                 </DataTemplate>
 
+                <DataTemplate DataType="{x:Type electricalViewModels:DistributionPanelsViewModel}">
+                    <electricalViews:DistributionPanelsView/>
+                </DataTemplate>
+
 
                 <!--Cables-->
                 <DataTemplate DataType="{x:Type cableViewModels:CableListViewModel}">

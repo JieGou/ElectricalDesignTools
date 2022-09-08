@@ -55,7 +55,7 @@ public class ComponentModel : IComponentEdt
                 }
             }
 
-            UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag); 
+            UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
             OnPropertyUpdated();
         }
     }
@@ -75,7 +75,14 @@ public class ComponentModel : IComponentEdt
             var oldValue = _type;
             _type = value;
 
-            UndoManager.AddUndoCommand(this, nameof(Type),oldValue,_type);
+            UndoManager.Lock(this, nameof(Type));
+                if (_type == DisconnectTypes.FDS.ToString() || _type == DisconnectTypes.FWDS.ToString()) {
+                var owner = (IPowerConsumer)Owner;
+                if (owner!= null) {
+                    TripAmps = TypeManager.BreakerSizes.FirstOrDefault(f => f.TripAmps >= owner.Fla*1.25).TripAmps;
+                }
+            }
+            UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _type);
             OnPropertyUpdated();
         }
     }
@@ -102,14 +109,38 @@ public class ComponentModel : IComponentEdt
 
 
     public double Voltage { get; set; }
-    public double Size { get; set; }
-    public double Trip { get; set; }
+    public double FrameAmps
+    {
+        get => _size;
+        set 
+        {
+
+            var oldValue = _size;
+            _size = value;
+
+            UndoManager.AddUndoCommand(this, nameof(FrameAmps), oldValue, _size);
+            OnPropertyUpdated();
+        }
+    }
+    public double TripAmps 
+    { 
+        get => _trip;
+        set
+        {
+
+            var oldValue = _trip;
+            _trip = value;
+
+            UndoManager.AddUndoCommand(this, nameof(TripAmps), oldValue, _trip);
+            OnPropertyUpdated();
+        }
+    }
 
     public int AreaId { get; set; }
     private IArea _area;
     private int _sequenceNumber;
     private List<string> _typelist = new List<string>();
-    
+
     private string _type;
 
     public IArea Area
@@ -146,6 +177,8 @@ public class ComponentModel : IComponentEdt
         }
     }
     private string _areaClassification;
+    private double _size;
+    private double _trip;
 
     public string AreaClassification
     {
@@ -182,11 +215,11 @@ public class ComponentModel : IComponentEdt
     public void CalculateSize(IPowerConsumer load)
     {
         if (Type == ComponentTypes.UDS.ToString() || Type == ComponentTypes.FDS.ToString()) {
-            Size = DataTableManager.GetDisconnectSize(load);
+            FrameAmps = DataTableManager.GetDisconnectSize(load);
 
         }
-        if (Type == ComponentTypes.UDS.ToString()){
-            Trip = DataTableManager.GetDisconnectFuse(load);
+        if (Type == ComponentTypes.UDS.ToString()) {
+            TripAmps = DataTableManager.GetDisconnectFuse(load);
         }
         OnPropertyUpdated();
     }
@@ -227,7 +260,7 @@ public class ComponentModel : IComponentEdt
     {
         IEquipment owner = (IEquipment)source;
         UndoManager.CanAdd = false;
-            AreaManager.UpdateArea(this, owner.Area, Area);
+        AreaManager.UpdateArea(this, owner.Area, Area);
         UndoManager.CanAdd = true;
         OnPropertyUpdated();
     }

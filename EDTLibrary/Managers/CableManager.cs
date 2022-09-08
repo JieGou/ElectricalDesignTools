@@ -58,8 +58,8 @@ public class CableManager
             }
 
             if (loadModel.Lcs!= null) {
-                listManager.CableList.Remove((CableModel)loadModel.Lcs.ControlCable);
-                DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, loadModel.Lcs.ControlCable.Id);
+                listManager.CableList.Remove((CableModel)loadModel.Lcs.Cable);
+                DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, loadModel.Lcs.Cable.Id);
             }
             
 
@@ -296,7 +296,7 @@ public class CableManager
         cable.IsOutdoor = lcsOwner.PowerCable.IsOutdoor;
         cable.InstallationType = lcsOwner.PowerCable.InstallationType;
 
-        lcs.ControlCable = cable;
+        lcs.Cable = cable;
 
         listManager.CableList.Add(cable);
         DaManager.UpsertCable(cable);
@@ -304,14 +304,14 @@ public class CableManager
 
     internal static void DeleteLcsControlCable(IComponentUser componentUser, ILocalControlStation lcsToRemove, ListManager listManager)
     {
-        if (lcsToRemove.ControlCable != null) {
-            int cableId = lcsToRemove.ControlCable.Id;
+        if (lcsToRemove.Cable != null) {
+            int cableId = lcsToRemove.Cable.Id;
             DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
-            listManager.CableList.Remove((CableModel)lcsToRemove.ControlCable);
+            listManager.CableList.Remove((CableModel)lcsToRemove.Cable);
 
             var list = new List<CableModel>();
             foreach (var cable in listManager.CableList) {
-                if (cable.OwnerType == typeof(LocalControlStationModel).ToString() && cable.OwnerId == lcsToRemove.ControlCable.Id) {
+                if (cable.OwnerType == typeof(LocalControlStationModel).ToString() && cable.OwnerId == lcsToRemove.Cable.Id) {
                     list.Add(cable);
                     DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cable.Id);
                 }

@@ -1,5 +1,7 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.Cables;
+using EDTLibrary.LibraryData.Disconnects;
+using EDTLibrary.LibraryData.LocalControlStations;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Components;
 using System.Collections.Generic;
@@ -113,6 +115,7 @@ namespace EDTLibrary.LibraryData
         //OCPD
         public static ObservableCollection<OcpdType> OcpdTypes { get; set; }
         public static ObservableCollection<DisconnectType> DisconnectTypes { get; set; } = new ObservableCollection<DisconnectType>();
+        public static ObservableCollection<DisconnectSize> DisconnectSizes { get; set; } = new ObservableCollection<DisconnectSize>();
 
         //Components
         public static ObservableCollection<LcsTypeModel> LcsTypes { get; set; }
@@ -133,7 +136,9 @@ namespace EDTLibrary.LibraryData
 
 
             LcsTypes = DaManager.libDb.GetRecords<LcsTypeModel>(GlobalConfig.LcsTypesTable);
+
             DisconnectTypes = DaManager.libDb.GetRecords<DisconnectType>("DisconnectTypes");
+            DisconnectSizes = DaManager.libDb.GetRecords<DisconnectSize>("DisconnectSizes");
 
             CecCableSizingRules = DaManager.libDb.GetRecords<CecCableSizingRule>("CecCableSizingRules");
             CableTypes = DaManager.libDb.GetRecords<CableTypeModel>(GlobalConfig.CableTypes);
@@ -147,6 +152,9 @@ namespace EDTLibrary.LibraryData
             TransformerGroundingTypes = DaManager.libDb.GetRecords<GroundingSystemType>("TransformerGroundingTypes");
 
             BreakerSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes");
+            var list = BreakerSizes.OrderBy(b => b.TripAmps).ToList();
+            BreakerSizes = new ObservableCollection<BreakerSize>(list);
+
             StarterSizes = DaManager.libDb.GetRecords<StarterSize>("Starters");
             VfdHeatSizes = DaManager.libDb.GetRecords<VfdHeatSize>("VFDHeatLoss");
 

@@ -63,7 +63,8 @@ public class DisconnectModel : IComponentEdt
     public List<string> TypeList { get; set; } = new List<string>() { "UDS", "FDS" };
 
     public double Voltage { get; set; }
-    public double Size { get; set; }
+    public double FrameAmps { get; set; }
+    public double TripAmps { get; set; }
 
     public int AreaId { get; set; }
     private IArea _area;

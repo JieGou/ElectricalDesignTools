@@ -17,7 +17,7 @@ public class CableFactory
         _listManager = listManager;
     }
 
-    public static ICable CreatePowerCable(IPowerCableUser cableOwner, ListManager listManager)
+    public static ICable CreatePowerCable(ICableUser cableOwner, ListManager listManager)
     {
         ICable newCable = new CableModel();
 

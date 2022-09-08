@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.Views.Electrical.SinlgeLineView"
+﻿<UserControl x:Class="WpfUI.Views.Electrical.DistributionPanelsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,8 +8,9 @@
         
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
+             xmlns:dPanelsSubViews="clr-namespace:WpfUI.Views.Electrical.DistributionPanelSubViews"
              
-             d:Height="900" d:Width="1200"
+             d:Height="900" d:Width="1800"
              Loaded="UserControl_Loaded"
              >
 
@@ -32,6 +33,13 @@
                 <Setter Property="FontSize" Value="14"/>
                 <Setter Property="FontWeight" Value="SemiBold"/>
             </Style>
+
+
+            <!--<Style TargetType="TextBox" x:Key="DPanelHeaderRow">
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Style>-->
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -59,7 +67,8 @@
             <TextBlock Text="Selected Equipment"
                        FontSize="16"
                        FontWeight="SemiBold"
-                       Margin="0 0 0 10"/>
+                       Margin="0 0 0 10"
+                       HorizontalAlignment="Left"/>
 
             <ListBox ItemsSource="{Binding ViewableDteqList}"
                      Grid.Row="1" Grid.Column="1"
@@ -217,51 +226,193 @@
                        Style="{StaticResource Value}"  />
         </Grid>
 
-        <!--Sinlge Line-->
-        <Border BorderBrush="LightGray" BorderThickness="1"
-                Background="White"
-                Grid.Row="2" Grid.Column="3"
-                VerticalAlignment="Stretch"
-                CornerRadius="5" 
-                >
-            <ScrollViewer Grid.Row="1" Grid.Column="2"
-                      Grid.RowSpan="2"
+
+        <!--Graphic-->
+
+        <ScrollViewer Grid.Row="2" Grid.Column="3"
+                      HorizontalAlignment="Left"
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       VerticalAlignment="Stretch"
                        >
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
 
-                    <singleLineSubViews:MccGraphicView DataContext="{Binding SelectedDteq}"
-                                                       Grid.Row="0"/>
+            <Grid Grid.Row="2" Grid.Column="2"
+              Grid.RowSpan="1" >
 
-                    <ItemsControl x:Name="items"
-                                  Grid.Row="1"
-                                  ItemsSource="{Binding AssignedLoads}"
-                                  VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--**************-->
+                <!--LEFT CIRCUITS-->
+                <!--**************-->
+
+                <!--Header Row-->
+                <Border BorderBrush="DarkGray" BorderThickness="1"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right">
+                    <Grid Grid.Row="0"
+                      Grid.Column="0"
+                      ShowGridLines="False" 
+                              >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.Resources>
+
+                        </Grid.Resources>
+
+
+                        <TextBox Text="Tag" Grid.Column="5" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="Description" Grid.Column="4" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="kW" Grid.Column="3" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="FLA" Grid.Column="2" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="Breaker" Grid.Column="1" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="Cable" Grid.Column="0" Style="{StaticResource DPanelHeaderRow}"/>
+                    </Grid>
+                </Border>
+
+                <!--Circuits-->
+                <Border BorderBrush="DarkGray" BorderThickness="1"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right">
+
+                    <ItemsControl Grid.Row="1"
+                                Grid.Column="2"
+                                ItemsSource="{Binding AssignedLoads}"
+                                VerticalAlignment="Top">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
+                                <StackPanel Orientation="Vertical"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
 
-                                <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Left">
-                                    <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}" />
+                                <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Left">
+                                    <dPanelsSubViews:DPanelCircuitLeft DataContext="{Binding}" />
                                 </StackPanel>
 
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                </Grid>
+                </Border>
 
-            </ScrollViewer>
-        </Border>
+
+                <!--**************-->
+                <!--   BREAKERS   -->
+                <!--**************-->
+                <Border BorderBrush="DarkGray" BorderThickness="1"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Right">
+
+                    <ItemsControl Grid.Row="1"
+                                Grid.Column="2"
+                                ItemsSource="{Binding AssignedLoads}"
+                                VerticalAlignment="Top">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+
+                                <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Center">
+                                    <dPanelsSubViews:DPanelCircuitBreaker DataContext="{Binding}" />
+
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+
+                <!--**************-->
+                <!--RIGHT CIRCUITS-->
+                <!--**************-->
+
+                <!--Header Row-->
+                <Border BorderBrush="DarkGray" BorderThickness="1"
+                        Grid.Row="0"
+                            Grid.Column="2"
+                            >
+                    <Grid Grid.Row="0"
+                      Grid.Column="2"
+                      ShowGridLines="False" >
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+
+
+                        <TextBox Text="Tag" Grid.Column="0" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="Description" Grid.Column="1" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="kW" Grid.Column="2" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="FLA" Grid.Column="3" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="Breaker" Grid.Column="4" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="Cable" Grid.Column="5" Style="{StaticResource DPanelHeaderRow}"/>
+                    </Grid>
+                </Border>
+
+                <!--Circuits-->
+                <Border BorderBrush="DarkGray" BorderThickness="1"
+                    Grid.Row="1"
+                        Grid.Column="2"
+                        >
+                    <ItemsControl Grid.Row="1"
+                                Grid.Column="2"
+                                ItemsSource="{Binding AssignedLoads}"
+                                VerticalAlignment="Top">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+
+                                <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Left">
+                                    <dPanelsSubViews:DPanelCircuitRight DataContext="{Binding}" />
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>    

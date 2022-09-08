@@ -212,6 +212,7 @@ namespace EDTLibrary.Models.Areas
                     string.IsNullOrWhiteSpace(_maxTemp) || _maxTemp == "") { 
                         AddError(nameof(MaxTemp), "Invalid value");
                         _isValid = false;
+                    return;
                 }
                 else if (Double.TryParse(MinTemp, out minTemp) != false ||
                         string.IsNullOrWhiteSpace(MinTemp) == false || MinTemp != "") {
@@ -221,8 +222,8 @@ namespace EDTLibrary.Models.Areas
                     if (double.Parse(_minTemp) > double.Parse(_maxTemp)) {
                         AddError(nameof(MaxTemp), "Max Temp must be higher than Min Temp");
                         _isValid = false;
+                        return;
                     }
-                    
 
                 }
                 _isValid = true;

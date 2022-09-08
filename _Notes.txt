@@ -18,7 +18,7 @@ Bugs
 	- SCCR calculation on DTEQ size change
 
 Validations
-	- PD
+	- PD	
 	- Cable
 	
 Modularize Calculations

@@ -1,4 +1,4 @@
-﻿using EDTLibrary.LibraryData.TypeModels;
+﻿using EDTLibrary.LibraryData.LocalControlStations;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
@@ -12,7 +12,7 @@ public interface ILocalControlStation: IEquipment
 {
    
   
-    ICable ControlCable { get; set; }
+    ICable Cable { get; set; }
     IEquipment Owner { get; set; }
     int OwnerId { get; set; }
     string OwnerType { get; set; }

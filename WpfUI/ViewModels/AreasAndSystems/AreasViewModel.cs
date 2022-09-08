@@ -178,7 +178,7 @@ namespace WpfUI.ViewModels.AreasAndSystems
 
                 try {
                     foreach (AreaModel area in ListManager.AreaList) {
-                        DaManager.prjDb.UpsertRecord<AreaModel>(area, GlobalConfig.AreaTable, SaveLists.AreaNoSaveList);
+                        DaManager.prjDb.UpsertRecord<AreaModel>(area, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
                     }
                 }
                 catch (Exception ex) {
@@ -225,7 +225,7 @@ namespace WpfUI.ViewModels.AreasAndSystems
                     newArea.NemaRating = areaToAdd.NemaRating;
 
 
-                    newArea.Id = DaManager.prjDb.InsertRecordGetId(newArea, GlobalConfig.AreaTable, SaveLists.AreaNoSaveList);
+                    newArea.Id = DaManager.prjDb.InsertRecordGetId(newArea, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
 
                     ListManager.AreaList.Add(newArea);
                     RefreshAreaTagValidation();

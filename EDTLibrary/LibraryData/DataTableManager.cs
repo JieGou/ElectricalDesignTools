@@ -192,17 +192,22 @@ namespace EDTLibrary.LibraryData
             if (DataTables.DisconnectSizes != null) {
 
                 DataTable dt = DataTables.DisconnectSizes.Copy();
-                DataTable dtFiltered;
+                DataTable dtFiltered = new DataTable();
 
                 IEnumerable<DataRow> filteredRows;
                 if (load.Type==LoadTypes.MOTOR.ToString()) {
+
                     filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("HP") >= (double)load.Size);
-                    if (load.Unit == Units.kW.ToString()) {
+                    
+                    if (load.Unit == Units.HP.ToString()) {
+                        filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("HP") >= (double)load.Size); 
+                    }
+                    else if (load.Unit == Units.kW.ToString()) {
                         filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("kW") >= (double)load.Size);
                     }
                 }
                 else {
-                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)load.Size);
+                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)load.Fla);
                 }
                 
 

@@ -8,7 +8,6 @@ namespace EDTLibrary.Models.Cables;
 
 public interface ICableUser : IEquipment
 {
-
     double Voltage { get; set; }
     double Size { get; set; }
     string Unit { get; set; }

@@ -61,7 +61,7 @@ namespace EDTLibrary.Models.Loads
 
                 UndoManager.CanAdd = false;
                 if (PowerCable != null) {
-                    PowerCable.SetTagging(this);
+                    PowerCable.SetSourceAndDestinationTags(this);
                 }
                 if (PowerCable != null && FedFrom != null) {
                     if (CableManager.IsUpdatingPowerCables == false) {
@@ -244,7 +244,7 @@ namespace EDTLibrary.Models.Loads
                     //OnFedFromChanged();
                     //CalculateLoading();
                     CreatePowerCable();
-                    PowerCable.SetTagging(this);
+                    PowerCable.SetSourceAndDestinationTags(this);
                 }
             }
         }

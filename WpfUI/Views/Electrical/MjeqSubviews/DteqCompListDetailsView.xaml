@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.Views.Electrical.MjeqSubviews.LoadCompListDetailsView"
+﻿<UserControl x:Class="WpfUI.Views.Electrical.MjeqSubviews.DteqCompListDetailsView"
           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -157,18 +157,20 @@
                               Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                               Height="20" Width="83"
                               Margin="0"
-                              ItemsSource="{Binding Path=DataContext.TypeManager.DisconnectSizes, 
+                              ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
                                                       Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                       RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                      AncestorType={x:Type Window}}}"
-                              
+                                                      AncestorType={x:Type Window}, AncestorLevel=3}}"
                               DisplayMemberPath="Amps"
-                              
-                               Text="{Binding Path=DataContext.SelectedComponent.FrameAmps, 
+                               Text="{Binding Path=DataContext.FrameAmps, 
                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
                                             AncestorType={x:Type UserControl}, AncestorLevel=3}}"
                               
+                              SelectedValue="{Binding Path=DataContext.SelectedComponent.FrameAmps, 
+                                                      Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                      RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                      AncestorType={x:Type UserControl}, AncestorLevel=3}}"
                               IsSynchronizedWithCurrentItem="False"  />
                 </StackPanel>
 
@@ -180,11 +182,7 @@
                     <Style TargetType="StackPanel">
                         <Setter Property="Visibility" Value="Hidden"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=DataContext.SelectedComponent.Type, 
-                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}" 
-                                         Value="FDS">
+                            <DataTrigger Binding="{Binding Type}" Value="FDS">
                                 <Setter Property="Visibility"  Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -197,17 +195,21 @@
                           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                           Height="20" Width="83"
                           Margin="0"
-                          ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                          ItemsSource="{Binding Path=DataContext.TypeList, 
                                                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                AncestorType={x:Type Window}}}"
+                                                AncestorType={x:Type UserControl}, AncestorLevel=3}}"
                           DisplayMemberPath="TripAmps"
                           
-                          Text ="{Binding Path=DataContext.SelectedComponent.TripAmps, 
-                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,   
+                          Text ="{Binding Path=DataContext.TripAmps, 
+                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
                                             AncestorType={x:Type UserControl}, AncestorLevel=3}}"
                           
+                          SelectedValue="{Binding Path=DataContext.TripAmps, 
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type UserControl}, AncestorLevel=3}}"
                           IsSynchronizedWithCurrentItem="False" SelectionChanged="ComboBox_SelectionChanged"  />
             </StackPanel>
 
@@ -234,7 +236,7 @@
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
                                             AncestorType={x:Type UserControl}, AncestorLevel=3}}"/>
                     
-                    <CheckBox Content="Drive"
+                    <CheckBox Content="Junction Box"
                               Grid.Row="1" Grid.Column="0"
                               Grid.ColumnSpan="3"
                               IsChecked="{Binding Path=DataContext.SelectedLoadEquipment.DriveBool, 
@@ -245,21 +247,7 @@
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
                                             AncestorType={x:Type UserControl}, AncestorLevel=3},
                                             Converter={StaticResource ComponentOwnerTypeToVisibilityConverter}}"/>
-                    
-                    <CheckBox Content="LCS / HS"
-                              Grid.Row="2" Grid.Column="0"
-                              Grid.ColumnSpan="3"
-                              IsChecked="{Binding Path=DataContext.SelectedLoadEquipment.LcsBool, 
-                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}"
-                              Visibility="{Binding DataContext.SelectedLoadEquipment.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3},
-                                            Converter={StaticResource ComponentOwnerTypeToVisibilityConverter}}"
-                              ToolTip="Local Control Statoin / Hand Station" 
-                              ToolTipService.InitialShowDelay="200"/>
-                </Grid>
+            </Grid>
                 <StackPanel Orientation="Vertical"
                             Grid.Row="1" Grid.Column="3"
                             Grid.RowSpan="5"

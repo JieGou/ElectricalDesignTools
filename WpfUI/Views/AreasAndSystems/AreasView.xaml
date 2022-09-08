@@ -416,9 +416,10 @@
                                   HorizontalAlignment="Left">   
 
                                 <TextBlock Text="{Binding ElementName=lstAreaClassification, Path=SelectedItem.ZoneDescription}" d:Text="" 
+                                           Background="{StaticResource TextBlockBackground}"
                                            TextWrapping="Wrap"
                                            HorizontalAlignment="Left"
-                                           Margin="10 0"/>
+                                           Margin="10 0 10 10"/>
                             </ScrollViewer>
 
                         </Grid>
@@ -476,7 +477,7 @@
                                 <TextBlock Text="{Binding ElementName=lstNemaRatings, Path=SelectedItem.Description}" d:Text="" 
                                            TextWrapping="Wrap"
                                            HorizontalAlignment="Left"
-                                           Margin="10 0"/>
+                                           Margin="10 0 10 10"/>
                             </ScrollViewer>
 
                         </Grid>

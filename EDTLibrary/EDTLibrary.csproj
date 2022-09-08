@@ -56,6 +56,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\Ocpds\" />
     <Folder Include="Models\ProtectiveDevices\" />
     <Folder Include="Services\" />
   </ItemGroup>

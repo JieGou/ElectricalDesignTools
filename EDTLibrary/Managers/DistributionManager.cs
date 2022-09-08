@@ -54,7 +54,7 @@ namespace EDTLibrary.Managers
                     caller.Voltage != 0 &&
                     caller.Fla != 0) {
                     caller.CalculateLoading();
-                    caller.PowerCable.SetTagging(caller);
+                    caller.PowerCable.SetSourceAndDestinationTags(caller);
                 }
             }
 

@@ -9,7 +9,8 @@ namespace EDTLibrary.Models.Components
 {
     public interface IComponentEdt :  IEquipment
     {
-        double Size { get; set; }
+        double FrameAmps { get; set; }
+        double TripAmps { get; set; }
         string SubCategory { get; set; }
         string SubType { get; set; }
         List<string> TypeList { get; set; }

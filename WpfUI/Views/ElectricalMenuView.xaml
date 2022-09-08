@@ -67,6 +67,10 @@
                 <Button Content="SINGLE LINE VIEW"
                         Style="{StaticResource ToolBarButtonBase}" 
                         Command="{Binding NavigateSingleLineCommand}"/>
+
+                <Button Content="DISTRIBUTION PANELS"
+                        Style="{StaticResource ToolBarButtonBase}" 
+                        Command="{Binding NavigateDistributionPanelsCommand}"/>
             </StackPanel>
 
         </Border>

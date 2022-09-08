@@ -246,7 +246,7 @@ public class SingleLineDrawer
                     break;
                 case "DCN_SIZE":
                     if (load.Disconnect != null)
-                        att.TextString = $"{load.Disconnect.Size}";
+                        att.TextString = $"{load.Disconnect.FrameAmps}";
                     break;
             }
 

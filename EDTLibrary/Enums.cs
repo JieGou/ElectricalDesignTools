@@ -53,12 +53,36 @@ namespace EDTLibrary {
         RVS,
         LCS,
     }
+    public enum CctComponentTypes
+    {
+        UDS,
+        FDS,
+        VFD,
+        VSD,
+        RVS,
+        JB,
+    }
+
+    public enum JunctionBoxTypes
+    {
+        JB,
+        MVJB,
+        HVJB,
+        CSTE,
+    }
     public enum ComponentSubTypes
     {
         DefaultDcn,
         DefaultDrive,
     }
+    public enum DisconnectTypes
+    {
+        UDS,
+        FDS,
+        UWDS,
+        FWDS,
 
+    }
     public enum CableUsageTypes {
         Power,
         Control,

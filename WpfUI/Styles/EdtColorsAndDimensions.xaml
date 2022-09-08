@@ -11,6 +11,7 @@
 <!--WINDOW LAYOUT-->
 
     <SolidColorBrush x:Key="WindowGridBorderBrush" Color="Black"/>
+    <SolidColorBrush x:Key="TextBlockBackground" Color="LightGray" Opacity=".3"/>
 
     <!--DIMENSIONS-->
 
