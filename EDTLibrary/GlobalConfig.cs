@@ -38,6 +38,7 @@ namespace EDTLibrary
         public static string XfrTable { get; set; } = "Transformer";
         public static string SwgTable { get; set; } = "Switchgear";
         public static string MccTable { get; set; } = "Mcc";
+        public static string DpnTable { get; set; } = "DPanels";
         public static string ComponentTable { get; set; } = "Components";
         public static string LcsTable { get; set; } = "LocalControlStation";
         public static string AreaTable { get; set; } = "Areas";

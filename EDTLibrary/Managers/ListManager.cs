@@ -31,6 +31,7 @@ namespace EDTLibrary.Managers
         public ObservableCollection<XfrModel> XfrList { get; set; } = new ObservableCollection<XfrModel>();
         public ObservableCollection<SwgModel> SwgList { get; set; } = new ObservableCollection<SwgModel>();
         public ObservableCollection<MccModel> MccList { get; set; } = new ObservableCollection<MccModel>();
+        public ObservableCollection<DpnModel> DpnList { get; set; } = new ObservableCollection<DpnModel>();
 
 
         public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
@@ -143,6 +144,7 @@ namespace EDTLibrary.Managers
             XfrList.Clear();
             SwgList.Clear();
             MccList.Clear();
+            DpnList.Clear();
 
             //Dteq
             //TODO - Clean up DteqModel vs abstract Dteq
@@ -175,6 +177,13 @@ namespace EDTLibrary.Managers
             //Mcc
             MccList = DaManager.prjDb.GetRecords<MccModel>(GlobalConfig.MccTable);
             foreach (var model in MccList) {
+                IDteqList.Add(model);
+                DteqList.Add(model);
+            }
+
+            //Dpn
+            DpnList = DaManager.prjDb.GetRecords<DpnModel>(GlobalConfig.DpnTable);
+            foreach (var model in DpnList) {
                 IDteqList.Add(model);
                 DteqList.Add(model);
             }
@@ -560,6 +569,11 @@ namespace EDTLibrary.Managers
             else if (iDteq.GetType() == typeof(MccModel)) {
                 var model = (MccModel)iDteq;
                 MccList.Add(model);
+                DteqList.Add(model);
+            }
+            else if (iDteq.GetType() == typeof(DpnModel)) {
+                var model = (DpnModel)iDteq;
+                DpnList.Add(model);
                 DteqList.Add(model);
             }
             IDteqList.Add(iDteq);

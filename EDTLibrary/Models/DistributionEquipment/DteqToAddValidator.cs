@@ -103,6 +103,14 @@ public class DteqToAddValidator : INotifyDataErrorInfo
                 Unit = "";
                 Unit = Units.A.ToString();
             }
+            else if (_type == DteqTypes.DPN.ToString()) {
+                Unit = "";
+                Unit = Units.A.ToString();
+            }
+            else if (_type == DteqTypes.CDP.ToString()) {
+                Unit = "";
+                Unit = Units.A.ToString();
+            }
             else if (_type == "") {
                 Unit = "";
             }

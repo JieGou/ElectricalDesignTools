@@ -162,7 +162,7 @@
                                                       RelativeSource={RelativeSource Mode=FindAncestor, 
                                                       AncestorType={x:Type Window}, AncestorLevel=3}}"
                               DisplayMemberPath="Amps"
-                               Text="{Binding Path=DataContext.FrameAmps, 
+                              Text="{Binding Path=DataContext.FrameAmps, 
                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
                                             AncestorType={x:Type UserControl}, AncestorLevel=3}}"

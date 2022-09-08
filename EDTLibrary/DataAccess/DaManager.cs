@@ -119,6 +119,10 @@ public class DaManager {
                     var model = (MccModel)iDteq;
                     prjDb.UpsertRecord(model, GlobalConfig.MccTable, NoSaveLists.DteqNoSaveList);
                 }
+                else if (iDteq.GetType() == typeof(DpnModel)) {
+                    var model = (DpnModel)iDteq;
+                    prjDb.UpsertRecord(model, GlobalConfig.DpnTable, NoSaveLists.DteqNoSaveList);
+                }
             });
         }
 

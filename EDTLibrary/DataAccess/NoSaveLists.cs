@@ -29,6 +29,11 @@ namespace EDTLibrary.DataAccess
             "Drive",
             "Disconnect",
             "IsCalculating",
+
+            "CircuitCount",
+            "CircuitList",
+            "LeftCircuits",
+            "RightCircuits",
         };
 
         static public List<string> LoadNoSaveList { get; set; } = new List<string>() 

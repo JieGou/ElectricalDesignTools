@@ -36,9 +36,9 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="75"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -62,9 +62,22 @@
                  Grid.Column="3"
                  Style="{StaticResource DPanelDataRow}"/>
 
-        <TextBox Text="{Binding PdSizeTrip}"
-                 Grid.Column="4"
-                 Style="{StaticResource DPanelDataRow}"/>
+        <ComboBox Grid.Column="4"
+                  Text="{Binding PdSizeTrip}"
+                  HorizontalContentAlignment="Center"
+                  VerticalContentAlignment="Center"
+                  Template="{DynamicResource ComboBoxBase}"
+                  
+                  ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, 
+                                        AncestorType={x:Type Window}}}"
+                  DisplayMemberPath="TripAmps"
+                  
+                  SelectedValue="{Binding PdSizeTrip, 
+                                          Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedValuePath="TripAmps"
+                  />
         
         <TextBox Text="{Binding PowerCable.Size}"
                  Grid.Column="5"

@@ -77,6 +77,14 @@
                      MinWidth="100" MinHeight="100"
                      Margin="0 10"/>
 
+            <TextBlock Text="Circuit Count:"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       Margin="0 0 0 0"
+                       HorizontalAlignment="Left"/>
+
+            <TextBox Text="{Binding SelectedDteq.CircuitCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
             <Button Content="Create Drawing"
                     Command="{Binding DrawSingleLineAcadCommand}"/>
         </StackPanel>
@@ -245,7 +253,9 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
@@ -264,9 +274,9 @@
                               >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="75"/>
+                            <ColumnDefinition Width="75"/>
+                            <ColumnDefinition Width="75"/>
                             <ColumnDefinition Width="250"/>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="*"/>
@@ -288,15 +298,15 @@
                     </Grid>
                 </Border>
 
-                <!--Circuits-->
+                <!--Circuit Data Left-->
                 <Border BorderBrush="DarkGray" BorderThickness="1"
                     Grid.Row="1"
                     Grid.Column="0"
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Left">
 
                     <ItemsControl Grid.Row="1"
                                 Grid.Column="2"
-                                ItemsSource="{Binding AssignedLoads}"
+                                ItemsSource="{Binding SelectedDteq.LeftCircuits}"
                                 VerticalAlignment="Top">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -316,18 +326,51 @@
                     </ItemsControl>
                 </Border>
 
-
-                <!--**************-->
-                <!--   BREAKERS   -->
-                <!--**************-->
+                <!--Left Circuit #s-->
+                <TextBox Text="Cct #" 
+                         Grid.Row="0" 
+                         Grid.Column="1"
+                         Style="{StaticResource DPanelHeaderRow}"/>
                 <Border BorderBrush="DarkGray" BorderThickness="1"
                     Grid.Row="1"
                     Grid.Column="1"
                     HorizontalAlignment="Right">
 
                     <ItemsControl Grid.Row="1"
+                                Grid.Column="1"
+                                ItemsSource="{Binding SelectedDteq.CircuitList}"
+                                VerticalAlignment="Top"
+                                  HorizontalAlignment="Right">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+
+                                <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Center">
+                                    <dPanelsSubViews:DPanelCircuitNumber DataContext="{Binding}" />
+
+                                </StackPanel>
+
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+
+                <!--**************-->
+                <!--   BREAKERS   -->
+                <!--**************-->
+                <Border BorderBrush="DarkGray" BorderThickness="1"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Right">
+
+                    <ItemsControl Grid.Row="1"
                                 Grid.Column="2"
-                                ItemsSource="{Binding AssignedLoads}"
+                                ItemsSource="{Binding SelectedDteq.CircuitList}"
                                 VerticalAlignment="Top">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -355,7 +398,7 @@
                 <!--Header Row-->
                 <Border BorderBrush="DarkGray" BorderThickness="1"
                         Grid.Row="0"
-                            Grid.Column="2"
+                            Grid.Column="4"
                             >
                     <Grid Grid.Row="0"
                       Grid.Column="2"
@@ -364,9 +407,9 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="250"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="75"/>
+                            <ColumnDefinition Width="75"/>
+                            <ColumnDefinition Width="75"/>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
@@ -385,14 +428,14 @@
                     </Grid>
                 </Border>
 
-                <!--Circuits-->
+                <!--Circuit Data Right-->
                 <Border BorderBrush="DarkGray" BorderThickness="1"
                     Grid.Row="1"
-                        Grid.Column="2"
+                        Grid.Column="4"
                         >
                     <ItemsControl Grid.Row="1"
                                 Grid.Column="2"
-                                ItemsSource="{Binding AssignedLoads}"
+                                ItemsSource="{Binding SelectedDteq.RightCircuits}"
                                 VerticalAlignment="Top">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>

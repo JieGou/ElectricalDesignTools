@@ -38,7 +38,7 @@
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
 
         <Canvas Grid.Row="0" Grid.Column="0">
@@ -59,21 +59,21 @@
             <!--A-->
             <Line X1="60" Y1="0" X2="60" Y2="50" Stroke="Black" />
                 <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
-                         Canvas.Top="13" Canvas.Left="57"
-                         />
+                         Canvas.Top="12.5" Canvas.Left="57.5"
+                         Visibility="Visible"/>
             
             <!--B-->
             <Line X1="75" Y1="0" X2="75" Y2="50" Stroke="Black" 
-                  Visibility="Hidden"/>
+                  Visibility="Visible"/>
                 <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
-                         Canvas.Top="13" Canvas.Left="72"
-                         Visibility="Hidden"/>
+                         Canvas.Top="12.5" Canvas.Left="72.5"
+                         Visibility="Visible"/>
             
             <!--C-->
             <Line X1="90" Y1="0" X2="90" Y2="50" Stroke="Black" />
                 <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
-                         Canvas.Top="13" Canvas.Left="87"
-                         />
+                         Canvas.Top="12.5" Canvas.Left="87.5"
+                         Visibility="Visible"/>
 
 
             <!--Breaker Right-->
@@ -86,7 +86,7 @@
         </Canvas>
         
         
-        <TextBox Text="{Binding Tag}"
+        <TextBox Text="{Binding CircuitNumber}"
                  Grid.Column="1"
                  Width="0"
                  />
