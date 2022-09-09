@@ -30,8 +30,8 @@ namespace EDTLibrary.DataAccess
             "Disconnect",
             "IsCalculating",
 
-            "CircuitCount",
-            "CircuitList",
+            "CircuitNumbersLeft",
+            "CircuitNumbersRight",
             "LeftCircuits",
             "RightCircuits",
         };

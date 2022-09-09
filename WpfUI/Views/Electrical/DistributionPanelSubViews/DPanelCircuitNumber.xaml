@@ -23,6 +23,8 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../Templates/SingleLineLoadGraphicTemplates.xaml"/>
+                <ResourceDictionary Source="../../../Styles/DPanels/DPanels_Style.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
             <Converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>
@@ -39,7 +41,7 @@
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="{StaticResource RowGridLength}"/>
         </Grid.RowDefinitions>
 
         <Border BorderBrush="DarkGray" BorderThickness="0 1 0 1">

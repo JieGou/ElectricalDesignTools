@@ -608,7 +608,13 @@ namespace EDTLibrary.Managers
                 MccList.Remove(model);
                 DteqList.Remove(model);
                 IDteqList.Remove(model);
+            }
 
+            else if (IDteq.GetType() == typeof(DpnModel)) {
+                var model = IDteq as DpnModel;
+                DpnList.Remove(model);
+                DteqList.Remove(model);
+                IDteqList.Remove(model);
             }
             return;
         }

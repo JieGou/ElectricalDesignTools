@@ -277,6 +277,10 @@ public class DaManager {
             var model = (MccModel)iDteq;
             prjDb.DeleteRecord(GlobalConfig.MccTable, model.Id);
         }
+        else if (iDteq.GetType() == typeof(DpnModel)) {
+            var model = (DpnModel)iDteq;
+            prjDb.DeleteRecord(GlobalConfig.DpnTable, model.Id);
+        }
     }
 
     

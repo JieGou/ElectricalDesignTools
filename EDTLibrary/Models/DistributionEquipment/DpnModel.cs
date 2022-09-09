@@ -15,45 +15,76 @@ namespace EDTLibrary.Models.DistributionEquipment
     [AddINotifyPropertyChangedInterface]
     public class DpnModel : DistributionEquipment
     {
-        public int CircuitCount { get; set; } = 42;
+        private ObservableCollection<IPowerConsumer> _leftCircuits;
+        private ObservableCollection<IPowerConsumer> _rightCircuits;
+        private int _circuitCount = 24;
 
-        public ObservableCollection<DpnCircuit> CircuitList {
+        public DpnModel()
+        {
+
+        }
+
+
+
+        public int CircuitCount
+        {
+            get => _circuitCount;
+            set
+            {
+                if (value > 60) {
+                    _circuitCount = 60;
+                }
+
+                else if (value < 0) {
+                    _circuitCount = 10;
+                }
+
+                else {
+                    _circuitCount = value;
+                }
+                LeftCircuits = SetLeftCircuits();
+                RightCircuits = SetRightCircuits();
+
+                OnPropertyUpdated();
+            }
+        }
+
+        public ObservableCollection<DpnCircuit> CircuitNumbersLeft
+        {
             get
             {
                 var cctList = new ObservableCollection<DpnCircuit>();
 
-                for (int i = 1; i <= CircuitCount; i+=2) {
-                    cctList.Add( new DpnCircuit { CircuitNumber = i.ToString() } );
+                for (int i = 1; i <= CircuitCount; i += 2) {
+                    cctList.Add(new DpnCircuit { CircuitNumber = i.ToString() });
                 }
                 return cctList;
             }
-            
+
+        }
+        public ObservableCollection<DpnCircuit> CircuitNumbersRight
+        {
+            get
+            {
+                var cctList = new ObservableCollection<DpnCircuit>();
+
+                for (int i = 2; i <= CircuitCount; i += 2) {
+                    cctList.Add(new DpnCircuit { CircuitNumber = i.ToString() });
+                }
+                return cctList;
+            }
+
         }
 
         public ObservableCollection<IPowerConsumer> LeftCircuits
         {
             get
             {
-                var cctList = new ObservableCollection<IPowerConsumer>();
-                int poleCount = 0;
-
-                for (int i = 0; i < AssignedLoads.Count; i++) {
-                    if (i % 2 == 0) {
-                        cctList.Add(AssignedLoads[i]);
-                        if (AssignedLoads[i].Type == "MOTOR") {
-                            poleCount += 1;
-                        }
-                        if (AssignedLoads[i].Type == "PANEL") {
-                            poleCount += 2;
-                        }
-                    }
-                }
-
-                for (int i = cctList.Count; i < CircuitCount / 2 - poleCount; i++) {
-                    cctList.Add(new LoadModel { Tag = "-", Description="SPACE" });
-                }
-
-                return cctList;
+                return SetLeftCircuits();
+            }
+            set
+            {
+                _leftCircuits = value;
             }
         }
 
@@ -61,30 +92,60 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             get
             {
-                var cctList = new ObservableCollection<IPowerConsumer>();
-                int poleCount = 0;
-
-                for (int i = 2; i < AssignedLoads.Count; i++) {
-                    if (i % 2 != 0) {
-                        cctList.Add(AssignedLoads[i]);
-                        if (AssignedLoads[i].Type == "MOTOR") {
-                            poleCount += 1;
-                        }
-                        if (AssignedLoads[i].Type == "PANEL") {
-                            poleCount += 2;
-                        }
-                    }
-                }
-
-                for (int i = cctList.Count+1; i <= CircuitCount / 2 - poleCount; i++) {
-                    cctList.Add(new LoadModel { Tag = i.ToString() });
-                }
-
-                return cctList;
+                return SetRightCircuits();
             }
-
+            set
+            {
+                _rightCircuits = value;
+            }
         }
 
+        private ObservableCollection<IPowerConsumer> SetLeftCircuits()
+        {
+            var cctList = new ObservableCollection<IPowerConsumer>();
+            int poleCount = 0;
+
+            for (int i = 0; i < AssignedLoads.Count; i++) {
+                if (i % 2 == 0) {
+                    cctList.Add(AssignedLoads[i]);
+                    if (AssignedLoads[i].Type == "MOTOR") {
+                        poleCount += 1;
+                    }
+                    if (AssignedLoads[i].Type == "PANEL") {
+                        poleCount += 2;
+                    }
+                }
+            }
+
+            for (int i = cctList.Count; i < CircuitCount / 2 - poleCount; i++) {
+                cctList.Add(new LoadModel { Tag = "-", Description = "SPACE" });
+            }
+
+            return cctList;
+        }
+        private ObservableCollection<IPowerConsumer> SetRightCircuits()
+        {
+            var cctList = new ObservableCollection<IPowerConsumer>();
+            int poleCount = 0;
+
+            for (int i = 2; i < AssignedLoads.Count; i++) {
+                if (i % 2 != 0) {
+                    cctList.Add(AssignedLoads[i]);
+                    if (AssignedLoads[i].Type == "MOTOR") {
+                        poleCount += 1;
+                    }
+                    if (AssignedLoads[i].Type == "PANEL") {
+                        poleCount += 2;
+                    }
+                }
+            }
+
+            for (int i = cctList.Count + 1; i <= CircuitCount / 2 - poleCount; i++) {
+                cctList.Add(new LoadModel { Tag = "-", Description = "SPACE" });
+            }
+
+            return cctList;
+        }
     }
 
 }

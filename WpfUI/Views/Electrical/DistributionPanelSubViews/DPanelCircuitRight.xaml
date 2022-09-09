@@ -22,7 +22,8 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../../Templates/SingleLineLoadGraphicTemplates.xaml"/>
+                <ResourceDictionary Source="../../../Styles/DPanels/DPanels_Style.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
             <Converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>
@@ -32,14 +33,20 @@
 
 
     <Grid ShowGridLines="False" >
-        
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"/>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="75"/>
-            <ColumnDefinition Width="75"/>
-            <ColumnDefinition Width="75"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <!--<ColumnDefinition Width="{StaticResource CableGridLength}"/>
+            <ColumnDefinition Width="{StaticResource BreakerGridLength}"/>
+            <ColumnDefinition Width="{StaticResource FlaGridLength}"/>
+            <ColumnDefinition Width="{StaticResource KwGridLength}"/>
+            <ColumnDefinition Width="{StaticResource DescriptionGridLength}"/>
+            <ColumnDefinition Width="{StaticResource TagGridLength}"/>-->
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -48,22 +55,28 @@
 
         <TextBox Text="{Binding Tag}"
                  Grid.Column="0"
-                 Style="{StaticResource DPanelDataRow}"/>
+                 Width="{StaticResource TagColumnWidth}"
+                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
 
         <TextBox Text="{Binding Description}"
                  Grid.Column="1"
-                 Style="{StaticResource DPanelDataRow}"/>
+                 Width="{StaticResource DescriptionColumnWidth}"
+                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
 
         <TextBox Text="{Binding DemandKw}"
                  Grid.Column="2"
-                 Style="{StaticResource DPanelDataRow}"/>
-        
+                 Width="{StaticResource KwColumnWidth}"
+                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
+
         <TextBox Text="{Binding Fla}"
                  Grid.Column="3"
-                 Style="{StaticResource DPanelDataRow}"/>
+                 Width="{StaticResource FlaColumnWidth}"
+                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
+
 
         <ComboBox Grid.Column="4"
                   Text="{Binding PdSizeTrip}"
+                  Width="{StaticResource BreakerColumnWidth}"
                   HorizontalContentAlignment="Center"
                   VerticalContentAlignment="Center"
                   Template="{DynamicResource ComboBoxBase}"
@@ -78,9 +91,10 @@
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedValuePath="TripAmps"
                   />
-        
+
         <TextBox Text="{Binding PowerCable.Size}"
                  Grid.Column="5"
-                 Style="{StaticResource DPanelDataRow}"/>
+                 Width="{StaticResource CableColumnWidth}"
+                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
     </Grid>
 </UserControl>

@@ -75,6 +75,9 @@ namespace EDTLibrary.Models.DistributionEquipment
             else if (oDteq.GetType() == typeof(MccModel)) {
                 return (MccModel)oDteq;
             }
+            else if (oDteq.GetType() == typeof(DpnModel)) {
+                return (DpnModel)oDteq;
+            }
             else {
                 return (DteqModel)oDteq;
             }

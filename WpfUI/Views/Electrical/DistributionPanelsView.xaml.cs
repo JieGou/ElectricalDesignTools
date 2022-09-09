@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.Models.Loads;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,5 +41,16 @@ public partial class DistributionPanelsView : UserControl
                 vm.SelectedDteq = vm.ViewableDteqList[0];
             }
         }
+    }
+
+    private void SfDataGrid_QueryRowHeight(object sender, Syncfusion.UI.Xaml.Grid.QueryRowHeightEventArgs e)
+    {
+        //var load = (LoadModel)sender;
+        //if (load.Type == "MOTOR") {
+        //    e.Height = 50;
+        //}
+        //else if (load.Type == "PANEL") {
+        //    e.Height = 75;
+        //}
     }
 }

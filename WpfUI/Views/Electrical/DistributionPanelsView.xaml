@@ -10,6 +10,8 @@
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
              xmlns:dPanelsSubViews="clr-namespace:WpfUI.Views.Electrical.DistributionPanelSubViews"
              
+             xmlns:sf="http://schemas.syncfusion.com/wpf"
+             
              d:Height="900" d:Width="1800"
              Loaded="UserControl_Loaded"
              >
@@ -19,6 +21,7 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
+                <ResourceDictionary Source="../../Styles/DPanels/DPanels_Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="TextBlock" x:Key="Label">
@@ -33,13 +36,6 @@
                 <Setter Property="FontSize" Value="14"/>
                 <Setter Property="FontWeight" Value="SemiBold"/>
             </Style>
-
-
-            <!--<Style TargetType="TextBox" x:Key="DPanelHeaderRow">
-                <Setter Property="TextAlignment" Value="Center"/>
-                <Setter Property="FontSize" Value="14"/>
-                <Setter Property="FontWeight" Value="SemiBold"/>
-            </Style>-->
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -234,177 +230,118 @@
                        Style="{StaticResource Value}"  />
         </Grid>
 
+        
+        <!--Panel Graphic-->
+        <DockPanel Grid.Row="2" Grid.Column="3"
+              HorizontalAlignment="Left">
 
-        <!--Graphic-->
-
-        <ScrollViewer Grid.Row="2" Grid.Column="3"
-                      HorizontalAlignment="Left"
-                      HorizontalScrollBarVisibility="Auto"
-                      VerticalScrollBarVisibility="Auto"
-                      VerticalAlignment="Stretch"
-                       >
-
-            <Grid Grid.Row="2" Grid.Column="2"
-              Grid.RowSpan="1" >
+            <!--Header Row-->
+            <Grid Grid.Row="2" Grid.Column="3"
+                  HorizontalAlignment="Left"
+                  DockPanel.Dock="Top"
+                  ShowGridLines="False">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!--**************-->
-                <!--LEFT CIRCUITS-->
-                <!--**************-->
+                
+                <!--Left Header Row-->
+                <sf:SfDataGrid Grid.Row="0" 
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                AutoGenerateColumns="False"
+                                RowHeight="{StaticResource RowHeight}"
+                               Visibility="Collapsed">
 
-                <!--Header Row-->
-                <Border BorderBrush="DarkGray" BorderThickness="1"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    HorizontalAlignment="Right">
-                    <Grid Grid.Row="0"
-                      Grid.Column="0"
-                      ShowGridLines="False" 
-                              >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="75"/>
-                            <ColumnDefinition Width="75"/>
-                            <ColumnDefinition Width="75"/>
-                            <ColumnDefinition Width="250"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.Resources>
+                    <sf:SfDataGrid.Columns>
+                        <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size" Width="{StaticResource CableColumnWidth}"/>
+                        <sf:GridTextColumn HeaderText="Breaker" MappingName="PdSizeTrip" Width="{StaticResource BreakerColumnWidth}"/>
+                        <sf:GridTextColumn HeaderText="FLA" MappingName="Fla" Width="{StaticResource FlaColumnWidth}"/>
+                        <sf:GridTextColumn HeaderText="kW" MappingName="DemandKw" Width="{StaticResource KwColumnWidth}"/>
+                        <sf:GridTextColumn HeaderText="Description" MappingName="Description" Width="{StaticResource DescriptionColumnWidth}"/>
+                        <sf:GridTextColumn HeaderText="Tag" MappingName="Tag" Width="{StaticResource TagColumnWidth}"/>
+                    </sf:SfDataGrid.Columns>
+                </sf:SfDataGrid>
 
-                        </Grid.Resources>
-
-
-                        <TextBox Text="Tag" Grid.Column="5" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="Description" Grid.Column="4" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="kW" Grid.Column="3" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="FLA" Grid.Column="2" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="Breaker" Grid.Column="1" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="Cable" Grid.Column="0" Style="{StaticResource DPanelHeaderRow}"/>
-                    </Grid>
-                </Border>
-
-                <!--Circuit Data Left-->
-                <Border BorderBrush="DarkGray" BorderThickness="1"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    HorizontalAlignment="Left">
-
-                    <ItemsControl Grid.Row="1"
-                                Grid.Column="2"
-                                ItemsSource="{Binding SelectedDteq.LeftCircuits}"
-                                VerticalAlignment="Top">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-
-                                <StackPanel Orientation="Vertical"
-                                            HorizontalAlignment="Left">
-                                    <dPanelsSubViews:DPanelCircuitLeft DataContext="{Binding}" />
-                                </StackPanel>
-
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <!--Left Circuit #s-->
-                <TextBox Text="Cct #" 
-                         Grid.Row="0" 
-                         Grid.Column="1"
-                         Style="{StaticResource DPanelHeaderRow}"/>
-                <Border BorderBrush="DarkGray" BorderThickness="1"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    HorizontalAlignment="Right">
-
-                    <ItemsControl Grid.Row="1"
-                                Grid.Column="1"
-                                ItemsSource="{Binding SelectedDteq.CircuitList}"
-                                VerticalAlignment="Top"
-                                  HorizontalAlignment="Right">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-
-                                <StackPanel Orientation="Vertical"
-                                            HorizontalAlignment="Center">
-                                    <dPanelsSubViews:DPanelCircuitNumber DataContext="{Binding}" />
-
-                                </StackPanel>
-
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <!--**************-->
-                <!--   BREAKERS   -->
-                <!--**************-->
-                <Border BorderBrush="DarkGray" BorderThickness="1"
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    HorizontalAlignment="Right">
-
-                    <ItemsControl Grid.Row="1"
-                                Grid.Column="2"
-                                ItemsSource="{Binding SelectedDteq.CircuitList}"
-                                VerticalAlignment="Top">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-
-                                <StackPanel Orientation="Vertical"
-                                            HorizontalAlignment="Center">
-                                    <dPanelsSubViews:DPanelCircuitBreaker DataContext="{Binding}" />
-
-                                </StackPanel>
-
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Border>
-
-                <!--**************-->
-                <!--RIGHT CIRCUITS-->
-                <!--**************-->
-
-                <!--Header Row-->
                 <Border BorderBrush="DarkGray" BorderThickness="1"
                         Grid.Row="0"
-                            Grid.Column="4"
-                            >
-                    <Grid Grid.Row="0"
-                      Grid.Column="2"
-                      ShowGridLines="False" >
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        Visibility="Visible">
 
+                    <StackPanel Orientation="Horizontal"
+                                    Grid.Row="0"
+                                    Grid.Column="0" >
+
+                        <TextBlock Text="Cable" Width="{StaticResource CableColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="Breaker" Width="{StaticResource BreakerColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="FLA" Width="{StaticResource FlaColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="kW" Width="{StaticResource KwColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="Description" Width="{StaticResource DescriptionColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="Tag" Width="{StaticResource TagColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="Cct #" Width="{StaticResource CctColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                    </StackPanel>
+
+                    <!--<Grid Grid.Row="0"
+                          Grid.Column="0"
+                          ShowGridLines="False" 
+                                  >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="75"/>
+                                <ColumnDefinition Width="75"/>
+                                <ColumnDefinition Width="75"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.Resources>
+
+                            </Grid.Resources>
+
+
+                            <TextBox Text="Tag" Grid.Column="5" Style="{StaticResource DPanelHeaderRow}"/>
+                            <TextBox Text="Description" Grid.Column="4" Style="{StaticResource DPanelHeaderRow}"/>
+                            <TextBox Text="kW" Grid.Column="3" Style="{StaticResource DPanelHeaderRow}"/>
+                            <TextBox Text="FLA" Grid.Column="2" Style="{StaticResource DPanelHeaderRow}"/>
+                            <TextBox Text="Breaker" Grid.Column="1" Style="{StaticResource DPanelHeaderRow}"/>
+                            <TextBox Text="Cable" Grid.Column="0" Style="{StaticResource DPanelHeaderRow}"/>
+                        </Grid>-->
+
+                </Border>
+
+                <!--Right Header Row-->
+                <Border BorderBrush="DarkGray" BorderThickness="1"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                                >
+                    <StackPanel Orientation="Horizontal"
+                                    Grid.Row="0"
+                                    Grid.Column="0" >
+
+                        <TextBlock Text="Cct #" Width="{StaticResource CctColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="Tag" Width="{StaticResource TagColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="Description" Width="{StaticResource DescriptionColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="kW" Width="{StaticResource KwColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="FLA" Width="{StaticResource FlaColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="Breaker" Width="{StaticResource BreakerColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+
+                        <TextBlock Text="Cable" Width="100" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                    </StackPanel>
+                    
+                    <!--<Grid >
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="250"/>
                             <ColumnDefinition Width="75"/>
@@ -418,44 +355,231 @@
                         </Grid.RowDefinitions>
 
 
-
-                        <TextBox Text="Tag" Grid.Column="0" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="Description" Grid.Column="1" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="kW" Grid.Column="2" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="FLA" Grid.Column="3" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="Breaker" Grid.Column="4" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="Cable" Grid.Column="5" Style="{StaticResource DPanelHeaderRow}"/>
-                    </Grid>
-                </Border>
-
-                <!--Circuit Data Right-->
-                <Border BorderBrush="DarkGray" BorderThickness="1"
-                    Grid.Row="1"
-                        Grid.Column="4"
-                        >
-                    <ItemsControl Grid.Row="1"
-                                Grid.Column="2"
-                                ItemsSource="{Binding SelectedDteq.RightCircuits}"
-                                VerticalAlignment="Top">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-
-                                <StackPanel Orientation="Vertical"
-                                            HorizontalAlignment="Left">
-                                    <dPanelsSubViews:DPanelCircuitRight DataContext="{Binding}" />
-                                </StackPanel>
-
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        <TextBox Text="Cct #" Grid.Column="0" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="Tag" Grid.Column="1" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="Description" Grid.Column="2" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="kW" Grid.Column="3" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="FLA" Grid.Column="4" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="Breaker" Grid.Column="5" Style="{StaticResource DPanelHeaderRow}"/>
+                        <TextBox Text="Cable" Grid.Column="6" Style="{StaticResource DPanelHeaderRow}"/>
+                    </Grid>-->
                 </Border>
 
             </Grid>
-        </ScrollViewer>
+
+            <!--Data Rows-->
+            <ScrollViewer Grid.Row="2" Grid.Column="3"
+                      HorizontalAlignment="Left"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto"
+                      VerticalAlignment="Stretch"
+                       >
+
+                <Grid Grid.Row="2" Grid.Column="2"
+                      Grid.RowSpan="1" >
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" d:Width="650"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="153"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="*" d:Width="650"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--LEFT CIRCUITS-->
+
+                    <!--Circuit Data Left-->
+                    <sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2"
+                                   Grid.Column="0"
+                                   HorizontalAlignment="Left"
+                                   AutoGenerateColumns="False"
+                                   ItemsSource="{Binding SelectedDteq.LeftCircuits}"
+                                   RowHeight="{StaticResource RowHeight}"
+                                   HeaderRowHeight="0" QueryRowHeight="SfDataGrid_QueryRowHeight"
+                                   Visibility="Collapsed">
+                        
+                        <sf:SfDataGrid.Columns>
+                            <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size" Width="{StaticResource CableColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="Breaker" MappingName="PdSizeTrip" Width="{StaticResource BreakerColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="FLA" MappingName="Fla" Width="{StaticResource FlaColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="kW" MappingName="DemandKw" Width="{StaticResource KwColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="Description" MappingName="Description" Width="{StaticResource DescriptionColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="Tag" MappingName="Tag" Width="{StaticResource TagColumnWidth}"/>
+                        </sf:SfDataGrid.Columns>
+                    </sf:SfDataGrid>
+                        
+                    <Border BorderBrush="DarkGray" BorderThickness="0"
+                            Grid.Row="0" Grid.RowSpan="2"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left"
+                            Visibility="Visible">
+
+                        <ItemsControl Grid.Row="1"
+                                Grid.Column="2"
+                                ItemsSource="{Binding SelectedDteq.LeftCircuits}"
+                                VerticalAlignment="Top">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Left">
+                                        <dPanelsSubViews:DPanelCircuitLeft DataContext="{Binding}" />
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+
+                    <!--Left Circuit #s-->
+                                   
+                    <Border BorderBrush="DarkGray" BorderThickness="0"
+                            Grid.Row="0" Grid.RowSpan="2"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left">
+
+                        <ItemsControl Grid.Row="1"
+                                Grid.Column="1"
+                                ItemsSource="{Binding SelectedDteq.CircuitNumbersLeft}"
+                                VerticalAlignment="Top"
+                                  HorizontalAlignment="Right">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Center">
+                                        <dPanelsSubViews:DPanelCircuitNumber DataContext="{Binding}" />
+
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+
+                    <!--**************-->
+                    <!--   BREAKERS   -->
+                    <!--**************-->
+                    <Border BorderBrush="DarkGray" BorderThickness="0"
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            HorizontalAlignment="Right">
+
+                        <ItemsControl Grid.Row="1"
+                                Grid.Column="2"
+                                ItemsSource="{Binding SelectedDteq.CircuitNumbersLeft}"
+                                VerticalAlignment="Top">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Center">
+                                        <dPanelsSubViews:DPanelCircuitBreaker DataContext="{Binding}" />
+
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+
+                    
+                    <!--RIGHT CIRCUITS-->
+                    <!--Circuit Data Right-->
+                    <sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2"
+                                   Grid.Column="4"
+                                   HorizontalAlignment="Left"
+                                   AutoGenerateColumns="False"
+                                   ItemsSource="{Binding SelectedDteq.LeftCircuits}"
+                                   RowHeight="{StaticResource RowHeight}"
+                                   Visibility="Collapsed">
+
+                        <sf:SfDataGrid.Columns>
+                            <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size" Width="{StaticResource CableColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="Breaker" MappingName="PdSizeTrip" Width="{StaticResource BreakerColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="FLA" MappingName="Fla" Width="{StaticResource FlaColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="kW" MappingName="DemandKw" Width="{StaticResource KwColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="Description" MappingName="Description" Width="{StaticResource DescriptionColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="Tag" MappingName="Tag" Width="{StaticResource TagColumnWidth}"/>
+                        </sf:SfDataGrid.Columns>
+                    </sf:SfDataGrid>
+                    
+                    <Border BorderBrush="DarkGray" BorderThickness="0"
+                            Grid.Row="0" Grid.RowSpan="2"
+                            Grid.Column="4"
+                            Visibility="Visible">
+                        
+                        <ItemsControl Grid.Row="1"
+                                Grid.Column="2"
+                                ItemsSource="{Binding SelectedDteq.RightCircuits}"
+                                VerticalAlignment="Top">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Left">
+                                        <dPanelsSubViews:DPanelCircuitRight DataContext="{Binding}" />
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+
+                    <!--Right Circuit #s-->
+                    <Border BorderBrush="DarkGray" BorderThickness="1 0 0 0"
+                            Grid.Row="0" Grid.RowSpan="2"
+                            Grid.Column="3"
+                            HorizontalAlignment="Right">
+
+                        <ItemsControl Grid.Row="1"
+                                Grid.Column="1"
+                                ItemsSource="{Binding SelectedDteq.CircuitNumbersRight}"
+                                VerticalAlignment="Top"
+                                  HorizontalAlignment="Right">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+
+                                    <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Center">
+                                        <dPanelsSubViews:DPanelCircuitNumber DataContext="{Binding}" />
+
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+        </DockPanel>
     </Grid>
-</UserControl>    
+</UserControl>   

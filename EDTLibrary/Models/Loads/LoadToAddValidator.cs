@@ -230,6 +230,8 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 _voltage = value;
+                _feedingDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
+
                 ClearErrors(nameof(Voltage));
                 if (GlobalConfig.SelectingNew == true) { return; }
 
@@ -241,28 +243,39 @@ namespace EDTLibrary.Models.Loads
                     if (_feedingDteq != null) {
                         if (_voltage == _feedingDteq.LoadVoltage.ToString()) {
                             if (_type == LoadTypes.MOTOR.ToString()) {
-                                if (Voltage == "600") {
-                                    Voltage = "575";
+                                if (_voltage == "600") {
+                                    _voltage = "575";
                                 }
-                                else if (Voltage == "480") {
-                                    Voltage = "460";
+                                else if (_voltage == "480") {
+                                    _voltage = "460";
                                 }
                             }
                             _isValid = true;
                         }
                         else {
                             if (_type == LoadTypes.MOTOR.ToString()) {
-                                if (Voltage == "600") {
-                                    Voltage = "575";
+                                if (_voltage == "600") {
+                                    _voltage = "575";
                                     _isValid = true;
                                 }
-                                else if (Voltage == "480") {
-                                    Voltage = "460";
+                                else if (_voltage == "480") {
+                                    _voltage = "460";
                                     _isValid = true;
                                 }
                             }
+                            if (_feedingDteq.LoadVoltage == 208) {
+                                if (_voltage == "208" || _voltage == "120") {
+                                    _isValid = true;
+                                }
+                            }
+                            else if (_feedingDteq.LoadVoltage == 240) {
+                                if (_voltage == "240" || _voltage == "120") {
+                                    _isValid = true;
+                                }
+                            }
+
                             else
-                            AddError(nameof(Voltage), "Voltage does not match supply Equipment");
+                        AddError(nameof(Voltage), "Voltage does not match supply Equipment");
                         }
                     }
                 }

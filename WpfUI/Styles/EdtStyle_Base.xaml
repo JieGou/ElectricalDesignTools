@@ -122,35 +122,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
-    <!--TEXTBOX DpanelHeaderRow -->
-    <Style TargetType="TextBox" x:Key="DPanelHeaderRow"
-           BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-        <Setter Property="Height" Value="25"/>
-        <Setter Property="TextAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-    </Style>
-    
-    <!--TEXTBOX DpanelRow -->
-    <Style TargetType="TextBox" x:Key="DPanelDataRow"
-           BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
-        <Setter Property="Height" Value="25"/>
-        <Setter Property="TextAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Type}" Value="MOTOR">
-                <Setter Property="Height" Value="50"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="PANEL">
-                <Setter Property="Height" Value="75"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
+   
 
-    
     <!--TEXTBOX - DataGrid Header Filter -->
     <Style x:Key="FilterTextBoxBase" TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
         <Setter Property="FontSize" Value="12"/>
