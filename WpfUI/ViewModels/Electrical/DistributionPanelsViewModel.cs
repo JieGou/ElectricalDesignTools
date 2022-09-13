@@ -5,6 +5,7 @@ using EDTLibrary;
 using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using Syncfusion.XlsIO.Parser.Biff_Records;
@@ -16,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using WpfUI.Helpers;
 using WpfUI.PopupWindows;
@@ -48,26 +50,16 @@ internal class DistributionPanelsViewModel: ViewModelBase
     public SolidColorBrush SingleLineViewBackground { get; set; } = new SolidColorBrush(Colors.LightCyan);
 
 
-    public ObservableCollection<IDteq> ViewableDteqList
 
-    {
-        get
-        {
-            List<IDteq> subList = new List<IDteq>();
-            subList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.DPN.ToString() || d.Type == DteqTypes.CDP.ToString()).ToList();
-            return new ObservableCollection<IDteq>(subList);
-        }
-    }
-
-
+    //CTOR
     public DistributionPanelsViewModel(ListManager listManager)
     {
         ListManager = listManager;
 
-        DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
+        AddLoadToPanelCommand = new RelayCommand(AddPanelLoad);
     }
 
-
+    
     private IDteq _selectedDteq;
     public IDteq SelectedDteq
     {
@@ -88,8 +80,32 @@ internal class DistributionPanelsViewModel: ViewModelBase
             }
         }
     }
+    public ObservableCollection<IDteq> ViewableDteqList
+
+    {
+        get
+        {
+            List<IDteq> subList = new List<IDteq>();
+            subList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.DPN.ToString() || d.Type == DteqTypes.CDP.ToString()).ToList();
+            return new ObservableCollection<IDteq>(subList);
+        }
+    }
+
     public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
 
+    public LoadModel SelectedLoad { get; set; }
+
+
+    public ICommand AddLoadToPanelCommand { get; }
+    private void AddPanelLoad()
+    {
+        if (SelectedDteq == null || SelectedLoad == null ) {
+            MessageBox.Show("Select a Panel and a Load.", "Selection Required");
+            return;
+        }
+        var dpn = (DpnModel)SelectedDteq;
+        DpnCircuitManager.AddLoad(dpn, SelectedLoad, ListManager);
+    }
 
 
     #region Autocad
@@ -185,6 +201,8 @@ internal class DistributionPanelsViewModel: ViewModelBase
             }
         }
     }
+
+
     #endregion
 
 }

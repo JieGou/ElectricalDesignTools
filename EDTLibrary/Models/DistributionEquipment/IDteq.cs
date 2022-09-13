@@ -17,5 +17,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         double LoadCableDerating { get; set; }
 
+        bool AddAssignedLoad(IPowerConsumer load);
+
     }
 }

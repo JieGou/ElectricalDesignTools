@@ -6,9 +6,14 @@
     <!--Object Widths-->
     <sys:Double x:Key="CableColumnWidth"> 100 </sys:Double>
     <sys:Double x:Key="BreakerColumnWidth"> 75 </sys:Double>
-    <sys:Double x:Key="KwColumnWidth"> 75 </sys:Double>
+    <sys:Double x:Key="PowerColumn"> 75 </sys:Double>
     <sys:Double x:Key="FlaColumnWidth" > 75 </sys:Double>
-    <sys:Double x:Key="DescriptionColumnWidth"> 250 </sys:Double>
+    <sys:Double x:Key="DescriptionColumnWidth">200</sys:Double>
+    
+    <sys:Double x:Key="SizeColumnWidth">70</sys:Double>
+        <sys:Double x:Key="SizeWidth">35</sys:Double>
+        <sys:Double x:Key="UnitWidth">35</sys:Double>
+    
     <sys:Double x:Key="TagColumnWidth">100</sys:Double>
     <sys:Double x:Key="CctColumnWidth">50</sys:Double>
 
@@ -57,6 +62,7 @@
            BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
         <Setter Property="Margin" Value="0"/>
         <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderThickness" Value="1 1 1 1"/>
         <Setter Property="Height" Value="{StaticResource RowHeight}"/>
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -73,8 +79,11 @@
 
     <!--Text Block-->
     <Style TargetType="TextBlock" x:Key="DPanelDataRow_TextBlockStyle" >
+        <Setter Property="Background" Value="White"/>
         <Setter Property="Height" Value="{StaticResource RowHeight}"/>
         <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Style.Triggers>
             <DataTrigger Binding="{Binding Type}" Value="MOTOR">
                 <Setter Property="Height" Value="{StaticResource TwoRowHeight}"/>

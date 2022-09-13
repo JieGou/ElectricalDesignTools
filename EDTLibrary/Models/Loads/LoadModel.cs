@@ -324,6 +324,14 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
+        private int _poles = 3;
+
+        public int Poles
+        {
+            get { return _poles; }
+            set { _poles= value; }
+        }
+
 
         public double AmpacityFactor { get; set; }
         public double Fla { get; set; }

@@ -5,6 +5,7 @@ using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using PropertyChanged;
@@ -32,6 +33,7 @@ namespace EDTLibrary.Managers
         public ObservableCollection<SwgModel> SwgList { get; set; } = new ObservableCollection<SwgModel>();
         public ObservableCollection<MccModel> MccList { get; set; } = new ObservableCollection<MccModel>();
         public ObservableCollection<DpnModel> DpnList { get; set; } = new ObservableCollection<DpnModel>();
+        public ObservableCollection<DpnCircuit> DpnCircuitList { get; set; } = new ObservableCollection<DpnCircuit>();
 
 
         public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
@@ -52,7 +54,7 @@ namespace EDTLibrary.Managers
                 GetAreas();
                 GetDteq();
                 GetLoadsAndAssignPropertyUpdatedEvent();
-
+                GetDpnCircuits();
                 //TODO - Get Components for each type and create a master component list
                 GetDrives();
                 GetDisconnects();
@@ -80,6 +82,8 @@ namespace EDTLibrary.Managers
 
             DaManager.GettingRecords = false;
         }
+
+        
         public ObservableCollection<IEquipment> CreateEquipmentList()
         {
             EqList.Clear();
@@ -238,6 +242,15 @@ namespace EDTLibrary.Managers
 
             }
         }
+        private void GetDpnCircuits()
+        {
+            DpnCircuitList.Clear();
+            var list = DaManager.prjDb.GetRecords<DpnCircuit>(GlobalConfig.DpnCircuitTable);
+            foreach (var item in list) {
+                DpnCircuitList.Add(item);
+            }
+        }
+
         private void GetComponents()
         {
             CompList.Clear();

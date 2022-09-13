@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.Managers;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.ProjectSettings;
 using System;
 using System.Linq;
@@ -37,6 +38,12 @@ namespace EDTLibrary.Models.DistributionEquipment
                 newDteq = model;
             }
             else if (dteqToAddValidator.Type == DteqTypes.DPN.ToString()) {
+                DpnModel model = new DpnModel();
+                //MCC properties
+                newDteq = model;
+            }
+
+            else if (dteqToAddValidator.Type == DteqTypes.CDP.ToString()) {
                 DpnModel model = new DpnModel();
                 //MCC properties
                 newDteq = model;

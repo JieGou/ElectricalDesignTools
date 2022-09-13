@@ -32,6 +32,9 @@ namespace EDTLibrary.DataAccess
 
             "CircuitNumbersLeft",
             "CircuitNumbersRight",
+            "PoleCountLeft",
+            "PoleCountRight",
+
             "LeftCircuits",
             "RightCircuits",
         };
@@ -51,6 +54,8 @@ namespace EDTLibrary.DataAccess
             "BreakerSize",
             "EfficiencyDisplay",
             "IsCalculating",
+
+            "Poles",
 
         };
 

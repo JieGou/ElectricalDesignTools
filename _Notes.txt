@@ -3,14 +3,17 @@ Priorities
 	- Disconnects Types
 	- LCS types
 	- Splitter
+	- PoleCount for loads
 	- Distribution Panel
 
+	
 
 Refactorings
 	- proper IPowerCableUser members
 	- cable owners need to reference the cable
 	- cable needs to reference source and destination
 	- add reference to list manager inside each model object
+	- SelectionLists or models
 
 Bugs
 	- DELETE DTEQ does not retag Lcs cable

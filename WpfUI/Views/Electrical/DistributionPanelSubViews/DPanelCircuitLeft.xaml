@@ -33,50 +33,49 @@
     </UserControl.Resources>
 
 
-    <Grid ShowGridLines="False" >
-        
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
-            <!--<ColumnDefinition Width="{StaticResource CableGridLength}"/>
-            <ColumnDefinition Width="{StaticResource BreakerGridLength}"/>
-            <ColumnDefinition Width="{StaticResource FlaGridLength}"/>
-            <ColumnDefinition Width="{StaticResource KwGridLength}"/>
-            <ColumnDefinition Width="{StaticResource DescriptionGridLength}"/>
-            <ColumnDefinition Width="{StaticResource TagGridLength}"/>-->
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <StackPanel Orientation="Horizontal">
 
+
+        <TextBox Text="{Binding PowerCable.Size}"
+                 Width="{StaticResource CableColumnWidth}"
+                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
+
+        <StackPanel Orientation="Horizontal">
+            <TextBox Text="{Binding Size}"
+                     Width="{StaticResource SizeWidth}"
+                     Style="{StaticResource DPanelDataRow_TextBoxStyle}"
+                     TextAlignment="Right"
+                     BorderThickness="1 1 0 1"/>
+
+            <TextBox Text="{Binding Unit}"
+                     Width="{StaticResource UnitWidth}"
+                     Style="{StaticResource DPanelDataRow_TextBoxStyle}"
+                     TextAlignment="Left"
+                     BorderThickness="0 1 1 1"
+                     IsReadOnly="True"
+                     Background="White"
+                     />
+        </StackPanel>
+
+        
+        <TextBox Text="{Binding ConnectedKva}"
+                 Width="{StaticResource PowerColumn}"
+                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
+
+        <TextBox Text="{Binding Fla}"
+                 Width="{StaticResource FlaColumnWidth}"
+                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
+        
         <TextBox Text="{Binding Tag}"
-                 Grid.Column="5"
                  Width="{StaticResource TagColumnWidth}"
                  Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
 
         <TextBox Text="{Binding Description}"
-                 Grid.Column="4"
                  Width="{StaticResource DescriptionColumnWidth}"
                  Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
 
-        <TextBox Text="{Binding DemandKw}"
-                 Grid.Column="3"
-                 Width="{StaticResource KwColumnWidth}"
-                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
-
-        <TextBox Text="{Binding Fla}"
-                 Grid.Column="2"
-                 Width="{StaticResource FlaColumnWidth}"
-                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
-
-
-        <ComboBox Grid.Column="1"
-                  Text="{Binding PdSizeTrip}"
+        
+        <ComboBox Text="{Binding PdSizeTrip}"
                   Width="{StaticResource BreakerColumnWidth}"
                   HorizontalContentAlignment="Center"
                   VerticalContentAlignment="Center"
@@ -92,11 +91,6 @@
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedValuePath="TripAmps"
                   />
-
-        <TextBox Text="{Binding PowerCable.Size}"
-                 Grid.Column="0"
-                 Width="{StaticResource CableColumnWidth}"
-                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
         
-    </Grid>
+    </StackPanel>
 </UserControl>

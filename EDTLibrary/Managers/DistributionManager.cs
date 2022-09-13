@@ -47,7 +47,11 @@ namespace EDTLibrary.Managers
                 }
 
                 caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
-                newSupplier.AssignedLoads.Add(caller);
+                if (true) {
+
+                }
+                newSupplier.AddAssignedLoad(caller);
+                //newSupplier.AssignedLoads.Add(caller);
                 newSupplier.CalculateLoading();
 
                 if (caller.Tag != "" &&

@@ -616,5 +616,15 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         }
 
+        public virtual bool AddAssignedLoad(IPowerConsumer load)
+        {
+            var iLoad = AssignedLoads.FirstOrDefault(load => load.Id == load.Id);
+
+            if (iLoad != null ) {
+                AssignedLoads.Add(load);
+                return true;
+            }
+            return false;
+        }
     }
 }
