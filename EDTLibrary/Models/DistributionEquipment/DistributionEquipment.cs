@@ -178,8 +178,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
 
-        int VoltageTypeId { get; set; } //unused for PowerConsumer interface
-        VoltageType VoltageType { get; set; } //unused, for PowerConsumer interface
+        public int VoltageTypeId { get; set; } //unused for PowerConsumer interface
+        public VoltageType VoltageType { get; set; } //unused, for PowerConsumer interface
         public double Voltage
         {
             get { return LineVoltage; }

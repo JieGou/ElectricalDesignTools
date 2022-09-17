@@ -214,7 +214,18 @@ namespace EDTLibrary.Models.Loads
         public VoltageType VoltageType
         {
             get { return _voltageType; }
-            set { _voltageType = value; }
+            set 
+            { 
+                var oldValue = _voltageType;
+                _voltageType = value;
+                
+                UndoManager.Lock(this, nameof(VoltageType));
+                    VoltageTypeId = _voltageType.Id;
+                    Voltage = _voltageType.Voltage;
+                UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
+
+                OnPropertyUpdated();
+            }
         }
 
         public double _size;

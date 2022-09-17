@@ -610,7 +610,7 @@
                         </DataGridTemplateColumn>
 
                         <!--Line Voltage-->
-                        <DataGridTemplateColumn  Header=" Line &#xA; Voltage " x:Name="dteqLineVoltage"
+                        <DataGridTemplateColumn  Header=" Line &#xA; Voltage "
                                                  SortMemberPath="LineVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -638,8 +638,38 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
+                        <!--Line Voltage Type-->
+                        <DataGridTemplateColumn  Header=" Line &#xA; Voltage "
+                                                 SortMemberPath="LineVoltage">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LineVoltageType.VoltagePhase, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                               TextAlignment="Left"
+                                               Padding="5 0"
+                                               MouseLeftButtonDown="FastEditEvent"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+                                              SelectedItem="{Binding LineVoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="VoltagePhase"
+                                              HorizontalContentAlignment="Left"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"
+                                              Padding="5 0 0 0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              
+                                              />
+                                    <!--IsDropDownOpen="True"-->
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
                         <!--Load Voltage-->
-                        <DataGridTemplateColumn Header=" Load &#xA; Voltage " x:Name="dteqLoadVoltage"
+                        <DataGridTemplateColumn Header=" Load &#xA; Voltage " 
                                                 SortMemberPath="LoadVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -658,6 +688,36 @@
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"
+                                              Template="{DynamicResource ComboBoxBase}"
+                                              />
+                                    <!--IsDropDownOpen="True"-->
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!--Load Voltage Type-->
+                        <DataGridTemplateColumn Header=" Load &#xA; Voltage "
+                                                SortMemberPath="LoadVoltage">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding LoadVoltageType.VoltagePhase, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                               TextAlignment="Left"
+                                               Padding="5 0 0 0"
+                                               MouseLeftButtonDown="FastEditEvent"
+                                               />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <ComboBox ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"
+                                              SelectedItem="{Binding LoadVoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="VoltagePhase"
+                                              HorizontalContentAlignment="Left"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              IsSynchronizedWithCurrentItem="False"
+                                              BorderThickness="0"
+                                              Padding="5 0 0 0"
                                               Template="{DynamicResource ComboBoxBase}"
                                               />
                                     <!--IsDropDownOpen="True"-->
@@ -1351,7 +1411,7 @@
                             <sf:GridTextColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               Padding="5 0"
+                                               Padding="5 0 0 0"
                                                FontWeight="SemiBold"/>
                                 </DataTemplate>
                             </sf:GridTextColumn.CellTemplate>
@@ -1372,7 +1432,7 @@
                             <sf:GridTextColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               Padding="5 0"/>
+                                               Padding="5 0 0 0"/>
                                 </DataTemplate>
                             </sf:GridTextColumn.CellTemplate>
                         </sf:GridTextColumn>
@@ -1396,7 +1456,7 @@
                             <sf:GridComboBoxColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Area.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               Padding="5 0"
+                                               Padding="5 0 0 0"
                                                TextAlignment="Left"
                                                />
                                 </DataTemplate>
@@ -1422,7 +1482,7 @@
                                 <DataTemplate>
                                     <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                TextAlignment="Left"
-                                               Padding="5 0"/>
+                                               Padding="5 0 0 0"/>
                                 </DataTemplate>
                             </sf:GridComboBoxColumn.CellTemplate>
                         </sf:GridComboBoxColumn>
@@ -1440,8 +1500,9 @@
                                                FilterRowCondition="Contains"
                                                SortMode="Display"
                                                TextAlignment="Left" 
+                                               Padding="5 0 0 0"
                                                ImmediateUpdateColumnFilter="True"
-                                           FilterRowOptionsVisibility="Collapsed"
+                                               FilterRowOptionsVisibility="Collapsed"
                                                CellStyle="{StaticResource comboBoxCellStyle}"
                                                >
                             <sf:GridComboBoxColumn.CellTemplate>
@@ -1449,7 +1510,7 @@
                                     <TextBlock Text="{Binding Voltage, StringFormat=\{0:N0\} V,
                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
                                                TextAlignment="Left"
-                                               Padding="5 0"/>
+                                               Padding="5 0 0 0"/>
                                 </DataTemplate>
                             </sf:GridComboBoxColumn.CellTemplate>
                         </sf:GridComboBoxColumn>
@@ -1466,8 +1527,9 @@
                                                FilterRowCondition="Contains"
                                                SortMode="Display"
                                                TextAlignment="Left" 
+                                               Padding="5 0 0 0"
                                                ImmediateUpdateColumnFilter="True"
-                                           FilterRowOptionsVisibility="Collapsed"
+                                               FilterRowOptionsVisibility="Collapsed"
                                                CellStyle="{StaticResource comboBoxCellStyle}"
                                                >
                             <sf:GridComboBoxColumn.CellTemplate>
@@ -1475,7 +1537,7 @@
                                     <TextBlock Text="{Binding VoltageType.VoltagePhase,
                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
                                                TextAlignment="Left"
-                                               Padding="5 0"/>
+                                               Padding="5 0 0 0"/>
                                 </DataTemplate>
                             </sf:GridComboBoxColumn.CellTemplate>
                         </sf:GridComboBoxColumn>

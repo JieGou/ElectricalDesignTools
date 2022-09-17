@@ -51,11 +51,16 @@
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedValuePath="TripAmps"
                   />
-
+        <TextBox Text="{Binding VoltageType.Poles}"
+                 Width="{StaticResource PolesColumn}"
+                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
+        
         <TextBox Text="{Binding Description}"
                  Width="{StaticResource DescriptionColumnWidth}"
                  Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
+
         
+
         <TextBox Text="{Binding Tag}"
                  Width="{StaticResource TagColumnWidth}"
                  Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>

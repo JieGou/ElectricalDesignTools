@@ -8,6 +8,7 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using PropertyChanged;
 using Syncfusion.XlsIO.Parser.Biff_Records;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ using WpfUI.PopupWindows;
 using WpfUI.Stores;
 
 namespace WpfUI.ViewModels.Electrical;
+
+[AddINotifyPropertyChangedInterface]
 internal class DistributionPanelsViewModel: ViewModelBase
 {
 
@@ -36,16 +39,6 @@ internal class DistributionPanelsViewModel: ViewModelBase
         set { _listManager = value; }
     }
 
-    public bool AreaColumnVisible
-    {
-        get
-        {
-            if (EdtSettings.AreaColumnVisible == "True") {
-                return true;
-            }
-            return false;
-        }
-    }
 
     public SolidColorBrush SingleLineViewBackground { get; set; } = new SolidColorBrush(Colors.LightCyan);
 
@@ -76,7 +69,10 @@ internal class DistributionPanelsViewModel: ViewModelBase
 
                 GlobalConfig.SelectingNew = true;
                 GlobalConfig.SelectingNew = false;
-                
+                var dpn = (DpnModel)_selectedDteq;
+                dpn.SetLeftCircuits();
+                dpn.SetRightCircuits();
+
             }
         }
     }

@@ -74,6 +74,9 @@
                  Width="{StaticResource DescriptionColumnWidth}"
                  Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
 
+        <TextBox Text="{Binding VoltageType.Poles}"
+                 Width="{StaticResource PolesColumn}"
+                 Style="{StaticResource DPanelDataRow_TextBoxStyle}"/>
         
         <ComboBox Text="{Binding PdSizeTrip}"
                   Width="{StaticResource BreakerColumnWidth}"

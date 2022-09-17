@@ -10,6 +10,7 @@ namespace EDTLibrary.LibraryData.TypeModels
         public double Voltage { get; set; }
         public double Phase { get; set; }
         public string VoltagePhase { get; set; }
-      
+        public int Poles { get; set; }
+
     }
 }

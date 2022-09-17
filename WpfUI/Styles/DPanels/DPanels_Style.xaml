@@ -6,7 +6,8 @@
     <!--Object Widths-->
     <sys:Double x:Key="CableColumnWidth"> 100 </sys:Double>
     <sys:Double x:Key="BreakerColumnWidth"> 75 </sys:Double>
-    <sys:Double x:Key="PowerColumn"> 75 </sys:Double>
+    <sys:Double x:Key="PowerColumn">75</sys:Double>
+    <sys:Double x:Key="PolesColumn">50</sys:Double>
     <sys:Double x:Key="FlaColumnWidth" > 75 </sys:Double>
     <sys:Double x:Key="DescriptionColumnWidth">200</sys:Double>
     
@@ -68,10 +69,10 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Type}" Value="MOTOR">
+            <DataTrigger Binding="{Binding VoltageType.Poles}" Value="2">
                 <Setter Property="Height" Value="{StaticResource TwoRowHeight}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="PANEL">
+            <DataTrigger Binding="{Binding  VoltageType.Poles}" Value="3">
                 <Setter Property="Height" Value="{StaticResource ThreeRowHeight}"/>
             </DataTrigger>
         </Style.Triggers>
@@ -85,10 +86,10 @@
         <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>
         <Style.Triggers>
-            <DataTrigger Binding="{Binding Type}" Value="MOTOR">
+            <DataTrigger Binding="{Binding  VoltageType.Poles}" Value="2">
                 <Setter Property="Height" Value="{StaticResource TwoRowHeight}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Type}" Value="PANEL">
+            <DataTrigger Binding="{Binding  VoltageType.Poles}" Value="3">
                 <Setter Property="Height" Value="{StaticResource ThreeRowHeight}"/>
             </DataTrigger>
         </Style.Triggers>

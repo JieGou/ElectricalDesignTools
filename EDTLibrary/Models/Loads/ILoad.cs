@@ -10,8 +10,7 @@ namespace EDTLibrary.Models.Loads
     public interface ILoad : IPowerConsumer, IComponentUser
     {
         //Primary
-        int VoltageTypeId { get; set; }
-        VoltageType VoltageType { get; set; }
+       
         double LoadFactor { get; set; }
         double Efficiency { get; set; }
 

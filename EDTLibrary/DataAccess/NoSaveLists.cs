@@ -30,10 +30,9 @@ namespace EDTLibrary.DataAccess
             "Disconnect",
             "IsCalculating",
 
-            "VoltageTypeId",
             "VoltageType",
-            "LineVoltageId",
-            "LoadVoltageId",
+            "LineVoltageType",
+            "LoadVoltageType",
 
             "CircuitNumbersLeft",
             "CircuitNumbersRight",
@@ -42,6 +41,7 @@ namespace EDTLibrary.DataAccess
 
             "LeftCircuits",
             "RightCircuits",
+            "DpnCircuitList",
         };
 
         static public List<string> LoadNoSaveList { get; set; } = new List<string>() 

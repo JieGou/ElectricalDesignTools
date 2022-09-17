@@ -303,6 +303,7 @@
                         <TextBlock Text="FLA" Width="{StaticResource FlaColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                         <TextBlock Text="Tag" Width="{StaticResource TagColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                         <TextBlock Text="Description" Width="{StaticResource DescriptionColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="Poles" Width="{StaticResource PolesColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                         <TextBlock Text="Breaker" Width="{StaticResource BreakerColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                         <TextBlock Text="Cct #" Width="{StaticResource CctColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                     </StackPanel>
@@ -348,7 +349,9 @@
                                     Grid.Column="0" >
 
                         <TextBlock Text="Cct #" Width="{StaticResource CctColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+
                         <TextBlock Text="Breaker" Width="{StaticResource BreakerColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="Poles" Width="{StaticResource PolesColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                         <TextBlock Text="Description" Width="{StaticResource DescriptionColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                         <TextBlock Text="Tag" Width="{StaticResource TagColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                         <TextBlock Text="FLA" Width="{StaticResource FlaColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>

@@ -42,6 +42,9 @@ public class DpnCircuitManager
             }
 
             dpn.AssignedLoads.Add(load);
+            dpn.SetCircuits();
+            dpn.SetLeftCircuits();
+            dpn.SetRightCircuits();
         }
     }
 
@@ -94,23 +97,10 @@ public class DpnCircuitManager
 
         //TODO - PoleCount
         foreach (var item in cctList) {
-            if (item.Type == "MOTOR") {
-                poleCount += 2;
-            }
-            else if (item.Type == "PANEL") {
-                poleCount += 3;
-            }
-            else { poleCount += 1; }
+            poleCount += item.VoltageType.Poles;
         }
 
-        int loadPoles = 1;
-        if (load.Type == "MOTOR") {
-            loadPoles = 2;
-        }
-        else if (load.Type == "PANEL") {
-            loadPoles = 3;
-        }
-    
+        int loadPoles = load.VoltageType.Poles;
 
         for (int i = 0; i < loadPoles; i++) {
 

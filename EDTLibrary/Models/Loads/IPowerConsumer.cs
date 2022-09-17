@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.Cables;
+﻿using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using System;
@@ -12,7 +13,8 @@ namespace EDTLibrary.Models.Loads
     public interface IPowerConsumer : ICableUser, IComponentUser
 
     {
-
+        int VoltageTypeId { get; set; }
+        VoltageType VoltageType { get; set; }
         ///Lookups
         double PowerFactor { get; set; }
 
