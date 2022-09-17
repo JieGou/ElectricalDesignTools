@@ -21,7 +21,8 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
-                <ResourceDictionary Source="../../Styles/DPanels/DPanels_Style.xaml"/>
+                <ResourceDictionary Source="../../Converters/Converters.xaml"/>
+                <!--<ResourceDictionary Source="../../Styles/DPanels/DPanels_Style.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="TextBlock" x:Key="Label">
@@ -264,13 +265,13 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="152"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 
                 <!--Left Header Row-->
-                <sf:SfDataGrid Grid.Row="0" 
+                <!--<sf:SfDataGrid Grid.Row="0" 
                                 Grid.Column="0"
                                 HorizontalAlignment="Left"
                                 AutoGenerateColumns="False"
@@ -285,7 +286,7 @@
                         <sf:GridTextColumn HeaderText="Description" MappingName="Description" Width="{StaticResource DescriptionColumnWidth}"/>
                         <sf:GridTextColumn HeaderText="Tag" MappingName="Tag" Width="{StaticResource TagColumnWidth}"/>
                     </sf:SfDataGrid.Columns>
-                </sf:SfDataGrid>
+                </sf:SfDataGrid>-->
 
                 <Border BorderBrush="DarkGray" BorderThickness="1"
                         Grid.Row="0"
@@ -307,35 +308,6 @@
                         <TextBlock Text="Breaker" Width="{StaticResource BreakerColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                         <TextBlock Text="Cct #" Width="{StaticResource CctColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                     </StackPanel>
-
-                    <!--<Grid Grid.Row="0"
-                          Grid.Column="0"
-                          ShowGridLines="False" 
-                                  >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="75"/>
-                                <ColumnDefinition Width="75"/>
-                                <ColumnDefinition Width="75"/>
-                                <ColumnDefinition Width="250"/>
-                                <ColumnDefinition Width="100"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.Resources>
-
-                            </Grid.Resources>
-
-
-                            <TextBox Text="Tag" Grid.Column="5" Style="{StaticResource DPanelHeaderRow}"/>
-                            <TextBox Text="Description" Grid.Column="4" Style="{StaticResource DPanelHeaderRow}"/>
-                            <TextBox Text="kW" Grid.Column="3" Style="{StaticResource DPanelHeaderRow}"/>
-                            <TextBox Text="FLA" Grid.Column="2" Style="{StaticResource DPanelHeaderRow}"/>
-                            <TextBox Text="Breaker" Grid.Column="1" Style="{StaticResource DPanelHeaderRow}"/>
-                            <TextBox Text="Cable" Grid.Column="0" Style="{StaticResource DPanelHeaderRow}"/>
-                        </Grid>-->
 
                 </Border>
 
@@ -359,33 +331,10 @@
                         
                         <TextBlock Text="Size" Width="{StaticResource SizeColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
 
-                        <TextBlock Text="Cable" Width="100" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                        <TextBlock Text="Cable" Width="{StaticResource CableColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                     </StackPanel>
                     
-                    <!--<Grid >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="250"/>
-                            <ColumnDefinition Width="75"/>
-                            <ColumnDefinition Width="75"/>
-                            <ColumnDefinition Width="75"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-
-                        <TextBox Text="Cct #" Grid.Column="0" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="Tag" Grid.Column="1" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="Description" Grid.Column="2" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="kW" Grid.Column="3" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="FLA" Grid.Column="4" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="Breaker" Grid.Column="5" Style="{StaticResource DPanelHeaderRow}"/>
-                        <TextBox Text="Cable" Grid.Column="6" Style="{StaticResource DPanelHeaderRow}"/>
-                    </Grid>-->
+                  
                 </Border>
 
             </Grid>
@@ -413,28 +362,38 @@
                     </Grid.ColumnDefinitions>
 
                     <!--LEFT CIRCUITS-->
-
                     <!--Circuit Data Left-->
-                    <!--<sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2"
+                    
+                    <sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2" x:Name="LeftGrid"
                                    Grid.Column="0"
                                    HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   BorderBrush="DarkGray"
+                                   BorderThickness="1 1 0 0"
                                    AutoGenerateColumns="False"
                                    ItemsSource="{Binding SelectedDteq.LeftCircuits}"
                                    RowHeight="{StaticResource RowHeight}"
-                                   HeaderRowHeight="0" QueryRowHeight="SfDataGrid_QueryRowHeight"
-                                   Visibility="Collapsed">
+                                   HeaderRowHeight="0"
+                                   QueryRowHeight="LeftGrid_QueryRowHeight"
+                                   Visibility="Visible"
+                                   AllowDraggingRows="False"
+                                   AllowDrop="False">
                         
                         <sf:SfDataGrid.Columns>
-                            <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size" Width="{StaticResource CableColumnWidth}"/>
-                            <sf:GridTextColumn HeaderText="Breaker" MappingName="PdSizeTrip" Width="{StaticResource BreakerColumnWidth}"/>
-                            <sf:GridTextColumn HeaderText="FLA" MappingName="Fla" Width="{StaticResource FlaColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size" Width="{StaticResource CableColumnWidth}" AllowEditing="True"/>
+                            <sf:GridTextColumn HeaderText="Size" MappingName="Size" Width="{StaticResource SizeColumnWidth}"/>
                             <sf:GridTextColumn HeaderText="kW" MappingName="DemandKw" Width="{StaticResource PowerColumn}"/>
-                            <sf:GridTextColumn HeaderText="Description" MappingName="Description" Width="{StaticResource DescriptionColumnWidth}"/>
-                            <sf:GridTextColumn HeaderText="Tag" MappingName="Tag" Width="{StaticResource TagColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="FLA" MappingName="Fla" Width="{StaticResource FlaColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="Tag" MappingName="Tag" Width="{StaticResource TagColumnWidth}" AllowEditing="True"/>
+                            <sf:GridTextColumn HeaderText="Description" MappingName="Description" Width="{StaticResource DescriptionColumnWidth}" AllowEditing="True"/>
+                            <sf:GridTextColumn HeaderText="Poles" MappingName="VoltageType.Poles" Width="{StaticResource PolesColumn}" AllowEditing="True"
+                                               DisplayBinding="{Binding VoltageType.Poles, Converter={StaticResource PoleQtyColumnHeightConverter}}"
+                                               TextWrapping="Wrap"/>
+                            <sf:GridTextColumn HeaderText="Breaker" MappingName="PdSizeTrip" Width="{StaticResource BreakerColumnWidth}"/>
                         </sf:SfDataGrid.Columns>
-                    </sf:SfDataGrid>-->
+                    </sf:SfDataGrid>
                         
-                    <Border BorderBrush="DarkGray" BorderThickness="0"
+                    <!--<Border BorderBrush="DarkGray" BorderThickness="0"
                             Grid.Row="0" Grid.RowSpan="2"
                             Grid.Column="0"
                             HorizontalAlignment="Left"
@@ -460,14 +419,15 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </Border>
+                    </Border>-->
 
                     <!--Left Circuit #s-->
                                    
-                    <Border BorderBrush="DarkGray" BorderThickness="0"
+                    <Border BorderBrush="LightGray" BorderThickness="0 0 1 1"
                             Grid.Row="0" Grid.RowSpan="2"
                             Grid.Column="1"
-                            HorizontalAlignment="Left">
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
 
                         <ItemsControl Grid.Row="1"
                                 Grid.Column="1"
@@ -527,25 +487,38 @@
                     
                     <!--RIGHT CIRCUITS-->
                     <!--Circuit Data Right-->
-                    <!--<sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2"
+                    <sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2" x:Name="RightGrid"
                                    Grid.Column="4"
                                    HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   BorderBrush="DarkGray"
+                                   BorderThickness="1 1 1 0"
                                    AutoGenerateColumns="False"
-                                   ItemsSource="{Binding SelectedDteq.LeftCircuits}"
+                                   ItemsSource="{Binding SelectedDteq.RightCircuits}"
                                    RowHeight="{StaticResource RowHeight}"
-                                   Visibility="Collapsed">
-
+                                   HeaderRowHeight="0"
+                                   QueryRowHeight="RightGrid_QueryRowHeight"
+                                   Visibility="Visible"
+                                   AllowDraggingRows="False"
+                                   AllowDrop="False">
+                        
                         <sf:SfDataGrid.Columns>
-                            <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size" Width="{StaticResource CableColumnWidth}"/>
                             <sf:GridTextColumn HeaderText="Breaker" MappingName="PdSizeTrip" Width="{StaticResource BreakerColumnWidth}"/>
+
+                            <sf:GridTextColumn HeaderText="Poles" MappingName="VoltageType.Poles" Width="{StaticResource PolesColumn}" AllowEditing="True"
+                                               DisplayBinding="{Binding VoltageType.Poles, Converter={StaticResource PoleQtyColumnHeightConverter}}"
+                                               TextWrapping="Wrap"/>
+                            <sf:GridTextColumn HeaderText="Description" MappingName="Description" Width="{StaticResource DescriptionColumnWidth}" AllowEditing="True"/>
+
+                            <sf:GridTextColumn HeaderText="Tag" MappingName="Tag" Width="{StaticResource TagColumnWidth}" AllowEditing="True"/>
                             <sf:GridTextColumn HeaderText="FLA" MappingName="Fla" Width="{StaticResource FlaColumnWidth}"/>
                             <sf:GridTextColumn HeaderText="kW" MappingName="DemandKw" Width="{StaticResource PowerColumn}"/>
-                            <sf:GridTextColumn HeaderText="Description" MappingName="Description" Width="{StaticResource DescriptionColumnWidth}"/>
-                            <sf:GridTextColumn HeaderText="Tag" MappingName="Tag" Width="{StaticResource TagColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="Size" MappingName="Size" Width="{StaticResource SizeColumnWidth}"/>
+                            <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size" Width="{StaticResource CableColumnWidth}" AllowEditing="True"/>
                         </sf:SfDataGrid.Columns>
-                    </sf:SfDataGrid>-->
-                    
-                    <Border BorderBrush="DarkGray" BorderThickness="0"
+                    </sf:SfDataGrid>
+
+                    <!--<Border BorderBrush="DarkGray" BorderThickness="0"
                             Grid.Row="0" Grid.RowSpan="2"
                             Grid.Column="4"
                             Visibility="Visible">
@@ -570,19 +543,20 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </Border>
+                    </Border>-->
 
                     <!--Right Circuit #s-->
-                    <Border BorderBrush="DarkGray" BorderThickness="1 0 0 0"
+                    <Border BorderBrush="LightGray" BorderThickness="1 0 0 1"
                             Grid.Row="0" Grid.RowSpan="2"
                             Grid.Column="3"
-                            HorizontalAlignment="Right">
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
 
                         <ItemsControl Grid.Row="1"
                                 Grid.Column="1"
                                 ItemsSource="{Binding SelectedDteq.CircuitNumbersRight}"
                                 VerticalAlignment="Top"
-                                  HorizontalAlignment="Right">
+                                 HorizontalAlignment="Right">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Vertical"/>

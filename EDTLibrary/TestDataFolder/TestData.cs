@@ -41,7 +41,10 @@ namespace EDTLibrary.TestDataFolder
             new DteqModel {Tag = "SWG-02", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-02", LineVoltage=600, LoadVoltage=600, Size=3000, Unit= Units.A.ToString() },
             new DteqModel {Tag = "MCC-02", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-02", LineVoltage=600, LoadVoltage=600, Size=1200, Unit= Units.A.ToString() },
 
-            
+            new DteqModel {Tag = "LDP-01", Type = DteqTypes.DPN.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage=208, LoadVoltage=208, Size=200, Unit= Units.A.ToString() },
+            new DteqModel {Tag = "LDP-02", Type = DteqTypes.DPN.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage=208, LoadVoltage=208, Size=125, Unit= Units.A.ToString() },
+
+
         };
 
         public static ObservableCollection<ILoad> TestLoadList = new ObservableCollection<ILoad>() {
@@ -77,6 +80,16 @@ namespace EDTLibrary.TestDataFolder
             new LoadModel() {Tag = "MTR-333", Type = LoadTypes.MOTOR.ToString(), FedFromTag = "MCC-03", Voltage=460, Size = 75,Unit=Units.HP.ToString()},
             new LoadModel() {Tag = "HTR-333", Type = LoadTypes.HEATER.ToString(), FedFromTag = "MCC-03", Voltage=480, Size = 100,Unit=Units.HP.ToString()},
             new LoadModel() {Tag = "PNL-333", Type = LoadTypes.PANEL.ToString(), FedFromTag = "MCC-03", Voltage=408, Size = 100,Unit=Units.A.ToString()},
+
+            new LoadModel() {Tag = "LD-01", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-01", Voltage=120, Size = 10,Unit=Units.A.ToString()},
+            new LoadModel() {Tag = "LD-02", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-01", Voltage=208, Size = 20,Unit=Units.A.ToString()},
+            new LoadModel() {Tag = "LD-03", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-01", Voltage=208, Size = 30,Unit=Units.A.ToString()},
+            new LoadModel() {Tag = "LD-04", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-01", Voltage=120, Size = 40,Unit=Units.A.ToString()},
+
+            new LoadModel() {Tag = "LD-05", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=208, Size = 5,Unit=Units.A.ToString()},
+            new LoadModel() {Tag = "LD-06", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=208, Size = 12,Unit=Units.A.ToString()},
+            new LoadModel() {Tag = "LD-07", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=120, Size = 15,Unit=Units.A.ToString()},
+
         };
 
 

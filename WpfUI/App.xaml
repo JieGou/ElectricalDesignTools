@@ -29,6 +29,9 @@
                 <ResourceDictionary Source="Converters/Converters.xaml"/>
 
 
+                <ResourceDictionary Source="Styles/DPanels/DPanels_Style.xaml"/>
+
+
                 <!-- this should be added -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Shadows.xaml" />
 

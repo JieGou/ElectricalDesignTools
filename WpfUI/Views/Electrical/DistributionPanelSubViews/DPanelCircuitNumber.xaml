@@ -23,7 +23,7 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../Templates/SingleLineLoadGraphicTemplates.xaml"/>
-                <ResourceDictionary Source="../../../Styles/DPanels/DPanels_Style.xaml"/>
+                <!--<ResourceDictionary Source="../../../Styles/DPanels/DPanels_Style.xaml"/>-->
 
             </ResourceDictionary.MergedDictionaries>
 
@@ -44,7 +44,7 @@
             <RowDefinition Height="{StaticResource RowGridLength}"/>
         </Grid.RowDefinitions>
 
-        <Border BorderBrush="DarkGray" BorderThickness="0 1 0 1">
+        <Border BorderBrush="DarkGray" BorderThickness="0 1 0 0">
             <TextBlock Text="{Binding CircuitNumber}" d:Text ="3"
                        TextAlignment="Center"
                        VerticalAlignment="Center" 

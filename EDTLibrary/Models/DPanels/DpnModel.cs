@@ -48,8 +48,8 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                 {
                     _circuitCount = value;
                 }
-                LeftCircuits = SetLeftCircuits();
-                RightCircuits = SetRightCircuits();
+                SetLeftCircuits();
+                SetRightCircuits();
 
                 OnPropertyUpdated();
             }

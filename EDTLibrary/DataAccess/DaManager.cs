@@ -59,6 +59,7 @@ public class DaManager {
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.DpnTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.CableTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);

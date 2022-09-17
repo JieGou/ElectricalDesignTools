@@ -8,6 +8,8 @@
     <converters:LcsOwnerTypeToVisbilityConverter x:Key="LscOwnerTypeVisibilityConverter"/>
     <converters:ComponentOwnerTypeToBooleanConverter x:Key="ComponentOwnerTypeToBooleanConverter"/>
     <converters:ComponentOwnerTypeToVisibilityConverter x:Key="ComponentOwnerTypeToVisibilityConverter"/>
+    
+    <converters:PoleQtyColumnHeightConverter x:Key="PoleQtyColumnHeightConverter"/>
 
     
 

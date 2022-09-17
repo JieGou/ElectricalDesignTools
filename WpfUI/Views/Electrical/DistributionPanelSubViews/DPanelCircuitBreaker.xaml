@@ -22,7 +22,7 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../../Styles/DPanels/DPanels_Style.xaml"/>
+                <!--<ResourceDictionary Source="../../../Styles/DPanels/DPanels_Style.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
             <Converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>

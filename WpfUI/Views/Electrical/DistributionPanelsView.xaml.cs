@@ -1,4 +1,6 @@
 ﻿using EDTLibrary.Models.Loads;
+using Syncfusion.UI.Xaml.Grid;
+using Syncfusion.XlsIO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +34,10 @@ public partial class DistributionPanelsView : UserControl
                 vm.SelectedDteq = vm.ViewableDteqList[0];
             }
         }
+
+        LeftGrid.QueryRowHeight += LeftGrid_QueryRowHeight;
+        RightGrid.QueryRowHeight += RightGrid_QueryRowHeight;
+        gridRowResizingOptions.ExcludeColumns = excludeColumns;
     }
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -43,14 +49,55 @@ public partial class DistributionPanelsView : UserControl
         }
     }
 
-    private void SfDataGrid_QueryRowHeight(object sender, Syncfusion.UI.Xaml.Grid.QueryRowHeightEventArgs e)
+
+
+
+
+    GridRowSizingOptions gridRowResizingOptions = new GridRowSizingOptions();
+
+    //To get the calculated height from GetAutoRowHeight method.    
+    double autoHeight = double.NaN;
+    double rowHeight = 22;
+
+    // The list contains the column names that will excluded from the height calculation in GetAutoRowHeight method.
+    List<string> excludeColumns = new List<string>() { "CustomerID", "Country" }; 
+
+
+    private void LeftGrid_QueryRowHeight(object sender, Syncfusion.UI.Xaml.Grid.QueryRowHeightEventArgs e)
     {
-        //var load = (LoadModel)sender;
-        //if (load.Type == "MOTOR") {
-        //    e.Height = 50;
-        //}
-        //else if (load.Type == "PANEL") {
-        //    e.Height = 75;
-        //}
+        if (LeftGrid.GridColumnSizer.GetAutoRowHeight(e.RowIndex, gridRowResizingOptions, out autoHeight)) {
+
+            if (autoHeight > 50) {
+                e.Height = rowHeight*3;
+                e.Handled = true;
+            }
+            else if (autoHeight > 25) {
+                e.Height = rowHeight*2;
+                e.Handled = true;
+            }
+            if (e.RowIndex==0) {
+                e.Height = 0;
+            }
+        }
+
+    }
+
+    private void RightGrid_QueryRowHeight(object sender, Syncfusion.UI.Xaml.Grid.QueryRowHeightEventArgs e)
+    {
+        
+        if (RightGrid.GridColumnSizer.GetAutoRowHeight(e.RowIndex, gridRowResizingOptions, out autoHeight)) {
+
+            if (autoHeight > 50) {
+                e.Height = rowHeight * 3;
+                e.Handled = true;
+            }
+            else if (autoHeight > 25) {
+                e.Height = rowHeight * 2;
+                e.Handled = true;
+            }
+            if (e.RowIndex == 0) {
+                e.Height = 0;
+            }
+        }
     }
 }

@@ -4,16 +4,16 @@
                     >
 
     <!--Object Widths-->
-    <sys:Double x:Key="CableColumnWidth"> 100 </sys:Double>
-    <sys:Double x:Key="BreakerColumnWidth"> 75 </sys:Double>
-    <sys:Double x:Key="PowerColumn">75</sys:Double>
-    <sys:Double x:Key="PolesColumn">50</sys:Double>
-    <sys:Double x:Key="FlaColumnWidth" > 75 </sys:Double>
-    <sys:Double x:Key="DescriptionColumnWidth">200</sys:Double>
+    <sys:Double x:Key="CableColumnWidth"> 75 </sys:Double>
+    <sys:Double x:Key="BreakerColumnWidth"> 50 </sys:Double>
+    <sys:Double x:Key="PowerColumn">50</sys:Double>
+    <sys:Double x:Key="PolesColumn">35</sys:Double>
+    <sys:Double x:Key="FlaColumnWidth" > 50 </sys:Double>
+    <sys:Double x:Key="DescriptionColumnWidth">250</sys:Double>
     
-    <sys:Double x:Key="SizeColumnWidth">70</sys:Double>
-        <sys:Double x:Key="SizeWidth">35</sys:Double>
-        <sys:Double x:Key="UnitWidth">35</sys:Double>
+    <sys:Double x:Key="SizeColumnWidth">50</sys:Double>
+        <sys:Double x:Key="SizeWidth">25</sys:Double>
+        <sys:Double x:Key="UnitWidth">25</sys:Double>
     
     <sys:Double x:Key="TagColumnWidth">100</sys:Double>
     <sys:Double x:Key="CctColumnWidth">50</sys:Double>
@@ -26,13 +26,14 @@
     <GridLength x:Key="DescriptionGridLength">250</GridLength>
     <GridLength x:Key="TagGridLength">100</GridLength>
     <GridLength x:Key="CcGridLength">50</GridLength>
-    
-    <!--Row Height-->
-    <sys:Double x:Key="RowHeight">23</sys:Double>
-    <sys:Double x:Key="TwoRowHeight">46</sys:Double>
-    <sys:Double x:Key="ThreeRowHeight">69</sys:Double>
 
-    <GridLength x:Key="RowGridLength">23</GridLength>
+    <GridLength x:Key="RowGridLength">22</GridLength>
+
+    <!--Row Height-->
+    <sys:Double x:Key="RowHeight">22</sys:Double>
+    <sys:Double x:Key="TwoRowHeight">44</sys:Double>
+    <sys:Double x:Key="ThreeRowHeight">66</sys:Double>
+
 
 
 
@@ -40,7 +41,7 @@
     <Style TargetType="TextBox" x:Key="DPanelHeaderRow"
            BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
         <Setter Property="Margin" Value="0"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Height" Value="{StaticResource RowHeight}"/>
         <Setter Property="TextAlignment" Value="Center"/>
@@ -51,7 +52,7 @@
     <!--TEXT BLock DpanelHeaderRow -->
     <Style TargetType="TextBlock" x:Key="DPanelHeaderRow_TextBlockStyle" >
         <Setter Property="Background" Value="LightGray"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Height" Value="{StaticResource RowHeight}"/>
         <Setter Property="TextAlignment" Value="Center"/>
