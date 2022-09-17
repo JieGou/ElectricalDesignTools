@@ -177,8 +177,8 @@ public class CableManager
                     cable.TypeModel = powerComponentOwner.PowerCable.TypeModel;
                     cable.TypeList = powerComponentOwner.PowerCable.TypeList;
                     cable.ConductorQty = powerComponentOwner.PowerCable.ConductorQty;
-                    cable.VoltageClass = powerComponentOwner.PowerCable.VoltageClass;
-                    cable.Insulation = powerComponentOwner.PowerCable.Insulation;
+                    cable.VoltageRating = powerComponentOwner.PowerCable.VoltageRating;
+                    cable.InsulationPercentage = powerComponentOwner.PowerCable.InsulationPercentage;
                     cable.QtyParallel = powerComponentOwner.PowerCable.QtyParallel;
 
                     cable.Size = powerComponentOwner.PowerCable.Size;
@@ -283,11 +283,11 @@ public class CableManager
         cable.Length = double.Parse(EdtSettings.CableLengthLocalControlStation);
 
         cable.ConductorQty = lcs.TypeModel.DigitalConductorQty;
-        var voltageClass = TypeManager.ControlCableTypes.FirstOrDefault(c => c.Type == EdtSettings.LcsControlCableType).VoltageClass;
+        var voltageClass = TypeManager.ControlCableTypes.FirstOrDefault(c => c.Type == EdtSettings.LcsControlCableType).VoltageRating;
         IsUpdatingPowerCables = true;
         cable.TypeModel = TypeManager.GetLcsControlCableTypeModel(lcs);
         IsUpdatingPowerCables = false;
-        cable.VoltageClass = voltageClass;
+        cable.VoltageRating = voltageClass;
         cable.QtyParallel = 1;
 
         cable.Spacing = 0;

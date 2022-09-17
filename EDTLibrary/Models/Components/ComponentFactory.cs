@@ -38,7 +38,7 @@ public class ComponentFactory
             newComponent.Tag = componentUser.Tag + TagSettings.SuffixSeparator + TagSettings.DisconnectSuffix;
             newComponent.Area = componentUser.Area;
             var load = (IPowerConsumer)componentUser;
-            newComponent.FrameAmps = DataTableManager.GetDisconnectSize(load);
+            newComponent.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
             newComponent.SequenceNumber = componentUser.CctComponents.Count+1;
             
         }

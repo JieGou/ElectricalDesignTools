@@ -51,7 +51,6 @@ namespace EDTLibrary.DataAccess
             "SCCR",
             "LoadCableDerating",
         };
-
         static public List<string> LoadSaveList { get; set; } = new List<string>() 
         {
             "Id",
@@ -98,8 +97,7 @@ namespace EDTLibrary.DataAccess
             "HeatLoss",
 
         };
-
-        static public List<string> CompNoSaveList { get; set; } = new List<string>()
+        static public List<string> CompSaveList { get; set; } = new List<string>()
         {
             "Id",
             "Tag",
@@ -125,7 +123,6 @@ namespace EDTLibrary.DataAccess
             "Default",
 
         };
-
         static public List<string> LcsNoSaveList { get; set; } = new List<string>()
         {
             "Id",
@@ -146,7 +143,6 @@ namespace EDTLibrary.DataAccess
 
             "Voltage",
         };
-
         static public List<string> PowerCableNoSaveList { get; set; } = new List<string> {
 
             "Load",
@@ -160,7 +156,6 @@ namespace EDTLibrary.DataAccess
             "DeratingToolTip",
             "SizeTag",
         };
-
         static public List<string> AreaNoSaveList { get; set; } = new List<string>() {
             "none",
             "ParentArea",

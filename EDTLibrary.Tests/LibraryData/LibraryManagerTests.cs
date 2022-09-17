@@ -24,7 +24,7 @@ namespace EDTLibrary.Tests.LibraryData
             DataTables.Motors = CreateSampleMotorTable();
 
 
-            double actual = DataTableManager.GetMotorEfficiency(load);
+            double actual = DataTableSearcher.GetMotorEfficiency(load);
 
             Assert.Equal(expected, actual);
          

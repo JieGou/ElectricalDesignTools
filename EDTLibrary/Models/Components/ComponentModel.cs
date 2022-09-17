@@ -215,11 +215,11 @@ public class ComponentModel : IComponentEdt
     public void CalculateSize(IPowerConsumer load)
     {
         if (Type == ComponentTypes.UDS.ToString() || Type == ComponentTypes.FDS.ToString()) {
-            FrameAmps = DataTableManager.GetDisconnectSize(load);
+            FrameAmps = DataTableSearcher.GetDisconnectSize(load);
 
         }
         if (Type == ComponentTypes.UDS.ToString()) {
-            TripAmps = DataTableManager.GetDisconnectFuse(load);
+            TripAmps = DataTableSearcher.GetDisconnectFuse(load);
         }
         OnPropertyUpdated();
     }

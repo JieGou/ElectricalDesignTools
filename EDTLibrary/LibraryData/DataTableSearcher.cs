@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace EDTLibrary.LibraryData
 {
-    public static class DataTableManager {
+    public static class DataTableSearcher {
 
         public static ObservableCollection<CecCableAmpacityModel> CecCableAmpacities { get; set; }
 

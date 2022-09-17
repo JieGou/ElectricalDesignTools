@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.A_Helpers;
 using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
@@ -63,7 +64,7 @@ namespace EDTLibrary.Models.Cables
 
             //TODO - cable spacing defaults vs lock value vs auto-size/spacing option
             CableTypeModel cableType = TypeManager.GetCableTypeModel(cable.Type);
-            if (cableType.VoltageClass > 2000 || cableType.ConductorQty == 1) {
+            if (cableType.VoltageRating > 2000 || cableType.ConductorQty == 1) {
                 if (cable.Spacing <100) {
                     spacing = cable.Spacing;
                 }
@@ -71,11 +72,11 @@ namespace EDTLibrary.Models.Cables
                     spacing = 100;
                 }
             }
-            else if (cableType.VoltageClass <= 2000 &&
+            else if (cableType.VoltageRating <= 2000 &&
                      cable.Load.Fla >= double.Parse(EdtSettings.CableSpacingMaxAmps_3C1kV)) {
                 spacing = 100;
             }
-            else if (cableType.VoltageClass < 2000 &&
+            else if (cableType.VoltageRating < 2000 &&
                      cableType.ConductorQty == 3 &&
                      cable.Load.Fla <= double.Parse(EdtSettings.CableSpacingMaxAmps_3C1kV)) {
                 spacing = 0;
@@ -111,8 +112,8 @@ namespace EDTLibrary.Models.Cables
 
             // 1C, >=5kV <=15kV, Shielded, 100% spacing
             if (cableType.ConductorQty == 1
-                        && cableType.VoltageClass >= 5000
-                        && cableType.VoltageClass <= 15000
+                        && cableType.VoltageRating >= 5000
+                        && cableType.VoltageRating <= 15000
                         && cableType.Shielded == true
                         && cable.Spacing >=100) {
 
@@ -126,8 +127,8 @@ namespace EDTLibrary.Models.Cables
 
             // 1C, >=25kV <=46kV, Shielded, 100% spacing
             else if (cableType.ConductorQty == 1
-                  && cableType.VoltageClass >= 25000
-                  && cableType.VoltageClass <= 46000
+                  && cableType.VoltageRating >= 25000
+                  && cableType.VoltageRating <= 46000
                   && cableType.Shielded == true
                   && cable.Spacing >= 100) {
 
@@ -141,8 +142,8 @@ namespace EDTLibrary.Models.Cables
 
             // 1C or 3C, >=5kV <=15kV, Shielded, no spacing
             else if ((cableType.ConductorQty == 3 || cable.Spacing < 100)
-                  && cableType.VoltageClass >= 5000
-                  && cableType.VoltageClass <= 15000
+                  && cableType.VoltageRating >= 5000
+                  && cableType.VoltageRating <= 15000
                   && cableType.Shielded == true) {
 
                 if (cable.IsOutdoor == false) {
@@ -155,8 +156,8 @@ namespace EDTLibrary.Models.Cables
 
             // 3C, >=25kV <=46kV, Shielded, Shielded, no spacing
             else if ((cableType.ConductorQty == 3 || cable.Spacing < 100)
-                  && cableType.VoltageClass >= 25000
-                  && cableType.VoltageClass <= 46000
+                  && cableType.VoltageRating >= 25000
+                  && cableType.VoltageRating <= 46000
                   && cableType.Shielded == true) {
 
                 if (cable.IsOutdoor == false) {
@@ -187,7 +188,7 @@ namespace EDTLibrary.Models.Cables
 
             // 1C, >= 5kV, Shielded
             if (cableType.ConductorQty == 1
-                        && cableType.VoltageClass >= 5000
+                        && cableType.VoltageRating >= 5000
                         && cableType.Shielded == true) {
 
                 output = "Table not yet added to database.";
@@ -195,7 +196,7 @@ namespace EDTLibrary.Models.Cables
 
             // 3C, >=5kV, Shielded       Table D17N 3C QtyParallel max = 2
             else if (cableType.ConductorQty == 3
-            && cableType.VoltageClass >= 5000
+            && cableType.VoltageRating >= 5000
             && cableType.Shielded == true) {
 
                 output = "Table not yet added to database.";
@@ -203,7 +204,7 @@ namespace EDTLibrary.Models.Cables
 
             // 1C, <= 5kV, Non-Shielded
             else if (cableType.ConductorQty == 1
-                        && cableType.VoltageClass <= 5000
+                        && cableType.VoltageRating <= 5000
                         && cableType.Shielded == false) {
 
                 output = "Table D8A";
@@ -221,7 +222,7 @@ namespace EDTLibrary.Models.Cables
 
             // 1C, >= 5kV, Shielded
             if (cableType.ConductorQty == 1
-                        && cableType.VoltageClass >= 5000
+                        && cableType.VoltageRating >= 5000
                         && cableType.Shielded == true) {
 
                 output = "Table not yet added to database.";
@@ -229,7 +230,7 @@ namespace EDTLibrary.Models.Cables
 
             // 3C, >=5kV, Shielded       Table D17N 3C QtyParallel max = 2
             else if (cableType.ConductorQty == 3
-            && cableType.VoltageClass >= 5000
+            && cableType.VoltageRating >= 5000
             && cableType.Shielded == true) {
 
                 output = "Table not yet added to database.";
@@ -237,7 +238,7 @@ namespace EDTLibrary.Models.Cables
 
             // 1C, <= 5kV, Non-Shielded
             else if (cableType.ConductorQty == 1
-                        && cableType.VoltageClass <= 5000
+                        && cableType.VoltageRating <= 5000
                         && cableType.Shielded == false) {
 
                 output = "Table D9A";
@@ -297,7 +298,7 @@ namespace EDTLibrary.Models.Cables
             double derating = 1;
             int deratingTemp;
             deratingTemp = GetDeratingTemp(ambientTemp);
-            derating = DataTableManager.GetCableDerating_CecTable5A(cable, deratingTemp);
+            derating = DataTableSearcher.GetCableDerating_CecTable5A(cable, deratingTemp);
 
             return derating;
         }

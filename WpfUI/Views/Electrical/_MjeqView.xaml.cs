@@ -226,12 +226,18 @@ public partial class _MjeqView : UserControl
     }
     private async Task AddDisconnectAsync()
     {
+
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+
             foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                LoadModel load = (LoadModel)loadObject;
-                load.DisconnectBool = true;
+                if (loadObject == typeof(LoadModel)) {
+                    LoadModel load = (LoadModel)loadObject;
+                    load.DisconnectBool = true;
+                }
             }
+
         }));
+
     }
 
     private async void LoadGridContextMenu_AddDrive(object sender, MouseButtonEventArgs e)

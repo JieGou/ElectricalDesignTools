@@ -9,8 +9,7 @@ namespace EDTLibrary.LibraryData.TypeModels
         public int Id { get; set; }
         public double Voltage { get; set; }
         public double Phase { get; set; }
-        public string Category { get; set; }
-        public double CableVoltageClass { get; set; }
-        public double EquipmentVoltageClass { get; set; }
+        public string VoltagePhase { get; set; }
+      
     }
 }

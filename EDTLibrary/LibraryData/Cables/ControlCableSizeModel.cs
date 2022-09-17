@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.LibraryData.TypeModels;
+namespace EDTLibrary.LibraryData.Cables;
 public class ControlCableSizeModel
 {
     public int Id { get; set; }

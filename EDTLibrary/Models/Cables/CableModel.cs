@@ -2,6 +2,7 @@
 using EdtLibrary.Commands;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Loads;
@@ -61,9 +62,9 @@ public class CableModel : ICable
     {
         get
         {
-            string voltage = TypeModel.VoltageClass.ToString() + "V";
-            if (TypeModel.VoltageClass >= 1000) {
-                voltage = (TypeModel.VoltageClass / 1000).ToString() + "kV";
+            string voltage = TypeModel.VoltageRating.ToString() + "V";
+            if (TypeModel.VoltageRating >= 1000) {
+                voltage = (TypeModel.VoltageRating / 1000).ToString() + "kV";
             }
             return $"{TypeModel.ConductorQty}C-#{Size}-{TypeModel.SubType}-{voltage}";
         }
@@ -152,11 +153,10 @@ public class CableModel : ICable
 
     public string UsageType { get; set; }
     public int ConductorQty { get; set; }
-    public double VoltageClass { get; set; }
-    public double Insulation { get; set; }
+    public double VoltageRating { get; set; }
+    public double InsulationPercentage { get; set; }
 
     private int _qtyParallel;
-    //public int QtyParallel { get; set; }
     public int QtyParallel
     {
         get { return _qtyParallel; }
@@ -193,10 +193,18 @@ public class CableModel : ICable
             var oldValue = _size;
             _size = value;
 
+            UndoManager.Lock(this, nameof(Size));
+
+            if (DaManager.GettingRecords == false) {
+                CalculateAmpacity(Load);
+            }
+
             UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
+
             OnPropertyUpdated();
         }
     }
+
     public bool IsValidSize { get; set; }
     public bool Is1C { get; set; }
 
@@ -384,10 +392,14 @@ public class CableModel : ICable
     {
         TypeList.Clear();
 
-        var cableVoltageClass = DataTableManager.GetCableVoltageClass(load.Voltage);
+        //var cableVoltageClass = DataTableSearcher.GetCableVoltageClass(load.Voltage);
+
+        var list = TypeManager.CableTypes.Where(c => c.VoltageRating >= load.Voltage 
+                                                  && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
+        var cableVoltageClass = list.Min(c => c.VoltageRating);
 
         foreach (var cableType in TypeManager.CableTypes) {
-            if (cableVoltageClass == cableType.VoltageClass
+            if (cableVoltageClass == cableType.VoltageRating
                 && this.UsageType == cableType.UsageType) {
                 TypeList.Add(cableType);
             }
@@ -411,7 +423,7 @@ public class CableModel : ICable
     public void SetTypeProperties()
     {
         if (UsageType == CableUsageTypes.Power.ToString()) {
-            VoltageClass = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).VoltageClass;
+            VoltageRating = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).VoltageRating;
             ConductorQty = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).ConductorQty;
             AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
         }
@@ -423,7 +435,7 @@ public class CableModel : ICable
         SetSourceAndDestinationTags(load);
         AssignOwner(load);
 
-        VoltageClass = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).VoltageClass;
+        VoltageRating = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).VoltageRating;
         ConductorQty = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).ConductorQty;
 
         CableManager.CableSizer.SetDerating(this);

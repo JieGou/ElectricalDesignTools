@@ -44,6 +44,7 @@
         
         Title="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"
         TitleCharacterCasing="Normal"
+                 TitleAlignment="Center"
         BorderBrush="#FF3A3838"
         BorderThickness="2"
         FontSize="12"        
@@ -91,8 +92,8 @@
         <mah:WindowCommands>
             <WrapPanel Orientation="Horizontal"
                        >
-                <RadioButton Content="HOME" x:Name="btnHome"
-                             Width="65"
+                <RadioButton Content="Home" x:Name="btnHome"
+                             Width="55"
                              Style="{StaticResource MainMenuButton}" 
                              GroupName="menu"
                              VerticalAlignment="Top"  
@@ -100,24 +101,24 @@
                             />
 
 
-            <RadioButton Content="PROJECT SETUP"
-                                 Width="100"
+            <RadioButton Content="Project Setup"
+                                 Width="90"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}" 
                              VerticalAlignment="Top"
                              Command="{Binding NavigateSettingsCommand}"/>
 
 
-            <RadioButton Content="AREAS &amp; SYSTEMS"
-                                 Width="120"
+            <RadioButton Content="Areas &amp; Systems"
+                                 Width="110"
                              VerticalAlignment="Top"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              Command="{Binding NavigateAreasCommand}"
                              PreviewMouseDown="AreaMenuButton_PreviewMouseDown"/>
 
-            <RadioButton Content="ELECTRICAL"
-                                 Width="85"
+            <RadioButton Content="Electrical"
+                                 Width="65"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"
@@ -131,8 +132,8 @@
                              VerticalAlignment="Top"
                              Command="{Binding NavigateElectricalCommand}"/>-->
 
-            <RadioButton Content="CABLE &amp; TRAY"
-                                 Width="100"
+            <RadioButton Content="Cable &amp; Tray"
+                                 Width="85"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"
@@ -144,14 +145,14 @@
                             VerticalAlignment="Top"
                             Command="{Binding NavigateElectricalCommand}"/>-->
 
-            <RadioButton Content="DATA TABLES"
-                                 Width="85"
+            <RadioButton Content="Data Tables"
+                                 Width="75"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
                              VerticalAlignment="Top"                        
                              Command="{Binding NavigateLibraryCommand}"/>
 
-            <Button Content="EXPORT"
+            <Button Content="Export"
                             VerticalAlignment="Top"                        
                             Command="{Binding ExportCommand}"
                             FontSize="12"

@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.Cables;
+﻿using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using System.Collections.ObjectModel;
@@ -8,6 +9,7 @@ namespace EDTLibrary.Models.Cables;
 
 public interface ICableUser : IEquipment
 {
+    
     double Voltage { get; set; }
     double Size { get; set; }
     string Unit { get; set; }

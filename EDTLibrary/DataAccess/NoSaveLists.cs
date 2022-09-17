@@ -30,6 +30,11 @@ namespace EDTLibrary.DataAccess
             "Disconnect",
             "IsCalculating",
 
+            "VoltageTypeId",
+            "VoltageType",
+            "LineVoltageId",
+            "LoadVoltageId",
+
             "CircuitNumbersLeft",
             "CircuitNumbersRight",
             "PoleCountLeft",
@@ -55,7 +60,7 @@ namespace EDTLibrary.DataAccess
             "EfficiencyDisplay",
             "IsCalculating",
 
-            "Poles",
+            "VoltageType",
 
         };
 

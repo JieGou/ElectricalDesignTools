@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EDTLibrary.LibraryData.TypeModels
+namespace EDTLibrary.LibraryData.Cables
 {
     public class ConductorPropertyType
     {

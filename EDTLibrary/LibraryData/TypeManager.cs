@@ -53,7 +53,7 @@ namespace EDTLibrary.LibraryData
         {
             get
             {
-                var val = CableTypes.Where(c => c.VoltageClass == 1000
+                var val = CableTypes.Where(c => c.VoltageRating == 1000
                                                          && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
                 return new ObservableCollection<CableTypeModel>(val);
             }
@@ -62,7 +62,7 @@ namespace EDTLibrary.LibraryData
         {
             get
             {
-                var val = CableTypes.Where(c => c.VoltageClass == 5000
+                var val = CableTypes.Where(c => c.VoltageRating == 5000
                                                          && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
                 return new ObservableCollection<CableTypeModel>(val);
             }
@@ -71,7 +71,7 @@ namespace EDTLibrary.LibraryData
         {
             get
             {
-                var val = CableTypes.Where(c => c.VoltageClass == 15000
+                var val = CableTypes.Where(c => c.VoltageRating == 15000
                                                          && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
                 return new ObservableCollection<CableTypeModel>(val);
             }
@@ -158,7 +158,7 @@ namespace EDTLibrary.LibraryData
             StarterSizes = DaManager.libDb.GetRecords<StarterSize>("Starters");
             VfdHeatSizes = DaManager.libDb.GetRecords<VfdHeatSize>("VFDHeatLoss");
 
-            DataTableManager.CecCableAmpacities = DaManager.libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
+            DataTableSearcher.CecCableAmpacities = DaManager.libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
         }
 
 

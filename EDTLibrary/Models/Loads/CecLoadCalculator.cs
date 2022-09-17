@@ -26,10 +26,10 @@ public  class CecLoadCalculator
             load.PdType.Contains("FVNR") ||
             load.PdType.Contains("FVR")) {
 
-            load.PdSizeFrame = DataTableManager.GetMcpFrame(load);
-            load.PdSizeTrip = DataTableManager.GetBreakerTrip(load);
+            load.PdSizeFrame = DataTableSearcher.GetMcpFrame(load);
+            load.PdSizeTrip = DataTableSearcher.GetBreakerTrip(load);
             load.StarterType = load.PdType;
-            load.StarterSize = DataTableManager.GetStarterSize(load);
+            load.StarterSize = DataTableSearcher.GetStarterSize(load);
             //load.PdSizeTrip = Math.Min(load.Fla * 1.25, load.PdSizeFrame);
             //load.PdSizeTrip = Math.Round(load.PdSizeTrip, 0);
         }
@@ -37,8 +37,8 @@ public  class CecLoadCalculator
         else if (load.PdType == "BKR" ||
                  load.PdType == "VFD" || load.PdType == "VSD" ||
                  load.PdType == "RVS") {
-            load.PdSizeFrame = DataTableManager.GetBreakerFrame(load);
-            load.PdSizeTrip = DataTableManager.GetBreakerTrip(load);
+            load.PdSizeFrame = DataTableSearcher.GetBreakerFrame(load);
+            load.PdSizeTrip = DataTableSearcher.GetBreakerTrip(load);
         }
     }
 

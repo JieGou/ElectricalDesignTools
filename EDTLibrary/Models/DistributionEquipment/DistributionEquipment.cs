@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -176,6 +177,9 @@ namespace EDTLibrary.Models.DistributionEquipment
                 OnPropertyUpdated(nameof(AreaClassification) + ": " + AreaClassification.ToString());
             }
         }
+
+        int VoltageTypeId { get; set; } //unused for PowerConsumer interface
+        VoltageType VoltageType { get; set; } //unused, for PowerConsumer interface
         public double Voltage
         {
             get { return LineVoltage; }
@@ -300,8 +304,14 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
 
-        private double _lineVoltage;
 
+        public int LineVoltageTypeId { get; set; }
+        public VoltageType LineVoltageType
+        {
+            get { return _lineVoltageType; }
+            set { _lineVoltageType = value; }
+        }
+        public VoltageType _lineVoltageType;
         public double LineVoltage
         {
             //TODO - update cable and alert loads
@@ -319,9 +329,16 @@ namespace EDTLibrary.Models.DistributionEquipment
                 OnPropertyUpdated(nameof(LineVoltage) + ": " + LineVoltage.ToString());
             }
         }
+        private double _lineVoltage;
 
-        private double _loadVoltage;
 
+        public int LoadVoltageTypeId { get; set; }
+        public VoltageType LoadVoltageType
+        {
+            get { return _loadVoltageType; }
+            set { _loadVoltageType = value; }
+        }
+        public VoltageType _loadVoltageType;
         public double LoadVoltage
         {
             get { return _loadVoltage; }
@@ -338,6 +355,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             }
         }
+        private double _loadVoltage;
 
         //Loading
         private double _fla;
@@ -377,7 +395,6 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
         public ILocalControlStation Lcs { get; set; }
-        private bool _lcsBool;
         public bool LcsBool
         {
             get { return _lcsBool; }
@@ -394,10 +411,10 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             }
         }
+        private bool _lcsBool;
 
         public IComponentEdt Drive { get; set; }
 
-        private bool _driveBool;
         public bool DriveBool
         {
             get { return _driveBool; }
@@ -409,17 +426,17 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
             }
         }
+        private bool _driveBool;
 
-        private int _driveId;
         public int DriveId
         {
             get { return _driveId; }
             set { _driveId = value; }
         }
+        private int _driveId;
 
         public IComponentEdt Disconnect { get; set; }
 
-        private bool _disconnectBool;
         public bool DisconnectBool
         {
             get { return _disconnectBool; }
@@ -430,15 +447,15 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             }
         }
+        private bool _disconnectBool;
 
-        private int _disconnectId;
-        private double _loadCableDerating;
 
         public int DisconnectId
         {
             get { return _disconnectId; }
             set { _disconnectId = value; }
         }
+        private int _disconnectId;
 
         #endregion
 
@@ -460,6 +477,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 OnPropertyUpdated(nameof(LoadCableDerating) + ": " + LoadCableDerating.ToString());
             }
         }
+        private double _loadCableDerating;
 
 
         public bool IsCalculating { get; set; }

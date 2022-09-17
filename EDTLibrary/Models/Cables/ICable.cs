@@ -1,4 +1,5 @@
-﻿using EDTLibrary.LibraryData.TypeModels;
+﻿using EDTLibrary.LibraryData.Cables;
+using EDTLibrary.LibraryData.TypeModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ public interface ICable
     int Id { get; set; }
     string InstallationDiagram { get; set; }
     string InstallationType { get; set; }
-    double Insulation { get; set; }
+    double InsulationPercentage { get; set; }
     bool Is1C { get; set; }
     bool IsOutdoor { get; set; }
     bool IsValidSize { get; set; }
@@ -48,7 +49,7 @@ public interface ICable
     List<CableTypeModel> TypeList { get; set; }
     CableTypeModel TypeModel { get; set; }
     string UsageType { get; set; }
-    double VoltageClass { get; set; }
+    double VoltageRating { get; set; }
     double VoltageDrop { get; set; }
     double VoltageDropPercentage { get; set; }
 

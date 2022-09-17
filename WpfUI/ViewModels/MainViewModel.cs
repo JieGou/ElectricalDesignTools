@@ -94,7 +94,7 @@ namespace WpfUI.ViewModels
                 ProjectName = "Electrical Design Tools";
             }
             else {
-                ProjectName = "Electrical Design Tools - " + EdtSettings.ProjectName;
+                ProjectName = EdtSettings.ProjectName;
             }
         }
         public  void OnProjectNameUpdated(object source, EventArgs e)

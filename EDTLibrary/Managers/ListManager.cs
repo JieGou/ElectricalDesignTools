@@ -54,6 +54,7 @@ namespace EDTLibrary.Managers
                 GetAreas();
                 GetDteq();
                 GetLoadsAndAssignPropertyUpdatedEvent();
+                GetVoltages();
                 GetDpnCircuits();
                 //TODO - Get Components for each type and create a master component list
                 GetDrives();
@@ -83,7 +84,20 @@ namespace EDTLibrary.Managers
             DaManager.GettingRecords = false;
         }
 
-        
+        private void GetVoltages()
+        {
+            foreach (var dteq in IDteqList) {
+                
+
+            }
+            foreach (var load in LoadList) {
+                //load.VoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == load.Voltage).Id;
+
+                load.VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Id == load.VoltageTypeId);
+
+            }
+        }
+
         public ObservableCollection<IEquipment> CreateEquipmentList()
         {
             EqList.Clear();

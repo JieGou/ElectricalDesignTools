@@ -188,7 +188,6 @@ namespace EDTLibrary.Models.Loads
 
 
         private double _voltage;
-
         public double Voltage
         {
             get { return _voltage; }
@@ -209,6 +208,14 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
+        private VoltageType _voltageType;
+
+        public int VoltageTypeId { get; set; } = 0;
+        public VoltageType VoltageType
+        {
+            get { return _voltageType; }
+            set { _voltageType = value; }
+        }
 
         public double _size;
         public double Size
@@ -323,15 +330,6 @@ namespace EDTLibrary.Models.Loads
                 OnPropertyUpdated(nameof(PowerFactor));
             }
         }
-
-        private int _poles = 3;
-
-        public int Poles
-        {
-            get { return _poles; }
-            set { _poles= value; }
-        }
-
 
         public double AmpacityFactor { get; set; }
         public double Fla { get; set; }
@@ -623,8 +621,8 @@ namespace EDTLibrary.Models.Loads
                 load.PowerFactor = GlobalConfig.DefaultTransformerPowerFactor;
             }
             else if (Type == LoadTypes.MOTOR.ToString()) {
-                load.Efficiency = DataTableManager.GetMotorEfficiency(this);
-                load.PowerFactor = DataTableManager.GetMotorPowerFactor(this);
+                load.Efficiency = DataTableSearcher.GetMotorEfficiency(this);
+                load.PowerFactor = DataTableSearcher.GetMotorPowerFactor(this);
             }
             else if (Type == LoadTypes.PANEL.ToString()) {
                 load.Efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Panel);
