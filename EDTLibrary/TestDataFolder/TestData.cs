@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
@@ -48,7 +49,9 @@ namespace EDTLibrary.TestDataFolder
         };
 
         public static ObservableCollection<ILoad> TestLoadList = new ObservableCollection<ILoad>() {
-            new LoadModel() {Tag = "MTR-01", Type = LoadTypes.MOTOR.ToString(), FedFromTag = "MCC-01", Voltage=460, Size = 50,Unit=Units.HP.ToString()},
+            new LoadModel() {Tag = "MTR-01", Type = LoadTypes.MOTOR.ToString(), FedFromTag = "MCC-01", Voltage=460, 
+                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==460), Size = 50,Unit=Units.HP.ToString()},
+
             new LoadModel() {Tag = "HTR-01", Type = LoadTypes.HEATER.ToString(), FedFromTag = "MCC-01", Voltage=480, Size = 50,Unit=Units.HP.ToString()},
             new LoadModel() {Tag = "PNL-01", Type = LoadTypes.PANEL.ToString(), FedFromTag = "MCC-01", Voltage=480, Size = 250,Unit=Units.A.ToString()},
             
@@ -88,6 +91,7 @@ namespace EDTLibrary.TestDataFolder
 
             new LoadModel() {Tag = "LD-05", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=208, Size = 5,Unit=Units.A.ToString()},
             new LoadModel() {Tag = "LD-06", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=208, Size = 12,Unit=Units.A.ToString()},
+            new LoadModel() {Tag = "LD-07", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=120, Size = 15,Unit=Units.A.ToString()},
             new LoadModel() {Tag = "LD-07", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=120, Size = 15,Unit=Units.A.ToString()},
 
         };

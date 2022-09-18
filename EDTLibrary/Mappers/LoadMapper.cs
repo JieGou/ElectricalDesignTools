@@ -24,7 +24,7 @@ public class LoadMapper
         AreaTag = load.Area.Tag;
         AreaName = load.Area.Name;
         FedFrom = load.FedFrom.Tag;
-        Voltage = load.Voltage;
+        Voltage = load.VoltageType.Voltage;
         Size = load.Size;
         Unit = load.Unit;
         Fla = load.Fla;

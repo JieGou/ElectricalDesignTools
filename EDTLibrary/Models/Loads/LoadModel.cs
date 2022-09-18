@@ -241,7 +241,9 @@ namespace EDTLibrary.Models.Loads
 
                 UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
-                CalculateLoading();
+                if (DaManager.AddingEquipment == false) {
+                    CalculateLoading();
+                }
 
             }
         }
@@ -559,7 +561,7 @@ namespace EDTLibrary.Models.Loads
                             break;
 
                         case "A":
-                            ConnectedKva = Size * Voltage * Math.Sqrt(3) / 1000; //   / Efficiency / PowerFactor;
+                            ConnectedKva = Size * VoltageType.Voltage * Math.Sqrt(3) / 1000; //   / Efficiency / PowerFactor;
                             Fla = Size;
                             break;
                     }
@@ -576,7 +578,7 @@ namespace EDTLibrary.Models.Loads
                             break;
 
                         case "A":
-                            ConnectedKva = Size * Voltage * Math.Sqrt(3) / 1000; //   / Efficiency / PowerFactor;
+                            ConnectedKva = Size * VoltageType.Voltage * Math.Sqrt(3) / 1000; //   / Efficiency / PowerFactor;
                             Fla = Size;
                             break;
                     }
@@ -588,8 +590,9 @@ namespace EDTLibrary.Models.Loads
             }
 
             //FLA
+
             if (Unit != "A") {
-                Fla = ConnectedKva * 1000 / Voltage / Math.Sqrt(3);
+                Fla = ConnectedKva * 1000 / VoltageType.Voltage / Math.Sqrt(3);
                 Fla = Math.Round(Fla, GlobalConfig.SigFigs);
             }
 

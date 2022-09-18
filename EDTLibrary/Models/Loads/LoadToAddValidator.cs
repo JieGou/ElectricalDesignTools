@@ -1,8 +1,11 @@
-﻿using EDTLibrary.Managers;
+﻿using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Validators;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Services;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -10,6 +13,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 
 namespace EDTLibrary.Models.Loads
 {
@@ -38,8 +42,9 @@ namespace EDTLibrary.Models.Loads
             Size = loadToAdd.Size.ToString();
             Unit = loadToAdd.Unit;
             Voltage = loadToAdd.Voltage.ToString();
+            VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage.ToString() == Voltage);
+            //VoltageType = loadToAdd.VoltageType;
         }
-        private string _tag;
         public string Tag
         {
             get { return _tag; }
@@ -64,8 +69,8 @@ namespace EDTLibrary.Models.Loads
                 }
             }
         }
+        private string _tag;
 
-        private string _type;
         public string Type
         {
             get { return _type; }
@@ -110,14 +115,14 @@ namespace EDTLibrary.Models.Loads
                 }
             }
         }
+        private string _type;
 
-        private string _description;
         public string Description
         {
             get { return _description; }
             set { _description = value; }
         }
-        private string _areaTag;
+        private string _description;
 
         public string AreaTag
         {
@@ -140,8 +145,9 @@ namespace EDTLibrary.Models.Loads
                 }
             }
         }
+        private string _areaTag;
 
-        private string _fedFromTag;
+
         public string FedFromTag
         {
             get { return _fedFromTag; }
@@ -164,8 +170,8 @@ namespace EDTLibrary.Models.Loads
                 }
             }
         }
+        private string _fedFromTag;
 
-        private string _size;
         public string Size
         {
             get { return _size; }
@@ -191,8 +197,8 @@ namespace EDTLibrary.Models.Loads
                 }
             }
         }
+        private string _size;
 
-        private string _unit;
         public string Unit
         {
             get { return _unit; }
@@ -222,14 +228,15 @@ namespace EDTLibrary.Models.Loads
             }
 
         }
+        private string _unit;
 
-        private string _voltage;
         public string Voltage
         {
             get { return _voltage; }
             set
             {
                 _voltage = value;
+                _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage.ToString() == _voltage);
                 _feedingDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
 
                 ClearErrors(nameof(Voltage));
@@ -251,26 +258,31 @@ namespace EDTLibrary.Models.Loads
                                 }
                             }
                             _isValid = true;
+                            return;
                         }
                         else {
                             if (_type == LoadTypes.MOTOR.ToString()) {
-                                if (_voltage == "600") {
-                                    _voltage = "575";
+                                if (_voltage == "575") {
+                                    _voltage = "600";
                                     _isValid = true;
+                                    return;
                                 }
-                                else if (_voltage == "480") {
-                                    _voltage = "460";
+                                else if (_voltage == "460") {
+                                    _voltage = "480";
                                     _isValid = true;
+                                    return;
                                 }
                             }
                             if (_feedingDteq.LoadVoltage == 208) {
                                 if (_voltage == "208" || _voltage == "120") {
                                     _isValid = true;
+                                    return;
                                 }
                             }
                             else if (_feedingDteq.LoadVoltage == 240) {
                                 if (_voltage == "240" || _voltage == "120") {
                                     _isValid = true;
+                                    return;
                                 }
                             }
 
@@ -282,8 +294,15 @@ namespace EDTLibrary.Models.Loads
                
             }
         }
+        private string _voltage;
 
-        private string _loadFactor;
+        public VoltageType VoltageType
+        {
+            get { return _voltageType; }
+            set { _voltageType = value; }
+        }
+        private VoltageType _voltageType;
+
         public string LoadFactor
         {
             get { return _loadFactor; }
@@ -307,10 +326,8 @@ namespace EDTLibrary.Models.Loads
                 }
             }
         }
+        private string _loadFactor;
 
-
-
-        private bool _isValid;
         public bool IsValid()
         {
 
@@ -382,8 +399,14 @@ namespace EDTLibrary.Models.Loads
             if (_isValid && HasErrors == false) {
                 return true;
             }
+            var sb = new StringBuilder();
+            foreach (var item in _errorDict) {
+                sb.Append(item.Value + ", ");
+            }
+            //NotificationService.SendAlert($"LoadToAddValidator - {Tag}", sb.ToString(), "Validation Error");
             return false;
         }
+        private bool _isValid;
 
 
         public string Error { get; }

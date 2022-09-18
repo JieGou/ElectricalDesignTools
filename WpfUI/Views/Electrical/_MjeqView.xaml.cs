@@ -1,5 +1,7 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
@@ -691,6 +693,7 @@ public partial class _MjeqView : UserControl
             Type = LoadTypes.MOTOR.ToString(),
             FedFromTag = "MCC-01",
             Voltage = 460,
+            VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 460),
             Size = 15,
             Unit = Units.HP.ToString()
         };

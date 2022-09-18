@@ -24,7 +24,7 @@ namespace EDTLibrary.LibraryData
                 DataTable dt = DataTables.Motors.Copy();
                 DataTable dtFiltered;
 
-                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.Voltage
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.VoltageType.Voltage
                                                              && x.Field<double>("Size") == (double)load.Size
                                                              && x.Field<string>("Unit") == load.Unit
                                                              && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
@@ -45,7 +45,7 @@ namespace EDTLibrary.LibraryData
                 DataTable dt = DataTables.Motors.Copy();
                 DataTable dtFiltered;
 
-                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.Voltage
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.VoltageType.Voltage
                                                              && x.Field<double>("Size") == (double)load.Size
                                                              && x.Field<string>("Unit") == load.Unit
                                                              && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
@@ -110,7 +110,7 @@ namespace EDTLibrary.LibraryData
                 DataTable dt = DataTables.MCPs.Copy();
                 DataTable dtFiltered;
 
-                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.Voltage
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Voltage") == (double)load.VoltageType.Voltage
                                                              && x.Field<double>("HP") == (double)load.Size) ;
 
 

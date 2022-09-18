@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Managers;
+﻿using EDTLibrary.LibraryData;
+using EDTLibrary.Managers;
 using EDTLibrary.ProjectSettings;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,10 @@ namespace EDTLibrary.Models.Loads
             newLoad.Size = Double.Parse(loadToAddValidator.Size);
             newLoad.Description = loadToAddValidator.Description;
             newLoad.Voltage = Double.Parse(loadToAddValidator.Voltage);
+
+
+            newLoad.VoltageType = loadToAddValidator.VoltageType;
+
             newLoad.Unit = loadToAddValidator.Unit;
             newLoad.LoadFactor = Double.Parse(loadToAddValidator.LoadFactor);
 

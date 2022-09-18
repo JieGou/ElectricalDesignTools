@@ -12,9 +12,10 @@
     <SolidColorBrush x:Key="Dark" Color="#FF31869B"/>
     <SolidColorBrush x:Key="Medium" Color="#FF94CDDB"/>
     <SolidColorBrush x:Key="Light" Color="#FFDBEEF3"/>
-    
+
     <SolidColorBrush x:Key="Background" Color="#FFDAEEF3"/>
     <SolidColorBrush x:Key="PageBackground" Color="#FFDAEEF3"/>
+
     <SolidColorBrush x:Key="BackGroundLight" Color="LightCyan"/>
 
     <!--Accent Colors-->

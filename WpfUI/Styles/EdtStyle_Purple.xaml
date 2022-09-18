@@ -15,7 +15,8 @@
     <SolidColorBrush x:Key="Background" Color="Lavender"/>
     
     <SolidColorBrush x:Key="BackGroundLight" Color="LightCyan"/>
-
+    <SolidColorBrush x:Key="PageBackground" Color="#FFC5BCCA"/>
+    
     <!--Accent Colors-->
     <SolidColorBrush x:Key="ButtonColor">#FFA5A5ED</SolidColorBrush>
     <SolidColorBrush x:Key="DatagridSelection">Lavender</SolidColorBrush>

@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
@@ -54,12 +55,15 @@ namespace EDTLibrary.Managers
                 //newSupplier.AssignedLoads.Add(caller);
                 newSupplier.CalculateLoading();
 
-                if (caller.Tag != "" &&
-                    caller.Voltage != 0 &&
-                    caller.Fla != 0) {
-                    caller.CalculateLoading();
-                    caller.PowerCable.SetSourceAndDestinationTags(caller);
+                if (caller.VoltageType != null) {
+                    if (caller.Tag != "" &&
+                   caller.VoltageType.Voltage != 0 &&
+                   caller.Fla != 0) {
+                        caller.CalculateLoading();
+                        caller.PowerCable.SetSourceAndDestinationTags(caller);
+                    }
                 }
+               
             }
 
         }

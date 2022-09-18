@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Services;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -45,28 +46,30 @@ namespace EDTLibrary.ErrorManagement
             File.WriteAllLines(path, ErrorLog);
         }
 
-        internal static void NotifyExeptionMessage(Exception ex)
+        internal static void SendExeptionMessage(Exception ex)
         {
+            string message = $"Error: \n\n{ex.Message}\n\n\n" +
+                             $"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n" +
+                             $"Stack Trace: \n\n {ex}";
+            string caption = "Internal Error";
 
-            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
-                if (ex.Data.Contains("UserMessage")) {
-                    MessageBox.Show($"UserMessage: \n\n{ex.Data["UserMessage"]}\n\n\n" +
-                        $"Error: \n\n{ex.Message}\n\n\n" +
-                                    $"Stack Trace: \n\n {ex}", "Error");
-                }
-                else {
-                    MessageBox.Show(ex.ToString());
-                }
-            }));
+            //Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+                
+            //    if (ex.Data.Contains("UserMessage")) {
+            //        MessageBox.Show(message, caption);
+            //    }
+            //    else {
+            //        MessageBox.Show(ex.ToString());
+            //    }
+            //}));
 
+            NotificationService.SendError("null", message, caption, ex);
         }
 
-        internal static void NotifyUserError(string message, string caption = "User Error", MessageBoxImage image = MessageBoxImage.None)
+        public static void NotifyUserError(string message, string caption = "User Error", MessageBoxImage image = MessageBoxImage.Warning)
         {
-            if (DaManager.Importing == true) return;
-            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
-                MessageBox.Show(message, caption, MessageBoxButton.OK, image);
-            }));
+
+            NotificationService.SendAlert("null sender", message, caption);
         }
     }
 }

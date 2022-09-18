@@ -46,7 +46,7 @@ namespace EDTLibrary.Models.Cables
                 return EdtSettings.DefaultCableTypeDteq_3ph1kVGt1200A;
             }
             else if (load.Voltage > 1000 
-                && load.Voltage <=5000) {
+                && load.Voltage <= 5000) {
                 return EdtSettings.DefaultCableType_3ph5kV;
             }
             else if (load.Voltage > 5000
@@ -418,11 +418,11 @@ namespace EDTLibrary.Models.Cables
         public void SetVoltageDrop(ICable cable)
         {
             try {
-                if (cable.Load != null && cable.Size != null && cable.Length != null ) {
+                if (cable.Load != null && cable.Size != null && cable.Length != null && cable.Load.VoltageType!=null) {
                     double resistance = TypeManager.ConductorProperties.FirstOrDefault(cr => cr.Size == cable.Size).Resistance75C1kMeter;
                     cable.VoltageDrop = Math.Sqrt(3) * cable.Load.Fla * cable.Length * resistance / 1000;
                     cable.VoltageDrop = Math.Round(cable.VoltageDrop, 2);
-                    cable.VoltageDropPercentage = Math.Round(cable.VoltageDrop / cable.Load.Voltage * 100, 2);
+                    cable.VoltageDropPercentage = Math.Round(cable.VoltageDrop / cable.Load.VoltageType.Voltage * 100, 2);
                 }
             }
             catch (Exception ex) {

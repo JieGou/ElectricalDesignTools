@@ -45,7 +45,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             get { return _tag; }
             set
             {
-                if (value == null || value ==_tag) return;
+                if (value == null || value == _tag) return;
                 if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
                     ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                     return;
@@ -55,7 +55,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _tag = value;
 
                 if (DaManager.GettingRecords == true) return;
-                
+
                 if (PowerCable != null) {
                     PowerCable.SetSourceAndDestinationTags(this);
                 }
@@ -179,7 +179,18 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
         public int VoltageTypeId { get; set; } //unused for PowerConsumer interface
-        public VoltageType VoltageType { get; set; } //unused, for PowerConsumer interface
+        public VoltageType VoltageType
+        {
+            get => _lineVoltageType;
+            set
+            {
+                _voltageType = value;
+
+            }
+        }
+          //unused, for PowerConsumer interface
+        private VoltageType _voltageType;
+
         public double Voltage
         {
             get { return LineVoltage; }
@@ -239,7 +250,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
             }
         }
-      
+
         private IDteq _fedFrom;
         public IDteq FedFrom
         {
@@ -265,7 +276,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                     //Fed from validation - Checks if the equipment is fed from itself and does not allow the change to proceed.
                     for (int i = 0; i < 500; i++) {
                         if (nextFedFrom == null) {
-                            DistributionManager.UpdateFedFrom(this, _fedFrom, new DteqModel()) ;
+                            DistributionManager.UpdateFedFrom(this, _fedFrom, new DteqModel());
                             return;
                         }
                         else {
@@ -276,8 +287,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                                 _fedFrom = oldValue;
 
                                 //Message must be executed last
-                                ErrorHelper.NotifyUserError( "Equipment Cannot be fed from itself, directly or through other equipment.", 
-                                    "Circular Feed Error", 
+                                ErrorHelper.NotifyUserError("Equipment Cannot be fed from itself, directly or through other equipment.",
+                                    "Circular Feed Error",
                                     MessageBoxImage.Warning);
                                 break;
                             }
@@ -468,9 +479,13 @@ namespace EDTLibrary.Models.DistributionEquipment
         public double SCCR { get; set; }
 
         //Todo - recalculate cables when changed
-        public double LoadCableDerating { get => _loadCableDerating;
+        public double LoadCableDerating
+        {
+            get => _loadCableDerating;
 
-            set { _loadCableDerating = value;
+            set
+            {
+                _loadCableDerating = value;
                 foreach (var load in AssignedLoads) {
                     load.PowerCable.AutoSizeAsync();
                 }
@@ -478,7 +493,6 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
         private double _loadCableDerating;
-
 
         public bool IsCalculating { get; set; }
         //Methods
@@ -589,8 +603,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             await Task.Run(() => {
                 if (PropertyUpdated != null) {
-                PropertyUpdated(this, EventArgs.Empty);
-            }
+                    PropertyUpdated(this, EventArgs.Empty);
+                }
             });
             ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
 
@@ -599,7 +613,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
 
-      
+
         public async Task UpdateAreaProperties()
         {
             UndoManager.CanAdd = false;
@@ -609,11 +623,11 @@ namespace EDTLibrary.Models.DistributionEquipment
                 AreaClassification = Area.AreaClassification;
 
                 //when selecting area on AreasView datagrid, PowerCable is null after Db reload
-                if (PowerCable!= null) {
+                if (PowerCable != null) {
                     PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
                     PowerCable.CalculateAmpacity(this);
                 }
-               
+
             }));
             UndoManager.CanAdd = true;
 
@@ -638,7 +652,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             var iLoad = AssignedLoads.FirstOrDefault(load => load.Id == load.Id);
 
-            if (iLoad != null ) {
+            if (iLoad != null) {
                 AssignedLoads.Add(load);
                 return true;
             }

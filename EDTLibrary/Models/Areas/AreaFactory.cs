@@ -37,7 +37,7 @@ public class AreaFactory
             }
         }
         catch (Exception ex) {
-            ErrorHelper.NotifyExeptionMessage(ex);
+            ErrorHelper.SendExeptionMessage(ex);
         }
     }
 

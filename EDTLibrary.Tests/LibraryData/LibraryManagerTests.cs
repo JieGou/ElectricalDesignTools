@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,9 @@ namespace EDTLibrary.Tests.LibraryData
         public void GetMotorEfficiency_CorrectAndDefault(double voltage, double size, string unit, double expected)
         {
             DaManager.GettingRecords = true;
-            ILoad load = new LoadModel() { Voltage = voltage, Size = size, Unit = unit};
+            VoltageType vt = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == voltage);
+
+            ILoad load = new LoadModel() { Voltage = vt.Voltage, VoltageType = vt, Size = size, Unit = unit};
             DataTables.Motors = CreateSampleMotorTable();
 
 

@@ -17,6 +17,7 @@
     <SolidColorBrush x:Key="BackgroundLight" Color="#FFFFE4D1"/>
     <SolidColorBrush x:Key="PageBackground" Color="#FFE6D3C1"/>
 
+
     <!--Accent Colors-->
     <SolidColorBrush x:Key="ButtonColor" Color="#FFC7813A"/>
     <SolidColorBrush x:Key="DatagridSelection" Color="#FFFFD6AB"/>

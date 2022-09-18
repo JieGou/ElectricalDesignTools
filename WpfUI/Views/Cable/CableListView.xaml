@@ -15,7 +15,7 @@
              
         mc:Ignorable="d"
         d:Width="1400" d:Height="800"
-        Background="#FFC5BCCA" >
+        Background="Transparent" >
     
     <UserControl.Resources>
         <ResourceDictionary>
@@ -66,7 +66,7 @@
     </UserControl.Resources>
 
 
-    <Grid>
+    <Grid Background="{StaticResource PageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition/>

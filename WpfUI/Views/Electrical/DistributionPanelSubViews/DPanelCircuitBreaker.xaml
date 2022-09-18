@@ -12,7 +12,7 @@
              
              mc:Ignorable="d"
              
-             d:DesignHeight="20" d:DesignWidth="150"
+             d:DesignHeight="25" d:DesignWidth="150"
              d:Background="LightCyan"
              
              Background="Transparent">
@@ -57,20 +57,20 @@
             <Line X1="45" Y1="15" X2="105" Y2="15" Stroke="Black" />
             
             <!--A-->
-            <Line X1="60" Y1="0" X2="60" Y2="50" Stroke="Black" />
+            <Line X1="60" Y1="0" X2="60" Y2="25" Stroke="Black" />
                 <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
                          Canvas.Top="12.5" Canvas.Left="57.5"
                          Visibility="Visible"/>
             
             <!--B-->
-            <Line X1="75" Y1="0" X2="75" Y2="50" Stroke="Black" 
+            <Line X1="75" Y1="0" X2="75" Y2="25" Stroke="Black" 
                   Visibility="Visible"/>
                 <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
                          Canvas.Top="12.5" Canvas.Left="72.5"
                          Visibility="Visible"/>
             
             <!--C-->
-            <Line X1="90" Y1="0" X2="90" Y2="50" Stroke="Black" />
+            <Line X1="90" Y1="0" X2="90" Y2="25" Stroke="Black" />
                 <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
                          Canvas.Top="12.5" Canvas.Left="87.5"
                          Visibility="Visible"/>

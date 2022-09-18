@@ -14,7 +14,9 @@
     <SolidColorBrush x:Key="Light" Color="#FF67B1F3"/>
     
     <SolidColorBrush x:Key="Background" Color="AliceBlue"/>
+
     <SolidColorBrush x:Key="PageBackground" Color="AliceBlue"/>
+
     <SolidColorBrush x:Key="BackGroundLight" Color="AliceBlue"/>
 
     <!--Accent Colors-->

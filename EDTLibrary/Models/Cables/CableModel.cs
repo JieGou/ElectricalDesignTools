@@ -394,7 +394,7 @@ public class CableModel : ICable
 
         //var cableVoltageClass = DataTableSearcher.GetCableVoltageClass(load.Voltage);
 
-        var list = TypeManager.CableTypes.Where(c => c.VoltageRating >= load.Voltage 
+        var list = TypeManager.CableTypes.Where(c => c.VoltageRating >= load.Voltage
                                                   && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
         var cableVoltageClass = list.Min(c => c.VoltageRating);
 

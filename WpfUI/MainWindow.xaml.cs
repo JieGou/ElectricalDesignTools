@@ -20,6 +20,7 @@ using System.Collections.ObjectModel;
 using WpfUI.ViewModels.Home;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
+using EDTLibrary.Services;
 
 namespace WpfUI;
 
@@ -36,6 +37,10 @@ public partial class MainWindow : MetroWindow
     public MainWindow()
     {
         InitializeComponent();
+
+        NotificationService.ErrorSent += ErrorHelper.ShowError;
+        NotificationService.AlertSent += ErrorHelper.ShowAlert;
+
         btnHome.IsChecked = true;
         string[] args = Environment.GetCommandLineArgs();
 
@@ -78,7 +83,6 @@ public partial class MainWindow : MetroWindow
             if (e.Key == Key.D) {
                 if (debugWindow == null || debugWindow.IsLoaded == false) {
                     debugWindow = new DebugWindow();
-                    //debugWindow.Owner = this;
                     debugWindow.Show();
                 }
                 else {
