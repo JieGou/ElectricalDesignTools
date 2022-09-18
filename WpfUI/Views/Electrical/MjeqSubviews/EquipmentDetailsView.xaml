@@ -101,7 +101,7 @@
         <!--Local control Station-->
 
         <GroupBox Header="Local Control Station" 
-                  Style="{DynamicResource GroupBoxStyle1}" 
+                  Style="{StaticResource GroupBoxStyle1}" 
                   Grid.Row="3" Grid.Column="0"
                   Grid.RowSpan="2"
                   Margin="0 20 0 0"
