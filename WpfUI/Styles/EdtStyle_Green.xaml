@@ -14,8 +14,9 @@
     <SolidColorBrush x:Key="Light" Color="#FF76CCAA"/>
     
     <SolidColorBrush x:Key="Background" Color="#FFCEF3E4"/>
+    <SolidColorBrush x:Key="BackgroundLight" Color="#FFDAF1EB"/>
     <SolidColorBrush x:Key="PageBackground" Color="#FFB7D4C8"/>
-    <SolidColorBrush x:Key="BackGroundLight" Color="#FFDAF1EB"/>
+    <!--<SolidColorBrush x:Key="PageBackground" Color="LightGray"/>-->
 
     <!--Accent Colors-->
     <SolidColorBrush x:Key="ButtonColor" Color="#FF76CCAA"/>

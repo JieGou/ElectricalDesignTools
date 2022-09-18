@@ -13,7 +13,7 @@
              
              mc:Ignorable="d" 
              d:Width="1400" d:Height="950" 
-             Background="AliceBlue">
+             Background="LightGray">
 
 
     <UserControl.Resources>
@@ -41,8 +41,9 @@
     </UserControl.Resources>
 
     <Grid x:Name="settingsGrid"
+          Background="{StaticResource PageBackground}"
               d:Opacity="1"
-              Opacity="0" Margin="10">
+              Opacity="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <!--Buttons-->

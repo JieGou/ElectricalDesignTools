@@ -232,7 +232,7 @@ public partial class _MjeqView : UserControl
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
 
             foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                if (loadObject == typeof(LoadModel)) {
+                if (loadObject.GetType() == typeof(LoadModel)) {
                     LoadModel load = (LoadModel)loadObject;
                     load.DisconnectBool = true;
                 }

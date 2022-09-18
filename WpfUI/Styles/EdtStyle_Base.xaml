@@ -182,11 +182,11 @@
         <Setter Property="Width" Value="100"/>
         <Setter Property="Height" Value="23"/>
         <Setter Property="Margin" Value="10 5"/>
-        <Setter Property="Button.Effect">
+        <!--<Setter Property="Button.Effect">
             <Setter.Value>
                 <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.5" />
             </Setter.Value>
-        </Setter>
+        </Setter>-->
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <!--<Setter Property="Background" Value="Transparent"/>-->
@@ -194,7 +194,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border CornerRadius="4" 
+                    <Border CornerRadius="0" 
                             Background="{TemplateBinding Background}" 
                             BorderBrush="Black" 
                             BorderThickness="1">

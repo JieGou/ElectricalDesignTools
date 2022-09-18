@@ -16,7 +16,7 @@
              
              mc:Ignorable="d" 
              d:Width="1400" d:Height="950" 
-             Background="AliceBlue">
+             Background="LightGray">
 
 
     <UserControl.Resources>
@@ -71,7 +71,7 @@
         </Grid.Triggers>
 
         <!--Page Title-->
-        <TextBlock Text="General Settings"
+        <TextBlock Text="Cable Settings"
                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
                    Style="{StaticResource PageTitleStyle}"/>
 
@@ -86,11 +86,12 @@
 
                 <!--Cable Settings-->
                 <controls:EdtGroupBox Header="Power Cable Settings"
-                                  Grid.Row="1" Grid.Column="6"
-                                  Margin="25 0 25 0" 
-                                  HeaderBackground="{StaticResource Dark}"
-                                  HeaderForeGround="white"
-                                  >
+                                      HeaderBackground="{StaticResource Dark}"
+                                      HeaderForeGround="white"
+                                      ContentBackground="{StaticResource BackgroundLight}"
+                                      Margin="25 0 25 0" 
+                                      >
+
                     <StackPanel Orientation="Horizontal">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -482,9 +483,13 @@
                 </controls:EdtGroupBox>
 
 
-                <GroupBox Header="Control and Instrument Cable Settings"
-                  Grid.Row="1" Grid.Column="6"
-                  Margin="25 0 25 0">
+                <controls:EdtGroupBox Header="Control and Instrument Cable Settings"
+                                      HeaderBackground="{StaticResource Dark}"
+                                      HeaderForeGround="white"
+                                      ContentBackground="{StaticResource BackgroundLight}"
+                                      Margin="25 0 25 0" 
+                                      >
+
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -577,7 +582,7 @@
                                    MaxWidth="200" />
                         </StackPanel>
                     </Grid>
-                </GroupBox>
+                </controls:EdtGroupBox>
             </WrapPanel>
         </ScrollViewer>
     </Grid>

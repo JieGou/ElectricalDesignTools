@@ -14,13 +14,13 @@
     <SolidColorBrush x:Key="Light" Color="#FFDBEEF3"/>
 
     <SolidColorBrush x:Key="Background" Color="#FFDAEEF3"/>
+    <SolidColorBrush x:Key="BackgroundLight" Color="LightCyan"/>
     <SolidColorBrush x:Key="PageBackground" Color="#FFDAEEF3"/>
-
-    <SolidColorBrush x:Key="BackGroundLight" Color="LightCyan"/>
+    <!--<SolidColorBrush x:Key="PageBackground" Color="LightGray"/>-->
 
     <!--Accent Colors-->
-    <SolidColorBrush x:Key="ButtonColor">#FFA7DAE8</SolidColorBrush>
-    <SolidColorBrush x:Key="DatagridSelection">#FFB7DEE8</SolidColorBrush>
+    <SolidColorBrush x:Key="ButtonColor" Color="#FFA7DAE8"/>
+    <SolidColorBrush x:Key="DatagridSelection" Color="#FFB7DEE8"/>
 
 
     <!--ALL CONTROLS DEFAULT-->

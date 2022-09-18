@@ -20,7 +20,7 @@
              xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
 
-             Background="{DynamicResource BackGroundLight}"
+             Background="{DynamicResource BackgroundLight}"
              d:DesignHeight="400" d:DesignWidth="550"
              d:Opacity="1"
              Opacity="0.25">
@@ -151,7 +151,7 @@
 
 
                 <!--General-->
-                <TabItem Header="General" Background="{DynamicResource BackGroundLight}"
+                <TabItem Header="General" Background="{DynamicResource BackgroundLight}"
                          d:Background="LightCyan">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto">
@@ -200,7 +200,7 @@
                 </TabItem>
 
                 <!--Cable -->
-                <TabItem Header="Cable Sizing" Background="{DynamicResource BackGroundLight}"
+                <TabItem Header="Cable Sizing" Background="{DynamicResource BackgroundLight}"
                          d:Background="LightCyan">
                     <ContentControl Content="{Binding SelectedLoadCable}"
                                         Grid.Row="0"

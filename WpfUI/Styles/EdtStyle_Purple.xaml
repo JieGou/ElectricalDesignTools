@@ -12,22 +12,16 @@
     <SolidColorBrush x:Key="Dark" Color="#FF675AC1"/>
     <SolidColorBrush x:Key="Medium" Color="#FFCECEFF"/>
     <SolidColorBrush x:Key="Light" Color="#FFCECEFF"/>
-    <SolidColorBrush x:Key="Background" Color="Lavender"/>
     
-    <SolidColorBrush x:Key="BackGroundLight" Color="LightCyan"/>
-    <SolidColorBrush x:Key="PageBackground" Color="#FFC5BCCA"/>
+    <SolidColorBrush x:Key="Background" Color="Lavender"/>
+    <SolidColorBrush x:Key="BackgroundLight" Color="LightCyan"/>
+    <!--<SolidColorBrush x:Key="PageBackground" Color="#FFC5BCCA"/>-->
+    <SolidColorBrush x:Key="PageBackground" Color="LightGray"/>
     
     <!--Accent Colors-->
-    <SolidColorBrush x:Key="ButtonColor">#FFA5A5ED</SolidColorBrush>
-    <SolidColorBrush x:Key="DatagridSelection">Lavender</SolidColorBrush>
-    
-    <!--Other Color-->
-    <SolidColorBrush x:Key="LightRed">#FFFFBABA</SolidColorBrush>
-    <SolidColorBrush x:Key="LightOrange">#FFFFB193</SolidColorBrush>
-    <SolidColorBrush x:Key="LightYellow">#FFFFED91</SolidColorBrush>
+    <SolidColorBrush x:Key="ButtonColor" Color="#FFA5A5ED"/>
+    <SolidColorBrush x:Key="DatagridSelection" Color="Lavender"/>
 
-
-    
 
     <!--ALL CONTROLS DEFAULT-->
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">

@@ -49,7 +49,11 @@
         BorderThickness="2"
         FontSize="12"        
         WindowTransitionsEnabled="False"
-        Closing="winMainWindow_Closing">
+        
+        UseLayoutRounding="True"
+                 
+        Closing="winMainWindow_Closing"
+                 >
     
     
     <!--Title="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}"-->
@@ -63,13 +67,20 @@
             </ResourceDictionary.MergedDictionaries>
 
 
+            <!--Window Buttons-->
             <Style TargetType="{x:Type mah:WindowButtonCommands}" BasedOn="{StaticResource {x:Type mah:WindowButtonCommands}}">
                 <Setter Property="LightCloseButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
                 <Setter Property="LightMinButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
                 <Setter Property="LightMaxButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
                 <Setter Property="DarkCloseButtonStyle" Value="{StaticResource MetroBaseWindowButtonStyle}" />
             </Style>
+
+
+
             
+
+
+
         </ResourceDictionary>
 
     </Window.Resources>

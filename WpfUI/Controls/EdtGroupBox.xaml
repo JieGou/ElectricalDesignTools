@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:WpfUI.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             x:Name="root">
+             x:Name="root"
+             VerticalAlignment="Top">
 
     <!--<Border BorderBrush="Black" BorderThickness="1" Margin="25 0 25 25" Height="{Binding Path=Height, ElementName=HeaderPanel}">-->
         
