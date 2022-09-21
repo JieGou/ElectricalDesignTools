@@ -266,7 +266,7 @@ namespace EDTLibrary.Models.Cables
             if (cable == null) return derating;
 
             try {
-                if (cable.Load.FedFrom != null) {
+                if (cable.Load!=  null && cable.Load.FedFrom != null) {
                     double loadCount = cable.Load.FedFrom.AssignedLoads.Count;
 
                     if (cable.Load.Area != null&& cable.Load.FedFrom.Area != null) {

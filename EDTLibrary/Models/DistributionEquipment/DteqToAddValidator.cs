@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.A_Helpers;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Loads;
@@ -233,7 +234,6 @@ public class DteqToAddValidator : INotifyDataErrorInfo
 
     }
 
-    private string _lineVoltage = "";
     public string LineVoltage
     {
         get { return _lineVoltage; }
@@ -242,6 +242,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
             _lineVoltage = value;
             double parsedVoltage;
             ClearErrors(nameof(LineVoltage));
+
             if (string.IsNullOrWhiteSpace(_lineVoltage)) {
                 AddError(nameof(LineVoltage), "Invalid Voltage");
             }
@@ -258,8 +259,8 @@ public class DteqToAddValidator : INotifyDataErrorInfo
             }
         }
     }
+    private string _lineVoltage = "";
 
-    private string _loadVoltage = "";
     public string LoadVoltage
     {
         get { return _loadVoltage; }
@@ -280,8 +281,29 @@ public class DteqToAddValidator : INotifyDataErrorInfo
             }
         }
     }
+    private string _loadVoltage = "";
 
+    public VoltageType LineVoltageType
+    {
+        get { return _lineVoltageType; }
+        set
+        {
+            _lineVoltageType = value;
+            LineVoltage = _lineVoltageType.Voltage.ToString();
+        }
+    }
+    private VoltageType _lineVoltageType;
 
+    public VoltageType LoadVoltageType
+    {
+        get { return _loadVoltageType; }
+        set
+        {
+            _loadVoltageType = value;
+            LoadVoltage = _loadVoltageType.Voltage.ToString();
+        }
+    }
+    private VoltageType _loadVoltageType;
     public string Error { get; }
 
 

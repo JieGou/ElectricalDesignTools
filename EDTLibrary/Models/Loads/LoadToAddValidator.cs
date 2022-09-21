@@ -236,7 +236,8 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 _voltage = value;
-                _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage.ToString() == _voltage);
+                //_voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage.ToString() == _voltage);
+
                 _feedingDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
 
                 ClearErrors(nameof(Voltage));
@@ -299,7 +300,11 @@ namespace EDTLibrary.Models.Loads
         public VoltageType VoltageType
         {
             get { return _voltageType; }
-            set { _voltageType = value; }
+            set
+            {
+                _voltageType = value;
+                Voltage = _voltageType.Voltage.ToString();
+            }
         }
         private VoltageType _voltageType;
 

@@ -187,7 +187,6 @@ namespace EDTLibrary.Models.Loads
         }
 
 
-        private double _voltage;
         public double Voltage
         {
             get { return _voltage; }
@@ -207,8 +206,8 @@ namespace EDTLibrary.Models.Loads
 
             }
         }
+        private double _voltage;
 
-        private VoltageType _voltageType;
 
         public int VoltageTypeId { get; set; } = 0;
         public VoltageType VoltageType
@@ -224,9 +223,13 @@ namespace EDTLibrary.Models.Loads
                     Voltage = _voltageType.Voltage;
                 UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
 
+                if (DaManager.Importing == false && DaManager.GettingRecords == false) {
+                    CalculateLoading();
+                }
                 OnPropertyUpdated();
             }
         }
+        private VoltageType _voltageType;
 
         public double _size;
         public double Size
@@ -241,7 +244,7 @@ namespace EDTLibrary.Models.Loads
 
                 UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
-                if (DaManager.AddingEquipment == false) {
+                if (DaManager.Importing == false) {
                     CalculateLoading();
                 }
 
@@ -561,7 +564,7 @@ namespace EDTLibrary.Models.Loads
                             break;
 
                         case "A":
-                            ConnectedKva = Size * VoltageType.Voltage * Math.Sqrt(3) / 1000; //   / Efficiency / PowerFactor;
+                            ConnectedKva = Size * VoltageType.Voltage * Math.Sqrt(VoltageType.Phase) / 1000; //   / Efficiency / PowerFactor;
                             Fla = Size;
                             break;
                     }

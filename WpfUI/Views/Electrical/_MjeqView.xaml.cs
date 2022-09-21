@@ -819,6 +819,11 @@ public partial class _MjeqView : UserControl
         //myBinding.IsAsync = true;
         //BindingOperations.SetBinding(dgdAssignedLoads, Syncfusion.UI.Xaml.Grid.SfDataGrid.ItemsSourceProperty, myBinding);
     }
+
+    private void txtLoadTag_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
 }
 
 

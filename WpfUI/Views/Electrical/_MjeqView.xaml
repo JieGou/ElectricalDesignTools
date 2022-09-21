@@ -16,6 +16,7 @@
              xmlns:viewModifiers="clr-namespace:WpfUI.ViewModifiers"
              xmlns:views="clr-namespace:WpfUI.Views"
              xmlns:subViews="clr-namespace:WpfUI.Views.EquipmentSubViews"
+             
              xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
@@ -643,7 +644,7 @@
                                                  SortMemberPath="LineVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding LineVoltageType.VoltagePhase, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    <TextBlock Text="{Binding LineVoltageType.VoltageString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                TextAlignment="Left"
                                                Padding="5 0"
                                                MouseLeftButtonDown="FastEditEvent"/>
@@ -654,7 +655,7 @@
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
                                               SelectedItem="{Binding LineVoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DisplayMemberPath="VoltagePhase"
+                                              DisplayMemberPath="VoltageString"
                                               HorizontalContentAlignment="Left"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
@@ -700,7 +701,7 @@
                                                 SortMemberPath="LoadVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding LoadVoltageType.VoltagePhase, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    <TextBlock Text="{Binding LoadVoltageType.VoltageString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                                TextAlignment="Left"
                                                Padding="5 0 0 0"
                                                MouseLeftButtonDown="FastEditEvent"
@@ -712,7 +713,7 @@
                                 <DataTemplate>
                                     <ComboBox ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"
                                               SelectedItem="{Binding LoadVoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DisplayMemberPath="VoltagePhase"
+                                              DisplayMemberPath="VoltageString"
                                               HorizontalContentAlignment="Left"
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
@@ -943,261 +944,39 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="0"/>
                     <RowDefinition Height="15"/>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="0"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
-
-                <!--ADD DTEQ-->
-                <!--Tags-->
-                <TextBlock Text="Tag" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="2" FontSize="10" />
-
-                <TextBlock Text="Type" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="3" FontSize="10" />
-
-                <TextBlock Text="Description" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="4" FontSize="10" />
-
-                <TextBlock Text="Area" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="5" FontSize="10" />
-
-                <TextBlock Text="Fed From" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="6" FontSize="10" />
-
-                <TextBlock Text="Size" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="7" FontSize="10" />
-
-                <TextBlock Text="Unit" Margin="10 5 0 5"
-                     Grid.Row="1" Grid.Column="8" FontSize="10" />
-
-                <TextBlock Text="Line Voltage" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="9" FontSize="10" />
-
-                <TextBlock Text="Load Voltage" Margin="10 5 0 5"
-                    Grid.Row="1" Grid.Column="10" FontSize="10" />
-
-
-                <!--ADD DTEQ-->
+                <!--ADD Dteq-->
                 <Button Content="Add Dist. Eq." Height="23" Width="100"
-                        Grid.Row="2" Grid.Column="1"
+                        Grid.Row="3" Grid.Column="1"
                         Style="{StaticResource GreenButton}"
                         Command="{Binding AddDteqCommand}"
                         CommandParameter="{Binding DteqToAddValidator}"
                         Margin="0 0 10 0" PreviewMouseLeftButtonDown="btnAddDteq_PreviewMouseLeftButtonDown" MouseLeave="btnAddDteq_MouseLeave" 
                          Visibility="Collapsed"/>
-
-                <!--ADD LOAD-->
-                <!--
-                <StackPanel Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="10">
-                    <Expander x:Name="ExportExpander" 
-                              Header="Add Load" ExpandDirection="Right">
-
-                        <subViews:AddLoadView Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="11"
-                                      DataContext="{Binding}"/>
-                    </Expander>
-                </StackPanel>-->
-
-                <!--TextBoxes/Combo Boxes-->
-
-                <TextBox x:Name ="txtDteqTag"  
-                        Grid.Row="2" Grid.Column="2"
-                        Width="75" Height="23"
-                        Text="{Binding DteqToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        PreviewMouseDown="txtDteqTag_PreviewMouseDown" LostFocus="txtDteqTag_LostFocus"
-                        Margin="5 0 5 0"/>
-
-                <ComboBox Grid.Row="2" Grid.Column="3"
-                          Template="{DynamicResource ComboBoxBase}"
-                        d:Text="MCC"
-                        ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
-                        Text="{Binding DteqToAddValidator.Type}"                       
-                        IsEditable="False" IsTextSearchEnabled="True"
-                        Margin="5 0 5 0"/>
+                
+                <subViews:AddDteqView Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="20" />
 
 
-                <TextBox Grid.Row="2" Grid.Column="4"
-                        MinWidth="100" Height="23"
-                        Text="{Binding DteqToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Margin="5 0 5 0"/>
-
-                <ComboBox Grid.Row="2" Grid.Column="5"
-                          Template="{DynamicResource ComboBoxBase}"
-                          Width="75"
-                          ItemsSource="{Binding ListManager.AreaList}"
-                          SelectedValuePath="Tag"
-                          DisplayMemberPath="Tag"
-                          SelectedValue="{Binding DteqToAddValidator.AreaTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          IsSynchronizedWithCurrentItem="False"
-                          Text="{Binding DteqToAddValidator.AreaTag}"
-                          IsEditable="False" IsTextSearchEnabled="True"
-                          Margin="5 0 5 0"/>
-
-                <ComboBox Grid.Row="2" Grid.Column="6"
-                          Template="{DynamicResource ComboBoxBase}"
-                          Width="75"
-                          ItemsSource="{Binding Source={StaticResource dteqList}}"
-                          DisplayMemberPath="Tag"
-                          IsSynchronizedWithCurrentItem="False"
-                          Text="{Binding DteqToAddValidator.FedFromTag}"
-                          IsEditable="False" IsTextSearchEnabled="True"
-                          Margin="5 0 5 0"/>
-
-
-
-                <TextBox Grid.Row="2" Grid.Column="7"
-                            Width="50" Height="23"
-                            d:Text="10000"
-                            Text="{Binding DteqToAddValidator.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Margin="5 0 5 0"/>
-
-                <ComboBox Grid.Row="2" Grid.Column="8"
-                          Template="{DynamicResource ComboBoxBase}"
-                          Width="50"
-                          d:Text="13800"
-                          ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
-                          SelectedValue="{Binding DteqToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          Text="{Binding DteqToAddValidator.Unit}"
-                          Margin="5 0 5 0"/>
-
-                <ComboBox Grid.Row="2" Grid.Column="9"
-                            Width="65"
-                            d:Text="4160"
-                            ItemsSource="{Binding DataContext.VoltageTypes, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedValue="{Binding DteqToAddValidator.LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                            Text="{Binding DteqToAddValidator.LineVoltage}"
-                            IsEditable="True" IsTextSearchEnabled="True"
-                            HorizontalContentAlignment="Center"
-                            Margin="5 0 5 0"/>
-
-                <ComboBox Grid.Row="2" Grid.Column="10"
-                            Width="65"
-                            d:Text="4160"
-                            ItemsSource="{Binding DataContext.VoltageTypes, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedValue="{Binding DteqToAddValidator.LoadVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                            Text="{Binding DteqToAddValidator.LoadVoltage}"
-                            IsEditable="True" IsTextSearchEnabled="True"
-                            HorizontalContentAlignment="Center"
-                            Margin="5 0 5 0"/>
-
-                <!--Tags-->
-                <TextBlock Text="Tag" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="2" FontSize="10" />
-                <TextBlock Text="Type" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="3" FontSize="10" />
-
-                <TextBlock Text="Description" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="4" FontSize="10" />
-
-                <TextBlock Text="Area" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="5" FontSize="10" />
-                <TextBlock Text="Fed From" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="6" FontSize="10" />
-
-                <TextBlock Text="Size" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="7" FontSize="10" />
-                <TextBlock Text="Unit" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="8" FontSize="10" />
-
-                <TextBlock Text="Voltage" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="9" FontSize="10" />
-                <TextBlock Text="Load Factor" Margin="10 5 0 5"
-                    Grid.Row="4" Grid.Column="10" FontSize="10" />
-
-
-                <!--ADD LOAD-->
+                <!--ADD Load-->
                 <Button Content="Add Load"  Height="23" Width="100"
-                        Grid.Row="5" Grid.Column="1"
+                        Grid.Row="6" Grid.Column="1"
                         Style="{StaticResource GreenButton}"
                         Command="{Binding AddLoadCommand}"
                         CommandParameter="{Binding LoadToAddValidator}"
                         Margin="0 0 10 0" 
                         Visibility="Collapsed"/>
-                <!--Text/Combo Boxes-->
-                <TextBox x:Name ="txtLoadTag"  
-                    Grid.Row="5" Grid.Column="2"
-                    Width="75" Height="23"
-                    Text="{Binding LoadToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    PreviewMouseDown="txtLoadTag_PreviewMouseDown" LostFocus="txtLoadTag_LostFocus"
-                    Margin="5,0,5,0" VerticalAlignment="Bottom"/>
 
-                <ComboBox Grid.Row="5" Grid.Column="3" 
-                          Template="{DynamicResource ComboBoxBase}"
-                            d:Text="MOTOR"
-                            MinWidth="100"
-                            ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
-                            SelectedValue="{Binding LoadToAddValidator.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                            Text="{Binding LoadToAddValidator.Type}"
-                            IsEditable="False" IsTextSearchEnabled="True"  
-                            Margin="5 0 5 0"/>
+                <subViews:AddLoadView Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="20" />
 
-                <TextBox Grid.Row="5" Grid.Column="4"
-                    MinWidth="100" Height="23"
-                    Text="{Binding LoadToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="5 0 5 0"/>
-
-                <ComboBox Grid.Row="5" Grid.Column="5" 
-                          Template="{DynamicResource ComboBoxBase}"
-                          
-                          Width="75"
-                          ItemsSource="{Binding ListManager.AreaList}"
-                          SelectedValuePath="Tag"
-                          DisplayMemberPath="Tag"
-                          SelectedValue="{Binding LoadToAddValidator.AreaTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          IsSynchronizedWithCurrentItem="False"
-                          Text="{Binding LoadToAddValidator.AreaTag}"
-                          IsEditable="False" IsTextSearchEnabled="True"  
-                          Margin="5 0 5 0"/>
-
-                <!--Fed From-->
-                <ComboBox Grid.Row="5" Grid.Column="6" 
-                          Template="{DynamicResource ComboBoxBase}"
-                          
-                          Width="75"
-                          ItemsSource="{Binding Source={StaticResource dteqList}}"
-                          SelectedValuePath="Tag"
-                          DisplayMemberPath="Tag"
-                          SelectedValue="{Binding LoadToAddValidator.FedFromTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          IsSynchronizedWithCurrentItem="False"
-                          Text="{Binding LoadToAddValidator.FedFromTag}"
-                          IsEditable="False" IsTextSearchEnabled="True"  
-                          Margin="5 0 5 0"/>
-
-
-
-
-                <TextBox Grid.Row="5" Grid.Column="7"
-                    Width="50" Height="23"
-                    Text="{Binding LoadToAddValidator.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="5 0 5 0"/>
-
-                <ComboBox Grid.Row="5" Grid.Column="8"
-                          Template="{DynamicResource ComboBoxBase}"
-                          Width="50"
-                          ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
-                          SelectedValue="{Binding LoadToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          Text="{Binding LoadToAddValidator.Unit}"
-                          Margin="5 0 5 0"/>
-
-                <ComboBox Grid.Row="5" Grid.Column="9"
-                    MinWidth="65"
-                    d:Text="13800"
-                    ItemsSource="{Binding DataContext.VoltageTypes, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedValue="{Binding LoadToAddValidator.Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                    Text="{Binding LoadToAddValidator.Voltage}"
-                    IsEditable="True" IsTextSearchEnabled="True"
-                          HorizontalContentAlignment="Center"
-                    Margin="5 0 5 0"/>
-
-                <TextBox Grid.Row="5" Grid.Column="10"
-                    MinWidth="60" Height="23"
-                    Text="{Binding LoadToAddValidator.LoadFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="5 0 5 0"/>
+                
             </Grid>
 
 
@@ -1356,8 +1135,8 @@
                                >
 
                     <sf:SfDataGrid.Resources>
-                      
-                        
+
+
 
 
                     </sf:SfDataGrid.Resources>
@@ -1373,7 +1152,7 @@
                                 </MenuItem.Icon>
                                 <MenuItem Header="Add Disconnect" Height="20" PreviewMouseDown="LoadGridContextMenu_AddDiscoonnect" />
                                 <MenuItem Header="Add Drive" Height="20" PreviewMouseDown="LoadGridContextMenu_AddDrive"/>
-                                    <MenuItem Header="Add LCS" Height="20" PreviewMouseDown="LoadGridContextMenu_AddLcs"/>
+                                <MenuItem Header="Add LCS" Height="20" PreviewMouseDown="LoadGridContextMenu_AddLcs"/>
                             </MenuItem>
                             <MenuItem Header="Remove" Height="20">
                                 <MenuItem.Icon>
@@ -1522,7 +1301,7 @@
                                                AllowFiltering="True"
                                                ItemsSource="{Binding Path=DataContext.TypeManager.VoltageTypes, 
                                                                      RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               DisplayMemberPath="VoltagePhase"
+                                               DisplayMemberPath="VoltageString"
                                                UseBindingValue="True"
                                                FilterRowCondition="Contains"
                                                SortMode="Display"
@@ -1534,7 +1313,7 @@
                                                >
                             <sf:GridComboBoxColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding VoltageType.VoltagePhase,
+                                    <TextBlock Text="{Binding VoltageType.VoltageString,
                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
                                                TextAlignment="Left"
                                                Padding="5 0 0 0"/>
