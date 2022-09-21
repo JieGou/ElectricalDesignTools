@@ -23,6 +23,7 @@ namespace EDTLibrary.Models.Loads
 {
 
     [AddINotifyPropertyChangedInterface]
+
     public class LoadModel : ILoad
     {
         public LoadModel()

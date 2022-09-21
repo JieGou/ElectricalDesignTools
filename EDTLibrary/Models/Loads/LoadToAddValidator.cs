@@ -43,7 +43,6 @@ namespace EDTLibrary.Models.Loads
             Unit = loadToAdd.Unit;
             Voltage = loadToAdd.Voltage.ToString();
             VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage.ToString() == Voltage);
-            //VoltageType = loadToAdd.VoltageType;
         }
         public string Tag
         {
@@ -302,6 +301,7 @@ namespace EDTLibrary.Models.Loads
             get { return _voltageType; }
             set
             {
+                if (value == null) return;
                 _voltageType = value;
                 Voltage = _voltageType.Voltage.ToString();
             }

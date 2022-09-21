@@ -412,8 +412,10 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 DteqToAddValidator.Unit = _selectedDteq.Unit;
                 DteqToAddValidator.LineVoltage = "";
                 DteqToAddValidator.LineVoltage = _selectedDteq.LineVoltage.ToString();
+                DteqToAddValidator.LineVoltageType = _selectedDteq.LineVoltageType;
                 DteqToAddValidator.LoadVoltage = "";
                 DteqToAddValidator.LoadVoltage = _selectedDteq.LoadVoltage.ToString();
+                DteqToAddValidator.LoadVoltageType = _selectedDteq.LoadVoltageType;
 
                 LoadToAddValidator.FedFromTag = "";
                 LoadToAddValidator.FedFromTag = _selectedDteq.Tag;
@@ -421,6 +423,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 LoadToAddValidator.AreaTag = _selectedDteq.Area.Tag;
                 LoadToAddValidator.Voltage = "";
                 LoadToAddValidator.Voltage = _selectedDteq.Voltage.ToString();
+                LoadToAddValidator.VoltageType = _selectedDteq.VoltageType;
             }
             catch (Exception ex) {
                 ErrorHelper.ShowErrorMessage(ex);
@@ -489,6 +492,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             LoadToAddValidator.Unit = _selectedLoad.Unit;
             LoadToAddValidator.Voltage = "";
             LoadToAddValidator.Voltage = _selectedLoad.Voltage.ToString();
+            LoadToAddValidator.VoltageType = _selectedLoad.VoltageType;
         }
 
     }

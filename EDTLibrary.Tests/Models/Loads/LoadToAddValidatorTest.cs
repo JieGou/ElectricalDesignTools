@@ -26,7 +26,7 @@ namespace EDTLibrary.Tests.Models.Loads
             _listManager.LoadList = TestData.TestLoadList;
             _listManager.AreaList = TestData.TestAreasList;
 
-            LoadModel loadToAdd = new LoadModel { Area = TestData.TestAreasList[0]};
+            ILoad loadToAdd = new LoadModel { Area = TestData.TestAreasList[0]};
 
             //Act
             LoadToAddValidator loadToAddValidator = new LoadToAddValidator(_listManager, loadToAdd);

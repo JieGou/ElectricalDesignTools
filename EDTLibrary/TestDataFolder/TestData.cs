@@ -30,21 +30,44 @@ namespace EDTLibrary.TestDataFolder
 
 
         public static ObservableCollection<DistributionEquipment> TestDteqList = new ObservableCollection<DistributionEquipment>() {
-            new DteqModel {Tag = "XFR-01", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage = 13800, LoadVoltage = 4160, Size = 5000, Unit = Units.kVA.ToString() },
+            new DteqModel {Tag = "XFR-01", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage = 13800, LoadVoltage = 4160,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==13800),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160), Size = 5000, Unit = Units.kVA.ToString() },
             
-            new DteqModel {Tag = "SWG-01", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-01", LineVoltage = 4160, LoadVoltage = 4160, Size = 5000, Unit = Units.A.ToString() },
-            new DteqModel {Tag = "XFR-03", Type = DteqTypes.XFR.ToString(), FedFromTag = "SWG-01", LineVoltage=4160, LoadVoltage=480, Size=1500, Unit= Units.kVA.ToString() },
-            
-            new DteqModel {Tag = "SWG-03", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-03", LineVoltage=480, LoadVoltage=480, Size=2000, Unit= Units.A.ToString() },
-            new DteqModel {Tag = "MCC-01", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-03", LineVoltage=480, LoadVoltage=480, Size=2000, Unit= Units.A.ToString() },
-            new DteqModel {Tag = "MCC-03", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-03", LineVoltage=480, LoadVoltage=480, Size=1200, Unit= Units.A.ToString() },
-            
-            new DteqModel {Tag = "XFR-02", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage = 4160, LoadVoltage = 600, Size = 5000, Unit = Units.kVA.ToString() },
-            new DteqModel {Tag = "SWG-02", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-02", LineVoltage=600, LoadVoltage=600, Size=3000, Unit= Units.A.ToString() },
-            new DteqModel {Tag = "MCC-02", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-02", LineVoltage=600, LoadVoltage=600, Size=1200, Unit= Units.A.ToString() },
+            new DteqModel {Tag = "SWG-01", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-01", LineVoltage = 4160, LoadVoltage = 4160,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160), Size = 5000, Unit = Units.A.ToString() },
 
-            new DteqModel {Tag = "LDP-01", Type = DteqTypes.DPN.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage=208, LoadVoltage=208, Size=200, Unit= Units.A.ToString() },
-            new DteqModel {Tag = "LDP-02", Type = DteqTypes.DPN.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage=208, LoadVoltage=208, Size=125, Unit= Units.A.ToString() },
+            new DteqModel {Tag = "XFR-03", Type = DteqTypes.XFR.ToString(), FedFromTag = "SWG-01", LineVoltage=4160, LoadVoltage=480,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480), Size=1500, Unit= Units.kVA.ToString() },
+            
+            new DteqModel {Tag = "SWG-03", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-03", LineVoltage=480, LoadVoltage=480,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480), Size=2000, Unit= Units.A.ToString() },
+            new DteqModel {Tag = "MCC-01", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-03", LineVoltage=480, LoadVoltage=480,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480), Size=2000, Unit= Units.A.ToString() },
+            new DteqModel {Tag = "MCC-03", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-03", LineVoltage=480, LoadVoltage=480,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480), Size=1200, Unit= Units.A.ToString() },
+            
+            new DteqModel {Tag = "XFR-02", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage = 4160, LoadVoltage = 600,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), Size = 5000, Unit = Units.kVA.ToString() },
+            new DteqModel {Tag = "SWG-02", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-02", LineVoltage=600, LoadVoltage=600,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), Size=3000, Unit= Units.A.ToString() },
+            new DteqModel {Tag = "MCC-02", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-02", LineVoltage=600, LoadVoltage=600,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), Size=1200, Unit= Units.A.ToString() },
+
+            new DteqModel {Tag = "LDP-01", Type = DteqTypes.DPN.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage=208, LoadVoltage=208,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), Size=200, Unit= Units.A.ToString() },
+            new DteqModel {Tag = "LDP-02", Type = DteqTypes.DPN.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage=208,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), LoadVoltage=208, Size=125, Unit= Units.A.ToString() },
 
 
         };
@@ -134,33 +157,5 @@ namespace EDTLibrary.TestDataFolder
                 VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==240), Size = 20,Unit=Units.A.ToString()},
 
         };
-
-
-
-        //public static ObservableCollection<DteqModel> TestDteqListToAdd = new ObservableCollection<DteqModel>() {
-        //    new DteqModel() {Tag = "XFR-03", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage=4160, LoadVoltage=480, Size=5000, Unit= Units.kVA.ToString() },
-        //    new DteqModel() {Tag = "SWG-03", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-01", LineVoltage=480, LoadVoltage=480, Size=5000, Unit= Units.A.ToString() },
-        //    new DteqModel() {Tag = "MCC-03", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-01", LineVoltage=480, LoadVoltage=480, Size=2000, Unit= Units.A.ToString() },
-
-        //    new DteqModel() {Tag = "XFR-099", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage=4160, LoadVoltage=600, Size=5000, Unit= Units.kVA.ToString() },
-        //    new DteqModel() {Tag = "SWG-099", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-02", LineVoltage=600, LoadVoltage=600, Size=3000, Unit= Units.A.ToString() },
-        //    new DteqModel() {Tag = "MCC-099", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-02", LineVoltage=600, LoadVoltage=600, Size=1200, Unit= Units.A.ToString() }
-        //};
-
-        //public static ObservableCollection<LoadModel> TestLoadListToAdd = new ObservableCollection<LoadModel>() {
-        //    new LoadModel() {Tag = "MTR-03", Type = LoadTypes.MOTOR.ToString(), FedFromTag = "MCC-01", Voltage=460, Size = 50,Unit=Units.HP.ToString()},
-        //    new LoadModel() {Tag = "HTR-03", Type = LoadTypes.HEATER.ToString(), FedFromTag = "MCC-01", Voltage=480, Size = 50,Unit=Units.HP.ToString()},
-        //    new LoadModel() {Tag = "PNL-03", Type = LoadTypes.PANEL.ToString(), FedFromTag = "MCC-01", Voltage=480, Size = 50,Unit=Units.HP.ToString()},
-
-        //    new LoadModel() {Tag = "MTR-04", Type = LoadTypes.MOTOR.ToString(), FedFromTag = "MCC-02", Voltage=575, Size = 100,Unit=Units.HP.ToString()},
-        //    new LoadModel() {Tag = "HTR-04", Type = LoadTypes.HEATER.ToString(), FedFromTag = "MCC-02", Voltage=600, Size = 100,Unit=Units.HP.ToString()},
-        //    new LoadModel() {Tag = "PNL-04", Type = LoadTypes.PANEL.ToString(), FedFromTag = "MCC-02", Voltage=600, Size = 100,Unit=Units.HP.ToString()},
-
-        //    new LoadModel() {Tag = "MTR-03", Type = LoadTypes.MOTOR.ToString(), FedFromTag = "MCC-03", Voltage=480, Size = 75,Unit=Units.HP.ToString()},
-        //    new LoadModel() {Tag = "HTR-03", Type = LoadTypes.HEATER.ToString(), FedFromTag = "MCC-03", Voltage=480, Size = 75,Unit=Units.HP.ToString()},
-        //    new LoadModel() {Tag = "PNL-03", Type = LoadTypes.PANEL.ToString(), FedFromTag = "MCC-03", Voltage=480, Size = 75,Unit=Units.HP.ToString()}
-        //};
-       
-
     }
 }

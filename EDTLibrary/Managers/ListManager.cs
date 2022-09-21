@@ -89,16 +89,16 @@ namespace EDTLibrary.Managers
         {
             foreach (var dteq in IDteqList) {
 
-                dteq.LineVoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == dteq.LineVoltage).Id;
+                //dteq.LineVoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == dteq.LineVoltage).Id;
                 dteq.LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Id == dteq.LineVoltageTypeId);
 
-                dteq.LoadVoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == dteq.LoadVoltage).Id;
+                //dteq.LoadVoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == dteq.LoadVoltage).Id;
                 dteq.LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Id == dteq.LoadVoltageTypeId);
 
             }
             foreach (var load in LoadList) {
-                load.VoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == load.Voltage).Id;
 
+                //load.VoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == load.Voltage).Id;
                 load.VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Id == load.VoltageTypeId);
             }
         }

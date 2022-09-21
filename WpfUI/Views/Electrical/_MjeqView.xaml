@@ -928,27 +928,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="0"/>
-                    <RowDefinition Height="0"/>
                     <RowDefinition Height="15"/>
-                    <RowDefinition Height="0"/>
-                    <RowDefinition Height="0"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
@@ -962,7 +947,7 @@
                         Margin="0 0 10 0" PreviewMouseLeftButtonDown="btnAddDteq_PreviewMouseLeftButtonDown" MouseLeave="btnAddDteq_MouseLeave" 
                          Visibility="Collapsed"/>
                 
-                <subViews:AddDteqView Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="20" />
+                <subViews:AddDteqView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="20" />
 
 
                 <!--ADD Load-->
@@ -974,7 +959,7 @@
                         Margin="0 0 10 0" 
                         Visibility="Collapsed"/>
 
-                <subViews:AddLoadView Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="20" />
+                <subViews:AddLoadView Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="20" />
 
                 
             </Grid>

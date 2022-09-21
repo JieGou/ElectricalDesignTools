@@ -38,7 +38,9 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         Size = dteqToAdd.Size.ToString();
         Unit = dteqToAdd.Unit;
         LineVoltage = dteqToAdd.LineVoltage.ToString();
+        LineVoltageType = dteqToAdd.LineVoltageType;
         LoadVoltage = dteqToAdd.LoadVoltage.ToString();
+        LoadVoltageType = dteqToAdd.LoadVoltageType;
     }
 
     private ListManager _listManager;
@@ -288,6 +290,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         get { return _lineVoltageType; }
         set
         {
+            if (value == null) return;
             _lineVoltageType = value;
             LineVoltage = _lineVoltageType.Voltage.ToString();
         }
@@ -299,6 +302,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         get { return _loadVoltageType; }
         set
         {
+            if (value == null) return;
             _loadVoltageType = value;
             LoadVoltage = _loadVoltageType.Voltage.ToString();
         }

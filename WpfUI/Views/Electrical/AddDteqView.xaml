@@ -208,13 +208,14 @@
                   Margin="5 0 5 0"/>
 
         <ComboBox Grid.Row="5" Grid.Column="10"
+                  Template="{DynamicResource ComboBoxBase}"
                   MinWidth="60"
                   d:Text="13800"
                   ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding DteqToAddValidator.LineVoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                   DisplayMemberPath="VoltageString"
                   Text="{Binding DteqToAddValidator.LineVoltageType}"
-                  IsEditable="True" IsTextSearchEnabled="True"
+                  IsEditable="False" IsTextSearchEnabled="False"
                   Margin="5 0 5 0"/>
         
         <ComboBox Grid.Row="5" Grid.Column="11"
@@ -227,13 +228,14 @@
                   Margin="5 0 5 0"/>
 
         <ComboBox Grid.Row="5" Grid.Column="12"
+                  Template="{DynamicResource ComboBoxBase}"
                   MinWidth="60"
                   d:Text="4160"
                   ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding DteqToAddValidator.LoadVoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                   DisplayMemberPath="VoltageString"
                   Text="{Binding DteqToAddValidator.LoadVoltageType}"
-                  IsEditable="True" IsTextSearchEnabled="True"
+                  IsEditable="False" IsTextSearchEnabled="False"
                   Margin="5 0 5 0"/>
 
     </Grid>

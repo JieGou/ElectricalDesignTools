@@ -188,7 +188,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             }
         }
-          //unused, for PowerConsumer interface
+        //unused, for PowerConsumer interface
         private VoltageType _voltageType;
 
         public double Voltage
@@ -320,7 +320,12 @@ namespace EDTLibrary.Models.DistributionEquipment
         public VoltageType LineVoltageType
         {
             get { return _lineVoltageType; }
-            set { _lineVoltageType = value; }
+            set
+            {
+                if (value == null) return;
+                _lineVoltageType = value;
+                LineVoltage = _lineVoltageType.Voltage;
+            }
         }
         public VoltageType _lineVoltageType;
         public double LineVoltage
@@ -347,7 +352,12 @@ namespace EDTLibrary.Models.DistributionEquipment
         public VoltageType LoadVoltageType
         {
             get { return _loadVoltageType; }
-            set { _loadVoltageType = value; }
+            set
+            {
+                if (value == null) return;
+                _loadVoltageType = value;
+                LoadVoltage = _loadVoltageType.Voltage;
+            }
         }
         public VoltageType _loadVoltageType;
         public double LoadVoltage
@@ -498,6 +508,12 @@ namespace EDTLibrary.Models.DistributionEquipment
         //Methods
         public void CalculateLoading()
         {
+            if (Tag == GlobalConfig.Utility) return;
+            //if (DaManager.Importing) return;
+
+            if (LineVoltageType == null || LoadVoltageType == null) return;
+            
+
             IsCalculating = true;
             Voltage = LineVoltage;
             var dis = this;
@@ -517,12 +533,12 @@ namespace EDTLibrary.Models.DistributionEquipment
             PowerFactor = DemandKw / DemandKva;
             PowerFactor = Math.Round(PowerFactor, 2);
 
-            RunningAmps = ConnectedKva * 1000 / Voltage / Math.Sqrt(3);
+            RunningAmps = ConnectedKva * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
             RunningAmps = Math.Round(RunningAmps, GlobalConfig.SigFigs);
 
             //Full Load / Max operating Amps
             if (Unit == Units.kVA.ToString()) {
-                Fla = _size * 1000 / Voltage / Math.Sqrt(3);
+                Fla = _size * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
                 Fla = Math.Round(Fla, GlobalConfig.SigFigs);
 
             }
@@ -650,9 +666,11 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public virtual bool AddAssignedLoad(IPowerConsumer load)
         {
+
+            //check if load is already assigned
             var iLoad = AssignedLoads.FirstOrDefault(load => load.Id == load.Id);
 
-            if (iLoad != null) {
+            if (iLoad == null) {
                 AssignedLoads.Add(load);
                 return true;
             }

@@ -34,7 +34,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             get => _circuitCount;
             set
             {
-                if (value > 60)
+                if (value > 90)
                 {
                     _circuitCount = 60;
                 }
@@ -43,7 +43,6 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                 {
                     _circuitCount = 10;
                 }
-
                 else
                 {
                     _circuitCount = value;

@@ -32,16 +32,17 @@ namespace EDTLibrary.Models.Loads
                 }
             }
             newLoad.Tag = loadToAddValidator.Tag;
+            newLoad.Description = loadToAddValidator.Description;
             newLoad.Category = Categories.LOAD3P.ToString();
             newLoad.Type = loadToAddValidator.Type;
             newLoad.Area = _listManager.AreaList.FirstOrDefault(a => a.Tag == loadToAddValidator.AreaTag);
 
-            newLoad.Size = Double.Parse(loadToAddValidator.Size);
-            newLoad.Description = loadToAddValidator.Description;
             newLoad.Voltage = Double.Parse(loadToAddValidator.Voltage);
-
-
             newLoad.VoltageType = loadToAddValidator.VoltageType;
+            newLoad.VoltageTypeId = newLoad.VoltageType.Id; 
+            
+            newLoad.Size = Double.Parse(loadToAddValidator.Size);
+            
 
             newLoad.Unit = loadToAddValidator.Unit;
             newLoad.LoadFactor = Double.Parse(loadToAddValidator.LoadFactor);

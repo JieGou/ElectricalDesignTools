@@ -24,7 +24,6 @@ public class DaManager {
 
     public static bool Importing { get; set; } = false;
     public static bool GettingRecords { get; set; } = true;
-    public static bool AddingEquipment { get; set; } = true;
 
     public static IDaConnector prjDb { get; set; }
     public static IDaConnector libDb { get; set; }

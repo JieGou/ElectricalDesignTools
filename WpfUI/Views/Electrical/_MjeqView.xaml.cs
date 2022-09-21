@@ -556,29 +556,29 @@ public partial class _MjeqView : UserControl
 
     private void txtDteqTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
-        if (txtDteqTag.Text == "" || txtDteqTag.Text == GlobalConfig.EmptyTag) txtDteqTag.Text = "";
+        //if (txtDteqTag.Text == "" || txtDteqTag.Text == GlobalConfig.EmptyTag) txtDteqTag.Text = "";
     }
     private void txtDteqTag_LostFocus(object sender, RoutedEventArgs e)
     {
-        if (txtDteqTag.Text == "") txtDteqTag.Text = GlobalConfig.EmptyTag;
+        //if (txtDteqTag.Text == "") txtDteqTag.Text = GlobalConfig.EmptyTag;
     }
 
 
     private void txtLoadTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
-        if (txtLoadTag.Text == "" || txtLoadTag.Text == GlobalConfig.EmptyTag) txtLoadTag.Text = "";
+        //if (txtLoadTag.Text == "" || txtLoadTag.Text == GlobalConfig.EmptyTag) txtLoadTag.Text = "";
     }
     private void txtLoadTag_LostFocus(object sender, RoutedEventArgs e)
     {
-        if (txtLoadTag.Text == "") txtLoadTag.Text = GlobalConfig.EmptyTag;
+        //if (txtLoadTag.Text == "") txtLoadTag.Text = GlobalConfig.EmptyTag;
     }
 
 
     private void btnAddDteq_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (txtDteqTag.Text == GlobalConfig.EmptyTag) {
-            txtDteqTag.Text = "";
-        }
+        //if (txtDteqTag.Text == GlobalConfig.EmptyTag) {
+        //    txtDteqTag.Text = "";
+        //}
     }
     private void btnAddDteq_MouseLeave(object sender, MouseEventArgs e)
     {
@@ -586,13 +586,36 @@ public partial class _MjeqView : UserControl
         resetTag();
         async Task resetTag()
         {
-            if (txtDteqTag.Text == "") {
-                await Task.Delay(500);
+            //if (txtDteqTag.Text == "") {
+            //    await Task.Delay(500);
 
-                if (txtDteqTag.IsFocused == false)
-                    txtDteqTag.Text = GlobalConfig.EmptyTag;
-            }
+            //    if (txtDteqTag.IsFocused == false)
+            //        txtDteqTag.Text = GlobalConfig.EmptyTag;
+            //}
         }
+    }
+
+    
+
+    private void btnAddLoad_MouseLeave(object sender, MouseEventArgs e)
+    {
+        Task.Run(() => resetTag());
+        resetTag();
+        async Task resetTag()
+        {
+            //if (txtLoadTag.Text == "") {
+            //    await Task.Delay(500);
+
+            //    if (txtLoadTag.IsFocused == false)
+            //        txtLoadTag.Text = GlobalConfig.EmptyTag;
+            //}
+        }
+    }
+    private void btnAddLoad_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        //if (txtLoadTag.Text == GlobalConfig.EmptyTag) {
+        //    txtLoadTag.Text = "";
+        //}
     }
 
     private void eqView_Unloaded(object sender, RoutedEventArgs e)
@@ -603,27 +626,6 @@ public partial class _MjeqView : UserControl
         var dataView = (ListCollectionView)CollectionViewSource.GetDefaultView(dgdDteq.ItemsSource);
         if (dataView == null) return;
         if (dataView.IsEditingItem) dataView.CommitEdit();
-    }
-
-    private void btnAddLoad_MouseLeave(object sender, MouseEventArgs e)
-    {
-        Task.Run(() => resetTag());
-        resetTag();
-        async Task resetTag()
-        {
-            if (txtLoadTag.Text == "") {
-                await Task.Delay(500);
-
-                if (txtLoadTag.IsFocused == false)
-                    txtLoadTag.Text = GlobalConfig.EmptyTag;
-            }
-        }
-    }
-    private void btnAddLoad_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-        if (txtLoadTag.Text == GlobalConfig.EmptyTag) {
-            txtLoadTag.Text = "";
-        }
     }
     private void dgdDteq_MouseLeave(object sender, MouseEventArgs e)
     {
@@ -667,6 +669,11 @@ public partial class _MjeqView : UserControl
                 start = DateTime.Now;
                 await Task.Run(() => AddTestLoadsAsync(listManager));
                 MjeqVm.GetLoadList();
+                //DaManager.Importing = false;
+                //foreach (var item in listManager.IDteqList) {
+                //    item.CalculateLoading();
+                //}
+
                 Debug.Print($"start: {start.ToString()} end: {DateTime.Now.ToString()}");
                 break;
 
@@ -694,6 +701,7 @@ public partial class _MjeqView : UserControl
             FedFromTag = "MCC-01",
             Voltage = 460,
             VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 460),
+            VoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 460).Id,
             Size = 15,
             Unit = Units.HP.ToString()
         };
@@ -705,7 +713,7 @@ public partial class _MjeqView : UserControl
 
                 LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
                 LoadManager.AddLoad(loadToAdd, listManager);
-                //load.CalculateLoading();
+                load.CalculateLoading();
                 count += 1;
             }));
 
