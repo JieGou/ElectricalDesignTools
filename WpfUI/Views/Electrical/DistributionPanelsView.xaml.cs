@@ -31,7 +31,7 @@ public partial class DistributionPanelsView : UserControl
 
         if (vm != null) {
             if (vm.ViewableDteqList.Count > 0) {
-                vm.SelectedDteq = vm.ViewableDteqList[0];
+                vm.SelectedDpnl = vm.ViewableDteqList[0];
             }
         }
 
@@ -44,8 +44,19 @@ public partial class DistributionPanelsView : UserControl
     {
         if (vm != null) {
             if (vm.ViewableDteqList.Count > 0) {
-                vm.SelectedDteq = vm.ViewableDteqList[0];
+                vm.SelectedDpnl = vm.ViewableDteqList[0];
             }
+        }
+    }
+
+    private void TextBox_KeyEnterUpdate(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter) {
+            TextBox tBox = (TextBox)sender;
+            DependencyProperty prop = TextBox.TextProperty;
+
+            BindingExpression binding = BindingOperations.GetBindingExpression(tBox, prop);
+            if (binding != null) { binding.UpdateSource(); }
         }
     }
 

@@ -34,4 +34,14 @@ public partial class AddLoadView : UserControl
     {
         if (txtLoadTag.Text == "") txtLoadTag.Text = GlobalConfig.EmptyTag;
     }
+
+
+    private void Control_KeyEnterSubmit(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter) {
+            
+        }
+    }
+
 }
+

@@ -4,6 +4,7 @@ using EdtLibrary.Commands;
 using EDTLibrary;
 using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.Loads;
@@ -50,58 +51,133 @@ internal class DistributionPanelsViewModel: ViewModelBase
         ListManager = listManager;
 
         AddLoadToPanelCommand = new RelayCommand(AddPanelLoad);
+        MoveUpCommand = new RelayCommand(MoveUp);
+        MoveDownCommand = new RelayCommand(MoveDown);
+
     }
 
     
-    private IDteq _selectedDteq;
-    public IDteq SelectedDteq
+    public IDpnl SelectedDpnl
     {
-        get { return _selectedDteq; }
+        get { return _selectedDpnl; }
         set
         {
             if (value == null) return;
 
             //used for fedfrom Validation
-            _selectedDteq = value;
+            _selectedDpnl = value;
 
-            if (_selectedDteq != null) {
-                AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
+            if (_selectedDpnl != null) {
+                AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDpnl.AssignedLoads);
 
                 GlobalConfig.SelectingNew = true;
                 GlobalConfig.SelectingNew = false;
-                var dpn = (DpnModel)_selectedDteq;
+                var dpn = (DpnModel)_selectedDpnl;
                 dpn.SetLeftCircuits();
                 dpn.SetRightCircuits();
 
             }
         }
     }
-    public ObservableCollection<IDteq> ViewableDteqList
+    private IDpnl _selectedDpnl;
+
+    public ObservableCollection<IDpnl> ViewableDteqList
 
     {
         get
         {
-            List<IDteq> subList = new List<IDteq>();
-            subList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.DPN.ToString() || d.Type == DteqTypes.CDP.ToString()).ToList();
-            return new ObservableCollection<IDteq>(subList);
+            List<IDpnl> subList = new List<IDpnl>();
+            var dteqSubList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.DPN.ToString() || d.Type == DteqTypes.CDP.ToString()).ToList();
+
+            foreach (var dteq in dteqSubList) {
+                subList.Add((IDpnl) dteq);
+            }
+            return new ObservableCollection<IDpnl>(subList);
         }
     }
 
-    public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
+    public IPowerConsumer SelectedLoad
+    {
+        get { return _selectedLoad; }
+        set {
+            if (value == null) return;
+            _selectedLoad = value; 
 
-    public LoadModel SelectedLoad { get; set; }
+            var selectedCircuits = new ObservableCollection<IPowerConsumer>();
 
+            IPowerConsumer load;
+            if (SelectedDpnl.LeftCircuits.FirstOrDefault(ld => ld.Id == _selectedLoad.Id) != null) {
+                SelectedCircuitList = SelectedDpnl.LeftCircuits;
+            }
+            if (SelectedDpnl.RightCircuits.FirstOrDefault(ld => ld.Id == _selectedLoad.Id) != null) {
+                SelectedCircuitList = SelectedDpnl.RightCircuits;
+            }
+
+
+        }
+    }
+    private IPowerConsumer _selectedLoad;
+
+    public ObservableCollection<IPowerConsumer> SelectedCircuitList { get; set; } = new ObservableCollection<IPowerConsumer>();
+    public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> ();
 
     public ICommand AddLoadToPanelCommand { get; }
     private void AddPanelLoad()
     {
-        if (SelectedDteq == null || SelectedLoad == null ) {
+        if (SelectedDpnl == null || SelectedLoad == null ) {
             MessageBox.Show("Select a Panel and a Load.", "Selection Required");
             return;
         }
-        var dpn = (DpnModel)SelectedDteq;
+        var dpn = (DpnModel)SelectedDpnl;
         DpnCircuitManager.AddLoad(dpn, SelectedLoad, ListManager);
     }
+
+
+
+
+    public ICommand MoveUpCommand { get; }
+
+    public void MoveUp()
+    {
+        int loadIndex;
+        if (SelectedLoad == null) return;
+
+        for (int i = 0; i < SelectedCircuitList.Count; i++) {
+            if (SelectedLoad.Id == SelectedCircuitList[i].Id) {
+                loadIndex = Math.Max(0, i - 1);
+                SelectedCircuitList.Move(i, loadIndex);
+                break;
+            }
+        }
+        for (int i = 0; i < SelectedCircuitList.Count; i++) {
+            SelectedCircuitList[i].SequenceNumber = i;
+        }
+        SelectedCircuitList.OrderBy(c => c.SequenceNumber);
+    }
+    public ICommand MoveDownCommand { get; }
+
+    public void MoveDown()
+    {
+        int loadIndex;
+        if (SelectedLoad == null) return;
+
+        for (int i = 0; i < SelectedCircuitList.Count; i++) {
+            if (SelectedLoad.Id == SelectedCircuitList[i].Id) {
+                loadIndex = Math.Min(i + 1, SelectedCircuitList.Count - 1);
+                SelectedCircuitList.Move(i, loadIndex);
+                break;
+            }
+        }
+        for (int i = 0; i < SelectedCircuitList.Count; i++) {
+            SelectedCircuitList[i].SequenceNumber = i;
+        }
+        SelectedCircuitList.OrderBy(c => c.SequenceNumber);
+    }
+
+
+
+
+
 
 
     #region Autocad
@@ -166,7 +242,7 @@ internal class DistributionPanelsViewModel: ViewModelBase
         try {
             SingleLineDrawer slDrawer = new SingleLineDrawer(Acad, EdtSettings.AcadBlockFolder);
 
-            IDteq mcc = SelectedDteq;
+            IDteq mcc = SelectedDpnl;
 
             if (mcc == null) return;
             slDrawer.DrawMccSingleLine(mcc, 1.5);

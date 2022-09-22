@@ -891,6 +891,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 _compIndex = Math.Max(0, i - 1);
                 SelectedLoad.CctComponents.Move(i, _compIndex);
                 SelectedComponent = (ComponentModel)SelectedLoad.CctComponents[_compIndex];
+                break;
             }
         }
         for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {
@@ -912,7 +913,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 SelectedLoad.CctComponents.Move(i, _compIndex);
 
                 SelectedComponent = (ComponentModel)SelectedLoad.CctComponents[_compIndex];
-
+                break;
             }
         }
         for (int i = 0; i < SelectedLoad.CctComponents.Count; i++) {

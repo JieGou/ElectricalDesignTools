@@ -11,7 +11,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels;
 public class DpnCircuitManager
 {
 
-    public static void AddLoad(DpnModel dpn, LoadModel load, ListManager listManager)
+    public static void AddLoad(DpnModel dpn, IPowerConsumer load, ListManager listManager)
     {
         int leftCct = 0;
         int rightCct = 0;
@@ -56,7 +56,7 @@ public class DpnCircuitManager
     /// <param name="load"></param>
     /// <param name="dpnSide"></param>
     /// <returns></returns>
-    private static int GetAvailableCircuit(DpnModel dpn, LoadModel load, DpnSide dpnSide)
+    private static int GetAvailableCircuit(DpnModel dpn, IPowerConsumer load, DpnSide dpnSide)
     {
         int cct = 0;
                 
@@ -80,7 +80,7 @@ public class DpnCircuitManager
     /// <param name="cct"></param>
     /// <param name="dpnSide"></param>
     /// <returns></returns>
-    private static bool IsCircuitAvailable(DpnModel dpn, LoadModel load, int cct, DpnSide dpnSide)
+    private static bool IsCircuitAvailable(DpnModel dpn, IPowerConsumer load, int cct, DpnSide dpnSide)
     {
         bool isAvailable = false;
         List<IPowerConsumer> cctList = new List<IPowerConsumer>();

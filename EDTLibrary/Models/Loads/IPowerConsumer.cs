@@ -25,7 +25,7 @@ namespace EDTLibrary.Models.Loads
         double DemandKvar { get; set; }
         double RunningAmps { get; set; }
 
-
+        int SequenceNumber { get; set; }
        
 
         void CalculateLoading();

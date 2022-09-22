@@ -46,8 +46,8 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="9*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -61,7 +61,7 @@
         <!--Left Menu-->
         <StackPanel Orientation="Vertical"
                     Grid.Row="2" Grid.Column="1" >
-            <TextBlock Text="Selected Equipment"
+            <TextBlock Text="Selected Panel:"
                        FontSize="16"
                        FontWeight="SemiBold"
                        Margin="0 0 0 10"
@@ -69,10 +69,10 @@
 
             <ListBox ItemsSource="{Binding ViewableDteqList}"
                      Grid.Row="1" Grid.Column="1"
-                     SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     SelectedItem="{Binding SelectedDpnl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      DisplayMemberPath="Tag"
                      MinWidth="100" MinHeight="100"
-                     Margin="0 10"/>
+                     Margin="0 0 0 20"/>
 
             <TextBlock Text="Circuit Count:"
                        FontSize="14"
@@ -80,27 +80,34 @@
                        Margin="0 0 0 0"
                        HorizontalAlignment="Left"/>
 
-            <TextBox Text="{Binding SelectedDteq.CircuitCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Text="{Binding SelectedDpnl.CircuitCount, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
+                     KeyUp="TextBox_KeyEnterUpdate"
+                     Margin="0 0 0 20"/>
 
-            <TextBlock Text="Circuit Count:"
+            <TextBlock Text="Add Load:"
                        FontSize="14"
                        FontWeight="SemiBold"
                        Margin="0 0 0 0"
                        HorizontalAlignment="Left"/>
+
             <ComboBox ItemsSource="{Binding DataContext.ListManager.LoadList, 
                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                                             RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"
                       DisplayMemberPath="Tag"
                       
                       SelectedItem="{Binding SelectedLoad}"/>
-            
+
             <Button Content="Add Load"
                     Command="{Binding AddLoadToPanelCommand}"/>
-            
-            
+
+
 
             <Button Content="Create Drawing"
                     Command="{Binding DrawSingleLineAcadCommand}"/>
+
+            <ListBox ItemsSource="{Binding SelectedCircuitList, UpdateSourceTrigger=PropertyChanged}"
+                     DisplayMemberPath="Tag"/>
+            
         </StackPanel>
 
         <!--Top Data-->
@@ -135,7 +142,7 @@
             <!--Tag-->
             <!--<TextBlock Text="Tag:"
                        Grid.Row="1" Grid.Column="1"/>-->
-            <TextBlock Text="{Binding SelectedDteq.Tag}" d:Text="MCC-01"
+            <TextBlock Text="{Binding SelectedDpnl.Tag}" d:Text="MCC-01"
                        Grid.Row="1" Grid.Column="1"
                        Grid.ColumnSpan="3"
                        HorizontalAlignment="Left"
@@ -145,7 +152,7 @@
                        />
 
             <!--Description-->
-            <!--<TextBlock Text="{Binding SelectedDteq.Description}"  d:Text="Ultimo MCC"
+            <!--<TextBlock Text="{Binding SelectedDpnl.Description}"  d:Text="Ultimo MCC"
                        Grid.Row="1" Grid.Column="3"
                        Grid.ColumnSpan="3"
                        HorizontalAlignment="Left"
@@ -159,7 +166,7 @@
             <TextBlock Text="Area:"
                        Grid.Row="2" Grid.Column="1"
                        Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.Area.Name}"  d:Text="On Site"
+            <TextBlock Text="{Binding SelectedDpnl.Area.Name}"  d:Text="On Site"
                        Grid.Row="2" Grid.Column="3"
                        Style="{StaticResource Value}"  />
 
@@ -167,7 +174,7 @@
             <TextBlock Text="Area Tag:"
                        Grid.Row="3" Grid.Column="1"
                        Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.Area.Tag}"  d:Text="On Site"
+            <TextBlock Text="{Binding SelectedDpnl.Area.Tag}"  d:Text="On Site"
                        Grid.Row="3" Grid.Column="3"
                        Style="{StaticResource Value}"  />
 
@@ -176,7 +183,7 @@
             <TextBlock Text="Fed From:" 
                        Grid.Row="4" Grid.Column="1"
                        Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.FedFrom.Tag}"  d:Text="SWG-01"
+            <TextBlock Text="{Binding SelectedDpnl.FedFrom.Tag}"  d:Text="SWG-01"
                        Grid.Row="4" Grid.Column="3"
                        Style="{StaticResource Value}"  />
 
@@ -184,7 +191,7 @@
             <!--<TextBlock Text="SCCR" 
                        Grid.Row="5" Grid.Column="1"
                        Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.SCCR, StringFormat=\{0:N0\} kA}"  d:Text="SWG-01"
+            <TextBlock Text="{Binding SelectedDpnl.SCCR, StringFormat=\{0:N0\} kA}"  d:Text="SWG-01"
                        Grid.Row="5" Grid.Column="3"
                        Style="{StaticResource Value}"  />-->
 
@@ -200,10 +207,10 @@
                        Style="{StaticResource Label}"/>
             <StackPanel Orientation="Horizontal" 
                         Grid.Row="2" Grid.Column="7">
-                <TextBlock Text="{Binding SelectedDteq.Size}"  d:Text="2000"
+                <TextBlock Text="{Binding SelectedDpnl.Size}"  d:Text="2000"
                            Grid.Row="4" Grid.Column="3"
                            Style="{StaticResource Value}"  />
-                <TextBlock Text="{Binding SelectedDteq.Unit}" d:Text="A"
+                <TextBlock Text="{Binding SelectedDpnl.Unit}" d:Text="A"
                            Style="{StaticResource Value}"  />
             </StackPanel>
 
@@ -211,14 +218,14 @@
             <TextBlock Text="Line Voltage:" 
                        Grid.Row="3" Grid.Column="5"
                        Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.LineVoltage, StringFormat=\{0:N0\} V}"  d:Text="600 V"
+            <TextBlock Text="{Binding SelectedDpnl.LineVoltage, StringFormat=\{0:N0\} V}"  d:Text="600 V"
                        Grid.Row="3" Grid.Column="7"
                        Style="{StaticResource Value}"  />
 
             <TextBlock Text="SCCA:" 
                        Grid.Row="4" Grid.Column="5"
                        Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.SCCR, StringFormat=\{0:N0\} kA}"  d:Text="45 kA"
+            <TextBlock Text="{Binding SelectedDpnl.SCCR, StringFormat=\{0:N0\} kA}"  d:Text="45 kA"
                        Grid.Row="4" Grid.Column="7"
                        Style="{StaticResource Value}"  />
 
@@ -228,7 +235,7 @@
             <TextBlock Text="Running Amps:"
                        Grid.Row="2" Grid.Column="9"
                        Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.RunningAmps, StringFormat=\{0:N1\} A}"  d:Text="2000"
+            <TextBlock Text="{Binding SelectedDpnl.RunningAmps, StringFormat=\{0:N1\} A}"  d:Text="2000"
                         Grid.Row="2" Grid.Column="11"
                         Style="{StaticResource Value}"  />
 
@@ -236,19 +243,73 @@
             <TextBlock Text="Available Amps:"
                        Grid.Row="3" Grid.Column="9"
                        Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.Size, StringFormat=\{0:N0\} A}"  d:Text="2000 "
+            <TextBlock Text="{Binding SelectedDpnl.Size, StringFormat=\{0:N0\} A}"  d:Text="2000 "
                         Grid.Row="3" Grid.Column="11"
                         Style="{StaticResource Value}"  />
 
             <TextBlock Text="Percent Loaded:" 
                        Grid.Row="4" Grid.Column="9"
                        Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.PercentLoaded, StringFormat=\{0:N0\} %}"  d:Text="575 V"
+            <TextBlock Text="{Binding SelectedDpnl.PercentLoaded, StringFormat=\{0:N0\} %}"  d:Text="575 V"
                        Grid.Row="4" Grid.Column="11"
                        Style="{StaticResource Value}"  />
         </Grid>
 
-        
+        <!--Selected load-->
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="1" Grid.Column="3">
+            <TextBlock Text="{Binding SelectedLoad.Tag}" d:Text="Tag"
+                       Margin="0 0 50 0 "/>
+            
+            <TextBlock Text="Circuit #:"/>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="auto"/>
+                   
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+            
+                <!--Up-->
+                <Button Grid.Row="0" Grid.Column="1"
+                    FontFamily="Marlett" FontSize="12" Content="5" 
+                                Width="20" Height="20"
+                                Margin="3"
+                                Command="{Binding Path=MoveUpCommand}"/>
+                
+                <!--Down-->
+                <Button Grid.Row="2" Grid.Column="1"
+                        FontFamily="Marlett" FontSize="12" Content="6" 
+                                Width="20" Height="20"
+                                Margin="3"
+                                Command="{Binding Path=MoveDownCommand}"/>
+
+                <!--Left-->
+                <Button Grid.Row="0"  Grid.RowSpan="3"
+                        Grid.Column="0"
+                        FontFamily="Marlett" FontSize="12" Content="3" 
+                                Width="20" Height="20"
+                                Margin="3"
+                                Command="{Binding Path=MoveLeftCommand}"/>
+
+                <!--Right-->
+                <Button Grid.Row="0"  Grid.RowSpan="3"
+                        Grid.Column="2"
+                        FontFamily="Marlett" FontSize="12" Content="4" 
+                                Width="20" Height="20"
+                                Margin="3"
+                                Command="{Binding Path=MoveRightCommand}"/>
+            </Grid>
+
+
+        </StackPanel>
+
         <!--Panel Graphic-->
         <DockPanel Grid.Row="2" Grid.Column="3"
               HorizontalAlignment="Left">
@@ -269,7 +330,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                
+
                 <!--Left Header Row-->
                 <!--<sf:SfDataGrid Grid.Row="0" 
                                 Grid.Column="0"
@@ -328,13 +389,13 @@
                         <TextBlock Text="Tag" Width="{StaticResource TagColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                         <TextBlock Text="FLA" Width="{StaticResource FlaColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                         <TextBlock Text="kW" Width="{StaticResource PowerColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                        
+
                         <TextBlock Text="Size" Width="{StaticResource SizeColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
 
                         <TextBlock Text="Cable" Width="{StaticResource CableColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
                     </StackPanel>
-                    
-                  
+
+
                 </Border>
 
             </Grid>
@@ -363,7 +424,7 @@
 
                     <!--LEFT CIRCUITS-->
                     <!--Circuit Data Left-->
-                    
+
                     <sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2" x:Name="LeftGrid"
                                    Grid.Column="0"
                                    HorizontalAlignment="Left"
@@ -371,14 +432,16 @@
                                    BorderBrush="DarkGray"
                                    BorderThickness="1 1 0 0"
                                    AutoGenerateColumns="False"
-                                   ItemsSource="{Binding SelectedDteq.LeftCircuits}"
+                                   ItemsSource="{Binding SelectedDpnl.LeftCircuits, UpdateSourceTrigger=PropertyChanged}"
+                                   SelectedItem="{Binding SelectedLoad}"
                                    RowHeight="{StaticResource RowHeight}"
+                                   
                                    HeaderRowHeight="0"
                                    QueryRowHeight="LeftGrid_QueryRowHeight"
                                    Visibility="Visible"
                                    AllowDraggingRows="False"
                                    AllowDrop="False">
-                        
+
                         <sf:SfDataGrid.Columns>
                             <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size" Width="{StaticResource CableColumnWidth}" AllowEditing="True"/>
                             <sf:GridTextColumn HeaderText="Size" MappingName="Size" Width="{StaticResource SizeColumnWidth}"/>
@@ -392,7 +455,7 @@
                             <sf:GridTextColumn HeaderText="Breaker" MappingName="PdSizeTrip" Width="{StaticResource BreakerColumnWidth}"/>
                         </sf:SfDataGrid.Columns>
                     </sf:SfDataGrid>
-                        
+
                     <!--<Border BorderBrush="DarkGray" BorderThickness="0"
                             Grid.Row="0" Grid.RowSpan="2"
                             Grid.Column="0"
@@ -401,7 +464,7 @@
 
                         <ItemsControl Grid.Row="1"
                                 Grid.Column="2"
-                                ItemsSource="{Binding SelectedDteq.LeftCircuits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ItemsSource="{Binding SelectedDpnl.LeftCircuits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 VerticalAlignment="Top">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -422,7 +485,7 @@
                     </Border>-->
 
                     <!--Left Circuit #s-->
-                                   
+
                     <Border BorderBrush="LightGray" BorderThickness="0 0 1 1"
                             Grid.Row="0" Grid.RowSpan="2"
                             Grid.Column="1"
@@ -431,7 +494,7 @@
 
                         <ItemsControl Grid.Row="1"
                                 Grid.Column="1"
-                                ItemsSource="{Binding SelectedDteq.CircuitNumbersLeft}"
+                                ItemsSource="{Binding SelectedDpnl.CircuitNumbersLeft}"
                                 VerticalAlignment="Top"
                                   HorizontalAlignment="Right">
                             <ItemsControl.ItemsPanel>
@@ -463,7 +526,7 @@
 
                         <ItemsControl Grid.Row="1"
                                 Grid.Column="2"
-                                ItemsSource="{Binding SelectedDteq.CircuitNumbersLeft}"
+                                ItemsSource="{Binding SelectedDpnl.CircuitNumbersLeft}"
                                 VerticalAlignment="Top">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -484,7 +547,7 @@
                         </ItemsControl>
                     </Border>
 
-                    
+
                     <!--RIGHT CIRCUITS-->
                     <!--Circuit Data Right-->
                     <sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2" x:Name="RightGrid"
@@ -494,14 +557,15 @@
                                    BorderBrush="DarkGray"
                                    BorderThickness="1 1 1 0"
                                    AutoGenerateColumns="False"
-                                   ItemsSource="{Binding SelectedDteq.RightCircuits}"
+                                   ItemsSource="{Binding SelectedDpnl.RightCircuits, UpdateSourceTrigger=PropertyChanged}"
+                                   SelectedItem="{Binding SelectedLoad}"
                                    RowHeight="{StaticResource RowHeight}"
                                    HeaderRowHeight="0"
                                    QueryRowHeight="RightGrid_QueryRowHeight"
                                    Visibility="Visible"
                                    AllowDraggingRows="False"
                                    AllowDrop="False">
-                        
+
                         <sf:SfDataGrid.Columns>
                             <sf:GridTextColumn HeaderText="Breaker" MappingName="PdSizeTrip" Width="{StaticResource BreakerColumnWidth}"/>
 
@@ -525,7 +589,7 @@
                         
                         <ItemsControl Grid.Row="1"
                                 Grid.Column="2"
-                                ItemsSource="{Binding SelectedDteq.RightCircuits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ItemsSource="{Binding SelectedDpnl.RightCircuits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 VerticalAlignment="Top">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -554,7 +618,7 @@
 
                         <ItemsControl Grid.Row="1"
                                 Grid.Column="1"
-                                ItemsSource="{Binding SelectedDteq.CircuitNumbersRight}"
+                                ItemsSource="{Binding SelectedDpnl.CircuitNumbersRight}"
                                 VerticalAlignment="Top"
                                  HorizontalAlignment="Right">
                             <ItemsControl.ItemsPanel>

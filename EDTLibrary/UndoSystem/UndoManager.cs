@@ -95,8 +95,10 @@ public class UndoManager
     public static void Lock(object lockHolder, string lockProperty)
     {
         if (_isLocked == false &&
+            IsUndoing == false &&
             DaManager.Importing == false &&
-            DaManager.GettingRecords == false ) {
+            DaManager.GettingRecords == false )
+        {
             LockHolder = lockHolder;
             LockProperty = lockProperty;
             _isLocked = true;

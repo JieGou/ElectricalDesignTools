@@ -106,8 +106,8 @@ public partial class SL_LoadGraphicView : UserControl
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
-            if (dataContext is LoadModel) {
-                LoadModel load = (LoadModel)dataContext;
+            if (dataContext is ILoad) {
+                ILoad load = (LoadModel)dataContext;
                 OnLoadCableSelected(load);
             }
         }

@@ -497,6 +497,8 @@ namespace EDTLibrary.Models.Loads
         private BreakerSize _breakerSize;
 
         public bool IsCalculating { get; set; }
+        public int SequenceNumber { get; set; }
+
         //Methods
         public void CalculateLoading()
         {

@@ -505,6 +505,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         private double _loadCableDerating;
 
         public bool IsCalculating { get; set; }
+        public int SequenceNumber { get; set; }
+
         //Methods
         public void CalculateLoading()
         {
