@@ -186,8 +186,27 @@ namespace EDTLibrary.Models.Loads
                 OnPropertyUpdated();
             }
         }
+        public int SequenceNumber
+        {
+            get => _sequenceNumber;
+            set
+            {
+                _sequenceNumber = value;
+                OnPropertyUpdated();
+            }
+        }
+        private int _sequenceNumber;
 
-
+        public string PanelSide
+        {
+            get { return _panelSide; }
+            set
+            {
+                _panelSide = value;
+                OnPropertyUpdated();
+            }
+        }
+        public string _panelSide;
         public double Voltage
         {
             get { return _voltage; }
@@ -497,14 +516,7 @@ namespace EDTLibrary.Models.Loads
         private BreakerSize _breakerSize;
 
         public bool IsCalculating { get; set; }
-        public int SequenceNumber { get => _sequenceNumber;
-            set
-            {
-                _sequenceNumber = value;
-                OnPropertyUpdated();
-            }
-        }
-        private int _sequenceNumber;
+       
 
         //Methods
         public void CalculateLoading()

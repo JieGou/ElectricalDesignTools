@@ -178,6 +178,18 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
 
+        private string _panelSide;
+
+        public string PanelSide
+        {
+            get { return _panelSide; }
+            set { 
+                _panelSide = value;
+                OnPropertyUpdated();
+            }
+        }
+
+
         public int VoltageTypeId { get; set; } //unused for PowerConsumer interface
         public VoltageType VoltageType
         {

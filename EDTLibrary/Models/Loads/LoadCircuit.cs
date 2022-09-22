@@ -51,6 +51,17 @@ public class LoadCircuit : ILoad
     }
     private int _sequenceNumber;
 
+    public string PanelSide
+    {
+        get { return _panelSide; }
+        set
+        {
+            _panelSide = value;
+            OnPropertyUpdated();
+        }
+    }
+    public string _panelSide;
+
     public double Voltage
     {
         get { return _voltage; }

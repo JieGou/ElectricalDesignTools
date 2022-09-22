@@ -26,7 +26,7 @@ namespace EDTLibrary.Models.Loads
         double RunningAmps { get; set; }
 
         int SequenceNumber { get; set; }
-       
+        string PanelSide { get; set; }
 
         void CalculateLoading();
 
