@@ -260,8 +260,9 @@
                     Grid.Row="1" Grid.Column="3">
             <TextBlock Text="{Binding SelectedLoad.Tag}" d:Text="Tag"
                        Margin="0 0 50 0 "/>
-            
-            <TextBlock Text="Circuit #:"/>
+
+            <TextBlock Text="Sequence #:  "/>
+            <TextBlock Text="{Binding SelectedLoad.SequenceNumber}"/>
 
             <Grid>
                 <Grid.RowDefinitions>

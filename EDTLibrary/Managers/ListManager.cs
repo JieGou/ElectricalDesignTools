@@ -272,6 +272,15 @@ namespace EDTLibrary.Managers
                 LoadCircuitList.Add(item);
                 item.PropertyUpdated += DaManager.OnLoadCircuitPropertyUpdated;
             }
+            IDpn dpn;
+            foreach (var dteq in IDteqList) {
+                foreach (var load in LoadCircuitList) {
+                    if (dteq.Id == load.FedFromId && load.FedFromType == typeof(DpnModel).ToString()) {
+                        dpn = (IDpn)dteq;
+                        dpn.AssignedCircuits.Add(load);
+                    }
+                }
+            }
         }
 
         private void GetDpnCircuits()

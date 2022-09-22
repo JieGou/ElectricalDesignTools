@@ -1,4 +1,5 @@
-﻿using EDTLibrary.LibraryData;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters;
 using System.Xml;
 
@@ -119,23 +121,42 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
 
                 if (i % 2 == 0) {
                     cctList.Add(AssignedCircuits[i]);
-                    poleCount += AssignedLoads[i].VoltageType.Poles;
+                    if (AssignedCircuits[i].VoltageType != null) {
+                        poleCount += AssignedCircuits[i].VoltageType.Poles;
+                    }
+                    else {
+                        poleCount += 1;
+                    }
                 }
             }
 
 
             int cctCount = CircuitCount / 2;
-            var loadCircuit = new LoadCircuit();
+            var newCircuit = new LoadCircuit();
 
-
+            //add additional circuits
             for (int i = 1; i <= cctCount - poleCount; i++) {
-                loadCircuit = new LoadCircuit {
+                newCircuit = new LoadCircuit {
                     Tag = "-",
                     Description = "SPACE",
                     VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120),
+                    FedFromId = Id,
+                    FedFromType = typeof(DpnModel).ToString(),
                     SequenceNumber = 999
                 };
-                ScenarioManager.ListManager.DpnCircuitList.Add(new DpnCircuit { DpnId = this.Id, LoadId = loadCircuit.Id });
+
+                if (DaManager.GettingRecords==false) {
+                    if (ScenarioManager.ListManager.LoadCircuitList.Count>0) {
+                        newCircuit.Id = ScenarioManager.ListManager.LoadCircuitList.Max(l => l.Id) + 1;
+                    }
+                    ScenarioManager.ListManager.LoadCircuitList.Add(newCircuit);
+                    AssignedCircuits.Add(newCircuit);
+                    newCircuit.PropertyUpdated += DaManager.OnLoadCircuitPropertyUpdated;
+                    newCircuit.OnPropertyUpdated();
+                    cctList.Add(newCircuit);
+                    ScenarioManager.ListManager.DpnCircuitList.Add(new DpnCircuit { DpnId = this.Id, LoadId = newCircuit.Id });
+                }
+                
             }
 
             PoleCountLeft = poleCount;
@@ -173,7 +194,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             var cctList = new ObservableCollection<IPowerConsumer>();
             int poleCount = 0;
 
-            //Todo - PoleCount
+            //Todo - copy from left Circuit
             for (int i = 0; i < AssignedLoads.Count; i++) {
                 if (i % 2 != 0) {
                     cctList.Add(AssignedLoads[i]);
@@ -193,7 +214,11 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
 
             PoleCountRight = poleCount;
             RightCircuits = cctList;
-            RightCircuits.OrderBy(c => c.SequenceNumber);
+            var list = RightCircuits.OrderBy(c => c.SequenceNumber).ToList();
+            RightCircuits.Clear();
+            foreach (var item in list) {
+                RightCircuits.Add(item);
+            }
             return cctList;
         }
         public ObservableCollection<IPowerConsumer> SetCircuits()
@@ -263,17 +288,8 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
 
         }
 
-        public ObservableCollection<IPowerConsumer> AssignedCircuits
-        {
-            get
-            {
-                return _assignedCircuits;
-            }
-            set
-            {
-                _assignedCircuits = value;
-            }
-        }
+        public ObservableCollection<IPowerConsumer> AssignedCircuits { get; set; } = new ObservableCollection<IPowerConsumer>();
+
         private ObservableCollection<IPowerConsumer> _assignedCircuits;
 
         public void AddAssignedCircuit()

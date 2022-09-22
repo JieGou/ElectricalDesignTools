@@ -1,8 +1,12 @@
 Voltage double to VoltageType
 Notification Service
 
+
+CircuitSideList
+
 ListManager
 DaManager
+VoltageType
 OnPropertyUpdated
 Delete
 Add

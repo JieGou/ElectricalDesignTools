@@ -8,6 +8,7 @@ public interface IDpn: IDteq
     ObservableCollection<DpnCircuit> CircuitNumbersLeft { get; }
     ObservableCollection<DpnCircuit> CircuitNumbersRight { get; }
     ObservableCollection<DpnCircuit> CircuitList { get; }
+    ObservableCollection<IPowerConsumer> AssignedCircuits { get; set; }
     ObservableCollection<IPowerConsumer> LeftCircuits { get; set; }
     int PoleCountLeft { get; set; }
     int PoleCountRight { get; set; }
