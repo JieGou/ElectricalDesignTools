@@ -374,5 +374,8 @@ public class DaManager {
         DaManager.prjDb.UpsertRecord<AreaModel>(area, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
     }
 
-    
+    internal static void DeleteLoadCircuit(LoadCircuit loadCircuit)
+    {
+        DaManager.prjDb.DeleteRecord(GlobalConfig.LoadCircuitTable, loadCircuit.Id);
+    }
 }

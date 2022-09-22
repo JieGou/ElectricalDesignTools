@@ -277,7 +277,7 @@ namespace EDTLibrary.Managers
                 foreach (var load in LoadCircuitList) {
                     if (dteq.Id == load.FedFromId && load.FedFromType == typeof(DpnModel).ToString()) {
                         dpn = (IDpn)dteq;
-                        dpn.AssignedCircuits.Add(load);
+                        dpn.AssignedCircuits.Add((LoadCircuit)load);
                     }
                 }
             }

@@ -1,7 +1,9 @@
-﻿using EDTLibrary.Managers;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,6 +48,12 @@ public class DpnCircuitManager
             dpn.SetLeftCircuits();
             dpn.SetRightCircuits();
         }
+    }
+    internal static void DeleteLoadCircuit(DpnModel dpnModel, IPowerConsumer powerConsumer, ListManager listManager)
+    {
+        var loadCircuit = (LoadCircuit)powerConsumer;
+        listManager.LoadCircuitList.Remove(loadCircuit);
+        DaManager.DeleteLoadCircuit(loadCircuit);
     }
 
 
