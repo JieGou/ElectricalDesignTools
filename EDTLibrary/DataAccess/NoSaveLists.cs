@@ -42,6 +42,9 @@ namespace EDTLibrary.DataAccess
             "LeftCircuits",
             "RightCircuits",
             "DpnCircuitList",
+            "CircuitList",
+            "AssignedCircuits",
+
         };
 
         static public List<string> LoadNoSaveList { get; set; } = new List<string>() 

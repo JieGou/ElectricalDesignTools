@@ -120,12 +120,22 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             for (int i = 0; i < AssignedCircuits.Count; i++) {
 
                 if (i % 2 == 0) {
-                    cctList.Add(AssignedCircuits[i]);
+
+                    
+                    // spaRe - has a breaker assigned and/or is more than 1 pole
                     if (AssignedCircuits[i].VoltageType != null) {
-                        poleCount += AssignedCircuits[i].VoltageType.Poles;
+                        if ((poleCount + AssignedCircuits[i].VoltageType.Poles) <= (CircuitCount/2) ) {
+                            cctList.Add(AssignedCircuits[i]);
+                            poleCount += AssignedCircuits[i].VoltageType.Poles;
+                        }
                     }
+                    // spaCe - single pole breaker
                     else {
-                        poleCount += 1;
+
+                        if ((poleCount + 1) <= (CircuitCount / 2)) {
+                            cctList.Add(AssignedCircuits[i]);
+                            poleCount += 1;
+                        }
                     }
                 }
             }
