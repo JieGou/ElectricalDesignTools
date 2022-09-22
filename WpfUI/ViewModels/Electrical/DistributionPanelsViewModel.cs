@@ -57,7 +57,7 @@ internal class DistributionPanelsViewModel: ViewModelBase
     }
 
     
-    public IDpnl SelectedDpnl
+    public IDpn SelectedDpnl
     {
         get { return _selectedDpnl; }
         set
@@ -79,20 +79,20 @@ internal class DistributionPanelsViewModel: ViewModelBase
             }
         }
     }
-    private IDpnl _selectedDpnl;
+    private IDpn _selectedDpnl;
 
-    public ObservableCollection<IDpnl> ViewableDteqList
+    public ObservableCollection<IDpn> ViewableDteqList
 
     {
         get
         {
-            List<IDpnl> subList = new List<IDpnl>();
+            List<IDpn> subList = new List<IDpn>();
             var dteqSubList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.DPN.ToString() || d.Type == DteqTypes.CDP.ToString()).ToList();
 
             foreach (var dteq in dteqSubList) {
-                subList.Add((IDpnl) dteq);
+                subList.Add((IDpn) dteq);
             }
-            return new ObservableCollection<IDpnl>(subList);
+            return new ObservableCollection<IDpn>(subList);
         }
     }
 
@@ -106,10 +106,10 @@ internal class DistributionPanelsViewModel: ViewModelBase
             var selectedCircuits = new ObservableCollection<IPowerConsumer>();
 
             IPowerConsumer load;
-            if (SelectedDpnl.LeftCircuits.FirstOrDefault(ld => ld.Id == _selectedLoad.Id) != null) {
+            if (SelectedDpnl.LeftCircuits.FirstOrDefault(ld => ld == _selectedLoad) != null) {
                 SelectedCircuitList = SelectedDpnl.LeftCircuits;
             }
-            if (SelectedDpnl.RightCircuits.FirstOrDefault(ld => ld.Id == _selectedLoad.Id) != null) {
+            if (SelectedDpnl.RightCircuits.FirstOrDefault(ld => ld == _selectedLoad) != null) {
                 SelectedCircuitList = SelectedDpnl.RightCircuits;
             }
 
@@ -143,7 +143,7 @@ internal class DistributionPanelsViewModel: ViewModelBase
         if (SelectedLoad == null) return;
 
         for (int i = 0; i < SelectedCircuitList.Count; i++) {
-            if (SelectedLoad.Id == SelectedCircuitList[i].Id) {
+            if (SelectedLoad == SelectedCircuitList[i]) {
                 loadIndex = Math.Max(0, i - 1);
                 SelectedCircuitList.Move(i, loadIndex);
                 break;
@@ -162,7 +162,7 @@ internal class DistributionPanelsViewModel: ViewModelBase
         if (SelectedLoad == null) return;
 
         for (int i = 0; i < SelectedCircuitList.Count; i++) {
-            if (SelectedLoad.Id == SelectedCircuitList[i].Id) {
+            if (SelectedLoad == SelectedCircuitList[i]) {
                 loadIndex = Math.Min(i + 1, SelectedCircuitList.Count - 1);
                 SelectedCircuitList.Move(i, loadIndex);
                 break;

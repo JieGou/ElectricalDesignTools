@@ -136,28 +136,58 @@ public class DaManager {
             throw;
         }
     }
+
+    public static void OnLoadCircuitPropertyUpdated(object sender, EventArgs e)
+    {
+        if (DaManager.GettingRecords == true) return;
+        UpsertLoadCircuitAsync((LoadCircuit)sender);
+    }
+    public static async Task UpsertLoadCircuitAsync(LoadCircuit load)
+    {
+
+        try {
+            await Task.Run(() => {
+                if (GlobalConfig.Importing == true) return;
+                prjDb.UpsertRecord(load, GlobalConfig.LoadCircuitTable, NoSaveLists.LoadNoSaveList);
+            });
+
+        }
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw ex;
+
+        }
+    }
+
     public static void OnLoadPropertyUpdated(object source, EventArgs e)
     {
        
         if (DaManager.GettingRecords == true) return;
-        DaManager.UpsertLoadAsync((LoadModel)source);
+        UpsertLoadAsync((LoadModel)source);
     }
 
-    private static async Task UpsertLoadAsync(LoadModel load)
+
+    
+    
+
+    public static async Task UpsertLoadAsync(LoadModel load)
     {
+
         try {
-            //removed await to test speed
             await Task.Run(() => {
                 if (GlobalConfig.Importing == true) return;
                 prjDb.UpsertRecord(load, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
             });
-        }
 
+        }
         catch (Exception ex) {
             Debug.Print(ex.ToString());
-            throw;
+            throw ex;
+
         }
     }
+
+
     public static void OnComponentPropertyUpdated(object source, EventArgs e)
     {
         if (DaManager.GettingRecords == false) {
@@ -290,22 +320,7 @@ public class DaManager {
 
     
 
-    public static async Task UpsertLoadAsycn(LoadModel load)
-    {
-
-        try {
-            await Task.Run(() => {
-                if (GlobalConfig.Importing == true) return;
-                prjDb.UpsertRecord(load, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
-            });
-
-        }
-        catch (Exception ex) {
-            Debug.Print(ex.ToString());
-            throw ex;
-
-        }
-    }
+   
 
     public static void UpsertComponent(ComponentModel component)
     {
@@ -358,4 +373,6 @@ public class DaManager {
     {
         DaManager.prjDb.UpsertRecord<AreaModel>(area, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
     }
+
+    
 }

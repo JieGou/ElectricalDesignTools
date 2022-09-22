@@ -323,8 +323,15 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 if (value == null) return;
+                var oldValue = _lineVoltageType;
                 _lineVoltageType = value;
                 LineVoltage = _lineVoltageType.Voltage;
+
+                UndoManager.Lock(this, nameof(LineVoltageType));
+                LineVoltageTypeId = _lineVoltageType.Id;
+                LineVoltage = _lineVoltageType.Voltage;
+                UndoManager.AddUndoCommand(this, nameof(LineVoltageType), oldValue, _lineVoltageType);
+                OnPropertyUpdated();
             }
         }
         public VoltageType _lineVoltageType;
@@ -355,8 +362,16 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 if (value == null) return;
+                var oldValue = _loadVoltageType;
                 _loadVoltageType = value;
                 LoadVoltage = _loadVoltageType.Voltage;
+
+                UndoManager.Lock(this, nameof(LoadVoltageType));
+                LoadVoltageTypeId = _loadVoltageType.Id;
+                    LoadVoltage = _loadVoltageType.Voltage;
+                UndoManager.AddUndoCommand(this, nameof(LoadVoltageType), oldValue, _loadVoltageType);
+                OnPropertyUpdated();
+
             }
         }
         public VoltageType _loadVoltageType;
@@ -670,7 +685,9 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
 
             //check if load is already assigned
-            var iLoad = AssignedLoads.FirstOrDefault(load => load.Id == load.Id);
+            if (load == null) return false;
+
+            var iLoad = AssignedLoads.FirstOrDefault(l => l == load);
 
             if (iLoad == null) {
                 AssignedLoads.Add(load);

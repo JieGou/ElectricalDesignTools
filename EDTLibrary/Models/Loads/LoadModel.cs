@@ -214,14 +214,14 @@ namespace EDTLibrary.Models.Loads
         public VoltageType VoltageType
         {
             get { return _voltageType; }
-            set 
-            { 
+            set
+            {
                 var oldValue = _voltageType;
                 _voltageType = value;
-                
+
                 UndoManager.Lock(this, nameof(VoltageType));
-                    VoltageTypeId = _voltageType.Id;
-                    Voltage = _voltageType.Voltage;
+                VoltageTypeId = _voltageType.Id;
+                Voltage = _voltageType.Voltage;
                 UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
 
                 if (DaManager.Importing == false && DaManager.GettingRecords == false) {
@@ -316,7 +316,7 @@ namespace EDTLibrary.Models.Loads
         private double _efficiency;
         public double Efficiency
         {
-            get { return _efficiency ; }
+            get { return _efficiency; }
             set
             {
                 var oldValue = _efficiency;
@@ -331,7 +331,7 @@ namespace EDTLibrary.Models.Loads
         public double EfficiencyDisplay
         {
             get { return _efficiencyDisplay; }
-            set {  _efficiencyDisplay = Math.Round(value,3);}
+            set { _efficiencyDisplay = Math.Round(value, 3); }
         }
 
         private double _powerFactor;
@@ -492,17 +492,24 @@ namespace EDTLibrary.Models.Loads
         }
 
 
-       
+
 
         private BreakerSize _breakerSize;
 
         public bool IsCalculating { get; set; }
-        public int SequenceNumber { get; set; }
+        public int SequenceNumber { get => _sequenceNumber;
+            set
+            {
+                _sequenceNumber = value;
+                OnPropertyUpdated();
+            }
+        }
+        private int _sequenceNumber;
 
         //Methods
         public void CalculateLoading()
         {
-           
+
             UndoManager.CanAdd = false;
             if (DaManager.GettingRecords == true) {
                 return;
@@ -712,10 +719,10 @@ namespace EDTLibrary.Models.Loads
             });
             ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
 
-                if (GlobalConfig.Testing == true) {
-                    ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
-                }
-            
+            if (GlobalConfig.Testing == true) {
+                ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
+            }
+
         }
 
 

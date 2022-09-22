@@ -11,12 +11,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization.Formatters;
+using System.Xml;
 
 namespace EDTLibrary.Models.DistributionEquipment.DPanels
 {
 
     [AddINotifyPropertyChangedInterface]
-    public class DpnModel : DistributionEquipment, IDpnl
+    public class DpnModel : DistributionEquipment, IDpn
     {
 
         private int _circuitCount = 24;
@@ -51,6 +52,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                 OnPropertyUpdated();
             }
         }
+        public ObservableCollection<DpnCircuit> CircuitList { get; private set; }
 
         public ObservableCollection<DpnCircuit> CircuitNumbersLeft
         {
@@ -79,7 +81,6 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
 
         }
 
-        public ObservableCollection<DpnCircuit> DpnCircuitList { get; private set; }
 
         public int PoleCountLeft
         {
@@ -105,7 +106,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             var cctList = new ObservableCollection<IPowerConsumer>();
             int poleCount = 0;
 
-            //Todo - PoleCount
+            //Add AssignedLoads
             for (int i = 0; i < AssignedLoads.Count; i++) {
 
                 if (i % 2 == 0) {
@@ -113,18 +114,37 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                     poleCount += AssignedLoads[i].VoltageType.Poles;
                 }
             }
+            //Add AssignedCircuits
+            for (int i = 0; i < AssignedCircuits.Count; i++) {
+
+                if (i % 2 == 0) {
+                    cctList.Add(AssignedCircuits[i]);
+                    poleCount += AssignedLoads[i].VoltageType.Poles;
+                }
+            }
+
+
             int cctCount = CircuitCount / 2;
+            var loadCircuit = new LoadCircuit();
+
 
             for (int i = 1; i <= cctCount - poleCount; i++) {
-                cctList.Add(new LoadModel {
+                loadCircuit = new LoadCircuit {
                     Tag = "-",
                     Description = "SPACE",
-                    VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120)
-                });
+                    VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120),
+                    SequenceNumber = 999
+                };
+                ScenarioManager.ListManager.DpnCircuitList.Add(new DpnCircuit { DpnId = this.Id, LoadId = loadCircuit.Id });
             }
+
             PoleCountLeft = poleCount;
             LeftCircuits = cctList;
-            LeftCircuits.OrderBy(c => c.SequenceNumber);
+            var list = LeftCircuits.OrderBy(c => c.SequenceNumber).ToList();
+            LeftCircuits.Clear();
+            foreach (var item in list) {
+                LeftCircuits.Add(item);
+            }
             return cctList;
         }
 
@@ -166,7 +186,8 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                 cctList.Add(new LoadModel {
                     Tag = "-",
                     Description = "SPACE",
-                    VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120)
+                    VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120),
+                    SequenceNumber = 999
                 });
             }
 
@@ -175,8 +196,6 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             RightCircuits.OrderBy(c => c.SequenceNumber);
             return cctList;
         }
-
-
         public ObservableCollection<IPowerConsumer> SetCircuits()
         {
 
@@ -210,12 +229,18 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             }
             return cctList;
         }
+
+
         public override bool AddAssignedLoad(IPowerConsumer load)
         {
             if (base.AddAssignedLoad(load)) {
                 if (ScenarioManager.ListManager.DpnCircuitList.Count == 0) {
                     return false;
                 }
+
+                DpnCircuitManager.AddLoad(this, load, ScenarioManager.ListManager);
+
+
                 var circuitToAdd = new DpnCircuit {
 
                     Id = ScenarioManager.ListManager.DpnCircuitList.Max(x => x.Id) + 1,
@@ -227,15 +252,32 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                     CircuitNumber = ScenarioManager.ListManager.DpnCircuitList.Max(x => x.CircuitNumber),
 
 
-
                 };
 
-                DpnCircuitList.Add(circuitToAdd);
+                CircuitList.Add(circuitToAdd);
 
                 return true;
             }
 
             return false;
+
+        }
+
+        public ObservableCollection<IPowerConsumer> AssignedCircuits
+        {
+            get
+            {
+                return _assignedCircuits;
+            }
+            set
+            {
+                _assignedCircuits = value;
+            }
+        }
+        private ObservableCollection<IPowerConsumer> _assignedCircuits;
+
+        public void AddAssignedCircuit()
+        {
 
         }
     }

@@ -33,6 +33,7 @@ namespace EDTLibrary
 
 
         //Tables
+        public static string LoadCircuitTable { get; set; } = "LoadCircuits";
         public static string LoadTable { get; set; } = "Loads";
         public static string DteqTable { get; set; } = "DistributionEquipment";
         public static string XfrTable { get; set; } = "Transformer";

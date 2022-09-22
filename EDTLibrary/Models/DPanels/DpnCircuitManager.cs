@@ -50,7 +50,8 @@ public class DpnCircuitManager
 
 
     /// <summary>
-    /// Return the number of the next available circuit(s) for a load
+    /// Returns the next available circuit position(s) for the required load/breaker. 
+    /// Returns -1 when there are not enough avaialbe circuits for the required breaker.
     /// </summary>
     /// <param name="dpn"></param>
     /// <param name="load"></param>

@@ -35,6 +35,7 @@ namespace EDTLibrary.Managers
         public ObservableCollection<DpnModel> DpnList { get; set; } = new ObservableCollection<DpnModel>();
         public ObservableCollection<DpnCircuit> DpnCircuitList { get; set; } = new ObservableCollection<DpnCircuit>();
 
+        public ObservableCollection<ILoad> LoadCircuitList { get; set; } = new ObservableCollection<ILoad>();
 
         public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
         public ObservableCollection<IComponentEdt> CompList { get; set; } = new ObservableCollection<IComponentEdt>();
@@ -54,6 +55,7 @@ namespace EDTLibrary.Managers
                 GetAreas();
                 GetDteq();
                 GetLoadsAndAssignPropertyUpdatedEvent();
+                GetLoadCircuits();
                 GetDpnCircuits();
                 GetVoltages();
 
@@ -84,6 +86,7 @@ namespace EDTLibrary.Managers
 
             DaManager.GettingRecords = false;
         }
+
 
         private void GetVoltages()
         {
@@ -261,6 +264,16 @@ namespace EDTLibrary.Managers
 
             }
         }
+        private void GetLoadCircuits()
+        {
+            LoadCircuitList.Clear();
+            var list = DaManager.prjDb.GetRecords<LoadCircuit>(GlobalConfig.LoadCircuitTable);
+            foreach (var item in list) {
+                LoadCircuitList.Add(item);
+                item.PropertyUpdated += DaManager.OnLoadCircuitPropertyUpdated;
+            }
+        }
+
         private void GetDpnCircuits()
         {
             DpnCircuitList.Clear();
@@ -269,7 +282,18 @@ namespace EDTLibrary.Managers
                 DpnCircuitList.Add(item);
             }
         }
+        private void AssignDpnCircuits()
+        {
+            var dPanels = IDteqList.Where(d => d.GetType() == typeof(DpnModel)).ToList();
+            foreach (var panel in dPanels) {
+                foreach (var load in LoadList) {
+                    if (load.FedFromId == panel.Id) {
 
+                    }
+                }
+            }
+
+        }
         private void GetComponents()
         {
             CompList.Clear();
@@ -517,7 +541,7 @@ namespace EDTLibrary.Managers
             //Load
             foreach (var load in LoadList) {
                 load.PowerCable.AssignOwner(load);
-                DaManager.UpsertLoadAsycn((LoadModel)load);
+                DaManager.UpsertLoadAsync((LoadModel)load);
             }
 
             //Cables
