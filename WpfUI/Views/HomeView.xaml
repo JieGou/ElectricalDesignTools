@@ -22,23 +22,26 @@
 
     <Grid Canvas.Top="{Binding ElementName=Canvas}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="150"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
 
         <!--Recent Projects-->
-        <ScrollViewer Grid.Row="2" Grid.Column="3"
+        <ScrollViewer Grid.Row="2" Grid.RowSpan="2"
+                      Grid.Column="0"
                       VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Disabled">
+                      HorizontalScrollBarVisibility="Disabled"
+                      Margin="10 0 0 0">
 
             <StackPanel x:Name="PreviousProjectList" Orientation="Vertical"
                     Grid.Row="2" Grid.Column="2"
@@ -77,20 +80,17 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Vertical"
-                                    HorizontalAlignment="Left">
-                                <HomeControls:PreviousProjectItem DataContext="{Binding}" />
-                            </StackPanel>
-
+                            <HomeControls:PreviousProjectItem DataContext="{Binding}" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
         </ScrollViewer>
-        <!--Center-->
+
+        <!--Title / Logo-->
         <StackPanel Orientation="Vertical"
-                    Grid.Row="0" Grid.Column="0"
-                    Grid.RowSpan="10" Grid.ColumnSpan="10"
+                    Grid.Row="1" Grid.RowSpan="3"
+                    Grid.Column="1" Grid.ColumnSpan="2"
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Center">
 
@@ -140,33 +140,61 @@
                 </Image.Triggers>
             </Image>
 
+
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+                        Margin="50 15">
+
+                <Button Content="New"
+                        Style="{StaticResource BaseButtonLarge}"
+                        Command="{Binding NewProjectCommand}" PreviewMouseDown="Button_PreviewMouseDown"/>
+
+                <TextBlock Width=" 50 "/>
+                -->
+            <!--Spacer-->
+            <!--
+
+                <Button Content="Open" HorizontalAlignment="Center"
+                        Style="{StaticResource BaseButtonLarge}"
+                        Command="{Binding SelectProjectCommand}"/>
+
+            </StackPanel>-->
+
+            <!--<StackPanel Orientation="Horizontal" Margin="0 100 0 0 ">
+                <TextBlock Text="Library File:  " Foreground="LightGray"/>
+                <TextBlock Text="{Binding StartupService.LibraryFile}" Foreground="LightGray"/>
+            </StackPanel>-->
+        </StackPanel>
+
+
+
+        <Grid Grid.Row="3" Grid.RowSpan="2"
+              Grid.Column="1" Grid.ColumnSpan="2"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="15"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
             <!--File-->
-            <Grid HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="15"/>
-                    <ColumnDefinition Width="*" x:Name="pathCol"/>
-                    <ColumnDefinition Width="50"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="10"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
 
-
-                <TextBlock Text="Current Project:"
-                           Grid.Row="0"  Grid.Column="1"
+            <TextBlock Text="Current Project:"
+                           Grid.Row="0"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Center"
                            FontSize="18"
                            />
 
-                <TextBlock Text="{Binding Path=StartupService.ProjectFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                           Grid.Row="0" Grid.Column="3"
+            <TextBlock Text="{Binding Path=StartupService.ProjectFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           Grid.Row="0" Grid.Column="2"
                            d:Text="File Name"
                            VerticalAlignment="Center"
                            TextAlignment="Left"
@@ -175,28 +203,26 @@
                            />
 
 
-                <!--Path-->
-
-                <TextBlock Text="Project Location:"
-                           Grid.Row="2" Grid.Column="1" 
+            <!--Path-->
+            <TextBlock Text="Project Location:"
+                           Grid.Row="2" 
                            HorizontalAlignment="Right"
                            FontSize="18" 
                            />
-                <TextBlock Text="{Binding Path=StartupService.ProjectFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBlock Text="{Binding Path=StartupService.ProjectFilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           Grid.Row="2" Grid.Column="2"
                            Margin="0 5"
                            TextWrapping="Wrap"
-                           MaxWidth="800"
-                           Grid.Row="2" Grid.Column="3"
                            d:Text="C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files"
                            TextAlignment="Left"
                            HorizontalAlignment="Left"
                            FontSize="14"
                            />
 
-                <!--Buttons-->
-
-            </Grid>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"
+            <!--Buttons-->
+            <StackPanel Orientation="Horizontal" 
+                        Grid.Row="3" Grid.ColumnSpan="10"
+                        HorizontalAlignment="Center"
                         Margin="50 15">
 
                 <Button Content="New"
@@ -211,13 +237,19 @@
                         Command="{Binding SelectProjectCommand}"/>
 
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="0 100 0 0 ">
+            
+            <!--Library File-->
+            <StackPanel Orientation="Horizontal" 
+                        Grid.Row="5" 
+                        Grid.Column="0" Grid.ColumnSpan="10"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                    >
                 <TextBlock Text="Library File:  " Foreground="LightGray"/>
                 <TextBlock Text="{Binding StartupService.LibraryFile}" Foreground="LightGray"/>
             </StackPanel>
-        </StackPanel>
 
-        <!--<homeUc:NewProjectControl x:Name="newProjectUc" Grid.Row="0" Grid.Column="2"/>-->
+        </Grid>
 
 
     </Grid>

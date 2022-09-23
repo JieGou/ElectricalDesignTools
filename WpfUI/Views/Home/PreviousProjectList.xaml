@@ -25,6 +25,7 @@
                        Margin="10 7"/>
             
             <TextBlock Text="{Binding FilePath}" d:Text="C:\Projects\2022\Big Bob's Big Barn"
+                       TextTrimming="CharacterEllipsis"
                        Margin="10 5"
                        Foreground="DarkGray"/>
 

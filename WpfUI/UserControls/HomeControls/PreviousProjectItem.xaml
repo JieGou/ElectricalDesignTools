@@ -18,13 +18,12 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" 
-                   Width="500"
                    PreviewMouseLeftButtonDown="StackPanel_PreviewMouseLeftButtonDown"
-                   ToolTipService.VerticalOffset="0">
+                   ToolTipService.VerticalOffset="0"
+                   ToolTipService.InitialShowDelay="350">
             
             <DockPanel.ToolTip>
-                <ToolTip Placement="Bottom"
-                         >
+                <ToolTip Placement="Bottom" >
                     <BulletDecorator>
                         <TextBlock Text="{Binding FilePath}"/>
                     </BulletDecorator>
@@ -42,14 +41,15 @@
             </DockPanel.Style>
             
             <TextBlock Text="{Binding FileName}" d:Text="TestProject.Edp"
+                       TextTrimming="CharacterEllipsis"
                        x:Name="FileName"
                        DockPanel.Dock="Top"
                        FontSize="14"
                        FontWeight="SemiBold"
-                       TextWrapping="WrapWithOverflow"
                        Margin="10 10 0 3"/>
             
             <TextBlock Text="{Binding FilePath}" d:Text="C:\Projects\2022\Big Bob's Big Barn"
+                       TextTrimming="CharacterEllipsis"
                        x:Name="FilePath"
                        Margin="10 5"
                        Foreground="Black"/>
