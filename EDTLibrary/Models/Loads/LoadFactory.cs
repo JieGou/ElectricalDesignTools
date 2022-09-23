@@ -23,6 +23,10 @@ namespace EDTLibrary.Models.Loads
         {
             LoadModel newLoad = new LoadModel();
 
+            newLoad.Voltage = Double.Parse(loadToAddValidator.Voltage);
+            newLoad.VoltageType = loadToAddValidator.VoltageType;
+            newLoad.VoltageTypeId = newLoad.VoltageType.Id;
+
             foreach (var dteq in _listManager.DteqList) {  // 85 ms
                 if (dteq.Tag == loadToAddValidator.FedFromTag) {
 
@@ -35,11 +39,11 @@ namespace EDTLibrary.Models.Loads
             newLoad.Description = loadToAddValidator.Description;
             newLoad.Category = Categories.LOAD3P.ToString();
             newLoad.Type = loadToAddValidator.Type;
-            newLoad.Area = _listManager.AreaList.FirstOrDefault(a => a.Tag == loadToAddValidator.AreaTag);
-
             newLoad.Voltage = Double.Parse(loadToAddValidator.Voltage);
             newLoad.VoltageType = loadToAddValidator.VoltageType;
-            newLoad.VoltageTypeId = newLoad.VoltageType.Id; 
+            newLoad.VoltageTypeId = newLoad.VoltageType.Id;
+
+            newLoad.Area = _listManager.AreaList.FirstOrDefault(a => a.Tag == loadToAddValidator.AreaTag);
             
             newLoad.Size = Double.Parse(loadToAddValidator.Size);
             

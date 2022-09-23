@@ -106,7 +106,9 @@ public class DpnCircuitManager
 
         //TODO - PoleCount
         foreach (var item in cctList) {
-            poleCount += item.VoltageType.Poles;
+            if (item.VoltageType!=null) {
+                poleCount += item.VoltageType.Poles;
+            }
         }
 
         int loadPoles = load.VoltageType.Poles;

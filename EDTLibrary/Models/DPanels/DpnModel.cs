@@ -54,7 +54,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                 OnPropertyUpdated();
             }
         }
-        public ObservableCollection<DpnCircuit> CircuitList { get; private set; }
+        public ObservableCollection<DpnCircuit> CircuitList { get; private set; } = new ObservableCollection<DpnCircuit>();
 
         public ObservableCollection<DpnCircuit> CircuitNumbersLeft
         {
@@ -209,8 +209,6 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                 return poleCount;
             }
         }
-
-
 
         public int PoleCountRight
         {

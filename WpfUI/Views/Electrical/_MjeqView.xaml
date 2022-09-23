@@ -352,8 +352,8 @@
                 <DataGrid x:Name="dgdDteq" 
                           Grid.Column="0"
                           SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                          
                           ItemsSource="{Binding DteqCollectionView}"
+                          
                           IsSynchronizedWithCurrentItem="True"
                           FrozenColumnCount="1"
                           Margin="5,5,5 5"
@@ -611,7 +611,7 @@
                         </DataGridTemplateColumn>
 
                         <!--Line Voltage-->
-                        <DataGridTemplateColumn  Header=" Line &#xA; Voltage "
+                        <!--<DataGridTemplateColumn  Header=" Line &#xA; Voltage "
                                                  SortMemberPath="LineVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -634,10 +634,10 @@
                                               Template="{DynamicResource ComboBoxBase}"
                                               
                                               />
-                                    <!--IsDropDownOpen="True"-->
+                                    --><!--IsDropDownOpen="True"--><!--
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
+                        </DataGridTemplateColumn>-->
 
                         <!--Line Voltage Type-->
                         <DataGridTemplateColumn  Header=" Line &#xA; Voltage "
@@ -670,7 +670,7 @@
                         </DataGridTemplateColumn>
 
                         <!--Load Voltage-->
-                        <DataGridTemplateColumn Header=" Load &#xA; Voltage " 
+                        <!--<DataGridTemplateColumn Header=" Load &#xA; Voltage " 
                                                 SortMemberPath="LoadVoltage">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -691,10 +691,10 @@
                                               BorderThickness="0"
                                               Template="{DynamicResource ComboBoxBase}"
                                               />
-                                    <!--IsDropDownOpen="True"-->
+                                    --><!--IsDropDownOpen="True"--><!--
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
+                        </DataGridTemplateColumn>-->
 
                         <!--Load Voltage Type-->
                         <DataGridTemplateColumn Header=" Load &#xA; Voltage "
@@ -802,43 +802,50 @@
 
                         <!--Power Factor-->
                         <DataGridTextColumn Header=" PF " x:Name="dteqPowerFactor" 
-                                        Width="40"
+                                         Width="*" MinWidth ="40"
                                         Binding="{Binding PowerFactor, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                         IsReadOnly="True"
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource PowerViewProxy}}"/>
 
                         <DataGridTextColumn Header=" Conn &#xA; kVA " x:Name="dteqConnectedKva"
+                                        Width="*" MinWidth ="40"
                                 Binding="{Binding ConnectedKva, Mode=TwoWay, NotifyOnSourceUpdated=True, StringFormat=\{0:N0\}, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 IsReadOnly="True"
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource PowerViewProxy}}"/>
 
                         <DataGridTextColumn Header=" Dem &#xA; kVA " x:Name="dteqDemandKva"
+                                        Width="*" MinWidth ="40"
                                 Binding="{Binding DemandKva, Mode=TwoWay, NotifyOnSourceUpdated=True, StringFormat=\{0:N0\}, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 IsReadOnly="True"
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource PowerViewProxy}}"/>
 
                         <DataGridTextColumn Header=" Dem &#xA; kW " x:Name="dteqDemandKw" 
+                                        Width="*" MinWidth ="40"
                                 Binding="{Binding DemandKw, Mode=TwoWay, NotifyOnSourceUpdated=True, StringFormat=\{0:N0\}, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 IsReadOnly="True"
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource PowerViewProxy}}"/>
 
                         <DataGridTextColumn Header=" Dem &#xA; kVAR " x:Name="dteqDemandKvar" 
+                                        Width="*" MinWidth ="40"
                                 Binding="{Binding DemandKvar, Mode=TwoWay, NotifyOnSourceUpdated=True, StringFormat=\{0:N0\}, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 IsReadOnly="True"
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource PowerViewProxy}}"/>
 
                         <!--OCPD-->
                         <DataGridTextColumn Header=" OCPD &#xA; Type "
+                                        Width="*" MinWidth ="100"
                                 Binding="{Binding PdType, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource OcpdViewProxy}}"/>
 
                         <DataGridTextColumn Header=" OCPD &#xA; Trip "
+                                        Width="*" MinWidth ="40"
                                 Binding="{Binding PdSizeTrip, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource OcpdViewProxy}}"/>
 
                         <DataGridTextColumn Header=" OCPD &#xA; Frame "
+                                        Width="*" MinWidth ="40"
                                 Binding="{Binding PdSizeFrame, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource OcpdViewProxy}}"/>
@@ -846,16 +853,19 @@
 
                         <!--CABLE-->
                         <DataGridTextColumn Header=" Cable &#xA; Qty " x:Name="dteqCableQty"
+                                        Width="*" MinWidth ="50"
                                 Binding="{Binding PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource CableViewProxy}}"/>
 
                         <DataGridTextColumn Header=" Cable &#xA; Size " x:Name="dteqCableSize" 
+                                        Width="*" MinWidth ="50"
                                 Binding="{Binding PowerCable.Size, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource CableViewProxy}}"/>
 
                         <DataGridTextColumn Header=" Base &#xA; Amps " x:Name="dteqCableBaseAmps" 
+                                        Width="*" MinWidth ="50"
                                 Binding="{Binding PowerCable.BaseAmps, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource CableViewProxy}}"/>
@@ -867,16 +877,19 @@
 
 
                         <DataGridTextColumn Header=" Cable &#xA;Derating" x:Name="dteqCableDerating" 
+                                        Width="*" MinWidth ="60"
                                 Binding="{Binding PowerCable.Derating, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource CableViewProxy}}"/>
 
                         <DataGridTextColumn Header="Derated &#xA;Amps" x:Name="dteqCableDeratedAmps" 
+                                        Width="*"  MinWidth ="60"
                                 Binding="{Binding PowerCable.DeratedAmps, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource CableViewProxy}}"/>
 
                         <DataGridTextColumn Header="Req'd&#xA;Amps" x:Name="dteqCableRequiredAmps" 
+                                        Width="*" MinWidth ="50"
                                 Binding="{Binding PowerCable.RequiredAmps, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource CableHeaderColumn}" 
                                         Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource CableViewProxy}}"/>
@@ -1081,6 +1094,8 @@
                 <sf:SfDataGrid x:Name="dgdAssignedLoads"  
                                Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="3"
                                
+                               ColumnSizer="Star"
+                               
                                ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
 
                                CurrentItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1113,7 +1128,6 @@
                                
                                ShowGroupDropArea="False"
                                AllowResizingColumns="True"
-                               ColumnSizer="AutoLastColumnFill"
                                SelectionChanged="dgdAssignedLoads_SelectionChanged_1"  
                                FilterRowPosition="FixedTop"
                                PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1" CurrentCellActivated="dgdAssignedLoads_CurrentCellActivated"
@@ -1252,7 +1266,7 @@
                         </sf:GridComboBoxColumn>
 
                         <!--Voltage-->
-                        <sf:GridComboBoxColumn HeaderText="Voltage" MappingName="Voltage"
+                        <!--<sf:GridComboBoxColumn HeaderText="Voltage" MappingName="Voltage"
                                                Width="75"
                                                AllowEditing="True"
                                                AllowFiltering="True"
@@ -1277,7 +1291,7 @@
                                                Padding="5 0 0 0"/>
                                 </DataTemplate>
                             </sf:GridComboBoxColumn.CellTemplate>
-                        </sf:GridComboBoxColumn>
+                        </sf:GridComboBoxColumn>-->
 
                         <!--VoltageType-->
                         <sf:GridComboBoxColumn HeaderText="Voltage" MappingName="VoltageType"
@@ -1394,19 +1408,21 @@
                                                                 AncestorType={x:Type UserControl}}}"/>
 
                         <!--POWER-->
+                        
+                        <!--Width="40"-->
                         <sf:GridTextColumn HeaderText="Conn&#x0a;kVA" MappingName="ConnectedKva"
-                                           Width="40"
+                                           MinimumWidth="40"
                                            AllowEditing="False"
                                            UseBindingValue="True"
                                            FilterRowCondition="LessThanOrEqual"
                                            TextAlignment="Center"
                                            FilterRowOptionsVisibility="Collapsed"
-                                           
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
+                        <!--Width="40"-->
                         <sf:GridTextColumn HeaderText="Dem&#x0a;kVA" MappingName="DemandKva"
-                                           Width="40"
+                                           MinimumWidth="40"
                                            AllowEditing="False"
                                            UseBindingValue="True"
                                            FilterRowEditorType="Numeric"
@@ -1417,9 +1433,10 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
                                            />
-
+                        
+                        <!--Width="40"-->
                         <sf:GridTextColumn HeaderText="Dem&#x0a;kW" MappingName="DemandKw"
-                                           Width="40"
+                                           MinimumWidth="40"
                                            AllowEditing="False"
                                            UseBindingValue="True"
                                            FilterRowCondition="LessThanOrEqual"
@@ -1429,8 +1446,9 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
+                        <!--Width="40"-->
                         <sf:GridTextColumn HeaderText="Dem&#x0a;kVAR" MappingName="DemandKvar"
-                                           Width="40"
+                                           MinimumWidth="40"
                                            AllowEditing="False"
                                            UseBindingValue="True"
                                            FilterRowCondition="LessThanOrEqual"
@@ -1441,7 +1459,7 @@
                                                                 AncestorType={x:Type UserControl}}}"/>
 
                         <sf:GridComboBoxColumn HeaderText="OCPD&#x0a;Type" MappingName="PdType"
-                                               Width="80"
+                                               Width="100"
                                                AllowEditing="True"
                                                AllowFiltering="True"
                                                ItemsSource="{Binding Path=DataContext.TypeManager.OcpdTypes, 
@@ -1453,7 +1471,7 @@
                                                UseBindingValue="True"
                                                FilterRowCondition="LessThanOrEqual"
                                                SortMode="Display"
-                                               TextAlignment="Center" 
+                                               TextAlignment="Left" 
                                                FilterRowOptionsVisibility="Collapsed"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.OcpdInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
@@ -1462,14 +1480,15 @@
                             <sf:GridComboBoxColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               TextAlignment="Center"
+                                               TextAlignment="Left"
                                                Padding="5 0 0 0"/>
                                 </DataTemplate>
                             </sf:GridComboBoxColumn.CellTemplate>
                         </sf:GridComboBoxColumn>
 
+                        <!--Width="60"-->
                         <sf:GridTextColumn HeaderText="PD / MCP&#x0a;Trip" MappingName="PdSizeTrip"
-                                           Width="60"
+                                           MinimumWidth="60"
                                            AllowEditing="False"
                                            UseBindingValue="True"
                                            FilterRowCondition="LessThanOrEqual"
@@ -1479,8 +1498,9 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.OcpdInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
+                        <!--Width="60"-->
                         <sf:GridTextColumn HeaderText="PD / MCP&#x0a;Frame" MappingName="PdSizeFrame"
-                                           Width="60"
+                                           MinimumWidth="60"
                                            AllowEditing="False"
                                            UseBindingValue="True"
                                            FilterRowCondition="LessThanOrEqual"
@@ -1490,8 +1510,9 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.OcpdInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
+                        <!--Width="60"-->
                         <sf:GridTextColumn HeaderText="Starter&#x0a;Size" MappingName="StarterSize"
-                                           Width="60"
+                                           MinimumWidth="60"
                                            AllowEditing="False"
                                            UseBindingValue="True"
                                            FilterRowCondition="Contains"
@@ -1614,8 +1635,9 @@
                                                />
 
                         <!--Comp Tags-->
+                        <!--Width="100"-->
                         <sf:GridTextColumn HeaderText="Local&#x0a;Disc. Tag" MappingName="Disconnect.Tag"
-                                           Width="100"
+                                           MinimumWidth="100"
                                            AllowEditing="True"
                                            AllowFiltering="True"
                                            UseBindingValue="True"
@@ -1624,8 +1646,9 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
+                        <!--Width="100"-->
                         <sf:GridTextColumn HeaderText="Drive&#x0a;Tag" MappingName="Drive.Tag"
-                                           Width="100"
+                                           MinimumWidth="100"
                                            AllowEditing="True"
                                            AllowFiltering="True"
                                            UseBindingValue="True"
@@ -1634,8 +1657,9 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
+                        <!--Width="100"-->
                         <sf:GridTextColumn HeaderText="Lcs&#x0a;Tag" MappingName="Lcs.Tag"
-                                           Width="100"
+                                           MinimumWidth="100"
                                            AllowEditing="True"
                                            AllowFiltering="True"
                                            UseBindingValue="True"

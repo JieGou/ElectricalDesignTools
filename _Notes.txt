@@ -111,8 +111,6 @@ Misc. General
 	- 
 
 Error Handling
-	- add ExceptionController in library and publish notification events
-	- add custom dialog in WPF library to handle errors
 
 Library
 	- add cable dimensions

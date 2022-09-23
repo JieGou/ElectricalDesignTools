@@ -12,12 +12,12 @@ namespace WpfUI.ViewModifiers
     {
         public bool Power { get; set; } = true;
         public bool PowerInv { get; set; } = false;
-        public bool Ocpd { get; set; } = true;
-        public bool OcpdInv { get; set; } = false;
-        public bool Cable { get; set; } = true;
-        public bool CableInv { get; set; } = false;
-        public bool Comp { get; set; } = true;
-        public bool CompInv { get; set; } = false;
+        public bool Ocpd { get; set; } = false;
+        public bool OcpdInv { get; set; } = true;
+        public bool Cable { get; set; } = false;
+        public bool CableInv { get; set; } = true;
+        public bool Comp { get; set; } = false  ;
+        public bool CompInv { get; set; } = true;
 
         public void HideAll()
         {
