@@ -22,11 +22,11 @@ namespace WpfUI.Views.Electrical;
 /// <summary>
 /// Interaction logic for SinlgeLineView.xaml
 /// </summary>
-public partial class DistributionPanelsView : UserControl
+public partial class DpanelView : UserControl
 {
-    private DistributionPanelsViewModel vm { get { return DataContext as DistributionPanelsViewModel; } }
+    private DpanelViewModel vm { get { return DataContext as DpanelViewModel; } }
 
-    public DistributionPanelsView()
+    public DpanelView()
     {
         InitializeComponent();
 

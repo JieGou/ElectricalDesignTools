@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:WpfUI.Windows"
              mc:Ignorable="d"
         
+             xmlns:dteqViewers="clr-namespace:WpfUI.UserControls.Viewers.Dteq"
+             
+             
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
              
@@ -40,9 +43,10 @@
     <Grid Background="{StaticResource PageBackground}">
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="115"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="9*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -74,7 +78,9 @@
         </StackPanel>
 
         <!--Top Data-->
-        <Grid Grid.Column="3" Grid.ColumnSpan="2">
+        <dteqViewers:DteqSummary3RowViewer Grid.Column="3" Grid.ColumnSpan="2"
+                                           DataContext="{Binding SelectedDteq}"/>
+        <!--<Grid Grid.Column="3" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="auto"/>
@@ -102,9 +108,9 @@
             </Grid.RowDefinitions>
 
 
-            <!--Tag-->
-            <!--<TextBlock Text="Tag:"
-                       Grid.Row="1" Grid.Column="1"/>-->
+            Tag
+            <TextBlock Text="Tag:"
+                       Grid.Row="1" Grid.Column="1"/>
             <TextBlock Text="{Binding SelectedDteq.Tag}" d:Text="MCC-01"
                        Grid.Row="1" Grid.Column="1"
                        Grid.ColumnSpan="3"
@@ -114,8 +120,8 @@
                        Margin="10"
                        />
 
-            <!--Description-->
-            <!--<TextBlock Text="{Binding SelectedDteq.Description}"  d:Text="Ultimo MCC"
+            Description
+            <TextBlock Text="{Binding SelectedDteq.Description}"  d:Text="Ultimo MCC"
                        Grid.Row="1" Grid.Column="3"
                        Grid.ColumnSpan="3"
                        HorizontalAlignment="Left"
@@ -123,9 +129,9 @@
                        FontSize="20"
                        FontWeight="Bold"
                        Margin="30 10"
-                       MinWidth="250"/>-->
+                       MinWidth="250"/>
 
-            <!--Area-->
+            Area
             <TextBlock Text="Area:"
                        Grid.Row="2" Grid.Column="1"
                        Style="{StaticResource Label}"/>
@@ -133,7 +139,7 @@
                        Grid.Row="2" Grid.Column="3"
                        Style="{StaticResource Value}"  />
 
-            <!--Area Tag-->
+            Area Tag
             <TextBlock Text="Area Tag:"
                        Grid.Row="3" Grid.Column="1"
                        Style="{StaticResource Label}"/>
@@ -142,7 +148,7 @@
                        Style="{StaticResource Value}"  />
 
 
-            <!--Fed From-->
+            Fed From
             <TextBlock Text="Fed From:" 
                        Grid.Row="4" Grid.Column="1"
                        Style="{StaticResource Label}"/>
@@ -150,21 +156,21 @@
                        Grid.Row="4" Grid.Column="3"
                        Style="{StaticResource Value}"  />
 
-            <!--SCCR-->
-            <!--<TextBlock Text="SCCR" 
+            SCCR
+            <TextBlock Text="SCCR" 
                        Grid.Row="5" Grid.Column="1"
                        Style="{StaticResource Label}"/>
             <TextBlock Text="{Binding SelectedDteq.SCCR, StringFormat=\{0:N0\} kA}"  d:Text="SWG-01"
                        Grid.Row="5" Grid.Column="3"
-                       Style="{StaticResource Value}"  />-->
+                       Style="{StaticResource Value}"  />
 
 
 
 
 
-            <!--Column 2-->
+            Column 2
 
-            <!--Size-->
+            Size
             <TextBlock Text="Size:"
                        Grid.Row="2" Grid.Column="5"
                        Style="{StaticResource Label}"/>
@@ -192,9 +198,9 @@
                        Grid.Row="4" Grid.Column="7"
                        Style="{StaticResource Value}"  />
 
-            <!--Column 3-->
+            Column 3
 
-            <!--Size-->
+            Size
             <TextBlock Text="Running Amps:"
                        Grid.Row="2" Grid.Column="9"
                        Style="{StaticResource Label}"/>
@@ -216,22 +222,20 @@
             <TextBlock Text="{Binding SelectedDteq.PercentLoaded, StringFormat=\{0:N0\} %}"  d:Text="575 V"
                        Grid.Row="4" Grid.Column="11"
                        Style="{StaticResource Value}"  />
-        </Grid>
+        </Grid>-->
 
         <!--Sinlge Line-->
         <Border BorderBrush="LightGray" BorderThickness="1"
                 Background="White"
-                Grid.Row="2" 
+                Grid.Row="2" Grid.RowSpan="2"
                 Grid.Column="3" Grid.ColumnSpan="2"
                 VerticalAlignment="Stretch"
                 CornerRadius="5" 
                 >
-            <ScrollViewer Grid.Row="1" Grid.Column="2"
-                      Grid.RowSpan="2"
-                      HorizontalScrollBarVisibility="Auto"
-                      VerticalScrollBarVisibility="Auto"
-                      VerticalAlignment="Stretch"
-                       Padding="10">
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalAlignment="Stretch"
+                          Padding="10">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>

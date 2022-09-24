@@ -53,7 +53,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     private MjeqViewModel _mjeqViewModel;
     private SingleLineViewModel _singleLineViewModel;
-    private DistributionPanelsViewModel _distributionPanelsViewModel;
+    private DpanelViewModel _distributionPanelsViewModel;
 
 
     public ElectricalMenuViewModel(MainViewModel mainViewModel, ListManager listManager)
@@ -66,7 +66,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
         _mjeqViewModel = new MjeqViewModel(_listManager);
         _singleLineViewModel = new SingleLineViewModel(_listManager);
-        _distributionPanelsViewModel = new DistributionPanelsViewModel(_listManager);
+        _distributionPanelsViewModel = new DpanelViewModel(_listManager);
 
         //Navigation
         NavigateMjeqCommand = new RelayCommand(NavigateMjeq);

@@ -28,7 +28,7 @@ using WpfUI.Stores;
 namespace WpfUI.ViewModels.Electrical;
 
 [AddINotifyPropertyChangedInterface]
-internal class DistributionPanelsViewModel: ViewModelBase
+internal class DpanelViewModel: ViewModelBase
 {
 
     private DteqFactory _dteqFactory;
@@ -46,7 +46,7 @@ internal class DistributionPanelsViewModel: ViewModelBase
 
 
     //CTOR
-    public DistributionPanelsViewModel(ListManager listManager)
+    public DpanelViewModel(ListManager listManager)
     {
         ListManager = listManager;
 
@@ -160,14 +160,13 @@ internal class DistributionPanelsViewModel: ViewModelBase
 
 
 
-
+    //Todo - move logic to DpanelCctManager
     public ICommand MoveUpLeftCommand { get; }
-
     public void MoveUpLeft()
     {
-        int loadIndex;
         if (SelectedLoadLeft == null) return;
 
+        int loadIndex;
         for (int i = 0; i < SelectedDpnl.LeftCircuits.Count; i++) {
             if (SelectedLoadLeft == SelectedDpnl.LeftCircuits[i]) {
                 loadIndex = Math.Max(0, i - 1);
@@ -180,13 +179,13 @@ internal class DistributionPanelsViewModel: ViewModelBase
         }
         SelectedDpnl.LeftCircuits.OrderBy(c => c.SequenceNumber);
     }
-    public ICommand MoveDownLeftCommand { get; }
 
+    public ICommand MoveDownLeftCommand { get; }
     public void MoveDownLeft()
     {
-        int loadIndex;
         if (SelectedLoadLeft == null) return;
 
+        int loadIndex;
         for (int i = 0; i < SelectedDpnl.LeftCircuits.Count; i++) {
             if (SelectedLoadLeft == SelectedDpnl.LeftCircuits[i]) {
                 loadIndex = Math.Min(i + 1, SelectedDpnl.LeftCircuits.Count - 1);
@@ -200,13 +199,13 @@ internal class DistributionPanelsViewModel: ViewModelBase
         SelectedDpnl.LeftCircuits.OrderBy(c => c.SequenceNumber);
     }
 
-    public ICommand MoveUpRightCommand { get; }
 
+    public ICommand MoveUpRightCommand { get; }
     public void MoveUpRight()
     {
-        int loadIndex;
         if (SelectedLoadRight == null) return;
 
+        int loadIndex;
         for (int i = 0; i < SelectedDpnl.RightCircuits.Count; i++) {
             if (SelectedLoadRight == SelectedDpnl.RightCircuits[i]) {
                 loadIndex = Math.Max(0, i - 1);
@@ -219,13 +218,13 @@ internal class DistributionPanelsViewModel: ViewModelBase
         }
         SelectedDpnl.RightCircuits.OrderBy(c => c.SequenceNumber);
     }
-    public ICommand MoveDownRightCommand { get; }
 
+    public ICommand MoveDownRightCommand { get; }
     public void MoveDownRight()
     {
-        int loadIndex;
         if (SelectedLoadRight == null) return;
 
+        int loadIndex;
         for (int i = 0; i < SelectedDpnl.RightCircuits.Count; i++) {
             if (SelectedLoadRight == SelectedDpnl.RightCircuits[i]) {
                 loadIndex = Math.Min(i + 1, SelectedDpnl.RightCircuits.Count - 1);

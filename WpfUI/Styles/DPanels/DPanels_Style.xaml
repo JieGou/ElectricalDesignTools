@@ -6,12 +6,12 @@
     <!--Object Widths-->
     <sys:Double x:Key="CableColumnWidth"> 75 </sys:Double>
     <sys:Double x:Key="BreakerColumnWidth"> 50 </sys:Double>
-    <sys:Double x:Key="PowerColumn">50</sys:Double>
+    <sys:Double x:Key="PowerColumn">0</sys:Double>
     <sys:Double x:Key="PolesColumn">35</sys:Double>
     <sys:Double x:Key="FlaColumnWidth" > 50 </sys:Double>
     <sys:Double x:Key="DescriptionColumnWidth">250</sys:Double>
     
-    <sys:Double x:Key="SizeColumnWidth">50</sys:Double>
+    <sys:Double x:Key="SizeColumnWidth">0</sys:Double>
         <sys:Double x:Key="SizeWidth">25</sys:Double>
         <sys:Double x:Key="UnitWidth">25</sys:Double>
     

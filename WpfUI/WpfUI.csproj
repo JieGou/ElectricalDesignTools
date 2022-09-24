@@ -154,6 +154,9 @@
     <Compile Update="UserControls\HomeControls\PreviousProjectItem.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UserControls\Viewers\Dpanels\DpnCctViewer_V.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Electrical\AddDteqView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -187,7 +190,7 @@
     <Compile Update="Views\Electrical\SingleLineSubViews\MccGraphicView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Electrical\DistributionPanelsView.xaml.cs">
+    <Compile Update="Views\Electrical\DpanelView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Settings\DeveloperSettingsView.xaml.cs">
@@ -237,6 +240,10 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="UserControls\Viewers\Dpanels\DpnCctViewer_V.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\Electrical\AddDteqView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -281,7 +288,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Electrical\DistributionPanelsView.xaml">
+    <Page Update="Views\Electrical\DpanelView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

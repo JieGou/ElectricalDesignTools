@@ -141,5 +141,10 @@ public class DpnCircuitManager
         var list = loadCircuitList.Where(cct => cct.FedFromId == dpn.Id && cct.FedFromType == dpn.GetType().ToString()).ToList();
         loadCircuitList = new ObservableCollection<LoadCircuit>(list);
     }
+
+    public static void MoveUp(DpnModel dpn, ObservableCollection<ILoad> circuitList,ILoad loadCircuit)
+    {
+
+    }
 }
 

@@ -418,8 +418,8 @@
                     <electricalViews:SinlgeLineView/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type electricalViewModels:DistributionPanelsViewModel}">
-                    <electricalViews:DistributionPanelsView/>
+                <DataTemplate DataType="{x:Type electricalViewModels:DpanelViewModel}">
+                    <electricalViews:DpanelView/>
                 </DataTemplate>
 
 

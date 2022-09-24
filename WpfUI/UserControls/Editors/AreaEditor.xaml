@@ -21,12 +21,13 @@
     </UserControl.Resources>
     <Grid>
         <!--Area Details-->
-        <GroupBox Header="Area Details" FontWeight="Bold"
+        <GroupBox Header="Area Details" FontWeight="SemiBold"
                   Style="{DynamicResource GroupBoxStyle1}" 
                   VerticalAlignment="Top" Height="100" 
                   Margin="0 5 0 0" >
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="auto"/>
@@ -39,10 +40,11 @@
 
                 <!--Area-->
                 <TextBlock Text="Area"
-                           Grid.Row="0" Grid.Column="0"
+                           Grid.Row="0" Grid.Column="1"
                            FontWeight="Normal"
-                           Margin="78 5 0 0"/>
-                <ComboBox Grid.Row="0" Grid.Column="2" 
+                           Margin="0 5 0 0"
+                           TextAlignment="Right"/>
+                <ComboBox Grid.Row="0" Grid.Column="3" 
                           Template="{DynamicResource ComboBoxBase}"
                           MinWidth="115" HorizontalAlignment="Right"
                           ItemsSource="{Binding Path=DataContext.ListManager.AreaList, 
@@ -73,27 +75,28 @@
                 </ComboBox>
 
                 <Image Source="..\..\ResourceFiles\InfoIconBlue.png"
-                           Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"
-                           Margin="0 5 0 0"
-                           HorizontalAlignment="Left"
-                           Height="17"
-                           Stretch="Uniform"
-                           ToolTip="{StaticResource AreaChangeInfoMessage}"
-                           ToolTipService.InitialShowDelay="150"
-                           ToolTipService.BetweenShowDelay="0"/>
+                       Grid.Row="1"
+                       Grid.Column="0" 
+                       Margin="0 5 0 0"
+                       HorizontalAlignment="Left"
+                       Height="17"
+                       Stretch="Uniform"
+                       ToolTip="{StaticResource AreaChangeInfoMessage}"
+                       ToolTipService.InitialShowDelay="150"
+                       ToolTipService.BetweenShowDelay="0"/>
 
                 <!--Nema-->
-                <TextBlock Text="NEMA Ratings"
-                           Grid.Row="1" Grid.Column="0" 
+                <TextBlock Text="NEMA"
+                           Grid.Row="1" Grid.Column="1" 
                            FontWeight="Normal"
                            Margin="0 5 0 0"
-                           MinWidth="95"
+                           MinWidth="0"
                            TextAlignment="Right"/>
 
                 <ComboBox x:Name="cbxNemaRatings" 
                           Template="{DynamicResource ComboBoxBase}" 
-                          Grid.Row="1" Grid.Column="2"
-                          MinWidth="115"
+                          Grid.Row="1" Grid.Column="3"
+                          MinWidth="100"
                           ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, 
                                               RelativeSource={RelativeSource Mode=FindAncestor, 
                                               AncestorType={x:Type Window}}}"
@@ -107,13 +110,13 @@
 
                 <!--Area Class-->
                 <TextBlock Text="Area Class."
-                           Grid.Row="2" Grid.Column="0" FontWeight="Normal"
+                           Grid.Row="2" Grid.Column="1" FontWeight="Normal"
                            TextAlignment="Right"
                            Margin="0 5 0 0"/>
 
                 <ComboBox x:Name="cbxAreaClassifications" 
                           Template="{DynamicResource ComboBoxBase}" 
-                          Grid.Row="2" Grid.Column="2"
+                          Grid.Row="2" Grid.Column="3"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type Window}}}"

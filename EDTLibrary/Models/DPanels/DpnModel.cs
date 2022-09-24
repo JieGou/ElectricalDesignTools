@@ -1,4 +1,5 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EdtLibrary.Commands;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
@@ -13,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters;
+using System.Windows.Input;
 using System.Xml;
 
 namespace EDTLibrary.Models.DistributionEquipment.DPanels
@@ -28,6 +30,9 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
         {
             SetLeftCircuits();
             SetRightCircuits();
+
+            //MoveUpRightCommand = new RelayCommand(MoveUpRight);
+            //MoveDownRightCommand = new RelayCommand(MoveDownRight);
         }
 
 
@@ -414,6 +419,9 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
         {
 
         }
+
+
+        
     }
 
 }
