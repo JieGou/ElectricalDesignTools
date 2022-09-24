@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.Services;
-public class NotificationService
+public class EdtNotificationService
 {
     //Error
     public static void SendError(object sender, string message, string caption, Exception ex)
@@ -60,12 +60,10 @@ public class NotificationService
     }
 
 
-    public static void SendNotification(object sender, string message, string caption, Exception ex)
+    public static void ShowNotification(object sender, string message)
     {
         var args = new EdtNotificationEventArgs();
         args.Messsage = message;
-        args.Caption = caption;
-        args.Exception = ex;
         args.EdtNotificationType = EdtNotificationType.Notification;
         OnNotificationSent(sender, args);
     }
@@ -75,6 +73,22 @@ public class NotificationService
 
         if (NotificationSent != null) {
             NotificationSent(sender, args);
+
+        }
+    }
+
+    public static void CloseNotification(object sender)
+    {
+        var args = new EdtNotificationEventArgs();
+        args.EdtNotificationType = EdtNotificationType.Notification;
+        OnNotificationClosed(sender, args);
+    }
+    public static EventHandler<EdtNotificationEventArgs> NotificationClosed;
+    private static void OnNotificationClosed(object sender, EdtNotificationEventArgs args)
+    {
+
+        if (NotificationClosed != null) {
+            NotificationClosed(sender, args);
 
         }
     }

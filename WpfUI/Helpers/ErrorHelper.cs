@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using static EDTLibrary.Services.NotificationService;
+using static EDTLibrary.Services.EdtNotificationService;
 
 namespace WpfUI.Helpers
 {

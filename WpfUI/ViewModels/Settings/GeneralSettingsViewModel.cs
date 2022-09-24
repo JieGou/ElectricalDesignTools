@@ -18,6 +18,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Input;
 using WpfUI.Commands;
+using WpfUI.Helpers;
 
 namespace WpfUI.ViewModels.Settings;
 

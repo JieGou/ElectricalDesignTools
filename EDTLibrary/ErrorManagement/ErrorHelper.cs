@@ -63,13 +63,13 @@ namespace EDTLibrary.ErrorManagement
             //    }
             //}));
 
-            NotificationService.SendError("null", message, caption, ex);
+            EdtNotificationService.SendError("null", message, caption, ex);
         }
 
         public static void NotifyUserError(string message, string caption = "User Error", MessageBoxImage image = MessageBoxImage.Warning)
         {
 
-            NotificationService.SendAlert("null sender", message, caption);
+            EdtNotificationService.SendAlert("null sender", message, caption);
         }
     }
 }

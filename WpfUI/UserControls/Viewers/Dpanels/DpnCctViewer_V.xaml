@@ -12,7 +12,7 @@
              d:DesignHeight="500" d:DesignWidth="200"
              d:Background="AliceBlue">
     
-    <DockPanel VerticalAlignment="Stretch">
+    <DockPanel VerticalAlignment="Top">
         <Border BorderBrush="Black" BorderThickness="1 1 1 0"
                 d:Background="DarkGray"
                 DockPanel.Dock="Top">

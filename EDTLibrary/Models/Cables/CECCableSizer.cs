@@ -428,7 +428,7 @@ namespace EDTLibrary.Models.Cables
                     string message = "Cannot calculate voltage drop. Manual Calculation required.\n\n" +
                         "Conductor resistance values for this cable Type & cable Size is not available in the library.";
 
-                    NotificationService.SendAlert(this, message, "Calculation Error");
+                    EdtNotificationService.SendAlert(this, message, "Calculation Error");
                     cable.VoltageDrop = 0;
                     cable.VoltageDropPercentage = 0;
                     
@@ -445,7 +445,7 @@ namespace EDTLibrary.Models.Cables
             }
             catch (Exception ex) {
 
-                NotificationService.SendError(this, "Unknown Error", "Voltage Drop Calculation Error", ex);
+                EdtNotificationService.SendError(this, "Unknown Error", "Voltage Drop Calculation Error", ex);
             }
 
         }

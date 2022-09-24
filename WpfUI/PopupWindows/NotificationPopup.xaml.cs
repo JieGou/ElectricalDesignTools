@@ -40,4 +40,5 @@ public partial class NotificationPopup : Window
     {
         this.Close();
     }
+
 }

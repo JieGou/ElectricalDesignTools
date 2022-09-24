@@ -38,8 +38,11 @@ public partial class MainWindow : MetroWindow
     {
         InitializeComponent();
 
-        NotificationService.ErrorSent += ErrorHelper.ShowError;
-        NotificationService.AlertSent += ErrorHelper.ShowAlert;
+        EdtNotificationService.ErrorSent += ErrorHelper.ShowError;
+        EdtNotificationService.AlertSent += ErrorHelper.ShowAlert;
+        EdtNotificationService.NotificationSent += PopupService.ShowNotification;    
+        EdtNotificationService.NotificationClosed += PopupService.CloseNotification;
+
 
         btnHome.IsChecked = true;
         string[] args = Environment.GetCommandLineArgs();

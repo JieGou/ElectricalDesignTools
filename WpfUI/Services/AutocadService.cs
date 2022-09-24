@@ -3,40 +3,50 @@ using AutocadLibrary;
 using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using System.Windows.Automation;
 using System.Windows.Forms;
+using Windows.UI.Notifications;
 using WpfUI.Helpers;
 using WpfUI.PopupWindows;
+using static EDTLibrary.Services.EdtNotificationService;
+using Notification = WpfUI.PopupWindows.Notification;
 
 namespace WpfUI.Services;
 public class AutocadService
 {
    
-
     public AutocadHelper Acad { get; set; }
-    public NotificationPopup NotificationPopup { get; set; }
+    public static NotificationPopup NotificationPopup { get; set; }
+
     public void StartAutocad()
     {
         try {
             Acad = new AutocadHelper();
 
+            string notification = "Starting Autocad";
+            EdtNotificationService.ShowNotification(this, notification);
+
             NotificationPopup = new NotificationPopup();
-            NotificationPopup.DataContext = new Notification("Starting Autocad");
+            NotificationPopup.DataContext = new Notification(notification);
             NotificationPopup.Show();
 
             Acad.StartAutocad();
-            NotificationPopup.Close();
 
+            NotificationPopup.Close();
         }
         catch (Exception ex) {
 
             ErrorHelper.ShowErrorMessage(ex);
         }
         finally {
+            EdtNotificationService.CloseNotification(this);
             NotificationPopup.Close();
         }
     }

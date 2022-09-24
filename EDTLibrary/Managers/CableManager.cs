@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.A_Helpers;
 using EDTLibrary.DataAccess;
+using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
@@ -259,7 +260,6 @@ public class CableManager
         }
         catch (Exception) {
 
-            ErrorHelper.Notify(callerMethod);
             return "error";
         }
     }

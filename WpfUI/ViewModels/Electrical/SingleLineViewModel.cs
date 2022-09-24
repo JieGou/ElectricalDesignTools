@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using WpfUI.Helpers;
 using WpfUI.PopupWindows;
 using WpfUI.Services;
@@ -95,17 +96,20 @@ internal class SingleLineViewModel: ViewModelBase
 
     #region Autocad
     
-
-    
-
     public ICommand DrawSingleLineAcadCommand { get; }
     public void DrawSingleLineRelay()
     {
-        var acadService = new AutocadService();
-        acadService.DrawSingleLine(SelectedDteq);
+        DrawSingleLineAsycn();
     }
-
     
+    public async Task DrawSingleLineAsycn()
+    {
+        var acadService = new AutocadService();
+
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            acadService.DrawSingleLine(SelectedDteq);
+            } ));
+    }
     #endregion
 
 }

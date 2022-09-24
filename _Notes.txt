@@ -6,7 +6,6 @@ Priorities
 		- Fix selected circuit - 1
 		- Circuit #'s - 3
 		- Export to AutoCad - 3
-			- autocad Service
 		- Convert to Load - 2
 		- DeleteLoad recalculates panel circuits - 1
 		- Cleanup page

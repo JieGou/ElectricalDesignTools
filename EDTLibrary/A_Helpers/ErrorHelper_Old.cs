@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace EDTLibrary.A_Helpers
 {
-    public class ErrorHelperasdf
+    public class ErrorHelper_Old
     {
         public static List<string> ErrorLog { get; set; } = new List<string>();
 

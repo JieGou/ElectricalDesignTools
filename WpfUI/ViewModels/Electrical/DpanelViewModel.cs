@@ -10,6 +10,7 @@ using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
+using Syncfusion.Windows.Controls.PivotGrid;
 using Syncfusion.XlsIO.Parser.Biff_Records;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using WpfUI.Helpers;
 using WpfUI.PopupWindows;
+using WpfUI.Services;
 using WpfUI.Stores;
 
 namespace WpfUI.ViewModels.Electrical;
@@ -246,94 +248,12 @@ internal class DpanelViewModel: ViewModelBase
 
 
     #region Autocad
-    public AutocadHelper Acad { get; set; }
-    public NotificationPopup NotificationPopup { get; set; }
-
-    public void StartAutocad()
-    {
-        try {
-            Acad = new AutocadHelper();
-            NotificationPopup = new NotificationPopup();
-            NotificationPopup.DataContext = new Notification("Starting Autocad");
-            NotificationPopup.Show();
-            Acad.StartAutocad();
-            NotificationPopup.Close();
-
-        }
-        catch (Exception ex) {
-
-            ErrorHelper.ShowErrorMessage(ex);
-        }
-        finally {
-            NotificationPopup.Close();
-        }
-    }
-
-   
-    public ICommand AddAcadDrawingCommand { get; }
-    public void AddDrawing()
-    {
-
-        StartAutocad();
-        try {
-            Acad.AddDrawing();
-        }
-        catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
-        }
-    }
 
     public ICommand DrawSingleLineAcadCommand { get; }
     public void DrawSingleLineRelay()
     {
-        DrawSingleLine();
-    }
-    public void DrawSingleLine(bool newDrawing = true)
-    {
-            StartAutocad();
-        
-
-        //if (Acad.AcadDoc == null) {
-        //    Acad.AddDrawing();
-        //}
-
-        if (newDrawing == true) {
-            Acad.AddDrawing();
-        }
-
-        try {
-            SingleLineDrawer slDrawer = new SingleLineDrawer(Acad, EdtSettings.AcadBlockFolder);
-
-            IDteq mcc = SelectedDpnl;
-
-            if (mcc == null) return;
-            slDrawer.DrawMccSingleLine(mcc, 1.5);
-            Acad.AcadApp.ZoomExtents();
-        }
-
-        catch (Exception ex) {
-
-            if (ex.Message.Contains("not found")) {
-                MessageBox.Show(
-                    "Check the Blocks Source Folder path and make sure that the selected blocks exist.",
-                    "Error - File Not Found",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            else if (ex.Message.Contains("rejected")) {
-                if (Acad.AcadDoc!= null) {
-                    AcadSelectionSet sSet = Acad.AcadDoc.SelectionSets.Add("sSetAll");
-                    sSet.Select(AcSelect.acSelectionSetAll);
-                    foreach (AcadEntity item in sSet) {
-                        item.Delete();
-                    }
-                }
-                DrawSingleLine(false);
-            }
-            else {
-                ErrorHelper.ShowErrorMessage(ex);
-            }
-        }
+        var acadService = new AutocadService();
+        acadService.DrawSingleLine(SelectedDpnl);
     }
 
 

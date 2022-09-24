@@ -42,12 +42,13 @@
                     Grid.Row="0" Grid.Column="2"
                     Width="15"
                     Height="15"
-                    Background="Transparent"
-                    VerticalAlignment="Bottom"
+                    Background="DarkRed"
+                    VerticalAlignment="Bottom" PreviewMouseDown="Button_PreviewMouseDown"
                     >
                 <Button.Content>
                     <TextBlock Text="X"
                                FontSize="9"
+                               Foreground="White"
                                FontWeight="SemiBold"
                                Margin="0 0 0 1"/>
                 </Button.Content>
