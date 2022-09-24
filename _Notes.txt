@@ -1,27 +1,51 @@
-Voltage double to VoltageType
-Notification Service
-
-
-CircuitSideList
-
-ListManager
-DaManager
-VoltageType
-OnPropertyUpdated
-Delete
-Add
-ConvertToLoad
-
 
 Priorities
-	- Disconnect Sizes
-	- Disconnects Types
-	- LCS types
-	- Splitter
-	- PoleCount for loads
-	- Distribution Panel
+	- Distribution Panel - 12 hours
 
-	
+		- Proper column functionality - 1
+		- Fix selected circuit - 1
+		- Circuit #'s - 3
+		- Export to AutoCad - 3
+		- Convert to Load - 2
+		- DeleteLoad recalculates panel circuits - 1
+
+	- Splitter - 12 hours
+
+		- ListManager - 1
+		- DaManager - 1
+		- OnPropertyUpdated - 1
+		- Add - 1
+		- Delete - 1
+		- AutoCad - 4
+		
+
+	- LCS Type Management - 4 hours
+		- UI - 2 hours
+		- functionality - 2 hours
+
+	- Cable Type Management - 4 hours
+		- UI - 2 hours
+		- functionality - 2 hours
+
+	- SCCA, SCCR
+
+	- Cable List
+		- Bom Style Export
+
+	- Load List?
+
+Bugs
+	- DELETE DTEQ does not retag Lcs cable
+	- load cable length when updating components
+	- SCCR calculation on DTEQ size change
+
+Exports
+	- Areas List
+	- Area Equipment summary
+	- Dteq loading summary
+	- Components BOM
+	- Cable list BOM
+
 
 Refactorings
 	- proper IPowerCableUser members
@@ -29,11 +53,6 @@ Refactorings
 	- cable needs to reference source and destination
 	- add reference to list manager inside each model object
 	- SelectionLists or models
-
-Bugs
-	- DELETE DTEQ does not retag Lcs cable
-	- load cable length when updating components
-	- SCCR calculation on DTEQ size change
 
 Validations
 	- PD	
@@ -55,9 +74,9 @@ Optional Auto-Calculations
 	- Cable
 
 Cables
-	- validate derating,  ampacity
 	- settings for auto-calculate cable on load resizing/recalculation
 	- add cable tray
+	- cable sizing based on next Upstream PD
 
 	Power Cables
 		- 1ph cable quantities and totals on cable list
@@ -68,14 +87,8 @@ Cables
 		- Tray
 	
 
-Grid Context Menu
-	- Change Area
-	- Add / Remove Local Disconnect
-	- Add / Remove Drive
-	- Add / Remove LCS
+LoadGrid Context Menu
 	- Set load factor
-	
-
 
 DistributionManager
 	- FedFrom Voltage checks on FedFrom Changed
@@ -95,8 +108,6 @@ Dteq
 	- Supply cable sizing based on upstream breaker (what is upstream breaker)
 	
 Load
-	- LCS checkbox grey out like Drive checkbox
-	- calculate single
 	- Proper PD / Starter selection when calculating to take into account if a drive is selected
 	- sequence number/ordering
 
@@ -131,10 +142,6 @@ Excel Reports
 	- Component BOM
 	- cleanup notification
 	- include / exclude all and multi-select
-
-
-
-
 
 
 

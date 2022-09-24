@@ -178,6 +178,9 @@
     <Compile Update="Views\Electrical\MjeqSubviews\DteqCompListDetailsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Electrical\SingleLineSubViews\SplitterGraphicView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Electrical\SingleLineSubViews\SL_LoadGraphicView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -263,6 +266,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\Electrical\MjeqSubviews\DteqCompListDetailsView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Electrical\SingleLineSubViews\SplitterGraphicView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

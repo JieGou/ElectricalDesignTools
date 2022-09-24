@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfUI.SyncFusion.Renderers;
 using WpfUI.ViewModels.Electrical;
 
 namespace WpfUI.Views.Electrical;
@@ -35,6 +36,17 @@ public partial class DistributionPanelsView : UserControl
             }
         }
 
+        //To set the combobox behavior on the datatrids
+        //Mainly for single click selecting combobox
+        LeftGrid.CellRenderers.Remove("ComboBox");
+        LeftGrid.CellRenderers.Add("ComboBox", new ComboBoxRenderer());
+        LeftGrid.CellRenderers["ComboBox"] = new CustomGridCellComboBoxRenderer();
+
+        RightGrid.CellRenderers.Remove("ComboBox");
+        RightGrid.CellRenderers.Add("ComboBox", new ComboBoxRenderer());
+        RightGrid.CellRenderers["ComboBox"] = new CustomGridCellComboBoxRenderer();
+
+        //to set the row heights based on the number of poles
         LeftGrid.QueryRowHeight += LeftGrid_QueryRowHeight;
         RightGrid.QueryRowHeight += RightGrid_QueryRowHeight;
         gridRowResizingOptions.ExcludeColumns = excludeColumns;
@@ -86,6 +98,9 @@ public partial class DistributionPanelsView : UserControl
                 e.Height = rowHeight*2;
                 e.Handled = true;
             }
+            else {
+                e.Height = rowHeight;
+            }
             if (e.RowIndex==0) {
                 e.Height = 0;
             }
@@ -105,6 +120,9 @@ public partial class DistributionPanelsView : UserControl
             else if (autoHeight > 25) {
                 e.Height = rowHeight * 2;
                 e.Handled = true;
+            }
+            else {
+                e.Height = rowHeight;
             }
             if (e.RowIndex == 0) {
                 e.Height = 0;

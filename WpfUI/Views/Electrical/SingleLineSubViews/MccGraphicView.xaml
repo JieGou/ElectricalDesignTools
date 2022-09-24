@@ -289,30 +289,30 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
     <StackPanel Orientation="Vertical" Grid.Column="1"
                     Margin="0 3 0 0">
 
-            <!--Cable-->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
+        <!--Cable-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-                <!--Cable Line-->
-                <Border BorderBrush="Black" BorderThickness="0 0 1 0"
-                                   Grid.Column="0"/>
-                <!--Cable Tag-->
-                <ContentControl Content="{Binding}"
-                                ContentTemplate="{StaticResource CableTemplate}"
-                                Grid.Column="2"/>
-            </Grid>
+            <!--Cable Line-->
+            <Border BorderBrush="Black" BorderThickness="0 0 1 0"
+                                Grid.Column="0"/>
+            <!--Cable Tag-->
+            <ContentControl Content="{Binding}"
+                            ContentTemplate="{StaticResource CableTemplate}"
+                            Grid.Column="2"/>
+        </Grid>
 
-            <!--Protection-->
-            <ContentControl Content="{Binding}" 
-                            Style="{StaticResource OCPDTemplateStyle}"
-                            ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"/>
+        <!--Protection-->
+        <ContentControl Content="{Binding}" 
+                        Style="{StaticResource OCPDTemplateStyle}"
+                        ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"/>
 
             <!--MCC BUS-->
         <Border BorderThickness="0,0,0,3">

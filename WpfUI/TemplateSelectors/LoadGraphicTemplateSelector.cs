@@ -13,10 +13,12 @@ public class LoadGraphicTemplateSelector : DataTemplateSelector
 {
     public DataTemplate MotorTemplate { get; set; }
     public DataTemplate HeaterTemplate { get; set; }
+    public DataTemplate PanelTemplate { get; set; }
+    public DataTemplate OtherTemplate { get; set; }
 
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
-        var selectedTemplate = MotorTemplate;
+        var selectedTemplate = OtherTemplate;
 
         LoadModel load = null;
         try {
@@ -34,6 +36,12 @@ public class LoadGraphicTemplateSelector : DataTemplateSelector
 
         else if (load.Type == LoadTypes.HEATER.ToString()) {
             selectedTemplate = HeaterTemplate;
+        }
+        else if (load.Type == LoadTypes.PANEL.ToString()) {
+            selectedTemplate = PanelTemplate;
+        }
+        else if (load.Type == LoadTypes.OTHER.ToString()) {
+            selectedTemplate = OtherTemplate;
         }
 
         return selectedTemplate;

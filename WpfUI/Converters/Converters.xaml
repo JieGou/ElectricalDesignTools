@@ -2,8 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:converters="clr-namespace:WpfUI.Converters">
 
-    
-    
+
+    <converters:BreakerSizeToVisibilityConverter x:Key="BreakerSizeToVisibilityConverter"/>
+
     <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
     <converters:LcsOwnerTypeToVisbilityConverter x:Key="LscOwnerTypeVisibilityConverter"/>
     <converters:ComponentOwnerTypeToBooleanConverter x:Key="ComponentOwnerTypeToBooleanConverter"/>

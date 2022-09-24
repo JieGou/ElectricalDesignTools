@@ -50,6 +50,7 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition/>
             <ColumnDefinition Width="25"/>
         </Grid.ColumnDefinitions>
 
@@ -73,7 +74,7 @@
         </StackPanel>
 
         <!--Top Data-->
-        <Grid Grid.Column="3">
+        <Grid Grid.Column="3" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="auto"/>
@@ -220,7 +221,8 @@
         <!--Sinlge Line-->
         <Border BorderBrush="LightGray" BorderThickness="1"
                 Background="White"
-                Grid.Row="2" Grid.Column="3"
+                Grid.Row="2" 
+                Grid.Column="3" Grid.ColumnSpan="2"
                 VerticalAlignment="Stretch"
                 CornerRadius="5" 
                 >
@@ -229,7 +231,7 @@
                       HorizontalScrollBarVisibility="Auto"
                       VerticalScrollBarVisibility="Auto"
                       VerticalAlignment="Stretch"
-                       >
+                       Padding="10">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -237,28 +239,31 @@
                     </Grid.RowDefinitions>
 
                     <singleLineSubViews:MccGraphicView DataContext="{Binding SelectedDteq}"
-                                                       Grid.Row="0"/>
+                                                       Grid.Row="0"
+                                                       Width="{Binding Path=ActualWidth, ElementName=items}"
+                                                       HorizontalAlignment="Left"/>
 
                     <ItemsControl x:Name="items"
                                   Grid.Row="1"
                                   ItemsSource="{Binding AssignedLoads}"
-                                  VerticalAlignment="Top">
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Top" 
+                                  >
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"/>
+                                <DockPanel HorizontalAlignment="Left"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-
-                                <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Left">
-                                    <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}" />
-                                </StackPanel>
-
+                               
+                                    <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}" 
+                                                                           DockPanel.Dock="Left"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    
+                    
                 </Grid>
 
             </ScrollViewer>

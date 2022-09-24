@@ -220,16 +220,228 @@
         </StackPanel>
     </DataTemplate>
 
-    <Style x:Key="OCPDTemplateStyle" TargetType="{x:Type ContentControl}">
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=Type}" Value="BKR">
-                <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate}"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Path=PdType}" Value="MCP-FVNR">
-                <Setter Property="ContentTemplate" Value="{StaticResource FvnrTemplate}"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
+    <!--FVR Template-->
+    <DataTemplate x:Key="FvrTemplate">
+        <StackPanel Orientation="Vertical">
+
+            <Grid Background="Transparent"
+                  Style="{StaticResource GraphicHighlightStyle}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="26"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border BorderThickness="0"
+                        Grid.Column="1">
+                    <Canvas Grid.Column="1"
+                            Width="35" Height="90">
+                        <!--Breaker-->
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
+
+                        <!--Overload-->
+                        <Border BorderThickness="1" 
+                            Canvas.Left="0" Canvas.Top="45" Width="27" Height="15">
+                            <TextBlock Text="O/L" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Margin="0 0 0 1"/>
+                        </Border>
+                        <TextBlock Text="FVR"   Canvas.Left="35" Canvas.Top="50" />
+                        <!--<Path Stroke="Black" StrokeThickness="1" Data="M 13,45 A 5,5 0 0 1 13.5, 55" />
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 13.5,55 A 5,5 0 0 0 14, 65" /> -->
+
+                        <!--Contactor-->
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="70" X2="27" Y2="70"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="78" X2="27" Y2="78"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
+                    </Canvas>
+                </Border>
+
+                <Border BorderThickness="0"
+                            Grid.Column="2">
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="27"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+
+                        <!--Breaker Size-->
+                        <StackPanel Orientation="Vertical"
+                                Grid.Row="1">
+                            
+                            <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" />
+                            <Border BorderBrush="Black" BorderThickness="0 0 0 1"/>
+                            <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
+                        </StackPanel>
+
+                        <!--Starter Size-->
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Row="3">
+                            <TextBlock Text="Size: "/>
+                            <TextBlock Text="{Binding StarterSize}" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+            </Grid>
+
+            <!--Dashed Border-->
+            <Border BorderThickness="0,0,0,1">
+                <Border.BorderBrush>
+                    <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing Brush="Black">
+                                    <GeometryDrawing.Geometry>
+                                        <GeometryGroup>
+                                            <RectangleGeometry Rect="0,0,50,50" />
+                                            <RectangleGeometry Rect="50,50,50,50" />
+                                        </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Border.BorderBrush>
+            </Border>
+        </StackPanel>
+    </DataTemplate>
+
+    <!--FdsSplitterTemplate-->
+    <DataTemplate x:Key="FdsSplitterTemplate">
+        <StackPanel>
+            
+            <Line Grid.Row="0" Grid.Column="1"
+                   X1="39.5" X2="39.5" Y1="0" Y2="10"
+                   Stroke="Black" StrokeThickness="1"/>
+            <!--Dashed Border-->
+            <Border BorderThickness="0,0,0,1">
+                <Border.BorderBrush>
+                    <DrawingBrush Viewport="0,0,8,8" ViewportUnits="Absolute" TileMode="Tile">
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing Brush="Black">
+                                    <GeometryDrawing.Geometry>
+                                        <GeometryGroup>
+                                            <RectangleGeometry Rect="0,0,50,50" />
+                                            <RectangleGeometry Rect="50,50,50,50" />
+                                        </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Border.BorderBrush>
+            </Border>
+            <Grid Style="{StaticResource GraphicHighlightStyle}"
+                  SnapsToDevicePixels="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="18.5"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                
+                <Line Grid.Row="0" Grid.Column="1"
+                      X1="20.5" X2="20.5" Y1="0" Y2="10"
+                      Stroke="Black" StrokeThickness="1"/>
+
+                <Border BorderThickness="1" HorizontalAlignment="Center"
+                        Grid.Row="1" Grid.Column="1"
+                        Width="40" Height="60">
+
+                    <Canvas Grid.Column="1" Width="50" Height="60">
+
+                        <Line X1="20" X2="20" Y1="0" Y2="12.5"
+                              Stroke="Black" StrokeThickness="1"/>
+                        <Line X1="10" X2="20" Y1="12.5" Y2="23"
+                              Stroke="Black" StrokeThickness="1"/>
+                        <Line X1="20" X2="20" Y1="23" Y2="30"
+                              Stroke="Black" StrokeThickness="1"/>
+                        <Rectangle Width="10.5" Height="20"
+                                    Canvas.Left="14.5" Canvas.Top="30"
+                                    Stroke="Black" StrokeThickness="1"/>
+                        <Line X1="20" X2="20" Y1="50" Y2="60"
+                              Stroke="Black" StrokeThickness="1"/>
+                    </Canvas>
+                </Border>
+
+
+
+                
+                <Border Grid.Row="1" Grid.Column="2"
+                        Grid.RowSpan="2">
+                    <StackPanel Orientation="Vertical"
+                                VerticalAlignment="Top">
+                        <TextBlock Text="{Binding Tag}"
+                                    FontWeight="SemiBold"
+                                    Margin="5 0 0 0"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AF}"
+                                    Margin="5 0 0 0"/>
+                            <TextBlock Text="/"
+                                    Margin="5 0 0 0"/>
+                            <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AT}"
+                                    Margin="5 0 0 0"/>
+                        </StackPanel>
+                        <!--Area Properties-->
+                        <StackPanel Orientation="Horizontal" 
+                                    Visibility="Visible">
+                            <TextBlock Text="" Margin="5 0 0 0"/>
+                            <TextBlock Text="{Binding NemaRating}"/>
+                            <TextBlock Text=", " Margin="0 0 0 0"/>
+                            <TextBlock Text="{Binding AreaClassification}" />
+                        </StackPanel>
+
+                        
+                        <!--Extra Details-->
+                        <StackPanel x:Name="extraDetails"
+                                    Orientation="Vertical">
+                            <!--Area Tag-->
+                            <TextBlock Text="{Binding Area.Tag}"
+                                       FontWeight="SemiBold"
+                                       Margin="5 0 0 0"
+                                       Visibility="Collapsed"/>
+                            <!--Area Properties-->
+                            <StackPanel Orientation="Horizontal" 
+                                        Visibility="Collapsed">
+                                <TextBlock Text="" Margin="5 0 0 0"/>
+                                <TextBlock Text="{Binding NemaRating}"/>
+                                <TextBlock Text=", " Margin="0 0 0 0"/>
+                                <TextBlock Text="{Binding AreaClassification}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                
+                <Border BorderThickness="0 0 1 0" HorizontalAlignment="Center"
+                        Grid.Row="3" Grid.Column="1"
+                        Margin="2 0 1 0"
+                        Height="{Binding ActualHeight, ElementName=extraDetails}">
+                </Border>
+
+            </Grid>
+            <Line Grid.Row="0" Grid.Column="1"
+                    X1="39.5" X2="39.5" Y1="0" Y2="10"
+                              Stroke="Black" StrokeThickness="1"
+                  />
+           
+        </StackPanel>
+    </DataTemplate>
 
 
     <!--DRIVE-->
@@ -392,7 +604,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <!--Delete this border when enabling additional tags to allow expanding-->
+            
             <Border BorderThickness="1" HorizontalAlignment="Center"
                     Grid.Row="0" Grid.Column="1"
                     Width="40" Height="55">
@@ -457,22 +669,13 @@
             </Border>
             <Border BorderThickness="0 0 1 0" HorizontalAlignment="Center"
                     Grid.Row="2" Grid.Column="1"
-                    Margin="0 0 1 0"
+                    Margin="2 0 1 0"
                     Height="{Binding ActualHeight, ElementName=extraDetails}">
             </Border>
         </Grid>
     </DataTemplate>
 
-    <Style x:Key="DisconnectTemplateStyle" TargetType="{x:Type ContentControl}">
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Path=Type}" Value="UDS">
-                <Setter Property="ContentTemplate" Value="{StaticResource UdsTemplate}"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
-                <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
+    
 
 
     <!--CABLES-->
@@ -619,11 +822,46 @@
     </DataTemplate>
 
 
+    <!--TEMPLATE STYLES-->
+    
+    <!--OCPDTemplateStyle-->
+    <Style x:Key="OCPDTemplateStyle" TargetType="{x:Type ContentControl}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Type}" Value="BKR">
+                <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=PdType}" Value="MCP-FVNR">
+                <Setter Property="ContentTemplate" Value="{StaticResource FvnrTemplate}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=PdType}" Value="MCP-FVR">
+                <Setter Property="ContentTemplate" Value="{StaticResource FvrTemplate}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=PdType}" Value="FDS">
+                <Setter Property="ContentTemplate" Value="{StaticResource FdsSplitterTemplate}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 
+
+    <!--DisconnectTemplateStyle-->
+    <Style x:Key="DisconnectTemplateStyle" TargetType="{x:Type ContentControl}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Type}" Value="UDS">
+                <Setter Property="ContentTemplate" Value="{StaticResource UdsTemplate}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
+                <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
     <templateSelectors:PdStarterGraphicTemplateSelector 
                 x:Key="PdStarterTemplateSelector"
+                BreakerTemplate="{StaticResource BreakerTemplate}" 
                 FvnrTemplate="{StaticResource FvnrTemplate}"
-                BreakerTemplate="{StaticResource BreakerTemplate}" />
+                FvrTemplate="{StaticResource FvrTemplate}"
+                FdsTemplate="{StaticResource FdsTemplate}" 
+        />
 
     <templateSelectors:ComponentGraphicTemplateSelector 
                 x:Key="ComponentTemplateSelector"
@@ -634,7 +872,10 @@
     <templateSelectors:LoadGraphicTemplateSelector 
                 x:Key="LoadTemplateSelector"
                 MotorTemplate="{StaticResource MotorTemplate}"
-                HeaterTemplate="{StaticResource HeaterTemplate}" />
+                HeaterTemplate="{StaticResource HeaterTemplate}" 
+                PanelTemplate="{StaticResource HeaterTemplate}" 
+                OtherTemplate="{StaticResource HeaterTemplate}" 
+        />
     <!--#endregion-->
 
 

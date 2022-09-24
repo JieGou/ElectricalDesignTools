@@ -13,6 +13,8 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
 {
     public DataTemplate BreakerTemplate { get; set; }
     public DataTemplate FvnrTemplate { get; set; }
+    public DataTemplate FvrTemplate { get; set; }
+    public DataTemplate FdsTemplate { get; set; }
 
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
@@ -27,15 +29,14 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
 
         if (load == null) return selectedTemplate;
 
-        if (load.PdType.Contains("MCP")) {
+        if (load.PdType == "BKR") selectedTemplate = BreakerTemplate;
+        
+        if (load.PdType.Contains("FVNR"))  selectedTemplate = FvnrTemplate;
 
-            selectedTemplate = FvnrTemplate;
-        }
-
-        if (load.PdType == "BKR") {
-
-            selectedTemplate = BreakerTemplate;
-        }
+        if (load.PdType.Contains("FVR")) selectedTemplate = FvnrTemplate;
+        
+        if (load.PdType == "FDS")  selectedTemplate = FdsTemplate;
+        
 
         return selectedTemplate;
     }

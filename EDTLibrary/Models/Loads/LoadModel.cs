@@ -376,7 +376,12 @@ namespace EDTLibrary.Models.Loads
         public double RunningAmps { get; set; }
 
         //Sizing
-        public string PdType { get; set; }
+        public string PdType { get => _pdType;
+            set { 
+                _pdType = value;
+                OnPropertyUpdated();
+            }
+        }
         public double PdSizeTrip { get; set; }
         public double PdSizeFrame { get; set; }
         public BreakerSize BreakerSize { get { return TypeManager.GetBreaker(Fla); } }
@@ -514,9 +519,10 @@ namespace EDTLibrary.Models.Loads
 
 
         private BreakerSize _breakerSize;
+        private string _pdType;
 
         public bool IsCalculating { get; set; }
-       
+
 
         //Methods
         public void CalculateLoading()

@@ -6,6 +6,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.UndoSystem;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,13 +16,25 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Loads;
+[AddINotifyPropertyChangedInterface]
 public class LoadCircuit : ILoad
 {
     public int Id { get; set; }
     public string Tag { get; set; }
     public string Category { get; set; }
     public string Type { get; set; }
-    public string Description { get; set; } = "SPACE";
+    public string Description
+    {
+        get => _description;
+        set
+        {
+            _description = value;
+            if (_description == "") {
+                PdSizeTrip = 0;
+            }
+            OnPropertyUpdated();
+        }
+    }
     public int AreaId { get; set; }
     public IArea Area { get; set; }
     public string NemaRating { get; set; }
@@ -33,7 +46,7 @@ public class LoadCircuit : ILoad
     public double Efficiency { get; set; }
     public string StarterType { get; set; }
     public double StarterSize { get; set; }
-    
+
     public double PowerFactor { get; set; }
     public double ConnectedKva { get; set; }
     public double DemandKva { get; set; }
@@ -93,11 +106,13 @@ public class LoadCircuit : ILoad
             VoltageTypeId = _voltageType.Id;
             Voltage = _voltageType.Voltage;
             UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
-           
+
             OnPropertyUpdated();
         }
     }
     private VoltageType _voltageType;
+    private double _pdSizeTrip;
+    private string _description = "";
 
     public double Size { get; set; }
     public string Unit { get; set; }
@@ -108,7 +123,21 @@ public class LoadCircuit : ILoad
     public IDteq FedFrom { get; set; }
     public double AmpacityFactor { get; set; }
     public string PdType { get; set; }
-    public double PdSizeTrip { get; set; }
+    public double PdSizeTrip
+    {
+        get => _pdSizeTrip;
+        set
+        {
+
+            
+            if (DaManager.GettingRecords==true) return;
+            _pdSizeTrip = value;
+            if (PdSizeTrip != 0) {
+                Description = "SPARE";
+            }
+            OnPropertyUpdated();
+        }
+    }
     public double PdSizeFrame { get; set; }
     public CableModel PowerCable { get; set; }
     public ObservableCollection<IComponentEdt> AuxComponents { get; set; }
@@ -121,7 +150,7 @@ public class LoadCircuit : ILoad
     public ILocalControlStation Lcs { get; set; }
     public IComponentEdt Drive { get; set; }
     public IComponentEdt Disconnect { get; set; }
-    
+
     public event EventHandler LoadingCalculated;
     public event EventHandler PropertyUpdated;
     public event EventHandler AreaChanged;

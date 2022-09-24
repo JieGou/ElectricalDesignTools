@@ -51,9 +51,12 @@ internal class DistributionPanelsViewModel: ViewModelBase
         ListManager = listManager;
 
         AddLoadToPanelCommand = new RelayCommand(AddPanelLoad);
-        MoveUpCommand = new RelayCommand(MoveUp);
-        MoveDownCommand = new RelayCommand(MoveDown);
 
+        MoveUpLeftCommand = new RelayCommand(MoveUpLeft);
+        MoveDownLeftCommand = new RelayCommand(MoveDownLeft);
+
+        MoveUpRightCommand = new RelayCommand(MoveUpRight);
+        MoveDownRightCommand = new RelayCommand(MoveDownRight);
     }
 
     
@@ -68,7 +71,7 @@ internal class DistributionPanelsViewModel: ViewModelBase
             _selectedDpnl = value;
 
             if (_selectedDpnl != null) {
-                AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDpnl.AssignedLoads);
+                //AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDpnl.AssignedLoads);
 
                 GlobalConfig.SelectingNew = true;
                 GlobalConfig.SelectingNew = false;
@@ -96,85 +99,145 @@ internal class DistributionPanelsViewModel: ViewModelBase
         }
     }
 
-    public IPowerConsumer SelectedLoad
+    public IPowerConsumer SelectedLoadLeft
     {
-        get { return _selectedLoad; }
+        get { return _selectedLeftLoad; }
         set {
             if (value == null) return;
-            _selectedLoad = value; 
+            _selectedLeftLoad = value; 
 
             var selectedCircuits = new ObservableCollection<IPowerConsumer>();
 
             IPowerConsumer load;
-            if (SelectedDpnl.LeftCircuits.FirstOrDefault(ld => ld == _selectedLoad) != null) {
+            if (SelectedDpnl.LeftCircuits.FirstOrDefault(ld => ld == _selectedLeftLoad) != null) {
                 SelectedCircuitList = SelectedDpnl.LeftCircuits;
             }
-            if (SelectedDpnl.RightCircuits.FirstOrDefault(ld => ld == _selectedLoad) != null) {
+            if (SelectedDpnl.RightCircuits.FirstOrDefault(ld => ld == _selectedLeftLoad) != null) {
                 SelectedCircuitList = SelectedDpnl.RightCircuits;
             }
 
 
         }
     }
-    private IPowerConsumer _selectedLoad;
+    private IPowerConsumer _selectedLeftLoad;
+
+    public IPowerConsumer SelectedLoadRight
+    {
+        get { return _selectedRightLoad; }
+        set
+        {
+            if (value == null) return;
+            _selectedRightLoad = value;
+
+            var selectedCircuits = new ObservableCollection<IPowerConsumer>();
+
+            IPowerConsumer load;
+            if (SelectedDpnl.LeftCircuits.FirstOrDefault(ld => ld == _selectedRightLoad) != null) {
+                SelectedCircuitList = SelectedDpnl.LeftCircuits;
+            }
+            if (SelectedDpnl.RightCircuits.FirstOrDefault(ld => ld == _selectedRightLoad) != null) {
+                SelectedCircuitList = SelectedDpnl.RightCircuits;
+            }
+
+
+        }
+    }
+    private IPowerConsumer _selectedRightLoad;
 
     public ObservableCollection<IPowerConsumer> SelectedCircuitList { get; set; } = new ObservableCollection<IPowerConsumer>();
-    public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> ();
+    //public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> ();
 
     public ICommand AddLoadToPanelCommand { get; }
     private void AddPanelLoad()
     {
-        if (SelectedDpnl == null || SelectedLoad == null ) {
+        if (SelectedDpnl == null || SelectedLoadLeft == null ) {
             MessageBox.Show("Select a Panel and a Load.", "Selection Required");
             return;
         }
         var dpn = (DpnModel)SelectedDpnl;
-        DpnCircuitManager.AddLoad(dpn, SelectedLoad, ListManager);
+        DpnCircuitManager.AddLoad(dpn, SelectedLoadLeft, ListManager);
     }
 
 
 
 
-    public ICommand MoveUpCommand { get; }
+    public ICommand MoveUpLeftCommand { get; }
 
-    public void MoveUp()
+    public void MoveUpLeft()
     {
         int loadIndex;
-        if (SelectedLoad == null) return;
+        if (SelectedLoadLeft == null) return;
 
-        for (int i = 0; i < SelectedCircuitList.Count; i++) {
-            if (SelectedLoad == SelectedCircuitList[i]) {
+        for (int i = 0; i < SelectedDpnl.LeftCircuits.Count; i++) {
+            if (SelectedLoadLeft == SelectedDpnl.LeftCircuits[i]) {
                 loadIndex = Math.Max(0, i - 1);
-                SelectedCircuitList.Move(i, loadIndex);
+                SelectedDpnl.LeftCircuits.Move(i, loadIndex);
                 break;
             }
         }
-        for (int i = 0; i < SelectedCircuitList.Count; i++) {
-            SelectedCircuitList[i].SequenceNumber = i;
+        for (int i = 0; i < SelectedDpnl.LeftCircuits.Count; i++) {
+            SelectedDpnl.LeftCircuits[i].SequenceNumber = i;
         }
-        SelectedCircuitList.OrderBy(c => c.SequenceNumber);
+        SelectedDpnl.LeftCircuits.OrderBy(c => c.SequenceNumber);
     }
-    public ICommand MoveDownCommand { get; }
+    public ICommand MoveDownLeftCommand { get; }
 
-    public void MoveDown()
+    public void MoveDownLeft()
     {
         int loadIndex;
-        if (SelectedLoad == null) return;
+        if (SelectedLoadLeft == null) return;
 
-        for (int i = 0; i < SelectedCircuitList.Count; i++) {
-            if (SelectedLoad == SelectedCircuitList[i]) {
-                loadIndex = Math.Min(i + 1, SelectedCircuitList.Count - 1);
-                SelectedCircuitList.Move(i, loadIndex);
+        for (int i = 0; i < SelectedDpnl.LeftCircuits.Count; i++) {
+            if (SelectedLoadLeft == SelectedDpnl.LeftCircuits[i]) {
+                loadIndex = Math.Min(i + 1, SelectedDpnl.LeftCircuits.Count - 1);
+                SelectedDpnl.LeftCircuits.Move(i, loadIndex);
                 break;
             }
         }
-        for (int i = 0; i < SelectedCircuitList.Count; i++) {
-            SelectedCircuitList[i].SequenceNumber = i;
+        for (int i = 0; i < SelectedDpnl.LeftCircuits.Count; i++) {
+            SelectedDpnl.LeftCircuits[i].SequenceNumber = i;
         }
-        SelectedCircuitList.OrderBy(c => c.SequenceNumber);
+        SelectedDpnl.LeftCircuits.OrderBy(c => c.SequenceNumber);
     }
 
+    public ICommand MoveUpRightCommand { get; }
 
+    public void MoveUpRight()
+    {
+        int loadIndex;
+        if (SelectedLoadRight == null) return;
+
+        for (int i = 0; i < SelectedDpnl.RightCircuits.Count; i++) {
+            if (SelectedLoadRight == SelectedDpnl.RightCircuits[i]) {
+                loadIndex = Math.Max(0, i - 1);
+                SelectedDpnl.RightCircuits.Move(i, loadIndex);
+                break;
+            }
+        }
+        for (int i = 0; i < SelectedDpnl.RightCircuits.Count; i++) {
+            SelectedDpnl.RightCircuits[i].SequenceNumber = i;
+        }
+        SelectedDpnl.RightCircuits.OrderBy(c => c.SequenceNumber);
+    }
+    public ICommand MoveDownRightCommand { get; }
+
+    public void MoveDownRight()
+    {
+        int loadIndex;
+        if (SelectedLoadRight == null) return;
+
+        for (int i = 0; i < SelectedDpnl.RightCircuits.Count; i++) {
+            if (SelectedLoadRight == SelectedDpnl.RightCircuits[i]) {
+                loadIndex = Math.Min(i + 1, SelectedDpnl.RightCircuits.Count - 1);
+                SelectedDpnl.RightCircuits.Move(i, loadIndex);
+                break;
+            }
+        }
+        for (int i = 0; i < SelectedDpnl.RightCircuits.Count; i++) {
+            SelectedDpnl.RightCircuits[i].SequenceNumber = i;
+        }
+        SelectedDpnl.RightCircuits.OrderBy(c => c.SequenceNumber);
+    }
 
 
 

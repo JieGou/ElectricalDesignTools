@@ -135,6 +135,11 @@ public class DpnCircuitManager
         return isAvailable;
     }
 
-    
+    public static void GetAssignedCircuits(DpnModel dpn, ListManager listManager)
+    {
+        var loadCircuitList = DaManager.prjDb.GetRecords<LoadCircuit>(GlobalConfig.LoadCircuitTable);
+        var list = loadCircuitList.Where(cct => cct.FedFromId == dpn.Id && cct.FedFromType == dpn.GetType().ToString()).ToList();
+        loadCircuitList = new ObservableCollection<LoadCircuit>(list);
+    }
 }
 
