@@ -172,19 +172,19 @@ public class CableModel : ICable
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(QtyParallel), OldValue = oldValue, NewValue = _qtyParallel };
                 UndoManager.AddUndoCommand(cmd);
             }
-            if (DaManager.GettingRecords == false && _calculating == false) {
+            if (DaManager.GettingRecords == false && _calculatingAmpacity == false && _isAutoSizing == false) {
+
                 _calculatingQty = true;
                 CalculateAmpacity(this.Load);
                 _calculatingQty = false;
+                CableManager.CableSizer.SetVoltageDrop(this);
 
             }
             OnPropertyUpdated();
         }
     }
     private bool _calculatingQty;
-    private bool _calculating;
-    private string _size;
-
+    private bool _calculatingAmpacity;
     public string Size
     {
         get { return _size; }
@@ -194,16 +194,17 @@ public class CableModel : ICable
             _size = value;
 
             UndoManager.Lock(this, nameof(Size));
-
-            if (DaManager.GettingRecords == false) {
-                CalculateAmpacity(Load);
-            }
-
             UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
+
+            if (DaManager.GettingRecords == false && _isAutoSizing == false) {
+                CalculateAmpacity(Load);
+                CableManager.CableSizer.SetVoltageDrop(this);
+            }
 
             OnPropertyUpdated();
         }
     }
+    private string _size;
 
     public bool IsValidSize { get; set; }
     public bool Is1C { get; set; }
@@ -223,11 +224,11 @@ public class CableModel : ICable
             _spacing = value;
 
             UndoManager.Lock(this, nameof(Spacing));
-            if (DaManager.GettingRecords == false) {
-                _calculating = true;
+            if (DaManager.GettingRecords == false && _isAutoSizing==false) {
+                _calculatingAmpacity = true;
                 Derating = CableManager.CableSizer.SetDerating(this);
                 CalculateAmpacity(Load);
-                _calculating = false;
+                _calculatingAmpacity = false;
             }
 
             UndoManager.AddUndoCommand(this, nameof(Spacing), oldValue, _spacing);
@@ -243,8 +244,12 @@ public class CableModel : ICable
         {
             var oldValue = _length;
             _length = value;
-            CableManager.CableSizer.SetVoltageDrop(this);
+
             UndoManager.AddUndoCommand(this, nameof(Length), oldValue, _length);
+
+            if (DaManager.GettingRecords == false) {
+                CableManager.CableSizer.SetVoltageDrop(this);
+            }
         }
     }
 
@@ -302,9 +307,9 @@ public class CableModel : ICable
             _outdoor = value;
 
             if (DaManager.GettingRecords == false) {
-                _calculating = true;
+                _calculatingAmpacity = true;
                 AutoSize();
-                _calculating = false;
+                _calculatingAmpacity = false;
             }
 
             if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
@@ -329,12 +334,12 @@ public class CableModel : ICable
             _installationType = value;
 
             if (DaManager.GettingRecords == false) {
-                _calculating = true;
+                _calculatingAmpacity = true;
                 if (UsageType == CableUsageTypes.Power.ToString()) {
                     AutoSize();
 
                 }
-                _calculating = false;
+                _calculatingAmpacity = false;
             }
 
             if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
@@ -504,30 +509,41 @@ public class CableModel : ICable
             AutoSize();
         }));
     }
+    bool _isAutoSizing;
     public void AutoSize()
     {
-        UndoManager.CanAdd = false;
-        //_calculating = true;
-        SetTypeProperties();
-        RequiredSizingAmps = GetRequiredSizingAmps();
-        Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
-        AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
-        InstallationDiagram = "";
+        try {
+            _isAutoSizing = true;
+            UndoManager.CanAdd = false;
+            SetTypeProperties();
+            RequiredSizingAmps = GetRequiredSizingAmps();
+            Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
+            AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
+            InstallationDiagram = "";
 
 
-        if (InstallationType == GlobalConfig.CableInstallationType_LadderTray) {
-            GetCableQtySize_ForLadderTray(this, ampsColumn);
+            if (InstallationType == GlobalConfig.CableInstallationType_LadderTray) {
+                GetCableQtySize_ForLadderTray(this, ampsColumn);
+            }
+
+            else if (InstallationType == GlobalConfig.CableInstallationType_DirectBuried
+                  || InstallationType == GlobalConfig.CableInstallationType_RacewayConduit) {
+
+                CableQtySize_DirectBuriedOrRaceWayConduit(this, ampsColumn);
+            }
+            CalculateAmpacity(Load);
+            OnPropertyUpdated();
+            _isAutoSizing = false;
+            UndoManager.CanAdd = true;
+            //_calculating = false;
         }
+        catch (Exception) {
 
-        else if (InstallationType == GlobalConfig.CableInstallationType_DirectBuried
-              || InstallationType == GlobalConfig.CableInstallationType_RacewayConduit) {
-
-            CableQtySize_DirectBuriedOrRaceWayConduit(this, ampsColumn);
+            throw;
         }
-        CalculateAmpacity(Load);
-        OnPropertyUpdated();
-        UndoManager.CanAdd = true;
-        //_calculating = false;
+        finally {
+            _isAutoSizing = false;
+        }
     }
 
 
@@ -552,8 +568,8 @@ public class CableModel : ICable
         // 1 - filter cables larger than RequiredAmps first iteration
         SelectValidCables_SizeAmps(ampsColumn, cableAmpacityTable, cablesWithHigherAmpsInProject);
         // 3 - increase quantity until a valid cable is found
-        cable.QtyParallel = 1;
-        GetCableQty(cable.QtyParallel);
+        int cableQty = 1;
+        GetCableQty(cableQty);
 
 
         // Helper - 3 Recursive method
@@ -569,22 +585,23 @@ public class CableModel : ICable
                     cable.BaseAmps = Math.Round(cable.BaseAmps, 1);
                     cable.DeratedAmps = cable.BaseAmps * cable.Derating;
                     cable.DeratedAmps = Math.Round(cable.DeratedAmps, 1);
-                    cable.QtyParallel = cableQty;
                     cable.CreateSizeList();
                     cable.Size = cablesWithHigherAmpsInProject.Rows[0]["Size"].ToString();
+                    cable.QtyParallel = cableQty;
                 }
+
                 else {
-                    cable.QtyParallel += 1;
+                    cableQty += 1;
                     cableAmpacityTable = DataTables.CecCableAmpacities.Copy();
                     foreach (DataRow row in cableAmpacityTable.Rows) {
                         double amps75 = (double)row[ampsColumn];
                         string size = row["Size"].ToString();
-                        amps75 *= cable.QtyParallel;
+                        amps75 *= cableQty;
                         row[ampsColumn] = amps75;
                     }
                     SelectValidCables_SizeAmps(ampsColumn, cableAmpacityTable, cablesWithHigherAmpsInProject);
 
-                    GetCableQty(cable.QtyParallel);
+                    GetCableQty(cableQty);
                 }
             }
         }
@@ -697,7 +714,7 @@ public class CableModel : ICable
     //Ampacity
     public string CalculateAmpacity(ICableUser load)
     {
-        _calculating = true;
+        _calculatingAmpacity = true;
         IsValidSize = true;
         Load = load;
         string ampsColumn = "Amps75";
@@ -716,9 +733,11 @@ public class CableModel : ICable
             output = "CalculateAmpacity_DirectBuriedOrRaceWayConduit";
         }
         ValidateCableSize(this);
-        CableManager.CableSizer.SetVoltageDrop(this);
+       
+            CableManager.CableSizer.SetVoltageDrop(this);
+        
         OnPropertyUpdated();
-        _calculating = false;
+        _calculatingAmpacity = false;
         return output;
 
     }

@@ -5,8 +5,10 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -418,16 +420,32 @@ namespace EDTLibrary.Models.Cables
         public void SetVoltageDrop(ICable cable)
         {
             try {
-                if (cable.Load != null && cable.Size != null && cable.Length != null && cable.Load.VoltageType!=null) {
+                if (cable.TypeModel.Type.Contains("DLO")) {
+                    //var load = new LoadModel();
+                    //var vType = load.VoltageType;
+                    //var test2 = vType.Voltage;
+
+                    string message = "Cannot calculate voltage drop. Manual Calculation required.\n\n" +
+                        "Conductor resistance values for this cable Type & cable Size is not available in the library.";
+
+                    NotificationService.SendAlert(this, message, "Calculation Error");
+                    cable.VoltageDrop = 0;
+                    cable.VoltageDropPercentage = 0;
+                    
+                    return;
+                }
+
+
+                if (cable.Load != null && cable.Size != null && cable.Length != null && cable.Load.VoltageType != null) {
                     double resistance = TypeManager.ConductorProperties.FirstOrDefault(cr => cr.Size == cable.Size).Resistance75C1kMeter;
-                    cable.VoltageDrop = Math.Sqrt(3) * cable.Load.Fla * cable.Length * resistance / 1000;
+                    cable.VoltageDrop = Math.Sqrt(cable.Load.VoltageType.Phase) * cable.Load.Fla * cable.Length * resistance / 1000;
                     cable.VoltageDrop = Math.Round(cable.VoltageDrop, 2);
                     cable.VoltageDropPercentage = Math.Round(cable.VoltageDrop / cable.Load.VoltageType.Voltage * 100, 2);
                 }
             }
             catch (Exception ex) {
 
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationService.SendError(this, "Unknown Error", "Voltage Drop Calculation Error", ex);
             }
 
         }

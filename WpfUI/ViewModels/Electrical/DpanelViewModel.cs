@@ -57,9 +57,12 @@ internal class DpanelViewModel: ViewModelBase
 
         MoveUpRightCommand = new RelayCommand(MoveUpRight);
         MoveDownRightCommand = new RelayCommand(MoveDownRight);
+
+        DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
+
     }
 
-    
+
     public IDpn SelectedDpnl
     {
         get { return _selectedDpnl; }
@@ -270,10 +273,8 @@ internal class DpanelViewModel: ViewModelBase
     public ICommand AddAcadDrawingCommand { get; }
     public void AddDrawing()
     {
-        if (Acad == null) {
-            StartAutocad();
-        }
 
+        StartAutocad();
         try {
             Acad.AddDrawing();
         }
@@ -289,9 +290,8 @@ internal class DpanelViewModel: ViewModelBase
     }
     public void DrawSingleLine(bool newDrawing = true)
     {
-        if (Acad == null) {
             StartAutocad();
-        }
+        
 
         //if (Acad.AcadDoc == null) {
         //    Acad.AddDrawing();

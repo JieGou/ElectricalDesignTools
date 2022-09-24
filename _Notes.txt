@@ -6,12 +6,12 @@ Priorities
 		- Fix selected circuit - 1
 		- Circuit #'s - 3
 		- Export to AutoCad - 3
+			- autocad Service
 		- Convert to Load - 2
 		- DeleteLoad recalculates panel circuits - 1
 		- Cleanup page
 
 	- Splitter - 12 hours
-
 		- ListManager - 1
 		- DaManager - 1
 		- OnPropertyUpdated - 1
@@ -25,8 +25,8 @@ Priorities
 		- functionality - 2 hours
 
 	- Cable Type Management - 4 hours
-		- UI - 2 hours
-		- functionality - 2 hours
+		- UI - 1 hours
+		- functionality - 3 hours
 
 	- SCCA, SCCR
 

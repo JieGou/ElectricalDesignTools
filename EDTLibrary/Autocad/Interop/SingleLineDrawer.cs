@@ -61,6 +61,7 @@ public class SingleLineDrawer
             throw;
         }
     }
+
     private void InsertMainBlock(IDteq mcc, double[] insertionPoint, string blockType = "Default")
     {
         //Instert Main Block
@@ -104,7 +105,6 @@ public class SingleLineDrawer
             }
         }
     }
-
     private void InsertLoadBucket(LoadModel load, double[] insertionPoint, double Xscale = 1, double Yscale = 1, double Zscale = 1, bool isDriveInternal = false)
     {
 
@@ -164,7 +164,6 @@ public class SingleLineDrawer
 
 
     }
-
     private void InsertLoad(LoadModel load, double[] insertionPoint, double Xscale = 1, double Yscale = 1, double Zscale = 1, bool isDriveInternal = false)
     {
 
@@ -311,7 +310,7 @@ public class SingleLineDrawer
 
         }
     }
-
+    
     private void InsertMccBus(IDteq mcc, double[] insertionPoint, double blockSpacing)
     {
         double[] linePoint1 = new double[3];
@@ -324,7 +323,6 @@ public class SingleLineDrawer
         AcadLine busLine = AcadHelper.AcadDoc.ModelSpace.AddLine(linePoint1, linePoint2);
         busLine.Layer = "ECT_CONN_GENERAL_WIRES";
     }
-
     private void InsertMccBorder(IDteq mcc, double[] insertionPoint, double blockSpacing, double Xscale = 1, double Yscale = 1, double Zscale = 1)
     {
         string blockPath = EdtSettings.AcadBlockFolder + @"\Single Line\MCC_BORDER.dwg";

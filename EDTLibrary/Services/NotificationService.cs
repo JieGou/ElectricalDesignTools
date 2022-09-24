@@ -60,9 +60,29 @@ public class NotificationService
     }
 
 
+    public static void SendNotification(object sender, string message, string caption, Exception ex)
+    {
+        var args = new EdtNotificationEventArgs();
+        args.Messsage = message;
+        args.Caption = caption;
+        args.Exception = ex;
+        args.EdtNotificationType = EdtNotificationType.Notification;
+        OnNotificationSent(sender, args);
+    }
+    public static EventHandler<EdtNotificationEventArgs> NotificationSent;
+    private static void OnNotificationSent(object sender, EdtNotificationEventArgs args)
+    {
 
-}public enum EdtNotificationType
+        if (NotificationSent != null) {
+            NotificationSent(sender, args);
+
+        }
+    }
+
+}
+public enum EdtNotificationType
 {
     InternalError, 
-    UserError
+    UserError,
+    Notification,
 }

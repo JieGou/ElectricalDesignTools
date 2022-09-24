@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.A_Helpers;
 using EDTLibrary.DataAccess;
+using EDTLibrary.ErrorManagement;
 using EDTLibrary.Managers;
 using PropertyChanged;
 using System;
@@ -54,12 +55,12 @@ public class UndoManager
 
             if (_isLocked && command.Item == LockHolder && command.PropName == LockProperty) {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() => UndoList.Add(command)));
-                ErrorHelper.LogNoSave("UndoHelper");
+                ErrorHelper.Log("UndoHelper");
                 UnLock(command);
             }
             else if (_isLocked == false) {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() => UndoList.Add(command)));
-                ErrorHelper.LogNoSave("UndoHelper");
+                ErrorHelper.Log("UndoHelper");
             }
             else {
                 return;
@@ -78,12 +79,12 @@ public class UndoManager
 
             if (_isLocked && item == LockHolder && propName == LockProperty) {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() => UndoList.Add(command)));
-                ErrorHelper.LogNoSave("UndoHelper");
+                ErrorHelper.Log("UndoHelper");
                 UnLock(command);
             }
             else if(_isLocked == false) {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() => UndoList.Add(command)));
-                ErrorHelper.LogNoSave("UndoHelper");
+                ErrorHelper.Log("UndoHelper");
             }
             else {
                 return;

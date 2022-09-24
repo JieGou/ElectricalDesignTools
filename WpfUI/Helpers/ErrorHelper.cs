@@ -28,7 +28,6 @@ namespace WpfUI.Helpers
             Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
                 MessageBox.Show(message, caption, MessageBoxButton.OK, image);
             }));
-            MessageBox.Show(message, caption, MessageBoxButton.OK, image);
         }
 
 

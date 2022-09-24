@@ -9,18 +9,23 @@
              
              
              mc:Ignorable="d" 
-             d:DesignHeight="250" d:DesignWidth="200"
+             d:DesignHeight="500" d:DesignWidth="200"
              d:Background="AliceBlue">
     
-    <StackPanel>
-        <Border BorderBrush="Black" BorderThickness="1 1 1 0">
+    <DockPanel VerticalAlignment="Stretch">
+        <Border BorderBrush="Black" BorderThickness="1 1 1 0"
+                d:Background="DarkGray"
+                DockPanel.Dock="Top">
             <TextBlock Text="Circuit Details"
                        Foreground="White"
-                       Background="{DynamicResource Dark}"/>
+                       Background="#FF717171"/>
         </Border>
         <Border BorderBrush="Black" BorderThickness="1"
-                Background="{DynamicResource BackgroundLight}">
-            <Grid >
+                Background="{DynamicResource BackgroundLight}"
+                VerticalAlignment="Stretch">
+            <ScrollViewer VerticalScrollBarVisibility="auto" 
+                          HorizontalScrollBarVisibility="auto">
+                <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -29,7 +34,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -100,9 +105,8 @@
                                     Grid.Column="0" Grid.ColumnSpan="5"
                                     DataContext="{Binding}"
                                     Margin="5"/>
-
-
             </Grid>
+            </ScrollViewer>
         </Border>
-    </StackPanel>
+    </DockPanel>
 </UserControl>
