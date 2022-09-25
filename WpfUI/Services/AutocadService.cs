@@ -4,6 +4,7 @@ using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Services;
+using Syncfusion.ProjIO;
 using Syncfusion.Windows.Controls.PivotGrid;
 using System;
 using System.Collections.Generic;
@@ -19,38 +20,95 @@ using WpfUI.Helpers;
 using WpfUI.PopupWindows;
 using static EDTLibrary.Services.EdtNotificationService;
 using Notification = WpfUI.PopupWindows.Notification;
+using Task = System.Threading.Tasks.Task;
 
 namespace WpfUI.Services;
 public class AutocadService
 {
-   
-    public AutocadHelper Acad { get; set; }
-    public static NotificationPopup NotificationPopup { get; set; }
 
-    private void ShowNotification(string notification = "")
-    {
-        NotificationPopup = new NotificationPopup();
-        NotificationPopup.DataContext = new Notification(notification);
-        NotificationPopup.Show();
-    }
+    public static AutocadHelper _acad;
 
-    private void CloseNotification()
+
+    #region Tasks
+
+    private static List<Task> _tasks = new List<Task>();
+    private static bool _isRunningTasks;
+    private async Task ScheduleTask(Task task)
     {
-        if (NotificationPopup!= null) {
-            NotificationPopup.Close();
-            NotificationPopup = null;
+        _tasks.Add(task);
+        if (_isRunningTasks == false) {
+            RunTasks();
         }
     }
+    private async Task RunTasks()
+    {
+        if (_isRunningTasks) return;
 
-    public async Task StartAutocadAsync()
+        _isRunningTasks = true;
+        List<Task> tasksToRun = new List<Task>(); 
+        //Copy tasks
+        foreach (var item in _tasks) {
+            tasksToRun.Add(item);
+        }
+        _tasks.Clear();
+
+        //Run tasks;
+        foreach (var item in tasksToRun) {
+            await Task.Run(() => item);
+        }
+        //check for new tasks
+        if (_tasks.Count!=0) {
+            RunTasks();
+        }
+        _isRunningTasks = false;
+
+    }
+
+    #endregion
+
+    #region Action
+
+    private static List<Action> _actions = new List<Action>();
+    private static bool _isRunningActions;
+
+    private void ScheduleAction(Action action)
+    {
+        _actions.Add(action);
+        if (_isRunningActions == false) {
+            RunActions();
+        }
+
+    }
+
+    private async Task RunActions()
+    {
+        _isRunningActions = true;
+
+        List<Action> actionsToRun = new List<Action>();
+        //Copy tasks
+        foreach (var item in _actions) {
+            actionsToRun.Add(item);
+        }
+        _actions.Clear();
+
+        foreach (var item in actionsToRun) {
+            item();
+        }
+
+        if (_actions.Count != 0) RunActions();
+        _isRunningActions = false;
+
+    }
+    #endregion
+    private async Task StartAutocadAsync()
     {
         try {
-            Acad = new AutocadHelper();
+            _acad = new AutocadHelper();
 
-            //EdtNotificationService.ShowNotification(this, notification);
+            
 
             await Task.Run(() => {
-                Acad.StartAutocad();
+                _acad.StartAutocad();
             });
 
         }
@@ -63,30 +121,93 @@ public class AutocadService
             
         }
     }
-    public async Task DrawSingleLine(IDteq dteq, bool newDrawing = true)
+    public async Task CreateSingleLine(IDteq dteq)
+    {
+        if (_isRunningTasks) {
+            EdtNotificationService.ShowNotification(this, $"Autocad is busy");
+        }
+        else {
+            await DrawSingleLineAsync(dteq);
+        }
+    }
+
+    private void DrawSingleLine(IDteq dteq, bool newDrawing = true)
     {
         try {
             if (dteq == null) return;
 
-            ShowNotification("Starting Autocad");
-            await StartAutocadAsync();
-            CloseNotification();
+
+            EdtNotificationService.ShowNotification(this, "Starting Autocad");
+            StartAutocadAsync();
 
             if (newDrawing == true) {
-                Acad.AddDrawing();
+                _acad.AddDrawing();
             }
 
-            ShowNotification($"Creating Drawing for {dteq.Tag}");
+            EdtNotificationService.ShowNotification(this, $"Creating drawing for {dteq.Tag}");
+            
+            SingleLineDrawer slDrawer = new SingleLineDrawer(_acad, EdtSettings.AcadBlockFolder);
+            slDrawer.DrawMccSingleLine(dteq, 1.5);
+            _acad.AcadApp.ZoomExtents();
+            
+            EdtNotificationService.CloseNotification(this);
+        }
 
-            SingleLineDrawer slDrawer = new SingleLineDrawer(Acad, EdtSettings.AcadBlockFolder);
+        catch (Exception ex) {
 
+            if (ex.Message.Contains("not found")) {
+                MessageBox.Show(
+                    "Check the Blocks Source Folder path and make sure that the selected blocks exist.",
+                    "Error - File Not Found",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            else if (ex.Message.Contains("rejected")) {
+                if (_acad.AcadDoc != null) {
+                    DeleteDrawingContents();
+                }
+                DrawSingleLineAsync(dteq, false);
+            }
+            else if (ex.Message.Contains("busy")) {
+                if (_acad.AcadDoc != null) {
+                    DeleteDrawingContents();
+                }
+                DrawSingleLineAsync(dteq, false);
+            }
+            else {
+                ErrorHelper.ShowErrorMessage(ex);
+            }
+        }
+        finally {
+            EdtNotificationService.CloseNotification(this);
+        }
+    }
+
+    public async Task DrawSingleLineAsync(IDteq dteq, bool newDrawing = true)
+    {
+        try {
+            _isRunningTasks = true;
+            if (dteq == null) return;
+
+
+            EdtNotificationService.ShowNotification(this, $"Starting Autocad");
+            await StartAutocadAsync();
+            EdtNotificationService.CloseNotification(this);
+
+            if (newDrawing == true) {
+                _acad.AddDrawing();
+            }
+
+            EdtNotificationService.ShowNotification(this, $"Creating drawing for {dteq.Tag}");
 
             await Task.Run(() => {
+                SingleLineDrawer slDrawer = new SingleLineDrawer(_acad, EdtSettings.AcadBlockFolder);
                 slDrawer.DrawMccSingleLine(dteq, 1.5);
-                Acad.AcadApp.ZoomExtents();
+                _acad.AcadApp.ZoomExtents();
             });
-            CloseNotification();
 
+            _isRunningTasks = false;
+            EdtNotificationService.CloseNotification(this);
 
         }
 
@@ -100,17 +221,24 @@ public class AutocadService
                     MessageBoxIcon.Error);
             }
             else if (ex.Message.Contains("rejected")) {
-                if (Acad.AcadDoc != null) {
+                if (_acad.AcadDoc != null) {
                     DeleteDrawingContents();
                 }
-                DrawSingleLine(dteq, false);
+                DrawSingleLineAsync(dteq, false);
+            }
+            else if (ex.Message.Contains("busy")) {
+                if (_acad.AcadDoc != null) {
+                    DeleteDrawingContents();
+                }
+                DrawSingleLineAsync(dteq, false);
             }
             else {
                 ErrorHelper.ShowErrorMessage(ex);
             }
         }
         finally {
-            CloseNotification();
+            _isRunningTasks = false;
+            EdtNotificationService.CloseNotification(this);
         }
     }
 
@@ -119,7 +247,7 @@ public class AutocadService
         int _maxAttempts = 10;
         int _attempts = 0;
         try {
-            AcadSelectionSet sSet = Acad.AcadDoc.SelectionSets.Add("sSetAll");
+            AcadSelectionSet sSet = _acad.AcadDoc.SelectionSets.Add("sSetAll");
             sSet.Select(AcSelect.acSelectionSetAll);
             foreach (AcadEntity item in sSet) {
                 item.Delete();

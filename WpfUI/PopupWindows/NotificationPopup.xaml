@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfUI.PopupWindows"
         mc:Ignorable="d"
         
-        Title="NotificationPopup" Height="50" Width="200"
+        Title="NotificationPopup" Height="75" Width="250"
         WindowStartupLocation="Manual"
         
         WindowStyle="None"
@@ -16,34 +16,36 @@
         Background="Transparent" Loaded="Window_Loaded"
         Topmost="True">
     
-    <Border Background="LightGray" 
-            BorderBrush="black" BorderThickness="1" 
-            CornerRadius="2">
+    <Border Background="White" 
+            BorderBrush="DarkBlue" BorderThickness="1" 
+            CornerRadius="1">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="17.5"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
             <TextBlock Text="Electrical Design Tools"
                        Grid.Row="0" Grid.Column="0"
                        Grid.ColumnSpan="2"
-                       FontSize="10" FontWeight="SemiBold"
-                   d:Text="Electrical Design Tools"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Left"/>
+                       FontSize="12" FontWeight="SemiBold"
+                       d:Text="Electrical Design Tools"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       Margin="5"/>
             
-            <Button Margin="0"
-                    Grid.Row="0" Grid.Column="2"
-                    Width="15"
-                    Height="15"
+            <Button Grid.Row="0" Grid.RowSpan="2"
+                    Grid.Column="2"
+                    Width="20"
+                    Height="20"
+                    Margin="5"
                     Background="DarkRed"
-                    VerticalAlignment="Bottom" PreviewMouseDown="Button_PreviewMouseDown"
+                    VerticalAlignment="Top" PreviewMouseDown="Button_PreviewMouseDown"
                     >
                 <Button.Content>
                     <TextBlock Text="X"
@@ -56,9 +58,10 @@
 
             <TextBlock Text="{Binding NotificationText}"
                        Grid.Row="1" Grid.Column="1"
-                   d:Text="Notification text"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"/>
+                       TextWrapping="WrapWithOverflow"
+                       d:Text="Notification text"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
         </Grid>
     </Border>
 </Window>

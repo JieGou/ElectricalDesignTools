@@ -22,7 +22,9 @@ public class PopupService
     public static void ShowNotification(string notification)
     {
         Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
-            NotificationPopup = new NotificationPopup();
+            if (NotificationPopup == null) {
+                NotificationPopup = new NotificationPopup();
+            }
             NotificationPopup.DataContext = new Notification(notification);
             NotificationPopup.Show();
 

@@ -69,7 +69,6 @@ public class SingleLineDrawer
         insertionPoint[1] = 0;
         insertionPoint[2] = 0;
 
-
         blockType = blockType == "Default" ? "BKR" : blockType;
         string sourcePath = BlockSourceFolder + @"\Single Line\";
         string blockName = "MCC_MAIN_" + blockType + ".dwg";

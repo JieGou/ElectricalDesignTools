@@ -299,7 +299,7 @@ public class CableManager
         lcs.Cable = cable;
 
         listManager.CableList.Add(cable);
-        DaManager.UpsertCable(cable);
+        DaManager.UpsertCable((CableModel)cable);
     }
 
     internal static void DeleteLcsControlCable(IComponentUser componentUser, ILocalControlStation lcsToRemove, ListManager listManager)

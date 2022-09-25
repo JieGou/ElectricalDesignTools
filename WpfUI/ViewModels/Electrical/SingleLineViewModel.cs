@@ -105,12 +105,11 @@ internal class SingleLineViewModel: ViewModelBase
         DrawSingleLineAsycn();
     }
     
-    public async Task DrawSingleLineAsycn()
+    public void DrawSingleLineAsycn()
     {
         var acadService = new AutocadService();
-
-        acadService.DrawSingleLine(SelectedDteq);
-
+        //acadService.DrawSingleLineAsync(SelectedDteq);
+        acadService.CreateSingleLine(SelectedDteq);
     }
     #endregion
 

@@ -419,6 +419,9 @@ namespace EDTLibrary.Models.Cables
 
         public void SetVoltageDrop(ICable cable)
         {
+            if (cable.UsageType != CableUsageTypes.Power.ToString())
+                return;
+
             try {
                 if (cable.TypeModel.Type.Contains("DLO")) {
                     //var load = new LoadModel();

@@ -253,7 +253,7 @@ internal class DpanelViewModel: ViewModelBase
     public void DrawSingleLineRelay()
     {
         var acadService = new AutocadService();
-        acadService.DrawSingleLine(SelectedDpnl);
+        acadService.DrawSingleLineAsync(SelectedDpnl);
     }
 
 
