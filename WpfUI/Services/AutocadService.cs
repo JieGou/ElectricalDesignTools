@@ -4,6 +4,7 @@ using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Services;
+using Syncfusion.Windows.Controls.PivotGrid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 using System.Windows.Automation;
 using System.Windows.Forms;
+using System.Windows.Threading;
 using Windows.UI.Notifications;
 using WpfUI.Helpers;
 using WpfUI.PopupWindows;
@@ -25,48 +27,67 @@ public class AutocadService
     public AutocadHelper Acad { get; set; }
     public static NotificationPopup NotificationPopup { get; set; }
 
-    public void StartAutocad()
+    private void ShowNotification(string notification = "")
+    {
+        NotificationPopup = new NotificationPopup();
+        NotificationPopup.DataContext = new Notification(notification);
+        NotificationPopup.Show();
+    }
+
+    private void CloseNotification()
+    {
+        if (NotificationPopup!= null) {
+            NotificationPopup.Close();
+            NotificationPopup = null;
+        }
+    }
+
+    public async Task StartAutocadAsync()
     {
         try {
             Acad = new AutocadHelper();
 
-            string notification = "Starting Autocad";
-            EdtNotificationService.ShowNotification(this, notification);
+            //EdtNotificationService.ShowNotification(this, notification);
 
-            NotificationPopup = new NotificationPopup();
-            NotificationPopup.DataContext = new Notification(notification);
-            NotificationPopup.Show();
+            await Task.Run(() => {
+                Acad.StartAutocad();
+            });
 
-            Acad.StartAutocad();
-
-            NotificationPopup.Close();
         }
         catch (Exception ex) {
 
             ErrorHelper.ShowErrorMessage(ex);
         }
         finally {
-            EdtNotificationService.CloseNotification(this);
-            NotificationPopup.Close();
+
+            
         }
     }
-    public void DrawSingleLine(IDteq dteq, bool newDrawing = true)
+    public async Task DrawSingleLine(IDteq dteq, bool newDrawing = true)
     {
         try {
+            if (dteq == null) return;
 
-            StartAutocad();
+            ShowNotification("Starting Autocad");
+            await StartAutocadAsync();
+            CloseNotification();
 
             if (newDrawing == true) {
                 Acad.AddDrawing();
             }
 
+            ShowNotification($"Creating Drawing for {dteq.Tag}");
+
             SingleLineDrawer slDrawer = new SingleLineDrawer(Acad, EdtSettings.AcadBlockFolder);
 
 
+            await Task.Run(() => {
+                slDrawer.DrawMccSingleLine(dteq, 1.5);
+                Acad.AcadApp.ZoomExtents();
+            });
+            CloseNotification();
 
-            if (dteq == null) return;
-            slDrawer.DrawMccSingleLine(dteq, 1.5);
-            Acad.AcadApp.ZoomExtents();
+
         }
 
         catch (Exception ex) {
@@ -87,6 +108,9 @@ public class AutocadService
             else {
                 ErrorHelper.ShowErrorMessage(ex);
             }
+        }
+        finally {
+            CloseNotification();
         }
     }
 

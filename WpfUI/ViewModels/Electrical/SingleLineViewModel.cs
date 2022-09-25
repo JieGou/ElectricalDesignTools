@@ -94,8 +94,11 @@ internal class SingleLineViewModel: ViewModelBase
 
 
 
+    public static NotificationPopup NotificationPopup { get; set; }
+
+
     #region Autocad
-    
+
     public ICommand DrawSingleLineAcadCommand { get; }
     public void DrawSingleLineRelay()
     {
@@ -106,9 +109,8 @@ internal class SingleLineViewModel: ViewModelBase
     {
         var acadService = new AutocadService();
 
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            acadService.DrawSingleLine(SelectedDteq);
-            } ));
+        acadService.DrawSingleLine(SelectedDteq);
+
     }
     #endregion
 
