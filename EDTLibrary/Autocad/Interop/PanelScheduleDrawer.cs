@@ -9,10 +9,10 @@ using System.Net.Http.Headers;
 using System.Printing;
 
 namespace EDTLibrary.Autocad.Interop;
-public class SingleLineDrawer
+public class PanelScheduleDrawer
 {
 
-    public SingleLineDrawer(AutocadHelper acadService, string blockSourceFolder)
+    public PanelScheduleDrawer(AutocadHelper acadService, string blockSourceFolder)
 
     {
         _acad = acadService;
@@ -25,7 +25,7 @@ public class SingleLineDrawer
     public double[] _insertionPoint = new double[3];
     int firstLoadSpacing = 1;
 
-    public void DrawMccSingleLine(IDteq mcc, double blockSpacing = 1.5)
+    public void DrawPanelSchedule(IDteq mcc, double blockSpacing = 1.5)
     {
 
         try {

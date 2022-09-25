@@ -21,6 +21,7 @@
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
 
              Background="{DynamicResource BackgroundLight}"
+             d:Background="AliceBlue"
              d:DesignHeight="400" d:DesignWidth="550"
              d:Opacity="1"
              Opacity="0.25">
@@ -127,7 +128,7 @@
         </Border>
 
 
-        <Grid Grid.Row="1" d:Background="LightCyan">
+        <Grid Grid.Row="1" d:Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" d:Width="200"/>
                 <ColumnDefinition Width="*"/>

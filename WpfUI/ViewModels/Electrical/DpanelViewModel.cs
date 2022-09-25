@@ -56,9 +56,13 @@ internal class DpanelViewModel: ViewModelBase
 
         MoveUpLeftCommand = new RelayCommand(MoveUpLeft);
         MoveDownLeftCommand = new RelayCommand(MoveDownLeft);
+        DeleteLoadLeftCommand = new RelayCommand(DeleteLoadLeft);
+
+
 
         MoveUpRightCommand = new RelayCommand(MoveUpRight);
         MoveDownRightCommand = new RelayCommand(MoveDownRight);
+        DeleteLoadRightCommand = new RelayCommand(DeleteLoadRight);
 
         DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
 
@@ -204,6 +208,16 @@ internal class DpanelViewModel: ViewModelBase
         SelectedDpnl.LeftCircuits.OrderBy(c => c.SequenceNumber);
     }
 
+    public ICommand DeleteLoadLeftCommand { get; }
+    public void DeleteLoadLeft()
+    {
+        if (SelectedLoadLeft == null) return;
+
+        int loadIndex;
+        DpnCircuitManager.DeleteLoad(SelectedDpnl, SelectedLoadLeft, ScenarioManager.ListManager);
+    }
+
+
 
     public ICommand MoveUpRightCommand { get; }
     public void MoveUpRight()
@@ -243,7 +257,14 @@ internal class DpanelViewModel: ViewModelBase
         SelectedDpnl.RightCircuits.OrderBy(c => c.SequenceNumber);
     }
 
+    public ICommand DeleteLoadRightCommand { get; }
+    public void DeleteLoadRight()
+    {
+        if (SelectedLoadLeft == null) return;
 
+        int loadIndex;
+        DpnCircuitManager.DeleteLoad(SelectedDpnl, SelectedLoadLeft, ScenarioManager.ListManager);
+    }
 
 
 

@@ -17,11 +17,13 @@
     <SolidColorBrush x:Key="BackgroundLight" Color="AliceBlue"/>
     
     <!--<SolidColorBrush x:Key="PageBackground" Color="AliceBlue"/>-->
-    <SolidColorBrush x:Key="PageBackground" Color="#FFD8E0E8"/>
+    <SolidColorBrush x:Key="PageBackground" Color="LightGray"/>
 
     <!--Accent Colors-->
-    <SolidColorBrush x:Key="ButtonColor" Color="LightGray"/>
-    <SolidColorBrush x:Key="DatagridSelection" Color="#FFB7DEE8"/>
+    <SolidColorBrush x:Key="ButtonColor" Color="#FFB5C7EA"/>
+    <SolidColorBrush x:Key="DatagridMouseOver" Color="AliceBlue"/>
+    <SolidColorBrush x:Key="DatagridSelection" Color="#FFB7DEE8" Opacity="0.3"/>
+    <SolidColorBrush x:Key="DatagridSelection2" Color="LightGray" Opacity="0.1"/>
 
     <!--ALL CONTROLS DEFAULT-->
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
@@ -213,17 +215,27 @@
 
 
 
-    <!--Row Header Header-->
-    <Style TargetType="Button" x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}">
-        <Setter Property="Background" Value="{StaticResource Dark}" />
+    <!--Row-->
+    <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource DataGridRowBase}">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource DatagridSelection2}"/>
+                <Setter Property="Foreground" Value="{StaticResource ForeGround_Dark1}"/>
+                <Setter Property="FontWeight" Value="Regular"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource DatagridMouseOver}"/>
+                <Setter Property="Foreground" Value="black"/>
+                <Setter Property="FontWeight" Value="Regular"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
-
 
     <!--Cell-->
     <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellBase}">
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource DatagridSelection}"/>
+                <Setter Property="Background" Value="{StaticResource DatagridSelection2}"/>
                 <Setter Property="Foreground" Value="{StaticResource ForeGround_Dark1}"/>
                 <Setter Property="FontWeight" Value="Regular"/>
             </Trigger>

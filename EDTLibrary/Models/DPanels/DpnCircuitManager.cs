@@ -13,7 +13,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels;
 public class DpnCircuitManager
 {
 
-    public static void AddLoad(DpnModel dpn, IPowerConsumer load, ListManager listManager)
+    public static void AddLoad(IDpn dpn, IPowerConsumer load, ListManager listManager)
     {
         int leftCct = 0;
         int rightCct = 0;
@@ -45,9 +45,13 @@ public class DpnCircuitManager
 
             dpn.AssignedLoads.Add(load);
             dpn.SetCircuits();
-            dpn.SetLeftCircuits();
-            dpn.SetRightCircuits();
         }
+    }
+    public static void DeleteLoad(IDpn dpn, IPowerConsumer load, ListManager listManager)
+    {
+        dpn.AssignedLoads.Remove(load);
+        LoadManager.DeleteLoad(load, listManager);
+        dpn.SetCircuits();
     }
     internal static void DeleteLoadCircuit(DpnModel dpnModel, IPowerConsumer powerConsumer, ListManager listManager)
     {
@@ -55,6 +59,7 @@ public class DpnCircuitManager
         listManager.LoadCircuitList.Remove(loadCircuit);
         DaManager.DeleteLoadCircuit(loadCircuit);
     }
+
 
 
     /// <summary>
@@ -65,7 +70,7 @@ public class DpnCircuitManager
     /// <param name="load"></param>
     /// <param name="dpnSide"></param>
     /// <returns></returns>
-    private static int GetAvailableCircuit(DpnModel dpn, IPowerConsumer load, DpnSide dpnSide)
+    private static int GetAvailableCircuit(IDpn dpn, IPowerConsumer load, DpnSide dpnSide)
     {
         int cct = 0;
                 
@@ -89,7 +94,7 @@ public class DpnCircuitManager
     /// <param name="cct"></param>
     /// <param name="dpnSide"></param>
     /// <returns></returns>
-    private static bool IsCircuitAvailable(DpnModel dpn, IPowerConsumer load, int cct, DpnSide dpnSide)
+    private static bool IsCircuitAvailable(IDpn dpn, IPowerConsumer load, int cct, DpnSide dpnSide)
     {
         bool isAvailable = false;
         List<IPowerConsumer> cctList = new List<IPowerConsumer>();
@@ -135,16 +140,12 @@ public class DpnCircuitManager
         return isAvailable;
     }
 
-    public static void GetAssignedCircuits(DpnModel dpn, ListManager listManager)
+    public static void GetAssignedCircuits(IDpn dpn, ListManager listManager)
     {
         var loadCircuitList = DaManager.prjDb.GetRecords<LoadCircuit>(GlobalConfig.LoadCircuitTable);
         var list = loadCircuitList.Where(cct => cct.FedFromId == dpn.Id && cct.FedFromType == dpn.GetType().ToString()).ToList();
         loadCircuitList = new ObservableCollection<LoadCircuit>(list);
     }
-
-    public static void MoveUp(DpnModel dpn, ObservableCollection<ILoad> circuitList,ILoad loadCircuit)
-    {
-
-    }
+  
 }
 

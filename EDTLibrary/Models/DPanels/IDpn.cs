@@ -15,7 +15,7 @@ public interface IDpn: IDteq
     ObservableCollection<IPowerConsumer> RightCircuits { get; set; }
 
     bool AddAssignedLoad(IPowerConsumer load);
-    ObservableCollection<IPowerConsumer> SetCircuits();
+    void SetCircuits();
     ObservableCollection<IPowerConsumer> SetLeftCircuits();
     ObservableCollection<IPowerConsumer> SetRightCircuits();
 }

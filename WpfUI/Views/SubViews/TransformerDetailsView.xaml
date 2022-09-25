@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="550"
-             Background="LightCyan"
+             Background="Transparent"
               >
     
     <UserControl.Resources>

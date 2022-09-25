@@ -700,7 +700,7 @@
     </Style>
 
     <!--x:Key="DataGridRowBase"-->
-    <Style TargetType="{x:Type DataGridRow}" >
+    <Style TargetType="{x:Type DataGridRow}" x:Key="DataGridRowBase">
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="#FFB7DEE8"/>

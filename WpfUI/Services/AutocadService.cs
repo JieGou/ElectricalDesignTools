@@ -27,10 +27,11 @@ public class AutocadService
 {
 
     public static AutocadHelper _acad;
+    private int _attempts;
+    private readonly int _maxAttemps = 10;
 
 
     #region Tasks
-
     private static List<Task> _tasks = new List<Task>();
     private static bool _isRunningTasks;
     private async Task ScheduleTask(Task task)
@@ -194,7 +195,7 @@ public class AutocadService
             await StartAutocadAsync();
             EdtNotificationService.CloseNotification(this);
 
-            if (newDrawing == true) {
+            if (newDrawing == true || _acad.AcadDoc == null) {
                 _acad.AddDrawing();
             }
 
@@ -220,17 +221,25 @@ public class AutocadService
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
-            else if (ex.Message.Contains("rejected")) {
+
+            else if (ex.Message.Contains("rejected")) { //erase partial drawing and retry
                 if (_acad.AcadDoc != null) {
                     DeleteDrawingContents();
                 }
                 DrawSingleLineAsync(dteq, false);
             }
             else if (ex.Message.Contains("busy")) {
+                Task.Delay(500); // wait for acad to not be busy
                 if (_acad.AcadDoc != null) {
                     DeleteDrawingContents();
                 }
                 DrawSingleLineAsync(dteq, false);
+            }
+            else if (ex.Message.Contains("instance")) {
+                if (_acad.AcadDoc != null) {
+                    DeleteDrawingContents();
+                    DrawSingleLineAsync(dteq, false);
+                }
             }
             else {
                 ErrorHelper.ShowErrorMessage(ex);
@@ -244,8 +253,8 @@ public class AutocadService
 
     private void DeleteDrawingContents()
     {
-        int _maxAttempts = 10;
-        int _attempts = 0;
+        int _maxDeleteAttempts = 10;
+        int _deleteAttempts = 0;
         try {
             AcadSelectionSet sSet = _acad.AcadDoc.SelectionSets.Add("sSetAll");
             sSet.Select(AcSelect.acSelectionSetAll);
@@ -255,13 +264,18 @@ public class AutocadService
             sSet.Clear(); //clear selection sets in case this error happens more than once
         }
         catch (Exception ex) {
-            if (ex.Message.Contains("rejected") && _attempts <= _maxAttempts) {
-                _attempts++;
+            if (ex.Message.Contains("rejected") && _deleteAttempts <= _maxDeleteAttempts) {
+                _deleteAttempts++;
                 DeleteDrawingContents();
             }
             else {
                 throw;
             }
+        }
+        finally {
+            EdtNotificationService.CloseNotification(this);
+            _attempts = 0;
+            _deleteAttempts = 0;
         }
     }
 }

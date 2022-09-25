@@ -12,6 +12,8 @@
              xmlns:Converters="clr-namespace:WpfUI.Converters"
 
              d:DesignHeight="225" d:DesignWidth="450"
+             Background="Transparent"
+             d:Background="AliceBlue"
              >
 
     <UserControl.Resources>

@@ -610,35 +610,6 @@
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
 
-                        <!--Line Voltage-->
-                        <!--<DataGridTemplateColumn  Header=" Line &#xA; Voltage "
-                                                 SortMemberPath="LineVoltage">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding LineVoltage, Mode=TwoWay, StringFormat=\{0:N0\} V, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                               MouseLeftButtonDown="FastEditEvent"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
-                                              SelectedValue="{Binding LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DisplayMemberPath="Voltage"
-                                              SelectedValuePath="Voltage"
-                                              HorizontalContentAlignment="Center"
-                                              IsEditable="False" IsTextSearchEnabled="True"
-                                              IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"
-                                              
-                                              Template="{DynamicResource ComboBoxBase}"
-                                              
-                                              />
-                                    --><!--IsDropDownOpen="True"--><!--
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>-->
-
                         <!--Line Voltage Type-->
                         <DataGridTemplateColumn  Header=" Line &#xA; Voltage "
                                                  SortMemberPath="LineVoltage">
@@ -668,33 +639,6 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
                         </DataGridTemplateColumn>
-
-                        <!--Load Voltage-->
-                        <!--<DataGridTemplateColumn Header=" Load &#xA; Voltage " 
-                                                SortMemberPath="LoadVoltage">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding LoadVoltage, Mode=TwoWay, StringFormat=\{0:N0\} V, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                               MouseLeftButtonDown="FastEditEvent"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <ComboBox ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"
-                                              SelectedValue="{Binding LoadVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DisplayMemberPath="Voltage"
-                                              SelectedValuePath="Voltage"
-                                              HorizontalContentAlignment="Center"
-                                              IsEditable="False" IsTextSearchEnabled="True"
-                                              IsSynchronizedWithCurrentItem="False"
-                                              BorderThickness="0"
-                                              Template="{DynamicResource ComboBoxBase}"
-                                              />
-                                    --><!--IsDropDownOpen="True"--><!--
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>-->
 
                         <!--Load Voltage Type-->
                         <DataGridTemplateColumn Header=" Load &#xA; Voltage "
@@ -1114,8 +1058,6 @@
                                CurrentCellBorderBrush="Black"
                                CurrentCellBorderThickness="0"
                              
-                               RowSelectionBrush="{StaticResource RowSelectionBrush_Teal}"
-                               
                                NavigationMode="Cell"
                                SelectionMode="Extended"
                                FrozenColumnCount="1"

@@ -344,38 +344,10 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                 return poleCount;
             }
         }
-        public ObservableCollection<IPowerConsumer> SetCircuits()
+        public void SetCircuits()
         {
-
-            var cctList = LeftCircuits;
-
-            //Todo - PoleCount
-            for (int i = 0; i < AssignedLoads.Count; i++) {
-
-                if (i % 2 == 0) {
-                    cctList.Add(AssignedLoads[i]);
-
-                }
-                //toggle panel side
-                cctList = cctList == LeftCircuits ? RightCircuits : LeftCircuits;
-            }
-
-            for (int i = LeftCircuits.Count; i <= CircuitCount / 2; i++) {
-                cctList.Add(new LoadModel {
-                    Tag = "-",
-                    Description = "SPACE",
-                    VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120)
-                });
-            }
-
-            for (int i = LeftCircuits.Count; i <= CircuitCount / 2; i++) {
-                cctList.Add(new LoadModel {
-                    Tag = "-",
-                    Description = "SPACE",
-                    VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120)
-                });
-            }
-            return cctList;
+            SetLeftCircuits();
+            SetRightCircuits();
         }
 
 

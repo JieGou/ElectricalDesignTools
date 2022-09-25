@@ -14,18 +14,19 @@
     <SolidColorBrush x:Key="sfFilterIndicator_UnfilteredBrush" Color="White" Opacity="0.5"/>
 
 
-    <Style TargetType="sf:SfDataGrid">
-        <Setter Property="BorderBrush" Value="Black"/>
-    </Style>
-   
-
-
     <sf:SortDirectionToVisibilityConverter x:Key="sortDirectionToVisibilityConverter" />
     <sf:SortDirectionToWidthConverter x:Key="sortDirectionToWidthConverter" />
+
+    
+    <Style TargetType="sf:SfDataGrid">
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="RowSelectionBrush" Value="{DynamicResource DatagridSelection}"/>
+    </Style>
+    
     
     <!--Header Cell with sort Arrow in upper center-->
     <Style TargetType="sf:GridHeaderCellControl">
-        <Setter Property="Background" Value="{StaticResource Dark_Teal}" />
+        <Setter Property="Background" Value="{DynamicResource Dark}" />
         <Setter Property="BorderBrush" Value="Black" />
         <Setter Property="BorderThickness" Value="0,0,1,1" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -236,6 +237,7 @@
         <!--<Setter Property="ToolTip" Value="Esc. to clear filter"/>-->
     </Style>
     
+
     <!--Filter Row Cell-->
     <Style TargetType="sf:GridFilterRowCell">
         <Setter Property="BorderBrush" Value="Black"/>
@@ -249,7 +251,7 @@
         <Setter Property="BorderBrush" Value="LightGray" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource CellHighlightBrush_Teal}"/>
+                <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
                 <Setter Property="Foreground" Value="black"/>
                 <Setter Property="FontWeight" Value="Regular"/>
             </Trigger>
@@ -261,7 +263,7 @@
         <Setter Property="Background" Value="White"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource RowHighlightBrush_Teal}"/>
+                <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
                 <Setter Property="Foreground" Value="black"/>
                 <Setter Property="FontWeight" Value="Regular"/>
             </Trigger>

@@ -98,7 +98,12 @@ public class LoadManager
         return newLoad;
     }
 
-
+    /// <summary>
+    /// Deletes a LoadModel and all associated models; components, cables, etc. and unsubscrbes from events.
+    /// </summary>
+    /// <param name="loadToDeleteObject"></param>
+    /// <param name="listManager"></param>
+    /// <returns></returns>
     public static async Task<int> DeleteLoad(object loadToDeleteObject, ListManager listManager)
     {
         try {

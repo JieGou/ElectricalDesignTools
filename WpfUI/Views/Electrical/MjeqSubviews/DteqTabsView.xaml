@@ -13,7 +13,8 @@
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
 
              d:DesignHeight="400" d:DesignWidth="550"
-             Background="LightCyan"
+             Background="{DynamicResource BackgroundLight}"
+             d:Background="AliceBlue"
              d:Opacity="1"
              Opacity="0.25">
     <UserControl.Triggers>
@@ -123,11 +124,11 @@
         </Border>
         
         <TabControl Grid.Row="1" Grid.Column="2"
-                    Background="LightCyan" BorderThickness="0 1 0 0"
+                    Background="Transparent" BorderThickness="0 1 0 0"
                     SelectedIndex="{Binding SelectedDteqTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
             <!--Equipment Specific Details-->
-            <TabItem Header="Summary" Background="LightCyan">
+            <TabItem Header="Summary" Background="{DynamicResource BackgroundLight}">
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
@@ -144,7 +145,7 @@
             </TabItem>
 
             <!--Cable Content Control-->
-            <TabItem Header="Cable Sizing" Background="LightCyan">
+            <TabItem Header="Cable Sizing" Background="{DynamicResource BackgroundLight}">
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">

@@ -102,7 +102,7 @@ public partial class DpanelView : UserControl
                 e.Height = rowHeight;
             }
             if (e.RowIndex==0) {
-                e.Height = 0;
+                //e.Height = 0;
             }
         }
 
@@ -125,7 +125,7 @@ public partial class DpanelView : UserControl
                 e.Height = rowHeight;
             }
             if (e.RowIndex == 0) {
-                e.Height = 0;
+                //e.Height = 0;
             }
         }
     }

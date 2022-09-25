@@ -172,7 +172,6 @@
                                    CurrentCellBorderBrush="Black"
                                    CurrentCellBorderThickness="0"
                                    FilterRowPosition="FixedTop"
-                                   RowSelectionBrush="{StaticResource Light}"
                                    
                                    NavigationMode="Cell"
                                    SelectionMode="Extended"
