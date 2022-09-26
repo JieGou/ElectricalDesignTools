@@ -328,6 +328,7 @@ namespace EDTLibrary.Models.Loads
 
                 UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(LoadFactor), oldValue, _loadFactor);
+                CalculateLoading();
                 OnPropertyUpdated();
             }
         }
@@ -532,7 +533,11 @@ namespace EDTLibrary.Models.Loads
             if (DaManager.GettingRecords == true) {
                 return;
             }
-            if (LoadFactor == null || LoadFactor == 0) {
+
+            if (LoadFactor >=1 ) {
+                LoadFactor = 1;
+            }
+            else if (LoadFactor == null || LoadFactor == 0) {
                 LoadFactor = double.Parse(EdtSettings.LoadFactorDefault);
             }
 

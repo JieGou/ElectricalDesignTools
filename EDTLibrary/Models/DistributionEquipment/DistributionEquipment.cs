@@ -562,7 +562,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             PowerFactor = DemandKw / DemandKva;
             PowerFactor = Math.Round(PowerFactor, 2);
 
-            RunningAmps = ConnectedKva * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
+            RunningAmps = DemandKva * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
             RunningAmps = Math.Round(RunningAmps, GlobalConfig.SigFigs);
 
             //Full Load / Max operating Amps

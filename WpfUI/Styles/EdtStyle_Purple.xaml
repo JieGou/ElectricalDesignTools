@@ -9,7 +9,7 @@
     
 <!--MAIN COLORS-->
     <SolidColorBrush x:Key="Darkest" Color="#FF392071"/>
-    <SolidColorBrush x:Key="Dark" Color="#FF4F348C"/>
+    <SolidColorBrush x:Key="Dark" Color="#FF7055AF"/>
     <SolidColorBrush x:Key="Medium" Color="#FFCECEFF"/>
     <SolidColorBrush x:Key="Light" Color="#FFCECEFF"/>
     
