@@ -35,7 +35,7 @@ public class SingleLineDrawer
             InsertMainBlock(mcc, _insertionPoint, "BKR");
 
             _insertionPoint[0] += firstLoadSpacing;
-            
+
 
             foreach (var powerConsumer in mcc.AssignedLoads) {
 
@@ -59,10 +59,11 @@ public class SingleLineDrawer
             InsertMccBus(mcc, _insertionPoint, blockSpacing);
             InsertMccBorder(mcc, _insertionPoint, blockSpacing);
         }
-        catch (Exception ex) {
+        catch (Exception) {
 
             throw;
         }
+   
     }
 
     private void InsertMainBlock(IDteq mcc, double[] insertionPoint, string blockType = "Default")
@@ -83,7 +84,10 @@ public class SingleLineDrawer
 
         
         var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
-        var blockAtts = acadBlock.GetAttributes();
+        acadBlock.Modified += AcadEventHandler.OnAcadModified;
+        AcadEventHandler.raisers.Add(acadBlock);
+
+        var blockAtts = (dynamic)acadBlock.GetAttributes();
 
         foreach (AcadAttributeReference att in blockAtts) {
             switch (att.TagString) {
@@ -129,7 +133,8 @@ public class SingleLineDrawer
 
         var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
         
-        var blockAtts = acadBlock.GetAttributes();
+        var blockAtts = (dynamic)acadBlock.GetAttributes();
+
         foreach (AcadAttributeReference att in blockAtts) {
             switch (att.TagString) {
 
@@ -204,8 +209,10 @@ public class SingleLineDrawer
         
         //instert block
         var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+        acadBlock.Modified += AcadEventHandler.OnAcadModified;
+        AcadEventHandler.raisers.Add(acadBlock);
 
-        var blockAtts = acadBlock.GetAttributes();
+        var blockAtts = (dynamic)acadBlock.GetAttributes();
 
         //update attributes
         foreach (AcadAttributeReference att in blockAtts) {
@@ -311,9 +318,10 @@ public class SingleLineDrawer
                 }
             }
 
+            //att.Modified += AcadEventHandler.OnAcadModified;
+            //AcadEventHandler.raisers.Add(att);
         }
     }
-    
     private void InsertMccBus(IDteq mcc, double[] insertionPoint, double blockSpacing)
     {
         double[] linePoint1 = new double[3];
@@ -334,6 +342,7 @@ public class SingleLineDrawer
         insertionPoint[1] = 0;
         insertionPoint[2] = 0;
         var border = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, borderScale, Yscale, Zscale, 0);
+
     }
 
 

@@ -85,8 +85,7 @@ internal class DpanelViewModel: ViewModelBase
                 GlobalConfig.SelectingNew = true;
                 GlobalConfig.SelectingNew = false;
                 var dpn = (DpnModel)_selectedDpnl;
-                dpn.SetLeftCircuits();
-                dpn.SetRightCircuits();
+                dpn.SetCircuits();
 
             }
         }
@@ -187,6 +186,7 @@ internal class DpanelViewModel: ViewModelBase
             SelectedDpnl.LeftCircuits[i].SequenceNumber = i;
         }
         SelectedDpnl.LeftCircuits.OrderBy(c => c.SequenceNumber);
+        SelectedDpnl.CalculateLoading();
     }
 
     public ICommand MoveDownLeftCommand { get; }
@@ -206,6 +206,8 @@ internal class DpanelViewModel: ViewModelBase
             SelectedDpnl.LeftCircuits[i].SequenceNumber = i;
         }
         SelectedDpnl.LeftCircuits.OrderBy(c => c.SequenceNumber);
+        SelectedDpnl.CalculateLoading();
+
     }
 
     public ICommand DeleteLoadLeftCommand { get; }
@@ -236,6 +238,8 @@ internal class DpanelViewModel: ViewModelBase
             SelectedDpnl.RightCircuits[i].SequenceNumber = i;
         }
         SelectedDpnl.RightCircuits.OrderBy(c => c.SequenceNumber);
+        SelectedDpnl.CalculateLoading();
+
     }
 
     public ICommand MoveDownRightCommand { get; }
@@ -255,6 +259,8 @@ internal class DpanelViewModel: ViewModelBase
             SelectedDpnl.RightCircuits[i].SequenceNumber = i;
         }
         SelectedDpnl.RightCircuits.OrderBy(c => c.SequenceNumber);
+        SelectedDpnl.CalculateLoading();
+
     }
 
     public ICommand DeleteLoadRightCommand { get; }
@@ -273,8 +279,14 @@ internal class DpanelViewModel: ViewModelBase
     public ICommand DrawSingleLineAcadCommand { get; }
     public void DrawSingleLineRelay()
     {
+        DrawSingleLineAsycn();
+    }
+
+    public void DrawSingleLineAsycn()
+    {
         var acadService = new AutocadService();
-        acadService.DrawSingleLineAsync(SelectedDpnl);
+        //acadService.DrawSingleLineAsync(SelectedDteq);
+        acadService.CreateSingleLine(SelectedDpnl);
     }
 
 

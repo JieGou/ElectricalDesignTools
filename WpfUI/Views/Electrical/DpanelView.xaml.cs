@@ -129,4 +129,15 @@ public partial class DpanelView : UserControl
             }
         }
     }
+
+    private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        var eventArg = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+        eventArg.RoutedEvent = UIElement.MouseWheelEvent;
+        eventArg.Source = e.Source;
+
+        ScrollViewer scv = (ScrollViewer)sender;
+        scv.RaiseEvent(eventArg);
+        e.Handled = true;
+    }
 }

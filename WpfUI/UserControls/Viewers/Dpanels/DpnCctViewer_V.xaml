@@ -85,11 +85,11 @@
                                    VerticalAlignment="Bottom"/>
                 </StackPanel>
 
-                <TextBlock Text="Power "
+                <TextBlock Text="Power (kVA) "
                                Grid.Row="4" Grid.Column="0" 
                                HorizontalAlignment="Right" 
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-                    <TextBlock Text="{Binding DemandKw}"
+                    <TextBlock Text="{Binding DemandKva}"
                                Grid.Row="4" Grid.Column="1" 
                                Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 

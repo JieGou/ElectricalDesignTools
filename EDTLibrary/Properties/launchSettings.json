@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EDTLibrary": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

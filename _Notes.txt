@@ -19,13 +19,13 @@ Priorities
 		- AutoCad - 4
 		
 
-	- LCS Type Management - 4 hours
-		- UI - 2 hours
-		- functionality - 2 hours
+	- LCS Type Management - 4 
+		- UI - 2 
+		- functionality - 2 
 
-	- Cable Type Management - 4 hours
-		- UI - 1 hours
-		- functionality - 3 hours
+	- Cable Type Management - 4 
+		- UI - 1 
+		- functionality - 3 
 
 	- SCCA, SCCR
 

@@ -15,7 +15,7 @@
              d:DesignHeight="25" d:DesignWidth="150"
              d:Background="LightCyan"
              
-             Background="Transparent">
+             Background="#FFEDEDED">
 
     <UserControl.Resources>
 

@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,6 @@ namespace EDTLibrary.Managers
         /// <param name="oldSupplier"></param>
         public static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
-
             if (caller.FedFrom != null) {
                 caller.FedFromId = newSupplier.Id;
                 caller.FedFromTag = newSupplier.Tag;
@@ -40,7 +40,22 @@ namespace EDTLibrary.Managers
             if (DaManager.GettingRecords == false) {
                 if (oldSupplier != null) {
                     caller.LoadingCalculated -= oldSupplier.OnAssignedLoadReCalculated;
+
+                    //Todo - RemoveLoad method inside each dteq
                     oldSupplier.AssignedLoads.Remove(caller);
+
+                    string type = oldSupplier.GetType().ToString();
+                    string check = typeof(DpnModel).ToString();
+                    try {
+                        if (type == check)
+                        {
+                            var pnl = (DpnModel)oldSupplier;
+                            pnl.SetCircuits();
+                        }
+                    }
+                    catch (Exception) {
+
+                    }
 
                     if (oldSupplier.Tag != GlobalConfig.Deleted) {
                         oldSupplier.CalculateLoading(); //possible cause of resaving dteq to databse
@@ -52,7 +67,6 @@ namespace EDTLibrary.Managers
 
                 }
                 newSupplier.AddAssignedLoad(caller);
-                //newSupplier.AssignedLoads.Add(caller);
                 newSupplier.CalculateLoading();
 
                 if (caller.VoltageType != null) {
@@ -63,9 +77,7 @@ namespace EDTLibrary.Managers
                         caller.PowerCable.SetSourceAndDestinationTags(caller);
                     }
                 }
-               
             }
-
         }
 
         public static void RetagLoadsOfDeleted(IDteq dteq)
@@ -133,14 +145,11 @@ namespace EDTLibrary.Managers
                     dteq.PowerCable.CalculateAmpacity(dteq);
 
                     subTotal += sw.Elapsed.TotalMilliseconds;
-
                 }
                 Debug.Print("Dteq: " + subTotal);
                 total += subTotal;
                 Debug.Print("Total: " + total);
             });
-
         }
-
     }
 }

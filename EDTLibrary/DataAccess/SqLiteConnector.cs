@@ -346,6 +346,8 @@ namespace EDTLibrary.DataAccess
                     cnn.Execute("" + sb.ToString(), classObject);
                     var debug = tag;
                     ErrorHelper.Log($"SqLiteConnector.Upsert - Success Tag: {tag},      Caller: {callerMethod}");
+
+
                 }
                 catch (Exception ex) {
                     ex.Data.Add("UserMessage", "SQL Query Error\nQuery:\n" + sb.ToString());
@@ -360,7 +362,7 @@ namespace EDTLibrary.DataAccess
                     if (ex.Message.Contains("readonly")) {
                         message = $"The project file may be saved in a folder that does not have write " +
                                         "priveliges enabled, like 'Program Files'. Move the file to another " +
-                                        "location and reopen the project\n\n\n" +
+                                        "location and reopen the project.\n\n\n" +
                                         $"Error Details: {ex.Message}";
 
                         ErrorHelper.NotifyUserError(message);

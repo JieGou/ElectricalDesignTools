@@ -597,7 +597,7 @@ namespace EDTLibrary.Models.Loads
                             break;
 
                         case "A":
-                            ConnectedKva = Size * VoltageType.Voltage * Math.Sqrt(VoltageType.Phase) / 1000; //   / Efficiency / PowerFactor;
+                            ConnectedKva = Size * VoltageType.Voltage * Math.Sqrt(VoltageType.Phase) / 1000;
                             Fla = Size;
                             break;
                     }
@@ -732,18 +732,27 @@ namespace EDTLibrary.Models.Loads
         public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
         {
 
-            if (DaManager.GettingRecords == true) return;
-            if (IsCalculating) return;
+            try {
+                if (DaManager.GettingRecords == true) return;
+                if (IsCalculating) return;
 
-            await Task.Run(() => {
-                if (PropertyUpdated != null) {
-                    PropertyUpdated(this, EventArgs.Empty);
-                }
-            });
-            ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
+                await Task.Run(() => {
+                    if (PropertyUpdated != null) {
+                        PropertyUpdated(this, EventArgs.Empty);
+                    }
+                });
+                
 
-            if (GlobalConfig.Testing == true) {
+
                 ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
+
+                if (GlobalConfig.Testing == true) {
+                    ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
+                }
+            }
+            catch (Exception) {
+
+                throw;
             }
 
         }

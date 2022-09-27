@@ -17,7 +17,7 @@
       <Guid>39ffaa00-8623-488f-8c53-dd3b0b7a464f</Guid>
       <Lcid>0</Lcid>
       <Isolated>false</Isolated>
-      <EmbedInteropTypes>true</EmbedInteropTypes>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="AutoCAD">
       <WrapperTool>tlbimp</WrapperTool>
@@ -26,7 +26,7 @@
       <Guid>5b3245be-661c-4324-bb55-3ad94ebbfdd7</Guid>
       <Lcid>0</Lcid>
       <Isolated>false</Isolated>
-      <EmbedInteropTypes>true</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
   <ItemGroup>

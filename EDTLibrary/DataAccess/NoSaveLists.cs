@@ -44,6 +44,9 @@ namespace EDTLibrary.DataAccess
             "DpnCircuitList",
             "CircuitList",
             "AssignedCircuits",
+            "PhaseA",
+            "PhaseB",
+            "PhaseC",
 
         };
 

@@ -2,6 +2,7 @@
 using AutocadLibrary;
 using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Services;
 using Syncfusion.ProjIO;
@@ -129,6 +130,13 @@ public class AutocadService
         }
         else {
             await DrawSingleLineAsync(dteq);
+
+            //if (dteq == typeof(MccModel)) {
+
+            //}
+            //else if(dteq == typeof(DpnModel)) {
+            //    await DrawPanelScheduleAsync(dteq);
+            //}
         }
     }
 

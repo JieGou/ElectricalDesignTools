@@ -134,7 +134,27 @@
 
         </Grid>
 
+        <Grid Grid.Row="1" Grid.RowSpan="2"
+              Grid.Column="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
+            <TextBlock Text="Phase A" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock Text="{Binding SelectedDpnl.PhaseA}" Grid.Row="0" Grid.Column="2"/>
+            <TextBlock Text="Phase B" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock Text="{Binding SelectedDpnl.PhaseB}" Grid.Row="1" Grid.Column="2"/>
+            <TextBlock Text="Phase C" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock Text="{Binding SelectedDpnl.PhaseC}" Grid.Row="2" Grid.Column="2"/>
+
+        </Grid>
 
         <!--Left Load-->
         <dpanelViewers:DpnCctViewer_V Grid.Row="2" Grid.Column="1" 
@@ -235,7 +255,7 @@
                               HorizontalAlignment="Left"
                               HorizontalScrollBarVisibility="Auto"
                               VerticalScrollBarVisibility="Auto"
-                              VerticalAlignment="Stretch"
+                              VerticalAlignment="Stretch" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
                                >
 
                     <Grid >
@@ -339,7 +359,7 @@
                                        BorderBrush="Black"
                                        BorderThickness="0 0 0 0"
                                        AutoGenerateColumns="False"
-                                       ItemsSource="{Binding SelectedDpnl.LeftCircuits, UpdateSourceTrigger=PropertyChanged}"
+                                       ItemsSource="{Binding SelectedDpnl.LeftCircuits, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                        SelectedItem="{Binding SelectedLoadLeft}"
                                        RowHeight="{StaticResource RowHeight}"
                                        EditTrigger="OnDoubleTap"
@@ -603,7 +623,7 @@
                                        BorderBrush="DarkGray"
                                        BorderThickness="0 0 0 0"
                                        AutoGenerateColumns="False"
-                                       ItemsSource="{Binding SelectedDpnl.RightCircuits, UpdateSourceTrigger=PropertyChanged}"
+                                       ItemsSource="{Binding SelectedDpnl.RightCircuits, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                                        SelectedItem="{Binding SelectedLoadRight}"
                                        RowHeight="{StaticResource RowHeight}"
                                    

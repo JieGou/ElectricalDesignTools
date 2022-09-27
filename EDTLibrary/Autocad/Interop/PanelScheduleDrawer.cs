@@ -1,5 +1,6 @@
 ﻿using AutoCAD;
 using AutocadLibrary;
+using EDTLibrary.Autocad.BlockData;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
@@ -7,6 +8,7 @@ using System;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Printing;
+using System.Windows.Documents;
 
 namespace EDTLibrary.Autocad.Interop;
 public class PanelScheduleDrawer
@@ -25,39 +27,18 @@ public class PanelScheduleDrawer
     public double[] _insertionPoint = new double[3];
     int firstLoadSpacing = 1;
 
-    public void DrawPanelSchedule(IDteq mcc, double blockSpacing = 1.5)
+    public void DrawPanelSchedule(IDteq dteq, double blockSpacing = 1.5)
     {
 
         try {
-            //if (_acad.AcadDoc == null) {
-            //    _acad.AddDrawing();
-            //}
-            InsertMainBlock(mcc, _insertionPoint, "BKR");
+ 
+            InsertMainBlock(dteq, _insertionPoint);
 
-            _insertionPoint[0] += firstLoadSpacing;
-            
+            InsertCircuits(dteq, _insertionPoint);
 
-            foreach (var powerConsumer in mcc.AssignedLoads) {
 
-                if (powerConsumer.GetType() == typeof(LoadModel)) {
-                    var load = (LoadModel)powerConsumer;
-
-                    InsertLoadBucket(load, _insertionPoint);
-
-                    _insertionPoint[1] -= 1.65;
-                    InsertLoad(load, _insertionPoint);
-                    _insertionPoint[1] += 1.65;
-                    //check if graphic is wide and move next load over to make room for this wide block
-                    if (load.DisconnectBool == true && load.DriveBool == true) {
-                        _insertionPoint[0] += .5;
-                    }
-                }
-
-                _insertionPoint[0] += blockSpacing;
-            }
-
-            InsertMccBus(mcc, _insertionPoint, blockSpacing);
-            InsertMccBorder(mcc, _insertionPoint, blockSpacing);
+            InsertMccBus(dteq, _insertionPoint, blockSpacing);
+            InsertMccBorder(dteq, _insertionPoint, blockSpacing);
         }
         catch (Exception ex) {
 
@@ -65,17 +46,18 @@ public class PanelScheduleDrawer
         }
     }
 
-    private void InsertMainBlock(IDteq mcc, double[] insertionPoint, string blockType = "Default")
+    private void InsertMainBlock(IDteq dteq, double[] insertionPoint, string blockType = "Default")
     {
         //Instert Main Block
         insertionPoint[0] = 0;
         insertionPoint[1] = 0;
         insertionPoint[2] = 0;
 
-        blockType = blockType == "Default" ? "BKR" : blockType;
-        string sourcePath = BlockSourceFolder + @"\Single Line\";
-        string blockName = "MCC_MAIN_" + blockType + ".dwg";
-        string blockPath = sourcePath + blockName;
+        blockType = dteq.VoltageType.Phase == 3 ? BlockNames.Dp3PhMain : BlockNames.Dp1PhMain;
+        string sourcePath = BlockSourceFolder + FolderNames.DistributionPanelsFolder;
+        string blockName = blockType + ".dwg";
+        string blockPath = sourcePath + blockName; 
+     
 
         double Xscale = 1;
         double Yscale = 1;
@@ -83,84 +65,115 @@ public class PanelScheduleDrawer
 
         
         var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
-        var blockAtts = acadBlock.GetAttributes();
+        var blockAtts = (dynamic)acadBlock.GetAttributes();
 
+        
         foreach (AcadAttributeReference att in blockAtts) {
             switch (att.TagString) {
-                case "BUS_DETAILS":
-                    att.TextString = $"{mcc.LineVoltage} V, {mcc.Size} A, 3-PH, {mcc.SCCR} kA";
+                case "PANEL_TAG":
+                    att.TextString = $"{dteq.Tag}";
+                    break;
+                case "PANEL_DESCRIPTION":
+                    att.TextString = $"{dteq.Description}";
+                    break;
+                case "PANEL_AREA":
+                    att.TextString = $"{dteq.Area.Tag}";
+                    break;
+                case "PANEL_AMPS":
+                    att.TextString = $"{dteq.Size} AF";
+                    break;
+                case "PANEL_VOLTAGE":
+                    att.TextString = $"{dteq.LineVoltage} V, {dteq.Size} A, 3-PH, {dteq.SCCR} kA";
                     break;
                 case "AF":
-                    att.TextString = $"{mcc.PdSizeFrame} AF";
+                    att.TextString = $"{dteq.PdSizeFrame} AF";
                     break;
                 case "AT":
-                    att.TextString = $"{mcc.PdSizeTrip} AT";
+                    att.TextString = $"{dteq.PdSizeTrip} AT";
                     break;
                 case "CABLE_TAG":
-                    att.TextString = $"{mcc.PowerCable.Tag}";
+                    att.TextString = $"{dteq.PowerCable.Tag}";
                     break;
                 case "CABLE_SIZE":
-                    att.TextString = $"{mcc.PowerCable.SizeTag}";
+                    att.TextString = $"{dteq.PowerCable.SizeTag}";
                     break;
                 case "FED_FROM":
-                    att.TextString = $"{mcc.FedFrom}";
+                    att.TextString = $"{dteq.FedFrom}";
                     break;
             }
         }
+
+        
+
+
     }
-    private void InsertLoadBucket(LoadModel load, double[] insertionPoint, double Xscale = 1, double Yscale = 1, double Zscale = 1, bool isDriveInternal = false)
+    private void InsertCircuits(IDteq dteq, double[] insertionPoint, double Xscale = 1, double Yscale = 1, double Zscale = 1)
     {
 
-        string blockType = "FCB";
+        insertionPoint[0] = 0;
+        insertionPoint[1] = 0;
+        insertionPoint[2] = 0;
 
-        if (load.PdType.Contains("FVNR")) {
-            blockType = "FVNR";
-        }
-        else if (load.PdType.Contains("FVR")) {
-            blockType = "FVR";
-        }
-        else if (load.DriveBool == true && isDriveInternal == true) {
-            blockType = "DRIVE";
-        }
-
-        string sourcePath = BlockSourceFolder + @"\Single Line\";
-        string blockName = "MCC_" + blockType + ".dwg";
+        string blockType = BlockNames.DpCircuit;
+        string sourcePath = BlockSourceFolder + FolderNames.DistributionPanelsFolder;
+        string blockName = blockType + ".dwg";
         string blockPath = sourcePath + blockName;
 
+        double[] linePoint1L = new double[3];
+        double[] linePoint2L = new double[3];
+        double[] linePoint1R = new double[3];
+        double[] linePoint2R = new double[3];
+
+
+        //  FIRST INSERTION POINTS
+        //  Left Circuits
+        //  x
+        linePoint2L[1] = BlockVariables.DpanelCircuitRowWidth;
+
+
+        //y
+        linePoint1L[2] = BlockVariables.DpanelMainBlockHeight * -1;
+        linePoint2L[2] = linePoint1L[2];
+
+
+        //Right Circuits
+        //x:
+        linePoint1R[1] = BlockVariables.DpanelCircuitRowWidth + BlockVariables.DpanelBreakSectionWidth;
+        linePoint2R[1] = 2 * BlockVariables.DpanelCircuitRowWidth + BlockVariables.DpanelBreakSectionWidth;
+
+
+        //y:
+        linePoint1R[2] = BlockVariables.DpanelMainBlockHeight * -1;
+        linePoint2R[2] = linePoint1R[2];
+
+        
         var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
         
-        var blockAtts = acadBlock.GetAttributes();
+        var blockAtts = (dynamic)acadBlock.GetAttributes();
+
         foreach (AcadAttributeReference att in blockAtts) {
             switch (att.TagString) {
 
                 //Starter
                 case "MCP_Size":
-                    att.TextString = $"{load.PdSizeTrip} A";
+                    att.TextString = $"{dteq.PdSizeTrip} A";
                     break;
-                case "FVNR_Size":
-                    att.TextString = $"{load.StarterSize}";
-                    break;
-                case "FVR_Size":
-                    att.TextString = $"{load.StarterSize}";
-                    break;
+               
 
                 //Breaker
                 case "AT":
-                    att.TextString = $"{load.PdSizeTrip}";
+                    att.TextString = $"{dteq.PdSizeTrip}";
                     break;
                 case "AF":
-                    att.TextString = $"{load.PdSizeFrame}";
+                    att.TextString = $"{dteq.PdSizeFrame}";
                     break;
 
                 //Drive
                 case "DRIVE_TYPE":
-                    if (load.Drive != null)
-                        att.TextString = $"{load.Drive.Type}";
+                    if (dteq.Drive != null)
+                        att.TextString = $"{dteq.Drive.Type}";
                     break;
-                case "DRIVE_TAG":
-                    if (load.Drive != null && isDriveInternal == false) 
-                        att.TextString = $""; 
-                    break;
+               
 
             }
         }
@@ -205,7 +218,7 @@ public class PanelScheduleDrawer
         //instert block
         var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
 
-        var blockAtts = acadBlock.GetAttributes();
+        var blockAtts = (dynamic)acadBlock.GetAttributes();
 
         //update attributes
         foreach (AcadAttributeReference att in blockAtts) {

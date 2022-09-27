@@ -11,6 +11,7 @@ using System;
 using System.Data;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EDTLibrary.DataAccess;
 
@@ -65,7 +66,6 @@ public class DaManager {
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.LcsTable);
     }
-
     #endregion
 
     public static AreaModel GetArea(int locationId)
@@ -95,8 +95,6 @@ public class DaManager {
             throw;
         }
     }
-
-    //Upsert Dteq
     public static async Task UpsertDteqAsync(IDteq iDteq)
     {
         try {
@@ -138,6 +136,29 @@ public class DaManager {
         }
     }
 
+    public static void OnLoadPropertyUpdated(object source, EventArgs e)
+    {
+
+        if (DaManager.GettingRecords == true) return;
+        UpsertLoadAsync((LoadModel)source);
+    }
+    public static async Task UpsertLoadAsync(LoadModel load)
+    {
+
+        try {
+            await Task.Run(() => {
+                if (GlobalConfig.Importing == true) return;
+                prjDb.UpsertRecord(load, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
+            });
+
+        }
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw ex;
+
+        }
+    }
+
     public static void OnLoadCircuitPropertyUpdated(object sender, EventArgs e)
     {
         if (DaManager.GettingRecords == true) return;
@@ -150,34 +171,6 @@ public class DaManager {
             await Task.Run(() => {
                 if (GlobalConfig.Importing == true) return;
                 prjDb.UpsertRecord(load, GlobalConfig.LoadCircuitTable, NoSaveLists.LoadNoSaveList);
-            });
-
-        }
-        catch (Exception ex) {
-            Debug.Print(ex.ToString());
-            throw ex;
-
-        }
-    }
-
-    public static void OnLoadPropertyUpdated(object source, EventArgs e)
-    {
-       
-        if (DaManager.GettingRecords == true) return;
-        UpsertLoadAsync((LoadModel)source);
-    }
-
-
-    
-    
-
-    public static async Task UpsertLoadAsync(LoadModel load)
-    {
-
-        try {
-            await Task.Run(() => {
-                if (GlobalConfig.Importing == true) return;
-                prjDb.UpsertRecord(load, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
             });
 
         }

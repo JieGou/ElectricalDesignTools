@@ -535,7 +535,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         public int SequenceNumber { get; set; }
 
         //Methods
-        public void CalculateLoading()
+        public virtual void CalculateLoading()
         {
             if (Tag == GlobalConfig.Utility) return;
             //if (DaManager.Importing) return;
@@ -693,6 +693,11 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         }
 
+        /// <summary>
+        /// Returns true if the load was added successfully. Return faslse if the load is already assigned to this Dteq.
+        /// </summary>
+        /// <param name="load"></param>
+        /// <returns></returns>
         public virtual bool AddAssignedLoad(IPowerConsumer load)
         {
 
