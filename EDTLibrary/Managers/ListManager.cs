@@ -35,7 +35,7 @@ namespace EDTLibrary.Managers
         public ObservableCollection<DpnModel> DpnList { get; set; } = new ObservableCollection<DpnModel>();
         public ObservableCollection<DpnCircuit> DpnCircuitList { get; set; } = new ObservableCollection<DpnCircuit>();
 
-        public ObservableCollection<ILoad> LoadCircuitList { get; set; } = new ObservableCollection<ILoad>();
+        public ObservableCollection<ILoadCircuit> LoadCircuitList { get; set; } = new ObservableCollection<ILoadCircuit>();
 
         public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
         public ObservableCollection<IComponentEdt> CompList { get; set; } = new ObservableCollection<IComponentEdt>();
@@ -274,10 +274,12 @@ namespace EDTLibrary.Managers
             }
             IDpn dpn;
             foreach (var dteq in IDteqList) {
-                foreach (var load in LoadCircuitList) {
-                    if (dteq.Id == load.FedFromId && load.FedFromType == typeof(DpnModel).ToString()) {
+                foreach (var loadCircuit in LoadCircuitList) {
+                    if (dteq.Id == loadCircuit.FedFromId && loadCircuit.FedFromType == typeof(DpnModel).ToString()) {
                         dpn = (IDpn)dteq;
-                        dpn.AssignedCircuits.Add((LoadCircuit)load);
+                        dpn.AssignedCircuits.Add((LoadCircuit)loadCircuit);
+                        loadCircuit.FedFrom = dpn;
+                        loadCircuit.SpaceConverted += dpn.OnSpaceConverted;
                     }
                 }
             }

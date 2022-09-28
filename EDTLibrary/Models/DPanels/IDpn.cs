@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.Models.Loads;
+using System;
 using System.Collections.ObjectModel;
 
 namespace EDTLibrary.Models.DistributionEquipment.DPanels;
@@ -16,6 +17,7 @@ public interface IDpn: IDteq
 
     bool AddAssignedLoad(IPowerConsumer load);
     void SetCircuits();
-    void SetLeftCircuits();
-    void SetRightCircuits();
+
+    void OnSpaceConverted(object source, EventArgs e);
+
 }

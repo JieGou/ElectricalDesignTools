@@ -30,11 +30,7 @@ public partial class DpanelView : UserControl
     {
         InitializeComponent();
 
-        if (vm != null) {
-            if (vm.ViewableDteqList.Count > 0) {
-                vm.SelectedDpnl = vm.ViewableDteqList[0];
-            }
-        }
+        
 
         //To set the combobox behavior on the datatrids
         //Mainly for single click selecting combobox
@@ -55,7 +51,7 @@ public partial class DpanelView : UserControl
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
         if (vm != null) {
-            if (vm.ViewableDteqList.Count > 0) {
+            if (vm.ViewableDteqList.Count > 0 & vm.SelectedDpnl == null) {
                 vm.SelectedDpnl = vm.ViewableDteqList[0];
             }
         }
@@ -100,17 +96,17 @@ public partial class DpanelView : UserControl
             }
             else {
                 e.Height = rowHeight;
+                e.Handled = true;
             }
             if (e.RowIndex==0) {
                 //e.Height = 0;
             }
         }
-
     }
 
     private void RightGrid_QueryRowHeight(object sender, Syncfusion.UI.Xaml.Grid.QueryRowHeightEventArgs e)
     {
-        
+
         if (RightGrid.GridColumnSizer.GetAutoRowHeight(e.RowIndex, gridRowResizingOptions, out autoHeight)) {
 
             if (autoHeight > 50) {
@@ -123,9 +119,11 @@ public partial class DpanelView : UserControl
             }
             else {
                 e.Height = rowHeight;
+                e.Handled = true;
             }
             if (e.RowIndex == 0) {
                 //e.Height = 0;
+                e.Handled = true;
             }
         }
     }

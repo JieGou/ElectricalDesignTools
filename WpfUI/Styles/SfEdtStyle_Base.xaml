@@ -16,6 +16,7 @@
 
     <sf:SortDirectionToVisibilityConverter x:Key="sortDirectionToVisibilityConverter" />
     <sf:SortDirectionToWidthConverter x:Key="sortDirectionToWidthConverter" />
+    <!--<sf:PoleQtyColumnHeightConverter x:Key="PoleQtyColumnHeightConverter" />-->
 
     
     <Style TargetType="sf:SfDataGrid">
@@ -261,6 +262,8 @@
     <!--Row-->
     <Style TargetType="sfgrid:VirtualizingCellsControl" >
         <Setter Property="Background" Value="White"/>
+        <!--<Setter Property="Height" Value="{Binding VoltageType.Poles, Converter={StaticResource PoleQtyColumnHeightConverter_double}}"/>-->
+      
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>

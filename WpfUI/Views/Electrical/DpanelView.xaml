@@ -360,7 +360,7 @@
                                        BorderThickness="0 0 0 0"
                                        AutoGenerateColumns="False"
                                        ItemsSource="{Binding SelectedDpnl.LeftCircuits, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                       SelectedItem="{Binding SelectedLoadLeft}"
+                                       SelectedItem="{Binding SelectedLoadLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        RowHeight="{StaticResource RowHeight}"
                                        EditTrigger="OnDoubleTap"
                                        RowSelectionBrush="{StaticResource DatagridSelection}"
@@ -624,7 +624,7 @@
                                        BorderThickness="0 0 0 0"
                                        AutoGenerateColumns="False"
                                        ItemsSource="{Binding SelectedDpnl.RightCircuits, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                       SelectedItem="{Binding SelectedLoadRight}"
+                                       SelectedItem="{Binding SelectedLoadRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        RowHeight="{StaticResource RowHeight}"
                                    
                                        EditTrigger="OnDoubleTap"

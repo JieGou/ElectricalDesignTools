@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.A_Helpers;
 using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
+using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -18,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Loads;
 [AddINotifyPropertyChangedInterface]
-public class LoadCircuit : ILoad
+public class LoadCircuit : ILoadCircuit
 {
     public int Id { get; set; }
     public string Tag { get; set; }
@@ -33,11 +34,48 @@ public class LoadCircuit : ILoad
             if (_description == "") {
                 PdSizeTrip = 0;
             }
+            //else if(_description != "SPARE") {
+
+            //}
+            else {
+
+                PdSizeTrip = 15;
+            }
+
             OnPropertyUpdated();
         }
     }
+    bool _changingDescription;
     public int AreaId { get; set; }
     public IArea Area { get; set; }
+    public int VoltageTypeId { get; set; } = 0;
+    public VoltageType VoltageType
+    {
+        get { return _voltageType; }
+        set
+        {
+            var oldValue = _voltageType;
+            _voltageType = value;
+
+            UndoManager.Lock(this, nameof(VoltageType));
+            VoltageTypeId = _voltageType.Id;
+            Voltage = _voltageType.Voltage;
+            UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
+
+            OnPropertyUpdated();
+        }
+    }
+    private VoltageType _voltageType;
+    private double _pdSizeTrip;
+    private string _description = "";
+
+    public double Size { get; set; }
+    public string Unit { get; set; }
+    public double Fla { get; set; }
+    public string FedFromTag { get; set; }
+    public int FedFromId { get; set; }
+    public string FedFromType { get; set; }
+    public IDteq FedFrom { get; set; }
     public string NemaRating { get; set; }
     public string AreaClassification { get; set; }
     public double HeatLoss { get; set; }
@@ -45,15 +83,45 @@ public class LoadCircuit : ILoad
 
     public double LoadFactor { get; set; }
     public double Efficiency { get; set; }
-    public string StarterType { get; set; }
-    public double StarterSize { get; set; }
-
     public double PowerFactor { get; set; }
     public double ConnectedKva { get; set; }
     public double DemandKva { get; set; }
     public double DemandKw { get; set; }
     public double DemandKvar { get; set; }
     public double RunningAmps { get; set; }
+
+
+    public double AmpacityFactor { get; set; }
+    public string PdType { get; set; }
+    public double PdSizeTrip
+    {
+        get => _pdSizeTrip;
+        set
+        {
+            var oldValue = _pdSizeTrip;
+            _pdSizeTrip = value;
+            if (DaManager.GettingRecords == true) return;
+
+            if (PdSizeTrip != 0) {
+                if (Description == "") {
+                    Description = "SPARE";
+                }
+                var voltageTypeSubList = new List<VoltageType>();
+
+                voltageTypeSubList = TypeManager.VoltageTypes.Where(vt => vt.Voltage == FedFrom.LoadVoltageType.Voltage).ToList();
+                VoltageType = voltageTypeSubList.MinBy(vt => vt.Poles);
+            }
+            if (oldValue == 0) {
+                OnSpaceConverted();
+            }
+            OnPropertyUpdated();
+        }
+    }
+    public double PdSizeFrame { get; set; }
+
+    public string StarterType { get; set; }
+    public double StarterSize { get; set; }
+
     public int SequenceNumber
     {
         get => _sequenceNumber;
@@ -94,52 +162,8 @@ public class LoadCircuit : ILoad
     private double _voltage;
 
 
-    public int VoltageTypeId { get; set; } = 0;
-    public VoltageType VoltageType
-    {
-        get { return _voltageType; }
-        set
-        {
-            var oldValue = _voltageType;
-            _voltageType = value;
 
-            UndoManager.Lock(this, nameof(VoltageType));
-            VoltageTypeId = _voltageType.Id;
-            Voltage = _voltageType.Voltage;
-            UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
 
-            OnPropertyUpdated();
-        }
-    }
-    private VoltageType _voltageType;
-    private double _pdSizeTrip;
-    private string _description = "";
-
-    public double Size { get; set; }
-    public string Unit { get; set; }
-    public double Fla { get; set; }
-    public string FedFromTag { get; set; }
-    public int FedFromId { get; set; }
-    public string FedFromType { get; set; }
-    public IDteq FedFrom { get; set; }
-    public double AmpacityFactor { get; set; }
-    public string PdType { get; set; }
-    public double PdSizeTrip
-    {
-        get => _pdSizeTrip;
-        set
-        {
-
-            
-            if (DaManager.GettingRecords==true) return;
-            _pdSizeTrip = value;
-            if (PdSizeTrip != 0) {
-                Description = "SPARE";
-            }
-            OnPropertyUpdated();
-        }
-    }
-    public double PdSizeFrame { get; set; }
     public CableModel PowerCable { get; set; }
     public ObservableCollection<IComponentEdt> AuxComponents { get; set; }
     public ObservableCollection<IComponentEdt> CctComponents { get; set; }
@@ -152,21 +176,21 @@ public class LoadCircuit : ILoad
     public IComponentEdt Drive { get; set; }
     public IComponentEdt Disconnect { get; set; }
 
-    public event EventHandler LoadingCalculated;
-    public event EventHandler PropertyUpdated;
-    public event EventHandler AreaChanged;
+
 
     public void CalculateCableAmps()
     {
         throw new NotImplementedException();
     }
-
     public void CalculateLoading()
     {
         throw new NotImplementedException();
     }
-
     public void CreatePowerCable()
+    {
+        throw new NotImplementedException();
+    }
+    public void SizePowerCable()
     {
         throw new NotImplementedException();
     }
@@ -176,12 +200,13 @@ public class LoadCircuit : ILoad
         throw new NotImplementedException();
     }
 
-    public Task OnAreaChanged()
-    {
-        throw new NotImplementedException();
-    }
 
-    public void OnLoadingCalculated()
+    public event EventHandler LoadingCalculated;
+    public event EventHandler PropertyUpdated;
+    public event EventHandler AreaChanged;
+    public event EventHandler SpaceConverted;
+
+    public async Task OnAreaChanged()
     {
         throw new NotImplementedException();
     }
@@ -202,13 +227,22 @@ public class LoadCircuit : ILoad
         }
 
     }
-    public void SizePowerCable()
+    public void OnLoadingCalculated()
     {
         throw new NotImplementedException();
     }
-
     public Task UpdateAreaProperties()
     {
         throw new NotImplementedException();
+    }
+    public async Task OnSpaceConverted()
+    {
+        if (SpaceConverted != null) {
+            SpaceConverted(this, EventArgs.Empty);
+        }
+
+        await Task.Run(() => {
+
+        });
     }
 }

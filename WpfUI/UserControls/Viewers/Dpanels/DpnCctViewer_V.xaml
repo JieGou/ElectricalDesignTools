@@ -11,7 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="200"
              d:Background="AliceBlue">
-    
+
     <DockPanel VerticalAlignment="Top">
         <Border BorderBrush="Black" BorderThickness="1 1 1 0"
                 d:Background="DarkGray"
@@ -26,66 +26,68 @@
             <ScrollViewer VerticalScrollBarVisibility="auto" 
                           HorizontalScrollBarVisibility="auto">
                 <Grid >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Tag "
+                    <TextBlock Text="Tag "
                                Grid.Row="0" Grid.Column="0" 
                                HorizontalAlignment="Right"
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-                <TextBlock Text="{Binding Tag}" d:Text="Tag"
+                    <TextBlock Text="{Binding Tag}" d:Text="Tag"
                                Grid.Row="0" Grid.Column="1"
                                MinWidth="100"
                                Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
-                <TextBlock Text="Load Type "
+                    <TextBlock Text="Load Type "
                                Grid.Row="1" Grid.Column="0" 
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-                <TextBlock Text="{Binding Type}"
+                    <TextBlock Text="{Binding Type}"
                                Grid.Row="1" Grid.Column="1" 
                                Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
-                <TextBlock Text="Pole Qty "
+                    <TextBlock Text="Pole Qty "
                                Grid.Row="2" Grid.Column="0" 
                                HorizontalAlignment="Right" 
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-                <TextBlock Text="{Binding VoltageType.Poles}"
+                    <TextBlock Text="{Binding VoltageType.Poles}"
                                Grid.Row="2" Grid.Column="1" 
                                Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
-                <TextBlock Text="Size "
+                    <TextBlock Text="Size "
                                Grid.Row="3" Grid.Column="0" 
                                HorizontalAlignment="Right" 
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
 
-                <StackPanel Orientation="Horizontal"
+                    <StackPanel Orientation="Horizontal"
                                 Grid.Row="3" Grid.Column="1"
                                 VerticalAlignment="Bottom">
 
-                    <TextBlock Text="{Binding Size}" d:Text="200"
+                        <TextBlock Text="{Binding Size}" d:Text="200"
                                    Style="{StaticResource SummaryValue_TextBlockStyle}"
                                    MinWidth="0"/>
-                    <TextBlock Text="{Binding Unit}" d:Text="A"
+                        <TextBlock Text="{Binding Unit}" d:Text="A"
                                    Style="{StaticResource SummaryValue_TextBlockStyle}"
                                    Margin="5 0 0 0"
                                    MinWidth="0"
                                    VerticalAlignment="Bottom"/>
-                </StackPanel>
+                    </StackPanel>
 
-                <TextBlock Text="Power (kVA) "
+                    <TextBlock Text="Power (kVA) "
                                Grid.Row="4" Grid.Column="0" 
                                HorizontalAlignment="Right" 
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
@@ -93,19 +95,29 @@
                                Grid.Row="4" Grid.Column="1" 
                                Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
-                <TextBlock Text="Area "
+                    <TextBlock Text="Poles "
                        Grid.Row="5" Grid.Column="0" 
                        HorizontalAlignment="Right" 
                        Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-                <TextBlock Text="{Binding Area.Tag}"
+                    <TextBlock Text="{Binding VoltageType.Poles}"
                        Grid.Row="5" Grid.Column="1" 
                        Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
-                <editors:AreaEditor Grid.Row="6"
+                    <TextBlock Text="Seq # "
+                       Grid.Row="7" Grid.Column="0" 
+                       HorizontalAlignment="Right" 
+                       Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
+                    <TextBlock Text="{Binding SequenceNumber}"
+                       Grid.Row="7" Grid.Column="1" 
+                       Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+
+
+
+                    <editors:AreaEditor Grid.Row="8"
                                     Grid.Column="0" Grid.ColumnSpan="5"
                                     DataContext="{Binding}"
                                     Margin="5"/>
-            </Grid>
+                </Grid>
             </ScrollViewer>
         </Border>
     </DockPanel>

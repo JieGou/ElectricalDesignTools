@@ -9,10 +9,11 @@
     <converters:LcsOwnerTypeToVisbilityConverter x:Key="LscOwnerTypeVisibilityConverter"/>
     <converters:ComponentOwnerTypeToBooleanConverter x:Key="ComponentOwnerTypeToBooleanConverter"/>
     <converters:ComponentOwnerTypeToVisibilityConverter x:Key="ComponentOwnerTypeToVisibilityConverter"/>
-    
-    <converters:PoleQtyColumnHeightConverter x:Key="PoleQtyColumnHeightConverter"/>
 
-    
+    <converters:PoleQtyColumnHeightConverter x:Key="PoleQtyColumnHeightConverter"/>
+    <converters:PoleQtyColumnHeightConverter_double x:Key="PoleQtyColumnHeightConverter_double"/>
+
+
 
     <!--MjeqView-->
     <BooleanToVisibilityConverter x:Key="BoolToVis"/>
