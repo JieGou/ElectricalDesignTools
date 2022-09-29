@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfUI.Controls;
 
 namespace WpfUI.Views.EquipmentSubViews;
 /// <summary>
@@ -24,6 +25,26 @@ public partial class AddLoadView : UserControl
     {
         InitializeComponent();
     }
+
+
+    public Visibility AreaVisibility
+    {
+        get { return (Visibility)GetValue(AreaVisibilityProperty); }
+        set { SetValue(AreaVisibilityProperty, value); }
+    }
+
+    public static readonly DependencyProperty AreaVisibilityProperty =
+        DependencyProperty.Register("AreaVisibility", typeof(Visibility), typeof(AddLoadView), new PropertyMetadata(Visibility.Visible));
+
+    public Visibility FedFromVisibility
+    {
+        get { return (Visibility)GetValue(FedFromVisibilityProperty); }
+        set { SetValue(FedFromVisibilityProperty, value); }
+    }
+
+    public static readonly DependencyProperty FedFromVisibilityProperty =
+        DependencyProperty.Register("FedFromVisibility", typeof(Visibility), typeof(AddLoadView), new PropertyMetadata(Visibility.Collapsed));
+
 
     private void txtLoadTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
@@ -43,5 +64,26 @@ public partial class AddLoadView : UserControl
         }
     }
 
+    private void btnAddDteq_MouseLeave(object sender, MouseEventArgs e)
+    {
+        Task.Run(() => resetTag());
+        resetTag();
+        async Task resetTag()
+        {
+            if (txtLoadTag.Text == "") {
+                await Task.Delay(500);
+
+                if (txtLoadTag.IsFocused == false)
+                    txtLoadTag.Text = GlobalConfig.EmptyTag;
+            }
+        }
+    }
+
+    private void btnAddDteq_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (txtLoadTag.Text == GlobalConfig.EmptyTag) {
+            txtLoadTag.Text = "";
+        }
+    }
 }
 

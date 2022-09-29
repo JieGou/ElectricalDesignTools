@@ -1,3 +1,6 @@
+DteqToAddValidator voltage updates and CanAdd
+DpnCircuitManager calculations into DpnModel OR DpnCalculationService
+
 
 Priorities
 	- Distribution Panel - 12 hours

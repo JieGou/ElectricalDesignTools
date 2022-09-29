@@ -67,6 +67,7 @@ namespace EDTLibrary.DataAccess
             "IsCalculating",
 
             "VoltageType",
+            "CanSave",
 
         };
 

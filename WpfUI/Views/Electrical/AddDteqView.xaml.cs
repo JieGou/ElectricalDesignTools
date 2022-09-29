@@ -25,13 +25,35 @@ public partial class AddDteqView : UserControl
         InitializeComponent();
     }
 
-    private void txtLoadTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    private void txtDteqTag_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
-        if (txtLoadTag.Text == "" || txtLoadTag.Text == GlobalConfig.EmptyTag) txtLoadTag.Text = "";
+        if (txtDteqTag.Text == "" || txtDteqTag.Text == GlobalConfig.EmptyTag) txtDteqTag.Text = "";
+    }
+    private void txtDteqTag_LostFocus(object sender, RoutedEventArgs e)
+    {
+        if (txtDteqTag.Text == "") txtDteqTag.Text = GlobalConfig.EmptyTag;
     }
 
-    private void txtLoadTag_LostFocus(object sender, RoutedEventArgs e)
+    private void btnAddDteq_MouseLeave(object sender, MouseEventArgs e)
     {
-        if (txtLoadTag.Text == "") txtLoadTag.Text = GlobalConfig.EmptyTag;
+        
+        Task.Run(() => resetTag());
+        resetTag();
+        async Task resetTag()
+        {
+            if (txtDteqTag.Text == "") {
+                await Task.Delay(500);
+
+                if (txtDteqTag.IsFocused == false)
+                    txtDteqTag.Text = GlobalConfig.EmptyTag;
+            }
+        }
+    }
+
+    private void btnAddDteq_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (txtDteqTag.Text == GlobalConfig.EmptyTag) {
+            txtDteqTag.Text = "";
+        }
     }
 }

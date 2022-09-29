@@ -347,40 +347,33 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
         }
 
         //AddLoad
-        public override bool AddAssignedLoad(IPowerConsumer load)
+        public override bool CanAdd(IPowerConsumer load)
         {
-            if (base.AddAssignedLoad(load)) {
-                SetCircuits();
-                if (ScenarioManager.ListManager.DpnCircuitList.Count == 0) {
-                    return false;
-                }
-
-                DpnCircuitManager.AddLoad(this, load, ScenarioManager.ListManager);
-
-
-                var circuitToAdd = new DpnCircuit {
-
-                    Id = ScenarioManager.ListManager.DpnCircuitList.Max(x => x.Id) + 1,
-
-                    DpnId = this.Id,
-                    DpnType = this.Type,
-                    LoadId = load.Id,
-                    LoadType = load.Type,
-                    CircuitNumber = ScenarioManager.ListManager.DpnCircuitList.Max(x => x.CircuitNumber),
-
-
-                };
-
-                CircuitList.Add(circuitToAdd);
-                SetCircuits();
-
+            if (DpnCircuitManager.CanAdd(this, load)) {
                 return true;
             }
+            return false;
+        }
+        private static int _leftCctsAvailable = 0;
+        private static int _rightCctsAvailable = 0;
+
+        public override bool AddAssignedLoad(IPowerConsumer load)
+        {
+
+            if (DpnCircuitManager.AddLoad(this, load, ScenarioManager.ListManager)) {
+                SetCircuits();
+                return true;
+            }
+
             SetCircuits();
             return false;
 
         }
-
+        public override void RemoveAssignedLoad(IPowerConsumer load)
+        {
+            AssignedLoads.Remove(load);
+            SetCircuits();
+        }
         public void SetCircuits()
         {
             SetLeftCircuits();
@@ -433,7 +426,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             PhaseA = 0;
             PhaseB = 0;
             PhaseC = 0;
-
+            if (LineVoltageType == null) return;
             if (LineVoltageType.Phase==3) {
                 Calculate3PhaseLoading();
             }
@@ -464,8 +457,8 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                             PhaseA += load.DemandKva;
                             break;
                         case 2:
-                            PhaseA += load.DemandKva;
-                            PhaseB += load.DemandKva;
+                            PhaseA += load.DemandKva/2;
+                            PhaseB += load.DemandKva/2;
                             break;
                         case 3:
                             PhaseA += load.DemandKva / 3;
@@ -481,8 +474,8 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                             PhaseB += load.DemandKva;
                             break;
                         case 2:
-                            PhaseB += load.DemandKva;
-                            PhaseC += load.DemandKva;
+                            PhaseB += load.DemandKva / 2;
+                            PhaseC += load.DemandKva / 2;
                             break;
                         case 3:
                             PhaseA += load.DemandKva / 3;
@@ -499,8 +492,8 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                             PhaseC += load.DemandKva;
                             break;
                         case 2:
-                            PhaseC += load.DemandKva;
-                            PhaseB += load.DemandKva;
+                            PhaseC += load.DemandKva / 2;
+                            PhaseB += load.DemandKva / 2;
                             break;
                         case 3:
                             PhaseA += load.DemandKva / 3;
@@ -530,8 +523,8 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                             PhaseC += load.DemandKva;
                             break;
                         case 2:
-                            PhaseC += load.DemandKva;
-                            PhaseA += load.DemandKva;
+                            PhaseC += load.DemandKva / 2;
+                            PhaseA += load.DemandKva / 2;
                             break;
                         case 3:
                             PhaseA += load.DemandKva / 3;
@@ -548,8 +541,8 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                             PhaseB += load.DemandKva;
                             break;
                         case 2:
-                            PhaseB += load.DemandKva;
-                            PhaseC += load.DemandKva;
+                            PhaseB += load.DemandKva / 2;
+                            PhaseC += load.DemandKva / 2;
                             break;
                         case 3:
                             PhaseA += load.DemandKva / 3;

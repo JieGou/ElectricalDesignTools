@@ -12,6 +12,8 @@
              xmlns:dteqViewers="clr-namespace:WpfUI.UserControls.Viewers.Dteq"
              
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
+             xmlns:ElectricalViews="clr-namespace:WpfUI.Views.Electrical"
+             xmlns:AddEquipmentViews="clr-namespace:WpfUI.Views.EquipmentSubViews"
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
              xmlns:dPanelsSubViews="clr-namespace:WpfUI.Views.Electrical.DistributionPanelSubViews"
              
@@ -44,19 +46,19 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="115"/>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="auto" x:Name="AddLoadRow"/>
             <RowDefinition Height="4*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="225"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="225"/>
-            <ColumnDefinition Width="15"/>
+            <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
 
         <!--Left Upper Menu -->
@@ -66,43 +68,60 @@
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
 
-            <DockPanel Grid.Row="0" Grid.RowSpan="2"
-                       Grid.Column="1">
-
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                
                 <TextBlock Text="Selected Panel:"
-                       DockPanel.Dock="Top"
+                       Grid.Row="0"
                        FontSize="12"
                        FontWeight="SemiBold"
                        Margin="0 0 0 10"
                        HorizontalAlignment="Left"/>
-
+                
                 <ListBox ItemsSource="{Binding ViewableDteqList}"
-                     DockPanel.Dock="Top"
+                         Grid.Row="1"
                          HorizontalAlignment="Left"
-                         
-                     SelectedItem="{Binding SelectedDpnl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     DisplayMemberPath="Tag"
-                     Width="150"
-                     Height="85"
-                     Margin="0 0 0 20"/>
+                         SelectedItem="{Binding SelectedDpnl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         DisplayMemberPath="Tag"
+                         Width="150"
+                         Height="85"
+                         Margin="0 0 0 20"/>
 
-                <TextBlock Text="Circuit Count:"
-                       DockPanel.Dock="Left"
+                <TextBlock Text="Circuit Count "
+                       Grid.Row="2"
                        FontSize="12"
                        FontWeight="SemiBold"
                        HorizontalAlignment="Left"/>
 
+
                 <TextBox Text="{Binding SelectedDpnl.CircuitCount, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                     DockPanel.Dock="Left"
-                         HorizontalAlignment="Left"
+                     Grid.Row="2" Grid.Column="0"
+                         HorizontalAlignment="Right"
                          VerticalAlignment="Top"
                          Width="50"
                      KeyUp="TextBox_KeyEnterUpdate"
                      Margin="0 0 0 20"/>
 
-
-
-            </DockPanel>
+                <Button x:Name="btnAddLoad"
+                        Grid.Row="3" Grid.Column="0" Click="btnAddLoad_Click"
+                        >
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Add Load"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </Grid>
         </ScrollViewer>
 
         <!--Left Lower Menu -->
@@ -132,30 +151,45 @@
                                                DataContext="{Binding SelectedDpnl}"
                                                VerticalAlignment="Bottom"/>
 
+            <Grid Grid.Row="1" Grid.RowSpan="2"
+                  Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Phase A" Grid.Row="0" Grid.Column="0"/>
+                <TextBlock Text="{Binding SelectedDpnl.PhaseA}" Grid.Row="0" Grid.Column="2"/>
+                <TextBlock Text="Phase B" Grid.Row="1" Grid.Column="0"/>
+                <TextBlock Text="{Binding SelectedDpnl.PhaseB}" Grid.Row="1" Grid.Column="2"/>
+                <TextBlock Text="Phase C" Grid.Row="2" Grid.Column="0"/>
+                <TextBlock Text="{Binding SelectedDpnl.PhaseC}" Grid.Row="2" Grid.Column="2"/>
+                
+                <TextBlock Text="Total" Grid.Row="4" Grid.Column="0"/>
+                <TextBlock Text="{Binding SelectedDpnl.DemandKva}" Grid.Row="4" Grid.Column="2"/>
+                
+            <AddEquipmentViews:AddLoadView x:Name="loadAdder"
+                                       Grid.Row="5"
+                                       Grid.Column="0" Grid.ColumnSpan="3"
+                                       VerticalAlignment="Bottom"
+                                       Visibility="Collapsed"
+                                       Margin="10 0 0 25"
+                                       FedFromVisibility="Collapsed"/>
+            </Grid>
+
         </Grid>
 
-        <Grid Grid.Row="1" Grid.RowSpan="2"
-              Grid.Column="3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Text="Phase A" Grid.Row="0" Grid.Column="0"/>
-            <TextBlock Text="{Binding SelectedDpnl.PhaseA}" Grid.Row="0" Grid.Column="2"/>
-            <TextBlock Text="Phase B" Grid.Row="1" Grid.Column="0"/>
-            <TextBlock Text="{Binding SelectedDpnl.PhaseB}" Grid.Row="1" Grid.Column="2"/>
-            <TextBlock Text="Phase C" Grid.Row="2" Grid.Column="0"/>
-            <TextBlock Text="{Binding SelectedDpnl.PhaseC}" Grid.Row="2" Grid.Column="2"/>
-
-        </Grid>
-
+        
+        
         <!--Left Load-->
         <dpanelViewers:DpnCctViewer_V Grid.Row="2" Grid.Column="1" 
                                       DataContext="{Binding SelectedLoadLeft}"

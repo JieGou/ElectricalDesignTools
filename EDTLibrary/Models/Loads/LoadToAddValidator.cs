@@ -167,6 +167,7 @@ namespace EDTLibrary.Models.Loads
                 else {
                     AddError(nameof(FedFromTag), "Invalid Supplier / Fed From");
                 }
+                CanAdd();
             }
         }
         private string _fedFromTag;
@@ -246,7 +247,7 @@ namespace EDTLibrary.Models.Loads
                 if (string.IsNullOrWhiteSpace(_voltage)) {
                     AddError(nameof(Voltage), "Invalid Voltage");
                 }
-                else if (double.TryParse(value.ToString(), out parsedVoltage) == true) {
+                else if (double.TryParse(_voltage.ToString(), out parsedVoltage) == true) {
                     if (_feedingDteq != null) {
                         if (_voltage == _feedingDteq.LoadVoltage.ToString()) {
                             if (_type == LoadTypes.MOTOR.ToString()) {
@@ -304,6 +305,84 @@ namespace EDTLibrary.Models.Loads
                 if (value == null) return;
                 _voltageType = value;
                 Voltage = _voltageType.Voltage.ToString();
+
+
+                _feedingDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
+
+                ClearErrors(nameof(VoltageType));
+                if (GlobalConfig.SelectingNew == true) { return; }
+
+                double parsedVoltage;
+                if (string.IsNullOrWhiteSpace(_voltage)) {
+                    AddError(nameof(VoltageType), "Invalid Voltage");
+                    return;
+                }
+                if (_feedingDteq == null) return;
+
+                
+                if (_voltageType == _feedingDteq.LoadVoltageType) {
+                    if (_type == LoadTypes.MOTOR.ToString()) {
+                        if (_voltageType.Voltage == 600) {
+                            _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==575);
+                        }
+                        else if (_voltageType.Voltage == 480) {
+                            _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 460);
+                        }
+                    }
+                    _isValid = true;
+                    return;
+                }
+                else {
+                    if (_type == LoadTypes.MOTOR.ToString()) {
+                        if (_feedingDteq.LoadVoltageType.Voltage == 600 && _voltageType.Voltage == 575) {
+                            _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 600);
+                            _isValid = true;
+                            return;
+                        }
+                        else if (_feedingDteq.LoadVoltageType.Voltage == 480 && _voltageType.Voltage == 460) {
+                            _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 480);
+                            _isValid = true;
+                            return;
+                        }
+                        else if (_feedingDteq.LoadVoltageType.Voltage == 240) {
+                            if (_voltageType.Voltage == 208 && _voltageType.Phase == 1) {
+                                _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 240);
+                            }
+                            else if (_voltageType.Voltage == 120 ) {
+                                _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120);
+                            }
+                            _isValid = true;
+                            return;
+                        }
+                        else if (_feedingDteq.LoadVoltageType.Voltage == 208) {
+                            if (_voltageType.Voltage == 240 && _voltageType.Phase == 1) {
+                                _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 208);
+                            }
+                            else if (_voltageType.Voltage == 208) {
+                                _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 208);
+                            }
+                            else if (_voltageType.Voltage == 120) {
+                                _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120);
+                            }
+                            _isValid = true;
+                            return;
+                        }
+                        else
+                            AddError(nameof(VoltageType), "Voltage does not match supply Equipment");
+                    }
+                    
+                    else if (_feedingDteq.LoadVoltage == 208 && (_voltageType.Voltage == 208 || _voltageType.Voltage == 120)) {
+                        _isValid = true;
+                        return;
+                    }
+                    else if (_feedingDteq.LoadVoltage == 240 && (_voltageType.Voltage == 240 || _voltageType.Voltage == 120))  {
+                        _isValid = true;
+                        return;
+                    }
+                    else
+                        AddError(nameof(VoltageType), "Voltage does not match supply Equipment");
+                }
+                
             }
         }
         private VoltageType _voltageType;
@@ -332,6 +411,21 @@ namespace EDTLibrary.Models.Loads
             }
         }
         private string _loadFactor;
+
+        private bool CanAdd()
+        {
+            LoadModel newLoad = new LoadModel();
+
+            newLoad.VoltageType = VoltageType;
+            if (_feedingDteq == null) return false;
+            
+            ClearErrors(nameof(FedFromTag));
+            if (_feedingDteq.CanAdd(newLoad)) {
+                return true;
+            }
+            AddError(nameof(FedFromTag), "Not enough space for load");
+            return false;
+        }
 
         public bool IsValid()
         {
@@ -371,6 +465,10 @@ namespace EDTLibrary.Models.Loads
             Voltage = fake;
             Voltage = temp;
 
+            var tempVt = VoltageType;
+            VoltageType = new VoltageType();
+            VoltageType = tempVt;
+
             temp = LoadFactor;
             LoadFactor = fake;
             LoadFactor = temp;
@@ -401,18 +499,26 @@ namespace EDTLibrary.Models.Loads
                 return false;
             }
 
-            if (_isValid && HasErrors == false) {
+            
+
+            if (CanAdd() && _isValid && HasErrors == false) {
                 return true;
             }
+
             var sb = new StringBuilder();
             foreach (var item in _errorDict) {
                 sb.Append(item.Value + ", ");
             }
-            //NotificationService.SendAlert($"LoadToAddValidator - {Tag}", sb.ToString(), "Validation Error");
             return false;
         }
         private bool _isValid;
 
+        public void ResetTag()
+        {
+            var tag = Tag;
+            Tag = " ";
+            Tag = tag;
+        }
 
         public string Error { get; }
 

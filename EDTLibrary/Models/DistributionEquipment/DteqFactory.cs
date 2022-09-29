@@ -52,6 +52,14 @@ namespace EDTLibrary.Models.DistributionEquipment
                 newDteq = new DteqModel();
             }
 
+
+            newDteq.LineVoltage = Double.Parse(dteqToAddValidator.LineVoltage);
+            newDteq.LineVoltageType = dteqToAddValidator.LineVoltageType;
+            newDteq.LineVoltageTypeId = newDteq.LineVoltageType.Id;
+            newDteq.LoadVoltage = Double.Parse(dteqToAddValidator.LoadVoltage);
+            newDteq.LoadVoltageType = dteqToAddValidator.LoadVoltageType;
+            newDteq.LoadVoltageTypeId = newDteq.LoadVoltageType.Id;
+
             newDteq.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == dteqToAddValidator.FedFromTag);
 
             newDteq.Tag = dteqToAddValidator.Tag;
@@ -62,12 +70,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             newDteq.Unit = dteqToAddValidator.Unit;
             newDteq.Description = dteqToAddValidator.Description;
             //newDteq.FedFromTag = dteqToAddValidator.FedFromTag;
-            newDteq.LineVoltage = Double.Parse(dteqToAddValidator.LineVoltage);
-            newDteq.LineVoltageType = dteqToAddValidator.LineVoltageType;
-            newDteq.LineVoltageTypeId = newDteq.LineVoltageType.Id;
-            newDteq.LoadVoltage = Double.Parse(dteqToAddValidator.LoadVoltage);
-            newDteq.LoadVoltageType = dteqToAddValidator.LoadVoltageType;
-            newDteq.LoadVoltageTypeId = newDteq.LoadVoltageType.Id;
+            
 
             return newDteq;
         }

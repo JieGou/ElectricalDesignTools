@@ -52,9 +52,12 @@ public class LoadManager
         var IsValid = loadToAddValidator.IsValid();
         var errors = loadToAddValidator._errorDict;
         if (IsValid == false) return null;
-
+        
+        //CreateLoad checks if the Dteq has enough space to add the load
+        //
         LoadModel newLoad = _loadFactory.CreateLoad(loadToAddValidator); //150ms
-
+        if (newLoad == null) return null; 
+      
         IDteq dteqSubscriber = newLoad.FedFrom;
         if (dteqSubscriber != null) {
             //dteqSubscriber.AssignedLoads.Add(newLoad); //load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom();

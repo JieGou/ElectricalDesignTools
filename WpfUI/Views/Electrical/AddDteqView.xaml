@@ -88,53 +88,52 @@
 
         <!--ADD LOAD-->
         <!--Tags-->
-        <TextBlock Text="Tag" Margin="10 5 0 5"
+        <TextBlock Text="Tag" Margin="5 5 0 5"
                    Grid.Row="0" Grid.Column="2" FontSize="10" />
-        <TextBlock Text="Type" Margin="10 5 0 5"
+        <TextBlock Text="Type" Margin="5 5 0 5"
                    Grid.Row="0" Grid.Column="3" FontSize="10" />
 
-        <TextBlock Text="Description" Margin="10 5 0 5"
+        <TextBlock Text="Description" Margin="5 5 0 5"
                    Grid.Row="0" Grid.Column="4" FontSize="10" />
 
-        <TextBlock Text="Area" Margin="10 5 0 5"
+        <TextBlock Text="Area" Margin="5 5 0 5"
                    Grid.Row="0" Grid.Column="5" FontSize="10" />
-        <TextBlock Text="Fed From" Margin="10 5 0 5"
+        <TextBlock Text="Fed From" Margin="5 5 0 5"
                    Grid.Row="0" Grid.Column="6" FontSize="10" />
 
-        <TextBlock Text="Size" Margin="10 5 0 5"
+        <TextBlock Text="Size" Margin="5 5 0 5"
                    Grid.Row="0" Grid.Column="7" FontSize="10" />
-        <TextBlock Text="Unit" Margin="10 5 0 5"
+        <TextBlock Text="Unit" Margin="5 5 0 5"
                    Grid.Row="0" Grid.Column="8" FontSize="10" />
 
-        <TextBlock Text="Line Voltage" 
-                   Grid.Row="0" Grid.Column="9"
-                   Margin="10 5 0 5"
-                   FontSize="10" />
-
-        <TextBlock Text="Line V Type"
+        <TextBlock Text="Line Voltage"
                    Grid.Row="0" Grid.Column="10"
-                   Margin="10 5 0 5"
+                   Margin="5 5 0 5"
                    FontSize="10" />
 
-        <TextBlock Text="Load Voltage" 
-                   Grid.Row="0" Grid.Column="11"
-                   Margin="10 5 0 5"
-                   FontSize="10" />
 
-        <TextBlock Text="Load V Type"
+        <TextBlock Text="Load Voltage"
                    Grid.Row="0" Grid.Column="12"
-                   Margin="10 5 0 5"
+                   Margin="5 5 0 5"
                    FontSize="10" />
 
+        <Button Content="Add Dist. Eq." Height="23" Width="100"
+                Grid.Row="0" Grid.RowSpan="2"
+                Grid.Column="1"
+                Style="{StaticResource GreenButton}"
+                Command="{Binding AddDteqCommand}"
+                CommandParameter="{Binding DteqToAddValidator}"
+                Margin="0 24 10 0" 
+                PreviewMouseLeftButtonDown="btnAddDteq_PreviewMouseLeftButtonDown" MouseLeave="btnAddDteq_MouseLeave" 
+                Visibility="Visible"/>
 
-
-        <!--ADD LOAD-->
+        <!--ADD DTEQ-->
         <!--Text/Combo Boxes-->
-        <TextBox x:Name ="txtLoadTag"  
+        <TextBox x:Name ="txtDteqTag"  
                  Grid.Row="5" Grid.Column="2"
                  Width="75" Height="23"
                  Text="{Binding DteqToAddValidator.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 PreviewMouseDown="txtLoadTag_PreviewMouseDown" LostFocus="txtLoadTag_LostFocus"
+                 PreviewMouseDown="txtDteqTag_PreviewMouseDown" LostFocus="txtDteqTag_LostFocus"
                  Margin="5,0,5,0" VerticalAlignment="Bottom">
         </TextBox>
 
@@ -142,8 +141,8 @@
                   Template="{DynamicResource ComboBoxBase}"
                   d:Text="MOTOR"
                   MinWidth="100"
-                  ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
-                  SelectedValue="{Binding LoadToAddValidator.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                  ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
+                  SelectedValue="{Binding DteqToAddValidator.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                   Text="{Binding DteqToAddValidator.Type}"
                   IsEditable="False" IsTextSearchEnabled="True"  
                   Margin="5 0 5 0"/>
@@ -198,6 +197,7 @@
                   IsEditable="False" IsTextSearchEnabled="True"
                   Margin="5 0 5 0"/>
 
+            <!--This is collapsed to show the Error message. Originally coded on this-->
         <ComboBox Grid.Row="5" Grid.Column="9"
                   MinWidth="60"
                   d:Text="13800"
@@ -205,7 +205,8 @@
                   SelectedValue="{Binding DteqToAddValidator.LineVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                   Text="{Binding DteqToAddValidator.LineVoltage}"
                   IsEditable="True" IsTextSearchEnabled="True"
-                  Margin="5 0 5 0"/>
+                  Margin="5 0 5 0"
+                  Visibility="Collapsed"/>
 
         <ComboBox Grid.Row="5" Grid.Column="10"
                   Template="{DynamicResource ComboBoxBase}"
@@ -217,7 +218,8 @@
                   Text="{Binding DteqToAddValidator.LineVoltageType}"
                   IsEditable="False" IsTextSearchEnabled="False"
                   Margin="5 0 5 0"/>
-        
+
+        <!--This is collapsed to show the Error message. Originally coded on this-->
         <ComboBox Grid.Row="5" Grid.Column="11"
                   MinWidth="60"
                   d:Text="4160"
@@ -225,7 +227,8 @@
                   SelectedValue="{Binding DteqToAddValidator.LoadVoltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                   Text="{Binding DteqToAddValidator.LoadVoltage}"
                   IsEditable="True" IsTextSearchEnabled="True"
-                  Margin="5 0 5 0"/>
+                  Margin="5 0 5 0"
+                  Visibility="Collapsed"/>
 
         <ComboBox Grid.Row="5" Grid.Column="12"
                   Template="{DynamicResource ComboBoxBase}"

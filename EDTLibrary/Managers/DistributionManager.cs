@@ -37,25 +37,13 @@ namespace EDTLibrary.Managers
                 caller.FedFromType = newSupplier.GetType().ToString();
             }
 
+
             if (DaManager.GettingRecords == false) {
+
                 if (oldSupplier != null) {
                     caller.LoadingCalculated -= oldSupplier.OnAssignedLoadReCalculated;
-
-                    //Todo - RemoveLoad method inside each dteq
-                    oldSupplier.AssignedLoads.Remove(caller);
-
-                    string type = oldSupplier.GetType().ToString();
-                    string check = typeof(DpnModel).ToString();
-                    try {
-                        if (type == check)
-                        {
-                            var pnl = (DpnModel)oldSupplier;
-                            pnl.SetCircuits();
-                        }
-                    }
-                    catch (Exception) {
-
-                    }
+                  
+                    oldSupplier.RemoveAssignedLoad(caller);
 
                     if (oldSupplier.Tag != GlobalConfig.Deleted) {
                         oldSupplier.CalculateLoading(); //possible cause of resaving dteq to databse

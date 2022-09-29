@@ -30,7 +30,7 @@ using WpfUI.Stores;
 namespace WpfUI.ViewModels.Electrical;
 
 [AddINotifyPropertyChangedInterface]
-internal class DpanelViewModel: ViewModelBase
+internal class DpanelViewModel : ViewModelBase
 {
 
     private DteqFactory _dteqFactory;
@@ -41,6 +41,7 @@ internal class DpanelViewModel: ViewModelBase
         get { return _listManager; }
         set { _listManager = value; }
     }
+    public LoadToAddValidator LoadToAddValidator { get; set; }
 
 
     public SolidColorBrush SingleLineViewBackground { get; set; } = new SolidColorBrush(Colors.LightCyan);
@@ -51,8 +52,9 @@ internal class DpanelViewModel: ViewModelBase
     public DpanelViewModel(ListManager listManager)
     {
         ListManager = listManager;
+        LoadToAddValidator = new LoadToAddValidator(listManager);
 
-        AddLoadToPanelCommand = new RelayCommand(AddPanelLoad);
+        AddLoadCommand = new RelayCommand(AddLoad);
 
         MoveUpLeftCommand = new RelayCommand(MoveUpLeft);
         MoveDownLeftCommand = new RelayCommand(MoveDownLeft);
@@ -78,7 +80,7 @@ internal class DpanelViewModel: ViewModelBase
 
             //used for fedfrom Validation
             _selectedDpnl = value;
-
+            LoadToAddValidator.FedFromTag = _selectedDpnl.Tag;
             if (_selectedDpnl != null) {
                 //AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDpnl.AssignedLoads);
 
@@ -101,18 +103,19 @@ internal class DpanelViewModel: ViewModelBase
             var dteqSubList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.DPN.ToString() || d.Type == DteqTypes.CDP.ToString()).ToList();
 
             foreach (var dteq in dteqSubList) {
-                subList.Add((IDpn) dteq);
+                subList.Add((IDpn)dteq);
             }
             return new ObservableCollection<IDpn>(subList);
         }
     }
+
 
     public IPowerConsumer SelectedLoadLeft
     {
         get { return _selectedLeftLoad; }
         set {
             if (value == null) return;
-            _selectedLeftLoad = value; 
+            _selectedLeftLoad = value;
 
             var selectedCircuits = new ObservableCollection<IPowerConsumer>();
 
@@ -155,15 +158,23 @@ internal class DpanelViewModel: ViewModelBase
     public ObservableCollection<IPowerConsumer> SelectedCircuitList { get; set; } = new ObservableCollection<IPowerConsumer>();
     //public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> ();
 
-    public ICommand AddLoadToPanelCommand { get; }
-    private void AddPanelLoad()
+    
+    public ICommand AddLoadCommand { get; }
+
+    public void AddLoad(object loadToAddObject)
     {
-        if (SelectedDpnl == null || SelectedLoadLeft == null ) {
-            MessageBox.Show("Select a Panel and a Load.", "Selection Required");
-            return;
+        AddLoadAsync(loadToAddObject);
+    }
+
+    public async Task AddLoadAsync(object loadToAddObject)
+    {
+        try {
+            LoadModel newLoad = await LoadManager.AddLoad(loadToAddObject, _listManager);
+            LoadToAddValidator.ResetTag();
         }
-        var dpn = (DpnModel)SelectedDpnl;
-        DpnCircuitManager.AddLoad(dpn, SelectedLoadLeft, ListManager);
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
     }
 
 

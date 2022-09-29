@@ -13,40 +13,43 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels;
 public class DpnCircuitManager
 {
 
-    public static void AddLoad(IDpn dpn, IPowerConsumer load, ListManager listManager)
+    public static bool AddLoad(IDpn dpn, IPowerConsumer load, ListManager listManager)
     {
-        int leftCct = 0;
-        int rightCct = 0;
+        if (CanAdd(dpn, load)) {
 
-        leftCct = GetAvailableCircuit(dpn, load, DpnSide.Left);
-        
-        rightCct = GetAvailableCircuit(dpn, load, DpnSide.Right);
-
-        if (leftCct < 0 && rightCct < 0) {
-            return;
-        }
-
-        if (dpn.AssignedLoads.FirstOrDefault(l => l.Id == load.Id) == null) {
-
-           
-            if (leftCct < rightCct || rightCct== -1) {
-                if (leftCct != -1) {
-                    dpn.LeftCircuits[leftCct] = load;
-                    //dpn.SetLeftCircuits();
-                }
+            //Left
+            if ((_leftCctsAvailable != -1 && _leftCctsAvailable <= _rightCctsAvailable) ||
+                            (_leftCctsAvailable != -1 && _rightCctsAvailable == -1)) {
+                load.PanelSide = DpnSide.Left.ToString();
             }
-
-            else if(rightCct < leftCct || leftCct == -1) {
-                 if (rightCct != -1) {
-                    dpn.RightCircuits[rightCct] = load;
-                    //dpn.SetRightCircuits();
-                }
+            //Right
+            else if ((_rightCctsAvailable != -1 && _rightCctsAvailable <= _leftCctsAvailable) ||
+                    (_rightCctsAvailable != -1 && _leftCctsAvailable == -1)) {
+                load.PanelSide = DpnSide.Right.ToString();
             }
-
             dpn.AssignedLoads.Add(load);
             dpn.SetCircuits();
+            return true;
         }
+        return false;
+        
     }
+    private static int _leftCctsAvailable = 0;
+    private static int _rightCctsAvailable = 0;
+    public static bool CanAdd(IDpn dpn, IPowerConsumer load)
+    {
+     
+        _leftCctsAvailable = GetAvailableCircuit(dpn, load, DpnSide.Left);
+
+        _rightCctsAvailable = GetAvailableCircuit(dpn, load, DpnSide.Right);
+
+        if (_leftCctsAvailable < 0 && _rightCctsAvailable < 0) return false;
+
+        if (dpn.AssignedLoads.FirstOrDefault(l => l.Id == load.Id) != null) return false;
+
+        return true;
+    }
+
     public static void DeleteLoad(IDpn dpn, IPowerConsumer load, ListManager listManager)
     {
         dpn.AssignedLoads.Remove(load);
@@ -116,6 +119,9 @@ public class DpnCircuitManager
             }
         }
 
+        if (load.VoltageType == null) {
+            return false;
+        }
         int loadPoles = load.VoltageType.Poles;
 
         for (int i = 0; i < loadPoles; i++) {

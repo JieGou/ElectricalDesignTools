@@ -27,12 +27,17 @@ namespace EDTLibrary.Models.Loads
             newLoad.VoltageType = loadToAddValidator.VoltageType;
             newLoad.VoltageTypeId = newLoad.VoltageType.Id;
 
+
             foreach (var dteq in _listManager.DteqList) {  // 85 ms
                 if (dteq.Tag == loadToAddValidator.FedFromTag) {
-
-                    newLoad.FedFrom = dteq; 
-
-                    break;
+                    if (dteq.CanAdd(newLoad)) {
+                        newLoad.FedFrom = dteq;
+                        break;
+                    }
+                    else 
+                    {
+                        return null; 
+                    }
                 }
             }
             newLoad.Tag = loadToAddValidator.Tag;
@@ -58,6 +63,7 @@ namespace EDTLibrary.Models.Loads
                 newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
             }
 
+            newLoad.SequenceNumber = 500;
             return newLoad;
         }
     }

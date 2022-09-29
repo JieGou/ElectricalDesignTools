@@ -305,7 +305,7 @@ namespace EDTLibrary.Models.Loads
 
                 UndoManager.CanAdd = false;
                 UndoManager.Lock(this, nameof(FedFrom));
-
+                
                 if (DaManager.GettingRecords == false) {
                     DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
@@ -727,7 +727,7 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
-
+        public bool CanSave { get; set; } = true;
         public event EventHandler PropertyUpdated;
         public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
         {
@@ -735,6 +735,7 @@ namespace EDTLibrary.Models.Loads
             try {
                 if (DaManager.GettingRecords == true) return;
                 if (IsCalculating) return;
+                if (CanSave == false) return;
 
                 await Task.Run(() => {
                     if (PropertyUpdated != null) {

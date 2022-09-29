@@ -138,4 +138,9 @@ public partial class DpanelView : UserControl
         scv.RaiseEvent(eventArg);
         e.Handled = true;
     }
+
+    private void btnAddLoad_Click(object sender, RoutedEventArgs e)
+    {
+        loadAdder.Visibility = loadAdder.Visibility == Visibility.Collapsed ? Visibility.Visible: Visibility.Collapsed;
+    }
 }

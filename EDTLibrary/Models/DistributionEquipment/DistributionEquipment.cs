@@ -223,6 +223,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _size;
                 _size = value;
+               
                 if (DaManager.GettingRecords == false) {
                     CalculateLoading();
                     SCCR = CalculateSCCR();
@@ -693,6 +694,10 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         }
 
+        public virtual bool CanAdd(IPowerConsumer load)
+        {
+            return true;
+        }
         /// <summary>
         /// Returns true if the load was added successfully. Return faslse if the load is already assigned to this Dteq.
         /// </summary>
@@ -711,6 +716,14 @@ namespace EDTLibrary.Models.DistributionEquipment
                 return true;
             }
             return false;
+        }
+
+        public virtual void RemoveAssignedLoad(IPowerConsumer load)
+        {
+            if (load != null) {
+                AssignedLoads.Remove(load);
+                load.LoadingCalculated -= OnAssignedLoadReCalculated;
+            }
         }
     }
 }

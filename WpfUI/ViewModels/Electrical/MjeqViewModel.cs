@@ -196,9 +196,6 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     public ICommand SetFedFromCommand { get; }
 
 
-    #endregion
-
-    #region Window Commands
     public void CloseSelectionWindow()
     {
         SelectionWindow.Close();
@@ -672,7 +669,10 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
                 _listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
                 RefreshDteqTagValidation();
+
+                AssignedLoads = SelectedDteq.AssignedLoads;
             }
+            
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);
@@ -734,7 +734,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         try {
             LoadModel newLoad = await LoadManager.AddLoad(loadToAddObject, _listManager);
             if (newLoad != null) AssignedLoads.Add(newLoad);
-            RefreshLoadTagValidation();
+            LoadToAddValidator.ResetTag();
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);
@@ -823,7 +823,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             //var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
             AssignedLoads.Remove(load);
 
-            RefreshLoadTagValidation();
+            LoadToAddValidator.ResetTag();
 
         }
         catch (Exception ex) {
