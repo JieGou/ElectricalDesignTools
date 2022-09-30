@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace EDTLibrary.Models.Loads
 {
@@ -28,21 +29,18 @@ namespace EDTLibrary.Models.Loads
         int SequenceNumber { get; set; }
         string PanelSide { get; set; }
 
-        void CalculateLoading();
+        void CalculateLoading(string propertyName = "");
 
         
 
 
 
         //Events
-        event EventHandler LoadingCalculated;
-        abstract void OnLoadingCalculated();
+        event EventHandler<CalculateLoadingEventArgs> LoadingCalculated;
+        abstract void OnLoadingCalculated(string propertyName = "");
 
-       
-        public void OnAssignedLoadReCalculated(object source, EventArgs e)
-        {
-            CalculateLoading();
-        }
+
+        
 
         
     }

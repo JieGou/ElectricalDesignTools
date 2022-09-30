@@ -53,11 +53,11 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
-            <ColumnDefinition Width="225"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="25"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="225"/>
+            <ColumnDefinition Width="275"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
 
@@ -122,7 +122,13 @@
                     </Button.Content>
                 </Button>
             </Grid>
+
+            
         </ScrollViewer>
+
+        <Button Content="Add Load" x:Name="tutorial"
+                Grid.Row="0" Grid.Column="5" Click="tutorial_Click"
+                        />
 
         <!--Left Lower Menu -->
         <StackPanel Orientation="Vertical"
@@ -191,15 +197,17 @@
         
         
         <!--Left Load-->
-        <dpanelViewers:DpnCctViewer_V Grid.Row="2" Grid.Column="1" 
+        <!--<dpanelViewers:DpnCctViewer_V Grid.Row="2" Grid.Column="1" 
                                       DataContext="{Binding SelectedLoadLeft}"
-                                      />
+                                      />-->
         <!--Left Buttons-->
         <Grid Grid.Row="2" 
               Grid.Column="2"
               HorizontalAlignment="Center"
-              Margin="0 25 0 0">
+              Margin="0 25 0 0"
+              Visibility="Collapsed">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -223,7 +231,14 @@
                     Margin="3"
                     Command="{Binding MoveDownLeftCommand}"/>
 
+            <!--Down-->
             <Button Grid.Row="2" Grid.Column="1"
+                    FontFamily="Marlett" FontSize="12" Content="8" 
+                    Width="20" Height="20"
+                    Margin="3"
+                    Command="{Binding MoveRightCommand}"/>
+
+            <Button Grid.Row="3" Grid.Column="1"
                     Style="{StaticResource RedButton}"
                     Content ="X" 
                     Width="20" Height="20"
@@ -234,7 +249,7 @@
 
         <!--Right Load-->
         <dpanelViewers:DpnCctViewer_V Grid.Row="2" Grid.Column="5" 
-                                      DataContext="{Binding SelectedLoadRight}"
+                                      DataContext="{Binding SelectedLoad}"
                                       />
         <!--Right Buttons-->
         <Grid Grid.Row="2" 
@@ -243,7 +258,8 @@
               Margin="0 25 0 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="0"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
 
             </Grid.RowDefinitions>
@@ -253,26 +269,57 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
+            <StackPanel Orientation="Vertical"
+                Grid.Row="0" Grid.RowSpan="3"
+                        Grid.Column="1" >
             <!--Up-->
-            <Button Grid.Row="0" Grid.Column="1"
-                    FontFamily="Marlett" FontSize="12" Content="5" 
-                    Width="20" Height="20"
-                    Margin="3"
-                    Command="{Binding MoveUpRightCommand}"/>
+                <Button Content="5" 
+                        Grid.Row="0" Grid.Column="1"
+                        FontFamily="Marlett" FontSize="12" 
+                        Width="20" Height="20"
+                        Margin="3"
+                        Command="{Binding MoveUpCommand}"/>
 
-            <!--Down-->
-            <Button Grid.Row="2" Grid.Column="1"
-                    FontFamily="Marlett" FontSize="12" Content="6" 
+                <!--Down-->
+                <Button Content="6" 
+                        Grid.Row="2" Grid.Column="1"
+                        FontFamily="Marlett" FontSize="12" 
+                        Width="20" Height="20"
+                        Margin="3"
+                        Command="{Binding MoveDownCommand}"/>
+            </StackPanel>
+            <!--Left-->
+            <Button Content="3" 
+                    Grid.Row="1" Grid.Column="0"
+                    FontFamily="Marlett" FontSize="12" 
                     Width="20" Height="20"
                     Margin="3"
-                    Command="{Binding MoveDownRightCommand}"/>
+                    Command="{Binding MoveLeftCommand}"/>
+            
+            <!--Right-->
+            <Button Content="4"
+                    Grid.Row="1" Grid.Column="2"
+                    FontFamily="Marlett" FontSize="12"  
+                    Width="20" Height="20"
+                    Margin="3"
+                    Command="{Binding MoveRightCommand}"/>
+
+            <!--Delete-->
+            <Button Content ="Delete"
+                    Grid.Row="3" 
+                    Grid.Column="0" Grid.ColumnSpan="3"
+                    Width="50"
+                    Style="{StaticResource RedButton}"
+                    Margin="3 20 3 3"
+                    Command="{Binding DeleteLoadCommand}"
+                    ToolTip="Delete selected load"/>
         </Grid>
 
         <!--Panel Graphic-->
         <Border BorderBrush="Black" BorderThickness="1"
                 Background="LightGray"
                 VerticalAlignment="Top"
-                HorizontalAlignment="Center"
+                HorizontalAlignment="Left"
                 Grid.Row="2" Grid.RowSpan="2"
                 Grid.Column="3">
             
@@ -393,12 +440,13 @@
                                        BorderBrush="Black"
                                        BorderThickness="0 0 0 0"
                                        AutoGenerateColumns="False"
-                                       ItemsSource="{Binding SelectedDpnl.LeftCircuits, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                       ItemsSource="{Binding SelectedDpnl.LeftCircuits, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, IsAsync=False}"
                                        SelectedItem="{Binding SelectedLoadLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        RowHeight="{StaticResource RowHeight}"
                                        EditTrigger="OnDoubleTap"
                                        RowSelectionBrush="{StaticResource DatagridSelection}"
                                    
+                                       
                                    
                                        CurrentCellBorderBrush="Black"
                                        CurrentCellBorderThickness="1"
@@ -411,7 +459,10 @@
                                        AllowResizingColumns="False"
                                        AllowDrop="False"
                                    
-                                       ShowGroupDropArea="False"
+                                       ShowGroupDropArea="False" 
+                                       
+                                       SelectionChanged="LeftGrid_SelectionChanged"
+                                       PreviewMouseUp="LeftGrid_MouseUp"
                                        >
 
                             <sf:SfDataGrid.Columns>
@@ -473,33 +524,7 @@
                             </sf:SfDataGrid.Columns>
                         </sf:SfDataGrid>
 
-                        <!--<Border BorderBrush="DarkGray" BorderThickness="0"
-                                Grid.Row="0" Grid.RowSpan="2"
-                                Grid.Column="0"
-                                HorizontalAlignment="Left"
-                                Visibility="Visible">
-
-                            <ItemsControl Grid.Row="1"
-                                    Grid.Column="2"
-                                    ItemsSource="{Binding SelectedDpnl.LeftCircuits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    VerticalAlignment="Top">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Vertical"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-
-                                        <StackPanel Orientation="Vertical"
-                                                HorizontalAlignment="Left">
-                                            <dPanelsSubViews:DPanelCircuitLeft DataContext="{Binding}" />
-                                        </StackPanel>
-
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Border>-->
+                       
 
                         <!--Left Circuit #s-->
                         <DataGrid Grid.Row="1" Grid.RowSpan="2"
@@ -657,7 +682,7 @@
                                        BorderBrush="DarkGray"
                                        BorderThickness="0 0 0 0"
                                        AutoGenerateColumns="False"
-                                       ItemsSource="{Binding SelectedDpnl.RightCircuits, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                       ItemsSource="{Binding SelectedDpnl.RightCircuits, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, IsAsync=False}"
                                        SelectedItem="{Binding SelectedLoadRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        RowHeight="{StaticResource RowHeight}"
                                    
@@ -676,23 +701,26 @@
                                        AllowResizingColumns="False"
                                        AllowDrop="False"
                                    
-                                       ShowGroupDropArea="False">
+                                       ShowGroupDropArea="False" 
+                                       SelectionChanged="RightGrid_SelectionChanged"
+                                       PreviewMouseUp="RightGrid_MouseUp"
+                                       
+                                       >
 
                             <sf:SfDataGrid.Columns>
 
                                 <sf:GridComboBoxColumn HeaderText="Beaker" MappingName="PdSizeTrip"
-                                                   Width="{StaticResource BreakerColumnWidth}"
-                                                   AllowEditing="True"
-                                                   ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
-                                                                         RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                         AncestorType={x:Type Window}}}"
-                                                   DisplayMemberPath="TripAmps"
-                                                   SelectedValuePath="TripAmps"
-                                                   TextAlignment="Center" 
-                                                   VerticalAlignment="Center"
-                                                   FilterRowOptionsVisibility="Collapsed"
-                                              
-                                                   CellStyle="{StaticResource comboBoxCellStyle}"
+                                                       Width="{StaticResource BreakerColumnWidth}"
+                                                       AllowEditing="True"
+                                                       ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                                                                             RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                             AncestorType={x:Type Window}}}"
+                                                       DisplayMemberPath="TripAmps"
+                                                       SelectedValuePath="TripAmps"
+                                                       TextAlignment="Center" 
+                                                       VerticalAlignment="Center"
+                                                       FilterRowOptionsVisibility="Collapsed"
+                                                       CellStyle="{StaticResource comboBoxCellStyle}"
                                                    >
                                     <sf:GridComboBoxColumn.CellTemplate>
                                         <DataTemplate>
@@ -737,33 +765,6 @@
                                                    TextAlignment="Center"/>
                             </sf:SfDataGrid.Columns>
                         </sf:SfDataGrid>
-
-                        <!--<Border BorderBrush="DarkGray" BorderThickness="0"
-                                Grid.Row="0" Grid.RowSpan="2"
-                                Grid.Column="4"
-                                Visibility="Visible">
-                        
-                            <ItemsControl Grid.Row="1"
-                                    Grid.Column="2"
-                                    ItemsSource="{Binding SelectedDpnl.RightCircuits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    VerticalAlignment="Top">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Vertical"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-
-                                        <StackPanel Orientation="Vertical"
-                                                HorizontalAlignment="Left">
-                                            <dPanelsSubViews:DPanelCircuitRight DataContext="{Binding}" />
-                                        </StackPanel>
-
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Border>-->
 
                         <!--Right Circuit #s-->
                         <DataGrid Grid.Row="1" Grid.RowSpan="2"

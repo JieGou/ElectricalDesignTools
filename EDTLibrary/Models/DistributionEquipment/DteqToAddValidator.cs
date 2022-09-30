@@ -180,6 +180,8 @@ public class DteqToAddValidator : INotifyDataErrorInfo
                 AddError(nameof(FedFromTag), "Selected equipment doesn' exist");
                 _isValid = false;
             }
+            CanAdd();
+
         }
     }
 
@@ -257,7 +259,8 @@ public class DteqToAddValidator : INotifyDataErrorInfo
                         AddError(nameof(LineVoltage), "Voltage does not match supply voltage");
                     }
                 }
-                else { _isValid = true; }
+                else { 
+                    _isValid = true; }
             }
         }
     }
@@ -290,10 +293,47 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         get { return _lineVoltageType; }
         set
         {
-            if (value == null) return;
+            if (value == null || value == _lineVoltageType) return;
             _lineVoltageType = value;
             LineVoltage = _lineVoltageType.Voltage.ToString();
-        }
+
+            ClearErrors(nameof(LineVoltageType));
+
+            if (string.IsNullOrWhiteSpace(_lineVoltage)) {
+                AddError(nameof(LineVoltageType), "Invalid Voltage");
+            }
+            
+            if (_fedFromTag == GlobalConfig.Utility) {
+                _isValid = true;
+            }
+            else if (_feedingDteq != null && _feedingDteq.Tag != "UTILITY") {
+                if (_feedingDteq.LoadVoltageType.Voltage == 208 && _feedingDteq.LoadVoltageType.Phase==3) {
+                    if (_lineVoltageType.Voltage==208 || _lineVoltageType.Voltage == 120) {
+                        _isValid = true;
+                        if (Type != DteqTypes.XFR.ToString()) {
+                            LoadVoltageType = LineVoltageType;
+                        }
+                    }
+                }
+                else if (_feedingDteq.LoadVoltageType.Voltage == 240) {
+                    if (_lineVoltageType.Voltage == 120) {
+                        _isValid = true;
+                        if (Type != DteqTypes.XFR.ToString()) {
+                            LoadVoltageType = LineVoltageType;
+                        }
+                    }
+                }
+                else if (_lineVoltageType != _feedingDteq.LoadVoltageType) {
+                    AddError(nameof(LineVoltageType), "Voltage does not match supply voltage");
+                }
+            }
+            else { 
+                _isValid = true;
+                if (Type != DteqTypes.XFR.ToString()) {
+                    LoadVoltageType = LineVoltageType;
+                }
+            }
+    }
     }
     private VoltageType _lineVoltageType;
 
@@ -302,12 +342,43 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         get { return _loadVoltageType; }
         set
         {
-            if (value == null) return;
+            if (value == null || value == _loadVoltageType) return;
             _loadVoltageType = value;
             LoadVoltage = _loadVoltageType.Voltage.ToString();
+
+            ClearErrors(nameof(LoadVoltageType));
+            if (string.IsNullOrWhiteSpace(_loadVoltage)) {
+                AddError(nameof(LoadVoltageType), "Invalid voltage");
+            }
+            else if (_loadVoltageType != LineVoltageType && Type != DteqTypes.XFR.ToString()) {
+                AddError(nameof(LoadVoltageType), "Voltage does not match supply voltage");
+            }
+
+            else if (_fedFromTag == GlobalConfig.Utility) {
+                _isValid = true;
+                if (Type != DteqTypes.XFR.ToString()) {
+                    LineVoltageType = LoadVoltageType;
+                }
+            }
         }
     }
     private VoltageType _loadVoltageType;
+
+    private bool CanAdd()
+    {
+        LoadModel newLoad = new LoadModel();
+
+        newLoad.VoltageType = LineVoltageType;
+        if (_feedingDteq == null) return false;
+
+        ClearErrors(nameof(FedFromTag));
+        if (_feedingDteq.CanAdd(newLoad)) {
+            return true;
+        }
+        AddError(nameof(FedFromTag), "Not enough space for load");
+        return false;
+    }
+
     public string Error { get; }
 
 
@@ -316,6 +387,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
     {
         string temp;
         string fake = "fake";
+        var tempVt = new VoltageType();
 
         temp = Tag;
         Tag = fake;
@@ -348,10 +420,18 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         temp = LineVoltage;
         LineVoltage = fake;
         LineVoltage = temp;
-        
+
+        tempVt = LineVoltageType;
+        LineVoltageType = new VoltageType();
+        LineVoltageType = tempVt;
+
         temp = LoadVoltage;
         LoadVoltage = fake;
         LoadVoltage = temp;
+
+        tempVt = LoadVoltageType;
+        LoadVoltageType = new VoltageType();
+        LoadVoltageType = tempVt;
 
 
 #if DEBUG
@@ -374,12 +454,17 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         //    ErrorHelper.Log($"DteqToAddValidator_IsValid - Error: {item.Key}, {item.Value}");
         //}
 #endif
+
+
         if (Tag == GlobalConfig.EmptyTag) {
             ClearErrors();
             return false;
         }
-        
-        
+
+        if (CanAdd() && _isValid && HasErrors == false) {
+            return true;
+        }
+
         var errors = _errorDict;
         if (_isValid && HasErrors == false) {
 

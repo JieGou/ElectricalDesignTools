@@ -235,6 +235,7 @@ namespace EDTLibrary.Models.Loads
             get { return _voltageType; }
             set
             {
+                if (value == null) return;
                 var oldValue = _voltageType;
                 _voltageType = value;
 
@@ -244,9 +245,9 @@ namespace EDTLibrary.Models.Loads
                 UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
 
                 if (DaManager.Importing == false && DaManager.GettingRecords == false) {
-                    CalculateLoading();
+                    CalculateLoading(nameof(VoltageType));
                 }
-                OnPropertyUpdated();
+                OnPropertyUpdated(nameof(VoltageType));
             }
         }
         private VoltageType _voltageType;
@@ -270,7 +271,20 @@ namespace EDTLibrary.Models.Loads
 
             }
         }
-        public string Unit { get; set; }
+        public string Unit
+        {
+            get => _unit; 
+            set
+            {
+                _unit = value;
+
+                if (DaManager.GettingRecords) return;
+
+                CalculateLoading();
+
+                OnPropertyUpdated(nameof(Unit));
+            }
+        }
         public int FedFromId { get; set; }
         public string FedFromType { get; set; }
 
@@ -305,7 +319,7 @@ namespace EDTLibrary.Models.Loads
 
                 UndoManager.CanAdd = false;
                 UndoManager.Lock(this, nameof(FedFrom));
-                
+
                 if (DaManager.GettingRecords == false) {
                     DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
@@ -377,8 +391,11 @@ namespace EDTLibrary.Models.Loads
         public double RunningAmps { get; set; }
 
         //Sizing
-        public string PdType { get => _pdType;
-            set { 
+        public string PdType
+        {
+            get => _pdType;
+            set
+            {
                 _pdType = value;
                 OnPropertyUpdated();
             }
@@ -521,12 +538,13 @@ namespace EDTLibrary.Models.Loads
 
         private BreakerSize _breakerSize;
         private string _pdType;
+        private string _unit;
 
         public bool IsCalculating { get; set; }
 
 
         //Methods
-        public void CalculateLoading()
+        public void CalculateLoading(string propertyName = "")
         {
 
             UndoManager.CanAdd = false;
@@ -534,7 +552,7 @@ namespace EDTLibrary.Models.Loads
                 return;
             }
 
-            if (LoadFactor >=1 ) {
+            if (LoadFactor >= 1) {
                 LoadFactor = 1;
             }
             else if (LoadFactor == null || LoadFactor == 0) {
@@ -645,7 +663,7 @@ namespace EDTLibrary.Models.Loads
             UndoManager.CanAdd = true;
 
             IsCalculating = false;
-            OnLoadingCalculated();
+            OnLoadingCalculated(propertyName);
             PowerCable.ValidateCableSize(PowerCable);
             CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
 
@@ -712,18 +730,13 @@ namespace EDTLibrary.Models.Loads
 
 
         //Events
-        public event EventHandler LoadingCalculated;
-        public virtual void OnLoadingCalculated()
+        public event EventHandler<CalculateLoadingEventArgs> LoadingCalculated;
+        public virtual void OnLoadingCalculated(string propertyName = "")
         {
             if (LoadingCalculated != null) {
-                LoadingCalculated(this, EventArgs.Empty);
+                var calcEventArgs = new CalculateLoadingEventArgs() { PropertyName = propertyName };
+                LoadingCalculated(this, calcEventArgs);
 
-                //Debug.Print(LoadingCalculated.GetInvocationList().Length.ToString());
-                //var list = LoadingCalculated.GetInvocationList();
-                //foreach (var item in list) {
-                //    DteqModel subscriber = (DteqModel)item.Target;
-                //    Debug.Print(subscriber.Tag);
-                //}
             }
         }
 
@@ -737,12 +750,13 @@ namespace EDTLibrary.Models.Loads
                 if (IsCalculating) return;
                 if (CanSave == false) return;
 
+
                 await Task.Run(() => {
                     if (PropertyUpdated != null) {
                         PropertyUpdated(this, EventArgs.Empty);
                     }
                 });
-                
+
 
 
                 ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");

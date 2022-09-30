@@ -27,7 +27,7 @@
              x:Name="eqView"
               
              mc:Ignorable="d"
-             d:Width="1500" d:Height="1000"
+             d:Width="1850" d:Height="1000"
              Background="#FFDAEEF1" 
              PreviewKeyDown="eqView_PreviewKeyDown" Unloaded="eqView_Unloaded" MouseLeave="eqView_MouseLeave" Loaded="eqView_Loaded" 
              >
@@ -92,7 +92,9 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="auto" MinWidth="570"/>
+                <ColumnDefinition Width="5"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -202,30 +204,6 @@
                         PreviewMouseLeftButtonDown="AddEquipmentPanelViewToggle_PreviewMouseLeftButtonDown"/>
             </Grid>
 
-            <!--ADD Buttons-->
-            <!--<StackPanel Orientation="Vertical"
-                        Grid.Column="1" Grid.Row="3"
-                        Margin="0,10,0,0">
-
-                <Button Content="Add Dist. Eq." Height="25" Width="100"
-                        x:Name="btnAddDteq"
-                        Style="{StaticResource GreenButton}"
-                        Command="{Binding AddDteqCommand}"
-                        CommandParameter="{Binding DteqToAddValidator}"
-                        Margin="10,13,10,15" PreviewMouseLeftButtonDown="btnAddDteq_PreviewMouseLeftButtonDown" MouseLeave="btnAddDteq_MouseLeave" 
-                        Visibility="Visible" IsDefault="True"
-                         />
-
-                <Button Content="Add Load"  Height="25" Width="100"
-                        x:Name="btnAddLoad"
-                        Style="{StaticResource GreenButton}"
-                        Command="{Binding AddLoadCommand}"
-                        CommandParameter="{Binding LoadToAddValidator}"
-                        Margin="10,21,10,10" 
-                        Visibility="Visible" PreviewMouseLeftButtonDown="btnAddLoad_PreviewMouseLeftButtonDown" MouseLeave="btnAddLoad_MouseLeave" 
-                        />
-
-            </StackPanel>-->
 
             <!--Buttons beside load grid-->
             <StackPanel Orientation="Vertical" 
@@ -264,9 +242,6 @@
                   >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto" MinWidth="550" SharedSizeGroup="A"/>
                     <!--Details Column-->
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -283,9 +258,10 @@
                                FontSize="14" 
                                FontWeight="SemiBold"/>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" 
-                            Grid.Row="0" Grid.Column="1"
-                            Grid.ColumnSpan="2">
+                <!--Column Toggle Buttons-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                            Grid.Row="0" Grid.Column="1" 
+                            Margin="0 0 50 0">
 
 
                     <!--<Button 
@@ -325,38 +301,17 @@
                     </Button>
                 </StackPanel>
 
-                <!--DETAILS VIEW-->
-                <!--Dteq-->
-                <TextBlock Text="Distribution Equipment Details" 
-                           Grid.Row="0" Grid.Column="3" 
-                           VerticalAlignment="Bottom"
-                           Margin="10,0,0,0"/>
-                <Border BorderThickness="1 1 1 1" BorderBrush="Black" Background="Transparent"
-                        Grid.Row="1" Grid.Column="3" Margin="5">
-                    <ContentControl x:Name="DteqDetailsContent"
-                                    Grid.Row="1" Grid.Column="3"/>
-                </Border>
 
-                <GridSplitter Grid.Column="2" HorizontalAlignment="Center"   
-                              Width="{StaticResource GridSplitterWidth}" Background="{StaticResource GridSplitterColor}"
-                              Margin="2 0" Grid.Row="0" Grid.RowSpan="2"
-                              Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>
-
-
-                <!--ItemsSource="{Binding Source={StaticResource cvsIdteq}}"-->
-
-                <!--DTEQ-->
                 <!--DATA GRID-->
-
                 <!--Grid height is adjusted in the View.cs file by the method btnGrdSplitAdjust_PreviewMouseLeftButtonDown-->
                 <DataGrid x:Name="dgdDteq" 
-                          Grid.Column="0"
+                          Grid.Row="1" Grid.Column="1"
                           SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           ItemsSource="{Binding DteqCollectionView}"
+                          Margin="5 5 10 5"
                           
                           IsSynchronizedWithCurrentItem="True"
                           FrozenColumnCount="1"
-                          Margin="5,5,5 5"
                           
                           RowHeaderWidth="0"
                           
@@ -373,7 +328,7 @@
                           VirtualizingPanel.IsVirtualizing="True"
                           SelectionChanged="dgdDteq_SelectionChanged"
                           VirtualizingPanel.VirtualizationMode="Recycling"
-                          RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}" Grid.ColumnSpan="2" Grid.Row="1" MouseLeave="dgdDteq_MouseLeave" >
+                          RowDetailsVisibilityMode="{Binding ToggleRowDetailViewProp}" MouseLeave="dgdDteq_MouseLeave" >
                     <!--ItemsSource="{Binding DteqList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
 
                     <DataGrid.Resources>
@@ -877,6 +832,7 @@
                         </ControlTemplate>
                     </DataGrid.RowValidationErrorTemplate>
                 </DataGrid>
+                
             </Grid>
 
             <!--ADD EQUIPMENT-->
@@ -901,18 +857,13 @@
                 <!--ADD Load-->
                 <subViews:AddLoadView Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="20" />
 
-                
+
             </Grid>
 
             <!--LOAD GRID-->
             <Grid Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto" MinWidth="550" SharedSizeGroup="A"/>
-                    <!--Details Column-->
-
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -941,8 +892,9 @@
                 </TextBlock>
 
                 <!--Column Toggle Buttons-->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" 
-                            Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                            Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                            Margin="0 0 50 0">
 
 
 
@@ -991,30 +943,11 @@
                     </Button>
                 </StackPanel>
 
-                <!--LOAD-->
-                <!--DETAILS VIEW-->
-                <TextBlock Text="Load Details"
-                           Grid.Row="0" Grid.Column="3" 
-                           VerticalAlignment="Bottom"
-                           Margin="10 0 0 0"/>
-                
-                <Border Grid.Row="1" Grid.Column="3" 
-                        BorderThickness="1" BorderBrush="Black" Background="Transparent"
-                        Margin="5">
-                    <ContentControl x:Name="LoadDetailsContent" 
-                                    Grid.Row="0" Grid.Column="3"
-                                    />
-                </Border>
-                
-                <GridSplitter Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Stretch"   
-                              Grid.Row="0" Grid.RowSpan="2"
-                              Width="{StaticResource GridSplitterWidth}" Background="{StaticResource GridSplitterColor}"
-                              Margin="2 0" 
-                              Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>
 
                 <!--DATA GRID-->
                 <sf:SfDataGrid x:Name="dgdAssignedLoads"  
-                               Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="3"
+                               Grid.Row="1"  Grid.Column="0"
+                               Margin="5 5 10 5"
                                
                                ColumnSizer="Star"
                                
@@ -1024,8 +957,8 @@
                                SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                SelectedItems="{Binding SelectedLoads, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False"
-                               HorizontalAlignment="Left" 
-                               Margin="5 5 13 5"
+                               HorizontalAlignment="Stretch" 
+                               
                                d:Height="440"
                                
                                HeaderRowHeight="40"
@@ -1328,7 +1261,7 @@
                                                                 AncestorType={x:Type UserControl}}}"/>
 
                         <!--POWER-->
-                        
+
                         <!--Width="40"-->
                         <sf:GridTextColumn HeaderText="Conn&#x0a;kVA" MappingName="ConnectedKva"
                                            MinimumWidth="40"
@@ -1353,7 +1286,7 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
                                            />
-                        
+
                         <!--Width="40"-->
                         <sf:GridTextColumn HeaderText="Dem&#x0a;kW" MappingName="DemandKw"
                                            MinimumWidth="40"
@@ -1593,7 +1526,7 @@
                     </sf:SfDataGrid.Columns>
                 </sf:SfDataGrid>
 
-                
+
             </Grid>
             <!--***********************************-->
             <!--******   BOTTOM STATUS BAR   ******-->
@@ -1663,23 +1596,81 @@
             <!--***********************************-->
             <!--***********************************-->
             <!--***********************************-->
+
+
+
+
+
+            <!--DETAILS VIEW-->
+            <!--Dteq-->
+            <Grid  Grid.Row="2" Grid.Column="5"
+                   Margin="7 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Text="Distribution Equipment Details" 
+                           Grid.Row="0"                           
+                           VerticalAlignment="Bottom"
+                           Margin="10 0 0 0"
+                           />
+
+                <Border BorderThickness="1" BorderBrush="Black" Background="{StaticResource BackgroundLight}"
+                        Grid.Row="1"
+                        Margin="0 14 0 6">
+
+                    <ContentControl x:Name="DteqDetailsContent"/>
+                </Border>
+            </Grid>
+            <!--<GridSplitter Grid.Row="0" Grid.RowSpan="5"
+                          Grid.Column="4" HorizontalAlignment="Right"   VerticalAlignment="Stretch"
+                          Width="{StaticResource GridSplitterWidth}" Background="{StaticResource GridSplitterColor}"
+                          Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>-->
+
+
+
+            <!--LOAD-->
+            <!--DETAILS VIEW-->
+            <Grid  Grid.Row="4" Grid.Column="5"
+                   Margin="7 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="44"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Text="Load Details"
+                           Grid.Row="0"         
+                           VerticalAlignment="Bottom"
+                           Margin="10 0 0 5"/>
+
+                <Border Grid.Row="1"
+                        BorderThickness="1" BorderBrush="Black" Background="{StaticResource BackgroundLight}"
+                        Margin="0 0 0 5">
+                    <ContentControl x:Name="LoadDetailsContent"/>
+                </Border>
+            </Grid>
+            
+            <GridSplitter Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Stretch"   
+                          Grid.Row="0" Grid.RowSpan="6"
+                          Width="{StaticResource GridSplitterWidth}" Background="{StaticResource GridSplitterColor}"
+                          Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>
+
+
             <!--Below Dteq Grid-->
-            <GridSplitter  Grid.Row="2" Grid.ColumnSpan="5" Panel.ZIndex="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
+            <GridSplitter  Grid.Row="2" Grid.ColumnSpan="10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
                            Height="{StaticResource GridSplitterWidth}" Background="{StaticResource GridSplitterColor}"
-                           Margin="0"
                            Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>
 
             <!--Above Load Grid-->
-            <GridSplitter  Grid.Row="3" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+            <GridSplitter  Grid.Row="3" Grid.ColumnSpan="10"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                            Height="{StaticResource GridSplitterWidth}" Background="{StaticResource GridSplitterColor}"
-                           Margin="0"
                            Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>
 
             <!--Above Status Strip-->
-            <GridSplitter  Grid.Row="4" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+            <!--<GridSplitter  Grid.Row="4" Grid.ColumnSpan="10" Panel.ZIndex="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                            Height="{StaticResource GridSplitterWidth}" Background="{StaticResource GridSplitterColor}"
-                           Margin="0"
-                           Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>
+                           Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>-->
         </Grid>
 
 

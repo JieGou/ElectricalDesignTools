@@ -26,5 +26,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         bool AddAssignedLoad(IPowerConsumer load);
         void RemoveAssignedLoad(IPowerConsumer load);
 
+        public abstract void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e);
+
     }
 }

@@ -1,10 +1,12 @@
 ﻿using EdtLibrary.Commands;
 using EDTLibrary.DataAccess;
+using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using FastSerialization;
 using PropertyChanged;
@@ -311,7 +313,8 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                 newCircuit = new LoadCircuit {
                     Tag = "-",
                     Description = "",
-                    //VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120),
+                    VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120),
+                    VoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120).Id,
                     FedFromId = Id,
                     FedFromType = typeof(DpnModel).ToString(),
                     FedFrom = this,
@@ -414,7 +417,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
         }
         private double _phaseC;
 
-        public override void CalculateLoading()
+        public override void CalculateLoading(string PropetyName = "")
         {
             if (DaManager.Importing) return;
             base.CalculateLoading();
@@ -573,12 +576,20 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             }
         }
 
+        public override void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e)
+        {
+           base.OnAssignedLoadReCalculated(source, e);
+            if (e.PropertyName == nameof(VoltageType)) {
+                SetCircuits();
+            }
+        }
 
         public void OnSpaceConverted(object source, EventArgs e)
         {
             // redraw panel if a circuit has changed
             SetCircuits();
         }
+        
     }
 
 }

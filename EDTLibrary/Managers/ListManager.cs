@@ -272,7 +272,7 @@ namespace EDTLibrary.Managers
                 LoadCircuitList.Add(item);
                 item.PropertyUpdated += DaManager.OnLoadCircuitPropertyUpdated;
             }
-            IDpn dpn;
+            IDpn dpn = new DpnModel();
             foreach (var dteq in IDteqList) {
                 foreach (var loadCircuit in LoadCircuitList) {
                     if (dteq.Id == loadCircuit.FedFromId && loadCircuit.FedFromType == typeof(DpnModel).ToString()) {
@@ -281,6 +281,9 @@ namespace EDTLibrary.Managers
                         loadCircuit.FedFrom = dpn;
                         loadCircuit.SpaceConverted += dpn.OnSpaceConverted;
                     }
+                }
+                if (dteq.GetType() == typeof(DpnModel)) {
+                    dpn.SetCircuits();
                 }
             }
         }

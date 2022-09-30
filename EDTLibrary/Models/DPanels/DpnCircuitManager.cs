@@ -1,9 +1,15 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.ErrorManagement;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.ProjectSettings;
+using EDTLibrary.Services;
+using Microsoft.Diagnostics.Tracing.Parsers.MicrosoftWindowsTCPIP;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +58,7 @@ public class DpnCircuitManager
 
     public static void DeleteLoad(IDpn dpn, IPowerConsumer load, ListManager listManager)
     {
+        if (load == null) return;
         dpn.AssignedLoads.Remove(load);
         LoadManager.DeleteLoad(load, listManager);
         dpn.SetCircuits();
@@ -152,6 +159,149 @@ public class DpnCircuitManager
         var list = loadCircuitList.Where(cct => cct.FedFromId == dpn.Id && cct.FedFromType == dpn.GetType().ToString()).ToList();
         loadCircuitList = new ObservableCollection<LoadCircuit>(list);
     }
-  
+
+
+    public static void MoveCircuitUp(IDpn dpn, IPowerConsumer load)
+    {
+
+        if (load == null) return;
+
+        ObservableCollection<IPowerConsumer> sideCircuitList;
+
+        sideCircuitList = dpn.LeftCircuits.FirstOrDefault(ld => ld == load) != null ? dpn.LeftCircuits : dpn.RightCircuits;
+
+        int loadIndex;
+        for (int i = 0; i < sideCircuitList.Count; i++) {
+            if (load == sideCircuitList[i]) {
+                loadIndex = Math.Max(0, i - 1);
+                sideCircuitList.Move(i, loadIndex);
+                break;
+            }
+        }
+        for (int i = 0; i < sideCircuitList.Count; i++) {
+            sideCircuitList[i].SequenceNumber = i;
+        }
+        sideCircuitList.OrderBy(c => c.SequenceNumber);
+        dpn.CalculateLoading();
+    }
+
+    public static void MoveCircuitDown(IDpn dpn, IPowerConsumer load)
+    {
+
+        if (load == null) return;
+
+        ObservableCollection<IPowerConsumer> sideCircuitList;
+
+        sideCircuitList = dpn.LeftCircuits.FirstOrDefault(ld => ld == load) != null ? dpn.LeftCircuits : dpn.RightCircuits;
+
+        int loadIndex;
+        for (int i = 0; i < sideCircuitList.Count; i++) {
+            if (load == sideCircuitList[i]) {
+                loadIndex = Math.Min(i + 1, sideCircuitList.Count - 1);
+                sideCircuitList.Move(i, loadIndex);
+                break;
+            }
+        }
+        for (int i = 0; i < sideCircuitList.Count; i++) {
+            sideCircuitList[i].SequenceNumber = i;
+        }
+        sideCircuitList.OrderBy(c => c.SequenceNumber);
+        dpn.CalculateLoading();
+    }
+
+    public static void MoveCircuitLeft(IDpn dpn, IPowerConsumer load)
+    {
+        if (load == null) return;
+        DpnSide dpnSide;
+        dpnSide = dpn.LeftCircuits.FirstOrDefault(ld => ld == load) != null ? DpnSide.Left : DpnSide.Right;
+        if (dpnSide == DpnSide.Left) return;
+
+        ObservableCollection<IPowerConsumer> sideCircuitList;
+
+        
+
+        if (dpnSide == DpnSide.Right && GetAvailableCircuit(dpn, load, DpnSide.Left) != -1) {
+            dpn.LeftCircuits.Add(load);
+            dpn.RightCircuits.Remove(load);
+            load.PanelSide = DpnSide.Left.ToString();
+        }
+        dpn.SetCircuits();
+        dpn.CalculateLoading();
+    }
+
+    public static void MoveCircuitRight(IDpn dpn, IPowerConsumer load)
+    {
+
+        if (load == null) return;
+        DpnSide dpnSide; 
+        dpnSide = dpn.LeftCircuits.FirstOrDefault(ld => ld == load) != null ? DpnSide.Left : DpnSide.Right;
+        if (dpnSide == DpnSide.Right) return;
+
+
+        ObservableCollection<IPowerConsumer> sideCircuitList;
+
+        
+       
+
+
+        if (dpnSide == DpnSide.Left && GetAvailableCircuit(dpn, load, DpnSide.Right) != -1) {
+            dpn.LeftCircuits.Remove(load);
+            dpn.RightCircuits.Add(load);
+            load.PanelSide = DpnSide.Right.ToString();
+        }
+        dpn.SetCircuits();
+        dpn.CalculateLoading();
+    }
+
+    internal static async Task ConvertToLoad(LoadCircuit loadCircuit)
+    {
+        var listManager = ScenarioManager.ListManager;
+        var dpn = listManager.DpnList.FirstOrDefault(dt => dt.Id == loadCircuit.FedFromId);
+        var dpnSide = loadCircuit.PanelSide == DpnSide.Left.ToString() ? DpnSide.Left : DpnSide.Right;
+        var circuitList = loadCircuit.PanelSide == DpnSide.Left.ToString() ? dpn.LeftCircuits : dpn.RightCircuits;
+
+        int cctNumber = 0;
+        int availableCircuitPosition = GetAvailableCircuit(dpn, loadCircuit, dpnSide);
+
+        loadCircuit.Tag = "adding";
+        
+        for (int i = 0; i < circuitList.Count; i++) {
+            if (circuitList[i].VoltageType == null) {
+                cctNumber += 2 * 1;
+            }
+            else {
+                cctNumber += 2 * circuitList[i].VoltageType.Poles;
+            }
+            if (loadCircuit == circuitList[i]) {
+                break;
+            }
+        }
+
+        cctNumber = dpnSide == DpnSide.Left ? cctNumber += 1: cctNumber += 2;
+        
+
+        var loadToAdd = new LoadToAddValidator(listManager) {
+            Tag = $"{dpn.Tag}-{cctNumber}",
+            Type = LoadTypes.OTHER.ToString(),
+            Description = loadCircuit.Description,
+            AreaTag = dpn.Area.Tag,
+            FedFromTag = dpn.Tag,
+
+            VoltageType = loadCircuit.VoltageType,
+            Size = 5.ToString(),
+            Unit = Units.A.ToString(),
+            LoadFactor = EdtSettings.LoadFactorDefault
+
+        };
+        loadCircuit = null;
+
+        try {
+            //LoadModel newLoad = await LoadManager.AddLoad(loadToAdd, listManager);
+        }
+        catch (Exception ex) {
+            EdtNotificationService.SendError(loadCircuit, "", "ConvertToLoad", ex);
+        }        
+
+    }
 }
 

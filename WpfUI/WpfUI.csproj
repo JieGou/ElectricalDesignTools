@@ -11,6 +11,9 @@
     <ApplicationIcon>ContentFiles\edt.ico</ApplicationIcon>
     <Copyright>Copyright DCS Inc 2022</Copyright>
     <PlatformTarget>AnyCPU</PlatformTarget>
+	  <!--CefSharp-->
+	  <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +35,8 @@
     <None Remove="ResourceFiles\ErrorIconTriangle.png" />
     <None Remove="ResourceFiles\ErrorIconTriangle16.png" />
     <None Remove="ResourceFiles\ErrorIconTriangle48.png" />
+    <None Remove="ResourceFiles\File Icons\Reload Teal_Light_64.ico" />
+    <None Remove="ResourceFiles\File Icons\Reload White_64.ico" />
     <None Remove="ResourceFiles\InfoIconBlue.png" />
     <None Remove="ResourceFiles\MenuIcons\minus24.png" />
     <None Remove="ResourceFiles\MenuIcons\plus24.png" />
@@ -57,6 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CefSharp.Wpf.NETCore" Version="105.3.390" />
     <PackageReference Include="CoreCompat.Portable.Licensing" Version="1.2.14" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
@@ -117,6 +123,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="ResourceFiles\ErrorIconTriangle48.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\File Icons\Reload Teal_Light_64.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\File Icons\Reload White_64.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

@@ -62,10 +62,15 @@ namespace EDTLibrary.TestDataFolder
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600),
                 LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), Size=1200, Unit= Units.A.ToString() },
 
-            new DteqModel {Tag = "LDP-01", Type = DteqTypes.DPN.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage=208, LoadVoltage=208,
+            new DteqModel {Tag = "TX-02", Type = DteqTypes.XFR.ToString(), FedFromTag = "MCC-02", LineVoltage=600, LoadVoltage=208,
+                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600),
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), Size=112.5, Unit= Units.kVA.ToString() },
+
+            new DteqModel {Tag = "LDP-01", Type = DteqTypes.DPN.ToString(), FedFromTag = "TX-02", LineVoltage=208, LoadVoltage=208,
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208),
                 LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), Size=200, Unit= Units.A.ToString() },
-            new DteqModel {Tag = "LDP-02", Type = DteqTypes.DPN.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage=208,
+
+            new DteqModel {Tag = "LDP-02", Type = DteqTypes.DPN.ToString(), FedFromTag = "LDP-01", LineVoltage=208,
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208),
                 LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), LoadVoltage=208, Size=125, Unit= Units.A.ToString() },
 

@@ -18,7 +18,7 @@
     <!--Sub Menu-->
     <sys:Double x:Key="SubMenuHeight">30</sys:Double>
     <sys:Double x:Key="SubMenuButtonHeight">29</sys:Double>
-    <sys:Double x:Key="GridSplitterWidth">1</sys:Double>
+    <sys:Double x:Key="GridSplitterWidth">2</sys:Double>
 
     <!--Misc-->
     <sys:Double x:Key="RoundButtonHeight">27</sys:Double>
@@ -28,7 +28,7 @@
     <SolidColorBrush x:Key="ErrorColor_Base" Color="#FFD40000"/>
 
     <SolidColorBrush x:Key="Background" Color="AliceBlue"/>
-    <SolidColorBrush x:Key="GridSplitterColor" Color="Gray"/>
+    <SolidColorBrush x:Key="GridSplitterColor" Color="DarkGray"/>
     
    
     

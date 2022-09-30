@@ -6,10 +6,13 @@
         xmlns:local="clr-namespace:WpfUI.PopupWindows"
 
         
+        xmlns:cefSharp="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
 
-        
-        mc:Ignorable="d"
-        Title="PdfViewer" Height="875" Width="850">
+
+    mc:Ignorable="d"
+        Title="PdfViewer"
+        Height="650" Width="850"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         
         
@@ -18,11 +21,11 @@
 
         
     <!--UNCOMMENT BELOW-->
-        <!--<cefSharp:ChromiumWebBrowser x:Name="ChromeViewer"
-        Address="https://github.com/cefsharp/CefSharp/wiki/Frequently-asked-questions" />-->
         
-        
-            
+        <cefSharp:ChromiumWebBrowser x:Name="browser"
+                                     Address="https://www.youtube.com/embed/wgb5DIK119s" 
+                                     />
+
 
     </Grid>
 </Window>

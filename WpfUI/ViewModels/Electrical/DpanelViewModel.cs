@@ -58,13 +58,14 @@ internal class DpanelViewModel : ViewModelBase
 
         MoveUpLeftCommand = new RelayCommand(MoveUpLeft);
         MoveDownLeftCommand = new RelayCommand(MoveDownLeft);
-        DeleteLoadLeftCommand = new RelayCommand(DeleteLoadLeft);
+        DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
 
 
-        MoveUpRightCommand = new RelayCommand(MoveUpRight);
-        MoveDownRightCommand = new RelayCommand(MoveDownRight);
-        DeleteLoadRightCommand = new RelayCommand(DeleteLoadRight);
+        MoveUpCommand = new RelayCommand(MoveUp);
+        MoveDownCommand = new RelayCommand(MoveDown);
+        MoveLeftCommand = new RelayCommand(MoveLeft);
+        MoveRightCommand = new RelayCommand(MoveRight);
 
         DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
 
@@ -94,22 +95,45 @@ internal class DpanelViewModel : ViewModelBase
     }
     private IDpn _selectedDpnl;
 
+
     public ObservableCollection<IDpn> ViewableDteqList
 
     {
         get
         {
-            List<IDpn> subList = new List<IDpn>();
-            var dteqSubList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.DPN.ToString() || d.Type == DteqTypes.CDP.ToString()).ToList();
-
-            foreach (var dteq in dteqSubList) {
-                subList.Add((IDpn)dteq);
-            }
-            return new ObservableCollection<IDpn>(subList);
+            return _viewableDteqList;
         }
+        set 
+        {
+            _viewableDteqList = value;
+        }
+
+        
     }
 
+    public void UpdatePanelList() {
 
+        List<IDpn> subList = new List<IDpn>();
+        var dteqSubList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.DPN.ToString() || d.Type == DteqTypes.CDP.ToString()).ToList();
+
+        foreach (var dteq in dteqSubList) {
+            subList.Add((IDpn)dteq);
+        }
+        ViewableDteqList = new ObservableCollection<IDpn>(subList);
+
+    }
+    private ObservableCollection<IDpn> _viewableDteqList;
+
+    public IPowerConsumer SelectedLoad
+    {
+        get { return _selectedLoad; }
+        set
+        {
+            if (value == null) return;
+            _selectedLoad = value;
+        }
+    }
+    private IPowerConsumer _selectedLoad;
     public IPowerConsumer SelectedLoadLeft
     {
         get { return _selectedLeftLoad; }
@@ -183,107 +207,54 @@ internal class DpanelViewModel : ViewModelBase
     public ICommand MoveUpLeftCommand { get; }
     public void MoveUpLeft()
     {
-        if (SelectedLoadLeft == null) return;
-
-        int loadIndex;
-        for (int i = 0; i < SelectedDpnl.LeftCircuits.Count; i++) {
-            if (SelectedLoadLeft == SelectedDpnl.LeftCircuits[i]) {
-                loadIndex = Math.Max(0, i - 1);
-                SelectedDpnl.LeftCircuits.Move(i, loadIndex);
-                break;
-            }
-        }
-        for (int i = 0; i < SelectedDpnl.LeftCircuits.Count; i++) {
-            SelectedDpnl.LeftCircuits[i].SequenceNumber = i;
-        }
-        SelectedDpnl.LeftCircuits.OrderBy(c => c.SequenceNumber);
-        SelectedDpnl.CalculateLoading();
+        DpnCircuitManager.MoveCircuitUp(SelectedDpnl, SelectedLoad);
     }
 
     public ICommand MoveDownLeftCommand { get; }
     public void MoveDownLeft()
     {
-        if (SelectedLoadLeft == null) return;
-
-        int loadIndex;
-        for (int i = 0; i < SelectedDpnl.LeftCircuits.Count; i++) {
-            if (SelectedLoadLeft == SelectedDpnl.LeftCircuits[i]) {
-                loadIndex = Math.Min(i + 1, SelectedDpnl.LeftCircuits.Count - 1);
-                SelectedDpnl.LeftCircuits.Move(i, loadIndex);
-                break;
-            }
-        }
-        for (int i = 0; i < SelectedDpnl.LeftCircuits.Count; i++) {
-            SelectedDpnl.LeftCircuits[i].SequenceNumber = i;
-        }
-        SelectedDpnl.LeftCircuits.OrderBy(c => c.SequenceNumber);
-        SelectedDpnl.CalculateLoading();
-
+        DpnCircuitManager.MoveCircuitDown(SelectedDpnl, SelectedLoad);
     }
 
-    public ICommand DeleteLoadLeftCommand { get; }
-    public void DeleteLoadLeft()
+    
+
+
+
+    public ICommand MoveUpCommand { get; }
+    public void MoveUp()
     {
-        if (SelectedLoadLeft == null) return;
-
-        int loadIndex;
-        DpnCircuitManager.DeleteLoad(SelectedDpnl, SelectedLoadLeft, ScenarioManager.ListManager);
+        DpnCircuitManager.MoveCircuitUp(SelectedDpnl, SelectedLoad);
     }
 
-
-
-    public ICommand MoveUpRightCommand { get; }
-    public void MoveUpRight()
+    public ICommand MoveDownCommand { get; }
+    public void MoveDown()
     {
-        if (SelectedLoadRight == null) return;
-
-        int loadIndex;
-        for (int i = 0; i < SelectedDpnl.RightCircuits.Count; i++) {
-            if (SelectedLoadRight == SelectedDpnl.RightCircuits[i]) {
-                loadIndex = Math.Max(0, i - 1);
-                SelectedDpnl.RightCircuits.Move(i, loadIndex);
-                break;
-            }
-        }
-        for (int i = 0; i < SelectedDpnl.RightCircuits.Count; i++) {
-            SelectedDpnl.RightCircuits[i].SequenceNumber = i;
-        }
-        SelectedDpnl.RightCircuits.OrderBy(c => c.SequenceNumber);
-        SelectedDpnl.CalculateLoading();
-
+        DpnCircuitManager.MoveCircuitDown(SelectedDpnl, SelectedLoad);
     }
 
-    public ICommand MoveDownRightCommand { get; }
-    public void MoveDownRight()
+    public ICommand MoveLeftCommand { get; }
+    public void MoveLeft()
     {
-        if (SelectedLoadRight == null) return;
-
-        int loadIndex;
-        for (int i = 0; i < SelectedDpnl.RightCircuits.Count; i++) {
-            if (SelectedLoadRight == SelectedDpnl.RightCircuits[i]) {
-                loadIndex = Math.Min(i + 1, SelectedDpnl.RightCircuits.Count - 1);
-                SelectedDpnl.RightCircuits.Move(i, loadIndex);
-                break;
-            }
-        }
-        for (int i = 0; i < SelectedDpnl.RightCircuits.Count; i++) {
-            SelectedDpnl.RightCircuits[i].SequenceNumber = i;
-        }
-        SelectedDpnl.RightCircuits.OrderBy(c => c.SequenceNumber);
-        SelectedDpnl.CalculateLoading();
-
+        DpnCircuitManager.MoveCircuitLeft(SelectedDpnl, SelectedLoad);
     }
 
-    public ICommand DeleteLoadRightCommand { get; }
-    public void DeleteLoadRight()
+    public ICommand MoveRightCommand { get; }
+    public void MoveRight()
     {
-        if (SelectedLoadLeft == null) return;
-
-        int loadIndex;
-        DpnCircuitManager.DeleteLoad(SelectedDpnl, SelectedLoadLeft, ScenarioManager.ListManager);
+        DpnCircuitManager.MoveCircuitRight(SelectedDpnl, SelectedLoad);
     }
 
 
+
+
+
+    public ICommand DeleteLoadCommand { get; }
+    public void DeleteLoad()
+    {
+
+
+        DpnCircuitManager.DeleteLoad(SelectedDpnl, SelectedLoad, ScenarioManager.ListManager);
+    }
 
     #region Autocad
 

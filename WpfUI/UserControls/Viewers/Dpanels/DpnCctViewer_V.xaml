@@ -5,11 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.UserControls.Viewers.Dpanels"
              
+             xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
+             
+             xmlns:helpers="clr-namespace:WpfUI.Helpers"
              xmlns:editors="clr-namespace:WpfUI.UserControls.Editors"
+             xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
              
              
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="200"
+             d:DesignHeight="500" d:DesignWidth="225"
              d:Background="AliceBlue">
 
     <DockPanel VerticalAlignment="Top">
@@ -29,91 +33,158 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="25"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition/>
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="0*"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Tag "
+                    <TextBlock Text="Tag " Style="{StaticResource SummaryLabel_TextBlockStyle}"
                                Grid.Row="0" Grid.Column="0" 
                                HorizontalAlignment="Right"
-                               Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-                    <TextBlock Text="{Binding Tag}" d:Text="Tag"
+                               />
+                    <TextBlock Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Text="Tag"
                                Grid.Row="0" Grid.Column="1"
                                MinWidth="100"
                                Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
-                    <TextBlock Text="Load Type "
+                    <TextBlock Text="Description "
                                Grid.Row="1" Grid.Column="0" 
+                               HorizontalAlignment="Right"
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-                    <TextBlock Text="{Binding Type}"
-                               Grid.Row="1" Grid.Column="1" 
+                    <TextBlock Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Text="Description"
+                               Grid.Row="1" Grid.Column="1"
+                               MinWidth="100"
                                Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
-                    <TextBlock Text="Pole Qty "
+                    <TextBlock Text="  "
                                Grid.Row="2" Grid.Column="0" 
-                               HorizontalAlignment="Right" 
+                               HorizontalAlignment="Right"
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-                    <TextBlock Text="{Binding VoltageType.Poles}"
-                               Grid.Row="2" Grid.Column="1" 
-                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+                    
+                    <StackPanel Orientation="Horizontal" 
+                                Grid.Row="2" Grid.Column="1"
+                                VerticalAlignment="Top">
+
+                        <TextBlock Text="{Binding VoltageType.VoltageString}" MinWidth="0"
+                                   Grid.Row="4" Grid.Column="1"
+                                   Style="{StaticResource SummaryValue_TextBlockStyle}" Height="21" Margin="5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
+
+                        <TextBlock Text=", " MinWidth="0"/>
+
+                        <TextBlock Text="{Binding Size}" MinWidth="0"
+                                   Grid.Row="4" Grid.Column="1" 
+                                   Style="{StaticResource SummaryValue_TextBlockStyle}" Height="21" Margin="5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
+
+                        <TextBlock Text="{Binding Unit}" MinWidth="0"
+                                   Grid.Row="4" Grid.Column="1" 
+                                   Style="{StaticResource SummaryValue_TextBlockStyle}" Height="21" Margin="5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
+                        <TextBlock Text=", " MinWidth="0"/>
+
+                        <TextBlock Text="{Binding Type}" MinWidth="0"
+                                   Grid.Row="4" Grid.Column="1" 
+                                   Style="{StaticResource SummaryValue_TextBlockStyle}" Height="21" Margin="5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
+               
+
+                    </StackPanel>
+
+                    <TextBlock Text="Load Type "
+                               Grid.Row="3" Grid.Column="0" 
+                               Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
+                    <ComboBox Grid.Row="3" Grid.Column="2"
+                              Template="{DynamicResource ComboBoxBase}"
+                              Width="110"
+                              HorizontalAlignment="Left"
+                              ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:LoadTypes}}}"
+                              SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Text="{Binding Type}"
+                              IsEditable="False" IsTextSearchEnabled="True"
+                              Margin="5 0 5 0"/>
+
+                    <TextBlock Text="Voltage " Style="{StaticResource SummaryLabel_TextBlockStyle}"
+                               Grid.Row="4" Grid.Column="0"  />
+                    <ComboBox Grid.Row="4" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
+                              Width="110"
+                              HorizontalAlignment="Left"
+                              ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              SelectedValue="{Binding VoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              DisplayMemberPath="VoltageString"
+                              Text="{Binding VoltageType.VoltageString}"
+                              IsEditable="False" IsTextSearchEnabled="True"
+                              Margin="5 0 5 0"/>
 
                     <TextBlock Text="Size "
-                               Grid.Row="3" Grid.Column="0" 
-                               HorizontalAlignment="Right" 
+                               Grid.Row="5" Grid.Column="0" 
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-
                     <StackPanel Orientation="Horizontal"
-                                Grid.Row="3" Grid.Column="1"
+                                Grid.Row="5" Grid.Column="1"
                                 VerticalAlignment="Bottom">
 
-                        <TextBlock Text="{Binding Size}" d:Text="200"
-                                   Style="{StaticResource SummaryValue_TextBlockStyle}"
-                                   MinWidth="0"/>
-                        <TextBlock Text="{Binding Unit}" d:Text="A"
+                        <TextBox Text="{Binding Size}"
+                              Grid.Row="4" Grid.Column="1" 
+                              Style="{StaticResource SummaryValue_TextBoxStyle}" Height="21" Margin="5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
+
+                        <TextBlock Text="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Text="A"
                                    Style="{StaticResource SummaryValue_TextBlockStyle}"
                                    Margin="5 0 0 0"
                                    MinWidth="0"
                                    VerticalAlignment="Bottom"/>
                     </StackPanel>
 
-                    <TextBlock Text="Power (kVA) "
-                               Grid.Row="4" Grid.Column="0" 
+                    <TextBlock Text="Unit "
+                               Grid.Row="6" Grid.Column="0" 
                                HorizontalAlignment="Right" 
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-                    <TextBlock Text="{Binding DemandKva}"
-                               Grid.Row="4" Grid.Column="1" 
+
+                    <ComboBox Grid.Row="6" Grid.Column="2"
+                              Template="{DynamicResource ComboBoxBase}"
+                              Width="110"
+                              HorizontalAlignment="Left"
+                              ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:Units}}}"
+                              SelectedValue="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Text="{Binding Unit}"
+                              IsEditable="False" IsTextSearchEnabled="True"
+                              Margin="5 0 5 0"/>
+
+                    <TextBlock Text="Power (kVA) "
+                               Grid.Row="7" Grid.Column="0" 
+                               HorizontalAlignment="Right" 
+                               Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
+                    <TextBlock Text="{Binding DemandKva, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Grid.Row="7" Grid.Column="1" 
                                Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
                     <TextBlock Text="Poles "
-                       Grid.Row="5" Grid.Column="0" 
+                       Grid.Row="8" Grid.Column="0" 
                        HorizontalAlignment="Right" 
                        Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-                    <TextBlock Text="{Binding VoltageType.Poles}"
-                       Grid.Row="5" Grid.Column="1" 
+                    <TextBlock Text="{Binding VoltageType.Poles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       Grid.Row="8" Grid.Column="1" 
                        Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
                     <TextBlock Text="Seq # "
-                       Grid.Row="7" Grid.Column="0" 
+                       Grid.Row="10" Grid.Column="0" 
                        HorizontalAlignment="Right" 
                        Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-                    <TextBlock Text="{Binding SequenceNumber}"
-                       Grid.Row="7" Grid.Column="1" 
+                    <TextBlock Text="{Binding SequenceNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       Grid.Row="10" Grid.Column="1" 
                        Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
 
 
-                    <editors:AreaEditor Grid.Row="8"
+                    <editors:AreaEditor Grid.Row="11"
                                     Grid.Column="0" Grid.ColumnSpan="5"
                                     DataContext="{Binding}"
                                     Margin="5"/>

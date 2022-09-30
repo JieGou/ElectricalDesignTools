@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.Loads;
+﻿using CefSharp;
+using EDTLibrary.Models.Loads;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.XlsIO;
 using System;
@@ -15,8 +16,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfUI.PopupWindows;
 using WpfUI.SyncFusion.Renderers;
 using WpfUI.ViewModels.Electrical;
+using WpfUI.Windows;
 
 namespace WpfUI.Views.Electrical;
 /// <summary>
@@ -50,6 +53,7 @@ public partial class DpanelView : UserControl
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
+        vm.UpdatePanelList();
         if (vm != null) {
             if (vm.ViewableDteqList.Count > 0 & vm.SelectedDpnl == null) {
                 vm.SelectedDpnl = vm.ViewableDteqList[0];
@@ -143,4 +147,45 @@ public partial class DpanelView : UserControl
     {
         loadAdder.Visibility = loadAdder.Visibility == Visibility.Collapsed ? Visibility.Visible: Visibility.Collapsed;
     }
+
+    //left
+    private void LeftGrid_SelectionChanged(object sender, GridSelectionChangedEventArgs e)
+    {
+        if (vm == null) return;
+        vm.SelectedLoad = (IPowerConsumer)LeftGrid.SelectedItem;
+        vm.SelectedLoadRight = null;
+    }
+    private void LeftGrid_MouseUp(object sender, MouseEventArgs e)
+    {
+        if (vm == null) return;
+        vm.SelectedLoad = (IPowerConsumer)LeftGrid.SelectedItem;
+        vm.SelectedLoadRight = null;
+    }
+
+    //right
+    private void RightGrid_SelectionChanged(object sender, GridSelectionChangedEventArgs e)
+    {
+        if (vm == null) return;
+        vm.SelectedLoad = (IPowerConsumer)RightGrid.SelectedItem;
+        vm.SelectedLoadLeft = null;
+    }
+
+    private void RightGrid_MouseUp(object sender, MouseEventArgs e)
+    {
+        if (vm == null) return;
+        vm.SelectedLoad = (IPowerConsumer)RightGrid.SelectedItem;
+        vm.SelectedLoadLeft = null;
+    }
+
+
+
+
+    private void tutorial_Click(object sender, RoutedEventArgs e)
+    {
+        var tw = new PdfViewer();
+        tw.Owner = Window.GetWindow(this);
+        tw.Show();
+    }
+
 }
+

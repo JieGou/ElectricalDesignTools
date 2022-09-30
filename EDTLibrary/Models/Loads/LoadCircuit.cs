@@ -7,6 +7,8 @@ using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
+using EDTLibrary.Services;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
@@ -106,16 +108,23 @@ public class LoadCircuit : ILoadCircuit
                 if (Description == "") {
                     Description = "SPARE";
                 }
-                var voltageTypeSubList = new List<VoltageType>();
-
-                voltageTypeSubList = TypeManager.VoltageTypes.Where(vt => vt.Voltage == FedFrom.LoadVoltageType.Voltage).ToList();
-                VoltageType = voltageTypeSubList.MinBy(vt => vt.Poles);
+                if (FedFrom.VoltageType.Voltage == 240 || FedFrom.VoltageType.Voltage== 208) {
+                    VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120);
+                }
+                else {
+                    VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == FedFrom.LoadVoltageType.Voltage);
+                }
             }
             if (oldValue == 0) {
-                OnSpaceConverted();
+                ConvertToLoad();
             }
             OnPropertyUpdated();
         }
+    }
+
+    private void ConvertToLoad()
+    {
+        DpnCircuitManager.ConvertToLoad(this);
     }
     public double PdSizeFrame { get; set; }
 
@@ -182,7 +191,7 @@ public class LoadCircuit : ILoadCircuit
     {
         throw new NotImplementedException();
     }
-    public void CalculateLoading()
+    public void CalculateLoading(string propertyName = "")
     {
         throw new NotImplementedException();
     }
@@ -201,7 +210,7 @@ public class LoadCircuit : ILoadCircuit
     }
 
 
-    public event EventHandler LoadingCalculated;
+    public event EventHandler<CalculateLoadingEventArgs> LoadingCalculated;
     public event EventHandler PropertyUpdated;
     public event EventHandler AreaChanged;
     public event EventHandler SpaceConverted;
@@ -213,21 +222,27 @@ public class LoadCircuit : ILoadCircuit
     public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
     {
 
-        if (DaManager.GettingRecords == true) return;
+        try {
+            if (DaManager.GettingRecords == true) return;
 
-        await Task.Run(() => {
-            if (PropertyUpdated != null) {
-                PropertyUpdated(this, EventArgs.Empty);
-            }
-        });
-        ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
-
-        if (GlobalConfig.Testing == true) {
+            await Task.Run(() => {
+                if (PropertyUpdated != null) {
+                    PropertyUpdated(this, EventArgs.Empty);
+                }
+            });
             ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
+
+            if (GlobalConfig.Testing == true) {
+                ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
+            }
+        }
+        catch (Exception ex) {
+
+            EdtNotificationService.SendError(this, property, callerMethod, ex);
         }
 
     }
-    public void OnLoadingCalculated()
+    public void OnLoadingCalculated(string propertyName = "")
     {
         throw new NotImplementedException();
     }
@@ -237,12 +252,12 @@ public class LoadCircuit : ILoadCircuit
     }
     public async Task OnSpaceConverted()
     {
-        if (SpaceConverted != null) {
-            SpaceConverted(this, EventArgs.Empty);
-        }
+        //if (SpaceConverted != null) {
+        //    SpaceConverted(this, EventArgs.Empty);
+        //}
 
-        await Task.Run(() => {
+        //await Task.Run(() => {
 
-        });
+        //});
     }
 }

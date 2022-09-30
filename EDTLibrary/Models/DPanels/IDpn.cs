@@ -19,5 +19,5 @@ public interface IDpn: IDteq
     void SetCircuits();
 
     void OnSpaceConverted(object source, EventArgs e);
-
+    void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e);
 }

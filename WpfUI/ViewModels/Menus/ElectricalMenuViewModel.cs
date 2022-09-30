@@ -4,6 +4,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using Microsoft.Diagnostics.Tracing.Parsers.MicrosoftWindowsTCPIP;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -53,7 +54,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
     }
     private MjeqViewModel _mjeqViewModel;
     private SingleLineViewModel _singleLineViewModel;
-    private DpanelViewModel _distributionPanelsViewModel;
+    private DpanelViewModel _dpanelViewModel;
 
 
     public ElectricalMenuViewModel(MainViewModel mainViewModel, ListManager listManager)
@@ -66,16 +67,21 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
         _mjeqViewModel = new MjeqViewModel(_listManager);
         _singleLineViewModel = new SingleLineViewModel(_listManager);
-        _distributionPanelsViewModel = new DpanelViewModel(_listManager);
+        _dpanelViewModel = new DpanelViewModel(_listManager);
 
         //Navigation
         NavigateMjeqCommand = new RelayCommand(NavigateMjeq);
         NavigateSingleLineCommand = new RelayCommand(NavigateSingleLine);
         NavigateDistributionPanelsCommand = new RelayCommand(NavigateDistributionPanels);
 
+        //Functions
+        LoadAllCommand = new RelayCommand(LoadAll);
+
     }
 
     
+
+
 
     #endregion
 
@@ -100,7 +106,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
     private void NavigateDistributionPanels()
     {
-        CurrentViewModel = _distributionPanelsViewModel;
+        CurrentViewModel = _dpanelViewModel;
         _mainViewModel.CurrentViewModel = CurrentViewModel;
     }
     #region Public Commands
@@ -109,6 +115,25 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
     public ICommand NavigateMjeqCommand { get; }
     public ICommand NavigateSingleLineCommand { get; }
     public ICommand NavigateDistributionPanelsCommand { get; }
+    public ICommand LoadAllCommand { get; }
+
+    private void LoadAll()
+    {
+        _listManager.GetProjectTablesAndAssigments();
+
+        if (_mjeqViewModel.AssignedLoads != null) {
+            _mjeqViewModel.AssignedLoads.Clear();
+            _mjeqViewModel.DteqToAddValidator.ClearErrors();
+            _mjeqViewModel.LoadToAddValidator.ClearErrors();
+        }
+
+        if (_dpanelViewModel.SelectedDpnl != null) {
+            _dpanelViewModel.SelectedDpnl.SetCircuits();
+            _dpanelViewModel.UpdatePanelList();
+        }
+        
+
+    }
     #endregion
 
 

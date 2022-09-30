@@ -60,9 +60,10 @@ public class LoadManager
       
         IDteq dteqSubscriber = newLoad.FedFrom;
         if (dteqSubscriber != null) {
-            //dteqSubscriber.AssignedLoads.Add(newLoad); //load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom();
+            dteqSubscriber.AddAssignedLoad(newLoad); //load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom();
             newLoad.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
             newLoad.PropertyUpdated += DaManager.OnLoadPropertyUpdated;
+
         }
 
         //Save to Db

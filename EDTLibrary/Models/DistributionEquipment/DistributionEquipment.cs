@@ -536,7 +536,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         public int SequenceNumber { get; set; }
 
         //Methods
-        public virtual void CalculateLoading()
+        public virtual void CalculateLoading(string propertyName = "")
         {
             if (Tag == GlobalConfig.Utility) return;
             //if (DaManager.Importing) return;
@@ -622,7 +622,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             PowerCable.CalculateAmpacity(this);
         }
 
-        public void OnAssignedLoadReCalculated(object source, EventArgs e)
+        public virtual void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e)
         {
             IEquipment eq = (IEquipment)source;
             if (GlobalConfig.Testing == true) {
@@ -632,11 +632,12 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
         //Events
-        public event EventHandler LoadingCalculated;
-        public virtual void OnLoadingCalculated()
+        public event EventHandler<CalculateLoadingEventArgs> LoadingCalculated;
+        public virtual void OnLoadingCalculated(string propertyName = "")
         {
             if (LoadingCalculated != null) {
-                LoadingCalculated(this, EventArgs.Empty);
+                var calcEventArgs = new CalculateLoadingEventArgs() { PropertyName = propertyName };
+                LoadingCalculated(this, calcEventArgs);
             }
         }
 

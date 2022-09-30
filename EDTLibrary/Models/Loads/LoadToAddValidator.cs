@@ -499,7 +499,6 @@ namespace EDTLibrary.Models.Loads
                 return false;
             }
 
-            
 
             if (CanAdd() && _isValid && HasErrors == false) {
                 return true;
