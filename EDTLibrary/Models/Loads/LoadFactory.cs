@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.Calculations;
 using EDTLibrary.ProjectSettings;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace EDTLibrary.Models.Loads
         public LoadModel CreateLoad(LoadToAddValidator loadToAddValidator)
         {
             LoadModel newLoad = new LoadModel();
+            newLoad.CalculationFlags.CanUpdateFedFrom = false;
 
             newLoad.Voltage = Double.Parse(loadToAddValidator.Voltage);
             newLoad.VoltageType = loadToAddValidator.VoltageType;
@@ -44,6 +46,7 @@ namespace EDTLibrary.Models.Loads
             newLoad.Description = loadToAddValidator.Description;
             newLoad.Category = Categories.LOAD3P.ToString();
             newLoad.Type = loadToAddValidator.Type;
+
             newLoad.Voltage = Double.Parse(loadToAddValidator.Voltage);
             newLoad.VoltageType = loadToAddValidator.VoltageType;
             newLoad.VoltageTypeId = newLoad.VoltageType.Id;
@@ -63,7 +66,10 @@ namespace EDTLibrary.Models.Loads
                 newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
             }
 
-            newLoad.SequenceNumber = 500;
+            newLoad.SequenceNumber = loadToAddValidator.SequenceNumber;
+            newLoad.PanelSide = loadToAddValidator.PanelSide;
+            newLoad.CircuitNumber = loadToAddValidator.CircuitNumber;
+            newLoad.CalculationFlags = new CalculationFlags();
             return newLoad;
         }
     }

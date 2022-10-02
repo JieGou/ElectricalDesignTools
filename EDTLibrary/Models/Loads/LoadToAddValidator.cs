@@ -412,6 +412,28 @@ namespace EDTLibrary.Models.Loads
         }
         private string _loadFactor;
 
+
+        public string PanelSide
+        {
+            get { return _panelSide; }
+            set { _panelSide = value; }
+        }
+        private string _panelSide;
+
+        public int SequenceNumber
+        {
+            get { return _sequenceNumber; }
+            set { _sequenceNumber = value; }
+        }
+        private int _sequenceNumber;
+        public int CircuitNumber
+        {
+            get { return _circuitNumber; }
+            set { _circuitNumber = value; }
+        }
+        private int _circuitNumber;
+
+
         private bool CanAdd()
         {
             LoadModel newLoad = new LoadModel();

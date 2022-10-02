@@ -94,7 +94,6 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
         CurrentViewModel = _mjeqViewModel;
         _mainViewModel.CurrentViewModel = CurrentViewModel;
-
         
     }
 
@@ -128,6 +127,8 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
         }
 
         if (_dpanelViewModel.SelectedDpnl != null) {
+
+
             _dpanelViewModel.SelectedDpnl.SetCircuits();
             _dpanelViewModel.UpdatePanelList();
         }

@@ -58,7 +58,9 @@ internal class DpanelViewModel : ViewModelBase
 
         MoveUpLeftCommand = new RelayCommand(MoveUpLeft);
         MoveDownLeftCommand = new RelayCommand(MoveDownLeft);
-        DeleteLoadCommand = new RelayCommand(DeleteLoad);
+
+
+
 
 
 
@@ -66,6 +68,10 @@ internal class DpanelViewModel : ViewModelBase
         MoveDownCommand = new RelayCommand(MoveDown);
         MoveLeftCommand = new RelayCommand(MoveLeft);
         MoveRightCommand = new RelayCommand(MoveRight);
+
+        ConvertToLoadCommand = new RelayCommand(ConvertToLoad);
+        DeleteLoadCommand = new RelayCommand(DeleteLoad);
+
 
         DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
 
@@ -246,13 +252,20 @@ internal class DpanelViewModel : ViewModelBase
 
 
 
+    public ICommand ConvertToLoadCommand { get; }
+    public void ConvertToLoad()
+    {
 
+        if (SelectedLoad.GetType() == typeof(LoadCircuit)) {
+            var loadCircuit = (LoadCircuit)SelectedLoad;
+            DpnCircuitManager.ConvertToLoad(loadCircuit);
+        }
+
+    }
 
     public ICommand DeleteLoadCommand { get; }
     public void DeleteLoad()
     {
-
-
         DpnCircuitManager.DeleteLoad(SelectedDpnl, SelectedLoad, ScenarioManager.ListManager);
     }
 

@@ -1,13 +1,16 @@
-﻿using EDTLibrary.A_Helpers;
+﻿using EdtLibrary.Commands;
+using EDTLibrary.A_Helpers;
 using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
+using EDTLibrary.Models.DPanels;
 using EDTLibrary.Services;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
@@ -18,11 +21,24 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace EDTLibrary.Models.Loads;
 [AddINotifyPropertyChangedInterface]
 public class LoadCircuit : ILoadCircuit
 {
+    public LoadCircuit()
+    {
+        ConvertToLoadCommand = new RelayCommand(ConvertToLoad);
+    }
+    public CalculationFlags CalculationFlags { get; set; }
+
+    public ICommand ConvertToLoadCommand { get; }
+    public void ConvertToLoad()
+    {
+
+        DpnCircuitManager.ConvertToLoad(this);
+    }
     public int Id { get; set; }
     public string Tag { get; set; }
     public string Category { get; set; }
@@ -33,7 +49,7 @@ public class LoadCircuit : ILoadCircuit
         set
         {
             _description = value;
-            if (_description == "") {
+            if (_description == "" || _description.Contains(DpnCircuitConfig.AddedCircuitDescription)  ) {
                 PdSizeTrip = 0;
             }
             //else if(_description != "SPARE") {
@@ -116,16 +132,12 @@ public class LoadCircuit : ILoadCircuit
                 }
             }
             if (oldValue == 0) {
-                ConvertToLoad();
+                //ConvertToLoad();
             }
             OnPropertyUpdated();
         }
     }
 
-    private void ConvertToLoad()
-    {
-        DpnCircuitManager.ConvertToLoad(this);
-    }
     public double PdSizeFrame { get; set; }
 
     public string StarterType { get; set; }
@@ -170,6 +182,15 @@ public class LoadCircuit : ILoadCircuit
     }
     private double _voltage;
 
+
+    public int CircuitNumber
+    {
+        get { return _circuitNumber; }
+        set { _circuitNumber = value;
+            OnPropertyUpdated();
+        }
+    }
+    private int _circuitNumber;
 
 
 
@@ -225,11 +246,9 @@ public class LoadCircuit : ILoadCircuit
         try {
             if (DaManager.GettingRecords == true) return;
 
-            await Task.Run(() => {
-                if (PropertyUpdated != null) {
-                    PropertyUpdated(this, EventArgs.Empty);
-                }
-            });
+            if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
+            }
             ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
 
             if (GlobalConfig.Testing == true) {

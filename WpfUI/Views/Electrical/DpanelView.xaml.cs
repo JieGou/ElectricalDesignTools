@@ -1,4 +1,5 @@
 ﻿using CefSharp;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.Loads;
 using Syncfusion.UI.Xaml.Grid;
 using Syncfusion.XlsIO;
@@ -187,5 +188,13 @@ public partial class DpanelView : UserControl
         tw.Show();
     }
 
+    private void RightGrid_CurrentCellEndEdit(object sender, CurrentCellEndEditEventArgs e)
+    {
+        //var datagrid = (SfDataGrid)sender;
+        //if (datagrid.SelectedItem.GetType() == typeof(LoadCircuit)) {
+        //    var loadCircuit = (LoadCircuit)datagrid.SelectedItem;
+        //    DpnCircuitManager.ConvertToLoad(loadCircuit);
+        //}
+    }
 }
 

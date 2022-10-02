@@ -855,7 +855,7 @@
                 <subViews:AddDteqView Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="20" />
 
                 <!--ADD Load-->
-                <subViews:AddLoadView Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="20" />
+                <subViews:AddLoadView Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="20" FedFromVisibility="Visible"/>
 
 
             </Grid>

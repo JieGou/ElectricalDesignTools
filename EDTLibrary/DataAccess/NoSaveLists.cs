@@ -47,6 +47,7 @@ namespace EDTLibrary.DataAccess
             "PhaseA",
             "PhaseB",
             "PhaseC",
+            "CalculationFlags",
 
         };
 
@@ -68,6 +69,8 @@ namespace EDTLibrary.DataAccess
 
             "VoltageType",
             "CanSave",
+            "ConvertToLoadCommand",
+            "CalculationFlags",
 
         };
 

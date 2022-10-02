@@ -31,26 +31,6 @@
                                   IsLiveGroupingRequested="True"
                                   />
 
-            <!--Templates and Selector-->
-            <converters:DataGridGroupTemplateSelector x:Key="templateSelector" cableListUsageTypeTemplate="{StaticResource UsageTemplate}"/>
-
-            <DataTemplate x:Key="UsageTemplate" >
-                <Expander IsExpanded="True" BorderBrush="#FFA4B97F" 
-                              BorderThickness="0,0,0,1">
-                    <Expander.Header>
-                        <DockPanel Width="350" Background="Lavender">
-                            <!--<TextBlock Text="Usage Type:  " Margin="15,0,0,0" />-->
-                            <TextBlock FontWeight="Bold" Text="{Binding Name}" Margin="5,0,0,0" Width="100"/>
-                            <TextBlock Text="Total Runs:  " Margin="15,0,0,0" />
-                            <TextBlock Text="{Binding Items, Converter={StaticResource groupsConverter}}" FontWeight="Bold"/>
-                            <TextBlock Text="Count:  " Margin="15,0,0,0" />
-                            <TextBlock Text="{Binding ItemCount}" MinWidth="25" FontWeight="Bold" />
-                        </DockPanel>
-                    </Expander.Header>
-                    <ItemsPresenter />
-                </Expander>
-            </DataTemplate>
-
 
             <!--Cell Padding-->
             <Style x:Key="ColumnElementStyle" TargetType="{x:Type TextBlock}">
@@ -167,6 +147,8 @@
                                    VerticalAlignment="Stretch"
                                    HeaderRowHeight="40"
                                    RowHeight="20"
+                                   
+                                   EnableDataVirtualization="False"
                                    
                                    Background="White"
                                    CurrentCellBorderBrush="Black"

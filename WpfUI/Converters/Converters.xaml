@@ -14,6 +14,7 @@
     <converters:PoleQtyColumnHeightConverter_double x:Key="PoleQtyColumnHeightConverter_double"/>
 
 
+    <converters:TypeOfConverter x:Key="TypeOfConverter"/>
 
     <!--MjeqView-->
     <BooleanToVisibilityConverter x:Key="BoolToVis"/>

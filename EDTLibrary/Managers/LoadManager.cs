@@ -45,7 +45,8 @@ public class LoadManager
         }
     }
 
-    public static async Task<LoadModel> AddLoad(object loadToAddObject, ListManager listManager)
+    
+    public static async Task<LoadModel> AddLoad(object loadToAddObject, ListManager listManager, bool append = true)
     {
         LoadFactory _loadFactory = new LoadFactory(listManager);
         LoadToAddValidator loadToAddValidator = (LoadToAddValidator)loadToAddObject;
@@ -60,7 +61,13 @@ public class LoadManager
       
         IDteq dteqSubscriber = newLoad.FedFrom;
         if (dteqSubscriber != null) {
-            dteqSubscriber.AddAssignedLoad(newLoad); //load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom();
+
+            if (append == true) {
+                dteqSubscriber.AddAssignedLoad(newLoad); //load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom
+                                                         //which is fired inside loadFactory when setting fedfrom
+                                                         //but this checks if it is already added;
+            }
+
             newLoad.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
             newLoad.PropertyUpdated += DaManager.OnLoadPropertyUpdated;
 
@@ -80,6 +87,7 @@ public class LoadManager
 
 
         //Cable
+        newLoad.PowerCable.Type = CableManager.CableSizer.GetDefaultCableType(newLoad);
         newLoad.SizePowerCable(); // 51ms
         newLoad.PowerCable.LoadId = newLoad.Id;
         newLoad.PowerCable.LoadType = newLoad.GetType().ToString();

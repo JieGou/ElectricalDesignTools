@@ -670,7 +670,10 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
                 _listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
                 RefreshDteqTagValidation();
 
-                AssignedLoads = SelectedDteq.AssignedLoads;
+                
+                
+                
+                //AssignedLoads = SelectedDteq.AssignedLoads;
             }
             
         }

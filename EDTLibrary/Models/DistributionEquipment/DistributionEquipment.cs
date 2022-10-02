@@ -5,6 +5,7 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
@@ -36,6 +37,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
         #region Properties
+        public CalculationFlags CalculationFlags { get; set; }
 
         public int Id { get; set; }
 
@@ -183,7 +185,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         public string PanelSide
         {
             get { return _panelSide; }
-            set { 
+            set
+            {
                 _panelSide = value;
                 OnPropertyUpdated();
             }
@@ -223,7 +226,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _size;
                 _size = value;
-               
+
                 if (DaManager.GettingRecords == false) {
                     CalculateLoading();
                     SCCR = CalculateSCCR();
@@ -381,7 +384,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 UndoManager.Lock(this, nameof(LoadVoltageType));
                 LoadVoltageTypeId = _loadVoltageType.Id;
-                    LoadVoltage = _loadVoltageType.Voltage;
+                LoadVoltage = _loadVoltageType.Voltage;
                 UndoManager.AddUndoCommand(this, nameof(LoadVoltageType), oldValue, _loadVoltageType);
                 OnPropertyUpdated();
 
@@ -533,7 +536,24 @@ namespace EDTLibrary.Models.DistributionEquipment
         private double _loadCableDerating;
 
         public bool IsCalculating { get; set; }
-        public int SequenceNumber { get; set; }
+        public int SequenceNumber
+        {
+            get => _sequenceNumber; 
+            set
+            {
+                _sequenceNumber = value;
+                OnPropertyUpdated();
+            }
+
+        }
+
+        public int CircuitNumber
+        {
+            get { return _circuitNumber; }
+            set { _circuitNumber = value; }
+        }
+        private int _circuitNumber;
+        private int _sequenceNumber;
 
         //Methods
         public virtual void CalculateLoading(string propertyName = "")
@@ -542,7 +562,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             //if (DaManager.Importing) return;
 
             if (LineVoltageType == null || LoadVoltageType == null) return;
-            
+
 
             IsCalculating = true;
             Voltage = LineVoltage;
@@ -707,9 +727,9 @@ namespace EDTLibrary.Models.DistributionEquipment
         public virtual bool AddAssignedLoad(IPowerConsumer load)
         {
 
-            //check if load is already assigned
             if (load == null) return false;
 
+            //check if load is already assigned
             var iLoad = AssignedLoads.FirstOrDefault(l => l == load);
 
             if (iLoad == null) {

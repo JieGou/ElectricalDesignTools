@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:WpfUI.UserControls.Viewers.Dpanels"
              
              xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
+             xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
+             
              
              xmlns:helpers="clr-namespace:WpfUI.Helpers"
              xmlns:editors="clr-namespace:WpfUI.UserControls.Editors"
@@ -13,7 +15,7 @@
              
              
              mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="225"
+             d:DesignHeight="500" d:DesignWidth="275"
              d:Background="AliceBlue">
 
     <DockPanel VerticalAlignment="Top">
@@ -50,6 +52,27 @@
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+
+                    <Button Content="Convert &#x0a;To Load"
+                            Grid.Row="3" Grid.RowSpan="4"
+                            Grid.ColumnSpan="3"
+                            Width="60"
+                            Height="35"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Command="{Binding ConvertToLoadCommand}"
+                            >
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource GreenButton}">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtLoadModels:LoadCircuit}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
                     <TextBlock Text="Tag " Style="{StaticResource SummaryLabel_TextBlockStyle}"
                                Grid.Row="0" Grid.Column="0" 
@@ -172,6 +195,14 @@
                        Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
                     <TextBlock Text="{Binding VoltageType.Poles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                        Grid.Row="8" Grid.Column="1" 
+                       Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+
+                    <TextBlock Text="Cct # "
+                       Grid.Row="9" Grid.Column="0" 
+                       HorizontalAlignment="Right" 
+                       Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
+                    <TextBlock Text="{Binding CircuitNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       Grid.Row="9" Grid.Column="1" 
                        Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
                     <TextBlock Text="Seq # "

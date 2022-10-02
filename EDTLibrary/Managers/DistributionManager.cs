@@ -50,11 +50,18 @@ namespace EDTLibrary.Managers
                     }
                 }
 
-                caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
-                if (true) {
-
+                if (caller.CalculationFlags != null) { 
+                    if (caller.CalculationFlags.CanUpdateFedFrom) {
+                        newSupplier.AddAssignedLoad(caller);
+                    }
+                    
                 }
-                newSupplier.AddAssignedLoad(caller);
+                else {
+                    newSupplier.AddAssignedLoad(caller);
+                }
+                caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
+               
+                
                 newSupplier.CalculateLoading();
 
                 if (caller.VoltageType != null) {

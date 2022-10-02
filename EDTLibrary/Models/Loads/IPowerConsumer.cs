@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using System;
@@ -14,6 +15,9 @@ namespace EDTLibrary.Models.Loads
     public interface IPowerConsumer : ICableUser, IComponentUser
 
     {
+
+        CalculationFlags CalculationFlags { get; set; }
+
         int VoltageTypeId { get; set; }
         VoltageType VoltageType { get; set; }
         ///Lookups
@@ -28,6 +32,7 @@ namespace EDTLibrary.Models.Loads
 
         int SequenceNumber { get; set; }
         string PanelSide { get; set; }
+        int CircuitNumber { get; set; }
 
         void CalculateLoading(string propertyName = "");
 

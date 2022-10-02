@@ -79,14 +79,14 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Text="Selected Panel:"
                        Grid.Row="0"
                        FontSize="12"
                        FontWeight="SemiBold"
                        Margin="0 0 0 10"
                        HorizontalAlignment="Left"/>
-                
+
                 <ListBox ItemsSource="{Binding ViewableDteqList}"
                          Grid.Row="1"
                          HorizontalAlignment="Left"
@@ -123,7 +123,7 @@
                 </Button>
             </Grid>
 
-            
+
         </ScrollViewer>
 
         <Button Content="Add Load" x:Name="tutorial"
@@ -179,23 +179,24 @@
                 <TextBlock Text="{Binding SelectedDpnl.PhaseB}" Grid.Row="1" Grid.Column="2"/>
                 <TextBlock Text="Phase C" Grid.Row="2" Grid.Column="0"/>
                 <TextBlock Text="{Binding SelectedDpnl.PhaseC}" Grid.Row="2" Grid.Column="2"/>
-                
+
                 <TextBlock Text="Total" Grid.Row="4" Grid.Column="0"/>
                 <TextBlock Text="{Binding SelectedDpnl.DemandKva}" Grid.Row="4" Grid.Column="2"/>
-                
-            <AddEquipmentViews:AddLoadView x:Name="loadAdder"
+
+                <!--ADD equipment-->
+                <AddEquipmentViews:AddLoadView x:Name="loadAdder"
                                        Grid.Row="5"
                                        Grid.Column="0" Grid.ColumnSpan="3"
                                        VerticalAlignment="Bottom"
                                        Visibility="Collapsed"
                                        Margin="10 0 0 25"
-                                       FedFromVisibility="Collapsed"/>
+                                       FedFromVisibility="Visible"/>
             </Grid>
 
         </Grid>
 
-        
-        
+
+
         <!--Left Load-->
         <!--<dpanelViewers:DpnCctViewer_V Grid.Row="2" Grid.Column="1" 
                                       DataContext="{Binding SelectedLoadLeft}"
@@ -243,7 +244,7 @@
                     Content ="X" 
                     Width="20" Height="20"
                     Margin="3"
-                    Command="{Binding DeleteLoadLeftCommand}"
+                    Command="{Binding DeleteLoadCommand}"
                     ToolTip="Delete selected load"/>
         </Grid>
 
@@ -272,7 +273,7 @@
             <StackPanel Orientation="Vertical"
                 Grid.Row="0" Grid.RowSpan="3"
                         Grid.Column="1" >
-            <!--Up-->
+                <!--Up-->
                 <Button Content="5" 
                         Grid.Row="0" Grid.Column="1"
                         FontFamily="Marlett" FontSize="12" 
@@ -295,7 +296,7 @@
                     Width="20" Height="20"
                     Margin="3"
                     Command="{Binding MoveLeftCommand}"/>
-            
+
             <!--Right-->
             <Button Content="4"
                     Grid.Row="1" Grid.Column="2"
@@ -303,6 +304,8 @@
                     Width="20" Height="20"
                     Margin="3"
                     Command="{Binding MoveRightCommand}"/>
+
+            <!--Convert-->
 
             <!--Delete-->
             <Button Content ="Delete"
@@ -322,13 +325,13 @@
                 HorizontalAlignment="Left"
                 Grid.Row="2" Grid.RowSpan="2"
                 Grid.Column="3">
-            
+
             <DockPanel Grid.Row="2" Grid.RowSpan="2"
                        Grid.Column="3"
                        HorizontalAlignment="Center"
                        >
 
-               
+
 
                 <!--Data Rows-->
                 <ScrollViewer Grid.Row="2" 
@@ -360,7 +363,7 @@
                               HorizontalAlignment="Left"
                               DockPanel.Dock="Top"
                               ShowGridLines="False"
-                              Visibility="Collapsed">    
+                              Visibility="Collapsed">
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"/>
@@ -430,8 +433,10 @@
                             </Border>
 
                         </Grid>
-                        
+
                         <!--LEFT CIRCUITS-->
+                        <!--**************-->
+
                         <!--Circuit Data Left-->
                         <sf:SfDataGrid Grid.Row="1" Grid.RowSpan="2" x:Name="LeftGrid"
                                        Grid.Column="0"
@@ -524,8 +529,6 @@
                             </sf:SfDataGrid.Columns>
                         </sf:SfDataGrid>
 
-                       
-
                         <!--Left Circuit #s-->
                         <DataGrid Grid.Row="1" Grid.RowSpan="2"
                                   Background="Transparent"
@@ -534,6 +537,9 @@
                                   BorderThickness="0"
                                   ItemsSource="{Binding SelectedDpnl.CircuitNumbersLeft}"
                                   RowHeight="22"
+                                  
+                                  CanUserSortColumns="False"
+                                  
                                   AutoGenerateColumns="False"
                                   ColumnHeaderHeight="44"
                                   RowHeaderWidth="0"
@@ -574,55 +580,10 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
-                        <Border BorderBrush="Black" BorderThickness="0 0 1 1"
-                                Grid.Row="1" Grid.Column="1"
-                                Height="43" Width="50"
-                                Background="{StaticResource Dark}"
-                                Visibility="Collapsed">
-                            <TextBlock Text="Cct #"
-                                       TextAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       Foreground="{StaticResource ForeGround_Light1}" />
-                        </Border>
 
-                        <Border BorderBrush="LightGray" BorderThickness="0 0 1 1"
-                                Grid.Row="2" Grid.RowSpan="2"
-                                Grid.Column="1"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Visibility="Collapsed">
-
-                       
-                            
-                        <ItemsControl Grid.Row="2" Grid.RowSpan="2"
-                                      Grid.Column="1"
-                                      ItemsSource="{Binding SelectedDpnl.CircuitNumbersLeft}"
-                                      VerticalAlignment="Top"
-                                      HorizontalAlignment="Right"
-                                      Visibility="Collapsed">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Vertical"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-
-                                        <StackPanel Orientation="Vertical"
-                                                HorizontalAlignment="Center">
-                                            <dPanelsSubViews:DPanelCircuitNumber DataContext="{Binding}" />
-
-                                        </StackPanel>
-
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Border>
-
-                        <!--**************-->
                         <!--   BREAKERS   -->
                         <!--**************-->
-                        
+
                         <!--Header-->
                         <Border BorderBrush="Black" BorderThickness="0 0 1 1"
                                 Grid.Row="1" Grid.Column="2"
@@ -638,9 +599,9 @@
                                 <TextBlock Text="{Binding SelectedDpnl.Size, StringFormat=\{0:N0\} A}" TextAlignment="Center"
                                            Foreground="{StaticResource ForeGround_Light1}" />
                             </StackPanel>
-                            
+
                         </Border>
-                            
+
                         <!--Graphic-->
                         <Border BorderBrush="LightGray" BorderThickness="0 0 1 0"
                                 Background="White"
@@ -674,6 +635,8 @@
 
 
                         <!--RIGHT CIRCUITS-->
+                        <!--**************-->
+
                         <!--Circuit Data Right-->
                         <sf:SfDataGrid Grid.Row="1" Grid.RowSpan="2" x:Name="RightGrid"
                                        Grid.Column="4"
@@ -703,7 +666,7 @@
                                    
                                        ShowGroupDropArea="False" 
                                        SelectionChanged="RightGrid_SelectionChanged"
-                                       PreviewMouseUp="RightGrid_MouseUp"
+                                       PreviewMouseUp="RightGrid_MouseUp" CurrentCellEndEdit="RightGrid_CurrentCellEndEdit"
                                        
                                        >
 
@@ -774,6 +737,9 @@
                                   BorderThickness="0"
                                   ItemsSource="{Binding SelectedDpnl.CircuitNumbersRight}"
                                   RowHeight="22"
+                                  
+                                  CanUserSortColumns="False"
+                                  
                                   AutoGenerateColumns="False"
                                   ColumnHeaderHeight="44"
                                   RowHeaderWidth="0"
@@ -813,37 +779,7 @@
                                 </DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-                        
-                        <Border BorderBrush="LightGray" BorderThickness="1 0 0 1"
-                                Grid.Row="2" Grid.RowSpan="2"
-                                Grid.Column="3"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Visibility="Collapsed">
 
-                            <ItemsControl Grid.Row="1"
-                                    Grid.Column="1"
-                                    ItemsSource="{Binding SelectedDpnl.CircuitNumbersRight}"
-                                    VerticalAlignment="Top"
-                                     HorizontalAlignment="Right">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Vertical"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-
-                                        <StackPanel Orientation="Vertical"
-                                                HorizontalAlignment="Center">
-                                            <dPanelsSubViews:DPanelCircuitNumber DataContext="{Binding}" />
-
-                                        </StackPanel>
-
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Border>
                     </Grid>
                 </ScrollViewer>
             </DockPanel>

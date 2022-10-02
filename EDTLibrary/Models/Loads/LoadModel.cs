@@ -5,6 +5,7 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Validators;
@@ -31,8 +32,10 @@ namespace EDTLibrary.Models.Loads
             Description = "";
             Category = Categories.LOAD.ToString();
             PowerCable = new CableModel();
+            CalculationFlags = new CalculationFlags();
 
         }
+        public CalculationFlags CalculationFlags { get; set; }
         public LoadModel(string tag)
         {
             Tag = tag;
@@ -227,7 +230,12 @@ namespace EDTLibrary.Models.Loads
             }
         }
         private double _voltage;
-
+        public int CircuitNumber
+        {
+            get { return _circuitNumber; }
+            set { _circuitNumber = value; }
+        }
+        private int _circuitNumber;
 
         public int VoltageTypeId { get; set; } = 0;
         public VoltageType VoltageType
@@ -321,7 +329,10 @@ namespace EDTLibrary.Models.Loads
                 UndoManager.Lock(this, nameof(FedFrom));
 
                 if (DaManager.GettingRecords == false) {
+
                     DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
+
+
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                 }
                 UndoManager.CanAdd = true;
@@ -329,7 +340,6 @@ namespace EDTLibrary.Models.Loads
                 OnPropertyUpdated();
             }
         }
-
         private double _loadFactor;
         public double LoadFactor
         {

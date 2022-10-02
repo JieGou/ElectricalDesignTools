@@ -75,6 +75,7 @@ namespace EDTLibrary.Managers
                 AssignCables();
                 CreateEquipmentList();
                 AssignListManagerToEquipment(EqList);
+                SetDpnCircuits();
             }
             catch (Exception ex) {
 
@@ -87,6 +88,12 @@ namespace EDTLibrary.Managers
             DaManager.GettingRecords = false;
         }
 
+        private void SetDpnCircuits()
+        {
+            foreach (var item in DpnList) {
+                item.SetCircuits();
+            }        
+        }
 
         private void GetVoltages()
         {
@@ -280,6 +287,7 @@ namespace EDTLibrary.Managers
                         dpn.AssignedCircuits.Add((LoadCircuit)loadCircuit);
                         loadCircuit.FedFrom = dpn;
                         loadCircuit.SpaceConverted += dpn.OnSpaceConverted;
+                        loadCircuit.VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Id == loadCircuit.VoltageTypeId);
                     }
                 }
                 if (dteq.GetType() == typeof(DpnModel)) {
