@@ -12,9 +12,11 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
@@ -22,46 +24,61 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels;
 public class DpnCircuitManager
 {
 
-    public static bool AddLoad(IDpn dpn, IPowerConsumer load, ListManager listManager)
+    public static bool AddNewLoad(IDpn dpn, IPowerConsumer load)
     {
         if (CanAdd(dpn, load)) {
 
+            var sideCircuitList = new ObservableCollection<IPowerConsumer>();
             //Left
-            if ((_leftCctsAvailable != -1 && _leftCctsAvailable <= _rightCctsAvailable) ||
-                            (_leftCctsAvailable != -1 && _rightCctsAvailable == -1)) {
-                load.PanelSide = DpnSide.Left.ToString();
-                load.CircuitNumber = _nextAvailableCctNumberLeft;
-
+            if ((_leftAvailableSeq != -1 && _leftAvailableSeq <= _rightAvailaleSeq) ||
+                            (_leftAvailableSeq != -1 && _rightAvailaleSeq == -1)) {
+                load.PanelSide = PanelSide.Left.ToString();
+                load.CircuitNumber = _leftAvailableCct;
+                sideCircuitList = dpn.LeftCircuits;
             }
             //Right
-            else if ((_rightCctsAvailable != -1 && _rightCctsAvailable <= _leftCctsAvailable) ||
-                    (_rightCctsAvailable != -1 && _leftCctsAvailable == -1)) {
-                load.PanelSide = DpnSide.Right.ToString();
-                load.CircuitNumber = _nextAvailableCctNumberRight;
+            else if ((_rightAvailaleSeq != -1 && _rightAvailaleSeq <= _leftAvailableSeq) ||
+                    (_rightAvailaleSeq != -1 && _leftAvailableSeq == -1)) {
+                load.PanelSide = PanelSide.Right.ToString();
+                load.CircuitNumber = _rightAvailableCct;
+                sideCircuitList = dpn.RightCircuits;
+
             }
 
             dpn.AssignedLoads.Add(load);
-            dpn.SetCircuits();
+            sideCircuitList.Add(load);
+
+            var loadCircuitToRemove = new LoadCircuit();
+            int cctNum = 0;
+            for (int i = 0; i < load.VoltageType.Poles; i++) {
+                cctNum = i * 2 + load.CircuitNumber;
+                loadCircuitToRemove = dpn.AssignedCircuits.FirstOrDefault(lc => lc.CircuitNumber == cctNum);
+                dpn.AssignedCircuits.Remove(loadCircuitToRemove);
+                sideCircuitList.Remove(loadCircuitToRemove);
+                DaManager.prjDb.DeleteRecord(GlobalConfig.LoadCircuitTable, loadCircuitToRemove.Id);
+            }
+
             return true;
         }
         return false;
         
     }
-    private static int _leftCctsAvailable = 0;
-    private static int _rightCctsAvailable = 0;
-    private static int _nextAvailableCctNumberLeft = 0;
-    private static int _nextAvailableCctNumberRight = 0;
+
+    private static int _leftAvailableSeq = 0;
+    private static int _rightAvailaleSeq = 0;
+    private static int _leftAvailableCct = 0;
+    private static int _rightAvailableCct = 0;
 
     public static bool CanAdd(IDpn dpn, IPowerConsumer load)
     {
      
-        _leftCctsAvailable = GetAvailableCircuit(dpn, load, DpnSide.Left).Item1;
-        _rightCctsAvailable = GetAvailableCircuit(dpn, load, DpnSide.Right).Item1;
+        _leftAvailableSeq = GetAvailableCircuit(dpn, load, PanelSide.Left).Item1;
+        _rightAvailaleSeq = GetAvailableCircuit(dpn, load, PanelSide.Right).Item1;
 
-        _nextAvailableCctNumberLeft = GetAvailableCircuit(dpn, load, DpnSide.Left).Item2;
-        _nextAvailableCctNumberRight = GetAvailableCircuit(dpn, load, DpnSide.Right).Item2;
+        _leftAvailableCct = GetAvailableCircuit(dpn, load, PanelSide.Left).Item2;
+        _rightAvailableCct = GetAvailableCircuit(dpn, load, PanelSide.Right).Item2;
 
-        if (_leftCctsAvailable < 0 && _rightCctsAvailable < 0) return false;
+        if (_leftAvailableSeq < 0 && _rightAvailaleSeq < 0) return false;
 
         if (dpn.AssignedLoads.FirstOrDefault(l => l.Id == load.Id) != null) return false;
 
@@ -91,7 +108,7 @@ public class DpnCircuitManager
     /// <param name="load"></param>
     /// <param name="dpnSide"></param>
     /// <returns></returns>
-    public static Tuple<int, int> GetAvailableCircuit(IDpn dpn, IPowerConsumer load, DpnSide dpnSide)
+    public static Tuple<int, int> GetAvailableCircuit(IDpn dpn, IPowerConsumer load, PanelSide dpnSide)
     {
         var circuit = new Tuple<int, int>(0,0);
         int seqNum = 0;
@@ -100,7 +117,7 @@ public class DpnCircuitManager
         for (int i = 0; i < dpn.CircuitCount / 2; i++) {
             if (IsCircuitAvailable(dpn, load, seqNum, dpnSide)) {
 
-                cctNum = GetCircuitNumber(dpn, load, seqNum);
+                cctNum = GetCircuitNumber(dpn, dpnSide, seqNum);
                 circuit = new Tuple<int, int>(seqNum, cctNum);
                 return circuit;
             }
@@ -112,14 +129,14 @@ public class DpnCircuitManager
         return circuit;
     }
 
-    private static int GetCircuitNumber(IDpn dpn, IPowerConsumer load, int sequenceNumber)
+    private static int GetCircuitNumber(IDpn dpn, PanelSide panelSide, int sequenceNumber)
     {
         int cct = 0;
-        var sideCircuitList = load.PanelSide == DpnSide.Left.ToString() ? dpn.LeftCircuits : dpn.RightCircuits;
+        var sideCircuitList = panelSide == PanelSide.Left ? dpn.LeftCircuits : dpn.RightCircuits;
 
         for (int i = 0; i <= sequenceNumber; i++) {
             if (i==0) {
-                cct = load.PanelSide == DpnSide.Left.ToString() ? 1 : 2;
+                cct = panelSide == PanelSide.Left ? 1 : 2;
             }
             else {
                 cct += 2 * sideCircuitList[i - 1].VoltageType.Poles;
@@ -137,13 +154,13 @@ public class DpnCircuitManager
     /// <param name="cct"></param>
     /// <param name="dpnSide"></param>
     /// <returns></returns>
-    private static bool IsCircuitAvailable(IDpn dpn, IPowerConsumer load, int cct, DpnSide dpnSide)
+    private static bool IsCircuitAvailable(IDpn dpn, IPowerConsumer load, int cct, PanelSide dpnSide)
     {
         bool isAvailable = false;
         List<IPowerConsumer> cctList = new List<IPowerConsumer>();
         int poleCount = 0;
 
-        if (dpnSide == DpnSide.Left) {
+        if (dpnSide == PanelSide.Left) {
             cctList = dpn.LeftCircuits.ToList();
             
         }
@@ -220,6 +237,13 @@ public class DpnCircuitManager
 
     internal static void RetagCircuits(ObservableCollection<IPowerConsumer> sideCircuitList)
     {
+
+        foreach (var item in sideCircuitList) {
+            if (item.Tag.Contains(item.FedFrom.Tag)) {
+                item.Tag = $"{item.FedFrom.Tag}-{Guid.NewGuid().ToString()}";
+            }
+        }
+        Thread.Sleep(75);
         foreach (var item in sideCircuitList) {
             if (item.Tag.Contains(item.FedFrom.Tag)) {
                 item.Tag = $"{item.FedFrom.Tag}-{item.CircuitNumber}";
@@ -257,16 +281,16 @@ public class DpnCircuitManager
     public static void MoveCircuitLeft(IDpn dpn, IPowerConsumer load)
     {
         if (load == null) return;
-        DpnSide dpnSide;
-        dpnSide = dpn.LeftCircuits.FirstOrDefault(ld => ld == load) != null ? DpnSide.Left : DpnSide.Right;
-        if (dpnSide == DpnSide.Left) return;
+        PanelSide dpnSide;
+        dpnSide = dpn.LeftCircuits.FirstOrDefault(ld => ld == load) != null ? PanelSide.Left : PanelSide.Right;
+        if (dpnSide == PanelSide.Left) return;
 
-        if (dpnSide == DpnSide.Right && GetAvailableCircuit(dpn, load, DpnSide.Left).Item1 != -1) {
-            load.SequenceNumber = GetAvailableCircuit(dpn, load, DpnSide.Left).Item1;
-            load.CircuitNumber = GetAvailableCircuit(dpn, load, DpnSide.Left).Item2;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+        if (dpnSide == PanelSide.Right && GetAvailableCircuit(dpn, load, PanelSide.Left).Item1 != -1) {
+            load.SequenceNumber = GetAvailableCircuit(dpn, load, PanelSide.Left).Item1;
+            load.CircuitNumber = GetAvailableCircuit(dpn, load, PanelSide.Left).Item2;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
             dpn.LeftCircuits.Add(load);
             dpn.RightCircuits.Remove(load);
-            load.PanelSide = DpnSide.Left.ToString();
+            load.PanelSide = PanelSide.Left.ToString();
         }
         dpn.SetCircuits();
         dpn.CalculateLoading();
@@ -276,16 +300,16 @@ public class DpnCircuitManager
     {
 
         if (load == null) return;
-        DpnSide dpnSide; 
-        dpnSide = dpn.LeftCircuits.FirstOrDefault(ld => ld == load) != null ? DpnSide.Left : DpnSide.Right;
-        if (dpnSide == DpnSide.Right) return;
+        PanelSide dpnSide; 
+        dpnSide = dpn.LeftCircuits.FirstOrDefault(ld => ld == load) != null ? PanelSide.Left : PanelSide.Right;
+        if (dpnSide == PanelSide.Right) return;
 
-        if (dpnSide == DpnSide.Left && GetAvailableCircuit(dpn, load, DpnSide.Right).Item1 != -1) {
-            load.SequenceNumber = GetAvailableCircuit(dpn, load, DpnSide.Right).Item1;
-            load.CircuitNumber = GetAvailableCircuit(dpn, load, DpnSide.Right).Item2;
+        if (dpnSide == PanelSide.Left && GetAvailableCircuit(dpn, load, PanelSide.Right).Item1 != -1) {
+            load.SequenceNumber = GetAvailableCircuit(dpn, load, PanelSide.Right).Item1;
+            load.CircuitNumber = GetAvailableCircuit(dpn, load, PanelSide.Right).Item2;
             dpn.LeftCircuits.Remove(load);
             dpn.RightCircuits.Add(load);
-            load.PanelSide = DpnSide.Right.ToString();
+            load.PanelSide = PanelSide.Right.ToString();
         }
         dpn.SetCircuits();
         dpn.CalculateLoading();
@@ -302,7 +326,7 @@ public class DpnCircuitManager
         int cctNumber = 0;
 
         if (DaManager.GettingRecords == true) return;
-        if (sideCircuitList[1].PanelSide == DpnSide.Left.ToString()) {
+        if (sideCircuitList[1].PanelSide == PanelSide.Left.ToString()) {
             for (int i = 0; i < sideCircuitList.Count; i++) {
                 if (i == 0) {
                     cctNumber = 1;
@@ -314,7 +338,7 @@ public class DpnCircuitManager
                 }
             }
         }
-        else if(sideCircuitList[1].PanelSide == DpnSide.Right.ToString()) {
+        else if(sideCircuitList[1].PanelSide == PanelSide.Right.ToString()) {
             for (int i = 0; i < sideCircuitList.Count; i++) {
                 if (i == 0) {
                     cctNumber = 2;
@@ -335,36 +359,13 @@ public class DpnCircuitManager
         var listManager = ScenarioManager.ListManager;
         var dpn = listManager.DpnList.FirstOrDefault(dpn => dpn.Id == loadCircuit.FedFromId);
 
-        AssignSequenceNumbers(dpn.LeftCircuits);
-        AssignSequenceNumbers(dpn.RightCircuits);
-
-
-        var dpnSide = loadCircuit.PanelSide == DpnSide.Left.ToString() ? DpnSide.Left : DpnSide.Right;
-        var circuitList = loadCircuit.PanelSide == DpnSide.Left.ToString() ? dpn.LeftCircuits : dpn.RightCircuits;
-
-        int cctNumber = 0;
-        int availableCircuitPosition = GetAvailableCircuit(dpn, loadCircuit, dpnSide).Item1;
-
-
-        for (int i = 0; i < circuitList.Count; i++) {
-            if (circuitList[i].VoltageType == null) {
-                cctNumber += 2;
-            }
-            else {
-                cctNumber += 2 * circuitList[i].VoltageType.Poles;
-            }
-            if (loadCircuit == circuitList[i]) {
-                break;
-            }
-        }
-
-        cctNumber = dpnSide == DpnSide.Left ? cctNumber -= 1 : cctNumber;
-
+        var dpnSide = loadCircuit.PanelSide == PanelSide.Left.ToString() ? PanelSide.Left : PanelSide.Right;
+        var circuitList = loadCircuit.PanelSide == PanelSide.Left.ToString() ? dpn.LeftCircuits : dpn.RightCircuits;
 
         var loadToAdd = new LoadToAddValidator(listManager) {
-            
+
             Type = LoadTypes.OTHER.ToString(),
-            Description = "Converted - " + loadCircuit.Description,
+            Description = loadCircuit.Description,
             AreaTag = dpn.Area.Tag,
             FedFromTag = dpn.Tag,
 
@@ -373,11 +374,11 @@ public class DpnCircuitManager
             Unit = Units.A.ToString(),
             LoadFactor = EdtSettings.LoadFactorDefault,
             PanelSide = loadCircuit.PanelSide,
-            CircuitNumber = cctNumber,
+            CircuitNumber = loadCircuit.CircuitNumber,
             SequenceNumber = loadCircuit.SequenceNumber,
 
         };
-        loadToAdd.Tag = $"{dpn.Tag}-{cctNumber}";
+        loadToAdd.Tag = $"{dpn.Tag}-{loadCircuit.CircuitNumber}";
 
         loadCircuit = null;
 

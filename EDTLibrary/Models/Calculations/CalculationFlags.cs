@@ -8,4 +8,5 @@ namespace EDTLibrary.Models.Calculations;
 public class CalculationFlags
 {
     public bool CanUpdateFedFrom { get; set; } = true;
+    public bool EnforceUniqueTagsTags { get; set; } = true;
 }

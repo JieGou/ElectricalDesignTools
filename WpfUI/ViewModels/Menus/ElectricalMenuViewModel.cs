@@ -129,7 +129,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
         if (_dpanelViewModel.SelectedDpnl != null) {
 
 
-            _dpanelViewModel.SelectedDpnl.SetCircuits();
+            //_dpanelViewModel.SelectedDpnl.SetCircuits();
             _dpanelViewModel.UpdatePanelList();
         }
         

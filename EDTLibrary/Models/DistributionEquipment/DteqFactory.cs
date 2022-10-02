@@ -40,7 +40,9 @@ namespace EDTLibrary.Models.DistributionEquipment
             else if (dteqToAddValidator.Type == DteqTypes.DPN.ToString()) {
                 DpnModel model = new DpnModel();
                 //MCC properties
+               
                 newDteq = model;
+                
             }
 
             else if (dteqToAddValidator.Type == DteqTypes.CDP.ToString()) {
@@ -52,7 +54,12 @@ namespace EDTLibrary.Models.DistributionEquipment
                 newDteq = new DteqModel();
             }
 
-
+            if (_listManager.IDteqList.Count == 0) {
+                newDteq.Id = 1;
+            }
+            else {
+                newDteq.Id = _listManager.IDteqList.Max(l => l.Id) + 1;
+            }
             newDteq.LineVoltage = Double.Parse(dteqToAddValidator.LineVoltage);
             newDteq.LineVoltageType = dteqToAddValidator.LineVoltageType;
             newDteq.LineVoltageTypeId = newDteq.LineVoltageType.Id;
@@ -69,8 +76,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             newDteq.Size = Double.Parse(dteqToAddValidator.Size);
             newDteq.Unit = dteqToAddValidator.Unit;
             newDteq.Description = dteqToAddValidator.Description;
-            //newDteq.FedFromTag = dteqToAddValidator.FedFromTag;
-            
+
+            newDteq.Create();
 
             return newDteq;
         }

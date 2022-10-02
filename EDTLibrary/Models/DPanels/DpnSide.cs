@@ -1,6 +1,6 @@
 ﻿namespace EDTLibrary.Models.DistributionEquipment.DPanels;
 
-public enum DpnSide
+public enum PanelSide
 { 
    Left,
    Right,

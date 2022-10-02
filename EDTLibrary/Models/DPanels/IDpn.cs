@@ -15,7 +15,7 @@ public interface IDpn: IDteq
     int PoleCountRight { get; set; }
     ObservableCollection<IPowerConsumer> RightCircuits { get; set; }
 
-    bool AddAssignedLoad(IPowerConsumer load);
+    bool AdddNewLoad(IPowerConsumer load);
     void SetCircuits();
 
     void OnSpaceConverted(object source, EventArgs e);

@@ -63,7 +63,7 @@ public class LoadManager
         if (dteqSubscriber != null) {
 
             if (append == true) {
-                dteqSubscriber.AddAssignedLoad(newLoad); //load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom
+                dteqSubscriber.AdddNewLoad(newLoad); //load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom
                                                          //which is fired inside loadFactory when setting fedfrom
                                                          //but this checks if it is already added;
             }

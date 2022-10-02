@@ -35,6 +35,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             Category = Categories.DTEQ.ToString();
             Voltage = LineVoltage;
         }
+        public virtual void Create() { }
+        public virtual void Initialize() { }
+
+        public virtual void Delete() { }
 
         #region Properties
         public CalculationFlags CalculationFlags { get; set; }
@@ -724,7 +728,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         /// </summary>
         /// <param name="load"></param>
         /// <returns></returns>
-        public virtual bool AddAssignedLoad(IPowerConsumer load)
+        public virtual bool AdddNewLoad(IPowerConsumer load)
         {
 
             if (load == null) return false;

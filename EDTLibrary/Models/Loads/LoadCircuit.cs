@@ -36,7 +36,6 @@ public class LoadCircuit : ILoadCircuit
     public ICommand ConvertToLoadCommand { get; }
     public void ConvertToLoad()
     {
-
         DpnCircuitManager.ConvertToLoad(this);
     }
     public int Id { get; set; }

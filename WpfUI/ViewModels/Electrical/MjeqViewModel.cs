@@ -638,24 +638,22 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
                 IDteq newDteq = _dteqFactory.CreateDteq(dteqToAddValidator);
 
+                //Get Id manually
+                //if (ListManager.IDteqList.Count == 0) {
+                //    newDteq.Id = 1;
+                //}
+                //else {
+                //    newDteq.Id = ListManager.IDteqList.Max(l => l.Id) + 1;
+                //}
+
                 IDteq dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
                 if (dteqSubscriber != null) {
                     //dteqSubscriber.AssignedLoads.Add(newDteq); load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom();
                     newDteq.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
                     newDteq.PropertyUpdated += DaManager.OnDteqPropertyUpdated;
                 }
-
-                //Get Id from DB
-                //newDteq.Id = DaManager.SaveDteqGetId(newDteq);
+             
                 
-                //Get Id manually
-                if (ListManager.IDteqList.Count != 0) {
-                    newDteq.Id = ListManager.IDteqList.Max(l => l.Id);
-                    newDteq.Id += 1;
-                }
-                else {
-                    newDteq.Id = 1;
-                }
 
                 //Save to Db when calculating inside DteqModel
                 newDteq.LoadCableDerating = double.Parse(EdtSettings.DteqLoadCableDerating);
@@ -690,18 +688,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
             IDteq dteqToDelete = DteqFactory.Recast(dteqObject);
             if (dteqToDelete != null) {
-                //children first
 
-                dteqToDelete.Tag = GlobalConfig.Deleted;
-                _listManager.UnregisterDteqFromLoadEvents(dteqToDelete);
-                DeletePowerCable(dteqToDelete);
-                DistributionManager.RetagLoadsOfDeleted(dteqToDelete);
-
-                if (dteqToDelete.FedFrom != null) {
-                    dteqToDelete.FedFrom.AssignedLoads.Remove(dteqToDelete);
-                }
-                _listManager.DeleteDteq(dteqToDelete);
-                DaManager.DeleteDteq(dteqToDelete);
+                DteqManager.DeleteDteq(dteqToDelete, _listManager);
                 RefreshDteqTagValidation();
 
                 if (_listManager.IDteqList.Count > 0) {

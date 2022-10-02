@@ -53,10 +53,13 @@ namespace EDTLibrary.Models.Loads
                 if (string.IsNullOrEmpty(value.ToString())) return;
                 if (Tag == GlobalConfig.LargestMotor_StartLoad) return;
 
-                if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
-                    ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
-                    return;
+                if (CalculationFlags.EnforceUniqueTagsTags == true) {
+                    if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
+                        ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
+                        return;
+                    }
                 }
+                
 
                 var oldValue = _tag;
                 _tag = value;

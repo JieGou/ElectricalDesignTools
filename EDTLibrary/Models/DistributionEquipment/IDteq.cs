@@ -7,7 +7,9 @@ namespace EDTLibrary.Models.DistributionEquipment
 {
     public interface IDteq : IPowerConsumer
     {
-
+        void Create();
+        void Initialize();
+        void Delete();
         int LineVoltageTypeId { get; set; }
         VoltageType LineVoltageType { get; set; }
         double LineVoltage { get; set; }
@@ -23,7 +25,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         double LoadCableDerating { get; set; }
 
         bool CanAdd(IPowerConsumer load);
-        bool AddAssignedLoad(IPowerConsumer load);
+        bool AdddNewLoad(IPowerConsumer load);
         void RemoveAssignedLoad(IPowerConsumer load);
 
         public abstract void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e);

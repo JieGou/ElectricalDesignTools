@@ -55,7 +55,7 @@ namespace EDTLibrary.Managers
                 GetAreas();
                 GetDteq();
                 GetLoadsAndAssignPropertyUpdatedEvent();
-                GetLoadCircuits();
+                GetLoadCircuitsAndAddToAssignedCircuits();
                 GetDpnCircuits();
                 GetVoltages();
 
@@ -75,7 +75,7 @@ namespace EDTLibrary.Managers
                 AssignCables();
                 CreateEquipmentList();
                 AssignListManagerToEquipment(EqList);
-                SetDpnCircuits();
+                InitializeDpns();
             }
             catch (Exception ex) {
 
@@ -88,10 +88,10 @@ namespace EDTLibrary.Managers
             DaManager.GettingRecords = false;
         }
 
-        private void SetDpnCircuits()
+        private void InitializeDpns()
         {
             foreach (var item in DpnList) {
-                item.SetCircuits();
+                item.Initialize();
             }        
         }
 
@@ -259,7 +259,7 @@ namespace EDTLibrary.Managers
                     load.FedFrom = GlobalConfig.DteqDeleted;
                 }
 
-                //Set FedFromrom
+                //Set FedFrom
                 fedFrom = IDteqList.FirstOrDefault(d => d.Id == load.FedFromId &&
                                                    d.GetType().ToString() == load.FedFromType);
                 if (fedFrom != null) load.FedFrom = fedFrom;
@@ -271,7 +271,7 @@ namespace EDTLibrary.Managers
 
             }
         }
-        private void GetLoadCircuits()
+        private void GetLoadCircuitsAndAddToAssignedCircuits()
         {
             LoadCircuitList.Clear();
             var list = DaManager.prjDb.GetRecords<LoadCircuit>(GlobalConfig.LoadCircuitTable);
@@ -280,6 +280,7 @@ namespace EDTLibrary.Managers
                 item.PropertyUpdated += DaManager.OnLoadCircuitPropertyUpdated;
             }
             IDpn dpn = new DpnModel();
+            var sideCircuitList = new ObservableCollection<IPowerConsumer>();
             foreach (var dteq in IDteqList) {
                 foreach (var loadCircuit in LoadCircuitList) {
                     if (dteq.Id == loadCircuit.FedFromId && loadCircuit.FedFromType == typeof(DpnModel).ToString()) {
@@ -289,9 +290,6 @@ namespace EDTLibrary.Managers
                         loadCircuit.SpaceConverted += dpn.OnSpaceConverted;
                         loadCircuit.VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Id == loadCircuit.VoltageTypeId);
                     }
-                }
-                if (dteq.GetType() == typeof(DpnModel)) {
-                    dpn.SetCircuits();
                 }
             }
         }
