@@ -209,6 +209,10 @@ internal class DpanelViewModel : ViewModelBase
 
 
 
+
+
+
+
     //Todo - move logic to DpanelCctManager
     public ICommand MoveUpLeftCommand { get; }
     public void MoveUpLeft()

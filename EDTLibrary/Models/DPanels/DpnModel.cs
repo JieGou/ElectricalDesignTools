@@ -80,13 +80,13 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
 
                 newLoadCircuit.Id = id;
                 newLoadCircuit.CircuitNumber = cctNo;
-                newLoadCircuit.PanelSide = cctNo % 2 != 0 ? DPanels.PanelSide.Left.ToString() : DPanels.PanelSide.Right.ToString();
+                newLoadCircuit.PanelSide = cctNo % 2 != 0 ? DPanels.PnlSide.Left.ToString() : DPanels.PnlSide.Right.ToString();
                 newLoadCircuit.PropertyUpdated += DaManager.OnLoadCircuitPropertyUpdated;
                 newLoadCircuit.OnPropertyUpdated();
 
                 ScenarioManager.ListManager.LoadCircuitList.Add(newLoadCircuit);
                 AssignedCircuits.Add(newLoadCircuit);
-                sideCircuitList = newLoadCircuit.PanelSide == DPanels.PanelSide.Left.ToString() ? LeftCircuits : RightCircuits;
+                sideCircuitList = newLoadCircuit.PanelSide == DPanels.PnlSide.Left.ToString() ? LeftCircuits : RightCircuits;
                 sideCircuitList.Add(newLoadCircuit);
 
             }
@@ -95,11 +95,11 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
         {
             var sideCirctuitList = new ObservableCollection<IPowerConsumer>();
             foreach (var item in AssignedLoads) {
-                sideCirctuitList = item.PanelSide == DPanels.PanelSide.Left.ToString() ? LeftCircuits : RightCircuits;
+                sideCirctuitList = item.PanelSide == DPanels.PnlSide.Left.ToString() ? LeftCircuits : RightCircuits;
                 sideCirctuitList.Add(item);
             }
             foreach (var item in AssignedCircuits) {
-                sideCirctuitList = item.PanelSide == DPanels.PanelSide.Left.ToString() ? LeftCircuits : RightCircuits;
+                sideCirctuitList = item.PanelSide == DPanels.PnlSide.Left.ToString() ? LeftCircuits : RightCircuits;
                 sideCirctuitList.Add(item);
             }
             OrderCircuitsByCircuitNumber(LeftCircuits);
@@ -116,9 +116,9 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
 
         public void SetCircuits()
         {
-            //SetLeftCircuits();
-            //SetRightCircuits();
-            //CalculatePhaseLoading();
+            SetLeftCircuits();
+            SetRightCircuits();
+            CalculatePhaseLoading();
         }
         public int CircuitCount
         {
@@ -127,6 +127,9 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             {
                 var oldValue = _circuitCount;
                 _circuitCount = value;
+                if (_circuitCount < oldValue && DaManager.GettingRecords == false) {
+                    MessageBox.Show($"Reducing the number of circuits will cause some loads to be assigned to new circuit numbers");
+                }
 
                 if (_circuitCount > 90) {
                     _circuitCount = 90;
@@ -139,59 +142,87 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                     _circuitCount = _circuitCount % 2 == 0 ? _circuitCount : _circuitCount + 1;
                 }
 
-                int minCircuitsForLoadsLeft = 0;
-                int minCircuitsForLoadsRight = 0;
-                foreach (var item in LeftCircuits) {
-                    if (item.GetType() == typeof(LoadModel)) {
-                        minCircuitsForLoadsLeft += item.VoltageType.Poles;
-                    }
-                }
-                foreach (var item in RightCircuits) {
-                    if (item.GetType() == typeof(LoadModel)) {
-                        minCircuitsForLoadsRight += item.VoltageType.Poles;
-                    }
-                }
-                if (_circuitCount / 2 < minCircuitsForLoadsLeft || _circuitCount / 2 < minCircuitsForLoadsRight) {
-                    int minCircuits = Math.Max(minCircuitsForLoadsLeft, minCircuitsForLoadsRight);
-                    MessageBox.Show($"Minimum circuits requried for loads: {minCircuits * 2}");
+                if (GetMinCircuitCount() > _circuitCount) {
+                    MessageBox.Show($"Minimum circuits requried for loads: {GetMinCircuitCount()}");
                     _circuitCount = oldValue;
                 }
 
-                SetLeftCircuits();
-                SetRightCircuits();
-
+                SetCircuits();
                 OnPropertyUpdated();
             }
         }
+
+        private int GetMinCircuitCount()
+        {
+            int minCircuitsForLoadsLeft = 0;
+            int minCircuitsForLoadsRight = 0;
+            foreach (var item in LeftCircuits) {
+                if (item.GetType() == typeof(LoadModel)) {
+                    minCircuitsForLoadsLeft += item.VoltageType.Poles;
+                }
+            }
+            foreach (var item in RightCircuits) {
+                if (item.GetType() == typeof(LoadModel)) {
+                    minCircuitsForLoadsRight += item.VoltageType.Poles;
+                }
+            }
+            int minCircuits = Math.Max(minCircuitsForLoadsLeft, minCircuitsForLoadsRight);
+            if (_circuitCount / 2 < minCircuitsForLoadsLeft || _circuitCount / 2 < minCircuitsForLoadsRight) {
+                //MessageBox.Show($"Minimum circuits requried for loads: {minCircuits * 2}");
+            }
+            return minCircuits * 2;
+        }
+
         public ObservableCollection<DpnCircuit> CircuitList { get; private set; } = new ObservableCollection<DpnCircuit>();
 
         public ObservableCollection<DpnCircuit> CircuitNumbersLeft
         {
             get
             {
-                var cctList = new ObservableCollection<DpnCircuit>();
-
-                for (int i = 1; i <= CircuitCount; i += 2) {
-                    cctList.Add(new DpnCircuit { CircuitNumber = i });
-                }
-                return cctList;
+                return SetLeftCircuitNumbers();
             }
+            //set
+            //{
+            //    _circuitNumbersLeft = value;
+            //}
 
         }
+        private ObservableCollection<DpnCircuit> _circuitNumbersLeft;
+        private ObservableCollection<DpnCircuit> SetLeftCircuitNumbers()
+        {
+            var cctList = new ObservableCollection<DpnCircuit>();
+
+            for (int i = 1; i <= _circuitCount; i += 2) {
+                cctList.Add(new DpnCircuit { CircuitNumber = i });
+            }
+            //CircuitNumbersLeft = cctList;
+            return cctList;
+        }
+
         public ObservableCollection<DpnCircuit> CircuitNumbersRight
         {
             get
             {
-                var cctList = new ObservableCollection<DpnCircuit>();
-
-                for (int i = 2; i <= CircuitCount; i += 2) {
-                    cctList.Add(new DpnCircuit { CircuitNumber = i });
-                }
-                return cctList;
+                return SetCircuitNumbersRight();
             }
-
+            //set
+            //{
+            //    _circuitNumbersRight = value;
+            //}
         }
+        private ObservableCollection<DpnCircuit> _circuitNumbersRight;
 
+        private ObservableCollection<DpnCircuit> SetCircuitNumbersRight()
+        {
+            var cctList = new ObservableCollection<DpnCircuit>();
+
+            for (int i = 2; i <= _circuitCount; i += 2) {
+                cctList.Add(new DpnCircuit { CircuitNumber = i });
+            }
+            //CircuitNumbersRight = cctList;
+
+            return cctList;
+        }
 
         public int PoleCountLeft
         {
@@ -217,28 +248,34 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             int poleCount = 0;
             var surplusCircuitsToDelete = new ObservableCollection<LoadCircuit>();
 
-            var list = AssignedLoads.Where(al => al.CircuitNumber % 2 != 0).ToList();
-            list.AddRange(AssignedCircuits.Where(ac => ac.CircuitNumber % 2 != 0).ToList());
+            poleCount = AddAssignedLoadsToPanelSide(sideCircuitList, poleCount, PnlSide.Left);
 
-            sideCircuitList.Clear();
-            foreach (var item in list) {
-                sideCircuitList.Add(item);
-                poleCount += item.VoltageType.Poles;
+            //Add AssignedCircuits
+            for (int i = 0; i < AssignedCircuits.Count; i++) {
+
+                //loads thats have a side assigned
+                if (AssignedCircuits[i].PanelSide == PnlSide.Left.ToString()) {
+                    poleCount = AddAssignedCircuitToPanelSide(sideCircuitList, poleCount, surplusCircuitsToDelete, AssignedCircuits[i]);
+
+                }
+                //loads that do NOT have a side assigned
+                else if (AssignedCircuits[i].PanelSide != PnlSide.Right.ToString() && i % 2 == 0) {
+                    poleCount = AddAssignedCircuitToPanelSide(sideCircuitList, poleCount, surplusCircuitsToDelete, AssignedCircuits[i]);
+                    AssignedCircuits[i].PanelSide = PnlSide.Left.ToString();
+                }
             }
 
-            CreateAdditionalCircuitsToFillPanelSide(sideCircuitList, poleCount, DPanels.PanelSide.Left);
+            DeleteSurplusCircuits(surplusCircuitsToDelete);
+
+            CreateAdditionalCircuitsToFillPanelSide(sideCircuitList, poleCount, PnlSide.Left);
 
             //assign circuit numbers
 
-
-
             //DpnCircuitManager.AssignCircuitNumbers(sideCircuitList);
-
             PoleCountLeft = poleCount;
             LeftCircuits = sideCircuitList;
-
-
             OrderCircuitsByCircuitNumber(LeftCircuits);
+            SetLeftCircuitNumbers();
         }
 
 
@@ -266,50 +303,45 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             int poleCount = 0;
             var surplusCircuitsToDelete = new ObservableCollection<LoadCircuit>();
 
-            poleCount = AddAssignedLoadsToPanelSide(sideCircuitList, poleCount, DPanels.PanelSide.Right);
+            poleCount = AddAssignedLoadsToPanelSide(sideCircuitList, poleCount, PnlSide.Right);
 
             //Add AssignedCircuits
             for (int i = 0; i < AssignedCircuits.Count; i++) {
 
                 //known side
-                if (AssignedCircuits[i].PanelSide == DPanels.PanelSide.Right.ToString()) {
+                if (AssignedCircuits[i].PanelSide == PnlSide.Right.ToString()) {
                     poleCount = AddAssignedCircuitToPanelSide(sideCircuitList, poleCount, surplusCircuitsToDelete, AssignedCircuits[i]);
 
                 }
                 //unknown side, set side
-                else if (AssignedCircuits[i].PanelSide != DPanels.PanelSide.Left.ToString() && i % 2 != 0) {
+                else if (AssignedCircuits[i].PanelSide != PnlSide.Left.ToString() && i % 2 != 0) {
                     poleCount = AddAssignedCircuitToPanelSide(sideCircuitList, poleCount, surplusCircuitsToDelete, AssignedCircuits[i]);
-                    AssignedCircuits[i].PanelSide = DPanels.PanelSide.Right.ToString();
+                    AssignedCircuits[i].PanelSide = PnlSide.Right.ToString();
                 }
             }
 
             // delete surplus spare circuits
             DeleteSurplusCircuits(surplusCircuitsToDelete);
 
-            CreateAdditionalCircuitsToFillPanelSide(sideCircuitList, poleCount, DPanels.PanelSide.Right);
+            CreateAdditionalCircuitsToFillPanelSide(sideCircuitList, poleCount, PnlSide.Right);
 
             //assign circuit numbers
             //DpnCircuitManager.AssignCircuitNumbers(sideCircuitList); 
-            
+
             PoleCountRight = poleCount;
             RightCircuits = sideCircuitList;
-            
-            //order circuits
-            var list = RightCircuits.OrderBy(c => c.CircuitNumber).ToList();
-            RightCircuits.Clear();
-            foreach (var item in list) {
-                RightCircuits.Add(item);
-            }
+            OrderCircuitsByCircuitNumber(RightCircuits);
+            SetCircuitNumbersRight();
         }
 
         
 
 
         #region SetCircuits Methods
-        private int AddAssignedLoadsToPanelSide(ObservableCollection<IPowerConsumer> sideCircuitList, int poleCount, PanelSide dpnSide)
+        private int AddAssignedLoadsToPanelSide(ObservableCollection<IPowerConsumer> sideCircuitList, int poleCount, PnlSide dpnSide)
         {
-            PanelSide otherSide;
-            otherSide = dpnSide == DPanels.PanelSide.Left ? DPanels.PanelSide.Right : DPanels.PanelSide.Right;
+            PnlSide otherSide;
+            otherSide = dpnSide == DPanels.PnlSide.Left ? DPanels.PnlSide.Right : DPanels.PnlSide.Right;
 
             for (int i = 0; i < AssignedLoads.Count; i++) { //assignedCircuit.CircuitSide == Left
 
@@ -320,14 +352,14 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                 }
                 // if the circuit is not assigned to a side, assign it based on its position in the list
                 // for Left Side
-                else if (dpnSide == DPanels.PanelSide.Left && AssignedLoads[i].PanelSide != DPanels.PanelSide.Right.ToString() && i % 2 == 0) {
-                    AssignedLoads[i].PanelSide = DPanels.PanelSide.Left.ToString();
+                else if (dpnSide == DPanels.PnlSide.Left && AssignedLoads[i].PanelSide != DPanels.PnlSide.Right.ToString() && i % 2 == 0) {
+                    AssignedLoads[i].PanelSide = DPanels.PnlSide.Left.ToString();
                     sideCircuitList.Add(AssignedLoads[i]);
                     poleCount += AssignedLoads[i].VoltageType.Poles;
                 }
                 // for Right Side
-                else if (dpnSide == DPanels.PanelSide.Right && AssignedLoads[i].PanelSide != DPanels.PanelSide.Left.ToString() && i % 2 != 0) {
-                    AssignedLoads[i].PanelSide = DPanels.PanelSide.Right.ToString();
+                else if (dpnSide == DPanels.PnlSide.Right && AssignedLoads[i].PanelSide != DPanels.PnlSide.Left.ToString() && i % 2 != 0) {
+                    AssignedLoads[i].PanelSide = DPanels.PnlSide.Right.ToString();
                     sideCircuitList.Add(AssignedLoads[i]);
                     poleCount += AssignedLoads[i].VoltageType.Poles;
                 }
@@ -377,7 +409,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             }
         }
 
-        public void CreateAdditionalCircuitsToFillPanelSide(ObservableCollection<IPowerConsumer> sideCircuitList, int poleCount,PanelSide dpnSide)
+        public void CreateAdditionalCircuitsToFillPanelSide(ObservableCollection<IPowerConsumer> sideCircuitList, int poleCount,PnlSide dpnSide)
         {
             var newCircuit = new LoadCircuit();
 
@@ -396,8 +428,20 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
 
                 if (DaManager.GettingRecords == false) {
 
-                    newCircuit.SequenceNumber = DpnCircuitManager.GetAvailableCircuit(this, newCircuit, dpnSide).Item1;
-                    newCircuit.CircuitNumber = DpnCircuitManager.GetAvailableCircuit(this, newCircuit, dpnSide).Item2;
+                    //newCircuit.SequenceNumber = DpnCircuitManager.GetAvailableCircuit(this, newCircuit, dpnSide).Item1;
+                    //if (newCircuit.SequenceNumber == -1) {
+                    //    newCircuit.SequenceNumber = sideCircuitList.Max(sc => sc.SequenceNumber) + 1;
+                    //}
+
+                    newCircuit.SequenceNumber = sideCircuitList.Max(sc => sc.SequenceNumber) + 1;
+
+                    //newCircuit.CircuitNumber = DpnCircuitManager.GetAvailableCircuit(this, newCircuit, dpnSide).Item2;
+                    //if (newCircuit.CircuitNumber == -1) {
+                    //    newCircuit.CircuitNumber = sideCircuitList.Max(sc => sc.CircuitNumber);
+                    //    newCircuit.CircuitNumber += sideCircuitList.FirstOrDefault(sc => sc.CircuitNumber == newCircuit.CircuitNumber).VoltageType.Poles*2;
+                    //}
+                    newCircuit.CircuitNumber = sideCircuitList.Max(sc => sc.CircuitNumber);
+                    newCircuit.CircuitNumber += sideCircuitList.FirstOrDefault(sc => sc.CircuitNumber == newCircuit.CircuitNumber).VoltageType.Poles * 2;
 
                     if (ScenarioManager.ListManager.LoadCircuitList.Count > 0) {
                         newCircuit.Id = ScenarioManager.ListManager.LoadCircuitList.Max(l => l.Id) + 1;
@@ -454,7 +498,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
 
             if (load == null) return;
             ObservableCollection<IPowerConsumer> sideCircuitList;
-            sideCircuitList = load.PanelSide == DPanels.PanelSide.Left.ToString() ? LeftCircuits : RightCircuits;
+            sideCircuitList = load.PanelSide == DPanels.PnlSide.Left.ToString() ? LeftCircuits : RightCircuits;
 
             var loadCircuitToRemove = sideCircuitList.FirstOrDefault(lc => lc.CircuitNumber == load.CircuitNumber);
             sideCircuitList.Remove(loadCircuitToRemove);
@@ -472,7 +516,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
         {
             //Db deletion done by caller
             
-            var sideCircuitList = load.PanelSide == DPanels.PanelSide.Left.ToString() ? LeftCircuits : RightCircuits;
+            var sideCircuitList = load.PanelSide == DPanels.PnlSide.Left.ToString() ? LeftCircuits : RightCircuits;
             
             //insert LoadCircuits in place of the
             for (int i = 0; i < load.VoltageType.Poles; i++) {
@@ -516,7 +560,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
 
         }
 
-        private void OrderCircuitsByCircuitNumber(ObservableCollection<IPowerConsumer> sideCircuitList)
+        public void OrderCircuitsByCircuitNumber(ObservableCollection<IPowerConsumer> sideCircuitList)
         {
             //order circuits
             var list = sideCircuitList.OrderBy(c => c.CircuitNumber).ToList();
@@ -724,7 +768,18 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
         {
            base.OnAssignedLoadReCalculated(source, e);
             if (e.PropertyName == nameof(VoltageType)) {
+                CalculateLoading();
+                int newCircuitCount = GetMinCircuitCount();
+                if (newCircuitCount > CircuitCount) {
+                    MessageBox.Show("Additional circuits need to be added to the panel to allow this breaker size change. Circuits will be bumped down to make room for the larger breaker.");
+                    CircuitCount = GetMinCircuitCount();
+                    
+                }
                 SetCircuits();
+                DpnCircuitManager.AssignCircuitNumbers(LeftCircuits);
+                DpnCircuitManager.AssignCircuitNumbers(RightCircuits);
+                DpnCircuitManager.RetagCircuits(LeftCircuits);
+                DpnCircuitManager.RetagCircuits(RightCircuits);
             }
         }
 
