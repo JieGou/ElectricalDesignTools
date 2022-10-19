@@ -59,7 +59,4 @@
     <Folder Include="Models\Ocpds\" />
     <Folder Include="Models\ProtectiveDevices\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Users\pdeau\Google Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
-  </ItemGroup>
 </Project>
