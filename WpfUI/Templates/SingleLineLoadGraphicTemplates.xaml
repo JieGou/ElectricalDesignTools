@@ -3,9 +3,19 @@
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     
                     xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
+                    xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
                     xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
+                    
+                    xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
+                    
                     xmlns:Converters="clr-namespace:WpfUI.Converters"
+                    
                     >
+
+
+    <Converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>
+
+
 
     <Style TargetType="TextBlock">
         <Setter Property="Margin" Value="0"/>
@@ -530,6 +540,7 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             
+            <!--Graphic-->
             <Border BorderThickness="1" HorizontalAlignment="Center"
                             Grid.Row="0" Grid.Column="1"
                             Width="40" Height="55">
@@ -543,6 +554,7 @@
                 </Canvas>
             </Border>
 
+            <!--Data-->
             <Border Grid.Row="0" Grid.Column="2"
                     Grid.RowSpan="2">
                 <StackPanel Orientation="Vertical"
@@ -583,6 +595,8 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
+            
+            <!--Extension of Cable for Extra Data-->
             <Border BorderThickness="0 0 1 0" HorizontalAlignment="Center"
                     Grid.Row="2" Grid.Column="1"
                     Margin="1 0 0 0"
@@ -822,6 +836,176 @@
     </DataTemplate>
 
 
+    <templateSelectors:LoadGraphicTemplateSelector 
+                x:Key="NoTransformerLoadGraphicTemplateSelector"
+                MotorTemplate="{StaticResource MotorTemplate}"
+                HeaterTemplate="{StaticResource HeaterTemplate}" 
+                PanelTemplate="{StaticResource HeaterTemplate}" 
+                OtherTemplate="{StaticResource HeaterTemplate}" 
+        />
+    
+    <!--Transformer Template-->
+    <DataTemplate x:Key="TransformerTemplate" DataType="{x:Type edtDteqModels:XfrModel}">
+        <Grid Style="{StaticResource GraphicHighlightStyle}">
+
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Transformer Graphic-->
+                <Border Margin="-5 0">
+                <Canvas Grid.Row="0"
+                    Grid.Column="0" 
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                    Width="50" Height="65"
+                    Margin="0 0 0 0">
+
+                    <Line Stroke="Black" StrokeThickness="1" X1="30" Y1="0" X2="30" Y2="17"/>
+
+                    <Path Stroke="Black" StrokeThickness="1" Data="M 0,17 A 5, 5 0 0 0 15, 17" />
+                    <Path Stroke="Black" StrokeThickness="1" Data="M 15,17 A 4, 4 0 0 0 30, 17" />
+                    <Path Stroke="Black" StrokeThickness="1" Data="M 30,17 A 4, 4 0 0 0 45, 17" />
+                    <Path Stroke="Black" StrokeThickness="1" Data="M 45,17 A 4, 4 0 0 0 60, 17" />
+
+                    <Line Stroke="Black" StrokeThickness="1.5" X1="0" Y1="30" X2="60" Y2="30"/>
+                    <Line Stroke="Black" StrokeThickness="1.5" X1="0" Y1="37" X2="60" Y2="37"/>
+
+                    <Path Stroke="Black" StrokeThickness="1" Data="M 0,50 A 4, 4 0 0 1 15, 50" />
+                    <Path Stroke="Black" StrokeThickness="1" Data="M 15,50 A 4, 4 0 0 1 30, 50" />
+                    <Path Stroke="Black" StrokeThickness="1" Data="M 30,50 A 4, 4 0 0 1 45, 50" />
+                    <Path Stroke="Black" StrokeThickness="1" Data="M 45,50 A 4, 4 0 0 1 60, 50" />
+
+                    <Line Stroke="Black" StrokeThickness="1" X1="30" Y1="50" X2="30" Y2="65"/>
+                </Canvas>
+                </Border>
+                <!--Trasnformer Data-->
+                <Border BorderThickness="0" 
+                        Grid.Row="0" Grid.RowSpan="2"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        Margin="5 0"
+                        >
+                    <StackPanel Orientation="Vertical"
+                                HorizontalAlignment="Right" 
+                                VerticalAlignment="Center"
+                                Margin="15 0 0 0">
+
+                        <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 HorizontalAlignment="Left"
+                                 Background="Transparent"
+                                 BorderBrush="LightGray"
+                                 FontWeight="SemiBold"
+                                 />
+                        <TextBlock Text="{Binding Description}" HorizontalAlignment="Left"
+                                   MaxWidth="130"
+                                   TextWrapping="WrapWithOverflow"/>
+
+                        <!--Extra Details-->
+                        <StackPanel x:Name="extraDetails"
+                            Orientation="Vertical"
+                            Grid.Row="1" 
+                            Grid.Column="1"
+                            >
+                            <!--Size-->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" 
+                                VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Size}" HorizontalAlignment="Left"/>
+                                <TextBlock Text=" " HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Unit}" HorizontalAlignment="Left"/>
+                            </StackPanel>
+
+                            <!--Voltage-->
+                            <TextBlock Text="{Binding LineVoltage, StringFormat={}{0:N0} V}" HorizontalAlignment="Left" TextDecorations="Underline"/>
+                            <TextBlock Text="{Binding LoadVoltage, StringFormat={}{0:N0} V}" HorizontalAlignment="Left"/>
+
+                            <!--Area Tag-->
+                            <TextBlock Text="{Binding Area.Tag}"
+                               FontWeight="SemiBold"
+                               Margin="5 0 0 0"
+                               Visibility="Collapsed"/>
+                            <!--Area Properties-->
+                            <StackPanel Orientation="Horizontal" 
+                                Visibility="Collapsed">
+                                <TextBlock Text="" Margin="5 0 0 0"/>
+                                <TextBlock Text="{Binding NemaRating}"/>
+                                <TextBlock Text=", " Margin="0 0 0 0"/>
+                                <TextBlock Text="{Binding AreaClassification}" />
+                            </StackPanel>
+                        </StackPanel>
+
+                    </StackPanel>
+                </Border>
+
+                
+                
+                <Border BorderThickness="0 0 1 0" HorizontalAlignment="Center"
+                        Grid.Row="1" 
+                        Grid.Column="0"
+                        Margin="10 0 0 0"
+                        Height="{Binding ActualHeight, ElementName=extraDetails}">
+                </Border>
+                
+                <StackPanel Orientation="Vertical"
+                            Grid.Row="2" 
+                            Grid.Column="0" Grid.ColumnSpan="2">
+                    
+                <!--Transformer Load-->
+                <!--Cable-->
+                <Grid Margin="-15 0 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Cable Line-->
+                    <Border BorderBrush="Black" BorderThickness="0 0 1 0"
+                                       Grid.Column="0"/>
+                    <!--Cable Tag-->
+                    <ContentControl Content="{Binding}"
+                                    ContentTemplate="{StaticResource CableTemplate}"
+                                    Grid.Column="2" 
+                                    >
+                    </ContentControl>
+                </Grid>
+
+                <!--Load-->
+                <Grid Margin="-15 0 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Vertical" Grid.Column="1"
+                            HorizontalAlignment="Left">
+
+                        <ContentControl Content="{Binding AssignedLoads[0]}" 
+                                    ContentTemplateSelector="{StaticResource NoTransformerLoadGraphicTemplateSelector}"
+                                    >
+
+                        </ContentControl>
+                    </StackPanel>
+                </Grid>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </DataTemplate>
+
     <!--TEMPLATE STYLES-->
     
     <!--OCPDTemplateStyle-->
@@ -873,6 +1057,7 @@
                 x:Key="LoadTemplateSelector"
                 MotorTemplate="{StaticResource MotorTemplate}"
                 HeaterTemplate="{StaticResource HeaterTemplate}" 
+                TransformerTemplate="{StaticResource TransformerTemplate}" 
                 PanelTemplate="{StaticResource HeaterTemplate}" 
                 OtherTemplate="{StaticResource HeaterTemplate}" 
         />

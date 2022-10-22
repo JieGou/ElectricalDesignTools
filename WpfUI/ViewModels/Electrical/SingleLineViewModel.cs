@@ -56,7 +56,10 @@ internal class SingleLineViewModel: ViewModelBase
         get
         {
             List<IDteq> subList = new List<IDteq>();
-            subList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.MCC.ToString()).ToList();
+            subList = _listManager.IDteqList.Where(d => 
+                d.Type == DteqTypes.MCC.ToString() || 
+                d.Type== DteqTypes.DPN.ToString()
+                ).ToList();
             return new ObservableCollection<IDteq>(subList);
         }
     }

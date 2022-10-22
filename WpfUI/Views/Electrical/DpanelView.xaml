@@ -47,7 +47,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="115"/>
             <RowDefinition Height="auto" x:Name="AddLoadRow"/>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="500"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="25"/>
         </Grid.RowDefinitions>
@@ -451,7 +451,7 @@
                                        EditTrigger="OnDoubleTap"
                                        RowSelectionBrush="{StaticResource DatagridSelection}"
                                    
-                                       
+                                       EnableDataVirtualization="True"
                                    
                                        CurrentCellBorderBrush="Black"
                                        CurrentCellBorderThickness="1"
@@ -532,11 +532,15 @@
                         <!--Left Circuit #s-->
                         <DataGrid Grid.Row="1" Grid.RowSpan="2"
                                   Background="Transparent"
-                                 IsReadOnly="True"
+                                  IsReadOnly="True"
                                   Grid.Column="1"
                                   BorderThickness="0"
                                   ItemsSource="{Binding SelectedDpnl.CircuitNumbersLeft}"
                                   RowHeight="22"
+                                  
+                                  EnableColumnVirtualization="True"
+                                  EnableRowVirtualization="True"
+                                  VirtualizingPanel.IsVirtualizing="True"
                                   
                                   CanUserSortColumns="False"
                                   
@@ -649,6 +653,9 @@
                                        SelectedItem="{Binding SelectedLoadRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        RowHeight="{StaticResource RowHeight}"
                                    
+                                       EnableDataVirtualization="True"
+                                       
+                                       
                                        EditTrigger="OnDoubleTap"
                                        RowSelectionBrush="{StaticResource DatagridSelection}"
                                    
@@ -737,6 +744,11 @@
                                   BorderThickness="0"
                                   ItemsSource="{Binding SelectedDpnl.CircuitNumbersRight}"
                                   RowHeight="22"
+                                  
+                                  
+                                  EnableColumnVirtualization="True"
+                                  EnableRowVirtualization="True"
+                                  VirtualizingPanel.IsVirtualizing="True"
                                   
                                   CanUserSortColumns="False"
                                   

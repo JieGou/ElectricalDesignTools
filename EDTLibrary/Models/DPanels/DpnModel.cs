@@ -416,7 +416,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             for (int i = 1; i <= CircuitCount / 2 - poleCount; i++) {
 
                 newCircuit = new LoadCircuit {
-                    Tag = "Filler-" + DpnCircuitConfig.AddedCircuitDescription,
+                    Tag = "", //+ DpnCircuitConfig.AddedCircuitDescription,
                     Description = "",
                     VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120),
                     VoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120).Id,

@@ -10,15 +10,6 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <COMReference Include="AXDBLib">
-      <WrapperTool>tlbimp</WrapperTool>
-      <VersionMinor>0</VersionMinor>
-      <VersionMajor>1</VersionMajor>
-      <Guid>39ffaa00-8623-488f-8c53-dd3b0b7a464f</Guid>
-      <Lcid>0</Lcid>
-      <Isolated>false</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="AutoCAD">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>0</VersionMinor>
@@ -58,5 +49,8 @@
   <ItemGroup>
     <Folder Include="Models\Ocpds\" />
     <Folder Include="Models\ProtectiveDevices\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:\My Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
   </ItemGroup>
 </Project>

@@ -525,7 +525,9 @@ namespace WpfUI.ViewModels
 #endif
             }
             catch (Exception ex) {
+#if !DEBUG
                 System.Windows.Forms.MessageBox.Show("Public Key or License file is corrupt or has been modified." + "\n\n" + ex.Message, "EDT - License Validation Failure");
+#endif
             }
         }
 

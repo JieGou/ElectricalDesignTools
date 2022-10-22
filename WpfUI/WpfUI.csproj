@@ -47,6 +47,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <COMReference Include="AutoCAD">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>5b3245be-661c-4324-bb55-3ad94ebbfdd7</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="ContentFiles\Edt Sample Project.edp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -86,15 +98,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Users\pdeau\Google Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
     <ProjectReference Include="..\EDTLibrary\EDTLibrary.csproj" />
     <ProjectReference Include="..\ExcelLibraryCore\ExcelLibraryCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Interop.AutoCAD">
-      <HintPath>..\..\..\Users\pdeau\Google Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\obj\Debug\net5.0\Interop.AutoCAD.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
