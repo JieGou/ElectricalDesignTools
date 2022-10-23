@@ -101,8 +101,8 @@ public partial class _MjeqView : UserControl
         if (be != null) { be.UpdateSource(); }
     }
 
-    DteqTabsView _dteqDetailsView = new DteqTabsView();
-    LoadTabsView _loadDetailsView = new LoadTabsView();
+    DteqTabsView _dteqTabsView = new DteqTabsView();
+    LoadTabsView _loadTabsView = new LoadTabsView();
 
     //Sets the datacontext for the details view panel on the right
     private void dgdDteq_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -110,24 +110,25 @@ public partial class _MjeqView : UserControl
         //DteqDetailsContent.Content = null;
         if (dgdDteq.SelectedItem != null) {
             if (dgdDteq.SelectedItem.GetType().IsSubclassOf(typeof(DistributionEquipment))) {
-                _dteqDetailsView.DataContext = this.DataContext;
-                DteqDetailsContent.Content = _dteqDetailsView;
+                _dteqTabsView.DataContext = this.DataContext;
+                DteqDetailsContent.Content = _dteqTabsView;
             }
         }
     }
 
     //Sets the datacontext for the details view panel on the right
 
-
     private void dgdAssignedLoads_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (dgdAssignedLoads.SelectedItem != null) {
             if (dgdAssignedLoads.SelectedItem.GetType() == typeof(LoadModel)) {
-                _loadDetailsView.DataContext = this.DataContext;
-                LoadDetailsContent.Content = _loadDetailsView;
+                _loadTabsView.DataContext = this.DataContext;
+                LoadDetailsContent.Content = _loadTabsView;
             }
         }
         if (MjeqVm == null) return;
+
+        //send selected loads to ViewModel
         MjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;
     }
 
@@ -173,6 +174,7 @@ public partial class _MjeqView : UserControl
         }
     }
 
+
     #region Context Menus
 
     //LOAD   
@@ -180,8 +182,8 @@ public partial class _MjeqView : UserControl
     {
         if (dgdAssignedLoads.SelectedItem != null) {
             if (dgdAssignedLoads.SelectedItem.GetType() == typeof(LoadModel)) {
-                _loadDetailsView.DataContext = this.DataContext;
-                LoadDetailsContent.Content = _loadDetailsView;
+                _loadTabsView.DataContext = this.DataContext;
+                LoadDetailsContent.Content = _loadTabsView;
             }
         }
         if (MjeqVm == null) return;
@@ -351,8 +353,6 @@ public partial class _MjeqView : UserControl
 
 
     #endregion
-
-
 
     private void FastEditEvent(object sender, RoutedEventArgs args)
     {

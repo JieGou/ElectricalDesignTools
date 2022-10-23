@@ -316,6 +316,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
+
+
     // DTEQ
     private IDteq _selectedDteq;
     public IDteq SelectedDteq

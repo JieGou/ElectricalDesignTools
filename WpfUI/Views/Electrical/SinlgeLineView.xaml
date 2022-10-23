@@ -6,11 +6,19 @@
              xmlns:local="clr-namespace:WpfUI.Windows"
              mc:Ignorable="d"
         
-             xmlns:dteqViewers="clr-namespace:WpfUI.UserControls.Viewers.Dteq"
              
+             xmlns:converters="clr-namespace:WpfUI.Converters"
+             
+             xmlns:dteqViewers="clr-namespace:WpfUI.UserControls.Viewers.Dteq"
              
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
+             
+             xmlns:edtEqModels="clr-namespace:EDTLibrary.Models.Equipment;assembly=EDTLibrary"
+             xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
+             xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
+             xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
+             xmlns:edtCables="clr-namespace:EDTLibrary.Models.Cables;assembly=EDTLibrary"
              
              d:Height="900" d:Width="1200"
              Loaded="UserControl_Loaded"
@@ -22,6 +30,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVis"/>
 
             <Style TargetType="TextBlock" x:Key="Label">
                 <Setter Property="TextAlignment" Value="Right"/>
@@ -54,7 +64,8 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto" MinWidth="350"/>
             <ColumnDefinition Width="25"/>
         </Grid.ColumnDefinitions>
 
@@ -71,7 +82,9 @@
                      SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      DisplayMemberPath="Tag"
                      MinWidth="100" MinHeight="100"
-                     Margin="0 10"/>
+                     Margin="0 10" 
+                     SelectionChanged="ListBox_SelectionChanged"
+                     />
 
             <Button Content="Create Drawing"
                     Command="{Binding DrawSingleLineAcadCommand}"/>
@@ -262,7 +275,9 @@
                             <DataTemplate>
                                
                                     <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}" 
-                                                                           DockPanel.Dock="Left"/>
+                                                                           DockPanel.Dock="Left"
+                                                                           LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
+                                                                           LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -272,5 +287,71 @@
 
             </ScrollViewer>
         </Border>
+
+        <!--LoadDetailsContent-->
+        <Grid  Grid.Row="2" Grid.RowSpan="2"
+               Grid.Column="5"
+               Margin="7 0 0 0"
+               HorizontalAlignment="Stretch">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Load Details"
+                           Grid.Row="0"         
+                           VerticalAlignment="Bottom"
+                           Margin="10 0 0 5"/>
+
+            <Border Grid.Row="1"
+                        BorderThickness="1" BorderBrush="Black" Background="{StaticResource BackgroundLight}"
+                        Margin="0 0 0 5">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!--Equipment-->
+                        <ContentControl Content="{Binding SelectedLoadEquipment}"
+                                        Grid.Row="0"
+                                            Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
+                            <ContentControl.Resources>
+
+                                <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                    <mjeqSubViews:EquipmentDetailsView/>
+                                </DataTemplate>
+
+                                <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                    <mjeqSubViews:ComponentDetailsView/>
+                                </DataTemplate>
+
+                            </ContentControl.Resources>
+                        </ContentControl>
+
+                        <!--Cable-->
+                        <ContentControl Content="{Binding SelectedLoadCable}"
+                                        Grid.Row="0"
+                                        Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}">
+                            <ContentControl.Resources>
+
+                                <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                    <mjeqSubViews:CableSizingViewNarrow/>
+                                </DataTemplate>
+
+                                <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                    <mjeqSubViews:CableSizingViewNarrow/>
+                                </DataTemplate>
+
+                            </ContentControl.Resources>
+                        </ContentControl>
+
+                    </Grid>
+                </ScrollViewer>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>    

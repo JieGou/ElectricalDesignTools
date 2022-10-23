@@ -4,7 +4,9 @@ using EdtLibrary.Commands;
 using EDTLibrary;
 using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using Syncfusion.XlsIO.Parser.Biff_Records;
@@ -58,6 +60,7 @@ internal class SingleLineViewModel: ViewModelBase
             List<IDteq> subList = new List<IDteq>();
             subList = _listManager.IDteqList.Where(d => 
                 d.Type == DteqTypes.MCC.ToString() || 
+                d.Type == DteqTypes.CDP.ToString() ||
                 d.Type== DteqTypes.DPN.ToString()
                 ).ToList();
             return new ObservableCollection<IDteq>(subList);
@@ -72,7 +75,41 @@ internal class SingleLineViewModel: ViewModelBase
         DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
     }
 
+    //Equipment
+    private IEquipment _selectedLoadEquipment;
+    public IEquipment SelectedLoadEquipment
+    {
+        get { return _selectedLoadEquipment; }
+        set { _selectedLoadEquipment = value; }
+    }
 
+    public bool IsSelectedLoadCable { get; set; }
+
+    private IEquipment _selectedLoadCable;
+    public IEquipment SelectedLoadCable
+    {
+        get { return _selectedLoadCable; }
+        set
+        {
+            _selectedLoadCable = value;
+
+            if (_selectedLoadCable.GetType() == typeof(LoadModel)) {
+                var load = (LoadModel)(_selectedLoadCable);
+                load.PowerCable.ValidateCableSize(load.PowerCable);
+                load.PowerCable.CreateTypeList(load);
+            }
+            else if (_selectedLoadCable.GetType() == typeof(ComponentModel)) {
+                var component = (ComponentModel)(_selectedLoadCable);
+                //TODO - Style for cable graphic so that IsValid is detected without reloading
+                component.PowerCable.ValidateCableSize(component.PowerCable);
+                component.PowerCable.CreateTypeList((LoadModel)component.Owner);
+            }
+
+        }
+    }
+
+
+    //SelectedItems
     private IDteq _selectedDteq;
     public IDteq SelectedDteq
     {
@@ -89,10 +126,22 @@ internal class SingleLineViewModel: ViewModelBase
 
                 GlobalConfig.SelectingNew = true;
                 GlobalConfig.SelectingNew = false;
-                
+                SelectedLoad = AssignedLoads[0];
             }
         }
     }
+    private IPowerConsumer _selectedLoad;
+
+    public IPowerConsumer SelectedLoad
+    {
+        get { return _selectedLoad; }
+        set 
+        { 
+            _selectedLoad = value; 
+
+        }
+    }
+
     public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
 
 

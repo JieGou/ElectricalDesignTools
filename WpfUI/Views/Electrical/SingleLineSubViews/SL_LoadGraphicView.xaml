@@ -109,7 +109,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <!--LOAD-->
+               
                 <!--Load Cable-->
                 <Grid DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
