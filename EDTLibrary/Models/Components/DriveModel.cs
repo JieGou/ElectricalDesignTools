@@ -23,6 +23,9 @@ namespace EDTLibrary.Models.Components;
 
 public class DriveModel : IComponentEdt
 {
+
+    public bool IsSelected { get; set; } = false;
+
     public DriveModel()
     {
         //Category = Categories.Component.ToString();

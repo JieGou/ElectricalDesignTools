@@ -27,6 +27,8 @@ public class DisconnectModel : IComponentEdt
     {
         //Category = Categories.Component.ToString();
     }
+    public bool IsSelected { get; set; } = false;
+
     public int Id { get; set; }
 
     private string _tag;

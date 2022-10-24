@@ -132,6 +132,8 @@ internal class SingleLineViewModel: ViewModelBase
                 GlobalConfig.SelectingNew = true;
                 GlobalConfig.SelectingNew = false;
                 SelectedLoad = AssignedLoads[0];
+
+                
             }
         }
     }
@@ -142,9 +144,20 @@ internal class SingleLineViewModel: ViewModelBase
         get { return _selectedLoad; }
         set 
         { 
-            _selectedLoad = value; 
+            _selectedLoad = value;
+            if (_selectedLoad.CctComponents.Count > 0) {
+                SelectedComponent = (ComponentModel)_selectedLoad.CctComponents[0];
 
+            }
         }
+    }
+
+    //Components
+    private ComponentModel _selectedComponent;
+    public ComponentModel SelectedComponent
+    {
+        get { return _selectedComponent; }
+        set { _selectedComponent = value; }
     }
 
     public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };

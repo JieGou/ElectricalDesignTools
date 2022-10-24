@@ -1,4 +1,6 @@
-﻿using EDTLibrary.Models.DistributionEquipment;
+﻿using EDTLibrary.Managers;
+using EDTLibrary.Models.Components;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using System;
@@ -71,23 +73,35 @@ public partial class SinlgeLineView : UserControl
         SingleLineViewModel slVm = (SingleLineViewModel)DataContext;
         slVm.SelectedLoadEquipment = (IEquipment)e.OriginalSource;
         slVm.IsSelectedLoadCable = false;
+        ClearSelections(slVm.ListManager);
 
-        foreach (var item in slVm.ListManager.LoadList) {
-            if (item.GetType() == typeof(LoadModel)) {
-                var load = (LoadModel)item;
-                load.IsSelected = false;
-            }
-        }
-        foreach (var item in slVm.ListManager.CableList) {
-            item.IsSelected = false;
-        }
         if (slVm.SelectedLoadEquipment.GetType() == typeof(LoadModel)) {
 
             var load = (LoadModel)slVm.SelectedLoadEquipment;
             load.IsSelected = true;
         }
+        else if (slVm.SelectedLoadEquipment is DistributionEquipment) {
 
+            var load = DteqFactory.Recast(slVm.SelectedLoadEquipment);
+            load.IsSelected = true;
+        }
 
+    }
+
+    private static void ClearSelections(ListManager listManager)
+    {
+        foreach (var item in listManager.DteqList) {
+            item.IsSelected = false;
+        }
+        foreach (var item in listManager.LoadList) {
+            if (item.GetType() == typeof(LoadModel)) {
+                var load = (LoadModel)item;
+                load.IsSelected = false;
+            }
+        }
+        foreach (var item in listManager.CableList) {
+            item.IsSelected = false;
+        }
     }
 
     private void LoadGraphicView_LoadCableSelected(object sender, RoutedEventArgs e)
@@ -96,20 +110,23 @@ public partial class SinlgeLineView : UserControl
         slVm.SelectedLoadCable = (IEquipment)e.OriginalSource;
         slVm.IsSelectedLoadCable = true;
 
-        foreach (var item in slVm.ListManager.LoadList) {
-            if (item.GetType() == typeof(LoadModel)) {
-                var load = (LoadModel)item;
-                load.IsSelected = false;
-            }
-        }
-        foreach (var item in slVm.ListManager.CableList) {
-            item.IsSelected = false;
-        }
+        ClearSelections(slVm.ListManager);
 
         if (slVm.SelectedLoadCable.GetType() == typeof(LoadModel)) {
 
             var load = (LoadModel)slVm.SelectedLoadCable;
             load.PowerCable.IsSelected = true;
+        }
+        else if (slVm.SelectedLoadCable.GetType() == typeof(ComponentModel)) {
+
+            var comp = (ComponentModel)slVm.SelectedLoadCable;
+            comp.PowerCable.IsSelected = true;
+        }
+
+        else if (slVm.SelectedLoadCable is DistributionEquipment) {
+
+            var dteq = DteqFactory.Recast(slVm.SelectedLoadCable);
+            dteq.PowerCable.IsSelected = true;
         }
 
     }

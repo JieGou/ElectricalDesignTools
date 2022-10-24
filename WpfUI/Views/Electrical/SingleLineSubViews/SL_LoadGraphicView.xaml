@@ -194,11 +194,9 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <!--Cable Line-->
-                    <Border BorderBrush="Black" BorderThickness="0 0 1 0"
-                                       Grid.Column="0"/>
-                    <!--Cable Tag-->
-                    <ContentControl DataContext="{Binding AssignedLoads[0]}" Content="{Binding}" 
+                  
+                    <!--Cable -->
+                    <ContentControl DataContext="{Binding AssignedLoads[0].PowerCable}" Content="{Binding}" 
                                     ContentTemplate="{StaticResource CableTemplate}"
                                     Grid.Column="2" 
                                     PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown">

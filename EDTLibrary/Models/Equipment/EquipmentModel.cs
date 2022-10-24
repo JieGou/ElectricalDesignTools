@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Equipment;
 public class EquipmentModel : IEquipment
 {
+    public bool IsSelected { get; set; } = false;
+
     public int Id { get; set; }
     public string Tag { get; set; }
     public string Category { get; set; }

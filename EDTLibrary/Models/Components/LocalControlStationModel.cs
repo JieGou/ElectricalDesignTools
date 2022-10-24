@@ -24,6 +24,9 @@ public class LocalControlStationModel : ILocalControlStation
     {
         Type = "LCS";
     }
+
+    public bool IsSelected { get; set; } = false;
+
     public int Id { get; set; }
     public string Tag
     {

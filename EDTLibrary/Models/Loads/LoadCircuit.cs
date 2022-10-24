@@ -38,6 +38,8 @@ public class LoadCircuit : ILoadCircuit
     {
         DpnCircuitManager.ConvertToLoad(this);
     }
+    public bool IsSelected { get; set; } = false;
+
     public int Id { get; set; }
     public string Tag { get; set; }
     public string Category { get; set; }

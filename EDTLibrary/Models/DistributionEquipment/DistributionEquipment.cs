@@ -44,6 +44,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         #region Properties
         public CalculationFlags CalculationFlags { get; set; }
 
+        public bool IsSelected { get; set; } = false;
+
         public int Id { get; set; }
 
         private string _tag;

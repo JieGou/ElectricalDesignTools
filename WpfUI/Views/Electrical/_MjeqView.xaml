@@ -99,7 +99,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="300" MinHeight="300"/>
+                <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="300" MaxHeight="750" MinHeight="300"/>
                 <RowDefinition Height="{Binding LoadGridTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="125" />
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="25"/>
@@ -206,18 +206,23 @@
 
 
             <!--Buttons beside load grid-->
-            <StackPanel Orientation="Vertical" 
-                        x:Name="loadButtonsStackPanel"
+            <ScrollViewer Grid.Column="1" Grid.Row="4" 
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Auto">
+                
+            <DockPanel  x:Name="loadButtonsStackPanel"
                         Grid.Column="1" Grid.Row="4"
                         Margin="0,75,0,50">
 
 
 
                 <Button x:Name ="btnLoadList" Content="Load List" Height="25" Width="100"
-                        Command="{Binding GetLoadListCommand}"/>
+                        Command="{Binding GetLoadListCommand}"
+                        DockPanel.Dock="Top"/>
 
                 <Button x:Name ="btnCalculateSelectedLoad" Content="Calculate" Height="25" Width="100"
-                        Command="{Binding CalculateLoad}"/>
+                        Command="{Binding CalculateLoad}"
+                        DockPanel.Dock="Top"/>
 
                 <!--<Button x:Name ="btnSaveLoadList" Content="Save Load List" Height="25" Width="100"
                         Command="{Binding SaveLoadListCommand}"/>-->
@@ -225,17 +230,19 @@
                 <Button x:Name ="btnDeleteLoad" Content="Delete Selected" Height="25" Width="100"
                         Style="{StaticResource RedButton}"
                         Command="{Binding DeleteLoadCommand}" 
-                        CommandParameter="{Binding SelectedLoad}" />
+                        CommandParameter="{Binding SelectedLoad}" 
+                        DockPanel.Dock="Top"/>
 
 
                 <Button x:Name ="btnCalculate" Content="Calculate All"  Height="25" Width="100"
                         Command="{Binding CalculateAllCommand}"
                         FontWeight="Bold"
-                        Margin="0 50 0 0"/>
+                        Margin="0 50 0 0"
+                        DockPanel.Dock="Top"/>
 
 
-            </StackPanel>
-
+            </DockPanel>
+            </ScrollViewer>
 
             <!--DTEQ GRID-->
             <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
