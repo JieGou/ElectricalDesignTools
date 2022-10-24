@@ -45,7 +45,7 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
             selectedTemplate = BreakerTemplate; 
         }
 
-        if (load.Type == DteqTypes.DPN.ToString()) {
+        if (load.Type == DteqTypes.DPN.ToString() && load.FedFrom.Type== DteqTypes.XFR.ToString()) {
             selectedTemplate = EmptyTemplate;
         }
 

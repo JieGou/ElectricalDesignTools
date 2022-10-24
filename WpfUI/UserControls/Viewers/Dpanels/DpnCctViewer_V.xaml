@@ -141,7 +141,7 @@
                     <ComboBox Grid.Row="4" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
                               Width="110"
                               HorizontalAlignment="Left"
-                              ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}"
                               SelectedValue="{Binding VoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="VoltageString"
                               Text="{Binding VoltageType.VoltageString}"

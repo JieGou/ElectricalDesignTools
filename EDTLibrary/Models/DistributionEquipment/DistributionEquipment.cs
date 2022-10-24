@@ -205,6 +205,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 _voltageType = value;
+                LineVoltageType = value;
 
             }
         }
@@ -352,7 +353,12 @@ namespace EDTLibrary.Models.DistributionEquipment
                 LineVoltageTypeId = _lineVoltageType.Id;
                 LineVoltage = _lineVoltageType.Voltage;
                 UndoManager.AddUndoCommand(this, nameof(LineVoltageType), oldValue, _lineVoltageType);
-                OnPropertyUpdated();
+
+                if (DaManager.Importing == false && DaManager.GettingRecords == false) {
+                    CalculateLoading(nameof(LineVoltageType));
+                }
+
+                OnPropertyUpdated(nameof(LineVoltageType));
             }
         }
         public VoltageType _lineVoltageType;
@@ -371,6 +377,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 UndoManager.AddUndoCommand(this, nameof(LineVoltage), oldValue, _lineVoltage);
 
                 OnPropertyUpdated(nameof(LineVoltage) + ": " + LineVoltage.ToString());
+
             }
         }
         private double _lineVoltage;
@@ -391,8 +398,11 @@ namespace EDTLibrary.Models.DistributionEquipment
                 LoadVoltageTypeId = _loadVoltageType.Id;
                 LoadVoltage = _loadVoltageType.Voltage;
                 UndoManager.AddUndoCommand(this, nameof(LoadVoltageType), oldValue, _loadVoltageType);
-                OnPropertyUpdated();
 
+                if (DaManager.Importing == false && DaManager.GettingRecords == false) {
+                    CalculateLoading(nameof(LoadVoltageType));
+                }
+                OnPropertyUpdated(nameof(LoadVoltageType));
             }
         }
         public VoltageType _loadVoltageType;
@@ -610,7 +620,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             IsCalculating = false;
 
-            OnLoadingCalculated();
+            OnLoadingCalculated(propertyName);
             OnPropertyUpdated(nameof(CalculateLoading));
 
         }

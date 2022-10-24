@@ -10,6 +10,16 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Models\Ocpds\**" />
+    <Compile Remove="Models\ProtectiveDevices\**" />
+    <EmbeddedResource Remove="Models\Ocpds\**" />
+    <EmbeddedResource Remove="Models\ProtectiveDevices\**" />
+    <None Remove="Models\Ocpds\**" />
+    <None Remove="Models\ProtectiveDevices\**" />
+    <Page Remove="Models\Ocpds\**" />
+    <Page Remove="Models\ProtectiveDevices\**" />
+  </ItemGroup>
+  <ItemGroup>
     <COMReference Include="AutoCAD">
       <WrapperTool>tlbimp</WrapperTool>
       <VersionMinor>0</VersionMinor>
@@ -45,10 +55,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Ocpds\" />
-    <Folder Include="Models\ProtectiveDevices\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\My Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />

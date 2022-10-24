@@ -605,10 +605,10 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
         }
         private double _phaseC;
 
-        public override void CalculateLoading(string PropetyName = "")
+        public override void CalculateLoading(string propertyName = "")
         {
             if (DaManager.Importing) return;
-            base.CalculateLoading();
+            base.CalculateLoading(propertyName);
             CalculatePhaseLoading();
         }
 
@@ -767,7 +767,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
         public override void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e)
         {
            base.OnAssignedLoadReCalculated(source, e);
-            if (e.PropertyName == nameof(VoltageType)) {
+            if (e.PropertyName == nameof(VoltageType) || e.PropertyName == nameof(LineVoltageType) || e.PropertyName== nameof(LoadVoltageType)) {
                 CalculateLoading();
                 int newCircuitCount = GetMinCircuitCount();
                 if (newCircuitCount > CircuitCount) {
