@@ -72,6 +72,22 @@ public partial class SinlgeLineView : UserControl
         slVm.SelectedLoadEquipment = (IEquipment)e.OriginalSource;
         slVm.IsSelectedLoadCable = false;
 
+        foreach (var item in slVm.ListManager.LoadList) {
+            if (item.GetType() == typeof(LoadModel)) {
+                var load = (LoadModel)item;
+                load.IsSelected = false;
+            }
+        }
+        foreach (var item in slVm.ListManager.CableList) {
+            item.IsSelected = false;
+        }
+        if (slVm.SelectedLoadEquipment.GetType() == typeof(LoadModel)) {
+
+            var load = (LoadModel)slVm.SelectedLoadEquipment;
+            load.IsSelected = true;
+        }
+
+
     }
 
     private void LoadGraphicView_LoadCableSelected(object sender, RoutedEventArgs e)
@@ -79,6 +95,22 @@ public partial class SinlgeLineView : UserControl
         SingleLineViewModel slVm = (SingleLineViewModel)DataContext;
         slVm.SelectedLoadCable = (IEquipment)e.OriginalSource;
         slVm.IsSelectedLoadCable = true;
+
+        foreach (var item in slVm.ListManager.LoadList) {
+            if (item.GetType() == typeof(LoadModel)) {
+                var load = (LoadModel)item;
+                load.IsSelected = false;
+            }
+        }
+        foreach (var item in slVm.ListManager.CableList) {
+            item.IsSelected = false;
+        }
+
+        if (slVm.SelectedLoadCable.GetType() == typeof(LoadModel)) {
+
+            var load = (LoadModel)slVm.SelectedLoadCable;
+            load.PowerCable.IsSelected = true;
+        }
 
     }
 }

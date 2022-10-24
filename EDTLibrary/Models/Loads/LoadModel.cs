@@ -40,6 +40,9 @@ namespace EDTLibrary.Models.Loads
         {
             Tag = tag;
         }
+
+        public bool IsSelected { get; set; } = false;
+
         //Properties
         public int Id { get; set; }
         private string _tag;

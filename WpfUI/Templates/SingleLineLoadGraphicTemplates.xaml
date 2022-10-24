@@ -510,8 +510,9 @@
             
             <!--Graphic-->
             <Border BorderThickness="1" HorizontalAlignment="Center"
-                            Grid.Row="0" Grid.Column="1"
-                            Width="40" Height="55">
+                    Grid.Row="0" Grid.Column="1"
+                    Width="40" Height="55"
+                    >
                 <Canvas Grid.Column="1" Width="50" Height="55">
                     <Line X1="20" X2="20" Y1="0" Y2="15"
                                   Stroke="Black" StrokeThickness="1"/>
@@ -699,20 +700,20 @@
                                 Background="Transparent"
                                 Margin="0 0 0 0">
                         <!--Tag-->
-                    <TextBlock Text="{Binding PowerCable.Tag}"
+                    <TextBlock Text="{Binding Tag}"
                                FontWeight="SemiBold"
                                Visibility="Visible"/>
 
                     <!--Cable Size-->
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding PowerCable.QtyParallel}" />
+                        <TextBlock Text="{Binding QtyParallel}" />
                         <TextBlock Text="x #" Margin="0"/>
 
-                        <TextBlock Text="{Binding PowerCable.Size}" />
+                        <TextBlock Text="{Binding Size}" />
                     </StackPanel>
 
                     <!--Cable Type-->
-                    <TextBlock Text="{Binding PowerCable.Type}" />
+                    <TextBlock Text="{Binding Type}" />
                     </StackPanel>
                 </Border>
 
@@ -722,53 +723,11 @@
                            Height="13"
                            Margin="5"
                            VerticalAlignment="Center"
-                           Visibility="{Binding PowerCable.IsValidSize, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
+                           Visibility="{Binding IsValidSize, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
         </Grid>
     </DataTemplate>
 
-    <!--SubCable Template-->
-    <DataTemplate x:Key="SubCableTemplate">
-        <Grid Style="{StaticResource GraphicHighlightStyle}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Border Grid.Column="0" >
-                <StackPanel x:Name="stackPanel"
-                                    Orientation="Vertical"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Background="Transparent"
-                                    Margin="0 15 0 15">
-
-                    <!--Tag-->
-                    <TextBlock Text="{Binding AssignedLoads[0].PowerCable.Tag}"
-                               FontWeight="SemiBold"
-                               Visibility="Visible"/>
-
-                    <!--Cable Size-->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding AssignedLoads[0].PowerCable.QtyParallel}" />
-                        <TextBlock Text="x #" Margin="0"/>
-
-                        <TextBlock Text="{Binding AssignedLoads[0].PowerCable.Size}" />
-                    </StackPanel>
-
-                    <!--Cable Type-->
-                    <TextBlock Text="{Binding AssignedLoads[0].PowerCable.Type}" />
-                </StackPanel>
-            </Border>
-            <Image Source="..\..\ResourceFiles\ErrorIcon48.png"
-                           Grid.Column="1" HorizontalAlignment="Left"
-                           Height="13"
-                           Margin="5"
-                           VerticalAlignment="Center"
-                           Visibility="{Binding AssignedLoads[0].PowerCable.IsValidSize, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
-        </Grid>
-    </DataTemplate>
+    
     
     <!--LOADS-->
     <!--Motor Template-->
@@ -796,7 +755,7 @@
                 <!--Text-->
                 <Border BorderThickness="0" 
                         HorizontalAlignment="Left"
-                        >
+                        Margin="0 3 3 3">
                     <StackPanel Orientation="Vertical"
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Center"
@@ -900,32 +859,32 @@
 
                 <!--Transformer Graphic-->
                 <Border Margin="-5 0">
-                <Canvas Grid.Row="0"
+                    <Canvas Grid.Row="0"
                     Grid.Column="0" 
                         VerticalAlignment="Top"
                         HorizontalAlignment="Left"
                     Width="50" Height="65"
                     Margin="0 0 0 0">
 
-                    <Line Stroke="Black" StrokeThickness="1" X1="30" Y1="0" X2="30" Y2="17"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="30" Y1="0" X2="30" Y2="17"/>
 
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 0,17 A 5, 5 0 0 0 15, 17" />
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 15,17 A 4, 4 0 0 0 30, 17" />
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 30,17 A 4, 4 0 0 0 45, 17" />
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 45,17 A 4, 4 0 0 0 60, 17" />
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 0,17 A 5, 5 0 0 0 15, 17" />
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 15,17 A 4, 4 0 0 0 30, 17" />
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 30,17 A 4, 4 0 0 0 45, 17" />
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 45,17 A 4, 4 0 0 0 60, 17" />
 
-                    <Line Stroke="Black" StrokeThickness="1.5" X1="0" Y1="30" X2="60" Y2="30"/>
-                    <Line Stroke="Black" StrokeThickness="1.5" X1="0" Y1="37" X2="60" Y2="37"/>
+                        <Line Stroke="Black" StrokeThickness="1.5" X1="0" Y1="30" X2="60" Y2="30"/>
+                        <Line Stroke="Black" StrokeThickness="1.5" X1="0" Y1="37" X2="60" Y2="37"/>
 
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 0,50 A 4, 4 0 0 1 15, 50" />
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 15,50 A 4, 4 0 0 1 30, 50" />
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 30,50 A 4, 4 0 0 1 45, 50" />
-                    <Path Stroke="Black" StrokeThickness="1" Data="M 45,50 A 4, 4 0 0 1 60, 50" />
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 0,50 A 4, 4 0 0 1 15, 50" />
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 15,50 A 4, 4 0 0 1 30, 50" />
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 30,50 A 4, 4 0 0 1 45, 50" />
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 45,50 A 4, 4 0 0 1 60, 50" />
 
-                    <Line Stroke="Black" StrokeThickness="1" X1="30" Y1="50" X2="30" Y2="65"/>
-                </Canvas>
+                        <Line Stroke="Black" StrokeThickness="1" X1="30" Y1="50" X2="30" Y2="65"/>
+                    </Canvas>
                 </Border>
-                
+
                 <!--Trasnformer Data-->
                 <Border BorderThickness="0" 
                         Grid.Row="0" Grid.RowSpan="2"
@@ -992,68 +951,6 @@
                 </Border>
 
             </Grid>
-
-
-
-            <StackPanel Orientation="Vertical"
-                        Grid.Row="2" 
-                        Grid.Column="0"
-                        Visibility="Collapsed">
-
-                <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding AssignedLoads[0]}" 
-                                                       Margin="-50 0"
-                                                       Visibility="Collapsed"/>
-                <!--Transformer Load-->
-                <!--Cable-->
-                <Grid Style="{StaticResource GraphicHighlightStyle}"
-                      Margin="-15 0 0 0"
-                      Visibility="Visible">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="0"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                  
-                    <!--Cable Line-->
-                    <Border BorderBrush="Black" BorderThickness="0 0 1 0"
-                                       Grid.Column="0"/>
-                    <!--Cable Tag-->
-                    <Border BorderBrush="Black" BorderThickness="0"
-                                       Grid.Column="2">
-                        <ContentControl Content="{Binding}"
-                                        ContentTemplate="{StaticResource SubCableTemplate}"
-                                        Grid.Column="2" 
-                                        Margin="5">
-                        </ContentControl>
-                    </Border>
-                </Grid>
-
-                <!--Load-->
-                <Grid Style="{StaticResource GraphicHighlightStyle}"
-                      Margin="-15 0 0 0"
-                      Visibility="Visible">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Orientation="Vertical" Grid.Column="1"
-                            HorizontalAlignment="Left">
-
-                        <ContentControl Content="{Binding AssignedLoads[0]}" 
-                                    ContentTemplateSelector="{StaticResource NoTransformerLoadGraphicTemplateSelector}"
-                                    >
-
-                        </ContentControl>
-                    </StackPanel>
-                </Grid>
-            </StackPanel>
 
         </StackPanel>
     </DataTemplate>

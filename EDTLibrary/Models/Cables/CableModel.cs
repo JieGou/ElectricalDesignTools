@@ -50,7 +50,12 @@ public class CableModel : ICable
     }
     public ICommand AutoSizeCableCommand { get; }
 
+
     #region Properties
+
+    public bool IsSelected { get; set; } = false;
+
+
     [Browsable(false)]
     public int Id { get; set; }
     public int OwnerId { get; set; }

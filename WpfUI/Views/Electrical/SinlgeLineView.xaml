@@ -17,8 +17,8 @@
              xmlns:edtEqModels="clr-namespace:EDTLibrary.Models.Equipment;assembly=EDTLibrary"
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
-             xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
              xmlns:edtCables="clr-namespace:EDTLibrary.Models.Cables;assembly=EDTLibrary"
+             xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
              
              d:Height="900" d:Width="1200"
              Loaded="UserControl_Loaded"
@@ -342,6 +342,10 @@
                                         Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}">
                             <ContentControl.Resources>
 
+                                <DataTemplate DataType="{x:Type edtCables:CableModel}">
+                                    <mjeqSubViews:CableSizingViewNarrow/>
+                                </DataTemplate>
+                                
                                 <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
                                     <mjeqSubViews:CableSizingViewNarrow/>
                                 </DataTemplate>

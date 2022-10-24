@@ -17,6 +17,8 @@
 
     <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.3"/>
     
+    <SolidColorBrush x:Key="SelectedBrush" Color="Orange" Opacity="0.1"/>
+
     <!--Grid MouseOver Borderighlight Style-->
     <Style TargetType="Grid" x:Key="GraphicHighlightStyle">
         <Style.Triggers>
@@ -46,6 +48,10 @@
                 <Setter Property="Background" Value="Transparent"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
+                        <Setter Property="Background" Value="{StaticResource WhiteHighlightBrush}"/>
+                        <!--<Setter Property="BorderBrush" Value="Blue"/>-->
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsSelected}" Value="True" >
                         <Setter Property="Background" Value="{StaticResource WhiteHighlightBrush}"/>
                         <!--<Setter Property="BorderBrush" Value="Blue"/>-->
                     </DataTrigger>

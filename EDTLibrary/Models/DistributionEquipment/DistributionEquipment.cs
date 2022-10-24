@@ -150,6 +150,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                     OnAreaChanged();
                     UndoManager.CanAdd = true;
+
                     UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
 
                     OnPropertyUpdated(nameof(Area) + ": " + Area.ToString());
@@ -204,9 +205,17 @@ namespace EDTLibrary.Models.DistributionEquipment
             get => _lineVoltageType;
             set
             {
+                var oldValue = _voltageType;
                 _voltageType = value;
+
+                UndoManager.Lock(this, nameof(VoltageType));
+                
                 LineVoltageType = value;
 
+                if (Type != DteqTypes.XFR.ToString()) {
+                    LoadVoltageType = value;
+                }
+                UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
             }
         }
         //unused, for PowerConsumer interface

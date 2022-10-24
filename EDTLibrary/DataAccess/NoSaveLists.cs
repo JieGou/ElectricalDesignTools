@@ -49,6 +49,9 @@ namespace EDTLibrary.DataAccess
             "PhaseC",
             "CalculationFlags",
 
+            "IsSelected",
+
+
         };
 
         static public List<string> LoadNoSaveList { get; set; } = new List<string>() 
@@ -72,6 +75,8 @@ namespace EDTLibrary.DataAccess
             "ConvertToLoadCommand",
             "CalculationFlags",
 
+            "IsSelected",
+
         };
 
         static public List<string> CompNoSaveList { get; set; } = new List<string>()
@@ -83,6 +88,9 @@ namespace EDTLibrary.DataAccess
             "ControlCable",
             "TypeModel",
             "TypeList",
+
+            "IsSelected",
+
         };
 
         static public List<string> LcsNoSaveList { get; set; } = new List<string>()
@@ -95,6 +103,9 @@ namespace EDTLibrary.DataAccess
             "TypeModel",
             "SubTypeList",
             "HeatLoss",
+
+            "IsSelected",
+
         };
 
         static public List<string> PowerCableNoSaveList { get; set; } = new List<string> {
@@ -109,6 +120,9 @@ namespace EDTLibrary.DataAccess
             "AutoSizeCableCommand",
             "DeratingToolTip",
             "SizeTag",
+
+            "IsSelected",
+
         };
 
         static public List<string> AreaNoSaveList { get; set; } = new List<string>() {
