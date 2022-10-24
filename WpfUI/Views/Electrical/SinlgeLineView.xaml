@@ -321,6 +321,10 @@
                                             Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
                             <ContentControl.Resources>
 
+                                <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                    <mjeqSubViews:EquipmentDetailsView/>
+                                </DataTemplate>
+                                
                                 <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
                                     <mjeqSubViews:EquipmentDetailsView/>
                                 </DataTemplate>
@@ -338,6 +342,10 @@
                                         Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}">
                             <ContentControl.Resources>
 
+                                <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                    <mjeqSubViews:CableSizingViewNarrow/>
+                                </DataTemplate>
+                                
                                 <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
                                     <mjeqSubViews:CableSizingViewNarrow/>
                                 </DataTemplate>

@@ -1,0 +1,59 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    
+                    xmlns:Converters="clr-namespace:WpfUI.Converters"
+                    >
+
+
+
+
+    <Converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>
+
+
+    <Style TargetType="TextBlock">
+        <Setter Property="Margin" Value="0"/>
+
+    </Style>
+
+    <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.3"/>
+    
+    <!--Grid MouseOver Borderighlight Style-->
+    <Style TargetType="Grid" x:Key="GraphicHighlightStyle">
+        <Style.Triggers>
+            <Trigger Property="Grid.IsMouseOver" Value="True">
+
+            </Trigger>
+        </Style.Triggers>
+
+        <Style.Resources>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="Black"/>
+
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
+                        <!--<Setter Property="Foreground" Value="Blue"/>-->
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
+                        <!--<Setter Property="Foreground" Value="Blue"/>-->
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush" Value="Black"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
+                        <Setter Property="Background" Value="{StaticResource WhiteHighlightBrush}"/>
+                        <!--<Setter Property="BorderBrush" Value="Blue"/>-->
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+        </Style.Resources>
+    </Style>
+    
+    
+</ResourceDictionary>

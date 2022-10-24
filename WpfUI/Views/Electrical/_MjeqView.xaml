@@ -1665,7 +1665,8 @@
             <!--Above Load Grid-->
             <GridSplitter  Grid.Row="3" Grid.ColumnSpan="10"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                            Height="{StaticResource GridSplitterWidth}" Background="{StaticResource GridSplitterColor}"
-                           Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>
+                           Visibility="Collapsed"/>
+            <!--Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>-->
 
             <!--Above Status Strip-->
             <!--<GridSplitter  Grid.Row="4" Grid.ColumnSpan="10" Panel.ZIndex="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"

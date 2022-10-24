@@ -1,4 +1,5 @@
 ﻿using EDTLibrary;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Windows.Controls;
 namespace WpfUI.TemplateSelectors;
 public class PdStarterGraphicTemplateSelector : DataTemplateSelector
 {
+    public DataTemplate EmptyTemplate { get; set; }
     public DataTemplate BreakerTemplate { get; set; }
     public DataTemplate FvnrTemplate { get; set; }
     public DataTemplate FvrTemplate { get; set; }
@@ -18,19 +20,35 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
 
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
-        var selectedTemplate = BreakerTemplate;
 
-        LoadModel load = null;
+        var selectedTemplate = EmptyTemplate;
+        if (item == null) return EmptyTemplate;
+
+        IPowerConsumer load = null;
         try {
-            load = (LoadModel)item;
+            if (item.GetType() == typeof(LoadModel)) {
+                load = (LoadModel)item;
+            }
+            else if (item is (DistributionEquipment)) {
+                load = DteqFactory.Recast(item);
+            }
+
         }
         catch (Exception) { }
 
 
-        if (load == null) return selectedTemplate;
+        if (load == null) {
+            return selectedTemplate;
+        }
 
-        if (load.PdType == "BKR") selectedTemplate = BreakerTemplate;
-        
+        if (load.PdType == "BKR" && load.FedFrom.GetType() != typeof(XfrModel)) {
+            selectedTemplate = BreakerTemplate; 
+        }
+
+        if (load.Type == DteqTypes.DPN.ToString()) {
+            selectedTemplate = EmptyTemplate;
+        }
+
         if (load.PdType.Contains("FVNR"))  selectedTemplate = FvnrTemplate;
 
         if (load.PdType.Contains("FVR")) selectedTemplate = FvnrTemplate;

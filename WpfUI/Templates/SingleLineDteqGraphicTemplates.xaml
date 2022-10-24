@@ -8,6 +8,8 @@
                     
                     xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
                     
+                    xmlns:Converters="clr-namespace:WpfUI.Converters"
+                    
                     >
 
     <ResourceDictionary.MergedDictionaries>
@@ -15,10 +17,10 @@
     </ResourceDictionary.MergedDictionaries>
 
 
-        <!--#region Templates-->
+    <!--#region Templates-->
 
     <!-- MCC BUCKET / OCPD -->
-
+    
     <!--EmptyTemplate-->
     <DataTemplate x:Key="EmptyTemplate">
         <StackPanel Orientation="Vertical">
@@ -31,8 +33,7 @@
             </Grid>
         </StackPanel>
     </DataTemplate>
-
-
+    
     <!--Breaker Template-->
     <DataTemplate x:Key="BreakerTemplate">
         <StackPanel Orientation="Vertical">
@@ -661,7 +662,6 @@
 
 
     <!--CABLES-->
-    
     <!--Cable Template-->
     <DataTemplate x:Key="CableTemplate">
         <Grid Style="{StaticResource GraphicHighlightStyle}">
@@ -671,34 +671,16 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Border BorderBrush="Black" BorderThickness="1 0 0 0"
-                    Grid.Column="0"
-                    Margin="-6 0 0 0"
-                    Width="5"
-                    HorizontalAlignment="Left"/>
-            
-            <Border BorderBrush="Black" BorderThickness="0 0 0 0"
-                                            Grid.Column="0"
-                    Margin="-10 0 0 0"
-                    Width="5"
-                    HorizontalAlignment="Left"/>
-            
-            <StackPanel x:Name="stackPanel"
+            <Border Grid.Column="0" >
+                <StackPanel x:Name="stackPanel"
                                     Orientation="Vertical"
                                     Grid.Column="0"
                                     HorizontalAlignment="Left"
                                     VerticalAlignment="Top"
                                     Background="Transparent"
-                                    Margin="0 25 0 25">
-                <Border Grid.Column="0" 
-                        Margin="-1 0 0 0">
-                    <StackPanel Orientation="Vertical"
-                                Grid.Column="0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Background="Transparent"
-                                Margin="0 0 0 0">
-                        <!--Tag-->
+                                    Margin="0 15 0 15">
+
+                    <!--Tag-->
                     <TextBlock Text="{Binding PowerCable.Tag}"
                                FontWeight="SemiBold"
                                Visibility="Visible"/>
@@ -713,10 +695,8 @@
 
                     <!--Cable Type-->
                     <TextBlock Text="{Binding PowerCable.Type}" />
-                    </StackPanel>
-                </Border>
-
-            </StackPanel>
+                </StackPanel>
+            </Border>
             <Image Source="..\..\ResourceFiles\ErrorIcon48.png"
                            Grid.Column="1" HorizontalAlignment="Left"
                            Height="13"
@@ -996,9 +976,8 @@
 
 
             <StackPanel Orientation="Vertical"
-                        Grid.Row="2" 
-                        Grid.Column="0"
-                        Visibility="Collapsed">
+                            Grid.Row="2" 
+                            Grid.Column="0">
 
                 <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding AssignedLoads[0]}" 
                                                        Margin="-50 0"
@@ -1063,20 +1042,8 @@
     <!--OCPDTemplateStyle-->
     <Style x:Key="OCPDTemplateStyle" TargetType="{x:Type ContentControl}">
         <Style.Triggers>
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=Type}" Value="BKR" />
-                    <Condition Binding="{Binding FedFrom}" Value="{x:Type edtDteqModels:XfrModel}" />
-                </MultiDataTrigger.Conditions>
-                <MultiDataTrigger.Setters>
-                    <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate}"/>
-                </MultiDataTrigger.Setters>
-                
-            </MultiDataTrigger>
-
-
             <DataTrigger Binding="{Binding Path=Type}" Value="BKR">
-                <!--<Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate}"/>-->
+                <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=PdType}" Value="MCP-FVNR">
                 <Setter Property="ContentTemplate" Value="{StaticResource FvnrTemplate}"/>
@@ -1105,7 +1072,6 @@
     
     <templateSelectors:PdStarterGraphicTemplateSelector 
                 x:Key="PdStarterTemplateSelector"
-                EmptyTemplate="{StaticResource EmptyTemplate}" 
                 BreakerTemplate="{StaticResource BreakerTemplate}" 
                 FvnrTemplate="{StaticResource FvnrTemplate}"
                 FvrTemplate="{StaticResource FvrTemplate}"

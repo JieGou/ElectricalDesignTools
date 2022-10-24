@@ -27,11 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EDTLibrary\EDTLibrary.csproj" />
-    <ProjectReference Include="..\WpfUI\WpfUI.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -43,6 +38,11 @@
   <ItemGroup>
     <Folder Include="Models\Areas\" />
     <Folder Include="Models\Validators\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EDTLibrary\EDTLibrary.csproj" />
+    <ProjectReference Include="..\WpfUI\WpfUI.csproj" />
   </ItemGroup>
 
 </Project>

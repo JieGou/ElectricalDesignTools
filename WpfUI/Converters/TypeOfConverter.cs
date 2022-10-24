@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.Models.DistributionEquipment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,15 @@ public class TypeOfConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-        return (value == null) ? null : value.GetType();
+        if (value == null) {
+            return null;
+        }
+        else if (value is DistributionEquipment) {
+            return typeof(DistributionEquipment); ;
+        }
+        else {
+            return value.GetType();
+        }
     }
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {

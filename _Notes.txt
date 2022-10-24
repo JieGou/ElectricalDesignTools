@@ -3,6 +3,9 @@ DpnCircuitManager calculations into DpnModel OR DpnCalculationService
 
 VoltageValidator
 
+Dteq Graphics
+
+
 Priorities
 	- Distribution Panel - 12 hours
 

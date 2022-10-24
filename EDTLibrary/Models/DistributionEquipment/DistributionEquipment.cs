@@ -34,6 +34,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             Description = "";
             Category = Categories.DTEQ.ToString();
             Voltage = LineVoltage;
+            PdType = "BKR";
         }
         public virtual void Create() { }
         public virtual void Initialize() { }

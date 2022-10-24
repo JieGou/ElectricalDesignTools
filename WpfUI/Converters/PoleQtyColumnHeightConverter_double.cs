@@ -16,9 +16,9 @@ namespace WpfUI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return"";
+            if (value == null) return "";
 
-            double poles = (double)(int)value;
+            int poles = (int)value;
             
 
             if (poles == 2) {

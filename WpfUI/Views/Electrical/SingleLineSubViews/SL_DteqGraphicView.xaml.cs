@@ -26,35 +26,35 @@ namespace WpfUI.Views.Electrical.SingleLineSubViews;
 /// <summary>
 /// Interaction logic for LoadGraphicView.xaml
 /// </summary>
-public partial class SL_LoadGraphicView : UserControl
+public partial class SL_DteqGraphicView : UserControl
 {
-    public static RoutedEvent LoadEquipmentSelectedEvent = EventManager.RegisterRoutedEvent("LoadEquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
-    public static RoutedEvent LoadCableSelectedEvent = EventManager.RegisterRoutedEvent("LoadCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
+    public static RoutedEvent DteqEquipmentSelectedEvent = EventManager.RegisterRoutedEvent("LoadEquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
+    public static RoutedEvent DteqCableSelectedEvent = EventManager.RegisterRoutedEvent("LoadCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
 
 
-    public SL_LoadGraphicView()
+    public SL_DteqGraphicView()
     {
         InitializeComponent();
     }
 
     public event RoutedEventHandler LoadEquipmentSelected
     {
-        add { AddHandler(LoadEquipmentSelectedEvent, value); }
-        remove { RemoveHandler(LoadEquipmentSelectedEvent, value); }
+        add { AddHandler(DteqEquipmentSelectedEvent, value); }
+        remove { RemoveHandler(DteqEquipmentSelectedEvent, value); }
     }
     protected virtual void OnLoadEquipmentSelected(IEquipment eq)
     {
-        RaiseEvent(new RoutedEventArgs(LoadEquipmentSelectedEvent, eq));
+        RaiseEvent(new RoutedEventArgs(DteqEquipmentSelectedEvent, eq));
     }
 
     public event RoutedEventHandler LoadCableSelected
     {
-        add { AddHandler(LoadCableSelectedEvent, value); }
-        remove { RemoveHandler(LoadCableSelectedEvent, value); }
+        add { AddHandler(DteqCableSelectedEvent, value); }
+        remove { RemoveHandler(DteqCableSelectedEvent, value); }
     }
     protected virtual void OnLoadCableSelected(IEquipment eq)
     {
-        RaiseEvent(new RoutedEventArgs(LoadCableSelectedEvent, eq));
+        RaiseEvent(new RoutedEventArgs(DteqCableSelectedEvent, eq));
     }
 
     

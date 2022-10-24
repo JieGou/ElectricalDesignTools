@@ -94,12 +94,17 @@ internal class SingleLineViewModel: ViewModelBase
             _selectedLoadCable = value;
 
             if (_selectedLoadCable.GetType() == typeof(LoadModel)) {
-                var load = (LoadModel)(_selectedLoadCable);
+                var load = (LoadModel)_selectedLoadCable;
                 load.PowerCable.ValidateCableSize(load.PowerCable);
                 load.PowerCable.CreateTypeList(load);
             }
+            else if (_selectedLoadCable is (DistributionEquipment)) {
+                var dteq = DteqFactory.Recast(_selectedLoadCable);
+                dteq.PowerCable.ValidateCableSize(dteq.PowerCable);
+                dteq.PowerCable.CreateTypeList(dteq);
+            }
             else if (_selectedLoadCable.GetType() == typeof(ComponentModel)) {
-                var component = (ComponentModel)(_selectedLoadCable);
+                var component = (ComponentModel)_selectedLoadCable;
                 //TODO - Style for cable graphic so that IsValid is detected without reloading
                 component.PowerCable.ValidateCableSize(component.PowerCable);
                 component.PowerCable.CreateTypeList((LoadModel)component.Owner);

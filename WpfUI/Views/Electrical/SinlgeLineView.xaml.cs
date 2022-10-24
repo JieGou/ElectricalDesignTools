@@ -61,8 +61,7 @@ public partial class SinlgeLineView : UserControl
 
     private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        //_loadTabsView.DataContext = this.DataContext;
-        //LoadDetailsContent.Content = _loadTabsView;
+
     }
 
 

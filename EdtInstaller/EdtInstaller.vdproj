@@ -907,7 +907,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_26B6019FF1204427B40AA100A918171C"
             {
-            "SourcePath" = "8:..\\WpfUI\\obj\\Debug\\net6.0-windows10.0.22000.0\\win-x64\\apphost.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
@@ -929,7 +929,7 @@
             "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{4BF24413-4E32-4AFB-83D0-1272A63CECDE}"
             "ShowKeyOutput" = "11:TRUE"
-            "PublishProfilePath" = "8:Properties\\PublishProfiles\\Edt Core Full.pubxml"
+            "PublishProfilePath" = "8:Properties\\PublishProfiles\\FolderProfile.pubxml"
                 "ExcludeFilters"
                 {
                 }
