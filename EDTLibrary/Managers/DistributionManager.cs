@@ -60,8 +60,8 @@ namespace EDTLibrary.Managers
                     newSupplier.AdddNewLoad(caller);
                 }
                 caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
-               
-                
+
+                caller.VoltageType = newSupplier.LoadVoltageType;
                 newSupplier.CalculateLoading();
 
                 if (caller.VoltageType != null) {

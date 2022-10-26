@@ -21,7 +21,9 @@
              xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
              
              d:Height="900" d:Width="1200"
-             Loaded="UserControl_Loaded"
+             Loaded="UserControl_Loaded" MouseDown="UserControl_MouseDown" MouseMove="UserControl_MouseMove" MouseUp="UserControl_MouseUp"
+             
+             
              >
 
     <UserControl.Resources>
@@ -76,6 +78,7 @@
                        FontSize="16"
                        FontWeight="SemiBold"
                        Margin="0 0 0 10"/>
+            
 
             <ListBox ItemsSource="{Binding ViewableDteqList}"
                      Grid.Row="1" Grid.Column="1"
@@ -83,160 +86,23 @@
                      DisplayMemberPath="Tag"
                      MinWidth="100" MinHeight="100"
                      Margin="0 10" 
-                     SelectionChanged="ListBox_SelectionChanged"
                      />
 
             <Button Content="Create Drawing"
                     Command="{Binding DrawSingleLineAcadCommand}"/>
+
+            <TextBlock x:Name="txtMousePos"
+                       Text="Mouse Pos"
+                       FontSize="12"
+                       FontWeight="SemiBold"
+                       Margin="0 0 0 10"/>
+            
+           
         </StackPanel>
 
         <!--Top Data-->
         <dteqViewers:DteqSummary3RowViewer Grid.Column="3" Grid.ColumnSpan="2"
                                            DataContext="{Binding SelectedDteq}"/>
-        <!--<Grid Grid.Column="3" Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="10"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-
-            Tag
-            <TextBlock Text="Tag:"
-                       Grid.Row="1" Grid.Column="1"/>
-            <TextBlock Text="{Binding SelectedDteq.Tag}" d:Text="MCC-01"
-                       Grid.Row="1" Grid.Column="1"
-                       Grid.ColumnSpan="3"
-                       HorizontalAlignment="Left"
-                       FontSize="20"
-                       FontWeight="Bold"
-                       Margin="10"
-                       />
-
-            Description
-            <TextBlock Text="{Binding SelectedDteq.Description}"  d:Text="Ultimo MCC"
-                       Grid.Row="1" Grid.Column="3"
-                       Grid.ColumnSpan="3"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
-                       FontSize="20"
-                       FontWeight="Bold"
-                       Margin="30 10"
-                       MinWidth="250"/>
-
-            Area
-            <TextBlock Text="Area:"
-                       Grid.Row="2" Grid.Column="1"
-                       Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.Area.Name}"  d:Text="On Site"
-                       Grid.Row="2" Grid.Column="3"
-                       Style="{StaticResource Value}"  />
-
-            Area Tag
-            <TextBlock Text="Area Tag:"
-                       Grid.Row="3" Grid.Column="1"
-                       Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.Area.Tag}"  d:Text="On Site"
-                       Grid.Row="3" Grid.Column="3"
-                       Style="{StaticResource Value}"  />
-
-
-            Fed From
-            <TextBlock Text="Fed From:" 
-                       Grid.Row="4" Grid.Column="1"
-                       Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.FedFrom.Tag}"  d:Text="SWG-01"
-                       Grid.Row="4" Grid.Column="3"
-                       Style="{StaticResource Value}"  />
-
-            SCCR
-            <TextBlock Text="SCCR" 
-                       Grid.Row="5" Grid.Column="1"
-                       Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.SCCR, StringFormat=\{0:N0\} kA}"  d:Text="SWG-01"
-                       Grid.Row="5" Grid.Column="3"
-                       Style="{StaticResource Value}"  />
-
-
-
-
-
-            Column 2
-
-            Size
-            <TextBlock Text="Size:"
-                       Grid.Row="2" Grid.Column="5"
-                       Style="{StaticResource Label}"/>
-            <StackPanel Orientation="Horizontal" 
-                        Grid.Row="2" Grid.Column="7">
-                <TextBlock Text="{Binding SelectedDteq.Size}"  d:Text="2000"
-                           Grid.Row="4" Grid.Column="3"
-                           Style="{StaticResource Value}"  />
-                <TextBlock Text="{Binding SelectedDteq.Unit}" d:Text="A"
-                           Style="{StaticResource Value}"  />
-            </StackPanel>
-
-
-            <TextBlock Text="Line Voltage:" 
-                       Grid.Row="3" Grid.Column="5"
-                       Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.LineVoltage, StringFormat=\{0:N0\} V}"  d:Text="600 V"
-                       Grid.Row="3" Grid.Column="7"
-                       Style="{StaticResource Value}"  />
-
-            <TextBlock Text="SCCA:" 
-                       Grid.Row="4" Grid.Column="5"
-                       Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.SCCR, StringFormat=\{0:N0\} kA}"  d:Text="45 kA"
-                       Grid.Row="4" Grid.Column="7"
-                       Style="{StaticResource Value}"  />
-
-            Column 3
-
-            Size
-            <TextBlock Text="Running Amps:"
-                       Grid.Row="2" Grid.Column="9"
-                       Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.RunningAmps, StringFormat=\{0:N1\} A}"  d:Text="2000"
-                        Grid.Row="2" Grid.Column="11"
-                        Style="{StaticResource Value}"  />
-
-
-            <TextBlock Text="Available Amps:"
-                       Grid.Row="3" Grid.Column="9"
-                       Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.Size, StringFormat=\{0:N0\} A}"  d:Text="2000 "
-                        Grid.Row="3" Grid.Column="11"
-                        Style="{StaticResource Value}"  />
-
-            <TextBlock Text="Percent Loaded:" 
-                       Grid.Row="4" Grid.Column="9"
-                       Style="{StaticResource Label}"/>
-            <TextBlock Text="{Binding SelectedDteq.PercentLoaded, StringFormat=\{0:N0\} %}"  d:Text="575 V"
-                       Grid.Row="4" Grid.Column="11"
-                       Style="{StaticResource Value}"  />
-        </Grid>-->
-
         <!--Sinlge Line-->
         <Border BorderBrush="Black" BorderThickness="1"
                 Background="White"
@@ -245,35 +111,59 @@
                 VerticalAlignment="Stretch"
                 CornerRadius="0" 
                 >
+            
             <ScrollViewer VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Auto"
                           VerticalAlignment="Stretch"
-                          Padding="10">
-                <Grid>
+                          >
+                <Grid x:Name="grdSingleLine"
+                      Background="Transparent"
+                      
+                      MouseDown="Grid_MouseDown" 
+                      MouseMove="Grid_MouseMove" 
+                      MouseUp="Grid_MouseUp" 
+                    >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                    
+                    <!--Drag Selection -->
+                    <Canvas x:Name="dragSelectionCanvas"
+                            Visibility="Collapsed"
+                            Panel.ZIndex="99">
+                        <Border x:Name="dragSelectionBorder"
+                                BorderBrush="Blue"
+                                BorderThickness="1"
+                                Background="LightBlue"
+                                CornerRadius="1"
+                                Opacity="0.5"
+                                />
+                    </Canvas>
 
+
+                    
                     <singleLineSubViews:MccGraphicView DataContext="{Binding SelectedDteq}"
-                                                       Grid.Row="0"
                                                        Width="{Binding Path=ActualWidth, ElementName=items}"
-                                                       HorizontalAlignment="Left"/>
-
+                                                       HorizontalAlignment="Left"
+                                                       />
+                    
+                    <!--Change the name of this so that the MCC bus is Width = this.Width-->
                     <ItemsControl x:Name="items"
                                   Grid.Row="1"
                                   ItemsSource="{Binding AssignedLoads}"
                                   HorizontalAlignment="Left"
                                   VerticalAlignment="Top" 
-                                  >
+                                  Visibility="Visible">
+                        
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <DockPanel HorizontalAlignment="Left"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
+                    
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                               
                                     <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}" 
                                                                            DockPanel.Dock="Left"
                                                                            LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
@@ -281,14 +171,45 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    
-                    
+
+                    <!--Change the name of this so that the MCC bus is Width = this.Width-->
+                    <ListView x:Name="items2"
+                              Grid.Row="1"
+                              ItemsSource="{Binding AssignedLoads}"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Top"
+                              VerticalContentAlignment="Top"
+                              BorderThickness="0"
+                              Visibility="Collapsed">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Left"
+                                            Margin="0 -3 0 0"
+                                            />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}" 
+                                                                       Margin="-5 0"
+                                                                       VerticalAlignment="Top"
+                                                                       VerticalContentAlignment="Top"
+                                                                       LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
+                                                                       LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ListView>
+
+
                 </Grid>
 
             </ScrollViewer>
         </Border>
 
-        <!--LoadDetailsContent-->
+        <!--Property Editor-->
         <Grid  Grid.Row="2" Grid.RowSpan="2"
                Grid.Column="5"
                Margin="7 0 0 0"

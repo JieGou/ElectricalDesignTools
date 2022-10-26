@@ -10,6 +10,7 @@ using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Validators;
+using EDTLibrary.Services;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
@@ -122,8 +123,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 OnPropertyUpdated(nameof(Description) + ": " + Description.ToString());
             }
-
         }
+
         private int _areaId;
         public int AreaId
         {
@@ -408,6 +409,16 @@ namespace EDTLibrary.Models.DistributionEquipment
                 UndoManager.Lock(this, nameof(LoadVoltageType));
                 LoadVoltageTypeId = _loadVoltageType.Id;
                 LoadVoltage = _loadVoltageType.Voltage;
+
+                //Load voltages updates
+
+                if (DaManager.Importing == false && DaManager.GettingRecords == false) {
+                    EdtNotificationService.SendAlert(this, $"The voltage of each load fed from {Tag} has changed to {LoadVoltageType.VoltageString}", "Assigned Loads Voltage Change");
+                    foreach (var load in AssignedLoads) {
+                        load.VoltageType = LoadVoltageType;
+                    }
+                }
+                
                 UndoManager.AddUndoCommand(this, nameof(LoadVoltageType), oldValue, _loadVoltageType);
 
                 if (DaManager.Importing == false && DaManager.GettingRecords == false) {

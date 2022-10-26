@@ -24,9 +24,52 @@ namespace WpfUI.Views.Electrical;
 /// <summary>
 /// Interaction logic for SinlgeLineView.xaml
 /// </summary>
+/// 
 public partial class SinlgeLineView : UserControl
 {
     private SingleLineViewModel vm { get { return DataContext as SingleLineViewModel; } }
+
+    #region Data Members
+
+    /// <summary>
+    /// Set to 'true' when the left mouse-button is down.
+    /// </summary>
+    private bool isLeftMouseButtonDownOnTarget = false;
+
+    /// <summary>
+    /// Set to 'true' when dragging the 'selection rectangle'.
+    /// Dragging of the selection rectangle only starts when the left mouse-button is held down and the mouse-cursor
+    /// is moved more than a threshold distance.
+    /// </summary>
+    private bool isDraggingSelectionRect = false;
+
+    /// <summary>
+    /// Records the location of the mouse (relative to the window) when the left-mouse button has pressed down.
+    /// </summary>
+    private Point origMouseDownPoint;
+
+    /// <summary>
+    /// The threshold distance the mouse-cursor must move before drag-selection begins.
+    /// </summary>
+    private static readonly double DragThreshold = 5;
+
+    /// <summary>
+    /// Set to 'true' when the left mouse-button is held down on a rectangle.
+    /// </summary>
+    private bool isLeftMouseDownOnRectangle = false;
+
+    /// <summary>
+    /// Set to 'true' when the left mouse-button and control are held down on a rectangle.
+    /// </summary>
+    private bool isLeftMouseAndControlDownOnRectangle = false;
+
+    /// <summary>
+    /// Set to 'true' when dragging a rectangle.
+    /// </summary>
+    private bool isDraggingRectangle = false;
+
+    #endregion Data Members
+
 
     public SinlgeLineView()
     {
@@ -43,13 +86,7 @@ public partial class SinlgeLineView : UserControl
     LoadTabsView _loadTabsView = new LoadTabsView();
 
     //Sets the datacontext for the details view panel on the right
-    private void dgdDteq_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        
-    }
-
-
-
+ 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
         if (vm != null) {
@@ -60,11 +97,6 @@ public partial class SinlgeLineView : UserControl
     }
 
     //Sets the datacontext for the details view panel on the right
-
-    private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
-    }
 
     private void LoadGraphicView_LoadEquipmentSelected(object sender, RoutedEventArgs e)
     {
@@ -121,4 +153,199 @@ public partial class SinlgeLineView : UserControl
         }
 
     }
+
+
+
+
+
+
+    private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        DragEvent_MouseDown(e, grdSingleLine);
+    }
+    private void Grid_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        DragEvent_MouseMove(e, grdSingleLine);
+    }
+    private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+        DragEvent_MouseUp(e, grdSingleLine);
+    }
+
+    private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+    }
+    private void UserControl_MouseMove(object sender, MouseEventArgs e)
+    {
+        txtMousePos.Text = $"Mouse Pos - X: {e.GetPosition(this)}";
+    }
+    private void UserControl_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+    }
+
+    private void DragEvent_MouseDown(MouseButtonEventArgs e, UIElement uIElement)
+    {
+        if (e.ChangedButton == MouseButton.Left) {
+
+            //
+            //  Clear selection immediately when starting drag selection.
+            //
+
+            isLeftMouseButtonDownOnTarget = true;
+            origMouseDownPoint = e.GetPosition(uIElement);
+
+            uIElement.CaptureMouse();
+
+            e.Handled = true;
+        }
+    }
+    private void DragEvent_MouseMove(MouseEventArgs e, UIElement uIElement)
+    {
+        if (isDraggingSelectionRect) {
+            //
+            // Drag selection is in progress.
+            //
+            Point curMouseDownPoint = e.GetPosition(uIElement);
+            UpdateDragSelectionRect(origMouseDownPoint, curMouseDownPoint);
+
+            e.Handled = true;
+        }
+        else if (isLeftMouseButtonDownOnTarget) {
+            //
+            // The user is left-dragging the mouse,
+            // but don't initiate drag selection until
+            // they have dragged past the threshold value.
+            //
+            Point curMouseDownPoint = e.GetPosition(uIElement);
+            var dragDelta = curMouseDownPoint - origMouseDownPoint;
+            double dragDistance = Math.Abs(dragDelta.Length);
+            if (dragDistance > DragThreshold) {
+                //
+                // When the mouse has been dragged more than the threshold value commence drag selection.
+                //
+                isDraggingSelectionRect = true;
+                InitDragSelectionRect(origMouseDownPoint, curMouseDownPoint);
+            }
+
+            e.Handled = true;
+        }
+    }
+    private void DragEvent_MouseUp(MouseButtonEventArgs e, UIElement uIElement)
+    {
+        if (e.ChangedButton == MouseButton.Left) {
+            bool wasDragSelectionApplied = false;
+
+            if (isDraggingSelectionRect) {
+                //
+                // Drag selection has ended, apply the 'selection rectangle'.
+                //
+
+                isDraggingSelectionRect = false;
+                ApplyDragSelectionRect();
+
+                e.Handled = true;
+                wasDragSelectionApplied = true;
+            }
+
+            if (isLeftMouseButtonDownOnTarget) {
+                isLeftMouseButtonDownOnTarget = false;
+                uIElement.ReleaseMouseCapture();
+
+                e.Handled = true;
+            }
+
+            if (!wasDragSelectionApplied) {
+                //
+                // A click and release in empty space clears the selection.
+                //
+                //listBox.SelectedItems.Clear();
+            }
+        }
+    }
+
+    private void InitDragSelectionRect(Point pt1, Point pt2)
+    {
+        UpdateDragSelectionRect(pt1, pt2);
+
+        dragSelectionCanvas.Visibility = Visibility.Visible;
+    }
+
+    /// <summary>
+    /// Update the position and size of the rectangle used for drag selection.
+    /// </summary>
+    private void UpdateDragSelectionRect(Point pt1, Point pt2)
+    {
+        double x, y, width, height;
+
+        //
+        // Determine x,y,width and height of the rect inverting the points if necessary.
+        // 
+
+        if (pt2.X < pt1.X) {
+            x = pt2.X;
+            width = pt1.X - pt2.X;
+        }
+        else {
+            x = pt1.X;
+            width = pt2.X - pt1.X;
+        }
+
+        if (pt2.Y < pt1.Y) {
+            y = pt2.Y;
+            height = pt1.Y - pt2.Y;
+        }
+        else {
+            y = pt1.Y;
+            height = pt2.Y - pt1.Y;
+        }
+
+        //
+        // Update the coordinates of the rectangle used for drag selection.
+        //
+        Canvas.SetLeft(dragSelectionBorder, x);
+        Canvas.SetTop(dragSelectionBorder, y);
+        dragSelectionBorder.Width = width;
+        dragSelectionBorder.Height = height;
+    }
+
+    /// <summary>
+    /// Select all nodes that are in the drag selection rectangle.
+    /// </summary>
+    private void ApplyDragSelectionRect()
+    {
+        dragSelectionCanvas.Visibility = Visibility.Collapsed;
+
+        double x = Canvas.GetLeft(dragSelectionBorder);
+        double y = Canvas.GetTop(dragSelectionBorder);
+        double width = dragSelectionBorder.Width;
+        double height = dragSelectionBorder.Height;
+        Rect dragRect = new Rect(x, y, width, height);
+
+        //
+        // Inflate the drag selection-rectangle by 1/10 of its size to 
+        // make sure the intended item is selected.
+        //
+        dragRect.Inflate(width / 10, height / 10);
+
+        //
+        // Clear the current selection.
+        //
+        //listBox.SelectedItems.Clear();
+
+
+
+        //
+        // Find and select all the list box items.
+        //
+
+        //foreach (RectangleViewModel rectangleViewModel in this.ViewModel.Rectangles) {
+        //    Rect itemRect = new Rect(rectangleViewModel.X, rectangleViewModel.Y, rectangleViewModel.Width, rectangleViewModel.Height);
+        //    if (dragRect.Contains(itemRect)) {
+        //        listBox.SelectedItems.Add(rectangleViewModel);
+        //    }
+        //}
+    }
+
+   
 }
+

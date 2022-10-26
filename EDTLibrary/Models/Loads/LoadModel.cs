@@ -15,6 +15,7 @@ using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -253,9 +254,16 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _voltageType;
                 _voltageType = value;
 
+                if (Type == LoadTypes.MOTOR.ToString()) {
+                    _voltageType = _voltageType.Voltage == 600 ? TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==575) : _voltageType;
+                    _voltageType = _voltageType.Voltage == 480 ? TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==460) : _voltageType;
+
+                }
+
                 UndoManager.Lock(this, nameof(VoltageType));
                 VoltageTypeId = _voltageType.Id;
                 Voltage = _voltageType.Voltage;
+
                 UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
 
                 if (DaManager.Importing == false && DaManager.GettingRecords == false) {
