@@ -21,8 +21,8 @@
              xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
              
              d:Height="900" d:Width="1200"
-             Loaded="UserControl_Loaded" MouseDown="UserControl_MouseDown" MouseMove="UserControl_MouseMove" MouseUp="UserControl_MouseUp"
              
+             Loaded="UserControl_Loaded" 
              
              >
 
@@ -80,7 +80,7 @@
                        Margin="0 0 0 10"/>
             
 
-            <ListBox ItemsSource="{Binding ViewableDteqList}"
+            <ListView ItemsSource="{Binding ViewableDteqList}"
                      Grid.Row="1" Grid.Column="1"
                      SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      DisplayMemberPath="Tag"
@@ -149,12 +149,12 @@
                                                        />
                     
                     <!--Change the name of this so that the MCC bus is Width = this.Width-->
-                    <ItemsControl x:Name="items"
+                    <ItemsControl x:Name="items2"
                                   Grid.Row="1"
                                   ItemsSource="{Binding AssignedLoads}"
                                   HorizontalAlignment="Left"
                                   VerticalAlignment="Top" 
-                                  Visibility="Visible">
+                                  Visibility="Collapsed">
                         
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -173,34 +173,117 @@
                     </ItemsControl>
 
                     <!--Change the name of this so that the MCC bus is Width = this.Width-->
-                    <ListView x:Name="items2"
+                    <ListView x:Name="items"
+                              Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
                               Grid.Row="1"
                               ItemsSource="{Binding AssignedLoads}"
                               HorizontalAlignment="Left"
                               VerticalAlignment="Top"
                               VerticalContentAlignment="Top"
                               BorderThickness="0"
-                              Visibility="Collapsed">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"
-                                            VerticalAlignment="Top"
-                                            HorizontalAlignment="Left"
-                                            Margin="0 -3 0 0"
-                                            />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}" 
-                                                                       Margin="-5 0"
+                              
+                              Visibility="Visible"
+                              
+                              MouseDown="Grid_MouseDown" 
+                                MouseMove="Grid_MouseMove" 
+                      MouseUp="Grid_MouseUp" >
+                        <ListView.ContextMenu>
+                            <ContextMenu >
+                                <MenuItem Header="Move to Area" Height="25"/>
+                                <MenuItem Header="Set FedFrom" Height="20"/>
+                                <MenuItem Header="Add" Height="20" >
+                                    <MenuItem.Icon>
+                                        <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
+                                           Height="10"/>
+                                    </MenuItem.Icon>
+                                    <MenuItem Header="Add Disconnect" Height="20" />
+                                    <MenuItem Header="Add Drive" Height="20" />
+                                    <MenuItem Header="Add LCS" Height="20" />
+                                </MenuItem>
+                                <MenuItem Header="Remove" Height="20">
+                                    <MenuItem.Icon>
+                                        <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
+                                           Height="10"/>
+                                    </MenuItem.Icon>
+                                    <MenuItem Header="Remove Disconnect" Height="20" />
+                                    <MenuItem Header="Remove Drive" Height="20" />
+                                    <MenuItem Header="Remove LCS" Height="20" />
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem Header="Delete" Height="20" />
+
+                            </ContextMenu>
+                        </ListView.ContextMenu>
+                        <ListView.Resources>
+                            
+                            <!--Selected Template-->
+                            <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
+                                <Border BorderThickness="0" Background="WhiteSmoke" HorizontalAlignment="Left" CornerRadius="7" >
+                                    <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                                                       DataContext="{Binding}" 
+                                                                       Margin="-0 0"
                                                                        VerticalAlignment="Top"
                                                                        VerticalContentAlignment="Top"
                                                                        LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
                                                                        LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
+                                </Border>
+                                
+                            </ControlTemplate>
+                            
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        
+                                        <!--Normal Template-->
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Left"  >
+                                                <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                                                       DataContext="{Binding}" 
+                                                                       Margin="-0 0"
+                                                                       VerticalAlignment="Top"
+                                                                       VerticalContentAlignment="Top"
+                                                                       LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
+                                                                       LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                        
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsSelected" Value="true" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
+                                    </MultiTrigger>
+       
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
+
+
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Left"
+                                            Margin="0 -2 0 0"
+                                            />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                                                       DataContext="{Binding}" 
+                                                                       Margin="-5 0"
+                                                                       VerticalAlignment="Top"
+                                                                       VerticalContentAlignment="Top"
+                                                                       LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
+                                                                       LoadCableSelected="LoadGraphicView_LoadCableSelected"
+                                                                       />
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
+                        </ListView.ItemTemplate>
                     </ListView>
 
 

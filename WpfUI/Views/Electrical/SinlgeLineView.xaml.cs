@@ -172,17 +172,6 @@ public partial class SinlgeLineView : UserControl
         DragEvent_MouseUp(e, grdSingleLine);
     }
 
-    private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
-    {
-    }
-    private void UserControl_MouseMove(object sender, MouseEventArgs e)
-    {
-        txtMousePos.Text = $"Mouse Pos - X: {e.GetPosition(this)}";
-    }
-    private void UserControl_MouseUp(object sender, MouseButtonEventArgs e)
-    {
-    }
-
     private void DragEvent_MouseDown(MouseButtonEventArgs e, UIElement uIElement)
     {
         if (e.ChangedButton == MouseButton.Left) {

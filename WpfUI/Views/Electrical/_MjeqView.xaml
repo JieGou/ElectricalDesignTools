@@ -309,7 +309,7 @@
                 </StackPanel>
 
 
-                <!--DATA GRID-->
+                <!--DTEQ DATA GRID-->
                 <!--Grid height is adjusted in the View.cs file by the method btnGrdSplitAdjust_PreviewMouseLeftButtonDown-->
                 <DataGrid x:Name="dgdDteq" 
                           Grid.Row="1" Grid.Column="1"
@@ -903,17 +903,6 @@
                             Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
                             Margin="0 0 50 0">
 
-
-
-                    <!--<Button 
-                            Width="80" Height="17"
-                            Margin="5 0"
-                            VerticalAlignment="Bottom"
-                            Command="{Binding Path=ToggleRowDetailViewCommand}"
-                            >
-                        <TextBlock Text="Row Details" Margin="0 -1 0 0"/>
-                    </Button>-->
-
                     <Button 
                             Width="80" Height="17"
                             Margin="5 0"
@@ -951,7 +940,7 @@
                 </StackPanel>
 
 
-                <!--DATA GRID-->
+                <!--LOAD DATA GRID-->
                 <sf:SfDataGrid x:Name="dgdAssignedLoads"  
                                Grid.Row="1"  Grid.Column="0"
                                Margin="5 5 10 5"

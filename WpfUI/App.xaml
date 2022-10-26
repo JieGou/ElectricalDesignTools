@@ -16,6 +16,9 @@
     <!--StartupUri="MainWindow.xaml">-->
     <Application.Resources>
         <ResourceDictionary>
+            
+            
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/EdtColorsAndDimensions.xaml"/>
                 <ResourceDictionary Source="Styles/EdtStyle_Base.xaml"/>
@@ -31,14 +34,6 @@
 
                 <!-- this should be added -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Shadows.xaml" />
-
-
-
-
-
-
-
-
 
 
 
@@ -93,6 +88,7 @@
                 <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/ColorPicker/ColorPicker.xaml" /> -->
             </ResourceDictionary.MergedDictionaries>
             <!--Style for hiding Non-Motor load cell content in SfDataGrid-->
+            
             <Style TargetType="sfgrid:GridCell" x:Key="NonMotorLoadVisibilityStyle">
                 <Setter Property="BorderBrush" Value="LightGray" />
                 <Style.Triggers>
@@ -366,6 +362,81 @@
             </Style>
 
 
+            <!--ListViewStyle_SingleLineLoadTemplate-->
+            <SolidColorBrush x:Key="ListBox.Static.Background" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="ListBox.Static.Border" Color="#FFABADB3"/>
+            <SolidColorBrush x:Key="ListBox.Disabled.Background1" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="ListBox.Disabled.Border1" Color="#FFD9D9D9"/>
+            
+            <Style x:Key="ListViewStyle_SingleLineLoadTemplate" TargetType="{x:Type ListView}">
+                <Setter Property="Background" Value="{StaticResource ListBox.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource ListBox.Static.Border}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+                <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListView}">
+                            <Border x:Name="Bd"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Padding="0" 
+                                    SnapsToDevicePixels="true">
+                                <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </ScrollViewer>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="Bd" Value="{StaticResource ListBox.Disabled.Background1}"/>
+                                    <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ListBox.Disabled.Border1}"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsGrouping" Value="true"/>
+                                        <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <!--ListBox_SinlgeLineLoadsTemplate-->
+            <SolidColorBrush x:Key="ListBox.Disabled.Background" Color="#FFFFFFFF"/>
+            <SolidColorBrush x:Key="ListBox.Disabled.Border" Color="#FFD9D9D9"/>
+
+            <ControlTemplate x:Key="ListBox_SinlgeLineLoadsTemplate" TargetType="{x:Type ListBox}">
+                <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}" 
+                        Padding="1" SnapsToDevicePixels="true">
+                    <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </ScrollViewer>
+                </Border>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsEnabled" Value="false">
+                        <Setter Property="Background" TargetName="Bd" Value="{StaticResource ListBox.Disabled.Background}"/>
+                        <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource ListBox.Disabled.Border}"/>
+                    </Trigger>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="IsGrouping" Value="true"/>
+                            <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                        </MultiTrigger.Conditions>
+                        <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                    </MultiTrigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
 
         </ResourceDictionary>
     </Application.Resources>
