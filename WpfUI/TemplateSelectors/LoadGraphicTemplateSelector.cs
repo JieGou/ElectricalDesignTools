@@ -15,9 +15,12 @@ public class LoadGraphicTemplateSelector : DataTemplateSelector
     public DataTemplate MotorTemplate { get; set; }
     public DataTemplate HeaterTemplate { get; set; }
     public DataTemplate PanelTemplate { get; set; }
-    public DataTemplate TransformerTemplate { get; set; }
     public DataTemplate OtherTemplate { get; set; }
 
+    //Dteq Templates
+    public DataTemplate TransformerTemplate { get; set; }
+    public DataTemplate DistributionPanelTemplate { get; set; }
+    
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
         var selectedTemplate = OtherTemplate;
@@ -48,11 +51,17 @@ public class LoadGraphicTemplateSelector : DataTemplateSelector
         else if (load.Type == LoadTypes.PANEL.ToString()) {
             selectedTemplate = PanelTemplate;
         }
+        
+        else if (load.Type == LoadTypes.OTHER.ToString()) {
+            selectedTemplate = OtherTemplate;
+        }
+
         else if (load.Type == DteqTypes.XFR.ToString()) {
             selectedTemplate = TransformerTemplate;
         }
-        else if (load.Type == LoadTypes.OTHER.ToString()) {
-            selectedTemplate = OtherTemplate;
+
+        else if (load.Type == DteqTypes.CDP.ToString() || load.Type == DteqTypes.DPN.ToString()) {
+            selectedTemplate = DistributionPanelTemplate;
         }
 
         return selectedTemplate;

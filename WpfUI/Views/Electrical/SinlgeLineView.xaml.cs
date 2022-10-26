@@ -66,7 +66,6 @@ public partial class SinlgeLineView : UserControl
 
     }
 
-
     private void LoadGraphicView_LoadEquipmentSelected(object sender, RoutedEventArgs e)
     {
 
@@ -75,33 +74,8 @@ public partial class SinlgeLineView : UserControl
         slVm.IsSelectedLoadCable = false;
         ClearSelections(slVm.ListManager);
 
-        if (slVm.SelectedLoadEquipment.GetType() == typeof(LoadModel)) {
+        slVm.SelectedLoadEquipment.IsSelected = true;
 
-            var load = (LoadModel)slVm.SelectedLoadEquipment;
-            load.IsSelected = true;
-        }
-        else if (slVm.SelectedLoadEquipment is DistributionEquipment) {
-
-            var load = DteqFactory.Recast(slVm.SelectedLoadEquipment);
-            load.IsSelected = true;
-        }
-
-    }
-
-    private static void ClearSelections(ListManager listManager)
-    {
-        foreach (var item in listManager.DteqList) {
-            item.IsSelected = false;
-        }
-        foreach (var item in listManager.LoadList) {
-            if (item.GetType() == typeof(LoadModel)) {
-                var load = (LoadModel)item;
-                load.IsSelected = false;
-            }
-        }
-        foreach (var item in listManager.CableList) {
-            item.IsSelected = false;
-        }
     }
 
     private void LoadGraphicView_LoadCableSelected(object sender, RoutedEventArgs e)
@@ -111,6 +85,8 @@ public partial class SinlgeLineView : UserControl
         slVm.IsSelectedLoadCable = true;
 
         ClearSelections(slVm.ListManager);
+
+
 
         if (slVm.SelectedLoadCable.GetType() == typeof(LoadModel)) {
 
@@ -127,6 +103,21 @@ public partial class SinlgeLineView : UserControl
 
             var dteq = DteqFactory.Recast(slVm.SelectedLoadCable);
             dteq.PowerCable.IsSelected = true;
+        }
+
+    }
+
+    private static void ClearSelections(ListManager listManager)
+    {
+        //Equipment
+        listManager.CreateEquipmentList();
+        foreach (var item in listManager.EqList) {
+            item.IsSelected = false;
+        }
+
+        //Cable
+        foreach (var item in listManager.CableList) {
+            item.IsSelected = false;
         }
 
     }

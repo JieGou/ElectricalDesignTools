@@ -1,23 +1,33 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    
                     xmlns:Converters="clr-namespace:WpfUI.Converters"
                     >
 
 
-
-
     <Converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>
 
+    
+    
+    <!--Corner Radius-->
+    <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.3"/>
+    <SolidColorBrush x:Key="SelectedBrush" Color="LightBlue" Opacity="0.5"/>
 
+
+    <sys:Double x:Key="HighlightCorerRadius">7</sys:Double>
+    <CornerRadius x:Key="BorderHighlightCornerRadius" 
+                  TopLeft="{StaticResource HighlightCorerRadius}"
+                  TopRight="{StaticResource HighlightCorerRadius}" 
+                  BottomRight="{StaticResource HighlightCorerRadius}" 
+                  BottomLeft="{StaticResource HighlightCorerRadius}" />
+
+    
+    
     <Style TargetType="TextBlock">
         <Setter Property="Margin" Value="0"/>
-
     </Style>
-
-    <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.3"/>
-    
-    <SolidColorBrush x:Key="SelectedBrush" Color="Orange" Opacity="0.1"/>
 
     <!--Grid MouseOver Borderighlight Style-->
     <Style TargetType="Grid" x:Key="GraphicHighlightStyle">
@@ -52,7 +62,7 @@
                         <!--<Setter Property="BorderBrush" Value="Blue"/>-->
                     </DataTrigger>
                     <DataTrigger Binding="{Binding IsSelected}" Value="True" >
-                        <Setter Property="Background" Value="{StaticResource WhiteHighlightBrush}"/>
+                        <Setter Property="Background" Value="{StaticResource SelectedBrush}"/>
                         <!--<Setter Property="BorderBrush" Value="Blue"/>-->
                     </DataTrigger>
                 </Style.Triggers>
