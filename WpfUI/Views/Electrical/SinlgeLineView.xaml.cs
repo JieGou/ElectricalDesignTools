@@ -4,19 +4,12 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.Views.Electrical.MjeqSubviews;
 
@@ -190,6 +183,7 @@ public partial class SinlgeLineView : UserControl
     }
     private void DragEvent_MouseMove(MouseEventArgs e, UIElement uIElement)
     {
+        txtMousePos.Text = $"Pos - X: {Math.Round(e.GetPosition(grdSingleLine).X,2)}, Y: {e.GetPosition(grdSingleLine).Y}";
         if (isDraggingSelectionRect) {
             //
             // Drag selection is in progress.
@@ -247,7 +241,8 @@ public partial class SinlgeLineView : UserControl
                 //
                 // A click and release in empty space clears the selection.
                 //
-                //listBox.SelectedItems.Clear();
+
+               // listViewLoads.SelectedItems.Clear();
             }
         }
     }
@@ -319,7 +314,8 @@ public partial class SinlgeLineView : UserControl
         //
         // Clear the current selection.
         //
-        //listBox.SelectedItems.Clear();
+        
+        listViewLoads.SelectedItems.Clear();
 
 
 
@@ -333,8 +329,45 @@ public partial class SinlgeLineView : UserControl
         //        listBox.SelectedItems.Add(rectangleViewModel);
         //    }
         //}
+        
+        ScrollViewer scrollViewer = GetScrollViewer(listViewLoads);
+        var uiElement = listViewLoads.ItemContainerGenerator.ContainerFromItem(listViewLoads);
+
+        foreach (var item in listViewLoads.Items) {
+            var container = listViewLoads.ItemContainerGenerator.ContainerFromItem(item); 
+            FrameworkElement element = container as FrameworkElement;
+
+            if (element != null) {
+                var transform = element.TransformToVisual(scrollViewer);
+                var positionInScrollViewer = transform.Transform(new Point(0, 0));
+                Rect itemRect = new Rect(positionInScrollViewer.X, 145, 50, 150);
+                if (dragRect.Contains(itemRect)) {
+                    listViewLoads.SelectedItems.Add(item);
+                }
+            }
+        }
+
+
     }
 
-   
+    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (vm == null) return;
+        vm.SelectedLoads = new ObservableCollection<IPowerConsumer>(listViewLoads.SelectedItems.Cast<IPowerConsumer>().ToList());
+    }
+
+    public static ScrollViewer GetScrollViewer(DependencyObject depObj)
+    {
+        var obj = depObj as ScrollViewer;
+        if (obj != null) return obj;
+
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) {
+            var child = VisualTreeHelper.GetChild(depObj, i);
+
+            var result = GetScrollViewer(child);
+            if (result != null) return result;
+        }
+        return null;
+    }
 }
 
