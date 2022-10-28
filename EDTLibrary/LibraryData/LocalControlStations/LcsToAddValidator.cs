@@ -1,4 +1,5 @@
-﻿using EDTLibrary.LibraryData.LocalControlStations;
+﻿using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.LocalControlStations;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Components;
@@ -22,7 +23,10 @@ namespace EDTLibrary.Models.Loads
         private IArea _areaModel;
         private IDteq _feedingDteq;
 
+        public LcsToAddValidator()
+        {
 
+        }
         public LcsToAddValidator(LcsTypeModel lcsToAdd)
         {
 
@@ -31,7 +35,6 @@ namespace EDTLibrary.Models.Loads
             DigitalConductorQty = lcsToAdd.DigitalConductorQty.ToString() ;
             AnalogConductorQty = lcsToAdd.AnalogConductorQty.ToString();
 
-            //FedFromTag = listManager.DteqList.FirstOrDefault(d => d.Id == loadToAdd.FedFrom.Id && d.Type == loadToAdd.FedFrom.Type).Tag;
         }
        
         private string _type;
@@ -47,7 +50,10 @@ namespace EDTLibrary.Models.Loads
                 if (GlobalConfig.SelectingNew == true) { return; }
 
                 if (string.IsNullOrWhiteSpace(_type) || _type == "") {
-                    AddError(nameof(Type), "Invalid Load Type");
+                    AddError(nameof(Type), "Invalid Type. Type cannot be empty.");
+                }
+                else if (TypeManager.LcsTypes.FirstOrDefault(lt => lt.Type == _type)==null) {
+                    AddError(nameof(Type), "Type identifier already exists");
                 }
               
             }
@@ -80,7 +86,7 @@ namespace EDTLibrary.Models.Loads
                     _isValid = false;
                 }
 
-                if (double.Parse(_digitalConductorQty) < 2) {
+                else if (double.Parse(_digitalConductorQty) < 2) {
                     AddError(nameof(DigitalConductorQty), "Min. qty = 2");
                     _isValid = false;
                 }
@@ -98,17 +104,11 @@ namespace EDTLibrary.Models.Loads
                 _analogConductorQty = value;
 
                 int qty;
-                ClearErrors(nameof(DigitalConductorQty));
+                ClearErrors(nameof(AnalogConductorQty));
 
                 if (int.TryParse(_analogConductorQty, out qty) == false ||
                     string.IsNullOrWhiteSpace(_analogConductorQty) || _analogConductorQty == "") {
                     AddError(nameof(AnalogConductorQty), "Invalid value");
-                    _isValid = false;
-                    return;
-                }
-
-                if (int.Parse(_analogConductorQty) < 2) {
-                    AddError(nameof(AnalogConductorQty), "Min. qty = 2");
                     _isValid = false;
                     return;
                 }

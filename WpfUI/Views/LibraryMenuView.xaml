@@ -54,8 +54,13 @@
                 <Button Content="DATA TABLES"
                         Style="{StaticResource ToolBarButtonBase}" 
                         Command="{Binding NavigateDataTablesCommand}"/>
+                
+                <Button Content="Library Manager"
+                        Style="{StaticResource ToolBarButtonBase}" 
+                        Command="{Binding NavigateLibraryManagerCommand}"/>
 
-               
+
+
             </StackPanel>
 
         </Border>

@@ -2,6 +2,7 @@
 using EDTLibrary.LibraryData;
 using EDTLibrary.Mappers;
 using EDTLibrary.Models.Cables;
+using Microsoft.Win32;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -71,6 +72,7 @@ namespace EDTLibrary.ProjectSettings
         public static string Code { get; set; }
 
         //Cable
+        #region Cable Settings 
         //TODO - Populate CableSizesUsedInProject list from Library (copy Database table to Library and create when building new projects)
         public static ObservableCollection<CableSizeModel> CableSizesUsedInProject { get; set; }
 
@@ -113,10 +115,21 @@ namespace EDTLibrary.ProjectSettings
 
         public static string LcsControlCableType { get; set; }
         public static string LcsControlCableSize { get; set; }
+        #endregion  
 
+        //Cable Lengths
+        #region Cable Lengths 
+        public static string CableLengthDteq { get; set; }
+        public static string CableLengthLoad { get; set; }
+        public static string CableLengthDrive { get; set; }
+        public static string CableLengthLocalDisconnect { get; set; }
+        public static string CableLengthLocalControlStation { get; set; }
+
+        #endregion  
 
 
         //Dteq
+        #region Dteq
         public static string DteqMaxPercentLoaded { get; set; }
         public static string DteqDefaultPdTypeLV { get; set; }
 
@@ -127,19 +140,10 @@ namespace EDTLibrary.ProjectSettings
         public static string XfrSubType { get; set; }
         public static string XfrGrounding { get; set; }
         public static string DteqLoadCableDerating { get; set; }
-
-        public static string CableLengthDteq { get; set; }
-        public static string CableLengthLoad { get; set; }
-        public static string CableLengthDrive { get; set; }
-        public static string CableLengthLocalDisconnect { get; set; }
-        public static string CableLengthLocalControlStation { get; set; }
+        #endregion  
 
 
-
-
-
-
-
+     
         //Voltage
         public static string VoltageDefault1kV { get; set; }
 

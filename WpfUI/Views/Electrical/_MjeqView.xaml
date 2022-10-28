@@ -1158,13 +1158,15 @@
                                                ImmediateUpdateColumnFilter="True"
                                                FilterRowOptionsVisibility="Collapsed"
                                                CellStyle="{StaticResource comboBoxCellStyle}"
+                                              
                                                >
                             <sf:GridComboBoxColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding VoltageType.VoltageString,
                                                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
                                                TextAlignment="Left"
-                                               Padding="5 0 0 0"/>
+                                               Padding="5 0 0 0"
+                                               Background="{Binding Converter={StaticResource VoltageToColorConverter}}"/>
                                 </DataTemplate>
                             </sf:GridComboBoxColumn.CellTemplate>
                         </sf:GridComboBoxColumn>

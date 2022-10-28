@@ -57,7 +57,7 @@ namespace EDTLibrary.Models.Loads
                 if (string.IsNullOrEmpty(value.ToString())) return;
                 if (Tag == GlobalConfig.LargestMotor_StartLoad) return;
 
-                if (CalculationFlags.EnforceUniqueTagsTags == true) {
+                if (CalculationFlags.EnforceUniqueTags == true) {
                     if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
                         ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                         return;

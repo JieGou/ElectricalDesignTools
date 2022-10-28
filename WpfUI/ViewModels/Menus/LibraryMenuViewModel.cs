@@ -12,6 +12,7 @@ namespace WpfUI.ViewModels.Menus
     {
 
         private DataTablesViewModel _dataTablesViewModel;
+        private LibraryManagerViewModel _libraryManagerViewModel;
 
 
         private MainViewModel _mainViewModel;
@@ -41,22 +42,27 @@ namespace WpfUI.ViewModels.Menus
             _mainViewModel = mainViewModel;
 
             _dataTablesViewModel = new DataTablesViewModel();
+            _libraryManagerViewModel = new LibraryManagerViewModel();
+
+
             NavigateDataTablesCommand = new RelayCommand(NavigateDataTables);
+            NavigateLibraryManagerCommand = new RelayCommand(NavigateLibraryManager);
         }
 
+        public ICommand NavigateDataTablesCommand { get; }
         private void NavigateDataTables()
         {
             CurrentViewModel = _dataTablesViewModel;
             _mainViewModel.CurrentViewModel = CurrentViewModel;
 
         }
+        public ICommand NavigateLibraryManagerCommand { get; }
+        private void NavigateLibraryManager()
+        {
+            CurrentViewModel = _libraryManagerViewModel;
+            _mainViewModel.CurrentViewModel = CurrentViewModel;
 
-        #region Public Commands
-
-        // Equipment Commands
-        public ICommand NavigateDataTablesCommand { get; }
-        #endregion
-
+        }
     }
 
 }

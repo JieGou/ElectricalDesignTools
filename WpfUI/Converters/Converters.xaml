@@ -4,7 +4,8 @@
 
 
     <converters:BreakerSizeToVisibilityConverter x:Key="BreakerSizeToVisibilityConverter"/>
-
+    <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
+    
     <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
     <converters:LcsOwnerTypeToVisbilityConverter x:Key="LscOwnerTypeVisibilityConverter"/>
     <converters:ComponentOwnerTypeToBooleanConverter x:Key="ComponentOwnerTypeToBooleanConverter"/>
@@ -15,6 +16,7 @@
 
 
     <converters:TypeOfConverter x:Key="TypeOfConverter"/>
+    <converters:VoltageToColorConverter x:Key="VoltageToColorConverter"/>
 
     <!--MjeqView-->
     <BooleanToVisibilityConverter x:Key="BoolToVis"/>

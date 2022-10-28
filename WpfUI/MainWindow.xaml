@@ -156,7 +156,7 @@
                             VerticalAlignment="Top"
                             Command="{Binding NavigateElectricalCommand}"/>-->
 
-            <RadioButton Content="Data Tables"
+            <RadioButton Content="Library"
                                  Width="75"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
@@ -264,7 +264,7 @@
                             VerticalAlignment="Top"
                             Command="{Binding NavigateElectricalCommand}"/>-->
 
-                    <RadioButton Content="DATA TABLES"
+                    <RadioButton Content="Library"
                                  Width="85"
                              GroupName="menu"
                              Style="{StaticResource MainMenuButton}"
@@ -434,12 +434,21 @@
 
 
 
-                <!--DataTables-->
+                
+                <!--LIBRARY-->
+                
+                <!--Data Tables-->
                 <DataTemplate DataType="{x:Type libraryViewModels:DataTablesViewModel}">
                     <libraryViews:DataTablesView/>
                 </DataTemplate>
-
+                
+                <!--Library Manager-->
+                <DataTemplate DataType="{x:Type libraryViewModels:LibraryManagerViewModel}">
+                    <libraryViews:LibraryManagerView/>
+                </DataTemplate>
+                
             </ContentControl.Resources>
+            
         </ContentControl>
     </Grid>
 </mah:MetroWindow>

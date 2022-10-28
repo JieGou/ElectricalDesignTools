@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="WpfUI.Views.Library.AdderViews.AddLcsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfUI.Views.Library.AdderViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="775"
+             d:Background="AliceBlue"
+             >
+    <!--ADD EQUIPMENT-->
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+     
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+
+
+        <!--ADD LOAD-->
+        <!--Tags-->
+        <TextBlock Text="Type" Margin="5 5 0 5"
+                   Grid.Row="0" Grid.Column="2" FontSize="10" />
+
+        <TextBlock Text="Description" Margin="5 5 0 5"
+                   Grid.Row="0" Grid.Column="3" FontSize="10" />
+
+        <TextBlock Text="Digital Conductor Qty" Margin="5 5 5 5"
+                   Grid.Row="0" Grid.Column="4" FontSize="10" />
+        <TextBlock Text="Analog Conductor Qty" Margin="5 5 5 5"
+                   Grid.Row="0" Grid.Column="5" FontSize="10" />
+
+       
+
+        <!--ADD DTEQ-->
+        <!--Text/Combo Boxes-->
+        <TextBox Grid.Row="1" Grid.Column="2"
+                 Height="23"
+                 Text="{Binding LcsToAddValidator.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="5,0,5,0" VerticalAlignment="Top">
+        </TextBox>
+
+        <TextBox Grid.Row="1" Grid.Column="3"
+                 Height="23"
+                 Text="{Binding LcsToAddValidator.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="5,0,5,0" VerticalAlignment="Top">
+        </TextBox>
+
+        <TextBox Grid.Row="1" Grid.Column="4"
+                 Height="23"
+                 Text="{Binding LcsToAddValidator.DigitalConductorQty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="5,0,5,0" VerticalAlignment="Top">
+        </TextBox>
+
+        <TextBox Grid.Row="1" Grid.Column="5"
+                 Height="23"
+                 Text="{Binding LcsToAddValidator.AnalogConductorQty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="5,0,5,0" VerticalAlignment="Top">
+        </TextBox>
+
+
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="2" Grid.Column="2"
+                    Margin="0 15">
+            <Button Content="Add Lcs" Height="23" Width="100"
+                    Style="{StaticResource GreenButton}"
+                    Command="{Binding AddLcsCommand}"
+                    CommandParameter="{Binding LcsToAddValidator}"
+                    Visibility="Visible"
+                    Margin="5"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

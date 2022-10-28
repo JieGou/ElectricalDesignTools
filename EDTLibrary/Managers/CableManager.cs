@@ -9,6 +9,8 @@ using EDTLibrary.ProjectSettings;
 using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -94,7 +96,6 @@ public class CableManager
     public static string PreviousEq { get; set; }
 
 
-    public static int ValidateLoadPowerComponentCablesAsync_Count { get; set; } = 0;
     public static async Task ValidateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
         foreach (var components in powerComponentOwner.CctComponents) {
@@ -104,20 +105,12 @@ public class CableManager
 
     public static async Task AddAndUpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
-        
 
         //cable length to load
         double loadCableLength = powerComponentOwner.PowerCable.Length;
+       
 
-        
         PreviousEq = powerComponentOwner.Tag;
-
-
-        //Stopwatch sw = new Stopwatch();
-        //sw.Start();
-        //Debug.Print($"Start {sw.Elapsed.TotalMilliseconds.ToString()}");
-
-        //if (load == null) return;
 
         try {
             await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
@@ -127,20 +120,18 @@ public class CableManager
 
                 //TODO add Load Id and LoadType to cable model
                 //TODO add PowerCableId to Equipment
-                foreach (var item in listManager.CableList) {
+                foreach (var cable in listManager.CableList) {
 
-                    if (item.LoadId == powerComponentOwner.Id && item.LoadType == powerComponentOwner.GetType().ToString() )
+                    if (cable.LoadId == powerComponentOwner.Id && cable.LoadType == powerComponentOwner.GetType().ToString() )
                     {
-                        if (true) {
-
-                        }
-                        cablesToRemove.Add(item);
+                        loadCableLength = Math.Max(cable.Length, loadCableLength);
+                        cablesToRemove.Add(cable);
                     }
                 }
 
-                foreach (var item in cablesToRemove) {
-                    listManager.CableList.Remove(item);
-                    DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, item.Id);
+                foreach (var cable in cablesToRemove) {
+                    listManager.CableList.Remove(cable);
+                    DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cable.Id);
                 }
 
                 //Add Cables
@@ -153,9 +144,6 @@ public class CableManager
                     if (component.SubCategory != SubCategories.CctComponent.ToString()) continue;
 
                     CableModel cable = new CableModel();
-                    //UndoManager.IsUndoing = true;
-                    //UndoManager.CanAdd = false;
-
 
                     if (previousComponent == null) {
                         cable.Source = powerComponentOwner.FedFrom.Tag;
@@ -204,9 +192,6 @@ public class CableManager
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
                     cable.ValidateCableSize(cable);
 
-                    //UndoManager.CanAdd = true;
-                    //UndoManager.IsUndoing = false;
-
                     component.PowerCable = cable;
                     
                     listManager.CableList.Add(cable);
@@ -225,11 +210,6 @@ public class CableManager
             throw;
         }
 
-        //sw.Stop();
-        //Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
-
-        
-
         //Local method
         void UpdateLoadCable(IPowerConsumer load, IComponentEdt previousComponent)
         {
@@ -237,10 +217,15 @@ public class CableManager
                 load.PowerCable.Source = load.FedFrom.Tag;
             }
             else if (previousComponent != null) {
+
                 if (previousComponent.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
                     load.PowerCable.Length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
                 }
-                load.PowerCable.Source = previousComponent.Tag;
+                
+                else { //the length of the cable
+                    load.PowerCable.Length = loadCableLength;
+                }
+               load.PowerCable.Source = previousComponent.Tag;
             }
             load.PowerCable.Tag = GetCableTag(load.PowerCable.Source, load.Tag);
             load.PowerCable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);

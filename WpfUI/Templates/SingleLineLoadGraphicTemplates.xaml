@@ -6,6 +6,7 @@
                     
                     
                     xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
+                    xmlns:SingleLineLoadGraphics="clr-namespace:WpfUI.Templates.SingleLineLoadGraphics"
                     xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
                     xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
                     
@@ -803,8 +804,9 @@
                     </StackPanel>
                 </Border>
                 
-                <!--Text-->
-                <Border BorderThickness="0" 
+                <!--Data / Text-->
+                <SingleLineLoadGraphics:SingleLineGraphic_LoadData/>
+                <!--<Border BorderThickness="0" 
                         HorizontalAlignment="Left"
                         Margin="0 3 3 3"
                         CornerRadius="{StaticResource BorderHighlightCornerRadius}"
@@ -821,11 +823,11 @@
                                  />
                         <TextBlock Text="{Binding Description}" HorizontalAlignment="Left"
                                    MaxWidth="140"
-                                   TextWrapping="WrapWithOverflow"/>
+                                   TextWrapping="WrapWithOverflow"
+                                   Visibility="{Binding Description, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
                     </StackPanel>
+                </Border>-->
 
-
-                </Border>
             </StackPanel>
 
         </Grid>
@@ -854,7 +856,9 @@
                 </Border>
 
                 <!--Text-->
-                <Border BorderThickness="0" 
+                <SingleLineLoadGraphics:SingleLineGraphic_LoadData/>
+
+                <!--<Border BorderThickness="0" 
                         HorizontalAlignment="Left"
                         CornerRadius="{StaticResource BorderHighlightCornerRadius}"
                         Padding="0 0 5 0">
@@ -874,7 +878,7 @@
                     </StackPanel>
 
 
-                </Border>
+                </Border>-->
             </StackPanel>
 
         </Grid>

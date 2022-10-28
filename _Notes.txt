@@ -5,6 +5,8 @@ VoltageValidator
 
 Dteq Graphics
 
+Application Settings
+Add Load Voltage notification
 
 Priorities
 	- Distribution Panel - 12 hours

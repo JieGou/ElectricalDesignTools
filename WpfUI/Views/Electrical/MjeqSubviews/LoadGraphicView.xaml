@@ -102,7 +102,7 @@
                                             Grid.Column="0"/>
 
                                     <!--Cable Details-->
-                                    <ContentControl Content="{Binding}"
+                                    <ContentControl Content="{Binding PowerCable}"
                                                 ContentTemplate="{StaticResource CableTemplate}"
                                                 Grid.Column="2"
                                                 PreviewMouseLeftButtonDown="ComponentCable_PreviewMouseLeftButtonDown"
@@ -144,7 +144,7 @@
                     <Border BorderBrush="Black" BorderThickness="0 0 1 0"
                                        Grid.Column="0"/>
                     <!--Cable Tag-->
-                    <ContentControl Content="{Binding}"
+                    <ContentControl Content="{Binding PowerCable}"
                                     ContentTemplate="{StaticResource CableTemplate}"
                                     Grid.Column="2" 
                                     PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown">
