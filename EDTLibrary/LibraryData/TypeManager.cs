@@ -28,7 +28,7 @@ namespace EDTLibrary.LibraryData
                                                          };
             }
         }
-        public static ObservableCollection<VoltageType> VoltageTypes { get; set; }
+        public static ObservableCollection<VoltageType> VoltageTypes { get; set; } = new ObservableCollection<VoltageType>();
 
         //Transformers
         public static ObservableCollection<TransformerSize> TransformerSizes { get; set; }

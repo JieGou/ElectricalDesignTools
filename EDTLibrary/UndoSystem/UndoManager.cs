@@ -51,6 +51,7 @@ public class UndoManager
             IsUndoing == false &&
             DaManager.Importing == false &&
             DaManager.GettingRecords == false &&
+            GlobalConfig.Testing == false &&
             command.NewValue != command.OldValue) {
 
             if (_isLocked && command.Item == LockHolder && command.PropName == LockProperty) {
@@ -74,6 +75,7 @@ public class UndoManager
             IsUndoing == false &&
             DaManager.Importing == false &&
             DaManager.GettingRecords == false &&
+            GlobalConfig.Testing == false &&
             newValue != oldValue) {
             var command = new UndoCommandDetail { Item = item, PropName = propName, OldValue = oldValue, NewValue = newValue };
 

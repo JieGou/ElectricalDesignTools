@@ -1,5 +1,7 @@
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Validators;
@@ -19,20 +21,21 @@ namespace WpfUI.Tests.ViewModels
         public void IsTagAvailable_BothCases(string eqTagToAdd, bool expected)
         {
             //Arrange
-            ObservableCollection<DistributionEquipment> dteqList = new ObservableCollection<DistributionEquipment>()
+            ObservableCollection<IDteq> dteqList = new ObservableCollection<IDteq>()
             {
                 new DteqModel() { Tag = "MCC-01" },
                 new DteqModel() { Tag = "SWG-01" }
             };
             ObservableCollection<ILoad> loadList = new ObservableCollection<ILoad>()
             {
-                new LoadModel("MTR-01"),
-                new LoadModel("HTR-01")
+                new LoadModel(){Tag="MTR-01"},
+                new LoadModel(){Tag="HTR-01"}
             };
             ListManager listManager = new ListManager();
-            listManager.DteqList = dteqList;
+            listManager.IDteqList = dteqList;
             listManager.LoadList = loadList;
             //Act
+            DaManager.GettingRecords = false;
             bool actual = TagAndNameValidator.IsTagAvailable(eqTagToAdd, listManager);
 
             //Assert

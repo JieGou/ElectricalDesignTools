@@ -48,9 +48,9 @@ namespace EDTLibrary
 
         public static string ExportMappingTable { get; set; } = "ExportMapping";
 
-
-        public static string DevDb { get; set; } = @"C:\C - Visual Studio Projects\ElectricalDesignTools\WpfUI\ContentFiles\Edt Sample Project.edp";
-        public static string TestDb { get; set; } = "C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB Files\\TestDb.edp";
+        
+        public static string DevDb { get; set; } = @"C:\C - Visual Studio Projects\WpfUI\ContentFiles\Edt Sample Project.edp";
+        public static string TestDb { get; set; } = @"D:\My Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\TestDb.edp";
         public static string CableTypes { get; internal set; } = "CableTypes";
         public static string ControlCableSizeTable { get; internal set; } = "CableSizes_Control";
         public static string InstrumentCableSizeTable { get; internal set; } = "CableSizes_Instrument";

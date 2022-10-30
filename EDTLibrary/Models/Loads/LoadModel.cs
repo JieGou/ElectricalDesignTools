@@ -37,11 +37,7 @@ namespace EDTLibrary.Models.Loads
 
         }
         public CalculationFlags CalculationFlags { get; set; }
-        public LoadModel(string tag)
-        {
-            Tag = tag;
-        }
-
+       
         public bool IsSelected { get; set; } = false;
 
         //Properties
@@ -63,6 +59,7 @@ namespace EDTLibrary.Models.Loads
                         return;
                     }
                 }
+                
                 
 
                 var oldValue = _tag;

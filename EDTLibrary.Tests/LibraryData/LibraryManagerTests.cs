@@ -16,11 +16,12 @@ namespace EDTLibrary.Tests.LibraryData
     public class LibraryManagerTests
     {
         [Theory]
-        [InlineData(666,50,"HP",0.001)]
+        [InlineData(460,50,"fail",0.001)]
         [InlineData(460,50,"HP",0.941)]
         public void GetMotorEfficiency_CorrectAndDefault(double voltage, double size, string unit, double expected)
         {
             DaManager.GettingRecords = true;
+            TypeManager.VoltageTypes.Add( new VoltageType { Voltage = 460 });
             VoltageType vt = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == voltage);
 
             ILoad load = new LoadModel() { Voltage = vt.Voltage, VoltageType = vt, Size = size, Unit = unit};

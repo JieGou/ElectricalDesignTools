@@ -389,7 +389,6 @@ namespace EDTLibrary.Managers
         }
         private void AssignCableTypesAndSizes()
         {
-            Random random = new Random();
             foreach (var cable in CableList) {
                 cable.TypeModel = TypeManager.GetCableTypeModel(cable.Type);
                 cable.CreateSizeList();

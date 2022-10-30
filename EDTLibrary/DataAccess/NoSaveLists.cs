@@ -122,7 +122,7 @@ namespace EDTLibrary.DataAccess
             "SizeTag",
 
             "IsSelected",
-            "RacewayRoute",
+            "RacewayRouteSegments",
         };
 
         static public List<string> AreaNoSaveList { get; set; } = new List<string>() {

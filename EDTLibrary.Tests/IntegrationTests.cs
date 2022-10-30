@@ -8,6 +8,7 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.TestDataFolder;
+using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -43,6 +44,8 @@ namespace EDTLibrary.Tests
                 DaManager.DeleteAllEquipmentRecords();
 
                 #region INITIALIZATIONS
+
+            
 
                 //ListManager
                 DaManager daManager = new DaManager();
