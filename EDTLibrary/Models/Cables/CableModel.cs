@@ -6,6 +6,7 @@ using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.Models.Raceways;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
@@ -143,10 +144,6 @@ public class CableModel : ICable
                     SetTypeProperties();
                     AutoSizeAsync();
                 }
-                if (CableManager.IsUpdatingPowerCables == false) {
-
-                    //CableManager.AddAndUpdateLoadPowerComponentCablesAsync(Load as IPowerConsumer, ScenarioManager.ListManager);
-                }
             }
             CreateSizeList();
             OnPropertyUpdated();
@@ -154,6 +151,7 @@ public class CableModel : ICable
     }
 
     public List<CableTypeModel> TypeList { get; set; } = new List<CableTypeModel>();
+    public ObservableCollection<RacewayRouteSegment> RacewayRouteSegments { get; set; } = new ObservableCollection<RacewayRouteSegment> ();
     public List<string> SizeList { get; set; } = new List<string>();
 
     public string UsageType { get; set; }
@@ -425,8 +423,28 @@ public class CableModel : ICable
             if (cable.Type == this.Type && cable.UsedInProject == true) {
                 SizeList.Add(cable.Size);
             }
+
+            
+        }
+        var cableSizesToRemove = new List<CableModel>();
+
+        if (InstallationType != "LadderTray") {
+            foreach (var cable in SizeList) {
+                if (CableManager.CableSizer.IsUsingStandardSizingTable(this)) {
+
+                }
+            }
+        }
+
+        foreach (var cable in SizeList) {
+            if (CableManager.CableSizer.IsUsingStandardSizingTable(this)) {
+
+            }
         }
     }
+
+
+
     /// <summary>
     /// Sets VoltageClass, ConductorQty, AmpacityTable
     /// </summary>
@@ -517,13 +535,20 @@ public class CableModel : ICable
     bool _isAutoSizing;
     public void AutoSize()
     {
+
+        //autosize assumes all cables fed from the same Distribution Equipment are in the same raceway
+        //so there is a big jump in ampacity between #1 and 1/0 when the installatio type is NOT LadderTray.
+
+        //need to check raceway routing path for total conductors that are in the same raceway
         try {
             _isAutoSizing = true;
             UndoManager.CanAdd = false;
             SetTypeProperties();
+            RequiredAmps = RequiredAmps;
+            Derating = CableManager.CableSizer.SetDerating(this);
             RequiredSizingAmps = GetRequiredSizingAmps();
-            Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
             AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
+            Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
             InstallationDiagram = "";
 
 
@@ -536,11 +561,11 @@ public class CableModel : ICable
 
                 CableQtySize_DirectBuriedOrRaceWayConduit(this, ampsColumn);
             }
+
             CalculateAmpacity(Load);
             OnPropertyUpdated();
             _isAutoSizing = false;
             UndoManager.CanAdd = true;
-            //_calculating = false;
         }
         catch (Exception) {
 
@@ -572,12 +597,13 @@ public class CableModel : ICable
 
         // 1 - filter cables larger than RequiredAmps first iteration
         SelectValidCables_SizeAmps(ampsColumn, cableAmpacityTable, cablesWithHigherAmpsInProject);
-        // 3 - increase quantity until a valid cable is found
+
+        // increase quantity until a valid cable is found
         int cableQty = 1;
         GetCableQty(cableQty);
 
 
-        // Helper - 3 Recursive method
+        //  Recursive method
         void GetCableQty(int cableQty)
         {
             if (cableQty < maxCableQtyTray) {
@@ -612,6 +638,7 @@ public class CableModel : ICable
         }
     }
     int maxCableQtyTray = 25;
+
     private void SelectValidCables_SizeAmps(string ampsColumn, DataTable cableAmpacityTable, DataTable cablesWithHigherAmpsInProject)
     {
         var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
@@ -695,9 +722,23 @@ public class CableModel : ICable
         var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
                                                                                 && x.Field<double>(ampsColumn) >= RequiredSizingAmps
                                                                                 && x.Field<string>("AmpacityTable") == AmpacityTable
+                                                                                );
+
+        if (AmpacityTable == "Table 1" || AmpacityTable == "Table 2") {
+            cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
+                                                                                && x.Field<double>(ampsColumn) >= RequiredSizingAmps
+                                                                                && x.Field<string>("AmpacityTable") == AmpacityTable
+                                                                                );
+        }
+        else {
+            cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
+                                                                                && x.Field<double>(ampsColumn) >= RequiredSizingAmps
+                                                                                && x.Field<string>("AmpacityTable") == AmpacityTable
                                                                                 && x.Field<long>("QtyParallel").ToString() == qtyParallel.ToString()
 
                                                                                 );
+        }
+        
 
         // remove cable if size is not in project
         foreach (var cableSizeInProject in EdtSettings.CableSizesUsedInProject) {

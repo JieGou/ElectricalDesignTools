@@ -337,6 +337,7 @@
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
+            
             <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
                 <Setter Property="Template">
                     <Setter.Value>

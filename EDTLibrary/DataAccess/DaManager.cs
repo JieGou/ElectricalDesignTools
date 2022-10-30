@@ -7,6 +7,7 @@ using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.Models.Raceways;
 using System;
 using System.Data;
 using System.Diagnostics;
@@ -228,6 +229,13 @@ public class DaManager {
             prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
         }
     }
+    public static void OnRacewayPropertyUpdated(object source, EventArgs e)
+    {
+        if (DaManager.GettingRecords == false) {
+            prjDb.UpsertRecord<RacewayModel>((RacewayModel)source, GlobalConfig.RacewayTable, NoSaveLists.PowerCableNoSaveList);
+        }
+    }
+
 
     //Save Get Id
     public static int SaveDteqGetId(IDteq iDteq)

@@ -10,11 +10,11 @@
 <!--MAIN COLORS-->
     <SolidColorBrush x:Key="Darkest" Color="#FF392071"/>
     <SolidColorBrush x:Key="Dark" Color="#FF7055AF"/>
-    <SolidColorBrush x:Key="Medium" Color="#FFCECEFF"/>
+    <SolidColorBrush x:Key="Medium" Color="#FF846FB5"/>
     <SolidColorBrush x:Key="Light" Color="#FFCECEFF"/>
-    
-    <SolidColorBrush x:Key="Background" Color="Lavender"/>
-    <SolidColorBrush x:Key="BackgroundLight" Color="LightCyan"/>
+
+    <SolidColorBrush x:Key="Background" Color="#FFE2DAE8"/>
+    <SolidColorBrush x:Key="BackgroundLight" Color="Lavender"/>
     <!--<SolidColorBrush x:Key="PageBackground" Color="#FFC5BCCA"/>-->
     <SolidColorBrush x:Key="PageBackground" Color="LightGray"/>
     

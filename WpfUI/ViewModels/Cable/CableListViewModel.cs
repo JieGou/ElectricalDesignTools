@@ -1,5 +1,8 @@
-﻿using EDTLibrary.Managers;
+﻿using EdtLibrary.Commands;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
+using EDTLibrary.Models.Raceways;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -9,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
 using WpfUI.Stores;
 
 namespace WpfUI.ViewModels.Cables;
@@ -16,204 +20,49 @@ namespace WpfUI.ViewModels.Cables;
 [AddINotifyPropertyChangedInterface]
 public class CableListViewModel : ViewModelBase
 {
-    private ListManager _listManager;
+    public CableListViewModel(ListManager listManager)
+    {
+        _listManager = listManager;
+        AddRacewayRouteSegmentCommand = new RelayCommand(AddRacewayRouteSegment);
+    }
+    
 
     public ListManager ListManager
     {
         get { return _listManager; }
         set { _listManager = value; }
     }
+    private ListManager _listManager;
 
-    public CableListViewModel(ListManager listManager)
+    private ICable _selectedCable;
+
+    public ICable SelectedCable
     {
-        _listManager = listManager;
-        //_view = CollectionViewSource.GetDefaultView(listManager.CableList);
-        //View = CollectionViewSource.GetDefaultView(listManager.CableList);
+        get { return _selectedCable; }
+        set { _selectedCable = value; }
     }
 
-    private PropertyGroupDescription _usageGroup = new PropertyGroupDescription();
-    private PropertyGroupDescription _typeGroup = new PropertyGroupDescription();
-    private PropertyGroupDescription _sizeGroup = new PropertyGroupDescription();
+    private RacewayRouteSegment _selectedCableRaceway;
 
-    private ICollectionView _view;
-    public ICollectionView View
+    public RacewayRouteSegment SelectedCableRaceway
     {
-        get
-        {
-            if (_view == null) {
-                //View = CollectionViewSource.GetDefaultView(_listManager.CableList);
-                _view = CollectionViewSource.GetDefaultView(_listManager.CableList);
-            }
-            return _view; }
-        set { _view = View; }
+        get { return _selectedCableRaceway; }
+        set { _selectedCableRaceway = value; }
     }
 
-    private bool _usageGroupView;
-    public bool UsageGroupView
+    private RacewayModel _selectedProjectRaceway;
+
+    public RacewayModel SelectedProjectRaceway
     {
-        get { return _usageGroupView; }
-        set
-        {
-            _usageGroupView = value;
-            SetSizeGroupNames();
-            View.GroupDescriptions.Clear();
-            if (value == false) {
-                _typeGroupView = value;
-                _sizeGroupView = value;
-            }
-            if (value) {
-                View.GroupDescriptions.Add(_usageGroup);
-            }
-         
-            OnPropertyChanged("");
-
-        }
-    }
-    private bool _typeGroupView;
-    public bool TypeGroupView
-    {
-        get { return _typeGroupView; }
-        set
-        {
-            _typeGroupView = value;
-
-            SetSizeGroupNames();
-            View.GroupDescriptions.Remove(_typeGroup);
-            View.GroupDescriptions.Remove(_sizeGroup);
-
-            if (_usageGroupView == false) {
-                _usageGroupView = true;
-                View.GroupDescriptions.Add(_usageGroup);
-            }
-            if (value == false) {
-                _sizeGroupView = value;
-            }
-            if (value) {
-                _usageGroupExpanded = true;
-                View.GroupDescriptions.Add(_typeGroup);
-            }
-       
-            OnPropertyChanged("");
-        }
+        get { return _selectedProjectRaceway; }
+        set { _selectedProjectRaceway = value; }
     }
 
-    private bool _sizeGroupView;
-    public bool SizeGroupView
+    public ICommand AddRacewayRouteSegmentCommand { get; }
+    public void AddRacewayRouteSegment()
     {
-        get { return _sizeGroupView; }
-        set
-        {
-            _sizeGroupView = value;
-            SetSizeGroupNames();
-            View.GroupDescriptions.Remove(_sizeGroup);
-            if (_usageGroupView == false) {
-                _usageGroupView = true;
-                View.GroupDescriptions.Add(_usageGroup);
-            }
-            if (_typeGroupView ==false) {
-                _typeGroupView = value;
-                View.GroupDescriptions.Add(_typeGroup);
-            }
-            if (value) {
-                _usageGroupExpanded = true;
-                _typeGroupExpanded = true;
-                View.GroupDescriptions.Add(_sizeGroup);
-            }
-     
-            OnPropertyChanged("");
-        }
-    }
-
-    private bool _usageGroupExpanded = true;
-    public bool UsageGroupExpanded
-    {
-        get { return _usageGroupExpanded; }
-        set
-        {
-            _usageGroupExpanded = value;
-            var temp = UsageGroupView;
-            UsageGroupView = false;
-            UsageGroupView = temp;
-            OnPropertyChanged("");
-        }
-    }
-
-    private bool _typeGroupExpanded = true;
-    public bool TypeGroupExpanded
-    {
-        get { return _typeGroupExpanded; }
-        set
-        {
-            _typeGroupExpanded = value;
-            var temp = TypeGroupView;
-            TypeGroupView = false;
-            TypeGroupView = temp;
-            OnPropertyChanged("");
-        }
-    }
-
-    private bool _sizeGroupExpanded;
-    public bool SizeGroupExpanded
-    {
-        get { return _sizeGroupExpanded; }
-        set 
-        {
-            _sizeGroupExpanded = value;
-            var temp = SizeGroupView;
-            SizeGroupView = false;
-            SizeGroupView = temp;
-            OnPropertyChanged("");
-        }
-    }
-
-    private string _tagFilter="";
-
-    public string TagFilter
-    {
-        get { return _tagFilter; }
-        set 
-        { 
-            _tagFilter = value;
-            View.Filter = new Predicate<object>(Contains);
-            OnPropertyChanged();
-        }
-    }
-    private string _typeFilter="";
-
-    public string TypeFilter
-    {
-        get { return _typeFilter; }
-        set
-        {
-            _typeFilter = value;
-            View.Filter = new Predicate<object>(Contains);
-            OnPropertyChanged();
-        }
-    }
-    private bool Contains(object item)
-    {
-        CableModel cable = (CableModel)item;
-
-        if (TagFilter != "" || TypeFilter != "") {
-            return (cable.Tag.ToLower()).Contains(TagFilter.ToLower())
-                && cable.TypeModel.Type.ToLower().Contains(TypeFilter.ToLower());
-
-            //return cable.TypeModel.Type.ToLower().Contains(TypeFilter.ToLower());
-        }
-        return true;
-    }
-    private void SetSizeGroupNames()
-    {
-        //TODO - This is a method so that names can be changed and tested with HotReload.
-        //          Move values to field instantiation once finalized.
-        _usageGroup.PropertyName = ("UsageType");
-        _typeGroup.PropertyName = ("Type");
-        _sizeGroup.PropertyName = ("Size");
-    }
-
-    public void PropChanged()
-    {
-        OnPropertyChanged();
+        var racewayToadd = ListManager.RacewayList[1];
+        RacewayManager.AddRacewayRouteSegment(racewayToadd, _selectedCable, ListManager);
     }
 }
 

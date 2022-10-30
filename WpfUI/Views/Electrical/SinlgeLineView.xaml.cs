@@ -338,9 +338,10 @@ public partial class SinlgeLineView : UserControl
             FrameworkElement element = container as FrameworkElement;
 
             if (element != null) {
+                
                 var transform = element.TransformToVisual(scrollViewer);
                 var positionInScrollViewer = transform.Transform(new Point(0, 0));
-                Rect itemRect = new Rect(positionInScrollViewer.X, 145, 50, 150);
+                Rect itemRect = new Rect(positionInScrollViewer.X, 145, 100, 90);
                 if (dragRect.Contains(itemRect)) {
                     listViewLoads.SelectedItems.Add(item);
                 }

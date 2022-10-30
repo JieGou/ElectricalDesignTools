@@ -89,5 +89,9 @@ namespace EDTLibrary
         public static string DriveTable { get; set; } = "Drives";
         public static string DisconnectTable { get; set; } = "Disconnects";
         public static string CableResistancesTable { get; internal set; }
+
+        public static string RacewayTable { get; set; } = "Raceways";
+        public static string RacewayRouteSegmentsTable { get; set; } = "RacewayRouteSegments";
+
     }
 }

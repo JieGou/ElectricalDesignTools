@@ -74,7 +74,6 @@
                     Grid.Row="2" Grid.Column="2"
                     Margin="0 15">
             <Button Content="Add Lcs" Height="23" Width="100"
-                    Style="{StaticResource GreenButton}"
                     Command="{Binding AddLcsCommand}"
                     CommandParameter="{Binding LcsToAddValidator}"
                     Visibility="Visible"

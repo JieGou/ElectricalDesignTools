@@ -103,6 +103,11 @@ namespace EDTLibrary.LibraryData
         public static ObservableCollection<CecCableSizingRule> CecCableSizingRules { get; set; }
         public static ObservableCollection<ConductorPropertyType> ConductorProperties { get; set; }
 
+        public static ObservableCollection<CecCableAmpacityModel> CecCableAmpacities { get; set; }
+
+        public static ObservableCollection<CableSizeIdModel> CableSizeIds { get; set; }
+
+
         //Enclosures
         public static ObservableCollection<NemaType> NemaTypes { get; set; }
         public static ObservableCollection<AreaClassificationType> AreaClassifications { get; set; }
@@ -145,7 +150,7 @@ namespace EDTLibrary.LibraryData
             ControlCableSizes = DaManager.libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
             InstrumentCableSizes = DaManager.libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
             ConductorProperties = DaManager.libDb.GetRecords<ConductorPropertyType>("ConductorProperties");
-
+            CableSizeIds = DaManager.libDb.GetRecords<CableSizeIdModel>("CableSizes_Power");
 
             TransformerSizes = DaManager.libDb.GetRecords<TransformerSize>("TransformerSizes");
             TransformerTypes = DaManager.libDb.GetRecords<TransformerType>("TransformerTypes");
@@ -158,7 +163,7 @@ namespace EDTLibrary.LibraryData
             StarterSizes = DaManager.libDb.GetRecords<StarterSize>("Starters");
             VfdHeatSizes = DaManager.libDb.GetRecords<VfdHeatSize>("VFDHeatLoss");
 
-            DataTableSearcher.CecCableAmpacities = DaManager.libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
+            CecCableAmpacities = DaManager.libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
         }
 
 

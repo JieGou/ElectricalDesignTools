@@ -8,6 +8,7 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.Models.Raceways;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,9 @@ namespace EDTLibrary.Managers
         public ObservableCollection<ILocalControlStation> LcsList { get; set; } = new ObservableCollection<ILocalControlStation>();
 
         public ObservableCollection<CableModel> CableList { get; set; } = new ObservableCollection<CableModel>();
+        public ObservableCollection<RacewayModel> RacewayList { get; set; } = new ObservableCollection<RacewayModel>();
+        public ObservableCollection<RacewayRouteSegment> RacewayRoutingList { get; set; } = new ObservableCollection<RacewayRouteSegment>();
+
 
 
         public void GetProjectTablesAndAssigments()
@@ -76,6 +80,9 @@ namespace EDTLibrary.Managers
                 CreateEquipmentList();
                 AssignListManagerToEquipment(EqList);
                 InitializeDpns();
+                GetRaceways();
+                GetRacewayRouting();
+
             }
             catch (Exception ex) {
 
@@ -390,6 +397,39 @@ namespace EDTLibrary.Managers
         }
 
 
+        private void GetRaceways()
+        {
+            RacewayList.Clear();
+            var list = DaManager.prjDb.GetRecords<RacewayModel>(GlobalConfig.RacewayTable);
+            foreach (var item in list) {
+                RacewayList.Add(item);
+                item.PropertyUpdated += DaManager.OnRacewayPropertyUpdated;
+
+            }
+
+            //test data
+            RacewayList.Add(new RacewayModel { Id = 1, Category = Categories.RACEWAY.ToString(), Tag = "900-PC-L1-01", Height = 150, Width = 900, Type="LadderTray"});
+            RacewayList.Add(new RacewayModel { Id = 1, Category = Categories.RACEWAY.ToString(), Tag = "300-PCL-L1-01", Height = 150, Width = 300, Type="LadderTray"});
+            RacewayList.Add(new RacewayModel { Id = 1, Category = Categories.RACEWAY.ToString(), Tag = "300-J-L1-01", Height = 150, Width = 300, Type="LadderTray"});
+            RacewayList.Add(new RacewayModel { Id = 1, Category = Categories.RACEWAY.ToString(), Tag = "300-PCL-L1-02", Height = 150, Width = 300, Type="LadderTray"});
+        }
+
+        private void GetRacewayRouting()
+        {
+            foreach (var cable in CableList) {
+                RacewayRoutingList.Clear();
+                var list = DaManager.prjDb.GetRecords<RacewayRouteSegment>(GlobalConfig.RacewayRouteSegmentsTable);
+                foreach (var segment in list) {
+                    RacewayRoutingList.Add(segment);
+                    segment.RacewayModel = RacewayList.FirstOrDefault(r => r.Id == segment.RacewayId);
+                    if (cable.Id == segment.CableId) {
+                            cable.RacewayRouteSegments.Add(segment);
+                    }
+                }
+                cable.RacewayRouteSegments.OrderBy(c => c.SequenceNumber);
+            }
+        }
+
         #region MajorEquipment
         //Move to Distribution Manager
         public async Task CalculateDteqLoadingAsync()
@@ -491,6 +531,8 @@ namespace EDTLibrary.Managers
         }
 
         #endregion
+
+
 
         #region Lists
         public void AssignAreas()

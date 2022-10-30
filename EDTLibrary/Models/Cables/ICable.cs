@@ -1,7 +1,9 @@
 ﻿using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Models.Raceways;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -46,8 +48,10 @@ public interface ICable
     double Spacing { get; set; }
     string Tag { get; set; }
     string Type { get; set; }
+    ObservableCollection<RacewayRouteSegment> RacewayRouteSegments { get; set; }
     List<CableTypeModel> TypeList { get; set; }
     CableTypeModel TypeModel { get; set; }
+
     string UsageType { get; set; }
     double VoltageRating { get; set; }
     double VoltageDrop { get; set; }

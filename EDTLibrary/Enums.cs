@@ -18,6 +18,7 @@ namespace EDTLibrary {
         DCN,
         LCLDCN,
         LCS,
+        RACEWAY,
     }
 
     public enum SubCategories

@@ -14,7 +14,6 @@ namespace EDTLibrary.LibraryData
 {
     public static class DataTableSearcher {
 
-        public static ObservableCollection<CecCableAmpacityModel> CecCableAmpacities { get; set; }
 
 
         public static double GetMotorEfficiency(ILoad load) {

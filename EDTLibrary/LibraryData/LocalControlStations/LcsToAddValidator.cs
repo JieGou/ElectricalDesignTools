@@ -52,7 +52,7 @@ namespace EDTLibrary.Models.Loads
                 if (string.IsNullOrWhiteSpace(_type) || _type == "") {
                     AddError(nameof(Type), "Invalid Type. Type cannot be empty.");
                 }
-                else if (TypeManager.LcsTypes.FirstOrDefault(lt => lt.Type == _type)==null) {
+                else if (TypeManager.LcsTypes.FirstOrDefault(lt => lt.Type == _type)!=null) {
                     AddError(nameof(Type), "Type identifier already exists");
                 }
               

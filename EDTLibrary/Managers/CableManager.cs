@@ -215,6 +215,7 @@ public class CableManager
         {
             if (previousComponent == null) {
                 load.PowerCable.Source = load.FedFrom.Tag;
+                load.PowerCable.Length = loadCableLength;
             }
             else if (previousComponent != null) {
 
