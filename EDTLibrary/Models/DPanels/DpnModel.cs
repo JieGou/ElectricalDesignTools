@@ -470,10 +470,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
         //AddLoad
         public override bool CanAdd(IPowerConsumer load)
         {
-            if (DpnCircuitManager.CanAdd(this, load)) {
-                return true;
-            }
-            return false;
+            return DpnCircuitManager.CanAdd(this, load);
         }
         private static int _leftCctsAvailable = 0;
         private static int _rightCctsAvailable = 0;

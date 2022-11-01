@@ -19,8 +19,7 @@ namespace WpfUI.Converters
             Normal, Inverted
         }
 
-        public object Convert(object value, Type targetType,
-                              object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var boolValue = (bool)value;
             var direction = (Parameters)Enum.Parse(typeof(Parameters), (string)parameter);

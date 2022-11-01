@@ -407,10 +407,10 @@ namespace EDTLibrary.Managers
             }
 
             //test data
-            RacewayList.Add(new RacewayModel { Id = 1, Category = Categories.RACEWAY.ToString(), Tag = "900-PC-L1-01", Height = 150, Width = 900, Type="LadderTray"});
-            RacewayList.Add(new RacewayModel { Id = 1, Category = Categories.RACEWAY.ToString(), Tag = "300-PCL-L1-01", Height = 150, Width = 300, Type="LadderTray"});
-            RacewayList.Add(new RacewayModel { Id = 1, Category = Categories.RACEWAY.ToString(), Tag = "300-J-L1-01", Height = 150, Width = 300, Type="LadderTray"});
-            RacewayList.Add(new RacewayModel { Id = 1, Category = Categories.RACEWAY.ToString(), Tag = "300-PCL-L1-02", Height = 150, Width = 300, Type="LadderTray"});
+            RacewayList.Add(new RacewayModel { Id = 11, Category = Categories.RACEWAY.ToString(), Tag = "900-PC-L1-01", Height = 150, Width = 900, Type="LadderTray"});
+            RacewayList.Add(new RacewayModel { Id = 22, Category = Categories.RACEWAY.ToString(), Tag = "300-PCL-L1-01", Height = 150, Width = 300, Type="LadderTray"});
+            RacewayList.Add(new RacewayModel { Id = 33, Category = Categories.RACEWAY.ToString(), Tag = "300-J-L1-01", Height = 150, Width = 300, Type="LadderTray"});
+            RacewayList.Add(new RacewayModel { Id = 44, Category = Categories.RACEWAY.ToString(), Tag = "300-PCL-L1-02", Height = 150, Width = 300, Type="LadderTray"});
         }
 
         private void GetRacewayRouting()

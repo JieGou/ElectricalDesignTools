@@ -53,9 +53,9 @@ public class TraySizerViewModel : ViewModelBase
 
         for (int i = 0; i < 10; i++) {
             CableTray.Add(new CableGraphicViewModel("CABLE-" + i, 
-                _cableDiameter * _scaleFactor, 
-                _start + _trayThickness + (_cableDiameter + _cableSpacing * _cableDiameter) * i * _scaleFactor, 
-                _start + _trayHeight - _cableDiameter * _scaleFactor - _trayThickness));
+                _cableDiameter * _scaleFactor, // diameter
+                _start + _trayThickness + (_cableDiameter + _cableSpacing * _cableDiameter) * i * _scaleFactor, // xpos
+                _start + _trayHeight - _cableDiameter * _scaleFactor - _trayThickness)); // ypos
         }
 
     }

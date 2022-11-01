@@ -2,6 +2,7 @@
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
+using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
 using PropertyChanged;
 using System;
@@ -23,7 +24,9 @@ public class CableListViewModel : ViewModelBase
     public CableListViewModel(ListManager listManager)
     {
         _listManager = listManager;
+        RacewayToAddValidator = new RacewayToAddValidator(listManager);
         AddRacewayRouteSegmentCommand = new RelayCommand(AddRacewayRouteSegment);
+        RemoveRacewayRouteSegmentCommand = new RelayCommand(RemoveRacewayRouteSegment);
     }
     
 
@@ -34,35 +37,45 @@ public class CableListViewModel : ViewModelBase
     }
     private ListManager _listManager;
 
-    private ICable _selectedCable;
+    public RacewayToAddValidator RacewayToAddValidator { get; set; }
 
+    private ICable _selectedCable;
     public ICable SelectedCable
     {
         get { return _selectedCable; }
         set { _selectedCable = value; }
     }
 
-    private RacewayRouteSegment _selectedCableRaceway;
-
-    public RacewayRouteSegment SelectedCableRaceway
+    private RacewayRouteSegment _selectedRacewaySegment;
+    public RacewayRouteSegment SelectedRacewaySegment
     {
-        get { return _selectedCableRaceway; }
-        set { _selectedCableRaceway = value; }
+        get { return _selectedRacewaySegment; }
+        set { _selectedRacewaySegment = value; }
     }
 
     private RacewayModel _selectedProjectRaceway;
-
     public RacewayModel SelectedProjectRaceway
     {
         get { return _selectedProjectRaceway; }
         set { _selectedProjectRaceway = value; }
     }
 
+
+
+
+
     public ICommand AddRacewayRouteSegmentCommand { get; }
     public void AddRacewayRouteSegment()
     {
-        var racewayToadd = ListManager.RacewayList[1];
-        RacewayManager.AddRacewayRouteSegment(racewayToadd, _selectedCable, ListManager);
+        if (_selectedProjectRaceway == null || _selectedCable == null) return;
+        RacewayManager.AddRacewayRouteSegment(_selectedProjectRaceway, _selectedCable, ListManager);
+    }
+
+    public ICommand RemoveRacewayRouteSegmentCommand { get; }
+    public void RemoveRacewayRouteSegment()
+    {
+        if (_selectedRacewaySegment == null || _selectedCable == null) return;
+        RacewayManager.RemoveRacewayRouteSegment(_selectedRacewaySegment, _selectedCable, ListManager);
     }
 }
 

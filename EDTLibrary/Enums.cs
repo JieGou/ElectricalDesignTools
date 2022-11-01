@@ -84,12 +84,26 @@ namespace EDTLibrary {
         FWDS,
 
     }
-    public enum CableUsageTypes {
+    public enum CableUsageTypes
+    {
         Power,
         Control,
         Instrument,
         Communication,
-        
+    }
+
+    public enum RacewayTypes
+    {
+        LadderTray,
+        Conduit,
+        DuctBank,
+    }
+    public enum RacewayMaterials
+    {
+        Aluminum,
+        HDG,
+        PVC,
+        RMC,
     }
 
     public enum Units {

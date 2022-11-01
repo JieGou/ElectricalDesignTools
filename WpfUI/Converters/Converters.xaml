@@ -16,6 +16,8 @@
 
 
     <converters:TypeOfConverter x:Key="TypeOfConverter"/>
+    <converters:InvertableRacewayTypeToAddToVisibilityConverter x:Key="InvertableRacewayTypeToAddToVisibilityConverter"/>
+
     <converters:VoltageToColorConverter x:Key="VoltageToColorConverter"/>
 
     <!--MjeqView-->

@@ -31,18 +31,15 @@ public class RacewayModel
     }
     private string _type;
 
-    public string Size
+
+    private string _material;
+    public string Material
     {
-        get { return _size; }
-        set
-        {
-            _size = value;
-        }
+        get { return _material; }
+        set { _material = value; }
     }
-    private string _size;
 
     private double _width;
-
     public double Width
     {
         get { return _width; }
@@ -56,14 +53,16 @@ public class RacewayModel
         get { return _height; }
         set { _height = value; }
     }
-
-    private string _material;
-
-    public string Material
+    public string Diameter
     {
-        get { return _material; }
-        set { _material = value; }
+        get { return _diameter; }
+        set
+        {
+            _diameter = value;
+        }
     }
+    private string _diameter;
+   
 
     //Events
     public event EventHandler PropertyUpdated;

@@ -1,22 +1,21 @@
 ﻿<UserControl x:Class="WpfUI.Views.Cable.CableListView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfUI.Views"
-        xmlns:rules="clr-namespace:WpfUI.ValidationRules"
-        xmlns:commands="clr-namespace:WpfUI.Commands"
+             x:Name="cableListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:WpfUI.Views.Cable"
+             xmlns:rules="clr-namespace:WpfUI.ValidationRules"
+             xmlns:commands="clr-namespace:WpfUI.Commands"
+              
+             xmlns:converters="clr-namespace:WpfUI.Converters"
+             xmlns:controls="clr-namespace:WpfUI.Controls"
+              
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              
-        xmlns:converters="clr-namespace:WpfUI.Converters"
-        xmlns:controls="clr-namespace:WpfUI.Controls"
-             
-        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
-        
-        x:Name="cableView"
-             
-        mc:Ignorable="d"
-        d:Width="1800" d:Height="800"
-        Background="Transparent" >
+             mc:Ignorable="d"
+             d:Width="1800" d:Height="800"
+             Background="Transparent" >
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -270,6 +269,7 @@
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
@@ -286,7 +286,7 @@
                             <syncfusion:SfDataGrid Grid.Row="1" Grid.Column="0" 
                                                    Height="250"
                                                    ItemsSource="{Binding SelectedCable.RacewayRouteSegments}"
-                                                   SelectedItem="{Binding SelectedCableRaceway}"
+                                                   SelectedItem="{Binding SelectedRacewaySegment}"
                                                    AutoGenerateColumns="False"
                                                    
                                                    HorizontalAlignment="Left"
@@ -374,7 +374,7 @@
                                 <Button Content="Add" Style="{StaticResource GreenButton}" Width="75"
                                         Command="{Binding AddRacewayRouteSegmentCommand}"/>
                                 <Button Content="Remove" Style="{StaticResource RedButton}" Width="75"
-                                        Command="{Binding DeleteRacewaySegmenRouteCommand}"/>
+                                        Command="{Binding RemoveRacewayRouteSegmentCommand}"/>
 
                             </StackPanel>
 
@@ -475,12 +475,17 @@
                                         Grid.Row="2" Grid.Column="4"
                                         HorizontalAlignment="Center">
 
-                                <Button Content="Create New" Style="{StaticResource GreenButton}" Width="75"
-                                        Command="{Binding AddRacewayRouteSegmentCommand}"/>
+                                <Button Content="Add New" Style="{StaticResource GreenButton}" Width="75"
+                                        Command="{Binding AddRacewayCommand}"/>
                                 <Button Content="Delete" Style="{StaticResource RedButton}" Width="75"
-                                        Command="{Binding DeleteRacewaySegmenRouteCommand}"/>
+                                        Command="{Binding DeleteRacewayCommand}"/>
 
                             </StackPanel>
+
+                            <local:AddRacewayView DataContext="{Binding RacewayToAddValidator}"
+                                                  Grid.Row="5" 
+                                                  Grid.Column="0" Grid.ColumnSpan="10"
+                                                  Margin="10"/>
 
                         </Grid>
                     </controls:EdtGroupBox>

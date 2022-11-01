@@ -60,6 +60,11 @@ namespace EDTLibrary.Models.DistributionEquipment
             else {
                 newDteq.Id = _listManager.IDteqList.Max(l => l.Id) + 1;
             }
+            newDteq.Tag = dteqToAddValidator.Tag;
+            newDteq.Category = Categories.DTEQ.ToString();
+            newDteq.Type = dteqToAddValidator.Type; 
+            newDteq.Description = dteqToAddValidator.Description;
+
             newDteq.LineVoltage = Double.Parse(dteqToAddValidator.LineVoltage);
             newDteq.LineVoltageType = dteqToAddValidator.LineVoltageType;
             newDteq.LineVoltageTypeId = newDteq.LineVoltageType.Id;
@@ -69,13 +74,10 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             newDteq.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == dteqToAddValidator.FedFromTag);
 
-            newDteq.Tag = dteqToAddValidator.Tag;
-            newDteq.Category = Categories.DTEQ.ToString();
-            newDteq.Type = dteqToAddValidator.Type;
+           
             newDteq.Area = _listManager.AreaList.FirstOrDefault(a => a.Tag == dteqToAddValidator.AreaTag);
             newDteq.Size = Double.Parse(dteqToAddValidator.Size);
             newDteq.Unit = dteqToAddValidator.Unit;
-            newDteq.Description = dteqToAddValidator.Description;
 
             newDteq.Create();
 

@@ -19,7 +19,7 @@ public class RacewayManager
         segmentToAdd.CableId = cable.Id;
         segmentToAdd.SequenceNumber = cable.RacewayRouteSegments.Count;
 
-        var segmentAlreadyAdded = cable.RacewayRouteSegments.FirstOrDefault(rrs => rrs.RacewayId == raceway.Id);
+        var segmentAlreadyAdded = cable.RacewayRouteSegments.FirstOrDefault(rrs => rrs.RacewayModel.Id == raceway.Id);
         if (segmentAlreadyAdded == null) {
             cable.RacewayRouteSegments.Add(segmentToAdd);
             listManager.RacewayRoutingList.Add(segmentToAdd);
@@ -29,5 +29,12 @@ public class RacewayManager
             EdtNotificationService.SendAlert(cable, "Cable already passes through the selected raceway.", "Raceway Route Error");
         }
         
+    }
+
+    public static void RemoveRacewayRouteSegment(RacewayRouteSegment segment, ICable cable, ListManager listManager)
+    {
+        cable.RacewayRouteSegments.Remove(segment);
+        listManager.RacewayRoutingList.Remove(segment);
+        DaManager.prjDb.DeleteRecord("RacewayRouteSegments", segment.Id);
     }
 }

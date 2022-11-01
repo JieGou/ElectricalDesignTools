@@ -82,9 +82,9 @@ namespace EDTLibrary.TestDataFolder
                 VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==460), Size = 50,Unit=Units.HP.ToString()},
 
             new LoadModel() {Tag = "HTR-01", Type = LoadTypes.HEATER.ToString(), FedFromTag = "MCC-01", Voltage=480,
-                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==460), Size = 50,Unit=Units.kW.ToString()},
+                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480), Size = 50,Unit=Units.kW.ToString()},
             new LoadModel() {Tag = "PNL-01", Type = LoadTypes.PANEL.ToString(), FedFromTag = "MCC-01", Voltage=480,  
-                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==460), Size = 250,Unit=Units.A.ToString()},
+                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480), Size = 250,Unit=Units.A.ToString()},
             
 
             new LoadModel() {Tag = "MTR-02", Type = LoadTypes.MOTOR.ToString(), FedFromTag = "MCC-02", Voltage=575,

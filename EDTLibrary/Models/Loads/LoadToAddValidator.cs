@@ -167,7 +167,7 @@ namespace EDTLibrary.Models.Loads
                 else {
                     AddError(nameof(FedFromTag), "Invalid Supplier / Fed From");
                 }
-                CanAdd();
+                //CanAdd();
             }
         }
         private string _fedFromTag;

@@ -202,39 +202,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
 
-        public int VoltageTypeId { get; set; } //unused for PowerConsumer interface
-        public VoltageType VoltageType
-        {
-            get => _lineVoltageType;
-            set
-            {
-                var oldValue = _voltageType;
-                _voltageType = value;
-
-                UndoManager.Lock(this, nameof(VoltageType));
-                
-                LineVoltageType = value;
-
-                if (Type != DteqTypes.XFR.ToString()) {
-                    LoadVoltageType = value;
-                }
-                UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
-            }
-        }
-        //unused, for PowerConsumer interface
-        private VoltageType _voltageType;
-
-        public double Voltage
-        {
-            get { return LineVoltage; }
-            set
-            {
-                LineVoltage = value;
-                if (DaManager.GettingRecords == false) {
-                    PowerCable.CreateTypeList(this);
-                }
-            }
-        }
+       
 
         public double _size;
         public virtual double Size
@@ -349,6 +317,39 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
 
+        public int VoltageTypeId { get; set; } //unused for PowerConsumer interface
+        public VoltageType VoltageType
+        {
+            get => _lineVoltageType;
+            set
+            {
+                var oldValue = _voltageType;
+                _voltageType = value;
+
+                UndoManager.Lock(this, nameof(VoltageType));
+
+                LineVoltageType = value;
+                Tag = Tag;
+                if (Type != DteqTypes.XFR.ToString() && Type != null) {
+                    LoadVoltageType = value;
+                }
+                UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
+            }
+        }
+        //unused, for PowerConsumer interface
+        private VoltageType _voltageType;
+
+        public double Voltage
+        {
+            get { return LineVoltage; }
+            set
+            {
+                LineVoltage = value;
+                if (DaManager.GettingRecords == false) {
+                    PowerCable.CreateTypeList(this);
+                }
+            }
+        }
 
         public int LineVoltageTypeId { get; set; }
         public VoltageType LineVoltageType
