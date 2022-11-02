@@ -29,7 +29,7 @@ namespace EDTLibrary.Models.Loads
             newLoad.VoltageType = loadToAddValidator.VoltageType;
             newLoad.VoltageTypeId = newLoad.VoltageType.Id;
 
-
+            //Checks if dteq CanAdd
             foreach (var dteq in _listManager.DteqList) {  // 85 ms
                 if (dteq.Tag == loadToAddValidator.FedFromTag) {
                     if (dteq.CanAdd(newLoad)) {

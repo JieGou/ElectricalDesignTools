@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
+using WpfUI.Helpers;
 using WpfUI.Stores;
 
 namespace WpfUI.ViewModels.Cables;
@@ -27,8 +28,11 @@ public class CableListViewModel : ViewModelBase
         RacewayToAddValidator = new RacewayToAddValidator(listManager);
         AddRacewayRouteSegmentCommand = new RelayCommand(AddRacewayRouteSegment);
         RemoveRacewayRouteSegmentCommand = new RelayCommand(RemoveRacewayRouteSegment);
+
+        AddRacewayCommand = new RelayCommand(AddRaceway);
+
     }
-    
+
 
     public ListManager ListManager
     {
@@ -76,6 +80,22 @@ public class CableListViewModel : ViewModelBase
     {
         if (_selectedRacewaySegment == null || _selectedCable == null) return;
         RacewayManager.RemoveRacewayRouteSegment(_selectedRacewaySegment, _selectedCable, ListManager);
+    }
+
+    public ICommand AddRacewayCommand { get; }
+    public void AddRaceway(object racewayToAddObject)
+    {
+        AddRacewayAsync(racewayToAddObject);
+    }
+
+    public async Task AddRacewayAsync(object racewayToAddObject)
+    {
+        try {
+            RacewayModel newRaceway = await RacewayManager.AddRaceway(racewayToAddObject, _listManager);
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
     }
 }
 

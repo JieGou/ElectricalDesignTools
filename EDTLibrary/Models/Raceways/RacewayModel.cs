@@ -53,7 +53,7 @@ public class RacewayModel
         get { return _height; }
         set { _height = value; }
     }
-    public string Diameter
+    public double Diameter
     {
         get { return _diameter; }
         set
@@ -61,7 +61,7 @@ public class RacewayModel
             _diameter = value;
         }
     }
-    private string _diameter;
+    private double _diameter;
    
 
     //Events

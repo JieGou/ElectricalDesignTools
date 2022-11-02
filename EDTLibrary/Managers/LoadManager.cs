@@ -49,13 +49,13 @@ public class LoadManager
     public static async Task<LoadModel> AddLoad(object loadToAddObject, ListManager listManager, bool append = true)
     {
         LoadFactory _loadFactory = new LoadFactory(listManager);
-        LoadToAddValidator loadToAddValidator = (LoadToAddValidator)loadToAddObject;
+        var loadToAddValidator = (LoadToAddValidator)loadToAddObject;
         var IsValid = loadToAddValidator.IsValid();
         var errors = loadToAddValidator._errorDict;
         if (IsValid == false) return null;
         
         //CreateLoad checks if the Dteq has enough space to add the load
-        //
+        
         LoadModel newLoad = _loadFactory.CreateLoad(loadToAddValidator); //150ms
         if (newLoad == null) return null; 
       
