@@ -357,16 +357,12 @@ public class CableModel : ICable
     public string AmpacityTable { get; set; }
     public string InstallationDiagram { get; set; }
 
-
-
-
-
-
-
     public double HeatLoss { get; set; }
 
 
-
+    public double Diameter { get; set; }
+    public double WeightLbs1kFeet { get; set; }
+    public double WeightKgKm { get; set; }
 
     #endregion
 

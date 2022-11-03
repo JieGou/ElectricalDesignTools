@@ -417,7 +417,7 @@
                                                    
                                                    NavigationMode="Cell"
                                                    SelectionMode="Single"
-                                                   AllowEditing="False"
+                                                   AllowEditing="True"
                                                    AllowSorting="True" 
                                                    AllowFiltering="True" 
                                                    ShowGroupDropArea="False"
@@ -527,7 +527,7 @@
                                          Stroke="Black"
                                          StrokeThickness="0.5"
                                          Fill="Orange"
-                                         ToolTip="{Binding Tag}" ToolTipService.InitialShowDelay="50"
+                                         ToolTip="{Binding ToolTip}" ToolTipService.InitialShowDelay="50"
                                          />
                             </DataTemplate>
 

@@ -57,6 +57,10 @@ public interface ICable
     double VoltageDrop { get; set; }
     double VoltageDropPercentage { get; set; }
 
+    double Diameter { get; set; }
+    double WeightLbs1kFeet { get; set; }
+    double WeightKgKm { get; set; }
+
     event EventHandler PropertyUpdated;
 
     void AssignOwner(ICableUser load);

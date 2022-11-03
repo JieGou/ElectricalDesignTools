@@ -9,6 +9,7 @@ using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
+using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -392,6 +393,13 @@ namespace EDTLibrary.Managers
             foreach (var cable in CableList) {
                 cable.TypeModel = TypeManager.GetCableTypeModel(cable.Type);
                 cable.CreateSizeList();
+                foreach (var cableSizeModel in EdtSettings.CableSizesUsedInProject) {
+                    if (cable.Type == cableSizeModel.Type && cable.Size == cableSizeModel.Size) {
+                        cable.Diameter = cableSizeModel.Diameter;
+                        cable.WeightKgKm = cableSizeModel.WeightKgKm;
+                        cable.WeightLbs1kFeet = cableSizeModel.WeightLbs1kFeet;
+                    }
+                }
             }
         }
 

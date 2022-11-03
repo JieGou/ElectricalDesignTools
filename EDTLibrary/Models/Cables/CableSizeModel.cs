@@ -13,5 +13,8 @@ namespace EDTLibrary.Models.Cables
         public string Size { get; set; }
         public bool UsedInProject { get; set; }
 
+        public double Diameter { get; set; }
+        public double WeightLbs1kFeet { get; set; }
+        public double WeightKgKm { get; set; }
     }
 }

@@ -14,7 +14,15 @@ public class CableGraphicViewModel : IRacewaySizerGraphic
         X = x;
         Y = y;
     }
+
     public string Tag { get; set; }
+
+    private string _toolTip;
+    public string ToolTip
+    {
+        get { return $"{Tag} tooltip text"; }
+        set { _toolTip = value; }
+    }
     public double X { get; set; }
     public double Y { get; set; }
 

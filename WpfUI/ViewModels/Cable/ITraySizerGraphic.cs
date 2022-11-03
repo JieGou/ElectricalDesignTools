@@ -13,5 +13,6 @@ public interface IRacewaySizerGraphic
     double Width { get; set; }
     double Height { get; set; }
 
-    
+    public string ToolTip { get; set; }
+
 }
