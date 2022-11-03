@@ -56,7 +56,7 @@ public class TraySizerViewModel : ViewModelBase
             RacewayGraphics.Add(new CableGraphicViewModel("CABLE-" + i, 
                 _cableDiameter * _scaleFactor, // diameter
                 _start + _trayThickness + (_cableDiameter + _cableSpacing * _cableDiameter) * i * _scaleFactor, // xpos
-                _start + _trayHeight - _cableDiameter * _scaleFactor - _trayThickness)); // ypos
+                _start + _trayHeight - _cableDiameter * _scaleFactor - _trayThickness, new CableModel())); // ypos
         }
 
     }
@@ -66,8 +66,8 @@ public class TraySizerViewModel : ViewModelBase
         ListManager = listManager;
         RacewayGraphics.Clear();
 
-        _scaleFactor = 15;
-        _cableDiameter = 1.88;
+        _scaleFactor = 12;
+        _cableDiameter = 0.88;
         _trayHeight = _trayThickness + _scaleFactor * raceway.Height;
 
         _trayWidth = _trayThickness * 2 + _scaleFactor * raceway.Width;
@@ -83,14 +83,17 @@ public class TraySizerViewModel : ViewModelBase
 
         //Cables
 
-        cableList = cableList.OrderByDescending(c => c.Diameter).ToList();
+        cableList = cableList.OrderByDescending(c => c.VoltageRating).ThenByDescending(c => c.Spacing).ThenByDescending(c => c.Diameter).ToList();
+
 
         int cableCount = 0;
         double diameter = 0;
         double previousDiameter=0;
         double previousSpacing = 0;
-        double x = _start;
+        double x = 0;
         double y = 0;
+        double traySeparation = 0;
+        double spaceBetweenTrays = 50;
 
         foreach (var cable in cableList) {
 
@@ -100,16 +103,48 @@ public class TraySizerViewModel : ViewModelBase
                 diameter = cable.Diameter * _scaleFactor;
             }
 
+            //first cable
             if (cableCount == 0) {
-                x += _trayThickness;
+                x += _start + _trayThickness;
+                y = _start + _trayHeight - diameter - _trayThickness;
             }
+
             else {
                 x += (previousDiameter + (previousSpacing / 100) * previousDiameter);
+                y = _start + _trayHeight - diameter - _trayThickness + traySeparation;
+
+                
+                var nextCable = x + diameter;
+                var trayEnd = _start + _trayWidth - _trayThickness;
+
+                //new tray
+                if (nextCable > trayEnd) {
+                    traySeparation += _trayHeight + spaceBetweenTrays;
+
+                    x = _start + _trayThickness;
+                    y += _trayHeight + spaceBetweenTrays;
+
+                    //Add Tray
+                    //Left
+                    RacewayGraphics.Add(new TrayGraphicViewModel($"{raceway.Tag} - {raceway.Width} x {raceway.Height}", 
+                        _trayThickness, _trayHeight, 
+                        _start, _start + traySeparation));
+
+                    //Right
+                    RacewayGraphics.Add(new TrayGraphicViewModel($"{raceway.Tag} - {raceway.Width} x {raceway.Height}", 
+                        _trayThickness, _trayHeight, 
+                        _start + _trayWidth - _trayThickness, _start + traySeparation));
+
+                    //Bottom
+                    RacewayGraphics.Add(new TrayGraphicViewModel($"{raceway.Tag} - {raceway.Width} x {raceway.Height}", 
+                        _trayWidth, _trayThickness, 
+                        _start, _start + _trayHeight - _trayThickness + traySeparation));
+                    
+                }
             }
-            y = _start + _trayHeight - diameter - _trayThickness;
 
 
-            RacewayGraphics.Add(new CableGraphicViewModel(cable.Tag, diameter, x, y));
+            RacewayGraphics.Add(new CableGraphicViewModel(cable.Tag, diameter, x, y, cable));
             previousDiameter = diameter;
             previousSpacing = cable.Spacing;
             cableCount += 1;

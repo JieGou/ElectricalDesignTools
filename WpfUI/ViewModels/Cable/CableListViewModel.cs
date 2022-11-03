@@ -170,6 +170,7 @@ public class CableListViewModel : ViewModelBase
     public void AddCablesToRaceway()
     {
         AddCablesToRacewayAsync();
+        UpdateSelectedRaceway();
     }
 
     public async Task AddCablesToRacewayAsync()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.Models.Cables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,5 +37,6 @@ public class TrayGraphicViewModel : IRacewaySizerGraphic
 
     //Cable
     public double Diameter { get; set; }
+    public ICable CableModel { get; set; }
 
 }

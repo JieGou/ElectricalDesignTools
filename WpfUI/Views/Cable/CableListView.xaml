@@ -242,6 +242,14 @@
                                                FilterRowCondition="LessThanOrEqual"
                                                ImmediateUpdateColumnFilter="True"/>
 
+                    <syncfusion:GridTextColumn MappingName="Diameter"
+                                               Width="75"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="LessThanOrEqual"
+                                               ImmediateUpdateColumnFilter="True"/>
+
+
+
                 </syncfusion:SfDataGrid.Columns>
 
 
@@ -494,41 +502,53 @@
                                    FontWeight="Bold"/>
                     </StackPanel>
 
-                    <ItemsControl ItemsSource="{Binding TraySizerViewModel.RacewayGraphics, UpdateSourceTrigger=PropertyChanged}"
+
+                    <Border Grid.Row="5" 
+                            Grid.Column="1" 
+                            Margin="10"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            Background="White">
+                        
+                        <ScrollViewer Grid.Row="5" 
+                                  Grid.Column="1" 
+                                  VerticalScrollBarVisibility="Auto">
+                            
+                            <ItemsControl ItemsSource="{Binding TraySizerViewModel.RacewayGraphics, UpdateSourceTrigger=PropertyChanged}"
                                   Grid.Row="5" 
                                   Grid.Column="1" 
-                                  Margin="10"
+                                          Height="1000"
                                   HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
                                   d:Width="400"
                                   d:Height="250"
                                   
                                   Background="White"
-                                  BorderBrush="Black"
-                                  BorderThickness="1"
+                                  
                                   >
 
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <Canvas />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
 
-                        <ItemsControl.Resources>
-                            <DataTemplate DataType="{x:Type cableViewModels:CableGraphicViewModel}">
+                                <ItemsControl.Resources>
+                                    <DataTemplate DataType="{x:Type cableViewModels:CableGraphicViewModel}">
 
-                                <Ellipse Canvas.Left="{Binding X}" 
+                                        <Ellipse Canvas.Left="{Binding X}" 
                                          Canvas.Top="{Binding Y}" 
                                          Width="{Binding Diameter}" Height="{Binding Diameter}" 
                                          Stroke="Black"
                                          StrokeThickness="0.5"
-                                         Fill="Orange"
+                                         Fill="{Binding CableModel, Converter={StaticResource CableModelToColorConverter}}"
                                          ToolTip="{Binding ToolTip}" ToolTipService.InitialShowDelay="50"
                                          />
-                            </DataTemplate>
+                                    </DataTemplate>
 
-                            <DataTemplate DataType="{x:Type cableViewModels:TrayGraphicViewModel}">
+                                    <DataTemplate DataType="{x:Type cableViewModels:TrayGraphicViewModel}">
 
-                                <Rectangle Canvas.Left="{Binding X}" 
+                                        <Rectangle Canvas.Left="{Binding X}" 
                                            Canvas.Top="{Binding Y}" 
                                            Width="{Binding Width}" Height="{Binding Height}" 
                                            Stroke="Black"
@@ -536,19 +556,20 @@
                                            Fill="LightGray"
                                            ToolTip="{Binding Tag}" ToolTipService.InitialShowDelay="50"
                                           />
-                            </DataTemplate>
+                                    </DataTemplate>
 
-                        </ItemsControl.Resources>
+                                </ItemsControl.Resources>
 
-                        <ItemsControl.ItemContainerStyle>
-                            <Style>
-                                <Setter Property="Canvas.Left" Value="{Binding X}"/>
-                                <Setter Property="Canvas.Top" Value="{Binding Y}"/>
-                            </Style>
-                        </ItemsControl.ItemContainerStyle>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style>
+                                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
 
-                    </ItemsControl>
-                    
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
                 </Grid>
             </Border>
 

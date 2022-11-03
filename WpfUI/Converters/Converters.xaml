@@ -4,6 +4,9 @@
 
 
     <converters:BreakerSizeToVisibilityConverter x:Key="BreakerSizeToVisibilityConverter"/>
+    <converters:CableModelToColorConverter x:Key="CableModelToColorConverter"/>
+    
+    
     <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
     
     <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>

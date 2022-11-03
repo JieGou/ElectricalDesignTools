@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.Models.Cables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,12 +8,13 @@ using System.Threading.Tasks;
 namespace WpfUI.ViewModels.Cable;
 public class CableGraphicViewModel : IRacewaySizerGraphic
 {
-    public CableGraphicViewModel(string tag, double diameter, double x, double y)
+    public CableGraphicViewModel(string tag, double diameter, double x, double y, ICable cableModel)
     {
         Tag = tag;
         Diameter = diameter;
         X = x;
         Y = y;
+        CableModel = cableModel;
     }
 
     public string Tag { get; set; }
@@ -32,4 +34,6 @@ public class CableGraphicViewModel : IRacewaySizerGraphic
     //Tray
     public double Width { get; set; }
     public double Height { get; set; }
+    public ICable CableModel { get; set; }
+
 }

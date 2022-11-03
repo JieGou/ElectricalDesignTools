@@ -1,4 +1,6 @@
-﻿namespace WpfUI.ViewModels.Cable;
+﻿using EDTLibrary.Models.Cables;
+
+namespace WpfUI.ViewModels.Cable;
 
 public interface IRacewaySizerGraphic
 {
@@ -14,5 +16,7 @@ public interface IRacewaySizerGraphic
     double Height { get; set; }
 
     public string ToolTip { get; set; }
+    public ICable CableModel { get; set; }
+
 
 }
