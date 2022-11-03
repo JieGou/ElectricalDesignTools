@@ -151,7 +151,7 @@ public class CableModel : ICable
     }
 
     public List<CableTypeModel> TypeList { get; set; } = new List<CableTypeModel>();
-    public ObservableCollection<RacewayRouteSegment> RacewayRouteSegments { get; set; } = new ObservableCollection<RacewayRouteSegment> ();
+    public ObservableCollection<RacewayRouteSegment> RacewaySegmentList { get; set; } = new ObservableCollection<RacewayRouteSegment> ();
     public List<string> SizeList { get; set; } = new List<string>();
 
     public string UsageType { get; set; }

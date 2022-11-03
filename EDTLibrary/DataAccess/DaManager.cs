@@ -380,4 +380,13 @@ public class DaManager {
     {
         DaManager.prjDb.DeleteRecord(GlobalConfig.LoadCircuitTable, loadCircuit.Id);
     }
+    internal static void DeleteRaceway(RacewayModel raceway)
+    {
+        DaManager.prjDb.DeleteRecord(GlobalConfig.RacewayTable, raceway.Id);
+    }
+
+    internal static void DeleteRacewaySegment(RacewayRouteSegment racewayRouteSegment)
+    {
+        DaManager.prjDb.DeleteRecord(GlobalConfig.RacewayRouteSegmentsTable, racewayRouteSegment.Id);
+    }
 }

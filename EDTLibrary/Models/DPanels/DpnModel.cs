@@ -428,20 +428,13 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
 
                 if (DaManager.GettingRecords == false) {
 
-                    //newCircuit.SequenceNumber = DpnCircuitManager.GetAvailableCircuit(this, newCircuit, dpnSide).Item1;
-                    //if (newCircuit.SequenceNumber == -1) {
-                    //    newCircuit.SequenceNumber = sideCircuitList.Max(sc => sc.SequenceNumber) + 1;
-                    //}
 
-                    newCircuit.SequenceNumber = sideCircuitList.Max(sc => sc.SequenceNumber) + 1;
-
-                    //newCircuit.CircuitNumber = DpnCircuitManager.GetAvailableCircuit(this, newCircuit, dpnSide).Item2;
-                    //if (newCircuit.CircuitNumber == -1) {
-                    //    newCircuit.CircuitNumber = sideCircuitList.Max(sc => sc.CircuitNumber);
-                    //    newCircuit.CircuitNumber += sideCircuitList.FirstOrDefault(sc => sc.CircuitNumber == newCircuit.CircuitNumber).VoltageType.Poles*2;
-                    //}
-                    newCircuit.CircuitNumber = sideCircuitList.Max(sc => sc.CircuitNumber);
-                    newCircuit.CircuitNumber += sideCircuitList.FirstOrDefault(sc => sc.CircuitNumber == newCircuit.CircuitNumber).VoltageType.Poles * 2;
+                    if (sideCircuitList.Count > 0) {
+                        newCircuit.SequenceNumber = sideCircuitList.Max(sc => sc.SequenceNumber) + 1;
+                        newCircuit.CircuitNumber = sideCircuitList.Max(sc => sc.CircuitNumber);
+                        newCircuit.CircuitNumber += sideCircuitList.FirstOrDefault(sc => sc.CircuitNumber == newCircuit.CircuitNumber).VoltageType.Poles * 2;
+                    }
+                    
 
                     if (ScenarioManager.ListManager.LoadCircuitList.Count > 0) {
                         newCircuit.Id = ScenarioManager.ListManager.LoadCircuitList.Max(l => l.Id) + 1;

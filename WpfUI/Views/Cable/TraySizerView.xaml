@@ -27,7 +27,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <ListBox ItemsSource="{Binding CableTray}"
+        <ListBox ItemsSource="{Binding RacewayGraphics}"
                  x:Name="list"
                  Grid.Row="0" Grid.Column="0"
                  DisplayMemberPath="Tag"
@@ -47,8 +47,8 @@
                  Grid.Row="3" Grid.Column="0"
                  />
 
-        
-        <ItemsControl ItemsSource="{Binding CableTray, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+
+        <ItemsControl ItemsSource="{Binding RacewayGraphics, UpdateSourceTrigger=PropertyChanged}"
                       Grid.Row="0" Grid.Column="2"
                       Width="500"
                       d:Width="400"

@@ -16,6 +16,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using WpfUI.Helpers;
 using WpfUI.Stores;
+using WpfUI.ViewModels.Cable;
 
 namespace WpfUI.ViewModels.Cables;
 
@@ -30,6 +31,7 @@ public class CableListViewModel : ViewModelBase
         RemoveRacewayRouteSegmentCommand = new RelayCommand(RemoveRacewayRouteSegment);
 
         AddRacewayCommand = new RelayCommand(AddRaceway);
+        DeleteRacewayCommand = new RelayCommand(DeleteRaceway);
 
     }
 
@@ -54,16 +56,52 @@ public class CableListViewModel : ViewModelBase
     public RacewayRouteSegment SelectedRacewaySegment
     {
         get { return _selectedRacewaySegment; }
-        set { _selectedRacewaySegment = value; }
+        set 
+        { 
+            _selectedRacewaySegment = value;
+            if (SelectedRacewaySegment != null) {
+                SelectedRaceway = _selectedRacewaySegment.RacewayModel;
+            }
+
+        }
     }
 
     private RacewayModel _selectedProjectRaceway;
     public RacewayModel SelectedProjectRaceway
     {
         get { return _selectedProjectRaceway; }
-        set { _selectedProjectRaceway = value; }
+        set 
+        { 
+            _selectedProjectRaceway = value;
+            if (_selectedProjectRaceway != null) {
+                SelectedRaceway = _selectedProjectRaceway;
+            }
+
+        }
     }
 
+    private RacewayModel _selectedRaceway;
+    public RacewayModel SelectedRaceway
+    {
+        get { return _selectedRaceway; }
+        set 
+        { 
+            _selectedRaceway = value;
+
+            _cablesInSelectedRaceway.Clear();
+            foreach (var cable in ListManager.CableList) {
+                foreach (var segment in cable.RacewaySegmentList) {
+                    if (segment.RacewayId == _selectedRaceway.Id) {
+                        _cablesInSelectedRaceway.Add(cable);
+                    }
+                }
+            }
+            TraySizerViewModel = new TraySizerViewModel(ListManager, _selectedRaceway, _cablesInSelectedRaceway);
+        }
+    }
+
+    private List<CableModel> _cablesInSelectedRaceway = new List<CableModel>();
+    public TraySizerViewModel TraySizerViewModel { get; set; }
 
 
 
@@ -92,6 +130,22 @@ public class CableListViewModel : ViewModelBase
     {
         try {
             RacewayModel newRaceway = await RacewayManager.AddRaceway(racewayToAddObject, _listManager);
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
+    }
+
+    public ICommand DeleteRacewayCommand { get; }
+    public void DeleteRaceway(object racewayToAddObject)
+    {
+        DeleteRacewayAsync(racewayToAddObject);
+    }
+
+    public async Task DeleteRacewayAsync(object racewayToAddObject)
+    {
+        try {
+            int deletedRacewayId = await RacewayManager.DeleteRaceway(racewayToAddObject, _listManager);
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);

@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Services;
 using System;
@@ -18,13 +19,13 @@ public class RacewayManager
         segmentToAdd.RacewayId = raceway.Id;
         segmentToAdd.RacewayModel = raceway;
         segmentToAdd.CableId = cable.Id;
-        segmentToAdd.SequenceNumber = cable.RacewayRouteSegments.Count;
+        segmentToAdd.SequenceNumber = cable.RacewaySegmentList.Count;
 
-        var segmentAlreadyAdded = cable.RacewayRouteSegments.FirstOrDefault(rrs => rrs.RacewayModel.Id == raceway.Id);
+        var segmentAlreadyAdded = cable.RacewaySegmentList.FirstOrDefault(rrs => rrs.RacewayModel.Id == raceway.Id);
         if (segmentAlreadyAdded == null) {
-            cable.RacewayRouteSegments.Add(segmentToAdd);
-            listManager.RacewayRoutingList.Add(segmentToAdd);
-            DaManager.prjDb.InsertRecordGetId(segmentToAdd, "RacewayRouteSegments", new List<string> { "RacewayModel" });
+            cable.RacewaySegmentList.Add(segmentToAdd);
+            listManager.RacewaySegmentList.Add(segmentToAdd);
+            segmentToAdd.Id = DaManager.prjDb.InsertRecordGetId(segmentToAdd, "RacewayRouteSegments", new List<string> { "RacewayModel" });
         }
         else {
             EdtNotificationService.SendAlert(cable, "Cable already passes through the selected raceway.", "Raceway Route Error");
@@ -34,8 +35,8 @@ public class RacewayManager
 
     public static void RemoveRacewayRouteSegment(RacewayRouteSegment segment, ICable cable, ListManager listManager)
     {
-        cable.RacewayRouteSegments.Remove(segment);
-        listManager.RacewayRoutingList.Remove(segment);
+        cable.RacewaySegmentList.Remove(segment);
+        listManager.RacewaySegmentList.Remove(segment);
         DaManager.prjDb.DeleteRecord("RacewayRouteSegments", segment.Id);
     }
 
@@ -59,6 +60,47 @@ public class RacewayManager
         newRaceway.PropertyUpdated += DaManager.OnRacewayPropertyUpdated;
         listManager.RacewayList.Add(newRaceway);
         return newRaceway;
+
+    }
+
+    public static async Task<int> DeleteRaceway(object racewayToDeleteObject, ListManager listManager)
+    {
+        try {
+
+            var racewayToDelete = (RacewayModel)racewayToDeleteObject;
+            listManager.RacewayList.Remove(racewayToDelete);
+            racewayToDelete.PropertyUpdated -= DaManager.OnLoadPropertyUpdated;
+            DaManager.DeleteRaceway(racewayToDelete);
+
+            //Delete segments from SegmentList and ListManager
+            RacewayRouteSegment segmentToDelete = new RacewayRouteSegment();
+            foreach (var cable in listManager.CableList) {
+                segmentToDelete = cable.RacewaySegmentList.FirstOrDefault(rrs => rrs.RacewayId == racewayToDelete.Id);
+                if (segmentToDelete != null) {
+                    cable.RacewaySegmentList.Remove(segmentToDelete);
+                }
+            }
+
+            var segmentsToDelete = new List<RacewayRouteSegment>();
+
+            foreach (var segment in listManager.RacewaySegmentList) {
+                if (segment.RacewayId == racewayToDelete.Id) {
+                    segmentsToDelete.Add(segment);
+                }
+            }
+
+            foreach (var segment in segmentsToDelete) {
+                listManager.RacewaySegmentList.Remove(segment);
+                DaManager.prjDb.DeleteRecord(GlobalConfig.RacewayRouteSegmentsTable, segment.Id);
+            }
+           
+            return racewayToDelete.Id;
+            
+        }
+        catch (Exception ex) {
+            throw;
+        }
+        return -1;
 
     }
 }

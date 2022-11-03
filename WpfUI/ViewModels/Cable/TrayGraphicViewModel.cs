@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WpfUI.ViewModels.Cable;
-public class TrayGraphicViewModel : ITraySizerGraphic
+public class TrayGraphicViewModel : IRacewaySizerGraphic
 {
     public TrayGraphicViewModel(string tag, double width, double height, double x, double y)
     {

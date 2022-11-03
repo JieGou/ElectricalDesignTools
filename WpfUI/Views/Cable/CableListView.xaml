@@ -10,11 +10,14 @@
               
              xmlns:converters="clr-namespace:WpfUI.Converters"
              xmlns:controls="clr-namespace:WpfUI.Controls"
+             
+             
+             xmlns:cableViewModels="clr-namespace:WpfUI.ViewModels.Cable"
               
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              
              mc:Ignorable="d"
-             d:Width="1800" d:Height="800"
+             d:Width="1800" d:Height="1080"
              Background="Transparent" >
 
     <UserControl.Resources>
@@ -256,12 +259,13 @@
                     <TextBlock Text="{Binding SelectedCable.Tag}" Grid.Row="1" Grid.Column="2" d:Text="MCC01-MTR05-P" Style="{DynamicResource SummaryValue_TextBlockStyle}"/>
 
 
-                    <controls:EdtGroupBox Header="Raceway Routing"
+                    <controls:EdtGroupBox Grid.Row="3"
+                                          Grid.Column="0" Grid.ColumnSpan="5"
+                                          Header="Raceway Routing"
                                           HeaderBackground="{StaticResource Medium}"
                                           HeaderForeGround="{StaticResource ForeGround_Light1}"
                                           Background="{StaticResource BackgroundLight}"
-                                          Grid.Row="3"
-                                          Grid.Column="0" Grid.ColumnSpan="5"
+                                          
                                           Margin="10">
 
                         <Grid>
@@ -285,7 +289,7 @@
 
                             <syncfusion:SfDataGrid Grid.Row="1" Grid.Column="0" 
                                                    Height="250"
-                                                   ItemsSource="{Binding SelectedCable.RacewayRouteSegments}"
+                                                   ItemsSource="{Binding SelectedCable.RacewaySegmentList}"
                                                    SelectedItem="{Binding SelectedRacewaySegment}"
                                                    AutoGenerateColumns="False"
                                                    
@@ -476,9 +480,11 @@
                                         HorizontalAlignment="Center">
 
                                 <Button Content="Add New" Style="{StaticResource GreenButton}" Width="75"
-                                        Command="{Binding AddRacewayCommand}"/>
+                                        Command="{Binding AddRacewayCommand}"
+                                        CommandParameter="{Binding RacewayToAddValidator}"/>
                                 <Button Content="Delete" Style="{StaticResource RedButton}" Width="75"
-                                        Command="{Binding DeleteRacewayCommand}"/>
+                                        Command="{Binding DeleteRacewayCommand}"
+                                        CommandParameter="{Binding SelectedProjectRaceway}"/>
 
                             </StackPanel>
 
@@ -489,6 +495,65 @@
                         </Grid>
                     </controls:EdtGroupBox>
 
+                    <TextBlock Grid.Row="4" 
+                               Grid.Column="0"
+                               Text="{Binding TraySizerViewModel.RacewayGraphics[0].Tag}"/>
+
+                    <ItemsControl ItemsSource="{Binding TraySizerViewModel.RacewayGraphics, UpdateSourceTrigger=PropertyChanged}"
+                                  Grid.Row="4" 
+                                  Grid.Column="1" Grid.ColumnSpan="6"
+                                  HorizontalAlignment="Stretch"
+                                  Margin="10"
+                                  Height="350"
+                                  d:Width="400"
+                                  d:Height="250"
+                                  
+                                  Background="White"
+                                  BorderBrush="Black"
+                                  BorderThickness="1">
+
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.Resources>
+                            <DataTemplate DataType="{x:Type cableViewModels:CableGraphicViewModel}">
+
+                                <Ellipse Canvas.Left="{Binding X}" 
+                                         Canvas.Top="{Binding Y}" 
+                                         Width="{Binding Diameter}" Height="{Binding Diameter}" 
+                                         Stroke="Black"
+                                         StrokeThickness="0.5"
+                                         Fill="Orange"
+                                         ToolTip="{Binding Tag}" ToolTipService.InitialShowDelay="50"
+                                         />
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type cableViewModels:TrayGraphicViewModel}">
+
+                                <Rectangle Canvas.Left="{Binding X}" 
+                                           Canvas.Top="{Binding Y}" 
+                                           Width="{Binding Width}" Height="{Binding Height}" 
+                                           Stroke="Black"
+                                           StrokeThickness="0.5"
+                                           Fill="LightGray"
+                                           ToolTip="{Binding Tag}" ToolTipService.InitialShowDelay="50"
+                                          />
+                            </DataTemplate>
+
+                        </ItemsControl.Resources>
+
+                        <ItemsControl.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+
+                    </ItemsControl>
+                    
                 </Grid>
             </Border>
 

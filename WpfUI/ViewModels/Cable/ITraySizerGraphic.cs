@@ -1,12 +1,12 @@
 ﻿namespace WpfUI.ViewModels.Cable;
 
-public interface ITraySizerGraphic
+public interface IRacewaySizerGraphic
 {
     string Tag { get; set; }
     double X { get; set; }
     double Y { get; set; }
 
-    //Cable
+    //Cable or conduit
     double Diameter { get; set; }
 
     //Tray

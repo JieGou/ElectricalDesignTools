@@ -46,7 +46,7 @@ namespace EDTLibrary.Managers
 
         public ObservableCollection<CableModel> CableList { get; set; } = new ObservableCollection<CableModel>();
         public ObservableCollection<RacewayModel> RacewayList { get; set; } = new ObservableCollection<RacewayModel>();
-        public ObservableCollection<RacewayRouteSegment> RacewayRoutingList { get; set; } = new ObservableCollection<RacewayRouteSegment>();
+        public ObservableCollection<RacewayRouteSegment> RacewaySegmentList { get; set; } = new ObservableCollection<RacewayRouteSegment>();
 
 
 
@@ -409,16 +409,16 @@ namespace EDTLibrary.Managers
         private void GetRacewayRouting()
         {
             foreach (var cable in CableList) {
-                RacewayRoutingList.Clear();
+                RacewaySegmentList.Clear();
                 var list = DaManager.prjDb.GetRecords<RacewayRouteSegment>(GlobalConfig.RacewayRouteSegmentsTable);
                 foreach (var segment in list) {
-                    RacewayRoutingList.Add(segment);
+                    RacewaySegmentList.Add(segment);
                     segment.RacewayModel = RacewayList.FirstOrDefault(r => r.Id == segment.RacewayId);
                     if (cable.Id == segment.CableId) {
-                            cable.RacewayRouteSegments.Add(segment);
+                            cable.RacewaySegmentList.Add(segment);
                     }
                 }
-                cable.RacewayRouteSegments.OrderBy(c => c.SequenceNumber);
+                cable.RacewaySegmentList.OrderBy(c => c.SequenceNumber);
             }
         }
 

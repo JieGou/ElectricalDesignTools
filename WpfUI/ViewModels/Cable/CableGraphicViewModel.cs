@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WpfUI.ViewModels.Cable;
-public class CableGraphicViewModel : ITraySizerGraphic
+public class CableGraphicViewModel : IRacewaySizerGraphic
 {
     public CableGraphicViewModel(string tag, double diameter, double x, double y)
     {

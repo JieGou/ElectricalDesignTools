@@ -48,7 +48,7 @@ public interface ICable
     double Spacing { get; set; }
     string Tag { get; set; }
     string Type { get; set; }
-    ObservableCollection<RacewayRouteSegment> RacewayRouteSegments { get; set; }
+    ObservableCollection<RacewayRouteSegment> RacewaySegmentList { get; set; }
     List<CableTypeModel> TypeList { get; set; }
     CableTypeModel TypeModel { get; set; }
 

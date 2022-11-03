@@ -123,6 +123,7 @@ namespace EDTLibrary.DataAccess
 
             "IsSelected",
             "RacewayRouteSegments",
+            "RacewaySegmentList",
         };
 
         static public List<string> AreaNoSaveList { get; set; } = new List<string>() {
