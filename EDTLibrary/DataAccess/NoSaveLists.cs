@@ -135,6 +135,7 @@ namespace EDTLibrary.DataAccess
         static public List<string> RacewayNoSaveList { get; set; } = new List<string>() {
             "none",
             "Cablelist",
+            "CablesInRaceway",
         };
     }
 }

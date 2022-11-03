@@ -116,21 +116,6 @@ public partial class _MjeqView : UserControl
         }
     }
 
-    //Sets the datacontext for the details view panel on the right
-
-    private void dgdAssignedLoads_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (dgdAssignedLoads.SelectedItem != null) {
-            if (dgdAssignedLoads.SelectedItem.GetType() == typeof(LoadModel)) {
-                _loadTabsView.DataContext = this.DataContext;
-                LoadDetailsContent.Content = _loadTabsView;
-            }
-        }
-        if (MjeqVm == null) return;
-
-        //send selected loads to ViewModel
-        MjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;
-    }
 
 
     //Testing/Shortcuts
@@ -178,6 +163,7 @@ public partial class _MjeqView : UserControl
     #region Context Menus
 
     //LOAD   
+    //Sets the datacontext for the details view panel on the right
     private void dgdAssignedLoads_SelectionChanged_1(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
     {
         if (dgdAssignedLoads.SelectedItem != null) {
@@ -807,10 +793,8 @@ public partial class _MjeqView : UserControl
 
     private void dgdAssignedLoads_CurrentCellActivated(object sender, Syncfusion.UI.Xaml.Grid.CurrentCellActivatedEventArgs e)
     {
-        
+       
     }
-
-  
 
 
 
@@ -828,10 +812,7 @@ public partial class _MjeqView : UserControl
         //BindingOperations.SetBinding(dgdAssignedLoads, Syncfusion.UI.Xaml.Grid.SfDataGrid.ItemsSourceProperty, myBinding);
     }
 
-    private void txtLoadTag_TextChanged(object sender, TextChangedEventArgs e)
-    {
-
-    }
+  
 }
 
 

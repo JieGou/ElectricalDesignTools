@@ -5,8 +5,13 @@ VoltageValidator
 
 Dteq Graphics
 
+RacewaySizer
+	- add model reference to graphicVM
+	- add
+
+
 Application Settings
-Add Load Voltage notification
+	- Add Load Voltage notification
 
 Priorities
 	- Distribution Panel - 12 hours

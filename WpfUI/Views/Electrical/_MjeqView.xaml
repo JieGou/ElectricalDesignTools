@@ -977,9 +977,10 @@
                                
                                ShowGroupDropArea="False"
                                AllowResizingColumns="True"
-                               SelectionChanged="dgdAssignedLoads_SelectionChanged_1"  
                                FilterRowPosition="FixedTop"
-                               PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1" CurrentCellActivated="dgdAssignedLoads_CurrentCellActivated"
+                               
+                               SelectionChanged="dgdAssignedLoads_SelectionChanged_1"  
+                               PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1"
                                >
 
                     <sf:SfDataGrid.Resources>

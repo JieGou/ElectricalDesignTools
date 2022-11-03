@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfUI.ViewModels.Cables;
+using WpfUI.ViewModels.Electrical;
 
 namespace WpfUI.Views.Cable;
 /// <summary>
@@ -19,6 +21,8 @@ namespace WpfUI.Views.Cable;
 /// </summary>
 public partial class CableListView : UserControl
 {
+    private CableListViewModel vm { get { return DataContext as CableListViewModel; } }
+
     public CableListView()
     {
         InitializeComponent();
@@ -28,6 +32,13 @@ public partial class CableListView : UserControl
     {
         if (e.Key ==Key.Escape) {
             dgdCableList.ClearFilters();
+        }
+    }
+
+    private void dgdCableList_SelectionChanged(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
+    {
+        if (vm!= null) {
+            vm.SelectedCables = dgdCableList.SelectedItems;
         }
     }
 }

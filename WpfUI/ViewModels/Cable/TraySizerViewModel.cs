@@ -61,7 +61,7 @@ public class TraySizerViewModel : ViewModelBase
 
     }
 
-    public TraySizerViewModel(ListManager listManager, RacewayModel raceway, List<CableModel> cableList)
+    public TraySizerViewModel(ListManager listManager, RacewayModel raceway, List<ICable> cableList)
     {
         ListManager = listManager;
         RacewayGraphics.Clear();

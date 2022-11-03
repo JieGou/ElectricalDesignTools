@@ -6,6 +6,7 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
 using PropertyChanged;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -33,6 +34,8 @@ public class CableListViewModel : ViewModelBase
         AddRacewayCommand = new RelayCommand(AddRaceway);
         DeleteRacewayCommand = new RelayCommand(DeleteRaceway);
 
+        AddCablesToRacewayCommand = new RelayCommand(AddCablesToRaceway);
+
     }
 
 
@@ -51,6 +54,10 @@ public class CableListViewModel : ViewModelBase
         get { return _selectedCable; }
         set { _selectedCable = value; }
     }
+
+    public IList SelectedCables { get; internal set; }
+    public IList SelectedLoads { get; internal set; }
+
 
     private RacewayRouteSegment _selectedRacewaySegment;
     public RacewayRouteSegment SelectedRacewaySegment
@@ -84,23 +91,28 @@ public class CableListViewModel : ViewModelBase
     public RacewayModel SelectedRaceway
     {
         get { return _selectedRaceway; }
-        set 
-        { 
+        set
+        {
             _selectedRaceway = value;
-
-            _cablesInSelectedRaceway.Clear();
-            foreach (var cable in ListManager.CableList) {
-                foreach (var segment in cable.RacewaySegmentList) {
-                    if (segment.RacewayId == _selectedRaceway.Id) {
-                        _cablesInSelectedRaceway.Add(cable);
-                    }
-                }
-            }
-            TraySizerViewModel = new TraySizerViewModel(ListManager, _selectedRaceway, _cablesInSelectedRaceway);
+            UpdateSelectedRaceway();
         }
     }
 
-    private List<CableModel> _cablesInSelectedRaceway = new List<CableModel>();
+    private void UpdateSelectedRaceway()
+    {
+        _cablesInSelectedRaceway.Clear();
+        foreach (var cable in ListManager.CableList) {
+            foreach (var segment in cable.RacewaySegmentList) {
+                if (segment.RacewayId == _selectedRaceway.Id) {
+                    _cablesInSelectedRaceway.Add(cable);
+                }
+            }
+        }
+        _selectedRaceway.CablesInRaceway = new ObservableCollection<ICable>(_cablesInSelectedRaceway);
+        TraySizerViewModel = new TraySizerViewModel(ListManager, _selectedRaceway, _cablesInSelectedRaceway);
+    }
+
+    private List<ICable> _cablesInSelectedRaceway = new List<ICable>();
     public TraySizerViewModel TraySizerViewModel { get; set; }
 
 
@@ -111,6 +123,7 @@ public class CableListViewModel : ViewModelBase
     {
         if (_selectedProjectRaceway == null || _selectedCable == null) return;
         RacewayManager.AddRacewayRouteSegment(_selectedProjectRaceway, _selectedCable, ListManager);
+        UpdateSelectedRaceway();
     }
 
     public ICommand RemoveRacewayRouteSegmentCommand { get; }
@@ -118,6 +131,7 @@ public class CableListViewModel : ViewModelBase
     {
         if (_selectedRacewaySegment == null || _selectedCable == null) return;
         RacewayManager.RemoveRacewayRouteSegment(_selectedRacewaySegment, _selectedCable, ListManager);
+        UpdateSelectedRaceway();
     }
 
     public ICommand AddRacewayCommand { get; }
@@ -146,6 +160,25 @@ public class CableListViewModel : ViewModelBase
     {
         try {
             int deletedRacewayId = await RacewayManager.DeleteRaceway(racewayToAddObject, _listManager);
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
+    }
+
+    public ICommand AddCablesToRacewayCommand { get; }
+    public void AddCablesToRaceway()
+    {
+        AddCablesToRacewayAsync();
+    }
+
+    public async Task AddCablesToRacewayAsync()
+    {
+        if (_selectedProjectRaceway == null) return; 
+        try {
+            foreach (var cable in SelectedCables) {
+                RacewayManager.AddRacewayRouteSegment(_selectedProjectRaceway, (ICable)cable, ListManager);
+            }        
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);

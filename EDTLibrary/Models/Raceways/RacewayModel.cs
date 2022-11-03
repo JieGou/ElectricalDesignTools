@@ -1,9 +1,11 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,12 +22,12 @@ public class RacewayModel
     {
         get
         {
-           return _type;
+            return _type;
         }
         set
         {
             _type = value;
-           
+
         }
 
     }
@@ -62,7 +64,8 @@ public class RacewayModel
         }
     }
     private double _diameter;
-   
+
+    public ObservableCollection<ICable> CablesInRaceway { get; set; } = new ObservableCollection<ICable>();
 
     //Events
     public event EventHandler PropertyUpdated;
