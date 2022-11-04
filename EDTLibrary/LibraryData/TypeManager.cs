@@ -3,6 +3,7 @@ using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.Disconnects;
 using EDTLibrary.LibraryData.LocalControlStations;
 using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -106,6 +107,8 @@ namespace EDTLibrary.LibraryData
         public static ObservableCollection<CecCableAmpacityModel> CecCableAmpacities { get; set; }
 
         public static ObservableCollection<CableSizeIdModel> CableSizeIds { get; set; }
+        public static ObservableCollection<CableSizeModel> Cables_Control { get; set; }
+        public static ObservableCollection<CableSizeModel> Cables_Instrument { get; set; }
 
 
         //Enclosures
@@ -151,6 +154,9 @@ namespace EDTLibrary.LibraryData
             InstrumentCableSizes = DaManager.libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
             ConductorProperties = DaManager.libDb.GetRecords<ConductorPropertyType>("ConductorProperties");
             CableSizeIds = DaManager.libDb.GetRecords<CableSizeIdModel>("CableSizes_Power");
+            Cables_Control = DaManager.libDb.GetRecords<CableSizeModel>("Cables_Control");
+            Cables_Instrument = DaManager.libDb.GetRecords<CableSizeModel>("Cables_Instrument");
+
 
             TransformerSizes = DaManager.libDb.GetRecords<TransformerSize>("TransformerSizes");
             TransformerTypes = DaManager.libDb.GetRecords<TransformerType>("TransformerTypes");

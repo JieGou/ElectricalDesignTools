@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace EDTLibrary.Models.Cables;
+
 public interface ICable
 {
     string AmpacityTable { get; set; }

@@ -4,6 +4,7 @@ using System.Windows.Input;
 
 namespace EdtLibrary.Commands
 {
+    [Serializable]
     public class RelayCommand : ICommand
     {
 

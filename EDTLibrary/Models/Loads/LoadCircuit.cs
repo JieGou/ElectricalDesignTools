@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace EDTLibrary.Models.Loads;
+[Serializable]
 [AddINotifyPropertyChangedInterface]
 public class LoadCircuit : ILoadCircuit
 {

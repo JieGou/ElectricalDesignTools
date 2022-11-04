@@ -18,6 +18,7 @@ using System.Windows;
 using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Components;
+[Serializable]
 public class LocalControlStationModel : ILocalControlStation
 {
     public LocalControlStationModel()

@@ -28,6 +28,7 @@ using System.Xml;
 namespace EDTLibrary.Models.DistributionEquipment.DPanels
 {
 
+[Serializable]
     [AddINotifyPropertyChangedInterface]
     public class DpnModel : DistributionEquipment, IDpn
     {

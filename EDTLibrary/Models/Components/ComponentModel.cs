@@ -24,6 +24,7 @@ using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Components;
 
+[Serializable]
 [AddINotifyPropertyChangedInterface]
 
 public class ComponentModel : IComponentEdt

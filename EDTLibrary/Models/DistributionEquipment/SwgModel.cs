@@ -12,6 +12,7 @@ using System.Linq;
 namespace EDTLibrary.Models.DistributionEquipment
 {
 
+[Serializable]
     [AddINotifyPropertyChangedInterface]
     public class SwgModel : DistributionEquipment
     {

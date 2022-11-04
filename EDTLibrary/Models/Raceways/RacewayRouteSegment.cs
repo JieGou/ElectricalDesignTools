@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Raceways;
+[Serializable]
 public class RacewayRouteSegment
 {
     public int Id { get; set; }

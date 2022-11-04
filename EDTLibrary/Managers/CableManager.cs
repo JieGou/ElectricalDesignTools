@@ -295,9 +295,11 @@ public class CableManager
 
         cable.IsOutdoor = lcsOwner.PowerCable.IsOutdoor;
         cable.InstallationType = lcsOwner.PowerCable.InstallationType;
+        cable.Diameter = TypeManager.Cables_Control.FirstOrDefault(c => c.Type == cable.Type && c.Size == cable.Size).Diameter;
+        cable.WeightKgKm = TypeManager.Cables_Control.FirstOrDefault(c => c.Type == cable.Type && c.Size == cable.Size).WeightKgKm;
+        cable.WeightLbs1kFeet = TypeManager.Cables_Control.FirstOrDefault(c => c.Type == cable.Type && c.Size == cable.Size).WeightLbs1kFeet;
 
         lcs.Cable = cable;
-
         listManager.CableList.Add(cable);
         DaManager.UpsertCable((CableModel)cable);
     }

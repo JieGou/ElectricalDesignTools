@@ -27,6 +27,7 @@ using System.Windows.Threading;
 namespace EDTLibrary.Models.DistributionEquipment
 {
 
+[Serializable]
     [AddINotifyPropertyChangedInterface]
     public abstract class DistributionEquipment : IDteq, IComponentUser //, INotifyDataErrorInfo 
     {

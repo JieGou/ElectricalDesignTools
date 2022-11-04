@@ -626,56 +626,15 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         }
     }
 
-    public void AddDteq(object dteqToAddObject) //typeOf DteqToAddValidator
+    public void AddDteq(object loadToAddObject)
     {
-        //Move AddDteq to DteqManager
-        DteqToAddValidator dteqToAddValidator = (DteqToAddValidator)dteqToAddObject;
-        EDTLibrary.ErrorManagement.ErrorHelper.Log($"\n\n ******************* Add Dteq - Tag:{dteqToAddValidator.Tag}");
-
+        AddDteqAsync(loadToAddObject);
+    }
+    public async Task AddDteqAsync(object dteqToAddObject) //typeOf DteqToAddValidator
+    {
         try {
-            var IsValid = dteqToAddValidator.IsValid(); //to help debug
-            var errors = dteqToAddValidator._errorDict; //to help debug
-            
-            if (IsValid) {
-
-                IDteq newDteq = _dteqFactory.CreateDteq(dteqToAddValidator);
-
-                //Get Id manually
-                //if (ListManager.IDteqList.Count == 0) {
-                //    newDteq.Id = 1;
-                //}
-                //else {
-                //    newDteq.Id = ListManager.IDteqList.Max(l => l.Id) + 1;
-                //}
-
-                IDteq dteqSubscriber = _listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
-                if (dteqSubscriber != null) {
-                    //dteqSubscriber.AssignedLoads.Add(newDteq); load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom();
-                    newDteq.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
-                    newDteq.PropertyUpdated += DaManager.OnDteqPropertyUpdated;
-                }
-             
-                
-
-                //Save to Db when calculating inside DteqModel
-                newDteq.LoadCableDerating = double.Parse(EdtSettings.DteqLoadCableDerating);
-                newDteq.CalculateLoading(); //after dteq is inserted to get a new Id
-                _listManager.AddDteq(newDteq);
-
-                //Cable
-                newDteq.CreatePowerCable();
-                newDteq.SizePowerCable();
-                newDteq.CalculateCableAmps();
-                newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
-                _listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
-                RefreshDteqTagValidation();
-
-                
-                
-                
-                //AssignedLoads = SelectedDteq.AssignedLoads;
-            }
-            
+            var newDteq = await DteqManager.AddDteq(dteqToAddObject, _listManager);
+            RefreshDteqTagValidation();
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);

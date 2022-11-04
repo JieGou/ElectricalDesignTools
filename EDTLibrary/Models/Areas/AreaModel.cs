@@ -8,6 +8,7 @@ using System.ComponentModel;
 
 namespace EDTLibrary.Models.Areas;
 
+[Serializable]
 [AddINotifyPropertyChangedInterface]
 public class AreaModel : IArea { 
     public int Id { get; set; }

@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Cables
 {
+    [Serializable]
+
     public class CableSizeModel
     {
         public int Id { get; set; }
         public string Type { get; set; }
         public string Size { get; set; }
+        public string BondWireSize { get; set; }
+
         public bool UsedInProject { get; set; }
 
         public double Diameter { get; set; }

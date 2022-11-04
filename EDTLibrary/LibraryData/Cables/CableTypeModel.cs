@@ -4,6 +4,8 @@ using System.Text;
 
 namespace EDTLibrary.LibraryData.Cables
 {
+    [Serializable]
+
     public class CableTypeModel
 
     {

@@ -24,6 +24,7 @@ using System.Windows.Threading;
 namespace EDTLibrary.Models.Loads
 {
 
+[Serializable]
     [AddINotifyPropertyChangedInterface]
 
     public class LoadModel : ILoad

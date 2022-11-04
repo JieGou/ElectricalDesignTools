@@ -6,6 +6,7 @@ using System;
 
 namespace EDTLibrary.Models.DistributionEquipment;
 
+[Serializable]
 [AddINotifyPropertyChangedInterface]
 public class XfrModel : DistributionEquipment
 {

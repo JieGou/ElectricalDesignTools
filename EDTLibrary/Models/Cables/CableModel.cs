@@ -23,6 +23,7 @@ using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Cables;
 
+[Serializable]
 [AddINotifyPropertyChangedInterface]
 public class CableModel : ICable
 {
