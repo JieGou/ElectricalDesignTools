@@ -64,7 +64,10 @@ public class DteqManager
             newDteq.CreatePowerCable();
             newDteq.SizePowerCable();
             newDteq.CalculateCableAmps();
+            CableManager.AssignCableTypeProperties(newDteq.PowerCable);
+
             newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
+            newDteq.PowerCable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
             listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
 
             var racewayToAddValidator = new RacewayToAddValidator(listManager);
@@ -85,7 +88,7 @@ public class DteqManager
         }
     }
 
-    public static void DeleteDteq(IDteq dteq, ListManager listManager)
+    public static async Task<int> DeleteDteqAsync(IDteq dteq, ListManager listManager)
     {
         try {
 
@@ -95,7 +98,11 @@ public class DteqManager
 
                 dteqToDelete.Tag = GlobalConfig.Deleted;
                 listManager.UnregisterDteqFromLoadEvents(dteqToDelete);
-                CableManager.DeletePowerCableAsync(dteqToDelete, listManager);
+
+                //to prevent the cable from being resaved to the database
+                dteqToDelete.PowerCable.PropertyUpdated -= DaManager.OnPowerCablePropertyUpdated;
+
+
                 DistributionManager.RetagLoadsOfDeleted(dteqToDelete);
 
                 if (dteqToDelete.FedFrom != null) {
@@ -103,12 +110,17 @@ public class DteqManager
                 }
                 listManager.DeleteDteq(dteqToDelete);
                 DaManager.DeleteDteq(dteqToDelete);
+
+                await Task.Delay(1000);
+                await CableManager.DeletePowerCableAsync(dteqToDelete, listManager);
+
+
                 dteqToDelete.Delete();
             }
         }
         catch (Exception ex) {
             EdtNotificationService.SendError(dteq.Tag, ex.Message, "Delete Dteq Error", ex);
         }
-        return;
+        return dteq.Id;
     }
 }

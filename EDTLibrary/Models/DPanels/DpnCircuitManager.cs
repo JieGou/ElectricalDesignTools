@@ -93,7 +93,7 @@ public class DpnCircuitManager
     {
         if (load == null || load is LoadCircuit) return;
         dpn.RemoveAssignedLoad(load);
-        LoadManager.DeleteLoad(load, listManager);
+        LoadManager.DeleteLoadAsync(load, listManager);
     }
     internal static void DeleteLoadCircuit(DpnModel dpnModel, IPowerConsumer powerConsumer, ListManager listManager)
     {

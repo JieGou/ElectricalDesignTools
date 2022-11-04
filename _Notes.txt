@@ -49,8 +49,8 @@ Priorities
 	- Load List?
 
 Bugs
+	- delete DTEQ does not properly delete the cable
 	- DELETE DTEQ does not retag Lcs cable
-	- load cable length when updating components
 	- SCCR calculation on DTEQ size change
 
 Exports
@@ -89,7 +89,6 @@ Optional Auto-Calculations
 
 Cables
 	- settings for auto-calculate cable on load resizing/recalculation
-	- add cable tray
 	- cable sizing based on next Upstream PD
 
 	Power Cables
@@ -98,14 +97,11 @@ Cables
 		- component cables are not updated when changing the load cable properties
 
 	Cable List
-		- Tray
+		- Tray Sizer
 	
 
 LoadGrid Context Menu
 	- Set load factor
-
-DistributionManager
-	- FedFrom Voltage checks on FedFrom Changed
 
 DaAccess
 	- Create positive upsert/SaveList

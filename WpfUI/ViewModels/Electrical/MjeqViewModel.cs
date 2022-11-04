@@ -650,7 +650,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             IDteq dteqToDelete = DteqFactory.Recast(dteqObject);
             if (dteqToDelete != null) {
 
-                DteqManager.DeleteDteq(dteqToDelete, _listManager);
+                DteqManager.DeleteDteqAsync(dteqToDelete, _listManager);
                 RefreshDteqTagValidation();
 
                 if (_listManager.IDteqList.Count > 0) {
@@ -770,7 +770,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         try {
 
             LoadModel load = (LoadModel)selectedLoadObject;
-                await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
+                await LoadManager.DeleteLoadAsync(selectedLoadObject, _listManager);
                 //var loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
             //var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
             AssignedLoads.Remove(load);

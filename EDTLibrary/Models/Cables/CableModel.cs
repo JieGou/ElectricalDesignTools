@@ -858,6 +858,8 @@ public class CableModel : ICable
     public event EventHandler PropertyUpdated;
     public virtual async Task OnPropertyUpdated()
     {
+        var tag = Tag;
+        
         await Task.Run(() => {
             if (PropertyUpdated != null) {
                 PropertyUpdated(this, EventArgs.Empty);

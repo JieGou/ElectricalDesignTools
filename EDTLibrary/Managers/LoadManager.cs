@@ -92,6 +92,8 @@ public class LoadManager
         newLoad.PowerCable.LoadId = newLoad.Id;
         newLoad.PowerCable.LoadType = newLoad.GetType().ToString();
 
+        CableManager.AssignCableTypeProperties(newLoad.PowerCable);
+
         //Get Id
         //newLoad.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
 
@@ -116,7 +118,7 @@ public class LoadManager
     /// <param name="loadToDeleteObject"></param>
     /// <param name="listManager"></param>
     /// <returns></returns>
-    public static async Task<int> DeleteLoad(object loadToDeleteObject, ListManager listManager)
+    public static async Task<int> DeleteLoadAsync(object loadToDeleteObject, ListManager listManager)
     {
         try {
 

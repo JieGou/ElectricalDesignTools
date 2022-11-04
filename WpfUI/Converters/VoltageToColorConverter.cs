@@ -28,7 +28,7 @@ namespace WpfUI.Converters
                 load = (LoadModel)value;
             }
 
-            if (load.VoltageType == null) {
+            if (load.VoltageType == null || load.FedFrom.LoadVoltageType == null) {
                 return new SolidColorBrush(Colors.Transparent);
             }
 

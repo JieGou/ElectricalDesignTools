@@ -55,7 +55,6 @@ public class DaManager {
     #region General
     public static void DeleteAllEquipmentRecords()
     {
-        //Delete records
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.DteqTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
@@ -66,6 +65,8 @@ public class DaManager {
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.CableTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.LcsTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.RacewayTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.RacewayRouteSegmentsTable);
     }
     #endregion
 

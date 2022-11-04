@@ -66,9 +66,7 @@ namespace EDTLibrary.Managers
                 newSupplier.CalculateLoading();
 
                 if (caller.VoltageType != null) {
-                    if (caller.Tag != "" &&
-                   caller.VoltageType.Voltage != 0 &&
-                   caller.Fla != 0) {
+                    if (caller.Tag != "" && caller.VoltageType.Voltage != 0 && caller.Fla != 0) {
                         caller.CalculateLoading();
                         caller.PowerCable.SetSourceAndDestinationTags(caller);
                     }
@@ -84,17 +82,16 @@ namespace EDTLibrary.Managers
                 assignedLoads.AddRange(dteq.AssignedLoads);
             }
 
-            //Retag Loads to "Deleted"
+            //Retag supplier of loads to "Deleted"
             IDteq deleted = GlobalConfig.DteqDeleted;
             for (int i = 0; i < assignedLoads.Count; i++) {
                 var load = assignedLoads[i];
                 load.FedFromTag = GlobalConfig.Deleted;
                 load.FedFrom = deleted;
+                load.PowerCable.SetSourceAndDestinationTags(load);
 
-                // to trigger upsert but not working
-                var tag = load.Tag;
-                load.Tag = "temp";
-                load.Tag = tag;
+                load.OnPropertyUpdated();
+                load.PowerCable.OnPropertyUpdated();
             }
             return;
         }

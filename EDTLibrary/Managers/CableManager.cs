@@ -27,12 +27,25 @@ public class CableManager
     //reference for quick navigation
     private CecCableSizer cecCableSizer;
 
+
+    public static void AssignCableTypeProperties(ICable cable) {
+
+        foreach (var cableSizeModel in EdtSettings.CableSizesUsedInProject) {
+            if (cable.Type == cableSizeModel.Type && cable.Size == cableSizeModel.Size) {
+                cable.Diameter = cableSizeModel.Diameter;
+                cable.WeightKgKm = cableSizeModel.WeightKgKm;
+                cable.WeightLbs1kFeet = cableSizeModel.WeightLbs1kFeet;
+            }
+        }
+    }
+
     public static async Task DeletePowerCableAsync(IPowerConsumer powerCableUser, ListManager listManager)
     {
 
         if (powerCableUser.PowerCable != null) {
             int cableId = powerCableUser.PowerCable.Id;
             DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
+            powerCableUser.PropertyUpdated -= DaManager.OnPowerCablePropertyUpdated;
             listManager.CableList.Remove(powerCableUser.PowerCable);
         }
         return;
