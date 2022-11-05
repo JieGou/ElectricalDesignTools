@@ -5,9 +5,11 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Services;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
@@ -247,6 +249,15 @@ public class CableModel : ICable
         set
         {
             var oldValue = _length;
+            if (Load != null && Load.FedFrom != null) {
+                if (Load.FedFrom.GetType() == typeof(XfrModel)) {
+                    if (value > 7.5) {
+                        EdtNotificationService.SendAlert(Tag, "Maximum cable length is 7.5 meters for a distribution panel with an upstream OCPD.", "Cable length violation.");
+                        //Length = oldValue;
+                        return;
+                    }
+                }
+            }
             _length = value;
 
             UndoManager.AddUndoCommand(this, nameof(Length), oldValue, _length);

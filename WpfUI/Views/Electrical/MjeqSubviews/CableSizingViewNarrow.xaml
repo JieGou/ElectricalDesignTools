@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              
@@ -305,11 +307,25 @@
             <StackPanel Orientation="Horizontal"
                         Grid.Row="13" Grid.Column="2"
                         Grid.ColumnSpan="2">
-                <TextBox Text="{Binding PowerCable.Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                
+                <syncfusion:DoubleTextBox Value="{Binding PowerCable.Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Row="8" Grid.Column="6" FontWeight="Bold"
                      Width="50"
                      HorizontalContentAlignment="Center"
-                     d:Text="0.8" />
+                     Culture="en-US"
+                     MinimumNumberDecimalDigits ="0"
+                     MaximumNumberDecimalDigits ="1"
+                     d:Text="0.8"
+                     Visibility="Collapsed"/>
+                
+                <TextBox Text="{Binding PowerCable.Length, Mode=TwoWay, UpdateSourceTrigger=Default}"
+                     Grid.Row="8" Grid.Column="6" FontWeight="Bold"
+                     Width="50"
+                     HorizontalContentAlignment="Center"
+                     d:Text="0.8" 
+                     Visibility="Visible"
+                     KeyUp="TextBox_KeyEnterUpdate"
+                         />
                 <TextBlock Text="  meters"/>
             </StackPanel>
 

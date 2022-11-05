@@ -27,8 +27,8 @@ public class CableManager
     //reference for quick navigation
     private CecCableSizer cecCableSizer;
 
-
-    public static void AssignCableTypeProperties(ICable cable) {
+    public static void AssignCableTypeProperties(ICable cable)
+    {
 
         foreach (var cableSizeModel in EdtSettings.CableSizesUsedInProject) {
             if (cable.Type == cableSizeModel.Type && cable.Size == cableSizeModel.Size) {
@@ -45,7 +45,6 @@ public class CableManager
         if (powerCableUser.PowerCable != null) {
             int cableId = powerCableUser.PowerCable.Id;
             DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
-            powerCableUser.PropertyUpdated -= DaManager.OnPowerCablePropertyUpdated;
             listManager.CableList.Remove(powerCableUser.PowerCable);
         }
         return;
@@ -73,11 +72,11 @@ public class CableManager
                 DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, item.Id);
             }
 
-            if (loadModel.Lcs!= null) {
+            if (loadModel.Lcs != null) {
                 listManager.CableList.Remove((CableModel)loadModel.Lcs.Cable);
                 DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, loadModel.Lcs.Cable.Id);
             }
-            
+
 
         }
         return;
@@ -92,7 +91,7 @@ public class CableManager
         else if (category == Categories.LOAD.ToString()) {
             length = double.Parse(EdtSettings.CableLengthLoad);
         }
-        else if (category == Categories.DRIVE.ToString() || category == ComponentSubTypes.DefaultDrive.ToString() ) {
+        else if (category == Categories.DRIVE.ToString() || category == ComponentSubTypes.DefaultDrive.ToString()) {
             length = double.Parse(EdtSettings.CableLengthDrive);
         }
         else if (category == Categories.LCLDCN.ToString() || category == ComponentSubTypes.DefaultDcn.ToString()) {
@@ -119,19 +118,11 @@ public class CableManager
     public static async Task AddAndUpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
 
-
         //cable length to load
         double loadCableLength = powerComponentOwner.PowerCable.Length;
 
 
         PreviousEq = powerComponentOwner.Tag;
-
-
-        //Stopwatch sw = new Stopwatch();
-        //sw.Start();
-        //Debug.Print($"Start {sw.Elapsed.TotalMilliseconds.ToString()}");
-
-        //if (load == null) return;
 
         try {
             await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
@@ -141,19 +132,17 @@ public class CableManager
 
                 //TODO add Load Id and LoadType to cable model
                 //TODO add PowerCableId to Equipment
-                foreach (var item in listManager.CableList) {
+                foreach (var cable in listManager.CableList) {
 
-                    if (item.LoadId == powerComponentOwner.Id && item.LoadType == powerComponentOwner.GetType().ToString()) {
-                        if (true) {
-
-                        }
-                        cablesToRemove.Add(item);
+                    if (cable.LoadId == powerComponentOwner.Id && cable.LoadType == powerComponentOwner.GetType().ToString()) {
+                        loadCableLength = Math.Max(cable.Length, loadCableLength);
+                        cablesToRemove.Add(cable);
                     }
                 }
 
-                foreach (var item in cablesToRemove) {
-                    listManager.CableList.Remove(item);
-                    DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, item.Id);
+                foreach (var cable in cablesToRemove) {
+                    listManager.CableList.Remove(cable);
+                    DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cable.Id);
                 }
 
                 //Add Cables
@@ -166,9 +155,6 @@ public class CableManager
                     if (component.SubCategory != SubCategories.CctComponent.ToString()) continue;
 
                     CableModel cable = new CableModel();
-                    //UndoManager.IsUndoing = true;
-                    //UndoManager.CanAdd = false;
-
 
                     if (previousComponent == null) {
                         cable.Source = powerComponentOwner.FedFrom.Tag;
@@ -217,9 +203,6 @@ public class CableManager
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
                     cable.ValidateCableSize(cable);
 
-                    //UndoManager.CanAdd = true;
-                    //UndoManager.IsUndoing = false;
-
                     component.PowerCable = cable;
 
                     listManager.CableList.Add(cable);
@@ -238,20 +221,21 @@ public class CableManager
             throw;
         }
 
-        //sw.Stop();
-        //Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
-
-
-
         //Local method
         void UpdateLoadCable(IPowerConsumer load, IComponentEdt previousComponent)
         {
             if (previousComponent == null) {
                 load.PowerCable.Source = load.FedFrom.Tag;
+                load.PowerCable.Length = loadCableLength;
             }
             else if (previousComponent != null) {
+
                 if (previousComponent.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
                     load.PowerCable.Length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
+                }
+
+                else { //the length of the cable
+                    load.PowerCable.Length = loadCableLength;
                 }
                 load.PowerCable.Source = previousComponent.Tag;
             }
@@ -308,11 +292,9 @@ public class CableManager
 
         cable.IsOutdoor = lcsOwner.PowerCable.IsOutdoor;
         cable.InstallationType = lcsOwner.PowerCable.InstallationType;
-        cable.Diameter = TypeManager.Cables_Control.FirstOrDefault(c => c.Type == cable.Type && c.Size == cable.Size).Diameter;
-        cable.WeightKgKm = TypeManager.Cables_Control.FirstOrDefault(c => c.Type == cable.Type && c.Size == cable.Size).WeightKgKm;
-        cable.WeightLbs1kFeet = TypeManager.Cables_Control.FirstOrDefault(c => c.Type == cable.Type && c.Size == cable.Size).WeightLbs1kFeet;
 
         lcs.Cable = cable;
+
         listManager.CableList.Add(cable);
         DaManager.UpsertCable((CableModel)cable);
     }

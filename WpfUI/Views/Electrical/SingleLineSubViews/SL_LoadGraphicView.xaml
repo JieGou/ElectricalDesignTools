@@ -147,21 +147,6 @@
                     
                     <StackPanel Orientation="Vertical" Grid.Column="1"
                             HorizontalAlignment="Left">
-                        <!--Dteq-->
-                        <ContentControl Content="{Binding}" 
-                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                    PreviewMouseDown="Load_ContentControl_PreviewMouseDown" >
-                            <ContentControl.Style>
-                                <Style TargetType="ContentControl">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:DistributionEquipment}">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ContentControl.Style>
-                        </ContentControl>
 
                         <!--Load-->
                         <ContentControl DataContext="{Binding}" Content="{Binding}" 
@@ -179,6 +164,24 @@
                             </ContentControl.Style>
                         </ContentControl>
 
+                        
+                        <!--Dteq as Load-->
+                        <ContentControl Content="{Binding}" 
+                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                                    PreviewMouseDown="Load_ContentControl_PreviewMouseDown" >
+                            <ContentControl.Style>
+                                <Style TargetType="ContentControl">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:DistributionEquipment}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
+
+                        
                     </StackPanel>
                 </Grid>
 
@@ -193,10 +196,9 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
-
-                  
+                    
                     <!--Cable -->
-                    <ContentControl DataContext="{Binding AssignedLoads[0].PowerCable}" Content="{Binding}" 
+                    <ContentControl DataContext="{Binding AssignedLoads[0] }" Content="{Binding PowerCable}" 
                                     ContentTemplate="{StaticResource CableTemplate}"
                                     Grid.Column="2" 
                                     PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown">
