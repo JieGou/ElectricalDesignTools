@@ -4,6 +4,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             
+             
              xmlns:local="clr-namespace:WpfUI.Views.Cable"
              xmlns:rules="clr-namespace:WpfUI.ValidationRules"
              xmlns:commands="clr-namespace:WpfUI.Commands"
@@ -509,10 +514,14 @@
                             BorderBrush="Black"
                             BorderThickness="1"
                             Background="White">
-                        
                         <ScrollViewer Grid.Row="5" 
                                   Grid.Column="1" 
-                                  VerticalScrollBarVisibility="Auto">
+                                  VerticalScrollBarVisibility="Auto"
+                                   >
+                            <ScrollViewer.Resources>
+                                 
+
+                            </ScrollViewer.Resources>
                             
                             <ItemsControl ItemsSource="{Binding TraySizerViewModel.RacewayGraphics, UpdateSourceTrigger=PropertyChanged}"
                                   Grid.Row="5" 
@@ -542,8 +551,17 @@
                                          Stroke="Black"
                                          StrokeThickness="0.5"
                                          Fill="{Binding CableModel, Converter={StaticResource CableModelToColorConverter}}"
-                                         ToolTip="{Binding ToolTip}" ToolTipService.InitialShowDelay="50"
-                                         />
+                                         ToolTipService.InitialShowDelay="50"
+                                         >
+                                            <Ellipse.ToolTip>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding CableModel.Tag}" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                    <TextBlock Text="{Binding ToolTip}" FontFamily="Arial"/>
+                                                </StackPanel>
+                                            </Ellipse.ToolTip>
+                                        
+                                        </Ellipse>
+                                            
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type cableViewModels:TrayGraphicViewModel}">
@@ -556,6 +574,8 @@
                                            Fill="LightGray"
                                            ToolTip="{Binding Tag}" ToolTipService.InitialShowDelay="50"
                                           />
+                                        
+                                        
                                     </DataTemplate>
 
                                 </ItemsControl.Resources>

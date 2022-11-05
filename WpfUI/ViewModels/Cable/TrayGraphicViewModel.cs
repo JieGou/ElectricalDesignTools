@@ -26,6 +26,8 @@ public class TrayGraphicViewModel : IRacewaySizerGraphic
         set { _toolTip = value; }
     }
 
+    public int QtyOfTotal { get; set;}
+
     public double X { get; set; }
     public double Y { get; set; }
 

@@ -15,7 +15,15 @@ namespace EDTLibrary.Models.Raceways;
 public class RacewayModel
 {
     public int Id { get; set; }
-    public string Tag { get; set; }
+
+    private string _tag;
+    public string Tag 
+    { 
+        get => _tag; 
+        set { _tag = value;
+            OnPropertyUpdated();
+        }
+    }
 
     public string Category { get; set; }
 
@@ -46,7 +54,12 @@ public class RacewayModel
     public double Width
     {
         get { return _width; }
-        set { _width = value; }
+        set
+        {
+            _width = value;
+            OnPropertyUpdated();
+
+        }
     }
 
     private double _height;
@@ -54,7 +67,11 @@ public class RacewayModel
     public double Height
     {
         get { return _height; }
-        set { _height = value; }
+        set
+        {
+            _height = value;
+            OnPropertyUpdated();
+        }
     }
     public double Diameter
     {
@@ -62,9 +79,11 @@ public class RacewayModel
         set
         {
             _diameter = value;
+            OnPropertyUpdated();
         }
     }
     private double _diameter;
+    
 
     public ObservableCollection<ICable> CablesInRaceway { get; set; } = new ObservableCollection<ICable>();
 

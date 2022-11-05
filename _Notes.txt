@@ -1,57 +1,45 @@
-DteqToAddValidator voltage updates and CanAdd
-DpnCircuitManager calculations into DpnModel OR DpnCalculationService
-
-VoltageValidator
+DteqToAddValidator voltage updates
 
 Dteq Graphics
 
-RacewaySizer
-	- add model reference to graphicVM
-	- add
-
-
 Application Settings
 	- Add Load Voltage notification
+	- 
 
 Priorities
 	- Distribution Panel - 12 hours
-
-		- Proper column functionality - 1
-		- Fix selected circuit - 1
 		- Circuit #'s - 3
 		- Export to AutoCad - 3
-		- Convert to Load - 2
 		- DeleteLoad recalculates panel circuits - 1
 		- Cleanup page
 
 	- Splitter - 12 hours
+		- Components
 		- ListManager - 1
 		- DaManager - 1
 		- OnPropertyUpdated - 1
 		- Add - 1
 		- Delete - 1
-		- AutoCad - 4
+		- AutoCad - 3
 		
 
-	- LCS Type Management - 4 
-		- UI - 2 
-		- functionality - 2 
+	- LCS Type Management - 1
+		- edit existing 
 
 	- Cable Type Management - 4 
-		- UI - 1 
-		- functionality - 3 
+		- UI - 2
+		- functionality - 2 
 
 	- SCCA, SCCR
 
 	- Cable List
+		- Pivot Grid
 		- Bom Style Export
 
-	- Load List?
 
 Bugs
-	- delete DTEQ does not properly delete the cable
 	- DELETE DTEQ does not retag Lcs cable
-	- SCCR calculation on DTEQ size change
+	- SCCA/R calculation on DTEQ size change
 
 Exports
 	- Areas List
@@ -72,6 +60,7 @@ Validations
 	- PD	
 	- Cable
 	
+
 Modularize Calculations
 	- Load
 
@@ -129,7 +118,7 @@ Protective Devices
 
 
 Misc. General
-	- 
+	- Voltage Validator
 
 Error Handling
 
@@ -165,16 +154,9 @@ Component type selection
 	- add typelist to components (will need separate classes for each component type)
 
 Autocad
-	- drawing list
-	- drawing list manager
-	- single line
+	- single line(s)
 	- schematics
 	- wiring diagrams
+	- title blocks
+	- drawing list
 
-
-ISSUES
-	- Component Toggle is triggering the UpdatePowerCables for Components Cables method
-	- Create Separate Components (dicsonnects, Drives, Etc) 
-
-EdtManager
-	- Instances for Managers

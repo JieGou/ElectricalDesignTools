@@ -68,6 +68,7 @@ public class RacewayManager
         try {
 
             var racewayToDelete = (RacewayModel)racewayToDeleteObject;
+            racewayToDelete.PropertyUpdated -= DaManager.OnRacewayPropertyUpdated;
             listManager.RacewayList.Remove(racewayToDelete);
             racewayToDelete.PropertyUpdated -= DaManager.OnLoadPropertyUpdated;
             DaManager.DeleteRaceway(racewayToDelete);

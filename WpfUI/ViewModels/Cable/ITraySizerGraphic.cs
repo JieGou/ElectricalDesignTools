@@ -15,8 +15,9 @@ public interface IRacewaySizerGraphic
     double Width { get; set; }
     double Height { get; set; }
 
-    public string ToolTip { get; set; }
-    public ICable CableModel { get; set; }
+    string ToolTip { get;}
+    int QtyOfTotal { get; set; }
+    ICable CableModel { get; set; }
 
 
 }

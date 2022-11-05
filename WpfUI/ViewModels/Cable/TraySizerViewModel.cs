@@ -106,7 +106,6 @@ public class TraySizerViewModel : ViewModelBase
 
             for (int i = 0; i < qtyToDraw; i++) {
 
-
                 diameter = _cableDiameter * _scaleFactor;
 
                 if (cable.Diameter != null && cable.Diameter != 0) {
@@ -152,8 +151,9 @@ public class TraySizerViewModel : ViewModelBase
 
                     }
                 }
-
-                RacewayGraphics.Add(new CableGraphicViewModel(cable.Tag, diameter, x, y, cable));
+                var cableGraphic = new CableGraphicViewModel(cable.Tag, diameter, x, y, cable);
+                cableGraphic.QtyOfTotal = i+1;
+                RacewayGraphics.Add(cableGraphic);
                 previousDiameter = diameter;
                 previousSpacing = cable.Spacing;
                 cableCount += 1;//needed for first cable 

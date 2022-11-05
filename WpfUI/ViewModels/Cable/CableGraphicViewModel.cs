@@ -22,9 +22,14 @@ public class CableGraphicViewModel : IRacewaySizerGraphic
     private string _toolTip;
     public string ToolTip
     {
-        get { return $"{Tag} tooltip text"; }
-        set { _toolTip = value; }
+        get { return 
+                $"Type: {CableModel.Type}\n" +
+                $"Size: {CableModel.Size}\n" +
+                $"Runs: {QtyOfTotal}/{CableModel.QtyParallel}"; 
+            }
     }
+    public int QtyOfTotal { get; set; }
+
     public double X { get; set; }
     public double Y { get; set; }
 

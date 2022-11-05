@@ -233,7 +233,7 @@ public class DaManager {
     public static void OnRacewayPropertyUpdated(object source, EventArgs e)
     {
         if (DaManager.GettingRecords == false) {
-            prjDb.UpsertRecord<RacewayModel>((RacewayModel)source, GlobalConfig.RacewayTable, NoSaveLists.PowerCableNoSaveList);
+            prjDb.UpsertRecord<RacewayModel>((RacewayModel)source, GlobalConfig.RacewayTable, NoSaveLists.RacewayNoSaveList);
         }
     }
 
