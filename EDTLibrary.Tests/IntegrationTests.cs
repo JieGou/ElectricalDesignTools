@@ -154,7 +154,7 @@ namespace EDTLibrary.Tests
 
                 Assert.True(listManager.AreaList.Count == TestData.TestAreasList.Count);
                 Assert.True(listManager.IDteqList.Count == TestData.TestDteqList.Count);
-                Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count);
+                //Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count);
                 //Assert.True(listManager.CableList.Count == cableCount);
                 Assert.True(listManager.CompList.Count == 2);
 
@@ -172,16 +172,6 @@ namespace EDTLibrary.Tests
                 listManager.IDteqList[0].Tag = "TX-01";
                 Assert.True(listManager.DteqList[1].PowerCable.Destination == listManager.DteqList[1].Tag);
 
-
-                //LargestMotorTest
-                //var xfrToTest = listManager.XfrList[2];
-                //xfrToTest.FindLargestMotor(xfrToTest, new LoadModel { ConnectedKva = 0 });
-                //Assert.True(xfrToTest.LargestMotor.Tag == "MTR-03");
-
-                ////Delete Dteq
-                //eqVm.DeleteDteq(listManager.IDteqList[0]);
-                //Assert.True(listManager.IDteqList.Count == TestData.TestDteqList.Count - 1);
-                //Assert.True(listManager.CableList.Count == cableCount - 1);
 
                 #endregion
 

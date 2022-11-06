@@ -1,12 +1,16 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.TestDataFolder;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfUI.Services;
+using WpfUI.ViewModels.Home;
 using Xunit;
 
 namespace EDTLibrary.Tests.Models.DistributionEquipment
@@ -22,15 +26,19 @@ namespace EDTLibrary.Tests.Models.DistributionEquipment
             GlobalConfig.Testing = true;
 
             //Arrange
-            ListManager _listManager = new ListManager();
-            _listManager.AreaList = TestData.TestAreasList;
-            _listManager.DteqList = TestData.TestDteqList;
-            _listManager.LoadList = TestData.TestLoadList;
+            ListManager listManager = new ListManager();
+            listManager.AreaList = TestData.TestAreasList;
+            listManager.DteqList = TestData.TestDteqList;
+            listManager.LoadList = TestData.TestLoadList;
             DteqModel dteqToAdd = new DteqModel();
             dteqToAdd.Area = TestData.TestAreasList[0];
 
+            StartupService startupService = new StartupService(listManager, new ObservableCollection<PreviousProject>());
+            startupService.InitializeLibrary();
+            TypeManager.GetTypeTables();
+
             //Act
-            DteqToAddValidator dteqToAddValidator = new DteqToAddValidator(_listManager, dteqToAdd);
+            DteqToAddValidator dteqToAddValidator = new DteqToAddValidator(listManager, dteqToAdd);
             dteqToAddValidator.Tag = tag;
             dteqToAddValidator.Type = type;
             dteqToAddValidator.AreaTag = areaTag;
@@ -39,6 +47,8 @@ namespace EDTLibrary.Tests.Models.DistributionEquipment
             dteqToAddValidator.Unit = unit;
             dteqToAddValidator.LineVoltage = lineVoltage;
             dteqToAddValidator.LoadVoltage = loadVoltage;
+            dteqToAddValidator.LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == Double.Parse(lineVoltage));
+            dteqToAddValidator.LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == Double.Parse(loadVoltage));
 
             GlobalConfig.SelectingNew = false;
             bool actual = dteqToAddValidator.IsValid();
@@ -63,14 +73,21 @@ namespace EDTLibrary.Tests.Models.DistributionEquipment
             GlobalConfig.Testing = true;
 
             //Arrange
-            ListManager _listManager = new ListManager();
-            _listManager.DteqList = TestData.TestDteqList;
-            _listManager.LoadList = TestData.TestLoadList;
+            ListManager listManager = new ListManager();
+           
             DteqModel dteqToAdd = new DteqModel();
             dteqToAdd.Area = TestData.TestAreasList[0];
+            dteqToAdd.LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == Double.Parse(lineVoltage));
+            dteqToAdd.LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == Double.Parse(loadVoltage));
+
+            StartupService startupService = new StartupService(listManager, new ObservableCollection<PreviousProject>());
+            startupService.InitializeLibrary();
+            TypeManager.GetTypeTables();
+            listManager.DteqList = TestData.TestDteqList;
+            listManager.LoadList = TestData.TestLoadList;
 
             //Act
-            DteqToAddValidator dteqToAddValidator = new DteqToAddValidator(_listManager, dteqToAdd);
+            DteqToAddValidator dteqToAddValidator = new DteqToAddValidator(listManager, dteqToAdd);
             dteqToAddValidator.Tag = tag;
             dteqToAddValidator.Type = type;
             dteqToAddValidator.AreaTag = areaTag;
@@ -79,6 +96,8 @@ namespace EDTLibrary.Tests.Models.DistributionEquipment
             dteqToAddValidator.Unit = unit;
             dteqToAddValidator.LineVoltage = lineVoltage;
             dteqToAddValidator.LoadVoltage = loadVoltage;
+            dteqToAddValidator.LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == Double.Parse(lineVoltage));
+            dteqToAddValidator.LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == Double.Parse(loadVoltage));
 
             bool actual = dteqToAddValidator.IsValid();
             var errors = dteqToAddValidator._errorDict;

@@ -3,6 +3,7 @@ using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
+using Syncfusion.UI.Xaml.TreeView.Engine;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -22,57 +23,15 @@ public partial class SinlgeLineView : UserControl
 {
     private SingleLineViewModel vm { get { return DataContext as SingleLineViewModel; } }
 
-    #region Data Members
-
-    /// <summary>
-    /// Set to 'true' when the left mouse-button is down.
-    /// </summary>
-    private bool isLeftMouseButtonDownOnTarget = false;
-
-    /// <summary>
-    /// Set to 'true' when dragging the 'selection rectangle'.
-    /// Dragging of the selection rectangle only starts when the left mouse-button is held down and the mouse-cursor
-    /// is moved more than a threshold distance.
-    /// </summary>
-    private bool isDraggingSelectionRect = false;
-
-    /// <summary>
-    /// Records the location of the mouse (relative to the window) when the left-mouse button has pressed down.
-    /// </summary>
-    private Point origMouseDownPoint;
-
-    /// <summary>
-    /// The threshold distance the mouse-cursor must move before drag-selection begins.
-    /// </summary>
-    private static readonly double DragThreshold = 5;
-
-    /// <summary>
-    /// Set to 'true' when the left mouse-button is held down on a rectangle.
-    /// </summary>
-    private bool isLeftMouseDownOnRectangle = false;
-
-    /// <summary>
-    /// Set to 'true' when the left mouse-button and control are held down on a rectangle.
-    /// </summary>
-    private bool isLeftMouseAndControlDownOnRectangle = false;
-
-    /// <summary>
-    /// Set to 'true' when dragging a rectangle.
-    /// </summary>
-    private bool isDraggingRectangle = false;
-
-    #endregion Data Members
+   
 
 
     public SinlgeLineView()
     {
         InitializeComponent();
 
-        if (vm != null) {
-            if (vm.ViewableDteqList.Count > 0) {
-                vm.SelectedDteq = vm.ViewableDteqList[0];
-            }
-        }
+        
+
     }
 
     DteqTabsView _dteqTabsView = new DteqTabsView();
@@ -84,7 +43,7 @@ public partial class SinlgeLineView : UserControl
     {
         if (vm != null) {
             if (vm.ViewableDteqList.Count > 0) {
-                vm.SelectedDteq = vm.ViewableDteqList[0];
+                vm.SelectedDteq = (IDteq)vm.ViewableDteqList[0];
             }
         }
     }
@@ -150,7 +109,46 @@ public partial class SinlgeLineView : UserControl
 
 
 
+    #region Data Members For Drag selection
 
+    /// <summary>
+    /// Set to 'true' when the left mouse-button is down.
+    /// </summary>
+    private bool isLeftMouseButtonDownOnTarget = false;
+
+    /// <summary>
+    /// Set to 'true' when dragging the 'selection rectangle'.
+    /// Dragging of the selection rectangle only starts when the left mouse-button is held down and the mouse-cursor
+    /// is moved more than a threshold distance.
+    /// </summary>
+    private bool isDraggingSelectionRect = false;
+
+    /// <summary>
+    /// Records the location of the mouse (relative to the window) when the left-mouse button has pressed down.
+    /// </summary>
+    private Point origMouseDownPoint;
+
+    /// <summary>
+    /// The threshold distance the mouse-cursor must move before drag-selection begins.
+    /// </summary>
+    private static readonly double DragThreshold = 5;
+
+    /// <summary>
+    /// Set to 'true' when the left mouse-button is held down on a rectangle.
+    /// </summary>
+    private bool isLeftMouseDownOnRectangle = false;
+
+    /// <summary>
+    /// Set to 'true' when the left mouse-button and control are held down on a rectangle.
+    /// </summary>
+    private bool isLeftMouseAndControlDownOnRectangle = false;
+
+    /// <summary>
+    /// Set to 'true' when dragging a rectangle.
+    /// </summary>
+    private bool isDraggingRectangle = false;
+
+    #endregion Data Members
 
     private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
     {

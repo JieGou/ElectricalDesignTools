@@ -52,18 +52,14 @@ internal class SingleLineViewModel: ViewModelBase
     public SolidColorBrush SingleLineViewBackground { get; set; } = new SolidColorBrush(Colors.LightCyan);
 
 
-    public ObservableCollection<IDteq> ViewableDteqList
+    public ObservableCollection<IPowerConsumer> ViewableDteqList
 
     {
         get
         {
-            List<IDteq> subList = new List<IDteq>();
-            subList = _listManager.IDteqList.Where(d => 
-                d.Type == DteqTypes.MCC.ToString() || 
-                d.Type == DteqTypes.CDP.ToString() ||
-                d.Type== DteqTypes.DPN.ToString()
-                ).ToList();
-            return new ObservableCollection<IDteq>(subList);
+            List<IPowerConsumer> subList = new List<IPowerConsumer>();
+            subList.AddRange(ListManager.DteqList.FirstOrDefault(d => d.Tag == GlobalConfig.Utility).AssignedLoads);
+            return new ObservableCollection<IPowerConsumer>(subList);
         }
     }
 

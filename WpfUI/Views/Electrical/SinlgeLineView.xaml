@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:WpfUI.Windows"
              mc:Ignorable="d"
         
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              
              xmlns:converters="clr-namespace:WpfUI.Converters"
              
@@ -52,7 +53,8 @@
     </UserControl.Resources>
 
     <!--Main Grid-->
-    <Grid Background="{StaticResource PageBackground}">
+    <Grid Background="{StaticResource PageBackground}"
+          ShowGridLines="False">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="115"/>
@@ -63,7 +65,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25"/>
-            <ColumnDefinition Width="auto" MaxWidth="150"/>
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -73,7 +75,8 @@
 
         <!--Left Menu-->
         <StackPanel Orientation="Vertical"
-                    Grid.Row="2" Grid.Column="1" >
+                    Grid.Row="2" Grid.RowSpan="4"
+                    Grid.Column="1" >
             <TextBlock Text="Selected Equipment"
                        FontSize="16"
                        FontWeight="SemiBold"
@@ -86,7 +89,69 @@
                      DisplayMemberPath="Tag"
                      MinWidth="100" MinHeight="100"
                      Margin="0 10" 
-                     />
+                     Visibility="Collapsed"/>
+
+            <TreeView Grid.Row="1" Grid.Column="1"
+                      ItemsSource="{Binding ViewableDteqList}"
+                      Visibility="Collapsed">
+                
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}" ItemsSource="{Binding AssignedLoads}">
+                        <TextBlock Text="{Binding Tag}" Height="23"/>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            
+            <!--ItemsSource="{Binding ViewableDteqList}"-->
+            
+            <syncfusion:SfTreeView x:Name="sfTreeView" 
+                                   Grid.Row="1" Grid.Column="1"
+                                   MaxHeight="350"
+                                   MaxWidth="250"
+                                   ChildPropertyName="AssignedLoads"
+                                   ItemsSource="{Binding ViewableDteqList}"
+                                   SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                   Background="White"
+                                   BorderBrush="Black"
+                                   BorderThickness="1"
+                                   ShowLines="True"
+                                   FullRowSelect="True"
+                                   Visibility="Visible"
+                                   Indentation="10">
+                <syncfusion:SfTreeView.Resources>
+                    
+                </syncfusion:SfTreeView.Resources>
+
+                <syncfusion:SfTreeView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid x:Name="grid">
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Image Source="{Binding ImageIcon}"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            Height="16"
+                                            Width="16"/>
+                                </Grid>
+                                <Grid Grid.Column="1"
+                                        Margin="1,0,0,0"
+                                        VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding Tag}"
+                                               Foreground="Black"
+                                               FontSize="12"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </syncfusion:SfTreeView.ItemTemplate>
+            </syncfusion:SfTreeView>
 
             <Button Content="Create Drawing"
                     Command="{Binding DrawSingleLineAcadCommand}"/>

@@ -23,9 +23,6 @@
                 <ResourceDictionary Source="Styles/EdtColorsAndDimensions.xaml"/>
                 <ResourceDictionary Source="Styles/EdtStyle_Base.xaml"/>
                 <ResourceDictionary Source="Styles/SfEdtStyle_Base.xaml"/>
-                <!--<ResourceDictionary Source="Styles/EdtStyle_Teal.xaml"/>-->
-                <!--<ResourceDictionary Source="Styles/EdtStyle_Blue.xaml"/>-->
-                <!--<ResourceDictionary Source="Styles/EdtStyle_Purple.xaml"/>-->
                 <ResourceDictionary Source="Converters/Converters.xaml"/>
 
 
@@ -67,7 +64,7 @@
                 <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Label.xaml" /> -->
                  <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Tooltip.xaml" /> 
                 <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ToolBar.xaml" /> -->
-                <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.TreeView.xaml" /> -->
+                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.TreeView.xaml" /> 
                 <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.StatusBar.xaml" /> -->
                 <!-- this should be added -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ContentControl.xaml" />
@@ -87,8 +84,8 @@
                 <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/ColorPicker/ColorPalette.xaml" /> -->
                 <!-- <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/ColorPicker/ColorPicker.xaml" /> -->
             </ResourceDictionary.MergedDictionaries>
-            <!--Style for hiding Non-Motor load cell content in SfDataGrid-->
             
+            <!--Style for hiding Non-Motor load cell content in SfDataGrid-->
             <Style TargetType="sfgrid:GridCell" x:Key="NonMotorLoadVisibilityStyle">
                 <Setter Property="BorderBrush" Value="LightGray" />
                 <Style.Triggers>
