@@ -4,6 +4,8 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Raceways;
 using PropertyChanged;
 using Syncfusion.UI.Xaml.Charts;
+using Syncfusion.UI.Xaml.Diagram;
+using Syncfusion.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -83,7 +85,7 @@ public class TraySizerViewModel : ViewModelBase
 
         //Bottom
         RacewayGraphics.Add(new TrayGraphicViewModel($"{raceway.Tag} - {raceway.Width} x {raceway.Height}", _trayWidth, _trayThickness, _start, _start + _trayHeight - _trayThickness));
-
+        var trayBottom = RacewayGraphics[RacewayGraphics.Count - 1];
         //Cables
 
         cableList = cableList.OrderByDescending(c => c.VoltageRating).ThenByDescending(c => c.Spacing).ThenByDescending(c => c.Diameter).ToList();
@@ -152,16 +154,79 @@ public class TraySizerViewModel : ViewModelBase
                     }
                 }
                 var cableGraphic = new CableGraphicViewModel(cable.Tag, diameter, x, y, cable);
-                cableGraphic.QtyOfTotal = i+1;
+                cableGraphic.QtyOfTotal = i + 1;
                 RacewayGraphics.Add(cableGraphic);
                 previousDiameter = diameter;
                 previousSpacing = cable.Spacing;
                 cableCount += 1;//needed for first cable 
 
+
+
+
+
+                //PlaceCablesWithCollisionDetection(trayBottom);
+
             }
 
         }
     }
+
+    private void PlaceCablesWithCollisionDetection(IRacewaySizerGraphic trayBottom)
+    {
+        //CollisionDetection for Falling Cables
+
+        double increment = 0.1; double cableContactTolerance; cableContactTolerance = 0.3;
+
+        double xDistance = 0;
+        double yDistance = 0;
+        bool cableIsPlaced = false;
+        var placedCables = new List<CableGraphicViewModel>();
+        string firstCableContacted;
+
+
+        foreach (var activeCable in RacewayGraphics) {
+            cableIsPlaced = false;
+            firstCableContacted = "";
+            if (activeCable.GetType() == typeof(CableGraphicViewModel)) {
+                activeCable.Y = 0;
+                while (cableIsPlaced == false) {
+
+                    double cableSeparation = 0;
+                    foreach (var placedCable in placedCables) {
+
+                        xDistance = (activeCable.X + activeCable.Diameter / 2) - (placedCable.X + placedCable.Diameter / 2);
+                        yDistance = (activeCable.Y + activeCable.Diameter / 2) - (placedCable.Y + placedCable.Diameter / 2);
+                        cableSeparation = Math.Sqrt(Math.Pow(xDistance, 2) + Math.Pow(yDistance, 2));
+
+                        if (activeCable.Y + activeCable.Diameter > trayBottom.Y || cableSeparation + cableContactTolerance < activeCable.Diameter / 2 + placedCable.Diameter / 2) {
+                            if (firstCableContacted == "") {
+                                firstCableContacted = placedCable.Tag;
+                            }
+                            activeCable.X += increment;
+
+                            if (activeCable.Y + activeCable.Diameter > trayBottom.Y ||
+                                cableSeparation + cableContactTolerance < activeCable.Diameter / 2 + placedCable.Diameter / 2) {
+
+                                //Debug helper to BreakPoint at this cable.
+                                if (activeCable.Tag.Contains("MTR333.LCS")) {
+                                    bool targetCable = true;
+                                }
+
+                                if (placedCable.Tag == firstCableContacted) {
+                                    cableIsPlaced = true;
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    activeCable.Y += increment;
+                    if (activeCable.Y + activeCable.Diameter > trayBottom.Y) cableIsPlaced = true;
+                }
+                placedCables.Add((CableGraphicViewModel)activeCable);
+            }
+        }
+    }
+
     public ObservableCollection<IRacewaySizerGraphic> RacewayGraphics { get; set; } = new ObservableCollection<IRacewaySizerGraphic>();
 
    

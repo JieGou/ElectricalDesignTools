@@ -33,10 +33,12 @@ public class RacewayManager
         
     }
 
-    public static void RemoveRacewayRouteSegment(RacewayRouteSegment segment, ICable cable, ListManager listManager)
+    public static void RemoveRacewayRouteSegment(RacewayRouteSegment segment, ListManager listManager)
     {
-        cable.RacewaySegmentList.Remove(segment);
-        listManager.RacewaySegmentList.Remove(segment);
+        var cable = listManager.CableList.FirstOrDefault(c => c.Id == segment.CableId);
+        var segmentToRemove = listManager.RacewaySegmentList.FirstOrDefault(s => s.Id ==segment.Id); 
+        cable.RacewaySegmentList.Remove(segmentToRemove);
+        listManager.RacewaySegmentList.Remove(segmentToRemove);
         DaManager.prjDb.DeleteRecord("RacewayRouteSegments", segment.Id);
     }
 

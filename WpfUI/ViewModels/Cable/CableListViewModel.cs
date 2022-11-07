@@ -34,8 +34,10 @@ public class CableListViewModel : ViewModelBase
         AddRacewayCommand = new RelayCommand(AddRaceway);
         DeleteRacewayCommand = new RelayCommand(DeleteRaceway);
 
-        AddCablesToRacewayCommand = new RelayCommand(AddCablesToRaceway);
+        AddCablesToSelectedRacewayCommand = new RelayCommand(AddCablesToRaceway);
 
+        RemoveCablesFromSelectedRacewayCommand = new RelayCommand(RemoveCablesFromSelectedRaceway);
+        RemoveCablesFromAllRacewayCommand = new RelayCommand(RemoveCablesFromAllRaceway);
     }
 
 
@@ -109,7 +111,7 @@ public class CableListViewModel : ViewModelBase
             }
         }
         _selectedRaceway.CablesInRaceway = new ObservableCollection<ICable>(_cablesInSelectedRaceway);
-        TraySizerViewModel = new TraySizerViewModel(ListManager, _selectedRaceway, _cablesInSelectedRaceway);
+        TraySizerViewModel = new TraySizerViewModel(ListManager, SelectedRaceway, _cablesInSelectedRaceway);
     }
 
     private List<ICable> _cablesInSelectedRaceway = new List<ICable>();
@@ -130,7 +132,7 @@ public class CableListViewModel : ViewModelBase
     public void RemoveRacewayRouteSegment()
     {
         if (_selectedRacewaySegment == null || _selectedCable == null) return;
-        RacewayManager.RemoveRacewayRouteSegment(_selectedRacewaySegment, _selectedCable, ListManager);
+        RacewayManager.RemoveRacewayRouteSegment(_selectedRacewaySegment, ListManager);
         UpdateSelectedRaceway();
     }
 
@@ -166,13 +168,14 @@ public class CableListViewModel : ViewModelBase
         }
     }
 
-    public ICommand AddCablesToRacewayCommand { get; }
+    public ICommand AddCablesToSelectedRacewayCommand { get; }
     public void AddCablesToRaceway()
     {
         AddCablesToRacewayAsync();
         UpdateSelectedRaceway();
     }
 
+    
     public async Task AddCablesToRacewayAsync()
     {
         if (_selectedProjectRaceway == null) return; 
@@ -185,5 +188,74 @@ public class CableListViewModel : ViewModelBase
             ErrorHelper.ShowErrorMessage(ex);
         }
     }
+
+    public ICommand RemoveCablesFromSelectedRacewayCommand { get; }
+    public void RemoveCablesFromSelectedRaceway()
+    {
+        RemoveCablesFromSelectedRacewayAsync();
+        UpdateSelectedRaceway();
+    }
+
+    public async Task RemoveCablesFromSelectedRacewayAsync()
+    {
+        if (SelectedRaceway == null) return;
+        try {
+
+            ICable cable = new CableModel();
+
+            var segmentsToDelete = new List<RacewayRouteSegment>();
+            foreach (var cableObject in SelectedCables) {
+                cable = (ICable)cableObject;
+                foreach (var segment in ListManager.RacewaySegmentList) {
+                    if (cable.Id == segment.CableId && segment.RacewayId== SelectedRaceway.Id) {
+                        segmentsToDelete.Add(segment);
+                    }
+                }
+            }
+
+            foreach (var segment in segmentsToDelete) {
+                RacewayManager.RemoveRacewayRouteSegment(segment, ListManager);
+            }
+            UpdateSelectedRaceway();
+
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
+    }
+
+    public ICommand RemoveCablesFromAllRacewayCommand { get; }
+    public void RemoveCablesFromAllRaceway()
+    {
+        RemoveCablesFromAllRacewayAsync();
+        UpdateSelectedRaceway();
+    }
+
+    public async Task RemoveCablesFromAllRacewayAsync()
+    {
+       
+        try {
+            ICable cable = new CableModel();
+
+            var segmentsToDelete = new List<RacewayRouteSegment>();
+            foreach (var cableObject in SelectedCables) {
+                cable = (ICable)cableObject;
+                foreach (var segment in ListManager.RacewaySegmentList) {
+                    if (cable.Id == segment.CableId) {
+                        segmentsToDelete.Add(segment);
+                    }
+                }
+            }
+
+            foreach (var segment in segmentsToDelete) {
+                RacewayManager.RemoveRacewayRouteSegment(segment, ListManager);
+            }
+
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
+    }
+
 }
 

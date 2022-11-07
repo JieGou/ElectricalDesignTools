@@ -29,15 +29,15 @@
             <TextBlock Text="Select where to feed equipment from:"
                        Margin="30 15"/>
             <ComboBox Grid.Row="2" Grid.Column="6"
-                          Template="{DynamicResource ComboBoxBase}"
-                          Width="100"
-                          ItemsSource="{Binding Source={StaticResource dteqList}}"
-                          DisplayMemberPath="Tag"
-                      HorizontalContentAlignment="Center"
-                          IsSynchronizedWithCurrentItem="False"
-                          Text="{Binding LoadToAddValidator.FedFromTag}"
-                          IsEditable="False" IsTextSearchEnabled="True"
-                          Margin="10"/>
+                        Template="{DynamicResource ComboBoxBase}"
+                        Width="150"
+                        ItemsSource="{Binding Source={StaticResource dteqList}}"
+                        DisplayMemberPath="Tag"
+                        HorizontalContentAlignment="Center"
+                        IsSynchronizedWithCurrentItem="False"
+                        Text="{Binding LoadToAddValidator.FedFromTag}"
+                        IsEditable="False" IsTextSearchEnabled="True"
+                        Margin="10"/>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Cancel" Margin="20 15" 

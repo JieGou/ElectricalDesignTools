@@ -149,7 +149,22 @@
                                    >
                 <syncfusion:SfDataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Add To Selected Raceway" Command="{Binding AddCablesToRacewayCommand}"/>
+                        <MenuItem Header="Add" Height="25" >
+                            <MenuItem.Icon>
+                                <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
+                                           Height="10"/>
+                            </MenuItem.Icon>
+                            <MenuItem Header="To Selected Raceway" Command="{Binding AddCablesToSelectedRacewayCommand}" Height="25"/>
+                        </MenuItem>
+                        <MenuItem Header="Remove" Height="25">
+                            <MenuItem.Icon>
+                                <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
+                                           Height="10"/>
+                            </MenuItem.Icon>
+                            <MenuItem Header="From Selected Raceway" Command="{Binding RemoveCablesFromSelectedRacewayCommand}"  Height="25" />
+                            <MenuItem Header="From All Raceways" Command="{Binding RemoveCablesFromAllRacewayCommand}"  Height="25" />
+
+                        </MenuItem>
                     </ContextMenu>
                 </syncfusion:SfDataGrid.ContextMenu>
 

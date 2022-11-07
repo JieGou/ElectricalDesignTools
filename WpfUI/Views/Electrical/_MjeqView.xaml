@@ -992,29 +992,28 @@
 
                     <sf:SfDataGrid.ContextMenu>
                         <ContextMenu >
-                            <MenuItem Header="Move to Area" PreviewMouseDown="LoadGridContextMenu_SetArea" Height="25"/>
-                            <MenuItem Header="Set FedFrom" PreviewMouseDown="LoadGridContextMenu_SetFedFrom" Height="20"/>
-                            <MenuItem Header="Add" Height="20" >
+                            <MenuItem Header="Move to Area" Command="{Binding SetAreaCommand}"  Height="25"/>
+                            <MenuItem Header="Set FedFrom" Command="{Binding SetFedFromCommand}"  Height="25"/>
+                            <MenuItem Header="Add" Height="25" >
                                 <MenuItem.Icon>
                                     <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
                                            Height="10"/>
                                 </MenuItem.Icon>
-                                <MenuItem Header="Add Disconnect" Height="20" PreviewMouseDown="LoadGridContextMenu_AddDiscoonnect" />
-                                <MenuItem Header="Add Drive" Height="20" PreviewMouseDown="LoadGridContextMenu_AddDrive"/>
-                                <MenuItem Header="Add LCS" Height="20" PreviewMouseDown="LoadGridContextMenu_AddLcs"/>
+                                <MenuItem Header="Add Disconnect" Height="20"  Command="{Binding AddDisconnectCommand}" />
+                                <MenuItem Header="Add Drive" Height="20"  Command="{Binding AddDriveCommand}" />
+                                <MenuItem Header="Add LCS" Height="20"  Command="{Binding AddLcsCommand}"/>
                             </MenuItem>
-                            <MenuItem Header="Remove" Height="20">
+                            <MenuItem Header="Remove" Height="25">
                                 <MenuItem.Icon>
                                     <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
                                            Height="10"/>
                                 </MenuItem.Icon>
-                                <MenuItem Header="Remove Disconnect" Height="20" PreviewMouseDown="LoadGridContextMenu_RemoveDiscoonnect"/>
-                                <MenuItem Header="Remove Drive" Height="20" PreviewMouseDown="LoadGridContextMenu_RemoveDrive"/>
-                                <MenuItem Header="Remove LCS" Height="20" PreviewMouseDown="LoadGridContextMenu_RemoveLcs"/>
+                                <MenuItem Header="Remove Disconnect" Height="25"  Command="{Binding RemoveDisconnectCommand}" />
+                                <MenuItem Header="Remove Drive" Height="25"  Command="{Binding RemoveDriveCommand}" />
+                                <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
                             </MenuItem>
                             <Separator/>
-                            <MenuItem Header="Delete" Height="20" PreviewMouseDown="LoadGridContextMenu_Delete"/>
-
+                            <MenuItem Header="Delete" Height="25" PreviewMouseDown="LoadGridContextMenu_Delete"/>
                         </ContextMenu>
                     </sf:SfDataGrid.ContextMenu>
 

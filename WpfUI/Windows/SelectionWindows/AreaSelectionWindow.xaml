@@ -30,7 +30,7 @@
                        Margin="30 15"/>
             <ComboBox Grid.Row="2" Grid.Column="6"
                       Template="{DynamicResource ComboBoxBase}"
-                      Width="100"
+                      Width="150"
                       ItemsSource="{Binding Source={StaticResource AreaList}}"
                       HorizontalContentAlignment="Center"
                       IsSynchronizedWithCurrentItem="False"
@@ -38,18 +38,6 @@
                       DisplayMemberPath="Tag"
                       IsEditable="False" IsTextSearchEnabled="True"
                       Margin="10">
-                <!--<ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Tag}" HorizontalAlignment="Center" TextAlignment="Center" Width="55" Margin="10 0"/>
-                            <TextBlock Grid.Column="1" Text="{Binding Name}" Width="150"/>
-                        </Grid>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>-->
             </ComboBox>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

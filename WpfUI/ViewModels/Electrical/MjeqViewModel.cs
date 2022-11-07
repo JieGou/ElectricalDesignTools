@@ -12,6 +12,7 @@ using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
+using Syncfusion.Windows.Controls.RichTextBoxAdv;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,20 +30,22 @@ using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModels;
+using WpfUI.ViewModels.Equipment;
 using WpfUI.ViewModifiers;
 using WpfUI.Windows;
+using WpfUI.Windows.SelectionWindows;
 using IComponentEdt = EDTLibrary.Models.Components.IComponentEdt;
 
 namespace WpfUI.ViewModels.Electrical;
 
 [AddINotifyPropertyChangedInterface]
-public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
+public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 {
 
     #region Constructor
     private DteqFactory _dteqFactory;
-    private ListManager _listManager;
 
+    private ListManager _listManager;
     public ListManager ListManager
     {
         get { return _listManager; }
@@ -64,8 +67,9 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
 
 
     //CONSTRUCTOR
-    public MjeqViewModel(ListManager listManager)
+    public MjeqViewModel(ListManager listManager) : base(listManager)
     {
+        
 
         //fields
         _listManager = listManager;
@@ -76,8 +80,8 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         DteqGridViewModifier = new DataGridColumnViewToggle();
         LoadGridViewModifier = new DataGridColumnViewToggle();
 
-        DteqToAddValidator = new DteqToAddValidator(_listManager);
-        LoadToAddValidator = new LoadToAddValidator(_listManager);
+        //DteqToAddValidator = new DteqToAddValidator(_listManager);
+        //LoadToAddValidator = new LoadToAddValidator(_listManager);
 
         // Create commands
         ToggleRowDetailViewCommand = new RelayCommand(ToggleDatagridRowdetailView);
@@ -125,10 +129,7 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         DeleteComponentCommand = new RelayCommand(DeleteComponent);
 
 
-        //Window Commands
-        CloseWindowCommand = new RelayCommand(CloseSelectionWindow);
-        SetAreaCommand = new RelayCommand(SetArea);
-        SetFedFromCommand = new RelayCommand(SetFedFrom);
+       
 
 
     }
@@ -190,32 +191,32 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
     public ICommand DeleteComponentCommand { get; }
 
 
-    public Window SelectionWindow { get; set; }
-    public ICommand CloseWindowCommand { get; }
-    public ICommand SetAreaCommand { get; }
-    public ICommand SetFedFromCommand { get; }
+    //public Window SelectionWindow { get; set; }
+    //public ICommand CloseWindowCommand { get; }
+    //public ICommand SetFedFromCommand { get; }
 
 
-    public void CloseSelectionWindow()
-    {
-        SelectionWindow.Close();
-        SelectionWindow = null;
-    }
+    //public void CloseSelectionWindow()
+    //{
+    //    SelectionWindow.Close();
+    //    SelectionWindow = null;
+    //}
 
-    public void SetArea()
-    {
-        if (SelectedLoads == null) return;
-        IPowerConsumer load;
+    //public ICommand SetAreaCommand { get; }
 
-        foreach (var item in SelectedLoads) {
-            load = (IPowerConsumer)item;
-            //dteq.Tag = "New Tag";
-            load.Area = ListManager.AreaList.FirstOrDefault(d => d.Tag == LoadToAddValidator.AreaTag);
-        }
-        if (SelectionWindow != null) {
-            CloseSelectionWindow();
-        }
-    }
+    //public void SetArea()
+    //{
+        
+
+    //    EquipmentCommands.SetAreaOfEquipmentList(LoadToAddValidator.AreaTag, SelectedLoads, ListManager, this);
+
+    //    if (SelectionWindow != null) {
+    //        CloseSelectionWindow();
+    //    }
+    //}
+
+    
+
     public void SetFedFrom()
     {
         if (SelectedLoads == null) return;
@@ -429,7 +430,6 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             }
         }
     }
-    public DteqToAddValidator DteqToAddValidator { get; set; }
 
 
     // LOADS
@@ -457,8 +457,6 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
             }
         }
     }
-
-    public IList SelectedLoads { get; internal set; }
 
     private int _selectedLoadTab;
     public int SelectedLoadTab
@@ -495,7 +493,6 @@ public class MjeqViewModel : ViewModelBase, INotifyDataErrorInfo
         }
 
     }
-    public LoadToAddValidator LoadToAddValidator { get; set; }
 
 
     // LISTS                                  //Must be named AssignedLoads to match DTEQ.AssignedLoads property

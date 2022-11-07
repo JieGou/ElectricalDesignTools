@@ -186,19 +186,19 @@ public partial class _MjeqView : UserControl
 
     private void LoadGridContextMenu_SetArea(object sender, MouseButtonEventArgs e)
     {
-        AreaSelectionWindow areaSelectionWindow = new AreaSelectionWindow();
-        areaSelectionWindow.DataContext = MjeqVm;
-        MjeqVm.SelectionWindow = areaSelectionWindow;
-        areaSelectionWindow.ShowDialog();
+        //AreaSelectionWindow areaSelectionWindow = new AreaSelectionWindow();
+        //areaSelectionWindow.DataContext = MjeqVm;
+        //MjeqVm.SelectionWindow = areaSelectionWindow;
+        //areaSelectionWindow.ShowDialog();
 
     }
 
     private void LoadGridContextMenu_SetFedFrom(object sender, MouseButtonEventArgs e)
     {
-        FedFromSelectionWindow fedFromSelectionWindow = new FedFromSelectionWindow();
-        fedFromSelectionWindow.DataContext = MjeqVm;
-        MjeqVm.SelectionWindow = fedFromSelectionWindow;
-        fedFromSelectionWindow.ShowDialog();
+        //FedFromSelectionWindow fedFromSelectionWindow = new FedFromSelectionWindow();
+        //fedFromSelectionWindow.DataContext = MjeqVm;
+        //MjeqVm.SelectionWindow = fedFromSelectionWindow;
+        //fedFromSelectionWindow.ShowDialog();
 
     }
 
@@ -212,7 +212,7 @@ public partial class _MjeqView : UserControl
 
     private void LoadGridContextMenu_AddDiscoonnect(object sender, MouseButtonEventArgs e)
     {
-        AddDisconnectAsync();
+        //AddDisconnectAsync();
     }
     private async Task AddDisconnectAsync()
     {
@@ -232,7 +232,7 @@ public partial class _MjeqView : UserControl
 
     private async void LoadGridContextMenu_AddDrive(object sender, MouseButtonEventArgs e)
     {
-        await AddDriveAsync();
+        //await AddDriveAsync();
     }
     private async Task AddDriveAsync()
     {
@@ -250,7 +250,7 @@ public partial class _MjeqView : UserControl
 
     private async void LoadGridContextMenu_AddLcs(object sender, MouseButtonEventArgs e)
     {
-        await AddLcsAsync();
+        //await AddLcsAsync();
     }
     private async Task AddLcsAsync()
     {
@@ -269,7 +269,7 @@ public partial class _MjeqView : UserControl
 
     private void LoadGridContextMenu_RemoveDiscoonnect(object sender, MouseButtonEventArgs e)
     {
-        RemoveDisconnectAsync();
+        //RemoveDisconnectAsync();
     }
     private async Task RemoveDisconnectAsync()
     {
@@ -284,7 +284,7 @@ public partial class _MjeqView : UserControl
 
     private void LoadGridContextMenu_RemoveDrive(object sender, MouseButtonEventArgs e)
     {
-        RemoveDriveAsync();
+        //RemoveDriveAsync();
     }
     private async Task RemoveDriveAsync()
     {
@@ -301,7 +301,7 @@ public partial class _MjeqView : UserControl
 
     private void LoadGridContextMenu_RemoveLcs(object sender, MouseButtonEventArgs e)
     {
-        RemoveLcsAsync();
+        //RemoveLcsAsync();
     }
     private async Task RemoveLcsAsync()
     {

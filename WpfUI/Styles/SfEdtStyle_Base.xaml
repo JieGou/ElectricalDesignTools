@@ -521,7 +521,7 @@
                         <Border x:Name="PART_HoverBorder" 
                             Visibility="Collapsed" 
                             Margin="1"
-                            Background="{StaticResource Light}"/>
+                            Background="{DynamicResource Light}"/>
 
                         <StackPanel x:Name="PART_IndentContainer" 
                                 Panel.ZIndex="0"

@@ -24,9 +24,10 @@ using WpfUI.Helpers;
 using WpfUI.PopupWindows;
 using WpfUI.Services;
 using WpfUI.Stores;
+using WpfUI.ViewModels.Equipment;
 
 namespace WpfUI.ViewModels.Electrical;
-internal class SingleLineViewModel: ViewModelBase
+internal class SingleLineViewModel: EdtViewModelBase
 {
 
     private DteqFactory _dteqFactory;
@@ -64,7 +65,7 @@ internal class SingleLineViewModel: ViewModelBase
     }
 
 
-    public SingleLineViewModel(ListManager listManager)
+    public SingleLineViewModel(ListManager listManager) : base(listManager)
     {
         ListManager = listManager;
 
@@ -149,13 +150,6 @@ internal class SingleLineViewModel: ViewModelBase
         }
     }
 
-    private ObservableCollection<IPowerConsumer> _powerConsumers;
-
-    public ObservableCollection<IPowerConsumer> SelectedLoads
-    {
-        get { return _powerConsumers; }
-        set { _powerConsumers = value; }
-    }
 
     //Components
     private ComponentModel _selectedComponent;
