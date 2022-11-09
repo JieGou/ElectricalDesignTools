@@ -273,7 +273,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         get
         {
             if (_dteqCollectionView == null) {
-                //View = CollectionViewSource.GetDefaultView(_listManager.CableList);
                 _dteqCollectionView = new ListCollectionView(DteqList);
             }
             return _dteqCollectionView;

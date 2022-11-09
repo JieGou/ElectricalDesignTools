@@ -51,10 +51,6 @@
 
             <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
-            <!--For quick filtering of DteqGrid-->
-            <CollectionViewSource x:Key="cvsIdteq" Source="{Binding ListManager.IDteqList}"
-                                  Filter="cvsIdteq_Filter"/>
-
             <!--For FedFrom Comboboxes-->
             <CollectionViewSource x:Key="dteqList" Source="{Binding ListManager.DteqList}"/>
 
@@ -1596,18 +1592,8 @@
 
 
             </Grid>
-            <!--***********************************-->
-            <!--******   BOTTOM STATUS BAR   ******-->
-            <!--***********************************-->
-
-
-            <!--***********************************-->
-            <!--***********************************-->
-            <!--***********************************-->
-
-
-
-
+            
+  
 
             <!--DETAILS VIEW-->
             <!--Dteq-->
@@ -1637,9 +1623,8 @@
                           Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>-->
 
 
-
-            <!--LOAD-->
             <!--DETAILS VIEW-->
+            <!--LOAD-->
             <Grid  Grid.Row="4" Grid.Column="5"
                    Margin="7 0 0 0">
                 <Grid.RowDefinitions>
@@ -1676,6 +1661,7 @@
             <GridSplitter  Grid.Row="3" Grid.ColumnSpan="10"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                            Height="{StaticResource GridSplitterWidth}" Background="{StaticResource GridSplitterColor}"
                            Visibility="Collapsed"/>
+            
             <!--Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>-->
 
             <!--Above Status Strip-->

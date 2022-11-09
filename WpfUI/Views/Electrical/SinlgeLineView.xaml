@@ -34,6 +34,7 @@
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            
             <converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVis"/>
 
             <Style TargetType="TextBlock" x:Key="Label">
@@ -181,7 +182,7 @@
                                    MaxHeight="350"
                                    MaxWidth="250"
                                    ChildPropertyName="AssignedLoads"
-                                   ItemsSource="{Binding ViewableDteqList}"
+                                   ItemsSource="{Binding DteqCollectionView}"
                                    SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    Background="White"
                                    BorderBrush="Black"
@@ -189,7 +190,8 @@
                                    ShowLines="True"
                                    FullRowSelect="True"
                                    Visibility="Visible"
-                                   Indentation="10">
+                                   Indentation="10"
+                                   AutoExpandMode="AllNodes">
                     <syncfusion:SfTreeView.Resources>
 
                     </syncfusion:SfTreeView.Resources>

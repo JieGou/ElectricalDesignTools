@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -64,6 +65,40 @@ internal class SingleLineViewModel: EdtViewModelBase
         }
     }
 
+    private ListCollectionView _dteqCollectionView;
+    public ListCollectionView DteqCollectionView
+    {
+        get
+        {
+            if (_dteqCollectionView == null) {
+                _dteqCollectionView = new ListCollectionView(ViewableDteqList);
+            }
+
+            _dteqCollectionView.Filter = (d) => {
+                IEquipment dteq = (IEquipment)d;
+                if (dteq != null)
+                // If filter is turned on, filter completed items.
+                {
+                    if (dteq != null) {
+                        if (dteq is DistributionEquipment) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                }
+                return false;
+            };
+            return _dteqCollectionView;
+        }
+        set
+        {
+            _dteqCollectionView = DteqCollectionView;
+
+            
+        }
+    }
 
     public SingleLineViewModel(ListManager listManager) : base(listManager)
     {

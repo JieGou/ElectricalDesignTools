@@ -7,8 +7,10 @@ using Syncfusion.UI.Xaml.TreeView.Engine;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using WpfUI.ViewModels.Electrical;
@@ -22,8 +24,6 @@ namespace WpfUI.Views.Electrical;
 public partial class SinlgeLineView : UserControl
 {
     private SingleLineViewModel vm { get { return DataContext as SingleLineViewModel; } }
-
-   
 
 
     public SinlgeLineView()
@@ -42,11 +42,12 @@ public partial class SinlgeLineView : UserControl
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
         if (vm != null) {
-            if (vm.ViewableDteqList.Count > 0) {
+            if (vm.SelectedDteq == null && vm.ViewableDteqList.Count > 0) {
                 vm.SelectedDteq = (IDteq)vm.ViewableDteqList[0];
             }
         }
     }
+
 
     //Sets the datacontext for the details view panel on the right
 
@@ -150,6 +151,7 @@ public partial class SinlgeLineView : UserControl
 
     #endregion Data Members
 
+    #region Drag Selection
     private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
     {
         DragEvent_MouseDown(e, grdSingleLine);
@@ -348,6 +350,8 @@ public partial class SinlgeLineView : UserControl
 
 
     }
+
+    #endregion
 
     private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
