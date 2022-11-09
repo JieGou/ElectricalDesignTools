@@ -741,7 +741,7 @@ namespace EDTLibrary.Models.Loads
         public void SizePowerCable()
         {
             CreatePowerCable();
-            PowerCable.SetCableParameters(this);
+            PowerCable.SetSizingParameters(this);
             PowerCable.CreateTypeList(this);
             PowerCable.AutoSize();
         }

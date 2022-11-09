@@ -19,7 +19,7 @@ public class ComponentManager
 
         LocalControlStationModel newLcs = ComponentFactory.CreateLocalControlStation(componentUser, listManager);
         UndoManager.CanAdd = false;
-        CableManager.AddLcsControlCableForLoad(componentUser, newLcs, listManager);
+        CableManager.AddLcsCables(componentUser, newLcs, listManager);
         UndoManager.CanAdd = true;
 
         if (componentUser.GetType() == typeof(LoadModel)) {

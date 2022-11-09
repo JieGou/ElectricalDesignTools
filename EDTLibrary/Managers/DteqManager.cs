@@ -64,7 +64,7 @@ public class DteqManager
             newDteq.CreatePowerCable();
             newDteq.SizePowerCable();
             newDteq.CalculateCableAmps();
-            CableManager.AssignCableTypeProperties(newDteq.PowerCable);
+            newDteq.PowerCable.SetTypeProperties();
 
             newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
             newDteq.PowerCable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;

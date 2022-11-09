@@ -46,7 +46,7 @@
         <!--**********-->
         <Viewbox Grid.Row="0" Grid.Column="1"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Stretch="Uniform" MaxWidth="200" >
+                 Stretch="Uniform" Width="200" >
             <DockPanel Grid.Column="1" 
                     Margin="0 3 0 0">
 
@@ -71,9 +71,9 @@
                 <!--Starter-->
                 <!--Style is for instant graphic updates-->
                 <ContentControl Content="{Binding}" DockPanel.Dock="Top"
-                            Style="{StaticResource OCPDTemplateStyle}"
-                            ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
-                            PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown" >
+                                Style="{StaticResource OCPDTemplateStyle}"
+                                ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
+                                PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown" >
                 </ContentControl>
 
 
@@ -162,8 +162,8 @@
                             HorizontalAlignment="Left">
 
                         <ContentControl Content="{Binding}" 
-                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                    PreviewMouseDown="Load_ContentControl_PreviewMouseDown">
+                                        ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                                        PreviewMouseDown="Load_ContentControl_PreviewMouseDown">
                             <ContentControl.Style>
                                 <Style>
                                     <Style.Triggers>

@@ -37,7 +37,7 @@ public class RacewayManager
     {
         var cable = listManager.CableList.FirstOrDefault(c => c.Id == segment.CableId);
         var segmentToRemove = listManager.RacewaySegmentList.FirstOrDefault(s => s.Id ==segment.Id); 
-        cable.RacewaySegmentList.Remove(segmentToRemove);
+        cable.RacewaySegmentList.Remove(cable.RacewaySegmentList.FirstOrDefault(s => s.Id == segmentToRemove.Id));
         listManager.RacewaySegmentList.Remove(segmentToRemove);
         DaManager.prjDb.DeleteRecord("RacewayRouteSegments", segment.Id);
     }

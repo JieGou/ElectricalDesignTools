@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using WpfUI.Extension_Methods;
 using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModels.Cable;
@@ -36,12 +37,12 @@ public class TraySizerViewModel : ViewModelBase
     static double _scaleFactor = 10;
     static double _trayThickness = 5;
 
-    double _trayHeight = _trayThickness + _scaleFactor * 6;
+    static double _trayHeight = _trayThickness + _scaleFactor * 6;
 
-    double _trayWidth = _trayThickness*2 + _scaleFactor * 24;
+    static double _trayWidth = _trayThickness*2 + _scaleFactor * 24;
 
-    double _cableDiameter = 0.88;
-    private double _cableSpacing = 1;
+    static double _cableDiameter = 0.88;
+    static private double _cableSpacing = 1;
 
     public TraySizerViewModel(ListManager listManager)
     {
@@ -66,7 +67,7 @@ public class TraySizerViewModel : ViewModelBase
 
     }
 
-    public TraySizerViewModel(ListManager listManager, RacewayModel raceway, List<ICable> cableList)
+    public TraySizerViewModel(ListManager listManager, RacewayModel raceway, List<ICable> cableList, bool isRandomFill = false)
     {
         ListManager = listManager;
         RacewayGraphics.Clear();
@@ -88,7 +89,15 @@ public class TraySizerViewModel : ViewModelBase
         var trayBottom = RacewayGraphics[RacewayGraphics.Count - 1];
         //Cables
 
-        cableList = cableList.OrderByDescending(c => c.VoltageRating).ThenByDescending(c => c.Spacing).ThenByDescending(c => c.Diameter).ToList();
+
+
+        if (isRandomFill == true) {
+            cableList.Shuffle();
+        }
+        else {
+            cableList = cableList.OrderByDescending(c => c.VoltageRating).ThenByDescending(c => c.Spacing).ThenByDescending(c => c.Diameter).ToList();
+
+        }
 
 
         int cableCount = 0;
@@ -163,26 +172,34 @@ public class TraySizerViewModel : ViewModelBase
 
 
 
-
-                //PlaceCablesWithCollisionDetection(trayBottom);
+                if (isRandomFill) {
+                    FillRandomly(trayBottom);
+                }
 
             }
 
         }
     }
 
-    private void PlaceCablesWithCollisionDetection(IRacewaySizerGraphic trayBottom)
+    double _increment = 0.05; 
+    double _cableContactTolerance = 0.5;
+    double _trayEnd = _start + _trayWidth - _trayThickness;
+
+    private void FillRandomly(IRacewaySizerGraphic trayBottom)
     {
         //CollisionDetection for Falling Cables
 
-        double increment = 0.1; double cableContactTolerance; cableContactTolerance = 0.3;
+        _increment = 0.075;
+        _cableContactTolerance = -0.5;
 
         double xDistance = 0;
         double yDistance = 0;
         bool cableIsPlaced = false;
         var placedCables = new List<CableGraphicViewModel>();
-        string firstCableContacted;
-
+        string firstCableContacted ="";
+        CableGraphicViewModel firstCable = null;
+        string secondCableContacted = "";
+        CableGraphicViewModel secondCable = null;
 
         foreach (var activeCable in RacewayGraphics) {
             cableIsPlaced = false;
@@ -194,37 +211,76 @@ public class TraySizerViewModel : ViewModelBase
                     double cableSeparation = 0;
                     foreach (var placedCable in placedCables) {
 
+                        //skip cables that aren't near cable being added
+                        if (activeCable.X + activeCable.Diameter + _cableContactTolerance < placedCable.X || activeCable.X - _cableContactTolerance > placedCable.X + placedCable.Diameter) {
+                            continue;
+                        }
+
                         xDistance = (activeCable.X + activeCable.Diameter / 2) - (placedCable.X + placedCable.Diameter / 2);
                         yDistance = (activeCable.Y + activeCable.Diameter / 2) - (placedCable.Y + placedCable.Diameter / 2);
                         cableSeparation = Math.Sqrt(Math.Pow(xDistance, 2) + Math.Pow(yDistance, 2));
 
-                        if (activeCable.Y + activeCable.Diameter > trayBottom.Y || cableSeparation + cableContactTolerance < activeCable.Diameter / 2 + placedCable.Diameter / 2) {
-                            if (firstCableContacted == "") {
-                                firstCableContacted = placedCable.Tag;
-                            }
-                            activeCable.X += increment;
+                        if (activeCable.Y + activeCable.Diameter > trayBottom.Y) {
+                            cableIsPlaced = true;
+                            continue;
+                        }
 
-                            if (activeCable.Y + activeCable.Diameter > trayBottom.Y ||
-                                cableSeparation + cableContactTolerance < activeCable.Diameter / 2 + placedCable.Diameter / 2) {
+                        //first Cable Contacted
+                        if (CablesAreTouching((CableGraphicViewModel)activeCable, placedCable)) {
+
+                            if (firstCableContacted != "") {
+                                firstCableContacted = placedCable.Tag;
+                                firstCable = placedCables.FirstOrDefault(c => c.Tag == firstCableContacted);
+                            }
+                            if (activeCable.X + activeCable.Diameter + _increment > _trayEnd) {
+                                activeCable.X = _start + _trayThickness;
+
+                            }
+                            else {
+                                activeCable.X += _increment;
+                                activeCable.Y -= _increment;
+                            }
+
+                            //second cable contact
+                            if (CablesAreTouching((CableGraphicViewModel)activeCable, placedCable)) { //} && firstCableContacted != placedCable.Tag) {
+                                secondCableContacted = placedCable.Tag;
+                                secondCable = placedCables.FirstOrDefault(c => c.Tag == secondCableContacted);
 
                                 //Debug helper to BreakPoint at this cable.
                                 if (activeCable.Tag.Contains("MTR333.LCS")) {
                                     bool targetCable = true;
                                 }
-
-                                if (placedCable.Tag == firstCableContacted) {
-                                    cableIsPlaced = true;
-                                    continue;
-                                }
+                                cableIsPlaced = true;
+                                continue;
                             }
                         }
                     }
-                    activeCable.Y += increment;
+                    activeCable.Y += _increment;
                     if (activeCable.Y + activeCable.Diameter > trayBottom.Y) cableIsPlaced = true;
                 }
                 placedCables.Add((CableGraphicViewModel)activeCable);
             }
         }
+    }
+
+    private bool CablesAreTouching(CableGraphicViewModel cable1, CableGraphicViewModel cable2)
+    {
+        if (cable1 == null || cable2 == null) return false;
+
+        var xDistance = (cable1.X + cable1.Diameter / 2) - (cable2.X + cable2.Diameter / 2);
+        var yDistance = (cable1.Y + cable1.Diameter / 2) - (cable2.Y + cable2.Diameter / 2);
+        var cableSeparation = Math.Sqrt(Math.Pow(xDistance, 2) + Math.Pow(yDistance, 2));
+
+        if (cableSeparation - _cableContactTolerance < cable1.Diameter / 2 + cable2.Diameter / 2) {
+            return true;
+        }
+        return false;
+    }
+
+    private bool IsCable1LeftOfCable2(CableGraphicViewModel cable1, CableGraphicViewModel cable2)
+    {
+        if (cable1.X < cable2.X)  return true;
+        return false;
     }
 
     public ObservableCollection<IRacewaySizerGraphic> RacewayGraphics { get; set; } = new ObservableCollection<IRacewaySizerGraphic>();

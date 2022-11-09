@@ -6,6 +6,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
+using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
 using System;

@@ -24,4 +24,20 @@
         <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
 
+    <Style TargetType="TextBlock" x:Key="StatusBarLabel_TextBlockStyle">
+        <Setter Property="TextAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Margin" Value="5 0 10 0"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="StatusBarValue_TextBlockStyle">
+        <Setter Property="TextAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="MinWidth" Value="25"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+    </Style>
+
 </ResourceDictionary>

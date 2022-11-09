@@ -9,6 +9,7 @@ using EDTLibrary.ProjectSettings;
 using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -27,17 +28,7 @@ public class CableManager
     //reference for quick navigation
     private CecCableSizer cecCableSizer;
 
-    public static void AssignCableTypeProperties(ICable cable)
-    {
-
-        foreach (var cableSizeModel in EdtSettings.CableSizesUsedInProject) {
-            if (cable.Type == cableSizeModel.Type && cable.Size == cableSizeModel.Size) {
-                cable.Diameter = cableSizeModel.Diameter;
-                cable.WeightKgKm = cableSizeModel.WeightKgKm;
-                cable.WeightLbs1kFeet = cableSizeModel.WeightLbs1kFeet;
-            }
-        }
-    }
+   
 
     public static async Task DeletePowerCableAsync(IPowerConsumer powerCableUser, ListManager listManager)
     {
@@ -200,7 +191,8 @@ public class CableManager
                     cable.IsOutdoor = powerComponentOwner.PowerCable.IsOutdoor;
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
 
-                    cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
+                    cable.SetTypeProperties();
+
                     cable.ValidateCableSize(cable);
 
                     component.PowerCable = cable;
@@ -261,9 +253,14 @@ public class CableManager
         }
     }
 
-    public static void AddLcsControlCableForLoad(IComponentUser componentUser, LocalControlStationModel lcs, ListManager listManager)
+    public static void AddLcsCables(IComponentUser componentUser, LocalControlStationModel lcs, ListManager listManager)
     {
         ILoad lcsOwner = componentUser as LoadModel;
+        CreateLcsControlCable(lcs, listManager, lcsOwner);
+    }
+
+    private static void CreateLcsControlCable(LocalControlStationModel lcs, ListManager listManager, ILoad lcsOwner)
+    {
         CableModel cable = new CableModel();
 
         cable.Source = lcsOwner.FedFrom.Tag;
@@ -294,6 +291,8 @@ public class CableManager
         cable.InstallationType = lcsOwner.PowerCable.InstallationType;
 
         lcs.Cable = cable;
+
+        cable.SetTypeProperties();
 
         listManager.CableList.Add(cable);
         DaManager.UpsertCable((CableModel)cable);

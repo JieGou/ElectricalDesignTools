@@ -13,13 +13,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.Electrical.SingleLineSubViews;
+namespace WpfUI.Templates.SingleLineLoadGraphics;
 /// <summary>
-/// Interaction logic for MccGraphicView.xaml
+/// Interaction logic for LoadGraphic_LoadData.xaml
 /// </summary>
-public partial class SplitterGraphicView : UserControl
+public partial class LoadGraphic_LoadData : UserControl
 {
-    public SplitterGraphicView()
+    public LoadGraphic_LoadData()
     {
         InitializeComponent();
     }

@@ -144,6 +144,7 @@ public class CableModel : ICable
 
             if (DaManager.GettingRecords == false) {
                 if (UsageType == CableUsageTypes.Power.ToString()) {
+
                     SetTypeProperties();
                     AutoSizeAsync();
                 }
@@ -200,12 +201,15 @@ public class CableModel : ICable
             _size = value;
 
             UndoManager.Lock(this, nameof(Size));
-            UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
 
             if (DaManager.GettingRecords == false && _isAutoSizing == false) {
                 CalculateAmpacity(Load);
                 CableManager.CableSizer.SetVoltageDrop(this);
             }
+            SetTypeProperties();
+
+
+            UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
 
             OnPropertyUpdated();
         }
@@ -375,6 +379,7 @@ public class CableModel : ICable
     public double Diameter { get; set; }
     public double WeightLbs1kFeet { get; set; }
     public double WeightKgKm { get; set; }
+    public string BondWireSize { get; set; }
 
     #endregion
 
@@ -458,14 +463,33 @@ public class CableModel : ICable
     /// </summary>
     public void SetTypeProperties()
     {
+
+        var cableTypeList = new ObservableCollection<CableSizeModel>();
+
         if (UsageType == CableUsageTypes.Power.ToString()) {
+            cableTypeList = EdtSettings.CableSizesUsedInProject;
             VoltageRating = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).VoltageRating;
             ConductorQty = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).ConductorQty;
             AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
         }
+        else if (UsageType == CableUsageTypes.Control.ToString()) {
+            cableTypeList = TypeManager.Cables_Control;
+        }
+        else if (UsageType == CableUsageTypes.Instrument.ToString()) {
+            cableTypeList = TypeManager.Cables_Instrument;
+        }
 
+        foreach (var cableSizeModel in cableTypeList) {
+            if (Type == cableSizeModel.Type && Size == cableSizeModel.Size) {
+                Diameter = cableSizeModel.Diameter;
+                WeightKgKm = cableSizeModel.WeightKgKm;
+                WeightLbs1kFeet = cableSizeModel.WeightLbs1kFeet;
+                BondWireSize = cableSizeModel.BondWireSize;
+                break;
+            }
+        }
     }
-    public void SetCableParameters(ICableUser load)
+    public void SetSizingParameters(ICableUser load)
     {
         Load = load;
         SetSourceAndDestinationTags(load);
@@ -481,6 +505,16 @@ public class CableModel : ICable
         Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
         AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
         OnPropertyUpdated();
+    }
+
+    public void GetRacewayRoutingList()
+    {
+        foreach (var segment in ScenarioManager.ListManager.RacewaySegmentList) {
+            if (Id == segment.CableId) {
+                RacewaySegmentList.Add(segment);
+            }
+        }
+        RacewaySegmentList.OrderBy(c => c.SequenceNumber);
     }
     public double GetRequiredAmps(ICableUser load)
     {

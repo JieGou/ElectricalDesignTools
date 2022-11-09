@@ -7,6 +7,9 @@
                     >
 
 
+    <ResourceDictionary.MergedDictionaries>
+     
+    </ResourceDictionary.MergedDictionaries>
     <Converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>
 
     

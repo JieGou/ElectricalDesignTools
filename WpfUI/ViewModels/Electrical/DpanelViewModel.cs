@@ -7,6 +7,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
+using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
@@ -78,7 +79,7 @@ internal class DpanelViewModel : ViewModelBase
     }
 
 
-    public IDpn SelectedDpnl
+    public IDpn SelectedDteq
     {
         get { return _selectedDpnl; }
         set
@@ -150,11 +151,11 @@ internal class DpanelViewModel : ViewModelBase
             var selectedCircuits = new ObservableCollection<IPowerConsumer>();
 
             IPowerConsumer load;
-            if (SelectedDpnl.LeftCircuits.FirstOrDefault(ld => ld == _selectedLeftLoad) != null) {
-                SelectedCircuitList = SelectedDpnl.LeftCircuits;
+            if (SelectedDteq.LeftCircuits.FirstOrDefault(ld => ld == _selectedLeftLoad) != null) {
+                SelectedCircuitList = SelectedDteq.LeftCircuits;
             }
-            if (SelectedDpnl.RightCircuits.FirstOrDefault(ld => ld == _selectedLeftLoad) != null) {
-                SelectedCircuitList = SelectedDpnl.RightCircuits;
+            if (SelectedDteq.RightCircuits.FirstOrDefault(ld => ld == _selectedLeftLoad) != null) {
+                SelectedCircuitList = SelectedDteq.RightCircuits;
             }
 
 
@@ -173,11 +174,11 @@ internal class DpanelViewModel : ViewModelBase
             var selectedCircuits = new ObservableCollection<IPowerConsumer>();
 
             IPowerConsumer load;
-            if (SelectedDpnl.LeftCircuits.FirstOrDefault(ld => ld == _selectedRightLoad) != null) {
-                SelectedCircuitList = SelectedDpnl.LeftCircuits;
+            if (SelectedDteq.LeftCircuits.FirstOrDefault(ld => ld == _selectedRightLoad) != null) {
+                SelectedCircuitList = SelectedDteq.LeftCircuits;
             }
-            if (SelectedDpnl.RightCircuits.FirstOrDefault(ld => ld == _selectedRightLoad) != null) {
-                SelectedCircuitList = SelectedDpnl.RightCircuits;
+            if (SelectedDteq.RightCircuits.FirstOrDefault(ld => ld == _selectedRightLoad) != null) {
+                SelectedCircuitList = SelectedDteq.RightCircuits;
             }
 
 
@@ -217,13 +218,13 @@ internal class DpanelViewModel : ViewModelBase
     public ICommand MoveUpLeftCommand { get; }
     public void MoveUpLeft()
     {
-        DpnCircuitManager.MoveCircuitUp(SelectedDpnl, SelectedLoad);
+        DpnCircuitManager.MoveCircuitUp(SelectedDteq, SelectedLoad);
     }
 
     public ICommand MoveDownLeftCommand { get; }
     public void MoveDownLeft()
     {
-        DpnCircuitManager.MoveCircuitDown(SelectedDpnl, SelectedLoad);
+        DpnCircuitManager.MoveCircuitDown(SelectedDteq, SelectedLoad);
     }
 
     
@@ -233,25 +234,25 @@ internal class DpanelViewModel : ViewModelBase
     public ICommand MoveUpCommand { get; }
     public void MoveUp()
     {
-        DpnCircuitManager.MoveCircuitUp(SelectedDpnl, SelectedLoad);
+        DpnCircuitManager.MoveCircuitUp(SelectedDteq, SelectedLoad);
     }
 
     public ICommand MoveDownCommand { get; }
     public void MoveDown()
     {
-        DpnCircuitManager.MoveCircuitDown(SelectedDpnl, SelectedLoad);
+        DpnCircuitManager.MoveCircuitDown(SelectedDteq, SelectedLoad);
     }
 
     public ICommand MoveLeftCommand { get; }
     public void MoveLeft()
     {
-        DpnCircuitManager.MoveCircuitLeft(SelectedDpnl, SelectedLoad);
+        DpnCircuitManager.MoveCircuitLeft(SelectedDteq, SelectedLoad);
     }
 
     public ICommand MoveRightCommand { get; }
     public void MoveRight()
     {
-        DpnCircuitManager.MoveCircuitRight(SelectedDpnl, SelectedLoad);
+        DpnCircuitManager.MoveCircuitRight(SelectedDteq, SelectedLoad);
     }
 
 
@@ -270,7 +271,7 @@ internal class DpanelViewModel : ViewModelBase
     public ICommand DeleteLoadCommand { get; }
     public void DeleteLoad()
     {
-        DpnCircuitManager.DeleteLoad(SelectedDpnl, SelectedLoad, ScenarioManager.ListManager);
+        DpnCircuitManager.DeleteLoad(SelectedDteq, SelectedLoad, ScenarioManager.ListManager);
     }
 
     #region Autocad
@@ -285,7 +286,7 @@ internal class DpanelViewModel : ViewModelBase
     {
         var acadService = new AutocadService();
         //acadService.DrawSingleLineAsync(SelectedDteq);
-        acadService.CreateSingleLine(SelectedDpnl);
+        acadService.CreateSingleLine(SelectedDteq);
     }
 
 

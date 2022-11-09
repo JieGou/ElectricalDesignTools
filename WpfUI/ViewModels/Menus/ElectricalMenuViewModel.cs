@@ -126,10 +126,10 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
             _mjeqViewModel.LoadToAddValidator.ClearErrors();
         }
 
-        if (_dpanelViewModel.SelectedDpnl != null) {
+        if (_dpanelViewModel.SelectedDteq != null) {
 
 
-            //_dpanelViewModel.SelectedDpnl.SetCircuits();
+            //_dpanelViewModel.SelectedDteq.SetCircuits();
             _dpanelViewModel.UpdatePanelList();
         }
         

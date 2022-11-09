@@ -206,7 +206,7 @@
                             <Style TargetType="ContentControl">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding AssignedLoads[0], Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:DistributionEquipment}">
+                                    <DataTrigger Binding="{Binding AssignedLoads[0], Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:XfrModel}">
                                         <Setter Property="Visibility" Value="Visible"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -233,7 +233,7 @@
                                 <Style TargetType="ContentControl">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding AssignedLoads[0], Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:DistributionEquipment}">
+                                        <DataTrigger Binding="{Binding AssignedLoads[0], Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:XfrModel}">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                     </Style.Triggers>

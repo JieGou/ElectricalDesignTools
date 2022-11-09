@@ -3,6 +3,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.UndoSystem;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Raceways;
 [Serializable]
+[AddINotifyPropertyChangedInterface]
 public class RacewayModel
 {
     public int Id { get; set; }
@@ -85,7 +87,7 @@ public class RacewayModel
     private double _diameter;
     
 
-    public ObservableCollection<ICable> CablesInRaceway { get; set; } = new ObservableCollection<ICable>();
+    public ObservableCollection<ICable> CableList { get; set; } = new ObservableCollection<ICable>();
 
     //Events
     public event EventHandler PropertyUpdated;

@@ -59,6 +59,7 @@ public interface ICable
     double VoltageDropPercentage { get; set; }
 
     double Diameter { get; set; }
+    string BondWireSize { get; set; }
     double WeightLbs1kFeet { get; set; }
     double WeightKgKm { get; set; }
 
@@ -76,7 +77,7 @@ public interface ICable
     Task OnPropertyUpdated();
     string SelectCableType(double voltageClass, int conductorQty, double insulation, string usageType);
     void SetCableInvalid(ICable cable);
-    void SetCableParameters(ICableUser load);
+    void SetSizingParameters(ICableUser load);
     void SetSourceAndDestinationTags(ICableUser load);
     void SetTypeProperties();
     void ValidateCableSize(ICable cable);

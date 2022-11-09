@@ -6,6 +6,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
+using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
@@ -394,7 +395,7 @@ namespace EDTLibrary.Managers
                 cable.TypeModel = TypeManager.GetCableTypeModel(cable.Type);
                 cable.CreateSizeList();
 
-                CableManager.AssignCableTypeProperties(cable);
+                cable.SetTypeProperties();
             }
         }
 

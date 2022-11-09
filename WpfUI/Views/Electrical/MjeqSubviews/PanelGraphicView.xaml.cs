@@ -13,13 +13,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Templates.SingleLineLoadGraphics;
+namespace WpfUI.Views.Electrical.MjeqSubviews;
 /// <summary>
-/// Interaction logic for SingleLineGraphic_LoadData.xaml
+/// Interaction logic for MccGraphicView.xaml
 /// </summary>
-public partial class SingleLineGraphic_LoadData : UserControl
+public partial class PanelGraphicView : UserControl
 {
-    public SingleLineGraphic_LoadData()
+    public PanelGraphicView()
     {
         InitializeComponent();
     }

@@ -19,8 +19,9 @@ public class LoadGraphicTemplateSelector : DataTemplateSelector
 
     //Dteq Templates
     public DataTemplate TransformerTemplate { get; set; }
+    public DataTemplate MccTemplate { get; set; }
     public DataTemplate DistributionPanelTemplate { get; set; }
-    
+
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
         var selectedTemplate = OtherTemplate;
@@ -56,8 +57,14 @@ public class LoadGraphicTemplateSelector : DataTemplateSelector
             selectedTemplate = OtherTemplate;
         }
 
+
+        //Dteq As Load
         else if (load.Type == DteqTypes.XFR.ToString()) {
             selectedTemplate = TransformerTemplate;
+        }
+
+        else if (load.Type == DteqTypes.SWG.ToString() || load.Type == DteqTypes.MCC.ToString()) {
+            selectedTemplate = MccTemplate;
         }
 
         else if (load.Type == DteqTypes.CDP.ToString() || load.Type == DteqTypes.DPN.ToString()) {

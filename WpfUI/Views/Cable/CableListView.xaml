@@ -20,10 +20,12 @@
              xmlns:cableViewModels="clr-namespace:WpfUI.ViewModels.Cable"
               
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:Notification="clr-namespace:Syncfusion.Windows.Controls.Notification;assembly=Syncfusion.SfBusyIndicator.WPF"
              
              mc:Ignorable="d"
              d:Width="1800" d:Height="1080"
-             Background="Transparent" >
+             Background="Transparent" 
+             UseLayoutRounding="True">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -54,62 +56,116 @@
     </UserControl.Resources>
 
 
-    <Grid Background="{StaticResource PageBackground}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <!--Page Title-->
-        <TextBlock Text="Cable List"
-                       Grid.Row="0"
-                       Style="{StaticResource PageTitleStyle}"/>
-
-        <!--Background="#FF4C184C"-->
-
-
-        <Grid Grid.Row="1"
-              x:Name="cableGrid"
-              d:Opacity="1"
-              Opacity="0.5">
+    <DockPanel Background="{StaticResource PageBackground}">
+        
+        <!--Status Bar-->
+        <Grid DockPanel.Dock="Bottom" 
+                    Height="23"
+                    Background="{StaticResource StatusBarBackroundColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="30"/>
-                <ColumnDefinition Width="5*"/>
-                <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="10"/>
             </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="1"
+                        Height="23">
+                
+                <!--Counts-->
+                <TextBlock Text="Counts"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
+
+                <TextBlock Text="Dteq:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.IDteqList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Loads:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.LoadList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Cables:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+               
+            </StackPanel>
+
+            <Separator Grid.Column="2" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10 0"/>
+           
+            <!--Cable-->
+            <StackPanel Orientation="Horizontal" Grid.Column="3" Height="23">
+                <TextBlock Text="Selection"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
+                <TextBlock Text="Selected Cables:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedCables.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+            </StackPanel>
+
+            <Separator Grid.Column="5" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10 0"/>
+
+            <!--Raceway-->
+            <StackPanel Orientation="Horizontal" Grid.Column="6" Height="23">
+                <TextBlock Text="Raceway"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
+                <TextBlock Text="Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.RacewayList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Selected:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedRaceway.Id}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Cable Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedRaceway.CableList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+            </StackPanel>
+        </Grid>
+
+        <!--Main Grid-->
+        <Grid Background="{StaticResource PageBackground}" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid.Triggers>
-                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="cableGrid"
+
+            <!--Page Title-->
+            <TextBlock Text="Cable List"
+                       Grid.Row="0"
+                       Style="{StaticResource PageTitleStyle}"/>
+
+            <!--Background="#FF4C184C"-->
+
+
+            <Grid Grid.Row="1" x:Name="cableGrid" d:Opacity="1" Opacity="0.5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
+                </Grid.RowDefinitions>
+                <Grid.Triggers>
+                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="cableGrid"
                                 Storyboard.TargetProperty="Opacity"
                                 From="-1" To="1" Duration="0:0:0.3"
                                 AutoReverse="False" RepeatBehavior="1x"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Grid.Triggers>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Grid.Triggers>
 
 
 
-            <!--LeftButtons-->
+                <!--LeftButtons-->
 
-            <!--Power Cables-->
+                <!--Power Cables-->
 
-            <!--ItemsSource="{Binding Source={StaticResource cableList}}"-->
+                <!--ItemsSource="{Binding Source={StaticResource cableList}}"-->
 
 
-            <!--Cable List-->
-            <syncfusion:SfDataGrid x:Name="dgdCableList"
+                <!--Cable List-->
+                <syncfusion:SfDataGrid x:Name="dgdCableList"
                                    Grid.Column="3" Grid.Row="2"
                                    ItemsSource="{Binding ListManager.CableList, Mode=TwoWay, IsAsync=True}"
                                    CurrentItem="{Binding SelectedCable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -147,84 +203,84 @@
                                    KeyDown="SfDataGrid_KeyDown" SelectionChanged="dgdCableList_SelectionChanged" 
                                    
                                    >
-                <syncfusion:SfDataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Add" Height="25" >
-                            <MenuItem.Icon>
-                                <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
+                    <syncfusion:SfDataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add" Height="25" >
+                                <MenuItem.Icon>
+                                    <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
                                            Height="10"/>
-                            </MenuItem.Icon>
-                            <MenuItem Header="To Selected Raceway" Command="{Binding AddCablesToSelectedRacewayCommand}" Height="25"/>
-                        </MenuItem>
-                        <MenuItem Header="Remove" Height="25">
-                            <MenuItem.Icon>
-                                <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
+                                </MenuItem.Icon>
+                                <MenuItem Header="To Selected Raceway" Command="{Binding AddCablesToSelectedRacewayCommand}" Height="25"/>
+                            </MenuItem>
+                            <MenuItem Header="Remove" Height="25">
+                                <MenuItem.Icon>
+                                    <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
                                            Height="10"/>
-                            </MenuItem.Icon>
-                            <MenuItem Header="From Selected Raceway" Command="{Binding RemoveCablesFromSelectedRacewayCommand}"  Height="25" />
-                            <MenuItem Header="From All Raceways" Command="{Binding RemoveCablesFromAllRacewayCommand}"  Height="25" />
+                                </MenuItem.Icon>
+                                <MenuItem Header="From Selected Raceway" Command="{Binding RemoveCablesFromSelectedRacewayCommand}"  Height="25" />
+                                <MenuItem Header="From All Raceways" Command="{Binding RemoveCablesFromAllRacewayCommand}"  Height="25" />
 
-                        </MenuItem>
-                    </ContextMenu>
-                </syncfusion:SfDataGrid.ContextMenu>
+                            </MenuItem>
+                        </ContextMenu>
+                    </syncfusion:SfDataGrid.ContextMenu>
 
-                <syncfusion:SfDataGrid.Columns>
+                    <syncfusion:SfDataGrid.Columns>
 
-                    <syncfusion:GridTextColumn MappingName="Tag"
+                        <syncfusion:GridTextColumn MappingName="Tag"
                                                MaximumWidth="200"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"
                                                />
 
-                    <syncfusion:GridTextColumn MappingName="Type"
+                        <syncfusion:GridTextColumn MappingName="Type"
                                                MinimumWidth="150"
                                                UseBindingValue="True" 
                                                FilterBehavior="StringTyped"
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"   />
-                    
-                    <syncfusion:GridTextColumn MappingName="Source"
+
+                        <syncfusion:GridTextColumn MappingName="Source"
                                                MaximumWidth="200"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"
                                                />
 
-                    <syncfusion:GridTextColumn MappingName="Destination"
+                        <syncfusion:GridTextColumn MappingName="Destination"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"
                                                MaximumWidth="200"
                                                />
 
-                    <syncfusion:GridTextColumn MappingName="QtyParallel"
+                        <syncfusion:GridTextColumn MappingName="QtyParallel"
                                                HeaderText="Qty in | |"
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Equals"
                                                ImmediateUpdateColumnFilter="True"/>
 
-                    <syncfusion:GridTextColumn MappingName="ConductorQty"
+                        <syncfusion:GridTextColumn MappingName="ConductorQty"
                                                HeaderText="Conductors"
                                                Width="100"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Equals"
                                                ImmediateUpdateColumnFilter="True"/>
 
-                    <syncfusion:GridTextColumn MappingName="Size"
+                        <syncfusion:GridTextColumn MappingName="Size"
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"/>
 
-                    <syncfusion:GridTextColumn MappingName="Length"
+                        <syncfusion:GridTextColumn MappingName="Length"
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="LessThanOrEqual"
                                                ImmediateUpdateColumnFilter="True"/>
 
-                    <syncfusion:GridTextColumn MappingName="UsageType"
+                        <syncfusion:GridTextColumn MappingName="UsageType"
                                                HeaderText="Usage&#x0a;Type"
                                                MinimumWidth="75"
                                                MaximumWidth="125"
@@ -232,37 +288,37 @@
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"/>
 
-                    <syncfusion:GridTextColumn MappingName="Spacing"
+                        <syncfusion:GridTextColumn MappingName="Spacing"
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Equals"
                                                ImmediateUpdateColumnFilter="True"/>
 
-                    <syncfusion:GridTextColumn MappingName="Derating" 
+                        <syncfusion:GridTextColumn MappingName="Derating" 
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Equals"
                                                ImmediateUpdateColumnFilter="True"/>
 
-                    <syncfusion:GridTextColumn MappingName="DeratedAmps" HeaderText="Derated&#x0a;Amps"
+                        <syncfusion:GridTextColumn MappingName="DeratedAmps" HeaderText="Derated&#x0a;Amps"
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="LessThanOrEqual"
                                                ImmediateUpdateColumnFilter="True"/>
 
-                    <syncfusion:GridTextColumn MappingName="RequiredAmps" HeaderText="Required&#x0a;Amps"
+                        <syncfusion:GridTextColumn MappingName="RequiredAmps" HeaderText="Required&#x0a;Amps"
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="LessThanOrEqual"
                                                ImmediateUpdateColumnFilter="True"/>
 
-                    <syncfusion:GridTextColumn MappingName="VoltageRating" HeaderText="Voltage&#x0a;Rating"
+                        <syncfusion:GridTextColumn MappingName="VoltageRating" HeaderText="Voltage&#x0a;Rating"
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="LessThanOrEqual"
                                                ImmediateUpdateColumnFilter="True"/>
 
-                    <syncfusion:GridTextColumn MappingName="Diameter"
+                        <syncfusion:GridTextColumn MappingName="Diameter"
                                                Width="75"
                                                UseBindingValue="True" 
                                                FilterRowCondition="LessThanOrEqual"
@@ -270,40 +326,40 @@
 
 
 
-                </syncfusion:SfDataGrid.Columns>
+                    </syncfusion:SfDataGrid.Columns>
 
 
-            </syncfusion:SfDataGrid>
+                </syncfusion:SfDataGrid>
 
 
-            <!--Property Grid-->
-            <Border BorderBrush="Black" BorderThickness="1"
+                <!--Property Grid-->
+                <Border BorderBrush="Black" BorderThickness="1"
                     Background="{StaticResource Background}"
                  Grid.Column="5" Grid.Row="2">
-                <Grid ShowGridLines="False">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" MaxWidth="200"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+                    <Grid ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" MaxWidth="200"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
 
-                    
-                    <TextBlock Text="Selected Cable:" 
+
+                        <TextBlock Text="Selected Cable:" 
                                Grid.Row="1" Grid.Column="0" 
                                Style="{DynamicResource SummaryLabel_TextBlockStyle}"/>
-                    <TextBlock Text="{Binding SelectedCable.Tag}" 
+                        <TextBlock Text="{Binding SelectedCable.Tag}" 
                                Grid.Row="1" Grid.Column="1" 
                                d:Text="MCC01-MTR05-P" Style="{DynamicResource SummaryValue_TextBlockStyle}"/>
 
 
-                    <controls:EdtGroupBox Grid.Row="3"
+                        <controls:EdtGroupBox Grid.Row="3"
                                           Grid.Column="0" Grid.ColumnSpan="4"
                                           Header="Raceway Routing"
                                           HeaderBackground="{StaticResource Medium}"
@@ -312,115 +368,28 @@
                                           HorizontalAlignment="Stretch"
                                           Margin="10">
 
-                        <Grid ShowGridLines="False">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                            <Grid ShowGridLines="False">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
 
-                            <!--Cable Raceway List-->
-                            <TextBlock Text="Cable Raceway Route" Grid.Column="0" 
+                                <!--Cable Raceway List-->
+                                <TextBlock Text="Raceways" Grid.Column="0" 
                                        HorizontalAlignment="Left"
                                        Style="{DynamicResource SummaryLabel_TextBlockStyle}"
                                        Margin="0 5"/>
 
-                            <syncfusion:SfDataGrid Grid.Row="1" Grid.Column="0" 
-                                                   Height="250"
-                                                   ItemsSource="{Binding SelectedCable.RacewaySegmentList}"
-                                                   SelectedItem="{Binding SelectedRacewaySegment}"
-                                                   AutoGenerateColumns="False"
-                                                   
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Stretch"
-                                                   HeaderRowHeight="25"
-                                                   RowHeight="20"
-                                                   
-                                                   EnableDataVirtualization="False"
-                                                   
-                                                   Background="White"
-                                                   CurrentCellBorderBrush="Black"
-                                                   CurrentCellBorderThickness="0"
-                                                   FilterRowPosition="FixedTop"
-                                                   
-                                                   NavigationMode="Cell"
-                                                   SelectionMode="Single"
-                                                   AllowEditing="False"
-                                                   AllowSorting="True" 
-                                                   AllowFiltering="True" 
-                                                   ShowGroupDropArea="False"
-                                                   AllowResizingColumns="False"
-                                                   ColumnSizer="None"
-                                                   >
-                                <syncfusion:SfDataGrid.Columns>
-                                    <syncfusion:GridTextColumn HeaderText="Tag"
-                                                               MappingName="RacewayModel.Tag"
-                                                               Width="100"
-                                                               UseBindingValue="True" 
-                                                               FilterBehavior="StringTyped"
-                                                               FilterRowCondition="Contains"
-                                                               ImmediateUpdateColumnFilter="True"/>
 
-                                    <syncfusion:GridTextColumn HeaderText="Width"
-                                                               MappingName="RacewayModel.Width"
-                                                               Width="65"
-                                                               UseBindingValue="True" 
-                                                               FilterBehavior="StringTyped"
-                                                               ImmediateUpdateColumnFilter="True"/>
-
-                                    <syncfusion:GridTextColumn HeaderText="Height"
-                                                               MappingName="RacewayModel.Height"
-                                                               Width="65"
-                                                               UseBindingValue="True" 
-                                                               FilterBehavior="StringTyped"
-                                                               ImmediateUpdateColumnFilter="True"/>
-
-                                    <syncfusion:GridTextColumn HeaderText="Type"
-                                                               MappingName="RacewayModel.Type"
-                                                               Width="100"
-                                                               UseBindingValue="True" 
-                                                               FilterBehavior="StringTyped"
-                                                               FilterRowCondition="Contains"
-                                                               ImmediateUpdateColumnFilter="True"/>
-
-                                </syncfusion:SfDataGrid.Columns>
-                            </syncfusion:SfDataGrid>
-
-                            <Button Content="&lt;--"
-                                    Command="{Binding AddRacewayRouteSegmentCommand}"
-                                    Grid.Row="1"
-                                    Grid.Column="1"
-                                    Width="40"/>
-
-
-                            <StackPanel Orientation="Horizontal"
-                                        Grid.Row="2" 
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Center">
-
-                                <Button Content="Add" Style="{StaticResource GreenButton}" Width="75"
-                                        Command="{Binding AddRacewayRouteSegmentCommand}"/>
-                                <Button Content="Remove" Style="{StaticResource RedButton}" Width="75"
-                                        Command="{Binding RemoveRacewayRouteSegmentCommand}"/>
-
-                            </StackPanel>
-
-                            
-                            <!--Project Raceway List-->
-                            <TextBlock Text="Project Raceway List"
-                                       Grid.Column="4" 
-                                       HorizontalAlignment="Left"
-                                       Style="{DynamicResource SummaryLabel_TextBlockStyle}"
-                                       Margin="0 5"/>
-                            
-                            <syncfusion:SfDataGrid Grid.Row="1" Grid.Column="4" 
+                                <syncfusion:SfDataGrid Grid.Row="1" Grid.Column="0" 
                                                    Height="250"
                                                    ItemsSource="{Binding ListManager.RacewayList}"
                                                    SelectedItem="{Binding SelectedProjectRaceway}"
@@ -447,98 +416,216 @@
                                                    AllowResizingColumns="False"
                                                    ColumnSizer="None" >
 
-                                <syncfusion:SfDataGrid.Columns>
-                                    <syncfusion:GridTextColumn MappingName="Tag"
+                                    <syncfusion:SfDataGrid.Columns>
+                                        <syncfusion:GridTextColumn MappingName="Tag"
                                                                Width="100"
                                                                UseBindingValue="True" 
                                                                FilterBehavior="StringTyped"
                                                                FilterRowCondition="Contains"
                                                                ImmediateUpdateColumnFilter="True"/>
 
-                                    <syncfusion:GridTextColumn MappingName="Width"
+                                        <syncfusion:GridTextColumn MappingName="Width"
                                                                Width="65"
                                                                UseBindingValue="True" 
                                                                FilterBehavior="StringTyped"
                                                                ImmediateUpdateColumnFilter="True"/>
 
-                                    <syncfusion:GridTextColumn MappingName="Height"
+                                        <syncfusion:GridTextColumn MappingName="Height"
                                                                Width="65"
                                                                UseBindingValue="True" 
                                                                FilterBehavior="StringTyped"
                                                                ImmediateUpdateColumnFilter="True"/>
 
-                                    <syncfusion:GridTextColumn MappingName="Type"
+                                        <syncfusion:GridTextColumn MappingName="Type"
                                                                Width="100"
                                                                UseBindingValue="True" 
                                                                FilterBehavior="StringTyped"
                                                                FilterRowCondition="Contains"
                                                                ImmediateUpdateColumnFilter="True"/>
 
-                                </syncfusion:SfDataGrid.Columns>
-                            </syncfusion:SfDataGrid>
+                                    </syncfusion:SfDataGrid.Columns>
+                                </syncfusion:SfDataGrid>
 
 
-                            <StackPanel Orientation="Horizontal"
+                                <StackPanel Grid.Row="1" Grid.Column="1"
+                                        VerticalAlignment="Center">
+                                    <Button Command="{Binding AddRacewayRouteSegmentCommand}"
+                                        Width="40"
+                                        RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                        RenderOptions.EdgeMode="Aliased">
+                                        <Button.Content>
+                                            <Image Source="..\..\ResourceFiles\Button Icons\ArrowRightBlack32.png"/>
+                                        </Button.Content>
+                                    </Button>
+                                    <Button Command="{Binding RemoveRacewayRouteSegmentCommand}"
+                                        Width="40"
+                                        RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                        RenderOptions.EdgeMode="Aliased">
+                                        <Button.Content>
+                                            <Image Source="..\..\ResourceFiles\Button Icons\DeleteLeftBlack32.png"/>
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal"
+                                        Grid.Row="2" 
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center">
+
+                                    <!--<Button Content="Add" Style="{StaticResource GreenButton}" Width="75"
+                                        Command="{Binding AddRacewayRouteSegmentCommand}"/>
+                                <Button Content="Remove" Style="{StaticResource RedButton}" Width="75"
+                                        Command="{Binding RemoveRacewayRouteSegmentCommand}"/>-->
+
+                                </StackPanel>
+
+
+                                <!--Project Raceway List-->
+                                <TextBlock Text="{Binding SelectedCable.Tag, Converter={StaticResource NullToStringConverter}}"
+                                       Grid.Column="4" 
+                                       HorizontalAlignment="Left"
+                                       Style="{DynamicResource SummaryLabel_TextBlockStyle}"
+                                       Margin="0 5"
+                                       FontSize="14"
+                                       FontWeight="Bold"/>
+
+                                <syncfusion:SfDataGrid Grid.Row="1" Grid.Column="4" 
+                                                   Height="250"
+                                                   ItemsSource="{Binding SelectedCable.RacewaySegmentList}"
+                                                   SelectedItem="{Binding SelectedRacewaySegment}"
+                                                   AutoGenerateColumns="False"
+                                                   
+                                                   HorizontalAlignment="Left"
+                                                   VerticalAlignment="Stretch"
+                                                   HeaderRowHeight="25"
+                                                   RowHeight="20"
+                                                   
+                                                   EnableDataVirtualization="False"
+                                                   
+                                                   Background="White"
+                                                   CurrentCellBorderBrush="Black"
+                                                   CurrentCellBorderThickness="0"
+                                                   FilterRowPosition="FixedTop"
+                                                   
+                                                   NavigationMode="Cell"
+                                                   SelectionMode="Single"
+                                                   AllowEditing="False"
+                                                   AllowSorting="True" 
+                                                   AllowFiltering="True" 
+                                                   ShowGroupDropArea="False"
+                                                   AllowResizingColumns="False"
+                                                   ColumnSizer="None"
+                                                   >
+                                    <syncfusion:SfDataGrid.Columns>
+                                        <syncfusion:GridTextColumn HeaderText="Tag"
+                                                               MappingName="RacewayModel.Tag"
+                                                               Width="100"
+                                                               UseBindingValue="True" 
+                                                               FilterBehavior="StringTyped"
+                                                               FilterRowCondition="Contains"
+                                                               ImmediateUpdateColumnFilter="True"/>
+
+                                        <syncfusion:GridTextColumn HeaderText="Width"
+                                                               MappingName="RacewayModel.Width"
+                                                               Width="65"
+                                                               UseBindingValue="True" 
+                                                               FilterBehavior="StringTyped"
+                                                               ImmediateUpdateColumnFilter="True"/>
+
+                                        <syncfusion:GridTextColumn HeaderText="Height"
+                                                               MappingName="RacewayModel.Height"
+                                                               Width="65"
+                                                               UseBindingValue="True" 
+                                                               FilterBehavior="StringTyped"
+                                                               ImmediateUpdateColumnFilter="True"/>
+
+                                        <syncfusion:GridTextColumn HeaderText="Type"
+                                                               MappingName="RacewayModel.Type"
+                                                               Width="100"
+                                                               UseBindingValue="True" 
+                                                               FilterBehavior="StringTyped"
+                                                               FilterRowCondition="Contains"
+                                                               ImmediateUpdateColumnFilter="True"/>
+
+                                    </syncfusion:SfDataGrid.Columns>
+                                </syncfusion:SfDataGrid>
+
+
+                                <StackPanel Orientation="Horizontal"
                                         Grid.Row="2"
                                         Grid.Column="4"
                                         HorizontalAlignment="Center">
 
-                                <Button Content="Add New" Style="{StaticResource GreenButton}" Width="75"
+                                    <Button Content="Add New" Style="{StaticResource GreenButton}" Width="75"
                                         Command="{Binding AddRacewayCommand}"
                                         CommandParameter="{Binding RacewayToAddValidator}"/>
-                                <Button Content="Delete" Style="{StaticResource RedButton}" Width="75"
+                                    <Button Content="Delete" Style="{StaticResource RedButton}" Width="75"
                                         Command="{Binding DeleteRacewayCommand}"
                                         CommandParameter="{Binding SelectedProjectRaceway}"/>
 
-                            </StackPanel>
+                                </StackPanel>
 
-                            <local:AddRacewayView Grid.Row="5" 
+                                <local:AddRacewayView Grid.Row="5" 
                                                   Grid.Column="0" Grid.ColumnSpan="3"
                                                   Margin="10"/>
 
-                        </Grid>
-                    </controls:EdtGroupBox>
+                            </Grid>
+                        </controls:EdtGroupBox>
 
-                    
-                    <TextBlock Grid.Row="4" 
+
+                        <TextBlock Grid.Row="4" 
                                Grid.Column="0"
                                Text="Cables in Raceway"
                                Margin="10 0"/>
 
-                    <ListBox Grid.Row="5" 
+                        <ListBox Grid.Row="5" 
                              Grid.Column="0"
                              HorizontalAlignment="Stretch"
-                             ItemsSource="{Binding SelectedRaceway.CablesInRaceway}"
+                             ItemsSource="{Binding SelectedRaceway.CableList}"
                              DisplayMemberPath="Tag"
                              />
 
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1"
+                        <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1"
                                 HorizontalAlignment="Left" >
-                        <TextBlock Text="Selected Raceway:"
+                            <TextBlock Text="Selected Raceway:"
                                    Margin="10 0"/>
 
-                        <TextBlock Text="{Binding SelectedRaceway.Tag}" d:Text="RCWY-01"
+                            <TextBlock Text="{Binding SelectedRaceway.Tag}" d:Text="RCWY-01"
                                    FontWeight="Bold"/>
-                    </StackPanel>
+
+                            <CheckBox Content="Random Fill" IsChecked="{Binding IsRandomFill}"
+                                  Margin="50 0"/>
+                        </StackPanel>
 
 
-                    <Border Grid.Row="5" 
+                        <syncfusion:SfBusyIndicator x:Name="busyIndicator"
+                                                Grid.Row="5" Grid.Column="1"
+                                                IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
+                                                Foreground="{StaticResource Darkest}"
+                                                ViewboxHeight="50"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                Header="Busy..."
+                                                AnimationType="SingleCircle"
+                                                Panel.ZIndex="1"/>
+
+                        <Border Grid.Row="5" 
                             Grid.Column="1" 
                             Margin="10"
                             BorderBrush="Black"
                             BorderThickness="1"
                             Background="White">
-                        <ScrollViewer Grid.Row="5" 
+                            <ScrollViewer Grid.Row="5" 
                                   Grid.Column="1" 
                                   VerticalScrollBarVisibility="Auto"
                                    >
-                            <ScrollViewer.Resources>
-                                 
+                                <ScrollViewer.Resources>
 
-                            </ScrollViewer.Resources>
-                            
-                            <ItemsControl ItemsSource="{Binding TraySizerViewModel.RacewayGraphics, UpdateSourceTrigger=PropertyChanged}"
+
+                                </ScrollViewer.Resources>
+
+                                <ItemsControl ItemsSource="{Binding TraySizerViewModel.RacewayGraphics, UpdateSourceTrigger=PropertyChanged}"
                                   Grid.Row="5" 
                                   Grid.Column="1" 
                                           Height="1000"
@@ -551,37 +638,48 @@
                                   
                                   >
 
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <Canvas />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <Canvas />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
 
-                                <ItemsControl.Resources>
-                                    <DataTemplate DataType="{x:Type cableViewModels:CableGraphicViewModel}">
+                                    <ItemsControl.Resources>
+                                        <DataTemplate DataType="{x:Type cableViewModels:CableGraphicViewModel}">
 
-                                        <Ellipse Canvas.Left="{Binding X}" 
+                                            <!--Fill="{Binding CableModel, Converter={StaticResource CableModelToColorConverter}}"-->
+
+                                            <Ellipse Canvas.Left="{Binding X}" 
                                          Canvas.Top="{Binding Y}" 
                                          Width="{Binding Diameter}" Height="{Binding Diameter}" 
                                          Stroke="Black"
                                          StrokeThickness="0.5"
-                                         Fill="{Binding CableModel, Converter={StaticResource CableModelToColorConverter}}"
-                                         ToolTipService.InitialShowDelay="50"
+                                         ToolTipService.InitialShowDelay="150"
                                          >
-                                            <Ellipse.ToolTip>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding CableModel.Tag}" FontWeight="Bold" Margin="0,0,0,5"/>
-                                                    <TextBlock Text="{Binding ToolTip}" FontFamily="Arial"/>
-                                                </StackPanel>
-                                            </Ellipse.ToolTip>
-                                        
-                                        </Ellipse>
-                                            
-                                    </DataTemplate>
+                                                <Ellipse.ToolTip>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding CableModel.Tag}" FontWeight="Bold" Margin="0,0,0,5"/>
+                                                        <TextBlock Text="{Binding ToolTip}" FontFamily="Arial"/>
+                                                    </StackPanel>
+                                                </Ellipse.ToolTip>
 
-                                    <DataTemplate DataType="{x:Type cableViewModels:TrayGraphicViewModel}">
+                                                <Ellipse.Style>
+                                                    <Style TargetType="Ellipse">
+                                                        <Setter Property="Fill" Value="{Binding CableModel, Converter={StaticResource CableModelToColorConverter}}"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Fill" Value="Blue"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Ellipse.Style>
+                                            </Ellipse>
 
-                                        <Rectangle Canvas.Left="{Binding X}" 
+                                        </DataTemplate>
+
+                                        <DataTemplate DataType="{x:Type cableViewModels:TrayGraphicViewModel}">
+
+                                            <Rectangle Canvas.Left="{Binding X}" 
                                            Canvas.Top="{Binding Y}" 
                                            Width="{Binding Width}" Height="{Binding Height}" 
                                            Stroke="Black"
@@ -589,26 +687,28 @@
                                            Fill="LightGray"
                                            ToolTip="{Binding Tag}" ToolTipService.InitialShowDelay="50"
                                           />
-                                        
-                                        
-                                    </DataTemplate>
 
-                                </ItemsControl.Resources>
 
-                                <ItemsControl.ItemContainerStyle>
-                                    <Style>
-                                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
-                                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
-                                    </Style>
-                                </ItemsControl.ItemContainerStyle>
+                                        </DataTemplate>
 
-                            </ItemsControl>
-                        </ScrollViewer>
-                    </Border>
-                </Grid>
-            </Border>
+                                    </ItemsControl.Resources>
 
+                                    <ItemsControl.ItemContainerStyle>
+                                        <Style>
+                                            <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                            <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                                        </Style>
+                                    </ItemsControl.ItemContainerStyle>
+
+                                </ItemsControl>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </Border>
+
+            </Grid>
         </Grid>
-    </Grid>
+        
+    </DockPanel>
 
 </UserControl>

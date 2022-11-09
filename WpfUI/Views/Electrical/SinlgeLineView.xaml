@@ -53,37 +53,109 @@
     </UserControl.Resources>
 
     <!--Main Grid-->
-    <Grid Background="{StaticResource PageBackground}"
+    <DockPanel Background="{StaticResource PageBackground}">
+
+        <Grid DockPanel.Dock="Bottom" 
+                    Height="23"
+                    Background="{StaticResource StatusBarBackroundColor}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Height="23">
+
+                <!--Counts-->
+                <TextBlock Text="Counts"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
+
+                <TextBlock Text="Dteq:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.IDteqList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Loads:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.LoadList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Cables:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+
+            </StackPanel>
+
+            <Separator Grid.Column="2" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10 0"/>
+
+            <!--Selection-->
+            <StackPanel Grid.Column="3" Orientation="Horizontal" Height="23">
+
+                <!--Dteq-->
+                <TextBlock Text="Dteq"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
+                <TextBlock Text="Id:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedDteq.Id}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Load Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedDteq.AssignedLoads.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+
+                <!--Load-->
+                <TextBlock Text="Load"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
+                <TextBlock Text="Id:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedLoad.Id}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedLoads.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+            </StackPanel>
+
+            <Separator Grid.Column="4" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10 0"/>
+            <!--Dteq-->
+            <StackPanel  Grid.Column="5" Orientation="Horizontal">
+
+            </StackPanel>
+
+            <Separator Grid.Column="7" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10 0"/>
+            <!-- Right .. Components? -->
+            <StackPanel  Grid.Column="8" Orientation="Horizontal"
+                         Visibility="Collapsed">
+                <TextBlock Text="Raceway"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
+                <TextBlock Text="Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.RacewayList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Selected:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedRacway.Id}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Cable Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedRacway.CableList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+            </StackPanel>
+        </Grid>
+        
+        <Grid Background="{StaticResource PageBackground}"
           ShowGridLines="False">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="115"/>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="25"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="25"/>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="auto" MinWidth="350"/>
-            <ColumnDefinition Width="25"/>
-        </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="115"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto" MinWidth="350"/>
+                <ColumnDefinition Width="5"/>
+            </Grid.ColumnDefinitions>
 
-        <!--Left Menu-->
-        <StackPanel Orientation="Vertical"
+            <!--Left Menu-->
+            <StackPanel Orientation="Vertical"
                     Grid.Row="2" Grid.RowSpan="4"
                     Grid.Column="1" >
-            <TextBlock Text="Selected Equipment"
+                <TextBlock Text="Selected Equipment"
                        FontSize="16"
                        FontWeight="SemiBold"
                        Margin="0 0 0 10"/>
-            
 
-            <ListView ItemsSource="{Binding ViewableDteqList}"
+
+                <ListView ItemsSource="{Binding ViewableDteqList}"
                      Grid.Row="1" Grid.Column="1"
                      SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      DisplayMemberPath="Tag"
@@ -91,20 +163,20 @@
                      Margin="0 10" 
                      Visibility="Collapsed"/>
 
-            <TreeView Grid.Row="1" Grid.Column="1"
+                <TreeView Grid.Row="1" Grid.Column="1"
                       ItemsSource="{Binding ViewableDteqList}"
                       Visibility="Collapsed">
-                
-                <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}" ItemsSource="{Binding AssignedLoads}">
-                        <TextBlock Text="{Binding Tag}" Height="23"/>
-                    </HierarchicalDataTemplate>
-                </TreeView.ItemTemplate>
-            </TreeView>
-            
-            <!--ItemsSource="{Binding ViewableDteqList}"-->
-            
-            <syncfusion:SfTreeView x:Name="sfTreeView" 
+
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}" ItemsSource="{Binding AssignedLoads}">
+                            <TextBlock Text="{Binding Tag}" Height="23"/>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+
+                <!--ItemsSource="{Binding ViewableDteqList}"-->
+
+                <syncfusion:SfTreeView x:Name="sfTreeView" 
                                    Grid.Row="1" Grid.Column="1"
                                    MaxHeight="350"
                                    MaxWidth="250"
@@ -118,135 +190,135 @@
                                    FullRowSelect="True"
                                    Visibility="Visible"
                                    Indentation="10">
-                <syncfusion:SfTreeView.Resources>
-                    
-                </syncfusion:SfTreeView.Resources>
+                    <syncfusion:SfTreeView.Resources>
 
-                <syncfusion:SfTreeView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid x:Name="grid">
-                            <Grid Grid.Row="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid>
-                                    <Image Source="{Binding ImageIcon}"
+                    </syncfusion:SfTreeView.Resources>
+
+                    <syncfusion:SfTreeView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid x:Name="grid">
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid>
+                                        <Image Source="{Binding ImageIcon}"
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Left"
                                             Height="16"
                                             Width="16"/>
-                                </Grid>
-                                <Grid Grid.Column="1"
+                                    </Grid>
+                                    <Grid Grid.Column="1"
                                         Margin="1,0,0,0"
                                         VerticalAlignment="Center">
-                                    <TextBlock Text="{Binding Tag}"
+                                        <TextBlock Text="{Binding Tag}"
                                                Foreground="Black"
                                                FontSize="12"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Left"
                                                />
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
-                    </DataTemplate>
-                </syncfusion:SfTreeView.ItemTemplate>
-            </syncfusion:SfTreeView>
+                        </DataTemplate>
+                    </syncfusion:SfTreeView.ItemTemplate>
+                </syncfusion:SfTreeView>
 
-            <Button Content="Create Drawing"
+                <Button Content="Create Drawing"
                     Command="{Binding DrawSingleLineAcadCommand}"/>
 
-            <TextBlock x:Name="txtMousePos"
+                <TextBlock x:Name="txtMousePos"
                        Text="Mouse Pos"
                        FontSize="12"
                        FontWeight="SemiBold"
                        Margin="0 0 0 10"/>
-            
-            <ListView ItemsSource="{Binding SelectedLoads}"
+
+                <ListView ItemsSource="{Binding SelectedLoads}"
                      Grid.Row="1" Grid.Column="1"
                      DisplayMemberPath="Tag"
                      MinWidth="100" MinHeight="100"
                      Margin="0 10" 
                      />
-           
-        </StackPanel>
 
-        <!--Top Data-->
-        <dteqViewers:DteqSummary3RowViewer Grid.Column="3" Grid.ColumnSpan="2"
+            </StackPanel>
+
+            <!--Top Data-->
+            <dteqViewers:DteqSummary3RowViewer Grid.Column="3" Grid.ColumnSpan="2"
                                            DataContext="{Binding SelectedDteq}"/>
-        <!--Sinlge Line-->
-        <Border BorderBrush="Black" BorderThickness="1"
+            <!--Sinlge Line-->
+            <Border BorderBrush="Black" BorderThickness="1"
                 Background="White"
                 Grid.Row="2" Grid.RowSpan="2"
                 Grid.Column="3" Grid.ColumnSpan="2"
                 VerticalAlignment="Stretch"
                 CornerRadius="0" 
                 >
-            
-            <ScrollViewer VerticalScrollBarVisibility="Auto"
+
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Auto"
                           VerticalAlignment="Stretch"
                           >
-                <Grid x:Name="grdSingleLine"
+                    <Grid x:Name="grdSingleLine"
                       Background="Transparent"
                       
                       MouseDown="Grid_MouseDown" 
                       MouseMove="Grid_MouseMove" 
                       MouseUp="Grid_MouseUp" 
                     >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    
-                    <!--Drag Selection -->
-                    <Canvas x:Name="dragSelectionCanvas"
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!--Drag Selection -->
+                        <Canvas x:Name="dragSelectionCanvas"
                             Visibility="Collapsed"
                             Panel.ZIndex="99">
-                        <Border x:Name="dragSelectionBorder"
+                            <Border x:Name="dragSelectionBorder"
                                 BorderBrush="Blue"
                                 BorderThickness="1"
                                 Background="LightBlue"
                                 CornerRadius="1"
                                 Opacity="0.5"
                                 />
-                    </Canvas>
+                        </Canvas>
 
 
-                    
-                    <singleLineSubViews:MccGraphicView DataContext="{Binding SelectedDteq}"
+
+                        <singleLineSubViews:MccGraphicView DataContext="{Binding SelectedDteq}"
                                                        Width="{Binding Path=ActualWidth, ElementName=listViewLoads}"
                                                        MinWidth="250"
                                                        HorizontalAlignment="Left"
                                                        />
-                    
-                    <!--Change the name of this so that the MCC bus is Width = this.Width-->
-                    <ItemsControl x:Name="items2"
+
+                        <!--Change the name of this so that the MCC bus is Width = this.Width-->
+                        <ItemsControl x:Name="items2"
                                   Grid.Row="1"
                                   ItemsSource="{Binding AssignedLoads}"
                                   HorizontalAlignment="Left"
                                   VerticalAlignment="Top" 
                                   Visibility="Collapsed"
                                   >
-                        
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <DockPanel HorizontalAlignment="Left"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <DockPanel HorizontalAlignment="Left"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
                                     <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}" 
                                                                            DockPanel.Dock="Left"
                                                                            LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
                                                                            LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
 
-                    <!--Change the name of this so that the MCC bus is Width = this.Width-->
-                    <ListView x:Name="listViewLoads"
+                        <!--Change the name of this so that the MCC bus is Width = this.Width-->
+                        <ListView x:Name="listViewLoads"
                               Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
                               Grid.Row="1"
                               ItemsSource="{Binding AssignedLoads}"
@@ -262,172 +334,173 @@
                               MouseDown="Grid_MouseDown" 
                               MouseMove="Grid_MouseMove" 
                               MouseUp="Grid_MouseUp" >
-                        
-                        <ListView.ContextMenu>
-                            <ContextMenu >
-                                <MenuItem Header="Move to Area" Command="{Binding SetAreaCommand}"  Height="25"/>
-                                <MenuItem Header="Set FedFrom" Command="{Binding SetFedFromCommand}"  Height="25"/>
-                                <MenuItem Header="Add" Height="25" >
-                                    <MenuItem.Icon>
-                                        <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
+
+                            <ListView.ContextMenu>
+                                <ContextMenu >
+                                    <MenuItem Header="Move to Area" Command="{Binding SetAreaCommand}"  Height="25"/>
+                                    <MenuItem Header="Set FedFrom" Command="{Binding SetFedFromCommand}"  Height="25"/>
+                                    <MenuItem Header="Add" Height="25" >
+                                        <MenuItem.Icon>
+                                            <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
                                            Height="10"/>
-                                    </MenuItem.Icon>
-                                    <MenuItem Header="Add Disconnect" Height="20"  Command="{Binding AddDisconnectCommand}" />
-                                    <MenuItem Header="Add Drive" Height="20"  Command="{Binding AddDriveCommand}" />
-                                    <MenuItem Header="Add LCS" Height="20"  Command="{Binding AddLcsCommand}"/>
-                                </MenuItem>
-                                <MenuItem Header="Remove" Height="25">
-                                    <MenuItem.Icon>
-                                        <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
+                                        </MenuItem.Icon>
+                                        <MenuItem Header="Add Disconnect" Height="20"  Command="{Binding AddDisconnectCommand}" />
+                                        <MenuItem Header="Add Drive" Height="20"  Command="{Binding AddDriveCommand}" />
+                                        <MenuItem Header="Add LCS" Height="20"  Command="{Binding AddLcsCommand}"/>
+                                    </MenuItem>
+                                    <MenuItem Header="Remove" Height="25">
+                                        <MenuItem.Icon>
+                                            <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
                                            Height="10"/>
-                                    </MenuItem.Icon>
-                                    <MenuItem Header="Remove Disconnect" Height="25"  Command="{Binding RemoveDisconnectCommand}" />
-                                    <MenuItem Header="Remove Drive" Height="25"  Command="{Binding RemoveDriveCommand}" />
-                                    <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
-                                </MenuItem>
-                                <Separator/>
-                                <MenuItem Header="Delete" Height="25" />
-                            </ContextMenu>
-                        </ListView.ContextMenu>
-                        <ListView.Resources>
-                            
-                            <!--Selected Template-->
-                            <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
-                                <Border BorderThickness="0" Background="WhiteSmoke" 
+                                        </MenuItem.Icon>
+                                        <MenuItem Header="Remove Disconnect" Height="25"  Command="{Binding RemoveDisconnectCommand}" />
+                                        <MenuItem Header="Remove Drive" Height="25"  Command="{Binding RemoveDriveCommand}" />
+                                        <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="Delete" Height="25" />
+                                </ContextMenu>
+                            </ListView.ContextMenu>
+                            <ListView.Resources>
+
+                                <!--Selected Template-->
+                                <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
+                                    <Border BorderThickness="0" Background="WhiteSmoke" 
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Left" 
                                         CornerRadius="7" 
                                         >
-                                    
-                                    <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+
+                                        <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
                                                                        DataContext="{Binding}" 
                                                                        LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
                                                                        LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
-                                </Border>
-                                
-                            </ControlTemplate>
-                            
-                            <Style TargetType="ListViewItem">
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        
-                                        <!--Normal Template-->
-                                        <ControlTemplate TargetType="ListViewItem">
-                                            <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Left"  >
-                                                <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                    </Border>
+
+                                </ControlTemplate>
+
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+
+                                            <!--Normal Template-->
+                                            <ControlTemplate TargetType="ListViewItem">
+                                                <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Left"  >
+                                                    <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
                                                                        DataContext="{Binding}" 
                                                                        LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
                                                                        LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
-                                            </Border>
-                                        </ControlTemplate>
-                                        
-                                    </Setter.Value>
-                                </Setter>
-                                <Style.Triggers>
-                                    <MultiTrigger>
-                                        <MultiTrigger.Conditions>
-                                            <Condition Property="IsSelected" Value="true" />
-                                        </MultiTrigger.Conditions>
-                                        <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
-                                    </MultiTrigger>
-       
-                                </Style.Triggers>
-                            </Style>
-                        </ListView.Resources>
+                                                </Border>
+                                            </ControlTemplate>
+
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <MultiTrigger>
+                                            <MultiTrigger.Conditions>
+                                                <Condition Property="IsSelected" Value="true" />
+                                            </MultiTrigger.Conditions>
+                                            <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
+                                        </MultiTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.Resources>
 
 
-                        <ListView.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal"
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"
                                             Margin="0 -2 0 0"
                                             />
-                            </ItemsPanelTemplate>
-                        </ListView.ItemsPanel>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
 
-                    </ListView>
+                        </ListView>
 
 
-                </Grid>
+                    </Grid>
 
-            </ScrollViewer>
-        </Border>
+                </ScrollViewer>
+            </Border>
 
-        <!--Property Editor-->
-        <Grid  Grid.Row="2" Grid.RowSpan="2"
+            <!--Property Editor-->
+            <Grid  Grid.Row="2" Grid.RowSpan="2"
                Grid.Column="5"
                Margin="7 0 0 0"
                HorizontalAlignment="Stretch">
-            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
 
-            <TextBlock Text="Load Details"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Load Details"
                            Grid.Row="0"         
                            VerticalAlignment="Bottom"
                            Margin="10 0 0 5"/>
 
-            <Border Grid.Row="1"
+                <Border Grid.Row="1"
                         BorderThickness="1" BorderBrush="Black" Background="{StaticResource BackgroundLight}"
-                        Margin="0 0 0 5">
-                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                        >
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto">
-                    <Grid Margin="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                        <!--Equipment-->
-                        <ContentControl Content="{Binding SelectedLoadEquipment}"
+                            <!--Equipment-->
+                            <ContentControl Content="{Binding SelectedLoadEquipment}"
                                         Grid.Row="0"
                                             Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
-                            <ContentControl.Resources>
+                                <ContentControl.Resources>
 
-                                <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                    <mjeqSubViews:EquipmentDetailsView/>
-                                </DataTemplate>
-                                
-                                <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                    <mjeqSubViews:EquipmentDetailsView/>
-                                </DataTemplate>
+                                    <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                        <mjeqSubViews:EquipmentDetailsView/>
+                                    </DataTemplate>
 
-                                <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                    <mjeqSubViews:ComponentDetailsView/>
-                                </DataTemplate>
+                                    <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                        <mjeqSubViews:EquipmentDetailsView/>
+                                    </DataTemplate>
 
-                            </ContentControl.Resources>
-                        </ContentControl>
+                                    <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                        <mjeqSubViews:ComponentDetailsView/>
+                                    </DataTemplate>
 
-                        <!--Cable-->
-                        <ContentControl Content="{Binding SelectedLoadCable}"
+                                </ContentControl.Resources>
+                            </ContentControl>
+
+                            <!--Cable-->
+                            <ContentControl Content="{Binding SelectedLoadCable}"
                                         Grid.Row="0"
                                         Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}">
-                            <ContentControl.Resources>
+                                <ContentControl.Resources>
 
-                                <DataTemplate DataType="{x:Type edtCables:CableModel}">
-                                    <mjeqSubViews:CableSizingViewNarrow/>
-                                </DataTemplate>
-                                
-                                <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                    <mjeqSubViews:CableSizingViewNarrow/>
-                                </DataTemplate>
-                                
-                                <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                    <mjeqSubViews:CableSizingViewNarrow/>
-                                </DataTemplate>
+                                    <DataTemplate DataType="{x:Type edtCables:CableModel}">
+                                        <mjeqSubViews:CableSizingViewNarrow/>
+                                    </DataTemplate>
 
-                                <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                    <mjeqSubViews:CableSizingViewNarrow/>
-                                </DataTemplate>
+                                    <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                        <mjeqSubViews:CableSizingViewNarrow/>
+                                    </DataTemplate>
 
-                            </ContentControl.Resources>
-                        </ContentControl>
+                                    <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                        <mjeqSubViews:CableSizingViewNarrow/>
+                                    </DataTemplate>
 
-                    </Grid>
-                </ScrollViewer>
-            </Border>
+                                    <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                        <mjeqSubViews:CableSizingViewNarrow/>
+                                    </DataTemplate>
+
+                                </ContentControl.Resources>
+                            </ContentControl>
+
+                        </Grid>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
         </Grid>
-    </Grid>
+    </DockPanel>
 </UserControl>    

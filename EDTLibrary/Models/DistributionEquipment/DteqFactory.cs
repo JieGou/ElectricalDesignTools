@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
+using EDTLibrary.Models.DPanels;
 using EDTLibrary.ProjectSettings;
 using System;
 using System.Linq;

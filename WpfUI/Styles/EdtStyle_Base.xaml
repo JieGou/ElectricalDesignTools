@@ -223,6 +223,33 @@
 
     </Style>
 
+    <Style x:Key="RoundButtonBase" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border CornerRadius="3" 
+                            Background="{TemplateBinding Background}" 
+                            BorderBrush="Black" 
+                            BorderThickness="1">
+                        <ContentPresenter HorizontalAlignment="Center" 
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="AliceBlue"/>
+                <Setter Property="Foreground" Value="black"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="DarkGray"/>
+                <Setter Property="Foreground" Value="LightGray"/>
+
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <!--default button large-->
     <Style x:Key="BaseButtonLarge" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Width" Value="125"/>

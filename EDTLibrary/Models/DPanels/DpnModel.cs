@@ -7,7 +7,10 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
@@ -20,17 +23,18 @@ using System.Configuration;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization.Formatters;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation.Peers;
 using System.Windows.Input;
 using System.Xml;
 
-namespace EDTLibrary.Models.DistributionEquipment.DPanels
+namespace EDTLibrary.Models.DPanels
 {
 
 [Serializable]
     [AddINotifyPropertyChangedInterface]
-    public class DpnModel : DistributionEquipment, IDpn
+    public class DpnModel : DistributionEquipment.DistributionEquipment, IDpn
     {
 
         int _minCircuitCount = 12;
@@ -594,7 +598,14 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
                 _phaseC = value;
             }
         }
+
+       
+
         private double _phaseC;
+
+        public event EventHandler<CalculateLoadingEventArgs> LoadingCalculated;
+        public event EventHandler PropertyUpdated;
+        public event EventHandler AreaChanged;
 
         public override void CalculateLoading(string propertyName = "")
         {
@@ -780,6 +791,7 @@ namespace EDTLibrary.Models.DistributionEquipment.DPanels
             SetCircuits();
         }
 
+        //*******************************
         
     }
 

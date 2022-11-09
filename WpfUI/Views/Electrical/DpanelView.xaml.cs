@@ -56,8 +56,8 @@ public partial class DpanelView : UserControl
     {
         vm.UpdatePanelList();
         if (vm != null) {
-            if (vm.ViewableDteqList.Count > 0 & vm.SelectedDpnl == null) {
-                vm.SelectedDpnl = vm.ViewableDteqList[0];
+            if (vm.ViewableDteqList.Count > 0 & vm.SelectedDteq == null) {
+                vm.SelectedDteq = vm.ViewableDteqList[0];
             }
         }
     }

@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 namespace WpfUI.TemplateSelectors;
+
 public class DteqOCPDTemplateSelector : DataTemplateSelector
 {
     public DataTemplate BreakerTemplate { get; set; }
@@ -18,6 +19,7 @@ public class DteqOCPDTemplateSelector : DataTemplateSelector
     {
         var selectedTemplate = BreakerTemplate;
         var dteq = (DistributionEquipment)item;
+
         if (dteq == null) return selectedTemplate;
 
         if (dteq.PdType == "BKR") {

@@ -68,7 +68,79 @@
 
 
     <!--TOP-->
-    <Grid Background="{StaticResource PageBackground}">
+    <DockPanel Background="{StaticResource PageBackground}">
+
+        <Grid DockPanel.Dock="Bottom" 
+                    Height="23"
+                    Background="{StaticResource StatusBarBackroundColor}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" Height="23">
+
+                <!--Counts-->
+                <TextBlock Text="Counts"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
+
+                <TextBlock Text="Dteq:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.IDteqList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Loads:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.LoadList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Cables:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+
+            </StackPanel>
+
+            <Separator Grid.Column="2" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10 0"/>
+
+            <!--Selection-->
+            <StackPanel Grid.Column="3" Orientation="Horizontal" Height="23">
+                
+                <!--Dteq-->
+                <TextBlock Text="Dteq"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
+                <TextBlock Text="Id:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedDteq.Id}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Load Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedDteq.AssignedLoads.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                
+                <!--Load-->
+                <TextBlock Text="Load"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
+                <TextBlock Text="Id:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedLoad.Id}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedLoads.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+            </StackPanel>
+
+            <Separator Grid.Column="4" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10 0"/>
+            <!--Dteq-->
+            <StackPanel  Grid.Column="5" Orientation="Horizontal">
+               
+            </StackPanel>
+            
+            <Separator Grid.Column="7" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10 0"/>
+            <!-- Right .. Components? -->
+            <StackPanel  Grid.Column="8" Orientation="Horizontal"
+                         Visibility="Collapsed">
+                <TextBlock Text="Raceway"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
+                <TextBlock Text="Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding ListManager.RacewayList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Selected:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedRacway.Id}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="Cable Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+                <TextBlock Text="{Binding SelectedRacway.CableList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Background="{StaticResource PageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
@@ -102,7 +174,6 @@
                 <RowDefinition Height="{Binding DteqGridBottom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="300" MaxHeight="750" MinHeight="300"/>
                 <RowDefinition Height="{Binding LoadGridTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Height="125" />
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="25"/>
             </Grid.RowDefinitions>
             <Grid.Triggers>
                 <EventTrigger RoutedEvent="FrameworkElement.Loaded">
@@ -875,7 +946,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
                 <!--Load List Header/Contents-->
@@ -1530,66 +1600,6 @@
             <!--******   BOTTOM STATUS BAR   ******-->
             <!--***********************************-->
 
-            <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="10"
-                            Margin="10 0 0 5">
-
-
-                <TextBlock Text="{Binding DataContext.LoadGridViewModifier.Power, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}" FontWeight="Bold" Margin="10 0 0 0" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-                <TextBlock Text="DTEQ" FontWeight="Bold" Margin="10 0 0 0" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="   Id:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedDteq.Id}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-                <TextBlock Text="   Supplier: " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedDteq.FedFrom.Tag}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text=", " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedDteq.FedFromId}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-
-                <TextBlock Text="   Cable Id:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedDteq.PowerCable.Id}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-                <TextBlock Text="   Loads:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedDteq.AssignedLoads.Count}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-                <TextBlock Text="   Area Id:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedDteq.Area.Id}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-
-
-                <TextBlock Text="        |       " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-                <TextBlock Text="LOAD" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="   Id:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedLoad.Id}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="   Fed From Id:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedLoad.FedFromId}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-                <TextBlock Text="   Cable Id:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedLoad.PowerCable.Id}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-
-                <TextBlock Text="        |       " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="Counts" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-                <TextBlock Text="   Dteq:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding ListManager.IDteqList.Count}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="   loads:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding ListManager.LoadList.Count}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="   Cables:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding ListManager.CableList.Count}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-
-                <TextBlock Text="        |       " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="Cables" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-                <TextBlock Text="   D:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedDteq.PowerCable.Type}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="   L:  " FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedLoad.PowerCable.Type}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <TextBlock Text="{Binding SelectedDteq.SCCR}" Margin="0" FontWeight="Bold" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-            </StackPanel>
 
             <!--***********************************-->
             <!--***********************************-->
@@ -1677,6 +1687,6 @@
 
 
     </Grid>
-
+    </DockPanel>
 
 </UserControl>

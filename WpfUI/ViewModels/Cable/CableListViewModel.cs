@@ -13,8 +13,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModels.Cable;
@@ -40,6 +42,17 @@ public class CableListViewModel : ViewModelBase
         RemoveCablesFromAllRacewayCommand = new RelayCommand(RemoveCablesFromAllRaceway);
     }
 
+    private bool _isRandomFill = false;
+    public bool IsRandomFill { get => _isRandomFill;
+        set 
+        { 
+            _isRandomFill = value;
+            UpdateSelectedRacewayAsync();
+        }
+    }
+
+    public bool IsBusy { get; set; }
+
 
     public ListManager ListManager
     {
@@ -54,7 +67,11 @@ public class CableListViewModel : ViewModelBase
     public ICable SelectedCable
     {
         get { return _selectedCable; }
-        set { _selectedCable = value; }
+        set
+        {
+            _selectedCable = value;
+        }
+
     }
 
     public IList SelectedCables { get; internal set; }
@@ -65,8 +82,8 @@ public class CableListViewModel : ViewModelBase
     public RacewayRouteSegment SelectedRacewaySegment
     {
         get { return _selectedRacewaySegment; }
-        set 
-        { 
+        set
+        {
             _selectedRacewaySegment = value;
             if (SelectedRacewaySegment != null) {
                 SelectedRaceway = _selectedRacewaySegment.RacewayModel;
@@ -79,8 +96,8 @@ public class CableListViewModel : ViewModelBase
     public RacewayModel SelectedProjectRaceway
     {
         get { return _selectedProjectRaceway; }
-        set 
-        { 
+        set
+        {
             _selectedProjectRaceway = value;
             if (_selectedProjectRaceway != null) {
                 SelectedRaceway = _selectedProjectRaceway;
@@ -96,25 +113,38 @@ public class CableListViewModel : ViewModelBase
         set
         {
             _selectedRaceway = value;
-            UpdateSelectedRaceway();
+            UpdateSelectedRacewayAsync();
         }
     }
 
-    private void UpdateSelectedRaceway()
+    private async Task UpdateSelectedRacewayAsync()
     {
-        _cablesInSelectedRaceway.Clear();
-        foreach (var cable in ListManager.CableList) {
-            foreach (var segment in cable.RacewaySegmentList) {
-                if (segment.RacewayId == _selectedRaceway.Id) {
-                    _cablesInSelectedRaceway.Add(cable);
+        TraySizerViewModel = null;
+        IsBusy = true;
+
+
+        Task.Run(() => {
+
+            if (_selectedRaceway == null) return;
+            _cablesInSelectedRaceway.Clear();
+            foreach (var cable in ListManager.CableList) {
+                foreach (var segment in cable.RacewaySegmentList) {
+                    if (segment.RacewayId == _selectedRaceway.Id) {
+                        _cablesInSelectedRaceway.Add(cable);
+                    }
                 }
             }
-        }
-        _selectedRaceway.CablesInRaceway = new ObservableCollection<ICable>(_cablesInSelectedRaceway);
-        TraySizerViewModel = new TraySizerViewModel(ListManager, SelectedRaceway, _cablesInSelectedRaceway);
+            _selectedRaceway.CableList = new ObservableCollection<ICable>(_cablesInSelectedRaceway);
+            TraySizerViewModel = new TraySizerViewModel(ListManager, SelectedRaceway, _cablesInSelectedRaceway, IsRandomFill);
+
+            Application.Current.Dispatcher.Invoke(() => IsBusy = false);
+        });
+      
+
     }
 
     private List<ICable> _cablesInSelectedRaceway = new List<ICable>();
+
     public TraySizerViewModel TraySizerViewModel { get; set; }
 
 
@@ -125,7 +155,7 @@ public class CableListViewModel : ViewModelBase
     {
         if (_selectedProjectRaceway == null || _selectedCable == null) return;
         RacewayManager.AddRacewayRouteSegment(_selectedProjectRaceway, _selectedCable, ListManager);
-        UpdateSelectedRaceway();
+        UpdateSelectedRacewayAsync();
     }
 
     public ICommand RemoveRacewayRouteSegmentCommand { get; }
@@ -133,7 +163,7 @@ public class CableListViewModel : ViewModelBase
     {
         if (_selectedRacewaySegment == null || _selectedCable == null) return;
         RacewayManager.RemoveRacewayRouteSegment(_selectedRacewaySegment, ListManager);
-        UpdateSelectedRaceway();
+        UpdateSelectedRacewayAsync();
     }
 
     public ICommand AddRacewayCommand { get; }
@@ -172,17 +202,17 @@ public class CableListViewModel : ViewModelBase
     public void AddCablesToRaceway()
     {
         AddCablesToRacewayAsync();
-        UpdateSelectedRaceway();
+        UpdateSelectedRacewayAsync();
     }
 
-    
+
     public async Task AddCablesToRacewayAsync()
     {
-        if (_selectedProjectRaceway == null) return; 
+        if (_selectedProjectRaceway == null) return;
         try {
             foreach (var cable in SelectedCables) {
                 RacewayManager.AddRacewayRouteSegment(_selectedProjectRaceway, (ICable)cable, ListManager);
-            }        
+            }
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);
@@ -193,7 +223,7 @@ public class CableListViewModel : ViewModelBase
     public void RemoveCablesFromSelectedRaceway()
     {
         RemoveCablesFromSelectedRacewayAsync();
-        UpdateSelectedRaceway();
+        UpdateSelectedRacewayAsync();
     }
 
     public async Task RemoveCablesFromSelectedRacewayAsync()
@@ -207,7 +237,7 @@ public class CableListViewModel : ViewModelBase
             foreach (var cableObject in SelectedCables) {
                 cable = (ICable)cableObject;
                 foreach (var segment in ListManager.RacewaySegmentList) {
-                    if (cable.Id == segment.CableId && segment.RacewayId== SelectedRaceway.Id) {
+                    if (cable.Id == segment.CableId && segment.RacewayId == SelectedRaceway.Id) {
                         segmentsToDelete.Add(segment);
                     }
                 }
@@ -216,7 +246,7 @@ public class CableListViewModel : ViewModelBase
             foreach (var segment in segmentsToDelete) {
                 RacewayManager.RemoveRacewayRouteSegment(segment, ListManager);
             }
-            UpdateSelectedRaceway();
+            UpdateSelectedRacewayAsync();
 
         }
         catch (Exception ex) {
@@ -228,12 +258,12 @@ public class CableListViewModel : ViewModelBase
     public void RemoveCablesFromAllRaceway()
     {
         RemoveCablesFromAllRacewayAsync();
-        UpdateSelectedRaceway();
+        UpdateSelectedRacewayAsync();
     }
 
     public async Task RemoveCablesFromAllRacewayAsync()
     {
-       
+
         try {
             ICable cable = new CableModel();
 

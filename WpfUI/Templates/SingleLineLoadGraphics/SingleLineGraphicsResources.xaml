@@ -1,0 +1,84 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    
+                    xmlns:Converters="clr-namespace:WpfUI.Converters"
+                    >
+
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../TemplateStyles/SingleLineGraphicsStyles.xaml"/>
+
+        <ResourceDictionary Source="../SingleLineCableGraphicTemplates.xaml"/>
+        <ResourceDictionary Source="../SingleLineComponentGraphicTemplates.xaml"/>
+        
+        <ResourceDictionary Source="../SingleLineDteqGraphicTemplates.xaml"/>
+        <ResourceDictionary Source="../SingleLineLoadGraphicTemplates.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    <Converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>
+
+    
+    
+    <!--Corner Radius-->
+    <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.3"/>
+    <SolidColorBrush x:Key="SelectedBrush" Color="LightBlue" Opacity="0.5"/>
+
+
+    <sys:Double x:Key="HighlightCorerRadius">7</sys:Double>
+    <CornerRadius x:Key="BorderHighlightCornerRadius" 
+                  TopLeft="{StaticResource HighlightCorerRadius}"
+                  TopRight="{StaticResource HighlightCorerRadius}" 
+                  BottomRight="{StaticResource HighlightCorerRadius}" 
+                  BottomLeft="{StaticResource HighlightCorerRadius}" />
+
+    
+    
+    <Style TargetType="TextBlock">
+        <Setter Property="Margin" Value="0"/>
+    </Style>
+
+    <!--Grid MouseOver Borderighlight Style-->
+    <Style TargetType="Grid" x:Key="GraphicHighlightStyle">
+        <Style.Triggers>
+            <Trigger Property="Grid.IsMouseOver" Value="True">
+
+            </Trigger>
+        </Style.Triggers>
+
+        <Style.Resources>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="Black"/>
+
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
+                        <!--<Setter Property="Foreground" Value="Blue"/>-->
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
+                        <!--<Setter Property="Foreground" Value="Blue"/>-->
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="Border">
+                <Setter Property="BorderBrush" Value="Black"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >
+                        <Setter Property="Background" Value="{StaticResource WhiteHighlightBrush}"/>
+                        <!--<Setter Property="BorderBrush" Value="Blue"/>-->
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsSelected}" Value="True" >
+                        <Setter Property="Background" Value="{StaticResource SelectedBrush}"/>
+                        <!--<Setter Property="BorderBrush" Value="Blue"/>-->
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+        </Style.Resources>
+    </Style>
+    
+    
+</ResourceDictionary>
