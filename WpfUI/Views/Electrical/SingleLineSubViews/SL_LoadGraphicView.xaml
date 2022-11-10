@@ -12,6 +12,8 @@
              
              xmlns:edtEqModels="clr-namespace:EDTLibrary.Models.Equipment;assembly=EDTLibrary"
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
+             xmlns:edtPanels="clr-namespace:EDTLibrary.Models.DPanels;assembly=EDTLibrary"
+             
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
              xmlns:edtCables="clr-namespace:EDTLibrary.Models.Cables;assembly=EDTLibrary"
@@ -53,11 +55,10 @@
         <!--**********-->
         <!--GRAPHIC-->
         <!--**********-->
-        <Viewbox Grid.Row="0" Grid.Column="1"
-                 HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Stretch="None" MaxWidth="250" >
-            <DockPanel Grid.Row="0" Grid.Column="1"
-                    Margin="0 0 0 0">
+        
+        <DockPanel Grid.Row="0" Grid.Column="1"
+                   Margin="0 0 0 0"
+                   MaxWidth="250">
 
                
                 <!--OCPD-->
@@ -150,35 +151,55 @@
 
                         <!--Load-->
                         <ContentControl DataContext="{Binding}" Content="{Binding}" 
-                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                    PreviewMouseDown="Load_ContentControl_PreviewMouseDown" >
-                            <ContentControl.Style>
+                                        ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                                        PreviewMouseDown="Load_ContentControl_PreviewMouseDown" 
+                                        Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
+                                        ConverterParameter=Load}" >
+                            
+                            <!--<ContentControl.Style>
                                 <Style TargetType="ContentControl">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtLoadModels:LoadModel}">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
-                                    </Style.Triggers>
+                                    <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtPanels:DpnModel}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
                                 </Style>
-                            </ContentControl.Style>
+                            </ContentControl.Style>-->
+                            
                         </ContentControl>
 
                         
                         <!--Dteq as Load-->
                         <ContentControl Content="{Binding}" 
-                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                    PreviewMouseDown="Load_ContentControl_PreviewMouseDown" >
-                            <ContentControl.Style>
+                                        ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                                        PreviewMouseDown="Load_ContentControl_PreviewMouseDown" 
+                                        Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
+                                        ConverterParameter=DteqAsLoad}" >
+                            
+                            <!--<ContentControl.Style>
                                 <Style TargetType="ContentControl">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:DistributionEquipment}">
+                                        <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:XfrModel}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:SwgModel}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:MccModel}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding AssignedLoads[0], Converter={StaticResource TypeOfConverter}, ConverterParameter=Load}" Value="{x:Type edtPanels:DpnModel}">
                                             <Setter Property="Visibility" Value="Visible"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </ContentControl.Style>
+                            </ContentControl.Style>-->
+                            
                         </ContentControl>
 
                         
@@ -201,17 +222,22 @@
                     <ContentControl DataContext="{Binding AssignedLoads[0] }" Content="{Binding PowerCable}" 
                                     ContentTemplate="{StaticResource CableTemplate}"
                                     Grid.Column="2" 
-                                    PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown">
-                        <ContentControl.Style>
+                                    PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown"
+                                    Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
+                                        ConverterParameter=Dteq_Load}" >
+                        
+                        <!--<ContentControl.Style>
                             <Style TargetType="ContentControl">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding AssignedLoads[0], Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:XfrModel}">
+                                    
+                                <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtPanels:DpnModel}">
                                         <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
+                                </DataTrigger>
+                            </Style.Triggers>
                             </Style>
-                        </ContentControl.Style>
+                        </ContentControl.Style>-->
+                        
                     </ContentControl>
                 </Grid>
 
@@ -226,26 +252,31 @@
                     <StackPanel Orientation="Vertical" Grid.Column="1"
                             HorizontalAlignment="Left">
 
-                        <ContentControl DataContext="{Binding AssignedLoads[0]}" Content="{Binding }" 
-                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                    PreviewMouseDown="Load_ContentControl_PreviewMouseDown">
-                            <ContentControl.Style>
+                        <ContentControl DataContext="{Binding AssignedLoads[0] }" Content="{Binding }" 
+                                        ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                                        PreviewMouseDown="Load_ContentControl_PreviewMouseDown"
+                                        Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
+                                        ConverterParameter=Dteq_Load}" >
+                            
+                            
+                            <!--<ContentControl.Style>
                                 <Style TargetType="ContentControl">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding AssignedLoads[0], Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:XfrModel}">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
+                                    <DataTrigger Binding="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
+                                        ConverterParameter=Dteq_Load}" Value="{x:Type edtPanels:DpnModel}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
                                 </Style>
-                            </ContentControl.Style>
-                          
+                            </ContentControl.Style>-->
+                            
+                            
                         </ContentControl>
                     </StackPanel>
                 </Grid>
 
             </DockPanel>
-        </Viewbox>
 
     </Grid>
 </UserControl>

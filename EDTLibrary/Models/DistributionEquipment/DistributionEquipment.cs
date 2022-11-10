@@ -44,6 +44,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         public virtual void Delete() { }
 
         #region Properties
+        public bool IsMainLugsOnly { get; set; }
         public CalculationFlags CalculationFlags { get; set; }
 
         public bool IsSelected { get; set; } = false;

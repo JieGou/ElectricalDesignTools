@@ -9,20 +9,25 @@
     
     <converters:EmptyStringToVisibilityConverter x:Key="EmptyStringToVisibilityConverter"/>
     <converters:EquipmentTypeToDashedBorderVisibilityConverter x:Key="EquipmentTypeToDashedBorderVisibilityConverter"/>
+    <converters:InvertableRacewayTypeToAddToVisibilityConverter x:Key="InvertableRacewayTypeToAddToVisibilityConverter"/>
 
     <converters:NullToStringConverter x:Key="NullToStringConverter"/>
 
-    <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
     <converters:LcsOwnerTypeToVisbilityConverter x:Key="LscOwnerTypeVisibilityConverter"/>
     <converters:ComponentOwnerTypeToBooleanConverter x:Key="ComponentOwnerTypeToBooleanConverter"/>
     <converters:ComponentOwnerTypeToVisibilityConverter x:Key="ComponentOwnerTypeToVisibilityConverter"/>
+
+
+    <converters:MainLugsOnlyToVisibilityConverter x:Key="MainLugsOnlyToVisibilityConverter"/>
+
+    <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
 
     <converters:PoleQtyColumnHeightConverter x:Key="PoleQtyColumnHeightConverter"/>
     <converters:PoleQtyColumnHeightConverter_double x:Key="PoleQtyColumnHeightConverter_double"/>
 
 
+    <converters:SingleLineGraphicTypeToVisibilityConverter x:Key="SingleLineGraphicTypeToVisibilityConverter"/>
     <converters:TypeOfConverter x:Key="TypeOfConverter"/>
-    <converters:InvertableRacewayTypeToAddToVisibilityConverter x:Key="InvertableRacewayTypeToAddToVisibilityConverter"/>
 
     <converters:VoltageToColorConverter x:Key="VoltageToColorConverter"/>
 

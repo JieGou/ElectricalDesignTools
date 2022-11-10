@@ -28,9 +28,10 @@
            
             <!--BUS-->
             <Grid Style="{StaticResource GraphicHighlightStyle}">
-                <Border BorderThickness="0,0,0,3" BorderBrush="Black">
+                <Border BorderThickness="0,0,0,3" BorderBrush="Black"
+                        Margin="5 0">
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15 0 0 0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10 0 0 0">
                         <Border BorderBrush="Black" BorderThickness="1 0 0 0" Margin="24 0 5 0"/>
                         <TextBlock Text="{Binding Tag}" HorizontalAlignment="Center" FontWeight="Bold"/>
                         <TextBlock Text=",  "/>
@@ -78,7 +79,12 @@
     <!--Transformer Template-->
     <DataTemplate x:Key="TransformerTemplate" DataType="{x:Type edtDteqModels:XfrModel}">
         <StackPanel Orientation="Vertical" Margin="14 0">
-
+            <!--Cable-->
+            <ContentControl Content="{Binding PowerCable}"
+                            ContentTemplate="{StaticResource CableTemplate}"
+                            Grid.Column="1"
+                            Margin="31 0 0 0"/>
+            
             <Grid Style="{StaticResource GraphicHighlightStyle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -208,100 +214,30 @@
 
     <!--Distribution Panel Template-->
     <DataTemplate x:Key="PanelTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
-        <Grid Style="{StaticResource GraphicHighlightStyle}">
-
-            <StackPanel Orientation="Vertical">
-
-                <!--Graphic-->
-                <Border BorderThickness="2" 
-                        Width="75"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        >
+        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0">
 
 
-                    <StackPanel Orientation="Vertical"
-                                HorizontalAlignment="Left">
 
-                        <!--Main Breaker-->
-                        <Canvas Grid.Column="1"
-                                Width="35" Height="50"
-                                Margin="9 0">
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 29" />
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="25" Height="7" Width="7"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="31" X2="13.5" Y2="50"/>
+            <!--Cable-->
+            <ContentControl Content="{Binding PowerCable}"
+                            ContentTemplate="{StaticResource CableTemplate}"
+                            Grid.Column="1"
+                            Margin="45 0 0 0"/>
 
-                            <StackPanel Orientation="Horizontal" 
-                                    HorizontalAlignment="Center" 
-                                    VerticalAlignment="Center"
-                                        Canvas.Left="30"
-                                        Canvas.Top="10">
-                                <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
-                                <TextBlock Text=" " HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"/>
-                            </StackPanel>
+            <!--Dashed Border-->
+            <SingleLineLoadGraphics:SingleLineDashedBorder/>
 
-                        </Canvas>
+            <!--Main Breaker-->
+            <ContentControl Content="{Binding}" 
+                        Style="{StaticResource OCPDTemplateStyle}"
+                        ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"/>
 
-                        <!--Branch Breaker-->
-                        <Canvas Grid.Column="1"
-                                Width="35" Height="25"
-                                >
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="15"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="5" Y1="10" X2="17" Y2="10"/>
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="17" Canvas.Top="6" Height="7" Width="7"/>
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 20,4 A 5,4 0 0 1 39, 4" />
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="35" Canvas.Top="6" Height="7" Width="7"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="42" Y1="10" X2="55" Y2="10"/>
+            <!-- BUS-->
+            <ContentControl Grid.Column="1"
+                            Content="{Binding}"
+                            ContentTemplate="{StaticResource DteqBusTemplate}"  />
 
-
-                        </Canvas>
-                        <!--Branch Breaker-->
-                        <Canvas Grid.Column="1"
-                                Width="35" Height="25"
-                                >
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="-10" X2="13.5" Y2="15"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="5" Y1="10" X2="17" Y2="10"/>
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="17" Canvas.Top="6" Height="7" Width="7"/>
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 20,4 A 5,4 0 0 1 39, 4" />
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="35" Canvas.Top="6" Height="7" Width="7"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="42" Y1="10" X2="55" Y2="10"/>
-
-
-                        </Canvas>
-
-
-                    </StackPanel>
-                </Border>
-
-                <!--Text-->
-                <Border BorderThickness="0" 
-                        HorizontalAlignment="Left"
-                        Padding="10"
-                        MinWidth="75"
-                        CornerRadius="{StaticResource BorderHighlightCornerRadius}">
-                    <StackPanel Orientation="Vertical"
-                                HorizontalAlignment="Center" 
-                                VerticalAlignment="Center"
-                                >
-                        <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                 HorizontalAlignment="Left"
-                                 Background="Transparent"
-                                 BorderBrush="LightGray"
-                                 FontWeight="SemiBold"
-                                 />
-                        <TextBlock Text="{Binding Description}" HorizontalAlignment="Left"
-                                   MaxWidth="130"
-                                   TextWrapping="WrapWithOverflow"/>
-                    </StackPanel>
-
-
-                </Border>
-            </StackPanel>
-
-        </Grid>
+        </StackPanel>
     </DataTemplate>
 
 

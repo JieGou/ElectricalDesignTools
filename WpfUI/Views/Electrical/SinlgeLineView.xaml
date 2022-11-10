@@ -155,26 +155,6 @@
                        FontWeight="SemiBold"
                        Margin="0 0 0 10"/>
 
-
-                <ListView ItemsSource="{Binding ViewableDteqList}"
-                     Grid.Row="1" Grid.Column="1"
-                     SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     DisplayMemberPath="Tag"
-                     MinWidth="100" MinHeight="100"
-                     Margin="0 10" 
-                     Visibility="Collapsed"/>
-
-                <TreeView Grid.Row="1" Grid.Column="1"
-                      ItemsSource="{Binding ViewableDteqList}"
-                      Visibility="Collapsed">
-
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}" ItemsSource="{Binding AssignedLoads}">
-                            <TextBlock Text="{Binding Tag}" Height="23"/>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                </TreeView>
-
                 <!--ItemsSource="{Binding ViewableDteqList}"-->
 
                 <syncfusion:SfTreeView x:Name="sfTreeView" 

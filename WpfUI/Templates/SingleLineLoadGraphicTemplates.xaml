@@ -100,28 +100,7 @@
     </DataTemplate>
 
 
-    <!--MCC-->
-    <DataTemplate x:Key="MccTemplate_AsLoad">
-        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="-15 0 0 0">
-
-
-
-            <!--Dashed Border-->
-            <SingleLineLoadGraphics:SingleLineDashedBorder/>
-
-            <!--Main Breaker-->
-            <ContentControl Content="{Binding}" 
-                        Style="{StaticResource OCPDTemplateStyle}"
-                        ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"/>
-
-            <!-- BUS-->
-            <ContentControl Grid.Column="1"
-                            Content="{Binding}"
-                            ContentTemplate="{StaticResource DteqBusTemplate}"  />
-
-        </StackPanel>
-    </DataTemplate>
-
+  
 
 
     <!--LOADS-->
@@ -226,11 +205,9 @@
 
         </Grid>
     </DataTemplate>
-
-   
     
     <!--DTEQ-->
-    <!--Transformer Template-->
+    <!--Transformer As Load-->
     <DataTemplate x:Key="TransformerTemplate" DataType="{x:Type edtDteqModels:XfrModel}">
         <StackPanel Orientation="Vertical">
 
@@ -247,7 +224,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!--Transformer Graphic-->
-                <Border Margin="-10 0"
+                <Border Margin="-11 0"
                         Padding="5 0 5 0">
                     <Border.CornerRadius>
                         <CornerRadius TopLeft="{StaticResource HighlightCorerRadius}"
@@ -360,8 +337,45 @@
 
         </StackPanel>
     </DataTemplate>
+    
+    <!--MCC As Load-->
+    <DataTemplate x:Key="MccTemplate_AsLoad">
+        
 
-    <!--Distribution Panel Template-->
+            <!--Dashed Border-->
+            <!--<SingleLineLoadGraphics:SingleLineDashedBorder/>-->
+
+        <Grid Style="{StaticResource GraphicHighlightStyle}">
+            <Border BorderBrush="Black" BorderThickness="1"
+                    Padding="0 0 15 25"
+                    Margin="-10 0 40 0">
+                <Border Background="Transparent">
+                    <StackPanel Orientation="Vertical" Grid.Column="1" >
+
+                        <!--Main Breaker-->
+                        <ContentControl Content="{Binding}" 
+                                        Style="{StaticResource OCPDTemplateStyle}"
+                                        ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
+                                        Margin="-6 0"
+                                        Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}">
+                            
+                        </ContentControl>
+
+                        <!-- BUS-->
+
+                        <ContentControl Grid.Column="1"
+                                    Content="{Binding}"
+                                    ContentTemplate="{StaticResource DteqBusTemplate}"  
+                                    Margin="-6 0"/>
+                        
+                    </StackPanel>
+                </Border>
+            </Border>
+        </Grid>
+
+    </DataTemplate>
+
+    <!--Distribution Panel As Load-->
     <DataTemplate x:Key="DistributionPanelTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
         <Grid Style="{StaticResource GraphicHighlightStyle}">
 
