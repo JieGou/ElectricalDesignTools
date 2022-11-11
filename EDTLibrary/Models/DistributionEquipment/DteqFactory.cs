@@ -40,7 +40,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
             else if (dteqToAddValidator.Type == DteqTypes.DPN.ToString()) {
                 DpnModel model = new DpnModel();
-                //MCC properties
+                
                
                 newDteq = model;
                 
@@ -48,7 +48,6 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             else if (dteqToAddValidator.Type == DteqTypes.CDP.ToString()) {
                 DpnModel model = new DpnModel();
-                //MCC properties
                 newDteq = model;
             }
             else {

@@ -599,13 +599,8 @@ namespace EDTLibrary.Models.DPanels
             }
         }
 
-       
-
         private double _phaseC;
 
-        public event EventHandler<CalculateLoadingEventArgs> LoadingCalculated;
-        public event EventHandler PropertyUpdated;
-        public event EventHandler AreaChanged;
 
         public override void CalculateLoading(string propertyName = "")
         {

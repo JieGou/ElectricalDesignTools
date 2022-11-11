@@ -823,8 +823,12 @@
                                 HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource OcpdViewProxy}}"/>
 
+                        <DataGridCheckBoxColumn Header="Main Lugs Only"
+                                                Binding="{Binding IsMainLugsOnly, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource OcpdViewProxy}}"/>
 
-                        <!--CABLE-->
+
+                            <!--CABLE-->
                         <DataGridTextColumn Header=" Cable &#xA; Qty " x:Name="dteqCableQty"
                                         Width="*" MinWidth ="50"
                                 Binding="{Binding PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -1442,80 +1446,7 @@
                                            />
 
                         <!--COMPONENTS-->
-                        <!--These checkboxes have no rendering issues but require double click-->
-                        <!--Disconnect-->
-                        <!--<sf:GridTemplateColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool"
-                                               Width="45"
-                                               IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"
-                                           FilterRowOptionsVisibility="Collapsed"
-                                           UseBindingValue="True"
-                                           FilterRowEditorType="MultiSelectComboBox"
-                                               
-                                               >
-                            <sf:GridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox  IsChecked="{Binding DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                                               Visibility="Visible"/>
-                                    <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding Type}" Value="XFR">
-                                            <Setter Property="Visibility" Value="Hidden" />
-                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Type}" Value="SWG">
-                                            <Setter Property="Visibility" Value="Hidden" />
-                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Type}" Value="MCC">
-                                            <Setter Property="Visibility" Value="Hidden" />
-                                            <Setter Property="ToolTip" Value="Disabled for Distribution Equipment."/>
-                                        </DataTrigger>
-                                    </DataTemplate.Triggers>
-                                </DataTemplate>
-                            </sf:GridTemplateColumn.CellTemplate>
-                        </sf:GridTemplateColumn>-->
-
-                        <!--Drive-->
-                        <!--<sf:GridTemplateColumn HeaderText="Drive" MappingName="DriveBool"
-                                               Width="45"
-                                               IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"
-                                           FilterRowOptionsVisibility="Collapsed"
-                                           UseBindingValue="True"
-                                           FilterRowEditorType="MultiSelectComboBox"
-                                               
-                                               >
-                            <sf:GridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox  IsChecked="{Binding DriveBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                                               Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}" >
-                                    </CheckBox>
-                                </DataTemplate>
-                            </sf:GridTemplateColumn.CellTemplate>
-                            
-                        </sf:GridTemplateColumn>-->
-
-                        <!--Lcs-->
-                        <!--<sf:GridTemplateColumn HeaderText="LCS" MappingName="LcsBool"
-                                               Width="45"
-                                               IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"
-                                           FilterRowOptionsVisibility="Collapsed"
-                                           UseBindingValue="True"
-                                           FilterRowEditorType="MultiSelectComboBox"
-                                               
-                                               >
-                            <sf:GridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox  IsChecked="{Binding LcsBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                                               Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}"/>
-                                </DataTemplate>
-                            </sf:GridTemplateColumn.CellTemplate>
-                        </sf:GridTemplateColumn>-->
-
+                        
                         <!--Comp CheckBoxes-->
                         <!--These checkboxes are single click but have had some rendering issues-->
                         <sf:GridCheckBoxColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool" 

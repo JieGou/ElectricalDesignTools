@@ -27,7 +27,7 @@ using System.Windows.Threading;
 namespace EDTLibrary.Models.DistributionEquipment
 {
 
-[Serializable]
+    [Serializable]
     [AddINotifyPropertyChangedInterface]
     public abstract class DistributionEquipment : IDteq, IComponentUser //, INotifyDataErrorInfo 
     {
@@ -47,8 +47,16 @@ namespace EDTLibrary.Models.DistributionEquipment
         public bool IsMainLugsOnly { get; set; }
         public CalculationFlags CalculationFlags { get; set; }
 
-        public bool IsSelected { get; set; } = false;
+        private bool _isSelected = false;
 
+        public bool IsSelected { 
+            get => _isSelected; 
+            set
+            { 
+                _isSelected = value; 
+                OnPropertyUpdated(nameof(IsSelected));  
+            } 
+        }
         public int Id { get; set; }
 
         private string _tag;
@@ -204,7 +212,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
 
-       
+
 
         public double _size;
         public virtual double Size
@@ -421,7 +429,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                         load.VoltageType = LoadVoltageType;
                     }
                 }
-                
+
                 UndoManager.AddUndoCommand(this, nameof(LoadVoltageType), oldValue, _loadVoltageType);
 
                 if (DaManager.Importing == false && DaManager.GettingRecords == false) {
@@ -578,7 +586,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         public bool IsCalculating { get; set; }
         public int SequenceNumber
         {
-            get => _sequenceNumber; 
+            get => _sequenceNumber;
             set
             {
                 _sequenceNumber = value;
@@ -707,7 +715,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             if (DaManager.GettingRecords == true) return;
             if (IsCalculating) return;
-
+            Tag = Tag;
             await Task.Run(() => {
                 if (PropertyUpdated != null) {
                     PropertyUpdated(this, EventArgs.Empty);

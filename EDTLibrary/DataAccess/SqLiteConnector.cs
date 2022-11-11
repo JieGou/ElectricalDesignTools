@@ -341,6 +341,9 @@ namespace EDTLibrary.DataAccess
                 sb.Replace(", ", "", sb.Length - 2, 2);
                 sb.Append(" WHERE Id = @Id");
 
+                if (tag=="CDP-01") {
+                    tag = tag;
+                }
 
                 try {
                     cnn.Execute("" + sb.ToString(), classObject);

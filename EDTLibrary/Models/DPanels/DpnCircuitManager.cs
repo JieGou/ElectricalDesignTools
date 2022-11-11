@@ -56,7 +56,9 @@ public class DpnCircuitManager
                 loadCircuitToRemove = dpn.AssignedCircuits.FirstOrDefault(lc => lc.CircuitNumber == cctNum);
                 dpn.AssignedCircuits.Remove(loadCircuitToRemove);
                 sideCircuitList.Remove(loadCircuitToRemove);
-                DaManager.prjDb.DeleteRecord(GlobalConfig.LoadCircuitTable, loadCircuitToRemove.Id);
+                if (loadCircuitToRemove!= null) {
+                    DaManager.prjDb.DeleteRecord(GlobalConfig.LoadCircuitTable, loadCircuitToRemove.Id);
+                }
             }
 
             dpn.AssignedLoads.Add(load);

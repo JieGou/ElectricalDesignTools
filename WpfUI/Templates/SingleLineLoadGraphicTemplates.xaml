@@ -383,7 +383,7 @@
 
                 <!--Graphic-->
                 <Border BorderThickness="2" 
-                        Width="75"
+                        Width="125"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         >
@@ -393,9 +393,9 @@
                                 HorizontalAlignment="Left">
                         
                         <!--Main Breaker-->
-                        <Canvas Grid.Column="1"
-                                Width="35" Height="50"
-                                Margin="9 0">
+                        <Canvas Width="35" Height="50"
+                                Margin="9 0"
+                                Visibility="{Binding IsMainLugsOnly, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}">
                             <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
                             <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
                             <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 29" />
@@ -413,10 +413,32 @@
                             </StackPanel>
 
                         </Canvas>
-                        
+
+                        <!--Main Lugs Only-->
+                        <Canvas Width="35" Height="50"
+                                Margin="9 0"
+                                Visibility="{Binding IsMainLugsOnly, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Normal}">
+                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="30"/>
+                            <Line Stroke="Black" StrokeThickness="3" X1="4" Y1="30" X2="100" Y2="30"/>
+
+                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="31" X2="13.5" Y2="75"/>
+
+                            <StackPanel Orientation="Horizontal" 
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center"
+                                        Canvas.Left="25"
+                                        Canvas.Top="10">
+                                <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
+                                <TextBlock Text=" " HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"/>
+                                <TextBlock Text=", " HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding VoltageType.Voltage}" HorizontalAlignment="Center"/>
+                            </StackPanel>
+
+                        </Canvas>
+
                         <!--Branch Breaker-->
-                        <Canvas Grid.Column="1"
-                                Width="35" Height="25"
+                        <Canvas Width="35" Height="25"
                                 >
                             <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="15"/>
                             <Line Stroke="Black" StrokeThickness="1" X1="5" Y1="10" X2="17" Y2="10"/>
@@ -428,11 +450,10 @@
 
                         </Canvas>
                         <!--Branch Breaker-->
-                        <Canvas Grid.Column="1"
-                                Width="35" Height="25"
+                        <Canvas Width="35" Height="25"
                                 >
                             <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="-10" X2="13.5" Y2="15"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="5" Y1="10" X2="17" Y2="10"/>
+                            <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="10" X2="17" Y2="10"/>
                             <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="17" Canvas.Top="6" Height="7" Width="7"/>
                             <Path Stroke="Black" StrokeThickness="1" Data="M 20,4 A 5,4 0 0 1 39, 4" />
                             <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="35" Canvas.Top="6" Height="7" Width="7"/>
