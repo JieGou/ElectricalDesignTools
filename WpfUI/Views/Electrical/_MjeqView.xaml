@@ -1014,6 +1014,7 @@
                 <sf:SfDataGrid x:Name="dgdAssignedLoads"  
                                Grid.Row="1"  Grid.Column="0"
                                Margin="5 5 10 5"
+                               ShowBusyIndicator="True"
                                
                                ColumnSizer="Star"
                                

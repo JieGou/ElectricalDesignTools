@@ -108,7 +108,7 @@ public class ComponentManager
                     var componentToRemote = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
                     listManager.CompList.Remove(componentToRemote);
                     DaManager.DeleteComponent((ComponentModel)component);
-                    componentUser.Disconnect = new ComponentModel();
+                    componentUser.Disconnect = null;
                     break;
                     load.AreaChanged -= component.MatchOwnerArea;
                 }

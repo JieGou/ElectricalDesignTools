@@ -10,7 +10,12 @@ namespace EDTLibrary.Models.Areas;
 
 [Serializable]
 [AddINotifyPropertyChangedInterface]
-public class AreaModel : IArea { 
+public class AreaModel : IArea {
+
+    public override string ToString()
+    {
+        return Tag;
+    }
     public int Id { get; set; }
 
     private string _tag;

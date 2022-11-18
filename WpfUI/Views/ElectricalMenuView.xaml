@@ -84,7 +84,7 @@
 
                 <Button Content="SINGLE LINE VIEW"
                         Style="{StaticResource ToolBarButtonBase}" 
-                        Command="{Binding NavigateSingleLineCommand}"/>
+                        Command="{Binding NavigateSingleLineCommand}" Click="Button_Click"/>
 
                 <Button Content="DISTRIBUTION PANELS"
                         Style="{StaticResource ToolBarButtonBase}" 

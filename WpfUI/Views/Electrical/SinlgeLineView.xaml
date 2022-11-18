@@ -228,26 +228,41 @@
             <!--Top Data-->
             <dteqViewers:DteqSummary3RowViewer Grid.Column="3" Grid.ColumnSpan="2"
                                            DataContext="{Binding SelectedDteq}"/>
+
+
+            <syncfusion:SfBusyIndicator x:Name="busyIndicator"
+                                        Grid.Row="2" Grid.RowSpan="2"
+                                        Grid.Column="3" Grid.ColumnSpan="2"
+                                        IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
+                                        Foreground="{StaticResource Darkest}"
+                                        Background="White"
+                                        ViewboxHeight="50"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        Header="Loading..."
+                                        AnimationType="SingleCircle"
+                                        Panel.ZIndex="1"/>
             <!--Sinlge Line-->
             <Border BorderBrush="Black" BorderThickness="1"
-                Background="White"
-                Grid.Row="2" Grid.RowSpan="2"
-                Grid.Column="3" Grid.ColumnSpan="2"
-                VerticalAlignment="Stretch"
-                CornerRadius="0" 
+                    Background="White"
+                    Grid.Row="2" Grid.RowSpan="2"
+                    Grid.Column="3" Grid.ColumnSpan="2"
+                    VerticalAlignment="Stretch"
+                    CornerRadius="0" 
                 >
 
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                <!--<ScrollViewer VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Auto"
                           VerticalAlignment="Stretch"
                           >
-                    <Grid x:Name="grdSingleLine"
+                </ScrollViewer>-->
+                <Grid x:Name="grdSingleLine"
                       Background="Transparent"
                       
                       MouseDown="Grid_MouseDown" 
                       MouseMove="Grid_MouseMove" 
-                      MouseUp="Grid_MouseUp" 
-                    >
+                      MouseUp="Grid_MouseUp"  >
+                        
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
@@ -273,49 +288,33 @@
                                                        MinWidth="250"
                                                        HorizontalAlignment="Left"
                                                        />
-
-                        <!--Change the name of this so that the MCC bus is Width = this.Width-->
-                        <ItemsControl x:Name="items2"
-                                  Grid.Row="1"
-                                  ItemsSource="{Binding AssignedLoads}"
-                                  HorizontalAlignment="Left"
-                                  VerticalAlignment="Top" 
-                                  Visibility="Collapsed"
-                                  >
-
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <DockPanel HorizontalAlignment="Left"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <singleLineSubViews:SL_LoadGraphicView DataContext="{Binding}" 
-                                                                           DockPanel.Dock="Left"
-                                                                           LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
-                                                                           LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                        
 
                         <!--Change the name of this so that the MCC bus is Width = this.Width-->
                         <ListView x:Name="listViewLoads"
-                              Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
-                              Grid.Row="1"
-                              ItemsSource="{Binding AssignedLoads}"
-                              HorizontalAlignment="Left"
-                              VerticalAlignment="Top"
-                              VerticalContentAlignment="Top"
-                              BorderThickness="0"
+                                  Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
+                                  Grid.Row="1"
+                                  
+                                  ItemsSource="{Binding AssignedLoads}"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Stretch"
+                                  VerticalContentAlignment="Top"
+                                  BorderThickness="0"
+                                  ScrollViewer.CanContentScroll="True"
+                                  Visibility="Visible"
                               
-                              Visibility="Visible"
-                              
-                              SelectionChanged="ListView_SelectionChanged"
-                              
-                              MouseDown="Grid_MouseDown" 
-                              MouseMove="Grid_MouseMove" 
-                              MouseUp="Grid_MouseUp" >
+                                  VirtualizingPanel.IsContainerVirtualizable="True"
+                                  VirtualizingPanel.IsVirtualizing="True"
+                                  VirtualizingPanel.ScrollUnit="Pixel"
+                                  VirtualizingPanel.VirtualizationMode="Recycling"
+                                  VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                  
+                                  SelectionChanged="ListView_SelectionChanged"
+                                  
+                                  MouseDown="Grid_MouseDown" 
+                                  MouseMove="Grid_MouseMove" 
+                                  MouseUp="Grid_MouseUp"
+                                  >
 
                             <ListView.ContextMenu>
                                 <ContextMenu >
@@ -346,7 +345,8 @@
                             <ListView.Resources>
 
                                 <!--Selected Template-->
-                                <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
+                                <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem"
+                                                 >
                                     <Border BorderThickness="0" Background="WhiteSmoke" 
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Left" 
@@ -354,7 +354,7 @@
                                         >
 
                                         <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
-                                                                       DataContext="{Binding}" 
+                                                                               DataContext="{Binding}" 
                                                                        LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
                                                                        LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
                                     </Border>
@@ -368,6 +368,7 @@
                                             <!--Normal Template-->
                                             <ControlTemplate TargetType="ListViewItem">
                                                 <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Left"  >
+                                                    
                                                     <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
                                                                        DataContext="{Binding}" 
                                                                        LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
@@ -392,9 +393,10 @@
 
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"
-                                            Margin="0 -2 0 0"
-                                            />
+                                    <VirtualizingStackPanel  Orientation="Horizontal"
+                                                
+                                                Margin="0 -2 0 0"
+                                                />
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
 
@@ -403,7 +405,7 @@
 
                     </Grid>
 
-                </ScrollViewer>
+               
             </Border>
 
             <!--Property Editor-->

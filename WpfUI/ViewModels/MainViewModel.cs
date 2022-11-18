@@ -11,6 +11,7 @@ using ExcelLibrary;
 using Portable.Licensing;
 using Portable.Licensing.Security.Cryptography;
 using Portable.Licensing.Validation;
+using Syncfusion.UI.Xaml.Schedule;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,12 +19,15 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using Windows.Devices.Bluetooth.Background;
 using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.PopupWindows;
@@ -34,6 +38,7 @@ using WpfUI.ViewModels.Library;
 using WpfUI.ViewModels.Menus;
 using WpfUI.Views.Settings;
 using WpfUI.Windows;
+using Application = System.Windows.Application;
 
 namespace WpfUI.ViewModels
 {
@@ -50,10 +55,16 @@ namespace WpfUI.ViewModels
         public ViewModelBase CurrentViewModel
         {
             get { return _currentViewModel; }
-            set { _currentViewModel = value; }
+            set 
+            {
+                _currentViewModel = value;
+
+                
+                
+            }
         }
 
-
+        
         public ListManager _listManager;
         public ListManager ListManager
         {

@@ -430,7 +430,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         }
     }
 
-
+    public IPowerConsumer SelectedLoadObject { get; set; }
     // LOADS
     private IPowerConsumer _selectedLoad;
     public IPowerConsumer SelectedLoad
@@ -440,6 +440,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         {
             if (value == null) return;
             _selectedLoad = value;
+            SelectedLoadObject = value;
             if (_selectedLoad != null) {
                 _selectedLoad.PowerCable.GetRequiredAmps(_selectedLoad);
                 GlobalConfig.SelectingNew = true;

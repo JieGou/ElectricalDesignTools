@@ -8,6 +8,8 @@
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              mc:Ignorable="d" 
              
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             
              xmlns:edtEqModels="clr-namespace:EDTLibrary.Models.Equipment;assembly=EDTLibrary"
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
@@ -152,7 +154,7 @@
 
 
                 <!--General-->
-                <TabItem Header="General" Background="{DynamicResource BackgroundLight}"
+                <TabItem Header="Quick Properties" Background="{DynamicResource BackgroundLight}"
                          d:Background="LightCyan">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto">
@@ -202,7 +204,8 @@
 
                 <!--Cable -->
                 <TabItem Header="Cable Sizing" Background="{DynamicResource BackgroundLight}"
-                         d:Background="LightCyan">
+                         d:Background="LightCyan"
+                         Visibility="Collapsed">
                     <ContentControl Content="{Binding SelectedLoadCable}"
                                         Grid.Row="0"
                                         >
@@ -219,7 +222,48 @@
                         </ContentControl.Resources>
                     </ContentControl>
                 </TabItem>
-              
+
+                <!--Property Grid-->
+                <TabItem Header="All Properties" 
+                         Background="{DynamicResource BackgroundLight}"
+                         d:Background="LightCyan"
+                         >
+                    
+                    <syncfusion:PropertyGrid SelectedObject="{Binding SelectedLoad}"
+                                             Width="325"
+                                             BorderBrush="Black"
+                                             HorizontalAlignment="Stretch"
+                                             AutoGenerateItems="True"
+                                             PropertyExpandMode="NestedMode"
+                                             EnableGrouping="True"
+                                             SortDirection="{x:Null}"
+                                             
+                                             FontWeight="SemiBold"
+                                             >
+                        <syncfusion:PropertyGrid.Items>
+                            
+                            <syncfusion:PropertyGridItem PropertyName="Tag"/>
+                            <syncfusion:PropertyGridItem PropertyName="Description"/>
+                            <syncfusion:PropertyGridItem PropertyName="Area" NestedPropertyDisplayMode="Show">
+                                <syncfusion:PropertyGridItem.Items>
+                                    <syncfusion:PropertyGridItem PropertyName="Tag"/>
+                                    <syncfusion:PropertyGridItem PropertyName="Name"/>
+                                </syncfusion:PropertyGridItem.Items>
+                            </syncfusion:PropertyGridItem>
+                        </syncfusion:PropertyGrid.Items>
+
+                        <syncfusion:PropertyGrid.Resources>
+                            
+                            <Style TargetType="syncfusion:PropertyViewItem" >
+                                <Setter Property="Padding" Value="0"/>
+                            </Style>
+                            <Style TargetType="syncfusion:PropertyCatagoryViewItem">
+                                <Setter Property="Padding" Value="0"/>
+                            </Style>
+                        </syncfusion:PropertyGrid.Resources>
+                    </syncfusion:PropertyGrid>
+                </TabItem>
+
             </TabControl>
         </Grid>
     </Grid>

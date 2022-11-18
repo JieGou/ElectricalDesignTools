@@ -372,5 +372,7 @@ public partial class SinlgeLineView : UserControl
         }
         return null;
     }
+
+    
 }
 

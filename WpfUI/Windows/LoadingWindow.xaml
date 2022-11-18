@@ -1,0 +1,30 @@
+﻿<Window x:Class="WpfUI.Windows.LoadingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfUI.Windows"
+        mc:Ignorable="d"
+        
+         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        
+        Title="LoadingWindow" Height="250" Width="250"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ShowInTaskbar="False">
+    <Grid>
+        <syncfusion:SfBusyIndicator x:Name="busyIndicator"
+                                        Grid.Row="2" Grid.RowSpan="2"
+                                        Grid.Column="3" Grid.ColumnSpan="2"
+                                        Foreground="Black"
+                                        IsBusy="true"
+                                        Background="White"
+                                        ViewboxHeight="50"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        Header="Busy..."
+                                        AnimationType="SingleCircle"
+                                        Panel.ZIndex="1"/>
+    </Grid>
+</Window>

@@ -4,17 +4,20 @@ using EdtLibrary.Commands;
 using EDTLibrary;
 using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using Syncfusion.UI.Xaml.Charts;
 using Syncfusion.XlsIO.Parser.Biff_Records;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Forms;
@@ -25,6 +28,7 @@ using WpfUI.Helpers;
 using WpfUI.PopupWindows;
 using WpfUI.Services;
 using WpfUI.Stores;
+using WpfUI.ViewModels.Cables;
 using WpfUI.ViewModels.Equipment;
 
 namespace WpfUI.ViewModels.Electrical;
@@ -154,22 +158,58 @@ internal class SingleLineViewModel: EdtViewModelBase
         set
         {
             if (value == null) return;
+            AssignedLoads = new ObservableCollection<IPowerConsumer>();
+            IsBusy = true;
 
-            //used for fedfrom Validation
-            _selectedDteq = value;
+            System.Windows.Application.Current.Dispatcher.Invoke(() => {
 
-            if (_selectedDteq != null) {
-                AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
+                //used for fedfrom Validation
+                _selectedDteq = value;
 
-                GlobalConfig.SelectingNew = true;
-                GlobalConfig.SelectingNew = false;
-                if (AssignedLoads.Count>0) {
-                    SelectedLoad = AssignedLoads[0];
+                if (_selectedDteq != null) {
+                    //AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
+                    
+                    foreach (var item in _selectedDteq.AssignedLoads) {
+                        AssignedLoads.Add(item);
+                        //AllowUIToUpdate();
+                    }
 
+                    GlobalConfig.SelectingNew = true;
+                    GlobalConfig.SelectingNew = false;
+                    if (AssignedLoads.Count > 0) {
+                        SelectedLoad = AssignedLoads[0];
+
+                    }
                 }
-            }
+
+            }, DispatcherPriority.Background,null);
+
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(() => IsBusy = false, DispatcherPriority.ContextIdle, null);
+
+
         }
+
     }
+
+    private static void AllowUIToUpdate()
+    {
+        DispatcherFrame frame = new();
+        // DispatcherPriority set to Input, the highest priority
+        Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Input, new DispatcherOperationCallback(delegate (object parameter)
+        {
+            frame.Continue = false;
+            Thread.Sleep(10); // Stop all processes to make sure the UI update is perform
+            return null;
+        }), null);
+        Dispatcher.PushFrame(frame);
+        // DispatcherPriority set to Input, the highest priority
+        System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Input, new Action(delegate { }));
+    }
+
+    public bool IsBusy { get; set; }
+
+
+
     private IPowerConsumer _selectedLoad;
 
     public IPowerConsumer SelectedLoad
