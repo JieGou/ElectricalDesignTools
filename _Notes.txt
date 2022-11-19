@@ -1,3 +1,9 @@
+LCS cable
+standalone starter
+Generic quick settings for mjeq
+Selected object
+Application settings
+
 DteqToAddValidator voltage updates
 
 Dteq Graphics

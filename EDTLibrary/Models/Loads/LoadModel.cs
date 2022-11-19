@@ -82,7 +82,7 @@ namespace EDTLibrary.Models.Loads
                     PowerCable.SetSourceAndDestinationTags(this);
                 }
                 if (PowerCable != null && FedFrom != null) {
-                    if (CableManager.IsUpdatingPowerCables == false) {
+                    if (CableManager.IsUpdatingCables == false) {
                         CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     }
                 }
@@ -587,14 +587,23 @@ namespace EDTLibrary.Models.Loads
                 UndoManager.CanAdd = false;
                 UndoManager.Lock(this, nameof(DriveBool));
 
+
                 if (DaManager.GettingRecords == false) {
+                    if (Lcs!=null) {
+                        Lcs.Type = ComponentFactory.GetLcsType(this);
+                        Lcs.TypeModel = TypeManager.GetLcsTypeModel(Lcs.Type);
+                    }
+
                     if (_driveBool == true) {
                         ComponentManager.AddDefaultDrive(this, ScenarioManager.ListManager);
+                        CableManager.CreateLcsAnalogCable(this, ScenarioManager.ListManager);
                     }
                     else if (_driveBool == false) {
                         ComponentManager.RemoveDefaultDrive(this, ScenarioManager.ListManager);
+                        CableManager.DeleteLcsAnalogCable(Lcs, ScenarioManager.ListManager);
                     }
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                    CableManager.UpdateLcsCableTags(this);
                 }
 
                 UndoManager.CanAdd = true;

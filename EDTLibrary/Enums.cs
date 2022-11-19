@@ -90,6 +90,8 @@ namespace EDTLibrary {
         Control,
         Instrument,
         Communication,
+        Ethernet,
+        Fiber,
     }
 
     public enum RacewayTypes

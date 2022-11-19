@@ -99,6 +99,7 @@ namespace EDTLibrary.DataAccess
             "Owner",
             "Cable",
             "PowerCable",
+            "AnalogCable",
             "ControlCable",
             "TypeModel",
             "SubTypeList",

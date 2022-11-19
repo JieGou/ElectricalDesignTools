@@ -10,6 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Areas\**" />
+    <Compile Remove="Models\Validators\**" />
+    <EmbeddedResource Remove="Models\Areas\**" />
+    <EmbeddedResource Remove="Models\Validators\**" />
+    <None Remove="Models\Areas\**" />
+    <None Remove="Models\Validators\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.console" Version="2.4.1">
@@ -33,11 +42,6 @@
     <None Update="xunit.runner.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\Areas\" />
-    <Folder Include="Models\Validators\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -657,7 +657,7 @@ namespace EDTLibrary.Managers
                     }
                     else if (lcs.Id == cable.OwnerId &&
                         lcs.GetType().ToString() == cable.OwnerType && cable.UsageType == CableUsageTypes.Instrument.ToString()) {
-                        lcs.Cable = cable;
+                        lcs.AnalogCable = cable;
                         break;
                     }
                 }

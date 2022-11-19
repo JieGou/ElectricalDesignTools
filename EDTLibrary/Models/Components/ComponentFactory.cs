@@ -130,18 +130,9 @@ public class ComponentFactory
         }
         newLcs.Category = Categories.LCS.ToString();
         newLcs.SubCategory = SubCategories.AuxComponent.ToString();
-
-        if (owner.PdType.Contains("MCP")) {
-            newLcs.Type = EdtSettings.LcsTypeDolLoad;
-        }
-        else if (owner.DriveBool==true) {
-            newLcs.Type = EdtSettings.LcsTypeVsdLoad;
-        }
-        else {
-            newLcs.Type = EdtSettings.LcsTypeDolLoad;
-        }
+        newLcs.Type = GetLcsType(owner);
         newLcs.TypeModel = TypeManager.GetLcsTypeModel(newLcs.Type);
-        
+
 
         newLcs.Owner = componentOwner;
         newLcs.OwnerId = componentOwner.Id;
@@ -156,5 +147,18 @@ public class ComponentFactory
         UndoManager.CanAdd = true;
 
         return newLcs;
+    }
+
+    internal static string GetLcsType(ILoad owner)
+    {
+        if (owner.PdType.Contains("MCP")) {
+            return EdtSettings.LcsTypeDolLoad;
+        }
+        else if (owner.DriveBool == true) {
+            return EdtSettings.LcsTypeVsdLoad;
+        }
+        else {
+            return EdtSettings.LcsTypeDolLoad;
+        }
     }
 }

@@ -13,6 +13,7 @@ public interface ILocalControlStation: IEquipment
    
   
     ICable Cable { get; set; }
+    ICable AnalogCable { get; set; }
     IEquipment Owner { get; set; }
     int OwnerId { get; set; }
     string OwnerType { get; set; }

@@ -387,9 +387,7 @@ public class CableModel : ICable
 
     public void CreateTag()
     {
-        if (Source != null && Destination != null) {
-            Tag = Source.Replace("-", "") + "-" + Destination.Replace("-", "");
-        }
+        Tag = CableManager.GetCableTag(this);
         OnPropertyUpdated();
     }
     public void AssignOwner(ICableUser load)

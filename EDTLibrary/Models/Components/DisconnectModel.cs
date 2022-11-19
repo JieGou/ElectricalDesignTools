@@ -42,7 +42,7 @@ public class DisconnectModel : IComponentEdt
             _tag = value;
             if (DaManager.GettingRecords == false) {
                 if (Owner != null) {
-                    if (CableManager.IsUpdatingPowerCables == false) {
+                    if (CableManager.IsUpdatingCables == false) {
                         CableManager.AddAndUpdateLoadPowerComponentCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
                     }
                 }

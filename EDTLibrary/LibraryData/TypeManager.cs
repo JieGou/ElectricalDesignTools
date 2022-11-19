@@ -190,13 +190,26 @@ namespace EDTLibrary.LibraryData
             output = CableTypes.SingleOrDefault(ct => ct.Type == cableType);
             return output;
         }
-        public static CableTypeModel GetLcsControlCableTypeModel(LocalControlStationModel lcs)
+        public static CableTypeModel GetLcsControlCableTypeModel(ILocalControlStation lcs)
         {
             CableTypeModel cableType = new CableTypeModel();
 
 
             List<CableTypeModel> list = CableTypes.Where(c => c.UsageType == CableUsageTypes.Control.ToString()
-                                                                && c.ConductorQty >= lcs.TypeModel.DigitalConductorQty).ToList();
+                                                           && c.ConductorQty >= lcs.TypeModel.DigitalConductorQty).ToList();
+            var minValue = list.Min(c => c.ConductorQty);
+            cableType = list.FirstOrDefault(c => c.ConductorQty == minValue);
+
+            return cableType;
+        }
+
+        public static CableTypeModel GetLcsAnalogCableTypeModel(ILocalControlStation lcs)
+        {
+            CableTypeModel cableType = new CableTypeModel();
+
+
+            List<CableTypeModel> list = CableTypes.Where(c => c.UsageType == CableUsageTypes.Instrument.ToString()
+                                                           && c.ConductorQty >= lcs.TypeModel.AnalogConductorQty).ToList();
             var minValue = list.Min(c => c.ConductorQty);
             cableType = list.FirstOrDefault(c => c.ConductorQty == minValue);
 

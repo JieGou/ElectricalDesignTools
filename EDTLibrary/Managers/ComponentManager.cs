@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.UndoSystem;
@@ -19,13 +20,13 @@ public class ComponentManager
 
         LocalControlStationModel newLcs = ComponentFactory.CreateLocalControlStation(componentUser, listManager);
         UndoManager.CanAdd = false;
+        componentUser.Lcs = newLcs;
         CableManager.AddLcsCables(componentUser, newLcs, listManager);
         UndoManager.CanAdd = true;
 
         if (componentUser.GetType() == typeof(LoadModel)) {
-            var load = (LoadModel)componentUser;
-            load.Lcs = newLcs;
-            load.AreaChanged += newLcs.MatchOwnerArea;
+            var eq = (IEquipment)componentUser;
+            eq.AreaChanged += newLcs.MatchOwnerArea;
         }
     }
 
@@ -39,7 +40,7 @@ public class ComponentManager
             var componentToRemove = listManager.LcsList.FirstOrDefault(c => c.Id == componentId);
             listManager.LcsList.Remove(componentToRemove);
             DaManager.DeleteLcs((LocalControlStationModel)load.Lcs);
-            CableManager.DeleteLcsControlCable(componentUser, componentToRemove, listManager);
+            CableManager.DeleteLcsControlCables(componentUser, componentToRemove, listManager);
             load.Lcs = null;
             load.AreaChanged -= componentToRemove.MatchOwnerArea;
         }

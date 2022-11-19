@@ -11,6 +11,12 @@ public  class TagSettings
     public static string CableTagSeparator { get; set; } = "-";
     public static string SuffixSeparator { get; set; } = ".";
 
+    public static string PowerCableTagTypeIdentifier { get; set; } = "P";
+    public static string ControlCableTagTypeIdentifier { get; set; } = "C";
+    public static string InstrumentCableTagTypeIdentifier { get; set; } = "J";
+    public static string EthernetCableTagTypeIdentifier { get; set; } = "E";
+    public static string FiberCableTagTypeIdentifier { get; set; } = "F";
+
 
     //Components
     public static string DisconnectSuffix { get; set; } = "DCN";

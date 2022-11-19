@@ -77,6 +77,9 @@ namespace EDTLibrary.TestDataFolder
 
         };
 
+
+
+
         public static ObservableCollection<ILoad> TestLoadList = new ObservableCollection<ILoad>() {
             new LoadModel() {Tag = "MTR-01", Type = LoadTypes.MOTOR.ToString(), FedFromTag = "MCC-01", Voltage=460, 
                 VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==460), Size = 50,Unit=Units.HP.ToString()},
@@ -149,17 +152,17 @@ namespace EDTLibrary.TestDataFolder
                 VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), Size = 20, Unit=Units.A.ToString()},
             new LoadModel() {Tag = "LD-03", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-01", Voltage=208,
                 VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), Size = 30,Unit=Units.A.ToString()},
-            new LoadModel() {Tag = "LD-04", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-01", Voltage=240,
-                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==240), Size = 40,Unit=Units.A.ToString()},
+            new LoadModel() {Tag = "LD-04", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-01", Voltage=208,
+                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), Size = 40,Unit=Units.A.ToString()},
 
-            new LoadModel() {Tag = "LD-04", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=120,
+            new LoadModel() {Tag = "LD-05", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=120,
                 VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==120), Size = 5,Unit=Units.A.ToString()},
-            new LoadModel() {Tag = "LD-05", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=208,
-                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), Size = 10, Unit=Units.A.ToString()},
             new LoadModel() {Tag = "LD-06", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=208,
+                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), Size = 10, Unit=Units.A.ToString()},
+            new LoadModel() {Tag = "LD-07", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=208,
                 VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), Size = 15,Unit=Units.A.ToString()},
-            new LoadModel() {Tag = "LD-07", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=240,
-                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==240), Size = 20,Unit=Units.A.ToString()},
+            new LoadModel() {Tag = "LD-08", Type = LoadTypes.OTHER.ToString(), FedFromTag = "LDP-02", Voltage=208,
+                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), Size = 20,Unit=Units.A.ToString()},
 
         };
     }

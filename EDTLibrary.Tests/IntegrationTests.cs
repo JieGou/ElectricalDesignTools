@@ -9,6 +9,7 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.TestDataFolder;
 using EDTLibrary.UndoSystem;
+using Syncfusion.PMML;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -106,13 +107,16 @@ namespace EDTLibrary.Tests
                     loadToAdd = new LoadToAddValidator(listManager, loopLoad);
                     eqVm.AddLoad(loadToAdd);
                 }
+
+                Thread.Sleep(2000);
                 listManager.GetProjectTablesAndAssigments();
                 //Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count);
 
                 //Cables
+                Thread.Sleep(1000);
                 listManager.GetProjectTablesAndAssigments();
                 int cableCount = listManager.IDteqList.Count + listManager.LoadList.Count;
-                //Assert.True(listManager.CableList.Count == cableCount);
+                Assert.True(listManager.CableList.Count == cableCount);
 
                 ErrorHelper.SaveLog();
                 #endregion
@@ -137,6 +141,8 @@ namespace EDTLibrary.Tests
 
                 DistributionEquipment mcc01 = listManager.DteqList.FirstOrDefault(d => d.Tag == "MCC-01");
                 mcc01.Area = listManager.AreaList[2];
+
+                Thread.Sleep(1000);
                 listManager.GetProjectTablesAndAssigments();
                 // Assert.True(listManager.CompList[0].Area == dteq.Area);
 

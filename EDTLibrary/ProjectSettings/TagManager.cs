@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.Models.Cables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -32,5 +33,29 @@ public class TagManager
         setting = TagSettingList.FirstOrDefault(s => s.Name == settingName);
         setting.Value = settingValue;
         DaManager.prjDb.UpdateRecord<TagModel>(setting, "TagSettings");
+    }
+
+    public static string GetCableTypeIdentifier(ICable cable)
+    {
+        string output = "";
+
+
+        if (cable.UsageType == CableUsageTypes.Power.ToString()) {
+            output = TagSettings.PowerCableTagTypeIdentifier;
+        }
+        else if (cable.UsageType == CableUsageTypes.Control.ToString()) {
+            output = TagSettings.ControlCableTagTypeIdentifier;
+        }
+        else if (cable.UsageType == CableUsageTypes.Instrument.ToString()) {
+            output = TagSettings.InstrumentCableTagTypeIdentifier;
+        }
+        else if (cable.UsageType == CableUsageTypes.Ethernet.ToString()) {
+            output = TagSettings.EthernetCableTagTypeIdentifier;
+        }
+        else if (cable.UsageType == CableUsageTypes.Fiber.ToString()) {
+            output = TagSettings.FiberCableTagTypeIdentifier;
+        }
+
+        return output;
     }
 }

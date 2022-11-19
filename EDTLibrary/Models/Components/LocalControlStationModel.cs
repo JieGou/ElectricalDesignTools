@@ -145,7 +145,7 @@ public class LocalControlStationModel : ILocalControlStation
     public ICable Cable { get; set; }
 
 
-
+    public ICable AnalogCable { get; set; }
 
     public double HeatLoss { get; set; } //not used
 

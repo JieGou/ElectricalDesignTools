@@ -95,7 +95,7 @@ public class CableManager
         return length;
     }
 
-    public static bool IsUpdatingPowerCables { get; set; }
+    public static bool IsUpdatingCables { get; set; }
     public static string PreviousEq { get; set; }
 
 
@@ -137,7 +137,7 @@ public class CableManager
                 }
 
                 //Add Cables
-                IsUpdatingPowerCables = true;
+                IsUpdatingCables = true;
                 UndoManager.CanAdd = false;
 
                 IComponentEdt previousComponent = null;
@@ -147,14 +147,7 @@ public class CableManager
 
                     CableModel cable = new CableModel();
 
-                    if (previousComponent == null) {
-                        cable.Source = powerComponentOwner.FedFrom.Tag;
-                    }
-                    else if (previousComponent != null) {
-                        cable.Source = previousComponent.Tag;
-                    }
-                    cable.Destination = component.Tag;
-                    cable.Tag = GetCableTag(cable.Source, cable.Destination);
+                    
 
                     cable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
                     cable.Load = powerComponentOwner;
@@ -192,7 +185,14 @@ public class CableManager
                     cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
 
                     cable.SetTypeProperties();
-
+                    if (previousComponent == null) {
+                        cable.Source = powerComponentOwner.FedFrom.Tag;
+                    }
+                    else if (previousComponent != null) {
+                        cable.Source = previousComponent.Tag;
+                    }
+                    cable.Destination = component.Tag;
+                    cable.Tag = GetCableTag(cable);
                     cable.ValidateCableSize(cable);
 
                     component.PowerCable = cable;
@@ -204,7 +204,7 @@ public class CableManager
                 UpdateLoadCable(powerComponentOwner, previousComponent);
 
                 //needs to be inside awaited method
-                IsUpdatingPowerCables = false;
+                IsUpdatingCables = false;
                 UndoManager.CanAdd = true;
             }));
         }
@@ -231,7 +231,7 @@ public class CableManager
                 }
                 load.PowerCable.Source = previousComponent.Tag;
             }
-            load.PowerCable.Tag = GetCableTag(load.PowerCable.Source, load.Tag);
+            load.PowerCable.Tag = GetCableTag(load.PowerCable);
             load.PowerCable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
             listManager.CableList.Add(load.PowerCable);
             DaManager.UpsertCable(load.PowerCable);
@@ -239,12 +239,20 @@ public class CableManager
     }
 
 
-    public static string GetCableTag(string cableSource, string cableDestination, [CallerMemberName] string callerMethod = "")
+    public static string GetCableTag(ICable cable, [CallerMemberName] string callerMethod = "")
     {
+        if (cable.Source==null || cable.Destination == null) {
+            return "no Source or Destination";
+        }
         try {
-            cableSource = cableSource.Replace("-", "");
-            cableDestination = cableDestination.Replace("-", "");
-            string tag = cableSource + TagSettings.CableTagSeparator + cableDestination;
+            var cableSource = cable.Source.Replace("-", "");
+            var cableDestination = cable.Destination.Replace("-", "");
+
+            string tag = 
+                cableSource + TagSettings.CableTagSeparator + 
+                cableDestination + TagSettings.CableTagSeparator + 
+                TagManager.GetCableTypeIdentifier(cable);
+
             return tag;
         }
         catch (Exception) {
@@ -253,19 +261,19 @@ public class CableManager
         }
     }
 
+
     public static void AddLcsCables(IComponentUser componentUser, LocalControlStationModel lcs, ListManager listManager)
     {
         ILoad lcsOwner = componentUser as LoadModel;
-        CreateLcsControlCable(lcs, listManager, lcsOwner);
+        CreateLcsControlCable(lcsOwner, listManager);
+        CreateLcsAnalogCable(lcsOwner, listManager);
+        UpdateLcsCableTags(lcsOwner);
     }
-
-    private static void CreateLcsControlCable(LocalControlStationModel lcs, ListManager listManager, ILoad lcsOwner)
+    internal static void CreateLcsControlCable(ILoad lcsOwner, ListManager listManager)
     {
         CableModel cable = new CableModel();
-
-        cable.Source = lcsOwner.FedFrom.Tag;
-        cable.Destination = lcs.Tag;
-        cable.Tag = GetCableTag(cable.Source, cable.Destination);
+        var lcs = lcsOwner.Lcs;
+        
 
         cable.Id = listManager.CableList.Max(c => c.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
 
@@ -278,9 +286,9 @@ public class CableManager
 
         cable.ConductorQty = lcs.TypeModel.DigitalConductorQty;
         var voltageClass = TypeManager.ControlCableTypes.FirstOrDefault(c => c.Type == EdtSettings.LcsControlCableType).VoltageRating;
-        IsUpdatingPowerCables = true;
+        IsUpdatingCables = true;
         cable.TypeModel = TypeManager.GetLcsControlCableTypeModel(lcs);
-        IsUpdatingPowerCables = false;
+        IsUpdatingCables = false;
         cable.VoltageRating = voltageClass;
         cable.QtyParallel = 1;
 
@@ -293,30 +301,101 @@ public class CableManager
         lcs.Cable = cable;
 
         cable.SetTypeProperties();
+        cable.Source = lcsOwner.FedFrom.Tag;
+        cable.Destination = lcs.Tag;
+        cable.Tag = GetCableTag(cable);
 
         listManager.CableList.Add(cable);
         DaManager.UpsertCable((CableModel)cable);
     }
-
-    internal static void DeleteLcsControlCable(IComponentUser componentUser, ILocalControlStation lcsToRemove, ListManager listManager)
+    internal static void CreateLcsAnalogCable(ILoad lcsOwner, ListManager listManager)
     {
-        if (lcsToRemove.Cable != null) {
+        if (lcsOwner.DriveBool == false || lcsOwner.LcsBool == false) return;
+
+        CableModel cable = new CableModel();
+        var lcs = lcsOwner.Lcs;
+
+        
+
+        cable.Id = listManager.CableList.Max(c => c.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
+
+        cable.OwnerId = lcs.Id;
+        cable.OwnerType = typeof(LocalControlStationModel).ToString();
+        cable.UsageType = CableUsageTypes.Instrument.ToString();
+
+        cable.Size = EdtSettings.LcsControlCableSize;
+        cable.Length = double.Parse(EdtSettings.CableLengthLocalControlStation);
+
+        cable.ConductorQty = lcs.TypeModel.AnalogConductorQty;
+        var voltageClass = TypeManager.CableTypes.FirstOrDefault(c => c.Type == EdtSettings.LcsControlCableType).VoltageRating;
+
+        IsUpdatingCables = true;
+        cable.TypeModel = TypeManager.GetLcsAnalogCableTypeModel(lcs);
+        IsUpdatingCables = false;
+
+        cable.VoltageRating = voltageClass;
+        cable.QtyParallel = 1;
+
+        cable.Spacing = 0;
+        cable.Derating = 1;
+
+        cable.IsOutdoor = lcsOwner.PowerCable.IsOutdoor;
+        cable.InstallationType = lcsOwner.PowerCable.InstallationType;
+
+        lcs.AnalogCable = cable;
+
+        cable.SetTypeProperties();
+        cable.Source = lcsOwner.FedFrom.Tag;
+        cable.Destination = lcs.Tag;
+        cable.Tag = GetCableTag(cable);
+
+        listManager.CableList.Add(cable);
+        DaManager.UpsertCable((CableModel)cable);
+    }
+    internal static void UpdateLcsCableTags(ILoad lcsOwner)
+    {
+
+        if (lcsOwner.Lcs==null) return;
+        
+        
+        var lcs = lcsOwner.Lcs;
+        if (lcsOwner.DriveBool == true) {
+            lcs.Cable.Source = lcsOwner.Drive.Tag;
+            lcs.Cable.CreateTag();
+
+            lcs.AnalogCable.Source = lcsOwner.Drive.Tag;
+            lcs.AnalogCable.CreateTag();
+        }
+        else {
+            lcs.Cable.Source = lcsOwner.FedFrom.Tag;
+            lcs.Cable.CreateTag();
+        }
+    }
+    internal static void DeleteLcsControlCables(IComponentUser componentUser, ILocalControlStation lcsToRemove, ListManager listManager)
+    {
+        DeleteLcsControlCable(lcsToRemove, listManager);
+        DeleteLcsAnalogCable(lcsToRemove, listManager);
+    }
+
+    internal static void DeleteLcsControlCable(ILocalControlStation lcsToRemove, ListManager listManager)
+    {
+        if (lcsToRemove != null && lcsToRemove.Cable != null) {
             int cableId = lcsToRemove.Cable.Id;
             DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
             listManager.CableList.Remove((CableModel)lcsToRemove.Cable);
 
-            var list = new List<CableModel>();
-            foreach (var cable in listManager.CableList) {
-                if (cable.OwnerType == typeof(LocalControlStationModel).ToString() && cable.OwnerId == lcsToRemove.Cable.Id) {
-                    list.Add(cable);
-                    DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cable.Id);
-                }
-            }
-
-            foreach (var cable in list) {
-                listManager.CableList.Remove(cable);
-            }
         }
-        return;
     }
+
+    internal static void DeleteLcsAnalogCable(ILocalControlStation lcsToRemove, ListManager listManager)
+    {
+        if (lcsToRemove != null && lcsToRemove.AnalogCable != null) {
+            int cableId = lcsToRemove.AnalogCable.Id;
+            DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
+            listManager.CableList.Remove((CableModel)lcsToRemove.AnalogCable);
+
+        }
+    }
+
+
 }
