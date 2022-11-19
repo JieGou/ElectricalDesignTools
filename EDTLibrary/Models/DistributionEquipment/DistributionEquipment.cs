@@ -67,7 +67,6 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 if (value == null || value == _tag) return;
                 if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
-                    ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                     return;
                 }
 

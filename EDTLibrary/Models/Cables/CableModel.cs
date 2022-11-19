@@ -5,6 +5,7 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.Cables.Validators;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
@@ -254,12 +255,10 @@ public class CableModel : ICable
         {
             var oldValue = _length;
             if (Load != null && Load.FedFrom != null) {
-                if (Load.FedFrom.GetType() == typeof(XfrModel)) {
-                    if (value > 7.5) {
-                        EdtNotificationService.SendAlert(Tag, "Maximum cable length is 7.5 meters for a distribution panel with an upstream OCPD.", "Cable length violation.");
-                        //Length = oldValue;
-                        return;
-                    }
+                if (!CableValidator.IsCableLengthValid(this, value)) {
+                    _length = 7.5;
+                    Length = 7.5;
+                    return;
                 }
             }
             _length = value;

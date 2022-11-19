@@ -27,15 +27,16 @@ namespace WpfUI.Views.Electrical.MjeqSubviews;
 /// </summary>
 public partial class LoadGraphicView : UserControl
 {
-    public static RoutedEvent LoadEquipmentSelectedEvent = EventManager.RegisterRoutedEvent("LoadEquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
-    public static RoutedEvent LoadCableSelectedEvent = EventManager.RegisterRoutedEvent("LoadCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
-
-
     public LoadGraphicView()
     {
         InitializeComponent();
     }
+    
+    public static RoutedEvent LoadEquipmentSelectedEvent = EventManager.RegisterRoutedEvent("LoadEquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
+    public static RoutedEvent LoadCableSelectedEvent = EventManager.RegisterRoutedEvent("LoadCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
 
+
+    
     public event RoutedEventHandler LoadEquipmentSelected
     {
         add { AddHandler(LoadEquipmentSelectedEvent, value); }

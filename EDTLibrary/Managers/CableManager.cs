@@ -147,25 +147,9 @@ public class CableManager
 
                     CableModel cable = new CableModel();
 
-                    
-
                     cable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
-                    cable.Load = powerComponentOwner;
-                    cable.LoadId = powerComponentOwner.Id;
-                    cable.LoadType = powerComponentOwner.GetType().ToString();
 
-                    cable.OwnerId = component.Id;
-                    cable.OwnerType = component.GetType().ToString();
-                    cable.UsageType = powerComponentOwner.PowerCable.UsageType;
-
-                    cable.TypeModel = powerComponentOwner.PowerCable.TypeModel;
-                    cable.TypeList = powerComponentOwner.PowerCable.TypeList;
-                    cable.ConductorQty = powerComponentOwner.PowerCable.ConductorQty;
-                    cable.VoltageRating = powerComponentOwner.PowerCable.VoltageRating;
-                    cable.InsulationPercentage = powerComponentOwner.PowerCable.InsulationPercentage;
-                    cable.QtyParallel = powerComponentOwner.PowerCable.QtyParallel;
-
-                    cable.Size = powerComponentOwner.PowerCable.Size;
+                    CopyPowerCableProperties(powerComponentOwner, component, cable);
 
                     //Length
                     if (component.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
@@ -176,14 +160,6 @@ public class CableManager
                         cable.Length = loadCableLength;
                     }
 
-                    cable.BaseAmps = powerComponentOwner.PowerCable.BaseAmps;
-                    cable.Spacing = powerComponentOwner.PowerCable.Spacing;
-                    cable.Derating = powerComponentOwner.PowerCable.Derating;
-                    cable.DeratedAmps = powerComponentOwner.PowerCable.DeratedAmps;
-                    cable.RequiredAmps = powerComponentOwner.PowerCable.RequiredAmps;
-                    cable.IsOutdoor = powerComponentOwner.PowerCable.IsOutdoor;
-                    cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
-
                     cable.SetTypeProperties();
                     if (previousComponent == null) {
                         cable.Source = powerComponentOwner.FedFrom.Tag;
@@ -191,6 +167,7 @@ public class CableManager
                     else if (previousComponent != null) {
                         cable.Source = previousComponent.Tag;
                     }
+
                     cable.Destination = component.Tag;
                     cable.Tag = GetCableTag(cable);
                     cable.ValidateCableSize(cable);
@@ -201,7 +178,7 @@ public class CableManager
                     DaManager.UpsertCable(cable);
                     previousComponent = component;
                 }
-                UpdateLoadCable(powerComponentOwner, previousComponent);
+                UpdateLoadCable(powerComponentOwner, previousComponent, loadCableLength, listManager);
 
                 //needs to be inside awaited method
                 IsUpdatingCables = false;
@@ -212,32 +189,63 @@ public class CableManager
             ex.Data.Add("UserMessage", "Adding cable for components error");
             throw;
         }
-
-        //Local method
-        void UpdateLoadCable(IPowerConsumer load, IComponentEdt previousComponent)
-        {
-            if (previousComponent == null) {
-                load.PowerCable.Source = load.FedFrom.Tag;
-                load.PowerCable.Length = loadCableLength;
-            }
-            else if (previousComponent != null) {
-
-                if (previousComponent.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
-                    load.PowerCable.Length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
-                }
-
-                else { //the length of the cable
-                    load.PowerCable.Length = loadCableLength;
-                }
-                load.PowerCable.Source = previousComponent.Tag;
-            }
-            load.PowerCable.Tag = GetCableTag(load.PowerCable);
-            load.PowerCable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
-            listManager.CableList.Add(load.PowerCable);
-            DaManager.UpsertCable(load.PowerCable);
-        }
     }
 
+    /// <summary>
+    /// Copies the basic power cable properties to the component's powercable.
+    /// </summary>
+    /// <param name="powerComponentOwner"></param>
+    /// <param name="component"></param>
+    /// <param name="cable"></param>
+    private static void CopyPowerCableProperties(IPowerConsumer powerComponentOwner, IComponentEdt component, CableModel cable)
+    {
+        cable.Load = powerComponentOwner;
+        cable.LoadId = powerComponentOwner.Id;
+        cable.LoadType = powerComponentOwner.GetType().ToString();
+
+        cable.OwnerId = component.Id;
+        cable.OwnerType = component.GetType().ToString();
+        cable.UsageType = powerComponentOwner.PowerCable.UsageType;
+
+        cable.TypeModel = powerComponentOwner.PowerCable.TypeModel;
+        cable.TypeList = powerComponentOwner.PowerCable.TypeList;
+        cable.ConductorQty = powerComponentOwner.PowerCable.ConductorQty;
+        cable.VoltageRating = powerComponentOwner.PowerCable.VoltageRating;
+        cable.InsulationPercentage = powerComponentOwner.PowerCable.InsulationPercentage;
+        cable.QtyParallel = powerComponentOwner.PowerCable.QtyParallel;
+        cable.Size = powerComponentOwner.PowerCable.Size;
+
+        cable.BaseAmps = powerComponentOwner.PowerCable.BaseAmps;
+        cable.Spacing = powerComponentOwner.PowerCable.Spacing;
+        cable.Derating = powerComponentOwner.PowerCable.Derating;
+        cable.DeratedAmps = powerComponentOwner.PowerCable.DeratedAmps;
+        cable.RequiredAmps = powerComponentOwner.PowerCable.RequiredAmps;
+        cable.IsOutdoor = powerComponentOwner.PowerCable.IsOutdoor;
+        cable.InstallationType = powerComponentOwner.PowerCable.InstallationType;
+    }
+
+    private static void UpdateLoadCable(IPowerConsumer load, IComponentEdt previousComponent, double loadCableLength, ListManager listManager)
+    {
+        if (previousComponent == null) {
+            load.PowerCable.Source = load.FedFrom.Tag;
+            load.PowerCable.Length = loadCableLength;
+        }
+        else if (previousComponent != null) {
+
+            if (previousComponent.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
+                load.PowerCable.Length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
+            }
+
+            else { //the length of the cable
+                load.PowerCable.Length = loadCableLength;
+            }
+            load.PowerCable.Source = previousComponent.Tag;
+        }
+        load.PowerCable.Tag = GetCableTag(load.PowerCable);
+        load.PowerCable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
+        listManager.CableList.Add(load.PowerCable);
+        DaManager.UpsertCable(load.PowerCable);
+    }
 
     public static string GetCableTag(ICable cable, [CallerMemberName] string callerMethod = "")
     {

@@ -65,7 +65,6 @@ namespace EDTLibrary.Models.Loads
 
                 if (CalculationFlags.EnforceUniqueTags == true) {
                     if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
-                        ErrorHelper.NotifyUserError(ErrorMessages.DuplicateTagMessage, "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                         return;
                     }
                 }
@@ -95,6 +94,7 @@ namespace EDTLibrary.Models.Loads
 
             }
         }
+
         [Browsable(false)]
         public string Category { get; set; }
         [Category("Basic Info")]

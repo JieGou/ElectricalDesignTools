@@ -12,14 +12,18 @@
     </ResourceDictionary.MergedDictionaries>
     <Converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVisInvert"/>
 
-    
-    
+
+    <!--LoadGraphic Column Width-->
+    <GridLength x:Key="LcsColumnWidth">25</GridLength>
+
+
     <!--Corner Radius-->
     <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.3"/>
     <SolidColorBrush x:Key="SelectedBrush" Color="LightBlue" Opacity="0.5"/>
 
 
     <sys:Double x:Key="HighlightCorerRadius">7</sys:Double>
+    
     <CornerRadius x:Key="BorderHighlightCornerRadius" 
                   TopLeft="{StaticResource HighlightCorerRadius}"
                   TopRight="{StaticResource HighlightCorerRadius}" 

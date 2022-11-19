@@ -6,6 +6,9 @@
              
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              
+             xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
+             
+             
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              xmlns:Converters="clr-namespace:WpfUI.Converters"
@@ -67,6 +70,13 @@
 
                     </StackPanel>
                 </Border>
+                
+                
+
+                <StackPanel Orientation="Vertical"
+                            Visibility="Collapsed">
+                
+                
 
                 <!--Starter-->
                 <!--Style is for instant graphic updates-->
@@ -177,6 +187,7 @@
                     </StackPanel>
                    
                 </Grid>
+                </StackPanel>
             </DockPanel>
         </Viewbox>
 

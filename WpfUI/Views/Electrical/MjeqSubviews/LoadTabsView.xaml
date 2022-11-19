@@ -18,6 +18,7 @@
              
              xmlns:converters="clr-namespace:WpfUI.Converters"
              
+             xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
              
              xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
@@ -137,16 +138,45 @@
             </Grid.ColumnDefinitions>
 
             <!-- Graphic on left -->
-            <ContentControl Content="{Binding SelectedLoad}"
-                                    Grid.Column="0" >
-                <ContentControl.Resources>
-                    <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                        <mjeqSubViews:LoadGraphicView 
+            <Viewbox Grid.Row="0" Grid.Column="0"
+                 HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Stretch="Uniform" Width="225" >
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                    <!--FEEDER BUS-->
+                    <Border BorderBrush="Black" BorderThickness="0 0 0 3"
+                        Grid.Row="0"
+                        Width="200"
+                        HorizontalAlignment="Left" DockPanel.Dock="Top">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
+                            Margin="15 0 0 0">
+                            <TextBlock Text="{Binding SelectedLoad.FedFrom.Tag}" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                            <TextBlock Text=",  "/>
+                            <TextBlock Text="{Binding SelectedLoad.FedFrom.LoadVoltage}" HorizontalAlignment="Center"/>
+                            <TextBlock Text=" V,  "/>
+                            <TextBlock Text="{Binding SelectedLoad.FedFrom.Size}" HorizontalAlignment="Center"/>
+                            <TextBlock Text=" A,  "/>
+                            <TextBlock Text="{Binding SelectedLoad.FedFrom.SCCR}" HorizontalAlignment="Center"/>
+                            <TextBlock Text=" kA"/>
+
+
+                        </StackPanel>
+                    </Border>
+                    <ContentControl Content="{Binding SelectedLoad}" Grid.Column="0" HorizontalAlignment="Left">
+                        <ContentControl.Resources>
+                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+
+                                <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                                       DataContext="{Binding}" 
+                                                       LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
+                                                       LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
+                                <!--<mjeqSubViews:LoadGraphicView 
                             LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
-                            LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
-                    </DataTemplate>
-                </ContentControl.Resources>
-            </ContentControl>
+                            LoadCableSelected="LoadGraphicView_LoadCableSelected"/>-->
+                            </DataTemplate>
+                        </ContentControl.Resources>
+                    </ContentControl>
+                </StackPanel>
+            </Viewbox>
 
             <!--Tabs on right-->
             <TabControl Grid.Column="1" Background="Transparent" BorderThickness="0 1 0 0"
@@ -232,12 +262,12 @@
                     <syncfusion:PropertyGrid SelectedObject="{Binding SelectedLoad}"
                                              Width="325"
                                              BorderBrush="Black"
-                                             HorizontalAlignment="Stretch"
+                                             HorizontalAlignment="Right"
                                              AutoGenerateItems="True"
                                              PropertyExpandMode="NestedMode"
                                              EnableGrouping="True"
                                              SortDirection="{x:Null}"
-                                             
+                                             Margin="-2 0 -3 0"
                                              FontWeight="SemiBold"
                                              >
                         <syncfusion:PropertyGrid.Items>

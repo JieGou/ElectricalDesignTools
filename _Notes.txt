@@ -1,4 +1,7 @@
-LCS cable
+transformer cable lengths
+double boxes and values
+
+Panel Dteq edit graphic
 standalone starter
 Generic quick settings for mjeq
 Selected object

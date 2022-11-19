@@ -1,9 +1,11 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.ErrorManagement;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 
 namespace EDTLibrary.Models.Validators
 {
@@ -21,7 +23,11 @@ namespace EDTLibrary.Models.Validators
             listManager.CreateEquipmentList();
             var tag = listManager.EqList.FirstOrDefault(eq => eq.Tag.ToLower() == tagToCheck.ToLower());
 
-            if (tag != null) return false;
+            if (tag != null) {
+                ErrorHelper.NotifyUserError($"{tagToCheck} - {ErrorMessages.DuplicateTagMessage}", "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
+
+                return false;
+            }
 
             return true;
         }

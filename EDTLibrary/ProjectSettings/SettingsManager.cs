@@ -3,6 +3,7 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Mappers;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Cables.Validators;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -117,6 +118,7 @@ namespace EDTLibrary.ProjectSettings
         {
             if (EdtSettings.Code == "CEC") {
                 CableManager.CableSizer = new CecCableSizer();
+                CableValidator.CableLengthValidator = new CecCableLengthValidator();
             }
         }
 

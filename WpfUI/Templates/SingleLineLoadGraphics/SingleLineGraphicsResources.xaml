@@ -26,6 +26,8 @@
 
 
     <sys:Double x:Key="HighlightCorerRadius">7</sys:Double>
+    
+    
     <CornerRadius x:Key="BorderHighlightCornerRadius" 
                   TopLeft="{StaticResource HighlightCorerRadius}"
                   TopRight="{StaticResource HighlightCorerRadius}" 

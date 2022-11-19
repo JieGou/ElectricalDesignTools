@@ -4,6 +4,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     
+                    xmlns:converters="clr-namespace:WpfUI.Converters"
                     
                     xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
                     xmlns:SingleLineLoadGraphics="clr-namespace:WpfUI.Templates.SingleLineLoadGraphics"
@@ -25,140 +26,91 @@
     </ResourceDictionary.MergedDictionaries>
 
 
-        <!--#region Templates-->
+    <!--#region Templates-->
 
     <!--CABLES-->
     <!--Cable Template-->
-    <DataTemplate x:Key="CableTemplate">
-        <Grid Style="{StaticResource GraphicHighlightStyle}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+    
 
-            <Border BorderBrush="Black" BorderThickness="1 0 0 0"
-                    Grid.Column="0"
-                    Margin="-6 0 0 0"
-                    Width="5"
-                    HorizontalAlignment="Left"
-                    
-                    />
-            
-            <Border BorderBrush="Black" BorderThickness="0 0 0 0"
-                    Grid.Column="0"
-                    Margin="-10 0 0 0"
-                    Width="5"
-                    HorizontalAlignment="Left"
-                    />
-            
-            <StackPanel x:Name="stackPanel"
-                        Orientation="Vertical"
-                        Grid.Column="0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        Background="Transparent"
-                        Margin="0 25 0 25">
-                
-                <!--Data-->
-                <Border Grid.Column="0" 
-                        Margin="-1 0 0 0"
-                        CornerRadius="{StaticResource BorderHighlightCornerRadius}"
-                        Padding="0 0 5 0">
-                    <StackPanel Orientation="Vertical"
-                                Grid.Column="0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Background="Transparent"
-                                Margin="0 0 0 0">
-                        <!--Tag-->
-                    <TextBlock Text="{Binding Tag}"
-                               FontWeight="SemiBold"
-                               Visibility="Visible"/>
-
-                    <!--Cable Size-->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding QtyParallel}" />
-                        <TextBlock Text="x #" Margin="0"/>
-
-                        <TextBlock Text="{Binding Size}" />
-                    </StackPanel>
-
-                    <!--Cable Type-->
-                    <TextBlock Text="{Binding Type}" />
-                    </StackPanel>
-                </Border>
-
-            </StackPanel>
-            <Image Source="..\..\ResourceFiles\ErrorIcon48.png"
-                           Grid.Column="1" HorizontalAlignment="Left"
-                           Height="13"
-                           Margin="5"
-                           VerticalAlignment="Center"
-                           Visibility="{Binding IsValidSize, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
-        </Grid>
-    </DataTemplate>
-
-
-  
 
 
     <!--LOADS-->
     <!--Motor Template-->
     <DataTemplate x:Key="MotorTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
-        <Grid Style="{StaticResource GraphicHighlightStyle}">
+        <Grid ShowGridLines="False" Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal">
+            <!--LCs-->
+            <Grid Style="{StaticResource GraphicHighlightStyle}"
+                  Grid.Column="0"
+                  Margin="0">
+                <Border BorderThickness="1" 
+                        BorderBrush="Black"
+                        Width="20"
+                        Height="35"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding LcsBool, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Margin="0">
 
-                <!--Graphic-->
-                <Border BorderThickness="2" 
+
+                    <TextBlock Text="LCS"
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center"
+                               RenderTransformOrigin="0.5 0.5">
+                        <TextBlock.RenderTransform>
+                        <RotateTransform Angle="270"/>
+                    </TextBlock.RenderTransform>
+                    </TextBlock>
+
+
+                </Border>
+            </Grid>
+
+            <!--Motor -->
+            <Grid Style="{StaticResource GraphicHighlightStyle}"
+                  Grid.Column="1">
+
+                <StackPanel Orientation="Horizontal">
+
+                    <!--Graphic-->
+                    <Border BorderThickness="2" 
                         Width="50"
                         Height="50"
                         CornerRadius="50"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top">
-                    
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" 
                                 VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
-                        <TextBlock Text=" " HorizontalAlignment="Center"/>
-                        <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"/>
-                    </StackPanel>
-                </Border>
-                
-                <!--Data / Text-->
-                <SingleLineLoadGraphics:LoadGraphic_LoadData/>
-                <!--<Border BorderThickness="0" 
-                        HorizontalAlignment="Left"
-                        Margin="0 3 3 3"
-                        CornerRadius="{StaticResource BorderHighlightCornerRadius}"
-                        Padding="0 0 5 0">
-                    <StackPanel Orientation="Vertical"
-                                HorizontalAlignment="Left" 
-                                VerticalAlignment="Center"
-                                Margin="10 0 0 0">
-                        <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                 HorizontalAlignment="Left"
-                                 Background="Transparent"
-                                 BorderBrush="LightGray"
-                                 FontWeight="SemiBold"
-                                 />
-                        <TextBlock Text="{Binding Description}" HorizontalAlignment="Left"
-                                   MaxWidth="140"
-                                   TextWrapping="WrapWithOverflow"
-                                   Visibility="{Binding Description, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
-                    </StackPanel>
-                </Border>-->
+                            <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
+                            <TextBlock Text=" " HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding Unit}" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
 
-            </StackPanel>
+                    <!--Data / Text-->
+                    <SingleLineLoadGraphics:LoadGraphic_LoadData/>
 
+                </StackPanel>
+
+            </Grid>
         </Grid>
 
     </DataTemplate>
 
     <!--Heater Template-->
     <DataTemplate x:Key="HeaterTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
-        <Grid Style="{StaticResource GraphicHighlightStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Style="{StaticResource GraphicHighlightStyle}"
+                  Grid.Column="1">
 
             <StackPanel Orientation="Horizontal">
 
@@ -203,15 +155,21 @@
                 </Border>-->
             </StackPanel>
 
+            </Grid>
         </Grid>
     </DataTemplate>
     
     <!--DTEQ-->
     <!--Transformer As Load-->
     <DataTemplate x:Key="TransformerTemplate" DataType="{x:Type edtDteqModels:XfrModel}">
-        <StackPanel Orientation="Vertical">
 
-            <Grid Style="{StaticResource GraphicHighlightStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Style="{StaticResource GraphicHighlightStyle}"
+                  Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -334,51 +292,62 @@
                 </Border>
 
             </Grid>
+        </Grid>
 
-        </StackPanel>
+
     </DataTemplate>
     
     <!--MCC As Load-->
     <DataTemplate x:Key="MccTemplate_AsLoad">
-        
 
-            <!--Dashed Border-->
-            <!--<SingleLineLoadGraphics:SingleLineDashedBorder/>-->
-
-        <Grid Style="{StaticResource GraphicHighlightStyle}">
-            <Border BorderBrush="Black" BorderThickness="1"
-                    Padding="0 0 15 25"
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid Style="{StaticResource GraphicHighlightStyle}"
+                  Grid.Column="1">
+                
+                <Border BorderBrush="Black" BorderThickness="1"
+                    Padding="0 0 25 25"
                     Margin="-10 0 40 0">
-                <Border Background="Transparent">
-                    <StackPanel Orientation="Vertical" Grid.Column="1" >
 
-                        <!--Main Breaker-->
-                        <ContentControl Content="{Binding}" 
-                                        Style="{StaticResource OCPDTemplateStyle}"
-                                        ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
-                                        Margin="-6 0"
-                                        Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}">
-                            
-                        </ContentControl>
+                    <Border Background="Transparent">
+                        <StackPanel Orientation="Vertical" Grid.Column="1" >
 
-                        <!-- BUS-->
+                            <!--Main Breaker-->
+                            <ContentControl Content="{Binding}" 
+                                            Style="{StaticResource OCPDTemplateStyle}"
+                                            ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
+                                            Margin="-6 0"
+                                            Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}">
 
-                        <ContentControl Grid.Column="1"
-                                    Content="{Binding}"
-                                    ContentTemplate="{StaticResource DteqBusTemplate}"  
-                                    Margin="-6 0"/>
-                        
-                    </StackPanel>
+                            </ContentControl>
+
+                            <!-- BUS-->
+
+                            <ContentControl Grid.Column="1"
+                                        Content="{Binding}"
+                                        ContentTemplate="{StaticResource DteqBusTemplate}"  
+                                        Margin="-6 0"/>
+
+                        </StackPanel>
+                    </Border>
                 </Border>
-            </Border>
+            </Grid>
         </Grid>
 
     </DataTemplate>
 
     <!--Distribution Panel As Load-->
     <DataTemplate x:Key="DistributionPanelTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
-        <Grid Style="{StaticResource GraphicHighlightStyle}">
-
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Style="{StaticResource GraphicHighlightStyle}"
+                  Grid.Column="1">
             <StackPanel Orientation="Vertical">
 
                 <!--Graphic-->
@@ -491,6 +460,7 @@
                 </Border>
             </StackPanel>
 
+            </Grid>
         </Grid>
     </DataTemplate>
     <!--#endregion-->

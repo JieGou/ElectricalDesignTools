@@ -58,7 +58,7 @@
         
         <DockPanel Grid.Row="0" Grid.Column="1"
                    Margin="0 0 0 0"
-                   MaxWidth="250">
+                   >
 
                
                 <!--OCPD-->
@@ -73,7 +73,7 @@
                 <!--COMPONENTS-->
                 <ItemsControl ItemsSource="{Binding CctComponents}" 
                           DockPanel.Dock="Top"
-                      HorizontalAlignment="Left">
+                      HorizontalAlignment="Stretch">
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -155,20 +155,7 @@
                                         PreviewMouseDown="Load_ContentControl_PreviewMouseDown" 
                                         Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
                                         ConverterParameter=Load}" >
-                            
-                            <!--<ContentControl.Style>
-                                <Style TargetType="ContentControl">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtLoadModels:LoadModel}">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtPanels:DpnModel}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                                </Style>
-                            </ContentControl.Style>-->
+          
                             
                         </ContentControl>
 
@@ -179,26 +166,6 @@
                                         PreviewMouseDown="Load_ContentControl_PreviewMouseDown" 
                                         Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
                                         ConverterParameter=DteqAsLoad}" >
-                            
-                            <!--<ContentControl.Style>
-                                <Style TargetType="ContentControl">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:XfrModel}">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:SwgModel}">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtDteqModels:MccModel}">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding AssignedLoads[0], Converter={StaticResource TypeOfConverter}, ConverterParameter=Load}" Value="{x:Type edtPanels:DpnModel}">
-                                            <Setter Property="Visibility" Value="Visible"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ContentControl.Style>-->
                             
                         </ContentControl>
 
