@@ -7,9 +7,18 @@
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              mc:Ignorable="d" 
              
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             
+             xmlns:edtEqModels="clr-namespace:EDTLibrary.Models.Equipment;assembly=EDTLibrary"
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
              xmlns:edtDpnModels="clr-namespace:EDTLibrary.Models.DPanels;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
+             xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
+             xmlns:edtCables="clr-namespace:EDTLibrary.Models.Cables;assembly=EDTLibrary"
+             
+             xmlns:converters="clr-namespace:WpfUI.Converters"
+             
+             xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
              xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
 
@@ -96,8 +105,10 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
+        <!--Title Bar-->
 
         <Border BorderBrush="Black" BorderThickness="0 1 0 1"
                 Grid.Row="0"
@@ -123,13 +134,26 @@
                        />
             </StackPanel>
         </Border>
-        
-        <TabControl Grid.Row="1" Grid.Column="2"
-                    Background="Transparent" BorderThickness="0 1 0 0"
-                    SelectedIndex="{Binding SelectedDteqTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
-            <!--Equipment Specific Details-->
-            <TabItem Header="Summary" Background="{DynamicResource BackgroundLight}">
+
+
+        <Grid Grid.Row="1" d:Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" d:Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Graphic on left -->
+            <Viewbox Grid.Row="0" Grid.Column="0"
+                     HorizontalAlignment="Left" VerticalAlignment="Top"
+                     Stretch="Uniform" Width="215" 
+                     Margin="10">
+               
+            </Viewbox>
+            
+            <DockPanel HorizontalAlignment="Left" Margin="10 0 0 0">
+
+                <!--Equipment Specific Details-->
                 <ContentControl Content="{Binding SelectedDteq}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
@@ -142,26 +166,135 @@
                             <mjeqSubViews:MccGraphicView/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDpnModels:DpnModel}">
-                            <mjeqSubViews:PanelGraphicView/>
+                            <mjeqSubViews:MccGraphicView/>
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>
-            </TabItem>
+            </DockPanel>
 
-            <!--Cable Content Control-->
-            <TabItem Header="Cable Sizing" Background="{DynamicResource BackgroundLight}">
-                <ContentControl Content="{Binding SelectedDteq}">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                            <mjeqSubViews:CableSizingView/>
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
-            </TabItem>
-
-        </TabControl>
+            <TabControl Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        Background="Transparent" BorderThickness="0 1 0 0"
+                        SelectedIndex="{Binding SelectedDteqTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
 
+
+                <!--Quick Properties-->
+                <TabItem Header="Quick Properties" Background="{DynamicResource BackgroundLight}"
+                         d:Background="LightCyan">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Visible">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--Equipment-->
+                            <ContentControl Content="{Binding SelectedDteq}" 
+                                        Grid.Row="0">
+                                <ContentControl.Resources>
+
+                                    <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                        <mjeqSubViews:EquipmentDetailsView DataContext="{Binding}"/>
+                                    </DataTemplate>
+
+                                    <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                        <mjeqSubViews:ComponentDetailsView/>
+                                    </DataTemplate>
+
+                                </ContentControl.Resources>
+                            </ContentControl>
+
+                            <!--Cable-->
+                            <ContentControl Content="{Binding SelectedDteq}" DataContext="{Binding SelectedDteq}"
+                                        Grid.Row="0"
+                                        Visibility="Collapsed">
+                                <ContentControl.Resources>
+
+                                    <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                        <mjeqSubViews:EquipmentDetailsView/>
+                                    </DataTemplate>
+
+                                    <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                        <mjeqSubViews:ComponentDetailsView/>
+                                    </DataTemplate>
+
+                                </ContentControl.Resources>
+                            </ContentControl>
+
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!--Property Grid-->
+                <TabItem Header="All Properties" 
+                         Background="{DynamicResource BackgroundLight}"
+                         d:Background="LightCyan"
+                         >
+
+                    <syncfusion:PropertyGrid SelectedObject="{Binding SelectedDteq}"
+                                             Width="325"
+                                             BorderBrush="Black"
+                                             HorizontalAlignment="Stretch"
+                                             AutoGenerateItems="True"
+                                             PropertyExpandMode="NestedMode"
+                                             EnableGrouping="True"
+                                             SortDirection="{x:Null}"
+                                             Margin="-2 0 -11 0"
+                                             FontWeight="SemiBold"
+                                             >
+                        <syncfusion:PropertyGrid.Items>
+
+                            <syncfusion:PropertyGridItem PropertyName="Tag"/>
+                            <syncfusion:PropertyGridItem PropertyName="Description"/>
+                            <syncfusion:PropertyGridItem PropertyName="Area" NestedPropertyDisplayMode="Show">
+                                <syncfusion:PropertyGridItem.Items>
+                                    <syncfusion:PropertyGridItem PropertyName="Tag"/>
+                                    <syncfusion:PropertyGridItem PropertyName="Name"/>
+                                </syncfusion:PropertyGridItem.Items>
+                            </syncfusion:PropertyGridItem>
+                        </syncfusion:PropertyGrid.Items>
+
+                        <syncfusion:PropertyGrid.Resources>
+
+                            <Style TargetType="syncfusion:PropertyViewItem" >
+                                <Setter Property="Padding" Value="0"/>
+                            </Style>
+                            <Style TargetType="syncfusion:PropertyCatagoryViewItem">
+                                <Setter Property="Padding" Value="0"/>
+                            </Style>
+                        </syncfusion:PropertyGrid.Resources>
+                    </syncfusion:PropertyGrid>
+                </TabItem>
+
+                <!--Cable -->
+                <TabItem Header="Cable Sizing" Background="{DynamicResource BackgroundLight}"
+                         d:Background="LightCyan"
+                         Visibility="Visible">
+                    <ScrollViewer VerticalScrollBarVisibility="Visible">
+                        <ContentControl Content="{Binding SelectedLoadCable}"
+                                        Grid.Row="0"
+                                        >
+                            <ContentControl.Resources>
+
+                                <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                    <mjeqSubViews:CableSizingViewNarrow/>
+                                </DataTemplate>
+
+                                <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                    <mjeqSubViews:CableSizingViewNarrow/>
+                                </DataTemplate>
+
+                            </ContentControl.Resources>
+                        </ContentControl>
+                    </ScrollViewer>
+                </TabItem>
+
+            </TabControl>
+
+        </Grid>
     </Grid>
+    
 </UserControl>
 

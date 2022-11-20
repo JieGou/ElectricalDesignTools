@@ -29,6 +29,7 @@ namespace EDTLibrary.Models.Components;
 
 public class ComponentModel : IComponentEdt
 {
+
     public ComponentModel()
     {
         //Category = Categories.Component.ToString();
@@ -225,6 +226,11 @@ public class ComponentModel : IComponentEdt
             TripAmps = DataTableSearcher.GetDisconnectFuse(load);
         }
         OnPropertyUpdated();
+    }
+
+    public override string ToString()
+    {
+        return Tag;
     }
 
     public event EventHandler PropertyUpdated;

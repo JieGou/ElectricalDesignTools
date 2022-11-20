@@ -36,14 +36,7 @@
             <Style TargetType="TextBlock">
                 <Setter Property="Margin" Value="0"/>
             </Style>
-            
-            <clr:String x:Key="enclosureMessage" xml:space="preserve">Changing this value here will affect this equipment only.
-Suggestion is to create a new area and inherit the value
-from it instead of changing it separately.
-                
-Changing the equipment's Area or updating the Area properties&#13;will override/update these values.</clr:String>
-
-            
+           
         </ResourceDictionary>
 
     </UserControl.Resources>
@@ -70,9 +63,7 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
         <StackPanel Orientation="Vertical" Grid.Column="1"
                     Margin="0 3 0 0">
 
-            <ContentControl Content="{Binding PowerCable}"
-                            ContentTemplate="{StaticResource CableTemplate}"
-                            Margin="30 0"/>
+            
             <ContentControl Content="{Binding}"
                             ContentTemplate="{StaticResource PanelTemplate}"/>
 

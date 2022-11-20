@@ -34,13 +34,6 @@
             <Style TargetType="TextBlock">
                 <Setter Property="Margin" Value="0"/>
             </Style>
-            
-            <clr:String x:Key="enclosureMessage" xml:space="preserve">Changing this value here will affect this equipment only.
-Suggestion is to create a new area and inherit the value
-from it instead of changing it separately.
-                
-Changing the equipment's Area or updating the Area properties&#13;will override/update these values.</clr:String>
-
 
 
             <!-- MCC BUCKET / OCPD -->
@@ -282,7 +275,7 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
 
 
 
-    <Grid>
+    <Grid d:Background="AliceBlue"> 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="auto"/>
@@ -300,7 +293,8 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
 
         <!--Graphic-->
         <StackPanel Orientation="Vertical" Grid.Column="1"
-                    Margin="0 3 0 0">
+                    Margin="0 3 0 0"
+                    >
 
             <!--Supply Bus-->
             <!--<Border BorderBrush="Black" BorderThickness="0 0 0 3"
@@ -322,7 +316,7 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
             <!--Cable-->
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="30"/>
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
@@ -343,11 +337,13 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
             <!--Protection-->
             <ContentControl Content="{Binding}" 
                             Style="{StaticResource OCPDTemplateStyle}"
-                            ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"/>
+                            ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
+                            Margin="-10 0 0 0"/>
 
             <!--MCC BUS-->
             <Border BorderBrush="Black" BorderThickness="0 0 0 3"
-                Grid.Row="0" Width="175" HorizontalAlignment="Left">
+                    Grid.Row="0" Width="175" HorizontalAlignment="Left"
+                    Margin="-10 0 0 0">
                 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                             Margin="15 0 0 0">
@@ -363,15 +359,16 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                     <TextBlock Text=" kA"/>-->
                 </StackPanel>
             </Border>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+            
+            <!--Load Cable-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                         Height="25" VerticalAlignment="Top"
-                            Margin="15 0 0 0">
+                        Margin="5 0 0 0">
                 <Border BorderBrush="Black" BorderThickness="1 0 0 0"
-                            Margin="0 0 89.5 0"/>
-                <TextBlock Text="{Binding SCCR}" HorizontalAlignment="Center"/>
+                            Margin="24 0 0 0"/>
+                <TextBlock Text="{Binding SCCR}" HorizontalAlignment="Right"/>
                 <TextBlock Text=" kA"/>
             </StackPanel>
-            <!--Load Cable Derating-->
        
         </StackPanel>
         
@@ -388,112 +385,6 @@ Changing the equipment's Area or updating the Area properties&#13;will override/
                      FontWeight="Bold"
                      TextAlignment="Center"/>
         </StackPanel>
-        <!--Column 2-->
-        <GroupBox Header="Area Details" FontWeight="Bold"
-                  Style="{DynamicResource GroupBoxStyle1}" 
-                  Grid.Row="0" Grid.Column="4" 
-                  VerticalAlignment="Top" Height="100" 
-                  Margin="0 5 0 0" >
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Text="Area"
-                           Grid.Row="0" Grid.Column="0"
-                           FontWeight="Normal"
-                           Margin="78 5 0 0"/>
-
-                <ComboBox Grid.Row="0" Grid.Column="2" 
-                  Template="{DynamicResource ComboBoxBase}"
-                  MinWidth="115" HorizontalAlignment="Right"
-                  ItemsSource="{Binding Path=DataContext.ListManager.AreaList, 
-                                        RelativeSource={RelativeSource Mode=FindAncestor, 
-                                        AncestorType={x:Type UserControl},AncestorLevel=2}}"
-                  SelectedItem="{Binding Area, StringFormat={}{0} }" 
-                  IsSynchronizedWithCurrentItem="False" 
-                  ToolTip="{StaticResource AreaChangeMessage}">
-                    <ComboBox.ItemTemplateSelector>
-                        <templateSelectors:ComboBoxItemTemplateSelector>
-                            <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Tag}" FontWeight="Bold" Width="50"/>
-                                        <TextBlock Text="{Binding Name}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                            <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Tag}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                        </templateSelectors:ComboBoxItemTemplateSelector>
-                    </ComboBox.ItemTemplateSelector>
-                </ComboBox>
-
-                <Image Source="..\..\..\ResourceFiles\InfoIconBlue.png"
-                           Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"
-                           Margin="0 5 0 0"
-                           HorizontalAlignment="Left"
-                           Height="17"
-                           Stretch="Uniform"
-                           ToolTip="{StaticResource AreaChangeInfoMessage}"
-                           ToolTipService.InitialShowDelay="0"
-                           ToolTipService.BetweenShowDelay="0"/>
-                
-                <TextBlock Text="NEMA Rating"
-                           Grid.Row="1" Grid.Column="0" 
-                           FontWeight="Normal"
-                           Margin="0 5 0 0"
-                           MinWidth="95"
-                           TextAlignment="Right"/>
-                
-                <ComboBox x:Name="cbxNemaRatings" 
-                          Template="{DynamicResource ComboBoxBase}" 
-                          Grid.Row="1" Grid.Column="2"
-                          MinWidth="115"
-                          ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, 
-                                              RelativeSource={RelativeSource Mode=FindAncestor, 
-                                              AncestorType={x:Type Window}}}"
-                          Text="{Binding NemaRating, StringFormat={}{0} }" 
-                          SelectedValuePath="Type"
-                          DisplayMemberPath="Type"
-                          SelectedValue="{Binding NemaRating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          IsSynchronizedWithCurrentItem="False" 
-                          ToolTip="{StaticResource AreaPropertyChangeMessage}"
-                          MaxDropDownHeight="240"/>
-
-
-                <TextBlock Text="Area Class."
-                           Grid.Row="2" Grid.Column="0" FontWeight="Normal"
-                           TextAlignment="Right"
-                           Margin="0 5 0 0"/>
-
-                <ComboBox x:Name="cbxAreaClassifications" 
-                          Template="{DynamicResource ComboBoxBase}" 
-                          Grid.Row="2" Grid.Column="2"
-                          ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, 
-                                                RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                AncestorType={x:Type Window}}}"
-                          Text="{Binding AreaClassification, StringFormat={}{0} }" 
-                          SelectedValuePath="Zone"
-                          DisplayMemberPath="Zone"
-                          SelectedValue="{Binding AreaClassification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
-                          IsSynchronizedWithCurrentItem="False" 
-                          ToolTip="{StaticResource AreaPropertyChangeMessage}"/>
-            </Grid>
-        </GroupBox>
-
-
+      
     </Grid>
 </UserControl>

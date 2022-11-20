@@ -31,6 +31,7 @@ namespace EDTLibrary.Models.DistributionEquipment
     [AddINotifyPropertyChangedInterface]
     public abstract class DistributionEquipment : IDteq, IComponentUser //, INotifyDataErrorInfo 
     {
+        
         public DistributionEquipment()
         {
             Description = "";
@@ -689,23 +690,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             PowerCable.CalculateAmpacity(this);
         }
 
-        public virtual void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e)
-        {
-            IEquipment eq = (IEquipment)source;
-            if (GlobalConfig.Testing == true) {
-                ErrorHelper.Log($"Tag: {Tag}, Load: {eq.Tag}");
-            }
-            CalculateLoading();
-        }
 
-        //Events
-        public event EventHandler<CalculateLoadingEventArgs> LoadingCalculated;
-        public virtual void OnLoadingCalculated(string propertyName = "")
+        public override string ToString()
         {
-            if (LoadingCalculated != null) {
-                var calcEventArgs = new CalculateLoadingEventArgs() { PropertyName = propertyName };
-                LoadingCalculated(this, calcEventArgs);
-            }
+            return Tag;
         }
 
 
@@ -726,6 +714,27 @@ namespace EDTLibrary.Models.DistributionEquipment
                 ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
             }
         }
+       
+
+        public virtual void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e)
+        {
+            IEquipment eq = (IEquipment)source;
+            if (GlobalConfig.Testing == true) {
+                ErrorHelper.Log($"Tag: {Tag}, Load: {eq.Tag}");
+            }
+            CalculateLoading();
+        }
+
+        //Events
+        public event EventHandler<CalculateLoadingEventArgs> LoadingCalculated;
+        public virtual void OnLoadingCalculated(string propertyName = "")
+        {
+            if (LoadingCalculated != null) {
+                var calcEventArgs = new CalculateLoadingEventArgs() { PropertyName = propertyName };
+                LoadingCalculated(this, calcEventArgs);
+            }
+        }
+
 
 
         public async Task UpdateAreaProperties()

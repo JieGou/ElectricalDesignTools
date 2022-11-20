@@ -12,10 +12,7 @@ namespace EDTLibrary.Models.Areas;
 [AddINotifyPropertyChangedInterface]
 public class AreaModel : IArea {
 
-    public override string ToString()
-    {
-        return Tag;
-    }
+    
     public int Id { get; set; }
 
     private string _tag;
@@ -215,10 +212,13 @@ public class AreaModel : IArea {
     }
 
 
+    public override string ToString()
+    {
+        return Tag;
+    }
 
 
-
-public event EventHandler PropertyUpdated;
+    public event EventHandler PropertyUpdated;
     public void OnPropertyUpdated()
     {
         if (PropertyUpdated != null) {

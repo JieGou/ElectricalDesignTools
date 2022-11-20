@@ -30,7 +30,7 @@ namespace EDTLibrary.Models.Cables;
 [AddINotifyPropertyChangedInterface]
 public class CableModel : ICable
 {
-
+    
     public CableModel()
     {
         AutoSizeCableCommand = new RelayCommand(AutoSize);
@@ -894,6 +894,12 @@ public class CableModel : ICable
     {
         cable.IsValidSize = false;
         cable.InstallationDiagram = "n/a";
+    }
+
+
+    public override string ToString()
+    {
+        return Tag;
     }
 
     //Events

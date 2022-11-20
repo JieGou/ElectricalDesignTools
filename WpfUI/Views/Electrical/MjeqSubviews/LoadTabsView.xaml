@@ -139,14 +139,16 @@
 
             <!-- Graphic on left -->
             <Viewbox Grid.Row="0" Grid.Column="0"
-                 HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Stretch="Uniform" Width="225" >
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                     HorizontalAlignment="Left" VerticalAlignment="Top"
+                     Stretch="Uniform" Width="215" 
+                     Margin="10">
+                <DockPanel HorizontalAlignment="Left">
+                    
                     <!--FEEDER BUS-->
                     <Border BorderBrush="Black" BorderThickness="0 0 0 3"
-                        Grid.Row="0"
+                            DockPanel.Dock="Top"
                         Width="200"
-                        HorizontalAlignment="Left" DockPanel.Dock="Top">
+                        HorizontalAlignment="Left">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                             Margin="15 0 0 0">
                             <TextBlock Text="{Binding SelectedLoad.FedFrom.Tag}" HorizontalAlignment="Center" FontWeight="SemiBold"/>
@@ -161,6 +163,8 @@
 
                         </StackPanel>
                     </Border>
+                    
+                    
                     <ContentControl Content="{Binding SelectedLoad}" Grid.Column="0" HorizontalAlignment="Left">
                         <ContentControl.Resources>
                             <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
@@ -169,13 +173,19 @@
                                                        DataContext="{Binding}" 
                                                        LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
                                                        LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
-                                <!--<mjeqSubViews:LoadGraphicView 
-                            LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
-                            LoadCableSelected="LoadGraphicView_LoadCableSelected"/>-->
+                                
+                            
                             </DataTemplate>
+                            
+                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                <singleLineSubViews:MccGraphicView x:Name="ItemTemplate"
+                                                       DataContext="{Binding}" 
+                                                       />
+                            </DataTemplate>
+
                         </ContentControl.Resources>
                     </ContentControl>
-                </StackPanel>
+                </DockPanel>
             </Viewbox>
 
             <!--Tabs on right-->
@@ -183,11 +193,11 @@
                         SelectedIndex="{Binding SelectedLoadTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
 
-                <!--General-->
+                <!--Quick Properties-->
                 <TabItem Header="Quick Properties" Background="{DynamicResource BackgroundLight}"
                          d:Background="LightCyan">
                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Auto">
+                                  VerticalScrollBarVisibility="Visible">
                         <Grid Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
@@ -232,27 +242,6 @@
                     </ScrollViewer>
                 </TabItem>
 
-                <!--Cable -->
-                <TabItem Header="Cable Sizing" Background="{DynamicResource BackgroundLight}"
-                         d:Background="LightCyan"
-                         Visibility="Collapsed">
-                    <ContentControl Content="{Binding SelectedLoadCable}"
-                                        Grid.Row="0"
-                                        >
-                        <ContentControl.Resources>
-
-                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                <mjeqSubViews:CableSizingViewNarrow/>
-                            </DataTemplate>
-
-                            <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                <mjeqSubViews:CableSizingViewNarrow/>
-                            </DataTemplate>
-
-                        </ContentControl.Resources>
-                    </ContentControl>
-                </TabItem>
-
                 <!--Property Grid-->
                 <TabItem Header="All Properties" 
                          Background="{DynamicResource BackgroundLight}"
@@ -262,12 +251,12 @@
                     <syncfusion:PropertyGrid SelectedObject="{Binding SelectedLoad}"
                                              Width="325"
                                              BorderBrush="Black"
-                                             HorizontalAlignment="Right"
+                                             HorizontalAlignment="Stretch"
                                              AutoGenerateItems="True"
                                              PropertyExpandMode="NestedMode"
                                              EnableGrouping="True"
                                              SortDirection="{x:Null}"
-                                             Margin="-2 0 -3 0"
+                                             Margin="-2 0 -12 0"
                                              FontWeight="SemiBold"
                                              >
                         <syncfusion:PropertyGrid.Items>
@@ -292,6 +281,27 @@
                             </Style>
                         </syncfusion:PropertyGrid.Resources>
                     </syncfusion:PropertyGrid>
+                </TabItem>
+
+                <!--Cable -->
+                <TabItem Header="Cable Sizing" Background="{DynamicResource BackgroundLight}"
+                         d:Background="LightCyan"
+                         Visibility="Collapsed">
+                    <ContentControl Content="{Binding SelectedLoadCable}"
+                                        Grid.Row="0"
+                                        >
+                        <ContentControl.Resources>
+
+                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                <mjeqSubViews:CableSizingViewNarrow/>
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                <mjeqSubViews:CableSizingViewNarrow/>
+                            </DataTemplate>
+
+                        </ContentControl.Resources>
+                    </ContentControl>
                 </TabItem>
 
             </TabControl>

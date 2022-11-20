@@ -12,5 +12,9 @@ namespace EDTLibrary.LibraryData.TypeModels
         public string VoltageString { get; set; }
         public int Poles { get; set; }
 
+        public override string ToString()
+        {
+            return VoltageString;
+        }
     }
 }
