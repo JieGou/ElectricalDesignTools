@@ -58,17 +58,15 @@ public abstract class EdtViewModelBase: ViewModelBase
 
     public Window SelectionWindow { get; set; }
     public ICommand CloseWindowCommand { get; }
-    
-
-
     public void CloseSelectionWindow()
     {
         SelectionWindow.Close();
         SelectionWindow = null;
     }
 
-    public ICommand SetAreaCommand { get; }
+    public object SelectedEquipment { get; set; }
 
+    public ICommand SetAreaCommand { get; }
     public void SetArea()
     {
         if (SelectionWindow == null) {
@@ -139,7 +137,6 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
 
     public ICommand AddDriveCommand { get; }
-
     private void AddDrive()
     {
         AddDriveAsync();
@@ -159,7 +156,6 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
 
     public ICommand AddLcsCommand { get; }
-
     private void AddLcs()
     {
         AddLcsAsync();
@@ -180,7 +176,6 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
 
     public ICommand RemoveDisconnectCommand { get; }
-
     private void RemoveDisconnect()
     {
         RemoveDisconnectAsync();
@@ -197,12 +192,10 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
 
     public ICommand RemoveDriveCommand { get; }
-
     private void RemoveDrive()
     {
         RemoveDriveAsync();
     }
-
     private async Task RemoveDriveAsync()
     {
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
@@ -217,12 +210,10 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
 
     public ICommand RemoveLcsCommand { get; }
-
     private void RemoveLcs()
     {
         RemoveLcsAsync();
     }
-
     private async Task RemoveLcsAsync()
     {
         await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {

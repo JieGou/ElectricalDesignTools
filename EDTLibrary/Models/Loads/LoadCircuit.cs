@@ -207,7 +207,7 @@ public class LoadCircuit : ILoadCircuit
     public ILocalControlStation Lcs { get; set; }
     public IComponentEdt Drive { get; set; }
     public IComponentEdt Disconnect { get; set; }
-
+    public IComponentEdt SelectedComponent { get; set; }
 
 
     public void CalculateCableAmps()

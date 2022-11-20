@@ -12,6 +12,7 @@
              
              xmlns:edtEqModels="clr-namespace:EDTLibrary.Models.Equipment;assembly=EDTLibrary"
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
+             xmlns:edtDpnModels="clr-namespace:EDTLibrary.Models.DPanels;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
              xmlns:edtCables="clr-namespace:EDTLibrary.Models.Cables;assembly=EDTLibrary"
@@ -147,8 +148,19 @@
                     <!--FEEDER BUS-->
                     <Border BorderBrush="Black" BorderThickness="0 0 0 3"
                             DockPanel.Dock="Top"
-                        Width="200"
-                        HorizontalAlignment="Left">
+                            HorizontalAlignment="Stretch"
+                            >
+                        <Border.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedEquipment, Converter={StaticResource TypeOfConverter}}" 
+                                                 Value="{x:Type edtLoadModels:LoadModel}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Resources>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
                             Margin="15 0 0 0">
                             <TextBlock Text="{Binding SelectedLoad.FedFrom.Tag}" HorizontalAlignment="Center" FontWeight="SemiBold"/>
@@ -165,8 +177,20 @@
                     </Border>
                     
                     
-                    <ContentControl Content="{Binding SelectedLoad}" Grid.Column="0" HorizontalAlignment="Left">
+                    <ContentControl Content="{Binding SelectedEquipment}" Grid.Column="0" HorizontalAlignment="Left">
                         <ContentControl.Resources>
+                            <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
+                                <mjeqSubViews:TransformerGraphicView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
+                                <mjeqSubViews:MccGraphicView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type edtDteqModels:MccModel}">
+                                <mjeqSubViews:MccGraphicView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type edtDpnModels:DpnModel}">
+                                <mjeqSubViews:MccGraphicView/>
+                            </DataTemplate>
                             <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
 
                                 <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
@@ -196,7 +220,7 @@
                 <!--Quick Properties-->
                 <TabItem Header="Quick Properties" Background="{DynamicResource BackgroundLight}"
                          d:Background="LightCyan">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                   VerticalScrollBarVisibility="Visible">
                         <Grid Margin="5">
                             <Grid.RowDefinitions>
@@ -205,11 +229,15 @@
                             </Grid.RowDefinitions>
 
                             <!--Equipment-->
-                            <ContentControl Content="{Binding SelectedLoadEquipment}"
-                                        Grid.Row="0"
+                            <ContentControl Content="{Binding SelectedEquipment}"
+                                            Grid.Row="0"
                                             Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
                                 <ContentControl.Resources>
 
+                                    <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                        <mjeqSubViews:EquipmentDetailsView DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                    
                                     <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
                                         <mjeqSubViews:EquipmentDetailsView/>
                                     </DataTemplate>
@@ -227,6 +255,10 @@
                                         Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}">
                                 <ContentControl.Resources>
 
+                                    <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                        <mjeqSubViews:EquipmentDetailsView/>
+                                    </DataTemplate>
+                                    
                                     <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
                                         <mjeqSubViews:CableSizingViewNarrow/>
                                     </DataTemplate>
@@ -248,15 +280,14 @@
                          d:Background="LightCyan"
                          >
                     
-                    <syncfusion:PropertyGrid SelectedObject="{Binding SelectedLoad}"
-                                             Width="325"
+                    <syncfusion:PropertyGrid SelectedObject="{Binding SelectedEquipment}"
                                              BorderBrush="Black"
                                              HorizontalAlignment="Stretch"
                                              AutoGenerateItems="True"
                                              PropertyExpandMode="NestedMode"
                                              EnableGrouping="True"
                                              SortDirection="{x:Null}"
-                                             Margin="-2 0 -12 0"
+                                             Margin="0 0 -3 0"
                                              FontWeight="SemiBold"
                                              >
                         <syncfusion:PropertyGrid.Items>

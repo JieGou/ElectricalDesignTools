@@ -337,8 +337,11 @@ namespace EDTLibrary.Models.Loads
                 OnPropertyUpdated(nameof(Unit));
             }
         }
+        private string _unit;
+
         [Browsable(false)]
         public int FedFromId { get; set; }
+
         [Browsable(false)]
         public string FedFromType { get; set; }
 
@@ -447,21 +450,27 @@ namespace EDTLibrary.Models.Loads
         public double AmpacityFactor { get; set; }
 
         [Category("Power")]
+        [ReadOnly(true)]
         public double Fla { get; set; }
 
         [Category("Power")]
+        [ReadOnly(true)]
         public double ConnectedKva { get; set; }
 
         [Category("Power")]
+        [ReadOnly(true)]
         public double DemandKva { get; set; }
 
         [Category("Power")]
+        [ReadOnly(true)]
         public double DemandKw { get; set; }
 
         [Category("Power")]
+        [ReadOnly(true)]
         public double DemandKvar { get; set; }
 
         [Category("Power")]
+        [ReadOnly(true)]
         public double RunningAmps { get; set; }
 
         //Sizing
@@ -476,6 +485,7 @@ namespace EDTLibrary.Models.Loads
                 OnPropertyUpdated();
             }
         }
+        private string _pdType;
 
         [Category("Protection")]
         [DisplayName("OCPD Trip")]
@@ -493,6 +503,7 @@ namespace EDTLibrary.Models.Loads
         [Category("Protection")]
         public double StarterSize { get; set; }
 
+        [ReadOnly(true)]
         public double HeatLoss { get; set; }
 
         //Cables
@@ -642,9 +653,8 @@ namespace EDTLibrary.Models.Loads
         }
         private int _driveId;
 
+        public IComponentEdt SelectedComponent { get; set; }
 
-        private string _pdType;
-        private string _unit;
 
         [Browsable(false)]
         public bool IsCalculating { get; set; }

@@ -109,10 +109,11 @@ public partial class _MjeqView : UserControl
     {
         //DteqDetailsContent.Content = null;
         if (dgdDteq.SelectedItem != null) {
-            if (dgdDteq.SelectedItem.GetType().IsSubclassOf(typeof(DistributionEquipment))) {
-                _dteqTabsView.DataContext = this.DataContext;
-                DteqDetailsContent.Content = _dteqTabsView;
-            }
+            _dteqTabsView.DataContext = this.DataContext;
+            DteqDetailsContent.Content = _dteqTabsView;
+
+            _loadTabsView.DataContext = this.DataContext;
+            LoadDetailsContent.Content = _loadTabsView;
         }
     }
 
@@ -167,10 +168,8 @@ public partial class _MjeqView : UserControl
     private void dgdAssignedLoads_SelectionChanged_1(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
     {
         if (dgdAssignedLoads.SelectedItem != null) {
-            if (dgdAssignedLoads.SelectedItem.GetType() == typeof(LoadModel)) {
-                _loadTabsView.DataContext = this.DataContext;
-                LoadDetailsContent.Content = _loadTabsView;
-            }
+            _loadTabsView.DataContext = this.DataContext;
+            LoadDetailsContent.Content = _loadTabsView;
         }
         if (MjeqVm == null) return;
         MjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;

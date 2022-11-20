@@ -2,6 +2,7 @@
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.DPanels;
+using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,9 @@ public class TypeOfConverter : IValueConverter
             return typeof(DistributionEquipment); ;
         }
 
+        else if (value.GetType() == typeof(LoadModel)) {
+            return typeof(LoadModel); ;
+        }
         else {
             return value.GetType();
         }

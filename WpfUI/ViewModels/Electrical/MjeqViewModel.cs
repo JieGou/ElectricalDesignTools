@@ -2,20 +2,14 @@
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.Cables;
-using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
-using EDTLibrary.Models;
-using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
-using Syncfusion.Windows.Controls.RichTextBoxAdv;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -29,11 +23,8 @@ using System.Windows.Threading;
 using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Stores;
-using WpfUI.ViewModels;
 using WpfUI.ViewModels.Equipment;
 using WpfUI.ViewModifiers;
-using WpfUI.Windows;
-using WpfUI.Windows.SelectionWindows;
 using IComponentEdt = EDTLibrary.Models.Components.IComponentEdt;
 
 namespace WpfUI.ViewModels.Electrical;
@@ -289,7 +280,16 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     public IEquipment SelectedLoadEquipment
     {
         get { return _selectedLoadEquipment; }
-        set { _selectedLoadEquipment = value; }
+        set 
+        { 
+            _selectedLoadEquipment = value;
+            if (_selectedLoadEquipment is IComponentEdt) {
+
+            }
+            else {
+                SelectedEquipment = _selectedLoadEquipment;
+            }
+        }
     }
 
     public bool IsSelectedLoadCable { get; set; }
@@ -301,7 +301,12 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         set { 
             _selectedLoadCable = value;
 
-            if (_selectedLoadCable.GetType()==typeof(LoadModel)) {
+            if (_selectedLoadCable.GetType() == typeof(DistributionEquipment)) {
+                var eq = DteqFactory.Recast(_selectedLoadCable);
+                eq.PowerCable.ValidateCableSize(eq.PowerCable);
+                eq.PowerCable.CreateTypeList(eq);
+            }
+            else if (_selectedLoadCable.GetType() == typeof(LoadModel)) {
                 var load = (LoadModel)(_selectedLoadCable);
                 load.PowerCable.ValidateCableSize(load.PowerCable);
                 load.PowerCable.CreateTypeList(load);
@@ -330,6 +335,8 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             //used for fedfrom Validation
             DictionaryStore.CreateDteqDict(_listManager.IDteqList);
             _selectedDteq = value;
+            SelectedEquipment = _selectedDteq;
+            SelectedLoadCable = _selectedDteq;
             LoadListLoaded = false;
 
             if (_selectedDteq != null) {

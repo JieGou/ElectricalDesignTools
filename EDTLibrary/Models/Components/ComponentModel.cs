@@ -39,7 +39,6 @@ public class ComponentModel : IComponentEdt
 
     public int Id { get; set; }
 
-    private string _tag;
     public string Tag
     {
         get { return _tag; }
@@ -63,6 +62,7 @@ public class ComponentModel : IComponentEdt
             OnPropertyUpdated();
         }
     }
+    private string _tag;
 
 
 
@@ -90,7 +90,10 @@ public class ComponentModel : IComponentEdt
             OnPropertyUpdated();
         }
     }
+    private string _type;
     public string SubType { get; set; }
+
+
     public List<string> TypeList
     {
         get
@@ -141,11 +144,9 @@ public class ComponentModel : IComponentEdt
     }
 
     public int AreaId { get; set; }
-    private IArea _area;
     private int _sequenceNumber;
     private List<string> _typelist = new List<string>();
 
-    private string _type;
 
     public IArea Area
     {
@@ -165,7 +166,7 @@ public class ComponentModel : IComponentEdt
 
         }
     }
-    private string _nemaRating;
+    private IArea _area;
     public string NemaRating
     {
         get => _nemaRating;
@@ -180,7 +181,7 @@ public class ComponentModel : IComponentEdt
             OnPropertyUpdated();
         }
     }
-    private string _areaClassification;
+    private string _nemaRating;
     private double _size;
     private double _trip;
 
@@ -198,6 +199,7 @@ public class ComponentModel : IComponentEdt
             OnPropertyUpdated();
         }
     }
+    private string _areaClassification;
     public int OwnerId { get; set; }
     public string OwnerType { get; set; }
     public IEquipment Owner { get; set; }

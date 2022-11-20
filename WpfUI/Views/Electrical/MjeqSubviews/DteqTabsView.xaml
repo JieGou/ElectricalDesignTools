@@ -19,6 +19,7 @@
              xmlns:converters="clr-namespace:WpfUI.Converters"
              
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
+             
              xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
 
@@ -154,7 +155,7 @@
             <DockPanel HorizontalAlignment="Left" Margin="10 0 0 0">
 
                 <!--Equipment Specific Details-->
-                <ContentControl Content="{Binding SelectedDteq}">
+                <ContentControl Content="{Binding SelectedEquipment}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
                             <mjeqSubViews:TransformerGraphicView/>
@@ -168,6 +169,7 @@
                         <DataTemplate DataType="{x:Type edtDpnModels:DpnModel}">
                             <mjeqSubViews:MccGraphicView/>
                         </DataTemplate>
+
                     </ContentControl.Resources>
                 </ContentControl>
             </DockPanel>
@@ -176,7 +178,6 @@
                         HorizontalAlignment="Stretch"
                         Background="Transparent" BorderThickness="0 1 0 0"
                         SelectedIndex="{Binding SelectedDteqTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-
 
 
                 <!--Quick Properties-->
@@ -191,14 +192,18 @@
                             </Grid.RowDefinitions>
 
                             <!--Equipment-->
-                            <ContentControl Content="{Binding SelectedDteq}" 
-                                        Grid.Row="0">
+                            <ContentControl Content="{Binding SelectedEquipment}" 
+                                            Grid.Row="0">
                                 <ContentControl.Resources>
 
                                     <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
                                         <mjeqSubViews:EquipmentDetailsView DataContext="{Binding}"/>
                                     </DataTemplate>
 
+                                    <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                        <mjeqSubViews:EquipmentDetailsView/>
+                                    </DataTemplate>
+                                    
                                     <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
                                         <mjeqSubViews:ComponentDetailsView/>
                                     </DataTemplate>
@@ -208,8 +213,8 @@
 
                             <!--Cable-->
                             <ContentControl Content="{Binding SelectedDteq}" DataContext="{Binding SelectedDteq}"
-                                        Grid.Row="0"
-                                        Visibility="Collapsed">
+                                            Grid.Row="0"
+                                            Visibility="Collapsed">
                                 <ContentControl.Resources>
 
                                     <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
@@ -234,14 +239,13 @@
                          >
 
                     <syncfusion:PropertyGrid SelectedObject="{Binding SelectedDteq}"
-                                             Width="325"
                                              BorderBrush="Black"
                                              HorizontalAlignment="Stretch"
                                              AutoGenerateItems="True"
                                              PropertyExpandMode="NestedMode"
                                              EnableGrouping="True"
                                              SortDirection="{x:Null}"
-                                             Margin="-2 0 -11 0"
+                                             Margin="0 0 -3 0"
                                              FontWeight="SemiBold"
                                              >
                         <syncfusion:PropertyGrid.Items>

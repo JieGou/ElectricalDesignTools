@@ -85,9 +85,7 @@
                 <ListBox Grid.Row="0" Grid.Column="0" Height="50" MinWidth="75"
                          Margin="10 10 5 10"
                          ItemsSource="{Binding CctComponents}"
-                         SelectedItem="{Binding Path=DataContext.SelectedComponent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=3}}"
+                         SelectedItem="{Binding SelectedComponent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          DisplayMemberPath="Tag"
                          />
 
@@ -99,27 +97,26 @@
                             Width="20" Height="20"
                             Margin="0 5"
                             Command="{Binding Path=DataContext.ComponentMoveUpCommand, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=3}}"/>
+                                              RelativeSource={RelativeSource Mode=FindAncestor, 
+                                              AncestorType={x:Type UserControl}, AncestorLevel=3}}"/>
                     <Button FontFamily="Marlett" FontSize="12" Content="6" 
                             Width="20" Height="20"
                             Margin="0 5 "
                             Command="{Binding Path=DataContext.ComponentMoveDownCommand, 
-                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                    AncestorType={x:Type UserControl}, AncestorLevel=3}}"/>
+                                              RelativeSource={RelativeSource Mode=FindAncestor, 
+                                              AncestorType={x:Type UserControl}, AncestorLevel=3}}"/>
 
 
                 </StackPanel>
 
+                <!--Tag-->
                 <StackPanel Orientation="Horizontal" 
                             Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
                     <TextBlock Text="Tag"
                                Grid.Row="1" Grid.Column="0" 
                                Width="65"/>
-                    <TextBox Text="{Binding Path=DataContext.SelectedComponent.Tag, 
-                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}"
+                    <TextBox Text="{Binding SelectedComponent.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             
                             Grid.Row="2" Grid.Column="0" 
                             Width="95" Height="20" 
                              />
@@ -135,15 +132,9 @@
                           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                           Height="20" Width="83"
                           Margin="0"
-                          ItemsSource="{Binding Path=DataContext.SelectedComponent.TypeList, 
-                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                                  RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                  AncestorType={x:Type UserControl}, AncestorLevel=3}}"
+                          ItemsSource="{Binding SelectedComponent.TypeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           
-                          SelectedValue="{Binding Path=DataContext.SelectedComponent.Type, 
-                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                                  RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                  AncestorType={x:Type UserControl}, AncestorLevel=3}}"
+                          SelectedValue="{Binding SelectedComponent.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           IsSynchronizedWithCurrentItem="False"  />
                 </StackPanel>
                 
@@ -164,10 +155,8 @@
                               
                               DisplayMemberPath="Amps"
                               
-                               Text="{Binding Path=DataContext.SelectedComponent.FrameAmps, 
-                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}"
+                               Text="{Binding SelectedComponent.FrameAmps, 
+                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               
                               IsSynchronizedWithCurrentItem="False"  />
                 </StackPanel>
@@ -180,10 +169,7 @@
                     <Style TargetType="StackPanel">
                         <Setter Property="Visibility" Value="Hidden"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=DataContext.SelectedComponent.Type, 
-                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}" 
+                            <DataTrigger Binding="{Binding SelectedComponent.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                          Value="FDS">
                                 <Setter Property="Visibility"  Value="Visible"/>
                             </DataTrigger>
@@ -203,10 +189,7 @@
                                                 AncestorType={x:Type Window}}}"
                           DisplayMemberPath="TripAmps"
                           
-                          Text ="{Binding Path=DataContext.SelectedComponent.TripAmps, 
-                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,   
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}"
+                          Text ="{Binding Path=DataContext.SelectedComponent.TripAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           
                           IsSynchronizedWithCurrentItem="False" SelectionChanged="ComboBox_SelectionChanged"  />
             </StackPanel>
@@ -229,34 +212,24 @@
                     <CheckBox Content="Local Disconnect"
                               Grid.Row="0" Grid.Column="0"
                               Grid.ColumnSpan="3"
-                              IsChecked="{Binding Path=DataContext.SelectedLoadEquipment.DisconnectBool, 
-                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}"/>
+                              IsChecked="{Binding DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     
                     <CheckBox Content="Drive"
                               Grid.Row="1" Grid.Column="0"
                               Grid.ColumnSpan="3"
-                              IsChecked="{Binding Path=DataContext.SelectedLoadEquipment.DriveBool, 
-                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}"
-                              Visibility="{Binding DataContext.SelectedLoadEquipment.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3},
+                              IsChecked="{Binding DriveBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              
+                              Visibility="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                                             Converter={StaticResource ComponentOwnerTypeToVisibilityConverter}}"/>
                     
                     <CheckBox Content="LCS / HS"
                               Grid.Row="2" Grid.Column="0"
                               Grid.ColumnSpan="3"
-                              IsChecked="{Binding Path=DataContext.SelectedLoadEquipment.LcsBool, 
-                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3}}"
-                              Visibility="{Binding DataContext.SelectedLoadEquipment.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=3},
+                              IsChecked="{Binding LcsBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              
+                              Visibility="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             Converter={StaticResource ComponentOwnerTypeToVisibilityConverter}}"
+                              
                               ToolTip="Local Control Statoin / Hand Station" 
                               ToolTipService.InitialShowDelay="200"/>
                 </Grid>

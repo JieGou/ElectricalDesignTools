@@ -50,6 +50,7 @@ namespace EDTLibrary.DataAccess
             "CalculationFlags",
 
             "IsSelected",
+            "SelectedComponent",
 
 
         };
@@ -76,6 +77,7 @@ namespace EDTLibrary.DataAccess
             "CalculationFlags",
 
             "IsSelected",
+            "SelectedComponent",
 
         };
 

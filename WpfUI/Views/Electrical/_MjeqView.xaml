@@ -16,6 +16,7 @@
              xmlns:viewModifiers="clr-namespace:WpfUI.ViewModifiers"
              xmlns:views="clr-namespace:WpfUI.Views"
              xmlns:subViews="clr-namespace:WpfUI.Views.EquipmentSubViews"
+             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
              
              xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
@@ -66,6 +67,7 @@
     <!--TOP-->
     <DockPanel Background="{StaticResource PageBackground}">
 
+        <!--Status Bar-->
         <Grid DockPanel.Dock="Bottom" 
                     Height="23"
                     Background="{StaticResource StatusBarBackroundColor}">
@@ -151,11 +153,12 @@
 
 
         <!--Main Grid-->
-        <Grid Grid.Row="2"
+            <Grid Grid.Row="2"        ShowGridLines="False"
               x:Name="elecGrid"
               d:Opacity="1"
               Opacity="0.0"  Grid.IsSharedSizeScope="True">
-            <Grid.ColumnDefinitions>
+
+                <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="10"/>
@@ -1530,7 +1533,8 @@
             <!--DETAILS VIEW-->
             <!--Dteq-->
             <Grid  Grid.Row="2" Grid.Column="5"
-                   Margin="7 0 0 0">
+                   Margin="7 0 0 0"
+                   Visibility="Collapsed">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
@@ -1557,24 +1561,30 @@
 
             <!--DETAILS VIEW-->
             <!--LOAD-->
-            <Grid  Grid.Row="4" Grid.Column="5"
+            <Grid  Grid.Row="2" Grid.RowSpan="3"
+                   Grid.Column="5"
                    Margin="7 0 0 0">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="44"/>
+                    <RowDefinition Height="30"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 
-                <TextBlock Text="Load Details"
-                           Grid.Row="0"         
+                <TextBlock Text="Selected Item Details"
+                           Grid.Row="2"         
                            VerticalAlignment="Bottom"
-                           Margin="10 0 0 5"/>
+                           Margin="10 0 0 5"
+                           Visibility="Collapsed"/>
 
                 <Border Grid.Row="1"
                         BorderThickness="1" BorderBrush="Black" Background="{StaticResource BackgroundLight}"
                         Margin="0 0 0 5">
-                    <ContentControl x:Name="LoadDetailsContent"/>
-                </Border>
-            </Grid>
+                    <ContentControl x:Name="LoadDetailsContent" >
+                        <DataTemplate >
+                            <mjeqSubViews:LoadTabsView DataContext="{Binding}"/>
+                        </DataTemplate>
+                    </ContentControl>
+                    </Border>
+                </Grid>
             
             <GridSplitter Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Stretch"   
                           Grid.Row="0" Grid.RowSpan="6"
@@ -1583,7 +1593,7 @@
 
 
             <!--Below Dteq Grid-->
-            <GridSplitter  Grid.Row="2" Grid.ColumnSpan="10" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
+            <GridSplitter  Grid.Row="2" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
                            Height="{StaticResource GridSplitterWidth}"
                            Background="{StaticResource GridSplitterColor}"
                            Visibility="{Binding ElectricalViewGridSplitterVisibility}"
