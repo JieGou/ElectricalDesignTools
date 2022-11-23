@@ -28,7 +28,7 @@ public partial class LoadTabsView : UserControl
         InitializeComponent();
     }
 
-    private void LoadGraphicView_LoadEquipmentSelected(object sender, RoutedEventArgs e)
+    private void LoadGraphicView_EquipmentSelected(object sender, RoutedEventArgs e)
     {
         if (e.OriginalSource is IEquipment) {
             MjeqViewModel mjeqVm = (MjeqViewModel)DataContext;
@@ -39,7 +39,7 @@ public partial class LoadTabsView : UserControl
 
     }
 
-    private void LoadGraphicView_LoadCableSelected(object sender, RoutedEventArgs e)
+    private void LoadGraphicView_EquipmentCableSelected(object sender, RoutedEventArgs e)
     {
         if (e.OriginalSource is IEquipment) {
             MjeqViewModel mjeqVm = (MjeqViewModel)DataContext;

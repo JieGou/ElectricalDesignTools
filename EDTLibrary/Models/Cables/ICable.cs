@@ -66,7 +66,7 @@ public interface ICable
     event EventHandler PropertyUpdated;
 
     void AssignOwner(ICableUser load);
-    void AutoSize();
+    void AutoSizeAllLoadCables();
     Task AutoSizeAsync();
     string CalculateAmpacity(ICableUser load);
     void CreateSizeList();

@@ -283,7 +283,7 @@
 
 
 
-                        <singleLineSubViews:MccGraphicView DataContext="{Binding SelectedDteq}"
+                        <singleLineSubViews:SL_DteqGraphicView DataContext="{Binding SelectedDteq}"
                                                        Width="{Binding Path=ActualWidth, ElementName=listViewLoads}"
                                                        MinWidth="250"
                                                        HorizontalAlignment="Left"
@@ -355,8 +355,8 @@
 
                                         <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
                                                                                DataContext="{Binding}" 
-                                                                       LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
-                                                                       LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
+                                                                       EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                       EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
                                     </Border>
 
                                 </ControlTemplate>
@@ -371,8 +371,8 @@
                                                     
                                                     <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
                                                                        DataContext="{Binding}" 
-                                                                       LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
-                                                                       LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
+                                                                       EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                       EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
                                                 </Border>
                                             </ControlTemplate>
 

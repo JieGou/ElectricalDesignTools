@@ -28,8 +28,8 @@ namespace WpfUI.Views.Electrical.SingleLineSubViews;
 /// </summary>
 public partial class SL_LoadGraphicView : UserControl
 {
-    public static RoutedEvent LoadEquipmentSelectedEvent = EventManager.RegisterRoutedEvent("LoadEquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
-    public static RoutedEvent LoadCableSelectedEvent = EventManager.RegisterRoutedEvent("LoadCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
+    public static RoutedEvent EquipmentSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
+    public static RoutedEvent EquipmentCableSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
 
 
     public SL_LoadGraphicView()
@@ -37,24 +37,24 @@ public partial class SL_LoadGraphicView : UserControl
         InitializeComponent();
     }
 
-    public event RoutedEventHandler LoadEquipmentSelected
+    public event RoutedEventHandler EquipmentSelected
     {
-        add { AddHandler(LoadEquipmentSelectedEvent, value); }
-        remove { RemoveHandler(LoadEquipmentSelectedEvent, value); }
+        add { AddHandler(EquipmentSelectedEvent, value); }
+        remove { RemoveHandler(EquipmentSelectedEvent, value); }
     }
-    protected virtual void OnLoadEquipmentSelected(IEquipment eq)
+    protected virtual void OnEquipmentSelected(IEquipment eq)
     {
-        RaiseEvent(new RoutedEventArgs(LoadEquipmentSelectedEvent, eq));
+        RaiseEvent(new RoutedEventArgs(EquipmentSelectedEvent, eq));
     }
 
-    public event RoutedEventHandler LoadCableSelected
+    public event RoutedEventHandler EquipmentCableSelected
     {
-        add { AddHandler(LoadCableSelectedEvent, value); }
-        remove { RemoveHandler(LoadCableSelectedEvent, value); }
+        add { AddHandler(EquipmentCableSelectedEvent, value); }
+        remove { RemoveHandler(EquipmentCableSelectedEvent, value); }
     }
-    protected virtual void OnLoadCableSelected(IEquipment eq)
+    protected virtual void OnEquipmentCableSelected(IEquipment eq)
     {
-        RaiseEvent(new RoutedEventArgs(LoadCableSelectedEvent, eq));
+        RaiseEvent(new RoutedEventArgs(EquipmentCableSelectedEvent, eq));
     }
 
     
@@ -69,7 +69,7 @@ public partial class SL_LoadGraphicView : UserControl
         try {
 
             if (dataContext is IEquipment) {
-               OnLoadEquipmentSelected(dataContext as IEquipment);
+               OnEquipmentSelected(dataContext as IEquipment);
             }
 
         }
@@ -86,11 +86,11 @@ public partial class SL_LoadGraphicView : UserControl
         if (dataContext is IEquipment) {
             if (dataContext is ComponentModel) {
                 ComponentModel component = (ComponentModel)dataContext;
-                OnLoadCableSelected(component);
+                OnEquipmentCableSelected(component);
             }
             else if (dataContext is DistributionEquipment) {
                 IPowerConsumer dteq = DteqFactory.Recast(dataContext);
-                OnLoadCableSelected(dteq);
+                OnEquipmentCableSelected(dteq);
             }
         }
     }
@@ -101,11 +101,11 @@ public partial class SL_LoadGraphicView : UserControl
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
-            OnLoadEquipmentSelected(dataContext as IEquipment);
+            OnEquipmentSelected(dataContext as IEquipment);
         }
     }
 
-    private void LoadCable_ContentControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void EquipmentCable_ContentControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         ContentControl senderControl = (ContentControl)sender;
         var dataContext = senderControl.DataContext;
@@ -113,22 +113,22 @@ public partial class SL_LoadGraphicView : UserControl
         if (dataContext is IEquipment) {
             if (dataContext is ILoad) {
                 ILoad load = (LoadModel)dataContext;
-                OnLoadCableSelected(load);
+                OnEquipmentCableSelected(load);
             }
             else if (dataContext is DistributionEquipment) {
                 IPowerConsumer  dteq = DteqFactory.Recast(dataContext);
-                OnLoadCableSelected(dteq);
+                OnEquipmentCableSelected(dteq);
             }
         }
     }
 
-    private void Load_ContentControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    private void Equipment_ContentControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         ContentControl senderControl = (ContentControl)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
-            OnLoadEquipmentSelected(dataContext as IEquipment);
+            OnEquipmentSelected(dataContext as IEquipment);
         }
     }
     #endregion

@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 
 namespace WpfUI.Views.Electrical.MjeqSubviews;
 /// <summary>
-/// Interaction logic for MccGraphicView.xaml
+/// Interaction logic for SL_DteqGraphicView.xaml
 /// </summary>
-public partial class MccGraphicView : UserControl
+public partial class SL_DteqGraphicView : UserControl
 {
-    public MccGraphicView()
+    public SL_DteqGraphicView()
     {
         InitializeComponent();
     }

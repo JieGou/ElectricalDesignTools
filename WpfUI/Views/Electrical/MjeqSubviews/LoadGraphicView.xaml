@@ -157,7 +157,7 @@
                     <ContentControl Content="{Binding PowerCable}"
                                     ContentTemplate="{StaticResource CableTemplate}"
                                     Grid.Column="2" 
-                                    PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown">
+                                    PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown">
                     </ContentControl>
                 </Grid>
 
@@ -173,7 +173,7 @@
 
                         <ContentControl Content="{Binding}" 
                                         ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                        PreviewMouseDown="Load_ContentControl_PreviewMouseDown">
+                                        PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown">
                             <ContentControl.Style>
                                 <Style>
                                     <Style.Triggers>

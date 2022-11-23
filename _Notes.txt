@@ -1,12 +1,12 @@
+Add selectable on click for Dteq
+	 - rename LoadGraphic Events back 
+
 
 Tag Settings
 	- remove DP load tagging GUID 
 	- basic default auto-tagging system and logic
 	- bulk updates on tag changes
 	
-Cables
-	- autosize all cables for load and components
-
 double boxes and values
 
 MLO graphic updates for Dteq = text alignment to bottom on bus line

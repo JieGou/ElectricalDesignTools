@@ -838,7 +838,7 @@ namespace EDTLibrary.Models.Loads
             CreatePowerCable();
             PowerCable.SetSizingParameters(this);
             PowerCable.CreateTypeList(this);
-            PowerCable.AutoSize();
+            PowerCable.AutoSizeAllLoadCables();
         }
         public void CalculateCableAmps()
         {

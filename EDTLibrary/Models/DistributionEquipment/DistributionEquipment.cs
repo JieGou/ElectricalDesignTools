@@ -736,7 +736,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             CreatePowerCable();
             PowerCable.SetSizingParameters(this);
             PowerCable.CreateTypeList(this);
-            PowerCable.AutoSize();
+            PowerCable.AutoSizeAllLoadCables();
         }
         public void CalculateCableAmps()
         {

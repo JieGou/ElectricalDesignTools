@@ -449,7 +449,7 @@ namespace EDTLibrary.Managers
                         sw.Restart();
 
                         load.CalculateLoading();
-                        load.PowerCable.AutoSize();
+                        load.PowerCable.AutoSizeAllLoadCables();
                         load.PowerCable.CalculateAmpacity(load);
 
                         subTotal += sw.Elapsed.TotalMilliseconds;
@@ -467,7 +467,7 @@ namespace EDTLibrary.Managers
                     sw.Restart();
 
                     dteq.CalculateLoading();
-                    dteq.PowerCable.AutoSize();
+                    dteq.PowerCable.AutoSizeAllLoadCables();
                     dteq.PowerCable.CalculateAmpacity(dteq);
 
                     subTotal += sw.Elapsed.TotalMilliseconds;

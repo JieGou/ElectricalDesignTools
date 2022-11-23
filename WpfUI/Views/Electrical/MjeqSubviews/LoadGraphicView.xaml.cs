@@ -32,29 +32,29 @@ public partial class LoadGraphicView : UserControl
         InitializeComponent();
     }
     
-    public static RoutedEvent LoadEquipmentSelectedEvent = EventManager.RegisterRoutedEvent("LoadEquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
-    public static RoutedEvent LoadCableSelectedEvent = EventManager.RegisterRoutedEvent("LoadCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
+    public static RoutedEvent EquipmentSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
+    public static RoutedEvent EquipmentCableSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
 
 
     
-    public event RoutedEventHandler LoadEquipmentSelected
+    public event RoutedEventHandler EquipmentSelected
     {
-        add { AddHandler(LoadEquipmentSelectedEvent, value); }
-        remove { RemoveHandler(LoadEquipmentSelectedEvent, value); }
+        add { AddHandler(EquipmentSelectedEvent, value); }
+        remove { RemoveHandler(EquipmentSelectedEvent, value); }
     }
-    protected virtual void OnLoadEquipmentSelected(IEquipment eq)
+    protected virtual void OnEquipmentSelected(IEquipment eq)
     {
-        RaiseEvent(new RoutedEventArgs(LoadEquipmentSelectedEvent, eq));
+        RaiseEvent(new RoutedEventArgs(EquipmentSelectedEvent, eq));
     }
 
-    public event RoutedEventHandler LoadCableSelected
+    public event RoutedEventHandler EquipmentCableSelected
     {
-        add { AddHandler(LoadCableSelectedEvent, value); }
-        remove { RemoveHandler(LoadCableSelectedEvent, value); }
+        add { AddHandler(EquipmentCableSelectedEvent, value); }
+        remove { RemoveHandler(EquipmentCableSelectedEvent, value); }
     }
-    protected virtual void OnLoadCableSelected(IEquipment eq)
+    protected virtual void OnEquipmentCableSelected(IEquipment eq)
     {
-        RaiseEvent(new RoutedEventArgs(LoadCableSelectedEvent, eq));
+        RaiseEvent(new RoutedEventArgs(EquipmentCableSelectedEvent, eq));
     }
 
     
@@ -69,7 +69,7 @@ public partial class LoadGraphicView : UserControl
         try {
 
             if (dataContext is IEquipment) {
-               OnLoadEquipmentSelected(dataContext as IEquipment);
+               OnEquipmentSelected(dataContext as IEquipment);
             }
 
         }
@@ -86,7 +86,7 @@ public partial class LoadGraphicView : UserControl
         if (dataContext is IEquipment) {
             if (dataContext is ComponentModel) {
                 ComponentModel component = (ComponentModel)dataContext;
-                OnLoadCableSelected(component);
+                OnEquipmentCableSelected(component);
             }
         }
     }
@@ -97,11 +97,11 @@ public partial class LoadGraphicView : UserControl
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
-            OnLoadEquipmentSelected(dataContext as IEquipment);
+            OnEquipmentSelected(dataContext as IEquipment);
         }
     }
 
-    private void LoadCable_ContentControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void EquipmentCable_ContentControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         ContentControl senderControl = (ContentControl)sender;
         var dataContext = senderControl.DataContext;
@@ -109,18 +109,18 @@ public partial class LoadGraphicView : UserControl
         if (dataContext is IEquipment) {
             if (dataContext is LoadModel) {
                 LoadModel load = (LoadModel)dataContext;
-                OnLoadCableSelected(load);
+                OnEquipmentCableSelected(load);
             }
         }
     }
 
-    private void Load_ContentControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    private void Equipment_ContentControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         ContentControl senderControl = (ContentControl)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
-            OnLoadEquipmentSelected(dataContext as IEquipment);
+            OnEquipmentSelected(dataContext as IEquipment);
         }
     }
     #endregion

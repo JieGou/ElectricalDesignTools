@@ -134,7 +134,7 @@
                     <ContentControl Content="{Binding Path=PowerCable}"
                                     ContentTemplate="{StaticResource CableTemplate}"
                                     Grid.Column="2" 
-                                    PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown">
+                                    PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown">
                     </ContentControl>
                 </Grid>
 
@@ -152,7 +152,7 @@
                         <!--Load-->
                         <ContentControl DataContext="{Binding}" Content="{Binding}" 
                                         ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                        PreviewMouseDown="Load_ContentControl_PreviewMouseDown" 
+                                        PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown" 
                                         Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
                                         ConverterParameter=Load}" >
           
@@ -163,7 +163,7 @@
                         <!--Dteq as Load-->
                         <ContentControl Content="{Binding}" 
                                         ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                        PreviewMouseDown="Load_ContentControl_PreviewMouseDown" 
+                                        PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown" 
                                         Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
                                         ConverterParameter=DteqAsLoad}" >
                             
@@ -189,7 +189,7 @@
                     <ContentControl DataContext="{Binding AssignedLoads[0] }" Content="{Binding PowerCable}" 
                                     ContentTemplate="{StaticResource CableTemplate}"
                                     Grid.Column="2" 
-                                    PreviewMouseDown="LoadCable_ContentControl_PreviewMouseLeftButtonDown"
+                                    PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
                                     Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
                                         ConverterParameter=Dteq_Load}" >
                         
@@ -221,7 +221,7 @@
 
                         <ContentControl DataContext="{Binding AssignedLoads[0] }" Content="{Binding }" 
                                         ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                        PreviewMouseDown="Load_ContentControl_PreviewMouseDown"
+                                        PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown"
                                         Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
                                         ConverterParameter=Dteq_Load}" >
                             

@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 
 namespace WpfUI.Views.Electrical.MjeqSubviews;
 /// <summary>
-/// Interaction logic for MccGraphicView.xaml
+/// Interaction logic for SL_DteqGraphicView.xaml
 /// </summary>
 public partial class PanelGraphicView : UserControl
 {

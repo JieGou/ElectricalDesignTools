@@ -51,7 +51,7 @@ public partial class SinlgeLineView : UserControl
 
     //Sets the datacontext for the details view panel on the right
 
-    private void LoadGraphicView_LoadEquipmentSelected(object sender, RoutedEventArgs e)
+    private void LoadGraphicView_EquipmentSelected(object sender, RoutedEventArgs e)
     {
 
         SingleLineViewModel slVm = (SingleLineViewModel)DataContext;
@@ -63,7 +63,7 @@ public partial class SinlgeLineView : UserControl
 
     }
 
-    private void LoadGraphicView_LoadCableSelected(object sender, RoutedEventArgs e)
+    private void LoadGraphicView_EquipmentCableSelected(object sender, RoutedEventArgs e)
     {
         SingleLineViewModel slVm = (SingleLineViewModel)DataContext;
         slVm.SelectedLoadCable = (IEquipment)e.OriginalSource;

@@ -37,7 +37,8 @@
                 <Border BorderThickness="0,0,0,3" BorderBrush="Black">
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15 0 0 0">
-                        <Border BorderBrush="Black" BorderThickness="1 0 0 0" Margin="24 0 5 0" Height="50"/>
+                        <Border BorderBrush="Black" BorderThickness="1 0 0 0" Margin="24 0 5 0" Height="50"
+                                VerticalAlignment="Bottom"/>
                         <TextBlock Text="{Binding Tag}" HorizontalAlignment="Center" FontWeight="Bold"/>
                         <TextBlock Text=",  "/>
                         <TextBlock Text="{Binding LoadVoltage}" HorizontalAlignment="Center"/>

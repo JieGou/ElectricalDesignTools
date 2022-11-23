@@ -161,13 +161,13 @@
                             <mjeqSubViews:TransformerGraphicView/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
-                            <mjeqSubViews:MccGraphicView/>
+                            <mjeqSubViews:SL_DteqGraphicView/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDteqModels:MccModel}">
-                            <mjeqSubViews:MccGraphicView/>
+                            <mjeqSubViews:SL_DteqGraphicView/>
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type edtDpnModels:DpnModel}">
-                            <mjeqSubViews:MccGraphicView/>
+                            <mjeqSubViews:SL_DteqGraphicView/>
                         </DataTemplate>
 
                     </ContentControl.Resources>

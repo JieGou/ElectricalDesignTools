@@ -6,6 +6,7 @@ using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables.Validators;
+using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
@@ -33,7 +34,7 @@ public class CableModel : ICable
     
     public CableModel()
     {
-        AutoSizeCableCommand = new RelayCommand(AutoSize);
+        AutoSizeCableCommand = new RelayCommand(AutoSizeAllLoadCables);
 
     }
     public CableModel(IPowerConsumer load)
@@ -50,7 +51,7 @@ public class CableModel : ICable
         Spacing = 100;
         Length = CableManager.GetLength(load.Category);
 
-        AutoSizeCableCommand = new RelayCommand(AutoSize);
+        AutoSizeCableCommand = new RelayCommand(AutoSizeAllLoadCables);
 
     }
     public ICommand AutoSizeCableCommand { get; }
@@ -326,7 +327,7 @@ public class CableModel : ICable
 
             if (DaManager.GettingRecords == false) {
                 _calculatingAmpacity = true;
-                AutoSize();
+                AutoSizeAllLoadCables();
                 _calculatingAmpacity = false;
             }
 
@@ -354,7 +355,7 @@ public class CableModel : ICable
             if (DaManager.GettingRecords == false) {
                 _calculatingAmpacity = true;
                 if (UsageType == CableUsageTypes.Power.ToString()) {
-                    AutoSize();
+                    AutoSizeAllLoadCables();
 
                 }
                 _calculatingAmpacity = false;
@@ -568,17 +569,25 @@ public class CableModel : ICable
     public async Task AutoSizeAsync()
     {
         await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            AutoSize();
+            AutoSizeAllLoadCables();
         }));
     }
     bool _isAutoSizing;
-    public void AutoSize()
+    public void AutoSizeAllLoadCables()
     {
-
         //autosize assumes all cables fed from the same Distribution Equipment are in the same raceway
         //so there is a big jump in ampacity between #1 and 1/0 when the installatio type is NOT LadderTray.
 
         //need to check raceway routing path for total conductors that are in the same raceway
+        AutoSize();
+        var load = (IComponentUser)Load;
+        foreach (var comp in load.CctComponents) {
+            comp.PowerCable.AutoSize();
+        }
+    }
+
+    private void AutoSize()
+    {
         try {
             _isAutoSizing = true;
             UndoManager.CanAdd = false;

@@ -130,10 +130,10 @@
 
 
         <Grid Grid.Row="1" d:Background="Transparent"
-              ShowGridLines="True">
+              ShowGridLines="False">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" d:Width="200"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="325" />
             </Grid.ColumnDefinitions>
 
             <!-- Graphic on left -->
@@ -184,14 +184,15 @@
 
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
                             <StackPanel Orientation="Vertical">
-                                
-                                <singleLineSubViews:MccGraphicView />
+
+                                <singleLineSubViews:SL_DteqGraphicView DataContext="{Binding}" 
+                                                                    />
 
                             </StackPanel>
                         </DataTemplate>
 
                         <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
-                            <singleLineSubViews:MccGraphicView/>
+                            <singleLineSubViews:SL_DteqGraphicView/>
                         </DataTemplate>
 
                         <DataTemplate DataType="{x:Type edtDteqModels:MccModel}">
@@ -208,7 +209,7 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <singleLineSubViews:MccGraphicView Grid.ColumnSpan="5" />
+                                <singleLineSubViews:SL_DteqGraphicView Grid.ColumnSpan="5" />
 
                                 <StackPanel Orientation="Horizontal"
                                             Grid.Row="1" Grid.Column="2"
@@ -268,26 +269,23 @@
                         </DataTemplate>
 
                         <DataTemplate DataType="{x:Type edtDpnModels:DpnModel}">
-                            <singleLineSubViews:MccGraphicView/>
+                            <singleLineSubViews:SL_DteqGraphicView/>
                         </DataTemplate>
 
                         <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
                             <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
                                                                     DataContext="{Binding}" 
-                                                                    LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
-                                                                    LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
+                                                                    EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
                         </DataTemplate>
-
-                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                            <singleLineSubViews:MccGraphicView x:Name="ItemTemplate" DataContext="{Binding}"  />
-                        </DataTemplate>
-
+                        
                     </ContentControl.Resources>
                 </ContentControl>
             </DockPanel>
 
             <!--Tabs on right-->
             <TabControl Grid.Column="1" Background="Transparent" BorderThickness="0 1 0 0"
+                        HorizontalAlignment="Stretch"
                         SelectedIndex="{Binding SelectedLoadTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
 
