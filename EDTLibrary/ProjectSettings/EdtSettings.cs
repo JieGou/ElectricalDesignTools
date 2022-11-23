@@ -84,6 +84,8 @@ namespace EDTLibrary.ProjectSettings
 
         public static string CableInstallationType { get; set; }
         public static string DefaultCableTypeLoad_3phLt300V { get; set; } = "Incomplete";
+        public static string DefaultCableTypeLoad_4wire { get; set; } = "4C-TECK-1kV";
+        public static string DefaultCableTypeLoad_2wire { get; set; } = "2C-TECK-1kV";
         public static string DefaultCableTypeLoad_3ph300to1kV { get; set; }
         public static string DefaultCableTypeLoad_3ph5kV { get; set; }
         public static string DefaultCableTypeDteq_3ph1kVLt1200A { get; set; }

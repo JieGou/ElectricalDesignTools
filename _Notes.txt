@@ -1,15 +1,28 @@
-transformer cable lengths
+
+Tag Settings
+	- remove DP load tagging GUID 
+	- basic default auto-tagging system and logic
+	- bulk updates on tag changes
+	
+Cables
+	- autosize all cables for load and components
+
 double boxes and values
 
-Panel Dteq edit graphic
-standalone starter
-Generic quick settings for mjeq
-Selected object
+MLO graphic updates for Dteq = text alignment to bottom on bus line
+
+	- SCCA, SCCR
+
+standalone starter / splitter
+OcpdModel
+
+
+Generic quick settings for Eq
+
+dteq Selected object OnClick
+
 Application settings
 
-DteqToAddValidator voltage updates
-
-Dteq Graphics
 
 Application Settings
 	- Add Load Voltage notification
@@ -39,7 +52,7 @@ Priorities
 		- UI - 2
 		- functionality - 2 
 
-	- SCCA, SCCR
+
 
 	- Cable List
 		- Pivot Grid
@@ -63,7 +76,7 @@ Refactorings
 	- cable owners need to reference the cable
 	- cable needs to reference source and destination
 	- add reference to list manager inside each model object
-	- SelectionLists or models
+	- SelectionLists or models ??
 
 Validations
 	- PD	
@@ -80,13 +93,15 @@ Modularize Calculations
 		- Source.Id, Source.Type
 		- Destination.Id, Destination.Type
 
+
 Optional Auto-Calculations
 	- Component Sizing
 	- PD
 	- Cable
 
+
 Cables
-	- settings for auto-calculate cable on load resizing/recalculation
+	- settings for auto-calculate cable on load changes, resizing/recalculation
 	- cable sizing based on next Upstream PD
 
 	Power Cables
@@ -125,7 +140,6 @@ Protective Devices
 
 
 
-
 Misc. General
 	- Voltage Validator
 
@@ -138,11 +152,9 @@ Library
 Library Editor
 	- Control Station Types
 	- Cable Types
+	- voltage Types
+	- Motor Data editor
 
-Tag Settings
-	- basic tagging system
-	- tagging logic
-	- bulk updates on tag changes
 
 Excel Reports
 	- SWG / MCC loading and load list
@@ -161,6 +173,7 @@ Areas, Systems & SubSystems
 
 Component type selection
 	- add typelist to components (will need separate classes for each component type)
+
 
 Autocad
 	- single line(s)

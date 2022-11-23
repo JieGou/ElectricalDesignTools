@@ -21,6 +21,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../../Stores/ToolTips.xaml"/>
+                <ResourceDictionary Source="../../../Templates/TemplateStyles/SingleLineGraphicsStyles.xaml"/>
                 <ResourceDictionary Source="../../../Templates/SingleLineLoadGraphics/SingleLineGraphicsResources.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>

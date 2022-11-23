@@ -50,6 +50,26 @@ namespace EDTLibrary.LibraryData
         public static ObservableCollection<CableTypeModel> CableTypes { get; set; }
         public static ObservableCollection<ControlCableSizeModel> ControlCableSizes { get; set; }
         public static ObservableCollection<ControlCableSizeModel> InstrumentCableSizes { get; set; }
+        public static ObservableCollection<CableTypeModel> FourConductorPowerCableTypes
+        {
+            get
+            {
+                var val = CableTypes.Where(c => c.ConductorQty == 4 && c.UsageType == CableUsageTypes.Power.ToString()
+                                            || (c.ConductorQty == 1 && c.VoltageRating <= 1000 && c.UsageType == CableUsageTypes.Power.ToString())
+                                            ).ToList();
+                return new ObservableCollection<CableTypeModel>(val);
+            }
+        }
+        public static ObservableCollection<CableTypeModel> TwoConductorPowerCableTypes
+        {
+            get
+            {
+                var val = CableTypes.Where(c => c.ConductorQty == 2 && c.UsageType == CableUsageTypes.Power.ToString()
+                                             || (c.ConductorQty == 1 && c.VoltageRating<=1000 && c.UsageType == CableUsageTypes.Power.ToString())
+                                             ).ToList();
+                return new ObservableCollection<CableTypeModel>(val);
+            }
+        }
         public static ObservableCollection<CableTypeModel> OneKvPowerCableTypes
         {
             get

@@ -35,16 +35,13 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../Templates/SingleLineLoadGraphicTemplates.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
             <converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVis"/>
 
-            <x:Array xmlns:s="clr-namespace:System;assembly=mscorlib" x:Key="array" Type="{x:Type s:Int32}">
-                <s:Int32>1</s:Int32>
-                <s:Int32>2</s:Int32>
-                <s:Int32>3</s:Int32>
-                <s:Int32>4</s:Int32>
-            </x:Array>
+            
 
             <Style TargetType="TextBlock">
                 <Setter Property="Margin" Value="0 3"/>
@@ -132,7 +129,8 @@
         </Border>
 
 
-        <Grid Grid.Row="1" d:Background="Transparent">
+        <Grid Grid.Row="1" d:Background="Transparent"
+              ShowGridLines="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" d:Width="200"/>
                 <ColumnDefinition Width="*"/>
@@ -143,74 +141,150 @@
                      HorizontalAlignment="Left" VerticalAlignment="Top"
                      Stretch="Uniform" Width="215" 
                      Margin="10">
-                <DockPanel HorizontalAlignment="Left">
-                    
-                    <!--FEEDER BUS-->
-                    <Border BorderBrush="Black" BorderThickness="0 0 0 3"
-                            DockPanel.Dock="Top"
-                            HorizontalAlignment="Stretch"
-                            >
-                        <Border.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="Visibility" Value="Hidden"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding SelectedEquipment, Converter={StaticResource TypeOfConverter}}" 
-                                                 Value="{x:Type edtLoadModels:LoadModel}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Resources>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
-                            Margin="15 0 0 0">
-                            <TextBlock Text="{Binding SelectedLoad.FedFrom.Tag}" HorizontalAlignment="Center" FontWeight="SemiBold"/>
-                            <TextBlock Text=",  "/>
-                            <TextBlock Text="{Binding SelectedLoad.FedFrom.LoadVoltage}" HorizontalAlignment="Center"/>
-                            <TextBlock Text=" V,  "/>
-                            <TextBlock Text="{Binding SelectedLoad.FedFrom.Size}" HorizontalAlignment="Center"/>
-                            <TextBlock Text=" A,  "/>
-                            <TextBlock Text="{Binding SelectedLoad.FedFrom.SCCR}" HorizontalAlignment="Center"/>
-                            <TextBlock Text=" kA"/>
-
-
-                        </StackPanel>
-                    </Border>
-                    
-                    
-                    <ContentControl Content="{Binding SelectedEquipment}" Grid.Column="0" HorizontalAlignment="Left">
-                        <ContentControl.Resources>
-                            <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
-                                <mjeqSubViews:TransformerGraphicView/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
-                                <mjeqSubViews:MccGraphicView/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type edtDteqModels:MccModel}">
-                                <mjeqSubViews:MccGraphicView/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type edtDpnModels:DpnModel}">
-                                <mjeqSubViews:MccGraphicView/>
-                            </DataTemplate>
-                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-
-                                <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
-                                                       DataContext="{Binding}" 
-                                                       LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
-                                                       LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
-                                
-                            
-                            </DataTemplate>
-                            
-                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                <singleLineSubViews:MccGraphicView x:Name="ItemTemplate"
-                                                       DataContext="{Binding}" 
-                                                       />
-                            </DataTemplate>
-
-                        </ContentControl.Resources>
-                    </ContentControl>
-                </DockPanel>
             </Viewbox>
+            <DockPanel Grid.Row="0" Grid.Column="0"
+                       MinWidth="230"
+                       Margin="10"
+                       HorizontalAlignment="Left" VerticalAlignment="Top"
+                       >
+                    
+                <!--FEEDER BUS - for loads only-->
+                <Border BorderBrush="Black" BorderThickness="0 0 0 3"
+                        DockPanel.Dock="Top"
+                        HorizontalAlignment="Stretch"
+                        >
+                    <Border.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding SelectedEquipment, Converter={StaticResource TypeOfConverter}}" 
+                                                Value="{x:Type edtLoadModels:LoadModel}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Resources>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
+                        Margin="15 0 0 0">
+                        <TextBlock Text="{Binding SelectedLoad.FedFrom.Tag}" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                        <TextBlock Text=",  "/>
+                        <TextBlock Text="{Binding SelectedLoad.FedFrom.LoadVoltage}" HorizontalAlignment="Center"/>
+                        <TextBlock Text=" V,  "/>
+                        <TextBlock Text="{Binding SelectedLoad.FedFrom.Size}" HorizontalAlignment="Center"/>
+                        <TextBlock Text=" A,  "/>
+                        <TextBlock Text="{Binding SelectedLoad.FedFrom.SCCR}" HorizontalAlignment="Center"/>
+                        <TextBlock Text=" kA"/>
+                    </StackPanel>
+                </Border>
+
+
+                <ContentControl Content="{Binding SelectedEquipment}"
+                                Grid.Column="0" HorizontalAlignment="Left">
+                    <ContentControl.Resources>
+
+                        <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
+                            <StackPanel Orientation="Vertical">
+                                
+                                <singleLineSubViews:MccGraphicView />
+
+                            </StackPanel>
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
+                            <singleLineSubViews:MccGraphicView/>
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type edtDteqModels:MccModel}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <singleLineSubViews:MccGraphicView Grid.ColumnSpan="5" />
+
+                                <StackPanel Orientation="Horizontal"
+                                            Grid.Row="1" Grid.Column="2"
+                                            HorizontalAlignment="Right"
+                                            Margin="0 0 5 0">
+                                    <TextBlock Text="{Binding SCCR}" HorizontalAlignment="Right" />
+                                    <TextBlock Text=" kA" Grid.Row="1"/>
+                                </StackPanel>
+
+                                
+                                <Border BorderThickness="0" 
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="35 0">
+                                    <Canvas Grid.Column="1" Width="35" Height="90">
+                                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="15"/>
+                                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="15" Height="7" Width="7"/>
+                                        <Path Stroke="Black" StrokeThickness="1" Data="M 20,19 A 4,5 0 0 1 20, 44" />
+                                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="41" Height="7" Width="7"/>
+                                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="47" X2="13.5" Y2="150"/>
+                                    </Canvas>
+
+                                </Border>
+                                <!--Load Cable-->
+                                
+
+
+                                <!--Load Cable Derating-->
+                                <Grid Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5"
+                                      ShowGridLines="False"
+                                      >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="Load Cables" Grid.ColumnSpan="4" FontWeight="SemiBold"/>
+                                    
+                                    <TextBlock Text="Derating" Grid.Row="1" />
+
+                                    <TextBox Text="{Binding LoadCableDerating, StringFormat={}{0:N1}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                             Grid.Row="1" Grid.Column="2"
+                                             d:Text="0.5" 
+                                             MinWidth="50"
+                                             FontWeight="Bold"
+                                             TextAlignment="Center" />
+                                </Grid>
+                                
+                            </Grid>
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type edtDpnModels:DpnModel}">
+                            <singleLineSubViews:MccGraphicView/>
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                            <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                                                    DataContext="{Binding}" 
+                                                                    LoadEquipmentSelected="LoadGraphicView_LoadEquipmentSelected"
+                                                                    LoadCableSelected="LoadGraphicView_LoadCableSelected"/>
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                            <singleLineSubViews:MccGraphicView x:Name="ItemTemplate" DataContext="{Binding}"  />
+                        </DataTemplate>
+
+                    </ContentControl.Resources>
+                </ContentControl>
+            </DockPanel>
 
             <!--Tabs on right-->
             <TabControl Grid.Column="1" Background="Transparent" BorderThickness="0 1 0 0"

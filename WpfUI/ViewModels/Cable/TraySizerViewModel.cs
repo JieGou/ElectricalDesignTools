@@ -112,7 +112,7 @@ public class TraySizerViewModel : ViewModelBase
        
         foreach (var cable in cableList) {
 
-            var multiplier = cable.UsageType == CableUsageTypes.Power.ToString() && cable.ConductorQty == 1 ? 3 : 1;
+            var multiplier = cable.UsageType == CableUsageTypes.Power.ToString() && cable.ConductorQty == 1 ? cable.ConductorQty : 1;
             var qtyToDraw = cable.QtyParallel * multiplier;
 
             for (int i = 0; i < qtyToDraw; i++) {

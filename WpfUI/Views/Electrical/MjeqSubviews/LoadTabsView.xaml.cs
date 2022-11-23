@@ -30,17 +30,21 @@ public partial class LoadTabsView : UserControl
 
     private void LoadGraphicView_LoadEquipmentSelected(object sender, RoutedEventArgs e)
     {
+        if (e.OriginalSource is IEquipment) {
+            MjeqViewModel mjeqVm = (MjeqViewModel)DataContext;
+            mjeqVm.SelectedLoadEquipment = (IEquipment)e.OriginalSource;
+            mjeqVm.IsSelectedLoadCable = false;
+        }
         
-        MjeqViewModel mjeqVm = (MjeqViewModel)DataContext;
-        mjeqVm.SelectedLoadEquipment = (IEquipment)e.OriginalSource;
-        mjeqVm.IsSelectedLoadCable = false;
 
     }
 
     private void LoadGraphicView_LoadCableSelected(object sender, RoutedEventArgs e)
     {
-        MjeqViewModel mjeqVm = (MjeqViewModel)DataContext;
-        mjeqVm.SelectedLoadCable = (IEquipment)e.OriginalSource;
-        mjeqVm.IsSelectedLoadCable = true;
+        if (e.OriginalSource is IEquipment) {
+            MjeqViewModel mjeqVm = (MjeqViewModel)DataContext;
+            mjeqVm.SelectedLoadCable = (IEquipment)e.OriginalSource;
+            mjeqVm.IsSelectedLoadCable = true;
+        }
     }
 }

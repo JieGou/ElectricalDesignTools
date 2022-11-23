@@ -37,16 +37,29 @@ namespace EDTLibrary.Models.Cables
                 && load.Voltage <= 1000) {
                 return EdtSettings.DefaultCableTypeLoad_3ph300to1kV;
             }
-            else if (load is IDteq 
-                && load.Voltage <= 1000 
-                && load.Fla <= 1200) {
-                return EdtSettings.DefaultCableTypeDteq_3ph1kVLt1200A;
+
+            else if (load is IDteq && load.Voltage <= 1000) {
+               
+                //208V - 3phase panels and splitters
+                if (load.VoltageType.Voltage == 208 && load.VoltageType.Phase == 3) {
+                    if (load.Type == DteqTypes.CDP.ToString() || load.Type == DteqTypes.DPN.ToString()) {
+                        return EdtSettings.DefaultCableTypeLoad_4wire;
+                    }
+                }
+                else if (load.VoltageType.Voltage == 240) {
+                    return EdtSettings.DefaultCableTypeDteq_3ph1kVLt1200A;
+                }
+                else if (load.VoltageType.Voltage == 120) {
+                    return EdtSettings.DefaultCableTypeLoad_2wire;
+                }
+                else if (load.Fla <= 1200) {
+                    return EdtSettings.DefaultCableTypeDteq_3ph1kVLt1200A;
+                }
+                else if (load.Fla > 1200) {
+                    return EdtSettings.DefaultCableTypeDteq_3ph1kVGt1200A;
+                }
             }
-            else if (load is IDteq 
-                && load.Voltage <= 1000 
-                && load.Fla > 1200) {
-                return EdtSettings.DefaultCableTypeDteq_3ph1kVGt1200A;
-            }
+            
             else if (load.Voltage > 1000 
                 && load.Voltage <= 5000) {
                 return EdtSettings.DefaultCableType_3ph5kV;
@@ -177,7 +190,7 @@ namespace EDTLibrary.Models.Cables
                 }
             }
 
-            // 1 or 3C <= 5kV, Non-Shielded
+            // 1, 2, 3, or 4C <= 5kV, Non-Shielded
             else {
                 if (cable.Type.Contains("DLO")) {
                     output = "Table 12E";
@@ -185,7 +198,7 @@ namespace EDTLibrary.Models.Cables
                 else if (cable.TypeModel.ConductorQty == 1) {
                     output = "Table 1";
                 }
-                else if (cable.TypeModel.ConductorQty == 3) {
+                else if (cable.TypeModel.ConductorQty >= 2) {
                     output = "Table 2";
                 }
             }
