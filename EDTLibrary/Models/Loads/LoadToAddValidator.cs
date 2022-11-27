@@ -304,13 +304,15 @@ namespace EDTLibrary.Models.Loads
             {
                 if (value == null) return;
                 _voltageType = value;
+                if (_voltageType.Voltage == null) return;
+                
                 Voltage = _voltageType.Voltage.ToString();
 
 
                 _feedingDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
 
                 ClearErrors(nameof(VoltageType));
-                if (GlobalConfig.SelectingNew == true) { return; }
+                //if (GlobalConfig.SelectingNew == true) { return; }
 
                 double parsedVoltage;
                 if (string.IsNullOrWhiteSpace(_voltage)) {
@@ -496,25 +498,25 @@ namespace EDTLibrary.Models.Loads
             LoadFactor = temp;
 
 #if DEBUG
-            if (GlobalConfig.Testing == false) {
-                if (string.IsNullOrWhiteSpace(Type))
-                    Type = "HEATER";
-                if (string.IsNullOrWhiteSpace(FedFromTag))
-                    try {
-                        if (FedFromTag != null) {
+            //if (GlobalConfig.Testing == false) {
+            //    if (string.IsNullOrWhiteSpace(Type))
+            //        Type = "HEATER";
+            //    if (string.IsNullOrWhiteSpace(FedFromTag))
+            //        try {
+            //            if (FedFromTag != null) {
 
-                        FedFromTag = _listManager.IDteqList.FirstOrDefault(d => d.Type.Contains("MCC")).Tag;
-                        }
-                    }
-                    catch { }
-                if (string.IsNullOrWhiteSpace(Size))
-                    Size = "50";
-                if (string.IsNullOrWhiteSpace(Unit))
-                    Unit = "kW";
-                if (string.IsNullOrWhiteSpace(Voltage))
-                    Voltage = "460";
-                LoadFactor = "0.8";
-            }
+            //            FedFromTag = _listManager.IDteqList.FirstOrDefault(d => d.Type.Contains("MCC")).Tag;
+            //            }
+            //        }
+            //        catch { }
+            //    if (string.IsNullOrWhiteSpace(Size))
+            //        Size = "50";
+            //    if (string.IsNullOrWhiteSpace(Unit))
+            //        Unit = "kW";
+            //    if (string.IsNullOrWhiteSpace(Voltage))
+            //        Voltage = "460";
+            //    LoadFactor = "0.8";
+            //}
 #endif
             if (Tag == GlobalConfig.EmptyTag) {
                 ClearErrors();

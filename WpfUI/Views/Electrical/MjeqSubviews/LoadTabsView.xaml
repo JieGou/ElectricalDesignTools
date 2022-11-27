@@ -361,7 +361,7 @@
                                              SortDirection="{x:Null}"
                                              Margin="0 0 -3 0"
                                              FontWeight="SemiBold"
-                                             >
+                                             IsVirtualizing="True">
                         <syncfusion:PropertyGrid.Items>
                             
                             <syncfusion:PropertyGridItem PropertyName="Tag"/>

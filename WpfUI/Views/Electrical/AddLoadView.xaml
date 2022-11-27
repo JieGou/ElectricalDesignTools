@@ -238,7 +238,7 @@
                   ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding LoadToAddValidator.VoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                   DisplayMemberPath="VoltageString"
-                  Text="{Binding LoadToAddValidator.VoltageType}"
+                  Text="{Binding LoadToAddValidator.VoltageType.VoltageString}"
                   IsEditable="False" IsTextSearchEnabled="False"
                   Margin="5 0 5 0"/>
 

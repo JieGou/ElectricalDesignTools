@@ -50,8 +50,16 @@ public class LoadManager
     {
         LoadFactory _loadFactory = new LoadFactory(listManager);
         var loadToAddValidator = (LoadToAddValidator)loadToAddObject;
-        var IsValid = loadToAddValidator.IsValid();
         var errors = loadToAddValidator._errorDict;
+
+        //Auto-Tag
+        if (bool.Parse(TagSettings.AutoTagEquipment)) {
+            if (errors.ContainsKey("Tag") || loadToAddValidator.Tag == GlobalConfig.EmptyTag || string.IsNullOrWhiteSpace(loadToAddValidator.Tag)) {
+                loadToAddValidator.Tag = TagManager.AssignEqTag(new LoadModel { Type = loadToAddValidator.Type }, listManager);
+            }
+        }
+
+        var IsValid = loadToAddValidator.IsValid();
         if (IsValid == false) return null;
         
         //CreateLoad checks if the Dteq has enough space to add the load

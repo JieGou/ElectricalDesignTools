@@ -35,7 +35,7 @@ public class ComponentFactory
 
         //Disconnect
         if (subType == ComponentSubTypes.DefaultDcn.ToString()) {
-            newComponent.Tag = componentUser.Tag + TagSettings.SuffixSeparator + TagSettings.DisconnectSuffix;
+            newComponent.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
             newComponent.Area = componentUser.Area;
             var load = (IPowerConsumer)componentUser;
             newComponent.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
@@ -45,7 +45,7 @@ public class ComponentFactory
 
         //Drive
         else if (subType == ComponentSubTypes.DefaultDrive.ToString()) {
-            newComponent.Tag = componentUser.Tag + TagSettings.SuffixSeparator + TagSettings.DriveSuffix;
+            newComponent.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DriveSuffix;
             var powerConsumer = (IPowerConsumer)componentUser;
             newComponent.Area = powerConsumer.FedFrom.Area;
             newComponent.SequenceNumber = 0;
@@ -88,7 +88,7 @@ public class ComponentFactory
         newDrive.SubType = subType;
 
 
-            newDrive.Tag = componentUser.Tag + TagSettings.SuffixSeparator + TagSettings.DriveSuffix;
+            newDrive.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DriveSuffix;
             var powerConsumer = (IPowerConsumer)componentUser;
             newDrive.Area = powerConsumer.FedFrom.Area;
 
@@ -137,7 +137,7 @@ public class ComponentFactory
         newLcs.Owner = componentOwner;
         newLcs.OwnerId = componentOwner.Id;
         newLcs.OwnerType = componentOwner.GetType().ToString();
-        newLcs.Tag = componentOwner.Tag + TagSettings.SuffixSeparator + TagSettings.LcsSuffix;
+        newLcs.Tag = componentOwner.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.LcsSuffix;
         newLcs.Area = componentOwner.Area;
         UndoManager.CanAdd = false;
 

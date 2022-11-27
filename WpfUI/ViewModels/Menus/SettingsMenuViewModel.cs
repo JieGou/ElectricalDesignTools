@@ -43,7 +43,7 @@ public class SettingsMenuViewModel : ViewModelBase
         _cableSettingsViewModel = new CableSettingsViewModel(edtSettings, _typeManager);
         NavigateCableSettingsCommand = new RelayCommand(NavigateCableSettings);
 
-        _tagSettingsViewModel = new TagSettingsViewModel();
+        _tagSettingsViewModel = new TagSettingsViewModel(_listManager);
         NavigateTagSettingsCommand = new RelayCommand(NavigateTagSettings);
 
         _exportSettingsViewModel = new ExportSettingsViewModel(edtSettings, _typeManager);

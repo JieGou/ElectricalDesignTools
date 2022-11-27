@@ -296,7 +296,7 @@
                                   Grid.Row="1"
                                   
                                   ItemsSource="{Binding AssignedLoads}"
-                                  HorizontalAlignment="Left"
+                                  HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch"
                                   VerticalContentAlignment="Top"
                                   BorderThickness="0"

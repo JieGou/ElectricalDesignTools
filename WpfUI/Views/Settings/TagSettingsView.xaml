@@ -25,7 +25,7 @@
 
             </ResourceDictionary.MergedDictionaries>
 
-           
+
 
             <projectSettings:EdtSettings x:Key="edtSettings"/>
 
@@ -115,14 +115,17 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
-                            <TextBlock Text="Tag Suffix Separator"   Grid.Row="1" Grid.Column="0" />
-                            <TextBlock Text=""  
+                            <TextBlock Text="Auto-Tag"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text="Autotag new equipment based on selected tag settings"  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}" />
                         </StackPanel>
-                        <TextBox Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center"
-                         Text="{Binding Path=SuffixSeparator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <CheckBox Grid.Row="1" Grid.Column="3"  Margin="10"
+                                  IsChecked="{Binding AutoTagEquipment}"/>
 
+                        <Button Content="Test" Command="{Binding TestCommand}"
+                                Grid.Row="2" Grid.Column="0"/>
+                        
                     </Grid>
                 </GroupBox>
 
@@ -131,7 +134,8 @@
                           Grid.Row="1" Grid.Column="2"
                           Margin="25 0 25 25"
                           Style="{StaticResource EdtGroupBoxTemplate}"
-                          Background="{StaticResource Dark}">
+                          Background="{StaticResource Dark}"
+                          Padding="0 0 100 0">
 
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -144,16 +148,120 @@
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
-                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="auto"/>
-                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
+
+
+                        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                            <TextBlock Text="Sequence Number Digit Count"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text="The number of digits in the numerical part of the tag."  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=EqNumberDigitCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+                        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0">
+                            <TextBlock Text="Equipmet Tag Separator"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text="The character between the alphabetic and numerical part of the tag."  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=EqIdentifierSeparator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+                        <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3">
+                            <TextBlock Text="Equipment Tag Defaults"   Grid.Row="1" Grid.Column="0" FontSize="16" FontWeight="SemiBold"/>
+                            <TextBlock Text="The default text part of auto-generated tags for the specified equipment type."  
+                                       Style="{StaticResource settingDescription}" MaxWidth="350"/>
+                        </StackPanel>
+
+
+
+                        <TextBlock Text="Distribution Equipment"   Grid.Row="4" Grid.Column="0" FontSize="16" FontWeight="SemiBold"/>
+
+                        <!--Transformer-->
+                        <StackPanel Orientation="Vertical" Grid.Row="5" Grid.Column="0">
+                            <TextBlock Text="Transformers"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text=""  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="5" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=TransformerIdentifier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!--Lv Tx-->
+                        <StackPanel Orientation="Vertical" Grid.Row="6" Grid.Column="0">
+                            <TextBlock Text="Distribution / LV Transformers"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text="Transformers that feed distribution panels less than 300 Volts."  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="6" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=LvTransformerIdentifier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        
+                        <!--Switchgear-->
+                        <StackPanel Orientation="Vertical" Grid.Row="7" Grid.Column="0">
+                            <TextBlock Text="Switchgear"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text=""  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="7" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=SwgIdentifier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!--MCC-->
+                        <StackPanel Orientation="Vertical" Grid.Row="8" Grid.Column="0">
+                            <TextBlock Text="MCC"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text=""  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="8" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=MccIdentifier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!--Cdp-->
+                        <StackPanel Orientation="Vertical" Grid.Row="9" Grid.Column="0">
+                            <TextBlock Text="Central Distribution Panel"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text="3-Phase only Panels / Switchboards"  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="9" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=CdpIdentifier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!--Dpn-->
+                        <StackPanel Orientation="Vertical" Grid.Row="10" Grid.Column="0">
+                            <TextBlock Text="Distribution Panels"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text="Low-Voltage Panels (120/240 and 120/208 Volts"  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="10" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=DpnIdentifier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <!--Splitter-->
+                        <StackPanel Orientation="Vertical" Grid.Row="11" Grid.Column="0">
+                            <TextBlock Text="Splitters"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text=""  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="11" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=SplitterIdentifier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
 
                     </Grid>
                 </GroupBox>
@@ -228,6 +336,18 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0">
+                            <TextBlock Text="Component Suffix Separator"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text=""  
+                                   Grid.Row="1" Grid.Column="0"
+                                   Style="{StaticResource settingDescription}" />
+                        </StackPanel>
+                        <TextBox Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center"
+                         Text="{Binding Path=ComponentSuffixSeparator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <Button Content="Test" Command="{Binding TestCommand}"
+                                Grid.Row="2" Grid.Column="0"/>
 
 
                     </Grid>
