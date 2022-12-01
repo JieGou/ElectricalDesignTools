@@ -52,7 +52,7 @@ namespace EDTLibrary.Models.Loads
                 _tag = value;
                 ClearErrors(nameof(Tag));
 
-                if (TagAndNameValidator.IsTagAvailable(_tag, _listManager) == false) {
+                if (TagAndNameValidator.IsTagAvailable(_tag, _listManager, false) == false) {
                     AddError(nameof(Tag), "Tag already exists");
                 }
                 else if (string.IsNullOrWhiteSpace(_tag)) { // TODO - create method for invalid tags
@@ -306,7 +306,6 @@ namespace EDTLibrary.Models.Loads
                 _voltageType = value;
                 if (_voltageType.Voltage == null) return;
                 
-                Voltage = _voltageType.Voltage.ToString();
 
 
                 _feedingDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
@@ -332,18 +331,24 @@ namespace EDTLibrary.Models.Loads
                         }
                     }
                     _isValid = true;
+                    Voltage = _voltageType.Voltage.ToString();
+
                     return;
                 }
                 else {
                     if (_type == LoadTypes.MOTOR.ToString()) {
                         if (_feedingDteq.LoadVoltageType.Voltage == 600 && _voltageType.Voltage == 575) {
-                            _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 600);
+                            //_voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 600);
                             _isValid = true;
+                            Voltage = _voltageType.Voltage.ToString();
+
                             return;
                         }
                         else if (_feedingDteq.LoadVoltageType.Voltage == 480 && _voltageType.Voltage == 460) {
-                            _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 480);
+                            //_voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 480);
                             _isValid = true;
+                            Voltage = _voltageType.Voltage.ToString();
+
                             return;
                         }
                         else if (_feedingDteq.LoadVoltageType.Voltage == 240) {
@@ -354,6 +359,7 @@ namespace EDTLibrary.Models.Loads
                                 _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120);
                             }
                             _isValid = true;
+                            Voltage = _voltageType.Voltage.ToString();
                             return;
                         }
                         else if (_feedingDteq.LoadVoltageType.Voltage == 208) {
@@ -367,6 +373,7 @@ namespace EDTLibrary.Models.Loads
                                 _voltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120);
                             }
                             _isValid = true;
+                            Voltage = _voltageType.Voltage.ToString();
                             return;
                         }
                         else
@@ -375,10 +382,14 @@ namespace EDTLibrary.Models.Loads
                     
                     else if (_feedingDteq.LoadVoltage == 208 && (_voltageType.Voltage == 208 || _voltageType.Voltage == 120)) {
                         _isValid = true;
+                        Voltage = _voltageType.Voltage.ToString();
+
                         return;
                     }
                     else if (_feedingDteq.LoadVoltage == 240 && (_voltageType.Voltage == 240 || _voltageType.Voltage == 120))  {
                         _isValid = true;
+                        Voltage = _voltageType.Voltage.ToString();
+
                         return;
                     }
                     else

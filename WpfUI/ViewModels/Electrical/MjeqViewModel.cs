@@ -495,7 +495,8 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             LoadToAddValidator.Unit = "";
             LoadToAddValidator.Unit = _selectedLoad.Unit;
             LoadToAddValidator.Voltage = "";
-            LoadToAddValidator.Voltage = _selectedLoad.Voltage.ToString();
+            LoadToAddValidator.Voltage = _selectedLoad.VoltageType.Voltage.ToString();
+            LoadToAddValidator.VoltageType = null;
             LoadToAddValidator.VoltageType = _selectedLoad.VoltageType;
         }
 

@@ -57,7 +57,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
             _tag = value;
             ClearErrors(nameof(Tag));
 
-            if (TagAndNameValidator.IsTagAvailable(_tag, _listManager) == false) {
+            if (TagAndNameValidator.IsTagAvailable(_tag, _listManager, false) == false) {
                 AddError(nameof(Tag), "Tag already exists");
             }
             else if (string.IsNullOrWhiteSpace(_tag)) { // TODO - create method for invalid tags
@@ -295,6 +295,8 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         {
             if (value == null || value == _lineVoltageType) return;
             _lineVoltageType = value;
+            if (_lineVoltageType.Voltage == null) return;
+
             LineVoltage = _lineVoltageType.Voltage.ToString();
 
             ClearErrors(nameof(LineVoltageType));
@@ -344,6 +346,8 @@ public class DteqToAddValidator : INotifyDataErrorInfo
         {
             if (value == null || value == _loadVoltageType) return;
             _loadVoltageType = value;
+            if (_loadVoltageType.Voltage == null) return;
+
             LoadVoltage = _loadVoltageType.Voltage.ToString();
 
             ClearErrors(nameof(LoadVoltageType));

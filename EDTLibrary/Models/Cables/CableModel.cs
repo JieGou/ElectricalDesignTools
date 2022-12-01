@@ -582,7 +582,9 @@ public class CableModel : ICable
         AutoSize();
         var load = (IComponentUser)Load;
         foreach (var comp in load.CctComponents) {
-            comp.PowerCable.AutoSize();
+            if (comp.PowerCable != null) {
+                comp.PowerCable.AutoSize();
+            }
         }
     }
 

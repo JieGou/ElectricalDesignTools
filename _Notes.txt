@@ -3,6 +3,9 @@ Add selectable on click for Dteq
 
 
 Tag Settings
+	- component cables are not assigned when loading
+	- component and Lcs tag changes update cable tags
+	- lcs cable TypeModel vs Type
 	- remove DP load tagging GUID 
 	- basic default auto-tagging system and logic
 	- bulk updates on tag changes

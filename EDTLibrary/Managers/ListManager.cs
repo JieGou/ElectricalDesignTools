@@ -379,6 +379,8 @@ namespace EDTLibrary.Managers
                         load.Lcs = lcs;
                         lcs.PropertyUpdated += DaManager.OnLcsPropertyUpdated;
                         load.AreaChanged += lcs.MatchOwnerArea;
+
+                        
                     }
                 }
             }
@@ -624,6 +626,7 @@ namespace EDTLibrary.Managers
                     }
                 }
             }
+
             foreach (var load in LoadList) {
                 foreach (var cable in CableList) {
                     //if (load.Id == cable.OwnerId && load.GetType().ToString() == cable.OwnerType) {
@@ -636,6 +639,7 @@ namespace EDTLibrary.Managers
                 }
             }
 
+            //Cct Components
             foreach (var comp in CompList) {
                 foreach (var cable in CableList) {
                     if (comp.Id == cable.OwnerId && comp.GetType().ToString() == cable.OwnerType) {
@@ -645,20 +649,20 @@ namespace EDTLibrary.Managers
                 }
             }
 
+            //LCS
             foreach (var lcs in LcsList) {
                 string lcsType = lcs.GetType().ToString();
 
                 foreach (var cable in CableList) {
 
-                    if (lcs.Id == cable.OwnerId &&
-                        lcs.GetType().ToString() == cable.OwnerType && cable.UsageType == CableUsageTypes.Control.ToString()) {
-                        lcs.Cable = cable;
-                        break;
-                    }
-                    else if (lcs.Id == cable.OwnerId &&
-                        lcs.GetType().ToString() == cable.OwnerType && cable.UsageType == CableUsageTypes.Instrument.ToString()) {
-                        lcs.AnalogCable = cable;
-                        break;
+                    if (lcs.Id == cable.OwnerId) {
+                        if (lcs.GetType().ToString() == cable.OwnerType && cable.UsageType == CableUsageTypes.Control.ToString()) {
+                            lcs.ControlCable = cable;
+                        }
+
+                        else if (lcs.GetType().ToString() == cable.OwnerType && cable.UsageType == CableUsageTypes.Instrument.ToString()) {
+                            lcs.AnalogCable = cable;
+                        }
                     }
                 }
             }

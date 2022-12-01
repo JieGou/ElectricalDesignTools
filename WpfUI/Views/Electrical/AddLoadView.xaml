@@ -223,7 +223,7 @@
         <ComboBox Grid.Row="5" Grid.Column="9"
                   MinWidth="60"
                   d:Text="600"
-                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.VoltageTypes, UpdateSourceTrigger=PropertyChanged}"
                   SelectedValue="{Binding LoadToAddValidator.Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                   Text="{Binding LoadToAddValidator.Voltage}"
                   IsEditable="True" IsTextSearchEnabled="True"
@@ -235,10 +235,10 @@
                   Template="{DynamicResource ComboBoxBase}"
                   MinWidth="60"
                   d:Text="600-3"
-                  ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding LoadToAddValidator.VoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
+                  ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding LoadToAddValidator.VoltageType, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                   DisplayMemberPath="VoltageString"
-                  Text="{Binding LoadToAddValidator.VoltageType.VoltageString}"
+                  Text="{Binding LoadToAddValidator.VoltageType.VoltageString, Mode=OneWay}"
                   IsEditable="False" IsTextSearchEnabled="False"
                   Margin="5 0 5 0"/>
 

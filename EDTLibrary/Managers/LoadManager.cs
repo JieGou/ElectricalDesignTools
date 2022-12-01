@@ -90,7 +90,7 @@ public class LoadManager
         else {
             newLoad.Id = 1;
         }
-        listManager.LoadList.Add(newLoad);
+        
         newLoad.CalculateLoading(); //after load is inserted to get new Id - //150ms
 
 
@@ -107,7 +107,7 @@ public class LoadManager
         //newLoad.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);
 
         if (listManager.CableList.Count != 0) {
-            newLoad.PowerCable.Id = listManager.LoadList.Max(l => l.Id) + 1;
+            newLoad.PowerCable.Id = listManager.CableList.Max(l => l.Id) + 1;
         }
         else {
             newLoad.PowerCable.Id = 1;
@@ -118,6 +118,7 @@ public class LoadManager
 
         newLoad.CalculateCableAmps();
         listManager.CableList.Add(newLoad.PowerCable);
+        listManager.LoadList.Add(newLoad);
         return newLoad;
     }
 

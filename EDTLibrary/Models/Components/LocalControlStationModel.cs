@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
+using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.LocalControlStations;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
@@ -42,8 +43,8 @@ public class LocalControlStationModel : ILocalControlStation
             _tag = value;
 
             UndoManager.Lock(this, nameof(Tag));
-            if (DaManager.GettingRecords==false) {
-                if (Cable!= null) {
+            if (DaManager.GettingRecords == false) {
+                if (ControlCable != null) {
 
                 }
             }
@@ -64,13 +65,33 @@ public class LocalControlStationModel : ILocalControlStation
         {
             var oldValue = _type;
             _type = value;
+            TypeModel = TypeManager.GetLcsTypeModel(_type);
 
             UndoManager.Lock(this, nameof(Type));
             UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _type);
+
+
+
             OnPropertyUpdated(nameof(Type));
         }
     }
-    public LcsTypeModel TypeModel { get; set; }
+
+    public LcsTypeModel TypeModel 
+    {
+        get => _typeModel;
+        set
+        {
+            var oldValue = _typeModel;
+
+            _typeModel = value;
+            if (!DaManager.Importing) {
+                CableManager.UpdateLcsCableTypes(this);
+            }
+            UndoManager.Lock(this, nameof(TypeModel));
+            UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _typeModel);
+        }
+    }
+    private LcsTypeModel _typeModel;
 
     public string Description { get; set; }
 
@@ -141,7 +162,7 @@ public class LocalControlStationModel : ILocalControlStation
             OnPropertyUpdated();
         }
     }
-    public ICable Cable { get; set; }
+    public ICable ControlCable { get; set; }
 
 
     public ICable AnalogCable { get; set; }

@@ -3,15 +3,17 @@ using EDTLibrary.ErrorManagement;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace EDTLibrary.Models.Validators
 {
     public static class TagAndNameValidator
     {
-        public static bool IsTagAvailable(string tagToCheck, ListManager listManager)
+        public static bool IsTagAvailable(string tagToCheck, ListManager listManager, bool showAlert = true)
         {
             if (string.IsNullOrEmpty(tagToCheck)) return true;
             if (listManager == null) return true; //for test data
@@ -24,8 +26,9 @@ namespace EDTLibrary.Models.Validators
             var tag = listManager.EqList.FirstOrDefault(eq => eq.Tag.ToLower() == tagToCheck.ToLower());
 
             if (tag != null) {
-                ErrorHelper.NotifyUserError($"{tagToCheck} - {ErrorMessages.DuplicateTagMessage}", "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
-
+                if (showAlert == true) {
+                    ErrorHelper.NotifyUserError($"{tagToCheck} - {ErrorMessages.DuplicateTagMessage}", "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
+                }
                 return false;
             }
 
