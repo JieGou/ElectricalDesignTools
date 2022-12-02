@@ -576,13 +576,14 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _lcsBool;
                 _lcsBool = value;
 
-
                 UndoManager.CanAdd = false;
                 UndoManager.Lock(this, nameof(LcsBool));
 
                 if (DaManager.GettingRecords == false) {
                     if (_lcsBool == true) {
                         ComponentManager.AddLcs(this, ScenarioManager.ListManager);
+                        Lcs.UpdateTypelist(DriveBool);
+
                     }
                     else if (_lcsBool == false) {
                         ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
@@ -635,6 +636,11 @@ namespace EDTLibrary.Models.Loads
                     }
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     CableManager.UpdateLcsCableTags(this);
+                }
+
+                if (LcsBool) {
+                    Lcs.UpdateTypelist(_driveBool);
+                    Lcs.Type = ComponentFactory.GetLcsType(this);
                 }
 
                 UndoManager.CanAdd = true;

@@ -3,6 +3,7 @@ using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -20,10 +21,13 @@ public interface ILocalControlStation: IEquipment
     int SequenceNumber { get; set; }
     string SubCategory { get; set; }
     string SubType { get; set; }
-    ObservableCollection<LcsTypeModel> SubTypeList { get; set; }
+    int TypeId { get; set; }
+    ObservableCollection<LcsTypeModel> TypeList { get; set; }
     string Tag { get; set; }
     string Type { get; set; }
     LcsTypeModel TypeModel { get; set; }
+
+    void UpdateTypelist(bool driveBool);
 
 
     //already in IEquipment
@@ -31,5 +35,5 @@ public interface ILocalControlStation: IEquipment
     //event EventHandler PropertyUpdated;
     //Task OnPropertyUpdated(string property = "default");
     //Task UpdateAreaProperties();
-    
+
 }

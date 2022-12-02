@@ -202,6 +202,14 @@ namespace EDTLibrary.LibraryData
             return output;
         }
 
+        public static LcsTypeModel GetLcsTypeModel(int lcsTypeId)
+        {
+            LcsTypeModel output = null;
+
+            output = LcsTypes.SingleOrDefault(l => l.Id == lcsTypeId);
+            return output;
+        }
+
         //Cables
         public static CableTypeModel GetCableTypeModel(string cableType)
         {

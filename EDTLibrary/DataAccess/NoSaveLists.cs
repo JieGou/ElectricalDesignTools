@@ -104,6 +104,7 @@ namespace EDTLibrary.DataAccess
             "AnalogCable",
             "ControlCable",
             "TypeModel",
+            "TypeList",
             "SubTypeList",
             "HeatLoss",
 

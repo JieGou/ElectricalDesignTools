@@ -8,6 +8,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Validators;
 using EDTLibrary.UndoSystem;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,6 +21,7 @@ using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Components;
 [Serializable]
+[AddINotifyPropertyChangedInterface]
 public class LocalControlStationModel : ILocalControlStation
 {
     public LocalControlStationModel()
@@ -76,14 +78,34 @@ public class LocalControlStationModel : ILocalControlStation
         }
     }
 
+    private int _typeId;
+
+    public int TypeId
+    {
+        get { return _typeId; }
+        set 
+        {
+            var oldValue = _typeId;
+            _typeId = value; 
+
+            UndoManager.Lock(this, nameof(TypeModel));
+            UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _typeId);
+        }
+    }
+
     public LcsTypeModel TypeModel 
     {
         get => _typeModel;
         set
         {
+            if (value == null) return;
+            
             var oldValue = _typeModel;
 
             _typeModel = value;
+            
+            TypeId = _typeModel.Id;
+
             if (!DaManager.Importing) {
                 CableManager.UpdateLcsCableTypes(this);
             }
@@ -98,8 +120,17 @@ public class LocalControlStationModel : ILocalControlStation
 
     public string SubType { get; set; }
 
-    public ObservableCollection<LcsTypeModel> SubTypeList { get; set; } = new ObservableCollection<LcsTypeModel>();
+    public ObservableCollection<LcsTypeModel> TypeList { get; set; } = new ObservableCollection<LcsTypeModel>();
+    public void UpdateTypelist(bool driveBool)
+    {
+        var templist = driveBool ? TypeManager.LcsTypes.Where(lt => lt.AnalogConductorQty > 1).ToList() : TypeManager.LcsTypes.Where(lt => lt.AnalogConductorQty ==0 || lt.AnalogConductorQty == null).ToList();
+        TypeList = new ObservableCollection<LcsTypeModel>(templist);
 
+        //TypeList.Clear();
+        //foreach (var item in templist) {
+        //    TypeList.Add(item);
+        //}
+    }
     public IEquipment Owner { get; set; }
 
     public int OwnerId { get; set; }
@@ -107,6 +138,7 @@ public class LocalControlStationModel : ILocalControlStation
     public int SequenceNumber { get; set; }
 
     public int AreaId { get; set; }
+
 
     public IArea _area;
     private string _tag;
@@ -211,5 +243,5 @@ public class LocalControlStationModel : ILocalControlStation
         OnPropertyUpdated();
     }
 
-
+   
 }

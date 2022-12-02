@@ -1,5 +1,5 @@
 ﻿<UserControl x:Class="WpfUI.Views.Electrical.MjeqSubviews.EquipmentDetailsView"
-          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -8,18 +8,13 @@
              xmlns:Editors="clr-namespace:WpfUI.UserControls.Editors"
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
              
-             
-             
              xmlns:local="clr-namespace:WpfUI.Views.SubViews"
-             
-             
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="375"
              d:Background="AliceBlue"
              d:Padding="10"
              >
-
 
     <UserControl.Resources>
 
@@ -140,7 +135,7 @@
                              />
                 </StackPanel>
 
-                <!--Component Types-->
+                <!--Lcs Types-->
                 <StackPanel Orientation="Horizontal" 
                             Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" >
                     <TextBlock Text="Type"
@@ -150,18 +145,31 @@
                           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                           Height="20" Width="125"
                           Margin="0"
-                          ItemsSource="{Binding Path=DataContext.TypeManager.LcsTypes, 
-                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                                  RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                  AncestorType={x:Type Window}}}"
+                          ItemsSource="{Binding Path=DataContext.Lcs.TypeList, 
+                                            UpdateSourceTrigger=PropertyChanged, 
+                                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                                            AncestorType={x:Type UserControl}, AncestorLevel=1}}"
                           DisplayMemberPath="Type"
                               
-                          Text="{Binding Path=DataContext.Lcs.Type, 
+                          SelectedValue="{Binding Path=DataContext.Lcs.TypeModel, 
                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=1}}"                              
+                                            AncestorType={x:Type UserControl}, AncestorLevel=1}}"  
+                              
+                          Text="{Binding Path=DataContext.Lcs.TypeModel.Type, 
+                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                         RelativeSource={RelativeSource Mode=FindAncestor, 
+                                         AncestorType={x:Type UserControl}, AncestorLevel=1}}" 
                                                       
-                          IsSynchronizedWithCurrentItem="False"  />
+                          IsSynchronizedWithCurrentItem="False"  
+                          ToolTip="{StaticResource LcsSelectionBug}"/>
+
+                    <TextBlock Text="{Binding Path=DataContext.Lcs.TypeModel.Type, 
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, 
+                                        AncestorType={x:Type UserControl}, AncestorLevel=1}}" 
+                               Margin="10 0 0 0"
+                               ToolTip="{StaticResource LcsSelectionBug}"/>
                 </StackPanel>
 
                 <!--Column 2-->

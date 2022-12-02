@@ -14,5 +14,11 @@ Changing this will override the below values.</clr:String>
 
     <clr:String x:Key="AreaPropertyChangeMessage" xml:space="preserve">Updates this property on this equipment only.
 Will not update other properties or sub-components.</clr:String>
-    
+
+    <clr:String x:Key="LcsSelectionBug" xml:space="preserve">Known Issue:
+The selected LCS type in the drop-down becomes invisible when a disconnect is added or removed. 
+The LCS is still selected, it is just not displayd properly so you don't need to reselect it.</clr:String>
+     
+                                        
+
 </ResourceDictionary>

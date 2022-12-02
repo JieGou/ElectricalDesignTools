@@ -1,9 +1,11 @@
 Add selectable on click for Dteq
 	 - rename LoadGraphic Events back 
 
+Calculations
+	- OCDP 80% rated calculation
 
 Tag Settings
-	- component cables are not assigned when loading
+	- change Lcs Type to TypeModel / Id
 	- component and Lcs tag changes update cable tags
 	- lcs cable TypeModel vs Type
 	- remove DP load tagging GUID 

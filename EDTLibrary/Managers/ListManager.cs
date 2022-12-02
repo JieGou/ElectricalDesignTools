@@ -380,6 +380,8 @@ namespace EDTLibrary.Managers
                         lcs.PropertyUpdated += DaManager.OnLcsPropertyUpdated;
                         load.AreaChanged += lcs.MatchOwnerArea;
 
+                        lcs.TypeModel = TypeManager.GetLcsTypeModel(lcs.TypeId);
+
                         
                     }
                 }

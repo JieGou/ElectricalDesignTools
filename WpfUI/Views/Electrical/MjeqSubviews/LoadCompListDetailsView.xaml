@@ -189,7 +189,7 @@
                                                 AncestorType={x:Type Window}}}"
                           DisplayMemberPath="TripAmps"
                           
-                          Text ="{Binding Path=DataContext.SelectedComponent.TripAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Text ="{Binding SelectedComponent.TripAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           
                           IsSynchronizedWithCurrentItem="False" SelectionChanged="ComboBox_SelectionChanged"  />
             </StackPanel>
