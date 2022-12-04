@@ -108,7 +108,7 @@ namespace EDTLibrary.Models.Cables
         }
         //TODO - Change Tables to Enum "CecTables"
 
-        public string GetAmpacityTable(ICable cable)
+        public string GetAmpacityTable(ICable cable, bool checkSizeCutoff = true)
         {
             if (cable == null) return "Invalid Cable Data";
 
@@ -119,16 +119,16 @@ namespace EDTLibrary.Models.Cables
                 output = GetAmpacityTable_LadderTray(cable, cableType);
             }
             else if (cable.InstallationType == GlobalConfig.CableInstallationType_DirectBuried) {
-                output = GetAmpacityTable_DirectBuried(cable, cableType);
+                output = GetAmpacityTable_DirectBuried(cable, cableType, checkSizeCutoff);
             }
             else if (cable.InstallationType == GlobalConfig.CableInstallationType_RacewayConduit) {
-                output = GetAmpacityTable_RacewayConduit(cable, cableType);
+                output = GetAmpacityTable_RacewayConduit(cable, cableType, checkSizeCutoff);
             }
 
             return output;
         }
 
-        private static string GetAmpacityTable_LadderTray(ICable cable, CableTypeModel cableType)
+        internal static string GetAmpacityTable_LadderTray(ICable cable, CableTypeModel cableType)
         {
             string output = "No Table Assigned";
 
@@ -204,7 +204,7 @@ namespace EDTLibrary.Models.Cables
             }
             return output;
         }
-        private static string GetAmpacityTable_DirectBuried(ICable cable, CableTypeModel cableType, bool checkMaxSizeForRacewayType = true)
+        internal static string GetAmpacityTable_DirectBuried(ICable cable, CableTypeModel cableType, bool checkSizeCutoff = true)
         {
             string output;
 
@@ -228,9 +228,13 @@ namespace EDTLibrary.Models.Cables
             else if (cableType.ConductorQty == 1
                         && cableType.VoltageRating <= 5000
                         && cableType.Shielded == false) {
-                if (checkMaxSizeForRacewayType) {
+                if (checkSizeCutoff) {
                     var maxAmps = TypeManager.CecCableAmpacities.FirstOrDefault(ca => ca.Size == "1" && ca.AmpacityTable == "Table 1").Amps75;
-                    if (cable.RequiredSizingAmps <= maxAmps) {
+
+                    var sizeNumber_1ought = 100;
+                    var sizeNumber = TypeManager.CableSizeIds.FirstOrDefault(c => c.SizeTag == cable.Size).SizeNumber;
+                    //if (cable.RequiredSizingAmps <= maxAmps && cable.Derating5C != 1) {
+                    if (cable.RequiredSizingAmps <= maxAmps && sizeNumber < sizeNumber_1ought) {
                         output = "Table 1";
                     }
                     else {
@@ -245,10 +249,14 @@ namespace EDTLibrary.Models.Cables
             // 3C, <= 5kV, Non-Shielded
             else {
 
-                if (checkMaxSizeForRacewayType) {
+                if (checkSizeCutoff) {
                     var maxAmps = TypeManager.CecCableAmpacities.FirstOrDefault(ca => ca.Size == "1" && ca.AmpacityTable == "Table 2").Amps75;
-                    if (cable.RequiredSizingAmps <= maxAmps && cable.Derating5C != 1) {
-                        output = "Table 2";
+
+                    var sizeNumber_1ought = 100;
+                    var sizeNumber = TypeManager.CableSizeIds.FirstOrDefault(c => c.SizeTag == cable.Size).SizeNumber;
+                    //if (cable.RequiredSizingAmps <= maxAmps && cable.Derating5C != 1) {
+                    if (cable.RequiredSizingAmps <= maxAmps && sizeNumber < sizeNumber_1ought) {
+                            output = "Table 2";
                     }
                     else {
                         output = "Table D10A";
@@ -260,7 +268,7 @@ namespace EDTLibrary.Models.Cables
             }
             return output;
         }
-        private static string GetAmpacityTable_RacewayConduit(ICable cable, CableTypeModel cableType, bool maxSizeCheck = true)
+        internal static string GetAmpacityTable_RacewayConduit(ICable cable, CableTypeModel cableType, bool checkSizeCutoff = true)
         {
             string output;
 
@@ -285,9 +293,13 @@ namespace EDTLibrary.Models.Cables
                         && cableType.VoltageRating <= 5000
                         && cableType.Shielded == false) {
 
-                if (maxSizeCheck) {
+                if (checkSizeCutoff) {
                     var maxAmps = TypeManager.CecCableAmpacities.FirstOrDefault(ca => ca.Size == "1" && ca.AmpacityTable == "Table 1").Amps75;
-                    if (cable.RequiredSizingAmps <= maxAmps) {
+
+                    var sizeNumber_1ought = 100;
+                    var sizeNumber = TypeManager.CableSizeIds.FirstOrDefault(c => c.SizeTag == cable.Size).SizeNumber;
+                    //if (cable.RequiredSizingAmps <= maxAmps && cable.Derating5C != 1) {
+                    if (cable.RequiredSizingAmps <= maxAmps && sizeNumber < sizeNumber_1ought) {
                         output = "Table 1";
                     }
                     else {
@@ -301,9 +313,13 @@ namespace EDTLibrary.Models.Cables
 
             // 3C, <= 5kV, Non-Shielded
             else {
-                if (maxSizeCheck) {
+                if (checkSizeCutoff) {
                     var maxAmps = TypeManager.CecCableAmpacities.FirstOrDefault(ca => ca.Size == "1" && ca.AmpacityTable == "Table 2").Amps75;
-                    if (cable.RequiredSizingAmps <= maxAmps) {
+
+                    var sizeNumber_1ought = 100;
+                    var sizeNumber = TypeManager.CableSizeIds.FirstOrDefault(c => c.SizeTag == cable.Size).SizeNumber;
+                    //if (cable.RequiredSizingAmps <= maxAmps && cable.Derating5C != 1) {
+                    if (cable.RequiredSizingAmps <= maxAmps && sizeNumber < sizeNumber_1ought) {
                         output = "Table 2";
                     }
                     else {
@@ -364,9 +380,16 @@ namespace EDTLibrary.Models.Cables
                     var tempDerating_5C = GetCableDerating_Table5C(cable);
                     var tempDerating = derating * tempDerating_5C;
                     var tempRequiredSizingAmps = cable.RequiredAmps / tempDerating;
-                    if (tempRequiredSizingAmps < maxAmps) {
-                        derating *= GetCableDerating_Table5C(cable);
-                        cable.Derating5C = GetCableDerating_Table5C(cable);
+
+                    var sizeNumber_1ought = 100;
+                    var sizeNumber = TypeManager.CableSizeIds.FirstOrDefault(c => c.SizeTag == cable.Size).SizeNumber;
+
+                    if (sizeNumber < sizeNumber_1ought) {
+                        if (cable.Spacing < 100) {
+                            derating *= GetCableDerating_Table5C(cable);
+                            cable.Derating5C = GetCableDerating_Table5C(cable);
+                        }
+                        
                     }
                 }
 
@@ -390,12 +413,12 @@ namespace EDTLibrary.Models.Cables
         {
             double derating = 1;
             int deratingTemp;
-            deratingTemp = GetDeratingTemp(ambientTemp);
+            deratingTemp = GetDeratingTemperature(ambientTemp);
             derating = DataTableSearcher.GetCableDerating_CecTable5A(cable, deratingTemp);
 
             return derating;
         }
-        private static int GetDeratingTemp(double ambientTemp)
+        private static int GetDeratingTemperature(double ambientTemp)
         {
             int deratingTemp = 30;
             switch (ambientTemp) {
