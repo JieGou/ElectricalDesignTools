@@ -1,5 +1,6 @@
 Add selectable on click for Dteq
 	 - rename LoadGraphic Events back 
+	- dteq Selected object OnClick
 
 Calculations
 	- OCDP 80% rated calculation
@@ -24,7 +25,6 @@ OcpdModel
 
 Generic quick settings for Eq
 
-dteq Selected object OnClick
 
 Application settings
 

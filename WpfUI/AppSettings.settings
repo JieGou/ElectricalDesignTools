@@ -6,7 +6,7 @@
       <Value Profile="(Default)">C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\EDTProjectTemplate1.1.edp</Value>
     </Setting>
     <Setting Name="LibraryDb" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\EDTDataLibrary.edl</Value>
+      <Value Profile="(Default)">C:\DCS Inc\Electrical Design Tools\ContentFiles\Edt Data Library.edl</Value>
     </Setting>
     <Setting Name="DteqGridRight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1175</Value>
@@ -30,7 +30,7 @@
       <Value Profile="(Default)">275</Value>
     </Setting>
     <Setting Name="NewProjectFileTemplate" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\pdeau\Google Drive\Work\Visual Studio Projects\_EDT Tables\EDT SQLite DB Files\EDTProjectTemplate1.1.edp</Value>
+      <Value Profile="(Default)">C:\DCS Inc\Electrical Design Tools\ContentFiles\Edt Sample Project.edp</Value>
     </Setting>
     <Setting Name="AddEquipmentPanelView" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>

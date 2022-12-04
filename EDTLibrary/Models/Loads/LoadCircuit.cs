@@ -143,7 +143,7 @@ public class LoadCircuit : ILoadCircuit
     public double PdSizeFrame { get; set; }
 
     public string StarterType { get; set; }
-    public double StarterSize { get; set; }
+    public string StarterSize { get; set; }
 
     public int SequenceNumber
     {

@@ -26,7 +26,7 @@ namespace WpfUI.Services
 
 
         Environment.SpecialFolder _appDataFolder = Environment.SpecialFolder.ApplicationData;
-        private string _edtFolder = "\\Electrical Design Tools\\";
+        private string _edtFolder = @"\Electrical Design Tools\";
 
         private string _libraryFile = "Edt Data Library.edl";
         private string _projectFile = "Edt Sample Project.edp";
@@ -50,6 +50,7 @@ namespace WpfUI.Services
                 AppSettings.Default.FirstStartup = false;
                 AppSettings.Default.LibraryDb = _libraryFile;
                 AppSettings.Default.ProjectDb = _projectFile;
+                AppSettings.Default.NewProjectFileTemplate = _projectFile;
                 AppSettings.Default.Save();
             }
 

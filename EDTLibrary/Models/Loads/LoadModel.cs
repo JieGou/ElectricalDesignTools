@@ -501,7 +501,7 @@ namespace EDTLibrary.Models.Loads
         [Category("Protection")]
         public string StarterType { get; set; }
         [Category("Protection")]
-        public double StarterSize { get; set; }
+        public string StarterSize { get; set; }
 
         [ReadOnly(true)]
         public double HeatLoss { get; set; }
@@ -780,8 +780,8 @@ namespace EDTLibrary.Models.Loads
             DemandKw = Math.Round(DemandKva * PowerFactor, GlobalConfig.SigFigs);
             DemandKvar = Math.Round(DemandKva * (1 - PowerFactor), GlobalConfig.SigFigs);
 
-            LoadManager.SetLoadPd(this);
-            LoadManager.SetLoadPdSize(this);
+            LoadManager.SetLoadPdType(this);
+            LoadManager.SetLoadPdFrameAndTrip(this);
             PowerCable.GetRequiredAmps(this);
             UndoManager.CanAdd = true;
 

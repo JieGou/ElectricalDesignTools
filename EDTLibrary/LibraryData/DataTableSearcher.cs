@@ -121,9 +121,9 @@ namespace EDTLibrary.LibraryData
             }
             return result;
         }
-        public static double GetStarterSize(IPowerConsumer load)
+        public static string GetStarterSize(IPowerConsumer load)
         {
-            double result = GlobalConfig.NoValueDouble;
+            string result = "Default Starter Size";
             if (DataTables.Starters != null) {
                 DataTable dt = DataTables.Starters.Copy();
                 DataTable dtFiltered;
@@ -134,8 +134,8 @@ namespace EDTLibrary.LibraryData
 
                 try {
                     dtFiltered = filteredRows.CopyToDataTable();
-                    dtFiltered = dtFiltered.Select($"Size = Min(Size)").CopyToDataTable();
-                    result = Double.Parse(dtFiltered.Rows[0]["Size"].ToString());
+                    dtFiltered = dtFiltered.Select($"HP = Min(HP)").CopyToDataTable();
+                    result = dtFiltered.Rows[0]["Size"].ToString();
                 }
                 catch { }
             }

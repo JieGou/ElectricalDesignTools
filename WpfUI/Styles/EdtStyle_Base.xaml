@@ -557,7 +557,8 @@
         <Setter Property="BorderBrush" Value="black" />
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="TextBlock.TextAlignment" Value="Center" />
         <Setter Property="MinWidth" Value="0"/>
         <Setter Property="MinHeight" Value="33"/>

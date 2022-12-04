@@ -15,8 +15,8 @@ using System.Windows;
 
 namespace EDTLibrary.Managers;
 public class DteqManager
-{
-    public static void SetPd(DistributionEquipment dteq)
+{ 
+    public static void SetDteqPd(DistributionEquipment dteq)
     {
 
         //dteq.PdType = EdtSettings.DteqDefaultPdTypeLV;

@@ -1,9 +1,11 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,7 @@ namespace EDTLibrary.Managers;
 public class LoadManager
 {
 
-    public static void SetLoadPd(LoadModel load)
+    public static void SetLoadPdType(LoadModel load)
     {
         if (load.Type == LoadTypes.MOTOR.ToString()) {
             load.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
@@ -24,7 +26,7 @@ public class LoadManager
         }
     }
 
-    public static void SetLoadPdSize(LoadModel load)
+    public static void SetLoadPdFrameAndTrip(LoadModel load)
     {
         //TODO - enum for PdTypes
         if (load.PdType.Contains("MCP") ||
@@ -44,17 +46,19 @@ public class LoadManager
             load.PdSizeTrip = DataTableSearcher.GetBreakerTrip(load);
         }
     }
-
     
     public static async Task<LoadModel> AddLoad(object loadToAddObject, ListManager listManager, bool append = true)
     {
         LoadFactory _loadFactory = new LoadFactory(listManager);
         var loadToAddValidator = (LoadToAddValidator)loadToAddObject;
         var errors = loadToAddValidator._errorDict;
-
+        loadToAddValidator.IsValid();
         //Auto-Tag
         if (bool.Parse(TagSettings.AutoTagEquipment)) {
-            if (errors.ContainsKey("Tag") || loadToAddValidator.Tag == GlobalConfig.EmptyTag || string.IsNullOrWhiteSpace(loadToAddValidator.Tag)) {
+            if (errors.ContainsKey("Type")) {
+                // do nothing since other data is required
+            }
+            else if (errors.ContainsKey("Tag") || loadToAddValidator.Tag == GlobalConfig.EmptyTag || string.IsNullOrWhiteSpace(loadToAddValidator.Tag)) {
                 loadToAddValidator.Tag = TagManager.AssignEqTag(new LoadModel { Type = loadToAddValidator.Type }, listManager);
             }
         }
@@ -65,6 +69,10 @@ public class LoadManager
         //CreateLoad checks if the Dteq has enough space to add the load
         
         LoadModel newLoad = _loadFactory.CreateLoad(loadToAddValidator); //150ms
+
+        //clear Tag Error
+        //loadToAddValidator.Tag = GlobalConfig.EmptyTag;
+
         if (newLoad == null) return null; 
       
         IDteq dteqSubscriber = newLoad.FedFrom;

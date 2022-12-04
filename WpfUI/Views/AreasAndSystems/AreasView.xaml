@@ -134,21 +134,46 @@
                 <DataGrid.Columns>
                     <!--Basic-->
                     <!--Textblock cell padding style in this.resources Move to ResDict-->
+                    
+                    <!--Tag-->
+                    <DataGridTextColumn x:Name="TagColumn"
+                                        Width="*"
+                                        MinWidth="60"
+                                        Binding="{Binding Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" 
+                                        >
+                        <!--Width="{Binding ElementName=TagColumn, Path=ActualWidth}"-->
+                        <DataGridTextColumn.Header>
+                                <TextBlock Text="Area Tag"
+                                           Foreground="White"
+                                           Background="Transparent"
+                                           VerticalAlignment="Stretch"
+                                           HorizontalAlignment="Stretch"
+                                           ToolTipService.ToolTip="Area Tag&#x0a;This is what will appear in equipment tags depending on the selected tagging options."
+                                           ToolTipService.InitialShowDelay="50"
+                                           >
+                                <TextBlock.ToolTip>
+                                    <TextBlock Text="Area Tag&#x0a;Will appear in equipment tags depending on tagging settings."
+                                               TextAlignment="Left"/>
 
-                    <!--Tag-->
-                    <DataGridTextColumn Header="Tag&#x0a;ID"
-                                            Width="*"
-                                            MinWidth="60"
-                                            Binding="{Binding Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" />
-                    <!--Tag-->
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                        </DataGridTextColumn.Header>
+                
+                    </DataGridTextColumn>
+                    <!--Display Tag-->
                     <DataGridTextColumn Header="Display&#x0a;Tag"
-                                            Width="*"
-                                            MinWidth="60"
-                                            Binding="{Binding DisplayTag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" />
+                                        Width="*"
+                                        MinWidth="60"
+                                        Binding="{Binding DisplayTag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=Explicit, ValidatesOnDataErrors=True}" 
+                                        Visibility="Collapsed"
+                                        >
+                        
+                    </DataGridTextColumn>
                     <!--Name-->
-                    <DataGridTextColumn Header="Name" 
+                    <DataGridTextColumn Header="Area Name" 
                                             MinWidth="150"
-                                            Binding="{Binding Name, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                                            Binding="{Binding Name, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" >
+                    </DataGridTextColumn>
 
                     <!--Area Category-->
                     <DataGridTemplateColumn Header="Area&#x0a;Category"

@@ -38,8 +38,7 @@ namespace WpfUI {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB" +
-            " Files\\EDTDataLibrary.edl")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\DCS Inc\\Electrical Design Tools\\ContentFiles\\Edt Data Library.edl")]
         public string LibraryDb {
             get {
                 return ((string)(this["LibraryDb"]));
@@ -135,8 +134,7 @@ namespace WpfUI {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\pdeau\\Google Drive\\Work\\Visual Studio Projects\\_EDT Tables\\EDT SQLite DB" +
-            " Files\\EDTProjectTemplate1.1.edp")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\DCS Inc\\Electrical Design Tools\\ContentFiles\\Edt Sample Project.edp")]
         public string NewProjectFileTemplate {
             get {
                 return ((string)(this["NewProjectFileTemplate"]));

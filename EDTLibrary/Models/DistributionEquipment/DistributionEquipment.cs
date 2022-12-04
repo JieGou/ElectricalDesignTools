@@ -701,9 +701,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             PercentLoaded = RunningAmps / Fla * 100;
             PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
 
-            DteqManager.SetPd(this);
-            SCCR = CalculateSCCR();
+            DteqManager.SetDteqPd(this);
 
+
+            SCCR = CalculateSCCR();
             IsCalculating = false;
 
             OnLoadingCalculated(propertyName);

@@ -1,5 +1,7 @@
 ﻿using EDTLibrary;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
+using EDTLibrary.Models.Areas;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -8,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -152,12 +155,33 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
             if (HasErrors == false) {
                 string fullFileName = FolderName + "\\" + FileName + ".edp";
 
-                File.Copy(AppSettings.Default.ProjectDb, fullFileName, true);
+                File.Copy(AppSettings.Default.NewProjectFileTemplate, fullFileName, true);
 
                 _startupService.InitializeLibrary();
                 _homeViewModel.StartupService.SetSelectedProject(fullFileName);
                 _startupService.InitializeProject(fullFileName);
                 var settingVm = new SettingsMenuViewModel(_mainViewModel, new EDTLibrary.ProjectSettings.EdtSettings(), _typeManager);
+                settingVm.ProjectName = ProjectName;
+              
+
+                DaManager.DeleteAllEquipmentRecords();
+                DaManager.prjDb.DeleteAllRecords(GlobalConfig.AreaTable);
+                var defaultArea = new AreaModel {
+                    Id = 1,
+                    Tag = "SITE",
+                    Name = ProjectName + " Project Site",
+                    DisplayTag = "SITE",
+                    Description = ProjectName.Substring(0, 2),
+                    AreaCategory = "Category 1",
+                    AreaClassification = "Non-Hazardous",
+                    NemaRating = "Type 12",
+                    MinTemp = -10,
+                    MaxTemp = 20,
+                };
+                DaManager.prjDb.InsertRecord(defaultArea, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
+
+                _startupService.InitializeProject(fullFileName);
+                settingVm = new SettingsMenuViewModel(_mainViewModel, new EDTLibrary.ProjectSettings.EdtSettings(), _typeManager);
                 settingVm.ProjectName = ProjectName;
                 _homeViewModel.NewProjectWindow.Close();
             }

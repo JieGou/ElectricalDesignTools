@@ -660,7 +660,7 @@
                                 Margin="5 0 0 0"/>
                             <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}"
                                 Margin="5 0 0 0"/>
-                            <TextBlock Text="asdf"
+                            <TextBlock Text=""
                                 Margin="5 0 0 0"/>
                         </StackPanel>
                         <!--Area Properties-->

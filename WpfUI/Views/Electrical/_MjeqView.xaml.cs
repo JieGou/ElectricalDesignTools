@@ -746,7 +746,7 @@ public partial class _MjeqView : UserControl
 
     }
 
-    private void DeleteEquipmentFromDatabase()
+    public void DeleteEquipmentFromDatabase()
     {
         //Delete records
         DaManager.DeleteAllEquipmentRecords();
