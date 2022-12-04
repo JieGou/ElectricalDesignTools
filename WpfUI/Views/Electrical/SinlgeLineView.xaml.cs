@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using WpfUI.Extension_Methods;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.Views.Electrical.MjeqSubviews;
 
@@ -48,6 +49,9 @@ public partial class SinlgeLineView : UserControl
         }
     }
 
+    void SetExternalScrollView_H()
+    {
+    }
 
     //Sets the datacontext for the details view panel on the right
 
@@ -373,6 +377,23 @@ public partial class SinlgeLineView : UserControl
         return null;
     }
 
-    
+    private void EqList_SelectionChanged(object sender, Syncfusion.UI.Xaml.TreeView.ItemSelectionChangedEventArgs e)
+    {
+        
+    }
+
+    private void listViewLoads_LayoutUpdated(object sender, EventArgs e)
+    {
+        ScrollViewer sv = listViewLoads.GetChildOfType<ScrollViewer>();
+        if (sv != null) {
+            listViewLoadsBorderWidth.Width = sv.ScrollableWidth + sv.ViewportWidth;
+        }
+    }
+
+    private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+        ScrollViewer sv = listViewLoads.GetChildOfType<ScrollViewer>();
+        sv.ScrollToHorizontalOffset(e.HorizontalOffset);
+    }
 }
 

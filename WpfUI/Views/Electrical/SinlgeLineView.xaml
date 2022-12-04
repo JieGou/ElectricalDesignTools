@@ -34,7 +34,7 @@
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            
+
             <converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVis"/>
 
             <Style TargetType="TextBlock" x:Key="Label">
@@ -125,7 +125,7 @@
                 <TextBlock Text="{Binding SelectedRacway.CableList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
             </StackPanel>
         </Grid>
-        
+
         <Grid Background="{StaticResource PageBackground}"
           ShowGridLines="False">
 
@@ -142,6 +142,7 @@
                 <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto" MinWidth="350"/>
                 <ColumnDefinition Width="5"/>
             </Grid.ColumnDefinitions>
@@ -171,7 +172,8 @@
                                    FullRowSelect="True"
                                    Visibility="Visible"
                                    Indentation="10"
-                                   AutoExpandMode="AllNodes">
+                                   AutoExpandMode="AllNodes"
+                                       SelectionChanged="EqList_SelectionChanged">
                     <syncfusion:SfTreeView.Resources>
 
                     </syncfusion:SfTreeView.Resources>
@@ -242,56 +244,214 @@
                                         Header="Loading..."
                                         AnimationType="SingleCircle"
                                         Panel.ZIndex="1"/>
-            <!--Sinlge Line-->
-            <Border BorderBrush="Black" BorderThickness="1"
+
+            <Grid Grid.Row="2" Grid.RowSpan="2"
+                       Grid.Column="3" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    
+                </Grid.RowDefinitions>
+                
+                <!--Sinlge Line-->
+                <Border BorderBrush="Black" BorderThickness="1"
                     Background="White"
-                    Grid.Row="2" Grid.RowSpan="2"
+                    Grid.Row="0" Grid.RowSpan="2"
                     Grid.Column="3" Grid.ColumnSpan="2"
+                        DockPanel.Dock="Top"
                     VerticalAlignment="Stretch"
-                    CornerRadius="0" 
-                >
+                    CornerRadius="0"  >
 
-                <!--<ScrollViewer VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Auto"
-                          VerticalAlignment="Stretch"
-                          >
-                </ScrollViewer>-->
-                <Grid x:Name="grdSingleLine"
-                      Background="Transparent"
+                    <ScrollViewer x:Name="singleLine_ScrollViewer_H"
+                                  VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  VerticalAlignment="Stretch" >
+                        <Grid x:Name="grdSingleLine"
+                              Background="Transparent"
                       
-                      MouseDown="Grid_MouseDown" 
-                      MouseMove="Grid_MouseMove" 
-                      MouseUp="Grid_MouseUp"  >
-                        
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                              MouseDown="Grid_MouseDown" 
+                              MouseMove="Grid_MouseMove" 
+                              MouseUp="Grid_MouseUp"  >
 
-                        <!--Drag Selection -->
-                        <Canvas x:Name="dragSelectionCanvas"
-                            Visibility="Collapsed"
-                            Panel.ZIndex="99">
-                            <Border x:Name="dragSelectionBorder"
-                                BorderBrush="Blue"
-                                BorderThickness="1"
-                                Background="LightBlue"
-                                CornerRadius="1"
-                                Opacity="0.5"
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!--Drag Selection -->
+                            <Canvas x:Name="dragSelectionCanvas"
+                                    Visibility="Collapsed"
+                                    Panel.ZIndex="99">
+                                <Border x:Name="dragSelectionBorder"
+                                        BorderBrush="Blue"
+                                        BorderThickness="1"
+                                        Background="LightBlue"
+                                        CornerRadius="1"
+                                        Opacity="0.5"
                                 />
-                        </Canvas>
+                            </Canvas>
 
 
 
-                        <singleLineSubViews:SL_DteqGraphicView DataContext="{Binding SelectedDteq}"
+                            <singleLineSubViews:SL_DteqGraphicView DataContext="{Binding SelectedDteq}"
                                                        Width="{Binding Path=ActualWidth, ElementName=listViewLoads}"
                                                        MinWidth="250"
                                                        HorizontalAlignment="Left"
                                                        />
-                        
 
-                        <!--Change the name of this so that the MCC bus is Width = this.Width-->
-                        <ListView x:Name="listViewLoads"
+
+                            <!--Change the name of this so that the MCC bus is Width = this.Width-->
+                            <ListView x:Name="listViewLoads"
+                                  Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
+                                  Grid.Row="1"
+                                  Width="{Binding ElementName=singleLine_ScrollViewer_H, Path=ActualWidth}"
+                                  ItemsSource="{Binding AssignedLoads}"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  VerticalContentAlignment="Top"
+                                  BorderThickness="0"
+                                  ScrollViewer.CanContentScroll="True"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                                  Visibility="Visible"
+                              
+                                  VirtualizingPanel.IsContainerVirtualizable="True"
+                                  VirtualizingPanel.IsVirtualizing="True"
+                                  VirtualizingPanel.ScrollUnit="Pixel"
+                                  VirtualizingPanel.VirtualizationMode="Recycling"
+                                  VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                  
+                                  SelectionChanged="ListView_SelectionChanged"
+                                  
+                                  MouseDown="Grid_MouseDown" 
+                                  MouseMove="Grid_MouseMove" 
+                                  MouseUp="Grid_MouseUp" LayoutUpdated="listViewLoads_LayoutUpdated"
+                                      
+                                  >
+
+                                <ListView.ContextMenu>
+                                    <ContextMenu >
+                                        <MenuItem Header="Move to Area" Command="{Binding SetAreaCommand}"  Height="25"/>
+                                        <MenuItem Header="Set FedFrom" Command="{Binding SetFedFromCommand}"  Height="25"/>
+                                        <MenuItem Header="Add" Height="25" >
+                                            <MenuItem.Icon>
+                                                <Image Source="../../ResourceFiles/MenuIcons/plus24.png" Height="10"/>
+                                            </MenuItem.Icon>
+                                            <MenuItem Header="Add Disconnect" Height="20"  Command="{Binding AddDisconnectCommand}" />
+                                            <MenuItem Header="Add Drive" Height="20"  Command="{Binding AddDriveCommand}" />
+                                            <MenuItem Header="Add LCS" Height="20"  Command="{Binding AddLcsCommand}"/>
+                                        </MenuItem>
+                                        <MenuItem Header="Remove" Height="25">
+                                            <MenuItem.Icon>
+                                                <Image Source="../../ResourceFiles/MenuIcons/minus24.png" Height="10"/>
+                                            </MenuItem.Icon>
+                                            <MenuItem Header="Remove Disconnect" Height="25"  Command="{Binding RemoveDisconnectCommand}" />
+                                            <MenuItem Header="Remove Drive" Height="25"  Command="{Binding RemoveDriveCommand}" />
+                                            <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
+                                        </MenuItem>
+                                        <Separator/>
+                                        <MenuItem Header="Delete" Height="25" />
+                                    </ContextMenu>
+                                </ListView.ContextMenu>
+                                <ListView.Resources>
+
+                                    <!--Selected Template-->
+                                    <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem"
+                                                 >
+                                        <Border BorderThickness="0" Background="WhiteSmoke" 
+                                                VerticalAlignment="Top"
+                                                HorizontalAlignment="Left" 
+                                                CornerRadius="7" 
+                                        >
+
+                                            <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                                                                   DataContext="{Binding}" 
+                                                                                   EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                                   EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>    
+                                        </Border>
+
+                                    </ControlTemplate>
+
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+
+                                                <!--Normal Template-->
+                                                <ControlTemplate TargetType="ListViewItem">
+                                                    <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Left"  >
+
+                                                        <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                                                       DataContext="{Binding}" 
+                                                                       EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                       EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
+                                                    </Border>
+                                                </ControlTemplate>
+
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Style.Triggers>
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="IsSelected" Value="true" />
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
+                                            </MultiTrigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListView.Resources>
+
+
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel  Orientation="Horizontal"
+                                                
+                                                Margin="0 -2 0 0"
+                                                />
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+
+                            </ListView>
+
+
+                        </Grid>
+                    </ScrollViewer>
+
+
+                </Border>
+
+                <!--External ScrollViewer Horizontal-->
+                <Border BorderBrush="Black" BorderThickness="1 0 1 1"
+                        Grid.Row="2" Grid.RowSpan="2"
+                        Grid.Column="5"
+                        VerticalAlignment="Bottom"
+                        Visibility="Visible">
+
+                    <ScrollViewer Grid.Row="3" Grid.RowSpan="2"
+                                  VerticalScrollBarVisibility="Disabled"
+                                  HorizontalScrollBarVisibility="Visible"
+                                  Grid.Column="4" Grid.ColumnSpan="2"
+                                  Height="18" ScrollChanged="ScrollViewer_ScrollChanged"
+                                  >
+
+                        <!--The width of this border is calculated in code behind to be the same as the loadsListView
+                            so that the external scrollviewer can be synchronized with the loadsListView-->
+                        <Border x:Name="listViewLoadsBorderWidth"/>
+
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+
+
+            <!--External ScrollViewer Vertical-->
+            <Border BorderBrush="Black" BorderThickness="0 1 1 1"
+                    Grid.Row="2" Grid.RowSpan="2"
+                    Grid.Column="5"
+                    Visibility="Collapsed">
+                <ScrollViewer Grid.Row="2" Grid.RowSpan="2"
+                          Grid.Column="5"
+                          Width="18"
+                          VerticalAlignment="Stretch">
+                    <ListView 
                                   Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
                                   Grid.Row="1"
                                   
@@ -316,101 +476,98 @@
                                   MouseUp="Grid_MouseUp"
                                   >
 
-                            <ListView.ContextMenu>
-                                <ContextMenu >
-                                    <MenuItem Header="Move to Area" Command="{Binding SetAreaCommand}"  Height="25"/>
-                                    <MenuItem Header="Set FedFrom" Command="{Binding SetFedFromCommand}"  Height="25"/>
-                                    <MenuItem Header="Add" Height="25" >
-                                        <MenuItem.Icon>
-                                            <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
+                        <ListView.ContextMenu>
+                            <ContextMenu >
+                                <MenuItem Header="Move to Area" Command="{Binding SetAreaCommand}"  Height="25"/>
+                                <MenuItem Header="Set FedFrom" Command="{Binding SetFedFromCommand}"  Height="25"/>
+                                <MenuItem Header="Add" Height="25" >
+                                    <MenuItem.Icon>
+                                        <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
                                            Height="10"/>
-                                        </MenuItem.Icon>
-                                        <MenuItem Header="Add Disconnect" Height="20"  Command="{Binding AddDisconnectCommand}" />
-                                        <MenuItem Header="Add Drive" Height="20"  Command="{Binding AddDriveCommand}" />
-                                        <MenuItem Header="Add LCS" Height="20"  Command="{Binding AddLcsCommand}"/>
-                                    </MenuItem>
-                                    <MenuItem Header="Remove" Height="25">
-                                        <MenuItem.Icon>
-                                            <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
+                                    </MenuItem.Icon>
+                                    <MenuItem Header="Add Disconnect" Height="20"  Command="{Binding AddDisconnectCommand}" />
+                                    <MenuItem Header="Add Drive" Height="20"  Command="{Binding AddDriveCommand}" />
+                                    <MenuItem Header="Add LCS" Height="20"  Command="{Binding AddLcsCommand}"/>
+                                </MenuItem>
+                                <MenuItem Header="Remove" Height="25">
+                                    <MenuItem.Icon>
+                                        <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
                                            Height="10"/>
-                                        </MenuItem.Icon>
-                                        <MenuItem Header="Remove Disconnect" Height="25"  Command="{Binding RemoveDisconnectCommand}" />
-                                        <MenuItem Header="Remove Drive" Height="25"  Command="{Binding RemoveDriveCommand}" />
-                                        <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
-                                    </MenuItem>
-                                    <Separator/>
-                                    <MenuItem Header="Delete" Height="25" />
-                                </ContextMenu>
-                            </ListView.ContextMenu>
-                            <ListView.Resources>
+                                    </MenuItem.Icon>
+                                    <MenuItem Header="Remove Disconnect" Height="25"  Command="{Binding RemoveDisconnectCommand}" />
+                                    <MenuItem Header="Remove Drive" Height="25"  Command="{Binding RemoveDriveCommand}" />
+                                    <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem Header="Delete" Height="25" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
+                        <ListView.Resources>
 
-                                <!--Selected Template-->
-                                <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem"
+                            <!--Selected Template-->
+                            <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem"
                                                  >
-                                    <Border BorderThickness="0" Background="WhiteSmoke" 
+                                <Border BorderThickness="0" Background="WhiteSmoke" 
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Left" 
                                         CornerRadius="7" 
                                         >
 
-                                        <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                    <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
                                                                                DataContext="{Binding}" 
                                                                        EquipmentSelected="LoadGraphicView_EquipmentSelected"
                                                                        EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
-                                    </Border>
+                                </Border>
 
-                                </ControlTemplate>
+                            </ControlTemplate>
 
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
 
-                                            <!--Normal Template-->
-                                            <ControlTemplate TargetType="ListViewItem">
-                                                <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Left"  >
-                                                    
-                                                    <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                        <!--Normal Template-->
+                                        <ControlTemplate TargetType="ListViewItem">
+                                            <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Left"  >
+
+                                                <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
                                                                        DataContext="{Binding}" 
                                                                        EquipmentSelected="LoadGraphicView_EquipmentSelected"
                                                                        EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
-                                                </Border>
-                                            </ControlTemplate>
+                                            </Border>
+                                        </ControlTemplate>
 
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <MultiTrigger>
-                                            <MultiTrigger.Conditions>
-                                                <Condition Property="IsSelected" Value="true" />
-                                            </MultiTrigger.Conditions>
-                                            <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
-                                        </MultiTrigger>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsSelected" Value="true" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
+                                    </MultiTrigger>
 
-                                    </Style.Triggers>
-                                </Style>
-                            </ListView.Resources>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
 
 
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel  Orientation="Horizontal"
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel  Orientation="Horizontal"
                                                 
                                                 Margin="0 -2 0 0"
                                                 />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
 
-                        </ListView>
+                    </ListView>
 
-
-                    </Grid>
-
-               
+                </ScrollViewer>
             </Border>
 
             <!--Property Editor-->
             <Grid  Grid.Row="2" Grid.RowSpan="2"
-               Grid.Column="5"
+               Grid.Column="6"
                Margin="7 0 0 0"
                HorizontalAlignment="Stretch">
 
