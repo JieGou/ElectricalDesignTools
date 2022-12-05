@@ -101,7 +101,6 @@ public partial class _MjeqView : UserControl
         if (be != null) { be.UpdateSource(); }
     }
 
-    DteqTabsView _dteqTabsView = new DteqTabsView();
     LoadTabsView _loadTabsView = new LoadTabsView();
 
     //Sets the datacontext for the details view panel on the right
@@ -109,9 +108,6 @@ public partial class _MjeqView : UserControl
     {
         //DteqDetailsContent.Content = null;
         if (dgdDteq.SelectedItem != null) {
-            _dteqTabsView.DataContext = this.DataContext;
-            DteqDetailsContent.Content = _dteqTabsView;
-
             _loadTabsView.DataContext = this.DataContext;
             LoadDetailsContent.Content = _loadTabsView;
         }

@@ -1,9 +1,11 @@
 Add selectable on click for Dteq
-	 - rename LoadGraphic Events back 
+	- rename LoadGraphic Events back 
 	- dteq Selected object OnClick
+		- SL_DteqGraphicView: finish the visibility of the Dteq Types
 
 Calculations
 	- OCDP 80% rated calculation
+	- SCCA, SCCR
 
 Tag Settings
 	- change Lcs Type to TypeModel / Id
@@ -11,13 +13,11 @@ Tag Settings
 	- lcs cable TypeModel vs Type
 	- remove DP load tagging GUID 
 	- basic default auto-tagging system and logic
+		- finish cable settings
 	- bulk updates on tag changes
 	
 double boxes and values
 
-MLO graphic updates for Dteq = text alignment to bottom on bus line
-
-	- SCCA, SCCR
 
 standalone starter / splitter
 OcpdModel

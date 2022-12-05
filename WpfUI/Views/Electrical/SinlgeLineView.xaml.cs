@@ -35,7 +35,6 @@ public partial class SinlgeLineView : UserControl
 
     }
 
-    DteqTabsView _dteqTabsView = new DteqTabsView();
     LoadTabsView _loadTabsView = new LoadTabsView();
 
     //Sets the datacontext for the details view panel on the right
