@@ -303,7 +303,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         set { 
             _selectedLoadCable = value;
 
-            if (_selectedLoadCable.GetType() == typeof(DistributionEquipment)) {
+            if (_selectedLoadCable is DistributionEquipment) {
                 var eq = DteqFactory.Recast(_selectedLoadCable);
                 eq.PowerCable.ValidateCableSize(eq.PowerCable);
                 eq.PowerCable.CreateTypeList(eq);
@@ -319,7 +319,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
                 component.PowerCable.ValidateCableSize(component.PowerCable);
                 component.PowerCable.CreateTypeList((LoadModel)component.Owner);
             }
-
         }
     }
 

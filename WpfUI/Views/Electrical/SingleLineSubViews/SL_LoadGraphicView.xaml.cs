@@ -28,8 +28,8 @@ namespace WpfUI.Views.Electrical.SingleLineSubViews;
 /// </summary>
 public partial class SL_LoadGraphicView : UserControl
 {
-    public static RoutedEvent EquipmentSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
-    public static RoutedEvent EquipmentCableSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
+    public static RoutedEvent EquipmentSelectedEvent = EventManager.RegisterRoutedEvent("LoadEquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
+    public static RoutedEvent EquipmentCableSelectedEvent = EventManager.RegisterRoutedEvent("LoadEquipmentCableSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_LoadGraphicView));
 
 
     public SL_LoadGraphicView()

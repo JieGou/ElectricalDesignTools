@@ -34,20 +34,27 @@
                   Grid.Column="1">
                 <Border BorderThickness="0,0,0,3" BorderBrush="Black" Margin="0 0 0 0"/>
                 
-                <Border BorderThickness="0,0,0,3" BorderBrush="Black">
+                <Border BorderThickness="0,0,0,3" BorderBrush="Black" >
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15 0 0 0">
-                        <Border BorderBrush="Black" BorderThickness="1 0 0 0" Margin="24 0 5 0" Height="50"
-                                VerticalAlignment="Bottom"/>
-                        <TextBlock Text="{Binding Tag}" HorizontalAlignment="Center" FontWeight="Bold"/>
-                        <TextBlock Text=",  "/>
-                        <TextBlock Text="{Binding LoadVoltage}" HorizontalAlignment="Center"/>
-                        <TextBlock Text=" V,  "/>
-                        <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
-                        <TextBlock Text=" A  "/>
-                        <!--<TextBlock Text="{Binding SCCR}" HorizontalAlignment="Center"/>
+                    <DockPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="15 0 0 0" DockPanel.Dock="Bottom">
+                            <Border BorderBrush="Black" BorderThickness="1 0 0 0" Margin="24 0 5 0" Height="30"
+                                VerticalAlignment="Bottom"
+                                />
+                            <Grid VerticalAlignment="Bottom" Margin="0 0 0 3">
+                                <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Tag}" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                <TextBlock Text=",  "/>
+                                <TextBlock Text="{Binding LoadVoltage}" HorizontalAlignment="Center"/>
+                                <TextBlock Text=" V,  "/>
+                                <TextBlock Text="{Binding Size}" HorizontalAlignment="Center"/>
+                                <TextBlock Text=" A  "/>
+                                </StackPanel>
+                            </Grid>
+                            <!--<TextBlock Text="{Binding SCCR}" HorizontalAlignment="Center"/>
                         <TextBlock Text=" kA"/>-->
-                    </StackPanel>
+                        </StackPanel>
+                    </DockPanel>
                 </Border>
             </Grid>
         </Grid>
@@ -86,10 +93,7 @@
         
             
         <StackPanel Orientation="Vertical" Margin="14 0" >
-            <!--Cable-->
-            <ContentControl Content="{Binding PowerCable}"
-                            ContentTemplate="{StaticResource CableTemplate}"
-                            Margin="31 0 0 0"/>
+           
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
@@ -119,11 +123,11 @@
                         </Border.CornerRadius>
 
                         <Canvas Grid.Row="0"
-                    Grid.Column="0" 
-                        VerticalAlignment="Top"
-                        HorizontalAlignment="Left"
-                    Width="50" Height="65"
-                    Margin="0 0 0 0">
+                                Grid.Column="0" 
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                Width="50" Height="65"
+                                Margin="0 0 0 0">
 
                             <Line Stroke="Black" StrokeThickness="1" X1="30" Y1="0" X2="30" Y2="17"/>
 

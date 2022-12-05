@@ -32,29 +32,29 @@ public partial class LoadGraphicView : UserControl
         InitializeComponent();
     }
     
-    public static RoutedEvent EquipmentSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
-    public static RoutedEvent EquipmentCableSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
+    public static RoutedEvent LoadEquipmentSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
+    public static RoutedEvent LoadEquipmentCableSelectedEvent = EventManager.RegisterRoutedEvent("LoadEquipmentCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LoadGraphicView));
 
 
     
     public event RoutedEventHandler EquipmentSelected
     {
-        add { AddHandler(EquipmentSelectedEvent, value); }
-        remove { RemoveHandler(EquipmentSelectedEvent, value); }
+        add { AddHandler(LoadEquipmentSelectedEvent, value); }
+        remove { RemoveHandler(LoadEquipmentSelectedEvent, value); }
     }
     protected virtual void OnEquipmentSelected(IEquipment eq)
     {
-        RaiseEvent(new RoutedEventArgs(EquipmentSelectedEvent, eq));
+        RaiseEvent(new RoutedEventArgs(LoadEquipmentSelectedEvent, eq));
     }
 
     public event RoutedEventHandler EquipmentCableSelected
     {
-        add { AddHandler(EquipmentCableSelectedEvent, value); }
-        remove { RemoveHandler(EquipmentCableSelectedEvent, value); }
+        add { AddHandler(LoadEquipmentCableSelectedEvent, value); }
+        remove { RemoveHandler(LoadEquipmentCableSelectedEvent, value); }
     }
     protected virtual void OnEquipmentCableSelected(IEquipment eq)
     {
-        RaiseEvent(new RoutedEventArgs(EquipmentCableSelectedEvent, eq));
+        RaiseEvent(new RoutedEventArgs(LoadEquipmentCableSelectedEvent, eq));
     }
 
     

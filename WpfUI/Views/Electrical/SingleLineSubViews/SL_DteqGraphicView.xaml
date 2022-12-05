@@ -10,11 +10,12 @@
              xmlns:clr="clr-namespace:System;assembly=mscorlib"
              
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
+             xmlns:SingleLineLoadGraphics="clr-namespace:WpfUI.Templates.SingleLineLoadGraphics"
              
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="250"
+             d:DesignHeight="750" d:DesignWidth="250"
              d:Background="AliceBlue">
 
     <UserControl.Resources>
@@ -23,6 +24,8 @@
                 <ResourceDictionary Source="../../../Stores/ToolTips.xaml"/>
                 <ResourceDictionary Source="../../../Templates/TemplateStyles/SingleLineGraphicsStyles.xaml"/>
                 <ResourceDictionary Source="../../../Templates/SingleLineLoadGraphics/SingleLineGraphicsResources.xaml"/>
+                <ResourceDictionary Source="../../../Templates/SingleLineDteqGraphicTemplates.xaml"/>
+
 
             </ResourceDictionary.MergedDictionaries>
             
@@ -40,14 +43,69 @@
 
     
     <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0">
-        
-        <!-- MCC -->
+       
+        <!-- DTEQ -->
         <ContentControl Content="{Binding}"
                         ContentTemplateSelector="{StaticResource DteqTemplateSelector }"
                         Grid.Column="1"
-                        />
+                        PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown"
+                        Visibility="Collapsed"/>
+
+
+        <!--MCC-->
+        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0" Visibility="Collapsed">
+
+            <!--Cable-->
+            <ContentControl Content="{Binding PowerCable}"
+                        ContentTemplate="{StaticResource CableTemplate}"
+                        Grid.Column="1"
+                        PreviewMouseLeftButtonDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
+                        Margin="45 0 0 0"/>
+
+            <!--Dashed Border-->
+            <SingleLineLoadGraphics:SingleLineDashedBorder/>
+
+            <!--Main Breaker-->
+            <ContentControl Content="{Binding}" 
+                        Style="{StaticResource OCPDTemplateStyle}"
+                        ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
+                        Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"
+                        PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"     />
+
+            <!-- BUS-->
+            <ContentControl Grid.Column="1"
+                        Content="{Binding}"
+                        ContentTemplate="{StaticResource DteqBusTemplate}"  
+                        PreviewMouseLeftButtonDown="Equipment_ContentControl_PreviewMouseDown" />
+        </StackPanel>
+
+
+        <!--Xfr-->
+        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0" >
+
+            <!--Cable-->
+            <ContentControl Content="{Binding PowerCable}"
+                        ContentTemplate="{StaticResource CableTemplate}"
+                        Grid.Column="1"
+                        PreviewMouseLeftButtonDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
+                        Margin="45 0 0 0"/>
+
+           
+
+            <!--Xfr-->
+            <ContentControl Grid.Column="1"
+                        Content="{Binding}"
+                        ContentTemplate="{StaticResource TransformerTemplate}"  
+                        PreviewMouseLeftButtonDown="Equipment_ContentControl_PreviewMouseDown" />
+        </StackPanel>
+
 
     </StackPanel>
         
+    
+    
+    
+    
+    
 
 </UserControl>

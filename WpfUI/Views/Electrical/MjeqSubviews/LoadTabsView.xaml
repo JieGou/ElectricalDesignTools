@@ -183,16 +183,13 @@
                     <ContentControl.Resources>
 
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
-                            <StackPanel Orientation="Vertical">
-
-                                <singleLineSubViews:SL_DteqGraphicView DataContext="{Binding}" 
-                                                                    />
-
-                            </StackPanel>
+                            <singleLineSubViews:SL_DteqGraphicView EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                   EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
                         </DataTemplate>
 
                         <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
-                            <singleLineSubViews:SL_DteqGraphicView/>
+                            <singleLineSubViews:SL_DteqGraphicView EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                   EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
                         </DataTemplate>
 
                         <DataTemplate DataType="{x:Type edtDteqModels:MccModel}">
@@ -209,7 +206,9 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <singleLineSubViews:SL_DteqGraphicView Grid.ColumnSpan="5" />
+                                <singleLineSubViews:SL_DteqGraphicView Grid.ColumnSpan="5" 
+                                                                       EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                       EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
 
                                 <StackPanel Orientation="Horizontal"
                                             Grid.Row="1" Grid.Column="2"
@@ -268,8 +267,10 @@
                             </Grid>
                         </DataTemplate>
 
-                        <DataTemplate DataType="{x:Type edtDpnModels:DpnModel}">
-                            <singleLineSubViews:SL_DteqGraphicView/>
+                        <DataTemplate DataType="{x:Type edtDpnModels:DpnModel}"
+                                      >
+                            <singleLineSubViews:SL_DteqGraphicView  EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
                         </DataTemplate>
 
                         <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
@@ -328,7 +329,7 @@
                                 <ContentControl.Resources>
 
                                     <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                        <mjeqSubViews:EquipmentDetailsView/>
+                                        <mjeqSubViews:CableSizingViewNarrow/>
                                     </DataTemplate>
                                     
                                     <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">

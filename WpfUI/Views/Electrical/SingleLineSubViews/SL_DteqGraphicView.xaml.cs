@@ -28,4 +28,103 @@ public partial class SL_DteqGraphicView : UserControl
         InitializeComponent();
     }
 
+    public static RoutedEvent EquipmentSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_DteqGraphicView));
+    public static RoutedEvent EquipmentCableSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_DteqGraphicView));
+
+
+    public event RoutedEventHandler EquipmentSelected
+    {
+        add { AddHandler(EquipmentSelectedEvent, value); }
+        remove { RemoveHandler(EquipmentSelectedEvent, value); }
+    }
+    protected virtual void OnEquipmentSelected(IEquipment eq)
+    {
+        RaiseEvent(new RoutedEventArgs(EquipmentSelectedEvent, eq));
+    }
+
+    public event RoutedEventHandler EquipmentCableSelected
+    {
+        add { AddHandler(EquipmentCableSelectedEvent, value); }
+        remove { RemoveHandler(EquipmentCableSelectedEvent, value); }
+    }
+    protected virtual void OnEquipmentCableSelected(IEquipment eq)
+    {
+        RaiseEvent(new RoutedEventArgs(EquipmentCableSelectedEvent, eq));
+    }
+
+
+
+
+    #region Click Events
+    private void Bucket_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        ContentControl senderControl = (ContentControl)sender;
+        var dataContext = senderControl.DataContext;
+
+        try {
+
+            if (dataContext is IEquipment) {
+                OnEquipmentSelected(dataContext as IEquipment);
+            }
+
+        }
+        catch (Exception) {
+
+        }
+    }
+
+    private void ComponentCable_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        ContentControl senderControl = (ContentControl)sender;
+        var dataContext = senderControl.DataContext;
+
+        if (dataContext is IEquipment) {
+            if (dataContext is ComponentModel) {
+                ComponentModel component = (ComponentModel)dataContext;
+                OnEquipmentCableSelected(component);
+            }
+            else if (dataContext is DistributionEquipment) {
+                IPowerConsumer dteq = DteqFactory.Recast(dataContext);
+                OnEquipmentCableSelected(dteq);
+            }
+        }
+    }
+
+    private void Component_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        ContentControl senderControl = (ContentControl)sender;
+        var dataContext = senderControl.DataContext;
+
+        if (dataContext is IEquipment) {
+            OnEquipmentSelected(dataContext as IEquipment);
+        }
+    }
+
+    private void EquipmentCable_ContentControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        ContentControl senderControl = (ContentControl)sender;
+        var dataContext = senderControl.DataContext;
+
+        if (dataContext is IEquipment) {
+            if (dataContext is ILoad) {
+                ILoad load = (LoadModel)dataContext;
+                OnEquipmentCableSelected(load);
+            }
+            else if (dataContext is DistributionEquipment) {
+                IPowerConsumer dteq = DteqFactory.Recast(dataContext);
+                OnEquipmentCableSelected(dteq);
+            }
+        }
+    }
+
+    private void Equipment_ContentControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        ContentControl senderControl = (ContentControl)sender;
+        var dataContext = senderControl.DataContext;
+
+        if (dataContext is IEquipment) {
+            OnEquipmentSelected(dataContext as IEquipment);
+        }
+    }
+    #endregion
 }
