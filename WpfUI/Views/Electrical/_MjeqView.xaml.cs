@@ -807,7 +807,7 @@ public partial class _MjeqView : UserControl
         //BindingOperations.SetBinding(dgdAssignedLoads, Syncfusion.UI.Xaml.Grid.SfDataGrid.ItemsSourceProperty, myBinding);
     }
 
-  
+    
 }
 
 

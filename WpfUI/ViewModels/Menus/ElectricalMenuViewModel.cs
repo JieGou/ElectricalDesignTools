@@ -21,6 +21,7 @@ using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModels.Electrical;
+using WpfUI.ViewModels.Equipment;
 using WpfUI.ViewModifiers;
 using WpfUI.Windows;
 
@@ -50,12 +51,20 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
     public ViewModelBase CurrentViewModel
     {
         get { return _currentViewModel; }
-        set { _currentViewModel = value; }
+        set 
+        { 
+            _currentViewModel = value;
+            if (_currentViewModel is EdtViewModelBase) {
+                EdtViewModel = (EdtViewModelBase)_currentViewModel;
+
+            }
+        }
     }
     private MjeqViewModel _mjeqViewModel;
     private SingleLineViewModel _singleLineViewModel;
     private DpanelViewModel _dpanelViewModel;
 
+    public EdtViewModelBase EdtViewModel { get; set; }
 
     public ElectricalMenuViewModel(MainViewModel mainViewModel, ListManager listManager)
     {

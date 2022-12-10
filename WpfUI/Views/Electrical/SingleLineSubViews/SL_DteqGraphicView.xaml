@@ -52,8 +52,51 @@
                         Visibility="Collapsed"/>
 
 
+        <!--Xfr-->
+        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0" >
+            <StackPanel.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Type}" Value="XFR">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
+
+            <!--Cable-->
+            <ContentControl Content="{Binding PowerCable}"
+                        ContentTemplate="{StaticResource CableTemplate}"
+                        Grid.Column="1"
+                        PreviewMouseLeftButtonDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
+                        Margin="45 0 0 0"/>
+
+           
+
+            <!--Xfr-->
+            <ContentControl Grid.Column="1"
+                        Content="{Binding}"
+                        ContentTemplate="{StaticResource TransformerTemplate}"  
+                        PreviewMouseLeftButtonDown="Equipment_ContentControl_PreviewMouseDown" />
+        </StackPanel>
+
         <!--MCC-->
-        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0" Visibility="Collapsed">
+        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0">
+            <StackPanel.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Type}" Value="SWG">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Type}" Value="MCC">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+           
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
 
             <!--Cable-->
             <ContentControl Content="{Binding PowerCable}"
@@ -79,26 +122,33 @@
                         PreviewMouseLeftButtonDown="Equipment_ContentControl_PreviewMouseDown" />
         </StackPanel>
 
-
-        <!--Xfr-->
-        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0" >
+        <!--DPN-->
+        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0">
+            <StackPanel.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Type}" Value="DPN">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
 
             <!--Cable-->
             <ContentControl Content="{Binding PowerCable}"
                         ContentTemplate="{StaticResource CableTemplate}"
                         Grid.Column="1"
                         PreviewMouseLeftButtonDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
-                        Margin="45 0 0 0"/>
+                        Margin="30 0 0 0"/>
 
-           
 
-            <!--Xfr-->
-            <ContentControl Grid.Column="1"
-                        Content="{Binding}"
-                        ContentTemplate="{StaticResource TransformerTemplate}"  
-                        PreviewMouseLeftButtonDown="Equipment_ContentControl_PreviewMouseDown" />
+            <!--Main Breaker-->
+            <ContentControl Content="{Binding}" 
+                            ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                            PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"     />
+
         </StackPanel>
-
 
     </StackPanel>
         

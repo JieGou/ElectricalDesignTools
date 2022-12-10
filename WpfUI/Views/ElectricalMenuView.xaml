@@ -11,7 +11,7 @@
              xmlns:electricalViewModels="clr-namespace:WpfUI.ViewModels.Electrical"
               
              mc:Ignorable="d"
-             d:Width="1000" d:Height="50"
+             d:Width="1000" d:Height="100"
              Background="#FFDAEEF1" 
              >
 
@@ -30,10 +30,12 @@
     </UserControl.Resources>
 
     <!--TOP-->
-    <Grid x:Name="menuGrid">
+    <Grid x:Name="menuGrid" Background="{StaticResource Dark}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+
         <!--<Grid.Triggers>
             <EventTrigger RoutedEvent="Grid.Loaded">
                 <BeginStoryboard>
@@ -50,8 +52,7 @@
         <Border BorderBrush="Black" BorderThickness="0 0 0 1" 
                 Background="{StaticResource Darkest}">
 
-
-            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
 
                 <Label Content="ELECTRICAL EQUIPMENT"  Background="Transparent"
                        MinWidth="250"
@@ -65,7 +66,7 @@
                     Command="{Binding LoadAllCommand}"
                     Width="45"
                     HorizontalContentAlignment="Center"
-                    ToolTip="Reload Electrical Equipment"
+                    ToolTip="Refresh from Database"
                     ToolTipService.InitialShowDelay="50">
                     <Button.Content>
                         <Image Source="..\ResourceFiles\File Icons\Reload White_64.ico"
@@ -78,19 +79,40 @@
                 </Button>
                 
                 <!--//BUTTONS-->
-                <Button Content="MAJOR EQUIPMENT"
+                <Button Content="List View"
                         Style="{StaticResource ToolBarButtonBase}" 
                         Command="{Binding NavigateMjeqCommand}"/>
 
-                <Button Content="SINGLE LINE VIEW"
+                <Button Content="Single Line View"
                         Style="{StaticResource ToolBarButtonBase}" 
                         Command="{Binding NavigateSingleLineCommand}" Click="Button_Click"/>
 
-                <Button Content="DISTRIBUTION PANELS"
+                <Button Content="Panel View"
                         Style="{StaticResource ToolBarButtonBase}" 
                         Command="{Binding NavigateDistributionPanelsCommand}"/>
 
                 
+            </StackPanel>
+
+        </Border>
+
+        <Border Grid.Row="1" Height="25"
+                BorderBrush="Black" BorderThickness="0 0 0 1" 
+                Background="{StaticResource Light}"
+                >
+            <StackPanel Orientation="Horizontal">
+
+                <Button x:Name ="btnCalculate" Content="Calculate All" MinHeight="10" VerticalAlignment="Stretch"
+                        Command="{Binding EdtViewModel.CalculateAllCommand}"
+                        Style="{StaticResource ToolBarButtonBase}"
+                        Foreground="Black"
+                        Margin="350 0 2 0"/>
+
+                <Button Content="AutoSize Cables" MinHeight="10" VerticalAlignment="Stretch"
+                        Command="{Binding EdtViewModel.SizeCablesCommand}"
+                        Style="{StaticResource ToolBarButtonBase}" 
+                        Foreground="Black"
+                        Margin="2 0"/>
             </StackPanel>
 
         </Border>

@@ -31,11 +31,9 @@ public partial class SinlgeLineView : UserControl
     {
         InitializeComponent();
 
-        
+        _propertyPaneWidth = PropertyPaneColumn.Width.Value;
 
     }
-
-    LoadTabsView _loadTabsView = new LoadTabsView();
 
     //Sets the datacontext for the details view panel on the right
  
@@ -48,9 +46,6 @@ public partial class SinlgeLineView : UserControl
         }
     }
 
-    void SetExternalScrollView_H()
-    {
-    }
 
     //Sets the datacontext for the details view panel on the right
 
@@ -393,6 +388,25 @@ public partial class SinlgeLineView : UserControl
     {
         ScrollViewer sv = listViewLoads.GetChildOfType<ScrollViewer>();
         sv.ScrollToHorizontalOffset(e.HorizontalOffset);
+    }
+
+    double _propertyPaneWidth = 0;
+    private void GridSplitter_TogglePropertyPane(object sender, RoutedEventArgs e)
+    {
+        //PropertyPane.Visibility = PropertyPane.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
+
+        var width = PropertyPaneColumn.Width.Value == 0 ? _propertyPaneWidth : 0;
+        PropertyPaneColumn.Width = new GridLength(width);
+    }
+
+    private void SaveGridWidth(object sender, MouseButtonEventArgs e)
+    {
+        _propertyPaneWidth = PropertyPaneColumn.Width.Value;    
+    }
+
+    private void sfTreeView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        vm.SelectedDteq = (DistributionEquipment)sfTreeView.SelectedItem;
     }
 }
 

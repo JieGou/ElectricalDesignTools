@@ -1,10 +1,17 @@
-Add selectable on click for Dteq
-	- rename LoadGraphic Events back 
-	- dteq Selected object OnClick
-		- SL_DteqGraphicView: finish the visibility of the Dteq Types
+Main Window Toolbar Height
 
+Add selectable on click for Dteq
+	- distribution panel graphic for single line
+	- rename LoadGraphic Events back 
+
+Cleanup Electrical Views
+	- Edt equipment property editor
+	- edt cable editor (property pane)
+	- dual synchronize SigleLine ScrollViewers (to sync keyboard scroll)
+	- add fed from button to graphic to select fedfrom equipment
+	
 Calculations
-	- OCDP 80% rated calculation
+	- OCPD 80% rated calculation
 	- SCCA, SCCR
 
 Tag Settings
@@ -18,20 +25,21 @@ Tag Settings
 	
 double boxes and values
 
-
 standalone starter / splitter
 OcpdModel
 
 
-Generic quick settings for Eq
-
-
-Application settings
+Generic settings editor for Eq
 
 
 Application Settings
 	- Add Load Voltage notification
 	- 
+
+	- Optional Auto-Calculations
+		- Component Sizing
+		- PD
+		- Cable
 
 Priorities
 	- Distribution Panel - 12 hours
@@ -69,6 +77,8 @@ Bugs
 	- SCCA/R calculation on DTEQ size change
 
 Exports
+	- add Export buttons to Views
+		- 
 	- Areas List
 	- Area Equipment summary
 	- Dteq loading summary
@@ -88,21 +98,7 @@ Validations
 	- Cable
 	
 
-Modularize Calculations
-	- Load
 
-	- Dteq
-
-	- Cable
-		- Cable.LoadId
-		- Source.Id, Source.Type
-		- Destination.Id, Destination.Type
-
-
-Optional Auto-Calculations
-	- Component Sizing
-	- PD
-	- Cable
 
 
 Cables
@@ -144,11 +140,9 @@ Protective Devices
 	- 80% vs 100% rated
 
 
-
 Misc. General
 	- Voltage Validator
 
-Error Handling
 
 Library
 	- add cable dimensions
@@ -168,9 +162,6 @@ Excel Reports
 	- cleanup notification
 	- include / exclude all and multi-select
 
-
-
-
 Areas, Systems & SubSystems
 	- heatloss total by area
 		- add cable to total with note
@@ -179,7 +170,6 @@ Areas, Systems & SubSystems
 Component type selection
 	- add typelist to components (will need separate classes for each component type)
 
-
 Autocad
 	- single line(s)
 	- schematics
@@ -187,3 +177,19 @@ Autocad
 	- title blocks
 	- drawing list
 
+*********************
+*** AFTER RELEASE ***
+*********************
+
+
+Modularize Calculations
+	- Load
+
+	- Dteq
+
+	- Cable
+		- Cable.LoadId
+		- Source.Id, Source.Type
+		- Destination.Id, Destination.Type
+
+Error Handling

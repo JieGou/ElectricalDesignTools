@@ -33,6 +33,7 @@
     <None Remove="ContentFiles\edt.ico" />
     <None Remove="ContentFiles\InAppIcons\infoIcon.png" />
     <None Remove="ContentFiles\InAppIcons\InfoIcon2.png" />
+    <None Remove="ContentFiles\InAppIcons\SettingsIcon.png" />
     <None Remove="ResourceFiles\Button Icons\ArrowRightBlack32.png" />
     <None Remove="ResourceFiles\Button Icons\DeleteLeftBlack32.png" />
     <None Remove="ResourceFiles\ErrorIcon.png" />
@@ -71,6 +72,9 @@
     <Content Include="ContentFiles\Edt Data Library.edl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="ResourceFiles\Button Icons\SettingsIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -183,6 +187,9 @@
     <Compile Update="Templates\SingleLineLoadGraphics\SingleLineDashedBorder_Bound.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UserControls\Editors\LoadEditor.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UserControls\HomeControls\PreviousProjectItem.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -283,6 +290,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Templates\TemplateStyles\SingleLineGraphicsStyles.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\Editors\LoadEditor.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

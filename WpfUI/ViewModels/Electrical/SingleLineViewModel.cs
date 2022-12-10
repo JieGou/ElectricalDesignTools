@@ -24,6 +24,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Windows.Media.Audio;
 using WpfUI.Helpers;
 using WpfUI.PopupWindows;
 using WpfUI.Services;
@@ -159,19 +160,21 @@ internal class SingleLineViewModel: EdtViewModelBase
         {
             if (value == null) return;
             AssignedLoads = new ObservableCollection<IPowerConsumer>();
-            IsBusy = true;
+            IsBusy = true; //for loading animations on single line
 
+            //Assigns dteq loads to AssignedLoads property
             System.Windows.Application.Current.Dispatcher.Invoke(() => {
 
                 //used for fedfrom Validation
                 _selectedDteq = value;
-
+                SelectedEquipment = _selectedDteq;
+                SelectedLoadEquipment = _selectedDteq;
+                SelectedLoadCable = _selectedDteq;
                 if (_selectedDteq != null) {
                     //AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
                     
                     foreach (var item in _selectedDteq.AssignedLoads) {
                         AssignedLoads.Add(item);
-                        //AllowUIToUpdate();
                     }
 
                     GlobalConfig.SelectingNew = true;
@@ -184,8 +187,8 @@ internal class SingleLineViewModel: EdtViewModelBase
 
             }, DispatcherPriority.Background,null);
 
+            //hide loading animation;
             System.Windows.Application.Current.Dispatcher.BeginInvoke(() => IsBusy = false, DispatcherPriority.ContextIdle, null);
-
 
         }
 

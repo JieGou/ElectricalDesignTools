@@ -151,7 +151,8 @@
             <TextBlock Text="Major Equipment"
                        Grid.Row="0"
                        Grid.RowSpan="2"
-                       Style="{StaticResource PageTitleStyle}"/>
+                       Style="{StaticResource PageTitleStyle}"
+                       Visibility="Collapsed"/>
 
 
 
@@ -239,8 +240,7 @@
                 <!--DTEQ-->
 
 
-                <!--LOADS-->
-                <!--Grid-->
+                
                 <!--Dteq-->
                 <Grid  x:Name="dteqButtonsStackPanel"
                    Grid.Column="1" Grid.Row="2"
@@ -253,14 +253,8 @@
                         Grid.Row="0"
                         Margin="0,0,0,0">
 
-                        <Button Content="Load All"
-                        Command="{Binding GetAllCommand}"/>
-
-                        <Button Content="Save All"
-                        Command="{Binding SaveAllCommand}"/>
-
-                        <Button Content="AutoSize Cables"
-                        Command="{Binding SizeCablesCommand}"/>
+                        <!--<Button Content="AutoSize Cables"
+                        Command="{Binding SizeCablesCommand}"/>-->
 
                         <!--<Button Content="Calc. Cable Amps" Name ="btnCalcCableAmps" 
                         Command="{Binding CalculateAllCableAmpsCommand}"/>-->
@@ -294,10 +288,6 @@
                             Command="{Binding GetLoadListCommand}"
                             DockPanel.Dock="Top"/>
 
-                        <Button x:Name ="btnCalculateSelectedLoad" Content="Calculate" Height="25" Width="100"
-                            Command="{Binding CalculateLoad}"
-                            DockPanel.Dock="Top"/>
-
                         <!--<Button x:Name ="btnSaveLoadList" Content="Save Load List" Height="25" Width="100"
                             Command="{Binding SaveLoadListCommand}"/>-->
 
@@ -308,11 +298,11 @@
                             DockPanel.Dock="Top"/>
 
 
-                        <Button x:Name ="btnCalculate" Content="Calculate All"  Height="25" Width="100"
+                        <!--<Button x:Name ="btnCalculate" Content="Calculate All"  Height="25" Width="100"
                             Command="{Binding CalculateAllCommand}"
                             FontWeight="Bold"
                             Margin="0 50 0 0"
-                            DockPanel.Dock="Top"/>
+                            DockPanel.Dock="Top"/>-->
 
 
                     </DockPanel>
@@ -928,9 +918,10 @@
                               HorizontalScrollBarVisibility="Auto"
                               x:Name="gridAdding" >
 
-                    <Border BorderBrush="DarkGray" BorderThickness="1"
+                    <Border BorderBrush="DarkGray" BorderThickness="0"
                             Background="{StaticResource GridSplitterColor}"
-                            Margin="5"
+                            Margin="0"
+                            Padding="0 10 0 0"
                             >
                         <Grid Grid.Row="3"  
                               Grid.Column="3" Grid.ColumnSpan="2" >
@@ -1602,9 +1593,9 @@
                 </Grid>
 
                 <GridSplitter Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Stretch"   
-                          Grid.Row="0" Grid.RowSpan="6"
-                          Width="{StaticResource GridSplitterWidth}" Background="{StaticResource GridSplitterColor}"
-                          Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>
+                              Grid.Row="0" Grid.RowSpan="6"
+                              Width="{StaticResource GridSplitterWidth}" Background="{StaticResource GridSplitterColor}"
+                              Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>
 
 
                 <!--Below Dteq Grid-->
@@ -1612,7 +1603,7 @@
                            Height="{StaticResource GridSplitterWidth}"
                            Background="{StaticResource GridSplitterColor}"
                            Visibility="{Binding ElectricalViewGridSplitterVisibility}"
-                           ShowsPreview="True"/>
+                           ShowsPreview="False"/>
 
                 <!--Above Load Grid-->
                 <GridSplitter  Grid.Row="3" Grid.ColumnSpan="10"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom"

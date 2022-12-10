@@ -190,11 +190,6 @@ namespace EDTLibrary.Managers
 
             //Dteq
             //TODO - Clean up DteqModel vs abstract Dteq
-            var list = DaManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
-            foreach (var item in list) {
-                DteqList.Add(item);
-            }
-
             IDteq fedFrom;
 
             foreach (var model in DteqList) {

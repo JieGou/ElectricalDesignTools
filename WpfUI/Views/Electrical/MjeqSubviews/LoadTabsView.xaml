@@ -178,8 +178,25 @@
                 </Border>
 
 
-                <ContentControl Content="{Binding SelectedEquipment}"
+                <ContentControl Content="{Binding SelectedEquipment, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                x:Name="Graphic"
                                 Grid.Column="0" HorizontalAlignment="Left">
+
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+                            <Style.Triggers>
+                                <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                             From="0" To="1" Duration="0:0:0.25"
+                                                             AutoReverse="False" RepeatBehavior="1x"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
                     <ContentControl.Resources>
 
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">

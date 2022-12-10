@@ -18,7 +18,6 @@
         <ResourceDictionary>
             
             
-            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/EdtColorsAndDimensions.xaml"/>
                 <ResourceDictionary Source="Styles/EdtStyle_Base.xaml"/>

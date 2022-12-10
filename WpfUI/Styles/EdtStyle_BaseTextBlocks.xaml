@@ -10,16 +10,16 @@
     <Style TargetType="TextBlock" x:Key="SummaryValue_TextBlockStyle">
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="MinWidth" Value="75"/>
-        <Setter Property="Margin" Value="5 5 0 0"/>
+        <Setter Property="Margin" Value="5 5 5 0"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
 
     <Style TargetType="TextBox" x:Key="SummaryValue_TextBoxStyle">
         <Setter Property="TextAlignment" Value="Left"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="Width" Value="110"/>
-        <Setter Property="Margin" Value="5 0 0 0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <!--<Setter Property="Width" Value="110"/>-->
+        <Setter Property="Margin" Value="5 0 5 0"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>

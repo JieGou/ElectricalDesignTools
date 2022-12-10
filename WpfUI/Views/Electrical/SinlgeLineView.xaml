@@ -21,7 +21,7 @@
              xmlns:edtCables="clr-namespace:EDTLibrary.Models.Cables;assembly=EDTLibrary"
              xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
              
-             d:Height="900" d:Width="1200"
+             d:Height="1000" d:Width="1700"
              
              Loaded="UserControl_Loaded" 
              
@@ -56,6 +56,7 @@
     <!--Main Grid-->
     <DockPanel Background="{StaticResource PageBackground}">
 
+        <!--Status Bar-->
         <Grid DockPanel.Dock="Bottom" 
                     Height="23"
                     Background="{StaticResource StatusBarBackroundColor}">
@@ -137,31 +138,56 @@
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25"/>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="175" />
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto" MinWidth="350"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto" x:Name="PropertyPaneColumn" />
                 <ColumnDefinition Width="5"/>
             </Grid.ColumnDefinitions>
 
-            <!--Left Menu-->
-            <StackPanel Orientation="Vertical"
-                    Grid.Row="2" Grid.RowSpan="4"
-                    Grid.Column="1" >
-                <TextBlock Text="Selected Equipment"
-                       FontSize="16"
-                       FontWeight="SemiBold"
-                       Margin="0 0 0 10"/>
+            <!--Dteq Tree-->
+            <GridSplitter Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Stretch"   
+                          Grid.Row="0" Grid.RowSpan="6"
+                          Width="{StaticResource GridSplitterWidth}"
+                          Background="Transparent"
+                          Visibility="{Binding ElectricalViewGridSplitterVisibility}"
+                          PreviewMouseLeftButtonUp="SaveGridWidth"/>
 
-                <!--ItemsSource="{Binding ViewableDteqList}"-->
+            <!--Property Pane-->
+            <GridSplitter Grid.Column="5"  HorizontalAlignment="Center" VerticalAlignment="Stretch"   
+                          Grid.Row="0" Grid.RowSpan="6"
+                          Width="{StaticResource GridSplitterWidth}"
+                          Background="Transparent"
+                          Visibility="{Binding ElectricalViewGridSplitterVisibility}"
+                          PreviewMouseLeftButtonUp="SaveGridWidth"/>
 
+            <Button Content="|"
+                    Grid.Column="5"  HorizontalAlignment="Center" 
+                    Grid.Row="0" Grid.RowSpan="6"
+                    Height="75" Width="10"
+                    Margin="3"
+                    BorderBrush="Transparent"
+                    Click="GridSplitter_TogglePropertyPane"
+                    />
+
+            <Grid Grid.Row="2" Grid.RowSpan="10" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <!--Left Menu-->
                 <syncfusion:SfTreeView x:Name="sfTreeView" 
-                                   Grid.Row="1" Grid.Column="1"
-                                   MaxHeight="350"
-                                   MaxWidth="250"
+                                   Grid.Row="0"
+                                   Grid.Column="0" 
+                                   HorizontalAlignment="Stretch"
+                                   VerticalAlignment="stretch"
+                                   ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                    ChildPropertyName="AssignedLoads"
                                    ItemsSource="{Binding DteqCollectionView}"
                                    SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -173,7 +199,7 @@
                                    Visibility="Visible"
                                    Indentation="10"
                                    AutoExpandMode="AllNodes"
-                                       SelectionChanged="EqList_SelectionChanged">
+                                   SelectionChanged="EqList_SelectionChanged" PreviewMouseLeftButtonDown="sfTreeView_PreviewMouseLeftButtonDown">
                     <syncfusion:SfTreeView.Resources>
 
                     </syncfusion:SfTreeView.Resources>
@@ -209,28 +235,40 @@
                     </syncfusion:SfTreeView.ItemTemplate>
                 </syncfusion:SfTreeView>
 
-                <Button Content="Create Drawing"
-                    Command="{Binding DrawSingleLineAcadCommand}"/>
+               
 
-                <TextBlock x:Name="txtMousePos"
-                       Text="Mouse Pos"
-                       FontSize="12"
-                       FontWeight="SemiBold"
-                       Margin="0 0 0 10"/>
+                <TextBlock Text="Selected Loads"
+                            Grid.Row="1"
+                            FontSize="12"
+                            FontWeight="SemiBold"
+                            />
 
                 <ListView ItemsSource="{Binding SelectedLoads}"
-                     Grid.Row="1" Grid.Column="1"
-                     DisplayMemberPath="Tag"
-                     MinWidth="100" MinHeight="100"
-                     Margin="0 10" 
-                     />
+                        Grid.Row="2" Grid.Column="0"
+                        DisplayMemberPath="Tag"
+                        MinWidth="100" MinHeight="100"
+                        Margin="0 10" 
+                        />
 
-            </StackPanel>
+                <TextBlock x:Name="txtMousePos" Text="Mouse Pos"
+                           Grid.Row="3"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           Margin="0 0 0 10"/>
+
+             
+            </Grid>
 
             <!--Top Data-->
-            <dteqViewers:DteqSummary3RowViewer Grid.Column="3" Grid.ColumnSpan="2"
-                                           DataContext="{Binding SelectedDteq}"/>
+            <dteqViewers:DteqSummary3RowViewer Grid.Column="3" 
+                                               Grid.ColumnSpan="2"
+                                                DataContext="{Binding SelectedDteq}"/>
 
+            <Button Content="Create Drawing"
+                    Grid.Column="3" Grid.Row="1" Margin="10" 
+                    HorizontalAlignment="Left"
+                    Command="{Binding DrawSingleLineAcadCommand}" 
+                    />
 
             <syncfusion:SfBusyIndicator x:Name="busyIndicator"
                                         Grid.Row="2" Grid.RowSpan="2"
@@ -245,14 +283,15 @@
                                         AnimationType="SingleCircle"
                                         Panel.ZIndex="1"/>
 
+            <!--Sinlge Line Grid-->
             <Grid Grid.Row="2" Grid.RowSpan="2"
                        Grid.Column="3" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
-                    
+
                 </Grid.RowDefinitions>
-                
+
                 <!--Sinlge Line-->
                 <Border BorderBrush="Black" BorderThickness="1"
                     Background="White"
@@ -297,6 +336,8 @@
                                                        Width="{Binding Path=ActualWidth, ElementName=listViewLoads}"
                                                        MinWidth="250"
                                                        HorizontalAlignment="Left"
+                                                       EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                       EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
                                                        />
 
 
@@ -305,7 +346,7 @@
                                   Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
                                   Grid.Row="1"
                                   Width="{Binding ElementName=singleLine_ScrollViewer_H, Path=ActualWidth}"
-                                  ItemsSource="{Binding AssignedLoads}"
+                                  ItemsSource="{Binding AssignedLoads, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                                   HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch"
                                   VerticalContentAlignment="Top"
@@ -327,6 +368,21 @@
                                   MouseUp="Grid_MouseUp" LayoutUpdated="listViewLoads_LayoutUpdated"
                                       
                                   >
+                                <!--<ListView.Style>
+                                    <Styles>
+                                        <Style.Triggers>
+                                            <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="1" Duration="0:0:0.25"
+                                                                     AutoReverse="False" RepeatBehavior="1x"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Style.Triggers>
+                                    </Styles>
+                                </ListView.Style>-->
 
                                 <ListView.ContextMenu>
                                     <ContextMenu >
@@ -366,7 +422,7 @@
                                             <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
                                                                                    DataContext="{Binding}" 
                                                                                    EquipmentSelected="LoadGraphicView_EquipmentSelected"
-                                                                                   EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>    
+                                                                                   EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
                                         </Border>
 
                                     </ControlTemplate>
@@ -440,7 +496,6 @@
                     </ScrollViewer>
                 </Border>
             </Grid>
-
 
             <!--External ScrollViewer Vertical-->
             <Border BorderBrush="Black" BorderThickness="0 1 1 1"
@@ -566,10 +621,13 @@
             </Border>
 
             <!--Property Editor-->
-            <Grid  Grid.Row="2" Grid.RowSpan="2"
-               Grid.Column="6"
-               Margin="7 0 0 0"
-               HorizontalAlignment="Stretch">
+            <Grid  x:Name="PropertyPane"
+                   Grid.Row="2" Grid.RowSpan="2"
+                   Grid.Column="6"
+                   Margin="0 0 0 0"
+                   HorizontalAlignment="Stretch"
+                   MinWidth="350"
+                   >
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
@@ -642,6 +700,7 @@
                     </ScrollViewer>
                 </Border>
             </Grid>
+            
         </Grid>
     </DockPanel>
 </UserControl>    
