@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -204,6 +205,8 @@ namespace EDTLibrary.Managers
             foreach (var model in XfrList) {
                 IDteqList.Add(model);
                 DteqList.Add(model);
+                model.PrimaryWiringType = TypeManager.TransformerWiringTypes.FirstOrDefault(tw => tw.WiringType == model.PrimaryWiring);
+                model.SecondaryWiringType = TypeManager.TransformerWiringTypes.FirstOrDefault(tw => tw.WiringType == model.SecondaryWiring);
             }
             //Swg
             SwgList = DaManager.prjDb.GetRecords<SwgModel>(GlobalConfig.SwgTable);

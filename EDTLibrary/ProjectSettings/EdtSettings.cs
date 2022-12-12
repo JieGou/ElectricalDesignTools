@@ -140,7 +140,8 @@ namespace EDTLibrary.ProjectSettings
         public static string LoadFactorDefault { get; set; } = "0.8";
         public static string XfrImpedance { get; set; }
         public static string XfrSubType { get; set; }
-        public static string XfrGrounding { get; set; }
+        public static string XfrGrounding_Primary { get; set; }
+        public static string XfrGrounding_Secondary { get; set; }
         public static string DteqLoadCableDerating { get; set; }
         #endregion  
 

@@ -35,6 +35,8 @@ namespace EDTLibrary.LibraryData
         public static ObservableCollection<TransformerSize> TransformerSizes { get; set; }
         public static ObservableCollection<TransformerType> TransformerTypes { get; set; }
         public static ObservableCollection<GroundingSystemType> TransformerGroundingTypes { get; set; }
+        public static ObservableCollection<TransformerWiringType> TransformerWiringTypes { get; set; }
+
 
         //Cables
         public static ObservableCollection<string> CableInstallationTypes
@@ -181,6 +183,7 @@ namespace EDTLibrary.LibraryData
             TransformerSizes = DaManager.libDb.GetRecords<TransformerSize>("TransformerSizes");
             TransformerTypes = DaManager.libDb.GetRecords<TransformerType>("TransformerTypes");
             TransformerGroundingTypes = DaManager.libDb.GetRecords<GroundingSystemType>("TransformerGroundingTypes");
+            TransformerWiringTypes = DaManager.libDb.GetRecords<TransformerWiringType>("TransformerWiringTypes");
 
             BreakerSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes");
             var list = BreakerSizes.OrderBy(b => b.TripAmps).ToList();

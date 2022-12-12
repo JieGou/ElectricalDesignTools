@@ -912,6 +912,13 @@ public class CableModel : ICable
         else {
             cable.IsValidSize = true;
         }
+        if (Load!= null) {
+            if ((Load.Type == DteqTypes.DPN.ToString() || Load.Type == DteqTypes.CDP.ToString()) &&
+                        Load.VoltageType.Voltage == 208 && Load.VoltageType.Phase == 3 && ConductorQty < 4 && ConductorQty != 1) {
+                cable.SetCableInvalid(this);
+                QtyParallel = QtyParallel;
+            }
+        }
     }
     public void SetCableInvalid(ICable cable)
     {

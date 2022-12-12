@@ -1,7 +1,16 @@
 Main Window Toolbar Height
+Delete from Single line
+DTEQ right click menu
 
+Graphics
+	- display mode for distribution panel graphic (panel or bus-bar mode)
+
+Transformer Grounding
+	- NGR component
+	- NGR Monitor
+	- cables
+	 
 Add selectable on click for Dteq
-	- distribution panel graphic for single line
 	- rename LoadGraphic Events back 
 
 Cleanup Electrical Views
@@ -13,6 +22,8 @@ Cleanup Electrical Views
 Calculations
 	- OCPD 80% rated calculation
 	- SCCA, SCCR
+	- required cable conductors (2C, 3C, 4C)
+		- derating calculation
 
 Tag Settings
 	- change Lcs Type to TypeModel / Id
@@ -65,8 +76,6 @@ Priorities
 		- UI - 2
 		- functionality - 2 
 
-
-
 	- Cable List
 		- Pivot Grid
 		- Bom Style Export
@@ -78,7 +87,6 @@ Bugs
 
 Exports
 	- add Export buttons to Views
-		- 
 	- Areas List
 	- Area Equipment summary
 	- Dteq loading summary
@@ -109,11 +117,7 @@ Cables
 		- 1ph cable quantities and totals on cable list
 		- Prompt to recalculate load cables when changing settings
 		- component cables are not updated when changing the load cable properties
-
-	Cable List
-		- Tray Sizer
 	
-
 LoadGrid Context Menu
 	- Set load factor
 
@@ -177,10 +181,10 @@ Autocad
 	- title blocks
 	- drawing list
 
-*********************
-*** AFTER RELEASE ***
-*********************
 
+***************************
+***    AFTER RELEASE	***
+***************************
 
 Modularize Calculations
 	- Load

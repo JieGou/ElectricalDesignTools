@@ -87,20 +87,163 @@
         </StackPanel>
     </DataTemplate>
 
-    <!--DTEQ-->
+   
+
+    
+    <!--XFR-->
+    
+    <!--Delta Grounding Type-->
+    <DataTemplate x:Key="DeltaTemplate" DataType="{x:Type edtDteqModels:XfrModel}">
+        <Canvas Grid.Row="0" Grid.Column="0" Background="Transparent">
+            <Line Stroke="Black" StrokeThickness="1" X1="8" Y1="0" X2="16" Y2="12"/>
+            <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="12" X2="16" Y2="12"/>
+            <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="12" X2="8" Y2="0"/>
+
+        </Canvas>
+    </DataTemplate>
+
+    <!--Wye Grounding Type-->
+    <DataTemplate x:Key="WyeTemplate" DataType="{x:Type edtDteqModels:XfrModel}">
+        <!--Secondary-->
+        <Canvas Grid.Row="2" Grid.Column="0">
+
+            <!--Wye-->
+            <Line Stroke="Black" StrokeThickness="1" X1="8" Y1="8" X2="0" Y2="0"/>
+            <Line Stroke="Black" StrokeThickness="1" X1="8" Y1="8" X2="16" Y2="0"/>
+            <Line Stroke="Black" StrokeThickness="1" X1="7.5" Y1="8" X2="7.5" Y2="16"/>
+
+            <!--Grounding-->
+            <Canvas>
+                <Canvas.Style>
+                    <Style TargetType="Canvas">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding}" 
+                                         Value="UG">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </Canvas.Style>
+                <!--Ground Wire-->
+                <Line Stroke="Black" StrokeThickness="1" X1="8" Y1="8" X2="-15.5" Y2="8"/>
+                <Line Stroke="Black" StrokeThickness="1" X1="-15.5" Y1="8" X2="-15.5" Y2="13"/>
+
+                <!--Ground Triange-->
+                <Line Stroke="Black" StrokeThickness="1" X1="-20.5" Y1="13" X2="-10.5" Y2="13"/>
+                <Line Stroke="Black" StrokeThickness="1" X1="-18.5" Y1="15" X2="-13.5" Y2="15"/>
+                <Line Stroke="Black" StrokeThickness="1" X1="-16.5" Y1="17" X2="-14.5" Y2="17"/>
+
+                <!--Resistor-->
+                <Rectangle Stroke="Black" StrokeThickness="1" Canvas.Left="-10" Width="10" Canvas.Top="4" Height="7.5">
+                    <Rectangle.Style>
+                        <Style TargetType="Rectangle">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding}" 
+                                             Value="NGR">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </Rectangle.Style>
+                </Rectangle>
+            </Canvas>
+
+        </Canvas>
+    </DataTemplate>
+    
+    <!--Primary TransformerWiring-->
+    <DataTemplate x:Key="TransformerWiringTemplate_Primary" DataType="{x:Type edtDteqModels:XfrModel}">
+
+        <StackPanel>
+            <!--Delta-->
+            <ContentControl Content="{Binding PrimaryGrounding}"
+                            ContentTemplate="{StaticResource DeltaTemplate}">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding PrimaryWiringType.WiringType}" Value="Delta">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+
+
+            <!--Wye-->
+            <ContentControl Content="{Binding PrimaryGrounding}" 
+                            ContentTemplate="{StaticResource WyeTemplate}">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding PrimaryWiringType.WiringType}" Value="Wye">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+        </StackPanel>
+    </DataTemplate>
+
+    <!--Secondary TransformerWiring-->
+    <DataTemplate x:Key="TransformerWiringTemplate_Secondary" DataType="{x:Type edtDteqModels:XfrModel}">
+
+        <StackPanel>
+            <!--Delta-->
+            <ContentControl Content="{Binding SecondaryGrounding}"
+                ContentTemplate="{StaticResource DeltaTemplate}">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SecondaryWiringType.WiringType}" Value="Delta">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+
+
+            <!--Wye-->
+            <ContentControl Content="{Binding SecondaryGrounding}"
+                            ContentTemplate="{StaticResource WyeTemplate}">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SecondaryWiringType.WiringType}" Value="Wye">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+        </StackPanel>
+        
+    </DataTemplate>
+    
     <!--Transformer Template-->
     <DataTemplate x:Key="TransformerTemplate" DataType="{x:Type edtDteqModels:XfrModel}">
         
             
         <StackPanel Orientation="Vertical" Margin="14 0" >
            
-            <Grid>
+            <Grid ShowGridLines="False">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid Style="{StaticResource GraphicHighlightStyle}"
-                      Grid.Column="1">
+                      Grid.Column="1"
+                      ShowGridLines="False">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -117,7 +260,7 @@
                         Padding="5 0 5 0">
                         <Border.CornerRadius>
                             <CornerRadius TopLeft="{StaticResource HighlightCorerRadius}"
-                                      BottomLeft="{StaticResource HighlightCorerRadius}"
+                                      BottomLeft="0"
                                       TopRight="0"
                                       BottomRight="0"/>
                         </Border.CornerRadius>
@@ -147,6 +290,38 @@
                             <Line Stroke="Black" StrokeThickness="1" X1="30" Y1="50" X2="30" Y2="65"/>
                         </Canvas>
                     </Border>
+
+                    
+                    <!--Wiring Graphic-->
+                    <Border  Grid.Row="1" Grid.Column="0" Margin="-25 0 0 0" Width="45" HorizontalAlignment="Left">
+                        <Border.CornerRadius>
+                            <CornerRadius BottomLeft="{StaticResource HighlightCorerRadius}"
+                                          TopLeft="{StaticResource HighlightCorerRadius}"
+                                          BottomRight="{StaticResource HighlightCorerRadius}"/>
+                        </Border.CornerRadius>
+                        <Grid Background="Transparent" Margin="25 0 0 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+
+
+                           
+                            <ContentControl Grid.Row="0"
+                                            Content="{Binding}"
+                                            ContentTemplate="{StaticResource TransformerWiringTemplate_Primary}"/>
+
+                            <ContentControl Grid.Row="2"
+                                            Content="{Binding}"
+                                            ContentTemplate="{StaticResource TransformerWiringTemplate_Secondary}"/>
+
+                        </Grid>
+                    </Border>
+
 
                     <!--Trasnformer Data-->
                     <Border BorderThickness="0" 
@@ -227,6 +402,10 @@
         </StackPanel>
         
     </DataTemplate>
+
+   
+    
+    
 
     <!--Distribution Panel Template-->
     <DataTemplate x:Key="PanelTemplate" DataType="{x:Type edtLoadModels:LoadModel}">

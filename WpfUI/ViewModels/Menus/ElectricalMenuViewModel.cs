@@ -51,10 +51,11 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
     public ViewModelBase CurrentViewModel
     {
         get { return _currentViewModel; }
-        set 
-        { 
+        set
+        {
             _currentViewModel = value;
-            if (_currentViewModel is EdtViewModelBase) {
+            if (_currentViewModel is EdtViewModelBase)
+            {
                 EdtViewModel = (EdtViewModelBase)_currentViewModel;
 
             }
@@ -88,7 +89,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
     }
 
-    
+   
 
 
 
@@ -103,7 +104,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
         CurrentViewModel = _mjeqViewModel;
         _mainViewModel.CurrentViewModel = CurrentViewModel;
-        
+
     }
 
     private void NavigateSingleLine()
@@ -129,19 +130,21 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         _listManager.GetProjectTablesAndAssigments();
 
-        if (_mjeqViewModel.AssignedLoads != null) {
+        if (_mjeqViewModel.AssignedLoads != null)
+        {
             _mjeqViewModel.AssignedLoads.Clear();
             _mjeqViewModel.DteqToAddValidator.ClearErrors();
             _mjeqViewModel.LoadToAddValidator.ClearErrors();
         }
 
-        if (_dpanelViewModel.SelectedDteq != null) {
+        if (_dpanelViewModel.SelectedDteq != null)
+        {
 
 
             //_dpanelViewModel.SelectedDteq.SetCircuits();
             _dpanelViewModel.UpdatePanelList();
         }
-        
+
 
     }
     #endregion

@@ -99,7 +99,7 @@ namespace EDTLibrary.Models.Cables
                 spacing = 100;
             }
             else if (cableType.VoltageRating < 2000 &&
-                     cableType.ConductorQty == 3 &&
+                     (cableType.ConductorQty == 2 || cableType.ConductorQty == 3 || cableType.ConductorQty == 4 ) &&
                      cable.Load.Fla <= double.Parse(EdtSettings.CableSpacingMaxAmps_3C1kV)) {
                 spacing = 0;
             }
@@ -356,12 +356,13 @@ namespace EDTLibrary.Models.Cables
                         double cableAmbientTemp = Math.Max(cable.Load.Area.MaxTemp, cable.Load.FedFrom.Area.MaxTemp);
 
                         if (cableAmbientTemp > 30) {
-                            derating *= GetCableDerating_Table5A(cable, cableAmbientTemp);
                             cable.Derating5A = GetCableDerating_Table5A(cable, cableAmbientTemp);
+                            derating *= cable.Derating5A;
                         }
                     }
                 }
 
+                // NOT Ladder tray
                 if (cable.InstallationType != "LadderTray") {
 
                     string tempAmpacityTable = "";
@@ -386,17 +387,18 @@ namespace EDTLibrary.Models.Cables
 
                     if (sizeNumber < sizeNumber_1ought) {
                         if (cable.Spacing < 100) {
-                            derating *= GetCableDerating_Table5C(cable);
                             cable.Derating5C = GetCableDerating_Table5C(cable);
+                            derating *= cable.Derating5C;
                         }
-                        
+
                     }
                 }
 
+                //Ladder Tray
                 else if (cable.Spacing < 100) {
                     if (cable.AmpacityTable == "Table 1" || cable.AmpacityTable == "Table 2" || cable.AmpacityTable == "Table 3" || cable.AmpacityTable == "Table 4") {
-                        derating *= GetCableDerating_Table5C(cable);
                         cable.Derating5C = GetCableDerating_Table5C(cable);
+                        derating *= cable.Derating5C;
                     }
                 }
             }
@@ -489,16 +491,18 @@ namespace EDTLibrary.Models.Cables
             int conductorQty = cable.ConductorQty * cable.QtyParallel;
 
             int otherLoadCableQtyParallel;
+            int otherLoadCableConductorQty;
             double otherLoadCableSpacing;
 
             
             //TODO - add power cable with default values upon creation of DTEQ
             foreach (var assignedLoad in supplier.AssignedLoads) {
                 otherLoadCableQtyParallel = assignedLoad.PowerCable.QtyParallel;
+                otherLoadCableConductorQty = assignedLoad.PowerCable.ConductorQty;
                 otherLoadCableSpacing = assignedLoad.PowerCable.Spacing;
 
                 if (otherLoadCableSpacing < 100) {
-                    conductorQty += (3 * otherLoadCableQtyParallel);
+                    conductorQty += (otherLoadCableConductorQty * otherLoadCableQtyParallel);
                 }
             }
 

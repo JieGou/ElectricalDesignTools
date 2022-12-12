@@ -89,8 +89,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
         GetAllCommand = new RelayCommand(DbGetAll);
         SaveAllCommand = new RelayCommand(DbSaveAll);
-        SizeCablesCommand = new RelayCommand(SizeAllCables);
-        CalculateAllCableAmpsCommand = new RelayCommand(CalculateAllCableAmps);
 
         CalculateSingleEqCableSizeCommand = new RelayCommand(CalculateSingleEqCableSize);
         CalculateSingleEqCableAmpsCommand = new RelayCommand(CalculateSingleEqCableAmps);
@@ -108,7 +106,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
 
-        CalculateAllCommand = new RelayCommand(CalculateAll);
         //CalculateAllCommand = new RelayCommand(CalculateAll, startupService.IsProjectLoaded);
 
         ToggleLoadDisconnectCommand = new RelayCommand(ToggleLoadDisconnect);
@@ -153,7 +150,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     public ICommand SaveAllCommand { get; }
     public ICommand DeleteDteqCommand { get; }
     public ICommand SizeCablesCommand { get; }
-    public ICommand CalculateAllCableAmpsCommand { get; }
     public ICommand CalculateSingleEqCableSizeCommand { get; }
     public ICommand CalculateSingleEqCableAmpsCommand { get; }
 
@@ -166,7 +162,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     public ICommand CalculateLoadCommand { get; }
     public ICommand DeleteLoadCommand { get; }
 
-    public ICommand CalculateAllCommand { get; }
 
 
     public ICommand SaveLoadListCommand { get; }
@@ -568,33 +563,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             ErrorHelper.ShowErrorMessage(ex);
         }
     }
-    private void SizeAllCables()
-    {
-        Task.Run(() => SizeAllCablesAsync());
-    }
-    private async Task SizeAllCablesAsync()
-    {
-        try {
-            foreach (var item in _listManager.IDteqList) {
-                item.SizePowerCable();
-            }
-            foreach (var item in _listManager.LoadList) {
-                item.SizePowerCable();
-            }
-        }
-        catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
-        }
-    }
-    private void CalculateAllCableAmps()
-    {
-        foreach (var item in _listManager.IDteqList) {
-            item.PowerCable.CalculateAmpacity(item);
-        }
-        foreach (var item in _listManager.LoadList) {
-            item.PowerCable.CalculateAmpacity(item);
-        }
-    }
     private void CalculateSingleEqCableSize()
     {
         CalculateSingleDteqCableSize();
@@ -812,24 +780,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         }
     }
 
-
-    public void CalculateAll()
-    {
-        CalculateAllAsync();
-    }
-
-    public async Task CalculateAllAsync()
-    {
-        try {
-            GetLoadListAsync();
-            //Task.Run(() => _listManager.CalculateDteqLoadingAsync());
-            _listManager.CalculateDteqLoadingAsync();
-
-        }
-        catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
-        }
-    }
     #endregion
 
 

@@ -29,8 +29,14 @@ public abstract class EdtViewModelBase: ViewModelBase
         DteqToAddValidator = new DteqToAddValidator(_listManager);
         LoadToAddValidator = new LoadToAddValidator(_listManager);
 
+
+        //Sub-Menu
+        CalculateAllCommand = new RelayCommand(CalculateAll);
+        AutoSizeAllCablesCommand = new RelayCommand(AutoSizeAllCables);
         //Window Commands
         CloseWindowCommand = new RelayCommand(CloseSelectionWindow);
+
+        //ContextMenu
         SetAreaCommand = new RelayCommand(SetArea);
         SetFedFromCommand = new RelayCommand(SetFedFrom);
 
@@ -55,6 +61,8 @@ public abstract class EdtViewModelBase: ViewModelBase
 
     public DteqToAddValidator DteqToAddValidator { get; set; }
     public LoadToAddValidator LoadToAddValidator { get; set; }
+    public object SelectedEquipment { get; set; }
+
 
     public Window SelectionWindow { get; set; }
     public ICommand CloseWindowCommand { get; }
@@ -64,7 +72,56 @@ public abstract class EdtViewModelBase: ViewModelBase
         SelectionWindow = null;
     }
 
-    public object SelectedEquipment { get; set; }
+
+
+
+    public ICommand CalculateAllCommand { get; }
+    public void CalculateAll()
+    {
+        CalculateAllAsync();
+    }
+    public async Task CalculateAllAsync()
+    {
+        try {
+            //Task.Run(() => _listManager.CalculateDteqLoadingAsync());
+            _listManager.CalculateDteqLoadingAsync();
+
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
+    }
+
+    public ICommand AutoSizeAllCablesCommand { get; }
+    private void AutoSizeAllCables()
+    {
+        Task.Run(() => AutoSizeAllCablesAsync());
+    }
+    private async Task AutoSizeAllCablesAsync()
+    {
+        try {
+            foreach (var item in _listManager.IDteqList) {
+                item.SizePowerCable();
+            }
+            foreach (var item in _listManager.LoadList) {
+                item.SizePowerCable();
+            }
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public ICommand SetAreaCommand { get; }
     public void SetArea()

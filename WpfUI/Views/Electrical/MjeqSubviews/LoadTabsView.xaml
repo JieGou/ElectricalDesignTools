@@ -200,8 +200,78 @@
                     <ContentControl.Resources>
 
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
-                            <singleLineSubViews:SL_DteqGraphicView EquipmentSelected="LoadGraphicView_EquipmentSelected"
-                                                                   EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <singleLineSubViews:SL_DteqGraphicView Grid.ColumnSpan="5"
+                                    EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
+                                
+                                <!--PrimaryWiring-->
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" Grid.ColumnSpan="5">
+                                    <TextBlock Text="Primary" Width="65"/>
+                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
+                                              ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                              SelectedValue="{Binding PrimaryWiringType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="WiringType"
+                                              Text="{Binding PrimaryWiringType.WiringType}"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              Margin="5 0 5 0"/>
+                                </StackPanel>
+                                
+                                <!--Grounding-->
+                                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                                    <TextBlock Text="Grounding" Width="65"/>
+                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
+                                              ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                              SelectedValue="{Binding PrimaryGrounding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="Type"
+                                              SelectedValuePath="Type"
+                                              Text="{Binding PrimaryGrounding}"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              Margin="5 0 5 0"/>
+                                </StackPanel>
+                                
+                                <!--SecondaryWiring-->
+                                <StackPanel Grid.Row="5" Orientation="Horizontal">
+                                    <TextBlock Text="Secondary" Width="65"/>
+                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
+                                              ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                              SelectedValue="{Binding SecondaryWiringType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="WiringType"
+                                              Text="{Binding SecondaryWiringType.WiringType}"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              Margin="5 0 5 0"/>
+                                </StackPanel>
+
+
+                                <!--Grounding-->
+                                <StackPanel Grid.Row="6" Orientation="Horizontal">
+                                    <TextBlock Text="Grounding" Width="65"/>
+                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
+                                              ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                                              SelectedValue="{Binding SecondaryGrounding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                              DisplayMemberPath="Type"
+                                              SelectedValuePath="Type"
+                                              Text="{Binding SecondaryGrounding}"
+                                              IsEditable="False" IsTextSearchEnabled="True"
+                                              Margin="5 0 5 0"/>
+                                </StackPanel>
+
+
+                            </Grid>
                         </DataTemplate>
 
                         <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">

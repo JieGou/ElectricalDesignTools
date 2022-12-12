@@ -52,6 +52,9 @@ namespace EDTLibrary.DataAccess
             "IsSelected",
             "SelectedComponent",
 
+            "PrimaryWiringType",
+            "SecondaryWiringType",
+
 
         };
 

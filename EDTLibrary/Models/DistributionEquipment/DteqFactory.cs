@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Managers;
+﻿using EDTLibrary.LibraryData;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.DPanels;
 using EDTLibrary.ProjectSettings;
@@ -24,7 +25,10 @@ namespace EDTLibrary.Models.DistributionEquipment
                 //XFR properties
                 model.Impedance = Double.Parse(EdtSettings.XfrImpedance);
                 model.SubType = EdtSettings.XfrSubType;
-                model.Grounding = EdtSettings.XfrGrounding;
+                model.PrimaryGrounding = EdtSettings.XfrGrounding_Primary;
+                model.SecondaryGrounding = EdtSettings.XfrGrounding_Secondary;
+                model.PrimaryWiringType = TypeManager.TransformerWiringTypes.FirstOrDefault(tw => tw.WiringType == "Delta");
+                model.SecondaryWiringType = TypeManager.TransformerWiringTypes.FirstOrDefault(tw => tw.WiringType == "Wye");
                 //Todo - Add default Type and NGR
                 newDteq = model;
             }
