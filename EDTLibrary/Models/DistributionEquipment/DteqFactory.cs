@@ -25,11 +25,15 @@ namespace EDTLibrary.Models.DistributionEquipment
                 //XFR properties
                 model.Impedance = Double.Parse(EdtSettings.XfrImpedance);
                 model.SubType = EdtSettings.XfrSubType;
-                model.PrimaryGrounding = EdtSettings.XfrGrounding_Primary;
-                model.SecondaryGrounding = EdtSettings.XfrGrounding_Secondary;
                 model.PrimaryWiringType = TypeManager.TransformerWiringTypes.FirstOrDefault(tw => tw.WiringType == "Delta");
+                model.PrimaryGrounding = EdtSettings.XfrGrounding_Primary;
                 model.SecondaryWiringType = TypeManager.TransformerWiringTypes.FirstOrDefault(tw => tw.WiringType == "Wye");
-                //Todo - Add default Type and NGR
+                model.SecondaryGrounding = EdtSettings.XfrGrounding_Secondary;
+
+                if (dteqToAddValidator.LoadVoltageType.Voltage <=300) {
+                    model.SecondaryGrounding = "Solidly";
+
+                }                //Todo - Add default Type and NGR
                 newDteq = model;
             }
             else if (dteqToAddValidator.Type == DteqTypes.SWG.ToString()) {

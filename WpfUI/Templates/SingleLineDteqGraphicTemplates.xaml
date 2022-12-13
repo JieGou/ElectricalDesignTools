@@ -104,8 +104,8 @@
 
     <!--Wye Grounding Type-->
     <DataTemplate x:Key="WyeTemplate" DataType="{x:Type edtDteqModels:XfrModel}">
-        <!--Secondary-->
-        <Canvas Grid.Row="2" Grid.Column="0">
+        
+        <Canvas Grid.Row="2" Grid.Column="0" Background="Transparent">
 
             <!--Wye-->
             <Line Stroke="Black" StrokeThickness="1" X1="8" Y1="8" X2="0" Y2="0"/>
@@ -122,34 +122,51 @@
                                          Value="UG">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
-
+                            <DataTrigger Binding="{Binding}" 
+                                         Value="Ungrounded">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Canvas.Style>
+                
                 <!--Ground Wire-->
-                <Line Stroke="Black" StrokeThickness="1" X1="8" Y1="8" X2="-15.5" Y2="8"/>
-                <Line Stroke="Black" StrokeThickness="1" X1="-15.5" Y1="8" X2="-15.5" Y2="13"/>
+                <Line Stroke="Black" StrokeThickness="1" X1="8" Y1="8" X2="-20.5" Y2="8"/>
+                <Line Stroke="Black" StrokeThickness="1" X1="-20.5" Y1="8" X2="-20.5" Y2="35"/>
+                <!--<Line Stroke="Black" StrokeThickness="1" X1="-15.5" Y1="8" X2="-15.5" Y2="13"/>-->
 
                 <!--Ground Triange-->
-                <Line Stroke="Black" StrokeThickness="1" X1="-20.5" Y1="13" X2="-10.5" Y2="13"/>
+                <!--<Line Stroke="Black" StrokeThickness="1" X1="-20.5" Y1="13" X2="-10.5" Y2="13"/>
                 <Line Stroke="Black" StrokeThickness="1" X1="-18.5" Y1="15" X2="-13.5" Y2="15"/>
-                <Line Stroke="Black" StrokeThickness="1" X1="-16.5" Y1="17" X2="-14.5" Y2="17"/>
+                <Line Stroke="Black" StrokeThickness="1" X1="-16.5" Y1="17" X2="-14.5" Y2="17"/>-->
+                <Line Stroke="Black" StrokeThickness="1" X1="-25.5" Y1="35" X2="-15.5" Y2="35"/>
+                <Line Stroke="Black" StrokeThickness="1" X1="-23.5" Y1="38" X2="-17" Y2="38"/>
+                <Line Stroke="Black" StrokeThickness="1" X1="-21.5" Y1="41" X2="-19" Y2="41"/>
 
                 <!--Resistor-->
-                <Rectangle Stroke="Black" StrokeThickness="1" Canvas.Left="-10" Width="10" Canvas.Top="4" Height="7.5">
-                    <Rectangle.Style>
-                        <Style TargetType="Rectangle">
+                <Canvas>
+                    <Canvas.Style>
+                        <Style TargetType="Canvas">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding}" 
                                              Value="NGR">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
-
+                                <DataTrigger Binding="{Binding}" 
+                                             Value="Neutral Grounding Resistor">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </Rectangle.Style>
-                </Rectangle>
+                    </Canvas.Style>
+                    <!--<Rectangle Stroke="Black" StrokeThickness="1" Canvas.Left="-10" Width="10" Canvas.Top="4" Height="7.5">-->
+                    <Rectangle Stroke="Black" StrokeThickness="1" Fill="Black" Canvas.Left="-24" Width="7" Canvas.Top="15" Height="13"/>
+                    <TextBlock Text="5 A" Canvas.Left="-13" Canvas.Top="17" 
+                               Visibility="Hidden"/>
+                    <TextBlock Text="69.4 Ω" Canvas.Left="-13" Canvas.Top="30"
+                               Visibility="Hidden"/>
+                </Canvas>
             </Canvas>
 
         </Canvas>
@@ -257,7 +274,8 @@
 
                     <!--Transformer Graphic-->
                     <Border Margin="-10 0"
-                        Padding="5 0 5 0">
+                        Padding="5 0 5 0"
+                            Panel.ZIndex="1">
                         <Border.CornerRadius>
                             <CornerRadius TopLeft="{StaticResource HighlightCorerRadius}"
                                       BottomLeft="0"
@@ -290,10 +308,25 @@
                             <Line Stroke="Black" StrokeThickness="1" X1="30" Y1="50" X2="30" Y2="65"/>
                         </Canvas>
                     </Border>
-
                     
-                    <!--Wiring Graphic-->
-                    <Border  Grid.Row="1" Grid.Column="0" Margin="-25 0 0 0" Width="45" HorizontalAlignment="Left">
+                    <!--Primary Winding Connection-->
+                    <ContentControl Grid.Row="0" Margin="0 -25 0 0"
+                                    Content="{Binding}"
+                                    ContentTemplate="{StaticResource TransformerWiringTemplate_Primary}"
+                                    Panel.ZIndex="3"/>
+                    
+                    <!--Secondary Winding Connection-->
+                        <ContentControl Grid.Row="1"
+                                    Content="{Binding}"
+                                    ContentTemplate="{StaticResource TransformerWiringTemplate_Secondary}"
+                                    Panel.ZIndex="3"/>
+
+                    <!--Winding Connection Graphic-->
+                    <Border  Grid.Row="0" Grid.RowSpan="2"
+                             Grid.Column="0"
+                             Margin="-25 0 0 0" Width="45" HorizontalAlignment="Left"
+                             Panel.ZIndex="0"
+                             Visibility="Collapsed">
                         <Border.CornerRadius>
                             <CornerRadius BottomLeft="{StaticResource HighlightCorerRadius}"
                                           TopLeft="{StaticResource HighlightCorerRadius}"
@@ -302,7 +335,7 @@
                         <Grid Background="Transparent" Margin="25 0 0 0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
-                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="65"/>
                                 <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
@@ -310,14 +343,16 @@
                             </Grid.ColumnDefinitions>
 
 
-                           
+
                             <ContentControl Grid.Row="0"
                                             Content="{Binding}"
-                                            ContentTemplate="{StaticResource TransformerWiringTemplate_Primary}"/>
+                                            ContentTemplate="{StaticResource TransformerWiringTemplate_Primary}"
+                                            Panel.ZIndex="3"/>
 
                             <ContentControl Grid.Row="2"
                                             Content="{Binding}"
-                                            ContentTemplate="{StaticResource TransformerWiringTemplate_Secondary}"/>
+                                            ContentTemplate="{StaticResource TransformerWiringTemplate_Secondary}"
+                                            Panel.ZIndex="3"/>
 
                         </Grid>
                     </Border>
@@ -398,6 +433,7 @@
                     </Border>
 
                 </Grid>
+
             </Grid>
         </StackPanel>
         

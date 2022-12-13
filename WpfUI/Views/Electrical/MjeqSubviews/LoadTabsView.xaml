@@ -354,10 +354,10 @@
                             </Grid>
                         </DataTemplate>
 
-                        <DataTemplate DataType="{x:Type edtDpnModels:DpnModel}"
-                                      >
+                        <DataTemplate DataType="{x:Type edtDpnModels:DpnModel}" >
                             <singleLineSubViews:SL_DteqGraphicView  EquipmentSelected="LoadGraphicView_EquipmentSelected"
-                                                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
+                                                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
+                                                                    DisplayMode="Mjeq"/>
                         </DataTemplate>
 
                         <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">

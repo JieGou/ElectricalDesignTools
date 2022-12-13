@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfUI.Controls;
 
 namespace WpfUI.Views.Electrical.SingleLineSubViews;
 /// <summary>
@@ -27,6 +28,18 @@ public partial class SL_DteqGraphicView : UserControl
     {
         InitializeComponent();
     }
+
+    public string DisplayMode
+    {
+        get { return (string)GetValue(DisplayModeProperty); }
+        set { SetValue(DisplayModeProperty, value); }
+    }
+
+    // Using a DependencyProperty as the backing store for Display Mode.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty DisplayModeProperty =
+        DependencyProperty.Register("DisplayMode", typeof(string), typeof(SL_DteqGraphicView), new PropertyMetadata("Display Mode"));
+
+
 
     public static RoutedEvent EquipmentSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentSelected", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_DteqGraphicView));
     public static RoutedEvent EquipmentCableSelectedEvent = EventManager.RegisterRoutedEvent("EquipmentCableSelectedEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SL_DteqGraphicView));

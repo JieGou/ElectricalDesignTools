@@ -1,9 +1,13 @@
+Bugs
+	- DELETE DTEQ does not retag Lcs cable
+	- SCCA/R calculation on DTEQ size change
+	- AutoSizeAll/AutoSize after adding / with components retags load cable to it's fedfrom instead of the last component
+
+
 Main Window Toolbar Height
 Delete from Single line
 DTEQ right click menu
 
-Graphics
-	- display mode for distribution panel graphic (panel or bus-bar mode)
 
 Transformer Grounding
 	- NGR component
@@ -80,18 +84,18 @@ Priorities
 		- Pivot Grid
 		- Bom Style Export
 
-
-Bugs
-	- DELETE DTEQ does not retag Lcs cable
-	- SCCA/R calculation on DTEQ size change
-
 Exports
 	- add Export buttons to Views
-	- Areas List
+	- Areas List and equipment summary
 	- Area Equipment summary
 	- Dteq loading summary
-	- Components BOM
-	- Cable list BOM
+	- Cable BOM
+	- Component BOM
+	- include / exclude all and multi-select
+
+
+
+
 
 
 Refactorings
@@ -105,10 +109,6 @@ Validations
 	- PD	
 	- Cable
 	
-
-
-
-
 Cables
 	- settings for auto-calculate cable on load changes, resizing/recalculation
 	- cable sizing based on next Upstream PD
@@ -158,13 +158,6 @@ Library Editor
 	- voltage Types
 	- Motor Data editor
 
-
-Excel Reports
-	- SWG / MCC loading and load list
-	- Cable BOM
-	- Component BOM
-	- cleanup notification
-	- include / exclude all and multi-select
 
 Areas, Systems & SubSystems
 	- heatloss total by area

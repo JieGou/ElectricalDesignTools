@@ -338,10 +338,11 @@
                                                        HorizontalAlignment="Left"
                                                        EquipmentSelected="LoadGraphicView_EquipmentSelected"
                                                        EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
+                                                                   DisplayMode="SingleLine"
                                                        />
 
 
-                            <!--Change the name of this so that the MCC bus is Width = this.Width-->
+                            <!--Loads-->
                             <ListView x:Name="listViewLoads"
                                   Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
                                   Grid.Row="1"

@@ -151,14 +151,11 @@ public class ComponentFactory
 
     internal static string GetLcsType(ILoad owner)
     {
-        if (owner.PdType.Contains("MCP")) {
-            return EdtSettings.LcsTypeDolLoad;
-        }
-        else if (owner.DriveBool == true) {
+        if (owner.DriveBool == true) {
             return EdtSettings.LcsTypeVsdLoad;
         }
-        else {
-            return EdtSettings.LcsTypeDolLoad;
-        }
+ 
+        return EdtSettings.LcsTypeDolLoad;
+    
     }
 }

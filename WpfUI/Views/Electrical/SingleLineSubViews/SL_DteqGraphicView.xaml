@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="WpfUI.Views.Electrical.SingleLineSubViews.SL_DteqGraphicView"
+             x:Name="root"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -135,18 +136,77 @@
                 </Style>
             </StackPanel.Resources>
 
-            <!--Cable-->
-            <ContentControl Content="{Binding PowerCable}"
+
+
+
+
+            <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0">
+                <StackPanel.Resources>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DisplayMode, ElementName=root}" Value="SingleLine">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+
+                    </Style>
+                </StackPanel.Resources>
+
+                <!--Cable-->
+                <ContentControl Content="{Binding PowerCable}"
                         ContentTemplate="{StaticResource CableTemplate}"
                         Grid.Column="1"
                         PreviewMouseLeftButtonDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
-                        Margin="30 0 0 0"/>
+                        Margin="45 0 0 0"/>
+
+                <!--Dashed Border-->
+                <SingleLineLoadGraphics:SingleLineDashedBorder/>
+
+                <!--Main Breaker-->
+                <ContentControl Content="{Binding}" 
+                        Style="{StaticResource OCPDTemplateStyle}"
+                        ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
+                        Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"
+                        PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"     />
+
+                <!-- BUS-->
+                <ContentControl Grid.Column="1"
+                        Content="{Binding}"
+                        ContentTemplate="{StaticResource DteqBusTemplate}"  
+                        PreviewMouseLeftButtonDown="Equipment_ContentControl_PreviewMouseDown" />
+            </StackPanel>
 
 
-            <!--Main Breaker-->
-            <ContentControl Content="{Binding}" 
+
+            <StackPanel Orientation="Vertical">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding DisplayMode, ElementName=root}" Value="Mjeq">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+
+                    </Style>
+
+                </StackPanel.Style>
+                <!--Cable-->
+                <ContentControl Content="{Binding PowerCable}"
+                        ContentTemplate="{StaticResource CableTemplate}"
+                        Grid.Column="1"
+                        PreviewMouseLeftButtonDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
+                        Margin="30 0 0 0">
+                   
+                </ContentControl>
+
+                <!--Panel Graphic - Panel -->
+                <ContentControl Content="{Binding}" 
                             ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                            PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"     />
+                            PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"    >
+                </ContentControl>
+            </StackPanel>
 
         </StackPanel>
 
