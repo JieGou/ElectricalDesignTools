@@ -83,15 +83,19 @@ namespace EDTLibrary.ProjectSettings
         public static string CableInsulation35kVPower { get; set; }
 
         public static string CableInstallationType { get; set; }
+
+        //Load
         public static string DefaultCableTypeLoad_3phLt300V { get; set; } = "Incomplete";
-        public static string DefaultCableTypeLoad_4wire { get; set; } = "4C-TECK-1kV";
-        public static string DefaultCableTypeLoad_2wire { get; set; } = "2C-TECK-1kV";
+        public static string DefaultCableTypeLoad_2wire { get; set; }
         public static string DefaultCableTypeLoad_3ph300to1kV { get; set; }
         public static string DefaultCableTypeLoad_3ph5kV { get; set; }
+        //Dteq
+        public static string DefaultCableTypeLoad_4wire { get; set; }
         public static string DefaultCableTypeDteq_3ph1kVLt1200A { get; set; }
         public static string DefaultCableTypeDteq_3ph1kVGt1200A { get; set; }
         public static string DefaultCableType_3ph5kV { get; set; }
         public static string DefaultCableType_3ph15kV { get; set; }
+
 
         private static string _cableSpacingMaxAmps_3C1kV;
         private static string _projectName;

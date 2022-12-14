@@ -119,13 +119,71 @@ public class CableSettingsViewModel : SettingsViewModelBase
         }
     }
 
-    public string DefaultCableTypeLoad_3ph300to1kV { get; set; }
-    public string DefaultCableTypeLoad_4wire { get; set; }
-    public string DefaultCableTypeLoad_2wire { get; set; }
-    public string DefaultCableTypeLoad_3ph5kV { get; set; }
-    public string DefaultCableTypeDteq_3ph1kVLt1200A { get; set; }
-    public string DefaultCableTypeDteq_3ph1kVGt1200A { get; set; }
-    public string DefaultCableType_3ph5kV { get; set; }
+    
+    //Loads
+    public string DefaultCableTypeLoad_2wire
+    {
+        get => _defaultCableTypeLoad_2wire;
+        set
+        {
+            _defaultCableTypeLoad_2wire = value;
+            SaveVmSetting(nameof(DefaultCableTypeLoad_2wire), _defaultCableTypeLoad_2wire);
+        }
+    }
+    public string DefaultCableTypeLoad_3ph300to1kV
+    {
+        get => _defaultCableTypeLoad_3ph300to1kV;
+        set
+        {
+            _defaultCableTypeLoad_3ph300to1kV = value;
+            SaveVmSetting(nameof(DefaultCableTypeLoad_3ph300to1kV), _defaultCableTypeLoad_3ph300to1kV);
+
+        }
+    }
+    public string DefaultCableTypeLoad_3ph5kV
+    {
+        get => _defaultCableTypeLoad_3ph5kV;
+        set
+        {
+            _defaultCableTypeLoad_3ph5kV = value;
+            SaveVmSetting(nameof(DefaultCableTypeLoad_3ph5kV), _defaultCableTypeLoad_3ph5kV);
+        }
+    }
+
+    //Dteq
+    public string DefaultCableTypeLoad_4wire
+    {
+        get => _defaultCableTypeLoad_4wire;
+        set
+        {
+            _defaultCableTypeLoad_4wire = value;
+            SaveVmSetting(nameof(DefaultCableTypeLoad_4wire), _defaultCableTypeLoad_4wire);
+        }
+    }
+    public string DefaultCableTypeDteq_3ph1kVLt1200A
+    {
+        get => _defaultCableTypeDteq_3ph1kVLt1200A; set
+        {
+            _defaultCableTypeDteq_3ph1kVLt1200A = value;
+            SaveVmSetting(nameof(DefaultCableTypeDteq_3ph1kVLt1200A), _defaultCableTypeDteq_3ph1kVLt1200A);
+        }
+    }
+    public string DefaultCableTypeDteq_3ph1kVGt1200A
+    {
+        get => _defaultCableTypeDteq_3ph1kVGt1200A; set
+        {
+            _defaultCableTypeDteq_3ph1kVGt1200A = value;
+            SaveVmSetting(nameof(DefaultCableTypeDteq_3ph1kVGt1200A), _defaultCableTypeDteq_3ph1kVGt1200A);
+        }
+    }
+    public string DefaultCableType_3ph5kV
+    {
+        get => _defaultCableType_3ph5kV; set
+        {
+            _defaultCableType_3ph5kV = value;
+            SaveVmSetting(nameof(DefaultCableType_3ph5kV), _defaultCableType_3ph5kV);
+        }
+    }
     public string DefaultCableType_3ph15kV
     {
         get => _defaultCableType_3ph15kV;
@@ -168,8 +226,8 @@ public class CableSettingsViewModel : SettingsViewModelBase
     public string CableLengthDteq
     {
         get { return _cableLengthDteq; }
-        set 
-        { 
+        set
+        {
             var oldValue = _cableLengthDteq;
             double dblOut;
             _cableLengthDteq = value;
@@ -261,6 +319,13 @@ public class CableSettingsViewModel : SettingsViewModelBase
 
 
     private string _cableLengthLocalControlStation;
+    private string _defaultCableTypeLoad_2wire;
+    private string _defaultCableTypeLoad_4wire;
+    private string _defaultCableType_3ph5kV;
+    private string _defaultCableTypeDteq_3ph1kVGt1200A;
+    private string _defaultCableTypeDteq_3ph1kVLt1200A;
+    private string _defaultCableTypeLoad_3ph5kV;
+    private string _defaultCableTypeLoad_3ph300to1kV;
 
     public string CableLengthLocalControlStation
     {

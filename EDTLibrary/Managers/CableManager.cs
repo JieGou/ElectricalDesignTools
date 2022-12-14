@@ -191,6 +191,7 @@ public class CableManager
         }
     }
 
+
     /// <summary>
     /// Copies the basic power cable properties to the component's powercable.
     /// </summary>

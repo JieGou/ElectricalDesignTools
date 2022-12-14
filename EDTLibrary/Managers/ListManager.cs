@@ -394,7 +394,8 @@ namespace EDTLibrary.Managers
         private void AssignCableTypesAndSizes()
         {
             foreach (var cable in CableList) {
-                cable.TypeModel = TypeManager.GetCableTypeModel(cable.Type);
+                cable.TypeModel = TypeManager.GetCableTypeModel(cable.TypeId);
+                //cable.TypeModel = TypeManager.GetCableTypeModel(cable.Type);
                 cable.CreateSizeList();
 
                 cable.SetTypeProperties();

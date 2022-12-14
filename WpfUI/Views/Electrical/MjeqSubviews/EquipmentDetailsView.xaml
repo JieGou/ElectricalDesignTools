@@ -157,7 +157,7 @@
                                             AncestorType={x:Type UserControl}, AncestorLevel=1}}"  
                               
                           Text="{Binding Path=DataContext.Lcs.TypeModel.Type, 
-                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                        
                                          RelativeSource={RelativeSource Mode=FindAncestor, 
                                          AncestorType={x:Type UserControl}, AncestorLevel=1}}" 
                                                       
@@ -165,7 +165,6 @@
                           ToolTip="{StaticResource LcsSelectionBug}"/>
 
                     <TextBlock Text="{Binding Path=DataContext.Lcs.TypeModel.Type, 
-                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                         RelativeSource={RelativeSource Mode=FindAncestor, 
                                         AncestorType={x:Type UserControl}, AncestorLevel=1}}" 
                                Margin="10 0 0 0"

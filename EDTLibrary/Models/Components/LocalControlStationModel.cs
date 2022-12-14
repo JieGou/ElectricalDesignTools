@@ -66,6 +66,7 @@ public class LocalControlStationModel : ILocalControlStation
         set
         {
             var oldValue = _type;
+            if (value == null) return;
             _type = value;
             TypeModel = TypeManager.GetLcsTypeModel(_type);
 

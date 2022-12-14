@@ -178,91 +178,100 @@
                                        Style="{StaticResource settingDescription}" />
                             </StackPanel>
 
-                            <TextBlock Text="Loads"
-                                   Grid.Row="5" Grid.Column="0" 
+                            <TextBlock Text="Loads"  Grid.Row="5" Grid.Column="0" 
                                    FontWeight="SemiBold" Margin="5 0 0 0"/>
 
-                            <TextBlock Text="2-Wire / 120V Equipment"
-                                Grid.Row="6" Grid.Column="0" Margin="20 10"/>
+                            
+                            <TextBlock Text="2-Wire / 120V Equipment" Grid.Row="6" Grid.Column="0" Margin="20 10"/>
 
                             <ComboBox Grid.Row="6" Grid.Column="2"
-                                  ItemsSource="{Binding TypeManager.TwoConductorPowerCableTypes}"
-                                  DisplayMemberPath="Type"
-                                  SelectedValuePath="Type"
-                                  SelectedValue="{Binding Path=DefaultCableTypeLoad_2wire, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                      ItemsSource="{Binding TypeManager.TwoConductorPowerCableTypes}"
+                                      DisplayMemberPath="Type"
+                                      SelectedValuePath="Id"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      SelectedValue="{Binding Path=DefaultCableTypeLoad_2wire, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      />
 
-                            <TextBlock Text="Loads &lt; 300V INCOMPLETE"
-                                Grid.Row="7" Grid.Column="0" Margin="20 10"/>
+                            <TextBlock Text="Loads &lt; 300V INCOMPLETE" Grid.Row="7" Grid.Column="0" Margin="20 10"/>
 
                             <ComboBox Grid.Row="7" Grid.Column="2"
-                                  ItemsSource="{Binding TypeManager.OneKvPowerCableTypes}"
-                                  DisplayMemberPath="Type"
-                                  SelectedValuePath="Type"
-                                  SelectedValue="{Binding Path=DefaultCableTypeLoad_3phLt300V, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                      ItemsSource="{Binding TypeManager.OneKvPowerCableTypes}"
+                                      DisplayMemberPath="Type"
+                                      SelectedValuePath="Id"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      SelectedValue="{Binding Path=DefaultCableTypeLoad_3phLt300V, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <TextBlock Text="Loads 300V to 1kV"
-                                    Grid.Row="8" Grid.Column="0" Margin="20 10"/>
+                            
+                            <TextBlock Text="Loads 300V to 1kV" Grid.Row="8" Grid.Column="0" Margin="20 10"/>
 
                             <ComboBox Grid.Row="8" Grid.Column="2"
-                                  ItemsSource="{Binding TypeManager.OneKvPowerCableTypes}"
-                                  DisplayMemberPath="Type"
-                                  SelectedValuePath="Type"
-                                  SelectedValue="{Binding Path=DefaultCableTypeLoad_3ph300to1kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                      ItemsSource="{Binding TypeManager.OneKvPowerCableTypes}"
+                                      DisplayMemberPath="Type"
+                                      SelectedValuePath="Id"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      SelectedValue="{Binding Path=DefaultCableTypeLoad_3ph300to1kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 
-                            <TextBlock Text="Loads 5 kV"
-                                    Grid.Row="9" Grid.Column="0" Margin="20 10"/>
+                            
+                            <TextBlock Text="Loads 5 kV" Grid.Row="9" Grid.Column="0" Margin="20 10"/>
+                            
                             <ComboBox Grid.Row="9" Grid.Column="2"
-                                  ItemsSource="{Binding TypeManager.FiveKvPowerCableTypes}"
-                                  DisplayMemberPath="Type"
-                                  SelectedValuePath="Type"
-                                  SelectedValue="{Binding Path=DefaultCableTypeLoad_3ph5kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                      ItemsSource="{Binding TypeManager.FiveKvPowerCableTypes}"
+                                      DisplayMemberPath="Type"
+                                      SelectedValuePath="Id"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      SelectedValue="{Binding Path=DefaultCableTypeLoad_3ph5kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
+                            
+                        <!--Distribution Equipment-->
                             <TextBlock Text="Distribution Equipment"
-                                   Grid.Row="10" Grid.Column="0" 
-                                   FontWeight="SemiBold" Margin="5 10 0 0"/>
+                                       Grid.Row="10" Grid.Column="0" 
+                                       FontWeight="SemiBold" Margin="5 10 0 0"/>
 
-                            <TextBlock Text="4-Wire / 208V Equipment"
-                                Grid.Row="11" Grid.Column="0" Margin="20 10"/>
+                            <!--4-Wire-->
+                            <TextBlock Text="4-Wire / 208V Equipment" Grid.Row="11" Grid.Column="0" Margin="20 10"/>
 
                             <ComboBox Grid.Row="11" Grid.Column="2"
-                                  ItemsSource="{Binding TypeManager.FourConductorPowerCableTypes}"
-                                  DisplayMemberPath="Type"
-                                  SelectedValuePath="Type"
-                                  SelectedValue="{Binding Path=DefaultCableTypeLoad_4wire, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                      ItemsSource="{Binding TypeManager.FourConductorPowerCableTypes}"
+                                      DisplayMemberPath="Type"
+                                      SelectedValuePath="Id"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      SelectedValue="{Binding DefaultCableTypeLoad_4wire, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 
-                            <TextBlock Text="Dist. Equipment 1 kV &lt; 1200 A"
-                                    Grid.Row="12" Grid.Column="0" Margin="20 10"/>
+                            <TextBlock Text="Dist. Equipment 1 kV &lt; 1200 A" Grid.Row="12" Grid.Column="0" Margin="20 10"/>
+                            
                             <ComboBox Grid.Row="12" Grid.Column="2"
-                                  ItemsSource="{Binding TypeManager.OneKvPowerCableTypes}"
-                                  DisplayMemberPath="Type"
-                                  SelectedValuePath="Type"
-                                  SelectedValue="{Binding Path=DefaultCableTypeDteq_3ph1kVLt1200A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                      ItemsSource="{Binding TypeManager.OneKvPowerCableTypes}"
+                                      DisplayMemberPath="Type"
+                                      SelectedValuePath="Id"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      SelectedValue="{Binding Path=DefaultCableTypeDteq_3ph1kVLt1200A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <TextBlock Text="Dist. Equipment 1 kV > 1200 A"  
-                                Grid.Row="13" Grid.Column="0" Margin="20 10"/>
+                            <TextBlock Text="Dist. Equipment 1 kV > 1200 A"   Grid.Row="13" Grid.Column="0" Margin="20 10"/>
+                            
                             <ComboBox Grid.Row="13" Grid.Column="2" MinWidth="175"
                                   ItemsSource="{Binding TypeManager.OneKvPowerCableTypes}"
                                   DisplayMemberPath="Type"
-                                  SelectedValuePath="Type"
+                                  SelectedValuePath="Id"
                                   SelectedValue="{Binding Path=DefaultCableTypeDteq_3ph1kVGt1200A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <TextBlock Text="Dist. Equipment 5 kV"
-                                Grid.Row="14" Grid.Column="0" Margin="20 10"/>
+                            <TextBlock Text="Dist. Equipment 5 kV" Grid.Row="14" Grid.Column="0" Margin="20 10"/>
+                            
                             <ComboBox Grid.Row="14" Grid.Column="2" MinWidth="175"
-                                  ItemsSource="{Binding TypeManager.FiveKvPowerCableTypes}"
-                                  DisplayMemberPath="Type"
-                                  SelectedValuePath="Type"
-                                  SelectedValue="{Binding Path=DefaultCableType_3ph5kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                      ItemsSource="{Binding TypeManager.FiveKvPowerCableTypes}"
+                                      DisplayMemberPath="Type"
+                                      SelectedValuePath="Id"
+                                      SelectedValue="{Binding Path=DefaultCableType_3ph5kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <TextBlock Text="Dist. Equipment 15 kV"
-                                   Grid.Row="15" Grid.Column="0" Margin="20 10"/>
+                            <TextBlock Text="Dist. Equipment 15 kV" Grid.Row="15" Grid.Column="0" Margin="20 10"/>
+                            
                             <ComboBox Grid.Row="15" Grid.Column="2" MinWidth="175"
-                                  ItemsSource="{Binding TypeManager.FifteenKvPowerCableTypes}"
-                                  DisplayMemberPath="Type"
-                                  SelectedValuePath="Type"
-                                  SelectedValue="{Binding Path=DefaultCableType_3ph15kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                      ItemsSource="{Binding TypeManager.FifteenKvPowerCableTypes}"
+                                      DisplayMemberPath="Type"
+                                      SelectedValuePath="Id"
+                                      IsSynchronizedWithCurrentItem="False"
+                                      SelectedValue="{Binding Path=DefaultCableType_3ph15kV, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         </Grid>
 
@@ -304,8 +313,7 @@
                                    Style="{StaticResource settingDescription}"/>
                             </StackPanel>
 
-                            <StackPanel Orientation="Vertical"
-                                    Grid.Row="1" Grid.Column="2">
+                            <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
                                 <StackPanel></StackPanel>
                                 <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="2">
                                     <TextBox Text="{Binding Path=CableLengthDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -323,13 +331,14 @@
                             </StackPanel>
 
                             <!--Cable Length LOAD-->
-                            <StackPanel Orientation="Vertical"
-                                Grid.Row="2" Grid.Column="0"  >
+                            <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0"  >
+                                
                                 <TextBlock Text="Cable Length for Loads"  
                                    Grid.Row="1" Grid.Column="0"/>
                                 <TextBlock Text="Default power cable length from supply equipment to newly created loads."  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}"  />
+                                
                             </StackPanel>
 
                             <StackPanel Orientation="Vertical"

@@ -21,7 +21,7 @@ public class CableMapper
         Category = cable.Category;
         Source = cable.Source;
         Destination = cable.Destination;
-        Type = cable.Type;
+        Type = cable.TypeModel.Type;
         UsageType = cable.UsageType;
         QtyParallel = cable.QtyParallel;
         ConductorQty = cable.ConductorQty;

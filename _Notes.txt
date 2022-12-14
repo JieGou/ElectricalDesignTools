@@ -4,6 +4,10 @@ Bugs
 	- AutoSizeAll/AutoSize after adding / with components retags load cable to it's fedfrom instead of the last component
 
 
+
+Cables and Cable Types Based on Id so that Type tags can be updated in the library.
+	-
+
 Main Window Toolbar Height
 Delete from Single line
 DTEQ right click menu
@@ -13,9 +17,7 @@ Transformer Grounding
 	- NGR component
 	- NGR Monitor
 	- cables
-	 
-Add selectable on click for Dteq
-	- rename LoadGraphic Events back 
+
 
 Cleanup Electrical Views
 	- Edt equipment property editor
@@ -30,7 +32,6 @@ Calculations
 		- derating calculation
 
 Tag Settings
-	- change Lcs Type to TypeModel / Id
 	- component and Lcs tag changes update cable tags
 	- lcs cable TypeModel vs Type
 	- remove DP load tagging GUID 
@@ -94,10 +95,6 @@ Exports
 	- include / exclude all and multi-select
 
 
-
-
-
-
 Refactorings
 	- proper IPowerCableUser members
 	- cable owners need to reference the cable
@@ -121,7 +118,7 @@ Cables
 LoadGrid Context Menu
 	- Set load factor
 
-DaAccess
+Data Access
 	- Create positive upsert/SaveList
 
 Application Settings
@@ -178,6 +175,10 @@ Autocad
 ***************************
 ***    AFTER RELEASE	***
 ***************************
+
+	 
+Add selectable on click for Dteq
+	- rename LoadGraphic Events back 
 
 Modularize Calculations
 	- Load

@@ -319,8 +319,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             </ComboBox.ItemTemplateSelector>
                         </ComboBox>
 
-                        <TextBlock Text="Default OCPD Type for Motor Loads"  
-                            Grid.Row="4" Grid.Column="0" />
+                        <TextBlock Text="Default OCPD Type for Motor Loads"   Grid.Row="4" Grid.Column="0" />
                         <ComboBox Grid.Row="4" Grid.Column="2"
                             ItemsSource="{Binding TypeManager.OcpdTypes}"
                             SelectedValuePath="Type" 
@@ -413,7 +412,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 
                     <ComboBox Grid.Row="1" Grid.Column="2"
                               ItemsSource="{Binding TypeManager.LcsTypes}"
-                              SelectedValuePath="Type" 
+                              SelectedValuePath="Id" 
                               SelectedValue="{Binding LcsTypeDolLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                               IsSynchronizedWithCurrentItem="False" >
                         <ComboBox.ItemTemplateSelector>
@@ -429,8 +428,8 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                 <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}"/>
-                                        </StackPanel>
+                                                <TextBlock Text="{Binding Type}"/>
+                                            </StackPanel>
                                     </DataTemplate>
                                 </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
                             </templateSelectors:ComboBoxItemTemplateSelector>
@@ -447,7 +446,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     </StackPanel>
                     <ComboBox Grid.Row="2" Grid.Column="2"
                               ItemsSource="{Binding TypeManager.LcsTypes}"
-                              SelectedValuePath="Type" 
+                              SelectedValuePath="Id" 
                               SelectedValue="{Binding LcsTypeVsdLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                               IsSynchronizedWithCurrentItem="False" >
                         <ComboBox.ItemTemplateSelector>

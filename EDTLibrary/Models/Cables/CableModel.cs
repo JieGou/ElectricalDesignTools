@@ -43,7 +43,11 @@ public class CableModel : ICable
         AssignOwner(load);
         SetSourceAndDestinationTags(load);
         DaManager.GettingRecords = true;
+
         Type = CableManager.CableSizer.GetDefaultCableType(load);
+        TypeId = CableManager.CableSizer.GetDefaultCableTypeId(load);
+        TypeModel = CableManager.CableSizer.GetDefaultCableTypeModel(load);
+
         DaManager.GettingRecords = false;
 
         UsageType = CableUsageTypes.Power.ToString();
@@ -114,17 +118,28 @@ public class CableModel : ICable
         set
         {
             _type = value;
+            OnPropertyUpdated();
             if (string.IsNullOrEmpty(_type) == false) {
-                TypeModel = TypeManager.GetCableTypeModel(_type);
-                TypeModel = TypeManager.GetCableTypeModel(_type);
+                //TypeModel = TypeManager.GetCableTypeModel(_type);
             }
-
-
         }
 
     }
 
     private CableTypeModel _typeModel;
+
+    private int _typeId;
+
+    public int TypeId
+    {
+        get { return _typeId; }
+        set 
+        { 
+            _typeId = value; 
+            OnPropertyUpdated();
+        }
+    }
+
     public CableTypeModel TypeModel
     {
 
@@ -136,7 +151,8 @@ public class CableModel : ICable
 
             var oldValue = _typeModel;
             _typeModel = value;
-            _type = _typeModel.Type;
+            Type = _typeModel.Type;
+            TypeId = _typeModel.Id;
 
 
             Is1C = _type.Contains("1C") ? true : false;
@@ -434,8 +450,6 @@ public class CableModel : ICable
             if (cable.Type == this.Type && cable.UsedInProject == true) {
                 SizeList.Add(cable.Size);
             }
-
-            
         }
         var cableSizesToRemove = new List<CableModel>();
 
@@ -937,7 +951,7 @@ public class CableModel : ICable
     public virtual async Task OnPropertyUpdated()
     {
         var tag = Tag;
-        
+        var type = Type;
         await Task.Run(() => {
             if (PropertyUpdated != null) {
                 PropertyUpdated(this, EventArgs.Empty);

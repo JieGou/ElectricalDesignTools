@@ -11,6 +11,7 @@ namespace EDTLibrary.Models.Cables
     public class CableSizeModel
     {
         public int Id { get; set; }
+        public int TypeId { get; set; }
         public string Type { get; set; }
         public string Size { get; set; }
         public string BondWireSize { get; set; }

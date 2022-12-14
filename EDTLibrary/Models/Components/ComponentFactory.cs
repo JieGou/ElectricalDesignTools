@@ -131,7 +131,8 @@ public class ComponentFactory
         newLcs.Category = Categories.LCS.ToString();
         newLcs.SubCategory = SubCategories.AuxComponent.ToString();
         newLcs.Type = GetLcsType(owner);
-        newLcs.TypeModel = TypeManager.GetLcsTypeModel(newLcs.Type);
+        newLcs.TypeId = int.Parse(GetLcsTypeId(owner));
+        newLcs.TypeModel = TypeManager.GetLcsTypeModel(newLcs.TypeId);
 
 
         newLcs.Owner = componentOwner;
@@ -157,5 +158,15 @@ public class ComponentFactory
  
         return EdtSettings.LcsTypeDolLoad;
     
+    }
+
+    internal static string GetLcsTypeId(ILoad owner)
+    {
+        if (owner.DriveBool == true) {
+            return EdtSettings.LcsTypeVsdLoad;
+        }
+
+        return EdtSettings.LcsTypeDolLoad;
+
     }
 }

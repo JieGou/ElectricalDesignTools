@@ -67,8 +67,7 @@ namespace EDTLibrary.LibraryData
             get
             {
                 var val = CableTypes.Where(c => c.ConductorQty == 2 && c.UsageType == CableUsageTypes.Power.ToString()
-                                             || (c.ConductorQty == 1 && c.VoltageRating<=1000 && c.UsageType == CableUsageTypes.Power.ToString())
-                                             ).ToList();
+                                             || (c.ConductorQty == 1 && c.VoltageRating<=1000 && c.UsageType == CableUsageTypes.Power.ToString()) ).ToList();
                 return new ObservableCollection<CableTypeModel>(val);
             }
         }
@@ -219,6 +218,13 @@ namespace EDTLibrary.LibraryData
             CableTypeModel output = null;
 
             output = CableTypes.SingleOrDefault(ct => ct.Type == cableType);
+            return output;
+        }
+        public static CableTypeModel GetCableTypeModel(int cableTypeId)
+        {
+            CableTypeModel output = null;
+
+            output = CableTypes.SingleOrDefault(ct => ct.Id == cableTypeId);
             return output;
         }
         public static CableTypeModel GetLcsControlCableTypeModel(ILocalControlStation lcs)
