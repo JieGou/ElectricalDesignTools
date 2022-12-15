@@ -111,7 +111,7 @@ public class DteqManager
                 listManager.DeleteDteq(dteqToDelete);
                 DaManager.DeleteDteq(dteqToDelete);
 
-                await Task.Delay(1000);
+                await Task.Delay(1000); //??
                 await CableManager.DeletePowerCableAsync(dteqToDelete, listManager);
 
 

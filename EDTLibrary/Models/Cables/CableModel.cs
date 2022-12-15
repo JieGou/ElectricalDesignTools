@@ -504,7 +504,7 @@ public class CableModel : ICable
     public void SetSizingParameters(ICableUser load)
     {
         Load = load;
-        SetSourceAndDestinationTags(load);
+        //SetSourceAndDestinationTags(load);
         AssignOwner(load);
 
         VoltageRating = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).VoltageRating;

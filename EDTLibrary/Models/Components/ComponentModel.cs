@@ -52,10 +52,11 @@ public class ComponentModel : IComponentEdt
             _tag = value;
 
             if (DaManager.GettingRecords == true) return;
+
             if (Owner != null) {
-                if (CableManager.IsUpdatingCables == false) {
-                    //CableManager.AddAndUpdateLoadPowerComponentCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
-                }
+                
+                CableManager.UpdateComponentCableTags((LoadModel)Owner);
+                CableManager.UpdateLcsCableTags((LoadModel)Owner);
             }
 
             UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);

@@ -6,6 +6,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
+using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Validators;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
@@ -46,8 +47,8 @@ public class LocalControlStationModel : ILocalControlStation
 
             UndoManager.Lock(this, nameof(Tag));
             if (DaManager.GettingRecords == false) {
+                    CableManager.UpdateLcsCableTags((LoadModel)Owner);
                 if (ControlCable != null) {
-
                 }
             }
             UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);

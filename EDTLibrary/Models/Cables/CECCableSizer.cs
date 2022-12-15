@@ -185,8 +185,8 @@ namespace EDTLibrary.Models.Cables
             cable.Spacing = spacing;
             return spacing;
         }
+        
         //TODO - Change Tables to Enum "CecTables"
-
         public string GetAmpacityTable(ICable cable, bool checkSizeCutoff = true)
         {
             if (cable == null) return "Invalid Cable Data";

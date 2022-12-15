@@ -1,9 +1,24 @@
 Bugs
 	- DELETE DTEQ does not retag Lcs cable
 	- SCCA/R calculation on DTEQ size change
-	- AutoSizeAll/AutoSize after adding / with components retags load cable to it's fedfrom instead of the last component
+	- transformer grounding
 
+Refresh screens when updating
 
+Double/Decimal TextBoxes and values
+	- equipment size
+	- cable lengths
+
+Settings
+	- transformer grounding
+	- transformer cooling type on dteq options
+	- 
+
+LoadModel 
+	- Type change calculation updates
+	- load data IsValid
+	- 
+	
 
 Cables and Cable Types Based on Id so that Type tags can be updated in the library.
 	-
@@ -39,7 +54,6 @@ Tag Settings
 		- finish cable settings
 	- bulk updates on tag changes
 	
-double boxes and values
 
 standalone starter / splitter
 OcpdModel

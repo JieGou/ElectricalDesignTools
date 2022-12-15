@@ -28,7 +28,7 @@ public class CableManager
     //reference for quick navigation
     private CecCableSizer cecCableSizer;
 
-   
+
 
     public static async Task DeletePowerCableAsync(IPowerConsumer powerCableUser, ListManager listManager)
     {
@@ -191,6 +191,27 @@ public class CableManager
         }
     }
 
+    public static void UpdateComponentCableTags(IPowerConsumer powerComponentOwner)
+    {
+        if (IsUpdatingCables) return;
+        IComponentEdt previousComponent = null;
+        foreach (var component in powerComponentOwner.CctComponents) {
+
+            if (component.SubCategory != SubCategories.CctComponent.ToString()) continue;
+
+            if (previousComponent == null) {
+                component.PowerCable.Source = powerComponentOwner.FedFrom.Tag;
+            }
+            else if (previousComponent != null) {
+                component.PowerCable.Source = previousComponent.Tag;
+            }
+
+            component.PowerCable.Destination = component.Tag;
+            component.PowerCable.Tag = GetCableTag(component.PowerCable);
+            
+            previousComponent = component;
+        }
+    }
 
     /// <summary>
     /// Copies the basic power cable properties to the component's powercable.
@@ -382,13 +403,16 @@ public class CableManager
         var lcs = lcsOwner.Lcs;
         if (lcsOwner.DriveBool == true) {
             lcs.ControlCable.Source = lcsOwner.Drive.Tag;
+            lcs.ControlCable.Destination = lcs.Tag;
             lcs.ControlCable.CreateTag();
 
             lcs.AnalogCable.Source = lcsOwner.Drive.Tag;
+            lcs.AnalogCable.Destination = lcs.Tag;
             lcs.AnalogCable.CreateTag();
         }
         else {
             lcs.ControlCable.Source = lcsOwner.FedFrom.Tag;
+            lcs.ControlCable.Destination = lcs.Tag;
             lcs.ControlCable.CreateTag();
         }
     }
