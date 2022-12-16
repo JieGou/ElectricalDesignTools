@@ -1,7 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
-using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
-using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -12,14 +10,10 @@ using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Components;

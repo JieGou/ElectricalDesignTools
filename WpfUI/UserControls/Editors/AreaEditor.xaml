@@ -4,12 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.UserControls.Editors"
+             mc:Ignorable="d" 
              
+             xmlns:controls="clr-namespace:WpfUI.Controls"
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
              
-             mc:Ignorable="d" 
              d:DesignHeight="115" d:DesignWidth="250"
-             d:Background="AliceBlue">
+             d:Background="AliceBlue"
+             Background="Transparent">
 
     <UserControl.Resources>
 
@@ -20,11 +22,11 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <!--Area Details-->
-        <GroupBox Header="Area Details" FontWeight="SemiBold"
-                  Style="{DynamicResource GroupBoxStyle1}" 
-                  VerticalAlignment="Top" Height="100" 
-                  Margin="0 5 0 0" >
+        <controls:EdtGroupBox Grid.Row="0"
+                                  Header="Area Properties"
+                                  HeaderForeGround="White"
+                                  HeaderBackground="Gray"
+                                  >
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -44,9 +46,10 @@
                            FontWeight="Normal"
                            Margin="0 5 0 0"
                            TextAlignment="Right"/>
+                
                 <ComboBox Grid.Row="0" Grid.Column="3" 
                           Template="{DynamicResource ComboBoxBase}"
-                          MinWidth="115" HorizontalAlignment="Right"
+                          Width="115" HorizontalAlignment="Right"
                           ItemsSource="{Binding Path=DataContext.ListManager.AreaList, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type Window}}}"
@@ -93,10 +96,9 @@
                            MinWidth="0"
                            TextAlignment="Right"/>
 
-                <ComboBox x:Name="cbxNemaRatings" 
-                          Template="{DynamicResource ComboBoxBase}" 
+                <ComboBox Template="{DynamicResource ComboBoxBase}" 
                           Grid.Row="1" Grid.Column="3"
-                          MinWidth="100"
+                          Width="115"
                           ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, 
                                               RelativeSource={RelativeSource Mode=FindAncestor, 
                                               AncestorType={x:Type Window}}}"
@@ -114,9 +116,9 @@
                            TextAlignment="Right"
                            Margin="0 5 0 0"/>
 
-                <ComboBox x:Name="cbxAreaClassifications" 
-                          Template="{DynamicResource ComboBoxBase}" 
+                <ComboBox Template="{DynamicResource ComboBoxBase}" 
                           Grid.Row="2" Grid.Column="3"
+                          Width="115"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type Window}}}"
@@ -127,7 +129,8 @@
                           IsSynchronizedWithCurrentItem="False" 
                           ToolTip="{StaticResource AreaPropertyChangeMessage}"/>
 
+                
             </Grid>
-        </GroupBox>
+        </controls:EdtGroupBox>
     </Grid>
 </UserControl>

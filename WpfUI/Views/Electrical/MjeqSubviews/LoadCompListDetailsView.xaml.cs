@@ -24,8 +24,4 @@ public partial class LoadCompListDetailsView : UserControl
         InitializeComponent();
     }
 
-    private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
-    }
 }

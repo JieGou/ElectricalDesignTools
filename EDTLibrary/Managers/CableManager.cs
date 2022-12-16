@@ -402,11 +402,14 @@ public class CableManager
         
         var lcs = lcsOwner.Lcs;
         if (lcsOwner.DriveBool == true) {
-            lcs.ControlCable.Source = lcsOwner.Drive.Tag;
+
+            if (lcsOwner.Drive != null) {
+                lcs.ControlCable.Source = lcsOwner.Drive.Tag;
+                lcs.AnalogCable.Source = lcsOwner.Drive.Tag;
+            }
             lcs.ControlCable.Destination = lcs.Tag;
             lcs.ControlCable.CreateTag();
 
-            lcs.AnalogCable.Source = lcsOwner.Drive.Tag;
             lcs.AnalogCable.Destination = lcs.Tag;
             lcs.AnalogCable.CreateTag();
         }

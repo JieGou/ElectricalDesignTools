@@ -22,6 +22,7 @@
         <Setter Property="Margin" Value="5 0 5 0"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="StatusBarLabel_TextBlockStyle">

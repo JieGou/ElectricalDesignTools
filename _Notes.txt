@@ -1,9 +1,14 @@
 Bugs
-	- DELETE DTEQ does not retag Lcs cable
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
 
-Refresh screens when updating
+Misc.
+	- Edt equipment property editor
+	- Main Window Toolbar Height
+	- Delete from Single line
+	- DTEQ right click menu
+	- Refresh screens when updating
+	- transformer cooling type on dteq options
 
 Double/Decimal TextBoxes and values
 	- equipment size
@@ -11,22 +16,13 @@ Double/Decimal TextBoxes and values
 
 Settings
 	- transformer grounding
-	- transformer cooling type on dteq options
-	- 
 
 LoadModel 
 	- Type change calculation updates
 	- load data IsValid
-	- 
-	
 
 Cables and Cable Types Based on Id so that Type tags can be updated in the library.
 	-
-
-Main Window Toolbar Height
-Delete from Single line
-DTEQ right click menu
-
 
 Transformer Grounding
 	- NGR component
@@ -34,11 +30,7 @@ Transformer Grounding
 	- cables
 
 
-Cleanup Electrical Views
-	- Edt equipment property editor
-	- edt cable editor (property pane)
-	- dual synchronize SigleLine ScrollViewers (to sync keyboard scroll)
-	- add fed from button to graphic to select fedfrom equipment
+
 	
 Calculations
 	- OCPD 80% rated calculation
@@ -47,12 +39,11 @@ Calculations
 		- derating calculation
 
 Tag Settings
-	- component and Lcs tag changes update cable tags
 	- lcs cable TypeModel vs Type
 	- remove DP load tagging GUID 
 	- basic default auto-tagging system and logic
 		- finish cable settings
-	- bulk updates on tag changes
+	- bulk updates on tag setting changes
 	
 
 standalone starter / splitter
@@ -64,12 +55,11 @@ Generic settings editor for Eq
 
 Application Settings
 	- Add Load Voltage notification
-	- 
-
 	- Optional Auto-Calculations
 		- Component Sizing
 		- PD
 		- Cable
+
 
 Priorities
 	- Distribution Panel - 12 hours
@@ -190,16 +180,21 @@ Autocad
 ***    AFTER RELEASE	***
 ***************************
 
-	 
+Cleanup Electrical Views
+	- edt cable editor (property pane)
+	- dual synchronize SigleLine ScrollViewers (to sync keyboard scroll)
+	- add fed from button to graphic to select fedfrom equipment
+
+
 Add selectable on click for Dteq
 	- rename LoadGraphic Events back 
 
-Modularize Calculations
+Modularize Calculations Better
 	- Load
 
 	- Dteq
 
-	- Cable
+	- Smart Cable Tagging
 		- Cable.LoadId
 		- Source.Id, Source.Type
 		- Destination.Id, Destination.Type

@@ -17,6 +17,10 @@
              xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
              xmlns:edtCables="clr-namespace:EDTLibrary.Models.Cables;assembly=EDTLibrary"
              
+             
+             xmlns:editors="clr-namespace:WpfUI.UserControls.Editors"
+             
+             
              xmlns:converters="clr-namespace:WpfUI.Converters"
              
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
@@ -40,46 +44,6 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:InvertableBooleanToVisibilityConverter x:Key="BoolToVis"/>
-
-            
-
-            <Style TargetType="TextBlock">
-                <Setter Property="Margin" Value="0 3"/>
-                <Setter Property="FontSize" Value="12"/>
-
-            </Style>
-
-            <Style TargetType="TextBox">
-                <Setter Property="Margin" Value="0 3"/>
-                <Setter Property="Height" Value="20"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="VerticalContentAlignment" Value="Center"/>
-            </Style>
-
-
-            <Style TargetType="CheckBox">
-                <!--<Setter Property="Margin" Value="10 0 0 0"/>-->
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-
-            <Style TargetType="ComboBox">
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="Height" Value="20"/>
-                <Setter Property="Margin" Value="0 3"/>
-            </Style>
-
-
-            <Style TargetType="TextBlock" x:Key="textBoxMouseOver">
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Cursor" Value="Hand"/>
-                        <Setter Property="Margin" Value="0 3"/>
-                        <Setter Property="FontSize" Value="12"/>
-                        <Setter Property="Height" Value="20"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
         </ResourceDictionary>
 
     </UserControl.Resources>
@@ -133,7 +97,7 @@
               ShowGridLines="False">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" d:Width="200"/>
-                <ColumnDefinition Width="325" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <!-- Graphic on left -->
@@ -380,9 +344,9 @@
                 <!--Quick Properties-->
                 <TabItem Header="Quick Properties" Background="{DynamicResource BackgroundLight}"
                          d:Background="LightCyan">
-                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Visible">
-                        <Grid Margin="5">
+                        <Grid >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="*"/>
@@ -395,11 +359,12 @@
                                 <ContentControl.Resources>
 
                                     <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                        <mjeqSubViews:EquipmentDetailsView DataContext="{Binding}"/>
+                                        <editors:LoadEditor DataContext="{Binding}"/>
                                     </DataTemplate>
                                     
                                     <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                        <mjeqSubViews:EquipmentDetailsView/>
+                                        <editors:LoadEditor DataContext="{Binding}"/>
+                                        <!--<mjeqSubViews:EquipmentDetailsView/>-->
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">

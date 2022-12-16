@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 
 namespace WpfUI.UserControls.Editors;
 /// <summary>
-/// Interaction logic for DpnCircuitViewer.xaml
+/// Interaction logic for ComponentListEditor.xaml
 /// </summary>
-public partial class LoadEditor : UserControl
+public partial class ComponentListEditor : UserControl
 {
-    public LoadEditor()
+    public ComponentListEditor()
     {
         InitializeComponent();
     }
