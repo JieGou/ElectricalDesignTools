@@ -32,6 +32,7 @@ namespace EDTLibrary.Models.Loads
 
     public class LoadModel : ILoad
     {
+
         public LoadModel()
         {
             Description = "";
@@ -41,12 +42,20 @@ namespace EDTLibrary.Models.Loads
 
         }
         [Browsable(false)]
+
         public CalculationFlags CalculationFlags { get; set; }
        
+        
+
+        //Properties
+
+        public IProtectionDevice ProtectionDevice { get; set; }
+
+
         [Browsable(false)]
         public bool IsSelected { get; set; } = false;
 
-        //Properties
+
         [Browsable(false)]
         public int Id { get; set; }
         private string _tag;
@@ -546,7 +555,6 @@ namespace EDTLibrary.Models.Loads
                         ComponentManager.RemoveDefaultDisconnect(this, ScenarioManager.ListManager);
                     }
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
-                    //OnCctComponentChanged();
                 }
                 UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(DisconnectBool), oldValue, _disconnectBool);
@@ -610,12 +618,7 @@ namespace EDTLibrary.Models.Loads
             {
                 var oldValue = _driveBool;
                 _driveBool = value;
-                if (_driveBool == true) {
-                    PdType = "BKR";
-                }
-                else if (_driveBool == false) {
-                    PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
-                }
+              
 
                 UndoManager.CanAdd = false;
                 UndoManager.Lock(this, nameof(DriveBool));
@@ -624,14 +627,19 @@ namespace EDTLibrary.Models.Loads
                 if (DaManager.GettingRecords == false) {
                     if (Lcs!=null) {
                         Lcs.Type = ComponentFactory.GetLcsType(this);
-                        Lcs.TypeModel = TypeManager.GetLcsTypeModel(Lcs.Type);
+                        Lcs.TypeModel = TypeManager.GetLcsTypeModel(Lcs.TypeId);
                     }
 
                     if (_driveBool == true) {
+                        PdType = "BKR";
                         ComponentManager.AddDefaultDrive(this, ScenarioManager.ListManager);
                         CableManager.CreateLcsAnalogCable(this, ScenarioManager.ListManager);
+
+                        Drive = Drive;
                     }
+
                     else if (_driveBool == false) {
+                        PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
                         ComponentManager.RemoveDefaultDrive(this, ScenarioManager.ListManager);
                         CableManager.DeleteLcsAnalogCable(Lcs, ScenarioManager.ListManager);
                     }

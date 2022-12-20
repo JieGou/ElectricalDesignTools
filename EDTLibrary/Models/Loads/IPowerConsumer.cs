@@ -15,6 +15,9 @@ namespace EDTLibrary.Models.Loads
     public interface IPowerConsumer : ICableUser, IComponentUser
 
     {
+        
+
+        IProtectionDevice ProtectionDevice { get; set; }
 
         CalculationFlags CalculationFlags { get; set; }
 

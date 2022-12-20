@@ -11,6 +11,7 @@
              xmlns:converters="clr-namespace:WpfUI.Converters"
              
              xmlns:dteqViewers="clr-namespace:WpfUI.UserControls.Viewers.Dteq"
+             xmlns:editors="clr-namespace:WpfUI.UserControls.Editors"
              
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
@@ -156,7 +157,7 @@
                           Visibility="{Binding ElectricalViewGridSplitterVisibility}"
                           PreviewMouseLeftButtonUp="SaveGridWidth"/>
 
-            <!--Property Pane-->
+            <!--Property Pane Splitter-->
             <GridSplitter Grid.Column="5"  HorizontalAlignment="Center" VerticalAlignment="Stretch"   
                           Grid.Row="0" Grid.RowSpan="6"
                           Width="{StaticResource GridSplitterWidth}"
@@ -627,7 +628,6 @@
                    Grid.Column="6"
                    Margin="0 0 0 0"
                    HorizontalAlignment="Stretch"
-                   MinWidth="350"
                    >
 
                 <Grid.RowDefinitions>
@@ -658,11 +658,11 @@
                                 <ContentControl.Resources>
 
                                     <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                        <mjeqSubViews:EquipmentDetailsView/>
+                                        <editors:LoadEditor/>
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                        <mjeqSubViews:EquipmentDetailsView/>
+                                        <editors:LoadEditor/>
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">

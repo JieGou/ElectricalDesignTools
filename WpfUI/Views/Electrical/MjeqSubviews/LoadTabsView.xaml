@@ -5,7 +5,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              mc:Ignorable="d" 
              
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
@@ -25,7 +24,6 @@
              
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
              
-             xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
 
              Background="{DynamicResource BackgroundLight}"
@@ -371,6 +369,10 @@
                                         <mjeqSubViews:ComponentDetailsView/>
                                     </DataTemplate>
 
+                                    <DataTemplate DataType="{x:Type edtComponents:ProtectionDeviceModel}">
+                                        <mjeqSubViews:ComponentDetailsView/>
+                                    </DataTemplate>
+                                    
                                 </ContentControl.Resources>
                             </ContentControl>
 
@@ -392,6 +394,10 @@
                                         <mjeqSubViews:CableSizingViewNarrow/>
                                     </DataTemplate>
 
+                                    <DataTemplate DataType="{x:Type edtComponents:ProtectionDeviceModel}">
+                                        <mjeqSubViews:CableSizingViewNarrow/>
+                                    </DataTemplate>
+                                    
                                 </ContentControl.Resources>
                             </ContentControl>
 

@@ -22,7 +22,7 @@ namespace EDTLibrary.Models.Components;
 [Serializable]
 [AddINotifyPropertyChangedInterface]
 
-public class DisconnectModel : IComponentEdt
+public class DisconnectModel : ComponentModelBase
 {
     public DisconnectModel()
     {

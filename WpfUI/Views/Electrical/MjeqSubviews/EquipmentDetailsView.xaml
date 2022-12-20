@@ -8,10 +8,8 @@
              xmlns:Editors="clr-namespace:WpfUI.UserControls.Editors"
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
              
-             xmlns:local="clr-namespace:WpfUI.Views.SubViews"
-             
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="375"
+             d:DesignHeight="650" d:DesignWidth="375"
              d:Background="AliceBlue"
              d:Padding="10"
              >

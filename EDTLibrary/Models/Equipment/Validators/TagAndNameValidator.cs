@@ -23,7 +23,11 @@ namespace EDTLibrary.Models.Validators
             if (tagToCheck == GlobalConfig.LargestMotor_StartLoad) return true;
 
             listManager.CreateEquipmentList();
-            var tag = listManager.EqList.FirstOrDefault(eq => eq.Tag.ToLower() == tagToCheck.ToLower());
+
+            string tag = null;
+            foreach (var eq in listManager.EqList) {
+                if (eq.Tag.ToLower() == tagToCheck) tag = eq.Tag;
+            }
 
             if (tag != null) {
                 if (showAlert == true) {

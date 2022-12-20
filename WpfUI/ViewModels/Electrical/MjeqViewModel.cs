@@ -450,7 +450,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
                 CopySelectedLoad();
                 GlobalConfig.SelectingNew = false;
                 if (_selectedLoad.CctComponents.Count > 0) {
-                    SelectedComponent = (ComponentModel)_selectedLoad.CctComponents[0];
+                    SelectedComponent = (ComponentModelBase)_selectedLoad.CctComponents[0];
 
                 }
                 SelectedLoadEquipment = _selectedLoad;
@@ -505,8 +505,8 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
 
     //Components
-    private ComponentModel _selectedComponent;
-    public ComponentModel SelectedComponent
+    private ComponentModelBase _selectedComponent;
+    public ComponentModelBase SelectedComponent
     {
         get { return _selectedComponent; }
         set { _selectedComponent = value; }
@@ -798,7 +798,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             if (SelectedComponent.Id == SelectedLoad.CctComponents[i].Id) {
                 _compIndex = Math.Max(0, i - 1);
                 SelectedLoad.CctComponents.Move(i, _compIndex);
-                SelectedComponent = (ComponentModel)SelectedLoad.CctComponents[_compIndex];
+                SelectedComponent = (ComponentModelBase)SelectedLoad.CctComponents[_compIndex];
                 break;
             }
         }

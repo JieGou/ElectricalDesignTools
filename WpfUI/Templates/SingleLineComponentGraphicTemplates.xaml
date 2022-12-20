@@ -41,7 +41,8 @@
         </StackPanel>
     </DataTemplate>
 
-
+    
+    
     <!--Breaker Template-->
     <DataTemplate x:Key="BreakerTemplate">
         <StackPanel Orientation="Vertical" >
@@ -51,8 +52,9 @@
                     <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Grid Style="{StaticResource GraphicHighlightStyle}"
-                  Grid.Column="1">
+                
+                <Grid Style="{StaticResource GraphicHighlightStyle}" x:Name="BreakerGrid"
+                      Grid.Column="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="26"/>
                         <ColumnDefinition Width="auto"/>
@@ -60,9 +62,9 @@
                     </Grid.ColumnDefinitions>
 
 
-                    <Border BorderThickness="0"
-                        Grid.Column="1"
-                        >
+                    <!--Graphic-->
+                    <Border Grid.Column="1">
+                        
                         <Border.CornerRadius>
                             <CornerRadius TopLeft="{StaticResource HighlightCorerRadius}"
                                       BottomLeft="{StaticResource HighlightCorerRadius}"
@@ -81,6 +83,7 @@
 
                     </Border>
 
+                    <!--Data-->
                     <Border BorderThickness="0"
                         Grid.Column="2"                      
                         Padding="0 0 5 0">
@@ -115,18 +118,92 @@
         </StackPanel>
     </DataTemplate>
 
+    <!--Breaker Template in Bucket-->
     <DataTemplate x:Key="BreakerTemplate_Bucket">
+       
         <StackPanel Orientation="Vertical">
             <ContentControl Content="{Binding}" ContentTemplate="{StaticResource BreakerTemplate}"/>
             <SingleLineLoadGraphics:SingleLineDashedBorder/>
         </StackPanel>
+     
     </DataTemplate>
 
-    <!--FVNR Template-->
-    <DataTemplate x:Key="FvnrTemplate">
+    <!--Breaker Template StandAlone-->
+    <DataTemplate x:Key="BreakerTemplate_StandAlone">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Style="{StaticResource GraphicHighlightStyle}" x:Name="BreakerGrid"
+                      Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="26"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+
+
+                <!--Graphic-->
+                <Border Grid.Column="1" BorderThickness="1 1 0 1" Margin="-1 0 0 0">
+
+
+                    <Canvas Grid.Column="1"
+                            Width="35" Height="90">
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="90"/>
+                    </Canvas>
+
+                </Border>
+
+                <!--Data-->
+                <Border BorderThickness="0 1 1 1"
+                        Grid.Column="2"                      
+                        Padding="0 0 5 0">
+
+                    <Grid Grid.Column="2" Style="{StaticResource GraphicHighlightStyle}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="27"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Vertical"
+                                Grid.Row="1">
+                            <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" />
+                            <Border BorderThickness="0 0 0 1"/>
+                            <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </Grid>
+
+        <!--<Grid>
+            
+            <StackPanel Orientation="Vertical">
+                <ContentControl x:Name="Breaker_StandAlone" Content="{Binding}" ContentTemplate="{StaticResource BreakerTemplate}"/>
+            </StackPanel>
+            <Border BorderThickness="1" BorderBrush="Black" 
+                    Height="{Binding ElementName=BreakerGrid, Path=Height}" 
+                    Width="{Binding ElementName=BreakerGrid, Path=Width}"
+                    Margin="50 0 0 0" HorizontalAlignment="Left"/>
+        </Grid>-->
+
+    </DataTemplate>
+
+
+    <!--DOL Starter Template-->
+    <DataTemplate x:Key="DOLStarterTemplate">
         <StackPanel Orientation="Vertical" >
-
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
@@ -172,12 +249,37 @@
 
                             <!--Contactor-->
                             <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="70" X2="27" Y2="70"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="78" X2="27" Y2="78"/>
+                            <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
+                            <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
                             <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
+
+                            <!--Reversing Contactor-->
+                            <Canvas Canvas.Left="30" >
+                                <Canvas.Style>
+                                    <Style TargetType="Canvas">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PdType}" Value="MCP-FVR">
+                                                <Setter Property="Visibility" Value="Visible"/>
+
+                                            </DataTrigger>
+                                        </Style.Triggers>
+
+                                    </Style>
+                                </Canvas.Style>
+                                <Line Stroke="Black" StrokeThickness="1" X1="-17" Y1="65" X2="14" Y2="65"/>
+                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="65" X2="13.5" Y2="70"/>
+                                <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
+                                <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
+                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="85"/>
+                                <Line Stroke="Black" StrokeThickness="1" X1="-17" Y1="85" X2="14" Y2="85"/>
+
+                            </Canvas>
                         </Canvas>
                     </Border>
 
+                    
+                    <!--Data-->
                     <Border BorderThickness="0"
                             Grid.Column="2"
                         Padding="0 0 5 0"
@@ -193,7 +295,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="5"/>
                                 <RowDefinition Height="auto"/>
-                                <RowDefinition Height="27"/>
+                                <RowDefinition Height="7"/>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
@@ -222,101 +324,18 @@
         </StackPanel>
     </DataTemplate>
 
-    <DataTemplate x:Key="FvnrTemplate_Bucket">
+    <!--DOL Starter Tempalte Bucket-->
+    <DataTemplate x:Key="DOLStarterTemplate_Bucket">
         <StackPanel Orientation="Vertical">
-            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource FvnrTemplate}"/>
+            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DOLStarterTemplate}"/>
             <SingleLineLoadGraphics:SingleLineDashedBorder/>
         </StackPanel>
     </DataTemplate>
 
+    
 
-    <!--FVR Template-->
-    <DataTemplate x:Key="FvrTemplate">
-        <StackPanel Orientation="Vertical" >
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid Style="{StaticResource GraphicHighlightStyle}"
-                  Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="26"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Border BorderThickness="0"
-                        Grid.Column="1">
-                        <Canvas Grid.Column="1"
-                            Width="35" Height="90">
-                            <!--Breaker-->
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
-
-                            <!--Overload-->
-                            <Border BorderThickness="1" 
-                            Canvas.Left="0" Canvas.Top="45" Width="27" Height="15">
-                                <TextBlock Text="O/L" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                       Margin="0 0 0 1"/>
-                            </Border>
-                            <TextBlock Text="FVR"   Canvas.Left="35" Canvas.Top="50" />
-                            <!--<Path Stroke="Black" StrokeThickness="1" Data="M 13,45 A 5,5 0 0 1 13.5, 55" />
-                        <Path Stroke="Black" StrokeThickness="1" Data="M 13.5,55 A 5,5 0 0 0 14, 65" /> -->
-
-                            <!--Contactor-->
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="70" X2="27" Y2="70"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="78" X2="27" Y2="78"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
-                        </Canvas>
-                    </Border>
-
-                    <Border BorderThickness="0"
-                            Grid.Column="2">
-                        <Grid Grid.Column="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="5"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="27"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-
-                            <!--Breaker Size-->
-                            <StackPanel Orientation="Vertical"
-                                Grid.Row="1">
-
-                                <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" />
-                                <Border BorderBrush="Black" BorderThickness="0 0 0 1"/>
-                                <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
-                            </StackPanel>
-
-                            <!--Starter Size-->
-                            <StackPanel Orientation="Horizontal"
-                                    Grid.Row="3">
-                                <TextBlock Text="Size: "/>
-                                <TextBlock Text="{Binding StarterSize}" FontWeight="SemiBold"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-
-                </Grid>
-            </Grid>
-
-            <!--Dashed Border-->
-            <SingleLineLoadGraphics:SingleLineDashedBorder_Bound/>
-
-        </StackPanel>
-    </DataTemplate>
-
-    <!--FdsSplitterTemplate-->
-    <DataTemplate x:Key="FdsSplitterTemplate">
+    <!--Fds Splitter Template-->
+    <DataTemplate x:Key="FdsTemplate_StandAlone">
         <StackPanel>
 
            
@@ -709,7 +728,7 @@
         <Style.Triggers>
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=Type}" Value="BKR" />
+                    <Condition Binding="{Binding PdType}" Value="BKR" />
                     <Condition Binding="{Binding FedFrom}" Value="{x:Type edtDteqModels:XfrModel}" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
@@ -718,18 +737,28 @@
 
             </MultiDataTrigger>
 
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding PdType}" Value="FDS" />
+                    <Condition Binding="{Binding FedFrom}" Value="{x:Type edtDteqModels:SplitterModel}" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate_StandAlone}"/>
+                </MultiDataTrigger.Setters>
+
+            </MultiDataTrigger>
 
             <DataTrigger Binding="{Binding Path=Type}" Value="BKR">
                 <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate_Bucket}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=PdType}" Value="MCP-FVNR">
-                <Setter Property="ContentTemplate" Value="{StaticResource FvnrTemplate_Bucket}"/>
+                <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=PdType}" Value="MCP-FVR">
-                <Setter Property="ContentTemplate" Value="{StaticResource FvrTemplate}"/>
+                <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=PdType}" Value="FDS">
-                <Setter Property="ContentTemplate" Value="{StaticResource FdsSplitterTemplate}"/>
+                <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
@@ -756,9 +785,8 @@
     <templateSelectors:PdStarterGraphicTemplateSelector 
                 x:Key="PdStarterTemplateSelector"
                 EmptyTemplate="{StaticResource EmptyTemplate}" 
-                BreakerTemplate="{StaticResource BreakerTemplate_Bucket}" 
-                FvnrTemplate="{StaticResource FvnrTemplate_Bucket}"
-                FvrTemplate="{StaticResource FvrTemplate}"
+                BreakerTemplate="{StaticResource BreakerTemplate_Bucket}"
+                DolTemplate="{StaticResource DOLStarterTemplate_Bucket}"
                 FdsTemplate="{StaticResource FdsTemplate}" 
         />
 

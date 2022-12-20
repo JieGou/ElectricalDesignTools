@@ -21,7 +21,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             IDteq newDteq;
 
             if (dteqToAddValidator.Type == DteqTypes.XFR.ToString()) {
-                XfrModel model = new XfrModel();
+                var model = new XfrModel();
                 //XFR properties
                 model.Impedance = Double.Parse(EdtSettings.XfrImpedance);
                 model.SubType = EdtSettings.XfrSubType;
@@ -37,17 +37,17 @@ namespace EDTLibrary.Models.DistributionEquipment
                 newDteq = model;
             }
             else if (dteqToAddValidator.Type == DteqTypes.SWG.ToString()) {
-                SwgModel model = new SwgModel();
+                var model = new SwgModel();
                 //SWG properties
                 newDteq = model;
             }
             else if (dteqToAddValidator.Type == DteqTypes.MCC.ToString()) {
-                MccModel model = new MccModel();
+                var model = new MccModel();
                 //MCC properties
                 newDteq = model;
             }
             else if (dteqToAddValidator.Type == DteqTypes.DPN.ToString()) {
-                DpnModel model = new DpnModel();
+                var model = new DpnModel();
                 
                
                 newDteq = model;
@@ -55,12 +55,18 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
 
             else if (dteqToAddValidator.Type == DteqTypes.CDP.ToString()) {
-                DpnModel model = new DpnModel();
+                var model = new DpnModel();
                 newDteq = model;
             }
-            else {
+            else if (dteqToAddValidator.Type == DteqTypes.SPL.ToString()) {
+                var model = new SplitterModel();
+                newDteq = model;
+            }
+
+            else { //required 
                 newDteq = new DteqModel();
             }
+
 
             if (_listManager.IDteqList.Count == 0) {
                 newDteq.Id = 1;
@@ -108,6 +114,9 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
             else if (oDteq.GetType() == typeof(DpnModel)) {
                 return (DpnModel)oDteq;
+            }
+            else if (oDteq.GetType() == typeof(SplitterModel)) {
+                return (SplitterModel)oDteq;
             }
             else {
                 return (DteqModel)oDteq;

@@ -84,8 +84,8 @@ public partial class SL_LoadGraphicView : UserControl
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
-            if (dataContext is ComponentModel) {
-                ComponentModel component = (ComponentModel)dataContext;
+            if (dataContext is ComponentModelBase) {
+                ComponentModelBase component = (ComponentModelBase)dataContext;
                 OnEquipmentCableSelected(component);
             }
             else if (dataContext is DistributionEquipment) {

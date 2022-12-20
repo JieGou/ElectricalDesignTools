@@ -28,11 +28,16 @@ namespace EDTLibrary.Models.Loads;
 [AddINotifyPropertyChangedInterface]
 public class LoadCircuit : ILoadCircuit
 {
+
+
     public LoadCircuit()
     {
         ConvertToLoadCommand = new RelayCommand(ConvertToLoad);
     }
     public CalculationFlags CalculationFlags { get; set; }
+
+    public IProtectionDevice ProtectionDevice { get; set; }
+
 
     public ICommand ConvertToLoadCommand { get; }
     public void ConvertToLoad()

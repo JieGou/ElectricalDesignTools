@@ -60,10 +60,12 @@ public class DaManager {
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.DpnTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.SplitterTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadCircuitTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.CableTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.ProtectionDeviceTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.LcsTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.RacewayTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.RacewayRouteSegmentsTable);
@@ -128,7 +130,10 @@ public class DaManager {
                     prjDb.UpsertRecord(model, GlobalConfig.DpnTable, NoSaveLists.DteqNoSaveList);
                 }
 
-
+                else if (iDteq.GetType() == typeof(SplitterModel)) {
+                    var model = (SplitterModel)iDteq;
+                    prjDb.UpsertRecord(model, GlobalConfig.SplitterTable, NoSaveLists.DteqNoSaveList);
+                }
             });
         }
 
@@ -237,8 +242,21 @@ public class DaManager {
         }
     }
 
+    public static void OnProtectioneDevicePropertyUpdated(object source, EventArgs e)
+    {
+        if (DaManager.GettingRecords == false) {
+            prjDb.UpsertRecord<ProtectionDeviceModel>((ProtectionDeviceModel)source, GlobalConfig.ProtectionDeviceTable, NoSaveLists.ProtectionDeviceNoSaveList);
+        }
+    }
 
-    //Save Get Id
+    internal static void OnDisconnectPropertyUpdated(object source, EventArgs e)
+    {
+        if (DaManager.GettingRecords == false) {
+            DaManager.UpsertDisconnect((DisconnectModel)source);
+        }
+    }
+
+    //Save Dteq Get Id
     public static int SaveDteqGetId(IDteq iDteq)
     {
         int id = 0;
@@ -261,12 +279,7 @@ public class DaManager {
         return id;
     }
 
-    internal static void OnDisconnectPropertyUpdated(object source, EventArgs e)
-    {
-        if (DaManager.GettingRecords == false) {
-            DaManager.UpsertDisconnect((DisconnectModel)source);
-        }
-    }
+    
 
     private static void UpsertDisconnect(DisconnectModel disconnect)
     {
@@ -321,10 +334,8 @@ public class DaManager {
         }
     }
 
-    
 
    
-
     public static void UpsertComponent(ComponentModel component)
     {
         try {
@@ -339,12 +350,33 @@ public class DaManager {
 
     }
 
+    public static void UpsertProtectionDevice(ProtectionDeviceModel pd)
+    {
+        try {
+            if (GlobalConfig.Importing == true) return;
+
+            prjDb.UpsertRecord(pd, GlobalConfig.ProtectionDeviceTable, NoSaveLists.ProtectionDeviceNoSaveList);
+        }
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw;
+        }
+
+    }
+
     public static void DeleteComponent(ComponentModel component)
     {
         if (component == null ) {
             return;
         }
         prjDb.DeleteRecord(GlobalConfig.ComponentTable, component.Id);
+    }
+    public static void DeleteProtectionDevice(ProtectionDeviceModel pd)
+    {
+        if (pd == null) {
+            return;
+        }
+        prjDb.DeleteRecord(GlobalConfig.ProtectionDeviceTable, pd.Id);
     }
 
     public static void UpsertLcs(LocalControlStationModel lcs)

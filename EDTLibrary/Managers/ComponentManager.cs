@@ -1,11 +1,13 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +42,8 @@ public class ComponentManager
             var componentToRemove = listManager.LcsList.FirstOrDefault(c => c.Id == componentId);
             listManager.LcsList.Remove(componentToRemove);
             DaManager.DeleteLcs((LocalControlStationModel)load.Lcs);
-            CableManager.DeleteLcsControlCables(componentUser, componentToRemove, listManager);
+            CableManager.DeleteLcslCables(componentUser, componentToRemove, listManager);
+            load.Lcs.PropertyUpdated -= DaManager.OnLcsPropertyUpdated;
             load.Lcs = null;
             load.AreaChanged -= componentToRemove.MatchOwnerArea;
         }
@@ -48,11 +51,14 @@ public class ComponentManager
     public static void AddDefaultDrive(IComponentUser componentUser, ListManager listManager)
     {
         if (listManager == null) return;
+
         string subCategory = SubCategories.CctComponent.ToString();
         string type = ComponentTypes.VSD.ToString();
         string subType = ComponentSubTypes.DefaultDrive.ToString();
+
         ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);
         componentUser.Drive = newComponent;
+
         if (componentUser.GetType() == typeof(LoadModel)) {
             var load = (LoadModel)componentUser;
             load.FedFrom.AreaChanged += newComponent.MatchOwnerArea;
@@ -64,30 +70,36 @@ public class ComponentManager
     {
         if (componentUser.Drive == null) return;
         if (componentUser.GetType() == typeof(LoadModel)) {
+            IComponentEdt componentToRemove = new ComponentModel();
             var load = (LoadModel)componentUser;
             foreach (var component in load.CctComponents) {
                 if (component.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
-                    load.CctComponents.Remove(component);
+                    //load.CctComponents.Remove(component);
                     int componentId = component.Id;
-                    var componentToRemote = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
-                    listManager.CompList.Remove(componentToRemote);
+                    componentToRemove = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
+                    listManager.CompList.Remove(componentToRemove);
                     DaManager.DeleteComponent((ComponentModel)component);
+                    componentUser.Drive.PropertyUpdated -= DaManager.OnComponentPropertyUpdated;
                     componentUser.Drive = null;
-                    break;
+                    //break;
                     load.FedFrom.AreaChanged -= component.MatchOwnerArea;
 
                 }
             }
+            load.CctComponents.Remove(componentToRemove);
         }
     }
 
     public static void AddDefaultDisconnect(IComponentUser componentUser, ListManager listManager)
     {
-        if (listManager == null) return;
-        string subCategory = SubCategories.CctComponent.ToString();
         //Todo - Add setting for local disconnect default type
-        string type = "UDS";
+
+        if (listManager == null) return;
+
+        string subCategory = SubCategories.CctComponent.ToString();
+        string type = ComponentTypes.UDS.ToString();
         string subType = ComponentSubTypes.DefaultDcn.ToString();
+
         ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);
 
         if (componentUser.GetType() == typeof(LoadModel)) {
@@ -102,26 +114,25 @@ public class ComponentManager
         if (componentUser.Disconnect == null) return;
         if (componentUser.GetType() == typeof(LoadModel)) {
             var load = (LoadModel)componentUser;
+            IComponentEdt componentToRemove = new ComponentModel();
             foreach (var component in componentUser.CctComponents) {
                 if (component.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
-                    componentUser.CctComponents.Remove(component);
+                    //componentUser.CctComponents.Remove(component);
                     int componentId = component.Id;
-                    var componentToRemote = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
-                    listManager.CompList.Remove(componentToRemote);
+                    componentToRemove = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
+                    listManager.CompList.Remove(componentToRemove);
                     DaManager.DeleteComponent((ComponentModel)component);
+                    componentUser.Disconnect.PropertyUpdated -= DaManager.OnComponentPropertyUpdated;
                     componentUser.Disconnect = null;
-                    break;
+                    //break;
                     load.AreaChanged -= component.MatchOwnerArea;
                 }
             }
+            componentUser.CctComponents.Remove(componentToRemove);
         }
     }
 
-    public static void RetagCctComponents(IComponentUser componentUser)
-    {
-
-    }
-
+ 
     /// <summary>
     /// Deletes all components owned by a components user. Typically when deleting a component user.
     /// </summary>
@@ -158,5 +169,49 @@ public class ComponentManager
         componentUser.CctComponents.Remove(component);
         listManager.CompList.Remove(component);
         DaManager.DeleteComponent((ComponentModel)component);
+    }
+
+    internal static void AddSplitterLoadProtectionDevice(IPowerConsumer supplier, IPowerConsumer componentUser, ListManager listManager)
+    {
+        //Todo - Add setting for local disconnect default type
+
+        if (listManager == null) return;
+
+        string category = Categories.COMPONENT.ToString();
+        string subCategory = SubCategories.ProtectionDevice.ToString();
+        string type = CctComponentTypes.FDS.ToString();
+        string subType = ComponentSubTypes.StandAloneDcn.ToString();
+
+        //was working on this, cables are added seperately by AddAndUpdateLoadPowerComponentCablesAsync
+        ProtectionDeviceModel newPd = ComponentFactory.CreateProtectionDevice(componentUser, subCategory, type, subType, listManager);
+        newPd.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
+        if (componentUser.GetType() == typeof(LoadModel)) {
+            var load = (LoadModel)componentUser;
+            load.Disconnect = newPd;
+            load.FedFrom.AreaChanged += newPd.MatchOwnerArea;
+        }
+    }
+
+    internal static void RemoveSplitterLoadProtectionDevice(SplitterModel splitterModel, IPowerConsumer load, ListManager listManager)
+    {
+        IComponentEdt componentToRemove = new ComponentModel();
+
+        foreach (var component in load.CctComponents) {
+            if (component.SubType == ComponentSubTypes.StandAloneDcn.ToString()) {
+                componentToRemove = component;
+
+                int pdId = component.Id;
+                var pdToRemove = listManager.ProtectionDeviceList.FirstOrDefault(c => c.Id == pdId);
+                //listManager.ProtectionDeviceList.Remove(pdToRemove);
+                //DaManager.DeleteProtectionDevice(pdToRemove);
+                pdToRemove.PropertyUpdated -= DaManager.OnProtectioneDevicePropertyUpdated;
+
+                load.ProtectionDevice = null;
+                //break;
+                splitterModel.AreaChanged -= component.MatchOwnerArea;
+            }
+        }
+        load.CctComponents.Remove(componentToRemove);
+
     }
 }

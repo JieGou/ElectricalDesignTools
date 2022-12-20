@@ -8,7 +8,6 @@
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              
-             xmlns:subViews="clr-namespace:WpfUI.Views.SubViews"
              xmlns:Converters="clr-namespace:WpfUI.Converters"
 
              d:DesignHeight="225" d:DesignWidth="450"

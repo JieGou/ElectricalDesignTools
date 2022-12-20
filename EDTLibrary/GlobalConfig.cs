@@ -41,11 +41,15 @@ namespace EDTLibrary
         public static string SwgTable { get; set; } = "Switchgear";
         public static string MccTable { get; set; } = "Mcc";
         public static string DpnTable { get; set; } = "DPanels";
+        public static string SplitterTable   { get; set; } = "Splitters";
         public static string DpnCircuitTable { get; set; } = "DpnCircuits";
         public static string ComponentTable { get; set; } = "Components";
         public static string LcsTable { get; set; } = "LocalControlStation";
         public static string AreaTable { get; set; } = "Areas";
         public static string CableTable { get; set; } = "Cables";
+        public static string ProtectionDeviceTable { get; set; } = "ProtectionDevices";
+
+
 
         public static string ExportMappingTable { get; set; } = "ExportMapping";
 

@@ -1,14 +1,30 @@
+
+In Progress - componenentManager adding for protection devices
+	- create EdtComponentModelBase
+	- remove splitter load protection device
+
 Bugs
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
+	- added DTEQ aren't in the right click menu Set FedFrom list
+
+standalone starter / splitter
+OcpdModel
 
 Misc.
 	- Edt equipment property editor
+		- maxwidth of textboxes (Description)
+
+	- Component Move Up Command to Owner
+
 	- Main Window Toolbar Height
 	- Delete from Single line
 	- DTEQ right click menu
 	- Refresh screens when updating
 	- transformer cooling type on dteq options
+
+Window State Binding System
+	- 
 
 Double/Decimal TextBoxes and values
 	- equipment size
@@ -46,8 +62,7 @@ Tag Settings
 	- bulk updates on tag setting changes
 	
 
-standalone starter / splitter
-OcpdModel
+
 
 
 Generic settings editor for Eq

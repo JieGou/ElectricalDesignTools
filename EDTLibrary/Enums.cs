@@ -13,7 +13,7 @@ namespace EDTLibrary {
         LOAD3P,
         LOAD1P,
         CABLE,
-        COMPONENT,
+        COMPONENT, //has sub categories
         DRIVE,
         DCN,
         LCLDCN,
@@ -25,6 +25,7 @@ namespace EDTLibrary {
     {
         CctComponent,
         AuxComponent,
+        ProtectionDevice,
     }
 
     public enum DteqTypes {
@@ -54,8 +55,24 @@ namespace EDTLibrary {
         RVS,
         LCS,
     }
+    public enum ComponentSubTypes
+    {
+        DefaultDcn,
+        DefaultDrive,
+        DefaultStarter,
+
+        StandAloneDcn,
+        StandAloneDrive,
+        StandAloneStarter,
+    }
+    
     public enum CctComponentTypes
     {
+        Dicsonnect,
+        Starter,
+        Drive,
+        JunctionBox,
+
         UDS,
         FDS,
         VFD,
@@ -63,7 +80,7 @@ namespace EDTLibrary {
         RVS,
         JB,
     }
-
+    
     public enum JunctionBoxTypes
     {
         JB,
@@ -71,11 +88,7 @@ namespace EDTLibrary {
         HVJB,
         CSTE,
     }
-    public enum ComponentSubTypes
-    {
-        DefaultDcn,
-        DefaultDrive,
-    }
+   
     public enum DisconnectTypes
     {
         UDS,

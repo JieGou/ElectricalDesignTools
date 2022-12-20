@@ -22,7 +22,7 @@ namespace EDTLibrary.Models.Components;
 [Serializable]
 [AddINotifyPropertyChangedInterface]
 
-public class DriveModel : IComponentEdt
+public class DriveModel : ComponentModelBase
 {
 
     public bool IsSelected { get; set; } = false;

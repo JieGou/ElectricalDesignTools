@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              
-             xmlns:local="clr-namespace:WpfUI.Views.SubViews"
              
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"

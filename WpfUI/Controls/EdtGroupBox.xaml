@@ -18,36 +18,52 @@
                     MinWidth="0">
 
             <!--Header-->
-            <Border BorderBrush="Black" BorderThickness="1">
+            <Border BorderBrush="Black" BorderThickness="1"
+                    Height="{Binding HeaderHeight, ElementName= root}">
                 <Grid Background="{Binding HeaderBackground, ElementName = root}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-            <TextBlock Text="{Binding Header, ElementName = root}"
-                        Foreground="{Binding HeaderForeGround, ElementName = root}"
-                        Margin="0"
-                        Padding="5" />
+
+                <ToggleButton x:Name="expander"
+                              Grid.Column="0" 
+                              Background="Wheat"
+                              Margin="5 0 "
+                              Style="{StaticResource ExpandCollapseToggleStyle}"
+                              IsChecked="True"/>
                     
-                <Expander Grid.Column="1" x:Name="expander"
-                            HorizontalAlignment="Right"
-                          IsExpanded="True"
-                          VerticalAlignment="Center"/>
                     
+                    <TextBlock Grid.Column="1" 
+                               Text="{Binding Header, ElementName = root}"
+                               Foreground="{Binding HeaderForeGround, ElementName = root}"
+                               FontWeight="SemiBold"
+                               Margin="5 0 0 0"
+                               Padding="0"
+                               VerticalAlignment="Center"/>
+
+                    <Expander Grid.Column="2"
+                              HorizontalAlignment="Right"
+                              IsExpanded="{Binding ElementName=expander, Path=IsChecked}"
+                              VerticalAlignment="Center"/>
+
+                
+
             </Grid>
             </Border>
 
             <!--Content-->
             <Border BorderBrush="Black" BorderThickness="1 0 1 1">
                 <Border.Style>
-            <Style TargetType="Border">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsExpanded, ElementName=expander}" Value="False">
-                            <Setter Property="Height" Value="0"/>
-                        </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Border.Style>
+                    <Style TargetType="Border">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsChecked, ElementName=expander}" Value="False">
+                                <Setter Property="Height" Value="0"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
                 <ScrollViewer HorizontalScrollBarVisibility="Auto"
                                 VerticalScrollBarVisibility="Hidden">

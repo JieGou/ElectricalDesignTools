@@ -725,6 +725,37 @@
                 </Setter>
             </Style>
 
+            <!--EXpander Styler-->
+            <Style x:Key="ExpandCollapseToggleStyle" TargetType="ToggleButton">
+                <Setter Property="Focusable" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <Grid Width="14" Height="14">
+                                <Rectangle Fill="White" />
+                                <Border Name="ExpandBorder" RenderOptions.EdgeMode="Aliased" BorderBrush="Black" BorderThickness="1">
+                                    <Path RenderOptions.EdgeMode="Aliased" Name="ExpandPath" Stroke="Black" Margin="0" StrokeThickness="1" Data="M 6 1 L 5 10 M 1 6 L 10 6" />
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Data" TargetName="ExpandPath" Value="M 1 6 L 10 5"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="ExpandBorder" Property="BorderBrush" Value="Gray" />
+                                    <Setter TargetName="ExpandPath" Property="Stroke" Value="Gray" />
+                                    <Setter Property="Data" TargetName="ExpandPath" Value=""/>
+                                </Trigger>
+                                
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ExpandBorder" Property="Background" Value="lightgray" />
+                                    <Setter TargetName="ExpandPath" Property="Stroke" Value="blue " />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
         </ResourceDictionary>
     </Application.Resources>

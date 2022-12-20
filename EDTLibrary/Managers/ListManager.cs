@@ -39,6 +39,8 @@ namespace EDTLibrary.Managers
         public ObservableCollection<DpnModel> DpnList { get; set; } = new ObservableCollection<DpnModel>();
         public ObservableCollection<DpnCircuit> DpnCircuitList { get; set; } = new ObservableCollection<DpnCircuit>();
 
+        public ObservableCollection<SplitterModel> SplitterList { get; set; } = new ObservableCollection<SplitterModel>();
+
         public ObservableCollection<ILoadCircuit> LoadCircuitList { get; set; } = new ObservableCollection<ILoadCircuit>();
 
         public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
@@ -46,6 +48,8 @@ namespace EDTLibrary.Managers
         public ObservableCollection<DriveModel> DriveList { get; set; } = new ObservableCollection<DriveModel>();
         public ObservableCollection<DisconnectModel> DisconnectList { get; set; } = new ObservableCollection<DisconnectModel>();
         public ObservableCollection<ILocalControlStation> LcsList { get; set; } = new ObservableCollection<ILocalControlStation>();
+
+        public ObservableCollection<ProtectionDeviceModel> ProtectionDeviceList { get; set; } = new ObservableCollection<ProtectionDeviceModel>();
 
         public ObservableCollection<CableModel> CableList { get; set; } = new ObservableCollection<CableModel>();
         public ObservableCollection<RacewayModel> RacewayList { get; set; } = new ObservableCollection<RacewayModel>();
@@ -70,7 +74,9 @@ namespace EDTLibrary.Managers
                 GetDrives();
                 GetDisconnects();
                 GetComponents();
+                GetProtectionDevices();
                 AssignComponents();
+                AssignProtectionDevices();
 
                 GetLocalControlStations();
                 AssignLocalControlStations();
@@ -96,6 +102,37 @@ namespace EDTLibrary.Managers
             }
 
             DaManager.GettingRecords = false;
+        }
+
+        private void AssignProtectionDevices()
+        {
+            // Loads
+            foreach (var load in LoadList) {
+                foreach (var pd in ProtectionDeviceList) {
+                    if (pd.OwnerId == load.Id && pd.OwnerType == typeof(LoadModel).ToString()) {
+                        pd.Owner = load;
+                        pd.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
+
+                        //Cct Components
+                        if (pd.SubCategory == SubCategories.ProtectionDevice.ToString() && load.FedFrom.Type==DteqTypes.SPL.ToString()) {
+
+                            load.CctComponents.Add(pd);
+                            load.CctComponents.OrderBy(c => pd.SequenceNumber);
+                            
+                        }
+                    }
+                }
+                load.CctComponents = new ObservableCollection<IComponentEdt>(load.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
+            }
+        }
+
+        private void GetProtectionDevices()
+        {
+            ProtectionDeviceList.Clear();
+            var list = DaManager.prjDb.GetRecords<ProtectionDeviceModel>(GlobalConfig.ProtectionDeviceTable);
+            foreach (var item in list) {
+                ProtectionDeviceList.Add(item);
+            }
         }
 
         private void InitializeDpns()
@@ -133,6 +170,9 @@ namespace EDTLibrary.Managers
                 EqList.Add(item);
             }
             foreach (var item in CompList) {
+                EqList.Add(item);
+            }
+            foreach (var item in ProtectionDeviceList) {
                 EqList.Add(item);
             }
             foreach (var item in LcsList) {
@@ -179,6 +219,7 @@ namespace EDTLibrary.Managers
             }
             return AreaList;
         }
+
         private void GetDteq()
         {
 
@@ -188,6 +229,7 @@ namespace EDTLibrary.Managers
             SwgList.Clear();
             MccList.Clear();
             DpnList.Clear();
+            SplitterList.Clear();
 
             //Dteq
             //TODO - Clean up DteqModel vs abstract Dteq
@@ -228,6 +270,13 @@ namespace EDTLibrary.Managers
                 DteqList.Add(model);
             }
 
+
+            //Splitters
+            SplitterList = DaManager.prjDb.GetRecords<SplitterModel>(GlobalConfig.SplitterTable);
+            foreach (var model in SplitterList) {
+                IDteqList.Add(model);
+                DteqList.Add(model);
+            }
             //Assign FedFrom
             foreach (var dteq in IDteqList) {
                 //Utility
@@ -650,6 +699,15 @@ namespace EDTLibrary.Managers
                 }
             }
 
+            //Protection Devices
+            foreach (var pd in ProtectionDeviceList) {
+                foreach (var cable in CableList) {
+                    if (pd.Id == cable.OwnerId && pd.GetType().ToString() == cable.OwnerType) {
+                        pd.PowerCable = cable;
+                        break;
+                    }
+                }
+            }
             //LCS
             foreach (var lcs in LcsList) {
                 string lcsType = lcs.GetType().ToString();

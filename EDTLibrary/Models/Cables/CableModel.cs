@@ -952,11 +952,14 @@ public class CableModel : ICable
     {
         var tag = Tag;
         var type = Type;
-        await Task.Run(() => {
-            if (PropertyUpdated != null) {
-                PropertyUpdated(this, EventArgs.Empty);
-            }
-        });
+        if (PropertyUpdated != null) {
+            PropertyUpdated(this, EventArgs.Empty);
+        }
+        //await Task.Run(() => {
+        //    if (PropertyUpdated != null) {
+        //        PropertyUpdated(this, EventArgs.Empty);
+        //    }
+        //});
     }
 }
 

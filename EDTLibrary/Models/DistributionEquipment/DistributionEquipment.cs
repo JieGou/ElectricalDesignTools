@@ -43,6 +43,10 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         #region Properties
 
+
+        public IProtectionDevice ProtectionDevice { get; set; }
+
+
         [Browsable(false)]
         public int Id { get; set; }
 

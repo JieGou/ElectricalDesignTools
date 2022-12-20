@@ -13,22 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.Electrical.MjeqSubViews;
+namespace WpfUI.UserControls.Editors;
 /// <summary>
-/// Interaction logic for SwgDetailsView.xaml
+/// Interaction logic for BasicPropertyEditor_Equipment.xaml
 /// </summary>
-public partial class TransformerDetailsView : UserControl
+public partial class PowerConsumerEditor : UserControl
 {
-    public TransformerDetailsView()
+    public PowerConsumerEditor()
     {
         InitializeComponent();
-    }
-
-    private void txtImpedance_KeyDown(object sender, KeyEventArgs e)
-    {
-        if (e.Key == Key.Return) {
-            BindingExpression binding = txtImpedance.GetBindingExpression(TextBox.TextProperty);
-            binding.UpdateSource();
-        }
     }
 }

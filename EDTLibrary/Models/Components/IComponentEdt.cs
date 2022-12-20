@@ -9,6 +9,8 @@ namespace EDTLibrary.Models.Components
 {
     public interface IComponentEdt :  IEquipment
     {
+        bool SettingTag { get; set; }
+
         double FrameAmps { get; set; }
         double TripAmps { get; set; }
         string SubCategory { get; set; }

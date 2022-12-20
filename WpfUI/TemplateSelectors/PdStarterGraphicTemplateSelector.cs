@@ -14,9 +14,12 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
 {
     public DataTemplate EmptyTemplate { get; set; }
     public DataTemplate BreakerTemplate { get; set; }
-    public DataTemplate FvnrTemplate { get; set; }
-    public DataTemplate FvrTemplate { get; set; }
+    public DataTemplate DolTemplate { get; set; }
     public DataTemplate FdsTemplate { get; set; }
+
+
+    public DataTemplate FdsTemplate_StandAlone { get; set; }
+    public DataTemplate DolTemplate_StandAlone { get; set; }
 
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
@@ -41,20 +44,24 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
             return selectedTemplate;
         }
 
+        //Splitter
+        if (load.FedFrom.Type == DteqTypes.SPL.ToString()) {
+            if (load.PdType == "FDS") return FdsTemplate_StandAlone;
+            if (load.PdType.Contains("MCP")) return DolTemplate_StandAlone;
+        }
+
+
         if (load.PdType == "BKR" && load.FedFrom.GetType() != typeof(XfrModel)) {
-            selectedTemplate = BreakerTemplate; 
+            return BreakerTemplate;
         }
 
-        if (load.Type == DteqTypes.DPN.ToString() && load.FedFrom.Type== DteqTypes.XFR.ToString()) {
-            selectedTemplate = EmptyTemplate;
+        if (load.Type == DteqTypes.DPN.ToString() && load.FedFrom.Type == DteqTypes.XFR.ToString()) {
+            return EmptyTemplate;
         }
 
-        if (load.PdType.Contains("FVNR"))  selectedTemplate = FvnrTemplate;
+        if (load.PdType.Contains("FVNR")) return DolTemplate;
 
-        if (load.PdType.Contains("FVR")) selectedTemplate = FvnrTemplate;
-        
-        if (load.PdType == "FDS")  selectedTemplate = FdsTemplate;
-        
+        if (load.PdType == "FDS") return FdsTemplate;
 
         return selectedTemplate;
     }

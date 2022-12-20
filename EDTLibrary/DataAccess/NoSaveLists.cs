@@ -54,7 +54,7 @@ namespace EDTLibrary.DataAccess
 
             "PrimaryWiringType",
             "SecondaryWiringType",
-
+            "ProtectionDevice",
 
         };
 
@@ -82,6 +82,8 @@ namespace EDTLibrary.DataAccess
             "IsSelected",
             "SelectedComponent",
 
+            "ProtectionDevice",
+
         };
 
         static public List<string> CompNoSaveList { get; set; } = new List<string>()
@@ -95,7 +97,21 @@ namespace EDTLibrary.DataAccess
             "TypeList",
 
             "IsSelected",
+            "SettingTag",
 
+        };
+
+        static public List<string> ProtectionDeviceNoSaveList { get; set; } = new List<string>() {
+            "Area",
+            "Owner",
+            "Cable",
+            "PowerCable",
+            "ControlCable",
+            "TypeModel",
+            "TypeList",
+
+            "IsSelected",
+            "SettingTag",
         };
 
         static public List<string> LcsNoSaveList { get; set; } = new List<string>()
@@ -144,5 +160,7 @@ namespace EDTLibrary.DataAccess
             "Cablelist",
             "CableList",
         };
+
+        
     }
 }
