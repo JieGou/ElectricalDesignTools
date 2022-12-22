@@ -1,4 +1,5 @@
-﻿using EDTLibrary.LibraryData;
+﻿using EDTLibrary.DataAccess;
+using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -19,16 +20,30 @@ namespace EDTLibrary.Models.DistributionEquipment
     {
 
 
-        public override bool AdddNewLoad(IPowerConsumer load)
+        public override bool AddNewLoad(IPowerConsumer load)
         {
 
+            var newLoadAdded = base.AddNewLoad(load);
             if (load == null) return false;
+            SetLoadProtectionDevice(load);
 
-            load.ProtectionDevice.IsStandAlone = true;
-            load.CctComponents.Insert(0, load.ProtectionDevice);
             CableManager.AddAndUpdateLoadPowerComponentCablesAsync(load, ScenarioManager.ListManager);
 
-            return base.AdddNewLoad(load);
+            return newLoadAdded;
+        }
+
+        public override void SetLoadProtectionDevice(IPowerConsumer load)
+        {
+            if (DaManager.GettingRecords) return;
+
+            if (load.ProtectionDevice != null) {
+                load.ProtectionDevice.IsStandAlone = true;
+
+                var pdInCctComponentList = load.CctComponents.FirstOrDefault(c => c == load.ProtectionDevice);
+                if (pdInCctComponentList == null) {
+                    load.CctComponents.Insert(0, load.ProtectionDevice);
+                }
+            }
         }
 
         public override void RemoveAssignedLoad(IPowerConsumer load)

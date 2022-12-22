@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using EDTLibrary.ProjectSettings;
 
 namespace EDTLibrary.Managers;
 public class ProtectionDeviceManager
@@ -17,7 +18,7 @@ public class ProtectionDeviceManager
 
         if (listManager == null) return;
 
-        string category = Categories.COMPONENT.ToString();
+        string category = Categories.CctComponent.ToString();
         string subCategory = SubCategories.ProtectionDevice.ToString();
         string type = "";
         string subType = "";
@@ -26,12 +27,12 @@ public class ProtectionDeviceManager
         if (load.Type == LoadTypes.MOTOR.ToString()) {
 
             type = CctComponentTypes.DOL.ToString();
-            subType = ComponentSubTypes.StandAloneStarter.ToString();
+            subType = PdTypes.StandAloneStarter.ToString();
         }
         //Else
         else {
             type = CctComponentTypes.FDS.ToString();
-            subType = ComponentSubTypes.StandAloneDcn.ToString();
+            subType = PdTypes.FDS.ToString();
         }
 
 
@@ -40,7 +41,7 @@ public class ProtectionDeviceManager
 
         load.FedFrom.AreaChanged += newPd.MatchOwnerArea;
         newPd.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
-
+        DaManager.UpsertComponentAsync(newPd);
     }
 
     public static void DeleteProtectionDevices(IPowerConsumer load, ListManager listManager)
@@ -49,9 +50,9 @@ public class ProtectionDeviceManager
         
         //StandAlone CctComponents
         foreach (var component in load.CctComponents) {
-            if (component.SubType == ComponentSubTypes.StandAloneDcn.ToString() ||
-                component.SubType == ComponentSubTypes.StandAloneDrive.ToString() ||
-                component.SubType == ComponentSubTypes.StandAloneStarter.ToString()) {
+            if (component.SubType == PdTypes.FDS.ToString() ||
+                component.SubType == PdTypes.StandAloneDrive.ToString() ||
+                component.SubType == PdTypes.StandAloneStarter.ToString()) {
                 componentsToRemove.Add(component);
 
                 var compToDelete = listManager.PdList.FirstOrDefault(c => c.Id == component.Id);
@@ -72,5 +73,29 @@ public class ProtectionDeviceManager
         DaManager.DeleteProtectionDevice(pdToRemove);
         pdToRemove.PropertyUpdated -= DaManager.OnProtectioneDevicePropertyUpdated;
         load.ProtectionDevice = null;
+    }
+
+    internal static void SetProtectionDeviceType(IPowerConsumer load)
+    {
+        if (DaManager.GettingRecords) return;
+        //Stand Alone
+        if (load.ProtectionDevice.IsStandAlone) {
+            if (load.DriveBool) {
+                load.ProtectionDevice.Type = PdTypes.FDS.ToString();
+            }
+            else {
+                load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_Motor;
+            }
+        }
+
+        //Bucket Type
+        else if (load.ProtectionDevice.IsStandAlone == false) {
+            if (load.DriveBool) {
+                load.ProtectionDevice.Type = PdTypes.BKR.ToString();
+            }
+            else {
+                load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_Motor;
+            }
+        }
     }
 }

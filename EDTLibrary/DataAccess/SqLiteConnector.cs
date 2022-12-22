@@ -261,9 +261,9 @@ namespace EDTLibrary.DataAccess
         }
         public void UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore, [CallerMemberName] string callerMethod = "") where T : class, new()
         {
-            if (DaManager.Importing==true) {
-                return;
-            }
+            //if (DaManager.Importing==true) {
+            //    return;
+            //}
             using (IDbConnection cnn = new SQLiteConnection(ConString)) {
                 StringBuilder sb = new StringBuilder();
                 var objectProperties = classObject.GetType().GetProperties();

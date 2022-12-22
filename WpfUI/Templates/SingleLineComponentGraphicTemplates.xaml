@@ -259,7 +259,7 @@
                                     <Style TargetType="Canvas">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding PdType}" Value="MCP-FVR">
+                                            <DataTrigger Binding="{Binding PdType}" Value="MCP_FVR">
                                                 <Setter Property="Visibility" Value="Visible"/>
 
                                             </DataTrigger>
@@ -751,10 +751,10 @@
             <DataTrigger Binding="{Binding Path=Type}" Value="BKR">
                 <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate_Bucket}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=PdType}" Value="MCP-FVNR">
+            <DataTrigger Binding="{Binding Path=PdType}" Value="MCP_FVNR">
                 <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=PdType}" Value="MCP-FVR">
+            <DataTrigger Binding="{Binding Path=PdType}" Value="MCP_FVR">
                 <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
             </DataTrigger>
             <DataTrigger Binding="{Binding Path=PdType}" Value="FDS">

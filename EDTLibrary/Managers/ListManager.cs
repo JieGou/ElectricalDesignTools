@@ -367,13 +367,13 @@ namespace EDTLibrary.Managers
                             load.CctComponents.Add(comp);
                             load.CctComponents.OrderBy(c => comp.SequenceNumber);
 
-                            if (comp.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
+                            if (comp.SubType == CctComponentSubTypes.DefaultDrive.ToString()) {
                                 load.Drive = (ComponentModel)comp;
                                 if (load.FedFrom != null) {
                                     load.FedFrom.AreaChanged += comp.MatchOwnerArea;
                                 }
                             }
-                            if (comp.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
+                            if (comp.SubType == CctComponentSubTypes.DefaultDcn.ToString()) {
                                 load.Disconnect = (ComponentModel)comp;
                                 load.AreaChanged += comp.MatchOwnerArea;
                             }
@@ -391,10 +391,6 @@ namespace EDTLibrary.Managers
             foreach (var pd in pdList) {
 
                 PdList.Add(pd);
-
-                if (pd.IsStandAlone) {
-                    CompList.Add(pd);
-                }
             }
         }
         private void AssignProtectionDevices()
@@ -403,20 +399,19 @@ namespace EDTLibrary.Managers
             foreach (var load in LoadList) {
                 foreach (var pd in PdList) {
                     if (pd.OwnerId == load.Id && pd.OwnerType == typeof(LoadModel).ToString()) {
+                        load.ProtectionDevice = pd;
                         pd.Owner = load;
                         pd.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
 
-                        load.ProtectionDevice = pd;
                         if (load.FedFrom != null) {
                             load.FedFrom.AreaChanged += pd.MatchOwnerArea;
                         }
-                    }
 
-                    //Cct Components
-                    if (load.FedFrom.Type == DteqTypes.SPL.ToString() && pd.SubCategory == SubCategories.ProtectionDevice.ToString()) {
-
-                        load.CctComponents.Add(pd);
-                        load.CctComponents.OrderBy(c => pd.SequenceNumber);
+                        //Cct Components
+                        if (pd.IsStandAlone) {
+                            load.CctComponents.Add(pd);
+                            load.CctComponents.OrderBy(c => pd.SequenceNumber);
+                        }
                     }
                 }
                 load.CctComponents = new ObservableCollection<IComponentEdt>(load.CctComponents.OrderBy(c => c.SequenceNumber).ToList());

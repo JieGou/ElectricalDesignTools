@@ -80,7 +80,7 @@
                         PreviewMouseLeftButtonDown="Equipment_ContentControl_PreviewMouseDown" />
         </StackPanel>
 
-        <!--MCC-->
+        <!--SWG / MCC-->
         <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0">
             <StackPanel.Resources>
                 <Style TargetType="StackPanel">
@@ -119,6 +119,36 @@
                         Content="{Binding}"
                         ContentTemplate="{StaticResource DteqBusTemplate}"  
                         PreviewMouseLeftButtonDown="Equipment_ContentControl_PreviewMouseDown" />
+        </StackPanel>
+
+        <!--Splitter-->
+        <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0">
+            <StackPanel.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Type}" Value="SPL">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
+
+            <!--Cable-->
+            <ContentControl Content="{Binding PowerCable}"
+                        ContentTemplate="{StaticResource CableTemplate}"
+                        Grid.Column="1"
+                        PreviewMouseLeftButtonDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
+                        Margin="45 0 0 0"/>
+           
+            <!-- BUS-->
+            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1">
+                <ContentControl Grid.Column="1" Margin="-1 0 15 30"
+                        Content="{Binding}"
+                        ContentTemplate="{StaticResource DteqBusTemplate}"  
+                        PreviewMouseLeftButtonDown="Equipment_ContentControl_PreviewMouseDown" />
+            </Border>
         </StackPanel>
 
         <!--DPN-->

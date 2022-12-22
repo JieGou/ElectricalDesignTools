@@ -473,7 +473,7 @@ namespace EDTLibrary.Models.DPanels
         private static int _leftCctsAvailable = 0;
         private static int _rightCctsAvailable = 0;
 
-        public override bool AdddNewLoad(IPowerConsumer load)
+        public override bool AddNewLoad(IPowerConsumer load)
         {
 
             if (DpnCircuitManager.AddNewLoad(this, load)) {

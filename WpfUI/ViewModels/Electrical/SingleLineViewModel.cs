@@ -222,7 +222,7 @@ internal class SingleLineViewModel: EdtViewModelBase
         { 
             _selectedLoad = value;
             if (_selectedLoad.CctComponents.Count > 0) {
-                SelectedComponent = (ComponentModel)_selectedLoad.CctComponents[0];
+                SelectedComponent = (ComponentModelBase)_selectedLoad.CctComponents[0];
 
             }
         }
@@ -230,8 +230,8 @@ internal class SingleLineViewModel: EdtViewModelBase
 
 
     //Components
-    private ComponentModel _selectedComponent;
-    public ComponentModel SelectedComponent
+    private ComponentModelBase _selectedComponent;
+    public ComponentModelBase SelectedComponent
     {
         get { return _selectedComponent; }
         set { _selectedComponent = value; }

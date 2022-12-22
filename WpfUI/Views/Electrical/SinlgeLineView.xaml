@@ -333,6 +333,7 @@
 
 
 
+                            <!--Dteq Graphic-->
                             <singleLineSubViews:SL_DteqGraphicView DataContext="{Binding SelectedDteq}"
                                                        Width="{Binding Path=ActualWidth, ElementName=listViewLoads}"
                                                        MinWidth="250"

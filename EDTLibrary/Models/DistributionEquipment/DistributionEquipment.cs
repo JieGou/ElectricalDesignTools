@@ -848,7 +848,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         /// </summary>
         /// <param name="load"></param>
         /// <returns></returns>
-        public virtual bool AdddNewLoad(IPowerConsumer load)
+        public virtual bool AddNewLoad(IPowerConsumer load)
         {
 
             if (load == null) return false;
@@ -869,6 +869,11 @@ namespace EDTLibrary.Models.DistributionEquipment
                 AssignedLoads.Remove(load);
                 load.LoadingCalculated -= OnAssignedLoadReCalculated;
             }
+        }
+
+        public virtual void SetLoadProtectionDevice(IPowerConsumer load)
+        {
+
         }
     }
 }

@@ -26,10 +26,10 @@ namespace EDTLibrary.Models.DistributionEquipment
         double LoadCableDerating { get; set; }
 
         bool CanAdd(IPowerConsumer load);
-        bool AdddNewLoad(IPowerConsumer load);
+        bool AddNewLoad(IPowerConsumer load);
         void RemoveAssignedLoad(IPowerConsumer load);
 
         public abstract void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e);
-
+        void SetLoadProtectionDevice(IPowerConsumer load);
     }
 }

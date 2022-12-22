@@ -21,4 +21,6 @@ public class ProtectionDeviceModel : ComponentModelBase, IProtectionDevice
             OnPropertyUpdated();
         }
     }
+
+    public string StarterSize { get; set; }
 }

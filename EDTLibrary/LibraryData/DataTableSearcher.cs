@@ -141,6 +141,7 @@ namespace EDTLibrary.LibraryData
             }
             return result;
         }
+
         public static double GetCableVoltageClass(double voltage)
         {
             double result = GlobalConfig.NoValueDouble;

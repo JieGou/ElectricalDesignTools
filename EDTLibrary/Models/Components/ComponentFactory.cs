@@ -19,13 +19,13 @@ public class ComponentFactory
     {
         var ProtectionDevice = new ProtectionDeviceModel();
 
-        if (listManager.CompList.Count < 1) {
+        if (listManager.PdList.Count < 1) {
             ProtectionDevice.Id = 1;
         }
         else {
-            ProtectionDevice.Id = listManager.CompList.Select(c => c.Id).Max() + 1;
+            ProtectionDevice.Id = listManager.PdList.Select(c => c.Id).Max() + 1;
         }
-        ProtectionDevice.Category = Categories.COMPONENT.ToString();
+        ProtectionDevice.Category = Categories.CctComponent.ToString();
         ProtectionDevice.SubCategory = subCategory;
         ProtectionDevice.Owner = componentUser;
         ProtectionDevice.OwnerId = componentUser.Id;
@@ -35,7 +35,7 @@ public class ComponentFactory
 
 
         //Splitter / Protective Disconnect
-        if (subType == ComponentSubTypes.StandAloneDcn.ToString()) {
+        if (subType == PdTypes.FDS.ToString()) {
             ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
             var load = (IPowerConsumer)componentUser;
             ProtectionDevice.Area = load.FedFrom.Area;
@@ -46,7 +46,7 @@ public class ComponentFactory
         }
 
         //starter /
-        if (subType == ComponentSubTypes.StandAloneStarter.ToString()) {
+        if (subType == PdTypes.StandAloneStarter.ToString()) {
             ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
             var load = (IPowerConsumer)componentUser;
             ProtectionDevice.Area = load.FedFrom.Area;
@@ -74,7 +74,7 @@ public class ComponentFactory
         else {
             newComponent.Id = listManager.CompList.Select(c => c.Id).Max() + 1;
         }
-        newComponent.Category = Categories.COMPONENT.ToString();
+        newComponent.Category = Categories.CctComponent.ToString();
         newComponent.SubCategory = subCategory;
         newComponent.Owner = componentUser;
         newComponent.OwnerId = componentUser.Id;
@@ -83,7 +83,7 @@ public class ComponentFactory
         newComponent.SubType = subType;
 
         //Drive
-        if (subType == ComponentSubTypes.DefaultDrive.ToString()) {
+        if (subType == CctComponentSubTypes.DefaultDrive.ToString()) {
             newComponent.SettingTag = true;
                 newComponent.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DriveSuffix;
             newComponent.SettingTag = false;
@@ -98,7 +98,7 @@ public class ComponentFactory
         }
 
         //Local Disconnect
-        if (subType == ComponentSubTypes.DefaultDcn.ToString()) {
+        if (subType == CctComponentSubTypes.DefaultDcn.ToString()) {
             newComponent.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
             newComponent.Area = componentUser.Area;
             var load = (IPowerConsumer)componentUser;
@@ -129,7 +129,7 @@ public class ComponentFactory
         else {
             newDrive.Id = listManager.CompList.Select(c => c.Id).Max() + 1;
         }
-        newDrive.Category = Categories.COMPONENT.ToString();
+        newDrive.Category = Categories.CctComponent.ToString();
         newDrive.SubCategory = SubCategories.CctComponent.ToString();
         newDrive.Owner = componentUser;
         newDrive.OwnerId = componentUser.Id;
@@ -148,8 +148,8 @@ public class ComponentFactory
 
         //Order of components
         if (newDrive.SubCategory == SubCategories.CctComponent.ToString()) {
-            var defaultDcn = componentUser.CctComponents.FirstOrDefault(c => c.SubType == ComponentSubTypes.DefaultDcn.ToString());
-            if (newDrive.SubType != ComponentSubTypes.DefaultDcn.ToString() && defaultDcn != null) {
+            var defaultDcn = componentUser.CctComponents.FirstOrDefault(c => c.SubType == CctComponentSubTypes.DefaultDcn.ToString());
+            if (newDrive.SubType != CctComponentSubTypes.DefaultDcn.ToString() && defaultDcn != null) {
                 componentUser.CctComponents.Insert(componentUser.CctComponents.Count - 1, newDrive);
             }
             else {

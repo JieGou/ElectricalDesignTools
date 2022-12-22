@@ -82,10 +82,10 @@ public class CableManager
         else if (category == Categories.LOAD.ToString()) {
             length = double.Parse(EdtSettings.CableLengthLoad);
         }
-        else if (category == Categories.DRIVE.ToString() || category == ComponentSubTypes.DefaultDrive.ToString()) {
+        else if (category == Categories.DRIVE.ToString() || category == CctComponentSubTypes.DefaultDrive.ToString()) {
             length = double.Parse(EdtSettings.CableLengthDrive);
         }
-        else if (category == Categories.LCLDCN.ToString() || category == ComponentSubTypes.DefaultDcn.ToString()) {
+        else if (category == Categories.LCLDCN.ToString() || category == CctComponentSubTypes.DefaultDcn.ToString()) {
             length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
         }
         else if (category == Categories.LCS.ToString()) {
@@ -157,14 +157,14 @@ public class CableManager
                     CopyPowerCableProperties(powerComponentOwner, component, cable);
 
                     //Length
-                    if (component.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
+                    if (component.SubType == CctComponentSubTypes.DefaultDrive.ToString()) {
                         cable.Length = double.Parse(EdtSettings.CableLengthDrive);
                     }
-                    else if (component.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
+                    else if (component.SubType == CctComponentSubTypes.DefaultDcn.ToString()) {
                         //TODO - Rename CableLenght variabls (LocalDcnToLoad)
                         cable.Length = loadCableLength;
                     }
-                    else if (component.SubType == ComponentSubTypes.StandAloneDcn.ToString()) {
+                    else if (component.SubType == PdTypes.FDS.ToString()) {
                         //Todo - Default Splitter Disconnect Cable Length
                         cable.Length = 5; // temporary default cable length
                     }
@@ -263,7 +263,7 @@ public class CableManager
         }
         else if (previousComponent != null) {
 
-            if (previousComponent.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
+            if (previousComponent.SubType == CctComponentSubTypes.DefaultDcn.ToString()) {
                 load.PowerCable.Length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
             }
 

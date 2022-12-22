@@ -20,9 +20,16 @@ public class LoadManager
     {
         if (load.Type == LoadTypes.MOTOR.ToString()) {
             load.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
+            if (load.ProtectionDevice != null) {
+                load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_Motor;
+            }
         }
         else {
             load.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
+            if (load.ProtectionDevice != null) {
+                load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
+
+            }
         }
     }
 
@@ -87,7 +94,7 @@ public class LoadManager
         if (dteqSubscriber != null) {
 
             if (append == true) {
-                dteqSubscriber.AdddNewLoad(newLoad); //load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom
+                dteqSubscriber.AddNewLoad(newLoad); //load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom
                                                          //which is fired inside loadFactory when setting fedfrom
                                                          //but this checks if it is already added;
             }
@@ -106,8 +113,8 @@ public class LoadManager
         else {
             newLoad.Id = 1;
         }
-
         ProtectionDeviceManager.AddProtectionDevice(newLoad, listManager);
+        newLoad.FedFrom.SetLoadProtectionDevice(newLoad);
         newLoad.CalculateLoading(); //after load is inserted to get new Id - //150ms
 
 

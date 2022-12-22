@@ -52,12 +52,12 @@ namespace EDTLibrary.Managers
 
                 if (caller.CalculationFlags != null) { 
                     if (caller.CalculationFlags.CanUpdateFedFrom) {
-                        newSupplier.AdddNewLoad(caller);
+                        newSupplier.AddNewLoad(caller);
                     }
                     
                 }
                 else {
-                    newSupplier.AdddNewLoad(caller);
+                    newSupplier.AddNewLoad(caller);
                 }
                 caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
 

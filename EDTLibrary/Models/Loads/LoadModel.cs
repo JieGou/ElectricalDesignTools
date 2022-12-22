@@ -56,6 +56,7 @@ namespace EDTLibrary.Models.Loads
                 _protectionDevice = value;
                 if (_protectionDevice == null) return;
                 ProtectionDeviceId = _protectionDevice.Id;
+                FedFrom.SetLoadProtectionDevice(this);
             }
         }
         private IProtectionDevice _protectionDevice;
@@ -476,10 +477,17 @@ namespace EDTLibrary.Models.Loads
 
         public BreakerSize BreakerSize { get { return TypeManager.GetBreaker(Fla); } }
 
-        public string StarterType { get; 
-            set; }
-        public string StarterSize { get; 
-            set; }
+        public string StarterType 
+        { 
+            get; 
+            set; 
+        }
+
+        public string StarterSize 
+        { 
+            get; 
+            set; 
+        }
 
         public double HeatLoss { get; set; }
 
@@ -575,7 +583,8 @@ namespace EDTLibrary.Models.Loads
             {
                 var oldValue = _driveBool;
                 _driveBool = value;
-              
+
+                ProtectionDeviceManager.SetProtectionDeviceType(this);
 
                 UndoManager.CanAdd = false;
                 UndoManager.Lock(this, nameof(DriveBool));

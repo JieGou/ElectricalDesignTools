@@ -25,7 +25,7 @@ public class ComponentManager
 
         string subCategory = SubCategories.CctComponent.ToString();
         string type = ComponentTypes.VSD.ToString();
-        string subType = ComponentSubTypes.DefaultDrive.ToString();
+        string subType = CctComponentSubTypes.DefaultDrive.ToString();
 
         ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);
         componentUser.Drive = newComponent;
@@ -43,7 +43,7 @@ public class ComponentManager
             IComponentEdt componentToRemove = new ComponentModel();
             var load = (LoadModel)componentUser;
             foreach (var component in load.CctComponents) {
-                if (component.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
+                if (component.SubType == CctComponentSubTypes.DefaultDrive.ToString()) {
                     //load.CctComponents.Remove(component);
                     int componentId = component.Id;
                     componentToRemove = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
@@ -68,7 +68,7 @@ public class ComponentManager
 
         string subCategory = SubCategories.CctComponent.ToString();
         string type = ComponentTypes.UDS.ToString();
-        string subType = ComponentSubTypes.DefaultDcn.ToString();
+        string subType = CctComponentSubTypes.DefaultDcn.ToString();
 
         ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);
 
@@ -86,7 +86,7 @@ public class ComponentManager
             var load = (LoadModel)componentUser;
             IComponentEdt componentToRemove = new ComponentModel();
             foreach (var component in componentUser.CctComponents) {
-                if (component.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
+                if (component.SubType == CctComponentSubTypes.DefaultDcn.ToString()) {
                     //componentUser.CctComponents.Remove(component);
                     int componentId = component.Id;
                     componentToRemove = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
@@ -123,10 +123,10 @@ public class ComponentManager
 
         if (componentUser.GetType() == typeof(LoadModel)) {
             var load = (LoadModel)componentUser;
-            if (component.SubType == ComponentSubTypes.DefaultDcn.ToString()) {
+            if (component.SubType == CctComponentSubTypes.DefaultDcn.ToString()) {
                 load.DisconnectBool = false;
             }
-            if (component.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
+            if (component.SubType == CctComponentSubTypes.DefaultDrive.ToString()) {
                 load.DriveBool = false;
             }
         }
