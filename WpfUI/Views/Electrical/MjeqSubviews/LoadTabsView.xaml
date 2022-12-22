@@ -14,6 +14,8 @@
              xmlns:edtDpnModels="clr-namespace:EDTLibrary.Models.DPanels;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
+             xmlns:edtProtectionDevices="clr-namespace:EDTLibrary.Models.Components.ProtectionDevices;assembly=EDTLibrary"
+             
              xmlns:edtCables="clr-namespace:EDTLibrary.Models.Cables;assembly=EDTLibrary"
              
              
@@ -369,7 +371,7 @@
                                         <mjeqSubViews:ComponentDetailsView/>
                                     </DataTemplate>
 
-                                    <DataTemplate DataType="{x:Type edtComponents:ProtectionDeviceModel}">
+                                    <DataTemplate DataType="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
                                         <mjeqSubViews:ComponentDetailsView/>
                                     </DataTemplate>
                                     
@@ -394,7 +396,7 @@
                                         <mjeqSubViews:CableSizingViewNarrow/>
                                     </DataTemplate>
 
-                                    <DataTemplate DataType="{x:Type edtComponents:ProtectionDeviceModel}">
+                                    <DataTemplate DataType="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
                                         <mjeqSubViews:CableSizingViewNarrow/>
                                     </DataTemplate>
                                     

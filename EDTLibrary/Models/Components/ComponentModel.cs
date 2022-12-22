@@ -23,11 +23,6 @@ namespace EDTLibrary.Models.Components;
 
 public class ComponentModel : ComponentModelBase
 {
-
     public ComponentModel()
-    {
-        //Category = Categories.Component.ToString();
-    }
-
- 
+    { }
 }

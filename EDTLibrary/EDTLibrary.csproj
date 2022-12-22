@@ -60,7 +60,6 @@
     <ProjectReference Include="D:\My Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\Components\ProtectionDevices\" />
     <Folder Include="NewFolder\" />
   </ItemGroup>
 </Project>

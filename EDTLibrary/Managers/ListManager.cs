@@ -5,6 +5,7 @@ using EDTLibrary.Models;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.DPanels;
@@ -49,7 +50,7 @@ namespace EDTLibrary.Managers
         public ObservableCollection<DisconnectModel> DisconnectList { get; set; } = new ObservableCollection<DisconnectModel>();
         public ObservableCollection<ILocalControlStation> LcsList { get; set; } = new ObservableCollection<ILocalControlStation>();
 
-        public ObservableCollection<ProtectionDeviceModel> ProtectionDeviceList { get; set; } = new ObservableCollection<ProtectionDeviceModel>();
+        public ObservableCollection<ProtectionDeviceModel> PdList { get; set; } = new ObservableCollection<ProtectionDeviceModel>();
 
         public ObservableCollection<CableModel> CableList { get; set; } = new ObservableCollection<CableModel>();
         public ObservableCollection<RacewayModel> RacewayList { get; set; } = new ObservableCollection<RacewayModel>();
@@ -104,36 +105,8 @@ namespace EDTLibrary.Managers
             DaManager.GettingRecords = false;
         }
 
-        private void AssignProtectionDevices()
-        {
-            // Loads
-            foreach (var load in LoadList) {
-                foreach (var pd in ProtectionDeviceList) {
-                    if (pd.OwnerId == load.Id && pd.OwnerType == typeof(LoadModel).ToString()) {
-                        pd.Owner = load;
-                        pd.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
-
-                        //Cct Components
-                        if (pd.SubCategory == SubCategories.ProtectionDevice.ToString() && load.FedFrom.Type==DteqTypes.SPL.ToString()) {
-
-                            load.CctComponents.Add(pd);
-                            load.CctComponents.OrderBy(c => pd.SequenceNumber);
-                            
-                        }
-                    }
-                }
-                load.CctComponents = new ObservableCollection<IComponentEdt>(load.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
-            }
-        }
-
-        private void GetProtectionDevices()
-        {
-            ProtectionDeviceList.Clear();
-            var list = DaManager.prjDb.GetRecords<ProtectionDeviceModel>(GlobalConfig.ProtectionDeviceTable);
-            foreach (var item in list) {
-                ProtectionDeviceList.Add(item);
-            }
-        }
+      
+     
 
         private void InitializeDpns()
         {
@@ -172,7 +145,7 @@ namespace EDTLibrary.Managers
             foreach (var item in CompList) {
                 EqList.Add(item);
             }
-            foreach (var item in ProtectionDeviceList) {
+            foreach (var item in PdList) {
                 EqList.Add(item);
             }
             foreach (var item in LcsList) {
@@ -393,6 +366,7 @@ namespace EDTLibrary.Managers
                         if (comp.SubCategory == SubCategories.CctComponent.ToString()) {
                             load.CctComponents.Add(comp);
                             load.CctComponents.OrderBy(c => comp.SequenceNumber);
+
                             if (comp.SubType == ComponentSubTypes.DefaultDrive.ToString()) {
                                 load.Drive = (ComponentModel)comp;
                                 if (load.FedFrom != null) {
@@ -409,6 +383,46 @@ namespace EDTLibrary.Managers
                 load.CctComponents = new ObservableCollection<IComponentEdt>(load.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
             }
         }
+        private void GetProtectionDevices()
+        {
+            PdList.Clear();
+            var pdList = DaManager.prjDb.GetRecords<ProtectionDeviceModel>(GlobalConfig.ProtectionDeviceTable);
+
+            foreach (var pd in pdList) {
+
+                PdList.Add(pd);
+
+                if (pd.IsStandAlone) {
+                    CompList.Add(pd);
+                }
+            }
+        }
+        private void AssignProtectionDevices()
+        {
+            // Loads
+            foreach (var load in LoadList) {
+                foreach (var pd in PdList) {
+                    if (pd.OwnerId == load.Id && pd.OwnerType == typeof(LoadModel).ToString()) {
+                        pd.Owner = load;
+                        pd.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
+
+                        load.ProtectionDevice = pd;
+                        if (load.FedFrom != null) {
+                            load.FedFrom.AreaChanged += pd.MatchOwnerArea;
+                        }
+                    }
+
+                    //Cct Components
+                    if (load.FedFrom.Type == DteqTypes.SPL.ToString() && pd.SubCategory == SubCategories.ProtectionDevice.ToString()) {
+
+                        load.CctComponents.Add(pd);
+                        load.CctComponents.OrderBy(c => pd.SequenceNumber);
+                    }
+                }
+                load.CctComponents = new ObservableCollection<IComponentEdt>(load.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
+            }
+        }
+
         private void GetLocalControlStations()
         {
             LcsList.Clear();
@@ -688,6 +702,15 @@ namespace EDTLibrary.Managers
                     }
                 }
             }
+            //Protection Devices
+            foreach (var pd in PdList) {
+                foreach (var cable in CableList) {
+                    if (pd.IsStandAlone == true && pd.Id == cable.OwnerId && pd.GetType().ToString() == cable.OwnerType) {
+                        pd.PowerCable = cable;
+                        break;
+                    }
+                }
+            }
 
             //Cct Components
             foreach (var comp in CompList) {
@@ -699,15 +722,6 @@ namespace EDTLibrary.Managers
                 }
             }
 
-            //Protection Devices
-            foreach (var pd in ProtectionDeviceList) {
-                foreach (var cable in CableList) {
-                    if (pd.Id == cable.OwnerId && pd.GetType().ToString() == cable.OwnerType) {
-                        pd.PowerCable = cable;
-                        break;
-                    }
-                }
-            }
             //LCS
             foreach (var lcs in LcsList) {
                 string lcsType = lcs.GetType().ToString();

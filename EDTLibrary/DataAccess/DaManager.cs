@@ -4,6 +4,7 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.DPanels;
@@ -192,7 +193,7 @@ public class DaManager {
     public static void OnComponentPropertyUpdated(object source, EventArgs e)
     {
         if (DaManager.GettingRecords == false) {
-            DaManager.UpsertComponent((ComponentModel)source);
+            DaManager.UpsertComponentAsync((ComponentModel)source);
         }
     }
     public static void OnDrivePropertyUpdated(object source, EventArgs e)
@@ -336,13 +337,26 @@ public class DaManager {
 
 
    
-    public static void UpsertComponent(ComponentModel component)
+    public static async Task UpsertComponentAsync(ComponentModelBase component)
     {
-        try {
-            if (GlobalConfig.Importing == true) return;
 
-            prjDb.UpsertRecord(component, GlobalConfig.ComponentTable, NoSaveLists.CompNoSaveList);
+        try {
+            // removed await to test speed
+            await Task.Run(() => {
+                if (GlobalConfig.Importing == true) return;
+             
+
+                if (component.GetType() == typeof(ComponentModel)) {
+                    var model = (ComponentModel)component;
+                    prjDb.UpsertRecord(model, GlobalConfig.ComponentTable, NoSaveLists.CompNoSaveList);
+                }
+                else if (component.GetType() == typeof(ProtectionDeviceModel)) {
+                    var model = (ProtectionDeviceModel)component;
+                    prjDb.UpsertRecord(model, GlobalConfig.ProtectionDeviceTable, NoSaveLists.ProtectionDeviceNoSaveList);
+                }
+            });
         }
+
         catch (Exception ex) {
             Debug.Print(ex.ToString());
             throw;
@@ -350,26 +364,18 @@ public class DaManager {
 
     }
 
-    public static void UpsertProtectionDevice(ProtectionDeviceModel pd)
+    public static void DeleteComponent(ComponentModelBase component)
     {
-        try {
-            if (GlobalConfig.Importing == true) return;
-
-            prjDb.UpsertRecord(pd, GlobalConfig.ProtectionDeviceTable, NoSaveLists.ProtectionDeviceNoSaveList);
+        if (component == null ) return;
+        
+        if (component.GetType() == typeof(ComponentModel)) {
+            var model = (ComponentModel)component;
+            prjDb.DeleteRecord(GlobalConfig.ComponentTable, model.Id);
         }
-        catch (Exception ex) {
-            Debug.Print(ex.ToString());
-            throw;
+        else if (component.GetType() == typeof(ProtectionDeviceModel)) {
+            var model = (ProtectionDeviceModel)component;
+            prjDb.DeleteRecord(GlobalConfig.ProtectionDeviceTable, model.Id);
         }
-
-    }
-
-    public static void DeleteComponent(ComponentModel component)
-    {
-        if (component == null ) {
-            return;
-        }
-        prjDb.DeleteRecord(GlobalConfig.ComponentTable, component.Id);
     }
     public static void DeleteProtectionDevice(ProtectionDeviceModel pd)
     {

@@ -8,6 +8,7 @@ using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.DPanels;
@@ -36,8 +37,17 @@ public class LoadCircuit : ILoadCircuit
     }
     public CalculationFlags CalculationFlags { get; set; }
 
-    public IProtectionDevice ProtectionDevice { get; set; }
-
+    public int ProtectionDeviceId { get; set; }
+    public IProtectionDevice ProtectionDevice
+    {
+        get => _protectionDevice;
+        set
+        {
+            _protectionDevice = value;
+            ProtectionDeviceId = _protectionDevice.Id;
+        }
+    }
+    private IProtectionDevice _protectionDevice;
 
     public ICommand ConvertToLoadCommand { get; }
     public void ConvertToLoad()
@@ -145,7 +155,8 @@ public class LoadCircuit : ILoadCircuit
         }
     }
 
-    public double PdSizeFrame { get; set; }
+    public double PdSizeFrame { get; 
+        set; }
 
     public string StarterType { get; set; }
     public string StarterSize { get; set; }
@@ -198,8 +209,6 @@ public class LoadCircuit : ILoadCircuit
         }
     }
     private int _circuitNumber;
-
-
 
     public CableModel PowerCable { get; set; }
     public ObservableCollection<IComponentEdt> AuxComponents { get; set; }

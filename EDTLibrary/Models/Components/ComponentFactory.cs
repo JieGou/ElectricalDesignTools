@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.UndoSystem;
@@ -14,6 +15,55 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Components;
 public class ComponentFactory
 {
+    public static ProtectionDeviceModel CreateProtectionDevice(IComponentUser componentUser, string subCategory, string type, string subType, ListManager listManager)
+    {
+        var ProtectionDevice = new ProtectionDeviceModel();
+
+        if (listManager.CompList.Count < 1) {
+            ProtectionDevice.Id = 1;
+        }
+        else {
+            ProtectionDevice.Id = listManager.CompList.Select(c => c.Id).Max() + 1;
+        }
+        ProtectionDevice.Category = Categories.COMPONENT.ToString();
+        ProtectionDevice.SubCategory = subCategory;
+        ProtectionDevice.Owner = componentUser;
+        ProtectionDevice.OwnerId = componentUser.Id;
+        ProtectionDevice.OwnerType = componentUser.GetType().ToString();
+        ProtectionDevice.Type = type;
+        ProtectionDevice.SubType = subType;
+
+
+        //Splitter / Protective Disconnect
+        if (subType == ComponentSubTypes.StandAloneDcn.ToString()) {
+            ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
+            var load = (IPowerConsumer)componentUser;
+            ProtectionDevice.Area = load.FedFrom.Area;
+            ProtectionDevice.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
+            ProtectionDevice.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
+            ProtectionDevice.SequenceNumber = 0;
+
+        }
+
+        //starter /
+        if (subType == ComponentSubTypes.StandAloneStarter.ToString()) {
+            ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
+            var load = (IPowerConsumer)componentUser;
+            ProtectionDevice.Area = load.FedFrom.Area;
+            ProtectionDevice.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
+            ProtectionDevice.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
+            ProtectionDevice.SequenceNumber = 0;
+        }
+
+
+
+        listManager.PdList.Add(ProtectionDevice);
+        DaManager.UpsertComponentAsync(ProtectionDevice);
+        ProtectionDevice.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
+
+        return ProtectionDevice;
+    }
+    
     public static ComponentModel CreateCircuitComponent(IComponentUser componentUser, string subCategory, string type, string subType, ListManager listManager)
     {
         IComponentEdt newComponent = new ComponentModel();
@@ -63,63 +113,12 @@ public class ComponentFactory
         componentUser.CctComponents = new ObservableCollection<IComponentEdt>(componentUser.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
 
         listManager.CompList.Add(newComponent);
-        DaManager.UpsertComponent((ComponentModel)newComponent);
+        DaManager.UpsertComponentAsync((ComponentModel)newComponent);
         newComponent.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
         return (ComponentModel)newComponent;
     }
 
-    public static ProtectionDeviceModel CreateProtectionDevice(IComponentUser componentUser, string subCategory, string type, string subType, ListManager listManager)
-    {
-        var ProtectionDevice = new ProtectionDeviceModel();
-
-        if (listManager.CompList.Count < 1) {
-            ProtectionDevice.Id = 1;
-        }
-        else {
-            ProtectionDevice.Id = listManager.CompList.Select(c => c.Id).Max() + 1;
-        }
-        ProtectionDevice.Category = Categories.COMPONENT.ToString();
-        ProtectionDevice.SubCategory = subCategory;
-        ProtectionDevice.Owner = componentUser;
-        ProtectionDevice.OwnerId = componentUser.Id;
-        ProtectionDevice.OwnerType = componentUser.GetType().ToString();
-        ProtectionDevice.Type = type;
-        ProtectionDevice.SubType = subType;
-
-
-        //Splitter / Protective Disconnect
-        if (subType == ComponentSubTypes.StandAloneDcn.ToString()) {
-            ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
-            var load = (IPowerConsumer)componentUser;
-            ProtectionDevice.Area = load.FedFrom.Area;
-            ProtectionDevice.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
-            ProtectionDevice.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
-            ProtectionDevice.SequenceNumber = 0;
-            //Order of components
-            componentUser.CctComponents.Insert(0, ProtectionDevice);
-        }
-
-        //starter /
-        if (subType == ComponentSubTypes.StandAloneStarter.ToString()) {
-            ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
-            var load = (IPowerConsumer)componentUser;
-            ProtectionDevice.Area = load.FedFrom.Area;
-            ProtectionDevice.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
-            ProtectionDevice.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
-            ProtectionDevice.SequenceNumber = 0;
-            //Order of components
-            componentUser.CctComponents.Insert(0, ProtectionDevice);
-        }
-
-
-
-        listManager.CompList.Add(ProtectionDevice);
-        DaManager.UpsertProtectionDevice((ProtectionDeviceModel)ProtectionDevice);
-        ProtectionDevice.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
-
-        return (ProtectionDeviceModel)ProtectionDevice;
-    }
-
+    
     public static ComponentModel CreateDrive(IComponentUser componentUser, string type, string subType, ListManager listManager)
     {
         IComponentEdt newDrive = new ComponentModel();
@@ -159,7 +158,7 @@ public class ComponentFactory
         }
 
         listManager.CompList.Add(newDrive);
-        DaManager.UpsertComponent((ComponentModel)newDrive);
+        DaManager.UpsertComponentAsync((ComponentModel)newDrive);
         newDrive.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
 
 

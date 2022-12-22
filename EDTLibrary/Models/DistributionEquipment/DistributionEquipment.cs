@@ -7,6 +7,7 @@ using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Validators;
@@ -32,7 +33,7 @@ namespace EDTLibrary.Models.DistributionEquipment
     [AddINotifyPropertyChangedInterface]
     public abstract class DistributionEquipment : IDteq, IComponentUser //, INotifyDataErrorInfo 
     {
-        
+
         public DistributionEquipment()
         {
             Description = "";
@@ -44,7 +45,16 @@ namespace EDTLibrary.Models.DistributionEquipment
         #region Properties
 
 
-        public IProtectionDevice ProtectionDevice { get; set; }
+        public int ProtectionDeviceId { get; set; }
+        public IProtectionDevice ProtectionDevice { 
+            get => _protectionDevice; 
+            set 
+            { 
+                _protectionDevice = value; 
+                ProtectionDeviceId = _protectionDevice.Id;
+            }
+        }
+        private IProtectionDevice _protectionDevice;
 
 
         [Browsable(false)]
@@ -631,7 +641,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
 
-      
+
 
         public bool IsMainLugsOnly { get; set; }
 
@@ -772,7 +782,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
             }
         }
-       
+
 
         public virtual void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e)
         {

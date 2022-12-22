@@ -73,6 +73,7 @@ namespace EDTLibrary {
         Drive,
         JunctionBox,
 
+        DOL,
         UDS,
         FDS,
         VFD,

@@ -7,6 +7,7 @@ using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Validators;
 using EDTLibrary.ProjectSettings;
@@ -27,7 +28,7 @@ using System.Windows.Threading;
 namespace EDTLibrary.Models.Loads
 {
 
-[Serializable]
+    [Serializable]
     [AddINotifyPropertyChangedInterface]
 
     public class LoadModel : ILoad
@@ -41,27 +42,31 @@ namespace EDTLibrary.Models.Loads
             CalculationFlags = new CalculationFlags();
 
         }
-        [Browsable(false)]
-
         public CalculationFlags CalculationFlags { get; set; }
-       
-        
+
 
         //Properties
 
-        public IProtectionDevice ProtectionDevice { get; set; }
+        public int ProtectionDeviceId { get; set; }
+        public IProtectionDevice ProtectionDevice
+        {
+            get => _protectionDevice;
+            set
+            {
+                _protectionDevice = value;
+                if (_protectionDevice == null) return;
+                ProtectionDeviceId = _protectionDevice.Id;
+            }
+        }
+        private IProtectionDevice _protectionDevice;
 
-
-        [Browsable(false)]
         public bool IsSelected { get; set; } = false;
 
 
-        [Browsable(false)]
         public int Id { get; set; }
         private string _tag;
 
-        [Display(Order = 0)]
-        [Category("Basic Info")]
+      
         public string Tag
         {
             get { return _tag; }
@@ -104,13 +109,10 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
-        [Browsable(false)]
         public string Category { get; set; }
 
-        [Category("Basic Info")]
         public string Type { get; set; }
 
-        [Browsable(false)]
         public string SubType
         {
             get { return _subType; }
@@ -130,7 +132,6 @@ namespace EDTLibrary.Models.Loads
         private string _subType;
 
 
-        [Category("Basic Info")]
         public string Description
         {
             get { return _description; }
@@ -149,7 +150,6 @@ namespace EDTLibrary.Models.Loads
         private string _description;
 
 
-        [Browsable(false)]
         public int AreaId
         {
             get { return _areaId; }
@@ -157,7 +157,6 @@ namespace EDTLibrary.Models.Loads
         }
         private int _areaId;
 
-        [Category("Area")]
         public IArea Area
         {
             get { return _area; }
@@ -190,7 +189,6 @@ namespace EDTLibrary.Models.Loads
         }
         private IArea _area;
 
-        [Category("Area")]
         public string NemaRating
         {
             get { return _nemaRating; }
@@ -207,7 +205,6 @@ namespace EDTLibrary.Models.Loads
         }
         private string _nemaRating;
 
-        [Category("Area")]
         public string AreaClassification
         {
             get { return _areaClassification; }
@@ -223,7 +220,6 @@ namespace EDTLibrary.Models.Loads
         }
         private string _areaClassification;
 
-        [Browsable(false)]
         public int SequenceNumber
         {
             get => _sequenceNumber;
@@ -235,7 +231,6 @@ namespace EDTLibrary.Models.Loads
         }
         private int _sequenceNumber;
 
-        [Browsable(false)]
         public string PanelSide
         {
             get { return _panelSide; }
@@ -247,7 +242,6 @@ namespace EDTLibrary.Models.Loads
         }
         public string _panelSide;
 
-        [Category("Basic Info")]
         public double Voltage
         {
             get { return _voltage; }
@@ -269,7 +263,6 @@ namespace EDTLibrary.Models.Loads
         }
         private double _voltage;
 
-        [Browsable(false)]
         public int CircuitNumber
         {
             get { return _circuitNumber; }
@@ -277,10 +270,8 @@ namespace EDTLibrary.Models.Loads
         }
         private int _circuitNumber;
 
-        [Browsable(false)]
         public int VoltageTypeId { get; set; } = 0;
 
-        [Category("Basic Info")]
         public VoltageType VoltageType
         {
             get { return _voltageType; }
@@ -310,7 +301,6 @@ namespace EDTLibrary.Models.Loads
         }
         private VoltageType _voltageType;
 
-        [Category("Basic Info")]
         public double Size
         {
             get { return _size; }
@@ -331,7 +321,6 @@ namespace EDTLibrary.Models.Loads
         }
         public double _size;
 
-        [Category("Basic Info")]
         public string Unit
         {
             get => _unit; 
@@ -348,14 +337,11 @@ namespace EDTLibrary.Models.Loads
         }
         private string _unit;
 
-        [Browsable(false)]
         public int FedFromId { get; set; }
 
-        [Browsable(false)]
         public string FedFromType { get; set; }
 
         private string _fedFromTag;
-        [Browsable(false)]
         public string FedFromTag
         {
             get { return _fedFromTag; }
@@ -401,7 +387,6 @@ namespace EDTLibrary.Models.Loads
         }
         private IDteq _fedFrom;
 
-        [Category("Basic Info")]
         public double LoadFactor
         {
             get { return _loadFactor; }
@@ -419,7 +404,6 @@ namespace EDTLibrary.Models.Loads
         }
         private double _loadFactor;
 
-        [Category("Basic Info")]
         public double Efficiency
         {
             get { return _efficiency; }
@@ -441,7 +425,6 @@ namespace EDTLibrary.Models.Loads
         }
         public double _efficiencyDisplay;
 
-        [Category("Basic Info")]
         public double PowerFactor
         {
             get { return Math.Round(_powerFactor * 100, 2); }
@@ -456,36 +439,21 @@ namespace EDTLibrary.Models.Loads
         }
         private double _powerFactor;
 
-        [Browsable(false)]
         public double AmpacityFactor { get; set; }
 
-        [Category("Power")]
-        [ReadOnly(true)]
         public double Fla { get; set; }
 
-        [Category("Power")]
-        [ReadOnly(true)]
         public double ConnectedKva { get; set; }
 
-        [Category("Power")]
-        [ReadOnly(true)]
         public double DemandKva { get; set; }
 
-        [Category("Power")]
-        [ReadOnly(true)]
         public double DemandKw { get; set; }
 
-        [Category("Power")]
-        [ReadOnly(true)]
         public double DemandKvar { get; set; }
 
-        [Category("Power")]
-        [ReadOnly(true)]
         public double RunningAmps { get; set; }
 
         //Sizing
-        [Category("Protection")]
-        [DisplayName("OCPD Type")]
         public string PdType
         {
             get => _pdType;
@@ -497,47 +465,41 @@ namespace EDTLibrary.Models.Loads
         }
         private string _pdType;
 
-        [Category("Protection")]
-        [DisplayName("OCPD Trip")]
-        public double PdSizeTrip { get; set; }
+        public double PdSizeTrip 
+        { 
+            get;
+            set; 
+        }
 
-        [Category("Protection")]
-        [DisplayName("OCPD Frame")]
-        public double PdSizeFrame { get; set; }
+        public double PdSizeFrame { get; 
+            set; }
 
-        [Browsable(false)]
         public BreakerSize BreakerSize { get { return TypeManager.GetBreaker(Fla); } }
 
-        [Category("Protection")]
-        public string StarterType { get; set; }
-        [Category("Protection")]
-        public string StarterSize { get; set; }
+        public string StarterType { get; 
+            set; }
+        public string StarterSize { get; 
+            set; }
 
-        [ReadOnly(true)]
         public double HeatLoss { get; set; }
 
         //Cables
 
-        [Category("Cable")]
         public CableModel PowerCable { get; set; }
 
-        [Browsable(false)]
         public ObservableCollection<IComponentEdt> AuxComponents { get; set; } = new ObservableCollection<IComponentEdt>();
 
-        [Browsable(false)]
         public ObservableCollection<IComponentEdt> CctComponents { get; set; } = new ObservableCollection<IComponentEdt>();
 
 
 
         //Components
-        [Category("Components")]
         public IComponentEdt Disconnect
         {
             get;
             set;
         }
 
-        [Category("Components")]
         public bool DisconnectBool
         {
             get { return _disconnectBool; }
@@ -565,7 +527,6 @@ namespace EDTLibrary.Models.Loads
         }
         private bool _disconnectBool;
 
-        [Browsable(false)]
         public int DisconnectId
         {
             get { return _disconnectId; }
@@ -573,10 +534,8 @@ namespace EDTLibrary.Models.Loads
         }
         private int _disconnectId;
 
-        [Category("Components")]
         public ILocalControlStation Lcs { get; set; }
 
-        [Category("Components")]
         public bool LcsBool
         {
             get { return _lcsBool; }
@@ -607,10 +566,8 @@ namespace EDTLibrary.Models.Loads
         private bool _lcsBool;
 
 
-        [Category("Components")]
         public IComponentEdt Drive { get; set; }
 
-        [Category("Components")]
         public bool DriveBool
         {
             get { return _driveBool; }
@@ -660,7 +617,6 @@ namespace EDTLibrary.Models.Loads
         }
         private bool _driveBool;
 
-        [Browsable(false)]
         public int DriveId
         {
             get { return _driveId; }
@@ -671,7 +627,6 @@ namespace EDTLibrary.Models.Loads
         public IComponentEdt SelectedComponent { get; set; }
 
 
-        [Browsable(false)]
         public bool IsCalculating { get; set; }
 
 
@@ -872,7 +827,6 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
-        [Browsable(false)]
         public bool CanSave { get; set; } = true;
         public event EventHandler PropertyUpdated;
         public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")

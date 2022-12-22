@@ -1,7 +1,21 @@
 
-In Progress - componenentManager adding for protection devices
-	- create EdtComponentModelBase
-	- remove splitter load protection device
+In Progress PROTECTION DEVICE MANAGER
+
+		- Category = CctComponent
+		- Type = ProtectionDevice vs Component
+		- SubType = DefaultDcn,StandAloneStarter, Diconnect,
+
+
+	- all equipment get a PD for PD data/calculations
+		- dteq incomplete
+	- if load is motor, PD is a StarterModel
+	- pd added as a component if standalone
+
+	- ComponentModelBase like DteqModelBase / Management
+		- DaManager, recast, etc.
+		- CctComponentTypes
+			- Disconnect, Drive, Starter, Junction Box, 
+			- bool IsStandAlone
 
 Bugs
 	- SCCA/R calculation on DTEQ size change

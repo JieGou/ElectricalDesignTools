@@ -41,5 +41,4 @@ public  class CecLoadCalculator
             load.PdSizeTrip = DataTableSearcher.GetBreakerTrip(load);
         }
     }
-
 }

@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
@@ -8,6 +9,7 @@ using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,39 +17,8 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Managers;
 public class ComponentManager
 {
-    public static void AddLcs(IComponentUser componentUser, ListManager listManager)
-    {
-        
-        if (listManager == null) return;
 
-        LocalControlStationModel newLcs = ComponentFactory.CreateLocalControlStation(componentUser, listManager);
-        UndoManager.CanAdd = false;
-        componentUser.Lcs = newLcs;
-        CableManager.AddLcsCables(componentUser, newLcs, listManager);
-        UndoManager.CanAdd = true;
 
-        if (componentUser.GetType() == typeof(LoadModel)) {
-            var eq = (IEquipment)componentUser;
-            eq.AreaChanged += newLcs.MatchOwnerArea;
-        }
-    }
-
-    public static void RemoveLcs(IComponentUser componentUser, ListManager listManager)
-    {
-        if (componentUser.Lcs == null) return;
-
-        if (componentUser.GetType() == typeof(LoadModel)) {
-            var load = (LoadModel)componentUser;
-            int componentId = load.Lcs.Id;
-            var componentToRemove = listManager.LcsList.FirstOrDefault(c => c.Id == componentId);
-            listManager.LcsList.Remove(componentToRemove);
-            DaManager.DeleteLcs((LocalControlStationModel)load.Lcs);
-            CableManager.DeleteLcslCables(componentUser, componentToRemove, listManager);
-            load.Lcs.PropertyUpdated -= DaManager.OnLcsPropertyUpdated;
-            load.Lcs = null;
-            load.AreaChanged -= componentToRemove.MatchOwnerArea;
-        }
-    }
     public static void AddDefaultDrive(IComponentUser componentUser, ListManager listManager)
     {
         if (listManager == null) return;
@@ -63,7 +34,6 @@ public class ComponentManager
             var load = (LoadModel)componentUser;
             load.FedFrom.AreaChanged += newComponent.MatchOwnerArea;
         }
-
     }
 
     public static void RemoveDefaultDrive(IComponentUser componentUser, ListManager listManager)
@@ -140,13 +110,9 @@ public class ComponentManager
     /// <param name="listManager"></param>
     public static void DeleteComponents(IComponentUser componentUser, ListManager listManager)
     {
-        foreach (var item in componentUser.AuxComponents) {
-            listManager.CompList.Remove(item);
-            DaManager.DeleteComponent((ComponentModel)item);
-        }
         foreach (var item in componentUser.CctComponents) {
             listManager.CompList.Remove(item);
-            DaManager.DeleteComponent((ComponentModel)item);
+            DaManager.DeleteComponent((ComponentModelBase)item);
         }
         DaManager.DeleteLcs((LocalControlStationModel)componentUser.Lcs);
     }
@@ -165,53 +131,42 @@ public class ComponentManager
             }
         }
 
-        componentUser.AuxComponents.Remove(component);
         componentUser.CctComponents.Remove(component);
         listManager.CompList.Remove(component);
         DaManager.DeleteComponent((ComponentModel)component);
     }
 
-    internal static void AddSplitterLoadProtectionDevice(IPowerConsumer supplier, IPowerConsumer componentUser, ListManager listManager)
+    public static void AddLcs(IComponentUser componentUser, ListManager listManager)
     {
-        //Todo - Add setting for local disconnect default type
 
         if (listManager == null) return;
 
-        string category = Categories.COMPONENT.ToString();
-        string subCategory = SubCategories.ProtectionDevice.ToString();
-        string type = CctComponentTypes.FDS.ToString();
-        string subType = ComponentSubTypes.StandAloneDcn.ToString();
+        LocalControlStationModel newLcs = ComponentFactory.CreateLocalControlStation(componentUser, listManager);
+        UndoManager.CanAdd = false;
+        componentUser.Lcs = newLcs;
+        CableManager.AddLcsCables(componentUser, newLcs, listManager);
+        UndoManager.CanAdd = true;
 
-        //was working on this, cables are added seperately by AddAndUpdateLoadPowerComponentCablesAsync
-        ProtectionDeviceModel newPd = ComponentFactory.CreateProtectionDevice(componentUser, subCategory, type, subType, listManager);
-        newPd.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
         if (componentUser.GetType() == typeof(LoadModel)) {
-            var load = (LoadModel)componentUser;
-            load.Disconnect = newPd;
-            load.FedFrom.AreaChanged += newPd.MatchOwnerArea;
+            var eq = (IEquipment)componentUser;
+            eq.AreaChanged += newLcs.MatchOwnerArea;
         }
     }
 
-    internal static void RemoveSplitterLoadProtectionDevice(SplitterModel splitterModel, IPowerConsumer load, ListManager listManager)
+    public static void RemoveLcs(IComponentUser componentUser, ListManager listManager)
     {
-        IComponentEdt componentToRemove = new ComponentModel();
+        if (componentUser.Lcs == null) return;
 
-        foreach (var component in load.CctComponents) {
-            if (component.SubType == ComponentSubTypes.StandAloneDcn.ToString()) {
-                componentToRemove = component;
-
-                int pdId = component.Id;
-                var pdToRemove = listManager.ProtectionDeviceList.FirstOrDefault(c => c.Id == pdId);
-                //listManager.ProtectionDeviceList.Remove(pdToRemove);
-                //DaManager.DeleteProtectionDevice(pdToRemove);
-                pdToRemove.PropertyUpdated -= DaManager.OnProtectioneDevicePropertyUpdated;
-
-                load.ProtectionDevice = null;
-                //break;
-                splitterModel.AreaChanged -= component.MatchOwnerArea;
-            }
+        if (componentUser.GetType() == typeof(LoadModel)) {
+            var load = (LoadModel)componentUser;
+            int componentId = load.Lcs.Id;
+            var componentToRemove = listManager.LcsList.FirstOrDefault(c => c.Id == componentId);
+            listManager.LcsList.Remove(componentToRemove);
+            DaManager.DeleteLcs((LocalControlStationModel)load.Lcs);
+            CableManager.DeleteLcslCables(componentUser, componentToRemove, listManager);
+            load.Lcs.PropertyUpdated -= DaManager.OnLcsPropertyUpdated;
+            load.Lcs = null;
+            load.AreaChanged -= componentToRemove.MatchOwnerArea;
         }
-        load.CctComponents.Remove(componentToRemove);
-
     }
 }

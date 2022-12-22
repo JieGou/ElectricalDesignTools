@@ -2,6 +2,7 @@
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace EDTLibrary.Models.Loads
     {
         
 
+        int ProtectionDeviceId { get; set; }
         IProtectionDevice ProtectionDevice { get; set; }
 
         CalculationFlags CalculationFlags { get; set; }

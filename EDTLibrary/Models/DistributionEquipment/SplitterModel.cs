@@ -24,19 +24,17 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             if (load == null) return false;
 
-
-            ComponentManager.AddSplitterLoadProtectionDevice(this, load, ScenarioManager.ListManager);
+            load.ProtectionDevice.IsStandAlone = true;
+            load.CctComponents.Insert(0, load.ProtectionDevice);
             CableManager.AddAndUpdateLoadPowerComponentCablesAsync(load, ScenarioManager.ListManager);
-
-
 
             return base.AdddNewLoad(load);
         }
 
         public override void RemoveAssignedLoad(IPowerConsumer load)
         {
-
-            ComponentManager.RemoveSplitterLoadProtectionDevice(this, load, ScenarioManager.ListManager);
+            load.ProtectionDevice.IsStandAlone = false;
+            load.CctComponents.Remove(load.ProtectionDevice);
             CableManager.AddAndUpdateLoadPowerComponentCablesAsync(load, ScenarioManager.ListManager);
 
             base.RemoveAssignedLoad(load);

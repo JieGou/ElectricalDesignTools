@@ -28,7 +28,8 @@ public class LoadManager
 
     public static void SetLoadPdFrameAndTrip(LoadModel load)
     {
-        //TODO - enum for PdTypes
+
+        //Breaker
         if (load.PdType.Contains("MCP") ||
             load.PdType.Contains("FVNR") ||
             load.PdType.Contains("FVR")) {
@@ -36,6 +37,13 @@ public class LoadManager
             load.PdSizeTrip = DataTableSearcher.GetBreakerTrip(load);
             load.StarterType = load.PdType;
             load.StarterSize = DataTableSearcher.GetStarterSize(load);
+
+            if (load.ProtectionDevice != null) {
+                load.ProtectionDevice.Type = load.PdType;
+                load.ProtectionDevice.FrameAmps = DataTableSearcher.GetMcpFrame(load);
+                load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load); 
+            }
+           
             //load.PdSizeTrip = Math.Min(load.Fla * 1.25, load.PdSizeFrame);
             //load.PdSizeTrip = Math.Round(load.PdSizeTrip, 0);
         }
@@ -98,7 +106,8 @@ public class LoadManager
         else {
             newLoad.Id = 1;
         }
-        
+
+        ProtectionDeviceManager.AddProtectionDevice(newLoad, listManager);
         newLoad.CalculateLoading(); //after load is inserted to get new Id - //150ms
 
 
@@ -121,6 +130,8 @@ public class LoadManager
             newLoad.PowerCable.Id = 1;
         }
 
+        //ProtectionDeviceManager.AddProtectionDevice(newLoad, listManager);
+
         //Save to Db
         DaManager.prjDb.UpsertRecord(newLoad.PowerCable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
 
@@ -142,6 +153,7 @@ public class LoadManager
 
             LoadModel loadToDelete = (LoadModel)loadToDeleteObject;
             ComponentManager.DeleteComponents(loadToDelete, listManager);
+            ProtectionDeviceManager.DeleteProtectionDevices(loadToDelete, listManager);
             IDteq dteqToRecalculate = loadToDelete.FedFrom;
             int loadId = loadToDelete.Id;
             await CableManager.DeletePowerCableAsync(loadToDelete, listManager); //await
