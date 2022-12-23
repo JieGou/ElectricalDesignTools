@@ -255,12 +255,20 @@
                                HorizontalAlignment="Right" 
                                
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-            <TextBlock Text="{Binding ProtectionDevice.Type}"
+
+            <StackPanel Grid.Row="11" Grid.Column="1">
+                
+                <TextBlock Text="{Binding ProtectionDevice.Type}"
                                Grid.Row="11" Grid.Column="1" 
                                Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+                
+                <TextBlock Text="{Binding ProtectionDevice.SubType}"
+                               Grid.Row="11" Grid.Column="1" 
+                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+            </StackPanel>
 
-            
-            
+
+
             <!--Power Details-->
             <TextBlock Text="Power (kVA) "
                                Grid.Row="12" Grid.Column="0" 

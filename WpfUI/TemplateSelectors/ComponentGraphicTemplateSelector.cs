@@ -24,11 +24,10 @@ public class ComponentGraphicTemplateSelector : DataTemplateSelector
         if (component == null) return selectedTemplate;
 
         if (component.Type == ComponentTypes.UDS.ToString()) {
-
             selectedTemplate = UdsTemplate;
         }
-        else if (component.Type == ComponentTypes.FDS.ToString()) {
 
+        else if (component.Type == ComponentTypes.FDS.ToString()) {
             selectedTemplate = FdsTemplate;
         }
 

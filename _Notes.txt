@@ -5,9 +5,12 @@ In Progress PROTECTION DEVICE MANAGER
 		- Type = ProtectionDevice vs Component
 		- SubType = DefaultDcn,StandAloneStarter, Diconnect,
 
+	- Graphics for standalone starter not showing
 
 	- all equipment get a PD for PD data/calculations
 		- dteq incomplete
+	- add controller for Motor PD's
+
 	- if load is motor, PD is a StarterModel
 	- pd added as a component if standalone
 

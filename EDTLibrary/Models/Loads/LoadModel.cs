@@ -755,6 +755,8 @@ namespace EDTLibrary.Models.Loads
 
             LoadManager.SetLoadPdType(this);
             LoadManager.SetLoadPdFrameAndTrip(this);
+            ProtectionDeviceManager.SetProtectionDeviceType(this);
+
             PowerCable.GetRequiredAmps(this);
             UndoManager.CanAdd = true;
 

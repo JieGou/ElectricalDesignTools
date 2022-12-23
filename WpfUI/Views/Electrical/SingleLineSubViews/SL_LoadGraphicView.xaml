@@ -59,18 +59,18 @@
                    Margin="0 0 0 0"
                    >
 
-               
-                <!--OCPD-->
-                <!--Style is for instant graphic updates-->
-                <ContentControl Content="{Binding}" DockPanel.Dock="Top"
-                                Style="{StaticResource OCPDTemplateStyle}"
-                                ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
-                                PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown" 
-                                Visibility="Visible">
-                </ContentControl>
 
 
-                <!--COMPONENTS-->
+            <!--OCPD-->    <!--Style is for instant graphic updates-->
+            <ContentControl Content="{Binding}" DockPanel.Dock="Top"
+                            Style="{StaticResource OCPDTemplateStyle}"
+                            ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
+                            PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown" 
+                            >
+            </ContentControl>
+
+
+            <!--COMPONENTS-->
                 <ItemsControl ItemsSource="{Binding CctComponents}" 
                           DockPanel.Dock="Top"
                       HorizontalAlignment="Stretch">

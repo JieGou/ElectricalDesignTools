@@ -78,23 +78,40 @@ public class ProtectionDeviceManager
     internal static void SetProtectionDeviceType(IPowerConsumer load)
     {
         if (DaManager.GettingRecords) return;
+        if  (load.ProtectionDevice == null) return;
         //Stand Alone
         if (load.ProtectionDevice.IsStandAlone) {
+
             if (load.DriveBool) {
                 load.ProtectionDevice.Type = PdTypes.FDS.ToString();
             }
             else {
-                load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_Motor;
+
+                if (load.Type == LoadTypes.MOTOR.ToString()) {
+                    load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_Motor;
+                }
+                else {
+                    load.ProtectionDevice.Type = PdTypes.FDS.ToString();
+                }
             }
         }
 
         //Bucket Type
         else if (load.ProtectionDevice.IsStandAlone == false) {
+
+
             if (load.DriveBool) {
                 load.ProtectionDevice.Type = PdTypes.BKR.ToString();
             }
+
             else {
-                load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_Motor;
+
+                if (load.Type == LoadTypes.MOTOR.ToString()) {
+                    load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_Motor;
+                }
+                else {
+                    load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
+                }
             }
         }
     }

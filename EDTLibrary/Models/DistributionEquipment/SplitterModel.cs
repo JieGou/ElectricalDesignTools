@@ -39,6 +39,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (load.ProtectionDevice != null) {
                 load.ProtectionDevice.IsStandAlone = true;
 
+                ProtectionDeviceManager.SetProtectionDeviceType(load);
+
                 var pdInCctComponentList = load.CctComponents.FirstOrDefault(c => c == load.ProtectionDevice);
                 if (pdInCctComponentList == null) {
                     load.CctComponents.Insert(0, load.ProtectionDevice);
@@ -50,6 +52,8 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             load.ProtectionDevice.IsStandAlone = false;
             load.CctComponents.Remove(load.ProtectionDevice);
+            ProtectionDeviceManager.SetProtectionDeviceType(load);
+
             CableManager.AddAndUpdateLoadPowerComponentCablesAsync(load, ScenarioManager.ListManager);
 
             base.RemoveAssignedLoad(load);

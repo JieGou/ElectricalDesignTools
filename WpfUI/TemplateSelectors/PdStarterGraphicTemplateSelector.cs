@@ -45,11 +45,13 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
         }
 
         //Splitter
-        if (load.FedFrom.Type == DteqTypes.SPL.ToString()) {
+        if (load.ProtectionDevice.IsStandAlone== true) {
             if (load.PdType == "FDS") return FdsTemplate_StandAlone;
             if (load.PdType.Contains("MCP")) return DolTemplate_StandAlone;
         }
 
+        if (load.PdType == "FDS") return FdsTemplate;
+        if (load.PdType.Contains("MCP")) return DolTemplate;
 
         if (load.PdType == "BKR" && load.FedFrom.GetType() != typeof(XfrModel)) {
             return BreakerTemplate;
@@ -58,11 +60,6 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
         if (load.Type == DteqTypes.DPN.ToString() && load.FedFrom.Type == DteqTypes.XFR.ToString()) {
             return EmptyTemplate;
         }
-
-        if (load.PdType.Contains("FVNR")) return DolTemplate;
-
-        if (load.PdType == "FDS") return FdsTemplate;
-
         return selectedTemplate;
     }
 }

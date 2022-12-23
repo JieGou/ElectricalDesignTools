@@ -20,16 +20,11 @@ public class LoadManager
     {
         if (load.Type == LoadTypes.MOTOR.ToString()) {
             load.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
-            if (load.ProtectionDevice != null) {
-                load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_Motor;
-            }
+            
         }
         else {
             load.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
-            if (load.ProtectionDevice != null) {
-                load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
-
-            }
+            
         }
     }
 

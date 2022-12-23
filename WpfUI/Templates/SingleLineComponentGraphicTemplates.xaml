@@ -105,9 +105,9 @@
 
                             <StackPanel Orientation="Vertical"
                                 Grid.Row="1">
-                                <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" />
+                                <TextBlock Text="{Binding ProtectionDevice.TripAmps, StringFormat={}{0:N0} AT}" />
                                 <Border BorderThickness="0 0 0 1"/>
-                                <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
+                                <TextBlock Text="{Binding ProtectionDevice.FrameAmps, StringFormat={}{0:N0} AF}" />
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -177,9 +177,9 @@
 
                         <StackPanel Orientation="Vertical"
                                 Grid.Row="1">
-                            <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" />
+                            <TextBlock Text="{Binding ProtectionDevice.TripAmps, StringFormat={}{0:N0} AT}" />
                             <Border BorderThickness="0 0 0 1"/>
-                            <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
+                            <TextBlock Text="{Binding ProtectionDevice.FrameAmps, StringFormat={}{0:N0} AF}" />
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -200,6 +200,7 @@
 
     </DataTemplate>
 
+    
 
     <!--DOL Starter Template-->
     <DataTemplate x:Key="DOLStarterTemplate">
@@ -259,7 +260,7 @@
                                     <Style TargetType="Canvas">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding PdType}" Value="MCP_FVR">
+                                            <DataTrigger Binding="{Binding ProtectionDevice.PdType}" Value="MCP_FVR">
                                                 <Setter Property="Visibility" Value="Visible"/>
 
                                             </DataTrigger>
@@ -304,16 +305,16 @@
                             <!--Breaker Size-->
                             <StackPanel Orientation="Vertical"
                                 Grid.Row="1">
-                                <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" />
+                                <TextBlock Text="{Binding ProtectionDevice.TripAmps, StringFormat={}{0:N0} AT}" />
                                 <Border BorderBrush="Black" BorderThickness="0 0 0 1"/>
-                                <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
+                                <TextBlock Text="{Binding ProtectionDevice.FrameAmps, StringFormat={}{0:N0} AF}" />
                             </StackPanel>
 
                             <!--Starter Size-->
                             <StackPanel Orientation="Horizontal"
                                     Grid.Row="3">
                                 <TextBlock Text="Size: "/>
-                                <TextBlock Text="{Binding StarterSize}" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding ProtectionDevice.StarterSize}" FontWeight="SemiBold"/>
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -328,11 +329,17 @@
     <DataTemplate x:Key="DOLStarterTemplate_Bucket">
         <StackPanel Orientation="Vertical">
             <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DOLStarterTemplate}"/>
-            <SingleLineLoadGraphics:SingleLineDashedBorder/>
+        </StackPanel>
+    </DataTemplate>
+    
+    <!--DOL Starter Tempalte Stand Alone-->
+    <DataTemplate x:Key="DOLStarterTemplate_StandAlone">
+        <StackPanel Orientation="Vertical">
+            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DOLStarterTemplate}"/>
         </StackPanel>
     </DataTemplate>
 
-    
+
 
     <!--Fds Splitter Template-->
     <DataTemplate x:Key="FdsTemplate_StandAlone">
@@ -393,9 +400,9 @@
                         <TextBlock Text="{Binding Tag}" FontWeight="SemiBold" Margin="5 0 0 0"
                                    Visibility="Collapsed"/>
                         <StackPanel Orientation="Vertical" Grid.Row="1" Margin="5 0 0 0">
-                            <TextBlock Text="{Binding PdSizeTrip, StringFormat={}{0:N0} AT}" />
+                            <TextBlock Text="{Binding ProtectionDevice.TripAmps, StringFormat={}{0:N0} AT}" />
                             <Border BorderThickness="0 0 0 1"/>
-                            <TextBlock Text="{Binding PdSizeFrame, StringFormat={}{0:N0} AF}" />
+                            <TextBlock Text="{Binding ProtectionDevice.FrameAmps, StringFormat={}{0:N0} AF}" />
                         </StackPanel>
                             <!--Area Properties-->
                         <StackPanel Orientation="Horizontal" 
@@ -725,10 +732,16 @@
     <!--TEMPLATE STYLES-->
     <!--OCPDTemplateStyle-->
     <Style x:Key="OCPDTemplateStyle" TargetType="{x:Type ContentControl}">
+        <Setter Property="Visibility" Value="Visible"/>
         <Style.Triggers>
+
+            <DataTrigger Binding="{Binding ProtectionDevice.IsStandAlone}" Value="true">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding PdType}" Value="BKR" />
+                    <Condition Binding="{Binding ProtectionDevice.Type}" Value="BKR" />
                     <Condition Binding="{Binding FedFrom}" Value="{x:Type edtDteqModels:XfrModel}" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
@@ -739,27 +752,33 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding PdType}" Value="FDS" />
-                    <Condition Binding="{Binding FedFrom}" Value="{x:Type edtDteqModels:SplitterModel}" />
+                    <Condition Binding="{Binding ProtectionDevice.Type}" Value="FDS" />
+                    <Condition Binding="{Binding ProtectionDevice.IsStandAlone}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate_StandAlone}"/>
                 </MultiDataTrigger.Setters>
-
             </MultiDataTrigger>
 
-            <DataTrigger Binding="{Binding Path=Type}" Value="BKR">
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding ProtectionDevice.SubType}" Value="StandAloneStarter" />
+                    <Condition Binding="{Binding ProtectionDevice.IsStandAlone}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_StandAlone}"/>
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <DataTrigger Binding="{Binding ProtectionDevice.Type}" Value="BKR">
                 <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate_Bucket}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=PdType}" Value="MCP_FVNR">
-                <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
+
+            <DataTrigger Binding="{Binding ProtectionDevice.SubType}" Value="StandAloneStarter">
+                <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate_Bucket}"/>
             </DataTrigger>
-            <DataTrigger Binding="{Binding Path=PdType}" Value="MCP_FVR">
-                <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Path=PdType}" Value="FDS">
-                <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
-            </DataTrigger>
+
+
         </Style.Triggers>
     </Style>
 
@@ -786,8 +805,12 @@
                 x:Key="PdStarterTemplateSelector"
                 EmptyTemplate="{StaticResource EmptyTemplate}" 
                 BreakerTemplate="{StaticResource BreakerTemplate_Bucket}"
+        
                 DolTemplate="{StaticResource DOLStarterTemplate_Bucket}"
+                DolTemplate_StandAlone="{StaticResource DOLStarterTemplate_StandAlone}"
+        
                 FdsTemplate="{StaticResource FdsTemplate}" 
+                FdsTemplate_StandAlone="{StaticResource FdsTemplate_StandAlone}" 
         />
 
     <templateSelectors:ComponentGraphicTemplateSelector 
