@@ -1,4 +1,5 @@
 ﻿using EDTLibrary;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
@@ -18,16 +19,16 @@ public class DteqOCPDTemplateSelector : DataTemplateSelector
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
         var selectedTemplate = BreakerTemplate;
-        var dteq = (DistributionEquipment)item;
+        var pd = (IProtectionDevice)item;
 
-        if (dteq == null) return selectedTemplate;
+        if (pd == null) return selectedTemplate;
 
-        if (dteq.PdType == "BKR") {
+        if (pd.Type == "BKR") {
 
             selectedTemplate = BreakerTemplate;
         }
 
-        if (dteq.PdType == "FDS") {
+        if (pd.Type == "FDS") {
 
             selectedTemplate = FdsTemplate;
         }

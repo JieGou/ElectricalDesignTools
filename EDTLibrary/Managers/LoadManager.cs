@@ -18,43 +18,44 @@ public class LoadManager
 
     public static void SetLoadPdType(LoadModel load)
     {
-        if (load.Type == LoadTypes.MOTOR.ToString()) {
-            load.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
+        //if (load.Type == LoadTypes.MOTOR.ToString()) {
+        //    load.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
             
-        }
-        else {
-            load.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
+        //}
+        //else {
+        //    load.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
             
-        }
+        //}
     }
 
     public static void SetLoadPdFrameAndTrip(LoadModel load)
     {
 
         //Breaker
-        if (load.PdType.Contains("MCP") ||
-            load.PdType.Contains("FVNR") ||
-            load.PdType.Contains("FVR")) {
-            load.PdSizeFrame = DataTableSearcher.GetMcpFrame(load);
-            load.PdSizeTrip = DataTableSearcher.GetBreakerTrip(load);
-            load.StarterType = load.PdType;
-            load.StarterSize = DataTableSearcher.GetStarterSize(load);
 
-            if (load.ProtectionDevice != null) {
-                load.ProtectionDevice.Type = load.PdType;
-                load.ProtectionDevice.FrameAmps = DataTableSearcher.GetMcpFrame(load);
-                load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load); 
-            }
+        //if (load.PdType.Contains("MCP") ||
+        //    load.PdType.Contains("FVNR") ||
+        //    load.PdType.Contains("FVR")) {
+        //    load.PdSizeFrame = DataTableSearcher.GetMcpFrame(load);
+        //    load.PdSizeTrip = DataTableSearcher.GetBreakerTrip(load);
+        //    load.StarterType = load.PdType;
+        //    load.StarterSize = DataTableSearcher.GetStarterSize(load);
+
+        //    if (load.ProtectionDevice != null) {
+        //        load.ProtectionDevice.Type = load.PdType;
+        //        load.ProtectionDevice.FrameAmps = DataTableSearcher.GetMcpFrame(load);
+        //        load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load); 
+        //    }
            
-            //load.PdSizeTrip = Math.Min(load.Fla * 1.25, load.PdSizeFrame);
-            //load.PdSizeTrip = Math.Round(load.PdSizeTrip, 0);
-        }
-        else if (load.PdType == "BKR" ||
-                 load.PdType == "VFD" || load.PdType == "VSD" ||
-                 load.PdType == "RVS") {
-            load.PdSizeFrame = DataTableSearcher.GetBreakerFrame(load);
-            load.PdSizeTrip = DataTableSearcher.GetBreakerTrip(load);
-        }
+        //    //load.PdSizeTrip = Math.Min(load.Fla * 1.25, load.PdSizeFrame);
+        //    //load.PdSizeTrip = Math.Round(load.PdSizeTrip, 0);
+        //}
+        //else if (load.PdType == "BKR" ||
+        //         load.PdType == "VFD" || load.PdType == "VSD" ||
+        //         load.PdType == "RVS") {
+        //    load.PdSizeFrame = DataTableSearcher.GetBreakerFrame(load);
+        //    load.PdSizeTrip = DataTableSearcher.GetBreakerTrip(load);
+        //}
     }
     
     public static async Task<LoadModel> AddLoad(object loadToAddObject, ListManager listManager, bool append = true)

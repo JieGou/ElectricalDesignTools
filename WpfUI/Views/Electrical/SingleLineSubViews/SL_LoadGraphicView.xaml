@@ -62,7 +62,7 @@
 
 
             <!--OCPD-->    <!--Style is for instant graphic updates-->
-            <ContentControl Content="{Binding Path=ProtectionDevice}" DockPanel.Dock="Top"
+            <ContentControl Content="{Binding ProtectionDevice}" DockPanel.Dock="Top"
                             Style="{StaticResource OCPDTemplateStyle}"
                             ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
                             PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown" 
@@ -131,7 +131,7 @@
 
                   
                     <!--Cable -->
-                    <ContentControl Content="{Binding Path=PowerCable}"
+                    <ContentControl Content="{Binding PowerCable}"
                                     ContentTemplate="{StaticResource CableTemplate}"
                                     Grid.Column="2" 
                                     PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown">
@@ -193,18 +193,6 @@
                                     Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
                                         ConverterParameter=Dteq_Load}" >
                         
-                        <!--<ContentControl.Style>
-                            <Style TargetType="ContentControl">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    
-                                <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtPanels:DpnModel}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                            </Style>
-                        </ContentControl.Style>-->
-                        
                     </ContentControl>
                 </Grid>
 
@@ -224,20 +212,6 @@
                                         PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown"
                                         Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
                                         ConverterParameter=Dteq_Load}" >
-                            
-                            
-                            <!--<ContentControl.Style>
-                                <Style TargetType="ContentControl">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                    <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
-                                        ConverterParameter=Dteq_Load}" Value="{x:Type edtPanels:DpnModel}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                                </Style>
-                            </ContentControl.Style>-->
-                            
                             
                         </ContentControl>
                     </StackPanel>

@@ -20,8 +20,8 @@ public class DteqManager
     {
 
         //dteq.PdType = EdtSettings.DteqDefaultPdTypeLV;
-        dteq.PdSizeFrame = DataTableSearcher.GetBreakerFrame(dteq);
-        dteq.PdSizeTrip = DataTableSearcher.GetBreakerTrip(dteq);
+        //dteq.PdSizeFrame = DataTableSearcher.GetBreakerFrame(dteq);
+        //dteq.PdSizeTrip = DataTableSearcher.GetBreakerTrip(dteq);
 
     }
 
@@ -39,14 +39,8 @@ public class DteqManager
             if (IsValid == false) return null;
 
             IDteq newDteq = _dteqFactory.CreateDteq(dteqToAddValidator);
-
-            //Get Id manually
-            //if (ListManager.IDteqList.Count == 0) {
-            //    newDteq.Id = 1;
-            //}
-            //else {
-            //    newDteq.Id = ListManager.IDteqList.Max(l => l.Id) + 1;
-            //}
+            //Id manually selected inside Factory since there are multiple types of Dteq.
+           
 
             IDteq dteqSubscriber = listManager.DteqList.FirstOrDefault(d => d == newDteq.FedFrom);
             if (dteqSubscriber != null) {
@@ -54,6 +48,9 @@ public class DteqManager
                 newDteq.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;
                 newDteq.PropertyUpdated += DaManager.OnDteqPropertyUpdated;
             }
+
+            ProtectionDeviceManager.AddProtectionDevice(newDteq, listManager);
+            newDteq.FedFrom.SetLoadProtectionDevice(newDteq);
 
             //Save to Db when calculating inside DteqModel
             newDteq.LoadCableDerating = double.Parse(EdtSettings.DteqLoadCableDerating);

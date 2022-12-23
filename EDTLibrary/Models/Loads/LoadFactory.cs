@@ -59,12 +59,12 @@ namespace EDTLibrary.Models.Loads
             newLoad.Unit = loadToAddValidator.Unit;
             newLoad.LoadFactor = Double.Parse(loadToAddValidator.LoadFactor);
 
-            if (newLoad.Type == LoadTypes.MOTOR.ToString()) {
-                newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
-            }
-            else {
-                newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
-            }
+            //if (newLoad.Type == LoadTypes.MOTOR.ToString()) {
+            //    newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
+            //}
+            //else {
+            //    newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
+            //}
 
             newLoad.SequenceNumber = loadToAddValidator.SequenceNumber;
             newLoad.PanelSide = loadToAddValidator.PanelSide;

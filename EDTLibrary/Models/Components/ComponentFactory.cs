@@ -34,7 +34,7 @@ public class ComponentFactory
         ProtectionDevice.SubType = subType;
 
 
-        //Splitter / Protective Disconnect
+        // Disconnect
         if (subType == PdTypes.FDS.ToString()) {
             ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
             var load = (IPowerConsumer)componentUser;
@@ -45,8 +45,18 @@ public class ComponentFactory
 
         }
 
-        //starter /
-        if (subType == PdTypes.StandAloneStarter.ToString()) {
+        // starter
+        else if (subType == PdTypes.StandAloneStarter.ToString()) {
+            ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
+            var load = (IPowerConsumer)componentUser;
+            ProtectionDevice.Area = load.FedFrom.Area;
+            ProtectionDevice.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
+            ProtectionDevice.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
+            ProtectionDevice.SequenceNumber = 0;
+        }
+
+        // breaker
+        else if (subType == PdTypes.BKR.ToString()) {
             ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
             var load = (IPowerConsumer)componentUser;
             ProtectionDevice.Area = load.FedFrom.Area;
@@ -56,9 +66,7 @@ public class ComponentFactory
         }
 
 
-
         listManager.PdList.Add(ProtectionDevice);
-        DaManager.UpsertComponentAsync(ProtectionDevice);
         ProtectionDevice.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
 
         return ProtectionDevice;

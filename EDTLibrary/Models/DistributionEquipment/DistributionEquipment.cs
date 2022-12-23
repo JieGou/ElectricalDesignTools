@@ -39,7 +39,6 @@ namespace EDTLibrary.Models.DistributionEquipment
             Description = "";
             Category = Categories.DTEQ.ToString();
             Voltage = LineVoltage;
-            PdType = "BKR";
         }
 
         #region Properties
@@ -57,7 +56,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         private IProtectionDevice _protectionDevice;
 
 
-        [Browsable(false)]
         public int Id { get; set; }
 
 
@@ -89,7 +87,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
         private string _tag;
-        [Browsable(false)]
+
         public string Category { get; set; }
         public string Type
         {
@@ -106,8 +104,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         private string _type;
 
-
-        [Browsable(false)]
         public string SubType
         {
             get { return _subType; }
@@ -138,7 +134,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         private string _description = "";
 
-        [Browsable(false)]
         public int AreaId
         {
             get { return _areaId; }
@@ -204,7 +199,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         private string _areaClassification;
 
 
-        [Browsable(false)]
         public string PanelSide
         {
             get { return _panelSide; }
@@ -243,13 +237,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
         public string Unit { get; set; }
-        [Browsable(false)]
         public int FedFromId { get; set; }
-        [Browsable(false)]
         public string FedFromType { get; set; }
 
         private string _fedFromTag;
-        [Browsable(false)]
         public string FedFromTag
         {
             get
@@ -335,7 +326,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
 
-        [Browsable(false)]
+
         public int VoltageTypeId { get; set; } //unused for PowerConsumer interface
         public VoltageType VoltageType
         {
@@ -358,7 +349,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         //unused, for PowerConsumer interface
         private VoltageType _voltageType;
 
-        [Browsable(false)]
+
         public double Voltage
         {
             get { return LineVoltage; }
@@ -371,7 +362,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
 
-        [Browsable(false)]
+
         public int LineVoltageTypeId { get; set; }
         public VoltageType LineVoltageType
         {
@@ -396,7 +387,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
         public VoltageType _lineVoltageType;
-        [Browsable(false)]
+
         public double LineVoltage
         {
             //TODO - update cable and alert loads
@@ -418,7 +409,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         private double _lineVoltage;
 
 
-        [Browsable(false)]
         public int LoadVoltageTypeId { get; set; }
         public VoltageType LoadVoltageType
         {
@@ -452,7 +442,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
         public VoltageType _loadVoltageType;
-        [Browsable(false)]
+
         public double LoadVoltage
         {
             get { return _loadVoltage; }
@@ -474,7 +464,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         //Loading
         private double _fla;
 
-        [ReadOnly(true)]
         public double Fla
         {
             get { return _fla; }
@@ -484,36 +473,29 @@ namespace EDTLibrary.Models.DistributionEquipment
             }
         }
 
-        [ReadOnly(true)]
         public double RunningAmps { get; set; }
-        [ReadOnly(true)]
         public double ConnectedKva { get; set; }
-        [ReadOnly(true)]
         public double DemandKva { get; set; }
-        [ReadOnly(true)]
         public double DemandKw { get; set; }
-        [ReadOnly(true)]
         public double DemandKvar { get; set; }
-        [ReadOnly(true)]
         public double PowerFactor { get; set; }
-        [ReadOnly(true)]
         public double AmpacityFactor { get; set; }
 
         //Sizing
-        [ReadOnly(true)]
         public double PercentLoaded { get; set; }
 
-        public string PdType { get; set; }
-        public double PdSizeTrip { get; set; }
-        public double PdSizeFrame { get; set; }
 
-        [Browsable(false)]
+        //OCPD
+        //public string PdType { get; set; }
+        //public double PdSizeTrip { get; set; }
+        //public double PdSizeFrame { get; set; }
+
+
         public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer>();
         public CableModel PowerCable { get; set; }
 
 
         //Components
-        [Browsable(false)]
         public ObservableCollection<IComponentEdt> AuxComponents { get; set; } = new ObservableCollection<IComponentEdt>();
         [Browsable(false)]
         public ObservableCollection<IComponentEdt> CctComponents { get; set; } = new ObservableCollection<IComponentEdt>();
@@ -542,7 +524,6 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public IComponentEdt Drive { get; set; }
 
-        [Browsable(false)]
         public bool DriveBool
         {
             get { return _driveBool; }
@@ -550,13 +531,11 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 _driveBool = value;
                 if (_driveBool == true) {
-                    PdType = "BKR";
                 }
             }
         }
         private bool _driveBool;
 
-        [Browsable(false)]
         public int DriveId
         {
             get { return _driveId; }
@@ -579,7 +558,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         private bool _disconnectBool;
 
 
-        [Browsable(false)]
         public int DisconnectId
         {
             get { return _disconnectId; }
@@ -587,7 +565,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         private int _disconnectId;
 
-        [Browsable(false)]
         public IComponentEdt SelectedComponent { get; set; }
 
         #endregion
@@ -616,9 +593,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         private double _loadCableDerating;
 
 
-        [Browsable(false)]
         public bool IsCalculating { get; set; }
-        [Browsable(false)]
         public int SequenceNumber
         {
             get => _sequenceNumber;
@@ -630,7 +605,6 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         }
 
-        [Browsable(false)]
         public int CircuitNumber
         {
             get { return _circuitNumber; }
@@ -646,11 +620,9 @@ namespace EDTLibrary.Models.DistributionEquipment
         public bool IsMainLugsOnly { get; set; }
 
 
-        [Browsable(false)]
         public CalculationFlags CalculationFlags { get; set; }
 
 
-        [Browsable(false)]
         public bool IsSelected
         {
             get => _isSelected;
@@ -716,7 +688,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
 
             DteqManager.SetDteqPd(this);
-
+            ProtectionDeviceManager.SetProtectionDeviceType(this);
+            ProtectionDeviceManager.SetProtectionDeviceFrameAndTrip(this);
 
             SCCR = CalculateSCCR();
             IsCalculating = false;

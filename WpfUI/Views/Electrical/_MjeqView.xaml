@@ -804,19 +804,19 @@
                             <!--OCPD-->
                             <DataGridTextColumn Header=" OCPD &#xA; Type "
                                             Width="*" MinWidth ="100"
-                                    Binding="{Binding PdType, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    Binding="{Binding ProtectionDevice.Type, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                     HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                     Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource OcpdViewProxy}}"/>
 
                             <DataGridTextColumn Header=" OCPD &#xA; Trip "
                                             Width="*" MinWidth ="40"
-                                    Binding="{Binding PdSizeTrip, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    Binding="{Binding ProtectionDevice.TripAmps, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                     HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                     Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource OcpdViewProxy}}"/>
 
                             <DataGridTextColumn Header=" OCPD &#xA; Frame "
                                             Width="*" MinWidth ="40"
-                                    Binding="{Binding PdSizeFrame, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    Binding="{Binding ProtectionDevice.FrameAmps, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                     HeaderStyle="{StaticResource OcpdColumnHeader}" 
                                     Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource OcpdViewProxy}}"/>
 
@@ -1389,7 +1389,7 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                            <sf:GridComboBoxColumn HeaderText="OCPD&#x0a;Type" MappingName="PdType"
+                            <sf:GridComboBoxColumn HeaderText="OCPD&#x0a;Type" MappingName="ProtectionDevice.Type"
                                                Width="100"
                                                AllowEditing="True"
                                                AllowFiltering="True"
@@ -1418,7 +1418,7 @@
                             </sf:GridComboBoxColumn>
 
                             <!--Width="60"-->
-                            <sf:GridTextColumn HeaderText="PD / MCP&#x0a;Trip" MappingName="PdSizeTrip"
+                            <sf:GridTextColumn HeaderText="PD / MCP&#x0a;Trip" MappingName="ProtectionDevice.TripAmps"
                                            MinimumWidth="60"
                                            AllowEditing="False"
                                            UseBindingValue="True"
@@ -1430,7 +1430,7 @@
                                                                 AncestorType={x:Type UserControl}}}"/>
 
                             <!--Width="60"-->
-                            <sf:GridTextColumn HeaderText="PD / MCP&#x0a;Frame" MappingName="PdSizeFrame"
+                            <sf:GridTextColumn HeaderText="PD / MCP&#x0a;Frame" MappingName="ProtectionDevice.FrameAmps"
                                            MinimumWidth="60"
                                            AllowEditing="False"
                                            UseBindingValue="True"
@@ -1442,7 +1442,7 @@
                                                                 AncestorType={x:Type UserControl}}}"/>
 
                             <!--Width="60"-->
-                            <sf:GridTextColumn HeaderText="Starter&#x0a;Size" MappingName="StarterSize"
+                            <sf:GridTextColumn HeaderText="Starter&#x0a;Size" MappingName="ProtectionDevice.StarterSize"
                                            MinimumWidth="60"
                                            AllowEditing="False"
                                            UseBindingValue="True"

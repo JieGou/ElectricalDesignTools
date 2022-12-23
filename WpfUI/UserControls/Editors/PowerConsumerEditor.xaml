@@ -249,37 +249,46 @@
 
 
 
-            <!--PD Type-->
-            <!--<TextBlock Text="OCPD "
+            <!--PD -->
+            
+            <TextBlock Text="OCPD "
                                Grid.Row="11" Grid.Column="0" 
                                HorizontalAlignment="Right" 
                                
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
 
-            <StackPanel Grid.Row="11" Grid.Column="1">
-                
-                <TextBlock Text="{Binding ProtectionDevice.Type}"
+            <StackPanel Grid.Row="11" Grid.Column="1" Margin="5">
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding ProtectionDevice.Type}"
                                Grid.Row="11" Grid.Column="1" 
-                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>
-                
-                <TextBlock Text="{Binding ProtectionDevice.SubType}"
+                               />
+                    <TextBlock Text=",   "
                                Grid.Row="11" Grid.Column="1" 
-                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+                               />
+                    <TextBlock Text="{Binding ProtectionDevice.SubType}"
+                               Grid.Row="11" Grid.Column="1" 
+                               />
+                </StackPanel>
 
                 <StackPanel Orientation="Horizontal" >
                     <TextBlock Text="{Binding ProtectionDevice.TripAmps}"
                                Grid.Row="11" Grid.Column="1" 
-                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>
-
+                               />
+                    <TextBlock Text=" AT,   "
+                               Grid.Row="11" Grid.Column="1" 
+                               />
                     <TextBlock Text="{Binding ProtectionDevice.FrameAmps}"
                                Grid.Row="11" Grid.Column="1" 
-                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>
-                    
+                               />
+                    <TextBlock Text=" AF,   "
+                               Grid.Row="11" Grid.Column="1" 
+                               />
                     <TextBlock Text="{Binding ProtectionDevice.IsStandAlone}"
                                Grid.Row="11" Grid.Column="1" 
-                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+                               />
                 </StackPanel>
-            </StackPanel>-->
+            </StackPanel>
 
 
 

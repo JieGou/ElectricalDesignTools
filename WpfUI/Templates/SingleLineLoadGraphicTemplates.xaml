@@ -316,7 +316,7 @@
                         <StackPanel Orientation="Vertical" Grid.Column="1" >
 
                             <!--Main Breaker-->
-                            <ContentControl Content="{Binding}" 
+                            <ContentControl Content="{Binding ProtectionDevice}" 
                                             Style="{StaticResource OCPDTemplateStyle}"
                                             ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
                                             Margin="-6 0"

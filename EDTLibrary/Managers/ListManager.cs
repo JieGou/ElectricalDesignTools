@@ -395,6 +395,28 @@ namespace EDTLibrary.Managers
         }
         private void AssignProtectionDevices()
         {
+            // Dteq
+            foreach (var dteq in DteqList) {
+                foreach (var pd in PdList) {
+                    if (pd.OwnerId == dteq.Id && pd.OwnerType == dteq.GetType().ToString()) {
+                        dteq.ProtectionDevice = pd;
+                        pd.Owner = dteq;
+                        pd.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
+
+                        if (dteq.FedFrom != null) {
+                            dteq.FedFrom.AreaChanged += pd.MatchOwnerArea;
+                        }
+
+                        //Cct Components
+                        if (pd.IsStandAlone) {
+                            dteq.CctComponents.Add(pd);
+                            dteq.CctComponents.OrderBy(c => pd.SequenceNumber);
+                        }
+                    }
+                }
+                dteq.CctComponents = new ObservableCollection<IComponentEdt>(dteq.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
+            }
+
             // Loads
             foreach (var load in LoadList) {
                 foreach (var pd in PdList) {

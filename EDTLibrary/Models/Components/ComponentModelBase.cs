@@ -50,8 +50,10 @@ public abstract class ComponentModelBase : IComponentEdt
 
             if (Owner != null) {
                 
-                CableManager.UpdateComponentCableTags((LoadModel)Owner);
-                CableManager.UpdateLcsCableTags((LoadModel)Owner);
+                CableManager.UpdateComponentCableTags((IPowerConsumer)Owner);
+                if (Owner is LoadModel) {
+                    CableManager.UpdateLcsCableTags((LoadModel)Owner);
+                }
             }
 
             UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);

@@ -38,9 +38,9 @@ public class DteqMapper
         DemandKw = dteq.DemandKw;
         DemandKvar = dteq.DemandKvar;
         SCCR = dteq.SCCR;
-        PdType = dteq.PdType;
-        PdSizeTrip = dteq.PdSizeTrip;
-        PdSizeFrame = dteq.PdSizeFrame;
+        PdType = dteq.ProtectionDevice.Type;
+        PdSizeTrip = dteq.ProtectionDevice.TripAmps;
+        PdSizeFrame = dteq.ProtectionDevice.FrameAmps;
         NemaRating = dteq.NemaRating;
         AreaClassification = dteq.AreaClassification;
     }

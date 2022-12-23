@@ -466,27 +466,28 @@ namespace EDTLibrary.Models.Loads
         }
         private string _pdType;
 
-        public double PdSizeTrip 
-        { 
+        public double PdSizeTrip
+        {
             get;
-            set; 
+            set;
         }
 
-        public double PdSizeFrame { get; 
-            set; }
-
-        public BreakerSize BreakerSize { get { return TypeManager.GetBreaker(Fla); } }
-
-        public string StarterType 
-        { 
-            get; 
-            set; 
+        public double PdSizeFrame
+        {
+            get;
+            set;
         }
 
-        public string StarterSize 
-        { 
-            get; 
-            set; 
+        public string StarterType
+        {
+            get;
+            set;
+        }
+
+        public string StarterSize
+        {
+            get;
+            set;
         }
 
         public double HeatLoss { get; set; }
@@ -597,7 +598,7 @@ namespace EDTLibrary.Models.Loads
                     }
 
                     if (_driveBool == true) {
-                        PdType = "BKR";
+                        //PdType = "BKR";
                         ComponentManager.AddDefaultDrive(this, ScenarioManager.ListManager);
                         CableManager.CreateLcsAnalogCable(this, ScenarioManager.ListManager);
 
@@ -605,7 +606,7 @@ namespace EDTLibrary.Models.Loads
                     }
 
                     else if (_driveBool == false) {
-                        PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
+                        //PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
                         ComponentManager.RemoveDefaultDrive(this, ScenarioManager.ListManager);
                         CableManager.DeleteLcsAnalogCable(Lcs, ScenarioManager.ListManager);
                     }
@@ -755,7 +756,10 @@ namespace EDTLibrary.Models.Loads
 
             LoadManager.SetLoadPdType(this);
             LoadManager.SetLoadPdFrameAndTrip(this);
+
             ProtectionDeviceManager.SetProtectionDeviceType(this);
+            ProtectionDeviceManager.SetProtectionDeviceFrameAndTrip(this);
+
 
             PowerCable.GetRequiredAmps(this);
             UndoManager.CanAdd = true;

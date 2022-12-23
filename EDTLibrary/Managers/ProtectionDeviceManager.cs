@@ -31,6 +31,11 @@ public class ProtectionDeviceManager
             type = CctComponentTypes.DOL.ToString();
             subType = PdTypes.StandAloneStarter.ToString();
         }
+        if (load.Category == Categories.DTEQ.ToString()) {
+
+            type = PdTypes.BKR.ToString();
+            subType = PdTypes.BKR.ToString();
+        }
         //Else
         else {
             type = CctComponentTypes.FDS.ToString();
@@ -82,9 +87,9 @@ public class ProtectionDeviceManager
         if (DaManager.GettingRecords) return;
         if  (load.ProtectionDevice == null) return;
 
-        load.ProtectionDevice.FrameAmps = DataTableSearcher.GetMcpFrame(load);
-        load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load);
-        load.ProtectionDevice.StarterSize = DataTableSearcher.GetStarterSize(load);
+        //load.ProtectionDevice.FrameAmps = DataTableSearcher.GetMcpFrame(load);
+        //load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load);
+        //load.ProtectionDevice.StarterSize = DataTableSearcher.GetStarterSize(load);
 
         //Stand Alone
         if (load.ProtectionDevice.IsStandAlone) {
@@ -120,6 +125,26 @@ public class ProtectionDeviceManager
                     load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
                 }
             }
+        }
+    }
+    public static void SetProtectionDeviceFrameAndTrip(IPowerConsumer load)
+    {
+
+        if (load.ProtectionDevice == null) {
+            return;
+        }
+
+        if (load.ProtectionDevice.Type.Contains("MCP") ||
+            load.ProtectionDevice.Type.Contains("FVNR") ||
+            load.ProtectionDevice.Type.Contains("FVR")) {
+            load.ProtectionDevice.FrameAmps = DataTableSearcher.GetMcpFrame(load);
+            load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load);
+            load.ProtectionDevice.StarterSize = DataTableSearcher.GetStarterSize(load);
+
+        }
+        else if (load.ProtectionDevice.Type == "BKR") {
+            load.ProtectionDevice.FrameAmps = DataTableSearcher.GetBreakerFrame(load);
+            load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load);
         }
     }
 }

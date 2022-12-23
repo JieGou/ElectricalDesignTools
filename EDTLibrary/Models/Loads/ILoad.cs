@@ -14,8 +14,8 @@ namespace EDTLibrary.Models.Loads
         double LoadFactor { get; set; }
         double Efficiency { get; set; }
 
-        string StarterType { get; set; }
-        string StarterSize { get; set; }
+        //string StarterType { get; set; }
+        //string StarterSize { get; set; }
 
 
         

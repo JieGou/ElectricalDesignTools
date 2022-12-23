@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using System.Collections.ObjectModel;
@@ -21,9 +22,7 @@ public interface ICableUser : IEquipment
     IDteq FedFrom { get; set; }
 
     double AmpacityFactor { get; set; }
-    string PdType { get; set; }
-    double PdSizeTrip { get; set; }
-    double PdSizeFrame { get; set; }
+    IProtectionDevice ProtectionDevice { get; set; }
 
     CableModel PowerCable { get; set; }
     

@@ -1,12 +1,16 @@
 
 In Progress PROTECTION DEVICE MANAGER
 
-		- Category = CctComponent
-		- Type = ProtectionDevice vs Component
-		- SubType = DefaultDcn,StandAloneStarter, Diconnect,
+	- Category = CctComponent
+	- Type = ProtectionDevice vs Component
+	- SubType = DefaultDcn,StandAloneStarter, Diconnect,
 
-	- all equipment get a PD for PD data/calculations
-		- dteq incomplete
+	- Dteq Graphics
+		- transformer PD line and load
+		- Dteq as load
+
+
+	- protection device calculation
 
 	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer load) PdTypeList creation
 	- ProtectionDeviceEditor

@@ -36,9 +36,9 @@ public class LoadMapper
         DemandKva = load.DemandKva;
         DemandKw = load.DemandKw;
         DemandKvar = load.DemandKvar;
-        PdType = load.PdType;
-        PdSizeTrip = load.PdSizeTrip;
-        PdSizeFrame = load.PdSizeFrame;
+        PdType = load.ProtectionDevice.Type;
+        PdSizeTrip = load.ProtectionDevice.TripAmps;
+        PdSizeFrame = load.ProtectionDevice.FrameAmps;
         NemaRating = load.NemaRating;
         AreaClassification = load.AreaClassification;
     }

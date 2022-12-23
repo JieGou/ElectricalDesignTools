@@ -86,10 +86,10 @@ public class PanelScheduleDrawer
                     att.TextString = $"{dteq.LineVoltage} V, {dteq.Size} A, 3-PH, {dteq.SCCR} kA";
                     break;
                 case "AF":
-                    att.TextString = $"{dteq.PdSizeFrame} AF";
+                    att.TextString = $"{dteq.ProtectionDevice.FrameAmps} AF";
                     break;
                 case "AT":
-                    att.TextString = $"{dteq.PdSizeTrip} AT";
+                    att.TextString = $"{dteq.ProtectionDevice.TripAmps} AT";
                     break;
                 case "CABLE_TAG":
                     att.TextString = $"{dteq.PowerCable.Tag}";
@@ -156,16 +156,16 @@ public class PanelScheduleDrawer
 
                 //Starter
                 case "MCP_Size":
-                    att.TextString = $"{dteq.PdSizeTrip} A";
+                    att.TextString = $"{dteq.ProtectionDevice.TripAmps} A";
                     break;
                
 
                 //Breaker
                 case "AT":
-                    att.TextString = $"{dteq.PdSizeTrip}";
+                    att.TextString = $"{dteq.ProtectionDevice.TripAmps}";
                     break;
                 case "AF":
-                    att.TextString = $"{dteq.PdSizeFrame}";
+                    att.TextString = $"{dteq.ProtectionDevice.FrameAmps}";
                     break;
 
                 //Drive

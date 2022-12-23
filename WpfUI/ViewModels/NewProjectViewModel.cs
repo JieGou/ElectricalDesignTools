@@ -155,8 +155,12 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
             if (HasErrors == false) {
                 string fullFileName = FolderName + "\\" + FileName + ".edp";
 
-                File.Copy(AppSettings.Default.NewProjectFileTemplate, fullFileName, true);
+#if DEBUG
+                File.Copy(@"C:\C - Visual Studio Projects\WpfUI\ContentFiles\Edt Sample Project.edp", fullFileName, true);
 
+#else
+                File.Copy(AppSettings.Default.NewProjectFileTemplate, fullFileName, true);
+#endif
                 _startupService.InitializeLibrary();
                 _homeViewModel.StartupService.SetSelectedProject(fullFileName);
                 _startupService.InitializeProject(fullFileName);

@@ -20,8 +20,8 @@ public class LoadHeatLossCalculator
         try {
             BreakerHeatLoss = TypeManager.GetBreaker(load.Fla).HeatLoss;
 
-            if (load.PdType != null) {
-                if (load.PdType.Contains("MCP")) {
+            if (load.ProtectionDevice.Type != null) {
+                if (load.ProtectionDevice.Type.Contains("MCP")) {
                     StarterHeatLoss = TypeManager.GetStarter(load.Size, load.Unit).HeatLossWatts;
                 }
             }

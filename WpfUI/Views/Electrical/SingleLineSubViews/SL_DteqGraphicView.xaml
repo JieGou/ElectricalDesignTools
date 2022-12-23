@@ -108,7 +108,7 @@
             <SingleLineLoadGraphics:SingleLineDashedBorder/>
 
             <!--Main Breaker-->
-            <ContentControl Content="{Binding}" 
+            <ContentControl Content="{Binding ProtectionDevice}" 
                         Style="{StaticResource OCPDTemplateStyle}"
                         ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
                         Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"
@@ -192,7 +192,7 @@
                 <SingleLineLoadGraphics:SingleLineDashedBorder/>
 
                 <!--Main Breaker-->
-                <ContentControl Content="{Binding}" 
+                <ContentControl Content="{Binding ProtectionDevice}" 
                         Style="{StaticResource OCPDTemplateStyle}"
                         ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
                         Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"

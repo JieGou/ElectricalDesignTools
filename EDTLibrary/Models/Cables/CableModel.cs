@@ -319,12 +319,14 @@ public class CableModel : ICable
         get
         {
             if (Load != null) {
-                return $"OCDP Trip = {Load.PdSizeTrip} A";
-
-            }
-            else {
+                if (Load.ProtectionDevice != null) {
+                    return $"OCDP Trip = {Load.ProtectionDevice.TripAmps} A";
+                }
                 return "OCDP Trip = xx A";
             }
+            
+            return "OCDP Trip = xx A";
+            
         }
 
     }
@@ -539,10 +541,15 @@ public class CableModel : ICable
 
 
         if (load.GetType() == typeof(LoadModel)) {
-            RequiredAmps = Math.Max(load.PdSizeTrip, RequiredAmps);
+            if (load.ProtectionDevice!=null) {
+                RequiredAmps = Math.Max(load.ProtectionDevice.TripAmps, RequiredAmps);
+
+            }        
         }
         else {
-            RequiredAmps = Math.Min(load.PdSizeTrip, RequiredAmps);
+            if (load.ProtectionDevice != null) {
+                RequiredAmps = Math.Min(load.ProtectionDevice.TripAmps, RequiredAmps);
+            }
         }
         //ValidateCableSize(this);
         return RequiredAmps;

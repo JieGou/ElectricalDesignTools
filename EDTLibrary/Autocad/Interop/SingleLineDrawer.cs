@@ -95,10 +95,10 @@ public class SingleLineDrawer
                     att.TextString = $"{mcc.LineVoltage} V, {mcc.Size} A, 3-PH, {mcc.SCCR} kA";
                     break;
                 case "AF":
-                    att.TextString = $"{mcc.PdSizeFrame} AF";
+                    att.TextString = $"{mcc.ProtectionDevice.FrameAmps} AF";
                     break;
                 case "AT":
-                    att.TextString = $"{mcc.PdSizeTrip} AT";
+                    att.TextString = $"{mcc.ProtectionDevice.TripAmps} AT";
                     break;
                 case "CABLE_TAG":
                     att.TextString = $"{mcc.PowerCable.Tag}";
@@ -117,10 +117,10 @@ public class SingleLineDrawer
 
         string blockType = "FCB";
 
-        if (load.PdType.Contains("FVNR")) {
+        if (load.ProtectionDevice.Type.Contains("FVNR")) {
             blockType = "FVNR";
         }
-        else if (load.PdType.Contains("FVR")) {
+        else if (load.ProtectionDevice.Type.Contains("FVR")) {
             blockType = "FVR";
         }
         else if (load.DriveBool == true && isDriveInternal == true) {
@@ -140,21 +140,21 @@ public class SingleLineDrawer
 
                 //Starter
                 case "MCP_Size":
-                    att.TextString = $"{load.PdSizeTrip} A";
+                    att.TextString = $"{load.ProtectionDevice.TripAmps} A";
                     break;
                 case "FVNR_Size":
-                    att.TextString = $"{load.StarterSize}";
+                    att.TextString = $"{load.ProtectionDevice.StarterSize}";
                     break;
                 case "FVR_Size":
-                    att.TextString = $"{load.StarterSize}";
+                    att.TextString = $"{load.ProtectionDevice.StarterSize}";
                     break;
 
                 //Breaker
                 case "AT":
-                    att.TextString = $"{load.PdSizeTrip}";
+                    att.TextString = $"{load.ProtectionDevice.TripAmps}";
                     break;
                 case "AF":
-                    att.TextString = $"{load.PdSizeFrame}";
+                    att.TextString = $"{load.ProtectionDevice.FrameAmps}";
                     break;
 
                 //Drive
