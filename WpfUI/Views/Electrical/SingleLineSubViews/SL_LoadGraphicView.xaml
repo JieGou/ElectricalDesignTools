@@ -62,7 +62,7 @@
 
 
             <!--OCPD-->    <!--Style is for instant graphic updates-->
-            <ContentControl Content="{Binding}" DockPanel.Dock="Top"
+            <ContentControl Content="{Binding Path=ProtectionDevice}" DockPanel.Dock="Top"
                             Style="{StaticResource OCPDTemplateStyle}"
                             ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
                             PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown" 
@@ -102,13 +102,13 @@
 
                                 <!--Component-->
 
-                                <ContentControl 
-                                Style="{StaticResource DisconnectTemplateStyle}"
-                                Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
-                                ContentTemplateSelector="{StaticResource ComponentTemplateSelector}"
-                                PreviewMouseLeftButtonDown="Component_PreviewMouseLeftButtonDown" >
+                            <ContentControl 
+                                            Style="{StaticResource ComponentTemplateStyle}"
+                                            Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
+                                            ContentTemplateSelector="{StaticResource ComponentTemplateSelector}"
+                                            PreviewMouseLeftButtonDown="Component_PreviewMouseLeftButtonDown" >
 
-                                </ContentControl>
+                            </ContentControl>
 
 
                             </StackPanel>

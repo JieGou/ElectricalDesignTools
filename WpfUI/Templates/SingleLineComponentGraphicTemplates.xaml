@@ -105,9 +105,9 @@
 
                             <StackPanel Orientation="Vertical"
                                 Grid.Row="1">
-                                <TextBlock Text="{Binding ProtectionDevice.TripAmps, StringFormat={}{0:N0} AT}" />
+                                <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}" />
                                 <Border BorderThickness="0 0 0 1"/>
-                                <TextBlock Text="{Binding ProtectionDevice.FrameAmps, StringFormat={}{0:N0} AF}" />
+                                <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" />
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -177,9 +177,9 @@
 
                         <StackPanel Orientation="Vertical"
                                 Grid.Row="1">
-                            <TextBlock Text="{Binding ProtectionDevice.TripAmps, StringFormat={}{0:N0} AT}" />
+                            <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}" />
                             <Border BorderThickness="0 0 0 1"/>
-                            <TextBlock Text="{Binding ProtectionDevice.FrameAmps, StringFormat={}{0:N0} AF}" />
+                            <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" />
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -260,7 +260,7 @@
                                     <Style TargetType="Canvas">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ProtectionDevice.PdType}" Value="MCP_FVR">
+                                            <DataTrigger Binding="{Binding PdType}" Value="MCP_FVR">
                                                 <Setter Property="Visibility" Value="Visible"/>
 
                                             </DataTrigger>
@@ -305,16 +305,16 @@
                             <!--Breaker Size-->
                             <StackPanel Orientation="Vertical"
                                 Grid.Row="1">
-                                <TextBlock Text="{Binding ProtectionDevice.TripAmps, StringFormat={}{0:N0} AT}" />
+                                <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}" />
                                 <Border BorderBrush="Black" BorderThickness="0 0 0 1"/>
-                                <TextBlock Text="{Binding ProtectionDevice.FrameAmps, StringFormat={}{0:N0} AF}" />
+                                <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" />
                             </StackPanel>
 
                             <!--Starter Size-->
                             <StackPanel Orientation="Horizontal"
                                     Grid.Row="3">
                                 <TextBlock Text="Size: "/>
-                                <TextBlock Text="{Binding ProtectionDevice.StarterSize}" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding StarterSize}" FontWeight="SemiBold"/>
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -329,13 +329,119 @@
     <DataTemplate x:Key="DOLStarterTemplate_Bucket">
         <StackPanel Orientation="Vertical">
             <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DOLStarterTemplate}"/>
+            <SingleLineLoadGraphics:SingleLineDashedBorder/>
         </StackPanel>
     </DataTemplate>
     
     <!--DOL Starter Tempalte Stand Alone-->
     <DataTemplate x:Key="DOLStarterTemplate_StandAlone">
-        <StackPanel Orientation="Vertical">
-            <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DOLStarterTemplate}"/>
+        <StackPanel Orientation="Vertical" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Style="{StaticResource GraphicHighlightStyle}"
+                  Grid.Column="1" Margin="-1 0 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="26"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border BorderThickness="1 1 0 1"
+                        Grid.Column="1"
+                        Padding="5 0"
+                        Margin="-5 0">
+                       
+
+                        <Canvas Grid.Column="1"
+                            Width="35" Height="90">
+                            <!--Breaker-->
+                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                            <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
+
+                            <!--Overload-->
+                            <Border BorderThickness="1" Background="Transparent"
+                            Canvas.Left="0" Canvas.Top="45" Width="27" Height="15"
+                                >
+                                <TextBlock Text="O/L" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Margin="0 0 0 1"/>
+                            </Border>
+                            <!--<Path Stroke="Black" StrokeThickness="1" Data="M 13,45 A 5,5 0 0 1 13.5, 55" />
+                        <Path Stroke="Black" StrokeThickness="1" Data="M 13.5,55 A 5,5 0 0 0 14, 65" /> -->
+
+                            <!--Contactor-->
+                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
+                            <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
+                            <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
+                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
+
+                            <!--Reversing Contactor-->
+                            <Canvas Canvas.Left="30" >
+                                <Canvas.Style>
+                                    <Style TargetType="Canvas">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding PdType}" Value="MCP_FVR">
+                                                <Setter Property="Visibility" Value="Visible"/>
+
+                                            </DataTrigger>
+                                        </Style.Triggers>
+
+                                    </Style>
+                                </Canvas.Style>
+                                <Line Stroke="Black" StrokeThickness="1" X1="-17" Y1="65" X2="14" Y2="65"/>
+                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="65" X2="13.5" Y2="70"/>
+                                <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
+                                <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
+                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="85"/>
+                                <Line Stroke="Black" StrokeThickness="1" X1="-17" Y1="85" X2="14" Y2="85"/>
+
+                            </Canvas>
+                        </Canvas>
+                    </Border>
+
+
+                    <!--Data-->
+                    <Border BorderThickness="0 1 1 1"
+                            Grid.Column="2"
+                        Padding="0 0 5 0"
+                        Margin="5 0">
+
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="7"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+
+                            <!--Breaker Size-->
+                            <StackPanel Orientation="Vertical"
+                                Grid.Row="1">
+                                <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}" />
+                                <Border BorderBrush="Black" BorderThickness="0 0 0 1"/>
+                                <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" />
+                            </StackPanel>
+
+                            <!--Starter Size-->
+                            <StackPanel Orientation="Horizontal"
+                                    Grid.Row="3">
+                                <TextBlock Text="Size: "/>
+                                <TextBlock Text="{Binding StarterSize}" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+            </Grid>
+
         </StackPanel>
     </DataTemplate>
 
@@ -400,9 +506,9 @@
                         <TextBlock Text="{Binding Tag}" FontWeight="SemiBold" Margin="5 0 0 0"
                                    Visibility="Collapsed"/>
                         <StackPanel Orientation="Vertical" Grid.Row="1" Margin="5 0 0 0">
-                            <TextBlock Text="{Binding ProtectionDevice.TripAmps, StringFormat={}{0:N0} AT}" />
+                            <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}" />
                             <Border BorderThickness="0 0 0 1"/>
-                            <TextBlock Text="{Binding ProtectionDevice.FrameAmps, StringFormat={}{0:N0} AF}" />
+                            <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" />
                         </StackPanel>
                             <!--Area Properties-->
                         <StackPanel Orientation="Horizontal" 
@@ -735,60 +841,36 @@
         <Setter Property="Visibility" Value="Visible"/>
         <Style.Triggers>
 
-            <DataTrigger Binding="{Binding ProtectionDevice.IsStandAlone}" Value="true">
+            <DataTrigger Binding="{Binding IsStandAlone}" Value="true">
                 <Setter Property="Visibility" Value="Collapsed"/>
             </DataTrigger>
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding ProtectionDevice.Type}" Value="BKR" />
+                    <Condition Binding="{Binding Type}" Value="BKR" />
                     <Condition Binding="{Binding FedFrom}" Value="{x:Type edtDteqModels:XfrModel}" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate}"/>
                 </MultiDataTrigger.Setters>
-
             </MultiDataTrigger>
 
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding ProtectionDevice.Type}" Value="FDS" />
-                    <Condition Binding="{Binding ProtectionDevice.IsStandAlone}" Value="True" />
-                </MultiDataTrigger.Conditions>
-                <MultiDataTrigger.Setters>
-                    <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate_StandAlone}"/>
-                </MultiDataTrigger.Setters>
-            </MultiDataTrigger>
-
-            <MultiDataTrigger>
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding ProtectionDevice.SubType}" Value="StandAloneStarter" />
-                    <Condition Binding="{Binding ProtectionDevice.IsStandAlone}" Value="True" />
-                </MultiDataTrigger.Conditions>
-                <MultiDataTrigger.Setters>
-                    <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_StandAlone}"/>
-                </MultiDataTrigger.Setters>
-            </MultiDataTrigger>
-
-            <DataTrigger Binding="{Binding ProtectionDevice.Type}" Value="BKR">
+            <DataTrigger Binding="{Binding Type}" Value="BKR">
                 <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate_Bucket}"/>
             </DataTrigger>
-
-            <DataTrigger Binding="{Binding ProtectionDevice.SubType}" Value="StandAloneStarter">
-                <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate_Bucket}"/>
-            </DataTrigger>
-
 
         </Style.Triggers>
     </Style>
 
 
-    <!--DisconnectTemplateStyle-->
-    <Style x:Key="DisconnectTemplateStyle" TargetType="{x:Type ContentControl}">
+    <!--ComponentTemplateStyle-->
+    <Style x:Key="ComponentTemplateStyle" TargetType="{x:Type ContentControl}">
         <Style.Triggers>
+
             <DataTrigger Binding="{Binding Path=Type}" Value="UDS">
                 <Setter Property="ContentTemplate" Value="{StaticResource UdsTemplate}"/>
             </DataTrigger>
+            
             <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
                 <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
             </DataTrigger>
@@ -817,8 +899,11 @@
                 x:Key="ComponentTemplateSelector"
                 UdsTemplate="{StaticResource UdsTemplate}"
                 FdsTemplate="{StaticResource FdsTemplate}" 
-                VsdTemplate="{StaticResource VsdTemplate}" />
-
+                VsdTemplate="{StaticResource VsdTemplate}"
+        
+                DolTemplate_StandAlone="{StaticResource DOLStarterTemplate_StandAlone}"
+                FdsTemplate_StandAlone="{StaticResource FdsTemplate_StandAlone}"
+                />  
 
     <!--#endregion-->
 

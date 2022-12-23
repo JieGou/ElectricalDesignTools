@@ -17,11 +17,20 @@ public class ComponentGraphicTemplateSelector : DataTemplateSelector
     public DataTemplate VsdTemplate { get; set; }
     public DataTemplate RvsTemplate { get; set; }
 
+    public DataTemplate FdsTemplate_StandAlone { get; set; }
+    public DataTemplate DolTemplate_StandAlone { get; set; }
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
         var selectedTemplate = UdsTemplate;
-        var component = (IComponentEdt)item;
+        var component = (ComponentModelBase)item;
         if (component == null) return selectedTemplate;
+
+
+
+        if (component != null) {
+            if (component.Type == "FDS") return FdsTemplate_StandAlone;
+            if (component.Type.Contains("MCP")) return DolTemplate_StandAlone;
+        }
 
         if (component.Type == ComponentTypes.UDS.ToString()) {
             selectedTemplate = UdsTemplate;
@@ -37,6 +46,10 @@ public class ComponentGraphicTemplateSelector : DataTemplateSelector
         else if (component.Type == ComponentTypes.RVS.ToString()) {
             selectedTemplate = RvsTemplate;
         }
+        else if (component.Type == ComponentTypes.RVS.ToString()) {
+            selectedTemplate = RvsTemplate;
+        }
+
 
         return selectedTemplate;
     }

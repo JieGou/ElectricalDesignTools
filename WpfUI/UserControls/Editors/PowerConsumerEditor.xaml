@@ -250,7 +250,7 @@
 
 
             <!--PD Type-->
-            <TextBlock Text="OCPD "
+            <!--<TextBlock Text="OCPD "
                                Grid.Row="11" Grid.Column="0" 
                                HorizontalAlignment="Right" 
                                
@@ -265,7 +265,21 @@
                 <TextBlock Text="{Binding ProtectionDevice.SubType}"
                                Grid.Row="11" Grid.Column="1" 
                                Style="{StaticResource SummaryValue_TextBlockStyle}"/>
-            </StackPanel>
+
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="{Binding ProtectionDevice.TripAmps}"
+                               Grid.Row="11" Grid.Column="1" 
+                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+
+                    <TextBlock Text="{Binding ProtectionDevice.FrameAmps}"
+                               Grid.Row="11" Grid.Column="1" 
+                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+                    
+                    <TextBlock Text="{Binding ProtectionDevice.IsStandAlone}"
+                               Grid.Row="11" Grid.Column="1" 
+                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+                </StackPanel>
+            </StackPanel>-->
 
 
 

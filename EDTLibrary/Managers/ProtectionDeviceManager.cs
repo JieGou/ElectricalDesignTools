@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.LibraryData;
+using EDTLibrary.LibraryData.TypeModels;
 
 namespace EDTLibrary.Managers;
 public class ProtectionDeviceManager
@@ -79,6 +81,11 @@ public class ProtectionDeviceManager
     {
         if (DaManager.GettingRecords) return;
         if  (load.ProtectionDevice == null) return;
+
+        load.ProtectionDevice.FrameAmps = DataTableSearcher.GetMcpFrame(load);
+        load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load);
+        load.ProtectionDevice.StarterSize = DataTableSearcher.GetStarterSize(load);
+
         //Stand Alone
         if (load.ProtectionDevice.IsStandAlone) {
 

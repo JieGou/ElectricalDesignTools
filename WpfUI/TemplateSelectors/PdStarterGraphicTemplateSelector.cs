@@ -1,4 +1,5 @@
 ﻿using EDTLibrary;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using System;
@@ -27,37 +28,42 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
         var selectedTemplate = EmptyTemplate;
         if (item == null) return EmptyTemplate;
 
-        IPowerConsumer load = null;
+        IProtectionDevice pd = null;
         try {
-            if (item.GetType() == typeof(LoadModel)) {
-                load = (LoadModel)item;
+            if (item.GetType() == typeof(ProtectionDeviceModel)) {
+                pd = (ProtectionDeviceModel)item;
             }
-            else if (item is (DistributionEquipment)) {
-                load = DteqFactory.Recast(item);
-            }
-
         }
         catch (Exception) { }
 
 
-        if (load == null) {
+        if (pd == null) {
             return selectedTemplate;
         }
 
-        //Splitter
-        if (load.ProtectionDevice.IsStandAlone== true) {
-            if (load.PdType == "FDS") return FdsTemplate_StandAlone;
-            if (load.PdType.Contains("MCP")) return DolTemplate_StandAlone;
+        if (pd.IsStandAlone) {
+            return EmptyTemplate;
         }
 
-        if (load.PdType == "FDS") return FdsTemplate;
-        if (load.PdType.Contains("MCP")) return DolTemplate;
+        //Splitter
+        if (pd!=null) {
+            if (pd.IsStandAlone == true) {
+                if (pd.Type == "FDS") return FdsTemplate_StandAlone;
+                if (pd.Type.Contains("MCP")) return DolTemplate_StandAlone;
+            } 
+        }
 
-        if (load.PdType == "BKR" && load.FedFrom.GetType() != typeof(XfrModel)) {
+        if (pd.Type == "FDS") return FdsTemplate;
+        if (pd.Type.Contains("MCP")) return DolTemplate;
+
+
+        var pdOnwer = (IPowerConsumer)pd.Owner;
+
+        if (pd.Type == "BKR" && pdOnwer.GetType() != typeof(XfrModel)) {
             return BreakerTemplate;
         }
 
-        if (load.Type == DteqTypes.DPN.ToString() && load.FedFrom.Type == DteqTypes.XFR.ToString()) {
+        if (pd.Type == DteqTypes.DPN.ToString() && pdOnwer.Type == DteqTypes.XFR.ToString()) {
             return EmptyTemplate;
         }
         return selectedTemplate;
