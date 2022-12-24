@@ -65,8 +65,7 @@
             <ContentControl Content="{Binding ProtectionDevice}" DockPanel.Dock="Top"
                             Style="{StaticResource OCPDTemplateStyle}"
                             ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
-                            PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown" 
-                            >
+                            PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"  >
             </ContentControl>
 
 
@@ -117,105 +116,103 @@
                 </ItemsControl>
 
                
-                <!--Load Cable-->
-                <Grid DockPanel.Dock="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="5"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
+            <!--Load Cable-->
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
 
-                  
-                    <!--Cable -->
-                    <ContentControl Content="{Binding PowerCable}"
-                                    ContentTemplate="{StaticResource CableTemplate}"
-                                    Grid.Column="2" 
-                                    PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown">
-                    </ContentControl>
-                </Grid>
 
-                <!--Load-->
-                <Grid DockPanel.Dock="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <StackPanel Orientation="Vertical" Grid.Column="1"
-                            HorizontalAlignment="Left">
+                <!--Cable -->
+                <ContentControl Content="{Binding PowerCable}"
+                                ContentTemplate="{StaticResource CableTemplate}"
+                                Grid.Column="2" 
+                                PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown">
+                </ContentControl>
+            </Grid>
 
-                        <!--Load-->
-                        <ContentControl DataContext="{Binding}" Content="{Binding}" 
-                                        ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                        PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown" 
-                                        Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
-                                        ConverterParameter=Load}" >
-          
-                            
-                        </ContentControl>
+            <!--Load-->
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Orientation="Vertical" Grid.Column="1"
+                        HorizontalAlignment="Left">
 
-                        
-                        <!--Dteq as Load-->
-                        <ContentControl Content="{Binding}" 
-                                        ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                        PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown" 
-                                        Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
-                                        ConverterParameter=DteqAsLoad}" >
-                            
-                        </ContentControl>
-
-                        
-                    </StackPanel>
-                </Grid>
-
-                <!--Dteq's Load Cable-->
-                <Grid DockPanel.Dock="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40"/>
-                        <ColumnDefinition Width="5"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-                    
-                    <!--Cable -->
-                    <ContentControl DataContext="{Binding AssignedLoads[0] }" Content="{Binding PowerCable}" 
-                                    ContentTemplate="{StaticResource CableTemplate}"
-                                    Grid.Column="2" 
-                                    PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
+                    <!--Load-->
+                    <ContentControl DataContext="{Binding}" Content="{Binding}" 
+                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                                    PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown" 
                                     Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
-                                        ConverterParameter=Dteq_Load}" >
+                                    ConverterParameter=Load}" >
+                    </ContentControl>
+
+                    
+                    <!--Dteq as Load-->
+                    <ContentControl Content="{Binding}" 
+                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                                    PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown" 
+                                    Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
+                                    ConverterParameter=DteqAsLoad}" >
                         
                     </ContentControl>
-                </Grid>
 
-                <!--DTEQ's Load-->
-                <Grid DockPanel.Dock="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="15"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                    
+                </StackPanel>
+            </Grid>
 
-                    <StackPanel Orientation="Vertical" Grid.Column="1"
-                            HorizontalAlignment="Left">
+            <!--Dteq's Load Cable-->
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                
+                <!--Cable -->
+                <ContentControl DataContext="{Binding AssignedLoads[0] }" Content="{Binding PowerCable}" 
+                                ContentTemplate="{StaticResource CableTemplate}"
+                                Grid.Column="2" 
+                                PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
+                                Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
+                                    ConverterParameter=Dteq_Load}" >
+                    
+                </ContentControl>
+            </Grid>
 
-                        <ContentControl DataContext="{Binding AssignedLoads[0] }" Content="{Binding }" 
-                                        ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                        PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown"
-                                        Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
-                                        ConverterParameter=Dteq_Load}" >
-                            
-                        </ContentControl>
-                    </StackPanel>
-                </Grid>
+            <!--DTEQ's Load-->
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Vertical" Grid.Column="1"
+                        HorizontalAlignment="Left">
+
+                    <ContentControl DataContext="{Binding AssignedLoads[0] }" Content="{Binding }" 
+                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                                    PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown"
+                                    Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
+                                    ConverterParameter=Dteq_Load}" >
+                        
+                    </ContentControl>
+                </StackPanel>
+            </Grid>
 
             </DockPanel>
 

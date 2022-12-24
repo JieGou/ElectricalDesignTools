@@ -688,8 +688,9 @@ namespace EDTLibrary.Models.DistributionEquipment
             PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
 
             DteqManager.SetDteqPd(this);
+
             ProtectionDeviceManager.SetProtectionDeviceType(this);
-            ProtectionDeviceManager.SetProtectionDeviceFrameAndTrip(this);
+            ProtectionDeviceManager.SetPdTripAndStarterSize(this);
 
             SCCR = CalculateSCCR();
             IsCalculating = false;

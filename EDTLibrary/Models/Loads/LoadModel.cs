@@ -112,7 +112,21 @@ namespace EDTLibrary.Models.Loads
 
         public string Category { get; set; }
 
-        public string Type { get; set; }
+        public string Type
+        {
+            get  { return _type; }
+            set
+            {
+                _type = value;
+
+                if (DaManager.GettingRecords) return;
+
+                ProtectionDeviceManager.SetProtectionDeviceType(this);
+                CalculateLoading();
+
+            }
+        }
+        public string _type;
 
         public string SubType
         {
@@ -757,8 +771,8 @@ namespace EDTLibrary.Models.Loads
             LoadManager.SetLoadPdType(this);
             LoadManager.SetLoadPdFrameAndTrip(this);
 
-            ProtectionDeviceManager.SetProtectionDeviceType(this);
-            ProtectionDeviceManager.SetProtectionDeviceFrameAndTrip(this);
+            //ProtectionDeviceManager.SetProtectionDeviceType(this);
+            ProtectionDeviceManager.SetPdTripAndStarterSize(this);
 
 
             PowerCable.GetRequiredAmps(this);

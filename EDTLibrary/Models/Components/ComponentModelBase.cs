@@ -136,6 +136,8 @@ public abstract class ComponentModelBase : IComponentEdt
             var oldValue = _trip;
             _trip = value;
 
+            if (DaManager.GettingRecords) return;
+
             UndoManager.AddUndoCommand(this, nameof(TripAmps), oldValue, _trip);
             OnPropertyUpdated();
         }

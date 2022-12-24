@@ -28,12 +28,6 @@
 
     <!--#region Templates-->
 
-    <!--CABLES-->
-    <!--Cable Template-->
-    
-
-
-
     <!--LOADS-->
     <!--Motor Template-->
     <DataTemplate x:Key="MotorTemplate" DataType="{x:Type edtLoadModels:LoadModel}">

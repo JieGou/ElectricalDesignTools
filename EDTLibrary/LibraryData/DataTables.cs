@@ -25,6 +25,7 @@ namespace EDTLibrary.LibraryData
         public static DataTable LoadTypes { get; set; }
         public static DataTable Motors { get; set; }
         public static DataTable Starters { get; set; }
+        public static DataTable MvContactors { get; set; }
         public static DataTable VFDHeatLoss { get; set; }
 
         public static DataTable VoltageTypes { get; set; }

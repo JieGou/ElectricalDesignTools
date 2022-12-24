@@ -36,7 +36,7 @@ namespace EDTLibrary.TestDataFolder
             
             new DteqModel {Tag = "SWG-01", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-01", LineVoltage = 4160, LoadVoltage = 4160,
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160),
-                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160), Size = 5000, Unit = Units.A.ToString() },
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160), Size = 1200, Unit = Units.A.ToString() },
 
             new DteqModel {Tag = "XFR-03", Type = DteqTypes.XFR.ToString(), FedFromTag = "SWG-01", LineVoltage=4160, LoadVoltage=480,
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160),
@@ -54,11 +54,11 @@ namespace EDTLibrary.TestDataFolder
             
             new DteqModel {Tag = "XFR-02", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility,
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160), LineVoltage = 4160,
-                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), LoadVoltage = 600, Size = 5000, Unit = Units.kVA.ToString() },
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), LoadVoltage = 600, Size = 2500, Unit = Units.kVA.ToString() },
 
             new DteqModel {Tag = "SWG-02", Type = DteqTypes.SWG.ToString(), FedFromTag = "XFR-02",
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), LineVoltage=600,
-                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), LoadVoltage=600, Size=3000, Unit= Units.A.ToString() },
+                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), LoadVoltage=600, Size=2000, Unit= Units.A.ToString() },
 
             new DteqModel {Tag = "MCC-02", Type = DteqTypes.MCC.ToString(), FedFromTag = "SWG-02",
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), LineVoltage=600,

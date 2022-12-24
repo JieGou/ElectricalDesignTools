@@ -11,6 +11,8 @@ using System.ComponentModel;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Equipment;
 
 namespace EDTLibrary.Managers;
 public class ProtectionDeviceManager
@@ -127,9 +129,26 @@ public class ProtectionDeviceManager
             }
         }
     }
-    public static void SetProtectionDeviceFrameAndTrip(IPowerConsumer load)
-    {
 
+
+    //Trip and Starter
+    public static void SetPdTripAndStarterSize(IPowerConsumer load)
+    {
+        if (load.ProtectionDevice == null) return;
+        var LvCutoff = 750;
+
+        //LV
+        if (load.VoltageType.Voltage <= LvCutoff) {
+            SetPdTripAndStarterSize_Lv(load); 
+        }
+
+        //MV
+        SetPdTripAndStarterSize_Mv(load);
+        load.ProtectionDevice.FrameAmps = GetPdFrameAmps(load); 
+    }
+
+    private static void SetPdTripAndStarterSize_Lv(IPowerConsumer load)
+    {
         if (load.ProtectionDevice == null) {
             return;
         }
@@ -137,14 +156,48 @@ public class ProtectionDeviceManager
         if (load.ProtectionDevice.Type.Contains("MCP") ||
             load.ProtectionDevice.Type.Contains("FVNR") ||
             load.ProtectionDevice.Type.Contains("FVR")) {
-            load.ProtectionDevice.FrameAmps = DataTableSearcher.GetMcpFrame(load);
             load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load);
             load.ProtectionDevice.StarterSize = DataTableSearcher.GetStarterSize(load);
 
         }
         else if (load.ProtectionDevice.Type == "BKR") {
-            load.ProtectionDevice.FrameAmps = DataTableSearcher.GetBreakerFrame(load);
             load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load);
         }
+    }
+
+    private static void SetPdTripAndStarterSize_Mv(IPowerConsumer load)
+    {
+        double MvContactorSize = 400;
+
+        //Contactor
+        if (load.ProtectionDevice.Type.Contains("MCP") || load.ProtectionDevice.Type.Contains("DOL")) {
+
+            load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load);
+            var minContactorSize = Math.Max(load.Fla * load.AmpacityFactor, MvContactorSize);
+            load.ProtectionDevice.StarterSize = DataTableSearcher.GetMvContactorSize(minContactorSize).ToString();
+
+        }
+        else  {
+            load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load);
+        }
+
+    }
+
+
+    //Frame
+    internal static double GetPdFrameAmps(IPowerConsumer load)
+    {
+        double LvCutoff = 750;
+        
+        //LV
+        if (load.VoltageType.Voltage <= LvCutoff) {
+            return DataTableSearcher.GetBreakerFrame(load.ProtectionDevice.TripAmps);
+
+        }
+
+        //MV
+        double MvBreakerFrameSize = 1200;
+        return DataTableSearcher.GetBreakerFrame(MvBreakerFrameSize);
+
     }
 }

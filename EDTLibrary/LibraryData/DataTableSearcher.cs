@@ -79,7 +79,8 @@ namespace EDTLibrary.LibraryData
             }
             return result;
         }
-        public static double GetBreakerTrip(IPowerConsumer load) {
+        public static double GetBreakerTrip(IPowerConsumer load)
+        {
             double result = GlobalConfig.NoValueDouble;
             if (DataTables.BreakerSizes != null) {
 
@@ -99,9 +100,50 @@ namespace EDTLibrary.LibraryData
                 }
                 catch { }
             }
-            
+
             return result;
         }
+        public static double GetBreakerTrip(double circuitAmps)
+        {
+            double result = GlobalConfig.NoValueDouble;
+            if (DataTables.BreakerSizes != null) {
+
+                DataTable dt = DataTables.BreakerSizes.Copy();
+                DataTable dtFiltered;
+
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("TripAmps") >= (int)circuitAmps);
+
+               
+
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    dtFiltered = dtFiltered.Select($"TripAmps = MIN(TripAmps)").CopyToDataTable();
+                    result = Double.Parse(dtFiltered.Rows[0]["TripAmps"].ToString());
+                }
+                catch { }
+            }
+
+            return result;
+        }
+        public static double GetBreakerFrame(double tripAmps)
+        {
+            double result = GlobalConfig.NoValueDouble;
+            if (DataTables.BreakerSizes != null) {
+                DataTable dt = DataTables.BreakerSizes.Copy();
+                DataTable dtFiltered;
+
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)tripAmps);
+
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    dtFiltered = dtFiltered.Select($"FrameAmps = MIN(FrameAmps)").CopyToDataTable();
+                    result = Double.Parse(dtFiltered.Rows[0]["FrameAmps"].ToString());
+                }
+                catch { }
+            }
+            return result;
+        }
+        
         public static double GetMcpFrame(IPowerConsumer load)
         {
             double result = GlobalConfig.NoValueDouble;
@@ -136,6 +178,26 @@ namespace EDTLibrary.LibraryData
                     dtFiltered = filteredRows.CopyToDataTable();
                     dtFiltered = dtFiltered.Select($"HP = Min(HP)").CopyToDataTable();
                     result = dtFiltered.Rows[0]["Size"].ToString();
+                }
+                catch { }
+            }
+            return result;
+        }
+
+        public static double GetMvContactorSize(double motorCurrent)
+        {
+            double result = GlobalConfig.NoValueDouble;
+            if (DataTables.MvContactors != null) {
+                DataTable dt = DataTables.MvContactors.Copy();
+                DataTable dtFiltered;
+
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("RatedAmps") >= (double)motorCurrent);
+
+
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    dtFiltered = dtFiltered.Select($"RatedAmps = Min(RatedAmps)").CopyToDataTable();
+                    result = Double.Parse(dtFiltered.Rows[0]["RatedAmps"].ToString());
                 }
                 catch { }
             }

@@ -25,7 +25,6 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
 
-        var selectedTemplate = EmptyTemplate;
         if (item == null) return EmptyTemplate;
 
         IProtectionDevice pd = null;
@@ -38,7 +37,7 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
 
 
         if (pd == null) {
-            return selectedTemplate;
+            return EmptyTemplate;
         }
 
         if (pd.IsStandAlone) {
@@ -46,26 +45,32 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
         }
 
         //Splitter
-        if (pd!=null) {
-            if (pd.IsStandAlone == true) {
-                if (pd.Type == "FDS") return FdsTemplate_StandAlone;
-                if (pd.Type.Contains("MCP")) return DolTemplate_StandAlone;
-            } 
-        }
+        if (pd.IsStandAlone == true) {
+            if (pd.Type == "FDS") return FdsTemplate_StandAlone;
+            if (pd.Type.Contains("MCP")) return DolTemplate_StandAlone;
+        } 
 
-        if (pd.Type == "FDS") return FdsTemplate;
-        if (pd.Type.Contains("MCP")) return DolTemplate;
+
+       
+
+
 
 
         var pdOnwer = (IPowerConsumer)pd.Owner;
 
-        if (pd.Type == "BKR" && pdOnwer.GetType() != typeof(XfrModel)) {
-            return BreakerTemplate;
+        if (pd.Type == "BKR" && pdOnwer.FedFrom.GetType() == typeof(XfrModel)) {
+            return EmptyTemplate;
         }
 
         if (pd.Type == DteqTypes.DPN.ToString() && pdOnwer.Type == DteqTypes.XFR.ToString()) {
             return EmptyTemplate;
         }
-        return selectedTemplate;
+
+        if (pd.Type == "BKR") return BreakerTemplate;
+
+        if (pd.Type == "FDS") return FdsTemplate;
+        if (pd.Type.Contains("MCP")) return DolTemplate;
+
+        return EmptyTemplate;
     }
 }

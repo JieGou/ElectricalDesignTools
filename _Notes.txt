@@ -9,8 +9,8 @@ In Progress PROTECTION DEVICE MANAGER
 		- transformer PD line and load
 		- Dteq as load
 
-
 	- protection device calculation
+
 
 	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer load) PdTypeList creation
 	- ProtectionDeviceEditor

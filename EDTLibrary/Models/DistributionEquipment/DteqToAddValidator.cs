@@ -370,7 +370,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
 
     private bool CanAdd()
     {
-        LoadModel newLoad = new LoadModel();
+        DummyLoad newLoad = new DummyLoad();
 
         newLoad.VoltageType = LineVoltageType;
         if (_feedingDteq == null) return false;
