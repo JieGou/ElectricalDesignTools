@@ -132,8 +132,8 @@
           ShowGridLines="False">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="115"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="5"/>
@@ -263,7 +263,8 @@
             <!--Top Data-->
             <dteqViewers:DteqSummary3RowViewer Grid.Column="3" 
                                                Grid.ColumnSpan="2"
-                                                DataContext="{Binding SelectedDteq}"/>
+                                                DataContext="{Binding SelectedDteq}"
+                                               Visibility="Collapsed"/>
 
             <Button Content="Create Drawing"
                     Grid.Column="3" Grid.Row="1" Margin="10" 

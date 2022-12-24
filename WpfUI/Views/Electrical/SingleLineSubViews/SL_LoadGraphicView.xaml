@@ -62,7 +62,7 @@
 
 
             <!--OCPD-->    <!--Style is for instant graphic updates-->
-            <ContentControl Content="{Binding ProtectionDevice}" DockPanel.Dock="Top"
+            <ContentControl Content="{Binding ProtectionDevice, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top"
                             Style="{StaticResource OCPDTemplateStyle}"
                             ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
                             PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"  >
@@ -149,8 +149,8 @@
                         HorizontalAlignment="Left">
 
                     <!--Load-->
-                    <ContentControl DataContext="{Binding}" Content="{Binding}" 
-                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                    <ContentControl DataContext="{Binding}" Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
+                                    Style="{StaticResource LoadTemplateStyle}"
                                     PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown" 
                                     Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
                                     ConverterParameter=Load}" >

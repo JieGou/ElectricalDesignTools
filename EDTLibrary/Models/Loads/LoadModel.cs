@@ -119,7 +119,7 @@ namespace EDTLibrary.Models.Loads
             {
                 _type = value;
 
-                if (DaManager.GettingRecords) return;
+                if (DaManager.GettingRecords || DaManager.Importing) return;
 
                 ProtectionDeviceManager.SetProtectionDeviceType(this);
                 CalculateLoading();

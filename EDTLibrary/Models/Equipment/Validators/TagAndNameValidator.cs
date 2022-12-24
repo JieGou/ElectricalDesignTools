@@ -26,7 +26,9 @@ namespace EDTLibrary.Models.Validators
 
             string tag = null;
             foreach (var eq in listManager.EqList) {
-                if (eq.Tag.ToLower() == tagToCheck.ToLower()) tag = eq.Tag;
+                if (eq.Tag!=null) {
+                    if (eq.Tag.ToLower() == tagToCheck.ToLower()) tag = eq.Tag;
+                }
             }
 
             if (tag != null) {

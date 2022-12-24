@@ -463,8 +463,16 @@
 
 
     <!--TEMPLATE STYLES-->
+    <!--LoadTemplateStyle-->
+    <Style x:Key="LoadTemplateStyle" TargetType="{x:Type ContentControl}">
+        <Setter Property="ContentTemplate" Value="{StaticResource HeaterTemplate}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Type}" Value="MOTOR">
+                <Setter Property="ContentTemplate" Value="{StaticResource MotorTemplate}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 
-    
     <templateSelectors:LoadGraphicTemplateSelector 
                 x:Key="LoadTemplateSelector"
                 MotorTemplate="{StaticResource MotorTemplate}"

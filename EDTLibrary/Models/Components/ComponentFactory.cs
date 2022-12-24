@@ -36,7 +36,7 @@ public class ComponentFactory
 
         // Disconnect
         if (subType == PdTypes.FDS.ToString()) {
-            ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
+            ProtectionDevice.Tag = componentUser.Tag + ".PD";
             var load = (IPowerConsumer)componentUser;
             ProtectionDevice.Area = load.FedFrom.Area;
             ProtectionDevice.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
@@ -46,8 +46,8 @@ public class ComponentFactory
         }
 
         // starter
-        else if (subType == PdTypes.StandAloneStarter.ToString()) {
-            ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
+        else if (subType.Contains("MCP")) {
+            ProtectionDevice.Tag = componentUser.Tag + ".PD";
             var load = (IPowerConsumer)componentUser;
             ProtectionDevice.Area = load.FedFrom.Area;
             ProtectionDevice.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
@@ -57,7 +57,7 @@ public class ComponentFactory
 
         // breaker
         else if (subType == PdTypes.BKR.ToString()) {
-            ProtectionDevice.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DisconnectSuffix;
+            ProtectionDevice.Tag = componentUser.Tag + ".PD";
             var load = (IPowerConsumer)componentUser;
             ProtectionDevice.Area = load.FedFrom.Area;
             ProtectionDevice.FrameAmps = DataTableSearcher.GetDisconnectSize(load);

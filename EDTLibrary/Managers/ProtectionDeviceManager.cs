@@ -30,24 +30,23 @@ public class ProtectionDeviceManager
         //Motor
         if (load.Type == LoadTypes.MOTOR.ToString()) {
 
-            type = CctComponentTypes.DOL.ToString();
-            subType = PdTypes.StandAloneStarter.ToString();
+            type = PdTypes.MCP_FVNR.ToString();
+            subType = PdTypes.MCP_FVNR.ToString();
         }
-        if (load.Category == Categories.DTEQ.ToString()) {
+        else if (load.Category == Categories.DTEQ.ToString()) {
 
             type = PdTypes.BKR.ToString();
             subType = PdTypes.BKR.ToString();
         }
-        //Else
         else {
-            type = CctComponentTypes.FDS.ToString();
-            subType = PdTypes.FDS.ToString();
+            type = PdTypes.BKR.ToString();
+            subType = PdTypes.BKR.ToString();
         }
 
 
         ProtectionDeviceModel newPd = ComponentFactory.CreateProtectionDevice(load, subCategory, type, subType, listManager);
         load.ProtectionDevice = newPd;
-
+        ProtectionDeviceManager.SetProtectionDeviceType(load);
         load.FedFrom.AreaChanged += newPd.MatchOwnerArea;
         newPd.PropertyUpdated += DaManager.OnProtectioneDevicePropertyUpdated;
         DaManager.UpsertComponentAsync(newPd);
@@ -88,10 +87,6 @@ public class ProtectionDeviceManager
     {
         if (DaManager.GettingRecords) return;
         if  (load.ProtectionDevice == null) return;
-
-        //load.ProtectionDevice.FrameAmps = DataTableSearcher.GetMcpFrame(load);
-        //load.ProtectionDevice.TripAmps = DataTableSearcher.GetBreakerTrip(load);
-        //load.ProtectionDevice.StarterSize = DataTableSearcher.GetStarterSize(load);
 
         //Stand Alone
         if (load.ProtectionDevice.IsStandAlone) {
@@ -141,9 +136,10 @@ public class ProtectionDeviceManager
         if (load.VoltageType.Voltage <= LvCutoff) {
             SetPdTripAndStarterSize_Lv(load); 
         }
-
+        else {
+            SetPdTripAndStarterSize_Mv(load);
+        }
         //MV
-        SetPdTripAndStarterSize_Mv(load);
         load.ProtectionDevice.FrameAmps = GetPdFrameAmps(load); 
     }
 

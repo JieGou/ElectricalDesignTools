@@ -5,17 +5,11 @@ In Progress PROTECTION DEVICE MANAGER
 	- Type = ProtectionDevice vs Component
 	- SubType = DefaultDcn,StandAloneStarter, Diconnect,
 
-	- Dteq Graphics
-		- transformer PD line and load
-		- Dteq as load
-
-	- protection device calculation
-
 
 	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer load) PdTypeList creation
 	- ProtectionDeviceEditor
 	- add controller for Motor PD's
-
+	- Tag conflict for PD vs Disconnect
 
 Bugs
 	- SCCA/R calculation on DTEQ size change
