@@ -779,7 +779,9 @@ namespace EDTLibrary.Models.Loads
             UndoManager.CanAdd = true;
 
             IsCalculating = false;
+
             OnLoadingCalculated(propertyName);
+
             PowerCable.ValidateCableSize(PowerCable);
             CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
 

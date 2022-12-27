@@ -146,7 +146,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto" x:Name="PropertyPaneColumn" />
-                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="1"/>
             </Grid.ColumnDefinitions>
 
             <!--Dteq Tree-->
@@ -168,11 +168,11 @@
             <Button Content="|"
                     Grid.Column="5"  HorizontalAlignment="Center" 
                     Grid.Row="0" Grid.RowSpan="6"
-                    Height="75" Width="10"
-                    Margin="3"
+                    Height="75" Width="5"
+                    Margin="0"
                     BorderBrush="Transparent"
                     Click="GridSplitter_TogglePropertyPane"
-                    />
+                    BorderThickness="0 1 0 1"/>
 
             <Grid Grid.Row="2" Grid.RowSpan="10" Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -263,7 +263,7 @@
             <!--Top Data-->
             <dteqViewers:DteqSummary3RowViewer Grid.Column="3" 
                                                Grid.ColumnSpan="2"
-                                                DataContext="{Binding SelectedDteq}"
+                                               DataContext="{Binding SelectedDteq}"
                                                Visibility="Collapsed"/>
 
             <Button Content="Create Drawing"
@@ -633,14 +633,8 @@
                    >
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="25"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-
-                <TextBlock Text="Load Details"
-                           Grid.Row="0"         
-                           VerticalAlignment="Bottom"
-                           Margin="10 0 0 5"/>
 
                 <Border Grid.Row="1"
                         BorderThickness="1" BorderBrush="Black" Background="{StaticResource BackgroundLight}"

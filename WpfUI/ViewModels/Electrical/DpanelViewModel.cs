@@ -181,7 +181,6 @@ internal class DpanelViewModel : ViewModelBase
                 SelectedCircuitList = SelectedDteq.RightCircuits;
             }
 
-
         }
     }
     private IPowerConsumer _selectedRightLoad;

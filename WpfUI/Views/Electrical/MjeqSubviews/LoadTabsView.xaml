@@ -69,9 +69,11 @@
         </Grid.RowDefinitions>
 
         <!--Title Bar-->
-        <Border BorderBrush="Black" BorderThickness="1">
+        <Border BorderBrush="Black" BorderThickness="1"
+                Visibility="Collapsed">
             <StackPanel Orientation="Horizontal"  Grid.Row="0" Background="{DynamicResource Dark}"
-                        d:Background="Teal">
+                        d:Background="Teal"
+                        >
 
                 <TextBlock Text="{Binding SelectedLoad.Tag}" 
                        d:Text="LOAD TAG " 
@@ -100,15 +102,10 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <!-- Graphic on left -->
-            <Viewbox Grid.Row="0" Grid.Column="0"
-                     HorizontalAlignment="Left" VerticalAlignment="Top"
-                     Stretch="Uniform" Width="215" 
-                     Margin="10">
-            </Viewbox>
+            <!-- Graphic Column -->
             <DockPanel Grid.Row="0" Grid.Column="0"
-                       MinWidth="230"
-                       Margin="10"
+                       MinWidth="220"
+                       Margin="5 10 5 5"
                        HorizontalAlignment="Left" VerticalAlignment="Top"
                        >
                     
@@ -141,10 +138,11 @@
                     </StackPanel>
                 </Border>
 
-
+                <!--Graphics-->
                 <ContentControl Content="{Binding SelectedEquipment, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
                                 x:Name="Graphic"
-                                Grid.Column="0" HorizontalAlignment="Left">
+                                Grid.Column="0"
+                                HorizontalAlignment="Left">
 
                     <ContentControl.Style>
                         <Style TargetType="ContentControl">
@@ -399,76 +397,83 @@
                 </ContentControl>
             </DockPanel>
 
+            <!--Properties Editor-->
+            <ScrollViewer Grid.Column="1" 
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Visible">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!--Equipment-->
+                    <ContentControl Content="{Binding SelectedEquipment}"
+                                            Grid.Row="0"
+                                            Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
+                        <ContentControl.Resources>
+
+                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                <editors:LoadEditor DataContext="{Binding}"/>
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                <editors:LoadEditor DataContext="{Binding}"/>
+                                <!--<mjeqSubViews:EquipmentDetailsView/>-->
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                <mjeqSubViews:ComponentDetailsView/>
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
+                                <mjeqSubViews:ComponentDetailsView/>
+                            </DataTemplate>
+
+                        </ContentControl.Resources>
+                    </ContentControl>
+
+                    <!--Cable-->
+                    <ContentControl Content="{Binding SelectedLoadCable}"
+                                        Grid.Row="0"
+                                        Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}">
+                        <ContentControl.Resources>
+
+                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
+                                <mjeqSubViews:CableSizingViewNarrow/>
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
+                                <mjeqSubViews:CableSizingViewNarrow/>
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                                <mjeqSubViews:CableSizingViewNarrow/>
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
+                                <mjeqSubViews:CableSizingViewNarrow/>
+                            </DataTemplate>
+
+                        </ContentControl.Resources>
+                    </ContentControl>
+
+                </Grid>
+            </ScrollViewer>
+            
+            
+            
             <!--Tabs on right-->
             <TabControl Grid.Column="1" Background="Transparent" BorderThickness="0 1 0 0"
                         HorizontalAlignment="Stretch"
-                        SelectedIndex="{Binding SelectedLoadTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        SelectedIndex="{Binding SelectedLoadTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Visibility="Collapsed">
 
 
                 <!--Quick Properties-->
                 <TabItem Header="Quick Properties" Background="{DynamicResource BackgroundLight}"
                          d:Background="LightCyan">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Visible">
-                        <Grid >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <!--Equipment-->
-                            <ContentControl Content="{Binding SelectedEquipment}"
-                                            Grid.Row="0"
-                                            Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
-                                <ContentControl.Resources>
-
-                                    <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                        <editors:LoadEditor DataContext="{Binding}"/>
-                                    </DataTemplate>
-                                    
-                                    <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                        <editors:LoadEditor DataContext="{Binding}"/>
-                                        <!--<mjeqSubViews:EquipmentDetailsView/>-->
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                        <mjeqSubViews:ComponentDetailsView/>
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
-                                        <mjeqSubViews:ComponentDetailsView/>
-                                    </DataTemplate>
-                                    
-                                </ContentControl.Resources>
-                            </ContentControl>
-
-                            <!--Cable-->
-                            <ContentControl Content="{Binding SelectedLoadCable}"
-                                        Grid.Row="0"
-                                        Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}">
-                                <ContentControl.Resources>
-
-                                    <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                        <mjeqSubViews:CableSizingViewNarrow/>
-                                    </DataTemplate>
-                                    
-                                    <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                        <mjeqSubViews:CableSizingViewNarrow/>
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                        <mjeqSubViews:CableSizingViewNarrow/>
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
-                                        <mjeqSubViews:CableSizingViewNarrow/>
-                                    </DataTemplate>
-                                    
-                                </ContentControl.Resources>
-                            </ContentControl>
-
-                        </Grid>
-                    </ScrollViewer>
+                   
                 </TabItem>
 
                 <!--Property Grid-->

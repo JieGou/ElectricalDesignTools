@@ -239,9 +239,6 @@ public abstract class ComponentModelBase : IComponentEdt
 
     public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
     {
-        if (PropertyUpdated != null) {
-            PropertyUpdated(this, EventArgs.Empty);
-        }
         await Task.Run(() => {
             if (PropertyUpdated != null) {
                 PropertyUpdated(this, EventArgs.Empty);

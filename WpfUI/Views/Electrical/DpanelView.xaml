@@ -22,7 +22,7 @@
              
              xmlns:sf="http://schemas.syncfusion.com/wpf"
              
-             d:Height="900" d:Width="1800"
+             d:Height="900" d:Width="1900"
              Loaded="UserControl_Loaded"
              >
 
@@ -43,9 +43,10 @@
     <!--Main Grid-->
     <DockPanel Background="{StaticResource PageBackground}">
 
+        <!--Status Bar-->
         <Grid DockPanel.Dock="Bottom" 
-                    Height="23"
-                    Background="{StaticResource StatusBarBackroundColor}">
+              Height="23"
+              Background="{StaticResource StatusBarBackroundColor}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition Width="auto"/>
@@ -112,35 +113,35 @@
                 <TextBlock Text="{Binding SelectedRacway.CableList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
             </StackPanel>
         </Grid>
-        
+
         <Grid Background="{StaticResource PageBackground}"
           ShowGridLines="False">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="115"/>
                 <RowDefinition Height="auto" x:Name="AddLoadRow"/>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="10"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="275"/>
-                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1"/>
             </Grid.ColumnDefinitions>
 
             <!--Left Upper Menu -->
-            <ScrollViewer Grid.Row="0" Grid.RowSpan="2"
+            <ScrollViewer Grid.Row="3" 
                       Grid.Column="1"
                       Margin="0 15 0 0"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Auto">
 
-                <Grid>
+                <Grid ShowGridLines="False">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -148,8 +149,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Selected Panel:"
@@ -160,31 +160,31 @@
                        HorizontalAlignment="Left"/>
 
                     <ListBox ItemsSource="{Binding ViewableDteqList}"
-                         Grid.Row="1"
-                         HorizontalAlignment="Left"
-                         SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         DisplayMemberPath="Tag"
-                         Width="150"
-                         Height="85"
-                         Margin="0 0 0 20"/>
+                             Grid.Row="1"
+                             HorizontalAlignment="Stretch"
+                             SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             DisplayMemberPath="Tag"
+                             Height="85"
+                             Margin="0 0 0 20"/>
 
                     <TextBlock Text="Circuit Count "
-                       Grid.Row="2"
-                       FontSize="12"
-                       FontWeight="SemiBold"
-                       HorizontalAlignment="Left"/>
+                               Grid.Row="2"
+                               FontSize="12"
+                               FontWeight="SemiBold"
+                               HorizontalAlignment="Left"/>
 
 
                     <TextBox Text="{Binding SelectedDteq.CircuitCount, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
-                     Grid.Row="2" Grid.Column="0"
-                         HorizontalAlignment="Right"
-                         VerticalAlignment="Top"
-                         Width="50"
-                     KeyUp="TextBox_KeyEnterUpdate"
-                     Margin="0 0 0 20"/>
+                             Grid.Row="2" 
+                             Grid.Column="0"
+                             HorizontalAlignment="Right"
+                             VerticalAlignment="Top"
+                             Width="50"
+                             KeyUp="TextBox_KeyEnterUpdate"
+                             Margin="0 0 0 20"/>
 
                     <Button x:Name="btnAddLoad"
-                        Grid.Row="3" Grid.Column="0" Click="btnAddLoad_Click"
+                            Grid.Row="3" Grid.Column="0" Click="btnAddLoad_Click"
                         >
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
@@ -198,13 +198,23 @@
 
             </ScrollViewer>
 
+            <!--ADD equipment-->
+            <AddEquipmentViews:AddLoadView x:Name="loadAdder"
+                                       Grid.Row="0"
+                                       Grid.Column="3" Grid.ColumnSpan="1"
+                                       VerticalAlignment="Bottom"
+                                       Visibility="Collapsed"
+                                       Margin="10 0 0 15"
+                                       FedFromVisibility="Visible"/>
+
+            <!--Top right-->
             <Button Content="Add Load" x:Name="tutorial"
                 Grid.Row="0" Grid.Column="5" Click="tutorial_Click"
                         />
 
             <!--Left Lower Menu -->
             <StackPanel Orientation="Vertical"
-                    Grid.Row="3"
+                    Grid.Row="4"
                     Grid.Column="1" 
                     Margin="0 10 0 0">
 
@@ -213,305 +223,178 @@
 
             </StackPanel>
 
+           
             <!--Top Data-->
-            <Grid Grid.Row="0" Grid.RowSpan="2"
-              Grid.Column="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <dteqViewers:DteqSummary3RowViewer Grid.Column="0" Grid.ColumnSpan="2"
-                                               DataContext="{Binding SelectedDteq}"
-                                               VerticalAlignment="Bottom"/>
-
-                <Grid Grid.Row="1" Grid.RowSpan="2"
-                  Grid.Column="0" Grid.ColumnSpan="2">
+            <Border Grid.Row="0"
+                    Grid.Column="3"
+                    BorderBrush="Gray" BorderThickness="1"
+                    Background="{StaticResource BackgroundLight}"
+                    Visibility="Collapsed">
+                <Grid Grid.Row="0"
+                      Grid.Column="3"
+                      ShowGridLines="False">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Phase A" Grid.Row="0" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedDteq.PhaseA}" Grid.Row="0" Grid.Column="2"/>
-                    <TextBlock Text="Phase B" Grid.Row="1" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedDteq.PhaseB}" Grid.Row="1" Grid.Column="2"/>
-                    <TextBlock Text="Phase C" Grid.Row="2" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedDteq.PhaseC}" Grid.Row="2" Grid.Column="2"/>
+                    <dteqViewers:DteqSummary3RowViewer Grid.Column="0" Grid.ColumnSpan="2"
+                                               DataContext="{Binding SelectedDteq}"
+                                               VerticalAlignment="Bottom"/>
 
-                    <TextBlock Text="Total" Grid.Row="4" Grid.Column="0"/>
-                    <TextBlock Text="{Binding SelectedDteq.DemandKva}" Grid.Row="4" Grid.Column="2"/>
+                    <!--Phase loading Grid-->
+                    <Grid Grid.Row="1" 
+                      Grid.Column="0" Grid.ColumnSpan="2"
+                      ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                    <!--ADD equipment-->
-                    <AddEquipmentViews:AddLoadView x:Name="loadAdder"
-                                       Grid.Row="5"
-                                       Grid.Column="0" Grid.ColumnSpan="3"
-                                       VerticalAlignment="Bottom"
-                                       Visibility="Collapsed"
-                                       Margin="10 0 0 25"
-                                       FedFromVisibility="Visible"/>
+                        <TextBlock Text="Phase A" Grid.Row="0" Grid.Column="0"/>
+                        <TextBlock Text="{Binding SelectedDteq.PhaseA}" Grid.Row="0" Grid.Column="2"/>
+                        <TextBlock Text="Phase B" Grid.Row="1" Grid.Column="0"/>
+                        <TextBlock Text="{Binding SelectedDteq.PhaseB}" Grid.Row="1" Grid.Column="2"/>
+                        <TextBlock Text="Phase C" Grid.Row="2" Grid.Column="0"/>
+                        <TextBlock Text="{Binding SelectedDteq.PhaseC}" Grid.Row="2" Grid.Column="2"/>
+
+                        <TextBlock Text="Total" Grid.Row="4" Grid.Column="0"/>
+                        <TextBlock Text="{Binding SelectedDteq.DemandKva}" Grid.Row="4" Grid.Column="2"/>
+
+                       
+                    </Grid>
+
                 </Grid>
-
-            </Grid>
-
-
-
-            <!--Left Load-->
-            <!--<dpanelViewers:DpnCctViewer_V Grid.Row="2" Grid.Column="1" 
-                                      DataContext="{Binding SelectedLoadLeft}"
-                                      />-->
-            <!--Left Buttons-->
-            <Grid Grid.Row="2" 
-              Grid.Column="2"
-              HorizontalAlignment="Center"
-              Margin="0 25 0 0"
-              Visibility="Collapsed">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-
-                <!--Up-->
-                <Button Grid.Row="0" Grid.Column="1"
-                    FontFamily="Marlett" FontSize="12" Content="5" 
-                    Width="20" Height="20"
-                    Margin="3"
-                    Command="{Binding MoveUpLeftCommand}"/>
-
-                <!--Down-->
-                <Button Grid.Row="1" Grid.Column="1"
-                    FontFamily="Marlett" FontSize="12" Content="6" 
-                    Width="20" Height="20"
-                    Margin="3"
-                    Command="{Binding MoveDownLeftCommand}"/>
-
-                <!--Down-->
-                <Button Grid.Row="2" Grid.Column="1"
-                    FontFamily="Marlett" FontSize="12" Content="8" 
-                    Width="20" Height="20"
-                    Margin="3"
-                    Command="{Binding MoveRightCommand}"/>
-
-                <Button Grid.Row="3" Grid.Column="1"
-                    Style="{StaticResource RedButton}"
-                    Content ="X" 
-                    Width="20" Height="20"
-                    Margin="3"
-                    Command="{Binding DeleteLoadCommand}"
-                    ToolTip="Delete selected load"/>
-            </Grid>
-
-            <!--Right Load-->
-            <dpanelViewers:DpnCctViewer_V Grid.Row="2" Grid.Column="5" 
-                                      DataContext="{Binding SelectedLoad}"
-                                      />
-            <!--Right Buttons-->
-            <Grid Grid.Row="2" 
-              Grid.Column="4"
-              HorizontalAlignment="Right"
-              Margin="0 25 0 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Orientation="Vertical"
-                Grid.Row="0" Grid.RowSpan="3"
-                        Grid.Column="1" >
-                    <!--Up-->
-                    <Button Content="5" 
-                        Grid.Row="0" Grid.Column="1"
-                        FontFamily="Marlett" FontSize="12" 
-                        Width="20" Height="20"
-                        Margin="3"
-                        Command="{Binding MoveUpCommand}"/>
-
-                    <!--Down-->
-                    <Button Content="6" 
-                        Grid.Row="2" Grid.Column="1"
-                        FontFamily="Marlett" FontSize="12" 
-                        Width="20" Height="20"
-                        Margin="3"
-                        Command="{Binding MoveDownCommand}"/>
-                </StackPanel>
-                <!--Left-->
-                <Button Content="3" 
-                    Grid.Row="1" Grid.Column="0"
-                    FontFamily="Marlett" FontSize="12" 
-                    Width="20" Height="20"
-                    Margin="3"
-                    Command="{Binding MoveLeftCommand}"/>
-
-                <!--Right-->
-                <Button Content="4"
-                    Grid.Row="1" Grid.Column="2"
-                    FontFamily="Marlett" FontSize="12"  
-                    Width="20" Height="20"
-                    Margin="3"
-                    Command="{Binding MoveRightCommand}"/>
-
-                <!--Convert-->
-
-                <!--Delete-->
-                <Button Content ="Delete"
-                    Grid.Row="3" 
-                    Grid.Column="0" Grid.ColumnSpan="3"
-                    Width="50"
-                    Style="{StaticResource RedButton}"
-                    Margin="3 20 3 3"
-                    Command="{Binding DeleteLoadCommand}"
-                    ToolTip="Delete selected load"/>
-            </Grid>
+            </Border>
 
             <!--Panel Graphic-->
-            <Border Grid.Row="2" Grid.RowSpan="2"
+            <Border Grid.Row="3" Grid.RowSpan="1"
                     Grid.Column="3"
+                    x:Name="PanelGraphicBorder"
                     BorderBrush="Black" BorderThickness="1"
-                Background="LightGray"
-                VerticalAlignment="Top"
-                HorizontalAlignment="Left"
-                >
-
-                <DockPanel Grid.Row="2" Grid.RowSpan="2"
-                       Grid.Column="3"
-                       HorizontalAlignment="Center"
-                       >
+                    Background="LightGray"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Center"
+                    Panel.ZIndex="1"
+                    >
 
 
-
-                    <!--Data Rows-->
-                    <ScrollViewer Grid.Row="2" 
+                <!--Data Rows-->
+                <ScrollViewer Grid.Row="1" Grid.RowSpan="1"
                               Grid.Column="3"
-                              HorizontalAlignment="Left"
+                              Background="Transparent"
+                              HorizontalAlignment="Center"
                               HorizontalScrollBarVisibility="Auto"
                               VerticalScrollBarVisibility="Auto"
-                              VerticalAlignment="Stretch" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
-                               >
+                              PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
 
-                        <Grid >
+                    <Grid ShowGridLines="False">
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" d:Width="650"/>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="150"/>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="*" d:Width="650"/>
-                            </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" d:Width="650"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="*" d:Width="650"/>
+                        </Grid.ColumnDefinitions>
 
-                            <!--Header Row-->
-                            <Grid Grid.Row="0"
-                              Grid.Column="0" Grid.ColumnSpan="30"
+                        <!--Header Row-->
+                        <Grid Grid.Row="0"
+                              Grid.Column="0" 
                               HorizontalAlignment="Left"
                               DockPanel.Dock="Top"
                               ShowGridLines="False"
                               Visibility="Collapsed">
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="152"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="152"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                                <!--Left Header Row-->
-                                <Border BorderBrush="DarkGray" BorderThickness="1"
+                            <!--Left Header Row-->
+                            <Border BorderBrush="DarkGray" BorderThickness="1"
                                     Grid.Row="0"
                                     Grid.Column="0"
                                     HorizontalAlignment="Left"
                                     Visibility="Visible">
 
-                                    <StackPanel Orientation="Horizontal"
+                                <StackPanel Orientation="Horizontal"
                                         Grid.Row="0"
                                         Grid.Column="0" >
 
-                                        <TextBlock Text="Cable" Width="{StaticResource CableColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="Size" Width="{StaticResource SizeColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="kW" Width="{StaticResource PowerColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="FLA" Width="{StaticResource FlaColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="Tag" Width="{StaticResource TagColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="Description" Width="{StaticResource DescriptionColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="Poles" Width="{StaticResource PolesColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="Breaker" Width="{StaticResource BreakerColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="Cct #" Width="{StaticResource CctColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    </StackPanel>
+                                    <TextBlock Text="Cable" Width="{StaticResource CableColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Size" Width="{StaticResource SizeColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="kW" Width="{StaticResource PowerColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="FLA" Width="{StaticResource FlaColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Tag" Width="{StaticResource TagColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Description" Width="{StaticResource DescriptionColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Poles" Width="{StaticResource PolesColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Breaker" Width="{StaticResource BreakerColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Cct #" Width="{StaticResource CctColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                </StackPanel>
 
-                                </Border>
+                            </Border>
 
-                                <Border BorderBrush="Black" BorderThickness="1 0 1 1" Grid.Row="0" Grid.Column="1">
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock Text="{Binding SelectedDteq.Tag}" TextAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
-                                        <TextBlock Text="{Binding SelectedDteq.Size, StringFormat=\{0:N0\} A}" TextAlignment="Center"/>
-                                    </StackPanel>
-                                </Border>
+                            <Border BorderBrush="Black" BorderThickness="1 0 1 1" Grid.Row="0" Grid.Column="1">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding SelectedDteq.Tag}" TextAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
+                                    <TextBlock Text="{Binding SelectedDteq.Size, StringFormat=\{0:N0\} A}" TextAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
 
-                                <!--Right Header Row-->
-                                <Border BorderBrush="Black" BorderThickness="0 0 0 1"
+                            <!--Right Header Row-->
+                            <Border BorderBrush="Black" BorderThickness="0 0 0 1"
                                     Grid.Row="0"
                                     Grid.Column="2"
                                     >
-                                    <StackPanel Orientation="Horizontal"
+                                <StackPanel Orientation="Horizontal"
                                         Grid.Row="0"
                                         Grid.Column="0" >
 
-                                        <TextBlock Text="Cct #" Width="{StaticResource CctColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Cct #" Width="{StaticResource CctColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
 
-                                        <TextBlock Text="Breaker" Width="{StaticResource BreakerColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="Poles" Width="{StaticResource PolesColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="Description" Width="{StaticResource DescriptionColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="Tag" Width="{StaticResource TagColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="FLA" Width="{StaticResource FlaColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                        <TextBlock Text="kW" Width="{StaticResource PowerColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Breaker" Width="{StaticResource BreakerColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Poles" Width="{StaticResource PolesColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Description" Width="{StaticResource DescriptionColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Tag" Width="{StaticResource TagColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="FLA" Width="{StaticResource FlaColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="kW" Width="{StaticResource PowerColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
 
-                                        <TextBlock Text="Size" Width="{StaticResource SizeColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                    <TextBlock Text="Size" Width="{StaticResource SizeColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
 
-                                        <TextBlock Text="Cable" Width="{StaticResource CableColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    </StackPanel>
+                                    <TextBlock Text="Cable" Width="{StaticResource CableColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
+                                </StackPanel>
 
 
-                                </Border>
+                            </Border>
 
-                            </Grid>
+                        </Grid>
 
-                            <!--LEFT CIRCUITS-->
-                            <!--**************-->
+                        <!--LEFT CIRCUITS-->
+                        <!--**************-->
 
-                            <!--Circuit Data Left-->
-                            <sf:SfDataGrid Grid.Row="1" Grid.RowSpan="2" x:Name="LeftGrid"
+                        <!--Circuit Data Left-->
+                        <sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2" x:Name="LeftGrid"
                                        Grid.Column="0"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Top"
@@ -541,40 +424,41 @@
                                        
                                        SelectionChanged="LeftGrid_SelectionChanged"
                                        PreviewMouseUp="LeftGrid_MouseUp"
+                                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                        >
 
-                                <sf:SfDataGrid.Columns>
-                                    <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size"
+                            <sf:SfDataGrid.Columns>
+                                <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size"
                                                    Width="{StaticResource CableColumnWidth}" AllowEditing="True"
                                                    TextAlignment="Center"/>
 
-                                    <sf:GridTextColumn HeaderText="Size" MappingName="Size"
+                                <sf:GridTextColumn HeaderText="Size" MappingName="Size"
                                                    Width="{StaticResource SizeColumnWidth}"
                                                    TextAlignment="Center"/>
 
-                                    <sf:GridTextColumn HeaderText="kW" MappingName="DemandKw"
+                                <sf:GridTextColumn HeaderText="kW" MappingName="DemandKw"
                                                    Width="{StaticResource PowerColumn}"
                                                    TextAlignment="Center"/>
 
-                                    <sf:GridTextColumn HeaderText="FLA" MappingName="Fla"
+                                <sf:GridTextColumn HeaderText="FLA" MappingName="Fla"
                                                    Width="{StaticResource FlaColumnWidth}"
                                                    TextAlignment="Center"/>
 
-                                    <sf:GridTextColumn HeaderText="Tag" MappingName="Tag"
+                                <sf:GridTextColumn HeaderText="Tag" MappingName="Tag"
                                                    Width="{StaticResource TagColumnWidth}" AllowEditing="True"
                                                    TextAlignment="Center"/>
 
-                                    <sf:GridTextColumn HeaderText="Description" MappingName="Description"
+                                <sf:GridTextColumn HeaderText="Description" MappingName="Description"
                                                    Width="{StaticResource DescriptionColumnWidth}" AllowEditing="True"
                                                    Padding="5 0"/>
 
-                                    <sf:GridTextColumn HeaderText="Poles" MappingName="VoltageType.Poles"
+                                <sf:GridTextColumn HeaderText="Poles" MappingName="VoltageType.Poles"
                                                    DisplayBinding="{Binding VoltageType.Poles, Converter={StaticResource PoleQtyColumnHeightConverter}}"
                                                    Width="{StaticResource PolesColumn}" AllowEditing="True"
                                                    TextAlignment="Center"
                                                    TextWrapping="Wrap"/>
 
-                                    <sf:GridComboBoxColumn HeaderText="Beaker" MappingName="PdSizeTrip"
+                                <sf:GridComboBoxColumn HeaderText="Beaker" MappingName="PdSizeTrip"
                                                        Width="{StaticResource BreakerColumnWidth}"
                                                        AllowEditing="True"
                                                        ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
@@ -587,23 +471,23 @@
                                                        FilterRowOptionsVisibility="Collapsed"
                                                        CellStyle="{StaticResource comboBoxCellStyle}"
                                                    >
-                                        <sf:GridComboBoxColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding PdSizeTrip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    <sf:GridComboBoxColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding PdSizeTrip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                        TextAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        Padding="5 0 0 0"
                                                        Visibility="{Binding PdSizeTrip, Converter={StaticResource BreakerSizeToVisibilityConverter}}"
                                                        />
-                                            </DataTemplate>
-                                        </sf:GridComboBoxColumn.CellTemplate>
-                                    </sf:GridComboBoxColumn>
+                                        </DataTemplate>
+                                    </sf:GridComboBoxColumn.CellTemplate>
+                                </sf:GridComboBoxColumn>
 
-                                </sf:SfDataGrid.Columns>
-                            </sf:SfDataGrid>
+                            </sf:SfDataGrid.Columns>
+                        </sf:SfDataGrid>
 
-                            <!--Left Circuit #s-->
-                            <DataGrid Grid.Row="1" Grid.RowSpan="2"
+                        <!--Left Circuit #s-->
+                        <DataGrid Grid.Row="0" Grid.RowSpan="2"
                                   Background="Transparent"
                                   IsReadOnly="True"
                                   Grid.Column="1"
@@ -620,102 +504,104 @@
                                   AutoGenerateColumns="False"
                                   ColumnHeaderHeight="44"
                                   RowHeaderWidth="0"
-                                  HorizontalScrollBarVisibility="Disabled">
-                                <DataGrid.Resources>
-                                    <ResourceDictionary>
-                                        <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
-                                            <Style.Triggers>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="White" />
-                                                    <Setter Property="Foreground" Value="Black" />
-                                                    <Setter Property="BorderThickness" Value="1" />
-                                                    <Setter Property="BorderBrush" Value="Transparent" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                        <Style TargetType="{x:Type DataGridRow}">
-                                            <Style.Triggers>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="White" />
-                                                    <Setter Property="Foreground" Value="Black" />
-                                                    <Setter Property="BorderThickness" Value="0" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ResourceDictionary>
-                                </DataGrid.Resources>
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Cct #" Binding="{Binding CircuitNumber}"
+                                  VerticalScrollBarVisibility="Disabled"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  >
+                            <DataGrid.Resources>
+                                <ResourceDictionary>
+                                    <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="White" />
+                                                <Setter Property="Foreground" Value="Black" />
+                                                <Setter Property="BorderThickness" Value="1" />
+                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                    <Style TargetType="{x:Type DataGridRow}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="White" />
+                                                <Setter Property="Foreground" Value="Black" />
+                                                <Setter Property="BorderThickness" Value="0" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ResourceDictionary>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Cct #" Binding="{Binding CircuitNumber}"
                                                     Width="50"
                                                     >
-                                        <DataGridTextColumn.ElementStyle>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="HorizontalAlignment" Value="Center" />
-                                            </Style>
-                                        </DataGridTextColumn.ElementStyle>
-                                    </DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
 
 
-                            <!--   BREAKERS   -->
-                            <!--**************-->
+                        <!--   BREAKERS   -->
+                        <!--**************-->
 
-                            <!--Header-->
-                            <Border BorderBrush="Black" BorderThickness="0 0 1 1"
-                                Grid.Row="1" Grid.Column="2"
+                        <!--Header-->
+                        <Border BorderBrush="Black" BorderThickness="0 0 1 1"
+                                Grid.Row="0" Grid.Column="2"
+                                Panel.ZIndex="1"
                                 Height="{StaticResource TwoRowHeight}"
                                 HorizontalAlignment="Stretch"
-                                
-                                VerticalAlignment="Stretch"
+                                VerticalAlignment="Top"
                                 Background="{StaticResource Dark}"
                                 Visibility="Visible">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding SelectedDteq.Tag}" TextAlignment="Center" FontWeight="SemiBold" FontSize="14"
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding SelectedDteq.Tag}" TextAlignment="Center" FontWeight="SemiBold" FontSize="14"
                                            Foreground="{StaticResource ForeGround_Light1}" />
-                                    <TextBlock Text="{Binding SelectedDteq.Size, StringFormat=\{0:N0\} A}" TextAlignment="Center"
+                                <TextBlock Text="{Binding SelectedDteq.Size, StringFormat=\{0:N0\} A}" TextAlignment="Center"
                                            Foreground="{StaticResource ForeGround_Light1}" />
-                                </StackPanel>
+                            </StackPanel>
 
-                            </Border>
+                        </Border>
 
-                            <!--Graphic-->
-                            <Border BorderBrush="LightGray" BorderThickness="0 0 1 0"
+                        <!--Graphic-->
+                        <Border BorderBrush="LightGray" BorderThickness="0 0 1 0"
                                 Background="White"
                                 Grid.Row="2"
                                 Grid.Column="2"
                                 HorizontalAlignment="Stretch">
 
-                                <ItemsControl Grid.Row="1"
+                            <ItemsControl Grid.Row="1"
                                     Grid.Column="2"
                                     ItemsSource="{Binding SelectedDteq.CircuitNumbersLeft}"
                                     VerticalAlignment="Top">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Vertical"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
 
-                                            <StackPanel Orientation="Vertical"
+                                        <StackPanel Orientation="Vertical"
                                                 HorizontalAlignment="Center">
-                                                <dPanelsSubViews:DPanelCircuitBreaker DataContext="{Binding}" 
+                                            <dPanelsSubViews:DPanelCircuitBreaker DataContext="{Binding}" 
                                                                                   />
 
-                                            </StackPanel>
+                                        </StackPanel>
 
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Border>
 
 
-                            <!--RIGHT CIRCUITS-->
-                            <!--**************-->
+                        <!--RIGHT CIRCUITS-->
+                        <!--**************-->
 
-                            <!--Circuit Data Right-->
-                            <sf:SfDataGrid Grid.Row="1" Grid.RowSpan="2" x:Name="RightGrid"
+                        <!--Circuit Data Right-->
+                        <sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2" x:Name="RightGrid"
                                        Grid.Column="4"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Top"
@@ -747,12 +633,12 @@
                                        ShowGroupDropArea="False" 
                                        SelectionChanged="RightGrid_SelectionChanged"
                                        PreviewMouseUp="RightGrid_MouseUp" CurrentCellEndEdit="RightGrid_CurrentCellEndEdit"
-                                       
+                                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                        >
 
-                                <sf:SfDataGrid.Columns>
+                            <sf:SfDataGrid.Columns>
 
-                                    <sf:GridComboBoxColumn HeaderText="Beaker" MappingName="PdSizeTrip"
+                                <sf:GridComboBoxColumn HeaderText="Beaker" MappingName="PdSizeTrip"
                                                        Width="{StaticResource BreakerColumnWidth}"
                                                        AllowEditing="True"
                                                        ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
@@ -765,52 +651,52 @@
                                                        FilterRowOptionsVisibility="Collapsed"
                                                        CellStyle="{StaticResource comboBoxCellStyle}"
                                                    >
-                                        <sf:GridComboBoxColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding PdSizeTrip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    <sf:GridComboBoxColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding PdSizeTrip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                        TextAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        Padding="5 0 0 0"
                                                        Visibility="{Binding PdSizeTrip, Converter={StaticResource BreakerSizeToVisibilityConverter}}"
                                                        />
-                                            </DataTemplate>
-                                        </sf:GridComboBoxColumn.CellTemplate>
-                                    </sf:GridComboBoxColumn>
+                                        </DataTemplate>
+                                    </sf:GridComboBoxColumn.CellTemplate>
+                                </sf:GridComboBoxColumn>
 
-                                    <sf:GridTextColumn HeaderText="Poles" MappingName="VoltageType.Poles"
+                                <sf:GridTextColumn HeaderText="Poles" MappingName="VoltageType.Poles"
                                                    Width="{StaticResource PolesColumn}" AllowEditing="True"
                                                    DisplayBinding="{Binding VoltageType.Poles, Converter={StaticResource PoleQtyColumnHeightConverter}}"
                                                    TextWrapping="Wrap"
                                                    TextAlignment="Center"/>
 
-                                    <sf:GridTextColumn HeaderText="Description" MappingName="Description" 
+                                <sf:GridTextColumn HeaderText="Description" MappingName="Description" 
                                                    Width="{StaticResource DescriptionColumnWidth}" AllowEditing="True"
                                                    Padding="5 0"/>
 
-                                    <sf:GridTextColumn HeaderText="Tag" MappingName="Tag"
+                                <sf:GridTextColumn HeaderText="Tag" MappingName="Tag"
                                                    Width="{StaticResource TagColumnWidth}" AllowEditing="True"
                                                    TextAlignment="Center"/>
 
-                                    <sf:GridTextColumn HeaderText="FLA" MappingName="Fla"
+                                <sf:GridTextColumn HeaderText="FLA" MappingName="Fla"
                                                    Width="{StaticResource FlaColumnWidth}"
                                                    TextAlignment="Center"/>
 
-                                    <sf:GridTextColumn HeaderText="kW" MappingName="DemandKw" 
+                                <sf:GridTextColumn HeaderText="kW" MappingName="DemandKw" 
                                                    Width="{StaticResource PowerColumn}"
                                                    TextAlignment="Center"/>
 
-                                    <sf:GridTextColumn HeaderText="Size" MappingName="Size" 
+                                <sf:GridTextColumn HeaderText="Size" MappingName="Size" 
                                                    Width="{StaticResource SizeColumnWidth}"
                                                    TextAlignment="Center"/>
 
-                                    <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size" 
+                                <sf:GridTextColumn HeaderText="Cable" MappingName="PowerCable.Size" 
                                                    Width="{StaticResource CableColumnWidth}" AllowEditing="True"
                                                    TextAlignment="Center"/>
-                                </sf:SfDataGrid.Columns>
-                            </sf:SfDataGrid>
+                            </sf:SfDataGrid.Columns>
+                        </sf:SfDataGrid>
 
-                            <!--Right Circuit #s-->
-                            <DataGrid Grid.Row="1" Grid.RowSpan="2"
+                        <!--Right Circuit #s-->
+                        <DataGrid Grid.Row="0" Grid.RowSpan="2"
                                   Grid.Column="3"
                                   Background="Transparent"
                                  IsReadOnly="True"
@@ -828,47 +714,158 @@
                                   AutoGenerateColumns="False"
                                   ColumnHeaderHeight="44"
                                   RowHeaderWidth="0"
+                                  VerticalScrollBarVisibility="Disabled"
                                   HorizontalScrollBarVisibility="Disabled">
-                                <DataGrid.Resources>
-                                    <ResourceDictionary>
-                                        <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
-                                            <Style.Triggers>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="White" />
-                                                    <Setter Property="Foreground" Value="Black" />
-                                                    <Setter Property="BorderThickness" Value="1" />
-                                                    <Setter Property="BorderBrush" Value="Transparent" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                        <Style TargetType="{x:Type DataGridRow}">
-                                            <Style.Triggers>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter Property="Background" Value="White" />
-                                                    <Setter Property="Foreground" Value="Black" />
-                                                    <Setter Property="BorderThickness" Value="0" />
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ResourceDictionary>
-                                </DataGrid.Resources>
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Cct #" Binding="{Binding CircuitNumber}"
+                            <DataGrid.Resources>
+                                <ResourceDictionary>
+                                    <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="White" />
+                                                <Setter Property="Foreground" Value="Black" />
+                                                <Setter Property="BorderThickness" Value="1" />
+                                                <Setter Property="BorderBrush" Value="Transparent" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                    <Style TargetType="{x:Type DataGridRow}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="White" />
+                                                <Setter Property="Foreground" Value="Black" />
+                                                <Setter Property="BorderThickness" Value="0" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ResourceDictionary>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Cct #" Binding="{Binding CircuitNumber}"
                                                     Width="50"
                                                     >
-                                        <DataGridTextColumn.ElementStyle>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="HorizontalAlignment" Value="Center" />
-                                            </Style>
-                                        </DataGridTextColumn.ElementStyle>
-                                    </DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Center" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
 
-                        </Grid>
-                    </ScrollViewer>
-                </DockPanel>
+                    </Grid>
+                </ScrollViewer>
+
             </Border>
+
+            <!--Rreming fill area under panel-->
+            <Border Grid.Row="3" Grid.RowSpan="1"
+                    Grid.Column="3"
+                    Width="{Binding ElementName=PanelGraphicBorder, Path=ActualWidth}"
+                    Panel.ZIndex="0"
+                    BorderBrush="Black" BorderThickness="1"
+                    Background="LightGray"
+                    VerticalAlignment="Stretch"/>
+            
+
+            <!--BUTTONS and PROPTERTIES-->
+            <Border BorderBrush="Black" BorderThickness="1"
+                    Background="{StaticResource BackgroundLight}"  
+                    Grid.Row="3" 
+                    Grid.Column="5" >
+
+                <!--Both Grid-->
+                <Grid Margin="5"
+                      ShowGridLines="False">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--Buttons-->
+                    <Grid HorizontalAlignment="Center"
+                          ShowGridLines="False"
+                          Margin="10 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Vertical"
+                                    Grid.Row="0" Grid.RowSpan="3"
+                                    Grid.Column="1" >
+                            <!--Up-->
+                            <Button Content="5" 
+                                    Grid.Row="0" Grid.Column="1"
+                                    FontFamily="Marlett" FontSize="12" 
+                                    Width="20" Height="20"
+                                    Margin="3"
+                                    Command="{Binding MoveUpCommand}"/>
+
+                            <!--Down-->
+                            <Button Content="6" 
+                                    Grid.Row="2" Grid.Column="1"
+                                    FontFamily="Marlett" FontSize="12" 
+                                    Width="20" Height="20"
+                                    Margin="3"
+                                    Command="{Binding MoveDownCommand}"/>
+                        </StackPanel>
+
+                        <!--Left-->
+                        <Button Content="3" 
+                            Grid.Row="1" Grid.Column="0"
+                            FontFamily="Marlett" FontSize="12" 
+                            Width="20" Height="20"
+                            Margin="3"
+                            Command="{Binding MoveLeftCommand}"/>
+
+                        <!--Right-->
+                        <Button Content="4"
+                            Grid.Row="1" Grid.Column="2"
+                            FontFamily="Marlett" FontSize="12"  
+                            Width="20" Height="20"
+                            Margin="3"
+                            Command="{Binding MoveRightCommand}"/>
+
+                        <!--Convert-->
+
+                        <!--Delete-->
+                        <Button Content ="Delete"
+                        Grid.Row="3" 
+                        Grid.Column="0" Grid.ColumnSpan="3"
+                        Width="50"
+                        Style="{StaticResource RedButton}"
+                        Margin="3 20 3 3"
+                        Command="{Binding DeleteLoadCommand}"
+                        ToolTip="Delete selected load"/>
+                    </Grid>
+
+                    <!--Propteries-->
+                    <dpanelViewers:DpnCctViewer_V Grid.Row="0" 
+                                                  Grid.Column="2" 
+                                                  DataContext="{Binding SelectedLoad}"
+                                      />
+
+                </Grid>
+                <!--Right Load-->
+
+            </Border>
+            
+            
         </Grid>
+
+
     </DockPanel>
 </UserControl>   
