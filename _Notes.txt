@@ -6,6 +6,7 @@ In Progress PROTECTION DEVICE MANAGER
 	- SubType = DefaultDcn,StandAloneStarter, Diconnect,
 
 
+	- Starter Component for PanelFed Equipment
 	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer load) PdTypeList creation
 	- ProtectionDeviceEditor
 	- add controller for Motor PD's

@@ -88,8 +88,12 @@ public class ProtectionDeviceManager
         if (DaManager.GettingRecords) return;
         if  (load.ProtectionDevice == null) return;
 
+
+        if (load.FedFrom.Type == DteqTypes.DPN.ToString() || load.FedFrom.Type == DteqTypes.CDP.ToString()) {
+
+        }
         //Stand Alone
-        if (load.ProtectionDevice.IsStandAlone) {
+        else if (load.ProtectionDevice.IsStandAlone) {
 
             if (load.DriveBool) {
                 load.ProtectionDevice.Type = PdTypes.FDS.ToString();

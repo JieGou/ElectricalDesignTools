@@ -36,6 +36,7 @@
     <None Remove="ContentFiles\InAppIcons\SettingsIcon.png" />
     <None Remove="ResourceFiles\Button Icons\ArrowRightBlack32.png" />
     <None Remove="ResourceFiles\Button Icons\DeleteLeftBlack32.png" />
+    <None Remove="ResourceFiles\CableIcons\CableIcon.jpg" />
     <None Remove="ResourceFiles\ErrorIcon.png" />
     <None Remove="ResourceFiles\ErrorIcon16.png" />
     <None Remove="ResourceFiles\ErrorIcon48.png" />
@@ -126,6 +127,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="ResourceFiles\Button Icons\DeleteLeftBlack32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\CableIcons\CableIcon.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="ResourceFiles\ErrorIcon.png">
