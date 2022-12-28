@@ -236,7 +236,7 @@ public partial class _MjeqView : UserControl
                 if (loadObject.GetType() == typeof(LoadModel)) {
                     LoadModel load = (LoadModel)loadObject;
                     if (load.Type == LoadTypes.MOTOR.ToString()) {
-                        load.DriveBool = true;
+                        load.StandAloneStarterBool = true;
                     }
                 }
             }
@@ -287,7 +287,7 @@ public partial class _MjeqView : UserControl
             foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
                 if (loadObject.GetType() == typeof(LoadModel)) {
                     LoadModel load = (LoadModel)loadObject;
-                    load.DriveBool = false;
+                    load.StandAloneStarterBool = false;
                 }
 
             }

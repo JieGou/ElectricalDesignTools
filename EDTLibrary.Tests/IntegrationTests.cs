@@ -127,7 +127,7 @@ namespace EDTLibrary.Tests
                 ErrorHelper.Log("\n\n-----------------Components----------------- \n");
 
                 ILoad load = listManager.LoadList[0];
-                load.DriveBool = true;
+                load.StandAloneStarterBool = true;
                 load.DisconnectBool = true;
                 IComponentEdt drive = listManager.CompList[0]; // drive
                 IComponentEdt disconnect = listManager.CompList[1]; // load

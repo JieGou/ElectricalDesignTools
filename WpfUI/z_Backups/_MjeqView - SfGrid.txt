@@ -1543,14 +1543,14 @@
                         </sf:GridTemplateColumn>-->
 
                         <!--Drive-->
-                        <!--<sf:GridTemplateColumn HeaderText="Drive" MappingName="DriveBool"
+                        <!--<sf:GridTemplateColumn HeaderText="Drive" MappingName="StandAloneStarterBool"
                                                Width="45"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
                                                >
                             <sf:GridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <CheckBox  IsChecked="{Binding DriveBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    <CheckBox  IsChecked="{Binding StandAloneStarterBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                HorizontalAlignment="Center" VerticalAlignment="Center"
                                                Visibility="{Binding Type, Converter={StaticResource LscOwnerTypeVisibilityConverter}}" >
                                     </CheckBox>
@@ -1585,7 +1585,7 @@
                                                                 AncestorType={x:Type UserControl}}}"
                                                />
 
-                        <sf:GridCheckBoxColumn HeaderText="Drive" MappingName="DriveBool" 
+                        <sf:GridCheckBoxColumn HeaderText="Drive" MappingName="StandAloneStarterBool" 
                                                Width="45"
                                                UseBindingValue="True"
                                                AllowEditing="True"

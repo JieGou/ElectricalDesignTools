@@ -48,7 +48,7 @@ public class SingleLineDrawer
                     InsertLoad(load, _insertionPoint);
                     _insertionPoint[1] += 1.65;
                     //check if graphic is wide and move next load over to make room for this wide block
-                    if (load.DisconnectBool == true && load.DriveBool == true) {
+                    if (load.DisconnectBool == true && load.StandAloneStarterBool == true) {
                         _insertionPoint[0] += .5;
                     }
                 }
@@ -123,7 +123,7 @@ public class SingleLineDrawer
         else if (load.ProtectionDevice.Type.Contains("FVR")) {
             blockType = "FVR";
         }
-        else if (load.DriveBool == true && isDriveInternal == true) {
+        else if (load.StandAloneStarterBool == true && isDriveInternal == true) {
             blockType = "DRIVE";
         }
 
@@ -193,7 +193,7 @@ public class SingleLineDrawer
             blockType = "Load";
         }
 
-        if (load.DriveBool == true && isDriveInternal == false) {
+        if (load.StandAloneStarterBool == true && isDriveInternal == false) {
             blockType = "Drive";
         }
 
@@ -260,7 +260,7 @@ public class SingleLineDrawer
             }
 
             //Disconnect and Drive
-            if (load.DisconnectBool == true && load.DriveBool == true && isDriveInternal == false) {
+            if (load.DisconnectBool == true && load.StandAloneStarterBool == true && isDriveInternal == false) {
                 switch (att.TagString) {
                     case "CABLE_TAG1":
                         att.TextString = $"{load.Drive.PowerCable.Tag}";
@@ -284,7 +284,7 @@ public class SingleLineDrawer
             }
 
             //Disconnect only
-            else if (load.DisconnectBool == true && load.DriveBool == false) {
+            else if (load.DisconnectBool == true && load.StandAloneStarterBool == false) {
                 switch (att.TagString) {
                     case "CABLE_TAG1":
                         att.TextString = $"{load.Disconnect.PowerCable.Tag}";
@@ -301,7 +301,7 @@ public class SingleLineDrawer
                 }
             }
             //Drive only
-            else if (load.DisconnectBool == false && load.DriveBool == true && isDriveInternal==false) {
+            else if (load.DisconnectBool == false && load.StandAloneStarterBool == true && isDriveInternal==false) {
                 switch (att.TagString) {
                     case "CABLE_TAG1":
                         att.TextString = $"{load.Drive.PowerCable.Tag}";

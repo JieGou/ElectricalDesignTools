@@ -210,7 +210,7 @@ public class ComponentFactory
 
     internal static string GetLcsType(ILoad owner)
     {
-        if (owner.DriveBool == true) {
+        if (owner.StandAloneStarterBool == true) {
             return EdtSettings.LcsTypeVsdLoad;
         }
  
@@ -220,7 +220,7 @@ public class ComponentFactory
 
     internal static string GetLcsTypeId(ILoad owner)
     {
-        if (owner.DriveBool == true) {
+        if (owner.StandAloneStarterBool == true) {
             return EdtSettings.LcsTypeVsdLoad;
         }
 

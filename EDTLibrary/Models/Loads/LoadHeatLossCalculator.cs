@@ -26,7 +26,7 @@ public class LoadHeatLossCalculator
                 }
             }
 
-            if (load.DriveBool == true) {
+            if (load.StandAloneStarterBool == true) {
                 if (load.Unit == Units.kW.ToString()) {
                     DriveHeatLoss = TypeManager.GetVfdHeatSize(load.Size / .746, load.VoltageType.Voltage).HeatLoss;
                 }

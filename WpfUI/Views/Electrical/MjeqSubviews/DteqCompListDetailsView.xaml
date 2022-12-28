@@ -238,7 +238,7 @@
                     <CheckBox Content="Junction Box"
                               Grid.Row="1" Grid.Column="0"
                               Grid.ColumnSpan="3"
-                              IsChecked="{Binding Path=DataContext.SelectedLoadEquipment.DriveBool, 
+                              IsChecked="{Binding Path=DataContext.SelectedLoadEquipment.StandAloneStarterBool, 
                                             Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
                                             AncestorType={x:Type UserControl}, AncestorLevel=3}}"

@@ -356,7 +356,7 @@ public class CableManager
     }
     internal static void CreateLcsAnalogCable(ILoad lcsOwner, ListManager listManager)
     {
-        if (lcsOwner.DriveBool == false || lcsOwner.LcsBool == false) return;
+        if (lcsOwner.StandAloneStarterBool == false || lcsOwner.LcsBool == false) return;
 
         CableModel cable = new CableModel();
         var lcs = lcsOwner.Lcs;
@@ -410,7 +410,7 @@ public class CableManager
 
 
         var lcs = lcsOwner.Lcs;
-        if (lcsOwner.DriveBool == true) {
+        if (lcsOwner.StandAloneStarterBool == true) {
 
             if (lcsOwner.Drive != null) {
                 lcs.ControlCable.Source = lcsOwner.Drive.Tag;

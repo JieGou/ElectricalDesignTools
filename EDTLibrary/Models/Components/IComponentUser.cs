@@ -9,8 +9,8 @@ namespace EDTLibrary.Models.Components
         ObservableCollection<IComponentEdt> AuxComponents { get; set; }
         ObservableCollection<IComponentEdt> CctComponents { get; set; }
 
-        bool DriveBool { get; set; }
-        int DriveId { get; set; }
+        bool StandAloneStarterBool { get; set; }
+        int StandAloneStarterId { get; set; }
         bool DisconnectBool { get; set; }
         int DisconnectId { get; set; }
 

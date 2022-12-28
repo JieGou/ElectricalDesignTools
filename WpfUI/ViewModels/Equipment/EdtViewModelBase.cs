@@ -205,7 +205,7 @@ public abstract class EdtViewModelBase: ViewModelBase
                 if (loadObject.GetType() == typeof(LoadModel)) {
                     IPowerConsumer load = (IPowerConsumer)loadObject;
                     if (load.Type == LoadTypes.MOTOR.ToString()) {
-                        load.DriveBool = true;
+                        load.StandAloneStarterBool = true;
                     }
                 }
             }
@@ -259,7 +259,7 @@ public abstract class EdtViewModelBase: ViewModelBase
             foreach (var loadObject in SelectedLoads) {
                 if (loadObject.GetType() == typeof(LoadModel)) {
                     IPowerConsumer load = (IPowerConsumer)loadObject;
-                    load.DriveBool = false;
+                    load.StandAloneStarterBool = false;
                 }
 
             }

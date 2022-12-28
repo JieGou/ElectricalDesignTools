@@ -524,24 +524,24 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public IComponentEdt Drive { get; set; }
 
-        public bool DriveBool
+        public bool StandAloneStarterBool
         {
-            get { return _driveBool; }
+            get { return _standAloneStarterBool; }
             set
             {
-                _driveBool = value;
-                if (_driveBool == true) {
+                _standAloneStarterBool = value;
+                if (_standAloneStarterBool == true) {
                 }
             }
         }
-        private bool _driveBool;
+        private bool _standAloneStarterBool;
 
-        public int DriveId
+        public int StandAloneStarterId
         {
-            get { return _driveId; }
-            set { _driveId = value; }
+            get { return _standAloneStarterId; }
+            set { _standAloneStarterId = value; }
         }
-        private int _driveId;
+        private int _standAloneStarterId;
 
         public IComponentEdt Disconnect { get; set; }
 

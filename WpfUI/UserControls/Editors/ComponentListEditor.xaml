@@ -221,7 +221,7 @@
                 <CheckBox Content="Drive"
                               Grid.Row="1" Grid.Column="0"
                               Grid.ColumnSpan="3"
-                              IsChecked="{Binding DriveBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              IsChecked="{Binding StandAloneStarterBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               
                               Visibility="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                                             Converter={StaticResource ComponentOwnerTypeToVisibilityConverter}}"/>

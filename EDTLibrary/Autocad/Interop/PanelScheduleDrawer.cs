@@ -201,7 +201,7 @@ public class PanelScheduleDrawer
             blockType = "Load";
         }
 
-        if (load.DriveBool == true && isDriveInternal == false) {
+        if (load.StandAloneStarterBool == true && isDriveInternal == false) {
             blockType = "Drive";
         }
 
@@ -266,7 +266,7 @@ public class PanelScheduleDrawer
             }
 
             //Disconnect and Drive
-            if (load.DisconnectBool == true && load.DriveBool == true && isDriveInternal == false) {
+            if (load.DisconnectBool == true && load.StandAloneStarterBool == true && isDriveInternal == false) {
                 switch (att.TagString) {
                     case "CABLE_TAG1":
                         att.TextString = $"{load.Drive.PowerCable.Tag}";
@@ -290,7 +290,7 @@ public class PanelScheduleDrawer
             }
 
             //Disconnect only
-            else if (load.DisconnectBool == true && load.DriveBool == false) {
+            else if (load.DisconnectBool == true && load.StandAloneStarterBool == false) {
                 switch (att.TagString) {
                     case "CABLE_TAG1":
                         att.TextString = $"{load.Disconnect.PowerCable.Tag}";
@@ -307,7 +307,7 @@ public class PanelScheduleDrawer
                 }
             }
             //Drive only
-            else if (load.DisconnectBool == false && load.DriveBool == true && isDriveInternal==false) {
+            else if (load.DisconnectBool == false && load.StandAloneStarterBool == true && isDriveInternal==false) {
                 switch (att.TagString) {
                     case "CABLE_TAG1":
                         att.TextString = $"{load.Drive.PowerCable.Tag}";

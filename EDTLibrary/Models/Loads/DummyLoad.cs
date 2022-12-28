@@ -42,8 +42,8 @@ internal class DummyLoad : IPowerConsumer
     public CableModel PowerCable { get; set; }
     public ObservableCollection<IComponentEdt> AuxComponents { get; set; }
     public ObservableCollection<IComponentEdt> CctComponents { get; set; }
-    public bool DriveBool { get; set; }
-    public int DriveId { get; set; }
+    public bool StandAloneStarterBool { get; set; }
+    public int StandAloneStarterId { get; set; }
     public bool DisconnectBool { get; set; }
     public int DisconnectId { get; set; }
     public bool LcsBool { get; set; }

@@ -95,7 +95,7 @@ public class ProtectionDeviceManager
         //Stand Alone
         else if (load.ProtectionDevice.IsStandAlone) {
 
-            if (load.DriveBool) {
+            if (load.StandAloneStarterBool) {
                 load.ProtectionDevice.Type = PdTypes.FDS.ToString();
             }
             else {
@@ -113,7 +113,7 @@ public class ProtectionDeviceManager
         else if (load.ProtectionDevice.IsStandAlone == false) {
 
 
-            if (load.DriveBool) {
+            if (load.StandAloneStarterBool) {
                 load.ProtectionDevice.Type = PdTypes.BKR.ToString();
             }
 

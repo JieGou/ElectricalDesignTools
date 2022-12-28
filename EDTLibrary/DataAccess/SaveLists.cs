@@ -92,7 +92,7 @@ namespace EDTLibrary.DataAccess
             "StarterSize",
 
             "DisconnectBool",
-            "DriveBool",
+            "StandAloneStarterBool",
             "LcsBool",
             "HeatLoss",
 

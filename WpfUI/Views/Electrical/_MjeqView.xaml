@@ -1432,7 +1432,7 @@
                                                
                                                />
 
-                            <sf:GridCheckBoxColumn HeaderText="Drive" MappingName="DriveBool" 
+                            <sf:GridCheckBoxColumn HeaderText="Drive" MappingName="StandAloneStarterBool" 
                                                Width="45"
                                                AllowEditing="True"
                                                UseBindingValue="True"

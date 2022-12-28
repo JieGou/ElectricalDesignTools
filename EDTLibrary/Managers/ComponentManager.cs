@@ -127,7 +127,7 @@ public class ComponentManager
                 load.DisconnectBool = false;
             }
             if (component.SubType == CctComponentSubTypes.DefaultDrive.ToString()) {
-                load.DriveBool = false;
+                load.StandAloneStarterBool = false;
             }
         }
 
