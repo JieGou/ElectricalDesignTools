@@ -522,7 +522,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         private bool _lcsBool;
 
-        public IComponentEdt Drive { get; set; }
+        public IComponentEdt StandAloneStarter { get; set; }
 
         public bool StandAloneStarterBool
         {

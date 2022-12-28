@@ -157,13 +157,13 @@ public class SingleLineDrawer
                     att.TextString = $"{load.ProtectionDevice.FrameAmps}";
                     break;
 
-                //Drive
+                //StandAloneStarter
                 case "DRIVE_TYPE":
-                    if (load.Drive != null)
-                        att.TextString = $"{load.Drive.Type}";
+                    if (load.StandAloneStarter != null)
+                        att.TextString = $"{load.StandAloneStarter.Type}";
                     break;
                 case "DRIVE_TAG":
-                    if (load.Drive != null && isDriveInternal == false) 
+                    if (load.StandAloneStarter != null && isDriveInternal == false) 
                         att.TextString = $""; 
                     break;
 
@@ -194,7 +194,7 @@ public class SingleLineDrawer
         }
 
         if (load.StandAloneStarterBool == true && isDriveInternal == false) {
-            blockType = "Drive";
+            blockType = "StandAloneStarter";
         }
 
         if (load.DisconnectBool == true) {
@@ -237,14 +237,14 @@ public class SingleLineDrawer
                     att.TextString = $"{load.Description}";
                     break;
 
-                //Drive
+                //StandAloneStarter
                 case "DRIVE_TAG":
-                    if (load.Drive != null)
-                        att.TextString = $"{load.Drive.Tag}";
+                    if (load.StandAloneStarter != null)
+                        att.TextString = $"{load.StandAloneStarter.Tag}";
                     break;
                 case "DRIVE_TYPE":
-                    if (load.Drive != null)
-                        att.TextString = $"{load.Drive.Type}";
+                    if (load.StandAloneStarter != null)
+                        att.TextString = $"{load.StandAloneStarter.Type}";
                     break;
                 
 
@@ -259,14 +259,14 @@ public class SingleLineDrawer
                     break;
             }
 
-            //Disconnect and Drive
+            //Disconnect and StandAloneStarter
             if (load.DisconnectBool == true && load.StandAloneStarterBool == true && isDriveInternal == false) {
                 switch (att.TagString) {
                     case "CABLE_TAG1":
-                        att.TextString = $"{load.Drive.PowerCable.Tag}";
+                        att.TextString = $"{load.StandAloneStarter.PowerCable.Tag}";
                         break;
                     case "CABLE_SIZE1":
-                        att.TextString = $"{load.Drive.PowerCable.SizeTag}";
+                        att.TextString = $"{load.StandAloneStarter.PowerCable.SizeTag}";
                         break;
                     case "CABLE_TAG2":
                         att.TextString = $"{load.Disconnect.PowerCable.Tag}";
@@ -300,14 +300,14 @@ public class SingleLineDrawer
                         break;
                 }
             }
-            //Drive only
+            //StandAloneStarter only
             else if (load.DisconnectBool == false && load.StandAloneStarterBool == true && isDriveInternal==false) {
                 switch (att.TagString) {
                     case "CABLE_TAG1":
-                        att.TextString = $"{load.Drive.PowerCable.Tag}";
+                        att.TextString = $"{load.StandAloneStarter.PowerCable.Tag}";
                         break;
                     case "CABLE_SIZE1":
-                        att.TextString = $"{load.Drive.PowerCable.SizeTag}";
+                        att.TextString = $"{load.StandAloneStarter.PowerCable.SizeTag}";
                         break;
                     case "CABLE_TAG2":
                         att.TextString = $"{load.PowerCable.Tag}";

@@ -29,7 +29,7 @@ public class AreaManager
             if (caller is LoadModel) {
                 var load = (LoadModel)caller;
                 foreach (var component in load.CctComponents) {
-                    if (component.SubType != CctComponentSubTypes.DefaultDrive.ToString()) {
+                    if (component.SubType != CctComponentSubTypes.DefaultStarter.ToString()) {
                         component.Area = newArea;
                     }
                     if (load.LcsBool == true) {

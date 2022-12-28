@@ -589,7 +589,7 @@ namespace EDTLibrary.Models.Loads
         private bool _lcsBool;
 
 
-        public IComponentEdt Drive { get; set; }
+        public IComponentEdt StandAloneStarter { get; set; }
 
         public bool StandAloneStarterBool
         {
@@ -613,15 +613,15 @@ namespace EDTLibrary.Models.Loads
 
                     if (_standAloneStarterBool == true) {
                         //PdType = "BKR";
-                        ComponentManager.AddDefaultDrive(this, ScenarioManager.ListManager);
+                        ComponentManager.AddStandAloneStarter(this, ScenarioManager.ListManager);
                         CableManager.CreateLcsAnalogCable(this, ScenarioManager.ListManager);
 
-                        Drive = Drive;
+                        StandAloneStarter = StandAloneStarter;
                     }
 
                     else if (_standAloneStarterBool == false) {
                         //PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
-                        ComponentManager.RemoveDefaultDrive(this, ScenarioManager.ListManager);
+                        ComponentManager.RemoveStandAloneStarter(this, ScenarioManager.ListManager);
                         CableManager.DeleteLcsAnalogCable(Lcs, ScenarioManager.ListManager);
                     }
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
@@ -917,8 +917,8 @@ namespace EDTLibrary.Models.Loads
                 AreaClassification = Area.AreaClassification;
                 PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
                 PowerCable.CalculateAmpacity(this);
-                if (Drive != null) {
-                    Drive.Area = FedFrom.Area;
+                if (StandAloneStarter != null) {
+                    StandAloneStarter.Area = FedFrom.Area;
                 }
                 if (Disconnect != null) {
                     Disconnect.Area = Area;

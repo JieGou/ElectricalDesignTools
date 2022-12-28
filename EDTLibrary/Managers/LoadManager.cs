@@ -70,7 +70,7 @@ public class LoadManager
                 // do nothing since other data is required
             }
             else if (errors.ContainsKey("Tag") || loadToAddValidator.Tag == GlobalConfig.EmptyTag || string.IsNullOrWhiteSpace(loadToAddValidator.Tag)) {
-                loadToAddValidator.Tag = TagManager.AssignEqTag(new LoadModel { Type = loadToAddValidator.Type }, listManager);
+                loadToAddValidator.Tag = TagManager.AssignEqTag(new DummyLoad { Type = loadToAddValidator.Type }, listManager);
             }
         }
 

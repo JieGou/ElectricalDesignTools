@@ -1467,7 +1467,7 @@
                                                                 AncestorType={x:Type UserControl}}}"/>
 
                             <!--Width="100"-->
-                            <sf:GridTextColumn HeaderText="Drive&#x0a;Tag" MappingName="Drive.Tag"
+                            <sf:GridTextColumn HeaderText="Drive/Starter&#x0a;Tag" MappingName="StandAloneStarter.Tag"
                                            MinimumWidth="100"
                                            AllowEditing="True"
                                            AllowFiltering="True"

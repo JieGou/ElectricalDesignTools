@@ -1542,8 +1542,8 @@
                             </sf:GridTemplateColumn.CellTemplate>
                         </sf:GridTemplateColumn>-->
 
-                        <!--Drive-->
-                        <!--<sf:GridTemplateColumn HeaderText="Drive" MappingName="StandAloneStarterBool"
+                        <!--StandAloneStarter-->
+                        <!--<sf:GridTemplateColumn HeaderText="StandAloneStarter" MappingName="StandAloneStarterBool"
                                                Width="45"
                                                IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"
@@ -1585,7 +1585,7 @@
                                                                 AncestorType={x:Type UserControl}}}"
                                                />
 
-                        <sf:GridCheckBoxColumn HeaderText="Drive" MappingName="StandAloneStarterBool" 
+                        <sf:GridCheckBoxColumn HeaderText="StandAloneStarter" MappingName="StandAloneStarterBool" 
                                                Width="45"
                                                UseBindingValue="True"
                                                AllowEditing="True"
@@ -1611,7 +1611,7 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                        <sf:GridTextColumn HeaderText="Drive&#x0a;Tag" MappingName="Drive.Tag"
+                        <sf:GridTextColumn HeaderText="StandAloneStarter&#x0a;Tag" MappingName="StandAloneStarter.Tag"
                                            Width="100"
                                            AllowEditing="True"
                                            UseBindingValue="True"

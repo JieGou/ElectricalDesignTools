@@ -48,7 +48,7 @@ internal class DummyLoad : IPowerConsumer
     public int DisconnectId { get; set; }
     public bool LcsBool { get; set; }
     public ILocalControlStation Lcs { get; set; }
-    public IComponentEdt Drive { get; set; }
+    public IComponentEdt StandAloneStarter { get; set; }
     public IComponentEdt Disconnect { get; set; }
     public IComponentEdt SelectedComponent { get; set; }
     public bool IsSelected { get; set; }

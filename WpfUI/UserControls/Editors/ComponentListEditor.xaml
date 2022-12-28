@@ -218,9 +218,11 @@
                           HorizontalAlignment="Stretch"
                           IsChecked="{Binding DisconnectBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <CheckBox Content="Drive"
+                <CheckBox Content="Drive / Starter"
                               Grid.Row="1" Grid.Column="0"
                               Grid.ColumnSpan="3"
+                              ToolTipService.InitialShowDelay="50"
+                              ToolTip="Or stand-slone starter"
                               IsChecked="{Binding StandAloneStarterBool, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               
                               Visibility="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,

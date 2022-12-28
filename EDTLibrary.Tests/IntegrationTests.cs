@@ -136,8 +136,8 @@ namespace EDTLibrary.Tests
                 //Assert.True(listManager.CompList.Count == 2);
 
 
-                //Dteq.Area for Drive.Area
-                ErrorHelper.Log("\n\n-----------------Dteq.Area for Drive.Area----------------- \n");
+                //Dteq.Area for StandAloneStarter.Area
+                ErrorHelper.Log("\n\n-----------------Dteq.Area for StandAloneStarter.Area----------------- \n");
 
                 DistributionEquipment mcc01 = listManager.DteqList.FirstOrDefault(d => d.Tag == "MCC-01");
                 mcc01.Area = listManager.AreaList[2];

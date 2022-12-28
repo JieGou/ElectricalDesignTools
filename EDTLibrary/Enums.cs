@@ -54,6 +54,7 @@ namespace EDTLibrary {
         VSD,
         RVS,
         LCS,
+        DOL,
         CircuitComponent,
         ProtectionDevice,
     }
@@ -61,7 +62,7 @@ namespace EDTLibrary {
     {
         Dicsonnect,
         Starter,
-        Drive,
+        StandAloneStarter,
         JunctionBox,
 
         DOL,
@@ -73,11 +74,19 @@ namespace EDTLibrary {
         JB,
     }
 
+    public enum StarterTypes
+    {
+        DOL,
+        VFD,
+        VSD,
+        RVS,
+    }
     public enum CctComponentSubTypes
     {
         DefaultDcn,
-        DefaultDrive,
         DefaultStarter,
+        StandAloneDrive,
+        StandAloneStarter,
     }
 
     public enum PdTypes
@@ -87,11 +96,11 @@ namespace EDTLibrary {
         FDS,
         MCP_FVNR,
         MCP_FVR,
+        DOL,
         StandAloneDrive,
         StandAloneStarter,
     }
 
-    
     
     public enum JunctionBoxTypes
     {

@@ -359,10 +359,10 @@
                                    MaxWidth="200" />
                             </StackPanel>
 
-                            <!--Cable Length Drive-->
+                            <!--Cable Length StandAloneStarter-->
                             <StackPanel Orientation="Vertical"
                                 Grid.Row="3" Grid.Column="0"  >
-                                <TextBlock Text="Cable Length for Drive"  
+                                <TextBlock Text="Cable Length for StandAloneStarter"  
                                    Grid.Row="1" Grid.Column="0"/>
                                 <TextBlock Text="Default power cable length from supply equipment to newly created drives."  
                                    Grid.Row="1" Grid.Column="0"
@@ -388,7 +388,7 @@
                             </StackPanel>
 
 
-                            <!--Cable Length Drive-->
+                            <!--Cable Length StandAloneStarter-->
                             <StackPanel Orientation="Vertical"
                                 Grid.Row="4" Grid.Column="0"  >
                                 <TextBlock Text="Cable Length for Local Disconnect"  

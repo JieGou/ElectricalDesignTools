@@ -82,7 +82,7 @@ public class CableManager
         else if (category == Categories.LOAD.ToString()) {
             length = double.Parse(EdtSettings.CableLengthLoad);
         }
-        else if (category == Categories.DRIVE.ToString() || category == CctComponentSubTypes.DefaultDrive.ToString()) {
+        else if (category == Categories.DRIVE.ToString() || category == CctComponentSubTypes.DefaultStarter.ToString()) {
             length = double.Parse(EdtSettings.CableLengthDrive);
         }
         else if (category == Categories.LCLDCN.ToString() || category == CctComponentSubTypes.DefaultDcn.ToString()) {
@@ -157,7 +157,7 @@ public class CableManager
                     CopyPowerCableProperties(powerComponentOwner, component, cable);
 
                     //Length
-                    if (component.SubType == CctComponentSubTypes.DefaultDrive.ToString()) {
+                    if (component.SubType == CctComponentSubTypes.DefaultStarter.ToString()) {
                         cable.Length = double.Parse(EdtSettings.CableLengthDrive);
                     }
                     else if (component.SubType == CctComponentSubTypes.DefaultDcn.ToString()) {
@@ -342,8 +342,8 @@ public class CableManager
         cable.SetTypeProperties();
 
         cable.Source = lcsOwner.FedFrom.Tag;
-        if (lcsOwner.Drive != null) {
-            cable.Source = lcsOwner.Drive.Tag;
+        if (lcsOwner.StandAloneStarter != null) {
+            cable.Source = lcsOwner.StandAloneStarter.Tag;
         }
 
         cable.Destination = lcs.Tag;
@@ -393,8 +393,8 @@ public class CableManager
         cable.SetTypeProperties();
         cable.Source = "Dafault LCS Analog Cable Source";
 
-        if (lcsOwner.Drive!=null) {
-            cable.Source = lcsOwner.Drive.Tag;
+        if (lcsOwner.StandAloneStarter!=null) {
+            cable.Source = lcsOwner.StandAloneStarter.Tag;
         }
 
         cable.Destination = lcs.Tag;
@@ -412,9 +412,9 @@ public class CableManager
         var lcs = lcsOwner.Lcs;
         if (lcsOwner.StandAloneStarterBool == true) {
 
-            if (lcsOwner.Drive != null) {
-                lcs.ControlCable.Source = lcsOwner.Drive.Tag;
-                lcs.AnalogCable.Source = lcsOwner.Drive.Tag;
+            if (lcsOwner.StandAloneStarter != null) {
+                lcs.ControlCable.Source = lcsOwner.StandAloneStarter.Tag;
+                lcs.AnalogCable.Source = lcsOwner.StandAloneStarter.Tag;
             }
             lcs.ControlCable.Destination = lcs.Tag;
             lcs.ControlCable.CreateTag();

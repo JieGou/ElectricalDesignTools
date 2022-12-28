@@ -89,8 +89,14 @@ public class ProtectionDeviceManager
         if  (load.ProtectionDevice == null) return;
 
 
+        //Fed From DPN, CDP
         if (load.FedFrom.Type == DteqTypes.DPN.ToString() || load.FedFrom.Type == DteqTypes.CDP.ToString()) {
+            if (load.Type == LoadTypes.MOTOR.ToString()) {
+                load.ProtectionDevice.Type = PdTypes.BKR.ToString();
 
+                ComponentManager.AddStandAloneStarter(load, ScenarioManager.ListManager);
+            }
+            
         }
         //Stand Alone
         else if (load.ProtectionDevice.IsStandAlone) {

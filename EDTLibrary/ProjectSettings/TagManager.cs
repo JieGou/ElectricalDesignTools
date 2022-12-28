@@ -47,7 +47,6 @@ public class TagManager
         var sequenceNumber = GetNextSequentialNumber(eq, listManager);
         var tag = identifier + TagSettings.EqIdentifierSeparator + sequenceNumber;
 
-
         return tag;
     }
 
@@ -59,14 +58,19 @@ public class TagManager
 
         var eqTypelist = listManager.EqList.Where(e => e.Type == eq.Type).ToList();
         var eqNumList = new List<int>();
+        if (eqNumList.Count >0) {
+            foreach (var item in eqTypelist) {
+                eqNumList.Add(
+                    int.Parse(item.Tag.Substring(item.Tag.IndexOf(TagSettings.EqIdentifierSeparator) + 1)));
+            }
 
-        foreach (var item in eqTypelist) {
-            eqNumList.Add(
-                int.Parse(item.Tag.Substring(item.Tag.IndexOf(TagSettings.EqIdentifierSeparator)+1)));
+            var maxNum = eqNumList.Max();
+            sequenceNumber = (maxNum += 1).ToString();
         }
-
-        var maxNum = eqNumList.Max();
-        sequenceNumber = (maxNum += 1).ToString();
+        else {
+            sequenceNumber = "1";
+        }
+        
 
         var length = int.Parse(TagSettings.EqNumberDigitCount) - sequenceNumber.Length;
         for (int i = 0; i < length; i++) {
@@ -129,12 +133,18 @@ public class TagManager
                 return TagSettings.OtherLoadIdentifier;
             }
 
+
+            //Components
+            else if (eq.Type == ComponentTypes.UDS.ToString() || eq.Type == ComponentTypes.UDS.ToString()) {
+                return TagSettings.DisconnectSuffix;
+            }
+
             else {
-                return "Unidentified Equipment Type" + nameof(GetEquipmentIdentifier);
+                return "Unidentified Equipment Type - " + nameof(GetEquipmentIdentifier);
             }
         }
         catch (Exception ex) {
-            return "Unidentified Equipment Type" + nameof(GetEquipmentIdentifier);
+            return "Unidentified Equipment Type - " + nameof(GetEquipmentIdentifier);
 
             EdtNotificationService.SendError(nameof(GetEquipmentIdentifier), ex.Message, "Error", ex );
         }

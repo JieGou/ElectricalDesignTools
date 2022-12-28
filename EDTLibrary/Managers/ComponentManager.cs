@@ -19,16 +19,16 @@ public class ComponentManager
 {
 
 
-    public static void AddDefaultDrive(IComponentUser componentUser, ListManager listManager)
+    public static void AddStandAloneStarter(IComponentUser componentUser, ListManager listManager)
     {
         if (listManager == null) return;
 
         string subCategory = SubCategories.CctComponent.ToString();
-        string type = ComponentTypes.VSD.ToString();
-        string subType = CctComponentSubTypes.DefaultDrive.ToString();
+        string type = StarterManager.SelectStarterType((ILoad)componentUser);
+        string subType = CctComponentSubTypes.DefaultStarter.ToString();
 
         ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);
-        componentUser.Drive = newComponent;
+        componentUser.StandAloneStarter = newComponent;
 
         if (componentUser.GetType() == typeof(LoadModel)) {
             var load = (LoadModel)componentUser;
@@ -36,21 +36,21 @@ public class ComponentManager
         }
     }
 
-    public static void RemoveDefaultDrive(IComponentUser componentUser, ListManager listManager)
+    public static void RemoveStandAloneStarter(IComponentUser componentUser, ListManager listManager)
     {
-        if (componentUser.Drive == null) return;
+        if (componentUser.StandAloneStarter == null) return;
         if (componentUser.GetType() == typeof(LoadModel)) {
             IComponentEdt componentToRemove = new ComponentModel();
             var load = (LoadModel)componentUser;
             foreach (var component in load.CctComponents) {
-                if (component.SubType == CctComponentSubTypes.DefaultDrive.ToString()) {
+                if (component.SubType == CctComponentSubTypes.DefaultStarter.ToString()) {
                     //load.CctComponents.Remove(component);
                     int componentId = component.Id;
                     componentToRemove = listManager.CompList.FirstOrDefault(c => c.Id == componentId);
                     listManager.CompList.Remove(componentToRemove);
                     DaManager.DeleteComponent((ComponentModel)component);
-                    componentUser.Drive.PropertyUpdated -= DaManager.OnComponentPropertyUpdated;
-                    componentUser.Drive = null;
+                    componentUser.StandAloneStarter.PropertyUpdated -= DaManager.OnComponentPropertyUpdated;
+                    componentUser.StandAloneStarter = null;
                     //break;
                     load.FedFrom.AreaChanged -= component.MatchOwnerArea;
 
@@ -126,7 +126,7 @@ public class ComponentManager
             if (component.SubType == CctComponentSubTypes.DefaultDcn.ToString()) {
                 load.DisconnectBool = false;
             }
-            if (component.SubType == CctComponentSubTypes.DefaultDrive.ToString()) {
+            if (component.SubType == CctComponentSubTypes.DefaultStarter.ToString()) {
                 load.StandAloneStarterBool = false;
             }
         }

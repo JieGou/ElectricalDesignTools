@@ -311,13 +311,15 @@ namespace EDTLibrary.Managers
             IDpn dpn = new DpnModel();
             var sideCircuitList = new ObservableCollection<IPowerConsumer>();
             foreach (var dteq in IDteqList) {
-                foreach (var loadCircuit in LoadCircuitList) {
-                    if (dteq.Id == loadCircuit.FedFromId && loadCircuit.FedFromType == typeof(DpnModel).ToString()) {
-                        dpn = (IDpn)dteq;
-                        dpn.AssignedCircuits.Add((LoadCircuit)loadCircuit);
-                        loadCircuit.FedFrom = dpn;
-                        loadCircuit.SpaceConverted += dpn.OnSpaceConverted;
-                        loadCircuit.VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Id == loadCircuit.VoltageTypeId);
+                if (dteq.Type==DteqTypes.CDP.ToString() || dteq.Type == DteqTypes.DPN.ToString()) {
+                    foreach (var loadCircuit in LoadCircuitList) {
+                        if (dteq.Id == loadCircuit.FedFromId && loadCircuit.FedFromType == typeof(DpnModel).ToString()) {
+                            dpn = (IDpn)dteq;
+                            dpn.AssignedCircuits.Add((LoadCircuit)loadCircuit);
+                            loadCircuit.FedFrom = dpn;
+                            loadCircuit.SpaceConverted += dpn.OnSpaceConverted;
+                            loadCircuit.VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Id == loadCircuit.VoltageTypeId);
+                        }
                     }
                 }
             }
@@ -367,8 +369,8 @@ namespace EDTLibrary.Managers
                             load.CctComponents.Add(comp);
                             load.CctComponents.OrderBy(c => comp.SequenceNumber);
 
-                            if (comp.SubType == CctComponentSubTypes.DefaultDrive.ToString()) {
-                                load.Drive = (ComponentModel)comp;
+                            if (comp.SubType == CctComponentSubTypes.DefaultStarter.ToString()) {
+                                load.StandAloneStarter = (ComponentModel)comp;
                                 if (load.FedFrom != null) {
                                     load.FedFrom.AreaChanged += comp.MatchOwnerArea;
                                 }

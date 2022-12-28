@@ -26,7 +26,7 @@ namespace EDTLibrary.DataAccess
             "DisconnectId",
             "LcsBool",
             "Lcs",
-            "Drive",
+            "StandAloneStarter",
             "Disconnect",
             "IsCalculating",
 
@@ -68,7 +68,7 @@ namespace EDTLibrary.DataAccess
             "FedFrom",
             "Area",
             "Lcs",
-            "Drive",
+            "StandAloneStarter",
             "Disconnect",
             "BreakerSize",
             "EfficiencyDisplay",

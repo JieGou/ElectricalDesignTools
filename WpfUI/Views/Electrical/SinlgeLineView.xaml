@@ -397,7 +397,7 @@
                                                 <Image Source="../../ResourceFiles/MenuIcons/plus24.png" Height="10"/>
                                             </MenuItem.Icon>
                                             <MenuItem Header="Add Disconnect" Height="20"  Command="{Binding AddDisconnectCommand}" />
-                                            <MenuItem Header="Add Drive" Height="20"  Command="{Binding AddDriveCommand}" />
+                                            <MenuItem Header="Add StandAloneStarter" Height="20"  Command="{Binding AddDriveCommand}" />
                                             <MenuItem Header="Add LCS" Height="20"  Command="{Binding AddLcsCommand}"/>
                                         </MenuItem>
                                         <MenuItem Header="Remove" Height="25">
@@ -405,7 +405,7 @@
                                                 <Image Source="../../ResourceFiles/MenuIcons/minus24.png" Height="10"/>
                                             </MenuItem.Icon>
                                             <MenuItem Header="Remove Disconnect" Height="25"  Command="{Binding RemoveDisconnectCommand}" />
-                                            <MenuItem Header="Remove Drive" Height="25"  Command="{Binding RemoveDriveCommand}" />
+                                            <MenuItem Header="Remove StandAloneStarter" Height="25"  Command="{Binding RemoveDriveCommand}" />
                                             <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
                                         </MenuItem>
                                         <Separator/>
@@ -545,7 +545,7 @@
                                            Height="10"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Add Disconnect" Height="20"  Command="{Binding AddDisconnectCommand}" />
-                                    <MenuItem Header="Add Drive" Height="20"  Command="{Binding AddDriveCommand}" />
+                                    <MenuItem Header="Add StandAloneStarter" Height="20"  Command="{Binding AddDriveCommand}" />
                                     <MenuItem Header="Add LCS" Height="20"  Command="{Binding AddLcsCommand}"/>
                                 </MenuItem>
                                 <MenuItem Header="Remove" Height="25">
@@ -554,7 +554,7 @@
                                            Height="10"/>
                                     </MenuItem.Icon>
                                     <MenuItem Header="Remove Disconnect" Height="25"  Command="{Binding RemoveDisconnectCommand}" />
-                                    <MenuItem Header="Remove Drive" Height="25"  Command="{Binding RemoveDriveCommand}" />
+                                    <MenuItem Header="Remove StandAloneStarter" Height="25"  Command="{Binding RemoveDriveCommand}" />
                                     <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
                                 </MenuItem>
                                 <Separator/>

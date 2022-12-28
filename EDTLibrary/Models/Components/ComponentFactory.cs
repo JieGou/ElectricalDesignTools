@@ -90,16 +90,22 @@ public class ComponentFactory
         newComponent.Type = type;
         newComponent.SubType = subType;
 
-        //Drive
-        if (subType == CctComponentSubTypes.DefaultDrive.ToString()) {
+        //StandAloneStarter
+        if (subType == CctComponentSubTypes.DefaultStarter.ToString()) {
             newComponent.SettingTag = true;
-                newComponent.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DriveSuffix;
+                newComponent.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagManager.AssignEqTag(new DummyComponent { Type=newComponent.Type}, listManager);
             newComponent.SettingTag = false;
             var load = (IPowerConsumer)componentUser;
             newComponent.Area = load.FedFrom.Area;
             newComponent.SequenceNumber = 0;
             newComponent.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
-            newComponent.FrameAmps = DataTableSearcher.GetDisconnectFuse(load);
+            newComponent.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
+
+            if (newComponent.Type==StarterTypes.DOL.ToString()) {
+
+            }
+
+
             if (load.FedFrom.Type == DteqTypes.SPL.ToString()) {
                 newComponent.SequenceNumber = 1;
             }
@@ -111,7 +117,7 @@ public class ComponentFactory
             newComponent.Area = componentUser.Area;
             var load = (IPowerConsumer)componentUser;
             newComponent.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
-            newComponent.FrameAmps = DataTableSearcher.GetDisconnectFuse(load);
+            newComponent.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
             newComponent.SequenceNumber = componentUser.CctComponents.Count + 1;
         }
 

@@ -1893,8 +1893,8 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                        <!--Drive-->
-                        <DataGridTemplateColumn Header="Drive" x:Name="loadDrive" 
+                        <!--StandAloneStarter-->
+                        <DataGridTemplateColumn Header="StandAloneStarter" x:Name="loadDrive" 
                                                 MinWidth="40"
                                                 HeaderStyle="{StaticResource ComponentColumnHeader}" 
                                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource CompViewProxy}}">
@@ -1943,9 +1943,9 @@
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource CompViewProxy}}"
                                             />
 
-                        <DataGridTextColumn Header="Drive.&#x0a;Tag"
+                        <DataGridTextColumn Header="StandAloneStarter.&#x0a;Tag"
                                 MinWidth="75"
-                                Binding="{Binding Path=Drive.Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                Binding="{Binding Path=StandAloneStarter.Tag, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                 HeaderStyle="{StaticResource ComponentColumnHeader}" 
                                 Visibility="{Binding Data, Converter={StaticResource BoolToVis}, Source={StaticResource CompViewProxy}}"/>
 

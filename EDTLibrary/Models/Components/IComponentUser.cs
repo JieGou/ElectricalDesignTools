@@ -16,7 +16,7 @@ namespace EDTLibrary.Models.Components
 
         bool LcsBool { get; set; }
         public ILocalControlStation Lcs { get; set; }
-        public IComponentEdt Drive { get; set; }
+        public IComponentEdt StandAloneStarter { get; set; }
         public IComponentEdt Disconnect { get; set; }
         public IComponentEdt SelectedComponent { get; set; }
 
