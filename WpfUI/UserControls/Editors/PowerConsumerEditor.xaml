@@ -238,13 +238,14 @@
                                HorizontalAlignment="Right" 
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>-->
 
+                <!--Unit-->
                 <ComboBox Grid.Column="2"
-                              Template="{DynamicResource ComboBoxBase}"
-                              ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:Units}}}"
-                              SelectedValue="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              Text="{Binding Unit}"
-                              IsEditable="False" IsTextSearchEnabled="True"
-                              Margin="5 0 5 0"/>
+                          Template="{DynamicResource ComboBoxBase}"
+                          ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:Units}}}"
+                          SelectedValue="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Text="{Binding Unit}"
+                          IsEditable="False" IsTextSearchEnabled="True"
+                          Margin="5 0 5 0"/>
             </Grid>
 
 

@@ -142,6 +142,7 @@ public abstract class ComponentModelBase : IComponentEdt
             OnPropertyUpdated();
         }
     }
+    public string StarterSize { get; set; }
 
     public int AreaId { get; set; }
     private int _sequenceNumber;

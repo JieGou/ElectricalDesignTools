@@ -98,12 +98,7 @@ public class ComponentFactory
             var load = (IPowerConsumer)componentUser;
             newComponent.Area = load.FedFrom.Area;
             newComponent.SequenceNumber = 0;
-            newComponent.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
-            newComponent.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
-
-            if (newComponent.Type==StarterTypes.DOL.ToString()) {
-
-            }
+            ProtectionDeviceManager.SetPdTripAndStarterSize(newComponent);
 
 
             if (load.FedFrom.Type == DteqTypes.SPL.ToString()) {

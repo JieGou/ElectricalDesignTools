@@ -690,7 +690,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             DteqManager.SetDteqPd(this);
 
             ProtectionDeviceManager.SetProtectionDeviceType(this);
-            ProtectionDeviceManager.SetPdTripAndStarterSize(this);
+            ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
 
             SCCR = CalculateSCCR();
             IsCalculating = false;

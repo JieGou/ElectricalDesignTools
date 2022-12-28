@@ -83,7 +83,7 @@ namespace EDTLibrary.DataAccess
             "SelectedComponent",
 
             "ProtectionDevice",
-
+            "CalculationLock",
         };
 
         static public List<string> CompNoSaveList { get; set; } = new List<string>()

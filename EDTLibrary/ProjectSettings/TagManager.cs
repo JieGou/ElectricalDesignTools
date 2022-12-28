@@ -135,6 +135,10 @@ public class TagManager
 
 
             //Components
+            else if (eq.Type.Contains(StarterTypes.DOL.ToString()) || eq.Type.Contains("MCP")) {
+                return TagSettings.StarterSuffix;
+            }
+
             else if (eq.Type == ComponentTypes.UDS.ToString() || eq.Type == ComponentTypes.UDS.ToString()) {
                 return TagSettings.DisconnectSuffix;
             }

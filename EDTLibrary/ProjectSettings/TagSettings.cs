@@ -50,6 +50,7 @@ public  class TagSettings
     public static string ComponentSuffixSeparator { get; set; } = ".";
 
     public static string DisconnectSuffix { get; set; } = "DCN";
+    public static string StarterSuffix { get; set; } = "STR";
     public static string DriveSuffix { get; set; } = "VFD";
     public static string LcsSuffix { get; set; } = "LCS";
 

@@ -412,31 +412,44 @@
                         Padding="0 0 5 0"
                         Margin="5 0">
 
-                        <Grid Grid.Column="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="5"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="7"/>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+                        <Canvas Width="{Binding ElementName=StandAloneStarterDataGrid, Path=ActualWidth}">
+                            <Border Canvas.Left="-17"
+                                    Canvas.Top="-17"  >
+                                <TextBlock Text="{Binding Tag}"
+                                       FontWeight="SemiBold"
+                                       />
+                            </Border>
+                            <Grid Grid.Column="2" x:Name="StandAloneStarterDataGrid">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="5"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="7"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
 
-                            <!--Breaker Size-->
-                            <StackPanel Orientation="Vertical"
-                                Grid.Row="1">
-                                <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}" />
-                                <Border BorderBrush="Black" BorderThickness="0 0 0 1"/>
-                                <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" />
-                            </StackPanel>
+                                <!--Breaker Size-->
+                                <StackPanel Orientation="Vertical"
+                                            Grid.Row="1">
+                                    <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}" />
+                                    <Border BorderBrush="Black" BorderThickness="0 0 0 1"
+                                            Width="{Binding ElementName=StandAloneStarterFrameAmps,Path=ActualWidth}"
+                                            HorizontalAlignment="Left"
+                                            />
+                                    <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" 
+                                               x:Name="StandAloneStarterFrameAmps"
+                                               HorizontalAlignment="Left"/>
+                                </StackPanel>
 
-                            <!--Starter Size-->
-                            <StackPanel Orientation="Horizontal"
+                                <!--Starter Size-->
+                                <StackPanel Orientation="Horizontal"
                                     Grid.Row="3">
-                                <TextBlock Text="Size: "/>
-                                <TextBlock Text="{Binding StarterSize}" FontWeight="SemiBold"/>
-                            </StackPanel>
-                        </Grid>
+                                    <TextBlock Text="Size: "/>
+                                    <TextBlock Text="{Binding StarterSize}" FontWeight="SemiBold"/>
+                                </StackPanel>
+                            </Grid>
+                        </Canvas>
                     </Border>
 
                 </Grid>

@@ -35,6 +35,7 @@ internal class DummyComponent : IComponentEdt
     public string AreaClassification { get; set; }
     public double Voltage { get; set; }
     public double HeatLoss { get; set; }
+    public string StarterSize { get; set; }
 
     public event EventHandler PropertyUpdated;
     public event EventHandler AreaChanged;

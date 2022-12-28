@@ -11,6 +11,7 @@ using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Validators;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Selectors;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
@@ -62,8 +63,7 @@ namespace EDTLibrary.Models.Loads
         private IProtectionDevice _protectionDevice;
 
         public bool IsSelected { get; set; } = false;
-
-
+        private bool allowCalculations = true;
         public int Id { get; set; }
         private string _tag;
 
@@ -121,7 +121,15 @@ namespace EDTLibrary.Models.Loads
 
                 if (DaManager.GettingRecords || DaManager.Importing) return;
 
-                ProtectionDeviceManager.SetProtectionDeviceType(this);
+                allowCalculations = false;
+                LoadUnitSelector.SelectUnits(this);
+                Unit = Unit;
+                    StandAloneStarterBool = false;
+
+                if (_type == LoadTypes.MOTOR.ToString()) {
+                    StandAloneStarterBool = true;
+                }
+                allowCalculations = true;
                 CalculateLoading();
 
             }
@@ -146,7 +154,47 @@ namespace EDTLibrary.Models.Loads
         }
         private string _subType;
 
+        public double Size
+        {
+            get { return _size; }
+            set
+            {
+                if (value == null) return;
 
+                double oldValue = _size;
+                _size = value;
+
+                UndoManager.CanAdd = true;
+                UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
+                if (DaManager.Importing == false) {
+                    CalculateLoading();
+                }
+
+            }
+        }
+        public double _size;
+
+        public string Unit
+        {
+            get { return _unit; }
+            set
+            {
+                if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value) ) {
+                    return;
+                }
+
+                else {
+                    _unit = value;
+
+                    if (DaManager.GettingRecords) return;
+
+                    CalculateLoading();
+                    OnPropertyUpdated(nameof(Unit));
+                }
+                
+            }
+        }
+        private string _unit;
         public string Description
         {
             get { return _description; }
@@ -316,41 +364,7 @@ namespace EDTLibrary.Models.Loads
         }
         private VoltageType _voltageType;
 
-        public double Size
-        {
-            get { return _size; }
-            set
-            {
-                if (value == null) return;
-
-                double oldValue = _size;
-                _size = value;
-
-                UndoManager.CanAdd = true;
-                UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
-                if (DaManager.Importing == false) {
-                    CalculateLoading();
-                }
-
-            }
-        }
-        public double _size;
-
-        public string Unit
-        {
-            get => _unit; 
-            set
-            {
-                _unit = value;
-
-                if (DaManager.GettingRecords) return;
-
-                CalculateLoading();
-
-                OnPropertyUpdated(nameof(Unit));
-            }
-        }
-        private string _unit;
+        
 
         public int FedFromId { get; set; }
 
@@ -657,7 +671,7 @@ namespace EDTLibrary.Models.Loads
         //Methods
         public void CalculateLoading(string propertyName = "")
         {
-
+            if (allowCalculations == false) return;
             UndoManager.CanAdd = false;
             if (DaManager.GettingRecords == true) {
                 return;
@@ -772,7 +786,7 @@ namespace EDTLibrary.Models.Loads
             LoadManager.SetLoadPdFrameAndTrip(this);
 
             //ProtectionDeviceManager.SetProtectionDeviceType(this);
-            ProtectionDeviceManager.SetPdTripAndStarterSize(this);
+            ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
 
 
             PowerCable.GetRequiredAmps(this);

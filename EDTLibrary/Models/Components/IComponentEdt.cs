@@ -13,6 +13,8 @@ namespace EDTLibrary.Models.Components
 
         double FrameAmps { get; set; }
         double TripAmps { get; set; }
+        string StarterSize { get; set; }
+
         string SubCategory { get; set; }
         string SubType { get; set; }
         List<string> TypeList { get; set; }

@@ -5,6 +5,7 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Selectors;
 using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ public class ComponentManager
         if (listManager == null) return;
 
         string subCategory = SubCategories.CctComponent.ToString();
-        string type = StarterManager.SelectStarterType((ILoad)componentUser);
+        string type = StarterTypeSelector.SelectStarterType((ILoad)componentUser);
         string subType = CctComponentSubTypes.DefaultStarter.ToString();
 
         ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);
