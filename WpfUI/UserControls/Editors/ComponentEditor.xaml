@@ -1,0 +1,159 @@
+﻿<UserControl x:Class="WpfUI.UserControls.Editors.ComponentEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfUI.UserControls.Editors"
+             mc:Ignorable="d" 
+             d:DesignHeight="350" d:DesignWidth="350"
+             d:Background="AliceBlue"
+             Background="Transparent">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        
+        
+        <!--Component Types-->
+        <StackPanel Orientation="Horizontal" 
+                            Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" >
+            <TextBlock Text="Type"
+                               Grid.Row="1" Grid.Column="0" 
+                               Width="40"/>
+            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                          Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                          Height="20" Width="83"
+                          Margin="0"
+                          ItemsSource="{Binding SelectedComponent.TypeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          
+                          SelectedValue="{Binding SelectedComponent.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          IsSynchronizedWithCurrentItem="False"  />
+        </StackPanel>
+
+        <!--Component Frame -->
+        <StackPanel Orientation="Horizontal" 
+                            Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" >
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SelectedComponent.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Value="UDS">
+                            <Setter Property="Visibility"  Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SelectedComponent.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Value="FDS">
+                            <Setter Property="Visibility"  Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SelectedComponent.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Value="DOL">
+                            <Setter Property="Visibility"  Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SelectedComponent.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Value="MCP_FVNR">
+                            <Setter Property="Visibility"  Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SelectedComponent.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Value="MCP_FVR">
+                            <Setter Property="Visibility"  Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <TextBlock Text="Size"
+                               Grid.Row="1" Grid.Column="0" 
+                               Width="40"/>
+            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                              Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                              Height="20" Width="83"
+                              Margin="0"
+                              ItemsSource="{Binding Path=DataContext.TypeManager.DisconnectSizes, 
+                                                    Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                    RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                    AncestorType={x:Type Window}}}"
+                              
+                              DisplayMemberPath="Amps"
+                              
+                               Text="{Binding SelectedComponent.FrameAmps, 
+                                            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              
+                              IsSynchronizedWithCurrentItem="False"  />
+        </StackPanel>
+
+        <!--Component Trip Size -->
+        <StackPanel Orientation="Horizontal" 
+                        Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                        d:Visibility="Visible">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SelectedComponent.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Value="FDS">
+                            <Setter Property="Visibility"  Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <TextBlock Text="Trip"
+                           Grid.Row="1" Grid.Column="0"  
+                           Width="40"/>
+            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                          Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                          Height="20" Width="83"
+                          Margin="0"
+                          ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type Window}}}"
+                          DisplayMemberPath="TripAmps"
+                          
+                          Text ="{Binding SelectedComponent.TripAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          
+                          IsSynchronizedWithCurrentItem="False" 
+                          />
+        </StackPanel>
+
+        <!--Starter Size -->
+        <StackPanel Orientation="Horizontal" 
+                        Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                        d:Visibility="Visible">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding SelectedComponent.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Value="MCP_FVNR">
+                            <Setter Property="Visibility"  Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <TextBlock Text="Starter"
+                           Grid.Row="1" Grid.Column="0"  
+                           Width="40"/>
+            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                          Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                          Height="20" Width="83"
+                          Margin="0"
+                          ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type Window}}}"
+                          DisplayMemberPath="TripAmps"
+                          
+                          Text ="{Binding SelectedComponent.TripAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          
+                          IsSynchronizedWithCurrentItem="False" 
+                          />
+        </StackPanel>
+    </Grid>
+</UserControl>

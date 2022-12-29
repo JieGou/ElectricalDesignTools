@@ -141,10 +141,10 @@ public class ProtectionDeviceManager
         else {
             SetPdTripAndStarterSize_Mv(component);
         }
-        component.FrameAmps = ProtectionDeviceManager.GetPdFrameAmps(load);
+        component.FrameAmps = GetPdFrameAmps(component, load);
     }
 
-    private static void SetPdTripAndStarterSize_Lv(IComponentEdt comp)
+    private static void SetPdTripAndStarterSize_Lv( IComponentEdt comp)
     {
         if (comp == null) {
             return;
@@ -162,6 +162,9 @@ public class ProtectionDeviceManager
         }
         else if (comp.Type == "BKR") {
             comp.TripAmps = DataTableSearcher.GetBreakerTrip(load);
+        }
+        else if (comp.Type == "FDS") {
+            comp.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
         }
     }
 
@@ -187,14 +190,20 @@ public class ProtectionDeviceManager
     }
 
     
-    internal static double GetPdFrameAmps(IPowerConsumer load)
+    internal static double GetPdFrameAmps(IComponentEdt component, IPowerConsumer load)
     {
         double LvCutoff = 750;
         
         //LV
         if (load.VoltageType.Voltage <= LvCutoff) {
-            return DataTableSearcher.GetBreakerFrame(load.ProtectionDevice.TripAmps);
+            if (component.Type == PdTypes.BKR.ToString()) {
+                return DataTableSearcher.GetBreakerFrame(load.ProtectionDevice.TripAmps);
 
+            }
+            else if (component.Type == PdTypes.FDS.ToString()) {
+                return DataTableSearcher.GetDisconnectSize(load);
+
+            }
         }
 
         //MV

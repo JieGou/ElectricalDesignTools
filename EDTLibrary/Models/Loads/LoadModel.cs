@@ -603,7 +603,6 @@ namespace EDTLibrary.Models.Loads
 
 
         public IComponentEdt StandAloneStarter { get; set; }
-
         public bool StandAloneStarterBool
         {
             get { return _standAloneStarterBool; }
@@ -613,6 +612,7 @@ namespace EDTLibrary.Models.Loads
                 _standAloneStarterBool = value;
 
                 ProtectionDeviceManager.SetProtectionDeviceType(this);
+                ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
 
                 UndoManager.CanAdd = false;
                 UndoManager.Lock(this, nameof(StandAloneStarterBool));

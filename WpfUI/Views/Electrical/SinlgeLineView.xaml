@@ -21,6 +21,7 @@
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              xmlns:edtCables="clr-namespace:EDTLibrary.Models.Cables;assembly=EDTLibrary"
              xmlns:edtComponents="clr-namespace:EDTLibrary.Models.Components;assembly=EDTLibrary"
+             xmlns:edtProtection="clr-namespace:EDTLibrary.Models.Components.ProtectionDevices;assembly=EDTLibrary"
              
              d:Height="1000" d:Width="1700"
              
@@ -649,7 +650,7 @@
 
                             <!--Equipment-->
                             <ContentControl Content="{Binding SelectedLoadEquipment}"
-                                        Grid.Row="0"
+                                            Grid.Row="0"
                                             Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
                                 <ContentControl.Resources>
 
@@ -662,7 +663,7 @@
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                        <mjeqSubViews:ComponentDetailsView/>
+                                        <editors:LoadEditor/>
                                     </DataTemplate>
 
                                 </ContentControl.Resources>
@@ -690,6 +691,10 @@
                                         <mjeqSubViews:CableSizingViewNarrow/>
                                     </DataTemplate>
 
+                                    <DataTemplate DataType="{x:Type edtProtection:ProtectionDeviceModel}">
+                                        <mjeqSubViews:CableSizingViewNarrow/>
+                                    </DataTemplate>
+                                    
                                 </ContentControl.Resources>
                             </ContentControl>
 

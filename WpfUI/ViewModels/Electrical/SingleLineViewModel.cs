@@ -117,7 +117,16 @@ internal class SingleLineViewModel: EdtViewModelBase
     public IEquipment SelectedLoadEquipment
     {
         get { return _selectedLoadEquipment; }
-        set { _selectedLoadEquipment = value; }
+        set 
+        { 
+            _selectedLoadEquipment = value;
+            if (_selectedLoadEquipment is ComponentModelBase) {
+                var comp = (ComponentModelBase)_selectedLoadEquipment;
+                var compOwner = (IPowerConsumer)comp.Owner;
+                compOwner.SelectedComponent = comp;
+                _selectedLoadEquipment = compOwner;
+            }
+        }
     }
 
     public bool IsSelectedLoadCable { get; set; }
@@ -140,8 +149,8 @@ internal class SingleLineViewModel: EdtViewModelBase
                 dteq.PowerCable.ValidateCableSize(dteq.PowerCable);
                 dteq.PowerCable.CreateTypeList(dteq);
             }
-            else if (_selectedLoadCable.GetType() == typeof(ComponentModel)) {
-                var component = (ComponentModel)_selectedLoadCable;
+            else if (_selectedLoadCable is ComponentModelBase) {
+                var component = (ComponentModelBase)_selectedLoadCable;
                 //TODO - Style for cable graphic so that IsValid is detected without reloading
                 component.PowerCable.ValidateCableSize(component.PowerCable);
                 component.PowerCable.CreateTypeList((LoadModel)component.Owner);

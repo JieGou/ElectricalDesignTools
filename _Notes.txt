@@ -5,10 +5,12 @@ In Progress PROTECTION DEVICE MANAGER
 	- Type = ProtectionDevice, Starter,
 	- SubType = DefaultDcn,, Diconnect,
 
+	- Starter / Protective Device Editors specific for each type
+		
 	Library 
 		- Starter sizes for other voltages
+		- StarterSizes list for dropown
 	
-	- Starter / Protective Device Editor
 
 	- LCS cable to Starter for DPN/CDP/SPL
 	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer lo1048ad) PdTypeList creation
