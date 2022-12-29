@@ -43,7 +43,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         #region Properties
 
-
+        public virtual bool CanIncludeMotorStarter { get; set; }
         public int ProtectionDeviceId { get; set; }
         public IProtectionDevice ProtectionDevice { 
             get => _protectionDevice; 

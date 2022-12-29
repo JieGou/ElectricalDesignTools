@@ -26,7 +26,6 @@ public abstract class ComponentModelBase : IComponentEdt
 
     public ComponentModelBase()
     {
-        //Category = Categories.Component.ToString();
     }
 
     public bool IsSelected { get; set; } = false;

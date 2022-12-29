@@ -153,6 +153,7 @@
         </Grid>
     </DataTemplate>
     
+    
     <!--DTEQ-->
     <!--Transformer As Load-->
     <DataTemplate x:Key="TransformerTemplate" DataType="{x:Type edtDteqModels:XfrModel}">
@@ -311,7 +312,7 @@
 
                             <!--Main Breaker-->
                             <ContentControl Content="{Binding ProtectionDevice}" 
-                                            Style="{StaticResource OCPDTemplateStyle}"
+                                            Style="{StaticResource PdStarterTemplateStyle}"
                                             ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
                                             Margin="-6 0"
                                             Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}">
@@ -470,9 +471,24 @@
             <DataTrigger Binding="{Binding Path=Type}" Value="MOTOR">
                 <Setter Property="ContentTemplate" Value="{StaticResource MotorTemplate}"/>
             </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Type}" Value="Heater">
+                <Setter Property="ContentTemplate" Value="{StaticResource HeaterTemplate}"/>
+            </DataTrigger>
         </Style.Triggers>
     </Style>
-
+    
+    <Style x:Key="LoadTemplateStyle_CP" TargetType="{x:Type ContentPresenter}">
+        <Setter Property="ContentTemplate" Value="{StaticResource HeaterTemplate}"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Type}" Value="MOTOR">
+                <Setter Property="ContentTemplate" Value="{StaticResource MotorTemplate}"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=Type}" Value="HEATER">
+                <Setter Property="ContentTemplate" Value="{StaticResource HeaterTemplate}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
     <templateSelectors:LoadGraphicTemplateSelector 
                 x:Key="LoadTemplateSelector"
                 MotorTemplate="{StaticResource MotorTemplate}"

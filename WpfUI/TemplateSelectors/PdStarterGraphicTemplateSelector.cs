@@ -44,19 +44,18 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
             return EmptyTemplate;
         }
 
-        //Splitter
+        //Stand Alone
         if (pd.IsStandAlone == true) {
             if (pd.Type == "FDS") return FdsTemplate_StandAlone;
             if (pd.Type.Contains("MCP")) return DolTemplate_StandAlone;
         } 
 
 
-       
-
-
-
-
         var pdOnwer = (IPowerConsumer)pd.Owner;
+
+        if (pdOnwer.FedFrom.GetType() == typeof(XfrModel)) {
+            return EmptyTemplate;
+        }
 
         if (pd.Type == "BKR" && pdOnwer.FedFrom.GetType() == typeof(XfrModel)) {
             return EmptyTemplate;

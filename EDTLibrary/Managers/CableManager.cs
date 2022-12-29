@@ -144,7 +144,7 @@ public class CableManager
                 IComponentEdt previousComponent = null;
                 foreach (var component in powerComponentOwner.CctComponents) {
 
-                    if (component.SubCategory == SubCategories.CctComponent.ToString()) {}
+                    if (component.SubCategory == Categories.CctComponent.ToString()) {}
                     else if (component.SubCategory == SubCategories.ProtectionDevice.ToString()) {}
                     else {
                         continue;
@@ -206,7 +206,7 @@ public class CableManager
         IComponentEdt previousComponent = null;
         foreach (var component in powerComponentOwner.CctComponents) {
 
-            if (component.SubCategory != SubCategories.CctComponent.ToString()) continue;
+            if (component.SubCategory != Categories.CctComponent.ToString()) continue;
 
             if (previousComponent == null) {
                 component.PowerCable.Source = powerComponentOwner.FedFrom.Tag;

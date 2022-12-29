@@ -63,13 +63,13 @@ public partial class SL_LoadGraphicView : UserControl
     #region Click Events
     private void Bucket_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ContentControl senderControl = (ContentControl)sender;
+        var senderControl = (FrameworkElement)sender;
         var dataContext = senderControl.DataContext;
 
         try {
 
             if (dataContext is IEquipment) {
-               OnEquipmentSelected(dataContext as IEquipment);
+                OnEquipmentSelected(dataContext as IEquipment);
             }
 
         }
@@ -80,24 +80,32 @@ public partial class SL_LoadGraphicView : UserControl
 
     private void ComponentCable_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ContentControl senderControl = (ContentControl)sender;
+        var senderControl = (FrameworkElement)sender; //must be a ContentControl because ContentPresenter send the Cable itself as the DataContext
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
-            if (dataContext is ComponentModelBase) {
-                ComponentModelBase component = (ComponentModelBase)dataContext;
-                OnEquipmentCableSelected(component);
+            if (dataContext is ILoad) {
+                ILoad load = (LoadModel)dataContext;
+                OnEquipmentCableSelected(load);
             }
             else if (dataContext is DistributionEquipment) {
                 IPowerConsumer dteq = DteqFactory.Recast(dataContext);
                 OnEquipmentCableSelected(dteq);
             }
+            else if (dataContext is ComponentModelBase) {
+                ComponentModelBase comp = (ComponentModelBase)dataContext;
+                OnEquipmentCableSelected(comp);
+            }
+        }
+        else if (dataContext is ICable) {
+            ICable cable = (CableModel)dataContext;
+            OnEquipmentCableSelected(cable.Load);
         }
     }
 
     private void Component_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ContentControl senderControl = (ContentControl)sender;
+        var senderControl = (FrameworkElement)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
@@ -107,7 +115,7 @@ public partial class SL_LoadGraphicView : UserControl
 
     private void EquipmentCable_ContentControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ContentControl senderControl = (ContentControl)sender;
+        var senderControl = (FrameworkElement)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
@@ -116,15 +124,19 @@ public partial class SL_LoadGraphicView : UserControl
                 OnEquipmentCableSelected(load);
             }
             else if (dataContext is DistributionEquipment) {
-                IPowerConsumer  dteq = DteqFactory.Recast(dataContext);
+                IPowerConsumer dteq = DteqFactory.Recast(dataContext);
                 OnEquipmentCableSelected(dteq);
             }
+        }
+        else if (dataContext is ICable) {
+            ICable cable = (CableModel)dataContext;
+            OnEquipmentCableSelected(cable.Load);
         }
     }
 
     private void Equipment_ContentControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
-        ContentControl senderControl = (ContentControl)sender;
+        var senderControl = (ContentPresenter)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {

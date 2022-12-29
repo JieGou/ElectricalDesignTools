@@ -34,9 +34,6 @@
             <Grid Background="Transparent"
                   Style="{StaticResource GraphicHighlightStyle}"
                   Visibility="Collapsed">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0"/>
-                </Grid.ColumnDefinitions>
             </Grid>
         </StackPanel>
     </DataTemplate>
@@ -325,15 +322,15 @@
         </StackPanel>
     </DataTemplate>
 
-    <!--DOL Starter Tempalte Bucket-->
+    <!--DOL Starter Template Bucket-->
     <DataTemplate x:Key="DOLStarterTemplate_Bucket">
         <StackPanel Orientation="Vertical">
             <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DOLStarterTemplate}"/>
             <SingleLineLoadGraphics:SingleLineDashedBorder/>
         </StackPanel>
     </DataTemplate>
-    
-    <!--DOL Starter Tempalte Stand Alone-->
+
+    <!--DOL Starter Template Stand Alone-->
     <DataTemplate x:Key="DOLStarterTemplate_StandAlone">
         <StackPanel Orientation="Vertical" >
             <Grid>
@@ -848,66 +845,108 @@
 
 
 
-    <!--TEMPLATE STYLES-->
-    <!--OCPDTemplateStyle-->
-    <Style x:Key="OCPDTemplateStyle" TargetType="{x:Type ContentControl}">
+
+   
+
+    <templateSelectors:DteqOCPDTemplateSelector 
+                x:Key="DteqOCPDTemplateSelector"
+                BreakerTemplate="{StaticResource BreakerTemplate}" />
+    
+    <!--Pd Starter Template Styles / Selector-->
+    <Style x:Key="PdStarterTemplateStyle" TargetType="{x:Type ContentControl}">
         <Setter Property="Visibility" Value="Visible"/>
         <Style.Triggers>
 
-            <DataTrigger Binding="{Binding IsStandAlone}" Value="true">
-                <Setter Property="Visibility" Value="Collapsed"/>
-            </DataTrigger>
-
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Type}" Value="BKR" />
+                    <Condition Binding="{Binding Path=Type}" Value="BKR" />
                     <Condition Binding="{Binding FedFrom}" Value="{x:Type edtDteqModels:XfrModel}" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate}"/>
                 </MultiDataTrigger.Setters>
+
             </MultiDataTrigger>
 
-            <DataTrigger Binding="{Binding Type}" Value="BKR">
-                <Setter Property="ContentTemplate" Value="{StaticResource BreakerTemplate_Bucket}"/>
+
+            <DataTrigger Binding="{Binding IsStandAlone}" Value="true">
+                <Setter Property="Visibility" Value="Collapsed"/>
             </DataTrigger>
 
+            <DataTrigger Binding="{Binding Path=Type}" Value="MCP_FVNR">
+                <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
+            </DataTrigger>
+            
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="PdStarterTemplateStyle_CP" TargetType="{x:Type ContentPresenter}">
+        <Setter Property="Visibility" Value="Visible"/>
+        <Style.Triggers>
 
-    <!--ComponentTemplateStyle-->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding Path=Type}" Value="BKR" />
+                    <Condition Binding="{Binding FedFrom}" Value="{x:Type edtDteqModels:XfrModel}" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="ContentTemplate" Value="{StaticResource EmptyTemplate}"/>
+                </MultiDataTrigger.Setters>
+
+            </MultiDataTrigger>
+
+            <DataTrigger Binding="{Binding IsStandAlone}" Value="true">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=Type}" Value="MCP_FVNR">
+                <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
+            </DataTrigger>
+
+
+
+        </Style.Triggers>
+    </Style>
+    
+    <templateSelectors:PdStarterGraphicTemplateSelector 
+            x:Key="PdStarterTemplateSelector"
+            EmptyTemplate="{StaticResource EmptyTemplate}" 
+            BreakerTemplate="{StaticResource BreakerTemplate_Bucket}"
+        
+            DolTemplate="{StaticResource DOLStarterTemplate_Bucket}"
+            DolTemplate_StandAlone="{StaticResource DOLStarterTemplate_StandAlone}"
+        
+            FdsTemplate="{StaticResource FdsTemplate}" 
+            FdsTemplate_StandAlone="{StaticResource FdsTemplate_StandAlone}" 
+    />
+
+    <!--Component Template Style / Selector-->
     <Style x:Key="ComponentTemplateStyle" TargetType="{x:Type ContentControl}">
         <Style.Triggers>
 
             <DataTrigger Binding="{Binding Path=Type}" Value="UDS">
                 <Setter Property="ContentTemplate" Value="{StaticResource UdsTemplate}"/>
             </DataTrigger>
-            
+
             <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
                 <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
             </DataTrigger>
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="ComponentTemplateStyle_CP" TargetType="{x:Type ContentPresenter}">
+        <Style.Triggers>
 
-    <templateSelectors:DteqOCPDTemplateSelector 
-                x:Key="DteqOCPDTemplateSelector"
-                BreakerTemplate="{StaticResource BreakerTemplate}" />
+            <DataTrigger Binding="{Binding Path=Type}" Value="UDS">
+                <Setter Property="ContentTemplate" Value="{StaticResource UdsTemplate}"/>
+            </DataTrigger>
 
-
-    <templateSelectors:PdStarterGraphicTemplateSelector 
-                x:Key="PdStarterTemplateSelector"
-                EmptyTemplate="{StaticResource EmptyTemplate}" 
-                BreakerTemplate="{StaticResource BreakerTemplate_Bucket}"
-        
-                DolTemplate="{StaticResource DOLStarterTemplate_Bucket}"
-                DolTemplate_StandAlone="{StaticResource DOLStarterTemplate_StandAlone}"
-        
-                FdsTemplate="{StaticResource FdsTemplate}" 
-                FdsTemplate_StandAlone="{StaticResource FdsTemplate_StandAlone}" 
-        />
-
+            <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
+                <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
     <templateSelectors:ComponentGraphicTemplateSelector 
                 x:Key="ComponentTemplateSelector"
                 UdsTemplate="{StaticResource UdsTemplate}"

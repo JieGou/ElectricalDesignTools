@@ -75,7 +75,7 @@
 
             <!--Main Breaker-->
             <ContentControl Content="{Binding}" 
-                            Style="{StaticResource OCPDTemplateStyle}"
+                            Style="{StaticResource PdStarterTemplateStyle}"
                             ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
                             Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"/>
 
@@ -460,7 +460,7 @@
 
             <!--Main Breaker-->
             <ContentControl Content="{Binding}" 
-                            Style="{StaticResource OCPDTemplateStyle}"
+                            Style="{StaticResource PdStarterTemplateStyle}"
                             ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
                             Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"/>
 

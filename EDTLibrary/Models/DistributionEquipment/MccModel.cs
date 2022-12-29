@@ -16,7 +16,7 @@ namespace EDTLibrary.Models.DistributionEquipment
     [AddINotifyPropertyChangedInterface]
     public class MccModel : DistributionEquipment
     {
-        
+        public virtual bool CanIncludeMotorStarter { get; set; }
 
     }
 

@@ -62,58 +62,61 @@
 
 
             <!--OCPD-->    <!--Style is for instant graphic updates-->
-            <ContentControl Content="{Binding ProtectionDevice, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top"
-                            Style="{StaticResource OCPDTemplateStyle}"
-                            ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
-                            PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"  >
-            </ContentControl>
+            <ContentPresenter Content="{Binding ProtectionDevice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top"
+                              Style="{StaticResource PdStarterTemplateStyle_CP}"
+                              ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
+                              PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"  >
+            </ContentPresenter>
 
 
             <!--COMPONENTS-->
-                <ItemsControl ItemsSource="{Binding CctComponents}" 
+            <ItemsControl ItemsSource="{Binding CctComponents}" 
                           DockPanel.Dock="Top"
                       HorizontalAlignment="Stretch">
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Setter Property="FrameworkElement.DataContext" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical"
+                                HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="5"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical"
-                                    HorizontalAlignment="Left">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="40"/>
-                                        <ColumnDefinition Width="5"/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
 
-
-                                    <!--Cable -->
-                                    <ContentControl Content="{Binding Path=PowerCable}"
-                                                ContentTemplate="{StaticResource CableTemplate}"
-                                                Grid.Column="2"
-                                                PreviewMouseLeftButtonDown="ComponentCable_PreviewMouseLeftButtonDown"
-                                                Focusable="True">
-                                    </ContentControl>
-                                </Grid>
+                                <!--Cable -->
+                                <!--must be a ContentControl because ContentPresenter send the Cable itself as the DataContext-->
+                                <ContentControl Content="{Binding PowerCable}"
+                                                  ContentTemplate="{StaticResource CableTemplate}"
+                                                  Grid.Column="2"
+                                                  PreviewMouseLeftButtonDown="ComponentCable_PreviewMouseLeftButtonDown"
+                                                  Focusable="True">
+                                </ContentControl>
+                            </Grid>
 
                                 <!--Component-->
+                            <ContentPresenter Style="{StaticResource ComponentTemplateStyle_CP}"
+                                                Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
+                                                ContentTemplateSelector="{StaticResource ComponentTemplateSelector}"
+                                                PreviewMouseLeftButtonDown="Component_PreviewMouseLeftButtonDown" >
 
-                            <ContentControl 
-                                            Style="{StaticResource ComponentTemplateStyle}"
-                                            Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
-                                            ContentTemplateSelector="{StaticResource ComponentTemplateSelector}"
-                                            PreviewMouseLeftButtonDown="Component_PreviewMouseLeftButtonDown" >
-
-                            </ContentControl>
+                            </ContentPresenter>
 
 
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
                
             <!--Load Cable-->
@@ -130,11 +133,11 @@
 
 
                 <!--Cable -->
-                <ContentControl Content="{Binding PowerCable}"
-                                ContentTemplate="{StaticResource CableTemplate}"
-                                Grid.Column="2" 
-                                PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown">
-                </ContentControl>
+                <ContentPresenter Content="{Binding PowerCable}"
+                                  ContentTemplate="{StaticResource CableTemplate}"
+                                  Grid.Column="2" 
+                                  PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown">
+                </ContentPresenter>
             </Grid>
 
             <!--Load-->
@@ -149,22 +152,22 @@
                         HorizontalAlignment="Left">
 
                     <!--Load-->
-                    <ContentControl DataContext="{Binding}" Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
-                                    Style="{StaticResource LoadTemplateStyle}"
-                                    PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown" 
-                                    Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
-                                    ConverterParameter=Load}" >
-                    </ContentControl>
+                    <ContentPresenter DataContext="{Binding}" Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
+                                      Style="{StaticResource LoadTemplateStyle_CP}"
+                                      PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown" 
+                                      Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
+                                                           ConverterParameter=Load}" >
+                    </ContentPresenter>
 
                     
-                    <!--Dteq as Load-->
-                    <ContentControl Content="{Binding}" 
-                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                    PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown" 
-                                    Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
-                                    ConverterParameter=DteqAsLoad}" >
+                    <!--Dteq As Load-->
+                    <ContentPresenter DataContext="{Binding}" Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
+                                      ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                                      PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown" 
+                                      Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
+                                                           ConverterParameter=DteqAsLoad}" >
                         
-                    </ContentControl>
+                    </ContentPresenter>
 
                     
                 </StackPanel>
@@ -183,14 +186,24 @@
                 </Grid.RowDefinitions>
                 
                 <!--Cable -->
-                <ContentControl DataContext="{Binding AssignedLoads[0] }" Content="{Binding PowerCable}" 
-                                ContentTemplate="{StaticResource CableTemplate}"
-                                Grid.Column="2" 
-                                PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
-                                Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
-                                    ConverterParameter=Dteq_Load}" >
-                    
-                </ContentControl>
+                <ContentPresenter DataContext="{Binding AssignedLoads[0].PowerCable}" Content="{Binding AssignedLoads[0].PowerCable}" 
+                                  ContentTemplate="{StaticResource CableTemplate}"
+                                  Grid.Column="2" 
+                                  PreviewMouseDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
+                                  >
+                    <ContentPresenter.Style>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Load.FedFrom.Type}" Value="XFR">
+                                    <Setter Property="Visibility" Value="Visible"/>
+
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ContentPresenter.Style>
+                </ContentPresenter>
+                
             </Grid>
 
             <!--DTEQ's Load-->
@@ -204,13 +217,25 @@
                 <StackPanel Orientation="Vertical" Grid.Column="1"
                         HorizontalAlignment="Left">
 
-                    <ContentControl DataContext="{Binding AssignedLoads[0] }" Content="{Binding }" 
-                                    ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
-                                    PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown"
-                                    Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
-                                    ConverterParameter=Dteq_Load}" >
-                        
-                    </ContentControl>
+                    <ContentPresenter DataContext="{Binding AssignedLoads[0]}" Content="{Binding AssignedLoads[0]}" 
+                                      ContentTemplateSelector="{StaticResource LoadTemplateSelector}"
+                                      PreviewMouseDown="Equipment_ContentControl_PreviewMouseDown"
+                                      >
+                        <ContentPresenter.Style>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding FedFrom.Type}" Value="XFR">
+                                        <Setter Property="Visibility" Value="Visible"/>
+
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentPresenter.Style>
+
+                        <!--Visibility="{Binding Converter={StaticResource SingleLineGraphicTypeToVisibilityConverter}, 
+                                                           ConverterParameter=Dteq_Load}"-->
+                    </ContentPresenter>
                 </StackPanel>
             </Grid>
 

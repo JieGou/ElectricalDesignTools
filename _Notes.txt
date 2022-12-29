@@ -2,16 +2,20 @@
 In Progress PROTECTION DEVICE MANAGER
 
 	- Category = CctComponent
-	- Type = ProtectionDevice vs Component
+	- Type = ProtectionDevice, Starter,
 	- SubType = DefaultDcn,, Diconnect,
 
+	Library 
+		- Starter sizes for other voltages
+	
+	- Starter / Protective Device Editor
 
-	- Starter Component for PanelFed Equipment
-	- Starter sizes for other voltages
-	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer load) PdTypeList creation
+	- LCS cable to Starter for DPN/CDP/SPL
+	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer lo1048ad) PdTypeList creation
 	- ProtectionDeviceEditor
-	- add controller for Motor PD's
 	- Tag conflict for PD vs Disconnect
+	- Move Component Up/Down into ComponentModelBase
+	
 
 Bugs
 	- SCCA/R calculation on DTEQ size change
@@ -20,6 +24,7 @@ Bugs
 
 standalone starter / splitter
 OcpdModel
+
 
 Misc.
 	- Edt equipment property editor

@@ -37,21 +37,23 @@ namespace WpfUI.Converters
             switch (level) {
 
                 case "Load":
-                    if (load.GetType() != typeof(LoadModel)) {
-                        return Visibility.Collapsed;
+                    if (load.GetType() == typeof(LoadModel)) {
+                        return Visibility.Visible;
                     }
                     break;
 
                 case "DteqAsLoad":
-                    if (load.GetType() != typeof(LoadModel)) {
+                    if (load is DistributionEquipment) {
+                        return Visibility.Visible;
                     }
-                    return Visibility.Visible;
 
                     break;
 
                 case "Dteq_Load":
-                    if (load.FedFrom.Type == DteqTypes.XFR.ToString()) {
-                        return Visibility.Visible;
+                    if (load != null) {
+                        if (load.FedFrom.Type == DteqTypes.XFR.ToString()) {
+                            return Visibility.Visible;
+                        } 
                     }
                     break;
 

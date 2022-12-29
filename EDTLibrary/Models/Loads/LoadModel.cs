@@ -123,10 +123,9 @@ namespace EDTLibrary.Models.Loads
 
                 allowCalculations = false;
                 LoadUnitSelector.SelectUnits(this);
-                Unit = Unit;
-                    StandAloneStarterBool = false;
+                StandAloneStarterBool = false;
 
-                if (_type == LoadTypes.MOTOR.ToString()) {
+                if (_type == LoadTypes.MOTOR.ToString() && FedFrom.Type == DteqTypes.DPN.ToString() && FedFrom.Type == DteqTypes.CDP.ToString() && FedFrom.Type == DteqTypes.SPL.ToString()) {
                     StandAloneStarterBool = true;
                 }
                 allowCalculations = true;

@@ -71,7 +71,7 @@ public partial class SL_DteqGraphicView : UserControl
     #region Click Events
     private void Bucket_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ContentControl senderControl = (ContentControl)sender;
+        var senderControl = (FrameworkElement)sender;
         var dataContext = senderControl.DataContext;
 
         try {
@@ -88,7 +88,7 @@ public partial class SL_DteqGraphicView : UserControl
 
     private void ComponentCable_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ContentControl senderControl = (ContentControl)sender;
+        var senderControl = (FrameworkElement)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
@@ -105,7 +105,7 @@ public partial class SL_DteqGraphicView : UserControl
 
     private void Component_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ContentControl senderControl = (ContentControl)sender;
+        var senderControl = (FrameworkElement)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
@@ -115,7 +115,7 @@ public partial class SL_DteqGraphicView : UserControl
 
     private void EquipmentCable_ContentControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        ContentControl senderControl = (ContentControl)sender;
+        var senderControl = (FrameworkElement)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {
@@ -132,7 +132,7 @@ public partial class SL_DteqGraphicView : UserControl
 
     private void Equipment_ContentControl_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
-        ContentControl senderControl = (ContentControl)sender;
+        var senderControl = (FrameworkElement)sender;
         var dataContext = senderControl.DataContext;
 
         if (dataContext is IEquipment) {

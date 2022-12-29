@@ -2,6 +2,7 @@
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Components.ProtectionDevices;
+
+[AddINotifyPropertyChangedInterface]
 public class ProtectionDeviceModel : ComponentModelBase, IProtectionDevice
 {
     private bool _isStandAlone;

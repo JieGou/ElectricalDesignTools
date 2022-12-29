@@ -109,7 +109,7 @@
 
             <!--Main Breaker-->
             <ContentControl Content="{Binding ProtectionDevice}" 
-                        Style="{StaticResource OCPDTemplateStyle}"
+                        Style="{StaticResource PdStarterTemplateStyle}"
                         ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
                         Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"
                         PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"     />
@@ -193,7 +193,7 @@
 
                 <!--Main Breaker-->
                 <ContentControl Content="{Binding ProtectionDevice}" 
-                        Style="{StaticResource OCPDTemplateStyle}"
+                        Style="{StaticResource PdStarterTemplateStyle}"
                         ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
                         Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"
                         PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"     />
