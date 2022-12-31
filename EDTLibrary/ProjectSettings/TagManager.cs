@@ -141,7 +141,7 @@ public class TagManager
             else if (eq.Type.Contains(StarterTypes.VSD.ToString()) || eq.Type.Contains(StarterTypes.VFD.ToString())) {
                 return TagSettings.DriveSuffix;
             }
-            else if (eq.Type == ComponentTypes.UDS.ToString() || eq.Type == ComponentTypes.UDS.ToString()) {
+            else if (eq.Type == CctComponentTypes.UDS.ToString() || eq.Type == CctComponentTypes.UDS.ToString()) {
                 return TagSettings.DisconnectSuffix;
             }
 

@@ -22,7 +22,7 @@
              d:Background="AliceBlue">
 
 
-    <ScrollViewer VerticalScrollBarVisibility="auto" 
+    <ScrollViewer VerticalScrollBarVisibility="Auto" 
                   HorizontalScrollBarVisibility="auto">
         <Grid>
             <Grid.RowDefinitions>
@@ -37,10 +37,10 @@
                                 DataContext="{Binding}"
                                 Margin="0 1 0 0"/>
 
-            <editors:AreaEditor Grid.Row="1"
+            <!--<editors:AreaEditor Grid.Row="1"
                                 Grid.Column="0"
                                 DataContext="{Binding}"
-                                Margin="0 1 0 0"/>
+                                Margin="0 1 0 0"/>-->
 
             <editors:ComponentListEditor Grid.Row="2"
                                         Grid.Column="0"

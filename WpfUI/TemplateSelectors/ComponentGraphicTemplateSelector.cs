@@ -32,21 +32,21 @@ public class ComponentGraphicTemplateSelector : DataTemplateSelector
             if (component.Type.Contains("MCP")) return DolTemplate_StandAlone;
         }
 
-        if (component.Type == ComponentTypes.UDS.ToString()) {
+        if (component.Type == CctComponentTypes.UDS.ToString()) {
             selectedTemplate = UdsTemplate;
         }
 
-        else if (component.Type == ComponentTypes.FDS.ToString()) {
+        else if (component.Type == CctComponentTypes.FDS.ToString()) {
             selectedTemplate = FdsTemplate;
         }
 
-        else if (component.Type == ComponentTypes.VFD.ToString()  || component.Type == ComponentTypes.VSD.ToString()) {
+        else if (component.Type == CctComponentTypes.VFD.ToString()  || component.Type == CctComponentTypes.VSD.ToString()) {
             selectedTemplate = VsdTemplate;
         }
-        else if (component.Type == ComponentTypes.RVS.ToString()) {
+        else if (component.Type == CctComponentTypes.RVS.ToString()) {
             selectedTemplate = RvsTemplate;
         }
-        else if (component.Type == ComponentTypes.RVS.ToString()) {
+        else if (component.Type == CctComponentTypes.RVS.ToString()) {
             selectedTemplate = RvsTemplate;
         }
 

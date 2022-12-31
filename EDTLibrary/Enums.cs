@@ -21,12 +21,7 @@ namespace EDTLibrary {
         RACEWAY,
     }
 
-    public enum SubCategories
-    {
-        CctComponent,
-        AuxComponent,
-        ProtectionDevice,
-    }
+    
 
     public enum DteqTypes {
         XFR,
@@ -45,8 +40,15 @@ namespace EDTLibrary {
         PANEL,
         OTHER
     }
-
-    public enum ComponentTypes
+    public enum SubCategories
+    {
+        CctComponent,
+        AuxComponent,
+        ProtectionDevice,
+        Starter,
+        Disconnect,
+    }
+    public enum CctComponentTypes
     {
         UDS,
         FDS,
@@ -55,38 +57,7 @@ namespace EDTLibrary {
         RVS,
         LCS,
         DOL,
-        CircuitComponent,
-        ProtectionDevice,
-    }
-    public enum CctComponentTypes
-    {
-        Dicsonnect,
-        Starter,
-        StandAloneStarter,
-        JunctionBox,
 
-        DOL,
-        UDS,
-        FDS,
-        VFD,
-        VSD,
-        RVS,
-        JB,
-    }
-
-    public enum StarterTypes
-    {
-        DOL,
-        VFD,
-        VSD,
-        RVS,
-    }
-    public enum CctComponentSubTypes
-    {
-        DefaultDcn,
-        DefaultStarter,
-        StandAloneDrive,
-        StandAloneStarter,
     }
 
     public enum PdTypes
@@ -100,6 +71,23 @@ namespace EDTLibrary {
         StandAloneDrive,
         StandAloneStarter,
     }
+    public enum StarterTypes
+    {
+        DOL,
+        VFD,
+        VSD,
+        RVS,
+    }
+
+    public enum CctComponentSubTypes
+    {
+        DefaultDcn,
+        DefaultStarter,
+        StandAloneDrive,
+        StandAloneStarter,
+    }
+
+    
 
     
     public enum JunctionBoxTypes

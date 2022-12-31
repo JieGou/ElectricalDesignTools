@@ -64,7 +64,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             get { return _tag; }
             set
             {
-                if (value == null || value == _tag) return;
+                if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value) || value == _tag) return;
                 if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
                     return;
                 }

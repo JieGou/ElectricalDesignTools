@@ -23,16 +23,17 @@
     </UserControl.Resources>
     <Grid>
         <controls:EdtGroupBox Grid.Row="0"
-                                  Header="Area Properties"
-                                  HeaderForeGround="White"
-                                  HeaderBackground="Gray"
+                            Header="Area Properties"
+                            HeaderForeGround="White"
+                            HeaderBackground="Gray"
+                            Visibility="Visible"
                                   >
-            <Grid>
+            <Grid ShowGridLines="False">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
@@ -49,7 +50,7 @@
                 
                 <ComboBox Grid.Row="0" Grid.Column="3" 
                           Template="{DynamicResource ComboBoxBase}"
-                          Width="115" HorizontalAlignment="Right"
+                          Width="115" HorizontalAlignment="Left"
                           ItemsSource="{Binding Path=DataContext.ListManager.AreaList, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type Window}}}"
@@ -99,6 +100,7 @@
                 <ComboBox Template="{DynamicResource ComboBoxBase}" 
                           Grid.Row="1" Grid.Column="3"
                           Width="115"
+                          HorizontalAlignment="Left"
                           ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, 
                                               RelativeSource={RelativeSource Mode=FindAncestor, 
                                               AncestorType={x:Type Window}}}"
@@ -119,6 +121,7 @@
                 <ComboBox Template="{DynamicResource ComboBoxBase}" 
                           Grid.Row="2" Grid.Column="3"
                           Width="115"
+                          HorizontalAlignment="Left"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type Window}}}"

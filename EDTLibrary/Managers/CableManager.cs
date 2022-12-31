@@ -144,8 +144,8 @@ public class CableManager
                 IComponentEdt previousComponent = null;
                 foreach (var component in powerComponentOwner.CctComponents) {
 
-                    if (component.SubCategory == Categories.CctComponent.ToString()) {}
-                    else if (component.SubCategory == SubCategories.ProtectionDevice.ToString()) {}
+                    if (component.Category == Categories.CctComponent.ToString()) {}
+                    else if (component.Category == SubCategories.ProtectionDevice.ToString()) {}
                     else {
                         continue;
                     }

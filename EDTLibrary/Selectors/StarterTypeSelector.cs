@@ -20,6 +20,6 @@ internal class StarterTypeSelector
             return EdtSettings.LoadDefaultPdTypeLV_Motor;
         }
 
-        return ComponentTypes.VFD.ToString();
+        return CctComponentTypes.VFD.ToString();
     }
 }

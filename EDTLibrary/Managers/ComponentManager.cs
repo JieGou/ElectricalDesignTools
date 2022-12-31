@@ -24,7 +24,7 @@ public class ComponentManager
     {
         if (listManager == null) return;
 
-        string subCategory = SubCategories.CctComponent.ToString();
+        string subCategory = SubCategories.Starter.ToString();
         string type = StarterTypeSelector.SelectStarterType((ILoad)componentUser);
         string subType = CctComponentSubTypes.DefaultStarter.ToString();
 
@@ -67,8 +67,8 @@ public class ComponentManager
 
         if (listManager == null) return;
 
-        string subCategory = SubCategories.CctComponent.ToString();
-        string type = ComponentTypes.UDS.ToString();
+        string subCategory = SubCategories.Disconnect.ToString();
+        string type = CctComponentTypes.UDS.ToString();
         string subType = CctComponentSubTypes.DefaultDcn.ToString();
 
         ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);

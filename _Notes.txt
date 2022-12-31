@@ -2,10 +2,12 @@
 In Progress PROTECTION DEVICE MANAGER
 
 	- Category = CctComponent
-	- Type = ProtectionDevice, Starter,
+	- Sub-Category = ProtectionDevice, Starter, Disconnect
+	- Type = BKR, FDS, UDS, DOL, VSD, 
 	- SubType = DefaultDcn,, Diconnect,
 
-	- Starter / Protective Device Editors specific for each type
+
+	- Starter / Disconnect / Breaker Editors specific for each type
 		
 	Library 
 		- Starter sizes for other voltages
@@ -23,6 +25,7 @@ Bugs
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
 	- added DTEQ aren't in the right click menu Set FedFrom list
+	- FedFromList doesn't on property editor doesn't show utitlity
 
 standalone starter / splitter
 OcpdModel

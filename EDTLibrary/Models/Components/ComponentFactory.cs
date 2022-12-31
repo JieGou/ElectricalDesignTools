@@ -128,51 +128,51 @@ public class ComponentFactory
     }
 
     
-    public static ComponentModel CreateDrive(IComponentUser componentUser, string type, string subType, ListManager listManager)
-    {
-        IComponentEdt newDrive = new ComponentModel();
+    //public static ComponentModel CreateDrive(IComponentUser componentUser, string type, string subType, ListManager listManager)
+    //{
+    //    IComponentEdt newDrive = new ComponentModel();
 
-        if (listManager.CompList.Count < 1) {
-            newDrive.Id = 1;
-        }
-        else {
-            newDrive.Id = listManager.CompList.Select(c => c.Id).Max() + 1;
-        }
-        newDrive.Category = Categories.CctComponent.ToString();
-        newDrive.SubCategory = SubCategories.CctComponent.ToString();
-        newDrive.Owner = componentUser;
-        newDrive.OwnerId = componentUser.Id;
-        newDrive.OwnerType = componentUser.GetType().ToString();
-        newDrive.Type = type;
-        newDrive.SubType = subType;
-
-
-            newDrive.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DriveSuffix;
-            var powerConsumer = (IPowerConsumer)componentUser;
-            newDrive.Area = powerConsumer.FedFrom.Area;
+    //    if (listManager.CompList.Count < 1) {
+    //        newDrive.Id = 1;
+    //    }
+    //    else {
+    //        newDrive.Id = listManager.CompList.Select(c => c.Id).Max() + 1;
+    //    }
+    //    newDrive.Category = Categories.CctComponent.ToString();
+    //    newDrive.SubCategory = SubCategories.Starter.ToString();
+    //    newDrive.Owner = componentUser;
+    //    newDrive.OwnerId = componentUser.Id;
+    //    newDrive.OwnerType = componentUser.GetType().ToString();
+    //    newDrive.Type = type;
+    //    newDrive.SubType = subType;
 
 
-        //Size
+    //        newDrive.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagSettings.DriveSuffix;
+    //        var powerConsumer = (IPowerConsumer)componentUser;
+    //        newDrive.Area = powerConsumer.FedFrom.Area;
 
 
-        //Order of components
-        if (newDrive.SubCategory == SubCategories.CctComponent.ToString()) {
-            var defaultDcn = componentUser.CctComponents.FirstOrDefault(c => c.SubType == CctComponentSubTypes.DefaultDcn.ToString());
-            if (newDrive.SubType != CctComponentSubTypes.DefaultDcn.ToString() && defaultDcn != null) {
-                componentUser.CctComponents.Insert(componentUser.CctComponents.Count - 1, newDrive);
-            }
-            else {
-                componentUser.CctComponents.Add(newDrive);
-            }
-        }
-
-        listManager.CompList.Add(newDrive);
-        DaManager.UpsertComponentAsync((ComponentModel)newDrive);
-        newDrive.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
+    //    //Size
 
 
-        return (ComponentModel)newDrive;
-    }
+    //    //Order of components
+    //    if (newDrive.SubCategory == SubCategories.CctComponent.ToString()) {
+    //        var defaultDcn = componentUser.CctComponents.FirstOrDefault(c => c.SubType == CctComponentSubTypes.DefaultDcn.ToString());
+    //        if (newDrive.SubType != CctComponentSubTypes.DefaultDcn.ToString() && defaultDcn != null) {
+    //            componentUser.CctComponents.Insert(componentUser.CctComponents.Count - 1, newDrive);
+    //        }
+    //        else {
+    //            componentUser.CctComponents.Add(newDrive);
+    //        }
+    //    }
+
+    //    listManager.CompList.Add(newDrive);
+    //    DaManager.UpsertComponentAsync((ComponentModel)newDrive);
+    //    newDrive.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
+
+
+    //    return (ComponentModel)newDrive;
+    //}
 
     public static LocalControlStationModel CreateLocalControlStation(IComponentUser componentOwner, ListManager listManager)
     {

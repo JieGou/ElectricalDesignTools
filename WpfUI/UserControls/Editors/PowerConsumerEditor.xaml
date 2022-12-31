@@ -9,6 +9,8 @@
              xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              
+             xmlns:editors="clr-namespace:WpfUI.UserControls.Editors"
+             
              xmlns:controls="clr-namespace:WpfUI.Controls"
              xmlns:helpers="clr-namespace:WpfUI.Helpers"
              
@@ -16,29 +18,29 @@
              d:Background="AliceBlue">
 
     <controls:EdtGroupBox Grid.Row="0"
-                                  Header="Basic Properties"
-                                  HeaderForeGround="White"
-                                  HeaderBackground="Gray"
-                                  Margin="0 1 0 0">
-        <Grid Grid.Row="0">
+                            Header="Basic Properties"
+                            HeaderForeGround="White"
+                            HeaderBackground="Gray"
+                            >
+        <Grid Grid.Row="0"
+              ShowGridLines="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="25"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="25"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="85"/>
@@ -46,7 +48,7 @@
             </Grid.ColumnDefinitions>
 
             <Button Content="Convert &#x0a;To Load"
-                            Grid.Row="7" Grid.RowSpan="4"
+                            Grid.Row="5" Grid.RowSpan="4"
                             Grid.ColumnSpan="3"
                             Width="60"
                             Height="35"
@@ -170,7 +172,7 @@
                               />
 
             <!--Voltage Label-->
-            <TextBlock Text="  "
+            <!--<TextBlock Text="  "
                                Grid.Row="6" Grid.Column="0" 
                                HorizontalAlignment="Right"
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
@@ -199,15 +201,15 @@
                                    Style="{StaticResource SummaryValue_TextBlockStyle}" Height="21" Margin="5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
 
 
-            </StackPanel>
+            </StackPanel>-->
 
 
 
             <!--Voltage-->
             <TextBlock Text="Voltage " Style="{StaticResource SummaryLabel_TextBlockStyle}"
-                               Grid.Row="8" Grid.Column="0"  />
+                               Grid.Row="6" Grid.Column="0"  />
 
-            <ComboBox Grid.Row="8" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
+            <ComboBox Grid.Row="6" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
                               ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                               SelectedValue="{Binding VoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="VoltageString"
@@ -217,10 +219,10 @@
 
             <!--Load Size & Unit-->
             <TextBlock Text="Size "
-                               Grid.Row="9" Grid.Column="0" 
+                               Grid.Row="7" Grid.Column="0" 
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
 
-            <Grid Grid.Row="9" Grid.Column="1" >
+            <Grid Grid.Row="7" Grid.Column="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
@@ -249,43 +251,97 @@
             </Grid>
 
 
+            <!--Loading / Power-->
+            <TextBlock Text="Power"
+                        Grid.Row="9" Grid.Column="0" 
+                        HorizontalAlignment="Right" 
+                        Style="{StaticResource SummaryLabel_TextBlockStyle}"
+                       Visibility="Visible"/>
+
+            <Grid Grid.Row="9" Grid.Column="1"
+                  Margin="10 0 0 0"
+                  ShowGridLines="False"
+                   Visibility="Visible">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="{Binding Fla, StringFormat={}{0} FLA,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           Grid.Row="0" Grid.Column="0" 
+                           Style="{StaticResource SummaryValue_TextBlockStyle}"
+                           MinWidth="0"/>
+
+                <TextBlock Text="{Binding DemandKva, StringFormat={}{0} kVA,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           Grid.Row="0" Grid.Column="2" 
+                           Style="{StaticResource SummaryValue_TextBlockStyle}"
+                           MinWidth="0"/>
+            </Grid>
 
             <!--PD -->
-            
+
             <TextBlock Text="OCPD "
-                               Grid.Row="11" Grid.Column="0" 
+                               Grid.Row="10" Grid.Column="0" 
                                HorizontalAlignment="Right" 
                                
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
 
-            <StackPanel Grid.Row="11" Grid.Column="1" Margin="5">
+            <StackPanel Grid.Row="10" Grid.Column="1" Margin="5"
+                        Visibility="Collapsed">
 
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding ProtectionDevice.Type}"
+                    <TextBlock Text="Cat    "
                                Grid.Row="11" Grid.Column="1" 
                                />
-                    <TextBlock Text=",   "
+                    <TextBlock Text="{Binding ProtectionDevice.Category}" FontWeight="SemiBold"
+                               Grid.Row="11" Grid.Column="1" 
+                               Width="25"
+                               />
+                    <TextBlock Text=",   S.Cat "
                                Grid.Row="11" Grid.Column="1" 
                                />
-                    <TextBlock Text="{Binding ProtectionDevice.SubType}"
+                    <TextBlock Text="{Binding ProtectionDevice.SubCategory}" FontWeight="SemiBold"
                                Grid.Row="11" Grid.Column="1" 
+                               Width="25"
+                               />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Type  "
+                               Grid.Row="11" Grid.Column="1" 
+                               />
+                    <TextBlock Text="{Binding ProtectionDevice.Type}" FontWeight="SemiBold"
+                               Grid.Row="11" Grid.Column="1" 
+                               Width="25"
+                               />
+                    <TextBlock Text=",       SType  "
+                               Grid.Row="11" Grid.Column="1" 
+                               />
+                    <TextBlock Text="{Binding ProtectionDevice.SubType}" FontWeight="SemiBold"
+                               Grid.Row="11" Grid.Column="1"  
+                               Width="25"
                                />
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" >
-                    <TextBlock Text="{Binding ProtectionDevice.TripAmps}"
-                               Grid.Row="11" Grid.Column="1" 
+                    <TextBlock Text="{Binding ProtectionDevice.TripAmps}" FontWeight="SemiBold"
+                               Grid.Row="11" Grid.Column="1"  
                                />
                     <TextBlock Text=" AT,   "
                                Grid.Row="11" Grid.Column="1" 
                                />
-                    <TextBlock Text="{Binding ProtectionDevice.FrameAmps}"
+                    <TextBlock Text="{Binding ProtectionDevice.FrameAmps}" FontWeight="SemiBold"
                                Grid.Row="11" Grid.Column="1" 
                                />
                     <TextBlock Text=" AF,   "
                                Grid.Row="11" Grid.Column="1" 
                                />
-                    <TextBlock Text="{Binding ProtectionDevice.IsStandAlone}"
+                    <TextBlock Text="{Binding ProtectionDevice.IsStandAlone}" FontWeight="SemiBold"
                                Grid.Row="11" Grid.Column="1" 
                                />
                 </StackPanel>
@@ -295,31 +351,31 @@
 
             <!--Power Details-->
             <TextBlock Text="Power (kVA) "
-                               Grid.Row="12" Grid.Column="0" 
+                               Grid.Row="11" Grid.Column="0" 
                                HorizontalAlignment="Right" 
                                
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
             <TextBlock Text="{Binding DemandKva, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               Grid.Row="12" Grid.Column="1" 
+                               Grid.Row="11" Grid.Column="1" 
                                Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
             <!--Panel Cct# details -->
             <TextBlock Text="Poles "
-                       Grid.Row="13" Grid.Column="0" 
+                       Grid.Row="12" Grid.Column="0" 
                        HorizontalAlignment="Right" 
                        Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
 
             <TextBlock Text="{Binding VoltageType.Poles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                       Grid.Row="13" Grid.Column="1" 
+                       Grid.Row="12" Grid.Column="1" 
                        Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
             <TextBlock Text="Cct # "
-                       Grid.Row="14" Grid.Column="0" 
+                       Grid.Row="13" Grid.Column="0" 
                        HorizontalAlignment="Right" 
                        Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
 
             <TextBlock Text="{Binding CircuitNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                       Grid.Row="14" Grid.Column="1" 
+                       Grid.Row="13" Grid.Column="1" 
                        Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
             <!--<TextBlock Text="Seq # "
@@ -331,7 +387,9 @@
                        Style="{StaticResource SummaryValue_TextBlockStyle}"/>-->
 
 
-
+            <editors:AreaEditor Grid.Row="14"
+                                Grid.Column="0" Grid.ColumnSpan="2"
+                                HorizontalAlignment="Stretch"/>
 
 
         </Grid>

@@ -191,6 +191,12 @@
     <Compile Update="Templates\SingleLineLoadGraphics\SingleLineDashedBorder_Bound.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UserControls\Editors\ComponentEditor_Starter.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UserControls\Editors\ComponentEditor_Disconnect.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UserControls\Editors\LoadEditor.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -288,6 +294,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Templates\TemplateStyles\SingleLineGraphicsStyles.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\Editors\ComponentEditor_Starter.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserControls\Editors\ComponentEditor_Disconnect.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

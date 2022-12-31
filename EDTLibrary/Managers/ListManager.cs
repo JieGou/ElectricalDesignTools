@@ -365,7 +365,7 @@ namespace EDTLibrary.Managers
                         comp.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
 
                         //Cct Components
-                        if (comp.SubCategory == SubCategories.CctComponent.ToString()) {
+                        if (comp.Category == Categories.CctComponent.ToString()) {
                             load.CctComponents.Add(comp);
                             load.CctComponents.OrderBy(c => comp.SequenceNumber);
 

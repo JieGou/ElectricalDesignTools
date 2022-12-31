@@ -96,14 +96,14 @@ public abstract class ComponentModelBase : IComponentEdt
         get
         {
             _typelist.Clear();
-            if (Type == ComponentTypes.UDS.ToString() || Type == ComponentTypes.FDS.ToString()) {
-                _typelist.Add(ComponentTypes.UDS.ToString());
-                _typelist.Add(ComponentTypes.FDS.ToString());
+            if (Type == CctComponentTypes.UDS.ToString() || Type == CctComponentTypes.FDS.ToString()) {
+                _typelist.Add(CctComponentTypes.UDS.ToString());
+                _typelist.Add(CctComponentTypes.FDS.ToString());
             }
-            else if (Type == ComponentTypes.VSD.ToString() || Type == ComponentTypes.VFD.ToString() || Type == ComponentTypes.RVS.ToString()) {
-                _typelist.Add(ComponentTypes.VSD.ToString());
-                _typelist.Add(ComponentTypes.VFD.ToString());
-                _typelist.Add(ComponentTypes.RVS.ToString());
+            else if (Type == CctComponentTypes.VSD.ToString() || Type == CctComponentTypes.VFD.ToString() || Type == CctComponentTypes.RVS.ToString()) {
+                _typelist.Add(CctComponentTypes.VSD.ToString());
+                _typelist.Add(CctComponentTypes.VFD.ToString());
+                _typelist.Add(CctComponentTypes.RVS.ToString());
             }
             return _typelist;
         }
@@ -220,11 +220,11 @@ public abstract class ComponentModelBase : IComponentEdt
 
     public void CalculateSize(IPowerConsumer load)
     {
-        if (Type == ComponentTypes.UDS.ToString() || Type == ComponentTypes.FDS.ToString()) {
+        if (Type == CctComponentTypes.UDS.ToString() || Type == CctComponentTypes.FDS.ToString()) {
             FrameAmps = DataTableSearcher.GetDisconnectSize(load);
 
         }
-        if (Type == ComponentTypes.UDS.ToString()) {
+        if (Type == CctComponentTypes.UDS.ToString()) {
             TripAmps = DataTableSearcher.GetDisconnectFuse(load);
         }
         OnPropertyUpdated();
