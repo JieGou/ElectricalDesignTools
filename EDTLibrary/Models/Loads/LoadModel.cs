@@ -15,6 +15,7 @@ using EDTLibrary.Selectors;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -34,6 +35,7 @@ namespace EDTLibrary.Models.Loads
 
     public class LoadModel : ILoad
     {
+
 
         public LoadModel()
         {
@@ -122,7 +124,7 @@ namespace EDTLibrary.Models.Loads
                 if (DaManager.GettingRecords || DaManager.Importing) return;
 
                 allowCalculations = false;
-                LoadUnitSelector.SelectUnits(this);
+                LoadUnitSelector.SelectUnit(this);
                 StandAloneStarterBool = false;
 
                 if (_type == LoadTypes.MOTOR.ToString() && FedFrom.Type == DteqTypes.DPN.ToString() && FedFrom.Type == DteqTypes.CDP.ToString() && FedFrom.Type == DteqTypes.SPL.ToString()) {
@@ -194,7 +196,14 @@ namespace EDTLibrary.Models.Loads
             }
         }
         private string _unit;
-        public string Description
+
+
+        public List<string> UnitList
+        {
+            get { return LoadUnitSelector.GetUnitList(this); }
+        }
+
+    public string Description
         {
             get { return _description; }
             set
@@ -813,12 +822,7 @@ namespace EDTLibrary.Models.Loads
                 load.Efficiency = GlobalConfig.DefaultHeaterEfficiency;
                 load.PowerFactor = GlobalConfig.DefaultHeaterPowerFactor;
             }
-            else if (Type == LoadTypes.TRANSFORMER.ToString()) {
-                //TODO - Transformer efficiency tables
-                load.Unit = Units.kW.ToString();
-                load.Efficiency = GlobalConfig.DefaultTransformerEfficiency;
-                load.PowerFactor = GlobalConfig.DefaultTransformerPowerFactor;
-            }
+           
             else if (Type == LoadTypes.MOTOR.ToString()) {
                 load.Efficiency = DataTableSearcher.GetMotorEfficiency(this);
                 load.PowerFactor = DataTableSearcher.GetMotorPowerFactor(this);
@@ -847,12 +851,20 @@ namespace EDTLibrary.Models.Loads
                 PowerCable = new CableModel(this);
             }
         }
+        public void ValidateCableSizes()
+        {
+            foreach (var item in CctComponents) {
+                item.PowerCable.ValidateCableSize(item.PowerCable);
+            }
+            PowerCable.ValidateCableSize(PowerCable);
+        }
+
         public void SizePowerCable()
         {
             CreatePowerCable();
             PowerCable.SetSizingParameters(this);
             PowerCable.CreateTypeList(this);
-            PowerCable.AutoSizeAllLoadCables();
+            PowerCable.AutoSizeAll();
         }
         public void CalculateCableAmps()
         {

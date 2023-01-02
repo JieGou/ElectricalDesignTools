@@ -34,7 +34,9 @@ public class CableModel : ICable
     
     public CableModel()
     {
-        AutoSizeCableCommand = new RelayCommand(AutoSizeAllLoadCables);
+
+        AutoSizeCommand = new RelayCommand(AutoSize);
+        AutoSizeAllCommand = new RelayCommand(AutoSizeAll);
 
     }
     public CableModel(IPowerConsumer load)
@@ -55,10 +57,10 @@ public class CableModel : ICable
         Spacing = 100;
         Length = CableManager.GetLength(load.Category);
 
-        AutoSizeCableCommand = new RelayCommand(AutoSizeAllLoadCables);
+        AutoSizeCommand = new RelayCommand(AutoSize);
+        AutoSizeAllCommand = new RelayCommand(AutoSizeAll);
 
     }
-    public ICommand AutoSizeCableCommand { get; }
 
 
     #region Properties
@@ -164,7 +166,7 @@ public class CableModel : ICable
                 if (UsageType == CableUsageTypes.Power.ToString()) {
 
                     SetTypeProperties();
-                    AutoSizeAsync();
+                    AutoSize();
                 }
             }
             CreateSizeList();
@@ -345,7 +347,7 @@ public class CableModel : ICable
 
             if (DaManager.GettingRecords == false) {
                 _calculatingAmpacity = true;
-                AutoSizeAllLoadCables();
+                AutoSizeAll();
                 _calculatingAmpacity = false;
             }
 
@@ -373,7 +375,7 @@ public class CableModel : ICable
             if (DaManager.GettingRecords == false) {
                 _calculatingAmpacity = true;
                 if (UsageType == CableUsageTypes.Power.ToString()) {
-                    AutoSizeAllLoadCables();
+                    AutoSizeAll();
 
                 }
                 _calculatingAmpacity = false;
@@ -535,7 +537,7 @@ public class CableModel : ICable
         if (load == null) return 99999;
 
         RequiredAmps = load.Fla;
-        if (load.Type == LoadTypes.MOTOR.ToString() || load.Type == LoadTypes.TRANSFORMER.ToString()) {
+        if (load.Type == LoadTypes.MOTOR.ToString()) {
             RequiredAmps *= 1.25;
         }
 
@@ -587,29 +589,11 @@ public class CableModel : ICable
 
     string ampsColumn = "Amps75";
 
-    public async Task AutoSizeAsync()
-    {
-        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            AutoSizeAllLoadCables();
-        }));
-    }
     bool _isAutoSizing;
-    public void AutoSizeAllLoadCables()
-    {
-        //autosize assumes all cables fed from the same Distribution Equipment are in the same raceway
-        //so there is a big jump in ampacity between #1 and 1/0 when the installatio type is NOT LadderTray.
 
-        //need to check raceway routing path for total conductors that are in the same raceway
-        AutoSize();
-        var load = (IComponentUser)Load;
-        foreach (var comp in load.CctComponents) {
-            if (comp.PowerCable != null) {
-                comp.PowerCable.AutoSize();
-            }
-        }
-    }
 
-    private void AutoSize()
+    public ICommand AutoSizeCommand { get; }
+    public void AutoSize()
     {
         try {
             _isAutoSizing = true;
@@ -645,6 +629,30 @@ public class CableModel : ICable
         finally {
             _isAutoSizing = false;
         }
+    }
+
+    public ICommand AutoSizeAllCommand { get; }
+    public void AutoSizeAll()
+    {
+        //autosize assumes all cables fed from the same Distribution Equipment are in the same raceway
+        //so there is a big jump in ampacity between #1 and 1/0 when the installatio type is NOT LadderTray.
+
+        //need to check raceway routing path for total conductors that are in the same raceway
+        var compUser = (IComponentUser)Load;
+        foreach (var comp in compUser.CctComponents) {
+            if (comp.PowerCable != null) {
+                comp.PowerCable.AutoSize();
+            }
+        }
+        var load = (IPowerConsumer)Load;
+        load.PowerCable.AutoSize();
+
+    }
+    public async Task AutoSizeAllAsync()
+    {
+        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            AutoSizeAll();
+        }));
     }
 
 

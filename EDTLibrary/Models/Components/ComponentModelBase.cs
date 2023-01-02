@@ -6,6 +6,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Validators;
+using EDTLibrary.Selectors;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
@@ -66,6 +67,7 @@ public abstract class ComponentModelBase : IComponentEdt
     public string Description { get; set; }
     public string Category { get; set; } //Component
     public string SubCategory { get; set; }
+    
 
     public string Type
     {
@@ -88,30 +90,14 @@ public abstract class ComponentModelBase : IComponentEdt
         }
     }
     private string _type;
-    public string SubType { get; set; }
-
-
     public List<string> TypeList
     {
-        get
-        {
-            _typelist.Clear();
-            if (Type == CctComponentTypes.UDS.ToString() || Type == CctComponentTypes.FDS.ToString()) {
-                _typelist.Add(CctComponentTypes.UDS.ToString());
-                _typelist.Add(CctComponentTypes.FDS.ToString());
-            }
-            else if (Type == CctComponentTypes.VSD.ToString() || Type == CctComponentTypes.VFD.ToString() || Type == CctComponentTypes.RVS.ToString()) {
-                _typelist.Add(CctComponentTypes.VSD.ToString());
-                _typelist.Add(CctComponentTypes.VFD.ToString());
-                _typelist.Add(CctComponentTypes.RVS.ToString());
-            }
-            return _typelist;
-        }
-        set
-        { _typelist = value; }
+        get { return ComponentTypeSelector.GetComponentTypeList(this); }
     }
 
+    public string SubType { get; set; }
 
+   
     public double Voltage { get; set; }
     public double FrameAmps
     {
@@ -136,6 +122,11 @@ public abstract class ComponentModelBase : IComponentEdt
             _trip = value;
 
             if (DaManager.GettingRecords) return;
+
+            FrameAmps = ProtectionDeviceManager.GetPdFrameAmps(this, (IPowerConsumer)Owner);
+            var pdLoad = (IPowerConsumer)Owner;
+
+            pdLoad.ValidateCableSizes();
 
             UndoManager.AddUndoCommand(this, nameof(TripAmps), oldValue, _trip);
             OnPropertyUpdated();

@@ -84,6 +84,7 @@ namespace EDTLibrary.DataAccess
 
             "ProtectionDevice",
             "CalculationLock",
+            "UnitList",
         };
 
         static public List<string> CompNoSaveList { get; set; } = new List<string>()
@@ -140,13 +141,15 @@ namespace EDTLibrary.DataAccess
             "DeratedAmpsToolTip",
             "RequiredAmpsToolTip",
             "SizeList",
-            "AutoSizeCableCommand",
             "DeratingToolTip",
             "SizeTag",
 
             "IsSelected",
             "RacewayRouteSegments",
             "RacewaySegmentList",
+
+            "AutoSizeCommand",
+            "AutoSizeAllCommand",
         };
 
         static public List<string> AreaNoSaveList { get; set; } = new List<string>() {

@@ -35,14 +35,13 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Row="1" Grid.Column="0" >
             <TextBlock Text="Type"
-                   Width="{DynamicResource TextLableWidth}"/>
+                       Width="{DynamicResource TextLableWidth}"/>
             <ComboBox Template="{DynamicResource ComboBoxBase}" 
-                  Height="20" Width="83"
-                  Margin="0"
-                  ItemsSource="{Binding TypeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        
-                  SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  IsSynchronizedWithCurrentItem="False"  />
+                      Height="20" Width="83"
+                      Margin="0"
+                      ItemsSource="{Binding TypeList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsSynchronizedWithCurrentItem="False"  />
         </StackPanel>
 
 

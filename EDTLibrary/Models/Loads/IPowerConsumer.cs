@@ -16,8 +16,7 @@ namespace EDTLibrary.Models.Loads
     public interface IPowerConsumer : ICableUser, IComponentUser
 
     {
-        
-
+        public void ValidateCableSizes();
         int ProtectionDeviceId { get; set; }
         IProtectionDevice ProtectionDevice { get; set; }
 

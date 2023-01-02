@@ -515,53 +515,38 @@ namespace EDTLibrary.Managers
 
         #region MajorEquipment
         //Move to Distribution Manager
-        public async Task CalculateDteqLoadingAsync()
+        public void CalculateDteqLoadingAsync()
         {
-            await Task.Run(() => {
-                Stopwatch sw = new Stopwatch();
-                sw.Restart();
-                Debug.Print("CalculateDteqLoadingAsync Start");
+            //await Task.Run(() => {
+               
                 UnregisterAllDteqFromAllLoadEvents();
                 AssignLoadsAndEventsToAllDteq();
-                double total = 0;
-                double subTotal = 0;
-                Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
-
+             
                 //Loads
                 DaManager.GettingRecords = false;
                 {
                     foreach (var load in LoadList) {
-                        sw.Restart();
 
                         load.CalculateLoading();
-                        load.PowerCable.AutoSizeAllLoadCables();
+                        load.PowerCable.AutoSizeAll();
                         load.PowerCable.CalculateAmpacity(load);
-
-                        subTotal += sw.Elapsed.TotalMilliseconds;
 
                     }
                 }
                 DaManager.GettingRecords = false;
 
-                Debug.Print("Loads: " + subTotal);
-                total += subTotal;
-                subTotal = 0;
-
+             
                 //Dteq
                 foreach (var dteq in IDteqList) {
-                    sw.Restart();
 
                     dteq.CalculateLoading();
-                    dteq.PowerCable.AutoSizeAllLoadCables();
+                    dteq.PowerCable.AutoSizeAll();
                     dteq.PowerCable.CalculateAmpacity(dteq);
 
-                    subTotal += sw.Elapsed.TotalMilliseconds;
 
                 }
-                Debug.Print("Dteq: " + subTotal);
-                total += subTotal;
-                Debug.Print("Total: " + total);
-            });
+               
+            //});
 
         }
 

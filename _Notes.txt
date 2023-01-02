@@ -6,8 +6,6 @@ In Progress PROTECTION DEVICE MANAGER
 	- Type = BKR, FDS, UDS, DOL, VSD, 
 	- SubType = DefaultDcn,, Diconnect,
 
-
-	- Starter / Disconnect / Breaker Editors specific for each type
 		
 	Library 
 		- Starter sizes for other voltages
@@ -15,20 +13,17 @@ In Progress PROTECTION DEVICE MANAGER
 	
 
 	- LCS cable to Starter for DPN/CDP/SPL
-	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer lo1048ad) PdTypeList creation
-	- ProtectionDeviceEditor
-	- Tag conflict for PD vs Disconnect
+	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer) PdTypeList creation
 	- Move Component Up/Down into ComponentModelBase
 	
 
 Bugs
+	- splitter not being added to SingleLine Dteq list
+	- new Dteq not added to Dteq List
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
 	- added DTEQ aren't in the right click menu Set FedFrom list
-	- FedFromList doesn't on property editor doesn't show utitlity
 
-standalone starter / splitter
-OcpdModel
 
 
 Misc.
@@ -54,7 +49,7 @@ Settings
 	- transformer grounding
 
 LoadModel 
-	- Type change calculation updates
+	- Type change Voltage-Type and calculation updates
 	- load data IsValid
 
 Cables and Cable Types Based on Id so that Type tags can be updated in the library.
@@ -64,8 +59,6 @@ Transformer Grounding
 	- NGR component
 	- NGR Monitor
 	- cables
-
-
 
 	
 Calculations
@@ -82,12 +75,6 @@ Tag Settings
 	- bulk updates on tag setting changes
 	
 
-
-
-
-Generic settings editor for Eq
-
-
 Application Settings
 	- Add Load Voltage notification
 	- Optional Auto-Calculations
@@ -97,21 +84,8 @@ Application Settings
 
 
 Priorities
-	- Distribution Panel - 12 hours
-		- Circuit #'s - 3
-		- Export to AutoCad - 3
+	- Distribution Panel
 		- DeleteLoad recalculates panel circuits - 1
-		- Cleanup page
-
-	- Splitter - 12 hours
-		- Components
-		- ListManager - 1
-		- DaManager - 1
-		- OnPropertyUpdated - 1
-		- Add - 1
-		- Delete - 1
-		- AutoCad - 3
-		
 
 	- LCS Type Management - 1
 		- edit existing 
@@ -141,10 +115,12 @@ Refactorings
 	- add reference to list manager inside each model object
 	- SelectionLists or models ??
 
+
 Validations
 	- PD	
 	- Cable
 	
+
 Cables
 	- settings for auto-calculate cable on load changes, resizing/recalculation
 	- cable sizing based on next Upstream PD
@@ -154,16 +130,16 @@ Cables
 		- Prompt to recalculate load cables when changing settings
 		- component cables are not updated when changing the load cable properties
 	
+
 LoadGrid Context Menu
 	- Set load factor
 
-Data Access
-	- Create positive upsert/SaveList
 
 Application Settings
 	- auto-calc PD when load properties change
 	- auto-calc cable when load properties change
 	- default breaker rating (80% vs 100%)
+
 
 Dteq 
 	- SCCR vs SCCA
@@ -171,9 +147,11 @@ Dteq
 	- dteq as LoadGraphicVew
 	- Supply cable sizing based on upstream breaker (what is upstream breaker)
 	
+
 Load
 	- Proper PD / Starter selection when calculating to take into account if a drive is selected
 	- sequence number/ordering
+
 
 Protective Devices
 	- PD model
@@ -182,7 +160,6 @@ Protective Devices
 
 Misc. General
 	- Voltage Validator
-
 
 Library
 	- add cable dimensions
@@ -200,21 +177,26 @@ Areas, Systems & SubSystems
 		- add cable to total with note
 	- proper heatload calculation for each equipment type
 
-Component type selection
-	- add typelist to components (will need separate classes for each component type)
 
 Autocad
 	- single line(s)
+	- splitters
 	- schematics
 	- wiring diagrams
 	- title blocks
 	- drawing list
 
 
+
+
+
 ***************************
 ***    AFTER RELEASE	***
 ***************************
 
+Data Access
+	- Create positive upsert/SaveList
+	
 Cleanup Electrical Views
 	- edt cable editor (property pane)
 	- dual synchronize SigleLine ScrollViewers (to sync keyboard scroll)

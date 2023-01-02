@@ -47,15 +47,17 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Content="Convert &#x0a;To Load"
-                            Grid.Row="5" Grid.RowSpan="4"
-                            Grid.ColumnSpan="3"
-                            Width="60"
-                            Height="35"
-                            VerticalAlignment="Top"
-                            HorizontalAlignment="Right"
-                            Command="{Binding ConvertToLoadCommand}"
-                            >
+            <!--CONVERT TO LOAD-->
+            
+            <!--<Button Content="Convert &#x0a;To Load"
+                    Grid.Row="5" Grid.RowSpan="4"
+                    Grid.ColumnSpan="3"
+                    Width="60"
+                    Height="35"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Command="{Binding ConvertToLoadCommand}"
+                    IsEnabled="False">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource GreenButton}">
                         <Setter Property="Visibility" Value="Hidden"/>
@@ -66,7 +68,7 @@
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
-            </Button>
+            </Button>-->
 
             <!--Tag-->
             <TextBlock Text="Tag " Style="{StaticResource SummaryLabel_TextBlockStyle}"
@@ -103,24 +105,27 @@
                               IsEditable="False" IsTextSearchEnabled="True"
                               Margin="5 0 5 0"/>
 
+
             <!--Type-->
             <TextBlock Text="Type "
-                               Grid.Row="3" Grid.Column="0" 
-                               HorizontalAlignment="Right"
-                               Style="{StaticResource SummaryLabel_TextBlockStyle}"
-                            ToolTipService.InitialShowDelay="50"
-                          ToolTip="Cannot change Distribution Equipment type. Delete and Create New"
+                       Grid.Row="3" Grid.Column="0" 
+                       HorizontalAlignment="Right"
+                       Style="{StaticResource SummaryLabel_TextBlockStyle}"
+                       ToolTipService.InitialShowDelay="50"
+                       ToolTip="Cannot change Distribution Equipment type. Delete and Create New"
                                />
-            <!--Dteq-->
+            
+            <!--Dteq Type-->
             <ComboBox Grid.Row="3" Grid.Column="1"
-                            Template="{DynamicResource ComboBoxBase}"
-                            ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:DteqTypes}}}"
-                            SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Text="{Binding Type}"
-                            IsEditable="False" IsTextSearchEnabled="True"
-                            Margin="5 0 5 0"
-                            ToolTipService.InitialShowDelay="50"
-                            ToolTip="Cannot change Distribution Equipment type. Delete and Create New">
+                      Template="{DynamicResource ComboBoxBase}"
+                      ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:DteqTypes}}}"
+                      SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Text="{Binding Type}"
+                      IsEditable="False" IsTextSearchEnabled="True"
+                      Margin="5 0 5 0"
+                      ToolTipService.InitialShowDelay="50"
+                      ToolTip="Cannot change Distribution Equipment type. Delete and Create New"
+                      d:Visibility="Visible">
                 <ComboBox.Resources>
                     <Style TargetType="ComboBox">
                         <Setter Property="IsEnabled" Value="False"/>
@@ -129,19 +134,24 @@
                             <DataTrigger Binding="{Binding Path=Category}" Value="DTEQ">
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=Category}" Value="LOAD3P">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ComboBox.Resources>
             </ComboBox>
 
-            <!--Load-->
+            <!--Load Type-->
             <ComboBox Grid.Row="3" Grid.Column="1"
-                            Template="{DynamicResource ComboBoxBase}"
-                            ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:LoadTypes}}}"
-                            SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Text="{Binding Type}"
-                            IsEditable="False" IsTextSearchEnabled="True"
-                            Margin="5 0 5 0">
+                      Template="{DynamicResource ComboBoxBase}"
+                      ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:LoadTypes}}}"
+                      SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Text="{Binding Type}"
+                      IsEditable="False" IsTextSearchEnabled="True"
+                      Margin="5 0 5 0"
+                      d:Visibility="Visible">
                 <ComboBox.Resources>
                     <Style TargetType="ComboBox">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -161,15 +171,50 @@
                                HorizontalAlignment="Right"
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"
                                />
+            
+            <!--Dteq Fed From List-->
             <ComboBox Grid.Row="4" Grid.Column="1"
                               Template="{DynamicResource ComboBoxBase}"
-                              ItemsSource="{Binding DataContext.ListManager.IDteqList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                              ItemsSource="{Binding DataContext.ListManager.DteqList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                               SelectedValue="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Tag"
                               Text="{Binding FedFrom.Tag}"
                               Margin="5 0 5 0"
                               IsEditable="False" IsTextSearchEnabled="True"
-                              />
+                              >
+                <ComboBox.Resources>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=Category}" Value="DTEQ">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Resources>
+            </ComboBox>
+
+            <!--Load Fed From List-->
+            <ComboBox Grid.Row="4" Grid.Column="1"
+                      Template="{DynamicResource ComboBoxBase}"
+                      ItemsSource="{Binding DataContext.ListManager.IDteqList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                      SelectedValue="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Tag"
+                      Text="{Binding FedFrom.Tag}"
+                      Margin="5 0 5 0"
+                      IsEditable="False" IsTextSearchEnabled="True"
+                      d:Visibility="Visible">
+                <ComboBox.Resources>
+                    <Style TargetType="ComboBox">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=Category}" Value="LOAD3P">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Resources>
+            </ComboBox>
 
             <!--Voltage Label-->
             <!--<TextBlock Text="  "
@@ -208,20 +253,18 @@
             <!--Voltage-->
             <TextBlock Text="Voltage " Style="{StaticResource SummaryLabel_TextBlockStyle}"
                                Grid.Row="6" Grid.Column="0"  />
-
             <ComboBox Grid.Row="6" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
-                              ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                              SelectedValue="{Binding VoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                              DisplayMemberPath="VoltageString"
-                              Text="{Binding VoltageType.VoltageString}"
-                              IsEditable="False" IsTextSearchEnabled="True"
-                              Margin="5 0 5 0"/>
+                        ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                        SelectedValue="{Binding VoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        DisplayMemberPath="VoltageString"
+                        Text="{Binding VoltageType.VoltageString}"
+                        IsEditable="False" IsTextSearchEnabled="True"
+                        Margin="5 0 5 0"/>
 
             <!--Load Size & Unit-->
             <TextBlock Text="Size "
                                Grid.Row="7" Grid.Column="0" 
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-
             <Grid Grid.Row="7" Grid.Column="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -240,16 +283,53 @@
                                HorizontalAlignment="Right" 
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>-->
 
-                <!--Unit-->
+
+                <!--Load Unit-->
                 <ComboBox Grid.Column="2"
                           Template="{DynamicResource ComboBoxBase}"
                           ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:Units}}}"
                           SelectedValue="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Text="{Binding Unit}"
                           IsEditable="False" IsTextSearchEnabled="True"
-                          Margin="5 0 5 0"/>
+                          Margin="5 0 5 0"
+                          d:Visibility="Visible">
+                    <ComboBox.Resources>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="IsEnabled" Value="False"/>
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Category}" Value="DTEQ">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                           
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Resources>
+                </ComboBox>
+            
+            
+            
+                <!--Load Unit-->
+                <ComboBox Grid.Column="2"
+                          Template="{DynamicResource ComboBoxBase}"
+                          ItemsSource="{Binding UnitList}"
+                          SelectedValue="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          Text="{Binding Unit}"
+                          IsEditable="False" IsTextSearchEnabled="True"
+                          Margin="5 0 5 0"
+                          d:Visibility="Visible">
+                    <ComboBox.Resources>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Category}" Value="LOAD3P">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Resources>
+                </ComboBox>
             </Grid>
-
 
             <!--Loading / Power-->
             <TextBlock Text="Power"
@@ -283,68 +363,20 @@
                            MinWidth="0"/>
             </Grid>
 
-            <!--PD -->
+            <!--Protection Device -->
 
-            <TextBlock Text="OCPD "
-                               Grid.Row="10" Grid.Column="0" 
-                               HorizontalAlignment="Right" 
-                               
-                               Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
+            <TextBlock Text="OCPD / Starter"
+                       Grid.Row="10" Grid.Column="0" 
+                       Margin="0 10 0 0"
+                       HorizontalAlignment="Right" 
+                       FontWeight="SemiBold"
+                       Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
 
-            <StackPanel Grid.Row="10" Grid.Column="1" Margin="5"
-                        Visibility="Collapsed">
+            <StackPanel Grid.Row="10" Grid.Column="1" Margin="5 10 5 5"
+                        Visibility="Visible">
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Cat    "
-                               Grid.Row="11" Grid.Column="1" 
-                               />
-                    <TextBlock Text="{Binding ProtectionDevice.Category}" FontWeight="SemiBold"
-                               Grid.Row="11" Grid.Column="1" 
-                               Width="25"
-                               />
-                    <TextBlock Text=",   S.Cat "
-                               Grid.Row="11" Grid.Column="1" 
-                               />
-                    <TextBlock Text="{Binding ProtectionDevice.SubCategory}" FontWeight="SemiBold"
-                               Grid.Row="11" Grid.Column="1" 
-                               Width="25"
-                               />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Type  "
-                               Grid.Row="11" Grid.Column="1" 
-                               />
-                    <TextBlock Text="{Binding ProtectionDevice.Type}" FontWeight="SemiBold"
-                               Grid.Row="11" Grid.Column="1" 
-                               Width="25"
-                               />
-                    <TextBlock Text=",       SType  "
-                               Grid.Row="11" Grid.Column="1" 
-                               />
-                    <TextBlock Text="{Binding ProtectionDevice.SubType}" FontWeight="SemiBold"
-                               Grid.Row="11" Grid.Column="1"  
-                               Width="25"
-                               />
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal" >
-                    <TextBlock Text="{Binding ProtectionDevice.TripAmps}" FontWeight="SemiBold"
-                               Grid.Row="11" Grid.Column="1"  
-                               />
-                    <TextBlock Text=" AT,   "
-                               Grid.Row="11" Grid.Column="1" 
-                               />
-                    <TextBlock Text="{Binding ProtectionDevice.FrameAmps}" FontWeight="SemiBold"
-                               Grid.Row="11" Grid.Column="1" 
-                               />
-                    <TextBlock Text=" AF,   "
-                               Grid.Row="11" Grid.Column="1" 
-                               />
-                    <TextBlock Text="{Binding ProtectionDevice.IsStandAlone}" FontWeight="SemiBold"
-                               Grid.Row="11" Grid.Column="1" 
-                               />
-                </StackPanel>
+                <editors:ComponentEditor_Pd DataContext="{Binding ProtectionDevice}"
+                                            HorizontalAlignment="Stretch"/>
             </StackPanel>
 
 

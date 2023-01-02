@@ -117,7 +117,8 @@
 
             <Canvas>
                 <Image Source="../../../ResourceFiles/CableIcons/CableIcon.jpg"
-                       Canvas.Top="-25">
+                       Canvas.Top="-25"
+                       UseLayoutRounding="True">
                     <Image.LayoutTransform>
                         <TransformGroup>
                             <RotateTransform Angle="135" />
@@ -333,12 +334,6 @@
             </StackPanel>
 
 
-            <!--AutoSize on Right-->
-            <!--<Button Content="Auto-Size" 
-                    Grid.Row="10" Grid.Column="3" 
-                    Grid.RowSpan="2" Grid.ColumnSpan="2"
-                    Command="{Binding PowerCable.AutoSizeCableCommand}"   />-->
-
 
         </Grid>
 
@@ -361,24 +356,26 @@
 
 
         <!--Below Buttons-->
-        <Button Content="Auto-Size" 
+        <StackPanel Orientation="Horizontal"
                 Grid.Row="4"
-                HorizontalAlignment="Center"
-                Command="{Binding PowerCable.AutoSizeCableCommand}"   />
+                    HorizontalAlignment="Center"
+                    >
+            <Button Content="Auto-Size Single" 
+                    Grid.Row="4"
+                    HorizontalAlignment="Center"
+                    Command="{Binding PowerCable.AutoSizeCommand}"   
+                    ToolTipService.InitialShowDelay="50"
+                    ToolTip="Auto-Sizes only this selected cable"/>
 
-        <!--<StackPanel Orientation="Horizontal" 
-                    Grid.Row="3" Grid.ColumnSpan="3" Margin="0,0,0,0">
-            <Button Content="Calculate Amps" Grid.Row="2" Margin="70 0 0 0" 
-                    Command="{Binding Path=DataContext.CalculateSingleEqCableAmpsCommand, 
-                                      RelativeSource={RelativeSource Mode=FindAncestor, 
-                                      AncestorType={x:Type UserControl}, AncestorLevel=2}}"   />
+            <Button Content="Auto-Size All" 
+                    Grid.Row="4"
+                    HorizontalAlignment="Center"
+                    Command="{Binding PowerCable.AutoSizeAllCommand}"   
+                    ToolTipService.InitialShowDelay="50"
+                    ToolTip="Auto-Sizes all cables in the selected branch circuit."/>
+        </StackPanel>
 
 
-            <Button Content="Auto-Size" Grid.Row="2" Margin="100 0 0 0" 
-                        Command="{Binding PowerCable.AutoSizeCableCommand}"   />
-
-
-        </StackPanel>-->
 
 
     </Grid>

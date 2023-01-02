@@ -295,4 +295,9 @@ public class LoadCircuit : ILoadCircuit
 
         //});
     }
+
+    public void ValidateCableSizes()
+    {
+        throw new NotImplementedException();
+    }
 }

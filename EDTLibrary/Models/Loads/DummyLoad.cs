@@ -106,4 +106,9 @@ internal class DummyLoad : IPowerConsumer
     {
         return null;
     }
+
+    public void ValidateCableSizes()
+    {
+        throw new NotImplementedException();
+    }
 }

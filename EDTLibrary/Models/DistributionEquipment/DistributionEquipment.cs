@@ -585,7 +585,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 _loadCableDerating = value;
                 foreach (var load in AssignedLoads) {
-                    load.PowerCable.AutoSizeAsync();
+                    load.PowerCable.AutoSizeAllAsync();
                 }
                 OnPropertyUpdated(nameof(LoadCableDerating) + ": " + LoadCableDerating.ToString());
             }
@@ -696,6 +696,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             IsCalculating = false;
 
             OnLoadingCalculated(propertyName);
+
             OnPropertyUpdated(nameof(CalculateLoading));
 
         }
@@ -720,12 +721,19 @@ namespace EDTLibrary.Models.DistributionEquipment
                 PowerCable.LoadType = this.GetType().ToString();
             }
         }
+        public void ValidateCableSizes()
+        {
+            foreach (var item in CctComponents) {
+                item.PowerCable.ValidateCableSize(item.PowerCable);
+            }
+            PowerCable.ValidateCableSize(PowerCable);
+        }
         public void SizePowerCable()
         {
             CreatePowerCable();
             PowerCable.SetSizingParameters(this);
             PowerCable.CreateTypeList(this);
-            PowerCable.AutoSizeAllLoadCables();
+            PowerCable.AutoSizeAll();
         }
         public void CalculateCableAmps()
         {

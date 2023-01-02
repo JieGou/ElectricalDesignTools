@@ -86,11 +86,7 @@ namespace EDTLibrary.Models.Loads
                 if (string.IsNullOrWhiteSpace(_type) || _type == "") {
                     AddError(nameof(Type), "Invalid Load Type");
                 }
-                else if (_type == LoadTypes.TRANSFORMER.ToString()) {
-                    Unit = "";
-                    Unit = Units.kVA.ToString();
-
-                }
+                
                 else if (_type == LoadTypes.MOTOR.ToString()) {
 
                 }
@@ -211,9 +207,7 @@ namespace EDTLibrary.Models.Loads
                 if (_type != "" && _type == null || _unit == "") {
                     AddError(nameof(Unit), "Invalid Unit");
                 }
-                else if (_type == LoadTypes.TRANSFORMER.ToString() && _unit != Units.kVA.ToString()) {
-                    AddError(nameof(Unit), "Incorrect Units for Equipment");
-                }
+                
                 else if (_type == LoadTypes.MOTOR.ToString()
                     && _unit != Units.HP.ToString() && _unit != Units.kW.ToString()) {
                     AddError(nameof(Unit), "Incorrect Units for Equipment");

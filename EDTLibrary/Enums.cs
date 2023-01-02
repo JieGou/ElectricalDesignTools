@@ -14,9 +14,7 @@ namespace EDTLibrary {
         LOAD1P,
         CABLE,
         CctComponent, //has sub categories
-        DRIVE,
-        DCN,
-        LCLDCN,
+        ProtectionDevice, //has sub categories
         LCS,
         RACEWAY,
     }
@@ -36,11 +34,10 @@ namespace EDTLibrary {
         MOTOR,
         HEATER,
         WELDING,
-        TRANSFORMER,
         PANEL,
         OTHER
     }
-    public enum SubCategories
+    public enum CctCompSubCategories
     {
         CctComponent,
         AuxComponent,
@@ -74,6 +71,8 @@ namespace EDTLibrary {
     public enum StarterTypes
     {
         DOL,
+        MCP_FVNR,
+        MCP_FVR,
         VFD,
         VSD,
         RVS,

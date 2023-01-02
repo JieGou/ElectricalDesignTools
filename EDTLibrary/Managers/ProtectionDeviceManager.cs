@@ -23,7 +23,7 @@ public class ProtectionDeviceManager
         if (listManager == null) return;
 
         string category = Categories.CctComponent.ToString();
-        string subCategory = SubCategories.ProtectionDevice.ToString();
+        string subCategory = CctCompSubCategories.ProtectionDevice.ToString();
         string type = "";
         string subType = "";
 

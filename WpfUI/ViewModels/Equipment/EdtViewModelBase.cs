@@ -78,14 +78,18 @@ public abstract class EdtViewModelBase: ViewModelBase
     public ICommand CalculateAllCommand { get; }
     public void CalculateAll()
     {
-        CalculateAllAsync();
+            CalculateAllAsync();
     }
     public async Task CalculateAllAsync()
     {
         try {
-            //Task.Run(() => _listManager.CalculateDteqLoadingAsync());
-            _listManager.CalculateDteqLoadingAsync();
+            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
 
+                foreach (var item in _listManager.LoadList) {
+                    item.CalculateLoading();
+                }
+
+            }));
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);

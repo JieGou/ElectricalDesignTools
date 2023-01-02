@@ -257,7 +257,7 @@
                                     <Style TargetType="Canvas">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding PdType}" Value="MCP_FVR">
+                                            <DataTrigger Binding="{Binding Type}" Value="MCP_FVR">
                                                 <Setter Property="Visibility" Value="Visible"/>
 
                                             </DataTrigger>
@@ -853,6 +853,7 @@
                 BreakerTemplate="{StaticResource BreakerTemplate}" />
     
     <!--Pd Starter Template Styles / Selector-->
+    <!--ContentControl-->
     <Style x:Key="PdStarterTemplateStyle" TargetType="{x:Type ContentControl}">
         <Setter Property="Visibility" Value="Visible"/>
         <Style.Triggers>
@@ -869,9 +870,9 @@
             </MultiDataTrigger>
 
 
-            <DataTrigger Binding="{Binding IsStandAlone}" Value="true">
+            <!--<DataTrigger Binding="{Binding IsStandAlone}" Value="true">
                 <Setter Property="Visibility" Value="Collapsed"/>
-            </DataTrigger>
+            </DataTrigger>-->
 
             <DataTrigger Binding="{Binding Path=Type}" Value="MCP_FVNR">
                 <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
@@ -887,12 +888,11 @@
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
                     <Condition Binding="{Binding Path=Type}" Value="BKR" />
-                    <Condition Binding="{Binding FedFrom}" Value="{x:Type edtDteqModels:XfrModel}" />
+                    <Condition Binding="{Binding Owner.FedFrom}" Value="{x:Type edtDteqModels:XfrModel}" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter Property="ContentTemplate" Value="{StaticResource EmptyTemplate}"/>
                 </MultiDataTrigger.Setters>
-
             </MultiDataTrigger>
 
             <DataTrigger Binding="{Binding IsStandAlone}" Value="true">

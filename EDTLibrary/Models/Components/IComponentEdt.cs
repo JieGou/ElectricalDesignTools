@@ -17,7 +17,7 @@ namespace EDTLibrary.Models.Components
 
         string SubCategory { get; set; }
         string SubType { get; set; }
-        List<string> TypeList { get; set; }
+        List<string> TypeList { get; }
 
 
         int OwnerId { get; set; }

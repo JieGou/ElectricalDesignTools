@@ -12,7 +12,7 @@ namespace EDTLibrary.Models.Cables;
 public interface ICable
 {
     string AmpacityTable { get; set; }
-    ICommand AutoSizeCableCommand { get; }
+    ICommand AutoSizeCommand { get; }
     double BaseAmps { get; set; }
     string Category { get; set; }
     int ConductorQty { get; set; }
@@ -67,8 +67,8 @@ public interface ICable
     event EventHandler PropertyUpdated;
 
     void AssignOwner(ICableUser load);
-    void AutoSizeAllLoadCables();
-    Task AutoSizeAsync();
+    void AutoSizeAll();
+    Task AutoSizeAllAsync();
     string CalculateAmpacity(ICableUser load);
     void CreateSizeList();
     void CreateTag();

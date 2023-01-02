@@ -24,7 +24,7 @@ public class ComponentManager
     {
         if (listManager == null) return;
 
-        string subCategory = SubCategories.Starter.ToString();
+        string subCategory = CctCompSubCategories.Starter.ToString();
         string type = StarterTypeSelector.SelectStarterType((ILoad)componentUser);
         string subType = CctComponentSubTypes.DefaultStarter.ToString();
 
@@ -67,7 +67,7 @@ public class ComponentManager
 
         if (listManager == null) return;
 
-        string subCategory = SubCategories.Disconnect.ToString();
+        string subCategory = CctCompSubCategories.Disconnect.ToString();
         string type = CctComponentTypes.UDS.ToString();
         string subType = CctComponentSubTypes.DefaultDcn.ToString();
 
