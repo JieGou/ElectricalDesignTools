@@ -13,6 +13,7 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Validators;
 using EDTLibrary.Services;
 using EDTLibrary.UndoSystem;
+using EDTLibrary.Validators;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -272,49 +273,43 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (value == null || value == _fedFrom) return;
 
                 IDteq oldValue = _fedFrom;
-                IDteq nextFedFrom = value;
+                IDteq newFedFrom = value;
 
                 UndoManager.CanAdd = false;
                 try {
                     if (DaManager.GettingRecords == true) {
                         // Assigned loads add, and events are subscribed to inside UpdateFedFrom;
                         _fedFrom = value;
-                        DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
+                        DistributionManager.UpdateFedFrom_Single(this, _fedFrom, oldValue);
+                        UndoManager.CanAdd = true;
                         return;
                     }
-                    _fedFrom = nextFedFrom;
 
-                    //Fed from validation - Checks if the equipment is fed from itself and does not allow the change to proceed.
-                    for (int i = 0; i < 500; i++) {
-                        if (nextFedFrom == null) {
-                            DistributionManager.UpdateFedFrom(this, _fedFrom, new DteqModel());
-                            return;
-                        }
-                        else {
-                            //invalid
-                            if (nextFedFrom.Tag == Tag) {
 
-                                //Must change value back before showing message box
-                                _fedFrom = oldValue;
-
-                                //Message must be executed last
-                                ErrorHelper.NotifyUserError("Equipment Cannot be fed from itself, directly or through other equipment.",
-                                    "Circular Feed Error",
-                                    MessageBoxImage.Warning);
-                                break;
-                            }
-                            //Valid
-                            else if (nextFedFrom.Tag == GlobalConfig.Utility || nextFedFrom.Tag == GlobalConfig.Deleted || i == 500) {
-                                _fedFrom = value;
-                                DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
-                                UndoManager.CanAdd = true;
-                                break;
-                            }
-                            else {
-                                nextFedFrom = nextFedFrom.FedFrom;
-                            }
-                        }
+                    if (newFedFrom == null) {
+                        _fedFrom = newFedFrom;
+                        DistributionManager.UpdateFedFrom_Single(this, newFedFrom, new DteqModel());
+                        UndoManager.CanAdd = true;
+                        return;
                     }
+
+
+                    if (FedFromValidator.IsFedFromValid(this,newFedFrom)) {
+                        _fedFrom = newFedFrom;
+                        DistributionManager.UpdateFedFrom_Single(this, newFedFrom, oldValue);
+                        UndoManager.CanAdd = true;
+                        return;
+                    }
+                    else {
+                        //Must change value back before showing message box
+                        _fedFrom = oldValue;
+                        ErrorHelper.NotifyUserError("Equipment Cannot be fed from itself, directly or through other equipment.",
+                                                    "Circular Feed Error",
+                                                    MessageBoxImage.Warning);
+                        UndoManager.CanAdd = true;
+                        return;
+                    }
+
                 }
                 catch (Exception ex) {
                     throw;
@@ -724,9 +719,14 @@ namespace EDTLibrary.Models.DistributionEquipment
         public void ValidateCableSizes()
         {
             foreach (var item in CctComponents) {
-                item.PowerCable.ValidateCableSize(item.PowerCable);
+                if (item.PowerCable!= null) {
+                    item.PowerCable.ValidateCableSize(item.PowerCable);
+                }
             }
-            PowerCable.ValidateCableSize(PowerCable);
+            if (PowerCable!= null) {
+                PowerCable.ValidateCableSize(PowerCable);
+
+            }        
         }
         public void SizePowerCable()
         {

@@ -35,6 +35,31 @@ using WpfUI.ViewModels.Equipment;
 namespace WpfUI.ViewModels.Electrical;
 internal class SingleLineViewModel: EdtViewModelBase
 {
+    public SingleLineViewModel(ListManager listManager) : base(listManager)
+    {
+        ListManager = listManager;
+
+        _ViewStateManager.ElectricalViewUpdate += OnElectricalViewUpdated;
+
+        DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
+    }
+
+
+    #region View State
+    public void OnElectricalViewUpdated(object source, EventArgs e)
+    {
+        RefreshSingleLine();
+    }
+    public void RefreshSingleLine()
+    {
+        AssignedLoads.Clear();
+        foreach (var item in _selectedDteq.AssignedLoads) {
+            AssignedLoads.Add(item);
+        }
+
+    }
+    #endregion
+
 
     private DteqFactory _dteqFactory;
     private ListManager _listManager;
@@ -99,18 +124,12 @@ internal class SingleLineViewModel: EdtViewModelBase
         }
         set
         {
-            _dteqCollectionView = DteqCollectionView;
-
+            _dteqCollectionView = new ListCollectionView(ViewableDteqList);
             
         }
     }
 
-    public SingleLineViewModel(ListManager listManager) : base(listManager)
-    {
-        ListManager = listManager;
-
-        DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
-    }
+   
 
     //Equipment
     private IEquipment _selectedLoadEquipment;
@@ -161,7 +180,6 @@ internal class SingleLineViewModel: EdtViewModelBase
 
 
     //SelectedItems
-    private IDteq _selectedDteq;
     public IDteq SelectedDteq
     {
         get { return _selectedDteq; }
@@ -202,27 +220,9 @@ internal class SingleLineViewModel: EdtViewModelBase
         }
 
     }
-
-    private static void AllowUIToUpdate()
-    {
-        DispatcherFrame frame = new();
-        // DispatcherPriority set to Input, the highest priority
-        Dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.Input, new DispatcherOperationCallback(delegate (object parameter)
-        {
-            frame.Continue = false;
-            Thread.Sleep(10); // Stop all processes to make sure the UI update is perform
-            return null;
-        }), null);
-        Dispatcher.PushFrame(frame);
-        // DispatcherPriority set to Input, the highest priority
-        System.Windows.Application.Current.Dispatcher.Invoke(DispatcherPriority.Input, new Action(delegate { }));
-    }
+    private IDteq _selectedDteq;
 
     public bool IsBusy { get; set; }
-
-
-
-    private IPowerConsumer _selectedLoad;
 
     public IPowerConsumer SelectedLoad
     {
@@ -236,6 +236,7 @@ internal class SingleLineViewModel: EdtViewModelBase
             }
         }
     }
+    private IPowerConsumer _selectedLoad;
 
 
     //Components
@@ -247,8 +248,6 @@ internal class SingleLineViewModel: EdtViewModelBase
     }
 
     public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
-
-
 
     public static NotificationPopup NotificationPopup { get; set; }
 

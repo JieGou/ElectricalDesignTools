@@ -333,6 +333,10 @@ public class DaManager {
             var model = (DpnModel)iDteq;
             prjDb.DeleteRecord(GlobalConfig.DpnTable, model.Id);
         }
+        else if (iDteq.GetType() == typeof(SplitterModel)) {
+            var model = (SplitterModel)iDteq;
+            prjDb.DeleteRecord(GlobalConfig.SplitterTable, model.Id);
+        }
     }
 
 

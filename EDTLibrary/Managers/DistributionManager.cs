@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.DistributionControl;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
@@ -21,15 +22,34 @@ namespace EDTLibrary.Managers
             _listManager = listManager;
         }
 
-
-
         /// <summary>
         /// Transfers the load from the old to the new supplier. (Id, Tag, Type, events, load calculation, cable tag , etc.
         /// </summary>
         /// <param name="caller"></param>
         /// <param name="newSupplier"></param>
         /// <param name="oldSupplier"></param>
-        public static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
+        
+        
+        public static void UpdateFedFrom_List(List<UpdateFedFromItem> loadsToRefeed)
+        {
+
+            foreach (var item in loadsToRefeed) {
+                UpdateFedFrom(item.Caller, item.NewSupplier, item.OldSupplier);
+            }      
+            OnFedFromUpdated();
+        }
+
+        public static void UpdateFedFrom_Single(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
+        {
+            if (DaManager.GettingRecords == false) {
+                var item = new UpdateFedFromItem { Caller = caller, NewSupplier = newSupplier, OldSupplier = oldSupplier };
+                var list = new List<UpdateFedFromItem>();
+                list.Add(item);
+                UpdateFedFrom_List(list);
+            }
+        }
+
+        private static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
             if (caller.FedFrom != null) {
                 caller.FedFromId = newSupplier.Id;
@@ -42,7 +62,7 @@ namespace EDTLibrary.Managers
 
                 if (oldSupplier != null) {
                     caller.LoadingCalculated -= oldSupplier.OnAssignedLoadReCalculated;
-                  
+
                     oldSupplier.RemoveAssignedLoad(caller);
 
                     if (oldSupplier.Tag != GlobalConfig.Deleted) {
@@ -50,15 +70,16 @@ namespace EDTLibrary.Managers
                     }
                 }
 
-                if (caller.CalculationFlags != null) { 
+                if (caller.CalculationFlags != null) {
                     if (caller.CalculationFlags.CanUpdateFedFrom) {
                         newSupplier.AddNewLoad(caller);
                     }
-                    
                 }
+
                 else {
                     newSupplier.AddNewLoad(caller);
                 }
+
                 caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
 
                 caller.VoltageType = newSupplier.LoadVoltageType;
@@ -97,52 +118,14 @@ namespace EDTLibrary.Managers
         }
         //TODO - Load and DTEQ type changes
 
-        public async Task CalculateDteqLoadingAsync() // LoadList Manager
+        
+        public static event EventHandler FedFromUpdate;
+        public static void OnFedFromUpdated()
         {
-            await Task.Run(() => {
-                Stopwatch sw = new Stopwatch();
-                sw.Restart();
-                Debug.Print("CalculateDteqLoadingAsync Start");
-                _listManager.UnregisterAllDteqFromAllLoadEvents();
-                _listManager.AssignLoadsAndEventsToAllDteq();
-                double total = 0;
-                double subTotal = 0;
-                Debug.Print(sw.Elapsed.TotalMilliseconds.ToString());
-
-                //Loads
-                DaManager.GettingRecords = false;
-                {
-                    foreach (var load in _listManager.LoadList) {
-                        sw.Restart();
-
-                        load.CalculateLoading();
-                        load.PowerCable.AutoSizeAll();
-                        load.PowerCable.CalculateAmpacity(load);
-
-                        subTotal += sw.Elapsed.TotalMilliseconds;
-
-                    }
-                }
-                DaManager.GettingRecords = false;
-
-                Debug.Print("Loads: " + subTotal);
-                total += subTotal;
-                subTotal = 0;
-
-                //Dteq
-                foreach (var dteq in _listManager.IDteqList) {
-                    sw.Restart();
-
-                    dteq.CalculateLoading();
-                    dteq.PowerCable.AutoSizeAll();
-                    dteq.PowerCable.CalculateAmpacity(dteq);
-
-                    subTotal += sw.Elapsed.TotalMilliseconds;
-                }
-                Debug.Print("Dteq: " + subTotal);
-                total += subTotal;
-                Debug.Print("Total: " + total);
-            });
+            if (FedFromUpdate != null) {
+                FedFromUpdate(nameof(DistributionManager), EventArgs.Empty);
+            }
         }
+
     }
 }

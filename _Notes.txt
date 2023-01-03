@@ -6,11 +6,7 @@ In Progress PROTECTION DEVICE MANAGER
 	- Type = BKR, FDS, UDS, DOL, VSD, 
 	- SubType = DefaultDcn,, Diconnect,
 
-		
-	Library 
-		- Starter sizes for other voltages
-		- StarterSizes list for dropown
-	
+	-FedFrom updates Setter vs Method
 
 	- LCS cable to Starter for DPN/CDP/SPL
 	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer) PdTypeList creation
@@ -18,13 +14,16 @@ In Progress PROTECTION DEVICE MANAGER
 	
 
 Bugs
-	- splitter not being added to SingleLine Dteq list
+	- splitter not being added to SingleLine Dteq TreeView
 	- new Dteq not added to Dteq List
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
 	- added DTEQ aren't in the right click menu Set FedFrom list
 
-
+		
+Library 
+	- Starter sizes for other voltages
+	- StarterSizes list for dropown
 
 Misc.
 	- Edt equipment property editor

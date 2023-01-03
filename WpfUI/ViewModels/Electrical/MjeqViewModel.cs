@@ -60,7 +60,8 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     //CONSTRUCTOR
     public MjeqViewModel(ListManager listManager) : base(listManager)
     {
-        
+
+        _ViewStateManager.ElectricalViewUpdate += OnElectricalViewUpdated;
 
         //fields
         _listManager = listManager;
@@ -122,8 +123,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
     }
 
-
-
+    
     public UserControl SelectedElectricalViewModel { get; set; }
     #endregion
 
@@ -192,7 +192,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
     //public void SetArea()
     //{
-        
+
 
     //    EquipmentCommands.SetAreaOfEquipmentList(LoadToAddValidator.AreaTag, SelectedLoads, ListManager, this);
 
@@ -201,27 +201,30 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     //    }
     //}
 
-    
 
-    public void SetFedFrom()
-    {
-        if (SelectedLoads == null) return;
-        IPowerConsumer load;
-
-        foreach (var item in SelectedLoads) {
-            load = (IPowerConsumer)item;
-            //dteq.Tag = "New Tag";
-            load.FedFrom = ListManager.IDteqList.FirstOrDefault(d => d.Tag == LoadToAddValidator.FedFromTag);
-        }
-        if (SelectionWindow != null) {
-            CloseSelectionWindow();
-        }
-    }
 
     #endregion
 
 
     #region Views States
+    public void OnElectricalViewUpdated(object source, EventArgs e)
+    {
+        RefreshLoadList();
+    }
+    public void RefreshLoadList()
+    {
+        if (SelectedDteq == null) return;
+
+        if (LoadListLoaded == false) {
+            AssignedLoads.Clear();
+            foreach (var load in SelectedDteq.AssignedLoads) {
+                AssignedLoads.Add(load);
+            }
+        }
+        else {
+            GetLoadList();
+        }
+    }
 
     //Dteq
     public string? ToggleRowDetailViewProp { get; set; } = "Collapsed";

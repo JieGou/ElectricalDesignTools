@@ -411,7 +411,7 @@ namespace EDTLibrary.Models.Loads
 
                 if (DaManager.GettingRecords == false) {
 
-                    DistributionManager.UpdateFedFrom(this, _fedFrom, oldValue);
+                    DistributionManager.UpdateFedFrom_Single(this, _fedFrom, oldValue);
 
 
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
@@ -854,9 +854,13 @@ namespace EDTLibrary.Models.Loads
         public void ValidateCableSizes()
         {
             foreach (var item in CctComponents) {
-                item.PowerCable.ValidateCableSize(item.PowerCable);
+                if (item.PowerCable != null) {
+                    item.PowerCable.ValidateCableSize(item.PowerCable);
+                }
             }
-            PowerCable.ValidateCableSize(PowerCable);
+            if (PowerCable != null) {
+                PowerCable.ValidateCableSize(PowerCable);
+            }
         }
 
         public void SizePowerCable()

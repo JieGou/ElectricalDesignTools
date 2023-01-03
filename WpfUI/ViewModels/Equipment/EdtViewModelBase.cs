@@ -1,4 +1,5 @@
 ﻿using EDTLibrary;
+using EDTLibrary.DistributionControl;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
@@ -8,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Entity.Migrations.Model;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -117,16 +119,6 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
 
 
-
-
-
-
-
-
-
-
-
-
     public ICommand SetAreaCommand { get; }
     public void SetArea()
     {
@@ -152,7 +144,6 @@ public abstract class EdtViewModelBase: ViewModelBase
         }
     }
 
-
     public ICommand SetFedFromCommand { get; }
     public void SetFedFrom()
     {
@@ -166,11 +157,24 @@ public abstract class EdtViewModelBase: ViewModelBase
         if (SelectedLoads == null) return;
         IPowerConsumer load;
 
-        foreach (var item in SelectedLoads) {
-            load = (IPowerConsumer)item;
-            //dteq.Tag = "New Tag";
-            load.FedFrom = ListManager.IDteqList.FirstOrDefault(d => d.Tag == LoadToAddValidator.FedFromTag);
+
+        var list = new List<UpdateFedFromItem>();
+        
+
+        foreach (var loadItem in SelectedLoads) {
+            load = (IPowerConsumer)loadItem;
+            //load.FedFrom = ListManager.IDteqList.FirstOrDefault(d => d.Tag == LoadToAddValidator.FedFromTag);
+
+            list.Add(new UpdateFedFromItem{ 
+                Caller=load,
+                NewSupplier = ListManager.IDteqList.FirstOrDefault(d => d.Tag == LoadToAddValidator.FedFromTag),
+                OldSupplier= load.FedFrom
+            }); 
+
         }
+
+        DistributionManager.UpdateFedFrom_List(list);
+
         if (SelectionWindow != null) {
             CloseSelectionWindow();
         }

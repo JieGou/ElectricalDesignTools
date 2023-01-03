@@ -76,6 +76,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
         _dteqFactory = new DteqFactory(listManager);
 
         _mjeqViewModel = new MjeqViewModel(_listManager);
+
         _singleLineViewModel = new SingleLineViewModel(_listManager);
         _dpanelViewModel = new DpanelViewModel(_listManager);
 

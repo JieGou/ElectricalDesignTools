@@ -1,5 +1,4 @@
 ﻿using EDTLibrary.A_Helpers;
-using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Mappers;
@@ -11,23 +10,17 @@ using ExcelLibrary;
 using Portable.Licensing;
 using Portable.Licensing.Security.Cryptography;
 using Portable.Licensing.Validation;
-using Syncfusion.UI.Xaml.Schedule;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using Windows.Devices.Bluetooth.Background;
 using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.PopupWindows;
@@ -37,8 +30,6 @@ using WpfUI.ViewModels.Electrical;
 using WpfUI.ViewModels.Library;
 using WpfUI.ViewModels.Menus;
 using WpfUI.Views.Settings;
-using WpfUI.Windows;
-using Application = System.Windows.Application;
 
 namespace WpfUI.ViewModels
 {
@@ -58,9 +49,6 @@ namespace WpfUI.ViewModels
             set 
             {
                 _currentViewModel = value;
-
-                
-                
             }
         }
 
@@ -139,6 +127,7 @@ namespace WpfUI.ViewModels
 
         public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type="")
         {
+            DistributionManager.FedFromUpdate += _ViewStateManager.OnFedFromUpdated;
 
             ValidateLicense();
             EdtSettings.ProjectNameUpdated += OnProjectNameUpdated;
@@ -161,6 +150,7 @@ namespace WpfUI.ViewModels
             //Electrical
             _electricalMenuViewModel = new ElectricalMenuViewModel(this, listManager);
             _mjeqViewModel = new MjeqViewModel(listManager);
+
 
             //Cables
             _cableMenuViewModel = new CableMenuViewModel(this, listManager);
