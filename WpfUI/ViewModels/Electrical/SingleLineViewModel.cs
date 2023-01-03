@@ -52,10 +52,11 @@ internal class SingleLineViewModel: EdtViewModelBase
     }
     public void RefreshSingleLine()
     {
-        AssignedLoads.Clear();
-        foreach (var item in _selectedDteq.AssignedLoads) {
-            AssignedLoads.Add(item);
-        }
+        if (SelectedDteq == null) return;
+            AssignedLoads.Clear();
+            foreach (var item in SelectedDteq.AssignedLoads) {
+                AssignedLoads.Add(item);
+            } 
 
     }
     #endregion

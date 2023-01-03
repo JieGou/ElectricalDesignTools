@@ -399,9 +399,11 @@
 
             <!--Properties Editor-->
             <ScrollViewer Grid.Column="1" 
-                                  HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Visible">
-                <Grid >
+                          HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Visible"
+                          Visibility="Visible">
+
+            <Grid Grid.Column="1" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="*"/>
@@ -459,10 +461,10 @@
                     </ContentControl>
 
                 </Grid>
+
             </ScrollViewer>
-            
-            
-            
+
+
             <!--Tabs on right-->
             <TabControl Grid.Column="1" Background="Transparent" BorderThickness="0 1 0 0"
                         HorizontalAlignment="Stretch"

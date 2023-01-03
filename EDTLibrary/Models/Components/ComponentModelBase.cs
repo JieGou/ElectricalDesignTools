@@ -22,6 +22,11 @@ namespace EDTLibrary.Models.Components;
 [Serializable]
 [AddINotifyPropertyChangedInterface]
 
+
+//  - Category = CctComponent
+//	- Sub-Category = ProtectionDevice, Starter, Disconnect
+//	- Type = BKR, FDS, UDS, DOL, VSD, 
+//	- SubType = DefaultDcn,, Diconnect,
 public abstract class ComponentModelBase : IComponentEdt
 {
 

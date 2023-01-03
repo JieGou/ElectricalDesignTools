@@ -146,7 +146,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto" x:Name="PropertyPaneColumn" />
+                <ColumnDefinition Width="310" x:Name="PropertyPaneColumn" />
                 <ColumnDefinition Width="1"/>
             </Grid.ColumnDefinitions>
 
@@ -640,9 +640,11 @@
                 <Border Grid.Row="1"
                         BorderThickness="1" BorderBrush="Black" Background="{StaticResource BackgroundLight}"
                         >
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Auto">
-                        <Grid Margin="5">
+                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                  VerticalScrollBarVisibility="Auto"
+                                  >
+
+                    <Grid Margin="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="*"/>
@@ -700,6 +702,8 @@
 
                         </Grid>
                     </ScrollViewer>
+
+
                 </Border>
             </Grid>
             

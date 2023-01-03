@@ -105,7 +105,7 @@
         <StackPanel Grid.Row="4" 
                     Grid.Column="0" Grid.ColumnSpan="1"
                     Margin="5"
-                    Visibility="Visible">
+                    Visibility="Collapsed">
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Cat    "

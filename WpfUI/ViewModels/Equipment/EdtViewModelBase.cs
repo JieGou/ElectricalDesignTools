@@ -164,12 +164,16 @@ public abstract class EdtViewModelBase: ViewModelBase
         foreach (var loadItem in SelectedLoads) {
             load = (IPowerConsumer)loadItem;
             //load.FedFrom = ListManager.IDteqList.FirstOrDefault(d => d.Tag == LoadToAddValidator.FedFromTag);
+            var newSupplier = ListManager.IDteqList.FirstOrDefault(d => d.Tag == LoadToAddValidator.FedFromTag);
 
-            list.Add(new UpdateFedFromItem{ 
-                Caller=load,
-                NewSupplier = ListManager.IDteqList.FirstOrDefault(d => d.Tag == LoadToAddValidator.FedFromTag),
-                OldSupplier= load.FedFrom
-            }); 
+
+            if (newSupplier!=null) {
+                list.Add(new UpdateFedFromItem {
+                    Caller = load,
+                    NewSupplier = newSupplier,
+                    OldSupplier = load.FedFrom
+                }); ;  
+            }
 
         }
 

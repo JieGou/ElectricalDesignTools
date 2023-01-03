@@ -23,17 +23,26 @@
         <StackPanel Orientation="Vertical"
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Center"
-                                Margin="10 0 0 0">
+                                Margin="5 0 0 0">
             <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                 HorizontalAlignment="Left"
-                                 Background="Transparent"
-                                 BorderBrush="LightGray"
-                                 FontWeight="SemiBold"
-                                 />
-            <TextBlock Text="{Binding Description}" HorizontalAlignment="Left"
-                                   MaxWidth="140"
-                                   TextWrapping="WrapWithOverflow"
-                                   Visibility="{Binding Description, Converter={StaticResource EmptyStringToVisibilityConverter}}"/>
+                     HorizontalAlignment="Left"
+                     Background="Transparent"
+                     BorderBrush="Transparent"
+                     FontWeight="SemiBold"
+                     TextWrapping="Wrap"
+                     ToolTipService.InitialShowDelay="500"
+                     ToolTip="Tag"
+                     />
+            <TextBox Text="{Binding Description}" HorizontalAlignment="Left"
+                     TextAlignment="Left"
+                     MinWidth="50"
+                     MaxWidth="140"
+                     Background="Transparent"
+                     BorderBrush="Transparent"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     ToolTipService.InitialShowDelay="500"
+                     ToolTip="Description"/>
         </StackPanel>
     </Border>
 </UserControl>

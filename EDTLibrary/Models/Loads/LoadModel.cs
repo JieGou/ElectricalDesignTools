@@ -125,11 +125,15 @@ namespace EDTLibrary.Models.Loads
 
                 allowCalculations = false;
                 LoadUnitSelector.SelectUnit(this);
-                StandAloneStarterBool = false;
 
-                if (_type == LoadTypes.MOTOR.ToString() && FedFrom.Type == DteqTypes.DPN.ToString() && FedFrom.Type == DteqTypes.CDP.ToString() && FedFrom.Type == DteqTypes.SPL.ToString()) {
-                    StandAloneStarterBool = true;
-                }
+                ProtectionDeviceManager.SetProtectionDeviceType(this);
+
+                //StandAloneStarterBool = false;
+
+                //if (_type == LoadTypes.MOTOR.ToString() && (FedFrom.Type == DteqTypes.DPN.ToString() || FedFrom.Type == DteqTypes.CDP.ToString() || FedFrom.Type == DteqTypes.SPL.ToString())) {
+                //    StandAloneStarterBool = true;
+                //}
+                       
                 allowCalculations = true;
                 CalculateLoading();
 

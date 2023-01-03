@@ -13,6 +13,11 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Components.ProtectionDevices;
 
 [AddINotifyPropertyChangedInterface]
+
+//  - Category = CctComponent
+//	- Sub-Category = ProtectionDevice, Starter, Disconnect
+//	- Type = BKR, FDS, UDS, DOL, VSD, 
+//	- SubType = DefaultDcn,, Diconnect,
 public class ProtectionDeviceModel : ComponentModelBase, IProtectionDevice
 {
     private bool _isStandAlone;

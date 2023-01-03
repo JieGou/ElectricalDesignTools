@@ -1,12 +1,5 @@
 
-In Progress PROTECTION DEVICE MANAGER
-
-	- Category = CctComponent
-	- Sub-Category = ProtectionDevice, Starter, Disconnect
-	- Type = BKR, FDS, UDS, DOL, VSD, 
-	- SubType = DefaultDcn,, Diconnect,
-
-	-FedFrom updates Setter vs Method
+- Bulk FedFrom updates Setter vs Method
 
 	- LCS cable to Starter for DPN/CDP/SPL
 	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer) PdTypeList creation

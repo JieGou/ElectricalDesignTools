@@ -64,12 +64,12 @@
                     </Style>
                 </Border.Style>
 
-                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                <!--<ScrollViewer HorizontalScrollBarVisibility="Auto"
                                 VerticalScrollBarVisibility="Hidden">
+                </ScrollViewer>-->
                     <ContentControl Content="{Binding Content, ElementName=root}"
                                     Margin="5">
                     </ContentControl>
-                </ScrollViewer>
             </Border>
         </StackPanel>
 

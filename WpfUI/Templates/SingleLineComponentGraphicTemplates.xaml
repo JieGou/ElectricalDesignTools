@@ -895,10 +895,15 @@
                 </MultiDataTrigger.Setters>
             </MultiDataTrigger>
 
+
             <DataTrigger Binding="{Binding IsStandAlone}" Value="true">
                 <Setter Property="Visibility" Value="Collapsed"/>
             </DataTrigger>
-
+            
+            <DataTrigger Binding="{Binding IsStandAlone}" Value="false">
+                <Setter Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+            
             <DataTrigger Binding="{Binding Path=Type}" Value="MCP_FVNR">
                 <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
             </DataTrigger>

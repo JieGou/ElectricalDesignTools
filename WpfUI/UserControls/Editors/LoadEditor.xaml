@@ -22,16 +22,20 @@
              d:Background="AliceBlue">
 
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" 
+    <!--<ScrollViewer VerticalScrollBarVisibility="Auto" 
                   HorizontalScrollBarVisibility="auto">
-        <Grid>
+    </ScrollViewer>-->
+
+    <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <editors:PowerConsumerEditor Grid.Row="0"
                                 Grid.Column="0"
                                 DataContext="{Binding}"
@@ -48,6 +52,5 @@
                                         Margin="0 1 0 0"/>
 
         </Grid>
-    </ScrollViewer>
 
 </UserControl>
