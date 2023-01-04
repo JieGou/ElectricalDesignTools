@@ -197,7 +197,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 OnPropertyUpdated(nameof(AreaClassification) + ": " + AreaClassification.ToString());
             }
         }
-        private string _areaClassification;
+        private string _areaClassification = "";
 
 
         public string PanelSide
@@ -840,6 +840,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             if (iLoad == null) {
                 AssignedLoads.Add(load);
+                load.ProtectionDevice.IsSelected = false;
+                load.CctComponents.Remove(load.ProtectionDevice);
                 return true;
             }
             return false;

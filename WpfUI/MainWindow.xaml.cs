@@ -21,6 +21,9 @@ using WpfUI.ViewModels.Home;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 using EDTLibrary.Services;
+using EDTLibrary.LibraryData;
+using EDTLibrary.ProjectSettings;
+using EDTLibrary.DataAccess;
 
 namespace WpfUI;
 
@@ -77,12 +80,28 @@ public partial class MainWindow : MetroWindow
     }
 
     DebugWindow debugWindow = null;
+
+    //Undo and Debug Window
     private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
     {
         if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
+
+            //reload
+            if (e.Key == Key.R) {
+                DaManager daManager = new DaManager();
+                ListManager listManager = new ListManager();
+                StartupService startupService = new StartupService(listManager, mainVm.StartupService.PreviousProjects);
+                TypeManager typeManager = new TypeManager();
+                EdtSettings edtSettings = new EdtSettings();
+
+                DataContext = new MainViewModel(startupService, listManager, typeManager, edtSettings, "NewInstance");
+            }
+            
+            
             if (e.Key == Key.Z) {
                 UndoManager.UndoCommand(mainVm._listManager);
             }
+            
             if (e.Key == Key.D) {
                 if (debugWindow == null || debugWindow.IsLoaded == false) {
                     debugWindow = new DebugWindow();
@@ -99,6 +118,7 @@ public partial class MainWindow : MetroWindow
         }
     }
 
+
     private void AreaMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
@@ -113,7 +133,6 @@ public partial class MainWindow : MetroWindow
             mainVm.NewWindow(new ElectricalMenuViewModel(newMainVm, mainVm._listManager), new MjeqViewModel(mainVm._listManager));
         }
     }
-
     private void CableMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {

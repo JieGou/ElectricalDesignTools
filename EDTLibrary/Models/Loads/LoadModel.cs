@@ -406,6 +406,7 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 if (value == null) return;
+                if (value == _fedFrom) return;
 
                 IDteq oldValue = _fedFrom;
                 _fedFrom = value;

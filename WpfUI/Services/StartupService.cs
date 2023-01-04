@@ -33,7 +33,7 @@ namespace WpfUI.Services
         
         public StartupService(ListManager listManager, ObservableCollection<PreviousProject> previousProjects)
         {
-            _listManager = listManager;
+            ListManager = listManager;
             PreviousProjects = previousProjects;
 
 
@@ -56,7 +56,7 @@ namespace WpfUI.Services
 
         }
 
-        ListManager _listManager;
+        public ListManager ListManager { get; set; }
 
         public bool IsProjectLoaded { get; set; }
         public bool IsLibraryLoaded { get; set; }
@@ -93,11 +93,11 @@ namespace WpfUI.Services
                 AppSettings.Default.Save();
                 ProjectFileName = Path.GetFileName(selectedProject);
                 ProjectFilePath = Path.GetDirectoryName(selectedProject);
-                UpdatePreviousProjects(selectedProject);
+                UpdatePreviousProjectsList(selectedProject);
             }
         }
 
-        private void UpdatePreviousProjects(string selectedProject)
+        private void UpdatePreviousProjectsList(string selectedProject)
         {
             var tempList = new ObservableCollection<PreviousProject>();
 
@@ -117,6 +117,7 @@ namespace WpfUI.Services
 
         public void InitializeProject(string projectFile)
         {
+            //ListManager = new ListManager();
 
             try {
                 if (File.Exists(projectFile)) {
@@ -193,7 +194,7 @@ namespace WpfUI.Services
                 SelectLibrary(Environment.GetFolderPath(_appDataFolder) + _edtFolder + _libraryFile);
             }
             else {
-                _listManager.GetProjectTablesAndAssigments();
+                ListManager.GetProjectTablesAndAssigments();
 
                 IsProjectLoaded = true;
                 OnProjectLoaded();

@@ -32,7 +32,10 @@ public partial class SinlgeLineView : UserControl
         InitializeComponent();
 
         _propertyPaneWidth = PropertyPaneColumn.Width.Value;
+        if (vm!=null) {
+            vm.DteqCollectionView = new ListCollectionView(vm.ViewableDteqList);
 
+        }
     }
 
     //Sets the datacontext for the details view panel on the right
@@ -55,7 +58,9 @@ public partial class SinlgeLineView : UserControl
         SingleLineViewModel slVm = (SingleLineViewModel)DataContext;
         slVm.SelectedLoadEquipment = (IEquipment)e.OriginalSource;
         slVm.IsSelectedLoadCable = false;
-        ClearSelections(slVm.ListManager);
+
+        slVm.ClearSelections();
+        //ClearSelections(slVm.ListManager);
 
         slVm.SelectedLoadEquipment.IsSelected = true;
 
@@ -67,7 +72,8 @@ public partial class SinlgeLineView : UserControl
         slVm.SelectedLoadCable = (IEquipment)e.OriginalSource;
         slVm.IsSelectedLoadCable = true;
 
-        ClearSelections(slVm.ListManager);
+        slVm.ClearSelections();
+        //ClearSelections(slVm.ListManager);
 
 
 
@@ -90,20 +96,18 @@ public partial class SinlgeLineView : UserControl
 
     }
 
-    private static void ClearSelections(ListManager listManager)
-    {
-        //Equipment
-        listManager.CreateEquipmentList();
-        foreach (var item in listManager.EqList) {
-            item.IsSelected = false;
-        }
+    //private static void ClearSelections(ListManager listManager)
+    //{
+    //    listManager.CreateEquipmentList();
+    //    foreach (var item in listManager.EqList) {
+    //        item.IsSelected = false;
+    //    }
 
-        //Cable
-        foreach (var item in listManager.CableList) {
-            item.IsSelected = false;
-        }
+    //    foreach (var item in listManager.CableList) {
+    //        item.IsSelected = false;
+    //    }
 
-    }
+    //}
 
 
 

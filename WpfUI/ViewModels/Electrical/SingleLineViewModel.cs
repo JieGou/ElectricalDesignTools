@@ -11,6 +11,7 @@ using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using Syncfusion.UI.Xaml.Charts;
+using Syncfusion.Windows.Controls.PivotGrid;
 using Syncfusion.XlsIO.Parser.Biff_Records;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,7 @@ internal class SingleLineViewModel: EdtViewModelBase
         _ViewStateManager.ElectricalViewUpdate += OnElectricalViewUpdated;
 
         DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
+
     }
 
 
@@ -52,11 +54,31 @@ internal class SingleLineViewModel: EdtViewModelBase
     }
     public void RefreshSingleLine()
     {
-        if (SelectedDteq == null) return;
-            AssignedLoads.Clear();
-            foreach (var item in SelectedDteq.AssignedLoads) {
-                AssignedLoads.Add(item);
-            } 
+        AssignedLoads.Clear();
+        if (SelectedDteq == null) return; 
+
+        var dteq = ListManager.DteqList.FirstOrDefault(d => d.Tag == SelectedDteq.Tag);
+
+        if (dteq == null) return;
+        foreach (var item in dteq.AssignedLoads) {
+            AssignedLoads.Add(item);
+        }
+        SelectedDteq = dteq;
+
+    }
+
+    internal void ClearSelections()
+    {
+        //Equipment
+        ListManager.CreateEquipmentList();
+        foreach (var item in ListManager.EqList) {
+            item.IsSelected = false;
+        }
+
+        //Cable
+        foreach (var item in ListManager.CableList) {
+            item.IsSelected = false;
+        }
 
     }
     #endregion
@@ -101,9 +123,33 @@ internal class SingleLineViewModel: EdtViewModelBase
     {
         get
         {
-            if (_dteqCollectionView == null) {
-                _dteqCollectionView = new ListCollectionView(ViewableDteqList);
-            }
+            //if (_dteqCollectionView == null) {
+            //}
+            //_dteqCollectionView = new ListCollectionView(ViewableDteqList);
+
+            //_dteqCollectionView.Filter = (d) => {
+            //    IEquipment dteq = (IEquipment)d;
+            //    if (dteq != null)
+            //    // If filter is turned on, filter completed items.
+            //    {
+            //        if (dteq != null) {
+            //            if (dteq is DistributionEquipment) {
+            //                return true;
+            //            }
+            //            else {
+            //                return false;
+            //            }
+            //        }
+            //    }
+            //    return false;
+            //};
+            return _dteqCollectionView;
+        }
+        set
+        {
+            //_dteqCollectionView = new ListCollectionView(ViewableDteqList);
+
+            _dteqCollectionView = value;
 
             _dteqCollectionView.Filter = (d) => {
                 IEquipment dteq = (IEquipment)d;
@@ -121,12 +167,6 @@ internal class SingleLineViewModel: EdtViewModelBase
                 }
                 return false;
             };
-            return _dteqCollectionView;
-        }
-        set
-        {
-            _dteqCollectionView = new ListCollectionView(ViewableDteqList);
-            
         }
     }
 
@@ -186,7 +226,10 @@ internal class SingleLineViewModel: EdtViewModelBase
         get { return _selectedDteq; }
         set
         {
-            if (value == null) return;
+            if (value == null) {
+                //_selectedDteq = null;
+                return;
+            }
             AssignedLoads = new ObservableCollection<IPowerConsumer>();
             IsBusy = true; //for loading animations on single line
 

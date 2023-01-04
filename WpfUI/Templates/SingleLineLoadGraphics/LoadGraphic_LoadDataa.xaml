@@ -17,14 +17,14 @@
     
     <Border BorderThickness="0" 
                         HorizontalAlignment="Left"
-                        Margin="0 3 3 3"
+                        Margin="0"
                         CornerRadius="{StaticResource BorderHighlightCornerRadius}"
-                        Padding="0 0 5 0">
+                        Padding="5 3 5 3">
         <StackPanel Orientation="Vertical"
                                 HorizontalAlignment="Left" 
                                 VerticalAlignment="Center"
-                                Margin="5 0 0 0">
-            <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                Margin="0 0 0 0">
+            <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" 
                      HorizontalAlignment="Left"
                      Background="Transparent"
                      BorderBrush="Transparent"
@@ -33,10 +33,10 @@
                      ToolTipService.InitialShowDelay="500"
                      ToolTip="Tag"
                      />
-            <TextBox Text="{Binding Description}" HorizontalAlignment="Left"
+            <TextBox Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left"
                      TextAlignment="Left"
                      MinWidth="50"
-                     MaxWidth="140"
+                     MaxWidth="150"
                      Background="Transparent"
                      BorderBrush="Transparent"
                      TextWrapping="Wrap"

@@ -5,13 +5,18 @@
 	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer) PdTypeList creation
 	- Move Component Up/Down into ComponentModelBase
 	
+MAJOR Bugs
+	- ReloadAll / Change project causes data discrepancy
+		- Unregister all events (event aggregator) when loading a new project.
+	- startup service to handle reloading project
 
-Bugs
+
+MINOR Bugs
 	- splitter not being added to SingleLine Dteq TreeView
 	- new Dteq not added to Dteq List
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
-	- added DTEQ aren't in the right click menu Set FedFrom list
+	- added DTEQ aren't in the right click menu SetFedFrom list
 
 		
 Library 

@@ -58,9 +58,9 @@ namespace WpfUI
             DeserializeRecentProjects();
 
             MainWindow = new MainWindow() {
-                DataContext = new MainViewModel(_startupService, listManager, typeManager, edtSettings, "NewInstance")
-                //DataContext = new MainViewModel(_navigationStore) 
+                DataContext = new MainViewModel(_startupService, _startupService.ListManager, typeManager, edtSettings, "NewInstance")
             };
+
             MainWindow.Show();
 
             // TimeSpan Values:     days, hours, minutes, seconds, milliseconds.
@@ -74,7 +74,7 @@ namespace WpfUI
         private void DeserializeRecentProjects()
         {
             try {
-                var ppDtos = new ObservableCollection<PreviousProjectDto>();
+                var previousProjectDtoList = new ObservableCollection<PreviousProjectDto>();
                 string recentProjets = "RecentProjects.bin";
 
                 //Deserialize RecentProject to DTO's
@@ -82,9 +82,9 @@ namespace WpfUI
                     using (Stream stream = File.Open(recentProjets, FileMode.Open)) {
                         BinaryFormatter bin = new BinaryFormatter();
 
-                        ppDtos = (ObservableCollection<PreviousProjectDto>)bin.Deserialize(stream);
+                        previousProjectDtoList = (ObservableCollection<PreviousProjectDto>)bin.Deserialize(stream);
 
-                        foreach (var project in ppDtos) {
+                        foreach (var project in previousProjectDtoList) {
                             PreviousProjects.Add(new PreviousProject(_startupService, project.Project));
                         }
                     }

@@ -112,6 +112,8 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         CurrentViewModel = _singleLineViewModel;
         _mainViewModel.CurrentViewModel = CurrentViewModel;
+        _singleLineViewModel.DteqCollectionView = new ListCollectionView(_singleLineViewModel.ViewableDteqList);
+
     }
 
     private void NavigateDistributionPanels()
@@ -129,6 +131,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
     private void LoadAll()
     {
+
         _listManager.GetProjectTablesAndAssigments();
 
         if (_mjeqViewModel.AssignedLoads != null)
@@ -138,15 +141,17 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
             _mjeqViewModel.LoadToAddValidator.ClearErrors();
         }
 
-        if (_dpanelViewModel.SelectedDteq != null)
-        {
-
-
-            //_dpanelViewModel.SelectedDteq.SetCircuits();
-            _dpanelViewModel.UpdatePanelList();
+        if (_singleLineViewModel.AssignedLoads!= null) {
+            _singleLineViewModel.AssignedLoads.Clear();
+            _singleLineViewModel.RefreshSingleLine();
+            _singleLineViewModel.ClearSelections();
+            _singleLineViewModel.DteqCollectionView = new ListCollectionView(_singleLineViewModel.ViewableDteqList);
         }
 
-
+        if (_dpanelViewModel.SelectedDteq != null)
+        {
+            _dpanelViewModel.UpdatePanelList();
+        }
     }
     #endregion
 

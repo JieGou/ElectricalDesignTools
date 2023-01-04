@@ -279,7 +279,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Text="{Binding Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Text="{Binding Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=750}"
                                  Grid.Column="0" 
                                  Style="{StaticResource SummaryValue_TextBoxStyle}" 
                                  TextAlignment="Right"

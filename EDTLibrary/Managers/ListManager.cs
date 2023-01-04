@@ -57,7 +57,6 @@ namespace EDTLibrary.Managers
         public ObservableCollection<RacewayRouteSegment> RacewaySegmentList { get; set; } = new ObservableCollection<RacewayRouteSegment>();
 
 
-
         public void GetProjectTablesAndAssigments()
         {
             DaManager.GettingRecords = true;

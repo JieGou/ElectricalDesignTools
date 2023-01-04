@@ -35,104 +35,46 @@ namespace WpfUI.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        private ViewModelBase _menuViewModel;
-        public ViewModelBase MenuViewModel 
+        private StartupService _startupService;
+        public StartupService StartupService
         {
-            get { return _menuViewModel; }
-            set { _menuViewModel = value; }
+            get { return _startupService; }
+            set { _startupService = value; }
         }
-
-        private ViewModelBase _currentViewModel;
-        public ViewModelBase CurrentViewModel
-        {
-            get { return _currentViewModel; }
-            set 
-            {
-                _currentViewModel = value;
-            }
-        }
-
-        
         public ListManager _listManager;
         public ListManager ListManager
         {
             get { return _listManager; }
-            set 
-            { 
+            set
+            {
                 _listManager = value;
             }
         }
-
         private TypeManager _typeManager;
         public TypeManager TypeManager
         {
             get { return _typeManager; }
             set { _typeManager = value; }
         }
-
         private EdtSettings _edtSettings;
-
         public EdtSettings EdtSettings
         {
             get { return _edtSettings; }
             set { _edtSettings = value; }
         }
 
-        private TagSettings _tagSettings;
-
-        public TagSettings TagSettings
-        {
-            get { return _tagSettings; }
-            set { _tagSettings = value; }
-        }
-
-        public string ProjectName { get; set; }
-        public void UpdateProjectName()
-        {
-            if (string.IsNullOrWhiteSpace(EdtSettings.ProjectName)) {
-                ProjectName = "Electrical Design Tools";
-            }
-            else {
-                ProjectName = EdtSettings.ProjectName;
-            }
-        }
-        public  void OnProjectNameUpdated(object source, EventArgs e)
-        {
-            UpdateProjectName();
-        }
-        private StartupService _startupService;
-
-        public StartupService StartupService
-        {
-            get { return _startupService; }
-            set { _startupService = value; }
-        }
-
-
-
-        public readonly HomeViewModel _homeViewModel;
-        public readonly SettingsMenuViewModel _settingsMenuViewModel;
-        public readonly AreasMenuViewModel _areasMenuViewModel;
-
-        //Electrical
-        public readonly ElectricalMenuViewModel _electricalMenuViewModel;
-        public readonly MjeqViewModel _mjeqViewModel;
-
-        //Cables
-        public readonly CableMenuViewModel _cableMenuViewModel;
-        public readonly CableListViewModel _cableListViewModel;
-
-        public readonly LibraryMenuViewModel _libraryMenuViewModel;
-        public readonly DataTablesViewModel _dataTablesViewModel;
-
-        public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type="")
+        public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type = "")
         {
             DistributionManager.FedFromUpdate += _ViewStateManager.OnFedFromUpdated;
 
             ValidateLicense();
             EdtSettings.ProjectNameUpdated += OnProjectNameUpdated;
 
-            _listManager = listManager;
+            _listManager = startupService.ListManager;
+            listManager = startupService.ListManager;
+
+
+
             ScenarioManager.ListManager = _listManager;
 
             _typeManager = typeManager;
@@ -186,13 +128,76 @@ namespace WpfUI.ViewModels
             ScenarioCommand = new RelayCommand(NewWindow);
 
             startupService.InitializeLibrary();
-            
+
 
             //TODO - Application Setting for auto load previous project
             if (type == "NewInstance") {
                 _startupService.InitializeProject(AppSettings.Default.ProjectDb);
             }
         }
+
+
+
+        private ViewModelBase _menuViewModel;
+        public ViewModelBase MenuViewModel 
+        {
+            get { return _menuViewModel; }
+            set { _menuViewModel = value; }
+        }
+
+        private ViewModelBase _currentViewModel;
+        public ViewModelBase CurrentViewModel
+        {
+            get { return _currentViewModel; }
+            set 
+            {
+                _currentViewModel = value;
+            }
+        }
+
+
+        private TagSettings _tagSettings;
+
+        public TagSettings TagSettings
+        {
+            get { return _tagSettings; }
+            set { _tagSettings = value; }
+        }
+
+        public string ProjectName { get; set; }
+        public void UpdateProjectName()
+        {
+            if (string.IsNullOrWhiteSpace(EdtSettings.ProjectName)) {
+                ProjectName = "Electrical Design Tools";
+            }
+            else {
+                ProjectName = EdtSettings.ProjectName;
+            }
+        }
+        public  void OnProjectNameUpdated(object source, EventArgs e)
+        {
+            UpdateProjectName();
+        }
+      
+
+
+
+        public readonly HomeViewModel _homeViewModel;
+        public readonly SettingsMenuViewModel _settingsMenuViewModel;
+        public readonly AreasMenuViewModel _areasMenuViewModel;
+
+        //Electrical
+        public readonly ElectricalMenuViewModel _electricalMenuViewModel;
+        public readonly MjeqViewModel _mjeqViewModel;
+
+        //Cables
+        public readonly CableMenuViewModel _cableMenuViewModel;
+        public readonly CableListViewModel _cableListViewModel;
+
+        public readonly LibraryMenuViewModel _libraryMenuViewModel;
+        public readonly DataTablesViewModel _dataTablesViewModel;
+
+    
 
         private void StartCloseTimer()
         {
