@@ -3,6 +3,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
+using EDTLibrary.Models.Validators;
 using EDTLibrary.Services;
 using System;
 using System.Collections.Generic;
@@ -45,8 +46,17 @@ public class TagManager
     {
         var identifier = GetEquipmentIdentifier(eq);
         var sequenceNumber = GetNextSequentialNumber(eq, listManager);
+        
         var tag = identifier + TagSettings.EqIdentifierSeparator + sequenceNumber;
 
+        if (TagAndNameValidator.IsTagAvailable(tag,listManager) == false) {
+
+            do {
+                sequenceNumber = (int.Parse(sequenceNumber) + 1).ToString();
+                tag = identifier + TagSettings.EqIdentifierSeparator + sequenceNumber;
+            } while (TagAndNameValidator.IsTagAvailable(tag, listManager) == false);
+        }
+        
         return tag;
     }
 
@@ -58,10 +68,12 @@ public class TagManager
 
         var eqTypelist = listManager.EqList.Where(e => e.Type == eq.Type).ToList();
         var eqNumList = new List<int>();
-        if (eqNumList.Count >0) {
+
+        if (eqTypelist.Count > 0) {
             foreach (var item in eqTypelist) {
-                eqNumList.Add(
-                    int.Parse(item.Tag.Substring(item.Tag.IndexOf(TagSettings.EqIdentifierSeparator) + 1)));
+                eqNumList.Add(int.Parse(
+                    item.Tag.Substring(
+                        item.Tag.IndexOf(TagSettings.EqIdentifierSeparator) + 1)));
             }
 
             var maxNum = eqNumList.Max();

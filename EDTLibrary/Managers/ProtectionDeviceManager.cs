@@ -81,6 +81,7 @@ public class ProtectionDeviceManager
         DaManager.DeleteProtectionDevice(pdToRemove);
         pdToRemove.PropertyUpdated -= DaManager.OnProtectioneDevicePropertyUpdated;
         load.ProtectionDevice = null;
+        listManager.PdList.Remove(pdToRemove);
     }
 
     internal static void SetProtectionDeviceType(IPowerConsumer load)
