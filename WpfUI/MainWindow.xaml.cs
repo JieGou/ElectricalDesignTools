@@ -94,7 +94,7 @@ public partial class MainWindow : MetroWindow
                 TypeManager typeManager = new TypeManager();
                 EdtSettings edtSettings = new EdtSettings();
 
-                DataContext = new MainViewModel(startupService, listManager, typeManager, edtSettings, "NewInstance");
+                DataContext = new MainViewModel(startupService, typeManager, edtSettings, "NewInstance");
             }
             
             
@@ -122,21 +122,21 @@ public partial class MainWindow : MetroWindow
     private void AreaMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
-            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService, mainVm.ListManager, mainVm.TypeManager, mainVm.EdtSettings, "ExtraWindow");
+            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService, mainVm.TypeManager, mainVm.EdtSettings, "ExtraWindow");
             mainVm.NewWindow(new AreasMenuViewModel(newMainVm, mainVm._listManager), new AreasViewModel(mainVm._listManager));
         }
     }
     private void ElectricalMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
-            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService,mainVm.ListManager,mainVm.TypeManager, mainVm.EdtSettings,"ExtraWindow");
+            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService, mainVm.TypeManager, mainVm.EdtSettings,"ExtraWindow");
             mainVm.NewWindow(new ElectricalMenuViewModel(newMainVm, mainVm._listManager), new MjeqViewModel(mainVm._listManager));
         }
     }
     private void CableMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
-            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService, mainVm.ListManager, mainVm.TypeManager, mainVm.EdtSettings, "ExtraWindow");
+            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService, mainVm.TypeManager, mainVm.EdtSettings, "ExtraWindow");
             mainVm.NewWindow(new CableMenuViewModel(newMainVm, mainVm._listManager), new CableListViewModel(mainVm._listManager));
         }
     }

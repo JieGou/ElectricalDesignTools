@@ -63,7 +63,7 @@ namespace WpfUI.ViewModels
             set { _edtSettings = value; }
         }
 
-        public MainViewModel(StartupService startupService, ListManager listManager, TypeManager typeManager, EdtSettings edtSettings, string type = "")
+        public MainViewModel(StartupService startupService, TypeManager typeManager, EdtSettings edtSettings, string type = "")
         {
             DistributionManager.FedFromUpdate += _ViewStateManager.OnFedFromUpdated;
 
@@ -71,37 +71,15 @@ namespace WpfUI.ViewModels
             EdtSettings.ProjectNameUpdated += OnProjectNameUpdated;
 
             _listManager = startupService.ListManager;
-            listManager = startupService.ListManager;
-
-
-
             ScenarioManager.ListManager = _listManager;
 
             _typeManager = typeManager;
             _startupService = startupService;
             _edtSettings = edtSettings;
 
-            _homeViewModel = new HomeViewModel(this, startupService, listManager);
+            InitializeViewModels();
+
             CurrentViewModel = _homeViewModel;
-
-            _settingsMenuViewModel = new SettingsMenuViewModel(this, edtSettings, typeManager, listManager);
-
-            //Areas & Systems
-            _areasMenuViewModel = new AreasMenuViewModel(this, listManager);
-
-            //Electrical
-            _electricalMenuViewModel = new ElectricalMenuViewModel(this, listManager);
-            _mjeqViewModel = new MjeqViewModel(listManager);
-
-
-            //Cables
-            _cableMenuViewModel = new CableMenuViewModel(this, listManager);
-            _cableListViewModel = new CableListViewModel(listManager);
-
-            //Library
-            _libraryMenuViewModel = new LibraryMenuViewModel(this);
-            _dataTablesViewModel = new DataTablesViewModel();
-
 
             NavigateStartupCommand = new RelayCommand(NavigateHome);
             NavigateSettingsCommand = new RelayCommand(NavigateSettings, CanExecute_IsProjectLoaded);
@@ -115,7 +93,7 @@ namespace WpfUI.ViewModels
 
             NavigateAreasCommand = new RelayCommand(NavigateAreasSystems, CanExecute_IsProjectLoaded);
 
-            NavigateElectricalCommand = new RelayCommand(NavigateElectical, startupService);
+            NavigateElectricalCommand = new RelayCommand(NavigateElectical, _startupService);
 
 
             NavigateCablesCommand = new RelayCommand(NavigateCables, CanExecute_IsProjectLoaded);
@@ -131,12 +109,35 @@ namespace WpfUI.ViewModels
 
 
             //TODO - Application Setting for auto load previous project
-            if (type == "NewInstance") {
-                _startupService.InitializeProject(AppSettings.Default.ProjectDb);
-            }
+            //if (type == "NewInstance") {
+            //    _startupService.InitializeProject(AppSettings.Default.ProjectDb);
+            //}
         }
 
 
+
+        internal void InitializeViewModels()
+        {
+            _homeViewModel = new HomeViewModel(this, _startupService, _startupService.ListManager);
+
+            _settingsMenuViewModel = new SettingsMenuViewModel(this, _edtSettings, _typeManager, _startupService.ListManager);
+
+            //Areas & Systems
+            _areasMenuViewModel = new AreasMenuViewModel(this, _startupService.ListManager);
+
+            //Electrical
+            _electricalMenuViewModel = new ElectricalMenuViewModel(this, _startupService.ListManager);
+            _mjeqViewModel = new MjeqViewModel(_startupService.ListManager);
+
+
+            //Cables
+            _cableMenuViewModel = new CableMenuViewModel(this, _startupService.ListManager);
+            _cableListViewModel = new CableListViewModel(_startupService.ListManager);
+
+            //Library
+            _libraryMenuViewModel = new LibraryMenuViewModel(this);
+            _dataTablesViewModel = new DataTablesViewModel();
+        }
 
         private ViewModelBase _menuViewModel;
         public ViewModelBase MenuViewModel 
@@ -182,20 +183,20 @@ namespace WpfUI.ViewModels
 
 
 
-        public readonly HomeViewModel _homeViewModel;
-        public readonly SettingsMenuViewModel _settingsMenuViewModel;
-        public readonly AreasMenuViewModel _areasMenuViewModel;
+        public  HomeViewModel _homeViewModel;
+        public  SettingsMenuViewModel _settingsMenuViewModel;
+        public  AreasMenuViewModel _areasMenuViewModel;
 
         //Electrical
-        public readonly ElectricalMenuViewModel _electricalMenuViewModel;
-        public readonly MjeqViewModel _mjeqViewModel;
+        public  ElectricalMenuViewModel _electricalMenuViewModel;
+        public  MjeqViewModel _mjeqViewModel;
 
         //Cables
-        public readonly CableMenuViewModel _cableMenuViewModel;
-        public readonly CableListViewModel _cableListViewModel;
+        public  CableMenuViewModel _cableMenuViewModel;
+        public  CableListViewModel _cableListViewModel;
 
-        public readonly LibraryMenuViewModel _libraryMenuViewModel;
-        public readonly DataTablesViewModel _dataTablesViewModel;
+        public  LibraryMenuViewModel _libraryMenuViewModel;
+        public  DataTablesViewModel _dataTablesViewModel;
 
     
 
@@ -379,7 +380,7 @@ namespace WpfUI.ViewModels
 
             Window newWindow = new MainWindow() {
                 //DataContext = new MainViewModel(startupService, listManager)
-                DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings, "ExtraWindow")
+                DataContext = new MainViewModel(_startupService, typeManager, _edtSettings, "ExtraWindow")
                 
             };
 
@@ -407,7 +408,7 @@ namespace WpfUI.ViewModels
             Window newWindow = new MainWindow() {
 
                 //DataContext = new MainViewModel(startupService, listManager)
-                DataContext = new MainViewModel(_startupService, _listManager, typeManager, _edtSettings, "ExtraWindow")
+                DataContext = new MainViewModel(_startupService, typeManager, _edtSettings, "ExtraWindow")
 
             };
 

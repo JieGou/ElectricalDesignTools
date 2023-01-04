@@ -840,8 +840,10 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             if (iLoad == null) {
                 AssignedLoads.Add(load);
-                load.ProtectionDevice.IsSelected = false;
-                load.CctComponents.Remove(load.ProtectionDevice);
+                if (load.ProtectionDevice!=null) {
+                    load.ProtectionDevice.IsSelected = false;
+                    load.CctComponents.Remove(load.ProtectionDevice);
+                }
                 return true;
             }
             return false;

@@ -182,7 +182,9 @@
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <!--Left Menu-->
+                
+                
+                <!--Tree View-->
                 <syncfusion:SfTreeView x:Name="sfTreeView" 
                                    Grid.Row="0"
                                    Grid.Column="0" 
@@ -201,7 +203,8 @@
                                    Visibility="Visible"
                                    Indentation="10"
                                    AutoExpandMode="AllNodes"
-                                   SelectionChanged="EqList_SelectionChanged" PreviewMouseLeftButtonDown="sfTreeView_PreviewMouseLeftButtonDown">
+                                   SelectionChanged="EqList_SelectionChanged" PreviewMouseLeftButtonDown="sfTreeView_PreviewMouseLeftButtonDown"
+                                   >
                     <syncfusion:SfTreeView.Resources>
 
                     </syncfusion:SfTreeView.Resources>

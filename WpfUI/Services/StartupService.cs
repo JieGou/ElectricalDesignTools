@@ -11,6 +11,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using WpfUI.Helpers;
+using WpfUI.ViewModels;
 using WpfUI.ViewModels.Home;
 
 namespace WpfUI.Services
@@ -21,7 +22,7 @@ namespace WpfUI.Services
         public string LibraryFile { get; set; }
         public string ProjectFileName { get; set; }
         public string ProjectFilePath { get; set; }
-
+        public MainViewModel MainVm { get; set; }
         public ObservableCollection<PreviousProject> PreviousProjects { get; set; }
 
 
@@ -117,7 +118,10 @@ namespace WpfUI.Services
 
         public void InitializeProject(string projectFile)
         {
-            //ListManager = new ListManager();
+            ListManager = new ListManager();
+            MainVm.ListManager = ListManager;
+            ScenarioManager.ListManager = ListManager;
+            MainVm.InitializeViewModels();
 
             try {
                 if (File.Exists(projectFile)) {

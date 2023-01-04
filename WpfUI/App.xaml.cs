@@ -57,9 +57,12 @@ namespace WpfUI
 
             DeserializeRecentProjects();
 
+            _startupService.MainVm = new MainViewModel(_startupService, typeManager, edtSettings, "NewInstance");
+
             MainWindow = new MainWindow() {
-                DataContext = new MainViewModel(_startupService, _startupService.ListManager, typeManager, edtSettings, "NewInstance")
+                DataContext = _startupService.MainVm
             };
+            _startupService.InitializeProject(AppSettings.Default.ProjectDb);
 
             MainWindow.Show();
 
