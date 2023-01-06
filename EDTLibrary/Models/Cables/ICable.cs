@@ -24,6 +24,7 @@ public interface ICable
     double Derating5C { get; set; }
     string DeratingToolTip { get; }
     string Destination { get; set; }
+    IEquipment DestinationModel { get; set; }
     double HeatLoss { get; set; }
     int Id { get; set; }
     string InstallationDiagram { get; set; }
@@ -32,6 +33,7 @@ public interface ICable
     bool Is1C { get; set; }
     bool IsOutdoor { get; set; }
     bool IsValidSize { get; set; }
+    string InvalidCableMessage { get; set; }
     double Length { get; set; }
     ICableUser Load { get; set; }
     int LoadId { get; set; }

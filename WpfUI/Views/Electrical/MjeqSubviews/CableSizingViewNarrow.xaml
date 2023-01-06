@@ -150,6 +150,32 @@
                       Text="{Binding PowerCable.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       IsEditable="False" VerticalAlignment="Center"/>
 
+            <!--Installation Type-->
+            <TextBlock Text="Installation Type" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
+            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                      Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Left"
+                      Margin="0 3" Width="135"
+                      FontWeight="Bold" FontSize="12"
+                      ItemsSource="{Binding Path=DataContext.CableInstallationTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"
+                      SelectedValue="{Binding PowerCable.InstallationType}"
+                      Text="{Binding PowerCable.InstallationType}"  d:Text="LadderTray"
+                      IsEditable="False" VerticalAlignment="Center"/>
+            
+
+            <!--Size-->
+            <TextBlock Text="Cable Size: " Grid.Row="8" Grid.Column="0"/>
+            <ComboBox Template="{DynamicResource ComboBoxBase}"
+                      Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="3" 
+                      Width="50" HorizontalAlignment="Left"
+                      VerticalAlignment="Center"
+                      FontWeight="Bold" FontSize="12"
+                      ItemsSource="{Binding Path=PowerCable.SizeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   
+                      SelectedValue="{Binding PowerCable.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Text="{Binding PowerCable.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      MaxDropDownHeight="auto"/>
+
 
             <!--Qty-->
             <TextBlock Text="Cable Qty: " Grid.Row="7" Grid.Column="0"/>
@@ -182,22 +208,7 @@
                 </TextBlock>
             </StackPanel>
 
-            <!--Size-->
-            <TextBlock Text="Cable Size: " Grid.Row="8" Grid.Column="0"/>
-            <ComboBox Template="{DynamicResource ComboBoxBase}"
-                      Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="3" 
-                      Width="50" HorizontalAlignment="Left"
-                      VerticalAlignment="Center"
-                      FontWeight="Bold" FontSize="12"
-                      ItemsSource="{Binding Path=PowerCable.SizeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   
-                      SelectedValue="{Binding PowerCable.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      Text="{Binding PowerCable.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      MaxDropDownHeight="auto"/>
-
-            <!--<TextBlock Text="{Binding PowerCable.Size}"
-                       Grid.Row="5" Grid.Column="2" FontWeight="Bold"
-                       d:Text="3/0"/>-->
-
+            <!--Derated Amps-->
             <TextBlock Text="Derated Amps: " Grid.Row="12" Grid.Column="0"/>
             <TextBlock Text="{Binding PowerCable.DeratedAmps, StringFormat={}{0:N0}  A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                        Grid.Row="12" Grid.Column="2" FontWeight="Bold"
@@ -217,6 +228,7 @@
                 </TextBlock.Style>
             </TextBlock>
 
+            
             <TextBlock Text="Required Amps: " Grid.Row="13" Grid.Column="0"/>
             <TextBlock Text="{Binding PowerCable.RequiredAmps, StringFormat={}{0:N0}  A}" 
                        Grid.Row="13" Grid.Column="2" FontWeight="Bold"
@@ -242,18 +254,7 @@
 
 
 
-            <!--Installation Type-->
-            <TextBlock Text="Installation Type" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
-            <ComboBox Template="{DynamicResource ComboBoxBase}" 
-                      Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Left"
-                      Margin="0 3" Width="135"
-                      FontWeight="Bold" FontSize="12"
-                      ItemsSource="{Binding Path=DataContext.CableInstallationTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                            RelativeSource={RelativeSource Mode=FindAncestor, 
-                                            AncestorType={x:Type UserControl}, AncestorLevel=2}}"
-                      SelectedValue="{Binding PowerCable.InstallationType}"
-                      Text="{Binding PowerCable.InstallationType}"  d:Text="LadderTray"
-                      IsEditable="False" VerticalAlignment="Center"/>
+           
 
             <!--Spacing-->
             <TextBlock Text="Spacing" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Left"/>
@@ -346,7 +347,7 @@
                    Height="13"
                    Margin="0 0 5 0"
                    VerticalAlignment="Center"/>
-            <TextBlock Text="Required Amps Exceeded!"
+            <TextBlock Text="{Binding InvalidCableMessage}"
                    Grid.Row="1"
                    Foreground="#FFD40000"
                    TextWrapping="Wrap"

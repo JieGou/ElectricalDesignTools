@@ -90,6 +90,7 @@ public abstract class ComponentModelBase : IComponentEdt
                         TripAmps = TypeManager.BreakerSizes.FirstOrDefault(f => f.TripAmps >= owner.Fla).TripAmps;
                     }
                 }
+            TypeList = ComponentTypeSelector.GetComponentTypeList(this);
             UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _type);
             OnPropertyUpdated();
         }
@@ -97,8 +98,16 @@ public abstract class ComponentModelBase : IComponentEdt
     private string _type;
     public List<string> TypeList
     {
-        get { return ComponentTypeSelector.GetComponentTypeList(this); }
+        get
+        {
+            if (_typeList==null || _typelist.Count==0) {
+                return ComponentTypeSelector.GetComponentTypeList(this);
+            } 
+            return _typeList;
+        }
+        set { _typeList = ComponentTypeSelector.GetComponentTypeList(this); }
     }
+    public List<string> _typeList;
 
     public string SubType { get; set; }
 

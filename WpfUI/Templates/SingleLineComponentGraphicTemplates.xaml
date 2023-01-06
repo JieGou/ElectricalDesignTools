@@ -458,122 +458,7 @@
 
 
 
-    <!--Fds Splitter Template-->
-    <DataTemplate x:Key="FdsTemplate_StandAlone">
-        <StackPanel>
-
-           
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid Style="{StaticResource GraphicHighlightStyle}"
-                  Grid.Column="1"
-                  SnapsToDevicePixels="True">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="18.5"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-
-
-                <Line Grid.Row="0" Grid.Column="1"
-                      X1="20.5" X2="20.5" Y1="0" Y2="11"
-                      Stroke="Black" StrokeThickness="1"/>
-
-                    <Border BorderThickness="1" HorizontalAlignment="Center"
-                        Grid.Row="1" Grid.Column="1"
-                        Width="40" Height="60">
-
-                        <Canvas Grid.Column="1" Width="50" Height="60">
-
-                            <Line X1="20" X2="20" Y1="0" Y2="12.5"
-                              Stroke="Black" StrokeThickness="1"/>
-                            <Line X1="10" X2="20" Y1="12.5" Y2="23"
-                              Stroke="Black" StrokeThickness="1"/>
-                            <Line X1="20" X2="20" Y1="23" Y2="30"
-                              Stroke="Black" StrokeThickness="1"/>
-                            <Rectangle Width="10.5" Height="20"
-                                    Canvas.Left="14.5" Canvas.Top="30"
-                                    Stroke="Black" StrokeThickness="1"/>
-                            <Line X1="20" X2="20" Y1="50" Y2="75"
-                              Stroke="Black" StrokeThickness="1"/>
-                        </Canvas>
-                    </Border>
-                    
-                    
-                    
-                    <Border Grid.Row="1" Grid.Column="2"
-                        Grid.RowSpan="2">
-                    <StackPanel Orientation="Vertical"
-                                VerticalAlignment="Top">
-                        <TextBlock Text="{Binding Tag}" FontWeight="SemiBold" Margin="5 0 0 0"
-                                   Visibility="Collapsed"/>
-                        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="5 0 0 0">
-                            <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}" />
-                            <Border BorderThickness="0 0 0 1"/>
-                            <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" />
-                        </StackPanel>
-                            <!--Area Properties-->
-                        <StackPanel Orientation="Horizontal" 
-                                    Visibility="Collapsed">
-                            <TextBlock Text="" Margin="5 0 0 0"/>
-                            <TextBlock Text="{Binding NemaRating}"/>
-                            <TextBlock Text=", " Margin="0 0 0 0"/>
-                            <TextBlock Text="{Binding AreaClassification}" />
-                        </StackPanel>
-
-
-                        <!--Extra Details-->
-                        <StackPanel x:Name="extraDetails"
-                                    Orientation="Vertical">
-                            <!--Area Tag-->
-                            <TextBlock Text="{Binding Area.Tag}"
-                                       FontWeight="SemiBold"
-                                       Margin="5 0 0 0"
-                                       Visibility="Collapsed"/>
-                            <!--Area Properties-->
-                            <StackPanel Orientation="Horizontal" 
-                                        Visibility="Collapsed">
-                                <TextBlock Text="" Margin="5 0 0 0"/>
-                                <TextBlock Text="{Binding NemaRating}"/>
-                                <TextBlock Text=", " Margin="0 0 0 0"/>
-                                <TextBlock Text="{Binding AreaClassification}" />
-                            </StackPanel>
-                        </StackPanel>
-                        
-                        
-                    </StackPanel>
-                </Border>
-
-                    <Border BorderThickness="0 0 1 0" HorizontalAlignment="Center"
-                        Grid.Row="3" Grid.Column="1"
-                        Margin="2 0 1 0"
-                        Height="{Binding ActualHeight, ElementName=extraDetails}">
-                </Border>
-
-                </Grid>
-               
-
-                <Line Grid.Row="0" Grid.Column="1"
-                      X1="39.5" X2="39.5" Y1="75" Y2="91"
-                      Stroke="Black" StrokeThickness="1"/>
-                
-                <!--Dashed Border-->
-                <SingleLineLoadGraphics:SingleLineDashedBorder_Bound Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"/>
-
-            </Grid>
-            
-
-        </StackPanel>
-    </DataTemplate>
+   
 
 
     <!--DRIVE-->
@@ -847,7 +732,7 @@
     </DataTemplate>
 
     <!--Fds-->
-    <DataTemplate x:Key="FdsTemplate">
+    <DataTemplate x:Key="FdsTemplate_Bucket">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
@@ -949,10 +834,126 @@
 
     </DataTemplate>
 
+    <!--Fds Splitter Template-->
+    <DataTemplate x:Key="FdsTemplate_StandAlone">
+        <StackPanel>
+
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Style="{StaticResource GraphicHighlightStyle}"
+                  Grid.Column="1"
+                  SnapsToDevicePixels="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="18.5"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+
+                    <Line Grid.Row="0" Grid.Column="1"
+                      X1="20.5" X2="20.5" Y1="0" Y2="11"
+                      Stroke="Black" StrokeThickness="1"/>
+
+                    <Border BorderThickness="1" HorizontalAlignment="Center"
+                        Grid.Row="1" Grid.Column="1"
+                        Width="40" Height="60">
+
+                        <Canvas Grid.Column="1" Width="50" Height="60">
+
+                            <Line X1="20" X2="20" Y1="0" Y2="12.5"
+                              Stroke="Black" StrokeThickness="1"/>
+                            <Line X1="10" X2="20" Y1="12.5" Y2="23"
+                              Stroke="Black" StrokeThickness="1"/>
+                            <Line X1="20" X2="20" Y1="23" Y2="30"
+                              Stroke="Black" StrokeThickness="1"/>
+                            <Rectangle Width="10.5" Height="20"
+                                    Canvas.Left="14.5" Canvas.Top="30"
+                                    Stroke="Black" StrokeThickness="1"/>
+                            <Line X1="20" X2="20" Y1="50" Y2="75"
+                              Stroke="Black" StrokeThickness="1"/>
+                        </Canvas>
+                    </Border>
 
 
 
-   
+                    <Border Grid.Row="1" Grid.Column="2"
+                        Grid.RowSpan="2">
+                        <StackPanel Orientation="Vertical"
+                                VerticalAlignment="Top">
+                            <TextBlock Text="{Binding Tag}" FontWeight="SemiBold" Margin="5 0 0 0"
+                                   Visibility="Visible"/>
+                            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="5 0 0 0">
+                                <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}" />
+                                <TextBlock Text=" / " />
+                                <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" />
+                            </StackPanel>
+                            <!--Area Properties-->
+                            <StackPanel Orientation="Horizontal" 
+                                    Visibility="Visible">
+                                <TextBlock Text="" Margin="5 0 0 0"/>
+                                <TextBlock Text="{Binding NemaRating}"/>
+                                <TextBlock Text=", " Margin="0 0 0 0"/>
+                                <TextBlock Text="{Binding AreaClassification}" />
+                            </StackPanel>
+
+
+                            <!--Extra Details-->
+                            <StackPanel x:Name="extraDetails"
+                                    Orientation="Vertical">
+                                <!--Area Tag-->
+                                <TextBlock Text="{Binding Area.Tag}"
+                                       FontWeight="SemiBold"
+                                       Margin="5 0 0 0"
+                                       Visibility="Collapsed"/>
+                                <!--Area Properties-->
+                                <StackPanel Orientation="Horizontal" 
+                                        Visibility="Collapsed">
+                                    <TextBlock Text="" Margin="5 0 0 0"/>
+                                    <TextBlock Text="{Binding NemaRating}"/>
+                                    <TextBlock Text=", " Margin="0 0 0 0"/>
+                                    <TextBlock Text="{Binding AreaClassification}" />
+                                </StackPanel>
+                            </StackPanel>
+
+
+                        </StackPanel>
+                    </Border>
+
+                    <Border BorderThickness="0 0 1 0" HorizontalAlignment="Center"
+                        Grid.Row="3" Grid.Column="1"
+                        Margin="2 0 1 0"
+                        Height="{Binding ActualHeight, ElementName=extraDetails}">
+                    </Border>
+
+                </Grid>
+
+
+                <Line Grid.Row="0" Grid.Column="1"
+                      X1="39.5" X2="39.5" Y1="75" Y2="91"
+                      Stroke="Black" StrokeThickness="1"/>
+
+                <!--Dashed Border-->
+
+            </Grid>
+
+
+        </StackPanel>
+    </DataTemplate>
+
+    
+    
+    
+    
 
     <templateSelectors:DteqOCPDTemplateSelector 
                 x:Key="DteqOCPDTemplateSelector"
@@ -1019,7 +1020,7 @@
             </DataTrigger>
 
             <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
-                <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
+                <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate_Bucket}"/>
             </DataTrigger>
 
         </Style.Triggers>
@@ -1035,7 +1036,7 @@
         
             VsdTemplate="{StaticResource VsdTemplate_Bucket}"
         
-            FdsTemplate="{StaticResource FdsTemplate}" 
+            FdsTemplate="{StaticResource FdsTemplate_Bucket}" 
             FdsTemplate_StandAlone="{StaticResource FdsTemplate_StandAlone}" 
     />
 
@@ -1061,7 +1062,7 @@
             </DataTrigger>
 
             <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
-                <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
+                <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate_StandAlone}"/>
             </DataTrigger>
 
             <DataTrigger Binding="{Binding Path=Type}" Value="VSD">
@@ -1074,7 +1075,7 @@
     <templateSelectors:ComponentGraphicTemplateSelector 
                 x:Key="ComponentTemplateSelector"
                 UdsTemplate="{StaticResource UdsTemplate}"
-                FdsTemplate="{StaticResource FdsTemplate}" 
+                FdsTemplate="{StaticResource FdsTemplate_Bucket}" 
                 VsdTemplate="{StaticResource VsdTemplate}"
         
                 DolTemplate_StandAlone="{StaticResource DOLStarterTemplate_StandAlone}"

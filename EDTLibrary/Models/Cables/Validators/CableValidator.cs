@@ -12,9 +12,9 @@ internal class CableValidator
 {
     internal static ICableLengthValidator CableLengthValidator { get; set; }
 
-    public static bool IsCableLengthValid(ICable cable, double length)
+    public static (bool, double) IsCableLengthValid(ICable cable, double length, bool sendAlerts = false)
     {
-        return CableLengthValidator.IsCableLengthValid(cable, length);
+        return CableLengthValidator.IsCableLengthValid(cable, length, sendAlerts);
     }
 
 }

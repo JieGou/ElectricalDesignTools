@@ -9,5 +9,5 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Cables.Validators;
 internal interface ICableLengthValidator
 {
-    bool IsCableLengthValid(ICable cable, double length);
+    (bool,double) IsCableLengthValid(ICable cable, double length, bool sendAlerts);
 }

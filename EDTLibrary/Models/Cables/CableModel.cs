@@ -265,6 +265,7 @@ public class CableModel : ICable
     }
     private string _size;
 
+    public string InvalidCableMessage { get; set; }
     public bool IsValidSize { get; set; }
     public bool Is1C { get; set; }
 
@@ -303,9 +304,10 @@ public class CableModel : ICable
         {
             var oldValue = _length;
             if (Load != null && Load.FedFrom != null) {
-                if (!CableValidator.IsCableLengthValid(this, value)) {
-                    _length = 7.5;
-                    Length = 7.5;
+                if (!CableValidator.IsCableLengthValid(this, value, true).Item1) {
+
+                    _length = CableValidator.IsCableLengthValid(this, value).Item2;
+                    Length = CableValidator.IsCableLengthValid(this, value).Item2;
                     return;
                 }
             }

@@ -88,12 +88,13 @@
 
                 </StackPanel>
                 <Image Source="..\..\ResourceFiles\ErrorIcon48.png"
-                           Grid.Column="1" HorizontalAlignment="Left"
-                           Height="13"
-                           Margin="5"
-                           VerticalAlignment="Center"
-                           Visibility="{Binding IsValidSize, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
+                       Grid.Column="0" HorizontalAlignment="Left"
+                       Height="13"
+                       Margin="-25"
+                       VerticalAlignment="Center"
+                       Visibility="{Binding IsValidSize, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
             </Grid>
+            
         </Grid>
     </DataTemplate>
 </ResourceDictionary>
