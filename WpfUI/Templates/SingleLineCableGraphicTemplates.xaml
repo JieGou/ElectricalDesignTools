@@ -92,7 +92,8 @@
                        Height="13"
                        Margin="-25"
                        VerticalAlignment="Center"
-                       Visibility="{Binding IsValidSize, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
+                       ToolTip="{Binding InvalidCableMessage}"
+                       Visibility="{Binding IsValid, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
             </Grid>
             
         </Grid>

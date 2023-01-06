@@ -219,18 +219,18 @@ internal class SingleLineViewModel: EdtViewModelBase
 
             if (_selectedLoadCable.GetType() == typeof(LoadModel)) {
                 var load = (LoadModel)_selectedLoadCable;
-                load.PowerCable.ValidateCableSize(load.PowerCable);
+                load.PowerCable.ValidateCable(load.PowerCable);
                 load.PowerCable.CreateTypeList(load);
             }
             else if (_selectedLoadCable is (DistributionEquipment)) {
                 var dteq = DteqFactory.Recast(_selectedLoadCable);
-                dteq.PowerCable.ValidateCableSize(dteq.PowerCable);
+                dteq.PowerCable.ValidateCable(dteq.PowerCable);
                 dteq.PowerCable.CreateTypeList(dteq);
             }
             else if (_selectedLoadCable is ComponentModelBase) {
                 var component = (ComponentModelBase)_selectedLoadCable;
                 //TODO - Style for cable graphic so that IsValid is detected without reloading
-                component.PowerCable.ValidateCableSize(component.PowerCable);
+                component.PowerCable.ValidateCable(component.PowerCable);
                 component.PowerCable.CreateTypeList((LoadModel)component.Owner);
             }
 

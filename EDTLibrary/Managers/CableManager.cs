@@ -103,7 +103,7 @@ public class CableManager
     {
         foreach (var components in powerComponentOwner.CctComponents) {
             if (components.PowerCable == null) continue;
-            components.PowerCable.ValidateCableSize(components.PowerCable);
+            components.PowerCable.ValidateCable(components.PowerCable);
         }
     }
 
@@ -187,7 +187,7 @@ public class CableManager
 
                     //cable.AutoSize();
 
-                    cable.ValidateCableSize(cable);
+                    cable.ValidateCable(cable);
 
                     component.PowerCable = cable;
 

@@ -80,11 +80,11 @@
 
     <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -220,7 +220,7 @@
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding PowerCable.IsValidSize}" Value="False">
+                            <DataTrigger Binding="{Binding PowerCable.IsValid}" Value="False">
                                 <Setter Property="Foreground" Value="#FFD40000"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -337,28 +337,11 @@
 
 
         </Grid>
-
-        <!--Warning-->
+        
+        
+        <!--Sizing Buttons-->
         <StackPanel Orientation="Horizontal"
-                    Grid.Row="1"
-                    Margin="5 5 0 5" 
-                    Visibility="{Binding PowerCable.IsValidSize, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}">
-            <Image Source="..\..\..\ResourceFiles\WarningIcon48.png"
-                   Height="13"
-                   Margin="0 0 5 0"
-                   VerticalAlignment="Center"/>
-            <TextBlock Text="{Binding InvalidCableMessage}"
-                   Grid.Row="1"
-                   Foreground="#FFD40000"
-                   TextWrapping="Wrap"
-                   />
-        </StackPanel>
-
-
-
-        <!--Below Buttons-->
-        <StackPanel Orientation="Horizontal"
-                Grid.Row="4"
+                Grid.Row="1"
                     HorizontalAlignment="Center"
                     >
             <Button Content="Auto-Size Single" 
@@ -375,9 +358,25 @@
                     ToolTipService.InitialShowDelay="50"
                     ToolTip="Auto-Sizes all cables in the selected branch circuit."/>
         </StackPanel>
+        
+        
+        <!--Warning-->
+        <Grid Grid.Row="4"
+                Margin="5 5 0 5" 
+                Visibility="{Binding PowerCable.IsValid, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}">
 
-
-
+            <Image Source="..\..\..\ResourceFiles\ErrorIcon48.png"
+                   Height="13"
+                   Margin="0 0 5 0"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Left"/>
+            <TextBlock Text="{Binding PowerCable.InvalidCableMessage}"
+                       Margin="0 20"
+                   Grid.Row="1"
+                   Foreground="#FFD40000"
+                   TextWrapping="Wrap"
+                   />
+        </Grid>
 
     </Grid>
 </UserControl>

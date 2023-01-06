@@ -7,10 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models.Cables.Validators;
+namespace EDTLibrary.Validators.Cable;
 internal class CableValidator
 {
     internal static ICableLengthValidator CableLengthValidator { get; set; }
+    internal static ICableAmpacityValidator CableSizeValidator { get; set; }
+    internal static ICableVoltageDropValidator CableVoltageDropValidator { get; set; }
 
     public static (bool, double) IsCableLengthValid(ICable cable, double length, bool sendAlerts = false)
     {

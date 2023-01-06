@@ -189,7 +189,7 @@
                 <TextBlock.Style>
                     <Style TargetType="TextBlock">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding PowerCable.IsValidSize}" Value="False">
+                            <DataTrigger Binding="{Binding PowerCable.IsValid}" Value="False">
                                 <Setter Property="Foreground" Value="#FFD40000"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -306,7 +306,7 @@
                    Grid.Row="1"
                    Margin="0 -2 0 1"
                    Foreground="#FFD40000"
-                   Visibility="{Binding PowerCable.IsValidSize, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
+                   Visibility="{Binding PowerCable.IsValid, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
         
         
 

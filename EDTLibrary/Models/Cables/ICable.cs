@@ -32,8 +32,11 @@ public interface ICable
     double InsulationPercentage { get; set; }
     bool Is1C { get; set; }
     bool IsOutdoor { get; set; }
-    bool IsValidSize { get; set; }
+    bool IsValid { get; set; }
     string InvalidCableMessage { get; set; }
+    public string InvalidSizeMessage { get; set; }
+    public string InvalidLengthMessage { get; set; }
+
     double Length { get; set; }
     ICableUser Load { get; set; }
     int LoadId { get; set; }
@@ -87,5 +90,5 @@ public interface ICable
     void SetSizingParameters(ICableUser load);
     void SetSourceAndDestinationTags(ICableUser load);
     void SetTypeProperties();
-    void ValidateCableSize(ICable cable);
+    void ValidateCable(ICable cable);
 }

@@ -809,7 +809,7 @@ namespace EDTLibrary.Models.Loads
 
             OnLoadingCalculated(propertyName);
 
-            PowerCable.ValidateCableSize(PowerCable);
+            PowerCable.ValidateCable(PowerCable);
             CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
 
             foreach (var item in CctComponents) {
@@ -860,11 +860,11 @@ namespace EDTLibrary.Models.Loads
         {
             foreach (var item in CctComponents) {
                 if (item.PowerCable != null) {
-                    item.PowerCable.ValidateCableSize(item.PowerCable);
+                    item.PowerCable.ValidateCable(item.PowerCable);
                 }
             }
             if (PowerCable != null) {
-                PowerCable.ValidateCableSize(PowerCable);
+                PowerCable.ValidateCable(PowerCable);
             }
         }
 

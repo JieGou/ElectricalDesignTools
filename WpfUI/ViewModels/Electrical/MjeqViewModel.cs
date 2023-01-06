@@ -303,18 +303,18 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
             if (_selectedLoadCable is DistributionEquipment) {
                 var eq = DteqFactory.Recast(_selectedLoadCable);
-                eq.PowerCable.ValidateCableSize(eq.PowerCable);
+                eq.PowerCable.ValidateCable(eq.PowerCable);
                 eq.PowerCable.CreateTypeList(eq);
             }
             else if (_selectedLoadCable.GetType() == typeof(LoadModel)) {
                 var load = (LoadModel)(_selectedLoadCable);
-                load.PowerCable.ValidateCableSize(load.PowerCable);
+                load.PowerCable.ValidateCable(load.PowerCable);
                 load.PowerCable.CreateTypeList(load);
             }
             else if (_selectedLoadCable.GetType() == typeof(ComponentModel)) {
                 var component = (ComponentModel)(_selectedLoadCable);
                 //TODO - Style for cable graphic so that IsValid is detected without reloading
-                component.PowerCable.ValidateCableSize(component.PowerCable);
+                component.PowerCable.ValidateCable(component.PowerCable);
                 component.PowerCable.CreateTypeList((LoadModel)component.Owner);
             }
         }

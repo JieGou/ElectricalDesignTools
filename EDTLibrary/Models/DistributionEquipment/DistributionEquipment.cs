@@ -720,11 +720,11 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             foreach (var item in CctComponents) {
                 if (item.PowerCable!= null) {
-                    item.PowerCable.ValidateCableSize(item.PowerCable);
+                    item.PowerCable.ValidateCable(item.PowerCable);
                 }
             }
             if (PowerCable!= null) {
-                PowerCable.ValidateCableSize(PowerCable);
+                PowerCable.ValidateCable(PowerCable);
 
             }        
         }
