@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Raceways;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,9 @@ public interface ICable
     List<string> SizeList { get; set; }
     string SizeTag { get; set; }
     string Source { get; set; }
+    int SourceId { get; set; }
+    string SourceType { get; set; }
+    IEquipment SourceModel { get; set; }
     double Spacing { get; set; }
     string Tag { get; set; }
     string Type { get; set; }

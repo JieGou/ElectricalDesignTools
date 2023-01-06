@@ -224,7 +224,7 @@
 
                         <!--MCC-->
                         <StackPanel Orientation="Vertical" Grid.Row="8" Grid.Column="0">
-                            <TextBlock Text="MCC"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text="Motor Control Centers"   Grid.Row="1" Grid.Column="0" />
                             <TextBlock Text=""  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}" />
@@ -234,7 +234,7 @@
 
                         <!--Cdp-->
                         <StackPanel Orientation="Vertical" Grid.Row="9" Grid.Column="0">
-                            <TextBlock Text="Central Distribution Panel"   Grid.Row="1" Grid.Column="0" />
+                            <TextBlock Text="Central Distribution Panels"   Grid.Row="1" Grid.Column="0" />
                             <TextBlock Text="3-Phase only Panels / Switchboards"  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}" />

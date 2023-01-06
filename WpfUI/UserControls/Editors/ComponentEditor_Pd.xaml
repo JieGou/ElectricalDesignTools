@@ -19,11 +19,12 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
 
-      
+
         <!--Component Trip Size -->
         <Grid Grid.Row="1" Grid.Column="0"  >
             <Grid.ColumnDefinitions>
@@ -116,9 +117,40 @@
             </ComboBox>
         </Grid>
 
-
-        <!--Starter Size -->
+        <!--Type -->
         <Grid Grid.Row="3" Grid.Column="0"
+              d:Visibility="Visible"
+              Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Owner.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Value="MOTOR">
+                            <Setter Property="Visibility"  Value="Visible"/>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <TextBlock Text="Type"
+                       Width="40"/>
+            <ComboBox Grid.Row="2" Grid.Column="2" 
+                      Template="{DynamicResource ComboBoxBase}" 
+                      Height="20"
+                      Margin="0"
+                      ItemsSource="{Binding TypeList, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsSynchronizedWithCurrentItem="False"
+                      />
+        </Grid>
+        
+        <!--Starter Size -->
+        <Grid Grid.Row="4" Grid.Column="0"
               d:Visibility="Visible">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -157,6 +189,8 @@
                       IsSynchronizedWithCurrentItem="False" 
                       />
         </Grid>
+
+        
 
     </Grid>
 </UserControl>

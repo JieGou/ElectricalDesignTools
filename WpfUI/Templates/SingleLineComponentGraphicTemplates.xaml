@@ -228,6 +228,7 @@
 
                         <Canvas Grid.Column="1"
                             Width="35" Height="90">
+                            
                             <!--Breaker-->
                             <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
                             <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
@@ -654,6 +655,106 @@
 
     </DataTemplate>
 
+    <!--VSD Bucket-->
+    <DataTemplate x:Key="VsdTemplate_Bucket">
+        <StackPanel Orientation="Vertical" >
+
+            <Grid 
+                  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Style="{StaticResource GraphicHighlightStyle}" x:Name="BreakerGrid"
+                      Grid.Column="1"
+                      ShowGridLines="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="26"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <!--Graphic-->
+                    
+                        <Border Grid.Column="1"
+                                Height="45"
+                                VerticalAlignment="Top">
+
+                            <Border.CornerRadius>
+                                <CornerRadius TopLeft="{StaticResource HighlightCorerRadius}"
+                                      BottomLeft="{StaticResource HighlightCorerRadius}"
+                                      TopRight="0"
+                                      BottomRight="0"/>
+                            </Border.CornerRadius>
+                        </Border>
+
+                    <Canvas Grid.Column="1" Width="35" Height="91"
+                            Panel.ZIndex="1">
+
+                                <!--Breaker-->
+                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                                <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                                <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                                <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                                
+                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
+
+                                <!--VSD-->
+                                <Border BorderThickness="1" HorizontalAlignment="Center"
+                                    Canvas.Left="-7" Canvas.Top="45"
+                                    Width="40.5" Height="35"
+                                        >
+                                    <TextBlock Text="{Binding Type}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                </Border>
+                        
+                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="80" X2="13.5" Y2="90"/>
+                            </Canvas>
+
+
+
+                    <!--Data-->
+                    <Border BorderThickness="0"
+                            Grid.Column="2"                      
+                            Padding="0 0 5 0"
+                            Height="45"
+                            VerticalAlignment="Top"
+                            Visibility="Visible">
+                        <Border.CornerRadius>
+                            <CornerRadius TopLeft="0"
+                                      BottomLeft="0"
+                                      TopRight="{StaticResource HighlightCorerRadius}"
+                                      BottomRight="{StaticResource HighlightCorerRadius}"/>
+                        </Border.CornerRadius>
+
+                        <Grid Grid.Column="2" Style="{StaticResource GraphicHighlightStyle}"
+                              ShowGridLines="False">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="27"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Vertical"
+                                        Grid.Row="1">
+                                <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}" />
+                                <Border BorderThickness="0 0 0 1"/>
+                                <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                </Grid>
+                <SingleLineLoadGraphics:SingleLineDashedBorder Grid.Column="0" Grid.ColumnSpan="5" Margin="0 -1 0 0"/>
+            </Grid>
+
+        </StackPanel>
+    </DataTemplate>
 
     <!--DISCONNECT-->
     <!--Uds-->
@@ -766,12 +867,13 @@
                 </Grid.RowDefinitions>
 
                 <!--Graphic-->
-                <Border BorderThickness="1" HorizontalAlignment="Center"
+                <Border BorderThickness="0" HorizontalAlignment="Center"
                     Grid.Row="0" Grid.Column="1"
-                    Width="40" Height="55">
+                    Width="40" Height="91">
 
-                    <Canvas Grid.Column="1" Width="50" Height="55">
-                        <Line X1="20" X2="20" Y1="0" Y2="7.5"
+                    <Canvas Grid.Column="1" Width="50" Height="55"
+                            Margin="1 10 0 0">
+                        <Line X1="20" X2="20" Y1="-25" Y2="5"
                           Stroke="Black" StrokeThickness="1"/>
                         <Line X1="10" X2="20" Y1="7.5" Y2="18"
                           Stroke="Black" StrokeThickness="1"/>
@@ -780,7 +882,7 @@
                         <Rectangle Width="10.5" Height="20"
                                 Canvas.Left="14.5" Canvas.Top="25"
                                 Stroke="Black" StrokeThickness="1"/>
-                        <Line X1="20" X2="20" Y1="45" Y2="55"
+                        <Line X1="20" X2="20" Y1="45" Y2="90"
                           Stroke="Black" StrokeThickness="1"/>
                     </Canvas>
                 </Border>
@@ -788,26 +890,28 @@
                 <!--Data-->
                 <Border Grid.Row="0" Grid.Column="2"
                     Grid.RowSpan="2"
+                        Margin="0 30 0 0"
                     CornerRadius="{StaticResource BorderHighlightCornerRadius}"
                     Padding="0 0 5 0">
                     <StackPanel Orientation="Vertical"
                             VerticalAlignment="Top">
-                        <TextBlock Text="{Binding Tag}"
-                                FontWeight="SemiBold"
-                                Margin="5 0 0 0"/>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}"
-                                Margin="5 0 0 0"/>
-                            <TextBlock Text="/"
-                                Margin="5 0 0 0"/>
+                        
+                        <StackPanel Orientation="Vertical">
+                            <Border BorderBrush="Black" BorderThickness="0 0 0 1"
+                                    Background="Transparent">
+                                <TextBlock Text="{Binding TripAmps, StringFormat={}{0:N0} AT}"
+                                           TextAlignment="Right"
+                                           Margin="0 0 0 0"/>
+                            </Border>
+
                             <TextBlock Text="{Binding FrameAmps, StringFormat={}{0:N0} AF}"
-                                Margin="5 0 0 0"/>
-                            <TextBlock Text=""
-                                Margin="5 0 0 0"/>
+                                       Margin="0 0 0 0"
+                                       TextAlignment="Right"/>
+                           
                         </StackPanel>
                         <!--Area Properties-->
                         <StackPanel Orientation="Horizontal" 
-                                Visibility="Visible">
+                                Visibility="Collapsed">
                             <TextBlock Text="" Margin="5 0 0 0"/>
                             <TextBlock Text="{Binding NemaRating}"/>
                             <TextBlock Text=", " Margin="0 0 0 0"/>
@@ -839,6 +943,8 @@
                     Height="{Binding ActualHeight, ElementName=extraDetails}">
                 </Border>
             </Grid>
+            <SingleLineLoadGraphics:SingleLineDashedBorder Grid.Column="0" Grid.ColumnSpan="5" Margin="0 1 0 0"/>
+
         </Grid>
 
     </DataTemplate>
@@ -908,7 +1014,13 @@
                 <Setter Property="ContentTemplate" Value="{StaticResource DOLStarterTemplate_Bucket}"/>
             </DataTrigger>
 
+            <DataTrigger Binding="{Binding Path=Category}" Value="ProtectionDevice">
+                <Setter Property="ContentTemplate" Value="{StaticResource VsdTemplate_Bucket}"/>
+            </DataTrigger>
 
+            <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
+                <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
+            </DataTrigger>
 
         </Style.Triggers>
     </Style>
@@ -920,6 +1032,8 @@
         
             DolTemplate="{StaticResource DOLStarterTemplate_Bucket}"
             DolTemplate_StandAlone="{StaticResource DOLStarterTemplate_StandAlone}"
+        
+            VsdTemplate="{StaticResource VsdTemplate_Bucket}"
         
             FdsTemplate="{StaticResource FdsTemplate}" 
             FdsTemplate_StandAlone="{StaticResource FdsTemplate_StandAlone}" 
@@ -949,6 +1063,11 @@
             <DataTrigger Binding="{Binding Path=Type}" Value="FDS">
                 <Setter Property="ContentTemplate" Value="{StaticResource FdsTemplate}"/>
             </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=Type}" Value="VSD">
+                <Setter Property="ContentTemplate" Value="{StaticResource VsdTemplate}"/>
+            </DataTrigger>
+
         </Style.Triggers>
     </Style>
     

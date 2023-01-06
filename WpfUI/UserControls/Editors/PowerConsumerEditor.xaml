@@ -371,7 +371,7 @@
             </Grid>
 
 
-
+            <!--Line-->
             <Canvas Grid.Row="10" 
                   Grid.ColumnSpan="5"
                     Visibility="Collapsed">
@@ -389,7 +389,6 @@
                        HorizontalAlignment="Right" 
                        FontWeight="SemiBold"
                        Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-
             <StackPanel Grid.Row="10" Grid.Column="1" Margin="5 10 5 5"
                         Visibility="Visible">
 
@@ -397,6 +396,8 @@
                                             HorizontalAlignment="Stretch"/>
             </StackPanel>
 
+            
+            <!--Line-->
             <Canvas Grid.Row="11" 
                   Grid.ColumnSpan="5"
                     Visibility="Collapsed">
@@ -425,14 +426,15 @@
                        Grid.Row="12" Grid.Column="1" 
                        Style="{StaticResource SummaryValue_TextBlockStyle}"/>
 
-            <TextBlock Text="Cct # "
+            <TextBlock Text="ListManager Id"
                        Grid.Row="13" Grid.Column="0" 
                        HorizontalAlignment="Right" 
                        Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
 
-            <TextBlock Text="{Binding CircuitNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <TextBlock Text="{Binding DataContext.ListManager.Id, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                        Grid.Row="13" Grid.Column="1" 
                        Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+      
 
             <!--<TextBlock Text="Seq # "
                        Grid.Row="14" Grid.Column="0" 

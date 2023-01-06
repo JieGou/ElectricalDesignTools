@@ -39,7 +39,7 @@
                     Margin="-6 0 0 0"
                     Width="5"
                     HorizontalAlignment="Left"
-                    
+                    Panel.ZIndex="1"
                     />
 
                 <Border BorderBrush="Black" BorderThickness="0 0 0 0"

@@ -16,6 +16,7 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
     public DataTemplate EmptyTemplate { get; set; }
     public DataTemplate BreakerTemplate { get; set; }
     public DataTemplate DolTemplate { get; set; }
+    public DataTemplate VsdTemplate { get; set; }
     public DataTemplate FdsTemplate { get; set; }
 
 
@@ -69,6 +70,10 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
 
         if (pd.Type == "FDS") return FdsTemplate;
         if (pd.Type.Contains("MCP")) return DolTemplate;
+
+        if (pd.Type.Contains("VSD")) return VsdTemplate;
+        if (pd.Type.Contains("VFD")) return VsdTemplate;
+        if (pd.Type.Contains("RVS")) return VsdTemplate;
 
         return EmptyTemplate;
     }

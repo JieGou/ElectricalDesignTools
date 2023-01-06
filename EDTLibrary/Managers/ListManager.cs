@@ -27,7 +27,11 @@ namespace EDTLibrary.Managers
     [AddINotifyPropertyChangedInterface]
     public class ListManager
     {
-
+        public ListManager()
+        {
+            Id = Guid.NewGuid().ToString();
+        }
+        public string Id { get; set; }
         public ObservableCollection<IArea> AreaList { get; set; } = new ObservableCollection<IArea>();
 
 
@@ -85,8 +89,8 @@ namespace EDTLibrary.Managers
                 //Assign
                 AssignAreas();
                 AssignLoadsAndEventsToAllDteq();
-                AssignCables();
                 CreateEquipmentList();
+                AssignCables();
                 AssignListManagerToEquipment(EqList);
                 InitializeDpns();
                 GetRaceways();
@@ -687,8 +691,8 @@ namespace EDTLibrary.Managers
                     if (dteq.Id == cable.LoadId && cable.LoadType == dteq.GetType().ToString()) {
                         dteq.PowerCable = cable;
                         cable.Load = dteq;
+                        cable.DestinationModel = dteq;
                         cable.CreateTypeList(dteq);
-                        cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
                         break;
                     }
                 }
@@ -700,8 +704,8 @@ namespace EDTLibrary.Managers
                     if (load.Id == cable.LoadId && cable.LoadType == load.GetType().ToString()) {
                         load.PowerCable = cable;
                         cable.Load = load;
+                        cable.DestinationModel = load;
                         cable.CreateTypeList(load);
-                        cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
                     }
                 }
             }
@@ -710,6 +714,7 @@ namespace EDTLibrary.Managers
                 foreach (var cable in CableList) {
                     if (pd.IsStandAlone == true && pd.Id == cable.OwnerId && pd.GetType().ToString() == cable.OwnerType) {
                         pd.PowerCable = cable;
+                        cable.DestinationModel = pd;
                         break;
                     }
                 }
@@ -720,6 +725,7 @@ namespace EDTLibrary.Managers
                 foreach (var cable in CableList) {
                     if (comp.Id == cable.OwnerId && comp.GetType().ToString() == cable.OwnerType) {
                         comp.PowerCable = cable;
+                        cable.DestinationModel = comp;
                         break;
                     }
                 }
@@ -734,12 +740,29 @@ namespace EDTLibrary.Managers
                     if (lcs.Id == cable.OwnerId) {
                         if (lcs.GetType().ToString() == cable.OwnerType && cable.UsageType == CableUsageTypes.Control.ToString()) {
                             lcs.ControlCable = cable;
+                            cable.DestinationModel = lcs;
                         }
 
                         else if (lcs.GetType().ToString() == cable.OwnerType && cable.UsageType == CableUsageTypes.Instrument.ToString()) {
                             lcs.AnalogCable = cable;
+                            cable.DestinationModel = lcs;
                         }
                     }
+                }
+            }
+
+            //cable DaManager.PropertyUpdated, SourceModel, DestinationModel
+            foreach (var eq in EqList) {
+                foreach (var cable in CableList) {
+                    cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
+
+                    if (eq.Id == cable.SourceId && cable.SourceType == eq.GetType().ToString()) {
+                        cable.SourceModel = eq;
+                    }
+
+                    //if (eq.Id == cable.OwnerId && cable.OwnerType == eq.GetType().ToString()) {
+                    //    cable.DestinationModel = eq;
+                    //}
                 }
             }
         }

@@ -8,6 +8,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables.Validators;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
 using EDTLibrary.ProjectSettings;
@@ -31,7 +32,7 @@ namespace EDTLibrary.Models.Cables;
 [AddINotifyPropertyChangedInterface]
 public class CableModel : ICable
 {
-    
+
     public CableModel()
     {
 
@@ -70,8 +71,7 @@ public class CableModel : ICable
 
     [Browsable(false)]
     public int Id { get; set; }
-    public int OwnerId { get; set; }
-    public string OwnerType { get; set; }
+    
     public string Tag { get; set; }
     private string _sizeTag;
 
@@ -96,13 +96,42 @@ public class CableModel : ICable
     public string Category { get; set; }
 
     private string _source;
+
+
+
     public string Source
     {
         get { return _source; }
 
         set { _source = value; }
     }
+    public int SourceId { get; set; }
+    public string SourceType { get; set; }
+    public IEquipment SourceModel { get => _sourceModel; 
+        set 
+        { 
+            _sourceModel = value;
+
+            if (DaManager.GettingRecords) return;
+
+            SourceId = _sourceModel.Id;
+            SourceType = _sourceModel.GetType().ToString();
+
+            OnPropertyUpdated();
+        } 
+    }
+
+    public int OwnerId { get; set; }
+    public string OwnerType { get; set; }
     public string Destination { get; set; }
+
+    private IEquipment _destinationModel;
+    public IEquipment DestinationModel
+    {
+        get { return _destinationModel; }
+        set { _destinationModel = value; }
+    }
+
     public int LoadId { get; set; }
     public string LoadType { get; set; }
     public ICableUser Load { get; set; }
@@ -135,9 +164,9 @@ public class CableModel : ICable
     public int TypeId
     {
         get { return _typeId; }
-        set 
-        { 
-            _typeId = value; 
+        set
+        {
+            _typeId = value;
             OnPropertyUpdated();
         }
     }
@@ -175,7 +204,7 @@ public class CableModel : ICable
     }
 
     public List<CableTypeModel> TypeList { get; set; } = new List<CableTypeModel>();
-    public ObservableCollection<RacewayRouteSegment> RacewaySegmentList { get; set; } = new ObservableCollection<RacewayRouteSegment> ();
+    public ObservableCollection<RacewayRouteSegment> RacewaySegmentList { get; set; } = new ObservableCollection<RacewayRouteSegment>();
     public List<string> SizeList { get; set; } = new List<string>();
 
     public string UsageType { get; set; }
@@ -254,7 +283,7 @@ public class CableModel : ICable
             _spacing = value;
 
             UndoManager.Lock(this, nameof(Spacing));
-            if (DaManager.GettingRecords == false && _isAutoSizing==false) {
+            if (DaManager.GettingRecords == false && _isAutoSizing == false) {
                 _calculatingAmpacity = true;
                 Derating = CableManager.CableSizer.SetDerating(this);
                 CalculateAmpacity(Load);
@@ -326,9 +355,9 @@ public class CableModel : ICable
                 }
                 return "OCDP Trip = xx A";
             }
-            
+
             return "OCDP Trip = xx A";
-            
+
         }
 
     }
@@ -410,10 +439,11 @@ public class CableModel : ICable
         Tag = CableManager.GetCableTag(this);
         OnPropertyUpdated();
     }
-    public void AssignOwner(ICableUser load)
+    public void AssignOwner(ICableUser cableUser)
     {
-        OwnerId = load.Id;
-        OwnerType = load.GetType().ToString();
+        OwnerId = cableUser.Id;
+        OwnerType = cableUser.GetType().ToString();
+        DestinationModel = cableUser;
     }
     /// <summary>
     /// Gets the Source Eq Derating, Destination Eq FLA
@@ -422,6 +452,7 @@ public class CableModel : ICable
     {
         if (load.FedFrom != null) {
             Source = load.FedFrom.Tag;
+            SourceModel = load.FedFrom;
             Destination = load.Tag;
             CreateTag();
         }
@@ -484,9 +515,9 @@ public class CableModel : ICable
 
         if (UsageType == CableUsageTypes.Power.ToString()) {
             cableTypeList = EdtSettings.CableSizesUsedInProject;
-            VoltageRating = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).VoltageRating;
-            ConductorQty = TypeManager.PowerCableTypes.FirstOrDefault(c => c.Type == Type).ConductorQty;
-           // AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
+            VoltageRating = TypeManager.PowerCableTypes.FirstOrDefault(ct => ct.Id == TypeId).VoltageRating;
+            ConductorQty = TypeManager.PowerCableTypes.FirstOrDefault(ct => ct.Id == TypeId).ConductorQty;
+            // AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
         }
         else if (UsageType == CableUsageTypes.Control.ToString()) {
             cableTypeList = TypeManager.Cables_Control;
@@ -543,10 +574,10 @@ public class CableModel : ICable
 
 
         if (load.GetType() == typeof(LoadModel)) {
-            if (load.ProtectionDevice!=null) {
+            if (load.ProtectionDevice != null) {
                 RequiredAmps = Math.Max(load.ProtectionDevice.TripAmps, RequiredAmps);
 
-            }        
+            }
         }
         else {
             if (load.ProtectionDevice != null) {
@@ -796,6 +827,8 @@ public class CableModel : ICable
         }
     }
     int maxCableQtyRaceWay = 25;
+    private IEquipment _sourceModel;
+
     private void SelectValidCables_DirectBuried_RaceWayConduit(string ampsColumn, DataTable cableAmpacityTable, DataTable cablesWithHigherAmpsInProject, int qtyParallel)
     {
         var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
@@ -817,7 +850,7 @@ public class CableModel : ICable
 
                                                                                 );
         }
-        
+
 
         // remove cable if size is not in project
         foreach (var cableSizeInProject in EdtSettings.CableSizesUsedInProject) {
@@ -859,9 +892,9 @@ public class CableModel : ICable
             output = "CalculateAmpacity_DirectBuriedOrRaceWayConduit";
         }
         ValidateCableSize(this);
-       
-            CableManager.CableSizer.SetVoltageDrop(this);
-        
+
+        CableManager.CableSizer.SetVoltageDrop(this);
+
         OnPropertyUpdated();
         _calculatingAmpacity = false;
         return output;
@@ -896,7 +929,7 @@ public class CableModel : ICable
     {
         cable.Derating = CableManager.CableSizer.SetDerating(cable);
         cable.AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
-        
+
 
         DataTable cableAmps = DataTables.CecCableAmpacities.Copy(); //the created cable ampacity table
 
@@ -912,8 +945,8 @@ public class CableModel : ICable
         var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
                                                       && x.Field<string>("AmpacityTable") == cable.AmpacityTable
                                                       && x.Field<string>("Size") == cable.Size
-                                                      && x.Field<long>("QtyParallel").ToString() == cable.QtyParallel.ToString() );
-                                                      //&& x.Field<string>("Diagram") == cable.InstallationDiagram) ;
+                                                      && x.Field<long>("QtyParallel").ToString() == cable.QtyParallel.ToString());
+        //&& x.Field<string>("Diagram") == cable.InstallationDiagram) ;
         cableAmps = null;
         try {
             cableAmps = cables.CopyToDataTable();
@@ -941,7 +974,7 @@ public class CableModel : ICable
         else {
             cable.IsValidSize = true;
         }
-        if (Load!= null) {
+        if (Load != null) {
             if ((Load.Type == DteqTypes.DPN.ToString() || Load.Type == DteqTypes.CDP.ToString()) &&
                         Load.VoltageType.Voltage == 208 && Load.VoltageType.Phase == 3 && ConductorQty < 4 && ConductorQty != 1) {
                 cable.SetCableInvalid(this);
@@ -965,16 +998,16 @@ public class CableModel : ICable
     public event EventHandler PropertyUpdated;
     public virtual async Task OnPropertyUpdated()
     {
-        var tag = Tag;
-        var type = Type;
-        if (PropertyUpdated != null) {
-            PropertyUpdated(this, EventArgs.Empty);
-        }
-        //await Task.Run(() => {
-        //    if (PropertyUpdated != null) {
-        //        PropertyUpdated(this, EventArgs.Empty);
-        //    }
-        //});
+        //var tag = Tag;
+        //var type = Type;
+        //if (PropertyUpdated != null) {
+        //    PropertyUpdated(this, EventArgs.Empty);
+        //}
+        await Task.Run(() => {
+            if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
+            }
+        });
     }
 }
 

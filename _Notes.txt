@@ -6,17 +6,16 @@
 	- Move Component Up/Down into ComponentModelBase
 	
 MAJOR Bugs
-	- ReloadAll / Change project causes data discrepancy
-		- Unregister all events (event aggregator) when loading a new project.
-	- startup service to handle reloading project
-
+	- Unsub from View Update Events
 
 MINOR Bugs
+	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bog down app
 	- splitter not being added to SingleLine Dteq TreeView
 	- new Dteq not added to Dteq List
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
 	- added DTEQ aren't in the right click menu SetFedFrom list
+	- startup service to handle reloading project
 
 		
 Library 
@@ -107,10 +106,7 @@ Exports
 
 Refactorings
 	- proper IPowerCableUser members
-	- cable owners need to reference the cable
-	- cable needs to reference source and destination
 	- add reference to list manager inside each model object
-	- SelectionLists or models ??
 
 
 Validations

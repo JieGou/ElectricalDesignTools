@@ -179,23 +179,6 @@ public partial class _MjeqView : UserControl
         }
     }
 
-    private void LoadGridContextMenu_SetArea(object sender, MouseButtonEventArgs e)
-    {
-        //AreaSelectionWindow areaSelectionWindow = new AreaSelectionWindow();
-        //areaSelectionWindow.DataContext = MjeqVm;
-        //MjeqVm.SelectionWindow = areaSelectionWindow;
-        //areaSelectionWindow.ShowDialog();
-
-    }
-
-    private void LoadGridContextMenu_SetFedFrom(object sender, MouseButtonEventArgs e)
-    {
-        //FedFromSelectionWindow fedFromSelectionWindow = new FedFromSelectionWindow();
-        //fedFromSelectionWindow.DataContext = MjeqVm;
-        //MjeqVm.SelectionWindow = fedFromSelectionWindow;
-        //fedFromSelectionWindow.ShowDialog();
-
-    }
 
     private void LoadGridContextMenu_Delete(object sender, MouseButtonEventArgs e)
     {
@@ -205,110 +188,7 @@ public partial class _MjeqView : UserControl
 
    
 
-    private void LoadGridContextMenu_AddDiscoonnect(object sender, MouseButtonEventArgs e)
-    {
-        //AddDisconnectAsync();
-    }
-    private async Task AddDisconnectAsync()
-    {
-
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    LoadModel load = (LoadModel)loadObject;
-                    load.DisconnectBool = true;
-                }
-            }
-
-        }));
-
-    }
-
-    private async void LoadGridContextMenu_AddDrive(object sender, MouseButtonEventArgs e)
-    {
-        //await AddDriveAsync();
-    }
-    private async Task AddDriveAsync()
-    {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    LoadModel load = (LoadModel)loadObject;
-                    if (load.Type == LoadTypes.MOTOR.ToString()) {
-                        load.StandAloneStarterBool = true;
-                    }
-                }
-            }
-        }));
-    }
-
-    private async void LoadGridContextMenu_AddLcs(object sender, MouseButtonEventArgs e)
-    {
-        //await AddLcsAsync();
-    }
-    private async Task AddLcsAsync()
-    {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    LoadModel load = (LoadModel)loadObject;
-                    if (load.Type == LoadTypes.MOTOR.ToString()) {
-                        load.LcsBool = true;
-                    }
-                }
-               
-            }
-        }));
-    }
-
-    private void LoadGridContextMenu_RemoveDiscoonnect(object sender, MouseButtonEventArgs e)
-    {
-        //RemoveDisconnectAsync();
-    }
-    private async Task RemoveDisconnectAsync()
-    {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-
-                IPowerConsumer load = (IPowerConsumer)loadObject;
-                load.DisconnectBool = false;
-            }
-        }));
-    }
-
-    private void LoadGridContextMenu_RemoveDrive(object sender, MouseButtonEventArgs e)
-    {
-        //RemoveDriveAsync();
-    }
-    private async Task RemoveDriveAsync()
-    {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    LoadModel load = (LoadModel)loadObject;
-                    load.StandAloneStarterBool = false;
-                }
-
-            }
-        }));
-    }
-
-    private void LoadGridContextMenu_RemoveLcs(object sender, MouseButtonEventArgs e)
-    {
-        //RemoveLcsAsync();
-    }
-    private async Task RemoveLcsAsync()
-    {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in dgdAssignedLoads.SelectedItems) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    LoadModel load = (LoadModel)loadObject;
-                    load.LcsBool = false;
-                }
-            }
-        }));
-    }
+   
 
     private async Task DeleteLoads_VM()
     {
@@ -331,7 +211,6 @@ public partial class _MjeqView : UserControl
             }
         }
     }
-
 
     #endregion
 
@@ -634,7 +513,10 @@ public partial class _MjeqView : UserControl
     {
         ListManager listManager = MjeqVm.ListManager;
 
-        MessageBoxResult result = MessageBox.Show("Defautlt Dteq, Default Loads, Extra Loads", "Test Data", MessageBoxButton.YesNoCancel);
+        MessageBoxResult result = MessageBox.Show($"Yes = Load Test Dteq{Environment.NewLine}" +
+                                                  $"No = Load Test Dteq & Loads{Environment.NewLine}" +
+                                                  $"Cancel = Add 10 Extra Motors to MCC-01", 
+                                                  "Load Test Data", MessageBoxButton.YesNoCancel);
         var start = DateTime.Now;
 
         DaManager.Importing = true;

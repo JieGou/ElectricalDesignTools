@@ -69,15 +69,21 @@ public class TagManager
         var eqTypelist = listManager.EqList.Where(e => e.Type == eq.Type).ToList();
         var eqNumList = new List<int>();
 
+        int outTagNum = 0;
         if (eqTypelist.Count > 0) {
             foreach (var item in eqTypelist) {
-                eqNumList.Add(int.Parse(
-                    item.Tag.Substring(
-                        item.Tag.IndexOf(TagSettings.EqIdentifierSeparator) + 1)));
+                if (int.TryParse(item.Tag.Substring(item.Tag.IndexOf(TagSettings.EqIdentifierSeparator) + 1), out outTagNum)) {
+                    eqNumList.Add(outTagNum); 
+                }
             }
 
-            var maxNum = eqNumList.Max();
-            sequenceNumber = (maxNum += 1).ToString();
+            if (eqNumList.Count > 0) {
+                var maxNum = eqNumList.Max();
+                sequenceNumber = (maxNum += 1).ToString(); 
+            }
+            else {
+                sequenceNumber = "1";
+            }
         }
         else {
             sequenceNumber = "1";

@@ -150,6 +150,8 @@ namespace EDTLibrary.DataAccess
 
             "AutoSizeCommand",
             "AutoSizeAllCommand",
+            "SourceModel",
+            "DestinationModel",
         };
 
         static public List<string> AreaNoSaveList { get; set; } = new List<string>() {

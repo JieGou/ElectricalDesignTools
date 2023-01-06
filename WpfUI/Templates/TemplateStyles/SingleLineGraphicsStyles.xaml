@@ -21,6 +21,8 @@
     <SolidColorBrush x:Key="WhiteHighlightBrush" Color="LightBlue" Opacity="0.3"/>
     <SolidColorBrush x:Key="SelectedBrush" Color="LightBlue" Opacity="0.5"/>
 
+    <!--<SolidColorBrush x:Key="WhiteHighlightBrush" Color="#FFE6F3F7"/>
+    <SolidColorBrush x:Key="SelectedBrush" Color="#FFD6EBF2"/>-->
 
     <sys:Double x:Key="HighlightCorerRadius">7</sys:Double>
     

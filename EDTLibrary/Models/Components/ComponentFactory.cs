@@ -93,7 +93,10 @@ public class ComponentFactory
         //StandAloneStarter
         if (subType == CctComponentSubTypes.DefaultStarter.ToString()) {
             newComponent.SettingTag = true;
+
                 newComponent.Tag = componentUser.Tag + TagSettings.ComponentSuffixSeparator + TagManager.AssignEqTag(new DummyComponent { Type=newComponent.Type}, listManager);
+                newComponent.Tag = TagManager.AssignEqTag(new DummyComponent { Type = newComponent.Type }, listManager);
+
             newComponent.SettingTag = false;
             var load = (IPowerConsumer)componentUser;
             newComponent.Area = load.FedFrom.Area;

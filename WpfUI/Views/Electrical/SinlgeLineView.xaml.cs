@@ -3,6 +3,7 @@ using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
+using Syncfusion.UI.Xaml.TreeView;
 using Syncfusion.UI.Xaml.TreeView.Engine;
 using System;
 using System.Collections.ObjectModel;
@@ -14,6 +15,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using WpfUI.Extension_Methods;
+using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.Views.Electrical.MjeqSubviews;
 
@@ -34,12 +36,14 @@ public partial class SinlgeLineView : UserControl
         _propertyPaneWidth = PropertyPaneColumn.Width.Value;
         if (vm!=null) {
             vm.DteqCollectionView = new ListCollectionView(vm.ViewableDteqList);
-
         }
+        _ViewStateManager.ElectricalViewUpdate += OnElectricalViewUpdated;
+
+
     }
 
     //Sets the datacontext for the details view panel on the right
- 
+
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
         if (vm != null) {
@@ -388,7 +392,7 @@ public partial class SinlgeLineView : UserControl
         }
     }
 
-    private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+    private void ExternalScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
     {
         ScrollViewer sv = listViewLoads.GetChildOfType<ScrollViewer>();
         sv.ScrollToHorizontalOffset(e.HorizontalOffset);
@@ -411,6 +415,37 @@ public partial class SinlgeLineView : UserControl
     private void sfTreeView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         vm.SelectedDteq = (DistributionEquipment)sfTreeView.SelectedItem;
+    }
+
+    private void singleLine_ScrollViewer_H_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+        var sv = (ScrollViewer)sender;
+        ExternalScrollViewer_Horizontal.ScrollToHorizontalOffset(ExternalScrollViewer_Horizontal.HorizontalOffset - e.Delta);
+    }
+
+    private void sfTreeView_SourceUpdated(object sender, DataTransferEventArgs e)
+    {
+        var treeView = (SfTreeView)sender;
+        
+    }
+
+
+
+    //sfTreeView.ExpandAll();
+    //foreach (var node in sfTreeView.Nodes) {
+    //    node.IsExpanded = true;
+    //    SfTreeViewExtensions.ExpandAllNodes(node);
+    //}
+
+    public void OnElectricalViewUpdated(object source, EventArgs e)
+    {
+        sfTreeView.ExpandAll();
+    }
+
+    private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+    {
+        _ViewStateManager.ElectricalViewUpdate -= OnElectricalViewUpdated;
+
     }
 }
 

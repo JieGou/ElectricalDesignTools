@@ -247,7 +247,21 @@
                                                ImmediateUpdateColumnFilter="True"
                                                />
 
+                        <syncfusion:GridTextColumn MappingName="SourceModel.Tag"
+                                               MaximumWidth="200"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Contains"
+                                               ImmediateUpdateColumnFilter="True"
+                                               />
+
                         <syncfusion:GridTextColumn MappingName="Destination"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Contains"
+                                               ImmediateUpdateColumnFilter="True"
+                                               MaximumWidth="200"
+                                               />
+
+                        <syncfusion:GridTextColumn MappingName="DestinationModel.Tag"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"

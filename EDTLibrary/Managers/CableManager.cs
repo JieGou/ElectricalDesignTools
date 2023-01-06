@@ -175,9 +175,11 @@ public class CableManager
 
                     if (previousComponent == null) {
                         cable.Source = powerComponentOwner.FedFrom.Tag;
+                        cable.SourceModel = powerComponentOwner.FedFrom;
                     }
                     else if (previousComponent != null) {
                         cable.Source = previousComponent.Tag;
+                        cable.SourceModel = previousComponent;
                     }
 
                     cable.Destination = component.Tag;
@@ -216,9 +218,11 @@ public class CableManager
 
             if (previousComponent == null) {
                 component.PowerCable.Source = powerComponentOwner.FedFrom.Tag;
+                component.PowerCable.SourceModel = powerComponentOwner.FedFrom;
             }
             else if (previousComponent != null) {
                 component.PowerCable.Source = previousComponent.Tag;
+                component.PowerCable.SourceModel = previousComponent;
             }
 
             component.PowerCable.Destination = component.Tag;
@@ -266,6 +270,8 @@ public class CableManager
     {
         if (previousComponent == null) {
             load.PowerCable.Source = load.FedFrom.Tag;
+            load.PowerCable.SourceModel = load.FedFrom;
+
             load.PowerCable.Length = loadCableLength;
         }
         else if (previousComponent != null) {
@@ -278,6 +284,7 @@ public class CableManager
                 load.PowerCable.Length = loadCableLength;
             }
             load.PowerCable.Source = previousComponent.Tag;
+            load.PowerCable.SourceModel = previousComponent;
         }
         load.PowerCable.Tag = GetCableTag(load.PowerCable);
         load.PowerCable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
@@ -349,8 +356,10 @@ public class CableManager
         cable.SetTypeProperties();
 
         cable.Source = lcsOwner.FedFrom.Tag;
+        cable.SourceModel = lcsOwner.FedFrom;
         if (lcsOwner.StandAloneStarter != null) {
             cable.Source = lcsOwner.StandAloneStarter.Tag;
+            cable.SourceModel = lcsOwner.StandAloneStarter;
         }
 
         cable.Destination = lcs.Tag;
@@ -402,6 +411,7 @@ public class CableManager
 
         if (lcsOwner.StandAloneStarter!=null) {
             cable.Source = lcsOwner.StandAloneStarter.Tag;
+            cable.SourceModel = lcsOwner.StandAloneStarter;
         }
 
         cable.Destination = lcs.Tag;
@@ -421,7 +431,10 @@ public class CableManager
 
             if (lcsOwner.StandAloneStarter != null) {
                 lcs.ControlCable.Source = lcsOwner.StandAloneStarter.Tag;
+                lcs.ControlCable.SourceModel = lcsOwner.StandAloneStarter;
+
                 lcs.AnalogCable.Source = lcsOwner.StandAloneStarter.Tag;
+                lcs.AnalogCable.SourceModel = lcsOwner.StandAloneStarter;
             }
             lcs.ControlCable.Destination = lcs.Tag;
             lcs.ControlCable.CreateTag();
@@ -433,6 +446,7 @@ public class CableManager
         }
         else {
             lcs.ControlCable.Source = lcsOwner.FedFrom.Tag;
+            lcs.ControlCable.SourceModel = lcsOwner.FedFrom;
             lcs.ControlCable.Destination = lcs.Tag;
             lcs.ControlCable.CreateTag();
         }

@@ -25,7 +25,21 @@ internal class ComponentTypeSelector
             list.Add(StarterTypes.VFD.ToString());
             list.Add(StarterTypes.RVS.ToString());
         }
+        else if (comp.SubCategory == Categories.ProtectionDevice.ToString()) {
+            
+            if (comp.Owner.Type == LoadTypes.MOTOR.ToString()) {
+                list.Add(StarterTypes.MCP_FVNR.ToString());
+                list.Add(StarterTypes.MCP_FVR.ToString());
+                list.Add(StarterTypes.VSD.ToString());
+                list.Add(StarterTypes.VFD.ToString());
+                list.Add(StarterTypes.RVS.ToString());
+            }
+            else {
+                list.Add(PdTypes.BKR.ToString());
+                list.Add(DisconnectTypes.FDS.ToString());
 
+            }
+        }
         return list;
     }
 }

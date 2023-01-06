@@ -38,7 +38,7 @@ internal class SingleLineViewModel: EdtViewModelBase
 {
     public SingleLineViewModel(ListManager listManager) : base(listManager)
     {
-        ListManager = listManager;
+        _listManager = listManager;
 
         _ViewStateManager.ElectricalViewUpdate += OnElectricalViewUpdated;
 
@@ -50,8 +50,16 @@ internal class SingleLineViewModel: EdtViewModelBase
     #region View State
     public void OnElectricalViewUpdated(object source, EventArgs e)
     {
+
+        RefreshDteqTreeView();
         RefreshSingleLine();
+
     }
+    public void RefreshDteqTreeView()
+    {
+        DteqCollectionView = new ListCollectionView(ViewableDteqList);
+    }
+    
     public void RefreshSingleLine()
     {
         AssignedLoads.Clear();
@@ -67,6 +75,7 @@ internal class SingleLineViewModel: EdtViewModelBase
 
     }
 
+    
     internal void ClearSelections()
     {
         //Equipment
@@ -112,10 +121,19 @@ internal class SingleLineViewModel: EdtViewModelBase
     {
         get
         {
-            List<IPowerConsumer> subList = new List<IPowerConsumer>();
-            subList.AddRange(ListManager.DteqList.FirstOrDefault(d => d.Tag == GlobalConfig.Utility).AssignedLoads);
-            return new ObservableCollection<IPowerConsumer>(subList);
+            if (ListManager.DteqList.Count>0) {
+                List<IPowerConsumer> subList = new List<IPowerConsumer>();
+                subList.AddRange(ListManager.DteqList.FirstOrDefault(d => d.Tag == GlobalConfig.Utility).AssignedLoads);
+                return new ObservableCollection<IPowerConsumer>(subList);
+            }
+            else {
+                _ViewStateManager.ElectricalViewUpdate -= OnElectricalViewUpdated;
+                List<IPowerConsumer> subList = new List<IPowerConsumer>();
+                subList.AddRange(ScenarioManager.ListManager.DteqList.FirstOrDefault(d => d.Tag == GlobalConfig.Utility).AssignedLoads);
+                return new ObservableCollection<IPowerConsumer>(subList);
+            }
         }
+            
     }
 
     private ListCollectionView _dteqCollectionView;
