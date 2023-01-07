@@ -6,7 +6,6 @@
 	- Move Component Up/Down into ComponentModelBase
 	
 MAJOR Bugs
-	- Unsub from View Update Events
 
 MINOR Bugs
 	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bog down app

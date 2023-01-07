@@ -9,7 +9,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
-namespace EDTLibrary.Models.Validators
+namespace EDTLibrary.Validators
 {
     public static class TagAndNameValidator
     {
@@ -17,7 +17,7 @@ namespace EDTLibrary.Models.Validators
         {
             if (string.IsNullOrEmpty(tagToCheck)) return true;
             if (listManager == null) return true; //for test data
-            if (DaManager.GettingRecords == true) return true;                                                
+            if (DaManager.GettingRecords == true) return true;
             if (tagToCheck == GlobalConfig.Utility) return true;
             if (tagToCheck == GlobalConfig.Deleted) return true;
             if (tagToCheck == GlobalConfig.LargestMotor_StartLoad) return true;
@@ -25,14 +25,18 @@ namespace EDTLibrary.Models.Validators
             listManager.CreateEquipmentList();
 
             string tag = null;
-            foreach (var eq in listManager.EqList) {
-                if (eq.Tag!=null) {
+            foreach (var eq in listManager.EqList)
+            {
+                if (eq.Tag != null)
+                {
                     if (eq.Tag.ToLower() == tagToCheck.ToLower()) tag = eq.Tag;
                 }
             }
 
-            if (tag != null) {
-                if (showAlert == true) {
+            if (tag != null)
+            {
+                if (showAlert == true)
+                {
                     ErrorHelper.NotifyUserError($"{tagToCheck} - {ErrorMessages.DuplicateTagMessage}", "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
                 }
                 return false;
@@ -43,13 +47,15 @@ namespace EDTLibrary.Models.Validators
 
         public static bool IsNameAvailable(string name, ListManager listManager)
         {
-            if (string.IsNullOrEmpty(name)) {
+            if (string.IsNullOrEmpty(name))
+            {
                 return true;
             }
 
             var areaNAme = listManager.AreaList.FirstOrDefault(t => t.Name.ToLower() == name.ToLower());
 
-            if (areaNAme != null) {
+            if (areaNAme != null)
+            {
                 return false;
             }
 

@@ -10,7 +10,7 @@ namespace EDTLibrary.Models.Loads
     public interface ILoad : IPowerConsumer, IComponentUser
     {
         //Primary
-       
+        bool IsValid { get; set; }
         double LoadFactor { get; set; }
         double Efficiency { get; set; }
 

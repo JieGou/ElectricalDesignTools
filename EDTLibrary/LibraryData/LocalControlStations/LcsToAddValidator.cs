@@ -2,10 +2,7 @@
 using EDTLibrary.LibraryData.LocalControlStations;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
-using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
-using EDTLibrary.Models.Validators;
-using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
 using System.Collections;

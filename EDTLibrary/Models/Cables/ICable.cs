@@ -34,7 +34,7 @@ public interface ICable
     bool IsOutdoor { get; set; }
     bool IsValid { get; set; }
     string InvalidCableMessage { get; set; }
-    public string InvalidSizeMessage { get; set; }
+    public string InvalidAmpacityMessage { get; set; }
     public string InvalidLengthMessage { get; set; }
 
     double Length { get; set; }

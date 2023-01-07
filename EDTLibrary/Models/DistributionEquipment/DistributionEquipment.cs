@@ -10,7 +10,6 @@ using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
-using EDTLibrary.Models.Validators;
 using EDTLibrary.Services;
 using EDTLibrary.UndoSystem;
 using EDTLibrary.Validators;
@@ -566,6 +565,80 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
 
+
+
+        #region Validation
+        public bool IsValid
+        {
+            get
+            {
+
+                return _isValid;
+            }
+            set
+            {
+
+                _isValid = value;
+            }
+        }
+        private bool _isValid = true;
+
+        public void Validate()
+        {
+            var isValid = true;
+
+            if (DaManager.GettingRecords == false) {
+                if (PowerCable != null) {
+
+                    if (!PowerCable.IsValid) {
+                        isValid = false;
+                    }
+                }
+                if (ProtectionDevice != null) {
+
+                    if (!ProtectionDevice.IsValid) {
+                        isValid = false;
+                    }
+                }
+                foreach (var load in AssignedLoads) {
+
+                    if (load.Category == Categories.DTEQ.ToString()) {
+                        continue;
+                    }
+
+                    if (!load.IsValid) {
+                        isValid = false;                        
+                    }
+                    if (load.ProtectionDevice != null) {
+
+                        if (!load.ProtectionDevice.IsValid) {
+                            isValid = false;
+                        } 
+                    }
+                    if (load.PowerCable != null) {
+
+                        if (!load.PowerCable.IsValid) {
+                            isValid = false;
+                        } 
+                    }
+
+                    foreach (var comp in load.CctComponents) {
+                        if (!comp.IsValid) {
+                            isValid = false;
+                        }
+                        if (comp.PowerCable!= null) {
+                            if (!comp.PowerCable.IsValid) {
+                                isValid = false;
+                            } 
+                        }
+                    }
+                }
+            }
+            IsValid = isValid;
+            OnPropertyUpdated();
+        }
+        #endregion
+
         public double HeatLoss { get; set; }
 
         public double SCCR { get; set; }
@@ -690,6 +763,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             SCCR = CalculateSCCR();
             IsCalculating = false;
 
+            Validate();
             OnLoadingCalculated(propertyName);
 
             OnPropertyUpdated(nameof(CalculateLoading));

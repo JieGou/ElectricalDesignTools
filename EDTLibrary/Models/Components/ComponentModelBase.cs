@@ -5,9 +5,9 @@ using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
-using EDTLibrary.Models.Validators;
 using EDTLibrary.Selectors;
 using EDTLibrary.UndoSystem;
+using EDTLibrary.Validators;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,8 @@ public abstract class ComponentModelBase : IComponentEdt
     public ComponentModelBase()
     {
     }
+
+    public bool IsValid { get; set; } = true;
 
     public bool IsSelected { get; set; } = false;
 

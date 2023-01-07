@@ -7,6 +7,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 {
     public interface IDteq : IPowerConsumer
     {
+        public void Validate();
         bool IsMainLugsOnly { get; set; }
         void Create();
         void Initialize();

@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Loads;
 internal class DummyLoad : IPowerConsumer
 {
+
+    public bool IsValid { get; set; } = true;
+
     public int ProtectionDeviceId { get; set; }
     public IProtectionDevice ProtectionDevice { get; set; }
     public CalculationFlags CalculationFlags { get; set; }

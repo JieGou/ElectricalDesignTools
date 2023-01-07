@@ -7,8 +7,8 @@ using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
-using EDTLibrary.Models.Validators;
 using EDTLibrary.UndoSystem;
+using EDTLibrary.Validators;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -30,6 +30,7 @@ public class LocalControlStationModel : ILocalControlStation
         Type = "LCS";
     }
 
+    public bool IsValid { get; set; } = true;
     public bool IsSelected { get; set; } = false;
 
     public int Id { get; set; }

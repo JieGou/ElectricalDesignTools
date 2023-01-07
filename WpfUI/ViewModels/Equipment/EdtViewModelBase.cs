@@ -101,17 +101,19 @@ public abstract class EdtViewModelBase: ViewModelBase
     public ICommand AutoSizeAllCablesCommand { get; }
     private void AutoSizeAllCables()
     {
-        Task.Run(() => AutoSizeAllCablesAsync());
+        AutoSizeAllCablesAsync();
     }
     private async Task AutoSizeAllCablesAsync()
     {
         try {
-            foreach (var item in _listManager.IDteqList) {
+            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                foreach (var item in _listManager.IDteqList) {
                 item.SizePowerCable();
-            }
-            foreach (var item in _listManager.LoadList) {
-                item.SizePowerCable();
-            }
+                }
+                foreach (var item in _listManager.LoadList) {
+                    item.SizePowerCable();
+                }
+            }));
         }
         catch (Exception ex) {
             ErrorHelper.ShowErrorMessage(ex);

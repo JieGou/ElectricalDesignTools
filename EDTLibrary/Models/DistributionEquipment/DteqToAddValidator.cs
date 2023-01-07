@@ -3,7 +3,7 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Loads;
-using EDTLibrary.Models.Validators;
+using EDTLibrary.Validators;
 using PropertyChanged;
 using System;
 using System.Collections;

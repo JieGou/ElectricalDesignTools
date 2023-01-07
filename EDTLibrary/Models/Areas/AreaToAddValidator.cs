@@ -2,7 +2,7 @@
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
-using EDTLibrary.Models.Validators;
+using EDTLibrary.Validators;
 using PropertyChanged;
 using System;
 using System.Collections;

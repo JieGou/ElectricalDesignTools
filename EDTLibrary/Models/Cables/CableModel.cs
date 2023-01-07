@@ -128,7 +128,15 @@ public class CableModel : ICable
     public IEquipment DestinationModel
     {
         get { return _destinationModel; }
-        set { _destinationModel = value; }
+        set 
+        {
+            _destinationModel = value;
+
+            if (DaManager.GettingRecords) return;
+
+            OwnerId = _destinationModel.Id;
+            OwnerType = _destinationModel.GetType().ToString();
+        }
     }
     private IEquipment _destinationModel;
 
@@ -451,22 +459,16 @@ public class CableModel : ICable
 
 
 
-    public string InvalidSizeMessage { get; set; }
+    public string InvalidAmpacityMessage { get; set; }
     public string InvalidLengthMessage { get; set; }
 
     public string InvalidCableMessage { get; set; }
-    public bool IsValid { get; set; }
+    public bool IsValid { get; set; } = true;
     #endregion
 
 
 
     #region Validations
-    public void SetCableInvalid(ICable cable)
-    {
-        cable.IsValid = false;
-        cable.InstallationDiagram = "Inv.";
-    }
-
     public void ValidateCable(ICable cable)
     {
         cable.IsValid = true;
@@ -475,12 +477,24 @@ public class CableModel : ICable
         ValidateCableLength(cable);
         ValidateCableConductorQty(cable);
 
-        InvalidCableMessage = $"{InvalidSizeMessage}{Environment.NewLine}{InvalidLengthMessage}";
+        if (cable.Load != null && cable.Load.FedFrom != null) {
+            InvalidCableMessage = $"Ampacity:\n{InvalidAmpacityMessage}" +
+                                  $"{Environment.NewLine}{Environment.NewLine}" +
+                                  $"Length:\n{InvalidLengthMessage}";
+            Load.FedFrom.Validate(); 
+        }
+        OnPropertyUpdated();
     }
 
+    public void SetCableInvalid(ICable cable)
+    {
+        cable.IsValid = false;
+        cable.InstallationDiagram = "Inv.";
+    }
+    
     private void ClearValidationMessages()
     {
-        InvalidSizeMessage = "";
+        InvalidAmpacityMessage = "";
         InvalidLengthMessage = "";
     }
 
@@ -490,7 +504,7 @@ public class CableModel : ICable
         GetRequiredAmps(Load);
         if (cable.RequiredAmps > cable.DeratedAmps) {
             cable.SetCableInvalid(this);
-            cable.InvalidSizeMessage = "Cable ampacity rating exceeded. Confirm, size, derating, instlalation type.";
+            cable.InvalidAmpacityMessage = "Cable ampacity rating exceeded. Confirm, size, derating, installation type.";
         }
     }
 
@@ -534,6 +548,7 @@ public class CableModel : ICable
             Source = load.FedFrom.Tag;
             SourceModel = load.FedFrom;
             Destination = load.Tag;
+            DestinationModel = load;
             CreateTag();
         }
     }
@@ -548,7 +563,10 @@ public class CableModel : ICable
                                                   && c.UsageType == CableUsageTypes.Power.ToString()).ToList();
         var cableVoltageClass = list.Min(c => c.VoltageRating);
 
-        var voltagePhase = load.VoltageType.Phase;
+        double voltagePhase = 0;
+        if (load.VoltageType != null) {
+            voltagePhase = load.VoltageType.Phase; 
+        }
 
         foreach (var cableType in TypeManager.CableTypes) {
 
@@ -1091,17 +1109,17 @@ public class CableModel : ICable
     public event EventHandler PropertyUpdated;
     public virtual async Task OnPropertyUpdated()
     {
-        var tag = Tag;
-        var type = Type;
-        if (PropertyUpdated != null) {
-            PropertyUpdated(this, EventArgs.Empty);
-        }
+        //var tag = Tag;
+        //var type = Type;
+        //if (PropertyUpdated != null) {
+        //    PropertyUpdated(this, EventArgs.Empty);
+        //}
 
-        //await Task.Run(() => {
-        //    if (PropertyUpdated != null) {
-        //        PropertyUpdated(this, EventArgs.Empty);
-        //    }
-        //});
+        await Task.Run(() => {
+            if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
+            }
+        });
     }
 }
 

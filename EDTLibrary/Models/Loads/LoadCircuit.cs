@@ -37,6 +37,8 @@ public class LoadCircuit : ILoadCircuit
     }
     public CalculationFlags CalculationFlags { get; set; }
 
+    public bool IsValid { get; set; } = true;
+
     public int ProtectionDeviceId { get; set; }
     public IProtectionDevice ProtectionDevice
     {

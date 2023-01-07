@@ -216,17 +216,28 @@
                             <Grid x:Name="grid">
                                 <Grid Grid.Row="0">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0" />
+                                        <ColumnDefinition Width="auto" />
+                                        <ColumnDefinition Width="auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid>
-                                        <Image Source="{Binding ImageIcon}"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Height="16"
-                                            Width="16"/>
+                                        <Image Source="..\..\..\ResourceFiles\ErrorIcon48.png"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Height="12"
+                                               Width="12"
+                                               Margin="0 0 3 0"
+                                               Visibility="{Binding IsValid, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
                                     </Grid>
-                                    <Grid Grid.Column="1"
+                                    <Grid Grid.Column="1">
+                                        <Image Source="{Binding ImageIcon}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Left"
+                                               Height="16"
+                                               Width="16"
+                                               Visibility="Collapsed"/>
+                                    </Grid>
+                                    <Grid Grid.Column="2"
                                         Margin="1,0,0,0"
                                         VerticalAlignment="Center">
                                         <TextBlock Text="{Binding Tag}"

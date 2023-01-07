@@ -183,6 +183,7 @@ public class CableManager
                     }
 
                     cable.Destination = component.Tag;
+                    cable.DestinationModel = component;
                     cable.Tag = GetCableTag(cable);
 
                     //cable.AutoSize();
@@ -226,6 +227,7 @@ public class CableManager
             }
 
             component.PowerCable.Destination = component.Tag;
+            component.PowerCable.DestinationModel = component;
             component.PowerCable.Tag = GetCableTag(component.PowerCable);
             
             previousComponent = component;
@@ -363,6 +365,7 @@ public class CableManager
         }
 
         cable.Destination = lcs.Tag;
+        cable.DestinationModel = lcs;
         cable.Tag = GetCableTag(cable);
 
         listManager.CableList.Add(cable);
@@ -415,6 +418,7 @@ public class CableManager
         }
 
         cable.Destination = lcs.Tag;
+        cable.DestinationModel = lcs;
         cable.Tag = GetCableTag(cable);
         listManager.CableList.Add(cable);
         DaManager.UpsertCable((CableModel)cable);
@@ -437,10 +441,12 @@ public class CableManager
                 lcs.AnalogCable.SourceModel = lcsOwner.StandAloneStarter;
             }
             lcs.ControlCable.Destination = lcs.Tag;
+            lcs.ControlCable.DestinationModel = lcs;
             lcs.ControlCable.CreateTag();
 
             if (lcs.AnalogCable!=null) {
                 lcs.AnalogCable.Destination = lcs.Tag;
+                lcs.AnalogCable.DestinationModel = lcs;
                 lcs.AnalogCable.CreateTag();
             }
         }
@@ -448,6 +454,7 @@ public class CableManager
             lcs.ControlCable.Source = lcsOwner.FedFrom.Tag;
             lcs.ControlCable.SourceModel = lcsOwner.FedFrom;
             lcs.ControlCable.Destination = lcs.Tag;
+            lcs.ControlCable.DestinationModel = lcs;
             lcs.ControlCable.CreateTag();
         }
     }

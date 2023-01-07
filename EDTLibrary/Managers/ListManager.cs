@@ -760,9 +760,6 @@ namespace EDTLibrary.Managers
                         cable.SourceModel = eq;
                     }
 
-                    //if (eq.Id == cable.OwnerId && cable.OwnerType == eq.GetType().ToString()) {
-                    //    cable.DestinationModel = eq;
-                    //}
                 }
             }
         }

@@ -9,10 +9,10 @@ using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
-using EDTLibrary.Models.Validators;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Selectors;
 using EDTLibrary.UndoSystem;
+using EDTLibrary.Validators;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -64,6 +64,7 @@ namespace EDTLibrary.Models.Loads
         }
         private IProtectionDevice _protectionDevice;
 
+        public bool IsValid { get; set; } = true;
         public bool IsSelected { get; set; } = false;
         private bool allowCalculations = true;
         public int Id { get; set; }
