@@ -7,6 +7,13 @@ namespace EDTLibrary.Models.Equipment;
 public class EquipmentModel : IEquipment
 {
     public bool IsValid { get; set; } = true;
+    public bool Validate()
+    {
+        var isValid = false;
+
+        return isValid;
+    }
+
 
     public bool IsSelected { get; set; } = false;
 

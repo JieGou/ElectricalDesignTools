@@ -152,6 +152,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
         {
             _dpanelViewModel.UpdatePanelList();
         }
+        _ViewStateManager.OnElectricalViewUpdated();
     }
     #endregion
 

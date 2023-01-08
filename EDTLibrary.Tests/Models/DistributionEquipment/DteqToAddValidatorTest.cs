@@ -28,8 +28,8 @@ namespace EDTLibrary.Tests.Models.DistributionEquipment
             //Arrange
             ListManager listManager = new ListManager();
             listManager.AreaList = TestData.TestAreasList;
-            listManager.DteqList = TestData.TestDteqList;
-            listManager.LoadList = TestData.TestLoadList;
+            listManager.DteqList = TestData.TestDteqList_Full;
+            listManager.LoadList = TestData.TestLoadList_Full;
             DteqModel dteqToAdd = new DteqModel();
             dteqToAdd.Area = TestData.TestAreasList[0];
 
@@ -83,8 +83,8 @@ namespace EDTLibrary.Tests.Models.DistributionEquipment
             StartupService startupService = new StartupService(listManager, new ObservableCollection<PreviousProject>());
             startupService.InitializeLibrary();
             TypeManager.GetTypeTables();
-            listManager.DteqList = TestData.TestDteqList;
-            listManager.LoadList = TestData.TestLoadList;
+            listManager.DteqList = TestData.TestDteqList_Full;
+            listManager.LoadList = TestData.TestLoadList_Full;
 
             //Act
             DteqToAddValidator dteqToAddValidator = new DteqToAddValidator(listManager, dteqToAdd);

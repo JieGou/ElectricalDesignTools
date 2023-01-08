@@ -86,7 +86,7 @@ namespace EDTLibrary.Tests
                 //Dteq
                 ErrorHelper.Log("\n\n-----------------DTEQ----------------- \n");
 
-                foreach (var loopDteq in TestData.TestDteqList) {
+                foreach (var loopDteq in TestData.TestDteqList_Full) {
                     ErrorHelper.Log($"--------Adding dteq: {loopDteq.Tag}");
 
                     loopDteq.Area = listManager.AreaList[0];
@@ -100,7 +100,7 @@ namespace EDTLibrary.Tests
                 //Loads
                 ErrorHelper.Log("\n\n-----------------LOAD----------------- \n");
 
-                foreach (var loopLoad in TestData.TestLoadList) {
+                foreach (var loopLoad in TestData.TestLoadList_Full) {
                     ErrorHelper.Log($"--------Adding load: {loopLoad.Tag}");
 
                     loopLoad.Area = listManager.AreaList[0];
@@ -159,7 +159,7 @@ namespace EDTLibrary.Tests
 
 
                 Assert.True(listManager.AreaList.Count == TestData.TestAreasList.Count);
-                Assert.True(listManager.IDteqList.Count == TestData.TestDteqList.Count);
+                Assert.True(listManager.IDteqList.Count == TestData.TestDteqList_Full.Count);
                 //Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count);
                 //Assert.True(listManager.CableList.Count == cableCount);
                 Assert.True(listManager.CompList.Count == 2);

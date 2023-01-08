@@ -90,5 +90,5 @@ public interface ICable
     void SetSizingParameters(ICableUser load);
     void SetSourceAndDestinationTags(ICableUser load);
     void SetTypeProperties();
-    void ValidateCable(ICable cable);
+    bool Validate(ICable cable);
 }

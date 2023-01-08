@@ -22,8 +22,8 @@ namespace EDTLibrary.Tests.Models.Loads
 
             //Arrange
             ListManager _listManager = new ListManager();
-            _listManager.DteqList = TestData.TestDteqList;
-            _listManager.LoadList = TestData.TestLoadList;
+            _listManager.DteqList = TestData.TestDteqList_Full;
+            _listManager.LoadList = TestData.TestLoadList_Full;
             _listManager.AreaList = TestData.TestAreasList;
 
             ILoad loadToAdd = new LoadModel { Area = TestData.TestAreasList[0]};
@@ -57,8 +57,8 @@ namespace EDTLibrary.Tests.Models.Loads
 
             //Arrange
             ListManager _listManager = new ListManager();
-            _listManager.DteqList = TestData.TestDteqList;
-            _listManager.LoadList = TestData.TestLoadList;
+            _listManager.DteqList = TestData.TestDteqList_Full;
+            _listManager.LoadList = TestData.TestLoadList_Full;
             DteqModel selectedDteq = new DteqModel();
 
             //Act

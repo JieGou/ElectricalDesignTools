@@ -3,6 +3,7 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Selectors;
@@ -35,6 +36,30 @@ public abstract class ComponentModelBase : IComponentEdt
     }
 
     public bool IsValid { get; set; } = true;
+    public bool Validate()
+    {
+        if (DaManager.GettingRecords) return false;
+        var isValid = true;
+
+        if (PowerCable != null) {
+            PowerCable.Validate(PowerCable); 
+        }
+
+        IsValid = isValid;
+
+        if (Owner is IDteq) {
+            var dteq = (IDteq)Owner;
+            dteq.CheckValidation();
+        }
+        if(Owner is ILoad) {
+            var load = (ILoad)Owner;
+            load.FedFrom.CheckValidation();
+        }
+        OnPropertyUpdated();
+
+        return isValid;
+    }
+
 
     public bool IsSelected { get; set; } = false;
 
@@ -81,9 +106,12 @@ public abstract class ComponentModelBase : IComponentEdt
         get => _type;
         set
         {
+            if (value == null) return; 
             if (value == _type) return;
             var oldValue = _type;
             _type = value;
+
+            if (DaManager.GettingRecords) return;
 
             UndoManager.Lock(this, nameof(Type));
                 if (_type == DisconnectTypes.FDS.ToString() || _type == DisconnectTypes.FWDS.ToString()) {
@@ -92,6 +120,25 @@ public abstract class ComponentModelBase : IComponentEdt
                         TripAmps = TypeManager.BreakerSizes.FirstOrDefault(f => f.TripAmps >= owner.Fla).TripAmps;
                     }
                 }
+
+            if (_type == StarterTypes.VSD.ToString()
+             || _type == StarterTypes.VFD.ToString()
+             || _type == StarterTypes.RVS.ToString()) {
+
+                if (Owner is ILoad) {
+                    CableManager.CreateLcsAnalogCableForProtectionDevice((ILoad)Owner, ScenarioManager.ListManager);
+                }
+            }
+
+            if (_type != StarterTypes.VSD.ToString()
+             && _type != StarterTypes.VFD.ToString()
+             && _type != StarterTypes.RVS.ToString()) {
+
+                if (Owner is ILoad) {
+                    CableManager.DeleteLcsAnalogCable((Owner as ILoad).Lcs, ScenarioManager.ListManager);
+                }
+            }
+
             TypeList = ComponentTypeSelector.GetComponentTypeList(this);
             UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _type);
             OnPropertyUpdated();

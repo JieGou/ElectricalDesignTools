@@ -18,6 +18,16 @@ internal class DummyLoad : IPowerConsumer
 {
 
     public bool IsValid { get; set; } = true;
+    public bool Validate()
+    {
+        var isValid = true;
+
+        IsValid = isValid;
+        OnPropertyUpdated();
+
+        return isValid;
+    }
+
 
     public int ProtectionDeviceId { get; set; }
     public IProtectionDevice ProtectionDevice { get; set; }

@@ -38,6 +38,16 @@ public class LoadCircuit : ILoadCircuit
     public CalculationFlags CalculationFlags { get; set; }
 
     public bool IsValid { get; set; } = true;
+    public bool Validate()
+    {
+        var isValid = true;
+
+        IsValid = isValid;
+        OnPropertyUpdated();
+
+        return isValid;
+    }
+
 
     public int ProtectionDeviceId { get; set; }
     public IProtectionDevice ProtectionDevice

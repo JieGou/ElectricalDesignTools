@@ -163,12 +163,17 @@ public partial class _MjeqView : UserControl
     //Sets the datacontext for the details view panel on the right
     private void dgdAssignedLoads_SelectionChanged_1(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
     {
-        if (dgdAssignedLoads.SelectedItem != null) {
-            _loadTabsView.DataContext = this.DataContext;
-            LoadDetailsContent.Content = _loadTabsView;
-        }
+        //if (dgdAssignedLoads.SelectedItem != null) {
+        //    _loadTabsView.DataContext = this.DataContext;
+        //    LoadDetailsContent.Content = _loadTabsView;
+        //}
+
+        //Task.Run(() => {
+
         if (MjeqVm == null) return;
         MjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;
+
+        //});
     }
 
     private void dgdAssignedLoads_PreviewKeyDown_1(object sender, KeyEventArgs e)
@@ -513,8 +518,8 @@ public partial class _MjeqView : UserControl
     {
         ListManager listManager = MjeqVm.ListManager;
 
-        MessageBoxResult result = MessageBox.Show($"Yes = Load Test Dteq{Environment.NewLine}" +
-                                                  $"No = Load Test Dteq & Loads{Environment.NewLine}" +
+        MessageBoxResult result = MessageBox.Show($"Yes = Short Load List{Environment.NewLine}" +
+                                                  $"No = Full Load List{Environment.NewLine}" +
                                                   $"Cancel = Add 10 Extra Motors to MCC-01", 
                                                   "Load Test Data", MessageBoxButton.YesNoCancel);
         var start = DateTime.Now;
@@ -523,14 +528,22 @@ public partial class _MjeqView : UserControl
 
         switch (result) {
             case MessageBoxResult.Yes:
-                start = DateTime.Now;
                 AddTestDteq(listManager, start.ToString());
+                start = DateTime.Now;
+                await Task.Run(() => AddTestLoadsAsync(listManager, TestData.TestLoadList_Short));
+                MjeqVm.GetLoadList();
+                //DaManager.Importing = false;
+                //foreach (var item in listManager.IDteqList) {
+                //    item.CalculateLoading();
+                //}
+
+                Debug.Print($"start: {start.ToString()} end: {DateTime.Now.ToString()}");
                 break;
 
             case MessageBoxResult.No:
                 AddTestDteq(listManager, start.ToString());
                 start = DateTime.Now;
-                await Task.Run(() => AddTestLoadsAsync(listManager));
+                await Task.Run(() => AddTestLoadsAsync(listManager, TestData.TestLoadList_Full));
                 MjeqVm.GetLoadList();
                 //DaManager.Importing = false;
                 //foreach (var item in listManager.IDteqList) {
@@ -585,7 +598,7 @@ public partial class _MjeqView : UserControl
 
     private void AddTestDteq(ListManager listManager, string start)
     {
-        foreach (var dteq in TestData.TestDteqList) {
+        foreach (var dteq in TestData.TestDteqList_Full) {
             dteq.Area = listManager.AreaList[0];
             DteqToAddValidator dteqToAdd = new DteqToAddValidator(listManager, dteq);
             MjeqVm.AddDteq(dteqToAdd);
@@ -594,10 +607,10 @@ public partial class _MjeqView : UserControl
 
     }
 
-    private async Task AddTestLoadsAsync(ListManager listManager)
+    private async Task AddTestLoadsAsync(ListManager listManager, ObservableCollection<ILoad> loadList)
     {
         try {
-            foreach (var load in TestData.TestLoadList) {
+            foreach (var load in loadList) {
                 load.Area = listManager.AreaList[0];
                 LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
                 await Task.Run(() => LoadManager.AddLoad(loadToAdd, listManager));
@@ -667,26 +680,9 @@ public partial class _MjeqView : UserControl
     #endregion
 
 
-
-    private void dgdAssignedLoads_CurrentCellActivated(object sender, Syncfusion.UI.Xaml.Grid.CurrentCellActivatedEventArgs e)
-    {
-       
-    }
-
-
-
     private void eqView_Loaded(object sender, RoutedEventArgs e)
     {
-        //Binding myBinding = new Binding();
-        //DependencyObject column;
-
-        //myBinding = new Binding();
-        //myBinding.Path = new PropertyPath("AssignedLoads");
-        //myBinding.Source = MjeqVm;
-        //myBinding.Mode = BindingMode.TwoWay;
-        //myBinding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
-        //myBinding.IsAsync = true;
-        //BindingOperations.SetBinding(dgdAssignedLoads, Syncfusion.UI.Xaml.Grid.SfDataGrid.ItemsSourceProperty, myBinding);
+       
     }
 
     

@@ -141,26 +141,6 @@ internal class SingleLineViewModel: EdtViewModelBase
     {
         get
         {
-            //if (_dteqCollectionView == null) {
-            //}
-            //_dteqCollectionView = new ListCollectionView(ViewableDteqList);
-
-            //_dteqCollectionView.Filter = (d) => {
-            //    IEquipment dteq = (IEquipment)d;
-            //    if (dteq != null)
-            //    // If filter is turned on, filter completed items.
-            //    {
-            //        if (dteq != null) {
-            //            if (dteq is DistributionEquipment) {
-            //                return true;
-            //            }
-            //            else {
-            //                return false;
-            //            }
-            //        }
-            //    }
-            //    return false;
-            //};
             return _dteqCollectionView;
         }
         set
@@ -219,18 +199,18 @@ internal class SingleLineViewModel: EdtViewModelBase
 
             if (_selectedLoadCable.GetType() == typeof(LoadModel)) {
                 var load = (LoadModel)_selectedLoadCable;
-                load.PowerCable.ValidateCable(load.PowerCable);
+                load.PowerCable.Validate(load.PowerCable);
                 load.PowerCable.CreateTypeList(load);
             }
             else if (_selectedLoadCable is (DistributionEquipment)) {
                 var dteq = DteqFactory.Recast(_selectedLoadCable);
-                dteq.PowerCable.ValidateCable(dteq.PowerCable);
+                dteq.PowerCable.Validate(dteq.PowerCable);
                 dteq.PowerCable.CreateTypeList(dteq);
             }
             else if (_selectedLoadCable is ComponentModelBase) {
                 var component = (ComponentModelBase)_selectedLoadCable;
                 //TODO - Style for cable graphic so that IsValid is detected without reloading
-                component.PowerCable.ValidateCable(component.PowerCable);
+                component.PowerCable.Validate(component.PowerCable);
                 component.PowerCable.CreateTypeList((LoadModel)component.Owner);
             }
 
@@ -245,7 +225,6 @@ internal class SingleLineViewModel: EdtViewModelBase
         set
         {
             if (value == null) {
-                //_selectedDteq = null;
                 return;
             }
             AssignedLoads = new ObservableCollection<IPowerConsumer>();
@@ -256,6 +235,7 @@ internal class SingleLineViewModel: EdtViewModelBase
 
                 //used for fedfrom Validation
                 _selectedDteq = value;
+                _selectedDteq.CheckValidation();
                 SelectedEquipment = _selectedDteq;
                 SelectedLoadEquipment = _selectedDteq;
                 SelectedLoadCable = _selectedDteq;

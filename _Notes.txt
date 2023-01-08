@@ -6,10 +6,10 @@
 	- Move Component Up/Down into ComponentModelBase
 	
 MAJOR Bugs
+	- loads and cables aren't deleting properly
 
 MINOR Bugs
-	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bog down app
-	- splitter not being added to SingleLine Dteq TreeView
+	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bogs down the app
 	- new Dteq not added to Dteq List
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
@@ -22,19 +22,11 @@ Library
 	- StarterSizes list for dropown
 
 Misc.
-	- Edt equipment property editor
-		- maxwidth of textboxes (Description)
-
 	- Component Move Up Command to Owner
-
 	- Main Window Toolbar Height
 	- Delete from Single line
 	- DTEQ right click menu
-	- Refresh screens when updating
 	- transformer cooling type on dteq options
-
-Window State Binding System
-	- 
 
 Double/Decimal TextBoxes and values
 	- equipment size
@@ -47,14 +39,10 @@ LoadModel
 	- Type change Voltage-Type and calculation updates
 	- load data IsValid
 
-Cables and Cable Types Based on Id so that Type tags can be updated in the library.
-	-
-
 Transformer Grounding
 	- NGR component
 	- NGR Monitor
 	- cables
-
 	
 Calculations
 	- OCPD 80% rated calculation
@@ -66,6 +54,7 @@ Tag Settings
 	- lcs cable TypeModel vs Type
 	- remove DP load tagging GUID 
 	- basic default auto-tagging system and logic
+		- add autotagging to DTEQ
 		- finish cable settings
 	- bulk updates on tag setting changes
 	
@@ -103,11 +92,6 @@ Exports
 	- include / exclude all and multi-select
 
 
-Refactorings
-	- proper IPowerCableUser members
-	- add reference to list manager inside each model object
-
-
 Validations
 	- PD	
 	- Cable
@@ -141,7 +125,6 @@ Dteq
 	
 
 Load
-	- Proper PD / Starter selection when calculating to take into account if a drive is selected
 	- sequence number/ordering
 
 
@@ -154,7 +137,6 @@ Misc. General
 	- Voltage Validator
 
 Library
-	- add cable dimensions
 	- add connectors
 
 Library Editor
@@ -180,11 +162,13 @@ Autocad
 
 
 
-
-
 ***************************
 ***    AFTER RELEASE	***
 ***************************
+
+Refactorings
+	- proper IPowerCableUser members
+	- add reference to list manager inside each model object
 
 Data Access
 	- Create positive upsert/SaveList

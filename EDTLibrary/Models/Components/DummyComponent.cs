@@ -13,6 +13,16 @@ namespace EDTLibrary.Models.Components;
 internal class DummyComponent : IComponentEdt
 {
     public bool IsValid { get; set; } = true;
+    public bool Validate()
+    {
+        var isValid = true;
+
+        IsValid = isValid;
+        OnPropertyUpdated();
+
+        return isValid;
+    }
+
 
     public bool SettingTag { get; set; }
     public double FrameAmps { get; set; }

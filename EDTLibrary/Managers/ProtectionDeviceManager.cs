@@ -147,9 +147,8 @@ public class ProtectionDeviceManager
 
     private static void SetPdTripAndStarterSize_Lv( IComponentEdt comp)
     {
-        if (comp == null) {
-            return;
-        }
+        if (comp == null) return;
+        if (comp.Type == null) return;
 
         IPowerConsumer load = (IPowerConsumer)comp.Owner;
 
@@ -174,7 +173,7 @@ public class ProtectionDeviceManager
         double MvContactorSize = 400;
 
         IPowerConsumer load = (IPowerConsumer)comp.Owner;
-
+        if (comp.Type == null) return;
 
         //Contactor
         if (comp.Type.Contains("MCP") || comp.Type.Contains("DOL")) {

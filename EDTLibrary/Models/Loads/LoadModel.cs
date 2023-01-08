@@ -65,6 +65,33 @@ namespace EDTLibrary.Models.Loads
         private IProtectionDevice _protectionDevice;
 
         public bool IsValid { get; set; } = true;
+
+        public bool Validate()
+        {
+            if (DaManager.GettingRecords) return false;
+            var isValid = true;
+
+            if (ProtectionDevice != null) {
+                isValid = ProtectionDevice.Validate();
+            }
+
+            if (PowerCable != null) {
+                PowerCable.Validate(PowerCable);
+            }
+
+            foreach (var comp in CctComponents) {
+                comp.Validate();
+            }
+
+
+            IsValid = isValid;
+            FedFrom.CheckValidation();
+            OnPropertyUpdated();
+
+            return isValid;
+        }
+
+
         public bool IsSelected { get; set; } = false;
         private bool allowCalculations = true;
         public int Id { get; set; }
@@ -810,7 +837,7 @@ namespace EDTLibrary.Models.Loads
 
             OnLoadingCalculated(propertyName);
 
-            PowerCable.ValidateCable(PowerCable);
+            PowerCable.Validate(PowerCable);
             CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
 
             foreach (var item in CctComponents) {
@@ -861,11 +888,11 @@ namespace EDTLibrary.Models.Loads
         {
             foreach (var item in CctComponents) {
                 if (item.PowerCable != null) {
-                    item.PowerCable.ValidateCable(item.PowerCable);
+                    item.PowerCable.Validate(item.PowerCable);
                 }
             }
             if (PowerCable != null) {
-                PowerCable.ValidateCable(PowerCable);
+                PowerCable.Validate(PowerCable);
             }
         }
 
@@ -893,38 +920,7 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
-        public bool CanSave { get; set; } = true;
-        public event EventHandler PropertyUpdated;
-        public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
-        {
-
-            try {
-                if (DaManager.GettingRecords == true) return;
-                if (IsCalculating) return;
-                if (CanSave == false) return;
-
-
-                await Task.Run(() => {
-                    if (PropertyUpdated != null) {
-                        PropertyUpdated(this, EventArgs.Empty);
-                    }
-                });
-
-
-
-                ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
-
-                if (GlobalConfig.Testing == true) {
-                    ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
-                }
-            }
-            catch (Exception) {
-
-                throw;
-            }
-
-        }
-
+      
 
         public event EventHandler AreaChanged;
         public virtual async Task OnAreaChanged()
@@ -965,6 +961,39 @@ namespace EDTLibrary.Models.Loads
         public void MatchOwnerArea(object source, EventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+
+        public bool CanSave { get; set; } = true;
+        public event EventHandler PropertyUpdated;
+        public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
+        {
+
+            try {
+                if (DaManager.GettingRecords == true) return;
+                if (IsCalculating) return;
+                if (CanSave == false) return;
+
+
+                await Task.Run(() => {
+                    if (PropertyUpdated != null) {
+                        PropertyUpdated(this, EventArgs.Empty);
+                    }
+                });
+
+
+
+                ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
+
+                if (GlobalConfig.Testing == true) {
+                    ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
+                }
+            }
+            catch (Exception) {
+
+                throw;
+            }
+
         }
 
 

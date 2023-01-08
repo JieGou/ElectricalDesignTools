@@ -31,6 +31,16 @@ public class LocalControlStationModel : ILocalControlStation
     }
 
     public bool IsValid { get; set; } = true;
+    public bool Validate() 
+    {
+        var isValid = true;
+
+        IsValid = isValid;
+        OnPropertyUpdated();
+
+        return isValid;
+    }
+
     public bool IsSelected { get; set; } = false;
 
     public int Id { get; set; }

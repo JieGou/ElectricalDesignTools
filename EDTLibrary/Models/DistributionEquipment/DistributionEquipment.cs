@@ -41,9 +41,123 @@ namespace EDTLibrary.Models.DistributionEquipment
             Voltage = LineVoltage;
         }
 
+        #region Validation
+        public bool IsValid
+        {
+            get
+            {
+                return _isValid;
+            }
+            set
+            {
+
+                _isValid = value;
+            }
+        }
+        private bool _isValid;
+
+        public bool Validate()
+        {
+            if (DaManager.GettingRecords) return false;
+            var isValid = true;
+
+            if (PowerCable != null) {
+                isValid = PowerCable.Validate(PowerCable);
+            }
+            if (ProtectionDevice != null) {
+                isValid = ProtectionDevice.Validate();
+            }
+
+            isValid = ValidationManager.ValidateLoadList(ref isValid, AssignedLoads);
+
+            return isValid;
+
+            IsValid = isValid;
+            OnPropertyUpdated();
+
+            return isValid;
+        }
+
+        public void CheckValidation()
+        {
+            if (DaManager.GettingRecords) return;
+
+            var isValid = true;
+
+            //Dteq
+            if (PowerCable != null) {
+                isValid = PowerCable.IsValid == false ? false : isValid;
+                //if (!PowerCable.IsValid) {
+                //    isValid = false;
+                //}
+            }
+            if (ProtectionDevice != null) {
+                isValid = ProtectionDevice.IsValid == false ? false : isValid;
+
+                //if (!ProtectionDevice.IsValid) {
+                //    isValid = false;
+                //}
+            }
+
+            //Loads Components and Cables
+            isValid = CheckValidationOfAllLoadsComponentsAndCAbles(isValid);
+
+            IsValid = isValid;
+            OnPropertyUpdated();
+        }
+
+        private bool CheckValidationOfAllLoadsComponentsAndCAbles(bool isValid)
+        {
+            foreach (var load in AssignedLoads) {
+
+                if (load.Category == Categories.DTEQ.ToString()) {
+                    continue;
+                }
+
+                isValid = load.IsValid == false ? false : isValid;
+
+                //if (!load.IsValid) {
+                //    isValid = false;
+                //}
+
+                if (load.ProtectionDevice != null) {
+
+                    if (!load.ProtectionDevice.IsValid) {
+                        isValid = false;
+                    }
+                }
+                if (load.PowerCable != null) {
+                    isValid = load.PowerCable.IsValid == false ? false : isValid;
+
+                    //if (!load.PowerCable.IsValid) {
+                    //    isValid = false;
+                    //}
+                }
+
+                foreach (var comp in load.CctComponents) {
+                    isValid = comp.IsValid == false ? false : isValid;
+
+                    //if (!comp.IsValid) {
+                    //    isValid = false;
+                    //}
+
+                    if (comp.PowerCable != null) {
+
+                        isValid = comp.PowerCable.IsValid == false ? false : isValid;
+
+                        //if (!comp.PowerCable.IsValid) {
+                        //    isValid = false;
+                        //}
+                    }
+                }
+            }
+
+            return isValid;
+        }
+        #endregion
+
         #region Properties
 
-        public virtual bool CanIncludeMotorStarter { get; set; }
         public int ProtectionDeviceId { get; set; }
         public IProtectionDevice ProtectionDevice { 
             get => _protectionDevice; 
@@ -327,6 +441,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             get => _lineVoltageType;
             set
             {
+                if (value == null || value == _voltageType || value == LineVoltageType) return;
+
                 var oldValue = _voltageType;
                 _voltageType = value;
 
@@ -410,6 +526,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 if (value == null) return;
+                if (value == _loadVoltageType) return;
+
                 var oldValue = _loadVoltageType;
                 _loadVoltageType = value;
                 LoadVoltage = _loadVoltageType.Voltage;
@@ -567,77 +685,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
 
-        #region Validation
-        public bool IsValid
-        {
-            get
-            {
-
-                return _isValid;
-            }
-            set
-            {
-
-                _isValid = value;
-            }
-        }
-        private bool _isValid = true;
-
-        public void Validate()
-        {
-            var isValid = true;
-
-            if (DaManager.GettingRecords == false) {
-                if (PowerCable != null) {
-
-                    if (!PowerCable.IsValid) {
-                        isValid = false;
-                    }
-                }
-                if (ProtectionDevice != null) {
-
-                    if (!ProtectionDevice.IsValid) {
-                        isValid = false;
-                    }
-                }
-                foreach (var load in AssignedLoads) {
-
-                    if (load.Category == Categories.DTEQ.ToString()) {
-                        continue;
-                    }
-
-                    if (!load.IsValid) {
-                        isValid = false;                        
-                    }
-                    if (load.ProtectionDevice != null) {
-
-                        if (!load.ProtectionDevice.IsValid) {
-                            isValid = false;
-                        } 
-                    }
-                    if (load.PowerCable != null) {
-
-                        if (!load.PowerCable.IsValid) {
-                            isValid = false;
-                        } 
-                    }
-
-                    foreach (var comp in load.CctComponents) {
-                        if (!comp.IsValid) {
-                            isValid = false;
-                        }
-                        if (comp.PowerCable!= null) {
-                            if (!comp.PowerCable.IsValid) {
-                                isValid = false;
-                            } 
-                        }
-                    }
-                }
-            }
-            IsValid = isValid;
-            OnPropertyUpdated();
-        }
-        #endregion
+        
 
         public double HeatLoss { get; set; }
 
@@ -794,11 +842,11 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             foreach (var item in CctComponents) {
                 if (item.PowerCable!= null) {
-                    item.PowerCable.ValidateCable(item.PowerCable);
+                    item.PowerCable.Validate(item.PowerCable);
                 }
             }
             if (PowerCable!= null) {
-                PowerCable.ValidateCable(PowerCable);
+                PowerCable.Validate(PowerCable);
 
             }        
         }
@@ -826,7 +874,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             if (DaManager.GettingRecords == true) return;
             if (IsCalculating) return;
-            Tag = Tag;
+
             await Task.Run(() => {
                 if (PropertyUpdated != null) {
                     PropertyUpdated(this, EventArgs.Empty);

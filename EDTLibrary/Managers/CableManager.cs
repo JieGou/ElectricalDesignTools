@@ -103,7 +103,7 @@ public class CableManager
     {
         foreach (var components in powerComponentOwner.CctComponents) {
             if (components.PowerCable == null) continue;
-            components.PowerCable.ValidateCable(components.PowerCable);
+            components.PowerCable.Validate(components.PowerCable);
         }
     }
 
@@ -188,7 +188,7 @@ public class CableManager
 
                     //cable.AutoSize();
 
-                    cable.ValidateCable(cable);
+                    cable.Validate(cable);
 
                     component.PowerCable = cable;
 
@@ -380,7 +380,7 @@ public class CableManager
         CableModel cable = new CableModel();
         var lcs = lcsOwner.Lcs;
 
-        
+
 
         cable.Id = listManager.CableList.Max(c => c.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
 
@@ -412,7 +412,7 @@ public class CableManager
         cable.SetTypeProperties();
         cable.Source = "Dafault LCS Analog Cable Source";
 
-        if (lcsOwner.StandAloneStarter!=null) {
+        if (lcsOwner.StandAloneStarter != null) {
             cable.Source = lcsOwner.StandAloneStarter.Tag;
             cable.SourceModel = lcsOwner.StandAloneStarter;
         }
@@ -424,13 +424,65 @@ public class CableManager
         DaManager.UpsertCable((CableModel)cable);
         cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
     }
+
+    internal static void CreateLcsAnalogCableForProtectionDevice(ILoad lcsOwner, ListManager listManager)
+    {
+        if (lcsOwner.StandAloneStarterBool == true || lcsOwner.LcsBool == false) return;
+
+        CableModel cable = new CableModel();
+        var lcs = lcsOwner.Lcs;
+
+
+
+        cable.Id = listManager.CableList.Max(c => c.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
+
+        cable.OwnerId = lcs.Id;
+        cable.OwnerType = typeof(LocalControlStationModel).ToString();
+        cable.UsageType = CableUsageTypes.Instrument.ToString();
+
+        cable.Size = EdtSettings.LcsControlCableSize;
+        cable.Length = double.Parse(EdtSettings.CableLengthLocalControlStation);
+
+        cable.ConductorQty = lcs.TypeModel.AnalogConductorQty;
+        var voltageClass = TypeManager.CableTypes.FirstOrDefault(c => c.Type == EdtSettings.LcsControlCableType).VoltageRating;
+
+        IsUpdatingCables = true;
+        cable.TypeModel = TypeManager.GetLcsAnalogCableTypeModel(lcs);
+        IsUpdatingCables = false;
+
+        cable.VoltageRating = voltageClass;
+        cable.QtyParallel = 1;
+
+        cable.Spacing = 0;
+        cable.Derating = 1;
+
+        cable.IsOutdoor = lcsOwner.PowerCable.IsOutdoor;
+        cable.InstallationType = lcsOwner.PowerCable.InstallationType;
+
+        lcs.AnalogCable = cable;
+
+        cable.SetTypeProperties();
+        cable.Source = "Dafault LCS Analog Cable Source";
+
+        if (lcsOwner.ProtectionDevice != null) {
+            cable.Source = lcsOwner.ProtectionDevice.Tag;
+            cable.SourceModel = lcsOwner.ProtectionDevice;
+        }
+
+        cable.Destination = lcs.Tag;
+        cable.DestinationModel = lcs;
+        cable.Tag = GetCableTag(cable);
+        listManager.CableList.Add(cable);
+        DaManager.UpsertCable(cable);
+        cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
+    }
     internal static void UpdateLcsCableTags(ILoad lcsOwner)
     {
 
         if (lcsOwner.Lcs == null) return;
 
-
         var lcs = lcsOwner.Lcs;
+
         if (lcsOwner.StandAloneStarterBool == true) {
 
             if (lcsOwner.StandAloneStarter != null) {
@@ -442,12 +494,10 @@ public class CableManager
             }
             lcs.ControlCable.Destination = lcs.Tag;
             lcs.ControlCable.DestinationModel = lcs;
-            lcs.ControlCable.CreateTag();
 
             if (lcs.AnalogCable!=null) {
                 lcs.AnalogCable.Destination = lcs.Tag;
                 lcs.AnalogCable.DestinationModel = lcs;
-                lcs.AnalogCable.CreateTag();
             }
         }
         else {
@@ -455,7 +505,21 @@ public class CableManager
             lcs.ControlCable.SourceModel = lcsOwner.FedFrom;
             lcs.ControlCable.Destination = lcs.Tag;
             lcs.ControlCable.DestinationModel = lcs;
-            lcs.ControlCable.CreateTag();
+        }
+        if (lcsOwner.ProtectionDevice.IsStandAlone && lcsOwner.StandAloneStarterBool == false) {
+            lcs.ControlCable.Source = lcsOwner.ProtectionDevice.Tag;
+            lcs.ControlCable.SourceModel = lcsOwner.ProtectionDevice;
+
+            if (lcs.AnalogCable != null) {
+                lcs.AnalogCable.Source = lcsOwner.ProtectionDevice.Tag;
+                lcs.AnalogCable.SourceModel = lcsOwner.ProtectionDevice;
+            }
+        }
+
+        //Create Tags
+        lcs.ControlCable.CreateTag();
+        if (lcs.AnalogCable != null) {
+            lcs.AnalogCable.CreateTag();
         }
     }
     internal static void UpdateLcsCableTypes(ILocalControlStation lcs)
@@ -497,6 +561,5 @@ public class CableManager
 
         }
     }
-
 
 }

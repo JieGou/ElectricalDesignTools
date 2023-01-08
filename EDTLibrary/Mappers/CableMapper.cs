@@ -25,7 +25,7 @@ public class CableMapper
         UsageType = cable.UsageType;
         QtyParallel = cable.QtyParallel;
         ConductorQty = cable.ConductorQty;
-        Size = "'" + cable.Size; //  ' is for excel formatting
+        Size = "'" + cable.Size; //  the ' is for excel formatting
         VoltageClass = cable.VoltageRating;
         Length = cable.Length;
         Spacing = cable.Spacing;

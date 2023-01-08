@@ -429,14 +429,6 @@ public partial class SinlgeLineView : UserControl
         
     }
 
-
-
-    //sfTreeView.ExpandAll();
-    //foreach (var node in sfTreeView.Nodes) {
-    //    node.IsExpanded = true;
-    //    SfTreeViewExtensions.ExpandAllNodes(node);
-    //}
-
     public void OnElectricalViewUpdated(object source, EventArgs e)
     {
         sfTreeView.ExpandAll();

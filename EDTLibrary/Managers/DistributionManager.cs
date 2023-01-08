@@ -22,14 +22,11 @@ namespace EDTLibrary.Managers
             _listManager = listManager;
         }
 
+       
         /// <summary>
-        /// Transfers the load from the old to the new supplier. (Id, Tag, Type, events, load calculation, cable tag , etc.
+        /// List is used so that bulk updates only refresh the views once.
         /// </summary>
-        /// <param name="caller"></param>
-        /// <param name="newSupplier"></param>
-        /// <param name="oldSupplier"></param>
-        
-        
+        /// <param name="loadsToRefeed"></param>
         public static void UpdateFedFrom_List(List<UpdateFedFromItem> loadsToRefeed)
         {
 
@@ -49,6 +46,12 @@ namespace EDTLibrary.Managers
             }
         }
 
+        /// <summary>
+        /// Transfers the load from the old to the new supplier. (Id, Tag, Type, events, load calculation, cable tag , etc.
+        /// </summary>
+        /// <param name="caller"></param>
+        /// <param name="newSupplier"></param>
+        /// <param name="oldSupplier"></param>
         private static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
             if (caller.FedFrom != null) {
