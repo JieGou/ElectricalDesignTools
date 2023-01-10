@@ -813,7 +813,6 @@ namespace EDTLibrary.Models.DistributionEquipment
             SCCR = CalculateSCCR();
             IsCalculating = false;
 
-            Validate();
             OnLoadingCalculated(propertyName);
 
             OnPropertyUpdated(nameof(CalculateLoading));
@@ -975,6 +974,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             if (DaManager.GettingRecords == true) return;
             if (DaManager.Importing == true) return;
+            if (DaManager.DeletingLoad == true) return;
             if (IsCalculating) return;
 
             await Task.Run(() => {

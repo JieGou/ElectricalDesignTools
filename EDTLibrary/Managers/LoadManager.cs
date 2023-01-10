@@ -61,26 +61,36 @@ public class LoadManager
     
     public static async Task<LoadModel> AddLoad(object loadToAddObject, ListManager listManager, bool append = true)
     {
+        LoadModel newLoad = new LoadModel();
         LoadFactory _loadFactory = new LoadFactory(listManager);
-        var loadToAddValidator = (LoadToAddValidator)loadToAddObject;
-        var errors = loadToAddValidator._errorDict;
-        loadToAddValidator.IsValid();
-        //Auto-Tag
-        if (bool.Parse(TagSettings.AutoTagEquipment)) {
-            if (errors.ContainsKey("Type")) {
-                // do nothing since other data is required
-            }
-            else if (errors.ContainsKey("Tag") || loadToAddValidator.Tag == GlobalConfig.EmptyTag || string.IsNullOrWhiteSpace(loadToAddValidator.Tag)) {
-                loadToAddValidator.Tag = TagManager.AssignEqTag(new DummyLoad { Type = loadToAddValidator.Type }, listManager);
-            }
-        }
 
-        var IsValid = loadToAddValidator.IsValid();
-        if (IsValid == false) return null;
-        
-        //CreateLoad checks if the Dteq has enough space to add the load
-        
-        LoadModel newLoad = _loadFactory.CreateLoad(loadToAddValidator); //150ms
+        if (loadToAddObject is LoadToAddValidator) {
+            var loadToAddValidator = (LoadToAddValidator)loadToAddObject;
+            var errors = loadToAddValidator._errorDict;
+            loadToAddValidator.IsValid();
+            //Auto-Tag
+            if (bool.Parse(TagSettings.AutoTagEquipment)) {
+                if (errors.ContainsKey("Type")) {
+                    // do nothing since other data is required
+                }
+                else if (errors.ContainsKey("Tag") || loadToAddValidator.Tag == GlobalConfig.EmptyTag || string.IsNullOrWhiteSpace(loadToAddValidator.Tag)) {
+                    loadToAddValidator.Tag = TagManager.AssignEqTag(new DummyLoad { Type = loadToAddValidator.Type }, listManager);
+                }
+            }
+
+            var IsValid = loadToAddValidator.IsValid();
+            if (IsValid == false) return null;
+
+            //CreateLoad checks if the Dteq has enough space to add the load
+            newLoad = _loadFactory.CreateLoad(loadToAddValidator); //150ms
+
+        }
+        else if(loadToAddObject is ILoad){
+            var loadToAdd = (ILoad)loadToAddObject;
+            loadToAdd.Tag = TagManager.AssignEqTag(new DummyLoad { Type = loadToAdd.Type }, listManager);
+            newLoad = _loadFactory.CreateLoad(loadToAdd); //150ms
+
+        }
 
         //clear Tag Error
         //loadToAddValidator.Tag = GlobalConfig.EmptyTag;
@@ -160,6 +170,8 @@ public class LoadManager
     {
         try {
 
+            DaManager.DeletingLoad = true;
+
             LoadModel loadToDelete = (LoadModel)loadToDeleteObject;
             ComponentManager.DeleteComponents(loadToDelete, listManager);
             ProtectionDeviceManager.DeleteProtectionDevices(loadToDelete, listManager);
@@ -173,12 +185,15 @@ public class LoadManager
             listManager.LoadList.Remove(loadToRemove);
 
             loadToDelete.PropertyUpdated -= DaManager.OnLoadPropertyUpdated;
+           
             if (dteqToRecalculate != null) {
                 loadToDelete.LoadingCalculated -= dteqToRecalculate.OnAssignedLoadReCalculated;
 
                 dteqToRecalculate.AssignedLoads.Remove(loadToRemove);
                 dteqToRecalculate.CalculateLoading();
             }
+            DaManager.DeletingLoad = false;
+
             return loadId;
 
         }
@@ -188,6 +203,9 @@ public class LoadManager
         }
         catch (Exception ex) {
             throw;
+        }
+        finally {
+            DaManager.DeletingLoad = false;
         }
         return -1;
 

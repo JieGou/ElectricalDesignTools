@@ -729,15 +729,9 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             }));
         }
 
-        //old WPF datagrid way
-
-        //while (SelectedLoads.Count > 0) {
-        //    await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-        //        load = (LoadModel)SelectedLoads[0];
-        //        DeleteLoadAsync(load);
-        //        SelectedLoads.Remove(load);
-        //    }));
-        //}
+        foreach (var dteq in ListManager.DteqList) {
+            dteq.CalculateLoading();
+        }
     }
 
     public async Task DeleteLoadAsync(object selectedLoadObject)

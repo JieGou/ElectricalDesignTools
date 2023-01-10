@@ -72,7 +72,11 @@ public class TagManager
         int outTagNum = 0;
         if (eqTypelist.Count > 0) {
             foreach (var item in eqTypelist) {
-                if (int.TryParse(item.Tag.Substring(item.Tag.IndexOf(TagSettings.EqIdentifierSeparator) + 1), out outTagNum)) {
+                if (item.Tag == null) {
+                   
+                }
+                else {
+                    int.TryParse(item.Tag.Substring(item.Tag.IndexOf(TagSettings.EqIdentifierSeparator) + 1), out outTagNum);
                     eqNumList.Add(outTagNum); 
                 }
             }

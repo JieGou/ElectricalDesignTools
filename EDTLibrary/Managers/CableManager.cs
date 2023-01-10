@@ -40,7 +40,12 @@ public class CableManager
         }
         return;
     }
-
+    /// <summary>
+    /// Deletes the load's circuit components' and Lcs cables
+    /// </summary>
+    /// <param name="loadModel"></param>
+    /// <param name="listManager"></param>
+    /// <returns></returns>
     public static async Task DeleteLoadComponentsCablesAsync(ILoad loadModel, ListManager listManager)
     {
 

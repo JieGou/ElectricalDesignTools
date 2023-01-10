@@ -990,6 +990,8 @@
                                Margin="5 5 0 5"
                                ShowBusyIndicator="True"
                                
+                                   
+                                   GridPasteOption="None"
                                ColumnSizer="Star"
                                
                                ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"

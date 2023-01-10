@@ -72,5 +72,57 @@ namespace EDTLibrary.Models.Loads
             newLoad.CalculationFlags = new CalculationFlags();
             return newLoad;
         }
+
+        public LoadModel CreateLoad(ILoad loadToCopy)
+        {
+            LoadModel newLoad = new LoadModel();
+            newLoad.CalculationFlags.CanUpdateFedFrom = false;
+
+            newLoad.Voltage = loadToCopy.Voltage;
+            newLoad.VoltageType = loadToCopy.VoltageType;
+            newLoad.VoltageTypeId = newLoad.VoltageType.Id;
+
+            //Checks if dteq CanAdd
+            foreach (var dteq in _listManager.DteqList) {  // 85 ms
+                if (dteq.Tag == loadToCopy.FedFromTag) {
+                    if (dteq.CanAdd(newLoad)) {
+                        newLoad.FedFrom = dteq;
+                        break;
+                    }
+                    else {
+                        return null;
+                    }
+                }
+            }
+            newLoad.Tag = loadToCopy.Tag;
+            newLoad.Description = loadToCopy.Description;
+            newLoad.Category = Categories.LOAD3P.ToString();
+            newLoad.Type = loadToCopy.Type;
+
+            newLoad.Voltage = loadToCopy.Voltage;
+            newLoad.VoltageType = loadToCopy.VoltageType;
+            newLoad.VoltageTypeId = newLoad.VoltageType.Id;
+
+            newLoad.Area = _listManager.AreaList.FirstOrDefault(a => a.Tag == loadToCopy.Area.Tag);
+
+            newLoad.Size = loadToCopy.Size;
+
+
+            newLoad.Unit = loadToCopy.Unit;
+            newLoad.LoadFactor = loadToCopy.LoadFactor;
+
+            //if (newLoad.Type == LoadTypes.MOTOR.ToString()) {
+            //    newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
+            //}
+            //else {
+            //    newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
+            //}
+
+            newLoad.SequenceNumber = loadToCopy.SequenceNumber;
+            newLoad.PanelSide = loadToCopy.PanelSide;
+            newLoad.CircuitNumber = loadToCopy.CircuitNumber;
+            newLoad.CalculationFlags = new CalculationFlags();
+            return newLoad;
+        }
     }
 }

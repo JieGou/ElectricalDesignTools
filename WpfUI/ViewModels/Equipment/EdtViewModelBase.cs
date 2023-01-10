@@ -91,6 +91,11 @@ public abstract class EdtViewModelBase: ViewModelBase
                     item.CalculateLoading();
                 }
 
+                foreach (var item in _listManager.DteqList) {
+                    item.CalculateLoading();
+                }
+
+
             }));
         }
         catch (Exception ex) {

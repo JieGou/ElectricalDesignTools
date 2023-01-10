@@ -33,7 +33,7 @@ namespace WpfUI.Views.Electrical;
 /// </summary>
 public partial class _MjeqView : UserControl
 {
-    private MjeqViewModel MjeqVm { get { return DataContext as MjeqViewModel; } }
+    private MjeqViewModel vm { get { return DataContext as MjeqViewModel; } }
 
 
     private bool _isEditingLoadGrids;
@@ -147,11 +147,14 @@ public partial class _MjeqView : UserControl
             if (e.Key == Key.S) {
                 if (testWindow == null || testWindow.IsLoaded == false) {
                     testWindow = new TestWindow();
-                    testWindow.DataContext = MjeqVm;
+                    testWindow.DataContext = vm;
                     testWindow.Show();
                 }
             }
 
+            if (e.Key == Key.V) {
+                vm.AddLoad(vm.SelectedLoad);
+            }
 #endif
         }
     }
@@ -170,8 +173,8 @@ public partial class _MjeqView : UserControl
 
         //Task.Run(() => {
 
-        if (MjeqVm == null) return;
-        MjeqVm.SelectedLoads = dgdAssignedLoads.SelectedItems;
+        if (vm == null) return;
+        vm.SelectedLoads = dgdAssignedLoads.SelectedItems;
 
         //});
     }
@@ -205,7 +208,7 @@ public partial class _MjeqView : UserControl
                 while (dgdAssignedLoads.SelectedItems.Count > 0) {
                     await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                         load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
-                        MjeqVm.DeleteLoadAsync(load);
+                        vm.DeleteLoadAsync(load);
                         dgdAssignedLoads.SelectedItems.Remove(load);
                     }));
                 }
@@ -270,7 +273,7 @@ public partial class _MjeqView : UserControl
     {
         try {
 
-            MjeqVm.DteqCollectionView.Filter = (d) => {
+            vm.DteqCollectionView.Filter = (d) => {
                 IDteq dteq = (IDteq)d;
                 if (dteq != null)
                 // If filter is turned on, filter completed items.
@@ -336,14 +339,14 @@ public partial class _MjeqView : UserControl
 
         void ApplyFilter()
         {
-            MjeqVm.DteqList.Clear();
-            foreach (var dteq in MjeqVm.ListManager.IDteqList) {
+            vm.DteqList.Clear();
+            foreach (var dteq in vm.ListManager.IDteqList) {
                 if (dteq.Tag.ToLower().Contains(txtDteqTagFilter.Text.ToLower())
                     && dteq.Description.ToLower().Contains(txtDteqDescriptionFilter.Text.ToLower())
                     && dteq.Area.Tag.ToLower().Contains(txtDteqAreaFilter.Text.ToLower())
                     && dteq.FedFrom.Tag.ToLower().Contains(txtDteqFedFromFilter.Text.ToLower())
                     ) {
-                    MjeqVm.DteqList.Add(dteq);
+                    vm.DteqList.Add(dteq);
                 }
             }
         }
@@ -365,12 +368,12 @@ public partial class _MjeqView : UserControl
 
         void ApplyFilter()
         {
-            if (MjeqVm.LoadListLoaded == false && MjeqVm.SelectedDteq != null) {
-                Filter(MjeqVm.SelectedDteq.AssignedLoads);
+            if (vm.LoadListLoaded == false && vm.SelectedDteq != null) {
+                Filter(vm.SelectedDteq.AssignedLoads);
             }
-            else if (MjeqVm.LoadListLoaded == true) {
+            else if (vm.LoadListLoaded == true) {
                 ObservableCollection<IPowerConsumer> list = new ObservableCollection<IPowerConsumer>();
-                foreach (var item in MjeqVm.ListManager.LoadList) {
+                foreach (var item in vm.ListManager.LoadList) {
                     list.Add(item);
                 }
                 Filter(list);
@@ -378,7 +381,7 @@ public partial class _MjeqView : UserControl
 
             void Filter(ObservableCollection<IPowerConsumer> listToFilter)
             {
-                MjeqVm.AssignedLoads.Clear();
+                vm.AssignedLoads.Clear();
                 foreach (var load in listToFilter) {
                     try {
 
@@ -516,7 +519,7 @@ public partial class _MjeqView : UserControl
     //Testing
     private async Task LoadTestEquipmentData()
     {
-        ListManager listManager = MjeqVm.ListManager;
+        ListManager listManager = vm.ListManager;
 
         MessageBoxResult result = MessageBox.Show($"Yes = Short Load List{Environment.NewLine}" +
                                                   $"No = Full Load List{Environment.NewLine}" +
@@ -531,7 +534,7 @@ public partial class _MjeqView : UserControl
                 AddTestDteq(listManager, start.ToString());
                 start = DateTime.Now;
                 await Task.Run(() => AddTestLoadsAsync(listManager, TestData.TestLoadList_Short));
-                MjeqVm.GetLoadList();
+                vm.GetLoadList();
                 //DaManager.Importing = false;
                 //foreach (var item in listManager.IDteqList) {
                 //    item.CalculateLoading();
@@ -544,7 +547,7 @@ public partial class _MjeqView : UserControl
                 AddTestDteq(listManager, start.ToString());
                 start = DateTime.Now;
                 await Task.Run(() => AddTestLoadsAsync(listManager, TestData.TestLoadList_Full));
-                MjeqVm.GetLoadList();
+                vm.GetLoadList();
                 //DaManager.Importing = false;
                 //foreach (var item in listManager.IDteqList) {
                 //    item.CalculateLoading();
@@ -561,7 +564,7 @@ public partial class _MjeqView : UserControl
         }
 
         DaManager.Importing = false;
-        MjeqVm.DbSaveAll();
+        vm.DbSaveAll();
 
         var elapsedTime = DateTime.Now - start;
         Debug.Print($"Final start: {start} Final end: {DateTime.Now.ToString()}");
@@ -601,7 +604,7 @@ public partial class _MjeqView : UserControl
         foreach (var dteq in TestData.TestDteqList_Full) {
             dteq.Area = listManager.AreaList[0];
             DteqToAddValidator dteqToAdd = new DteqToAddValidator(listManager, dteq);
-            MjeqVm.AddDteq(dteqToAdd);
+            vm.AddDteq(dteqToAdd);
             //Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
         }
 
@@ -624,13 +627,13 @@ public partial class _MjeqView : UserControl
     private void DeleteEquipment()
     {
 
-        while (MjeqVm.ListManager.IDteqList.Count > 0) {
-            IDteq dteq = MjeqVm.ListManager.IDteqList[0];
-            MjeqVm.DeleteDteq(dteq);
+        while (vm.ListManager.IDteqList.Count > 0) {
+            IDteq dteq = vm.ListManager.IDteqList[0];
+            vm.DeleteDteq(dteq);
         }
 
-        while (MjeqVm.ListManager.LoadList.Count > 0) {
-            MjeqVm.DeleteLoad(MjeqVm.ListManager.LoadList[0]);
+        while (vm.ListManager.LoadList.Count > 0) {
+            vm.DeleteLoad(vm.ListManager.LoadList[0]);
         }
 
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
@@ -642,7 +645,7 @@ public partial class _MjeqView : UserControl
         //Delete records
         DaManager.DeleteAllEquipmentRecords();
 
-        MjeqVm.DbGetAll();
+        vm.DbGetAll();
     }
 
     #endregion
@@ -666,13 +669,13 @@ public partial class _MjeqView : UserControl
             gridAdding.Visibility = Visibility.Visible;
             AppSettings.Default.AddEquipmentPanelView = 0;
             AppSettings.Default.Save();
-            MjeqVm.LoadGridTop = new System.Windows.GridLength(127, GridUnitType.Pixel);
+            vm.LoadGridTop = new System.Windows.GridLength(127, GridUnitType.Pixel);
         }
         else {
             AppSettings.Default.AddEquipmentPanelView = 2;
             AppSettings.Default.Save();
             gridAdding.Visibility = Visibility.Collapsed;
-            MjeqVm.LoadGridTop = new System.Windows.GridLength(0, GridUnitType.Pixel);
+            vm.LoadGridTop = new System.Windows.GridLength(0, GridUnitType.Pixel);
 
         }
 
