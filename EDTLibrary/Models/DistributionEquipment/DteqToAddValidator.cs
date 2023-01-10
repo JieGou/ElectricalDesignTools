@@ -168,9 +168,9 @@ public class DteqToAddValidator : INotifyDataErrorInfo
 
 
             //validate
-            if (_fedFromTag == GlobalConfig.Utility) {
+            if (_fedFromTag == GlobalConfig.UtilityTag) {
                 _isValid = true;
-                _fedFromTag = GlobalConfig.Utility;
+                _fedFromTag = GlobalConfig.UtilityTag;
 
             }
             else if (_feedingDteq != null) {
@@ -251,7 +251,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
                 AddError(nameof(LineVoltage), "Invalid Voltage");
             }
             else if (double.TryParse(_lineVoltage.ToString(), out parsedVoltage) == true) {
-                if (_fedFromTag == GlobalConfig.Utility) {
+                if (_fedFromTag == GlobalConfig.UtilityTag) {
                     _isValid = true;
                 }
                 else if (_feedingDteq != null && _feedingDteq.Tag != "UTILITY") {
@@ -281,7 +281,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
                 AddError(nameof(LoadVoltage), "Voltage does not match supply voltage");
             }
 
-            else if (_fedFromTag == GlobalConfig.Utility) {
+            else if (_fedFromTag == GlobalConfig.UtilityTag) {
                 _isValid = true;
             }
         }
@@ -305,7 +305,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
                 AddError(nameof(LineVoltageType), "Invalid Voltage");
             }
             
-            if (_fedFromTag == GlobalConfig.Utility) {
+            if (_fedFromTag == GlobalConfig.UtilityTag) {
                 _isValid = true;
             }
             else if (_feedingDteq != null && _feedingDteq.Tag != "UTILITY") {
@@ -358,7 +358,7 @@ public class DteqToAddValidator : INotifyDataErrorInfo
                 AddError(nameof(LoadVoltageType), "Voltage does not match supply voltage");
             }
 
-            else if (_fedFromTag == GlobalConfig.Utility) {
+            else if (_fedFromTag == GlobalConfig.UtilityTag) {
                 _isValid = true;
                 if (Type != DteqTypes.XFR.ToString()) {
                     LineVoltageType = LoadVoltageType;

@@ -123,13 +123,13 @@ internal class SingleLineViewModel: EdtViewModelBase
         {
             if (ListManager.DteqList.Count>0) {
                 List<IPowerConsumer> subList = new List<IPowerConsumer>();
-                subList.AddRange(ListManager.DteqList.FirstOrDefault(d => d.Tag == GlobalConfig.Utility).AssignedLoads);
+                subList.AddRange(ListManager.DteqList.FirstOrDefault(d => d.Tag == GlobalConfig.UtilityTag).AssignedLoads);
                 return new ObservableCollection<IPowerConsumer>(subList);
             }
             else {
                 _ViewStateManager.ElectricalViewUpdate -= OnElectricalViewUpdated;
                 List<IPowerConsumer> subList = new List<IPowerConsumer>();
-                subList.AddRange(ScenarioManager.ListManager.DteqList.FirstOrDefault(d => d.Tag == GlobalConfig.Utility).AssignedLoads);
+                subList.AddRange(ScenarioManager.ListManager.DteqList.FirstOrDefault(d => d.Tag == GlobalConfig.UtilityTag).AssignedLoads);
                 return new ObservableCollection<IPowerConsumer>(subList);
             }
         }

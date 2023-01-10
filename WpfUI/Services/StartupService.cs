@@ -119,9 +119,12 @@ namespace WpfUI.Services
         public void InitializeProject(string projectFile)
         {
             ListManager = new ListManager();
-            MainVm.ListManager = ListManager;
             ScenarioManager.ListManager = ListManager;
-            MainVm.InitializeViewModels();
+
+            if (MainVm != null) {
+                MainVm.ListManager = ListManager;
+                MainVm.InitializeViewModels(); 
+            }
 
             try {
                 if (File.Exists(projectFile)) {

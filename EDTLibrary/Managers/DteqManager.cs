@@ -16,7 +16,7 @@ using System.Windows;
 namespace EDTLibrary.Managers;
 public class DteqManager
 { 
-    public static void SetDteqPd(DistributionEquipment dteq)
+    public static void SetDteqPd(IDteq dteq)
     {
 
         //dteq.PdType = EdtSettings.DteqDefaultPdTypeLV;
@@ -55,6 +55,7 @@ public class DteqManager
             //Save to Db when calculating inside DteqModel
             newDteq.LoadCableDerating = double.Parse(EdtSettings.DteqLoadCableDerating);
             newDteq.CalculateLoading(); //after dteq is inserted to get a new Id
+            DaManager.UpsertDteq(newDteq);
             listManager.AddDteq(newDteq);
 
             //Cable

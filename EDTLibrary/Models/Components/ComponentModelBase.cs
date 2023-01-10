@@ -135,7 +135,12 @@ public abstract class ComponentModelBase : IComponentEdt
              && _type != StarterTypes.RVS.ToString()) {
 
                 if (Owner is ILoad) {
-                    CableManager.DeleteLcsAnalogCable((Owner as ILoad).Lcs, ScenarioManager.ListManager);
+                    if ((Owner as ILoad).Lcs != null && (Owner as ILoad).Lcs.AnalogCable != null) {
+                        CableManager.DeleteLcsAnalogCable((Owner as ILoad).Lcs, ScenarioManager.ListManager);
+                    }
+                    else {
+
+                    }
                 }
             }
 
@@ -289,17 +294,6 @@ public abstract class ComponentModelBase : IComponentEdt
         return Tag;
     }
 
-    public event EventHandler PropertyUpdated;
-
-    public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
-    {
-        await Task.Run(() => {
-            if (PropertyUpdated != null) {
-                PropertyUpdated(this, EventArgs.Empty);
-            }
-        });
-    }
-
     public async Task UpdateAreaProperties()
     {
         await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
@@ -328,5 +322,20 @@ public abstract class ComponentModelBase : IComponentEdt
         AreaManager.UpdateArea(this, owner.Area, Area);
         UndoManager.CanAdd = true;
         OnPropertyUpdated();
+    }
+
+
+    public event EventHandler PropertyUpdated;
+
+    public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
+    {
+        if (DaManager.GettingRecords == true) return;
+        if (DaManager.Importing == true) return;
+
+        await Task.Run(() => {
+            if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
+            }
+        });
     }
 }

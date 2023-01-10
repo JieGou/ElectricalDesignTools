@@ -65,8 +65,11 @@ public class CableModel : ICable
 
 
     #region Validations
-    public bool Validate(ICable cable)
+    public void Validate(ICable cable)
     {
+        if (DaManager.GettingRecords) return;
+        if (DaManager.Importing) return;
+
         cable.IsValid = true;
         ClearValidationMessages();
         ValidateCableAmpacity(cable);
@@ -84,7 +87,11 @@ public class CableModel : ICable
             Load.FedFrom.CheckValidation();
 
         }
-        return cable.IsValid;
+        if (Load != null && Load is IDteq) {
+            (Load as IDteq).CheckValidation();
+
+        }
+        return;
     }
 
     public void SetCableInvalid(ICable cable)
@@ -752,8 +759,8 @@ public class CableModel : ICable
     public ICommand AutoSizeCommand { get; }
     public void AutoSize()
     {
-        if (DaManager.Importing) return;
         if (DaManager.GettingRecords) return;
+        //if (DaManager.Importing) return;
         try {
 
             _isAutoSizing = true;
@@ -1107,7 +1114,8 @@ public class CableModel : ICable
     public event EventHandler PropertyUpdated;
     public virtual async Task OnPropertyUpdated()
     {
-        if (DaManager.GettingRecords == true) return;
+        if (DaManager.GettingRecords) return;
+        if (DaManager.Importing) return;
         if (_isAutoSizing) return;
 
         //var tag = Tag;
@@ -1115,10 +1123,7 @@ public class CableModel : ICable
         //if (PropertyUpdated != null) {
         //    PropertyUpdated(this, EventArgs.Empty);
         //}
-
         await Task.Run(() => {
-
-
             if (PropertyUpdated != null) {
                 PropertyUpdated(this, EventArgs.Empty);
             }

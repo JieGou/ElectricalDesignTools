@@ -37,7 +37,7 @@ namespace EDTLibrary.Managers
 
         public ObservableCollection<IEquipment> EqList { get; set; } = new ObservableCollection<IEquipment>();
         public ObservableCollection<IDteq> IDteqList { get; set; } = new ObservableCollection<IDteq>();
-        public ObservableCollection<DistributionEquipment> DteqList { get; set; } = new ObservableCollection<DistributionEquipment>();
+        public ObservableCollection<IDteq> DteqList { get; set; } = new ObservableCollection<IDteq>();
         public ObservableCollection<XfrModel> XfrList { get; set; } = new ObservableCollection<XfrModel>();
         public ObservableCollection<SwgModel> SwgList { get; set; } = new ObservableCollection<SwgModel>();
         public ObservableCollection<MccModel> MccList { get; set; } = new ObservableCollection<MccModel>();
@@ -193,6 +193,11 @@ namespace EDTLibrary.Managers
                 AreaList.Add(item);
                 item.PropertyUpdated += DaManager.OnAreaPropertyUpdated;
             }
+            
+            if (AreaList.FirstOrDefault(a => a.Tag == "SITE") != null) {
+                AreaList.Insert(0, GlobalConfig.DefaultAreaModel);
+                DaManager.prjDb.InsertRecord(GlobalConfig.DefaultAreaModel, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
+            }
             return AreaList;
         }
 
@@ -215,7 +220,8 @@ namespace EDTLibrary.Managers
                 IDteqList.Add(model);
             }
 
-            DteqList.Insert(0, new DteqModel() { Tag = GlobalConfig.Utility, Area = new AreaModel() });
+            //DteqList.Insert(0, new DteqModel() { Tag = GlobalConfig.UtilityTag, Area = new AreaModel() });
+            DteqList.Insert(0,  GlobalConfig.UtilityModel);
 
 
             //XFR
@@ -257,7 +263,7 @@ namespace EDTLibrary.Managers
             foreach (var dteq in IDteqList) {
                 //Utility
 
-                if (dteq.FedFromTag == GlobalConfig.Utility) {
+                if (dteq.FedFromTag == GlobalConfig.UtilityTag) {
                     dteq.FedFrom = DteqList[0];
                 }
                 //Deleted
@@ -659,22 +665,29 @@ namespace EDTLibrary.Managers
         {
             //Area
             foreach (var area in AreaList) {
-                if (area.Tag != GlobalConfig.Utility) {
+                if (area.Tag != GlobalConfig.UtilityTag) {
                     DaManager.UpsertArea((AreaModel)area);
                 }
             }
             //Dteq
-            foreach (var dteq in DteqList) {
-                if (dteq.Tag != GlobalConfig.Utility) {
-                    dteq.PowerCable.AssignOwner(dteq);
+            foreach (var dteq in IDteqList) {
+                if (dteq.Tag != GlobalConfig.UtilityTag) {
                     DaManager.UpsertDteqAsync(dteq);
                 }
             }
 
             //Load
             foreach (var load in LoadList) {
-                load.PowerCable.AssignOwner(load);
                 DaManager.UpsertLoadAsync((LoadModel)load);
+            }
+
+            //Load
+            foreach (var comp in CompList) {
+                DaManager.UpsertComponentAsync((ComponentModel)comp);
+            }
+
+            foreach (var pd in PdList) {
+                DaManager.UpsertComponentAsync((ProtectionDeviceModel)pd);
             }
 
             //Cables
@@ -790,6 +803,11 @@ namespace EDTLibrary.Managers
             else if (iDteq.GetType() == typeof(DpnModel)) {
                 var model = (DpnModel)iDteq;
                 DpnList.Add(model);
+                DteqList.Add(model);
+            }
+            else if (iDteq.GetType() == typeof(SplitterModel)) {
+                var model = (SplitterModel)iDteq;
+                SplitterList.Add(model);
                 DteqList.Add(model);
             }
             IDteqList.Add(iDteq);

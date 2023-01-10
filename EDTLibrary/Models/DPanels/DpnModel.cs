@@ -604,7 +604,9 @@ namespace EDTLibrary.Models.DPanels
 
         public override void CalculateLoading(string propertyName = "")
         {
-            if (DaManager.Importing) return;
+            if (DaManager.GettingRecords) return;
+            //if (DaManager.Importing) return;
+
             base.CalculateLoading(propertyName);
             CalculatePhaseLoading();
         }

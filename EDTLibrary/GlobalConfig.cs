@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.DistributionEquipment;
+﻿using EDTLibrary.Models.Areas;
+using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -24,10 +25,33 @@ namespace EDTLibrary
         public const string CodeTable = "Table 2";
 
         //Quick Names
-        public const string Utility = "UTILITY";
+        public const string UtilityTag = "UTILITY";
+        public static DteqModel UtilityModel { get => utilityModel; }
+        private static DteqModel utilityModel = new DteqModel {
+            Tag = GlobalConfig.UtilityTag,
+            Type = GlobalConfig.UtilityTag,
+            Area = GlobalConfig.DefaultAreaModel,
+            AreaId = -1
+        };
+
+        public const string DefaultAreaTag = "SITE";
+        public static AreaModel DefaultAreaModel { get => defaultArea; }
+        private static AreaModel defaultArea = new AreaModel {
+            Id = -1,
+            Tag = DefaultAreaTag,
+            Name = "Project Site",
+            DisplayTag = DefaultAreaTag,
+            Description = "",
+            AreaCategory = "Category 1",
+            AreaClassification = "Non-Hazardous",
+            NemaRating = "Type 12",
+            MinTemp = -10,
+            MaxTemp = 20,
+        };
+
         public static string LargestMotor_StartLoad = "LargestMotor_StartLoad";
 
-        public static IDteq DteqUtility { get; set; } = new DteqModel { Id = -0, Tag = GlobalConfig.Utility, Type = GlobalConfig.Utility };
+        public static IDteq DteqUtility { get; set; } = new DteqModel { Id = -0, Tag = GlobalConfig.UtilityTag, Type = GlobalConfig.UtilityTag };
 
         public const string Deleted = "* Deleted *";
         public static IDteq DteqDeleted { get; set; } = new DteqModel { Id = -1, Tag = GlobalConfig.Deleted, Type = GlobalConfig.Deleted };
@@ -97,6 +121,5 @@ namespace EDTLibrary
 
         public static string RacewayTable { get; set; } = "Raceways";
         public static string RacewayRouteSegmentsTable { get; set; } = "RacewayRouteSegments";
-
     }
 }

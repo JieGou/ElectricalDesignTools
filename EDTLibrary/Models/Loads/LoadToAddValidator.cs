@@ -154,10 +154,10 @@ namespace EDTLibrary.Models.Loads
 
                 _feedingDteq = _listManager.DteqList.FirstOrDefault(d => d.Tag == _fedFromTag);
 
-                if (_feedingDteq != null && _fedFromTag != GlobalConfig.Utility) {
+                if (_feedingDteq != null && _fedFromTag != GlobalConfig.UtilityTag) {
                     Voltage = _feedingDteq.LoadVoltage.ToString();
                 }
-                else if (_fedFromTag == GlobalConfig.Utility) {
+                else if (_fedFromTag == GlobalConfig.UtilityTag) {
                     AddError(nameof(FedFromTag), "Utility cannot supply loads");
                 }
                 else {

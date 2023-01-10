@@ -149,7 +149,9 @@ namespace EDTLibrary.Models.Loads
             {
                 _type = value;
 
-                if (DaManager.GettingRecords || DaManager.Importing) return;
+                if (DaManager.GettingRecords) return;
+                if (DaManager.Importing) return;
+                if (VoltageType == null) return;
 
                 allowCalculations = false;
                 LoadUnitSelector.SelectUnit(this);
@@ -714,9 +716,10 @@ namespace EDTLibrary.Models.Loads
         {
             if (allowCalculations == false) return;
             UndoManager.CanAdd = false;
-            if (DaManager.GettingRecords == true) {
-                return;
-            }
+            if (DaManager.GettingRecords == true) return;
+
+            //if (DaManager.Importing == true) return;
+
 
             if (LoadFactor >= 1) {
                 LoadFactor = 1;
@@ -971,6 +974,7 @@ namespace EDTLibrary.Models.Loads
 
             try {
                 if (DaManager.GettingRecords == true) return;
+                if (DaManager.Importing == true) return;
                 if (IsCalculating) return;
                 if (CanSave == false) return;
 

@@ -49,7 +49,8 @@ internal class ValidationManager
             }
             if (load.PowerCable != null) {
 
-                if (!load.PowerCable.Validate(load.PowerCable)) {
+                load.PowerCable.Validate(load.PowerCable);
+                if (!load.PowerCable.IsValid) {
                     isValid = false;
                 }
             }
@@ -69,7 +70,8 @@ internal class ValidationManager
                 isValid = false;
             }
             if (comp.PowerCable != null) {
-                if (!comp.PowerCable.Validate(comp.PowerCable)) {
+                comp.PowerCable.Validate(comp.PowerCable);
+                if (!comp.PowerCable.IsValid) {
                     isValid = false;
                 }
             }

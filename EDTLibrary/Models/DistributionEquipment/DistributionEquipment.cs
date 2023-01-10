@@ -62,7 +62,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             var isValid = true;
 
             if (PowerCable != null) {
-                isValid = PowerCable.Validate(PowerCable);
+                PowerCable.Validate(PowerCable);
+                isValid = PowerCable.IsValid;
             }
             if (ProtectionDevice != null) {
                 isValid = ProtectionDevice.Validate();
@@ -761,7 +762,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public virtual void CalculateLoading(string propertyName = "")
         {
-            if (Tag == GlobalConfig.Utility) return;
+            if (Tag == GlobalConfig.UtilityTag) return;
+            if (DaManager.GettingRecords) return;
             //if (DaManager.Importing) return;
 
             if (LineVoltageType == null || LoadVoltageType == null) return;
@@ -820,7 +822,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public virtual double CalculateSCCR()
         {
-            if (Tag == GlobalConfig.Utility) {
+            if (Tag == GlobalConfig.UtilityTag) {
                 return 0;
             }
             else if (FedFrom == null) {
@@ -869,23 +871,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
 
 
-        public event EventHandler PropertyUpdated;
-        public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
-        {
-            if (DaManager.GettingRecords == true) return;
-            if (IsCalculating) return;
-
-            await Task.Run(() => {
-                if (PropertyUpdated != null) {
-                    PropertyUpdated(this, EventArgs.Empty);
-                }
-            });
-            ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
-
-            if (GlobalConfig.Testing == true) {
-                ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
-            }
-        }
+       
 
 
         public virtual void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e)
@@ -982,6 +968,25 @@ namespace EDTLibrary.Models.DistributionEquipment
         public virtual void SetLoadProtectionDevice(IPowerConsumer load)
         {
 
+        }
+
+        public event EventHandler PropertyUpdated;
+        public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
+        {
+            if (DaManager.GettingRecords == true) return;
+            if (DaManager.Importing == true) return;
+            if (IsCalculating) return;
+
+            await Task.Run(() => {
+                if (PropertyUpdated != null) {
+                    PropertyUpdated(this, EventArgs.Empty);
+                }
+            });
+            ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
+
+            if (GlobalConfig.Testing == true) {
+                ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
+            }
         }
     }
 }

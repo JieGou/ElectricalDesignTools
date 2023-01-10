@@ -29,8 +29,8 @@ namespace EDTLibrary.TestDataFolder
         };
 
 
-        public static ObservableCollection<DistributionEquipment> TestDteqList_Full = new ObservableCollection<DistributionEquipment>() {
-            new DteqModel {Tag = "XFR-01", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage = 13800, LoadVoltage = 4160,
+        public static ObservableCollection<IDteq> TestDteqList_Full = new ObservableCollection<IDteq>() {
+            new DteqModel {Tag = "XFR-01", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.UtilityTag, LineVoltage = 13800, LoadVoltage = 4160,
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==13800),
                 LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160), Size = 5000, Unit = Units.kVA.ToString() },
             
@@ -52,7 +52,7 @@ namespace EDTLibrary.TestDataFolder
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480),
                 LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480), Size=1200, Unit= Units.A.ToString() },
             
-            new DteqModel {Tag = "XFR-02", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility,
+            new DteqModel {Tag = "XFR-02", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.UtilityTag,
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160), LineVoltage = 4160,
                 LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), LoadVoltage = 600, Size = 2500, Unit = Units.kVA.ToString() },
 
@@ -173,8 +173,8 @@ namespace EDTLibrary.TestDataFolder
         };
 
 
-        public static ObservableCollection<DistributionEquipment> TestDteqList_Short = new ObservableCollection<DistributionEquipment>() {
-            new DteqModel {Tag = "XFR-01", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility, LineVoltage = 13800, LoadVoltage = 4160,
+        public static ObservableCollection<IDteq> TestDteqList_Short = new ObservableCollection<IDteq>() {
+            new DteqModel {Tag = "XFR-01", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.UtilityTag, LineVoltage = 13800, LoadVoltage = 4160,
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==13800),
                 LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160), Size = 5000, Unit = Units.kVA.ToString() },
 
@@ -196,7 +196,7 @@ namespace EDTLibrary.TestDataFolder
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480),
                 LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==480), Size=1200, Unit= Units.A.ToString() },
 
-            new DteqModel {Tag = "XFR-02", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.Utility,
+            new DteqModel {Tag = "XFR-02", Type = DteqTypes.XFR.ToString(), FedFromTag = GlobalConfig.UtilityTag,
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==4160), LineVoltage = 4160,
                 LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), LoadVoltage = 600, Size = 2500, Unit = Units.kVA.ToString() },
 

@@ -103,39 +103,49 @@ public class DaManager {
     public static async Task UpsertDteqAsync(IDteq iDteq)
     {
         try {
-            // removed await to test speed
             await Task.Run(() => {
-                if (GlobalConfig.Importing == true) return;
-                if (iDteq == GlobalConfig.DteqDeleted) { return; }
-
-                if (iDteq.GetType() == typeof(DteqModel)) {
-                    var model = (DteqModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.DteqTable, NoSaveLists.DteqNoSaveList);
-                }
-                else if (iDteq.GetType() == typeof(XfrModel)) {
-                    var model = (XfrModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.XfrTable, NoSaveLists.DteqNoSaveList);
-                }
-                else if (iDteq.GetType() == typeof(SwgModel)) {
-                    var model = (SwgModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.SwgTable, NoSaveLists.DteqNoSaveList);
-                }
-                else if (iDteq.GetType() == typeof(MccModel)) {
-                    var model = (MccModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.MccTable, NoSaveLists.DteqNoSaveList);
-                }
-
-
-                else if (iDteq.GetType() == typeof(DpnModel)) {
-                    var model = (DpnModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.DpnTable, NoSaveLists.DteqNoSaveList);
-                }
-
-                else if (iDteq.GetType() == typeof(SplitterModel)) {
-                    var model = (SplitterModel)iDteq;
-                    prjDb.UpsertRecord(model, GlobalConfig.SplitterTable, NoSaveLists.DteqNoSaveList);
-                }
+                UpsertDteq(iDteq);
             });
+        }
+
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw;
+        }
+    }
+    public static void UpsertDteq(IDteq iDteq)
+    {
+        try {
+            if (GlobalConfig.Importing == true) return;
+            if (iDteq == GlobalConfig.DteqDeleted) { return; }
+
+            if (iDteq.GetType() == typeof(DteqModel)) {
+                var model = (DteqModel)iDteq;
+                prjDb.UpsertRecord(model, GlobalConfig.DteqTable, NoSaveLists.DteqNoSaveList);
+            }
+            else if (iDteq.GetType() == typeof(XfrModel)) {
+                var model = (XfrModel)iDteq;
+                prjDb.UpsertRecord(model, GlobalConfig.XfrTable, NoSaveLists.DteqNoSaveList);
+            }
+            else if (iDteq.GetType() == typeof(SwgModel)) {
+                var model = (SwgModel)iDteq;
+                prjDb.UpsertRecord(model, GlobalConfig.SwgTable, NoSaveLists.DteqNoSaveList);
+            }
+            else if (iDteq.GetType() == typeof(MccModel)) {
+                var model = (MccModel)iDteq;
+                prjDb.UpsertRecord(model, GlobalConfig.MccTable, NoSaveLists.DteqNoSaveList);
+            }
+
+
+            else if (iDteq.GetType() == typeof(DpnModel)) {
+                var model = (DpnModel)iDteq;
+                prjDb.UpsertRecord(model, GlobalConfig.DpnTable, NoSaveLists.DteqNoSaveList);
+            }
+
+            else if (iDteq.GetType() == typeof(SplitterModel)) {
+                var model = (SplitterModel)iDteq;
+                prjDb.UpsertRecord(model, GlobalConfig.SplitterTable, NoSaveLists.DteqNoSaveList);
+            }
         }
 
         catch (Exception ex) {

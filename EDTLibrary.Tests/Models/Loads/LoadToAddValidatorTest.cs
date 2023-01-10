@@ -48,7 +48,7 @@ namespace EDTLibrary.Tests.Models.Loads
 
         [Theory]
         [InlineData("HTR-10", "", "MCC-01", "2000", "kVA", "480")] //no type
-        [InlineData("MTR-11", "MOTOR", GlobalConfig.Utility, "2000", "HP", "480")] // fed from utility
+        [InlineData("MTR-11", "MOTOR", GlobalConfig.UtilityTag, "2000", "HP", "480")] // fed from utility
         //[InlineData("MTR-12", "MOTOR", "MCC-02", "2000", "A", "600")] //wrong units, but validator changes them to HP
         [InlineData("MTR-13", "MOTOR", "MCC-X", "50", "HP", "600")] // Dteq Doesn't exist
         public void IsValid_False(string tag, string type, string fedFrom, string size, string unit, string voltage)

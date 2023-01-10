@@ -18,7 +18,7 @@ namespace EDTLibrary.Validators
             if (string.IsNullOrEmpty(tagToCheck)) return true;
             if (listManager == null) return true; //for test data
             if (DaManager.GettingRecords == true) return true;
-            if (tagToCheck == GlobalConfig.Utility) return true;
+            if (tagToCheck == GlobalConfig.UtilityTag) return true;
             if (tagToCheck == GlobalConfig.Deleted) return true;
             if (tagToCheck == GlobalConfig.LargestMotor_StartLoad) return true;
 

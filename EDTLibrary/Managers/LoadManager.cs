@@ -8,6 +8,7 @@ using EDTLibrary.ProjectSettings;
 using EDTLibrary.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -140,7 +141,12 @@ public class LoadManager
 
         newLoad.CalculateCableAmps();
         listManager.CableList.Add(newLoad.PowerCable);
+        DaManager.prjDb.UpsertRecord(newLoad, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
+
         listManager.LoadList.Add(newLoad);
+
+        Debug.Print("Load List COUNT: " + listManager.LoadList.Count.ToString() + " - " + newLoad.Tag);
+
         return newLoad;
     }
 

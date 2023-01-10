@@ -13,6 +13,11 @@ namespace EDTLibrary.Models.DistributionEquipment
         void Create();
         void Initialize();
         void Delete();
+        double CalculateSCCR();
+
+        bool IsCalculating { get; set; }
+
+        double PercentLoaded { get; set; }
         int LineVoltageTypeId { get; set; }
         VoltageType LineVoltageType { get; set; }
         double LineVoltage { get; set; }

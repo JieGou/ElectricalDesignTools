@@ -25,7 +25,7 @@ internal class FedFromValidator
                   
             }
             //Valid
-            else if (newFedFrom.Tag == GlobalConfig.Utility || newFedFrom.Tag == GlobalConfig.Deleted) {
+            else if (newFedFrom.Tag == GlobalConfig.UtilityTag || newFedFrom.Tag == GlobalConfig.Deleted) {
                 return true;
             }
             else {

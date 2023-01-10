@@ -86,10 +86,18 @@ namespace EDTLibrary.Models.DistributionEquipment
             newDteq.LoadVoltageType = dteqToAddValidator.LoadVoltageType;
             newDteq.LoadVoltageTypeId = newDteq.LoadVoltageType.Id;
 
-            newDteq.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == dteqToAddValidator.FedFromTag);
+            if (dteqToAddValidator.FedFromTag == GlobalConfig.UtilityTag) {
+                newDteq.FedFrom = GlobalConfig.UtilityModel;
+            }
+            else {
+                newDteq.FedFrom = _listManager.DteqList.FirstOrDefault(d => d.Tag == dteqToAddValidator.FedFromTag);
+            }
 
-           
             newDteq.Area = _listManager.AreaList.FirstOrDefault(a => a.Tag == dteqToAddValidator.AreaTag);
+            if (newDteq.Area == null) {
+                newDteq.Area = GlobalConfig.DefaultAreaModel;
+            }
+
             newDteq.Size = Double.Parse(dteqToAddValidator.Size);
             newDteq.Unit = dteqToAddValidator.Unit;
 

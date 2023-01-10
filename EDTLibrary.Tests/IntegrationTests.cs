@@ -80,7 +80,7 @@ namespace EDTLibrary.Tests
                     areaToAdd = new AreaToAddValidator(listManager, loopArea);
                     areaVm.AddArea(areaToAdd);
                 }
-                //Assert.True(listManager.AreaList.Count == TestData.TestAreasList.Count);
+                Assert.True(listManager.AreaList.Count == TestData.TestAreasList.Count);
 
 
                 //Dteq
@@ -93,8 +93,10 @@ namespace EDTLibrary.Tests
                     dteqToAdd = new DteqToAddValidator(listManager, loopDteq);
                     eqVm.AddDteq(dteqToAdd);
                 }
+                Assert.True(listManager.IDteqList.Count == TestData.TestDteqList_Full.Count);
+                //Thread.Sleep(2000);
                 listManager.GetProjectTablesAndAssigments();
-                //Assert.True(listManager.IDteqList.Count == TestData.TestDteqList.Count);
+                Assert.True(listManager.IDteqList.Count == TestData.TestDteqList_Full.Count);
 
 
                 //Loads
@@ -108,9 +110,10 @@ namespace EDTLibrary.Tests
                     eqVm.AddLoad(loadToAdd);
                 }
 
-                Thread.Sleep(2000);
+                Assert.True(listManager.LoadList.Count == TestData.TestLoadList_Full.Count);
+                //Thread.Sleep(2000);
                 listManager.GetProjectTablesAndAssigments();
-                //Assert.True(listManager.LoadList.Count == TestData.TestLoadList.Count);
+                Assert.True(listManager.LoadList.Count == TestData.TestLoadList_Full.Count);
 
                 //Cables
                 Thread.Sleep(1000);
@@ -139,7 +142,7 @@ namespace EDTLibrary.Tests
                 //Dteq.Area for StandAloneStarter.Area
                 ErrorHelper.Log("\n\n-----------------Dteq.Area for StandAloneStarter.Area----------------- \n");
 
-                DistributionEquipment mcc01 = listManager.DteqList.FirstOrDefault(d => d.Tag == "MCC-01");
+                IDteq mcc01 = listManager.DteqList.FirstOrDefault(d => d.Tag == "MCC-01");
                 mcc01.Area = listManager.AreaList[2];
 
                 Thread.Sleep(1000);

@@ -170,19 +170,8 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
 
                 DaManager.DeleteAllEquipmentRecords();
                 DaManager.prjDb.DeleteAllRecords(GlobalConfig.AreaTable);
-                var defaultArea = new AreaModel {
-                    Id = 1,
-                    Tag = "SITE",
-                    Name = ProjectName + " Project Site",
-                    DisplayTag = "SITE",
-                    Description = ProjectName.Substring(0, 2),
-                    AreaCategory = "Category 1",
-                    AreaClassification = "Non-Hazardous",
-                    NemaRating = "Type 12",
-                    MinTemp = -10,
-                    MaxTemp = 20,
-                };
-                DaManager.prjDb.InsertRecord(defaultArea, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
+               
+                DaManager.prjDb.InsertRecord(GlobalConfig.DefaultAreaModel, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
 
                 _startupService.InitializeProject(fullFileName);
                 settingVm = new SettingsMenuViewModel(_mainViewModel, new EDTLibrary.ProjectSettings.EdtSettings(), _typeManager);
