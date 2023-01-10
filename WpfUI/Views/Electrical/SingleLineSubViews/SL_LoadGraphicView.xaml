@@ -23,7 +23,8 @@
              d:DesignHeight="300" d:DesignWidth="250"
              d:Background="LightCyan"
              
-             Background="Transparent">
+             Background="Transparent"
+             ClipToBounds="False">
 
     <UserControl.Resources>
         
@@ -40,8 +41,8 @@
     </UserControl.Resources>
 
 
-    
-    <Grid>
+
+    <Grid ClipToBounds="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
@@ -57,7 +58,7 @@
         
         <DockPanel Grid.Row="0" Grid.Column="1"
                    Margin="0 0 0 0"
-                   >
+                   ClipToBounds="False">
 
 
 
@@ -65,14 +66,16 @@
             <ContentPresenter Content="{Binding ProtectionDevice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Top"
                               Style="{StaticResource PdStarterTemplateStyle_CP}"
                               ContentTemplateSelector="{StaticResource PdStarterTemplateSelector}"
-                              PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"  >
+                              PreviewMouseLeftButtonDown="Bucket_PreviewMouseLeftButtonDown"  
+                              ClipToBounds="False">
             </ContentPresenter>
 
 
             <!--COMPONENTS-->
             <ItemsControl ItemsSource="{Binding CctComponents}" 
                           DockPanel.Dock="Top"
-                      HorizontalAlignment="Stretch">
+                      HorizontalAlignment="Stretch"
+                          ClipToBounds="False">
                 <ItemsControl.ItemContainerStyle>
                     <Style>
                         <Setter Property="FrameworkElement.DataContext" Value="{Binding RelativeSource={RelativeSource Self}}"/>
@@ -81,8 +84,9 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical"
-                                HorizontalAlignment="Left">
-                            <Grid>
+                                HorizontalAlignment="Left"
+                                    ClipToBounds="False">
+                            <Grid ClipToBounds="False">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="5"/>
@@ -100,7 +104,8 @@
                                                   ContentTemplate="{StaticResource CableTemplate}"
                                                   Grid.Column="2"
                                                   PreviewMouseLeftButtonDown="ComponentCable_PreviewMouseLeftButtonDown"
-                                                  Focusable="True">
+                                                  Focusable="True"
+                                                ClipToBounds="False">
                                 </ContentControl>
                             </Grid>
 
@@ -108,7 +113,8 @@
                             <ContentPresenter Style="{StaticResource ComponentTemplateStyle_CP}"
                                                 Content="{Binding UpdateSourceTrigger=PropertyChanged}" 
                                                 ContentTemplateSelector="{StaticResource ComponentTemplateSelector}"
-                                                PreviewMouseLeftButtonDown="Component_PreviewMouseLeftButtonDown" >
+                                                PreviewMouseLeftButtonDown="Component_PreviewMouseLeftButtonDown" 
+                                              ClipToBounds="False">
 
                             </ContentPresenter>
 

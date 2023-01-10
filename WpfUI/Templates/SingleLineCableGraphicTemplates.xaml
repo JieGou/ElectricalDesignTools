@@ -21,19 +21,46 @@
     <!--CABLES-->
     <!--Cable Template-->
     <DataTemplate x:Key="CableTemplate">
-        <Grid>
+        <Grid ShowGridLines="False">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid Style="{StaticResource GraphicHighlightStyle}"
-                  Grid.Column="1">
+                  Grid.Column="1"
+                  >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
+                <!--Cable extension into splitter-->
+                <Canvas Margin="0 0"
+                        Panel.ZIndex="99"
+                        Visibility="Collapsed">
+                    <Canvas.Background>
+                        <SolidColorBrush Color="LightBlue" Opacity="0.3"/>
+                    </Canvas.Background>
+                    <Canvas.Style>
+                        <Style TargetType="Canvas">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding DestinationModel.SubCategory}" Value="ProtectionDevice"/>
+                                        <Condition Binding="{Binding DestinationModel.IsStandAlone}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <MultiDataTrigger.Setters>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </MultiDataTrigger.Setters>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Canvas.Style>
+                    <Line Stroke="Red" StrokeThickness="1" X1="-15.5" X2="-15.5" Y1="50" Y2="-150" Panel.ZIndex="99"/>
+                </Canvas>
+                
                 <Border BorderBrush="Black" BorderThickness="1 0 0 0"
                     Grid.Column="0"
                     Margin="-6 0 0 0"
@@ -49,6 +76,7 @@
                     HorizontalAlignment="Left"
                     />
 
+                <!--Data-->
                 <StackPanel x:Name="stackPanel"
                         Orientation="Vertical"
                         Grid.Column="0"
@@ -87,6 +115,8 @@
                     </Border>
 
                 </StackPanel>
+                
+                <!--Invalid Icon-->
                 <Image Source="..\..\ResourceFiles\ErrorIcon48.png"
                        Grid.Column="0" HorizontalAlignment="Left"
                        Height="13"

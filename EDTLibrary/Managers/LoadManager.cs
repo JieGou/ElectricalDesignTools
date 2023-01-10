@@ -87,13 +87,10 @@ public class LoadManager
         }
         else if(loadToAddObject is ILoad){
             var loadToAdd = (ILoad)loadToAddObject;
-            loadToAdd.Tag = TagManager.AssignEqTag(new DummyLoad { Type = loadToAdd.Type }, listManager);
-            newLoad = _loadFactory.CreateLoad(loadToAdd); //150ms
-
+            newLoad = _loadFactory.CreateLoad(
+                loadToAdd, 
+                TagManager.AssignEqTag(new DummyLoad { Type = loadToAdd.Type }, listManager));
         }
-
-        //clear Tag Error
-        //loadToAddValidator.Tag = GlobalConfig.EmptyTag;
 
         if (newLoad == null) return null; 
       
@@ -102,8 +99,8 @@ public class LoadManager
 
             if (append == true) {
                 dteqSubscriber.AddNewLoad(newLoad); //load gets added to AssignedLoads inside DistributionManager.UpdateFedFrom
-                                                         //which is fired inside loadFactory when setting fedfrom
-                                                         //but this checks if it is already added;
+                                                    //which is fired inside loadFactory when setting fedfrom
+                                                    //but this checks if it is already added;
             }
 
             newLoad.LoadingCalculated += dteqSubscriber.OnAssignedLoadReCalculated;

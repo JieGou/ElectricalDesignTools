@@ -73,7 +73,7 @@ namespace EDTLibrary.Models.Loads
             return newLoad;
         }
 
-        public LoadModel CreateLoad(ILoad loadToCopy)
+        public LoadModel CreateLoad(ILoad loadToCopy, string newTag)
         {
             LoadModel newLoad = new LoadModel();
             newLoad.CalculationFlags.CanUpdateFedFrom = false;
@@ -94,7 +94,7 @@ namespace EDTLibrary.Models.Loads
                     }
                 }
             }
-            newLoad.Tag = loadToCopy.Tag;
+            newLoad.Tag = newTag;
             newLoad.Description = loadToCopy.Description;
             newLoad.Category = Categories.LOAD3P.ToString();
             newLoad.Type = loadToCopy.Type;

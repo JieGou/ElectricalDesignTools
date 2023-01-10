@@ -991,7 +991,8 @@
                                ShowBusyIndicator="True"
                                
                                    
-                                   GridPasteOption="None"
+                            GridPasteOption="None"
+                                   GridPasteContent="LoadGridPaste"
                                ColumnSizer="Star"
                                
                                ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"

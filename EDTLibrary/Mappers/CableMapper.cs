@@ -19,7 +19,7 @@ public class CableMapper
         Id = cable.Id;
         Tag = cable.Tag;
         Category = cable.Category;
-        Source = cable.SourceModel.Tag;
+        Source = Tag.Contains(GlobalConfig.UtilityTag) ? GlobalConfig.UtilityTag : cable.SourceModel.Tag;
         Destination = cable.DestinationModel.Tag;
         Type = cable.TypeModel.Type;
         UsageType = cable.UsageType;

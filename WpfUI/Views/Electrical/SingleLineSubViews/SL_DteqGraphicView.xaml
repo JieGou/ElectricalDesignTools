@@ -142,13 +142,21 @@
                         PreviewMouseLeftButtonDown="EquipmentCable_ContentControl_PreviewMouseLeftButtonDown"
                         Margin="45 0 0 0"/>
            
-            <!-- BUS-->
-            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1">
+            <!-- Enclosure-->
+            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1"
+                    Visibility="Collapsed">
+                <!-- BUS-->
                 <ContentControl Grid.Column="1" Margin="-1 0 15 30"
                         Content="{Binding}"
                         ContentTemplate="{StaticResource DteqBusTemplate}"  
                         PreviewMouseLeftButtonDown="Equipment_ContentControl_PreviewMouseDown" />
             </Border>
+
+            <!-- BUS only -->
+            <ContentControl Grid.Column="1" Margin="0"
+                        Content="{Binding}"
+                        ContentTemplate="{StaticResource DteqBusTemplate}"  
+                        PreviewMouseLeftButtonDown="Equipment_ContentControl_PreviewMouseDown" />
         </StackPanel>
 
         <!--DPN-->

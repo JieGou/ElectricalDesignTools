@@ -313,87 +313,10 @@
                             <ColumnDefinition Width="*" d:Width="650"/>
                         </Grid.ColumnDefinitions>
 
-                        <!--Header Row-->
-                        <Grid Grid.Row="0"
-                              Grid.Column="0" 
-                              HorizontalAlignment="Left"
-                              DockPanel.Dock="Top"
-                              ShowGridLines="False"
-                              Visibility="Collapsed">
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="152"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <!--Left Header Row-->
-                            <Border BorderBrush="DarkGray" BorderThickness="1"
-                                    Grid.Row="0"
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Left"
-                                    Visibility="Visible">
-
-                                <StackPanel Orientation="Horizontal"
-                                        Grid.Row="0"
-                                        Grid.Column="0" >
-
-                                    <TextBlock Text="Cable" Width="{StaticResource CableColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="Size" Width="{StaticResource SizeColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="kW" Width="{StaticResource PowerColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="FLA" Width="{StaticResource FlaColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="Tag" Width="{StaticResource TagColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="Description" Width="{StaticResource DescriptionColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="Poles" Width="{StaticResource PolesColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="Breaker" Width="{StaticResource BreakerColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="Cct #" Width="{StaticResource CctColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                </StackPanel>
-
-                            </Border>
-
-                            <Border BorderBrush="Black" BorderThickness="1 0 1 1" Grid.Row="0" Grid.Column="1">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding SelectedDteq.Tag}" TextAlignment="Center" FontWeight="SemiBold" FontSize="14"/>
-                                    <TextBlock Text="{Binding SelectedDteq.Size, StringFormat=\{0:N0\} A}" TextAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
-
-                            <!--Right Header Row-->
-                            <Border BorderBrush="Black" BorderThickness="0 0 0 1"
-                                    Grid.Row="0"
-                                    Grid.Column="2"
-                                    >
-                                <StackPanel Orientation="Horizontal"
-                                        Grid.Row="0"
-                                        Grid.Column="0" >
-
-                                    <TextBlock Text="Cct #" Width="{StaticResource CctColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-
-                                    <TextBlock Text="Breaker" Width="{StaticResource BreakerColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="Poles" Width="{StaticResource PolesColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="Description" Width="{StaticResource DescriptionColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="Tag" Width="{StaticResource TagColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="FLA" Width="{StaticResource FlaColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                    <TextBlock Text="kW" Width="{StaticResource PowerColumn}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-
-                                    <TextBlock Text="Size" Width="{StaticResource SizeColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-
-                                    <TextBlock Text="Cable" Width="{StaticResource CableColumnWidth}" Style="{StaticResource DPanelHeaderRow_TextBlockStyle}"/>
-                                </StackPanel>
-
-
-                            </Border>
-
-                        </Grid>
-
                         <!--LEFT CIRCUITS-->
                         <!--**************-->
 
-                        <!--Circuit Data Left-->
+                        <!--Circuit DataGrid Left-->
                         <sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2" x:Name="LeftGrid"
                                        Grid.Column="0"
                                        HorizontalAlignment="Left"
@@ -547,7 +470,7 @@
                         <!--   BREAKERS   -->
                         <!--**************-->
 
-                        <!--Header-->
+                        <!--Panel Tag Center Column between grid sides-->
                         <Border BorderBrush="Black" BorderThickness="0 0 1 1"
                                 Grid.Row="0" Grid.Column="2"
                                 Panel.ZIndex="1"
@@ -600,7 +523,7 @@
                         <!--RIGHT CIRCUITS-->
                         <!--**************-->
 
-                        <!--Circuit Data Right-->
+                        <!--Circuit DataGrid Right-->
                         <sf:SfDataGrid Grid.Row="0" Grid.RowSpan="2" x:Name="RightGrid"
                                        Grid.Column="4"
                                        HorizontalAlignment="Left"
@@ -757,7 +680,7 @@
 
             </Border>
 
-            <!--Rreming fill area under panel-->
+            <!--Remaining fill area under panel-->
             <Border Grid.Row="3" Grid.RowSpan="1"
                     Grid.Column="3"
                     Width="{Binding ElementName=PanelGraphicBorder, Path=ActualWidth}"
@@ -767,13 +690,13 @@
                     VerticalAlignment="Stretch"/>
             
 
-            <!--BUTTONS and PROPTERTIES-->
+            <!--Move Load BUTTONS and PROPTERTIES-->
             <Border BorderBrush="Black" BorderThickness="1"
                     Background="{StaticResource BackgroundLight}"  
                     Grid.Row="3" 
                     Grid.Column="5" >
 
-                <!--Both Grid-->
+                <!--Move Load BUTTONS and PROPTERTIES Grid-->
                 <Grid Margin="5"
                       ShowGridLines="False">
                     <Grid.RowDefinitions>

@@ -123,6 +123,10 @@ public partial class _MjeqView : UserControl
     {
         if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
 
+            if (e.Key == Key.V) {
+                vm.AddLoad(vm.SelectedLoad);
+            }
+
 #if DEBUG
 
             if (e.Key == Key.T) {
@@ -150,10 +154,6 @@ public partial class _MjeqView : UserControl
                     testWindow.DataContext = vm;
                     testWindow.Show();
                 }
-            }
-
-            if (e.Key == Key.V) {
-                vm.AddLoad(vm.SelectedLoad);
             }
 #endif
         }
@@ -558,7 +558,7 @@ public partial class _MjeqView : UserControl
 
             case MessageBoxResult.Cancel:
                 start = DateTime.Now;
-                AddExtraLoadsAsync(listManager);
+                await AddExtraLoadsAsync(listManager);
                 Debug.Print($"start: {start.ToString()} end: {DateTime.Now.ToString()}");
                 break;
         }
@@ -573,29 +573,40 @@ public partial class _MjeqView : UserControl
 
     private async Task AddExtraLoadsAsync(ListManager listManager)
     {
-        int count = listManager.LoadList.Count;
-        ILoad load = new LoadModel() {
-            Tag = "MTR-",
-            Type = LoadTypes.MOTOR.ToString(),
-            FedFromTag = "MCC-01",
-            Voltage = 460,
-            VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 460),
-            VoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 460).Id,
-            Size = 15,
-            Unit = Units.HP.ToString()
-        };
+        try {
 
-        for (int i = 0; i < 10; i++) {
-            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-                load.Tag = "M-" + count.ToString();
-                load.Area = listManager.AreaList[3];
+            int count = listManager.LoadList.Count;
+            ILoad load = new LoadModel() {
+                Tag = "MTR-",
+                Type = LoadTypes.MOTOR.ToString(),
+                FedFromTag = "MCC-01",
+                Voltage = 460,
+                VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 460),
+                VoltageTypeId = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 460).Id,
+                Size = 15,
+                Unit = Units.HP.ToString()
+            };
 
-                LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
-                LoadManager.AddLoad(loadToAdd, listManager);
-                load.CalculateLoading();
-                count += 1;
-            }));
+            for (int i = 0; i < 10; i++) {
+                await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                    load.Tag = "M-" + count.ToString();
+                    load.Area = listManager.AreaList[3];
 
+                    LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
+                    LoadManager.AddLoad(loadToAdd, listManager);
+                    load.CalculateLoading();
+                    count += 1;
+                }));
+
+            }
+
+        }
+        catch (Exception) {
+
+            throw;
+        }
+        finally {
+            DaManager.Importing = false;
         }
     }
 
@@ -688,7 +699,10 @@ public partial class _MjeqView : UserControl
        
     }
 
-    
+    private void LoadGridPaste(object sender, Syncfusion.UI.Xaml.Grid.GridCopyPasteEventArgs e)
+    {
+        e.Handled = true;
+    }
 }
 
 
