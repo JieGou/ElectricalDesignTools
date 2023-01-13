@@ -406,30 +406,20 @@
                       StrokeThickness="1" Stroke="Gray"/>
             </Canvas>
 
-            <!--Power Details-->
-            <TextBlock Text="Power (kVA) "
+            <!--Testing -->
+            <!--<TextBlock Text="Power (kVA) "
                                Grid.Row="11" Grid.Column="0" 
                                HorizontalAlignment="Right" 
                                
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
             <TextBlock Text="{Binding DemandKva, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                Grid.Row="11" Grid.Column="1" 
-                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>
+                               Style="{StaticResource SummaryValue_TextBlockStyle}"/>-->
 
-            <!--Panel Cct# details -->
-            <TextBlock Text="Poles "
-                       Grid.Row="12" Grid.Column="0" 
-                       HorizontalAlignment="Right" 
-                       Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-
-            <TextBlock Text="{Binding VoltageType.Poles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                       Grid.Row="12" Grid.Column="1" 
-                       Style="{StaticResource SummaryValue_TextBlockStyle}"/>
-
-            <TextBlock Text="ListManager Id"
+            <!--<TextBlock Text="ListManager Id"
                        Grid.Row="13" Grid.Column="0" 
                        HorizontalAlignment="Right" 
-                       Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
+                       Style="{StaticResource SummaryLabel_TextBlockStyle}"/>-->
 
             <!--<TextBlock Text="{Binding DataContext.ListManager.Id, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                        Grid.Row="13" Grid.Column="1" 

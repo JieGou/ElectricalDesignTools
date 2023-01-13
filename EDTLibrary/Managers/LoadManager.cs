@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.DistributionControl;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
@@ -189,7 +190,9 @@ public class LoadManager
                 dteqToRecalculate.AssignedLoads.Remove(loadToRemove);
                 dteqToRecalculate.CalculateLoading();
             }
+
             DaManager.DeletingLoad = false;
+            OnLoadDeleted();
 
             return loadId;
 
@@ -206,5 +209,15 @@ public class LoadManager
         }
         return -1;
 
+    }
+
+
+
+    public static event EventHandler LoadDeleted;
+    public static void OnLoadDeleted()
+    {
+        if (LoadDeleted != null) {
+            LoadDeleted(nameof(DistributionManager), EventArgs.Empty);
+        }
     }
 }

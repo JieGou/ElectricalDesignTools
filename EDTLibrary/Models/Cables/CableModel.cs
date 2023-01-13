@@ -389,11 +389,11 @@ public class CableModel : ICable
         get { return _length; }
         set
         {
-            if (DaManager.GettingRecords) return;
 
             var oldValue = _length;
             _length = value;
 
+            if (DaManager.GettingRecords) return;
 
             UndoManager.AddUndoCommand(this, nameof(Length), oldValue, _length);
 
@@ -1118,11 +1118,11 @@ public class CableModel : ICable
         if (DaManager.Importing) return;
         if (_isAutoSizing) return;
 
-        //var tag = Tag;
-        //var type = Type;
-        //if (PropertyUpdated != null) {
-        //    PropertyUpdated(this, EventArgs.Empty);
-        //}
+        var tag = Tag;
+        var type = Type;
+        if (PropertyUpdated != null) {
+            PropertyUpdated(this, EventArgs.Empty);
+        }
         await Task.Run(() => {
             if (PropertyUpdated != null) {
                 PropertyUpdated(this, EventArgs.Empty);

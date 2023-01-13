@@ -42,6 +42,9 @@ internal class SingleLineViewModel: EdtViewModelBase
 
         _ViewStateManager.ElectricalViewUpdate += OnElectricalViewUpdated;
 
+        //Commands
+        DeleteLoadCommand = new RelayCommand(DeleteLoad);
+
         DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
 
     }
@@ -184,6 +187,9 @@ internal class SingleLineViewModel: EdtViewModelBase
                 compOwner.SelectedComponent = comp;
                 _selectedLoadEquipment = compOwner;
             }
+            if (SelectedLoadEquipment is ILoad) {
+                SelectedLoad = (ILoad)_selectedLoadEquipment; 
+            }
         }
     }
 
@@ -271,7 +277,14 @@ internal class SingleLineViewModel: EdtViewModelBase
         get { return _selectedLoad; }
         set 
         { 
+
             _selectedLoad = value;
+            base.SelectedLoad = _selectedLoad;
+            SelectedLoadEquipment = _selectedLoad;
+            SelectedLoadCable = _selectedLoad;
+
+
+            if (value == null) return;
             if (_selectedLoad.CctComponents.Count > 0) {
                 SelectedComponent = (ComponentModelBase)_selectedLoad.CctComponents[0];
 
@@ -292,6 +305,9 @@ internal class SingleLineViewModel: EdtViewModelBase
     public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
 
     public static NotificationPopup NotificationPopup { get; set; }
+
+
+    public ICommand DeleteLoadCommand { get; }
 
 
     #region Autocad

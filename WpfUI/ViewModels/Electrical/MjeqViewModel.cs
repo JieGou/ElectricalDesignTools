@@ -89,7 +89,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
 
         GetAllCommand = new RelayCommand(DbGetAll);
-        SaveAllCommand = new RelayCommand(DbSaveAll);
 
         CalculateSingleEqCableSizeCommand = new RelayCommand(CalculateSingleEqCableSize);
         CalculateSingleEqCableAmpsCommand = new RelayCommand(CalculateSingleEqCableAmps);
@@ -103,7 +102,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
         GetLoadListCommand = new RelayCommand(GetLoadList);
         CalculateLoadCommand = new RelayCommand(CalculateLoad);
-        SaveLoadListCommand = new RelayCommand(SaveLoadList);
         DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
 
@@ -147,7 +145,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
 
     public ICommand GetAllCommand { get; }
-    public ICommand SaveAllCommand { get; }
     public ICommand DeleteDteqCommand { get; }
     public ICommand SizeCablesCommand { get; }
     public ICommand CalculateSingleEqCableSizeCommand { get; }
@@ -164,7 +161,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
 
 
-    public ICommand SaveLoadListCommand { get; }
 
 
 
@@ -281,14 +277,16 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         set 
         { 
             _selectedLoadEquipment = value;
+            SelectedEquipment = _selectedLoadEquipment;
+
+            if (value == null) return;
+
             if (_selectedLoadEquipment is IComponentEdt) {
                 // commented out because xaml doesn't know how to show the graphic when SelectedEquipment is a component
                 //SelectedEquipment = _selectedLoadEquipment;
 
             }
-            else {
-                SelectedEquipment = _selectedLoadEquipment;
-            }
+          
         }
     }
 
@@ -299,7 +297,9 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     {
         get { return _selectedLoadCable; }
         set { 
+
             _selectedLoadCable = value;
+            if (value == null) return;
 
             if (_selectedLoadCable is DistributionEquipment) {
                 var eq = DteqFactory.Recast(_selectedLoadCable);
@@ -329,14 +329,15 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         get { return _selectedDteq; }
         set
         {
-            if (value == null) return;
-
-            //used for fedfrom Validation
-            DictionaryStore.CreateDteqDict(_listManager.IDteqList);
             _selectedDteq = value;
             SelectedEquipment = _selectedDteq;
             SelectedLoadCable = _selectedDteq;
             LoadListLoaded = false;
+            if (value == null) return;
+
+            //used for fedfrom Validation
+            DictionaryStore.CreateDteqDict(_listManager.IDteqList);
+            
 
             if (_selectedDteq != null) {
                 AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
@@ -382,12 +383,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         }
     }
 
-    private int _selectedDteqTab;
-    public int SelectedDteqTab
-    {
-        get { return _selectedDteqTab; }
-        set { _selectedDteqTab = value; }
-    }
     public Tuple<int, double, double> DteqMotorLoads { get; set; }
     public Tuple<int, double, double> DteqHeaterLoads { get; set; }
     public int DteqPanelLoads { get; set; }
@@ -446,21 +441,21 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         {
             if (value == null) return;
             _selectedLoad = value;
+            base.SelectedLoad = _selectedLoad;
+            SelectedLoadEquipment = _selectedLoad;
+            SelectedLoadCable = _selectedLoad; 
+            
             SelectedLoadObject = value;
-            if (_selectedLoad != null) {
-                _selectedLoad.PowerCable.GetRequiredAmps(_selectedLoad);
-                GlobalConfig.SelectingNew = true;
-                CopySelectedLoad();
-                GlobalConfig.SelectingNew = false;
-                if (_selectedLoad.CctComponents.Count > 0) {
-                    SelectedComponent = (ComponentModelBase)_selectedLoad.CctComponents[0];
+            
 
-                }
-                SelectedLoadEquipment = _selectedLoad;
-                SelectedLoadCable   = _selectedLoad;
-                
-
+            _selectedLoad.PowerCable.GetRequiredAmps(_selectedLoad);
+            GlobalConfig.SelectingNew = true;
+            CopySelectedLoad();
+            GlobalConfig.SelectingNew = false;
+            if (_selectedLoad.CctComponents.Count > 0) {
+                SelectedComponent = (ComponentModelBase)_selectedLoad.CctComponents[0];
             }
+
         }
     }
 
@@ -555,17 +550,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         AssignedLoads.Clear();
     }
 
-    public void DbSaveAll()
-    {
-
-        try {
-            _listManager.SaveAll();
-        }
-
-        catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
-        }
-    }
+    
     private void CalculateSingleEqCableSize()
     {
         CalculateSingleDteqCableSize();
@@ -693,89 +678,73 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         }
     }
 
-    public void DeleteLoad(object selectedLoadObject)
-    {
+    //public void DeleteLoad(object selectedLoadObject)
+    //{
 
-        if (SelectedLoad == null || SelectedLoad is DistributionEquipment) return;
+    //    if (SelectedLoad == null || SelectedLoad is DistributionEquipment) return;
 
-        var message = $"Delete load {SelectedLoad.Tag}? \n\nThis cannot be undone.";
+    //    var message = $"Delete load {SelectedLoad.Tag}? \n\nThis cannot be undone.";
 
-        if (SelectedLoads.Count > 1) {
-            message = $"Delete {SelectedLoads.Count} loads? \n\nThis cannot be undone.";
-        }
+    //    if (SelectedLoads.Count > 1) {
+    //        message = $"Delete {SelectedLoads.Count} loads? \n\nThis cannot be undone.";
+    //    }
 
-        if (ConfirmationHelper.Confirm(message)) {
-            if (SelectedLoads.Count == 1) {
-                DeleteLoadAsync(selectedLoadObject);
-            }
-            else {
-                DeleteLoadsAsync();
-            }
-        }
-    }
+    //    if (ConfirmationHelper.Confirm(message)) {
+    //        if (SelectedLoads.Count == 1) {
+    //            DeleteLoadAsync(selectedLoadObject);
+    //        }
+    //        else {
+    //            DeleteLoadsAsync();
+    //        }
+    //    }
+    //}
 
-    private async Task DeleteLoadsAsync()
-    {
-        LoadModel load;
+    //private async Task DeleteLoadsAsync()
+    //{
+    //    LoadModel load;
 
-        var selectedLoads = new ObservableCollection<LoadModel>();
-        foreach (var item in SelectedLoads) {
-            load = (LoadModel)item;
-            selectedLoads.Add(load);
-        }
-        foreach (var load2 in selectedLoads) {
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-                DeleteLoadAsync(load2);
-            }));
-        }
+    //    var selectedLoads = new ObservableCollection<LoadModel>();
+    //    foreach (var item in SelectedLoads) {
+    //        load = (LoadModel)item;
+    //        selectedLoads.Add(load);
+    //    }
+    //    foreach (var load2 in selectedLoads) {
+    //        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+    //            DeleteLoadAsync(load2);
+    //        }));
+    //    }
 
-        foreach (var dteq in ListManager.DteqList) {
-            dteq.CalculateLoading();
-        }
-    }
+    //    foreach (var dteq in ListManager.DteqList) {
+    //        dteq.CalculateLoading();
+    //    }
+    //}
 
-    public async Task DeleteLoadAsync(object selectedLoadObject)
-    {
-        if (selectedLoadObject == null) return;
+    //public async Task DeleteLoadAsync(object selectedLoadObject)
+    //{
+    //    if (selectedLoadObject == null) return;
 
-        try {
+    //    try {
 
-            LoadModel load = (LoadModel)selectedLoadObject;
-                await LoadManager.DeleteLoadAsync(selectedLoadObject, _listManager);
-                //var loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
-            //var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
-            AssignedLoads.Remove(load);
+    //        LoadModel load = (LoadModel)selectedLoadObject;
+    //            await LoadManager.DeleteLoadAsync(selectedLoadObject, _listManager);
+    //            //var loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
+    //        //var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
+    //        AssignedLoads.Remove(load);
 
-            LoadToAddValidator.ResetTag();
+    //        LoadToAddValidator.ResetTag();
 
-        }
-        catch (Exception ex) {
+    //    }
+    //    catch (Exception ex) {
 
-            if (ex.Message.ToLower().Contains("sql")) {
-                ErrorHelper.ShowErrorMessage(ex);
-            }
-            else {
-                ErrorHelper.ShowErrorMessage(ex);
-            }
-            throw;
-        }
-    }
-    private void SaveLoadList()
-    {
-
-        if (_listManager.LoadList.Count != 0 && LoadListLoaded == true) {
-
-            try {
-                foreach (var load in _listManager.LoadList) {
-                    DaManager.prjDb.UpsertRecord<LoadModel>((LoadModel)load, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
-                }
-            }
-            catch (Exception ex) {
-                ErrorHelper.ShowErrorMessage(ex);
-            }
-
-        }
-    }
+    //        if (ex.Message.ToLower().Contains("sql")) {
+    //            ErrorHelper.ShowErrorMessage(ex);
+    //        }
+    //        else {
+    //            ErrorHelper.ShowErrorMessage(ex);
+    //        }
+    //        throw;
+    //    }
+    //}
 
     #endregion
 

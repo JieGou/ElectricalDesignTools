@@ -8,6 +8,7 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
 using EDTLibrary.UndoSystem;
 using Syncfusion.UI.Xaml.CellGrid;
+using Syncfusion.UI.Xaml.TreeView;
 using Syncfusion.Windows.Controls.PivotGrid;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using WpfUI.Helpers;
 using WpfUI.SyncFusion.Renderers;
+using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.Views.Electrical.MjeqSubviews;
 using WpfUI.Windows;
@@ -52,6 +54,10 @@ public partial class _MjeqView : UserControl
         dgdAssignedLoads.CellRenderers.Add("ComboBox", new ComboBoxRenderer());
         
         dgdAssignedLoads.CellRenderers["ComboBox"] = new CustomGridCellComboBoxRenderer();
+
+
+        _ViewStateManager.ElectricalViewUpdate += OnElectricalViewUpdated;
+
     }
 
     private void dgdDteq_KeyDown(object sender, KeyEventArgs e)
@@ -488,6 +494,8 @@ public partial class _MjeqView : UserControl
 
     private void eqView_Unloaded(object sender, RoutedEventArgs e)
     {
+        _ViewStateManager.ElectricalViewUpdate += OnElectricalViewUpdated;
+
     }
     private void eqView_MouseLeave(object sender, MouseEventArgs e)
     {
@@ -525,50 +533,39 @@ public partial class _MjeqView : UserControl
                                                   $"No = Full Load List{Environment.NewLine}" +
                                                   $"Cancel = Add 10 Extra Motors to MCC-01", 
                                                   "Load Test Data", MessageBoxButton.YesNoCancel);
-        var start = DateTime.Now;
 
         DaManager.Importing = true;
 
         switch (result) {
             case MessageBoxResult.Yes:
-                AddTestDteq(listManager, start.ToString());
-                start = DateTime.Now;
-                await Task.Run(() => AddTestLoadsAsync(listManager, TestData.TestLoadList_Short));
+                AddTestDteq(listManager);
+                //await Task.Run(() => AddTestLoadsAsync(listManager, TestData.TestLoadList_Short));
+                await AddTestLoadsAsync(listManager, TestData.TestLoadList_Short);           
                 vm.GetLoadList();
-                //DaManager.Importing = false;
-                //foreach (var item in listManager.IDteqList) {
-                //    item.CalculateLoading();
-                //}
-
-                Debug.Print($"start: {start.ToString()} end: {DateTime.Now.ToString()}");
                 break;
 
             case MessageBoxResult.No:
-                AddTestDteq(listManager, start.ToString());
-                start = DateTime.Now;
-                await Task.Run(() => AddTestLoadsAsync(listManager, TestData.TestLoadList_Full));
-                vm.GetLoadList();
-                //DaManager.Importing = false;
-                //foreach (var item in listManager.IDteqList) {
-                //    item.CalculateLoading();
-                //}
+                AddTestDteq(listManager);
+                await AddTestLoadsAsync(listManager, TestData.TestLoadList_Full);
+            
 
-                Debug.Print($"start: {start.ToString()} end: {DateTime.Now.ToString()}");
                 break;
 
             case MessageBoxResult.Cancel:
-                start = DateTime.Now;
                 await AddExtraLoadsAsync(listManager);
-                Debug.Print($"start: {start.ToString()} end: {DateTime.Now.ToString()}");
                 break;
         }
 
         DaManager.Importing = false;
-        vm.DbSaveAll();
-
-        var elapsedTime = DateTime.Now - start;
-        Debug.Print($"Final start: {start} Final end: {DateTime.Now.ToString()}");
-        Debug.Print($"Importing Total Time: {elapsedTime}");
+        vm.ListManager.SaveAll();
+        vm.ListManager.CreateEquipmentList();
+        foreach (var item in vm.ListManager.EqList) {
+            item.Validate();
+        }
+        foreach (var item in vm.ListManager.CableList) {
+            item.Validate(item);
+        }
+        vm.GetLoadList();
     }
 
     private async Task AddExtraLoadsAsync(ListManager listManager)
@@ -610,13 +607,12 @@ public partial class _MjeqView : UserControl
         }
     }
 
-    private void AddTestDteq(ListManager listManager, string start)
+    private async Task AddTestDteq(ListManager listManager)
     {
         foreach (var dteq in TestData.TestDteqList_Full) {
             dteq.Area = listManager.AreaList[0];
             DteqToAddValidator dteqToAdd = new DteqToAddValidator(listManager, dteq);
-            vm.AddDteq(dteqToAdd);
-            //Debug.Print($"start: {start} end: {DateTime.Now.ToString()}");
+            DteqManager.AddDteq(dteqToAdd, listManager);
         }
 
     }
@@ -628,6 +624,8 @@ public partial class _MjeqView : UserControl
                 load.Area = listManager.AreaList[0];
                 LoadToAddValidator loadToAdd = new LoadToAddValidator(listManager, load);
                 await Task.Run(() => LoadManager.AddLoad(loadToAdd, listManager));
+                //LoadManager.AddLoad(loadToAdd, listManager);
+
             }
         }
         catch (Exception ex) {
@@ -693,7 +691,14 @@ public partial class _MjeqView : UserControl
     }
     #endregion
 
-
+    #region View Update Events
+    public void OnElectricalViewUpdated(object source, EventArgs e)
+    {
+        if (vm != null) {
+            vm.SelectedEquipment = null;
+        }
+    }
+    #endregion
     private void eqView_Loaded(object sender, RoutedEventArgs e)
     {
        

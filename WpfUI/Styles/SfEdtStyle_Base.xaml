@@ -12,7 +12,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <SolidColorBrush x:Key="sfFilterRow_SolidColorBrush" Color="LightGreen" Opacity="0.1"/>
-    <SolidColorBrush x:Key="sfFilterIndicator_UnfilteredBrush" Color="White" Opacity="0.5"/>
+    <SolidColorBrush x:Key="sfFilterIndicator_UnfilteredBrush" Color="White" Opacity="1"/>
 
 
     <sf:SortDirectionToVisibilityConverter x:Key="sortDirectionToVisibilityConverter" />
@@ -195,6 +195,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
+                                    <!--Sort Arrow Ascending-->
                                     <Path Width="8.938"
                                       Height="8.138"
                                       HorizontalAlignment="Center"
@@ -216,7 +217,8 @@
                                             </TransformGroup>
                                         </Path.RenderTransform>
                                     </Path>
-
+                                    
+                                    <!--Sort Arrow Descending-->
                                     <Path Width="8.938"
                                       Height="8.138"
                                       HorizontalAlignment="Center"
@@ -255,7 +257,20 @@
                                                        HorizontalAlignment="Right"
                                                        VerticalAlignment="Center"
                                                        SnapsToDevicePixels="True"
-                                                       Visibility="{TemplateBinding FilterIconVisiblity}" />
+                                                       Visibility="{TemplateBinding FilterIconVisiblity}" >
+                                    <!--<sf:FilterToggleButton.Style>
+                                        <Style TargetType="sf:FilterToggleButton">
+                                            <Style.Triggers>
+
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Cursor" Value="Hand"/>
+                                                </Trigger>
+
+
+                                            </Style.Triggers>
+                                        </Style>
+                                    </sf:FilterToggleButton.Style>-->
+                                </sf:FilterToggleButton>
                             </Grid>
                         </Border>
 
@@ -264,51 +279,13 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <!--Filter Row-->
-    <Style TargetType="sf:FilterRowControl">
-        <Setter Property="Background" Value="{StaticResource RowSelectionBrushOpacity_Teal}" />
-        <Setter Property="BorderBrush" Value="Black"/>
-        <!--<Setter Property="ToolTip" Value="Esc. to clear filter"/>-->
-    </Style>
     
-
-    <!--Filter Row Cell-->
-    <Style TargetType="sf:GridFilterRowCell">
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="ToolTip" Value="Filter - Esc. 2x to clear"/>
-        <Setter Property="ToolTipService.InitialShowDelay" Value="50"/>
-        
-    </Style>
-
-    <!--Cell-->
-    <Style TargetType="sfgrid:GridCell">
-        <Setter Property="BorderBrush" Value="LightGray" />
+  <Style TargetType="sf:FilterToggleButton">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
-                <Setter Property="Foreground" Value="black"/>
-                <Setter Property="FontWeight" Value="Regular"/>
+                <Setter Property="Cursor" Value="Hand"/>
             </Trigger>
         </Style.Triggers>
-    </Style>
-    
-    <!--Row-->
-    <Style TargetType="sfgrid:VirtualizingCellsControl" >
-        <Setter Property="Background" Value="White"/>
-        <!--<Setter Property="Height" Value="{Binding VoltageType.Poles, Converter={StaticResource PoleQtyColumnHeightConverter_double}}"/>-->
-      
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
-                <Setter Property="Foreground" Value="black"/>
-                <Setter Property="FontWeight" Value="Regular"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-   
-    <Style TargetType="sf:FilterToggleButton">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -345,6 +322,11 @@
                                                     Storyboard.TargetName="PathFillColor"
                                                     Storyboard.TargetProperty="Color"
                                                     To="White" />
+                                        <DoubleAnimation Duration="0:0:0:0.3"                                                       
+                                                    Storyboard.TargetName="PathFillColor"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1" />
+
                                     </Storyboard>
                                 </VisualState>
 
@@ -398,7 +380,7 @@
                               Stretch="Fill">
                                 <Path.Fill>
                                     <SolidColorBrush x:Name="PathFillColor" 
-                                                 Color="White" Opacity="0.5"/>
+                                                 Color="LightGray" Opacity="0.5"/>
                                 </Path.Fill>
                             </Path>
 
@@ -408,8 +390,52 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--Filter Row-->
+    <Style TargetType="sf:FilterRowControl">
+        <Setter Property="Background" Value="{StaticResource RowSelectionBrushOpacity_Teal}" />
+        <Setter Property="BorderBrush" Value="Black"/>
+        <!--<Setter Property="ToolTip" Value="Esc. to clear filter"/>-->
+    </Style>
+    
 
+    <!--Filter Row Cell-->
+    <Style TargetType="sf:GridFilterRowCell">
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="ToolTip" Value="Filter - Esc. 2x to clear"/>
+        <Setter Property="ToolTipService.InitialShowDelay" Value="50"/>
+        
+    </Style>
 
+    <!--Cell-->
+    <Style TargetType="sfgrid:GridCell">
+        <Setter Property="BorderBrush" Value="LightGray" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
+                <Setter Property="Foreground" Value="black"/>
+                <Setter Property="FontWeight" Value="Regular"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <!--Row-->
+    <Style TargetType="sfgrid:VirtualizingCellsControl" >
+        <Setter Property="Background" Value="White"/>
+        <!--<Setter Property="Height" Value="{Binding VoltageType.Poles, Converter={StaticResource PoleQtyColumnHeightConverter_double}}"/>-->
+      
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
+                <Setter Property="Foreground" Value="black"/>
+                <Setter Property="FontWeight" Value="Regular"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+   
+  
+
+    
     <!--ComboBox GridCell with drop down arrow-->
     <Style x:Key="comboBoxCellStyle" TargetType="sfgrid:GridCell">
         <Setter Property="Template">

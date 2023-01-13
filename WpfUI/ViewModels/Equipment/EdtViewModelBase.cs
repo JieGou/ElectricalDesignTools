@@ -50,6 +50,9 @@ public abstract class EdtViewModelBase: ViewModelBase
         RemoveDriveCommand = new RelayCommand(RemoveDrive);
         RemoveLcsCommand = new RelayCommand(RemoveLcs);
 
+
+        DeleteLoadCommand = new RelayCommand(DeleteLoad);
+
     }
     private ListManager _listManager;
     public ListManager ListManager
@@ -59,11 +62,15 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
 
 
-    public IList SelectedLoads { get; internal set; }
+    public virtual IPowerConsumer SelectedLoad { get; set; }
+    public virtual IList SelectedLoads { get; internal set; }
 
     public DteqToAddValidator DteqToAddValidator { get; set; }
     public LoadToAddValidator LoadToAddValidator { get; set; }
     public object SelectedEquipment { get; set; }
+
+    public virtual ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
+
 
 
     public Window SelectionWindow { get; set; }
@@ -301,4 +308,77 @@ public abstract class EdtViewModelBase: ViewModelBase
             }
         }));
     }
+
+
+
+    public ICommand DeleteLoadCommand { get; }
+
+    public void DeleteLoad(object selectedLoadObject)
+    {
+
+        if (SelectedLoad == null || SelectedLoad is DistributionEquipment) return;
+
+        var message = $"Delete load {SelectedLoad.Tag}? \n\nThis cannot be undone.";
+
+        if (SelectedLoads.Count > 1) {
+            message = $"Delete {SelectedLoads.Count} loads? \n\nThis cannot be undone.";
+        }
+
+        if (ConfirmationHelper.Confirm(message)) {
+            if (SelectedLoads.Count == 1) {
+                DeleteLoadAsync(selectedLoadObject);
+            }
+            else {
+                DeleteLoadsAsync();
+            }
+        }
+    }
+
+    private async Task DeleteLoadsAsync()
+    {
+        LoadModel load;
+
+        var selectedLoads = new ObservableCollection<LoadModel>();
+        foreach (var item in SelectedLoads) {
+            load = (LoadModel)item;
+            selectedLoads.Add(load);
+        }
+        foreach (var load2 in selectedLoads) {
+            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+                DeleteLoadAsync(load2);
+            }));
+        }
+
+        foreach (var dteq in ListManager.DteqList) {
+            dteq.CalculateLoading();
+        }
+    }
+
+    public async Task DeleteLoadAsync(object selectedLoadObject)
+    {
+        if (selectedLoadObject == null) return;
+
+        try {
+
+            LoadModel load = (LoadModel)selectedLoadObject;
+            await LoadManager.DeleteLoadAsync(selectedLoadObject, _listManager);
+            //var loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
+            //var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
+            AssignedLoads.Remove(load);
+
+            LoadToAddValidator.ResetTag();
+
+        }
+        catch (Exception ex) {
+
+            if (ex.Message.ToLower().Contains("sql")) {
+                ErrorHelper.ShowErrorMessage(ex);
+            }
+            else {
+                ErrorHelper.ShowErrorMessage(ex);
+            }
+            throw;
+        }
+    }
+
 }

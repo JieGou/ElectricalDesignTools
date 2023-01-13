@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EDTLibrary.Managers;
+using EDTLibrary.DistributionControl;
+using WpfUI.Views.Electrical;
 
 namespace WpfUI.ViewModels;
 public class _ViewStateManager
@@ -16,7 +17,10 @@ public class _ViewStateManager
         OnElectricalViewUpdated();
     }
 
-
+    public static void OnLoadDeleted(object source, EventArgs e)
+    {
+        OnElectricalViewUpdated();
+    }
 
     public static event EventHandler ElectricalViewUpdate;
     public static void OnElectricalViewUpdated()

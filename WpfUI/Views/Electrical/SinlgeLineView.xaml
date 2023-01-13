@@ -112,7 +112,6 @@
             <Separator Grid.Column="4" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="10 0"/>
             <!--Dteq-->
             <StackPanel  Grid.Column="5" Orientation="Horizontal">
-                <TextBlock Text="{Binding ListManager.Id}"   Style="{StaticResource StatusBarLabel_TextBlockStyle}" />
 
             </StackPanel>
 
@@ -428,9 +427,12 @@
                                             <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
                                         </MenuItem>
                                         <Separator/>
-                                        <MenuItem Header="Delete" Height="25" />
+                                        <MenuItem Header="Delete" Height="25" 
+                                                  Command="{Binding DeleteLoadCommand}" 
+                                                  CommandParameter="{Binding SelectedLoad}"/>
                                     </ContextMenu>
                                 </ListView.ContextMenu>
+                                
                                 <ListView.Resources>
 
                                     <!--Selected Template-->

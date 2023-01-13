@@ -30,7 +30,9 @@
              mc:Ignorable="d"
              d:Width="1850" d:Height="1000"
              Background="#FFDAEEF1" 
-             PreviewKeyDown="eqView_PreviewKeyDown" Unloaded="eqView_Unloaded" MouseLeave="eqView_MouseLeave" Loaded="eqView_Loaded" 
+             PreviewKeyDown="eqView_PreviewKeyDown" 
+             Loaded="eqView_Loaded" Unloaded="eqView_Unloaded" 
+             MouseLeave="eqView_MouseLeave" 
              >
 
     <!--#FFDAEEF1-->
@@ -168,7 +170,7 @@
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="auto" MinWidth="500"/>
+                    <ColumnDefinition Width="500" MinWidth="550"/>
                     <ColumnDefinition Width="1"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -1058,7 +1060,9 @@
                                     <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
                                 </MenuItem>
                                 <Separator/>
-                                <MenuItem Header="Delete" Height="25" PreviewMouseDown="LoadGridContextMenu_Delete"/>
+                                <MenuItem Header="Delete" Height="25" 
+                                                  Command="{Binding DeleteLoadCommand}" 
+                                                  CommandParameter="{Binding SelectedLoad}"/>
                             </ContextMenu>
                         </sf:SfDataGrid.ContextMenu>
 
@@ -1140,14 +1144,17 @@
                                                Width="75"
                                                AllowEditing="True"
                                                AllowFiltering="True"
-                  ItemsSource="{Binding Path=DataContext.ListManager.IDteqList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               ItemsSource="{Binding Path=DataContext.ListManager.IDteqList, 
+                                                            RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                            AncestorType={x:Type Window}}, Mode=TwoWay, 
+                                                            UpdateSourceTrigger=PropertyChanged}"
                                                DisplayMemberPath="Tag"
                                                UseBindingValue="True"
                                                FilterRowCondition="Contains"
                                                SortMode="Display"
                                                TextAlignment="Left"
                                                ImmediateUpdateColumnFilter="True"
-                                           FilterRowOptionsVisibility="Collapsed"
+                                               FilterRowOptionsVisibility="Collapsed"
                                                CellStyle="{StaticResource comboBoxCellStyle}"
                                                >
                                 <sf:GridComboBoxColumn.CellTemplate>

@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.DataAccess;
+using EDTLibrary.DistributionControl;
 using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
@@ -631,10 +632,23 @@ namespace EDTLibrary.Models.Loads
                     if (_lcsBool == true) {
                         ComponentManager.AddLcs(this, ScenarioManager.ListManager);
                         Lcs.UpdateTypelist(StandAloneStarterBool);
+                        if (ProtectionDevice.Type == StarterTypes.VSD.ToString()
+                             || ProtectionDevice.Type == StarterTypes.VFD.ToString()
+                             || ProtectionDevice.Type == StarterTypes.RVS.ToString()) {
 
+                            CableManager.CreateLcsAnalogCableForProtectionDevice(this, ScenarioManager.ListManager);
+                        }
                     }
                     else if (_lcsBool == false) {
+                        CableManager.DeleteLcsAnalogCable(this.Lcs, ScenarioManager.ListManager);
                         ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
+                        if (ProtectionDevice.Type != StarterTypes.VSD.ToString()
+                             && ProtectionDevice.Type != StarterTypes.VFD.ToString()
+                             && ProtectionDevice.Type != StarterTypes.RVS.ToString()) {
+
+                            CableManager.DeleteLcsAnalogCable(this.Lcs, ScenarioManager.ListManager);
+
+                        }
                     }
                 }
 

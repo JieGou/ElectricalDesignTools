@@ -118,7 +118,8 @@
             <Canvas>
                 <Image Source="../../../ResourceFiles/CableIcons/CableIcon.jpg"
                        Canvas.Top="-25"
-                       UseLayoutRounding="True">
+                       UseLayoutRounding="True"
+                       RenderOptions.EdgeMode="Aliased">
                     <Image.LayoutTransform>
                         <TransformGroup>
                             <RotateTransform Angle="135" />

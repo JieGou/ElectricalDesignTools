@@ -136,13 +136,11 @@ public class LocalControlStationModel : ILocalControlStation
     public ObservableCollection<LcsTypeModel> TypeList { get; set; } = new ObservableCollection<LcsTypeModel>();
     public void UpdateTypelist(bool driveBool)
     {
-        var templist = driveBool ? TypeManager.LcsTypes.Where(lt => lt.AnalogConductorQty > 1).ToList() : TypeManager.LcsTypes.Where(lt => lt.AnalogConductorQty ==0 || lt.AnalogConductorQty == null).ToList();
+        var templist = driveBool ? 
+            TypeManager.LcsTypes.Where(lt => lt.AnalogConductorQty > 1).ToList() : 
+            TypeManager.LcsTypes.Where(lt => lt.AnalogConductorQty ==0 || lt.AnalogConductorQty == null).ToList();
         TypeList = new ObservableCollection<LcsTypeModel>(templist);
 
-        //TypeList.Clear();
-        //foreach (var item in templist) {
-        //    TypeList.Add(item);
-        //}
     }
     public IEquipment Owner { get; set; }
 

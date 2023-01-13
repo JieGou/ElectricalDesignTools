@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.A_Helpers;
+using EDTLibrary.DistributionControl;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Mappers;
@@ -65,9 +66,12 @@ namespace WpfUI.ViewModels
 
         public MainViewModel(StartupService startupService, TypeManager typeManager, EdtSettings edtSettings, string type = "")
         {
-            DistributionManager.FedFromUpdate += _ViewStateManager.OnFedFromUpdated;
+            DistributionManager.FedFromUpdated += _ViewStateManager.OnFedFromUpdated;
+            LoadManager.LoadDeleted += _ViewStateManager.OnLoadDeleted;
 
-            ValidateLicense();
+            if (type=="NewInstance") {
+                ValidateLicense(); 
+            }
             EdtSettings.ProjectNameUpdated += OnProjectNameUpdated;
 
             _listManager = startupService.ListManager;
@@ -114,7 +118,10 @@ namespace WpfUI.ViewModels
             //}
         }
 
-
+        private void LoadManager_LoadDeleted(object? sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
         internal void InitializeViewModels()
         {
@@ -434,13 +441,13 @@ namespace WpfUI.ViewModels
 
         private static void ValidateLicense()
         {
-            string licenseFilePath = @"C:/temp/License.lic";
+            string licenseFilePath = $"{Environment.CurrentDirectory}//License.lic";
             FileInfo licenseFile = new FileInfo(licenseFilePath);
 
-            string privateKeyFilePath = @"C:/temp/PrivateKey.text";
+            string privateKeyFilePath = $"{Environment.CurrentDirectory}//PrivateKey.text";
             FileInfo privateKeyFile = new FileInfo(privateKeyFilePath);
 
-            string publicKeyFilePath = @"C:/temp/PublicKey.text";
+            string publicKeyFilePath = $"{Environment.CurrentDirectory}//PublicKey.text";
             FileInfo publicKeyFile = new FileInfo(publicKeyFilePath);
 
 
@@ -479,7 +486,7 @@ namespace WpfUI.ViewModels
                     File.WriteAllText(publicKeyFilePath, publicKey.ToString(), Encoding.UTF8);
                 }
 
-                if (licenseFile.Exists == false) {
+                if (licenseFile.Exists == false && AppSettings.Default.LicenseFileCreated == false) {
                     string ComputerGuid = ComputerInfo.GetComputerGuid();
 
 
@@ -490,9 +497,8 @@ namespace WpfUI.ViewModels
                                             .WithMaximumUtilization(30)
                                             .WithProductFeatures(new Dictionary<string, string>
                                                                           {
-                                                                          {"Sales Module", "yes"},
-                                                                          {"Purchase Module", "yes"},
-                                                                          {"Maximum Transactions", "10000"}
+                                                                          {"All Modules", "yes"},
+                                                                          {"Duration", "30 Days"},
                                                                           })
                                             .WithAdditionalAttributes(new Dictionary<string, string> {
                                                                           {"ComputerName", Environment.MachineName.ToString()},
@@ -502,8 +508,16 @@ namespace WpfUI.ViewModels
                                             .CreateAndSignWithPrivateKey(File.ReadAllText(privateKeyFilePath), passPhrase);
                     licenseFile.Directory.Create();
                     File.WriteAllText(licenseFilePath, license.ToString(), Encoding.UTF8);
+                    AppSettings.Default.LicenseFileCreated = true;
+                    AppSettings.Default.Save();
                 }
+                else {
+#if !DEBUG
+                    System.Windows.Forms.MessageBox.Show("The Encryption Key and/or License files are corrupt or have been modified. If the files have not been modified and you still have a valid registration, contact DCS Inc. to resolve.", "EDT - License Validation Failure");
+                    Application.Current.Shutdown(); 
+#endif
 
+                }
                 license = License.Load(File.OpenText(licenseFilePath));
                 var validationFailures = license.Validate()
                                                 .ExpirationDate()
@@ -513,7 +527,7 @@ namespace WpfUI.ViewModels
                                                 .And()
                                                 .AssertThat(lic => lic.AdditionalAttributes.Get("ComputerName") == Environment.MachineName.ToString(),
                                                                                                     new GeneralValidationFailure() {
-                                                                                                        Message = "The license file is not registered for this machine. This can be caused If you changed your computer name or re-installed Windows.",
+                                                                                                        Message = "The license file is not registered for this machine. This can be caused If you changed your computer name or re-install Windows.",
                                                                                                         HowToResolve = "Contact administrator"
                                                                                                     })
                                                 .And()
@@ -524,10 +538,19 @@ namespace WpfUI.ViewModels
                                                                                                     })
                                                 .AssertValidLicense();
 #if !DEBUG
+                var shutdown = false;
                 foreach (var failure in validationFailures) {
-                    if (failure.GetType().Name.Contains("ValidationFailure")) {
-                        System.Windows.Forms.MessageBox.Show(failure.Message + " \n\n" + "Pleaes contact DCS.Inc to resolve.", "EDT - License Validation Failure");
+                    if (failure.Message.Contains("error")) {
+                        System.Windows.Forms.MessageBox.Show(failure.Message + " \n\n" + "The Encryption Key and/or License files are corrupt or have been modified. If the files have not been modified and you still have a valid registration, contact DCS Inc. to resolve.", "EDT - License Validation Failure");
                     }
+                    if (failure.Message.Contains("expired")) {
+                        System.Windows.Forms.MessageBox.Show(failure.Message + " \n\n" + "Contact DCS Inc. to renew or extend product registration and get a new license", "EDT - License Validation Failure");
+                    }
+                    shutdown = true;
+
+                }
+                if (shutdown) {
+                    Application.Current.Shutdown();
                 }
 #endif
             }
