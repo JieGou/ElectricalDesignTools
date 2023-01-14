@@ -84,11 +84,11 @@ public class CableModel : ICable
         
         //OnPropertyUpdated();
         if (Load != null && Load.FedFrom != null) {
-            Load.FedFrom.CheckValidation();
+            Load.FedFrom.Validate();
 
         }
         if (Load != null && Load is IDteq) {
-            (Load as IDteq).CheckValidation();
+            (Load as IDteq).Validate();
 
         }
         return;
@@ -1117,12 +1117,13 @@ public class CableModel : ICable
         if (DaManager.GettingRecords) return;
         if (DaManager.Importing) return;
         if (_isAutoSizing) return;
+        if (CableManager.IsAutosizing) return;
 
         var tag = Tag;
         var type = Type;
-        if (PropertyUpdated != null) {
-            PropertyUpdated(this, EventArgs.Empty);
-        }
+        //if (PropertyUpdated != null) {
+        //    PropertyUpdated(this, EventArgs.Empty);
+        //}
         await Task.Run(() => {
             if (PropertyUpdated != null) {
                 PropertyUpdated(this, EventArgs.Empty);

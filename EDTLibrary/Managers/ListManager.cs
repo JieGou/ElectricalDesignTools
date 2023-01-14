@@ -95,6 +95,9 @@ namespace EDTLibrary.Managers
                 InitializeDpns();
                 GetRaceways();
                 GetRacewayRouting();
+                DaManager.GettingRecords = false;
+
+                ValidateAll();
 
             }
             catch (Exception ex) {
@@ -104,12 +107,21 @@ namespace EDTLibrary.Managers
                 }
                 throw;
             }
+            finally { DaManager.GettingRecords = false;}
 
-            DaManager.GettingRecords = false;
         }
 
-      
-     
+        private void ValidateAll()
+        {
+            foreach (var cable in CableList) {
+                cable.Validate(cable);
+            }
+            CreateEquipmentList();
+            foreach (var eq in EqList) {
+                eq.Validate();
+
+            }
+        }
 
         private void InitializeDpns()
         {

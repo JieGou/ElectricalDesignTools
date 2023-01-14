@@ -57,7 +57,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         private bool _isValid;
 
-        public bool Validate()
+        public bool CheckValidationOfAllChildren()
         {
             if (DaManager.GettingRecords) return false;
             var isValid = true;
@@ -73,16 +73,11 @@ namespace EDTLibrary.Models.DistributionEquipment
             isValid = ValidationManager.ValidateLoadList(ref isValid, AssignedLoads);
 
             return isValid;
-
-            IsValid = isValid;
-            OnPropertyUpdated();
-
-            return isValid;
         }
 
-        public void CheckValidation()
+        public bool Validate()
         {
-            if (DaManager.GettingRecords) return;
+            if (DaManager.GettingRecords) return true;
 
             var isValid = true;
 
@@ -106,6 +101,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             IsValid = isValid;
             OnPropertyUpdated();
+            return isValid;
         }
 
         private bool CheckValidationOfAllLoadsComponentsAndCAbles(bool isValid)
@@ -629,7 +625,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                     ComponentManager.AddLcs(this, ScenarioManager.ListManager);
                 }
                 if (_lcsBool == false) {
-                    ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
+                    ComponentManager.DeleteLcs(this, ScenarioManager.ListManager);
                 }
 
             }

@@ -241,7 +241,7 @@ internal class SingleLineViewModel: EdtViewModelBase
 
                 //used for fedfrom Validation
                 _selectedDteq = value;
-                _selectedDteq.CheckValidation();
+                _selectedDteq.Validate();
                 SelectedEquipment = _selectedDteq;
                 SelectedLoadEquipment = _selectedDteq;
                 SelectedLoadCable = _selectedDteq;

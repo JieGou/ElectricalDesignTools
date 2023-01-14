@@ -49,11 +49,11 @@ public abstract class ComponentModelBase : IComponentEdt
 
         if (Owner is IDteq) {
             var dteq = (IDteq)Owner;
-            dteq.CheckValidation();
+            dteq.Validate();
         }
         if(Owner is ILoad) {
             var load = (ILoad)Owner;
-            load.FedFrom.CheckValidation();
+            load.FedFrom.Validate();
         }
         OnPropertyUpdated();
 

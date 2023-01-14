@@ -1,20 +1,22 @@
 
 - Bulk FedFrom updates Setter vs Method
 
-	- LCS cable to Starter for DPN/CDP/SPL
-	- ProtectionDeviceModel.CreatePdTypeList(IPowerConsumer) PdTypeList creation
-	- Move Component Up/Down into ComponentModelBase
+	- LCS Analog cable Tag when VFD is in MCC
 	
 MAJOR Bugs
 	- loads and cables aren't deleting properly
+	- remove DP load tagging GUID 
+
 
 MINOR Bugs
+	- required amps tooltip does not update while CableSizingView_Narrow is in view
 	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bogs down the app
 	- new Dteq not added to Dteq List
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
 	- added DTEQ aren't in the right click menu SetFedFrom list
 	- startup service to handle reloading project
+	- ProtectionDeviceModel.TypeList comboBox values disappear on PowerConsumer editor when Type is changed
 
 		
 Library 
@@ -32,14 +34,13 @@ Double/Decimal TextBoxes and values
 	- equipment size
 	- cable lengths
 
-Settings
-	- transformer grounding
 
 LoadModel 
 	- Type change Voltage-Type and calculation updates
 	- load data IsValid
 
 Transformer Grounding
+	- Settings
 	- NGR component
 	- NGR Monitor
 	- cables
@@ -52,7 +53,6 @@ Calculations
 
 Tag Settings
 	- lcs cable TypeModel vs Type
-	- remove DP load tagging GUID 
 	- basic default auto-tagging system and logic
 		- add autotagging to DTEQ
 		- finish cable settings
@@ -65,7 +65,6 @@ Application Settings
 		- Component Sizing
 		- PD
 		- Cable
-
 
 Priorities
 	- Distribution Panel
@@ -165,6 +164,8 @@ Autocad
 ***************************
 ***    AFTER RELEASE	***
 ***************************
+
+- Move Component Up/Down into ComponentModelBase
 
 Refactorings
 	- proper IPowerCableUser members

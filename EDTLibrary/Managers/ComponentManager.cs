@@ -154,7 +154,7 @@ public class ComponentManager
         }
     }
 
-    public static void RemoveLcs(IComponentUser componentUser, ListManager listManager)
+    public static void DeleteLcs(IComponentUser componentUser, ListManager listManager)
     {
         if (componentUser.Lcs == null) return;
 
@@ -164,7 +164,7 @@ public class ComponentManager
             var componentToRemove = listManager.LcsList.FirstOrDefault(c => c.Id == componentId);
             listManager.LcsList.Remove(componentToRemove);
             DaManager.DeleteLcs((LocalControlStationModel)load.Lcs);
-            CableManager.DeleteLcslCables(componentUser, componentToRemove, listManager);
+            CableManager.DeleteLcsCables(componentUser, componentToRemove, listManager);
             load.Lcs.PropertyUpdated -= DaManager.OnLcsPropertyUpdated;
             load.Lcs = null;
             load.AreaChanged -= componentToRemove.MatchOwnerArea;

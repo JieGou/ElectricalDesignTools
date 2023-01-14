@@ -86,7 +86,7 @@ namespace EDTLibrary.Models.Loads
 
 
             IsValid = isValid;
-            FedFrom.CheckValidation();
+            FedFrom.Validate();
             OnPropertyUpdated();
 
             return isValid;
@@ -641,7 +641,7 @@ namespace EDTLibrary.Models.Loads
                     }
                     else if (_lcsBool == false) {
                         CableManager.DeleteLcsAnalogCable(this.Lcs, ScenarioManager.ListManager);
-                        ComponentManager.RemoveLcs(this, ScenarioManager.ListManager);
+                        ComponentManager.DeleteLcs(this, ScenarioManager.ListManager);
                         if (ProtectionDevice.Type != StarterTypes.VSD.ToString()
                              && ProtectionDevice.Type != StarterTypes.VFD.ToString()
                              && ProtectionDevice.Type != StarterTypes.RVS.ToString()) {

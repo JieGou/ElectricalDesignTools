@@ -24,6 +24,7 @@ namespace EDTLibrary.Managers;
 public class CableManager
 {
     public static ICableSizer CableSizer { get; set; }
+    public static bool IsAutosizing { get; set; }
 
     //reference for quick navigation
     private CecCableSizer cecCableSizer;
@@ -539,7 +540,7 @@ public class CableManager
 
     }
    
-    internal static void DeleteLcslCables(IComponentUser componentUser, ILocalControlStation lcsToRemove, ListManager listManager)
+    internal static void DeleteLcsCables(IComponentUser componentUser, ILocalControlStation lcsToRemove, ListManager listManager)
     {
         DeleteLcsControlCable(lcsToRemove, listManager);
         DeleteLcsAnalogCable(lcsToRemove, listManager);

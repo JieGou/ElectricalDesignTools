@@ -172,6 +172,7 @@ public class LoadManager
 
             LoadModel loadToDelete = (LoadModel)loadToDeleteObject;
             ComponentManager.DeleteComponents(loadToDelete, listManager);
+            ComponentManager.DeleteLcs(loadToDelete, listManager);
             ProtectionDeviceManager.DeleteProtectionDevices(loadToDelete, listManager);
             IDteq dteqToRecalculate = loadToDelete.FedFrom;
             int loadId = loadToDelete.Id;

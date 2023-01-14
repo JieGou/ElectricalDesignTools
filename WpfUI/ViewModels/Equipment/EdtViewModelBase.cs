@@ -120,10 +120,16 @@ public abstract class EdtViewModelBase: ViewModelBase
         try {
             await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 foreach (var item in _listManager.IDteqList) {
-                item.SizePowerCable();
+                    CableManager.IsAutosizing = true;
+                    item.SizePowerCable();
+                    CableManager.IsAutosizing = false;
+                    item.PowerCable.OnPropertyUpdated();
                 }
                 foreach (var item in _listManager.LoadList) {
+                    CableManager.IsAutosizing = true;
                     item.SizePowerCable();
+                    CableManager.IsAutosizing = false;
+                    item.PowerCable.OnPropertyUpdated();
                 }
             }));
         }

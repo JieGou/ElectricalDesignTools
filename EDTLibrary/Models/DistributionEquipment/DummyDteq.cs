@@ -167,8 +167,9 @@ public class DummyDteq : IDteq
         return true;
     }
 
-    public void CheckValidation()
+    public bool Validate()
     {
+        return true;
     }
 
     public void Create()
@@ -238,10 +239,6 @@ public class DummyDteq : IDteq
         throw new NotImplementedException();
     }
 
-    public bool Validate()
-    {
-        throw new NotImplementedException();
-    }
 
     public void ValidateCableSizes()
     {
