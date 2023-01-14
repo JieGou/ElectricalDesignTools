@@ -45,7 +45,7 @@ public partial class MainWindow : MetroWindow
         EdtNotificationService.AlertSent += ErrorHelper.ShowAlert;
         EdtNotificationService.NotificationSent += PopupService.ShowNotification;    
         EdtNotificationService.NotificationClosed += PopupService.CloseNotification;
-
+        PopupService.MainWindow = this;
 
         btnHome.IsChecked = true;
         string[] args = Environment.GetCommandLineArgs();

@@ -811,6 +811,9 @@ public class CableModel : ICable
             if (comp.PowerCable != null) {
                 comp.PowerCable.AutoSize();
             }
+            else {
+                CableManager.AddAndUpdateLoadPowerComponentCablesAsync((LoadModel)comp.Owner, ScenarioManager.ListManager);
+            }
         }
         var load = (IPowerConsumer)Load;
         load.PowerCable.AutoSize();

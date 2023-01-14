@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 using Windows.UI.Notifications;
 using WpfUI.PopupWindows;
@@ -13,6 +14,7 @@ namespace WpfUI.Services;
 public class PopupService
 {
     public static NotificationPopup NotificationPopup { get; set; }
+    public static MainWindow MainWindow { get; set; }
 
     public static void ShowNotification(object sender, EdtNotificationEventArgs args)
     {
@@ -24,6 +26,7 @@ public class PopupService
         Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
             if (NotificationPopup == null) {
                 NotificationPopup = new NotificationPopup();
+                NotificationPopup.Owner = MainWindow;
             }
             NotificationPopup.DataContext = new Notification(notification);
             NotificationPopup.Show();

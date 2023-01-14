@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -18,6 +19,8 @@ namespace WpfUI.PopupWindows;
 /// </summary>
 public partial class NotificationPopup : Window
 {
+    public static MainWindow MainWindow { get; set; }
+
     public NotificationPopup()
     {
         InitializeComponent();
@@ -25,17 +28,25 @@ public partial class NotificationPopup : Window
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
-        this.Left = desktopWorkingArea.Right - this.Width - 10 ;
-
-        //Bottom
-        this.Top = desktopWorkingArea.Bottom - this.Height - 10;
-
-        //Top
-        //this.Top = desktopWorkingArea.Top + 50;
+        SetWindowScreen(this, GetWindowScreen(App.Current.MainWindow));
 
     }
+    public void SetWindowScreen(Window window, Screen screen)
+    {
+        if (screen != null) {
+            if (!window.IsLoaded) {
+                window.WindowStartupLocation = WindowStartupLocation.Manual;
+            }
 
+            var workingArea = screen.WorkingArea;
+            window.Left = workingArea.Left + workingArea.Width - this.Width - 10;
+            window.Top = workingArea.Top + workingArea.Height - this.Height - 10;
+        }
+    }
+    public Screen GetWindowScreen(Window window)
+    {
+        return Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(window).Handle);
+    }
     private void Button_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         this.Close();

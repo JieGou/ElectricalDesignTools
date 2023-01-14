@@ -220,10 +220,10 @@ public class SingleLineDrawer
 
                 //Cable 1
                 case "CABLE_TAG":
-                    att.TextString = $"{load.PowerCable.Tag} A";
+                    att.TextString = $"{load.PowerCable.Tag}";
                     break;
                 case "CABLE_SIZE":
-                    att.TextString = $"{load.PowerCable.SizeTag} A";
+                    att.TextString = $"{load.PowerCable.SizeTag}";
                     break;
 
                 //Breaker

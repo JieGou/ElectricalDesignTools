@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.Managers;
+using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
@@ -79,23 +80,30 @@ public partial class SinlgeLineView : UserControl
         slVm.ClearSelections();
         //ClearSelections(slVm.ListManager);
 
-
+        
 
         if (slVm.SelectedLoadCable.GetType() == typeof(LoadModel)) {
-
             var load = (LoadModel)slVm.SelectedLoadCable;
-            load.PowerCable.IsSelected = true;
+            if (load.PowerCable != null) {
+                load.PowerCable.IsSelected = true; 
+            }
         }
         else if (slVm.SelectedLoadCable.GetType() == typeof(ComponentModel)) {
 
             var comp = (ComponentModel)slVm.SelectedLoadCable;
-            comp.PowerCable.IsSelected = true;
+            if (comp.PowerCable != null) {
+                comp.PowerCable.IsSelected = true;
+
+            }
         }
 
         else if (slVm.SelectedLoadCable is DistributionEquipment) {
 
             var dteq = DteqFactory.Recast(slVm.SelectedLoadCable);
-            dteq.PowerCable.IsSelected = true;
+            if (dteq.PowerCable != null) {
+                dteq.PowerCable.IsSelected = true;
+
+            }
         }
 
     }

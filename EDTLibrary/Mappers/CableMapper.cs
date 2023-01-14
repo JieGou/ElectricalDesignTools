@@ -16,28 +16,34 @@ public class CableMapper
 {
     public CableMapper(CableModel cable)
     {
-        Id = cable.Id;
-        Tag = cable.Tag;
-        Category = cable.Category;
-        Source = Tag.Contains(GlobalConfig.UtilityTag) ? GlobalConfig.UtilityTag : cable.SourceModel.Tag;
-        Destination = cable.DestinationModel.Tag;
-        Type = cable.TypeModel.Type;
-        UsageType = cable.UsageType;
-        QtyParallel = cable.QtyParallel;
-        ConductorQty = cable.ConductorQty;
-        Size = "'" + cable.Size; //  the ' is for excel formatting
-        VoltageClass = cable.VoltageRating;
-        Length = cable.Length;
-        Spacing = cable.Spacing;
-        Derating = cable.Derating;
-        RequiredAmps = cable.RequiredAmps;
-        DeratedAmps = cable.DeratedAmps;
-        BaseAmps = cable.BaseAmps;
-        AmpacityTable = cable.AmpacityTable;
-        InstallationType = cable.InstallationType;
-        IsOutdoor = cable.IsOutdoor;
-        InstallationDiagram = cable.InstallationDiagram;
-        OwnerType = cable.OwnerType;
+        try {
+            Id = cable.Id;
+            Tag = cable.Tag;
+            Category = cable.Category;
+            Source = Tag.Contains(GlobalConfig.UtilityTag) ? GlobalConfig.UtilityTag : cable.SourceModel.Tag;
+            Destination = cable.DestinationModel.Tag;
+            Type = cable.TypeModel.Type;
+            UsageType = cable.UsageType;
+            QtyParallel = cable.QtyParallel;
+            ConductorQty = cable.ConductorQty;
+            Size = "'" + cable.Size; //  the ' is for excel formatting
+            VoltageClass = cable.VoltageRating;
+            Length = cable.Length;
+            Spacing = cable.Spacing;
+            Derating = cable.Derating;
+            RequiredAmps = cable.RequiredAmps;
+            DeratedAmps = cable.DeratedAmps;
+            BaseAmps = cable.BaseAmps;
+            AmpacityTable = cable.AmpacityTable;
+            InstallationType = cable.InstallationType;
+            IsOutdoor = cable.IsOutdoor;
+            InstallationDiagram = cable.InstallationDiagram;
+            OwnerType = cable.OwnerType;
+        }
+        catch (Exception) {
+
+            //throw;
+        }
     }
 
     public int Id { get; set; }

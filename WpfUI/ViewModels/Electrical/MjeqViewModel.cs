@@ -252,7 +252,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         }
     }
 
-    private ListCollectionView _dteqCollectionView;
     public ListCollectionView DteqCollectionView
     {
         get
@@ -267,32 +266,35 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             _dteqCollectionView = DteqCollectionView;
         }
     }
+    private ListCollectionView _dteqCollectionView;
 
 
     //Equipment
-    private IEquipment _selectedLoadEquipment;
     public IEquipment SelectedLoadEquipment
     {
         get { return _selectedLoadEquipment; }
         set 
         { 
             _selectedLoadEquipment = value;
-            SelectedEquipment = _selectedLoadEquipment;
-
-            if (value == null) return;
-
             if (_selectedLoadEquipment is IComponentEdt) {
                 // commented out because xaml doesn't know how to show the graphic when SelectedEquipment is a component
                 //SelectedEquipment = _selectedLoadEquipment;
 
             }
-          
+            else {
+                SelectedEquipment = _selectedLoadEquipment;
+
+            }
+
+            if (value == null) return;
+
+            
         }
     }
+    private IEquipment _selectedLoadEquipment;
 
     public bool IsSelectedLoadCable { get; set; }
 
-    private IEquipment _selectedLoadCable;
     public IEquipment SelectedLoadCable
     {
         get { return _selectedLoadCable; }
@@ -319,11 +321,11 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             }
         }
     }
+    private IEquipment _selectedLoadCable;
 
 
 
     // DTEQ
-    private IDteq _selectedDteq;
     public IDteq SelectedDteq
     {
         get { return _selectedDteq; }
@@ -369,6 +371,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             }
         }
     }
+    private IDteq _selectedDteq;
 
     private async Task UpdateAssignedLoadsAsync()
     {
@@ -433,7 +436,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
     public IPowerConsumer SelectedLoadObject { get; set; }
     // LOADS
-    private IPowerConsumer _selectedLoad;
     public IPowerConsumer SelectedLoad
     {
         get { return _selectedLoad; }
@@ -458,14 +460,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
         }
     }
-
-    private int _selectedLoadTab;
-    public int SelectedLoadTab
-    {
-        get { return _selectedLoadTab; }
-        set { _selectedLoadTab = value; }
-    }
-
+    private IPowerConsumer _selectedLoad;
 
     private async Task CopySelectedLoad()
     {
@@ -503,12 +498,12 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
 
     //Components
-    private ComponentModelBase _selectedComponent;
     public ComponentModelBase SelectedComponent
     {
         get { return _selectedComponent; }
         set { _selectedComponent = value; }
     }
+    private ComponentModelBase _selectedComponent;
 
 
     //Cables
