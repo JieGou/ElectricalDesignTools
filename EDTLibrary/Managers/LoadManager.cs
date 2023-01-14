@@ -65,6 +65,7 @@ public class LoadManager
         LoadModel newLoad = new LoadModel();
         LoadFactory _loadFactory = new LoadFactory(listManager);
 
+        //create
         if (loadToAddObject is LoadToAddValidator) {
             var loadToAddValidator = (LoadToAddValidator)loadToAddObject;
             var errors = loadToAddValidator._errorDict;
@@ -86,9 +87,11 @@ public class LoadManager
             newLoad = _loadFactory.CreateLoad(loadToAddValidator); //150ms
 
         }
+
+        //copy
         else if(loadToAddObject is ILoad){
             var loadToAdd = (ILoad)loadToAddObject;
-            newLoad = _loadFactory.CreateLoad(
+            newLoad = _loadFactory.CreateLoad_CopyFromExisting(
                 loadToAdd, 
                 TagManager.AssignEqTag(new DummyLoad { Type = loadToAdd.Type }, listManager));
         }

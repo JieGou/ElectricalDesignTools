@@ -44,6 +44,7 @@ public class CableModel : ICable
     {
         Load = load;
         AssignOwner(load);
+        UsageType = CableUsageTypes.Power.ToString();
         SetSourceAndDestinationTags(load);
         DaManager.GettingRecords = true;
 
@@ -53,7 +54,6 @@ public class CableModel : ICable
 
         DaManager.GettingRecords = false;
 
-        UsageType = CableUsageTypes.Power.ToString();
         QtyParallel = 1;
         Spacing = 100;
         Length = CableManager.GetLength(load.Category);
@@ -287,7 +287,11 @@ public class CableModel : ICable
     public ObservableCollection<RacewayRouteSegment> RacewaySegmentList { get; set; } = new ObservableCollection<RacewayRouteSegment>();
     public List<string> SizeList { get; set; } = new List<string>();
 
-    public string UsageType { get; set; }
+    public string UsageType 
+    { 
+        get; 
+        set; 
+    }
     public int ConductorQty { get; set; }
     public double VoltageRating { get; set; }
     public double InsulationPercentage { get; set; }

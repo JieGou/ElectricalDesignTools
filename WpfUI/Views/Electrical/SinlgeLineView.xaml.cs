@@ -447,5 +447,15 @@ public partial class SinlgeLineView : UserControl
         _ViewStateManager.ElectricalViewUpdate -= OnElectricalViewUpdated;
 
     }
+
+    private void listViewLoads_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
+
+            if (e.Key == Key.V) {
+                vm.AddLoad(vm.SelectedLoad);
+            }
+        }
+    }
 }
 

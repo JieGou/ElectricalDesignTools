@@ -82,7 +82,22 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
 
 
+    public void AddLoad(object loadToAddObject)
+    {
+        AddLoadAsync(loadToAddObject);
+    }
 
+    public async Task AddLoadAsync(object loadToAddObject)
+    {
+        try {
+            LoadModel newLoad = await LoadManager.AddLoad(loadToAddObject, _listManager);
+            if (newLoad != null) AssignedLoads.Add(newLoad);
+            LoadToAddValidator.ResetTag();
+        }
+        catch (Exception ex) {
+            ErrorHelper.ShowErrorMessage(ex);
+        }
+    }
 
     public ICommand CalculateAllCommand { get; }
     public void CalculateAll()
@@ -139,6 +154,8 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
 
 
+
+    #region oad List Context Menu 
     public ICommand SetAreaCommand { get; }
     public void SetArea()
     {
@@ -387,4 +404,5 @@ public abstract class EdtViewModelBase: ViewModelBase
         }
     }
 
+    #endregion
 }

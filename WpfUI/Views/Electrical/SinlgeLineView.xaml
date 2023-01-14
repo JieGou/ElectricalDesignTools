@@ -402,7 +402,7 @@
                                   MouseDown="Grid_MouseDown" 
                                   MouseMove="Grid_MouseMove" 
                                   MouseUp="Grid_MouseUp" 
-                                  LayoutUpdated="listViewLoads_LayoutUpdated"
+                                  LayoutUpdated="listViewLoads_LayoutUpdated" PreviewKeyDown="listViewLoads_PreviewKeyDown"
                                       
                                   >
 

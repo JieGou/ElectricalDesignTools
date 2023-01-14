@@ -73,7 +73,7 @@ namespace EDTLibrary.Models.Loads
             return newLoad;
         }
 
-        public LoadModel CreateLoad(ILoad loadToCopy, string newTag)
+        public LoadModel CreateLoad_CopyFromExisting(ILoad loadToCopy, string newTag)
         {
             LoadModel newLoad = new LoadModel();
             newLoad.CalculationFlags.CanUpdateFedFrom = false;
@@ -122,6 +122,9 @@ namespace EDTLibrary.Models.Loads
             newLoad.PanelSide = loadToCopy.PanelSide;
             newLoad.CircuitNumber = loadToCopy.CircuitNumber;
             newLoad.CalculationFlags = new CalculationFlags();
+            newLoad.DisconnectBool = loadToCopy.DisconnectBool;
+            newLoad.StandAloneStarterBool = loadToCopy.StandAloneStarterBool;
+            newLoad.LcsBool = loadToCopy.LcsBool;
             return newLoad;
         }
     }
