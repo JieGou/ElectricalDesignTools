@@ -80,7 +80,6 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (DaManager.GettingRecords) return true;
 
             var isValid = true;
-            //adf
             //Dteq
             if (PowerCable != null) {
                 isValid = PowerCable.IsValid == false ? false : isValid;
