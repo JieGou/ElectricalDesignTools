@@ -5,7 +5,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:WpfUI.Windows"
              mc:Ignorable="d"
+             xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:behaviors="clr-namespace:WpfUI.Behaviors"
         
+             
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              
              xmlns:converters="clr-namespace:WpfUI.Converters"
@@ -203,9 +206,17 @@
                                    Visibility="Visible"
                                    Indentation="10"
                                    AutoExpandMode="AllNodes"
+                                       
+                                       AllowDrop="True"
+                                       
                                    SelectionChanged="EqList_SelectionChanged"
-                                   PreviewMouseLeftButtonDown="sfTreeView_PreviewMouseLeftButtonDown"
+                                   PreviewMouseLeftButtonDown="sfTreeView_PreviewMouseLeftButtonDown" PreviewDrop="sfTreeView_PreviewDrop"
                                    >
+                    <interactivity:Interaction.Triggers>
+                        <interactivity:EventTrigger EventName="Loaded">
+                            <behaviors:DteqTreeViewDagDropBehavior TargetObject="{Binding ElementName=listViewLoads}"/>
+                        </interactivity:EventTrigger>
+                    </interactivity:Interaction.Triggers>
                     <syncfusion:SfTreeView.Resources>
 
                     </syncfusion:SfTreeView.Resources>

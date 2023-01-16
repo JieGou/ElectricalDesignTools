@@ -442,13 +442,14 @@ namespace EDTLibrary.Models.Loads
                 IDteq oldValue = _fedFrom;
                 _fedFrom = value;
 
+                if (DistributionManager.IsUpdatingFedFrom_List) return;
+
                 UndoManager.CanAdd = false;
                 UndoManager.Lock(this, nameof(FedFrom));
 
                 if (DaManager.GettingRecords == false) {
 
                     DistributionManager.UpdateFedFrom_Single(this, _fedFrom, oldValue);
-
 
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     CableManager.UpdateLcsCableTags(this);

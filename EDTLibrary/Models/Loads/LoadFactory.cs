@@ -122,9 +122,10 @@ namespace EDTLibrary.Models.Loads
             newLoad.PanelSide = loadToCopy.PanelSide;
             newLoad.CircuitNumber = loadToCopy.CircuitNumber;
             newLoad.CalculationFlags = new CalculationFlags();
+
             newLoad.DisconnectBool = loadToCopy.DisconnectBool;
-            newLoad.StandAloneStarterBool = loadToCopy.StandAloneStarterBool;
-            newLoad.LcsBool = loadToCopy.LcsBool;
+            //newLoad.StandAloneStarterBool = loadToCopy.StandAloneStarterBool;
+            //newLoad.LcsBool = loadToCopy.LcsBool;
             return newLoad;
         }
     }

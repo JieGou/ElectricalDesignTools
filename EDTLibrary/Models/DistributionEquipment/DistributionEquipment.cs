@@ -390,6 +390,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                     if (DaManager.GettingRecords == true) {
                         // Assigned loads add, and events are subscribed to inside UpdateFedFrom;
                         _fedFrom = value;
+                        if (DistributionManager.IsUpdatingFedFrom_List) return;
+
                         DistributionManager.UpdateFedFrom_Single(this, _fedFrom, oldValue);
                         UndoManager.CanAdd = true;
                         return;
@@ -398,6 +400,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                     if (newFedFrom == null) {
                         _fedFrom = newFedFrom;
+                        if (DistributionManager.IsUpdatingFedFrom_List) return;
+
                         DistributionManager.UpdateFedFrom_Single(this, newFedFrom, new DteqModel());
                         UndoManager.CanAdd = true;
                         return;
@@ -406,6 +410,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                     if (FedFromValidator.IsFedFromValid(this,newFedFrom)) {
                         _fedFrom = newFedFrom;
+                        if (DistributionManager.IsUpdatingFedFrom_List) return;
+
                         DistributionManager.UpdateFedFrom_Single(this, newFedFrom, oldValue);
                         UndoManager.CanAdd = true;
                         return;

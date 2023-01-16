@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
@@ -40,10 +41,12 @@ internal class ComponentTypeSelector
                 else if (comp.Owner.Type == LoadTypes.MOTOR.ToString() && (comp.Owner as LoadModel).StandAloneStarterBool == true) {
                     list.Add(DisconnectTypes.FDS.ToString());
                 }
+                else if ((comp as ProtectionDeviceModel).IsStandAlone == true){
+                    list.Add(PdTypes.FDS.ToString());
+                }
                 else {
                     list.Add(PdTypes.BKR.ToString());
-
-                } 
+                }
             }
         }
         return list;

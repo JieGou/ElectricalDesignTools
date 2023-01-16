@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Managers;
+﻿using Dia2Lib;
+using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
@@ -6,6 +7,7 @@ using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using Syncfusion.UI.Xaml.TreeView;
 using Syncfusion.UI.Xaml.TreeView.Engine;
+using Syncfusion.Windows.Controls.Input.Resources;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,6 +21,7 @@ using WpfUI.Extension_Methods;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.Views.Electrical.MjeqSubviews;
+using TreeViewItem = Syncfusion.UI.Xaml.TreeView.TreeViewItem;
 
 namespace WpfUI.Views.Electrical;
 /// <summary>
@@ -170,10 +173,7 @@ public partial class SinlgeLineView : UserControl
     {
         DragEvent_MouseDown(e, grdSingleLine);
     }
-    private void Grid_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-    {
-        DragEvent_MouseMove(e, grdSingleLine);
-    }
+    
     private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
     {
         DragEvent_MouseUp(e, grdSingleLine);
@@ -457,5 +457,29 @@ public partial class SinlgeLineView : UserControl
             }
         }
     }
+    private void Grid_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        DragEvent_MouseMove(e, grdSingleLine);
+        string senderType = sender.GetType().ToString();
+        //drag drop
+        if (e.LeftButton == MouseButtonState.Pressed) {
+
+            var listView = sender as ListView;
+
+            if (listView == null  || listView.SelectedItem == null) return;
+            var draggedItem = listView.SelectedItem;
+
+            if (draggedItem != null) {
+                DragDrop.DoDragDrop(listView, new DataObject(DataFormats.Serializable, draggedItem), DragDropEffects.Link);
+            }
+        }
+    }
+    private void sfTreeView_PreviewDrop(object sender, DragEventArgs e)
+    {
+        
+        
+    }
+
+    
 }
 

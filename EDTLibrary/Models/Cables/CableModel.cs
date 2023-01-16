@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -142,7 +143,9 @@ public class CableModel : ICable
 
 
     [Browsable(false)]
-    public int Id { get; set; }
+    public int Id { 
+        get; 
+        set; }
     
     public string Tag { get; set; }
 
@@ -548,9 +551,7 @@ public class CableModel : ICable
         OwnerType = cableUser.GetType().ToString();
         DestinationModel = cableUser;
     }
-    /// <summary>
-    /// Gets the Source Eq Derating, Destination Eq FLA
-    /// </summary>
+   
     public void SetSourceAndDestinationTags(ICableUser load)
     {
         if (load.FedFrom != null) {
@@ -1126,16 +1127,17 @@ public class CableModel : ICable
         if (_isAutoSizing) return;
         if (CableManager.IsAutosizing) return;
 
+        var id = Id;
         var tag = Tag;
         var type = Type;
-        //if (PropertyUpdated != null) {
-        //    PropertyUpdated(this, EventArgs.Empty);
-        //}
-        await Task.Run(() => {
-            if (PropertyUpdated != null) {
-                PropertyUpdated(this, EventArgs.Empty);
-            }
-        });
+        if (PropertyUpdated != null) {
+            PropertyUpdated(this, EventArgs.Empty);
+        }
+        //await Task.Run(() => {
+        //    if (PropertyUpdated != null) {
+        //        PropertyUpdated(this, EventArgs.Empty);
+        //    }
+        //});
     }
 }
 

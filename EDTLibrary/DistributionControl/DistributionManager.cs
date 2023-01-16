@@ -22,6 +22,7 @@ namespace EDTLibrary.DistributionControl
             _listManager = listManager;
         }
 
+        public static bool IsUpdatingFedFrom_List { get; set; } = false;
 
         /// <summary>
         /// List is used so that bulk updates only refresh the views once.
@@ -29,16 +30,20 @@ namespace EDTLibrary.DistributionControl
         /// <param name="loadsToRefeed"></param>
         public static void UpdateFedFrom_List(List<UpdateFedFromItem> loadsToRefeed)
         {
-
+            IsUpdatingFedFrom_List = true;
             foreach (var item in loadsToRefeed)
             {
                 UpdateFedFrom(item.Caller, item.NewSupplier, item.OldSupplier);
+                item.Caller.FedFrom = item.NewSupplier;
             }
 
             if (DaManager.Importing == false) {
                 OnFedFromUpdated();
 
-            }        
+            }
+            IsUpdatingFedFrom_List = false;
+
+
         }
 
         public static void UpdateFedFrom_Single(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
@@ -106,8 +111,8 @@ namespace EDTLibrary.DistributionControl
                 {
                     if (caller.Tag != "" && caller.VoltageType.Voltage != 0 && caller.Fla != 0)
                     {
-                        caller.CalculateLoading();
-                        caller.PowerCable.SetSourceAndDestinationTags(caller);
+                        //caller.CalculateLoading();
+                        //caller.PowerCable.SetSourceAndDestinationTags(caller);
                     }
                 }
             }

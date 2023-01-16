@@ -21,86 +21,114 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <controls:EdtGroupBox Grid.Row="0"
+
+
+    <Border BorderBrush="LightGray" BorderThickness="0 1 0 0"
+            Margin="0 5 0 0">
+        <!--<controls:EdtGroupBox Grid.Row="0"
                             Header="Area Properties"
                             HeaderForeGround="White"
                             HeaderBackground="Gray"
                             Visibility="Visible"
                                   >
-            <Grid ShowGridLines="False">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="10"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
+        </controls:EdtGroupBox>-->
 
-                <!--Area-->
-                <TextBlock Text="Area"
-                           Grid.Row="0" Grid.Column="1"
-                           FontWeight="Normal"
-                           Margin="0 5 0 0"
-                           TextAlignment="Right"/>
-                
-                <ComboBox Grid.Row="0" Grid.Column="3" 
-                          Template="{DynamicResource ComboBoxBase}"
-                          Width="115" HorizontalAlignment="Left"
-                          ItemsSource="{Binding Path=DataContext.ListManager.AreaList, 
-                                                RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                AncestorType={x:Type Window}}}"
-                          SelectedItem="{Binding Area }" 
-                          IsSynchronizedWithCurrentItem="False" 
-                          ToolTip="{StaticResource AreaChangeMessage}">
-                    <ComboBox.ItemTemplateSelector>
-                        <templateSelectors:ComboBoxItemTemplateSelector>
-                            <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Tag}" FontWeight="Bold" Width="50"/>
-                                        <TextBlock Text="{Binding Name}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                            <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Tag}"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                        </templateSelectors:ComboBoxItemTemplateSelector>
-                    </ComboBox.ItemTemplateSelector>
-                </ComboBox>
+        <Grid Margin="0 5 5 10"
+            ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="65"/>
+                <ColumnDefinition Width="65"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-                <Image Source="..\..\ResourceFiles\InfoIconBlue.png"
-                       Grid.Row="1"
+            <!--Area-->
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="0" 
+                       Grid.Column="0" Grid.ColumnSpan="5">
+                <TextBlock Text="Enclosure Details"
+                       Grid.Row="0" 
+                       Grid.Column="0" Grid.ColumnSpan="5"
+                       FontWeight="SemiBold"
+                       Margin="0 0 0 5"
+                       TextAlignment="Left"
+                       />
+                <TextBlock Text="{Binding Tag}"
+                       Grid.Row="0" 
+                       Grid.Column="0" Grid.ColumnSpan="5"
+                       FontWeight="SemiBold"
+                       Margin="50 0 0 5"
+                       TextAlignment="Left"
+                       />
+            </StackPanel>
+
+            <Image Source="..\..\ResourceFiles\InfoIconBlue.png"
+                       Grid.Row="2"
                        Grid.Column="0" 
                        Margin="0 5 0 0"
-                       HorizontalAlignment="Left"
+                       HorizontalAlignment="Center"
                        Height="17"
                        Stretch="Uniform"
                        ToolTip="{StaticResource AreaChangeInfoMessage}"
                        ToolTipService.InitialShowDelay="150"
                        ToolTipService.BetweenShowDelay="0"/>
 
-                <!--Nema-->
-                <TextBlock Text="NEMA"
-                           Grid.Row="1" Grid.Column="1" 
+            <TextBlock Text="Area"
+                           Grid.Row="1" Grid.Column="1"
+                           FontWeight="Normal"
+                           Margin="0 4 0 0"
+                           TextAlignment="Right"/>
+
+            <ComboBox Grid.Row="1" Grid.Column="3" 
+                          Template="{DynamicResource ComboBoxBase}"
+                           HorizontalAlignment="Stretch"
+                          ItemsSource="{Binding Path=DataContext.ListManager.AreaList, 
+                                                RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType={x:Type Window}}}"
+                          SelectedItem="{Binding Area }" 
+                          IsSynchronizedWithCurrentItem="False" 
+                          ToolTip="{StaticResource AreaChangeMessage}">
+                <ComboBox.ItemTemplateSelector>
+                    <templateSelectors:ComboBoxItemTemplateSelector>
+                        <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Tag}" FontWeight="Bold" Width="50"/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                        <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Tag}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                    </templateSelectors:ComboBoxItemTemplateSelector>
+                </ComboBox.ItemTemplateSelector>
+            </ComboBox>
+
+            
+
+            <!--Nema-->
+            <TextBlock Text="NEMA"
+                           Grid.Row="2" Grid.Column="1" 
                            FontWeight="Normal"
                            Margin="0 5 0 0"
                            MinWidth="0"
                            TextAlignment="Right"/>
 
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
-                          Grid.Row="1" Grid.Column="3"
-                          Width="115"
-                          HorizontalAlignment="Left"
+            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                          Grid.Row="2" Grid.Column="3"
+                          
+                          HorizontalAlignment="Stretch"
                           ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, 
                                               RelativeSource={RelativeSource Mode=FindAncestor, 
                                               AncestorType={x:Type Window}}}"
@@ -112,16 +140,15 @@
                           ToolTip="{StaticResource AreaPropertyChangeMessage}"
                           MaxDropDownHeight="240"/>
 
-                <!--Area Class-->
-                <TextBlock Text="Area Class."
-                           Grid.Row="2" Grid.Column="1" FontWeight="Normal"
+            <!--Area Class-->
+            <TextBlock Text="Area Class."
+                           Grid.Row="3" Grid.Column="1" FontWeight="Normal"
                            TextAlignment="Right"
                            Margin="0 5 0 0"/>
 
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
-                          Grid.Row="2" Grid.Column="3"
-                          Width="115"
-                          HorizontalAlignment="Left"
+            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                          Grid.Row="3" Grid.Column="3"
+                          HorizontalAlignment="Stretch"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type Window}}}"
@@ -132,8 +159,7 @@
                           IsSynchronizedWithCurrentItem="False" 
                           ToolTip="{StaticResource AreaPropertyChangeMessage}"/>
 
-                
-            </Grid>
-        </controls:EdtGroupBox>
-    </Grid>
+
+        </Grid>
+    </Border>
 </UserControl>

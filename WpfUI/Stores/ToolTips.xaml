@@ -3,11 +3,17 @@
                     xmlns:clr="clr-namespace:System;assembly=mscorlib"
                     >
 
-    <clr:String x:Key="AreaChangeInfoMessage" xml:space="preserve">Changing the area will override / update all area properties of this 
-equipment and all sub-equipment and components.
-Ex: VFD's fed from this equipment.
+    <clr:String x:Key="AreaChangeInfoMessage" xml:space="preserve">Changing the area of this equipment will update all the properties
+related to area (NEMA rating, Area Classification, Temperatures, etc.)  
+and its and components as applicable.
+        
+Ex: a VFD will match the supplier's area, 
+a local disconnect will match the load's area.
     
-Changing the area proprties affects only this equipment</clr:String>
+Changing only the NEMA and Area Classification proprties makes them 
+different from the Area's values for NEMA and Area Classification.
+It will not change the Area's values. To update an area's 
+properties, go to the Areas section.</clr:String>
     
     <clr:String x:Key="AreaChangeMessage" xml:space="preserve">Updates this equipment and all its components and sub-components. 
 Changing this will override the below values.</clr:String>

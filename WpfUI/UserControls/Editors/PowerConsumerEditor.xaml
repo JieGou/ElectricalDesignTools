@@ -382,19 +382,11 @@
 
 
             <!--Protection Device -->
-            
-            <TextBlock Text="OCPD / Starter"
-                       Grid.Row="10" Grid.Column="0" 
-                       Margin="0 10 0 0"
-                       HorizontalAlignment="Right" 
-                       FontWeight="SemiBold"
-                       Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-            <StackPanel Grid.Row="10" Grid.Column="1" Margin="5 10 5 5"
-                        Visibility="Visible">
-
-                <editors:ComponentEditor_Pd DataContext="{Binding ProtectionDevice}"
-                                            HorizontalAlignment="Stretch"/>
-            </StackPanel>
+        
+            <editors:ComponentEditor_Pd DataContext="{Binding ProtectionDevice}"
+                                        Grid.Row="10" 
+                                        Grid.Column="0" Grid.ColumnSpan="2"
+                                        HorizontalAlignment="Stretch"/>
 
             
             <!--Line-->
