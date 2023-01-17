@@ -1,5 +1,5 @@
-﻿using AutoCAD;
-using AutocadLibrary;
+﻿using AutocadLibrary;
+using Autodesk.AutoCAD.Interop.Common;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
@@ -84,7 +84,7 @@ public class SingleLineDrawer
 
         
         var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
-        acadBlock.Modified += AcadEventHandler.OnAcadModified;
+        //acadBlock.Modified += AcadEventHandler.OnAcadModified;
         AcadEventHandler.raisers.Add(acadBlock);
 
         var blockAtts = (dynamic)acadBlock.GetAttributes();
@@ -209,7 +209,7 @@ public class SingleLineDrawer
         
         //instert block
         var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
-        acadBlock.Modified += AcadEventHandler.OnAcadModified;
+        //acadBlock.Modified += AcadEventHandler.OnAcadModified;
         AcadEventHandler.raisers.Add(acadBlock);
 
         var blockAtts = (dynamic)acadBlock.GetAttributes();

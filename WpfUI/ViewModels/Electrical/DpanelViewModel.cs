@@ -1,32 +1,20 @@
-﻿using AutoCAD;
-using AutocadLibrary;
-using EdtLibrary.Commands;
+﻿using EdtLibrary.Commands;
 using EDTLibrary;
-using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Managers;
-using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Loads;
-using EDTLibrary.ProjectSettings;
 using PropertyChanged;
-using Syncfusion.Windows.Controls.PivotGrid;
-using Syncfusion.XlsIO.Parser.Biff_Records;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
 using WpfUI.Helpers;
-using WpfUI.PopupWindows;
 using WpfUI.Services;
-using WpfUI.Stores;
 
 namespace WpfUI.ViewModels.Electrical;
 

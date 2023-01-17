@@ -1,38 +1,19 @@
-﻿using AutoCAD;
-using EdtLibrary.Commands;
-using EDTLibrary.DataAccess;
-using EDTLibrary.ErrorManagement;
+﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
-using EDTLibrary.Models.Areas;
-using EDTLibrary.Models.Cables;
-using EDTLibrary.Models.Calculations;
-using EDTLibrary.Models.Components;
-using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
-using EDTLibrary.Models.DPanels;
-using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
-using FastSerialization;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization.Formatters;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation.Peers;
-using System.Windows.Input;
-using System.Xml;
 
 namespace EDTLibrary.Models.DPanels
 {
 
-[Serializable]
+    [Serializable]
     [AddINotifyPropertyChangedInterface]
     public class DpnModel : DistributionEquipment.DistributionEquipment, IDpn
     {

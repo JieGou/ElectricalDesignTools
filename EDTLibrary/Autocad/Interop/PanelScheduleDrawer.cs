@@ -1,5 +1,5 @@
-﻿using AutoCAD;
-using AutocadLibrary;
+﻿using AutocadLibrary;
+using Autodesk.AutoCAD.Interop.Common;
 using EDTLibrary.Autocad.BlockData;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;

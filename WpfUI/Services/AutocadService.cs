@@ -1,26 +1,15 @@
-﻿using AutoCAD;
-using AutocadLibrary;
+﻿using AutocadLibrary;
+using Autodesk.AutoCAD.Interop;
+using Autodesk.AutoCAD.Interop.Common;
 using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Models.DistributionEquipment;
-using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Services;
-using Syncfusion.ProjIO;
-using Syncfusion.Windows.Controls.PivotGrid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Windows.Automation;
 using System.Windows.Forms;
-using System.Windows.Threading;
-using Windows.UI.Notifications;
 using WpfUI.Helpers;
-using WpfUI.PopupWindows;
-using static EDTLibrary.Services.EdtNotificationService;
-using Notification = WpfUI.PopupWindows.Notification;
 using Task = System.Threading.Tasks.Task;
 
 namespace WpfUI.Services;

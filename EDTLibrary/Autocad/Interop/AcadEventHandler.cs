@@ -1,4 +1,4 @@
-﻿using AutoCAD;
+﻿using Autodesk.AutoCAD.Interop.Common;
 using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
 using EDTLibrary.Managers;
