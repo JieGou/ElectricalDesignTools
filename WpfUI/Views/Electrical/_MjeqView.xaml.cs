@@ -25,6 +25,7 @@ using WpfUI.Helpers;
 using WpfUI.SyncFusion.Renderers;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
+using WpfUI.ViewModels.Equipment;
 using WpfUI.Views.Electrical.MjeqSubviews;
 using WpfUI.Windows;
 using WpfUI.Windows.SelectionWindows;
@@ -170,19 +171,17 @@ public partial class _MjeqView : UserControl
 
     //LOAD   
     //Sets the datacontext for the details view panel on the right
-    private void dgdAssignedLoads_SelectionChanged_1(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
+    private async void dgdAssignedLoads_SelectionChanged_1(object sender, Syncfusion.UI.Xaml.Grid.GridSelectionChangedEventArgs e)
     {
-        //if (dgdAssignedLoads.SelectedItem != null) {
-        //    _loadTabsView.DataContext = this.DataContext;
-        //    LoadDetailsContent.Content = _loadTabsView;
-        //}
-
-        //Task.Run(() => {
 
         if (vm == null) return;
-        vm.SelectedLoads = dgdAssignedLoads.SelectedItems;
+        await CopySelectedLoads(vm);
 
-        //});
+
+        async Task CopySelectedLoads(MjeqViewModel vm)
+        {
+            vm.SelectedLoads = dgdAssignedLoads.SelectedItems;
+        }
     }
 
     private void dgdAssignedLoads_PreviewKeyDown_1(object sender, KeyEventArgs e)

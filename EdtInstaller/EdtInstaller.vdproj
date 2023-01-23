@@ -15,24 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_1116057472E240089B2FDC30F0019A00"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_26B6019FF1204427B40AA100A918171C"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4B012A6118A34FFA8AFC0B1D8577B6A3"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_5638733DFDC147209E2A181CB06C67B8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -40,6 +22,24 @@
         "Entry"
         {
         "MsmKey" = "8:_8552B63E332A4AB9B920663214FC8D1D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_986FC66E3CF9451698A845F9EE2249F8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B01D4F31980A4557BB65508842FC0CF8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E45F2B2B6ECB46EDB64B8224A4D7E1CF"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -153,46 +153,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1116057472E240089B2FDC30F0019A00"
-            {
-            "SourcePath" = "8:..\\WpfUI\\ContentFiles\\Edt Data Library.edl"
-            "TargetName" = "8:Edt Data Library.edl"
-            "Tag" = "8:"
-            "Folder" = "8:_1A46F0B326EA4FF5A5DF8BB7A9830994"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4B012A6118A34FFA8AFC0B1D8577B6A3"
-            {
-            "SourcePath" = "8:..\\WpfUI\\ContentFiles\\Edt Sample Project.edp"
-            "TargetName" = "8:Edt Sample Project.edp"
-            "Tag" = "8:"
-            "Folder" = "8:_1A46F0B326EA4FF5A5DF8BB7A9830994"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5638733DFDC147209E2A181CB06C67B8"
             {
             "SourcePath" = "8:..\\WpfUI\\ContentFiles\\edt.ico"
@@ -233,10 +193,50 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_986FC66E3CF9451698A845F9EE2249F8"
+            {
+            "SourcePath" = "8:..\\WpfUI\\bin\\Debug\\net6.0-windows10.0.22000.0\\win-x64\\ContentFiles\\Edt Sample Project.edp"
+            "TargetName" = "8:Edt Sample Project.edp"
+            "Tag" = "8:"
+            "Folder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E45F2B2B6ECB46EDB64B8224A4D7E1CF"
+            {
+            "SourcePath" = "8:..\\WpfUI\\bin\\Debug\\net6.0-windows10.0.22000.0\\win-x64\\ContentFiles\\Edt Data Library.edl"
+            "TargetName" = "8:Edt Data Library.edl"
+            "Tag" = "8:"
+            "Folder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
         }
         "FileType"
         {
-            "{5EB83D71-FA18-4901-BE56-DE22E13CC478}:_0ABFC88099714BA792D3C57CE9948702"
+            "{5EB83D71-FA18-4901-BE56-DE22E13CC478}:_608DECC981C94185A4B6FB6C03EB25B6"
             {
             "Name" = "8:Edt Project File"
             "Description" = "8:"
@@ -246,11 +246,11 @@
             "IconIndex" = "3:0"
                 "Command"
                 {
-                "Command" = "8:_26B6019FF1204427B40AA100A918171C"
+                "Command" = "8:_B01D4F31980A4557BB65508842FC0CF8"
                 }
                 "Verbs"
                 {
-                    "{95C0C507-CBF0-42B8-B119-07219E384A4A}:_82238EA19DF24301A940E726A62F70B3"
+                    "{95C0C507-CBF0-42B8-B119-07219E384A4A}:_C9E2E03DD7174659813F3BCC27482F26"
                     {
                     "Command" = "8:&Open"
                     "Verb" = "8:open"
@@ -259,7 +259,7 @@
                     }
                 }
             }
-            "{5EB83D71-FA18-4901-BE56-DE22E13CC478}:_1929522790CE4A3088FAAC6E76BDDEFB"
+            "{5EB83D71-FA18-4901-BE56-DE22E13CC478}:_7A9530255D794CC88AE47C0F0A6571DE"
             {
             "Name" = "8:Edt Library File"
             "Description" = "8:"
@@ -269,11 +269,11 @@
             "IconIndex" = "3:0"
                 "Command"
                 {
-                "Command" = "8:_26B6019FF1204427B40AA100A918171C"
+                "Command" = "8:_B01D4F31980A4557BB65508842FC0CF8"
                 }
                 "Verbs"
                 {
-                    "{95C0C507-CBF0-42B8-B119-07219E384A4A}:_573C81781579409499BCDB45335BC6BC"
+                    "{95C0C507-CBF0-42B8-B119-07219E384A4A}:_AD7EAE64F7334E0584B24D9F037C44D8"
                     {
                     "Command" = "8:&Open"
                     "Verb" = "8:open"
@@ -328,17 +328,6 @@
             "Property" = "8:AppDataFolder"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_1A46F0B326EA4FF5A5DF8BB7A9830994"
-                    {
-                    "Name" = "8:Electrical Design Tools"
-                    "AlwaysCreate" = "11:TRUE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_CAB4FC87D92D41E093CE9F6E44466F00"
-                        "Folders"
-                        {
-                        }
-                    }
                 }
             }
         }
@@ -478,7 +467,7 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_0A2E3E3414DB4BF98C900E6942A3F2F8"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_2C342021046B4887B2DFDDFEC118B7AA"
             {
             "Name" = "8:Shortcut to Electrical Design Tools"
             "Arguments" = "8:"
@@ -486,13 +475,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_26B6019FF1204427B40AA100A918171C"
+            "Target" = "8:_B01D4F31980A4557BB65508842FC0CF8"
             "Folder" = "8:_3FDF45E073DF4B4B94EFB616B1C64792"
             "WorkingFolder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
             "Icon" = "8:_5638733DFDC147209E2A181CB06C67B8"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_ED48CB255CDD4295AFF0C3D8AF747F3B"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_5B83797B140A4B46AB1FCCBF129C3CA0"
             {
             "Name" = "8:Shortcut to Edt Sample Project.edp"
             "Arguments" = "8:"
@@ -500,9 +489,9 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_4B012A6118A34FFA8AFC0B1D8577B6A3"
+            "Target" = "8:_986FC66E3CF9451698A845F9EE2249F8"
             "Folder" = "8:_3FDF45E073DF4B4B94EFB616B1C64792"
-            "WorkingFolder" = "8:_1A46F0B326EA4FF5A5DF8BB7A9830994"
+            "WorkingFolder" = "8:_5247D8BBAA0E489097C0265AB645D60C"
             "Icon" = "8:_5638733DFDC147209E2A181CB06C67B8"
             "Feature" = "8:"
             }
@@ -951,7 +940,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_26B6019FF1204427B40AA100A918171C"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_B01D4F31980A4557BB65508842FC0CF8"
             {
             "SourcePath" = "8:..\\WpfUI\\obj\\Debug\\net6.0-windows10.0.22000.0\\win-x64\\apphost.exe"
             "TargetName" = "8:"
@@ -975,7 +964,6 @@
             "OutputGroupCanonicalName" = "8:PublishItems"
             "OutputProjectGuid" = "8:{4BF24413-4E32-4AFB-83D0-1272A63CECDE}"
             "ShowKeyOutput" = "11:TRUE"
-            "PublishProfilePath" = "8:Properties\\PublishProfiles\\FolderProfile.pubxml"
                 "ExcludeFilters"
                 {
                 }

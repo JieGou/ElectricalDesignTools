@@ -5,7 +5,8 @@
 	
 MAJOR Bugs
 	- loads and cables aren't deleting properly
-	- remove DP load tagging GUID 
+	- remove DP load tagging GUID \
+	- DteqHeatLoss Calculation locks up UI
 
 
 MINOR Bugs

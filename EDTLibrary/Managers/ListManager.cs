@@ -206,10 +206,10 @@ namespace EDTLibrary.Managers
                 item.PropertyUpdated += DaManager.OnAreaPropertyUpdated;
             }
             
-            if (AreaList.FirstOrDefault(a => a.Tag == "SITE") != null) {
-                AreaList.Insert(0, GlobalConfig.DefaultAreaModel);
-                DaManager.prjDb.InsertRecord(GlobalConfig.DefaultAreaModel, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
-            }
+            //if (AreaList.FirstOrDefault(a => a.Tag == "SITE") == null) {
+            //    AreaList.Insert(0, GlobalConfig.DefaultAreaModel);
+            //    DaManager.prjDb.InsertRecord(GlobalConfig.DefaultAreaModel, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
+            //}
             return AreaList;
         }
 

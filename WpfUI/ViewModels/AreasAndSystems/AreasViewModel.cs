@@ -75,7 +75,7 @@ namespace WpfUI.ViewModels.AreasAndSystems
 
                 foreach (var eq in _listManager.CreateEquipmentList()) {
                     eq.HeatLoss = 0;
-                    
+
                     if (eq.Area == _selectedArea) {
                         if (eq is DistributionEquipment) {
                             var dteq = (DistributionEquipment)eq;
@@ -87,7 +87,7 @@ namespace WpfUI.ViewModels.AreasAndSystems
                         _selectedArea.EquipmentList.Add(eq);
                     }
 
-                    
+
                 }
 
             }

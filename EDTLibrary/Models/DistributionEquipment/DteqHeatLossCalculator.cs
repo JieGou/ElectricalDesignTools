@@ -8,6 +8,7 @@ namespace EDTLibrary.Models.DistributionEquipment;
 [AddINotifyPropertyChangedInterface]
 public class DteqHeatLossCalculator
 {
+    double _transformerDefaultEfficiency = 0.98;
     public DistributionEquipment Dteq { get; set; }
     public void CalculateHeatLoss(DistributionEquipment dteq)
     {
@@ -15,7 +16,7 @@ public class DteqHeatLossCalculator
 
         try {
             if (dteq.Type == DteqTypes.XFR.ToString()) {
-                EfficiencyHeatLoss = dteq.ConnectedKva * 1000 * dteq.PowerFactor * (1 - 0.98); 
+                EfficiencyHeatLoss = dteq.ConnectedKva * 1000 * dteq.PowerFactor * (1 - _transformerDefaultEfficiency);
             }
 
 
@@ -32,7 +33,7 @@ public class DteqHeatLossCalculator
                 LoadDrivesHeatLoss += loadHeatLossCalculator.DriveHeatLoss;
             }
 
-            TotalHeatLoss = EfficiencyHeatLoss + MainBreakerHeatLoss + LoadBreakersHeatLoss + LoadStartersHeatLoss + LoadDrivesHeatLoss;
+            //TotalHeatLoss = EfficiencyHeatLoss + MainBreakerHeatLoss + LoadBreakersHeatLoss + LoadStartersHeatLoss + LoadDrivesHeatLoss;
         }
         catch (Exception) {
 
