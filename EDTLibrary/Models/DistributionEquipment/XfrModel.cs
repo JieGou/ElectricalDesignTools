@@ -41,6 +41,7 @@ public class XfrModel : DistributionEquipment
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Impedance), OldValue = oldValue, NewValue = _impedance };
                 UndoManager.AddUndoCommand(cmd);
             }
+            if (DaManager.GettingRecords) return;
             OnPropertyUpdated();
         }
     }

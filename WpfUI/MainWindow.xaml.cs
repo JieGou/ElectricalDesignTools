@@ -176,7 +176,7 @@ public partial class MainWindow : MetroWindow
 
     private void winMainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        if (debugWindow!= null) {
+        if (debugWindow != null) {
             debugWindow.Close();
 
         }
@@ -189,7 +189,7 @@ public partial class MainWindow : MetroWindow
             }
 
 
-            //Serialize Recent Projects DTOs
+            //Serialize Recent Projects List (DTOs)
             using (Stream stream = File.Open("RecentProjects.bin", FileMode.Create)) {
                 BinaryFormatter bin = new BinaryFormatter();
                 bin.Serialize(stream, ppDtos);

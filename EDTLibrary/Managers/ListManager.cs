@@ -95,9 +95,9 @@ namespace EDTLibrary.Managers
                 InitializeDpns();
                 GetRaceways();
                 GetRacewayRouting();
-                DaManager.GettingRecords = false;
 
                 ValidateAll();
+                DaManager.GettingRecords = false;
 
             }
             catch (Exception ex) {

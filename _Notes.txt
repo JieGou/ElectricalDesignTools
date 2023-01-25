@@ -1,8 +1,3 @@
-
-- Bulk FedFrom updates Setter vs Method
-
-	- LCS Analog cable Tag when VFD is in MCC
-	
 MAJOR Bugs
 	- loads and cables aren't deleting properly
 	- remove DP load tagging GUID \
@@ -18,6 +13,10 @@ MINOR Bugs
 	- added DTEQ aren't in the right click menu SetFedFrom list
 	- startup service to handle reloading project
 	- ProtectionDeviceModel.TypeList comboBox values disappear on PowerConsumer editor when Type is changed
+
+
+	- LCS Analog cable Tag when VFD is in MCC
+	
 
 		
 Library 

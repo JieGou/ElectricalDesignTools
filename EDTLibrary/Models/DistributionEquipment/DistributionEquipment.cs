@@ -291,6 +291,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _nemaRating = value;
 
                 UndoManager.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
+                if (DaManager.GettingRecords) return;
                 OnPropertyUpdated(nameof(NemaRating) + ": " + NemaRating.ToString());
             }
         }
@@ -333,17 +334,18 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var oldValue = _size;
                 _size = value;
 
-                if (DaManager.GettingRecords == false) {
-                    CalculateLoading();
-                    SCCR = CalculateSCCR();
-                    if (PowerCable != null) {
-                        PowerCable.GetRequiredAmps(this);
-                    }
-                    if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                        var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
-                        UndoManager.AddUndoCommand(cmd);
-                    }
+                if (DaManager.GettingRecords) return;
+
+                CalculateLoading();
+                SCCR = CalculateSCCR();
+                if (PowerCable != null) {
+                    PowerCable.GetRequiredAmps(this);
                 }
+                if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
+                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
+                    UndoManager.AddUndoCommand(cmd);
+                }
+
                 OnPropertyUpdated(nameof(Size) + ": " + Size.ToString());
             }
         }
@@ -515,6 +517,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 UndoManager.AddUndoCommand(this, nameof(LineVoltage), oldValue, _lineVoltage);
 
+                if (DaManager.GettingRecords) return;
                 OnPropertyUpdated(nameof(LineVoltage) + ": " + LineVoltage.ToString());
 
             }
@@ -570,6 +573,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 UndoManager.AddUndoCommand(this, nameof(LoadVoltage), oldValue, _loadVoltage);
 
+                if (DaManager.GettingRecords) return;
                 OnPropertyUpdated(nameof(LoadVoltage) + ": " + LoadVoltage.ToString());
 
             }
@@ -706,6 +710,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 foreach (var load in AssignedLoads) {
                     load.PowerCable.AutoSizeAllAsync();
                 }
+                if (DaManager.GettingRecords) return;
                 OnPropertyUpdated(nameof(LoadCableDerating) + ": " + LoadCableDerating.ToString());
             }
         }

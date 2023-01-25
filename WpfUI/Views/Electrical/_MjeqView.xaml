@@ -876,7 +876,6 @@
                 </Grid>
 
                 <!--ADD EQUIPMENT-->
-
                 <ScrollViewer Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2"
                               Margin="0 0 5 0"
                               VerticalScrollBarVisibility="Auto"
@@ -1520,7 +1519,7 @@
                            Grid.Row="2"         
                            VerticalAlignment="Bottom"
                            Margin="10 0 0 5"
-                           Visibility="Collapsed"/>
+                           Visibility="Visible"/>
 
                     <Border Grid.Row="1"
                         BorderThickness="1" BorderBrush="Black" Background="{StaticResource BackgroundLight}"
