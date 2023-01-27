@@ -462,6 +462,8 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     }
     private IPowerConsumer _selectedLoad;
 
+    public ObservableCollection<IPowerConsumer> Selectedloads { get; set; } = new ObservableCollection<IPowerConsumer>();
+
     private async Task CopySelectedLoad()
     {
         try {
@@ -650,7 +652,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         }
     }
 
-    ObservableCollection<IPowerConsumer> Selectedloads = new ObservableCollection<IPowerConsumer>();
 
 
     // Loads

@@ -113,11 +113,10 @@ public partial class _MjeqView : UserControl
     //Sets the datacontext for the details view panel on the right
     private void dgdDteq_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        //DteqDetailsContent.Content = null;
-        if (dgdDteq.SelectedItem != null) {
-            _loadTabsView.DataContext = this.DataContext;
-            LoadDetailsContent.Content = _loadTabsView;
-        }
+        //if (dgdDteq.SelectedItem != null) {
+        //    _loadTabsView.DataContext = this.DataContext;
+        //    LoadDetailsContent.Content = _loadTabsView;
+        //}
     }
 
 
@@ -175,13 +174,15 @@ public partial class _MjeqView : UserControl
     {
 
         if (vm == null) return;
-        await CopySelectedLoads(vm);
+    //    vm.SelectedLoads = dgdAssignedLoads.SelectedItems;
+
+    //    await CopySelectedLoads(vm);
 
 
-        async Task CopySelectedLoads(MjeqViewModel vm)
-        {
-            vm.SelectedLoads = dgdAssignedLoads.SelectedItems;
-        }
+    //    async Task CopySelectedLoads(MjeqViewModel vm)
+    //    {
+    //        vm.SelectedLoads = dgdAssignedLoads.SelectedItems;
+    //    }
     }
 
     private void dgdAssignedLoads_PreviewKeyDown_1(object sender, KeyEventArgs e)

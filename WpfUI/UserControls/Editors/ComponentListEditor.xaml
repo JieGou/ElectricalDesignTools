@@ -92,7 +92,7 @@
                      />
 
             <!--Up Down Buttons-->
-            <StackPanel Grid.Row="0" Grid.Column="1"
+            <!--<StackPanel Grid.Row="0" Grid.Column="1"
                             VerticalAlignment="Top"
                             HorizontalAlignment="Center"
                             >
@@ -114,7 +114,7 @@
                                           AncestorType={x:Type UserControl}, AncestorLevel=1}}"/>
 
 
-            </StackPanel>
+            </StackPanel>-->
             
             <!--CheckBoxes-->
             <Grid Grid.Row="0" Grid.Column="2"
@@ -159,7 +159,7 @@
             </Grid>
 
             <!--Add Delete Buttons-->
-            <StackPanel Orientation="Horizontal"
+            <!--<StackPanel Orientation="Horizontal"
                         Grid.Row="1" Grid.RowSpan="2"
                         Grid.Column="2" Grid.ColumnSpan="5"
                         HorizontalAlignment="Center"
@@ -184,7 +184,7 @@
                         Command="{Binding Path=DataContext.DeleteComponentCommand, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
                                             AncestorType={x:Type UserControl}, AncestorLevel=3}}"/>
-            </StackPanel>
+            </StackPanel>-->
             
             
             <!--Tag-->

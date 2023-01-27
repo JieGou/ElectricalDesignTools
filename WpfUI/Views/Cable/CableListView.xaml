@@ -347,12 +347,14 @@
                 <Border BorderBrush="Black" BorderThickness="1"
                         Background="{StaticResource Background}"
                         Grid.Row="2"
-                        Grid.Column="5" 
-                        MinWidth="25">
+                        Grid.Column="5"
+                        HorizontalAlignment="Right"
+                        Width="25">
                     <StackPanel>
-                        <Expander x:Name="cablePropertiesExpander"
-                                  Margin="0"/>
-                        <Grid Visibility="{Binding ElementName=cablePropertiesExpander, Path=IsExpanded, 
+                        <Expander x:Name="propertyGridExpander"
+                                  Margin="0"
+                                  IsExpanded="True"/>
+                        <Grid Visibility="{Binding ElementName=propertyGridExpander, Path=IsExpanded, 
                                                Converter={StaticResource BoolToVisInvert},
                                                ConverterParameter=Normal}"
                           ShowGridLines="False">

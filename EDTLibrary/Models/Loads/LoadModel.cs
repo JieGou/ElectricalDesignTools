@@ -569,6 +569,10 @@ namespace EDTLibrary.Models.Loads
 
         public CableModel PowerCable { get; set; }
 
+
+        //not used - only here to prevent a xaml binding failure for when using the interface IPowerConsumer
+        public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer>{new DummyLoad()};
+
         public ObservableCollection<IComponentEdt> AuxComponents { get; set; } = new ObservableCollection<IComponentEdt>();
 
         public ObservableCollection<IComponentEdt> CctComponents { get; set; } = new ObservableCollection<IComponentEdt>();

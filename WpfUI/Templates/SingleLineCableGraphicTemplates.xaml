@@ -35,31 +35,6 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!--Cable extension into splitter-->
-                <Canvas Margin="0 0"
-                        Panel.ZIndex="99"
-                        Visibility="Collapsed">
-                    <Canvas.Background>
-                        <SolidColorBrush Color="LightBlue" Opacity="0.3"/>
-                    </Canvas.Background>
-                    <Canvas.Style>
-                        <Style TargetType="Canvas">
-                            <Setter Property="Visibility" Value="Collapsed"/>
-                            <Style.Triggers>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding DestinationModel.SubCategory}" Value="ProtectionDevice"/>
-                                        <Condition Binding="{Binding DestinationModel.IsStandAlone}" Value="True"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <MultiDataTrigger.Setters>
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </MultiDataTrigger.Setters>
-                                </MultiDataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Canvas.Style>
-                    <Line Stroke="Red" StrokeThickness="1" X1="-15.5" X2="-15.5" Y1="50" Y2="-150" Panel.ZIndex="99"/>
-                </Canvas>
                 
                 <Border BorderBrush="Black" BorderThickness="1 0 0 0"
                     Grid.Column="0"

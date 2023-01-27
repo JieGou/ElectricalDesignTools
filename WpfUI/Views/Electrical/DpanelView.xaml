@@ -396,11 +396,11 @@
                                                    >
                                     <sf:GridComboBoxColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding PdSizeTrip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            <TextBlock Text="{Binding ProtectionDevice.TripAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                        TextAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        Padding="5 0 0 0"
-                                                       Visibility="{Binding PdSizeTrip, Converter={StaticResource BreakerSizeToVisibilityConverter}}"
+                                                       Visibility="{Binding ProtectionDevice.TripAmps, Converter={StaticResource BreakerSizeToVisibilityConverter}}"
                                                        />
                                         </DataTemplate>
                                     </sf:GridComboBoxColumn.CellTemplate>
@@ -576,11 +576,11 @@
                                                    >
                                     <sf:GridComboBoxColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding PdSizeTrip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            <TextBlock Text="{Binding ProtectionDevice.TripAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                        TextAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        Padding="5 0 0 0"
-                                                       Visibility="{Binding PdSizeTrip, Converter={StaticResource BreakerSizeToVisibilityConverter}}"
+                                                       Visibility="{Binding ProtectionDevice.TripAmps, Converter={StaticResource BreakerSizeToVisibilityConverter}}"
                                                        />
                                         </DataTemplate>
                                     </sf:GridComboBoxColumn.CellTemplate>

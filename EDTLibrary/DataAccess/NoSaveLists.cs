@@ -61,6 +61,7 @@ namespace EDTLibrary.DataAccess
         static public List<string> LoadNoSaveList { get; set; } = new List<string>() 
         {
             "InLineComponents",
+            "AssignedLoads",
             "PowerCable",
             "Components",
             "AuxComponents",

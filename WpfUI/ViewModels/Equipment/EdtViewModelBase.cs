@@ -63,7 +63,7 @@ public abstract class EdtViewModelBase: ViewModelBase
 
 
     public virtual IPowerConsumer SelectedLoad { get; set; }
-    public virtual IList SelectedLoads { get; internal set; }
+    public virtual ObservableCollection<IPowerConsumer> SelectedLoads { get; set; } = new ObservableCollection<IPowerConsumer>();
 
     public DteqToAddValidator DteqToAddValidator { get; set; }
     public LoadToAddValidator LoadToAddValidator { get; set; }

@@ -15,6 +15,7 @@
              xmlns:commands="clr-namespace:WpfUI.Commands"
              xmlns:viewModifiers="clr-namespace:WpfUI.ViewModifiers"
              xmlns:views="clr-namespace:WpfUI.Views"
+             xmlns:electricalViewModels="clr-namespace:WpfUI.ViewModels.Electrical"
              xmlns:subViews="clr-namespace:WpfUI.Views.EquipmentSubViews"
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
              
@@ -137,9 +138,6 @@
                 <TextBlock Text="Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
                 <TextBlock Text="{Binding ListManager.RacewayList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
                 <TextBlock Text="Selected:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
-                <TextBlock Text="{Binding SelectedRacway.Id}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
-                <TextBlock Text="Cable Qty:  "  Style="{StaticResource StatusBarValue_TextBlockStyle}" />
-                <TextBlock Text="{Binding SelectedRacway.CableList.Count}" Margin="0"   Style="{StaticResource StatusBarValue_TextBlockStyle}" />
             </StackPanel>
         </Grid>
 
@@ -168,9 +166,10 @@
                     <ColumnDefinition Width="5" />
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/> <!--dataGrid-->
                     <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="500" MinWidth="550"/>
+                    <ColumnDefinition Width="auto"/>
+                    <!--<ColumnDefinition MinWidth="25" MaxWidth="500"/>--> <!--propertyGrid-->
                     <ColumnDefinition Width="1"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -992,15 +991,15 @@
                                ShowBusyIndicator="True"
                                
                                    
-                            GridPasteOption="None"
-                                   GridPasteContent="LoadGridPaste"
+                               GridPasteOption="None"
+                               GridPasteContent="LoadGridPaste"
                                ColumnSizer="Star"
                                
                                ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
 
                                CurrentItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               SelectedItems="{Binding SelectedLoads, UpdateSourceTrigger=PropertyChanged}"
+                               SelectedItems="{Binding SelectedLoads, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False"
                                HorizontalAlignment="Stretch" 
                                
@@ -1507,8 +1506,21 @@
 
 
                 <!--DETAILS VIEW-->
-                <Grid  Grid.Row="2" Grid.RowSpan="3"
-                   Grid.Column="5"
+                <Expander x:Name="propertyGridExpander"
+                          Grid.Row="1"
+                          Grid.Column="5"
+                          
+                          IsExpanded="True"
+                          
+                          Margin="0"
+                          HorizontalAlignment="Right"
+                          Width="25"/>
+
+                <Grid Grid.Row="2" Grid.RowSpan="3"
+                      Grid.Column="5"
+                      Visibility="{Binding ElementName=propertyGridExpander, Path=IsExpanded, 
+                                           Converter={StaticResource BoolToVisInvert},
+                                           ConverterParameter=Normal}"
                    >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
@@ -1524,10 +1536,13 @@
                     <Border Grid.Row="1"
                         BorderThickness="1" BorderBrush="Black" Background="{StaticResource BackgroundLight}"
                         Margin="0 0 0 1">
-                        <ContentControl x:Name="LoadDetailsContent" >
-                            <DataTemplate >
-                                <mjeqSubViews:LoadTabsView DataContext="{Binding}"/>
-                            </DataTemplate>
+                        <ContentControl x:Name="LoadDetailsContent" 
+                                        Content="{Binding}">
+                            <ContentControl.Resources>
+                                <DataTemplate DataType="{x:Type electricalViewModels:MjeqViewModel}">
+                                    <mjeqSubViews:LoadTabsView DataContext="{Binding}"/>
+                                </DataTemplate>
+                            </ContentControl.Resources>
                         </ContentControl>
                     </Border>
                 </Grid>
@@ -1536,14 +1551,13 @@
                               Grid.Row="0" Grid.RowSpan="6"
                               Background="Transparent"
                               Width="{StaticResource GridSplitterWidth}" 
-                              Visibility="{Binding ElectricalViewGridSplitterVisibility}"/>
+                              />
 
 
                 <!--Below Dteq Grid-->
                 <GridSplitter  Grid.Row="2" Grid.ColumnSpan="5" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"   
                            Height="{StaticResource GridSplitterWidth}"
                            Background="{StaticResource GridSplitterColor}"
-                           Visibility="{Binding ElectricalViewGridSplitterVisibility}"
                            ShowsPreview="False"/>
 
                 <!--Above Load Grid-->

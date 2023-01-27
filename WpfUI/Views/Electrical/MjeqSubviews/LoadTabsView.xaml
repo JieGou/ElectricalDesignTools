@@ -109,7 +109,7 @@
                        HorizontalAlignment="Left" VerticalAlignment="Top"
                        >
                     
-                <!--FEEDER BUS - for loads only-->
+                <!--Feeder bus - FOR LOADS ONLY-->
                 <Border BorderBrush="Black" BorderThickness="0 0 0 3"
                         DockPanel.Dock="Top"
                         HorizontalAlignment="Stretch"
@@ -139,12 +139,14 @@
                 </Border>
 
                 <!--Graphics-->
-                <ContentControl Content="{Binding SelectedEquipment, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                <ContentControl Content="{Binding SelectedEquipment, 
+                                                  NotifyOnSourceUpdated=True, 
+                                                  NotifyOnTargetUpdated=True}"
                                 x:Name="Graphic"
                                 Grid.Column="0"
                                 HorizontalAlignment="Left">
 
-                    <ContentControl.Style>
+                    <!--<ContentControl.Style>
                         <Style TargetType="ContentControl">
                             <Style.Triggers>
                                 <EventTrigger RoutedEvent="Binding.TargetUpdated">
@@ -158,9 +160,10 @@
                                 </EventTrigger>
                             </Style.Triggers>
                         </Style>
-                    </ContentControl.Style>
+                    </ContentControl.Style>-->
                     <ContentControl.Resources>
 
+                        <!--Transformer-->
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -242,7 +245,8 @@
                                                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
                         </DataTemplate>
                         
-
+    
+                        <!--MCC-->
                         <DataTemplate DataType="{x:Type edtDteqModels:MccModel}">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -317,6 +321,7 @@
                         </DataTemplate>
                         
 
+                        <!--Splitter-->
                         <DataTemplate DataType="{x:Type edtDteqModels:SplitterModel}">
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -464,82 +469,6 @@
 
             </ScrollViewer>
 
-
-            <!--Tabs on right-->
-            <TabControl Grid.Column="1" Background="Transparent" BorderThickness="0 1 0 0"
-                        HorizontalAlignment="Stretch"
-                        SelectedIndex="{Binding SelectedLoadTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        Visibility="Collapsed">
-
-
-                <!--Quick Properties-->
-                <TabItem Header="Quick Properties" Background="{DynamicResource BackgroundLight}"
-                         d:Background="LightCyan">
-                   
-                </TabItem>
-
-                <!--Property Grid-->
-                <TabItem Header="All Properties" 
-                         Background="{DynamicResource BackgroundLight}"
-                         d:Background="LightCyan"
-                         >
-                    
-                    <syncfusion:PropertyGrid SelectedObject="{Binding SelectedEquipment}"
-                                             BorderBrush="Black"
-                                             HorizontalAlignment="Stretch"
-                                             AutoGenerateItems="True"
-                                             PropertyExpandMode="NestedMode"
-                                             EnableGrouping="True"
-                                             SortDirection="{x:Null}"
-                                             Margin="0 0 -3 0"
-                                             FontWeight="SemiBold"
-                                             IsVirtualizing="True">
-                        <syncfusion:PropertyGrid.Items>
-                            
-                            <syncfusion:PropertyGridItem PropertyName="Tag"/>
-                            <syncfusion:PropertyGridItem PropertyName="Description"/>
-                            <syncfusion:PropertyGridItem PropertyName="Area" NestedPropertyDisplayMode="Show">
-                                <syncfusion:PropertyGridItem.Items>
-                                    <syncfusion:PropertyGridItem PropertyName="Tag"/>
-                                    <syncfusion:PropertyGridItem PropertyName="Name"/>
-                                </syncfusion:PropertyGridItem.Items>
-                            </syncfusion:PropertyGridItem>
-                        </syncfusion:PropertyGrid.Items>
-
-                        <syncfusion:PropertyGrid.Resources>
-                            
-                            <Style TargetType="syncfusion:PropertyViewItem" >
-                                <Setter Property="Padding" Value="0"/>
-                            </Style>
-                            <Style TargetType="syncfusion:PropertyCatagoryViewItem">
-                                <Setter Property="Padding" Value="0"/>
-                            </Style>
-                        </syncfusion:PropertyGrid.Resources>
-                    </syncfusion:PropertyGrid>
-                </TabItem>
-
-                <!--Cable -->
-                <TabItem Header="Cable Sizing" Background="{DynamicResource BackgroundLight}"
-                         d:Background="LightCyan"
-                         Visibility="Collapsed">
-                    <ContentControl Content="{Binding SelectedLoadCable}"
-                                        Grid.Row="0"
-                                        >
-                        <ContentControl.Resources>
-
-                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                <mjeqSubViews:CableSizingViewNarrow/>
-                            </DataTemplate>
-
-                            <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                <mjeqSubViews:CableSizingViewNarrow/>
-                            </DataTemplate>
-
-                        </ContentControl.Resources>
-                    </ContentControl>
-                </TabItem>
-
-            </TabControl>
         </Grid>
     </Grid>
 </UserControl>

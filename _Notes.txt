@@ -1,5 +1,5 @@
 MAJOR Bugs
-	- loads and cables aren't deleting properly
+	- loads and cables aren't deleting properly -- need to reproduce
 	- remove DP load tagging GUID \
 	- DteqHeatLoss Calculation locks up UI
 
