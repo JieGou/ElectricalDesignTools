@@ -51,7 +51,7 @@ public class ProtectionDeviceModel : ComponentModelBase, IProtectionDevice
             if (_type == DisconnectTypes.FDS.ToString() || _type == DisconnectTypes.FWDS.ToString()) {
                 var owner = (IPowerConsumer)Owner;
                 if (owner != null) {
-                    TripAmps = TypeManager.BreakerSizes.FirstOrDefault(f => f.TripAmps >= owner.Fla).TripAmps;
+                    TripAmps = TypeManager.BreakerTripSizes.FirstOrDefault(f => f.TripAmps >= owner.Fla).TripAmps;
                 }
             }
             AddOrDeleteLcsAnalogCable();

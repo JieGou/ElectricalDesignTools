@@ -384,7 +384,7 @@
                                 <sf:GridComboBoxColumn HeaderText="Beaker" MappingName="PdSizeTrip"
                                                        Width="{StaticResource BreakerColumnWidth}"
                                                        AllowEditing="True"
-                                                       ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                                                       ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 
                                                                              RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                              AncestorType={x:Type Window}}}"
                                                        DisplayMemberPath="TripAmps"
@@ -564,7 +564,7 @@
                                 <sf:GridComboBoxColumn HeaderText="Beaker" MappingName="PdSizeTrip"
                                                        Width="{StaticResource BreakerColumnWidth}"
                                                        AllowEditing="True"
-                                                       ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                                                       ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 
                                                                              RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                              AncestorType={x:Type Window}}}"
                                                        DisplayMemberPath="TripAmps"

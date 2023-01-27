@@ -150,7 +150,8 @@ namespace EDTLibrary.LibraryData
         //Components
         public static ObservableCollection<LcsTypeModel> LcsTypes { get; set; }
         public static ObservableCollection<string> DriveTypes { get; set; } = new ObservableCollection<string>() { "VSD", "RVS" };
-        public static ObservableCollection<BreakerSize> BreakerSizes { get; set; } = new ObservableCollection<BreakerSize>();
+        public static ObservableCollection<BreakerSize> BreakerTripSizes { get; set; } = new ObservableCollection<BreakerSize>();
+        public static List<double> BreakerFrameSizes { get; set; } = new List<double>();
         public static ObservableCollection<StarterSize> StarterSizes { get; set; } = new ObservableCollection<StarterSize>();
         public static ObservableCollection<VfdHeatSize> VfdHeatSizes { get; set; } = new ObservableCollection<VfdHeatSize>();
 
@@ -185,14 +186,27 @@ namespace EDTLibrary.LibraryData
             TransformerGroundingTypes = DaManager.libDb.GetRecords<GroundingSystemType>("TransformerGroundingTypes");
             TransformerWiringTypes = DaManager.libDb.GetRecords<TransformerWiringType>("TransformerWiringTypes");
 
-            BreakerSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes");
-            var list = BreakerSizes.OrderBy(b => b.TripAmps).ToList();
-            BreakerSizes = new ObservableCollection<BreakerSize>(list);
+            BreakerTripSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes");
+            var breakerSizeList = BreakerTripSizes.OrderBy(b => b.TripAmps).ToList();
+            BreakerTripSizes = new ObservableCollection<BreakerSize>(breakerSizeList);
+
+            GetBreakerFameSizes();
 
             StarterSizes = DaManager.libDb.GetRecords<StarterSize>("Starters");
             VfdHeatSizes = DaManager.libDb.GetRecords<VfdHeatSize>("VFDHeatLoss");
 
             CecCableAmpacities = DaManager.libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
+        }
+
+        private static void GetBreakerFameSizes()
+        {
+            var breakerSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes");
+
+            foreach (var item in breakerSizes) {
+                if (!BreakerFrameSizes.Contains(item.FrameAmps)) {
+                    BreakerFrameSizes.Add(item.FrameAmps);
+                }
+            }
         }
 
 
@@ -260,13 +274,13 @@ namespace EDTLibrary.LibraryData
             var breaker = new BreakerSize();
             var breakerList = new List<BreakerSize>();
             if (breakerRating != 100) {
-                breakerList = BreakerSizes.Where(b => b.TripAmps >= fla * 1.25).ToList();
+                breakerList = BreakerTripSizes.Where(b => b.TripAmps >= fla * 1.25).ToList();
                 if (breakerList.Count > 0) {
                     breaker = breakerList.OrderBy(b => b.TripAmps).First();
                 }
             }
             else {
-                breakerList = BreakerSizes.Where(b => b.TripAmps >= fla).ToList();
+                breakerList = BreakerTripSizes.Where(b => b.TripAmps >= fla).ToList();
                 if (breakerList.Count > 0) {
                     breaker = breakerList.OrderBy(b => b.TripAmps).First();
                 }

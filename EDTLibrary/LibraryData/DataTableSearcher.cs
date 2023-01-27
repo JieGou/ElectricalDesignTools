@@ -285,6 +285,44 @@ namespace EDTLibrary.LibraryData
             return result;
         }
 
+        public static double GetDisconnectSize(IPowerConsumer load, double tripAmps)
+        {
+            double result = .99999;
+            if (DataTables.DisconnectSizes != null) {
+
+                DataTable dt = DataTables.DisconnectSizes.Copy();
+                DataTable dtFiltered = new DataTable();
+
+                double searchValue = Math.Max(load.Size, tripAmps);
+
+                IEnumerable<DataRow> filteredRows;
+                if (load.Type == LoadTypes.MOTOR.ToString()) {
+
+                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("HP") >= (double)searchValue);
+
+                    if (load.Unit == Units.HP.ToString()) {
+                        filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("HP") >= (double)searchValue);
+                    }
+                    else if (load.Unit == Units.kW.ToString()) {
+                        filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("kW") >= (double)searchValue);
+                    }
+                }
+                else {
+                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)searchValue);
+                }
+
+
+                try {
+                    dtFiltered = filteredRows.CopyToDataTable();
+                    dtFiltered = dtFiltered.Select($"Amps = Min(Amps)").CopyToDataTable();
+                    result = Double.Parse(dtFiltered.Rows[0]["Amps"].ToString());
+                }
+                catch (InvalidCastException ex) {
+                    //throw;
+                }
+            }
+            return result;
+        }
         public static double GetDisconnectFuse(IPowerConsumer load)
         {
             double result = GlobalConfig.NoValueDouble;

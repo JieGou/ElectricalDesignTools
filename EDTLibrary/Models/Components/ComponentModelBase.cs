@@ -118,7 +118,7 @@ public abstract class ComponentModelBase : IComponentEdt
                 if (_type == DisconnectTypes.FDS.ToString() || _type == DisconnectTypes.FWDS.ToString()) {
                     var owner = (IPowerConsumer)Owner;
                     if (owner!= null) {
-                        TripAmps = TypeManager.BreakerSizes.FirstOrDefault(f => f.TripAmps >= owner.Fla).TripAmps;
+                        TripAmps = TypeManager.BreakerTripSizes.FirstOrDefault(f => f.TripAmps >= owner.Fla).TripAmps;
                     }
                 }
 
@@ -257,13 +257,14 @@ public abstract class ComponentModelBase : IComponentEdt
 
     public void CalculateSize(IPowerConsumer load)
     {
+        if (Type == CctComponentTypes.UDS.ToString()) {
+            TripAmps = DataTableSearcher.GetDisconnectFuse(load);
+        }
         if (Type == CctComponentTypes.UDS.ToString() || Type == CctComponentTypes.FDS.ToString()) {
             FrameAmps = DataTableSearcher.GetDisconnectSize(load);
 
         }
-        if (Type == CctComponentTypes.UDS.ToString()) {
-            TripAmps = DataTableSearcher.GetDisconnectFuse(load);
-        }
+        
         OnPropertyUpdated();
     }
 

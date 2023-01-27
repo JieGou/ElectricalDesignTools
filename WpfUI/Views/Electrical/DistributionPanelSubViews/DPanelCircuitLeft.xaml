@@ -83,7 +83,7 @@
                   VerticalContentAlignment="Center"
                   Template="{DynamicResource ComboBoxBase}"
                   
-                  ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                  ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 
                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                         RelativeSource={RelativeSource Mode=FindAncestor, 
                                         AncestorType={x:Type Window}}}"

@@ -168,8 +168,7 @@
                     <ColumnDefinition Width="5"/>
                     <ColumnDefinition Width="*"/> <!--dataGrid-->
                     <ColumnDefinition Width="5"/>
-                    <ColumnDefinition Width="auto"/>
-                    <!--<ColumnDefinition MinWidth="25" MaxWidth="500"/>--> <!--propertyGrid-->
+                    <ColumnDefinition Width="auto" MinWidth="25" MaxWidth="550"/> <!--propertyGrid-->
                     <ColumnDefinition Width="1"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>

@@ -192,7 +192,7 @@
                     <ComboBox Template="{DynamicResource ComboBoxBase}" 
                           Height="20" Width="83"
                           Margin="0 3 0 0"
-                          ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                          ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 
                                                       Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                                       RelativeSource={RelativeSource Mode=FindAncestor, 
                                                       AncestorType={x:Type Window}}}"

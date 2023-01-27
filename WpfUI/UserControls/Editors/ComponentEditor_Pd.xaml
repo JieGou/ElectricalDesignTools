@@ -51,7 +51,7 @@
                         TextAlignment="Right"/>
             <ComboBox Template="{DynamicResource ComboBoxBase}" 
                       Grid.Row="2" Grid.Column="3"
-                      ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                      ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                           RelativeSource={RelativeSource Mode=FindAncestor, 
                                           AncestorType={x:Type Window}}}"
@@ -72,17 +72,17 @@
 
                         FontWeight="Normal"
                         TextAlignment="Right"/>
+            
+            <!--Starter / Breaker-->
             <ComboBox Template="{DynamicResource ComboBoxBase}" 
                   Grid.Row="3" Grid.Column="3" 
                   Margin="0"
-                  ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                  ItemsSource="{Binding Path=DataContext.TypeManager.BreakerFrameSizes, 
                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                         RelativeSource={RelativeSource Mode=FindAncestor, 
                                         AncestorType={x:Type Window}}}"
                   ItemStringFormat="{}{0} A"
                   SelectedValue="{Binding FrameAmps}"
-                  DisplayMemberPath="FrameAmps"
-                  SelectedValuePath="FrameAmps"
                   Text="{Binding FrameAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   d:Text="100"
                   IsSynchronizedWithCurrentItem="False"  >
@@ -90,7 +90,7 @@
                     <Style TargetType="ComboBox">
                         <Setter Property="Visibility" Value="Visible"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Type}" Value="BKR">
+                            <DataTrigger Binding="{Binding Type}" Value="FDS">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -98,17 +98,18 @@
                 </ComboBox.Style>
             </ComboBox>
 
+            <!--Fused Disconnect-->
             <ComboBox Template="{DynamicResource ComboBoxBase}" 
                   Grid.Row="3" Grid.Column="3" 
                   Margin="0"
-                  ItemsSource="{Binding Path=DataContext.TypeManager.BreakerSizes, 
+                  ItemsSource="{Binding Path=DataContext.TypeManager.DisconnectSizes, 
                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                         RelativeSource={RelativeSource Mode=FindAncestor, 
                                         AncestorType={x:Type Window}}}"
                   ItemStringFormat="{}{0} A"
                   SelectedValue="{Binding FrameAmps}"
-                  DisplayMemberPath="FrameAmps"
-                  SelectedValuePath="FrameAmps"
+                      DisplayMemberPath="Amps"
+                      SelectedValuePath="Amps"
                   Text="{Binding FrameAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   d:Text="100"
                   IsSynchronizedWithCurrentItem="False" >
@@ -116,7 +117,7 @@
                     <Style TargetType="ComboBox">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Type}" Value="BKR">
+                            <DataTrigger Binding="{Binding Type}" Value="FDS">
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>

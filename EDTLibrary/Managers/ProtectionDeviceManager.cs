@@ -203,7 +203,7 @@ public class ProtectionDeviceManager
                 return DataTableSearcher.GetBreakerFrame(load.ProtectionDevice.TripAmps);
             }
             else if (component.Type == PdTypes.FDS.ToString()) {
-                return DataTableSearcher.GetDisconnectSize(load);
+                return DataTableSearcher.GetDisconnectSize(load, component.TripAmps);
             }
         }
 
