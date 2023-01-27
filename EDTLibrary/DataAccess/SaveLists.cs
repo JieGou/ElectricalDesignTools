@@ -10,7 +10,7 @@ namespace EDTLibrary.DataAccess
     public class SaveLists
     {
         static public List<string> DteqSaveList { get; set; } = new List<string>()
-        {   
+        {
             "Id",
             "Tag",
             "Category",
@@ -25,7 +25,7 @@ namespace EDTLibrary.DataAccess
             "FedFromId",
             "FedFromTag",
             "FedFromType",
-            
+
             "Voltage",
             "LineVoltage",
             "LoadVoltage",
@@ -51,7 +51,7 @@ namespace EDTLibrary.DataAccess
             "SCCR",
             "LoadCableDerating",
         };
-        static public List<string> LoadSaveList { get; set; } = new List<string>() 
+        static public List<string> LoadSaveList { get; set; } = new List<string>()
         {
             "Id",
             "Tag",
@@ -143,18 +143,53 @@ namespace EDTLibrary.DataAccess
 
             "Voltage",
         };
-        static public List<string> PowerCableNoSaveList { get; set; } = new List<string> {
+        static public List<string> CableSaveList { get; set; } = new List<string> {
 
-            "Load",
-            "InLineComponents",
-            "TypeModel",
-            "TypeList",
-            "DeratedAmpsToolTip",
-            "RequiredAmpsToolTip",
-            "SizeList",
-            "AutoSizeCableCommand",
-            "DeratingToolTip",
-            "SizeTag",
+            "AmpacityTable",
+            "BaseAmps",
+            "BondWireSize",
+            "Category",
+            "ConductorQty",
+            "DeratedAmps",
+            "Derating",
+            "Derating5A",
+            "Derating5C",
+            "Destination",
+            "Diameter",
+            "HeatLoss",
+            "Id",
+            "InstallationDiagram",
+            "InstallationType",
+            "InsulationPercentage",
+            "InvalidAmpacityMessage",
+            "InvalidCableMessage",
+            "InvalidLengthMessage",
+            "Is1C",
+            "IsOutdoor",
+            "IsValid",
+            "Length",
+            "LoadId",
+            "LoadType",
+            "MaxVoltageDropPercentage",
+            "OwnerId",
+            "OwnerType",
+            "QtyParallel",
+            "RequiredAmps",
+            "RequiredSizingAmps",
+            "Size",
+            "Source",
+            "SourceId",
+            "SourceType",
+            "Spacing",
+            "Tag",
+            "Type",
+            "TypeId",
+            "UsageType",
+            "VoltageDrop",
+            "VoltageDropPercentage",
+            "VoltageRating",
+            "WeightKgKm",
+            "WeightLbs1kFeet",
         };
         static public List<string> AreaNoSaveList { get; set; } = new List<string>() {
             "none",

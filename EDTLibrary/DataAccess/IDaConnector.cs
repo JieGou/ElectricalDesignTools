@@ -26,4 +26,6 @@ public interface IDaConnector
     Tuple<bool, string> UpdateRecord<T>(T classObject, string tableName) where T : class, new();
     void UpdateSetting(string settingName, string settingValue);
     void UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore, [CallerMemberName] string callerMethod = "") where T : class, new();
+
+    void UpdateRecordSaveList<T>(T classObject, string tableName, List<string> propertiesToSave, [CallerMemberName] string callerMethod = "") where T : class, new();
 }

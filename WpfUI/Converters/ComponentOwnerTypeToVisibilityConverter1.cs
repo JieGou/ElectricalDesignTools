@@ -19,6 +19,8 @@ namespace WpfUI.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null) return Visibility.Collapsed;
+
             var type = value.ToString();
            
             if (type==LoadTypes.MOTOR.ToString()) {

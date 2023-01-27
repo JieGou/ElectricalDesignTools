@@ -7,12 +7,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace EDTLibrary.DataAccess
 {
@@ -259,6 +261,7 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
+
         public void UpsertRecord<T>(T classObject, string tableName, List<string> propertiesToIgnore, [CallerMemberName] string callerMethod = "") where T : class, new()
         {
             //if (DaManager.Importing==true) {
@@ -278,6 +281,8 @@ namespace EDTLibrary.DataAccess
                     sb.Append($"{prop.Name}, ");
                 }
 
+                //File.WriteAllTextAsync("C:\\Users\\pdeau\\OneDrive\\Desktop\\WriteText.txt", sb.ToString().Replace(",",Environment.NewLine));
+
                 // removes properties to ignore
                 string tag = "";
                 string input;
@@ -292,6 +297,8 @@ namespace EDTLibrary.DataAccess
 
                 }
 
+               
+
                 sb.Replace(",", "", sb.Length - 2, 2);
                 sb.Replace(" ", "", sb.Length - 2, 2);
                 sb.Append(") VALUES (");
@@ -303,9 +310,9 @@ namespace EDTLibrary.DataAccess
                     if (prop.Name == "Id") {
                         id = (int)prop.GetValue(classObject);
                     }
-                    if (prop.Name == "Tag") {
-                        tag = (string)prop.GetValue(classObject);
-                    }
+                    //if (prop.Name == "Tag") {
+                    //    tag = (string)prop.GetValue(classObject);
+                    //}
                 }
 
                 // removes properties to ignore with @
@@ -341,9 +348,9 @@ namespace EDTLibrary.DataAccess
                 sb.Replace(", ", "", sb.Length - 2, 2);
                 sb.Append(" WHERE Id = @Id");
 
-                if (tag=="CDP-01") {
-                    tag = tag;
-                }
+                //if (tag=="CDP-01") {
+                //    tag = tag;
+                //}
 
                 try {
                     cnn.Execute("" + sb.ToString(), classObject);
@@ -381,6 +388,57 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
+
+        public void UpdateRecordSaveList<T>(T classObject, string tableName, List<string> propertiesToSave, [CallerMemberName] string callerMethod = "") where T : class, new()
+        {
+            using (IDbConnection cnn = new SQLiteConnection(ConString).OpenAndReturn()) {
+                StringBuilder sb = new StringBuilder();
+                var props = classObject.GetType().GetProperties();
+                SQLiteCommand cmd = new SQLiteCommand();
+
+                //Build query string: 
+                //UPSERT INTO tableName (Col1, Col2,..) VALUES (@Col1, @Col2,..)
+                sb.Append($"UPDATE {tableName} SET ");
+
+                //Column Names
+                foreach (var prop in propertiesToSave) {
+                    var objectProperty = props.FirstOrDefault(p => p.Name == prop);
+                    sb.Append($"{prop} = @{prop}, ");
+                    cmd.Parameters.AddWithValue($"@{prop}", objectProperty.GetValue(classObject));
+                }
+                sb.Replace(", ", "", sb.Length - 2, 2);
+                sb.Append(" WHERE Id = @Id");
+
+                var query = sb.ToString();
+                try {
+                    cnn.Execute("" + sb.ToString(), classObject);
+                    return;
+                }
+                catch (Exception ex) {
+                    ex.Data.Add("UserMessage", "SQL Query Error\nQuery:\n" + sb.ToString());
+                    var debugHelper = classObject;
+
+                    //readonyl database error
+
+                    string message = "Error";
+
+                    if (ex.Message.Contains("readonly")) {
+                        message = $"The project file may be saved in a folder that does not have write " +
+                                        "priveliges enabled, like 'Program Files'. Move the file to another " +
+                                        "location and reopen the project.\n\n\n" +
+                                        $"Error Details: {ex.Message}";
+
+                        ErrorHelper.NotifyUserError(message);
+                    }
+                    else {
+                        //ErrorHelper.ShowErrorMessage(ex);
+                    }
+                    ErrorHelper.Log($"SqLiteConnector.Upsert - Failure Tag: none,    Caller: {callerMethod}");
+                    ErrorHelper.SendExeptionMessage(ex);
+                }
+            }
+        }
+
         public Tuple<bool, string> UpdateRecord<T>(T classObject, string tableName) where T : class, new()
         {
             using (IDbConnection cnn = new SQLiteConnection(ConString).OpenAndReturn()) {
@@ -416,6 +474,8 @@ namespace EDTLibrary.DataAccess
                 }
             }
         }
+
+
         public void UpdateSetting(string settingName, string settingValue)
         {
             using (IDbConnection cnn = new SQLiteConnection(ConString).OpenAndReturn()) {

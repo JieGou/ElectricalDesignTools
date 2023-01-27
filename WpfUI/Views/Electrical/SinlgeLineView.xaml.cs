@@ -409,8 +409,6 @@ public partial class SinlgeLineView : UserControl
     double _propertyPaneWidth = 0;
     private void GridSplitter_TogglePropertyPane(object sender, RoutedEventArgs e)
     {
-        //PropertyPane.Visibility = PropertyPane.Visibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
-
         var width = PropertyPaneColumn.Width.Value == 0 ? _propertyPaneWidth : 0;
         PropertyPaneColumn.Width = new GridLength(width);
     }

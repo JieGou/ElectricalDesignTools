@@ -115,7 +115,7 @@
         </Grid>
 
         <Grid Background="{StaticResource PageBackground}"
-          ShowGridLines="False">
+          ShowGridLines="false">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" x:Name="AddLoadRow"/>
@@ -130,7 +130,7 @@
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="375"/>
                 <ColumnDefinition Width="1"/>
             </Grid.ColumnDefinitions>
 
@@ -688,9 +688,16 @@
                     BorderBrush="Black" BorderThickness="1"
                     Background="LightGray"
                     VerticalAlignment="Stretch"/>
-            
 
-            <!--Move Load BUTTONS and PROPTERTIES-->
+
+
+            <GridSplitter Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Stretch"   
+                              Grid.Row="0" Grid.RowSpan="6"
+                              Background="Transparent"
+                              Width="{StaticResource GridSplitterWidth}" 
+                              />
+            
+            <!--Property Pane-->
             <Border BorderBrush="Black" BorderThickness="1"
                     Background="{StaticResource BackgroundLight}"  
                     Grid.Row="3" 
@@ -706,7 +713,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="5"/>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
                     <!--Buttons-->
@@ -776,9 +783,9 @@
                     </Grid>
 
                     <!--Propteries-->
-                    <dpanelViewers:DpnCctViewer_V Grid.Row="0" 
-                                                  Grid.Column="2" 
-                                                  DataContext="{Binding SelectedLoad}"
+                    <editors:LoadEditor Grid.Row="0" 
+                                                 Grid.Column="2" 
+                                                 DataContext="{Binding SelectedLoad}"
                                       />
 
                 </Grid>

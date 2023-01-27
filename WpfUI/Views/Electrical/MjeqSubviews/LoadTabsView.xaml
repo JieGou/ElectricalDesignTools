@@ -107,7 +107,7 @@
                        MinWidth="220"
                        Margin="5 10 5 5"
                        HorizontalAlignment="Left" VerticalAlignment="Top"
-                       >
+                       Visibility="Visible">
                     
                 <!--Feeder bus - FOR LOADS ONLY-->
                 <Border BorderBrush="Black" BorderThickness="0 0 0 3"
@@ -144,7 +144,9 @@
                                                   NotifyOnTargetUpdated=True}"
                                 x:Name="Graphic"
                                 Grid.Column="0"
-                                HorizontalAlignment="Left">
+                                HorizontalAlignment="Left"
+                                MaxWidth="220"
+                                >
 
                     <!--<ContentControl.Style>
                         <Style TargetType="ContentControl">
@@ -165,7 +167,9 @@
 
                         <!--Transformer-->
                         <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
-                            <Grid>
+                            
+                            <Grid ShowGridLines="False">
+                                
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="20"/>
@@ -185,7 +189,10 @@
                                     EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
                                 
                                 <!--PrimaryWiring-->
-                                <StackPanel Grid.Row="2" Orientation="Horizontal" Grid.ColumnSpan="5">
+                                <StackPanel Orientation="Horizontal" 
+                                            Grid.Row="2" 
+                                            Grid.ColumnSpan="5"
+                                            HorizontalAlignment="Right">
                                     <TextBlock Text="Primary" Width="65"/>
                                     <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
                                               ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
@@ -197,7 +204,10 @@
                                 </StackPanel>
                                 
                                 <!--Grounding-->
-                                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal"
+                                            Grid.Row="3"
+                                            Grid.ColumnSpan="5"
+                                            HorizontalAlignment="Right">
                                     <TextBlock Text="Grounding" Width="65"/>
                                     <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
                                               ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
@@ -210,7 +220,10 @@
                                 </StackPanel>
                                 
                                 <!--SecondaryWiring-->
-                                <StackPanel Grid.Row="5" Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" 
+                                            Grid.Row="5" 
+                                            Grid.ColumnSpan="5"
+                                            HorizontalAlignment="Right">
                                     <TextBlock Text="Secondary" Width="65"/>
                                     <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
                                               ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
@@ -223,7 +236,10 @@
 
 
                                 <!--Grounding-->
-                                <StackPanel Grid.Row="6" Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" 
+                                            Grid.Row="6" 
+                                            Grid.ColumnSpan="5"
+                                            HorizontalAlignment="Right">
                                     <TextBlock Text="Grounding" Width="65"/>
                                     <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
                                               ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
@@ -442,8 +458,9 @@
 
                     <!--Cable-->
                     <ContentControl Content="{Binding SelectedLoadCable}"
-                                        Grid.Row="0"
-                                        Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}">
+                                    Grid.Row="0"
+                                    Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}"
+                                    HorizontalAlignment="Right">
                         <ContentControl.Resources>
 
                             <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">

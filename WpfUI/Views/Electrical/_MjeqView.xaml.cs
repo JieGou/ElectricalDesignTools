@@ -1,19 +1,12 @@
 ﻿using EDTLibrary;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
-using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
-using EDTLibrary.UndoSystem;
-using Syncfusion.UI.Xaml.CellGrid;
-using Syncfusion.UI.Xaml.TreeView;
-using Syncfusion.Windows.Controls.PivotGrid;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,10 +18,8 @@ using WpfUI.Helpers;
 using WpfUI.SyncFusion.Renderers;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
-using WpfUI.ViewModels.Equipment;
 using WpfUI.Views.Electrical.MjeqSubviews;
 using WpfUI.Windows;
-using WpfUI.Windows.SelectionWindows;
 
 namespace WpfUI.Views.Electrical;
 /// <summary>
@@ -174,15 +165,17 @@ public partial class _MjeqView : UserControl
     {
 
         if (vm == null) return;
-    //    vm.SelectedLoads = dgdAssignedLoads.SelectedItems;
 
-    //    await CopySelectedLoads(vm);
+        CopySelectedLoads(vm);
 
 
-    //    async Task CopySelectedLoads(MjeqViewModel vm)
-    //    {
-    //        vm.SelectedLoads = dgdAssignedLoads.SelectedItems;
-    //    }
+        async Task CopySelectedLoads(MjeqViewModel vm)
+        {
+            vm.SelectedLoads.Clear();
+            foreach (var item in dgdAssignedLoads.SelectedItems) {
+                vm.SelectedLoads.Add((IPowerConsumer)item);
+            }
+        }
     }
 
     private void dgdAssignedLoads_PreviewKeyDown_1(object sender, KeyEventArgs e)

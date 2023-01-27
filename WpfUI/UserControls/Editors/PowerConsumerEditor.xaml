@@ -19,7 +19,7 @@
 
     <controls:EdtGroupBox Grid.Row="0"
                           x:Name="PowerConsumerGroupBox"
-                          Header="Load / Distribution Equipment Properties"
+                          Header="Load / Distribution Equipment"
                           HeaderForeGround="White"
                           HeaderBackground="Gray"
                           >

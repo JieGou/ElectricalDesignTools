@@ -116,13 +116,8 @@
         <Grid Background="{StaticResource PageBackground}" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="40"/>
-                <RowDefinition/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
-            <!--Page Title-->
-            <TextBlock Text="Cable List"
-                       Grid.Row="0"
-                       Style="{StaticResource PageTitleStyle}"/>
 
             <Grid Grid.Row="1" x:Name="cableGrid" d:Opacity="1" Opacity="0.5">
                 <Grid.ColumnDefinitions>
@@ -134,7 +129,7 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="5"/>
@@ -163,7 +158,8 @@
 
                 <!--Cable List-->
                 <syncfusion:SfDataGrid x:Name="dgdCableList"
-                                   Grid.Column="3" Grid.Row="2"
+                                   Grid.Row="1" Grid.RowSpan="2"
+                                       Grid.Column="3" 
                                    ItemsSource="{Binding ListManager.CableList, Mode=TwoWay, IsAsync=True}"
                                    CurrentItem="{Binding SelectedCable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    SelectedItem="{Binding SelectedCable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -344,16 +340,25 @@
 
 
                 <!--Property Grid-->
+                <Expander x:Name="propertyGridExpander"
+                          Grid.Row="0"
+                          Grid.Column="5"
+                          IsExpanded="True"
+                          Margin="0"
+                          Width="25"
+                          Height="25"
+                          HorizontalAlignment="Right"
+                          ExpandDirection="Left"
+                          />
+                
                 <Border BorderBrush="Black" BorderThickness="1"
                         Background="{StaticResource Background}"
                         Grid.Row="2"
                         Grid.Column="5"
                         HorizontalAlignment="Right"
-                        Width="25">
+                        >
                     <StackPanel>
-                        <Expander x:Name="propertyGridExpander"
-                                  Margin="0"
-                                  IsExpanded="True"/>
+                        
                         <Grid Visibility="{Binding ElementName=propertyGridExpander, Path=IsExpanded, 
                                                Converter={StaticResource BoolToVisInvert},
                                                ConverterParameter=Normal}"

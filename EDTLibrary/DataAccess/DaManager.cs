@@ -244,9 +244,11 @@ public class DaManager {
     public static void OnPowerCablePropertyUpdated(object source, EventArgs e)
     {
         if (DaManager.GettingRecords == false) {
-            prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
+            //prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
+            prjDb.UpdateRecordSaveList<CableModel>((CableModel)source, GlobalConfig.CableTable, SaveLists.CableSaveList);
         }
     }
+
     public static void OnRacewayPropertyUpdated(object source, EventArgs e)
     {
         if (DaManager.GettingRecords == false) {

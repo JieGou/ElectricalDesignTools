@@ -1130,14 +1130,16 @@ public class CableModel : ICable
         var id = Id;
         var tag = Tag;
         var type = Type;
-        if (PropertyUpdated != null) {
-            PropertyUpdated(this, EventArgs.Empty);
-        }
-        //await Task.Run(() => {
-        //    if (PropertyUpdated != null) {
-        //        PropertyUpdated(this, EventArgs.Empty);
-        //    }
-        //});
+
+        //if (PropertyUpdated != null) {
+        //    PropertyUpdated(this, EventArgs.Empty);
+        //}
+
+        await Task.Run(() => {
+            if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
+            }
+        });
     }
 }
 

@@ -998,7 +998,6 @@
 
                                CurrentItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               SelectedItems="{Binding SelectedLoads, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False"
                                HorizontalAlignment="Stretch" 
                                
@@ -1138,7 +1137,7 @@
 
                             <!--FedFrom-->
                             <sf:GridComboBoxColumn HeaderText="Fed From" MappingName="FedFrom"
-                                               Width="75"
+                                               Width="85"
                                                AllowEditing="True"
                                                AllowFiltering="True"
                                                ItemsSource="{Binding Path=DataContext.ListManager.IDteqList, 
@@ -1504,16 +1503,18 @@
                 </Grid>
 
 
-                <!--DETAILS VIEW-->
+                <!--Property Pane-->
                 <Expander x:Name="propertyGridExpander"
-                          Grid.Row="1"
+                          Grid.Row="2"
                           Grid.Column="5"
-                          
                           IsExpanded="True"
-                          
                           Margin="0"
+                          Width="25"
+                          Height="25"
+                          VerticalAlignment="Top"
                           HorizontalAlignment="Right"
-                          Width="25"/>
+                          ExpandDirection="Left"
+                          />
 
                 <Grid Grid.Row="2" Grid.RowSpan="3"
                       Grid.Column="5"
