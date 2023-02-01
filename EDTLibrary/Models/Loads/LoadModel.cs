@@ -47,6 +47,7 @@ namespace EDTLibrary.Models.Loads
 
         }
         public CalculationFlags CalculationFlags { get; set; }
+        internal SaveController saveController = new SaveController();
 
 
         //Properties
@@ -148,26 +149,27 @@ namespace EDTLibrary.Models.Loads
             get  { return _type; }
             set
             {
+                var oldValue = _type; 
                 _type = value;
+                
 
                 if (DaManager.GettingRecords) return;
                 if (DaManager.Importing) return;
                 if (VoltageType == null) return;
 
-                allowCalculations = false;
-                LoadUnitSelector.SelectUnit(this);
+                saveController.Lock(nameof(Type));
+                UndoManager.Lock(Type, nameof(Type));
 
-                ProtectionDeviceManager.SetProtectionDeviceType(this);
+                    allowCalculations = false;
+                    LoadUnitSelector.SelectUnit(this);
+                    ProtectionDeviceManager.SetProtectionDeviceType(this);
+                    allowCalculations = true;
 
-                //StandAloneStarterBool = false;
+                    CalculateLoading();
 
-                //if (_type == LoadTypes.MOTOR.ToString() && (FedFrom.Type == DteqTypes.DPN.ToString() || FedFrom.Type == DteqTypes.CDP.ToString() || FedFrom.Type == DteqTypes.SPL.ToString())) {
-                //    StandAloneStarterBool = true;
-                //}
-                       
-                allowCalculations = true;
-                CalculateLoading();
-
+                UndoManager.AddUndoCommand(this, nameof(Type),oldValue,_type);
+                saveController.UnLock(nameof(Type));
+                OnPropertyUpdated();
             }
         }
         public string _type;
@@ -181,9 +183,7 @@ namespace EDTLibrary.Models.Loads
 
                 var oldValue = _subType;
                 _subType = value;
-                if (DaManager.GettingRecords == false) {
-
-                }
+                if (DaManager.GettingRecords) return;
 
                 OnPropertyUpdated();
             }
@@ -200,12 +200,17 @@ namespace EDTLibrary.Models.Loads
                 double oldValue = _size;
                 _size = value;
 
-                UndoManager.CanAdd = true;
-                UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
-                if (DaManager.Importing == false) {
-                    CalculateLoading();
-                }
+                if (DaManager.GettingRecords) return;
+                saveController.Lock(nameof(Size));
+                UndoManager.Lock(this, nameof(Size));
 
+                    if (DaManager.Importing == false) {
+                        CalculateLoading();
+                    }
+
+                UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
+                saveController.UnLock(nameof(Size));
+                OnPropertyUpdated();
             }
         }
         public double _size;
@@ -220,14 +225,19 @@ namespace EDTLibrary.Models.Loads
                 }
 
                 else {
+                    var oldValue = _unit; 
                     _unit = value;
 
                     if (DaManager.GettingRecords) return;
+                    saveController.Lock(nameof(Unit));
+                    UndoManager.Lock(this, nameof(Unit));
 
-                    CalculateLoading();
+                        CalculateLoading();
+
+                    UndoManager.AddUndoCommand(this, nameof(Unit), oldValue, _unit);
+                    saveController.UnLock(nameof(Unit));
                     OnPropertyUpdated(nameof(Unit));
                 }
-                
             }
         }
         private string _unit;
@@ -238,21 +248,21 @@ namespace EDTLibrary.Models.Loads
             get { return LoadUnitSelector.GetUnitList(this); }
         }
 
-    public string Description
-        {
-            get { return _description; }
-            set
+        public string Description
             {
-                if (value == _description) return;
-                var oldValue = _description;
-                _description = value;
+                get { return _description; }
+                set
+                {
+                    if (value == _description) return;
+                    var oldValue = _description;
+                    _description = value;
 
-                if (Tag != null) {
-                    UndoManager.AddUndoCommand(this, nameof(Description), oldValue, _description);
+                    if (Tag != null) {
+                        UndoManager.AddUndoCommand(this, nameof(Description), oldValue, _description);
+                    }
+                    OnPropertyUpdated();
                 }
-                OnPropertyUpdated();
             }
-        }
         private string _description;
 
 
@@ -273,22 +283,19 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _area;
                 _area = value;
 
-                UndoManager.CanAdd = false;
+                if (DaManager.GettingRecords) return;
+                saveController.Lock(nameof(Area));
                 UndoManager.Lock(this, nameof(Area));
 
-                {
                     AreaManager.UpdateArea(this, _area, oldValue);
 
-                    if (DaManager.GettingRecords == false && PowerCable != null && FedFrom != null) {
+                    if (PowerCable != null && FedFrom != null) {
                         PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
                         PowerCable.CalculateAmpacity(this);
                     }
-                }
 
-                //OnAreaChanged(); the changes this event is responsible for are done in  AreaManager.UpdateArea
-                UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
-
+                saveController.UnLock(nameof(Area));
                 OnPropertyUpdated();
 
             }
@@ -439,23 +446,30 @@ namespace EDTLibrary.Models.Loads
                 if (value == null) return;
                 if (value == _fedFrom) return;
 
-                IDteq oldValue = _fedFrom;
-                _fedFrom = value;
+                var oldValue = _fedFrom;
+                var newFedFrom = value;
 
-                if (DistributionManager.IsUpdatingFedFrom_List) return;
-
-                UndoManager.CanAdd = false;
+                if (DaManager.GettingRecords) {
+                    _fedFrom = newFedFrom;
+                    return;
+                }
+                if (FedFromManager.IsUpdatingFedFrom_List) return;
+                saveController.Lock(nameof(FedFrom));
                 UndoManager.Lock(this, nameof(FedFrom));
 
-                if (DaManager.GettingRecords == false) {
 
-                    DistributionManager.UpdateFedFrom_Single(this, _fedFrom, oldValue);
-
+                if (FedFromManager.UpdateFedFrom_Single(this, newFedFrom, oldValue) == true) {
+                    _fedFrom = newFedFrom;
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     CableManager.UpdateLcsCableTags(this);
                 }
-                UndoManager.CanAdd = true;
+                else {
+                    _fedFrom = oldValue;
+                }
+
+
                 UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
+                saveController.UnLock(nameof(FedFrom));
                 OnPropertyUpdated();
             }
         }
@@ -469,10 +483,13 @@ namespace EDTLibrary.Models.Loads
 
                 var oldValue = _loadFactor;
                 _loadFactor = value;
+                if (DaManager.GettingRecords) return;
+                saveController.Lock(nameof(LoadFactor));    
 
-                UndoManager.CanAdd = true;
+                    CalculateLoading();
+
                 UndoManager.AddUndoCommand(this, nameof(LoadFactor), oldValue, _loadFactor);
-                CalculateLoading();
+                saveController.UnLock(nameof(LoadFactor));
                 OnPropertyUpdated();
             }
         }
@@ -486,7 +503,16 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _efficiency;
                 _efficiency = value;
                 EfficiencyDisplay = _efficiency * 100;
+                if (DaManager.GettingRecords) return;
+                saveController.Lock(nameof(Efficiency));
+                UndoManager.Lock(this,nameof(Efficiency));
+
+                if (IsCalculating == false) {
+                    CalculateLoading();
+                }
+
                 UndoManager.AddUndoCommand(this, nameof(Efficiency), oldValue, _efficiency);
+                saveController.UnLock(nameof(Efficiency));
                 OnPropertyUpdated(nameof(Efficiency));
             }
         }
@@ -507,7 +533,15 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _powerFactor;
                 _powerFactor = value / 100;
 
-                UndoManager.AddUndoCommand(this, nameof(PowerFactor), oldValue, _powerFactor);
+                saveController.Lock(nameof(PowerFactor));
+                UndoManager.Lock(this, nameof(PowerFactor));
+
+                if (IsCalculating == false) {
+                    CalculateLoading();
+                }
+
+                UndoManager.AddUndoCommand(this, nameof(PowerFactor), oldValue, _efficiency);
+                saveController.UnLock(nameof(PowerFactor)); 
                 OnPropertyUpdated(nameof(PowerFactor));
             }
         }
@@ -593,9 +627,10 @@ namespace EDTLibrary.Models.Loads
             {
                 var oldValue = _disconnectBool;
                 _disconnectBool = value;
-
+                if (DaManager.GettingRecords) return;
+                saveController.Lock(nameof(DisconnectBool));
                 UndoManager.Lock(this, nameof(DisconnectBool));
-                if (DaManager.GettingRecords == false) {
+
                     if (_disconnectBool == true) {
                         ComponentManager.AddDefaultDisconnect(this, ScenarioManager.ListManager);
                     }
@@ -603,10 +638,9 @@ namespace EDTLibrary.Models.Loads
                         ComponentManager.RemoveDefaultDisconnect(this, ScenarioManager.ListManager);
                     }
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
-                }
-                UndoManager.CanAdd = true;
+                
                 UndoManager.AddUndoCommand(this, nameof(DisconnectBool), oldValue, _disconnectBool);
-
+                saveController.UnLock(nameof(DisconnectBool));
                 OnPropertyUpdated();
 
             }
@@ -630,10 +664,11 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _lcsBool;
                 _lcsBool = value;
 
-                UndoManager.CanAdd = false;
+                if (DaManager.GettingRecords) return;
+                saveController.Lock(nameof(LcsBool));
+
                 UndoManager.Lock(this, nameof(LcsBool));
 
-                if (DaManager.GettingRecords == false) {
                     if (_lcsBool == true) {
                         ComponentManager.AddLcs(this, ScenarioManager.ListManager);
                         Lcs.UpdateTypelist(StandAloneStarterBool);
@@ -655,10 +690,9 @@ namespace EDTLibrary.Models.Loads
 
                         }
                     }
-                }
 
-                UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(LcsBool), oldValue, _lcsBool);
+                saveController.UnLock(nameof(LcsBool));
                 OnPropertyUpdated();
             }
         }
@@ -674,15 +708,14 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _standAloneStarterBool;
                 _standAloneStarterBool = value;
 
+                if (DaManager.GettingRecords) return;
+                saveController.Lock(nameof(StandAloneStarterBool));
+                UndoManager.Lock(this, nameof(StandAloneStarterBool));
+
                 ProtectionDeviceManager.SetProtectionDeviceType(this);
                 ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
 
-                UndoManager.CanAdd = false;
-                UndoManager.Lock(this, nameof(StandAloneStarterBool));
-
-
-                if (DaManager.GettingRecords == false) {
-                    if (Lcs!=null) {
+                if (Lcs!=null) {
                         Lcs.Type = ComponentFactory.GetLcsType(this);
                         Lcs.TypeModel = TypeManager.GetLcsTypeModel(Lcs.TypeId);
                     }
@@ -702,27 +735,21 @@ namespace EDTLibrary.Models.Loads
                     }
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     CableManager.UpdateLcsCableTags(this);
-                }
 
                 if (LcsBool) {
                     Lcs.UpdateTypelist(_standAloneStarterBool);
                     Lcs.Type = ComponentFactory.GetLcsType(this);
                 }
 
-                UndoManager.CanAdd = true;
                 UndoManager.AddUndoCommand(this, nameof(StandAloneStarterBool), oldValue, _standAloneStarterBool);
+                saveController.UnLock(nameof(StandAloneStarterBool));
                 OnPropertyUpdated();
             }
 
         }
         private bool _standAloneStarterBool;
 
-        public int StandAloneStarterId
-        {
-            get { return _standAloneStarterId; }
-            set { _standAloneStarterId = value; }
-        }
-        private int _standAloneStarterId;
+        public int StandAloneStarterId { get; set; }
 
         public IComponentEdt SelectedComponent { get; set; }
 
@@ -997,6 +1024,7 @@ namespace EDTLibrary.Models.Loads
                 if (IsCalculating) return;
                 if (CanSave == false) return;
 
+                var tag = Tag;
 
                 await Task.Run(() => {
                     if (PropertyUpdated != null) {

@@ -29,7 +29,7 @@ public  class TagSettings
     public static string HeaterLoadIdentifier { get; set; } = "HTR";
     public static string WeldingLoadIdentifier { get; set; } = "WLD";
     public static string PanelLoadIdentifier { get; set; } = "PNL";
-    public static string OtherLoadIdentifier { get; set; } = "OTH";
+    public static string OtherLoadIdentifier { get; set; } = "LD";
 
 
     #endregion  

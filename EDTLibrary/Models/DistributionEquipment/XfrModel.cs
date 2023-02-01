@@ -4,6 +4,7 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
+using System.Linq;
 
 namespace EDTLibrary.Models.DistributionEquipment;
 
@@ -188,6 +189,33 @@ public class XfrModel : DistributionEquipment
         }
 
         return (ILoad)largestMotor;
+    }
+
+
+    public override bool CanAdd(IPowerConsumer load)
+    {
+        if (AssignedLoads.Count > 0 || load is LoadModel) {
+            return false;
+        }
+        return true;
+    }
+    public override bool AddNewLoad(IPowerConsumer load)
+    {
+
+        if (load == null) return false;
+
+        //check if load is already assigned
+        var iLoad = AssignedLoads.FirstOrDefault(l => l == load);
+
+        if (iLoad == null) {
+            AssignedLoads.Add(load);
+            if (load.ProtectionDevice != null) {
+                load.ProtectionDevice.IsSelected = false;
+                load.CctComponents.Remove(load.ProtectionDevice);
+            }
+            return true;
+        }
+        return false;
     }
 
 }

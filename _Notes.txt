@@ -1,24 +1,17 @@
 MAJOR Bugs
-	- loads and cables aren't deleting properly
-		- might  be cables only. this is an async issue where the cables are being updated after the load is deleted and the database save happens after everything is deleted.
-		- changing to insert instead of upsert would resolve this
-	- remove DP load tagging GUID \
 	- DteqHeatLoss Calculation locks up UI
+	- Limit transformer to a single load
+	- change MessageBoxes to ErrorDialog with error list
 
 
 MINOR Bugs
 	- required amps tooltip does not update while CableSizingView_Narrow is in view
 	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bogs down the app
-	- new Dteq not added to Dteq List
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
-	- added DTEQ aren't in the right click menu SetFedFrom list
-	- startup service to handle reloading project
 	- ProtectionDeviceModel.TypeList comboBox values disappear on PowerConsumer editor when Type is changed
-
-
+	- menu Views/ViewModels are slow to load on battery
 	- LCS Analog cable Tag when VFD is in MCC
-	
 
 		
 Library 
@@ -28,13 +21,8 @@ Library
 Misc.
 	- Component Move Up Command to Owner
 	- Main Window Toolbar Height
-	- Delete from Single line
 	- DTEQ right click menu
 	- transformer cooling type on dteq options
-
-Double/Decimal TextBoxes and values
-	- equipment size
-	- cable lengths
 
 
 LoadModel 
@@ -84,13 +72,13 @@ Priorities
 		- Bom Style Export
 
 Exports
-	- add Export buttons to Views
 	- Areas List and equipment summary
 	- Area Equipment summary
-	- Dteq loading summary
+	- Dteq loading summary (panel loading for Dpanels)
 	- Cable BOM
 	- Component BOM
 	- include / exclude all and multi-select
+	- add Export buttons to Views
 
 
 Validations
@@ -194,5 +182,8 @@ Modularize Calculations Better
 		- Cable.LoadId
 		- Source.Id, Source.Type
 		- Destination.Id, Destination.Type
+
+Double/Decimal TextBoxes and values
+	- standardize input/commit
 
 Error Handling

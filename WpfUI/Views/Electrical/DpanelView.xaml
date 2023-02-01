@@ -6,6 +6,10 @@
              xmlns:local="clr-namespace:WpfUI.Windows"
              mc:Ignorable="d"
         
+             xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
+             xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
+             
+             
              xmlns:editors="clr-namespace:WpfUI.UserControls.Editors"
              
              xmlns:dpanelViewers="clr-namespace:WpfUI.UserControls.Viewers.Dpanels"
@@ -22,7 +26,7 @@
              
              xmlns:sf="http://schemas.syncfusion.com/wpf"
              
-             d:Height="900" d:Width="1900"
+             d:Height="900" d:Width="2100"
              Loaded="UserControl_Loaded"
              >
 
@@ -183,8 +187,11 @@
                              KeyUp="TextBox_KeyEnterUpdate"
                              Margin="0 0 0 20"/>
 
+                    <!--Add Load view toggle button-->
                     <Button x:Name="btnAddLoad"
-                            Grid.Row="3" Grid.Column="0" Click="btnAddLoad_Click"
+                            Grid.Row="3" 
+                            Grid.Column="0" 
+                            Click="btnAddLoad_Click"
                         >
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
@@ -198,7 +205,7 @@
 
             </ScrollViewer>
 
-            <!--ADD equipment-->
+            <!--ADD equipment view-->
             <AddEquipmentViews:AddLoadView x:Name="loadAdder"
                                        Grid.Row="0"
                                        Grid.Column="3" Grid.ColumnSpan="1"
@@ -209,7 +216,10 @@
 
             <!--Top right-->
             <Button Content="Add Load" x:Name="tutorial"
-                Grid.Row="0" Grid.Column="5" Click="tutorial_Click"
+                    Grid.Row="0" 
+                    Grid.Column="5" 
+                    Margin="10"
+                    Click="tutorial_Click"
                         />
 
             <!--Left Lower Menu -->
@@ -229,7 +239,7 @@
                     Grid.Column="3"
                     BorderBrush="Gray" BorderThickness="1"
                     Background="{StaticResource BackgroundLight}"
-                    Visibility="Collapsed">
+                    Visibility="Visible">
                 <Grid Grid.Row="0"
                       Grid.Column="3"
                       ShowGridLines="False">
@@ -396,13 +406,25 @@
                                                    >
                                     <sf:GridComboBoxColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ProtectionDevice.TripAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                       TextAlignment="Left"
+                                            <TextBlock TextAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        Padding="5 0 0 0"
-                                                       Visibility="{Binding ProtectionDevice.TripAmps, Converter={StaticResource BreakerSizeToVisibilityConverter}}"
-                                                       />
+                                                       >
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="{Binding ProtectionDevice.TripAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                        <Setter Property="Visibility" Value="{Binding ProtectionDevice.TripAmps, Converter={StaticResource BreakerSizeToVisibilityConverter}}"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtLoadModels:LoadCircuit}">
+                                                                <Setter Property="Text" Value="{Binding PdSizeTrip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
                                         </DataTemplate>
+                                        
                                     </sf:GridComboBoxColumn.CellTemplate>
                                 </sf:GridComboBoxColumn>
 
@@ -576,12 +598,25 @@
                                                    >
                                     <sf:GridComboBoxColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ProtectionDevice.TripAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                       TextAlignment="Left"
+                                            <TextBlock TextAlignment="Left"
                                                        VerticalAlignment="Center"
                                                        Padding="5 0 0 0"
-                                                       Visibility="{Binding ProtectionDevice.TripAmps, Converter={StaticResource BreakerSizeToVisibilityConverter}}"
-                                                       />
+                                                       >
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text" Value="{Binding ProtectionDevice.TripAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                        <Setter Property="Visibility" Value="{Binding ProtectionDevice.TripAmps, Converter={StaticResource BreakerSizeToVisibilityConverter}}"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtLoadModels:LoadCircuit}">
+                                                                <DataTrigger.Setters>
+                                                                    <Setter Property="Text" Value="{Binding PdSizeTrip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                    <Setter Property="Visibility" Value="{Binding PdSizeTrip, Converter={StaticResource BreakerSizeToVisibilityConverter}}"/>
+                                                                </DataTrigger.Setters>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
                                         </DataTemplate>
                                     </sf:GridComboBoxColumn.CellTemplate>
                                 </sf:GridComboBoxColumn>
@@ -725,6 +760,7 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
 
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -769,17 +805,40 @@
                             Margin="3"
                             Command="{Binding MoveRightCommand}"/>
 
-                        <!--Convert-->
-
                         <!--Delete-->
                         <Button Content ="Delete"
-                        Grid.Row="3" 
-                        Grid.Column="0" Grid.ColumnSpan="3"
-                        Width="50"
-                        Style="{StaticResource RedButton}"
-                        Margin="3 20 3 3"
-                        Command="{Binding DeleteLoadCommand}"
-                        ToolTip="Delete selected load"/>
+                            Grid.Row="3" 
+                            Grid.Column="0" Grid.ColumnSpan="3"
+                            Width="50"
+                            Style="{StaticResource RedButton}"
+                            Margin="3 20 3 3"
+                            Command="{Binding DeleteLoadCommand}"
+                            ToolTip="Delete selected load"/>
+
+                        <!--Convert-->
+                        <Button Content="Convert &#x0a;To Load"
+                                DataContext="{Binding SelectedLoad}"
+                            Grid.Row="4" 
+                            Grid.Column="0" Grid.ColumnSpan="3"
+                            Width="60"
+                            Height="35"
+                            Margin="0 20 0 0"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Center"
+                            Command="{Binding ConvertToLoadCommand}"
+                            d:Visibility="Visible"
+                            >
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource GreenButton}">
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtLoadModels:LoadCircuit}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </Grid>
 
                     <!--Propteries-->

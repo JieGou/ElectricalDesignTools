@@ -59,7 +59,6 @@ public class TagManager
         
         return tag;
     }
-
     private static string GetNextSequentialNumber(IEquipment eq, ListManager listManager)
     {
         var sequenceNumber = "000";
@@ -102,7 +101,6 @@ public class TagManager
         return sequenceNumber;
 
     }
-
     private static string GetEquipmentIdentifier(IEquipment eq)
     {
 
@@ -177,9 +175,6 @@ public class TagManager
             EdtNotificationService.SendError(nameof(GetEquipmentIdentifier), ex.Message, "Error", ex );
         }
     }
-
-
-
     public static string GetCableTypeIdentifier(ICable cable)
     {
         string output = "";
@@ -205,4 +200,125 @@ public class TagManager
     }
 
 
+    public static string AssignEqTag(string eqType, ListManager listManager)
+    {
+        var identifier = GetEquipmentIdentifier(eqType);
+        var sequenceNumber = GetNextSequentialNumber(eqType, listManager);
+
+        var tag = identifier + TagSettings.EqIdentifierSeparator + sequenceNumber;
+
+        if (TagAndNameValidator.IsTagAvailable(tag, listManager) == false) {
+
+            do {
+                sequenceNumber = (int.Parse(sequenceNumber) + 1).ToString();
+                tag = identifier + TagSettings.EqIdentifierSeparator + sequenceNumber;
+            } while (TagAndNameValidator.IsTagAvailable(tag, listManager) == false);
+        }
+
+        return tag;
+    }
+    private static string GetNextSequentialNumber(string eqType, ListManager listManager)
+    {
+        var sequenceNumber = "000";
+
+        listManager.CreateEquipmentList();
+
+        var eqTypelist = listManager.EqList.Where(e => e.Type == eqType).ToList();
+        var eqNumList = new List<int>();
+
+        int outTagNum = 0;
+        if (eqTypelist.Count > 0) {
+            foreach (var item in eqTypelist) {
+                if (item.Tag == null) {
+
+                }
+                else {
+                    int.TryParse(item.Tag.Substring(item.Tag.IndexOf(TagSettings.EqIdentifierSeparator) + 1), out outTagNum);
+                    eqNumList.Add(outTagNum);
+                }
+            }
+
+            if (eqNumList.Count > 0) {
+                var maxNum = eqNumList.Max();
+                sequenceNumber = (maxNum += 1).ToString();
+            }
+            else {
+                sequenceNumber = "1";
+            }
+        }
+        else {
+            sequenceNumber = "1";
+        }
+
+
+        var length = int.Parse(TagSettings.EqNumberDigitCount) - sequenceNumber.Length;
+        for (int i = 0; i < length; i++) {
+            sequenceNumber = "0" + sequenceNumber;
+        }
+
+        return sequenceNumber;
+
+    }
+    private static string GetEquipmentIdentifier(string eqType)
+    {
+
+        try {
+            if (eqType == DteqTypes.XFR.ToString()) {
+                return TagSettings.TransformerIdentifier;
+            }
+            else if (eqType == DteqTypes.SWG.ToString()) {
+                return TagSettings.SwgIdentifier;
+            }
+            else if (eqType == DteqTypes.MCC.ToString()) {
+                return TagSettings.MccIdentifier;
+            }
+            else if (eqType == DteqTypes.CDP.ToString()) {
+                return TagSettings.CdpIdentifier;
+            }
+            else if (eqType == DteqTypes.DPN.ToString()) {
+                return TagSettings.DpnIdentifier;
+            }
+            else if (eqType == DteqTypes.SPL.ToString()) {
+                return TagSettings.SplitterIdentifier;
+            }
+
+            //loads
+            else if (eqType == LoadTypes.MOTOR.ToString()) {
+                return TagSettings.MotorLoadIdentifier;
+            }
+            else if (eqType == LoadTypes.HEATER.ToString()) {
+                return TagSettings.HeaterLoadIdentifier;
+            }
+            else if (eqType == LoadTypes.WELDING.ToString()) {
+                return TagSettings.WeldingLoadIdentifier;
+            }
+            else if (eqType == LoadTypes.PANEL.ToString()) {
+                return TagSettings.PanelLoadIdentifier;
+            }
+            else if (eqType == LoadTypes.OTHER.ToString()) {
+                return TagSettings.OtherLoadIdentifier;
+            }
+
+
+            //Components
+            else if (eqType.Contains(StarterTypes.DOL.ToString()) || eqType.Contains("MCP")) {
+                return TagSettings.StarterSuffix;
+            }
+            else if (eqType.Contains(StarterTypes.VSD.ToString()) || eqType.Contains(StarterTypes.VFD.ToString())) {
+                return TagSettings.DriveSuffix;
+            }
+            else if (eqType == CctComponentTypes.UDS.ToString() || eqType == CctComponentTypes.UDS.ToString()) {
+                return TagSettings.DisconnectSuffix;
+            }
+
+            else {
+                return "Unidentified Equipment Type - " + nameof(GetEquipmentIdentifier);
+            }
+        }
+        catch (Exception ex) {
+            return "Unidentified Equipment Type - " + nameof(GetEquipmentIdentifier);
+
+            EdtNotificationService.SendError(nameof(GetEquipmentIdentifier), ex.Message, "Error", ex);
+        }
+    }
 }

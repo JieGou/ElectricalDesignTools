@@ -37,6 +37,7 @@ namespace WpfUI.Converters
             var alertBrush = (Brush)bc.ConvertFrom("#FFFFBABA"); //red
             var transparentBrush = new SolidColorBrush(Colors.Transparent);
 
+
             if (load.FedFrom.Type==DteqTypes.DPN.ToString()) {
                 if (load.FedFrom.LoadVoltageType.Voltage == 208 && 
                     (load.VoltageType.Voltage == 208 || load.VoltageType.Voltage == 120)) {

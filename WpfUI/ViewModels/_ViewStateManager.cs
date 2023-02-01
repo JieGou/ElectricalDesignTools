@@ -26,7 +26,7 @@ public class _ViewStateManager
     public static void OnElectricalViewUpdated()
     {
         if (ElectricalViewUpdate != null) {
-            ElectricalViewUpdate(nameof(DistributionManager), EventArgs.Empty);
+            ElectricalViewUpdate(nameof(FedFromManager), EventArgs.Empty);
         }
     }
 }

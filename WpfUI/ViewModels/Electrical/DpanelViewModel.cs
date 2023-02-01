@@ -43,6 +43,9 @@ internal class DpanelViewModel : ViewModelBase
         ListManager = listManager;
         LoadToAddValidator = new LoadToAddValidator(listManager);
 
+        _ViewStateManager.ElectricalViewUpdate += OnElectricalViewUpdated;
+
+
         AddLoadCommand = new RelayCommand(AddLoad);
 
         MoveUpLeftCommand = new RelayCommand(MoveUpLeft);
@@ -66,6 +69,25 @@ internal class DpanelViewModel : ViewModelBase
 
     }
 
+    #region ViewState
+    public void OnElectricalViewUpdated(object source, EventArgs e)
+    {
+        UpdatePanelList();
+        RefreshSelectedPanel();
+    }
+
+    public void RefreshSelectedPanel()
+    {
+        if (SelectedDteq == null) return;
+
+        var dteq = ListManager.DteqList.FirstOrDefault(d => d.Tag == SelectedDteq.Tag);
+
+        if (dteq == null) return;
+
+        SelectedDteq = (IDpn)dteq;
+    }
+
+    #endregion
 
     public IDpn SelectedDteq
     {

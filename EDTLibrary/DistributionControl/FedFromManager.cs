@@ -13,16 +13,26 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.DistributionControl
 {
-    public class DistributionManager
+    public class FedFromManager
     {
         private ListManager _listManager;
 
-        public DistributionManager(ListManager listManager)
+        public FedFromManager(ListManager listManager)
         {
             _listManager = listManager;
         }
 
         public static bool IsUpdatingFedFrom_List { get; set; } = false;
+
+        public static bool UpdateFedFrom_Single(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
+        {
+            if (DaManager.GettingRecords == false) {
+                var wasFedFromUpdated = UpdateFedFrom(caller, newSupplier, oldSupplier);
+                //OnFedFromUpdated();
+                return wasFedFromUpdated;
+            }
+            return true;
+        }
 
         /// <summary>
         /// List is used so that bulk updates only refresh the views once.
@@ -39,32 +49,22 @@ namespace EDTLibrary.DistributionControl
 
             if (DaManager.Importing == false) {
                 OnFedFromUpdated();
-
             }
             IsUpdatingFedFrom_List = false;
 
-
         }
 
-        public static void UpdateFedFrom_Single(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
-        {
-            if (DaManager.GettingRecords == false)
-            {
-                var item = new UpdateFedFromItem { Caller = caller, NewSupplier = newSupplier, OldSupplier = oldSupplier };
-                var list = new List<UpdateFedFromItem>();
-                list.Add(item);
-                UpdateFedFrom_List(list);
-            }
-        }
-
+       
         /// <summary>
         /// Transfers the load from the old to the new supplier. (Id, Tag, Type, events, load calculation, cable tag , etc.
         /// </summary>
         /// <param name="caller"></param>
         /// <param name="newSupplier"></param>
         /// <param name="oldSupplier"></param>
-        private static void UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
+        private static bool UpdateFedFrom(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
+            if (newSupplier.CanAdd(caller) == false) return false;
+
             if (caller.FedFrom != null)
             {
                 caller.FedFromId = newSupplier.Id;
@@ -116,6 +116,7 @@ namespace EDTLibrary.DistributionControl
                     }
                 }
             }
+            return true;
         }
 
         public static void RetagLoadsOfDeleted(IDteq dteq)
@@ -149,7 +150,7 @@ namespace EDTLibrary.DistributionControl
         {
             if (FedFromUpdated != null)
             {
-                FedFromUpdated(nameof(DistributionManager), EventArgs.Empty);
+                FedFromUpdated(nameof(FedFromManager), EventArgs.Empty);
             }
         }
 

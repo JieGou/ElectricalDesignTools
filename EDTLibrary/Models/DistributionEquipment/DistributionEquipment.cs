@@ -42,6 +42,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             Voltage = LineVoltage;
         }
 
+        internal SaveController saveController = new SaveController();
         #region Validation
         public bool IsValid
         {
@@ -260,9 +261,10 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (value == null) return;
                 var oldValue = _area;
                 _area = value;
-                UndoManager.CanAdd = false;
+                saveController.Lock(nameof(Area));
+
                 UndoManager.Lock(this, nameof(Area));
-                if (Area != null) {
+                //if (Area != null) {
                     AreaManager.UpdateArea(this, _area, oldValue);
 
                     if (DaManager.GettingRecords == false && PowerCable != null) {
@@ -271,12 +273,13 @@ namespace EDTLibrary.Models.DistributionEquipment
                     }
 
                     OnAreaChanged();
-                    UndoManager.CanAdd = true;
 
                     UndoManager.AddUndoCommand(this, nameof(Area), oldValue, _area);
 
+                saveController.UnLock(nameof(Area));
                     OnPropertyUpdated(nameof(Area) + ": " + Area.ToString());
-                }
+
+                //}
             }
         }
         private IArea _area;
@@ -289,9 +292,12 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (value == null) return;
                 var oldValue = _nemaRating;
                 _nemaRating = value;
+                saveController.Lock(nameof(NemaRating));
+                UndoManager.Lock(this, nameof(NemaRating));
 
                 UndoManager.AddUndoCommand(this, nameof(NemaRating), oldValue, _nemaRating);
-                if (DaManager.GettingRecords) return;
+                saveController.UnLock(nameof(NemaRating));
+
                 OnPropertyUpdated(nameof(NemaRating) + ": " + NemaRating.ToString());
             }
         }
@@ -304,7 +310,14 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _areaClassification;
                 _areaClassification = value;
+                saveController.Lock(nameof(AreaClassification));
+                UndoManager.Lock(this, nameof(AreaClassification));
+
+
+
                 UndoManager.AddUndoCommand(this, nameof(AreaClassification), oldValue, _areaClassification);
+                saveController.UnLock(nameof(AreaClassification));
+
                 OnPropertyUpdated(nameof(AreaClassification) + ": " + AreaClassification.ToString());
             }
         }
@@ -325,7 +338,6 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
 
-        public double _size;
         public virtual double Size
         {
             get { return _size; }
@@ -335,25 +347,27 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _size = value;
 
                 if (DaManager.GettingRecords) return;
+                UndoManager.Lock(this, nameof(Size));
+                saveController.Lock(nameof(Size));
+
 
                 CalculateLoading();
                 SCCR = CalculateSCCR();
                 if (PowerCable != null) {
                     PowerCable.GetRequiredAmps(this);
                 }
-                if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Size), OldValue = oldValue, NewValue = _size };
-                    UndoManager.AddUndoCommand(cmd);
-                }
-
+                
+                UndoManager.AddUndoCommand(this, nameof(Size),oldValue, _size);
+                saveController.UnLock(nameof(Size));
                 OnPropertyUpdated(nameof(Size) + ": " + Size.ToString());
             }
         }
+        public double _size;
+
         public string Unit { get; set; }
         public int FedFromId { get; set; }
         public string FedFromType { get; set; }
 
-        private string _fedFromTag;
         public string FedFromTag
         {
             get
@@ -369,13 +383,11 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 _fedFromTag = value;
-                if (FedFrom != null && _fedFromTag != GlobalConfig.Deleted) {
-                    FedFrom.Tag = _fedFromTag;
-                }
+                
             }
         }
+        private string _fedFromTag;
 
-        private IDteq _fedFrom;
         public IDteq FedFrom
         {
             get { return _fedFrom; }
@@ -384,39 +396,37 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 if (value == null || value == _fedFrom) return;
 
-                IDteq oldValue = _fedFrom;
-                IDteq newFedFrom = value;
+                var oldValue = _fedFrom;
+                var newFedFrom = value;
+                saveController.Lock(nameof(FedFrom));
 
-                UndoManager.CanAdd = false;
+                UndoManager.Lock(this, nameof(FedFrom));
                 try {
                     if (DaManager.GettingRecords == true) {
                         // Assigned loads add, and events are subscribed to inside UpdateFedFrom;
-                        _fedFrom = value;
-                        if (DistributionManager.IsUpdatingFedFrom_List) return;
-
-                        DistributionManager.UpdateFedFrom_Single(this, _fedFrom, oldValue);
-                        UndoManager.CanAdd = true;
-                        return;
+                        UpdatingFedFrom_List_Check();
+                        if (FedFromManager.UpdateFedFrom_Single(this, newFedFrom, oldValue)) {
+                            _fedFrom = value;
+                            SaveAndAddUndoCommand(oldValue);
+                        }
                     }
 
 
                     if (newFedFrom == null) {
-                        _fedFrom = newFedFrom;
-                        if (DistributionManager.IsUpdatingFedFrom_List) return;
-
-                        DistributionManager.UpdateFedFrom_Single(this, newFedFrom, new DteqModel());
-                        UndoManager.CanAdd = true;
-                        return;
+                        UpdatingFedFrom_List_Check();
+                        if (FedFromManager.UpdateFedFrom_Single(this, newFedFrom, oldValue)) {
+                            _fedFrom = value;
+                            SaveAndAddUndoCommand(oldValue);
+                        }
                     }
 
 
-                    if (FedFromValidator.IsFedFromValid(this,newFedFrom)) {
-                        _fedFrom = newFedFrom;
-                        if (DistributionManager.IsUpdatingFedFrom_List) return;
-
-                        DistributionManager.UpdateFedFrom_Single(this, newFedFrom, oldValue);
-                        UndoManager.CanAdd = true;
-                        return;
+                    if (FedFromValidator.IsFedFromValid(this, newFedFrom)) {
+                        UpdatingFedFrom_List_Check();
+                        if (FedFromManager.UpdateFedFrom_Single(this, newFedFrom, oldValue)) {
+                            _fedFrom = value;
+                            SaveAndAddUndoCommand(oldValue);
+                        }
                     }
                     else {
                         //Must change value back before showing message box
@@ -424,8 +434,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                         ErrorHelper.NotifyUserError("Equipment Cannot be fed from itself, directly or through other equipment.",
                                                     "Circular Feed Error",
                                                     MessageBoxImage.Warning);
-                        UndoManager.CanAdd = true;
-                        return;
+
+                        SaveAndAddUndoCommand(oldValue);
                     }
 
                 }
@@ -433,11 +443,26 @@ namespace EDTLibrary.Models.DistributionEquipment
                     throw;
                 }
 
-                UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
-                UndoManager.CanAdd = true;
-                OnPropertyUpdated(nameof(FedFrom) + ": " + FedFrom.Tag.ToString());
+
+                //local functions
+                void UpdatingFedFrom_List_Check()
+                {
+                    if (FedFromManager.IsUpdatingFedFrom_List) {
+                        saveController.UnLock(nameof(FedFrom));
+                        return;
+                    }
+                }
+
+                void SaveAndAddUndoCommand(IDteq oldValue)
+                {
+                    UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
+                    saveController.UnLock(nameof(FedFrom));
+                    OnPropertyUpdated(nameof(FedFrom) + ": " + FedFrom.Tag.ToString());
+                    return;
+                }
             }
         }
+        private IDteq _fedFrom;
 
 
         public int VoltageTypeId { get; set; } //unused for PowerConsumer interface
@@ -450,6 +475,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 var oldValue = _voltageType;
                 _voltageType = value;
+                saveController.Lock(nameof(VoltageType));
 
                 UndoManager.Lock(this, nameof(VoltageType));
 
@@ -459,9 +485,11 @@ namespace EDTLibrary.Models.DistributionEquipment
                     LoadVoltageType = value;
                 }
                 UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
+                saveController.UnLock(nameof(VoltageType));
+                OnPropertyUpdated(nameof(VoltageType));
             }
         }
-        //unused, for PowerConsumer interface
+        //unused in Dteq, included for PowerConsumer interface
         private VoltageType _voltageType;
 
 
@@ -487,16 +515,19 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (value == null) return;
                 var oldValue = _lineVoltageType;
                 _lineVoltageType = value;
-                LineVoltage = _lineVoltageType.Voltage;
 
+                saveController.Lock(nameof(LineVoltageType));
                 UndoManager.Lock(this, nameof(LineVoltageType));
+
                 LineVoltageTypeId = _lineVoltageType.Id;
                 LineVoltage = _lineVoltageType.Voltage;
-                UndoManager.AddUndoCommand(this, nameof(LineVoltageType), oldValue, _lineVoltageType);
 
                 if (DaManager.Importing == false && DaManager.GettingRecords == false) {
                     CalculateLoading(nameof(LineVoltageType));
                 }
+
+                UndoManager.AddUndoCommand(this, nameof(LineVoltageType), oldValue, _lineVoltageType);
+                saveController.UnLock(nameof(LineVoltageType));
 
                 OnPropertyUpdated(nameof(LineVoltageType));
             }
@@ -513,12 +544,10 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 var oldValue = _lineVoltage;
                 _lineVoltage = value;
-                Voltage = _lineVoltage;
 
                 UndoManager.AddUndoCommand(this, nameof(LineVoltage), oldValue, _lineVoltage);
-
-                if (DaManager.GettingRecords) return;
-                OnPropertyUpdated(nameof(LineVoltage) + ": " + LineVoltage.ToString());
+                
+                Voltage = _lineVoltage;
 
             }
         }
@@ -536,9 +565,10 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 var oldValue = _loadVoltageType;
                 _loadVoltageType = value;
-                LoadVoltage = _loadVoltageType.Voltage;
 
+                saveController.Lock(nameof(LoadVoltageType));
                 UndoManager.Lock(this, nameof(LoadVoltageType));
+
                 LoadVoltageTypeId = _loadVoltageType.Id;
                 LoadVoltage = _loadVoltageType.Voltage;
 
@@ -551,11 +581,12 @@ namespace EDTLibrary.Models.DistributionEquipment
                     }
                 }
 
-                UndoManager.AddUndoCommand(this, nameof(LoadVoltageType), oldValue, _loadVoltageType);
-
                 if (DaManager.Importing == false && DaManager.GettingRecords == false) {
                     CalculateLoading(nameof(LoadVoltageType));
                 }
+
+                UndoManager.AddUndoCommand(this, nameof(LoadVoltageType), oldValue, _loadVoltageType);
+                saveController.UnLock(nameof(LoadVoltageType));
                 OnPropertyUpdated(nameof(LoadVoltageType));
             }
         }
@@ -581,7 +612,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         private double _loadVoltage;
 
         //Loading
-        private double _fla;
 
         public double Fla
         {
@@ -591,6 +621,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 _fla = value;
             }
         }
+        private double _fla;
 
         public double RunningAmps { get; set; }
         public double ConnectedKva { get; set; }
@@ -630,6 +661,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var _oldValue = _lcsBool;
                 _lcsBool = value;
+
+
                 if (_lcsBool == true) {
                     ComponentManager.AddLcs(this, ScenarioManager.ListManager);
                 }
@@ -983,6 +1016,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (DaManager.Importing == true) return;
             if (DaManager.DeletingLoad == true) return;
             if (IsCalculating) return;
+
+            if (saveController.IsLocked) return;
+
+            var tag = Tag;
 
             await Task.Run(() => {
                 if (PropertyUpdated != null) {

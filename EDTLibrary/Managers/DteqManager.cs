@@ -102,7 +102,7 @@ public class DteqManager
                 dteqToDelete.PowerCable.PropertyUpdated -= DaManager.OnPowerCablePropertyUpdated;
 
 
-                DistributionManager.RetagLoadsOfDeleted(dteqToDelete);
+                FedFromManager.RetagLoadsOfDeleted(dteqToDelete);
 
                 if (dteqToDelete.FedFrom != null) {
                     dteqToDelete.FedFrom.AssignedLoads.Remove(dteqToDelete);

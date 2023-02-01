@@ -214,7 +214,7 @@ public abstract class EdtViewModelBase: ViewModelBase
 
         }
 
-        DistributionManager.UpdateFedFrom_List(list);
+        FedFromManager.UpdateFedFrom_List(list);
 
         if (SelectionWindow != null) {
             CloseSelectionWindow();

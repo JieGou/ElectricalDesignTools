@@ -128,6 +128,7 @@ public class LoadManager
 
         //Cable
         newLoad.PowerCable.Type = CableManager.CableSizer.GetDefaultCableType(newLoad);
+        newLoad.PowerCable.TypeModel = CableManager.CableSizer.GetDefaultCableTypeModel(newLoad);
         newLoad.SizePowerCable(); // 51ms
         newLoad.PowerCable.LoadId = newLoad.Id;
         newLoad.PowerCable.LoadType = newLoad.GetType().ToString();
@@ -221,7 +222,7 @@ public class LoadManager
     public static void OnLoadDeleted()
     {
         if (LoadDeleted != null) {
-            LoadDeleted(nameof(DistributionManager), EventArgs.Empty);
+            LoadDeleted(nameof(FedFromManager), EventArgs.Empty);
         }
     }
 }

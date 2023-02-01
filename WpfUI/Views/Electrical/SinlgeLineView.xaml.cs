@@ -111,21 +111,6 @@ public partial class SinlgeLineView : UserControl
 
     }
 
-    //private static void ClearSelections(ListManager listManager)
-    //{
-    //    listManager.CreateEquipmentList();
-    //    foreach (var item in listManager.EqList) {
-    //        item.IsSelected = false;
-    //    }
-
-    //    foreach (var item in listManager.CableList) {
-    //        item.IsSelected = false;
-    //    }
-
-    //}
-
-
-
 
     #region Data Members For Drag selection
 

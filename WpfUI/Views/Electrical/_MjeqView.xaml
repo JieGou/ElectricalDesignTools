@@ -1162,34 +1162,7 @@
                                 </sf:GridComboBoxColumn.CellTemplate>
                             </sf:GridComboBoxColumn>
 
-                            <!--Voltage-->
-                            <!--<sf:GridComboBoxColumn HeaderText="Voltage" MappingName="Voltage"
-                                               Width="75"
-                                               AllowEditing="True"
-                                               AllowFiltering="True"
-                                               ItemsSource="{Binding Path=DataContext.TypeManager.VoltageTypes, 
-                                                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}},Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               DisplayMemberPath="Voltage"
-                                               SelectedValuePath="Voltage"
-                                               UseBindingValue="True"
-                                               FilterRowCondition="Contains"
-                                               SortMode="Display"
-                                               TextAlignment="Left" 
-                                               Padding="5 0 0 0"
-                                               ImmediateUpdateColumnFilter="True"
-                                               FilterRowOptionsVisibility="Collapsed"
-                                               CellStyle="{StaticResource comboBoxCellStyle}"
-                                               >
-                            <sf:GridComboBoxColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Voltage, StringFormat=\{0:N0\} V,
-                                                              Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
-                                               TextAlignment="Left"
-                                               Padding="5 0 0 0"/>
-                                </DataTemplate>
-                            </sf:GridComboBoxColumn.CellTemplate>
-                        </sf:GridComboBoxColumn>-->
-
+                           
                             <!--VoltageType-->
                             <sf:GridComboBoxColumn HeaderText="Voltage" MappingName="VoltageType"
                                                Width="75"
@@ -1244,18 +1217,31 @@
                                            />
 
                             <!--Type-->
-                            <sf:GridTextColumn HeaderText="Load&#x0a;Type" MappingName="Type"
-                                           Width="60"
-                                           AllowEditing="False"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="Contains"
-                                           TextAlignment="Center"
-                                           AllowFiltering="True"
-                                           ImmediateUpdateColumnFilter="True"
-                                           FilterRowOptionsVisibility="Collapsed"
-                                           />
+                            <sf:GridComboBoxColumn HeaderText="Load&#x0a;Type" MappingName="Type"
+                                               Width="75"
+                                               AllowEditing="False"
+                                               AllowFiltering="True"
+                                               ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
+                                               
+                                               UseBindingValue="True"
+                                               FilterRowCondition="Contains"
+                                               SortMode="Display"
+                                               TextAlignment="Left" 
+                                               FilterRowOptionsVisibility="Collapsed"
+                                              
+                                               CellStyle="{StaticResource comboBoxCellStyle}"
+                                               >
+                                <sf:GridComboBoxColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                               TextAlignment="Left"
+                                               Padding="5 0 0 0"/>
+                                    </DataTemplate>
+                                </sf:GridComboBoxColumn.CellTemplate>
+                            </sf:GridComboBoxColumn>
+                            
 
-
+                            <!--Fla-->
                             <sf:GridTextColumn HeaderText="FLA" MappingName="Fla"
                                            Width="50"
                                            AllowEditing="False"
@@ -1357,6 +1343,7 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
+                            <!--PdType-->
                             <sf:GridComboBoxColumn HeaderText="OCPD&#x0a;Type" MappingName="ProtectionDevice.Type"
                                                Width="100"
                                                AllowEditing="True"

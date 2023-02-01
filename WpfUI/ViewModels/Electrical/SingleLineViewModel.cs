@@ -31,18 +31,16 @@ internal class SingleLineViewModel: EdtViewModelBase
         DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
         DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
-
     }
 
 
     #region View State
     public void OnElectricalViewUpdated(object source, EventArgs e)
     {
-
         RefreshDteqTreeView();
         RefreshSingleLine();
-
     }
+
     public void RefreshDteqTreeView()
     {
         DteqCollectionView = new ListCollectionView(ViewableDteqList);
@@ -60,7 +58,6 @@ internal class SingleLineViewModel: EdtViewModelBase
             AssignedLoads.Add(item);
         }
         SelectedDteq = dteq;
-
     }
 
     

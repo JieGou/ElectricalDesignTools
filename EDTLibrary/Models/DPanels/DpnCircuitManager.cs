@@ -96,6 +96,7 @@ public class DpnCircuitManager
         if (load == null || load is LoadCircuit) return;
         dpn.RemoveAssignedLoad(load);
         LoadManager.DeleteLoadAsync(load, listManager);
+        dpn.CalculateLoading();
     }
     internal static void DeleteLoadCircuit(DpnModel dpnModel, IPowerConsumer powerConsumer, ListManager listManager)
     {
@@ -244,17 +245,17 @@ public class DpnCircuitManager
     internal static void RetagCircuits(ObservableCollection<IPowerConsumer> sideCircuitList)
     {
 
-        foreach (var item in sideCircuitList) {
-            if (item.Tag.Contains(item.FedFrom.Tag)) {
-                item.Tag = $"{item.FedFrom.Tag}-{Guid.NewGuid().ToString()}";
-            }
-        }
-        Thread.Sleep(75);
-        foreach (var item in sideCircuitList) {
-            if (item.Tag.Contains(item.FedFrom.Tag)) {
-                item.Tag = $"{item.FedFrom.Tag}-{item.CircuitNumber}";
-            }
-        }
+        //foreach (var item in sideCircuitList) {
+        //    if (item.Tag.Contains(item.FedFrom.Tag)) {
+        //        item.Tag = $"{item.FedFrom.Tag}-{Guid.NewGuid().ToString()}";
+        //    }
+        //}
+        //Thread.Sleep(75);
+        //foreach (var item in sideCircuitList) {
+        //    if (item.Tag.Contains(item.FedFrom.Tag)) {
+        //        item.Tag = $"{item.FedFrom.Tag}-{item.CircuitNumber}";
+        //    }
+        //}
     }
 
     public static void MoveCircuitDown(IDpn dpn, IPowerConsumer load)
@@ -389,11 +390,12 @@ public class DpnCircuitManager
 
         };
         loadToAdd.Tag = $"{dpn.Tag}-{loadCircuit.CircuitNumber}";
-
+        //loadToAdd.Tag = TagManager.AssignEqTag(loadToAdd.Type, listManager);
         loadCircuit = null;
 
         try {
             LoadModel newLoad = await LoadManager.AddLoad(loadToAdd, listManager, false);
+            newLoad.Tag= TagManager.AssignEqTag(newLoad,listManager);
             dpn.InsertLoad(newLoad);
         }
         catch (Exception ex) {

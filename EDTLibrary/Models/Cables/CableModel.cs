@@ -64,6 +64,7 @@ public class CableModel : ICable
 
     }
 
+    internal SaveController saveController = new SaveController();
 
     #region Validations
     public void Validate(ICable cable)
@@ -186,12 +187,14 @@ public class CableModel : ICable
         set 
         { 
             _sourceModel = value;
-
             if (DaManager.GettingRecords) return;
+            saveController.Lock(nameof(SourceModel));
 
             SourceId = _sourceModel.Id;
             SourceType = _sourceModel.GetType().ToString();
 
+            
+            saveController.UnLock(nameof(SourceModel));
             OnPropertyUpdated();
         } 
     }
@@ -206,11 +209,16 @@ public class CableModel : ICable
         set 
         {
             _destinationModel = value;
-
             if (DaManager.GettingRecords) return;
+            saveController.Lock(nameof(DestinationModel));
+
 
             OwnerId = _destinationModel.Id;
             OwnerType = _destinationModel.GetType().ToString();
+
+            saveController.UnLock(nameof(DestinationModel));
+            OnPropertyUpdated();
+
         }
     }
     private IEquipment _destinationModel;
@@ -219,7 +227,6 @@ public class CableModel : ICable
     public string LoadType { get; set; }
     public ICableUser Load { get; set; }
 
-    private string _type;
     public string Type
     {
         get
@@ -232,15 +239,11 @@ public class CableModel : ICable
         set
         {
             _type = value;
-            OnPropertyUpdated();
-            if (string.IsNullOrEmpty(_type) == false) {
-                //TypeModel = TypeManager.GetCableTypeModel(_type);
-            }
         }
 
     }
+    private string _type;
 
-    private CableTypeModel _typeModel;
 
 
     public int TypeId
@@ -265,14 +268,15 @@ public class CableModel : ICable
 
             var oldValue = _typeModel;
             _typeModel = value;
+
+            UndoManager.Lock(this, nameof(TypeModel));
+            saveController.Lock(nameof(TypeModel));
+
+
             Type = _typeModel.Type;
             TypeId = _typeModel.Id;
 
-
             Is1C = _type.Contains("1C") ? true : false;
-
-            UndoManager.AddUndoCommand(this, nameof(TypeModel), oldValue, _typeModel);
-
 
             if (DaManager.GettingRecords == false) {
                 if (UsageType == CableUsageTypes.Power.ToString()) {
@@ -282,9 +286,13 @@ public class CableModel : ICable
                 }
             }
             CreateSizeList();
+
+            UndoManager.AddUndoCommand(this, nameof(TypeModel), oldValue, _typeModel);
+            saveController.UnLock(nameof(TypeModel));
             OnPropertyUpdated();
         }
     }
+    private CableTypeModel _typeModel;
 
     public List<CableTypeModel> TypeList { get; set; } = new List<CableTypeModel>();
     public ObservableCollection<RacewayRouteSegment> RacewaySegmentList { get; set; } = new ObservableCollection<RacewayRouteSegment>();
@@ -306,22 +314,25 @@ public class CableModel : ICable
         {
             var oldValue = _qtyParallel;
             _qtyParallel = value;
-            if (_qtyParallel == null || _qtyParallel < 1) {
-                _qtyParallel = 1;
-            }
 
-            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(QtyParallel), OldValue = oldValue, NewValue = _qtyParallel };
-                UndoManager.AddUndoCommand(cmd);
-            }
-            if (DaManager.GettingRecords == false && _calculatingAmpacity == false && _isAutoSizing == false) {
+            UndoManager.Lock(this, nameof(QtyParallel));
+            saveController.Lock(nameof(QtyParallel));
 
-                _calculatingQty = true;
-                CalculateAmpacity(this.Load);
-                _calculatingQty = false;
-                CableManager.CableSizer.SetVoltageDrop(this);
+                if (_qtyParallel < 1) {
+                    _qtyParallel = 1;
+                }
 
-            }
+                if (DaManager.GettingRecords == false && _calculatingAmpacity == false && _isAutoSizing == false) {
+
+                    _calculatingQty = true;
+                    CalculateAmpacity(this.Load);
+                    _calculatingQty = false;
+                    CableManager.CableSizer.SetVoltageDrop(this);
+
+                }
+
+            UndoManager.AddUndoCommand(this, nameof(QtyParallel), oldValue,_qtyParallel);
+            saveController.UnLock(nameof(QtyParallel));
             OnPropertyUpdated();
         }
     }
@@ -337,17 +348,17 @@ public class CableModel : ICable
             var oldValue = _size;
             _size = value;
 
+            saveController.Lock(nameof(Size));
             UndoManager.Lock(this, nameof(Size));
 
-            if (DaManager.GettingRecords == false && _isAutoSizing == false) {
-                CalculateAmpacity(Load);
-                CableManager.CableSizer.SetVoltageDrop(this);
-            }
-            SetTypeProperties();
-
+                if (DaManager.GettingRecords == false && _isAutoSizing == false) {
+                    CalculateAmpacity(Load);
+                    CableManager.CableSizer.SetVoltageDrop(this);
+                }
+                SetTypeProperties();
 
             UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
-
+            saveController.UnLock(nameof(Size));
             OnPropertyUpdated();
         }
     }
@@ -376,15 +387,18 @@ public class CableModel : ICable
             var oldValue = _spacing;
             _spacing = value;
 
+            saveController.Lock(nameof(Spacing));
             UndoManager.Lock(this, nameof(Spacing));
-            if (DaManager.GettingRecords == false && _isAutoSizing == false) {
-                _calculatingAmpacity = true;
-                Derating = CableManager.CableSizer.SetDerating(this);
-                CalculateAmpacity(Load);
-                _calculatingAmpacity = false;
-            }
+
+                if (DaManager.GettingRecords == false && _isAutoSizing == false) {
+                    _calculatingAmpacity = true;
+                    Derating = CableManager.CableSizer.SetDerating(this);
+                    CalculateAmpacity(Load);
+                    _calculatingAmpacity = false;
+                }
 
             UndoManager.AddUndoCommand(this, nameof(Spacing), oldValue, _spacing);
+            saveController.UnLock(nameof(Spacing));
             OnPropertyUpdated();
         }
     }
@@ -399,16 +413,17 @@ public class CableModel : ICable
 
             var oldValue = _length;
             _length = value;
-
             if (DaManager.GettingRecords) return;
 
-            UndoManager.AddUndoCommand(this, nameof(Length), oldValue, _length);
+            saveController.Lock(nameof(Length));
+            UndoManager.Lock(this, nameof(Length));
 
-                if (DaManager.GettingRecords == false) {
                 CableManager.CableSizer.SetVoltageDrop(this);
                 _length = value;
-            }
-            Validate(this);
+                Validate(this);
+
+            UndoManager.AddUndoCommand(this, nameof(Length), oldValue, _length);
+            saveController.UnLock(nameof(Length));
             OnPropertyUpdated();
         }
     }
@@ -469,16 +484,16 @@ public class CableModel : ICable
             var oldValue = _isOutdoor;
             _isOutdoor = value;
 
-            if (DaManager.GettingRecords == false) {
-                _calculatingAmpacity = true;
-                AutoSizeAll();
-                _calculatingAmpacity = false;
-            }
+            if (DaManager.GettingRecords) return;
+            saveController.Lock(nameof(IsOutdoor));
+            UndoManager.Lock(this,nameof(IsOutdoor));
 
-            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(IsOutdoor), OldValue = oldValue, NewValue = _isOutdoor };
-                UndoManager.AddUndoCommand(cmd);
-            }
+            _calculatingAmpacity = true;
+            AutoSizeAll();
+            _calculatingAmpacity = false;
+
+            UndoManager.AddUndoCommand(this, nameof(IsOutdoor), oldValue, _isOutdoor);
+            saveController.UnLock(nameof(IsOutdoor));
             OnPropertyUpdated();
         }
 
@@ -496,19 +511,19 @@ public class CableModel : ICable
             var oldValue = _installationType;
             _installationType = value;
 
-            if (DaManager.GettingRecords == false) {
+            if (DaManager.GettingRecords) return;
+            saveController.Lock(nameof(InstallationType));
+            UndoManager.Lock(this, nameof(InstallationType));
+
                 _calculatingAmpacity = true;
                 if (UsageType == CableUsageTypes.Power.ToString()) {
                     AutoSizeAll();
 
+                    _calculatingAmpacity = false;
                 }
-                _calculatingAmpacity = false;
-            }
-
-            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(InstallationType), OldValue = oldValue, NewValue = _installationType };
-                UndoManager.AddUndoCommand(cmd);
-            }
+           
+            UndoManager.AddUndoCommand(this, nameof(InstallationType), oldValue, _installationType);
+            saveController.UnLock(nameof(InstallationType));
             OnPropertyUpdated();
 
         }
@@ -1126,6 +1141,8 @@ public class CableModel : ICable
         if (DaManager.Importing) return;
         if (_isAutoSizing) return;
         if (CableManager.IsAutosizing) return;
+
+        if (saveController.IsLocked) return;
 
         var id = Id;
         var tag = Tag;
