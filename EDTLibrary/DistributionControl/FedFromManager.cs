@@ -28,7 +28,9 @@ namespace EDTLibrary.DistributionControl
         {
             if (DaManager.GettingRecords == false) {
                 var wasFedFromUpdated = UpdateFedFrom(caller, newSupplier, oldSupplier);
-                //OnFedFromUpdated();
+                if (DaManager.Importing == false) {
+                    OnFedFromUpdated(); 
+                }
                 return wasFedFromUpdated;
             }
             return true;
@@ -65,12 +67,9 @@ namespace EDTLibrary.DistributionControl
         {
             if (newSupplier.CanAdd(caller) == false) return false;
 
-            if (caller.FedFrom != null)
-            {
-                caller.FedFromId = newSupplier.Id;
-                caller.FedFromTag = newSupplier.Tag;
-                caller.FedFromType = newSupplier.GetType().ToString();
-            }
+            caller.FedFromId = newSupplier.Id;
+            caller.FedFromTag = newSupplier.Tag;
+            caller.FedFromType = newSupplier.GetType().ToString();
 
 
             if (DaManager.GettingRecords == false)

@@ -463,9 +463,6 @@ namespace EDTLibrary.Models.Loads
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     CableManager.UpdateLcsCableTags(this);
                 }
-                else {
-                    _fedFrom = oldValue;
-                }
 
 
                 UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
