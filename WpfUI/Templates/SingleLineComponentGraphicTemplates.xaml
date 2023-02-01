@@ -834,9 +834,10 @@
 
     </DataTemplate>
 
-    <!--Fds Splitter Template-->
+    <!--Fds Stand Alone Template-->
     <DataTemplate x:Key="FdsTemplate_StandAlone">
-        <StackPanel>
+        <StackPanel
+            SnapsToDevicePixels="true">
 
 
             <Grid>
@@ -861,8 +862,9 @@
 
 
                     <Line Grid.Row="0" Grid.Column="1"
-                      X1="20.5" X2="20.5" Y1="0" Y2="11"
-                      Stroke="Black" StrokeThickness="1"/>
+                      X1="21.5" X2="21.5" Y1="0" Y2="11"
+                      Stroke="Black" StrokeThickness="1"
+                          UseLayoutRounding="True"/>
 
                     <Border BorderThickness="1" HorizontalAlignment="Center"
                         Grid.Row="1" Grid.Column="1"

@@ -9,6 +9,7 @@ using Syncfusion.UI.Xaml.TreeView;
 using Syncfusion.UI.Xaml.TreeView.Engine;
 using Syncfusion.Windows.Controls.Input.Resources;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -352,7 +353,7 @@ public partial class SinlgeLineView : UserControl
 
     #endregion
 
-    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void listViewLoads_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (vm == null) return;
         vm.SelectedLoads = new ObservableCollection<IPowerConsumer>(listViewLoads.SelectedItems.Cast<IPowerConsumer>().ToList());
@@ -411,7 +412,9 @@ public partial class SinlgeLineView : UserControl
     private void singleLine_ScrollViewer_H_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
         var sv = (ScrollViewer)sender;
-        ExternalScrollViewer_Horizontal.ScrollToHorizontalOffset(ExternalScrollViewer_Horizontal.HorizontalOffset - e.Delta);
+        var scrollFactor = 50;
+        scrollFactor = e.Delta < 0 ? scrollFactor*-1 : scrollFactor;
+        ExternalScrollViewer_Horizontal.ScrollToHorizontalOffset(ExternalScrollViewer_Horizontal.HorizontalOffset - (e.Delta - scrollFactor));
     }
 
     private void sfTreeView_SourceUpdated(object sender, DataTransferEventArgs e)
@@ -450,11 +453,27 @@ public partial class SinlgeLineView : UserControl
             var listView = sender as ListView;
 
             if (listView == null  || listView.SelectedItem == null) return;
-            var draggedItem = listView.SelectedItem;
 
-            if (draggedItem != null) {
-                DragDrop.DoDragDrop(listView, new DataObject(DataFormats.Serializable, draggedItem), DragDropEffects.Link);
+            //multiple items
+            if (listView.SelectedItems.Count>1) {
+                var selectedItems = new List<object>();
+                foreach (var item in listView.SelectedItems) {
+                    if (item != null) {
+                        selectedItems.Add(item);
+                    }
+                }
+                DragDrop.DoDragDrop(listView, new DataObject(DataFormats.Serializable, selectedItems), DragDropEffects.Link);
             }
+
+            //single item
+            else {
+                var draggedItem = listView.SelectedItem;
+
+                if (draggedItem != null) {
+                    DragDrop.DoDragDrop(listView, new DataObject(DataFormats.Serializable, draggedItem), DragDropEffects.Link);
+                }
+            }
+            
         }
     }
     private void sfTreeView_PreviewDrop(object sender, DragEventArgs e)

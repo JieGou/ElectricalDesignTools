@@ -11,6 +11,7 @@
              
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
              
+             xmlns:controls="clr-namespace:WpfUI.Controls"
              xmlns:converters="clr-namespace:WpfUI.Converters"
              
              xmlns:dteqViewers="clr-namespace:WpfUI.UserControls.Viewers.Dteq"
@@ -207,10 +208,11 @@
                                    Indentation="10"
                                    AutoExpandMode="AllNodes"
                                        
-                                       AllowDrop="True"
+                                   AllowDrop="True"
                                        
                                    SelectionChanged="EqList_SelectionChanged"
-                                   PreviewMouseLeftButtonDown="sfTreeView_PreviewMouseLeftButtonDown" PreviewDrop="sfTreeView_PreviewDrop"
+                                   PreviewMouseLeftButtonDown="sfTreeView_PreviewMouseLeftButtonDown"
+                                   PreviewDrop="sfTreeView_PreviewDrop"
                                    >
                     <interactivity:Interaction.Triggers>
                         <interactivity:EventTrigger EventName="Loaded">
@@ -234,8 +236,8 @@
                                         <Image Source="..\..\..\ResourceFiles\ErrorIcon48.png"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Left"
-                                               Height="12"
-                                               Width="12"
+                                               Height="17"
+                                               Width="17"
                                                Margin="0 0 3 0"
                                                Visibility="{Binding IsValid, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
                                     </Grid>
@@ -375,6 +377,7 @@
 
                             <!--Dteq Graphic-->
                             <singleLineSubViews:SL_DteqGraphicView DataContext="{Binding SelectedDteq}"
+                                                                   UseLayoutRounding="False"
                                                        Width="{Binding Path=ActualWidth, ElementName=listViewLoads}"
                                                        MinWidth="250"
                                                        HorizontalAlignment="Left"
@@ -385,19 +388,22 @@
                                                        Panel.ZIndex="1"/>
 
                             <!--Loads-->
-                            <ListView x:Name="listViewLoads"
+                            <controls:ListViewEx x:Name="listViewLoads"
                                   Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
+                                                 UseLayoutRounding="False"
                                   Grid.Row="1"
-                                  Width="{Binding ElementName=singleLine_ScrollViewer_H, Path=ActualWidth}"
-                                      
-                                      Panel.ZIndex="5"
-                                      ClipToBounds="False"
-                                      
-                                  ItemsSource="{Binding AssignedLoads, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                  BorderThickness="0"
                                   HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch"
                                   VerticalContentAlignment="Top"
-                                  BorderThickness="0"
+                                  Width="{Binding ElementName=singleLine_ScrollViewer_H, Path=ActualWidth}"
+                                      
+                                  Panel.ZIndex="5"
+                                  ClipToBounds="False"
+                                      
+                                  ItemsSource="{Binding AssignedLoads, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                  SelectionMode="Extended"
+                                      
                                   ScrollViewer.CanContentScroll="True"
                                   ScrollViewer.HorizontalScrollBarVisibility="Visible"
                                   Visibility="Visible"
@@ -408,12 +414,13 @@
                                   VirtualizingPanel.VirtualizationMode="Recycling"
                                   VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                                   
-                                  SelectionChanged="ListView_SelectionChanged"
+                                  SelectionChanged="listViewLoads_SelectionChanged"
                                   
                                   MouseDown="Grid_MouseDown" 
                                   MouseMove="Grid_MouseMove" 
                                   MouseUp="Grid_MouseUp" 
-                                  LayoutUpdated="listViewLoads_LayoutUpdated" PreviewKeyDown="listViewLoads_PreviewKeyDown"
+                                  LayoutUpdated="listViewLoads_LayoutUpdated" 
+                                  PreviewKeyDown="listViewLoads_PreviewKeyDown"
                                       
                                   >
 
@@ -447,7 +454,7 @@
                                 <ListView.Resources>
 
                                     <!--Selected Template-->
-                                    <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem"
+                                    <ControlTemplate x:Key="SelectedTemplate" TargetType="controls:ListViewItemEx"
                                                      >
                                         <Border BorderThickness="0" Background="WhiteSmoke" 
                                                 VerticalAlignment="Top"
@@ -464,12 +471,12 @@
 
                                     </ControlTemplate>
 
-                                    <Style TargetType="ListViewItem">
+                                    <Style TargetType="controls:ListViewItemEx">
                                         <Setter Property="Template">
                                             <Setter.Value>
 
                                                 <!--Normal Template-->
-                                                <ControlTemplate TargetType="ListViewItem">
+                                                <ControlTemplate TargetType="controls:ListViewItemEx">
                                                     <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Left"  
                                                             ClipToBounds="False">
 
@@ -500,13 +507,14 @@
                                     <ItemsPanelTemplate>
                                         <VirtualizingStackPanel  Orientation="Horizontal"
                                                                  Margin="0 -2 0 0"
-                                                                 ClipToBounds="False"
+                                                                 ClipToBounds="False" 
+                                                                 
                                                 />
                                         
                                     </ItemsPanelTemplate>
                                 </ListView.ItemsPanel>
 
-                            </ListView>
+                            </controls:ListViewEx>
 
                         </Grid>
                     </ScrollViewer>

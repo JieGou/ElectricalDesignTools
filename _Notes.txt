@@ -1,10 +1,10 @@
 MAJOR Bugs
 	- DteqHeatLoss Calculation locks up UI
-	- Limit transformer to a single load
 	- change MessageBoxes to ErrorDialog with error list
 
 
 MINOR Bugs
+	- combobox text changes of itemsSource is because ComboBox.Text is bound. Need to bind to SelectedValue only.
 	- required amps tooltip does not update while CableSizingView_Narrow is in view
 	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bogs down the app
 	- SCCA/R calculation on DTEQ size change
@@ -13,6 +13,12 @@ MINOR Bugs
 	- menu Views/ViewModels are slow to load on battery
 	- LCS Analog cable Tag when VFD is in MCC
 
+
+
+
+LoadModel 
+	- Type change Voltage-Type and calculation updates
+	- load data IsValid
 		
 Library 
 	- Starter sizes for other voltages
@@ -25,9 +31,7 @@ Misc.
 	- transformer cooling type on dteq options
 
 
-LoadModel 
-	- Type change Voltage-Type and calculation updates
-	- load data IsValid
+
 
 Transformer Grounding
 	- Settings
@@ -45,7 +49,8 @@ Tag Settings
 	- lcs cable TypeModel vs Type
 	- basic default auto-tagging system and logic
 		- add autotagging to DTEQ
-		- finish cable settings
+		- finish cable settings page
+		- finish load settings page
 	- bulk updates on tag setting changes
 	
 
@@ -57,9 +62,6 @@ Application Settings
 		- Cable
 
 Priorities
-	- Distribution Panel
-		- DeleteLoad recalculates panel circuits - 1
-
 	- LCS Type Management - 1
 		- edit existing 
 
@@ -94,7 +96,7 @@ Cables
 		- 1ph cable quantities and totals on cable list
 		- Prompt to recalculate load cables when changing settings
 		- component cables are not updated when changing the load cable properties
-	
+
 
 LoadGrid Context Menu
 	- Set load factor

@@ -50,7 +50,7 @@
         FontSize="12"        
         WindowTransitionsEnabled="False"
         
-        UseLayoutRounding="False"
+        UseLayoutRounding="True"
                  
         Closing="winMainWindow_Closing"
                  >

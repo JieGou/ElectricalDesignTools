@@ -33,14 +33,14 @@ public class DteqTreeViewDagDropBehavior : TargetedTriggerAction<SfTreeView>
     
     private void OnTreeViewDrop(object sender, DragEventArgs e)
     {
-        TreeViewItem treeViewItem = FindAncestor<TreeViewItem>((DependencyObject)e.OriginalSource);
+        TreeViewItem treeViewDropTarget = FindAncestor<TreeViewItem>((DependencyObject)e.OriginalSource);
 
-        if (treeViewItem != null) {
+        if (treeViewDropTarget != null) {
 
-            var item = treeViewItem.DataContext;
-            if (item is TreeViewNode) {
+            var treeViewNode = treeViewDropTarget.DataContext;
+            if (treeViewNode is TreeViewNode) {
 
-                var dteqDropTarget = ((TreeViewNode)item).Content;
+                var dteqDropTarget = ((TreeViewNode)treeViewNode).Content;
                 if (dteqDropTarget == null) {
                     return;
                 }
@@ -48,9 +48,21 @@ public class DteqTreeViewDagDropBehavior : TargetedTriggerAction<SfTreeView>
                 if (dataType == null) {
                     return;
                 }
-                if (dataType is IPowerConsumer) {
+
+                //miltiple items
+                if (dataType is List<object>) {
+                    foreach (var listItem in ((List<object>)dataType)) {
+                        if (listItem is IPowerConsumer) {
+                            ((IPowerConsumer)listItem).FedFrom = ((DistributionEquipment)dteqDropTarget);
+                        }
+                    }
+                }
+                
+                //single item
+                else if (dataType is IPowerConsumer) {
                     ((IPowerConsumer)dataType).FedFrom = ((DistributionEquipment)dteqDropTarget);
                 }
+                
             }
 
         }

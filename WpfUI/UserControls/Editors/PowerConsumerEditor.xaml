@@ -259,14 +259,16 @@
 
             <!--Voltage-->
             <TextBlock Text="Voltage " Style="{StaticResource SummaryLabel_TextBlockStyle}"
-                               Grid.Row="6" Grid.Column="0"  />
+                       Grid.Row="6"
+                       Grid.Column="0"  />
             <ComboBox Grid.Row="6" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
-                        ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                        SelectedValue="{Binding VoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        DisplayMemberPath="VoltageString"
-                        Text="{Binding VoltageType.VoltageString}"
-                        IsEditable="False" IsTextSearchEnabled="True"
-                        Margin="5 0 5 0"/>
+                      ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, Mode=OneWay,
+                                            RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                      SelectedValue="{Binding VoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="VoltageString"
+                      IsEditable="False" IsTextSearchEnabled="True"
+                      Margin="5 0 5 0"
+                      IsSynchronizedWithCurrentItem="False"/>
 
             <!--Load Size & Unit-->
             <TextBlock Text="Size "

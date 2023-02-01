@@ -69,15 +69,16 @@
             </StackPanel>
 
             <Image Source="..\..\ResourceFiles\InfoIconBlue.png"
-                       Grid.Row="2"
-                       Grid.Column="0" 
-                       Margin="0 5 0 0"
-                       HorizontalAlignment="Center"
-                       Height="17"
-                       Stretch="Uniform"
-                       ToolTip="{StaticResource AreaChangeInfoMessage}"
-                       ToolTipService.InitialShowDelay="150"
-                       ToolTipService.BetweenShowDelay="0"/>
+                   UseLayoutRounding="True"
+                   Grid.Row="2"
+                   Grid.Column="0" 
+                   Margin="0 5 0 0"
+                   HorizontalAlignment="Center"
+                   Height="17"
+                   Stretch="Uniform"
+                   ToolTip="{StaticResource AreaChangeInfoMessage}"
+                   ToolTipService.InitialShowDelay="150"
+                   ToolTipService.BetweenShowDelay="0"/>
 
             <TextBlock Text="Area"
                            Grid.Row="1" Grid.Column="1"

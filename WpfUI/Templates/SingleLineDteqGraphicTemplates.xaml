@@ -77,7 +77,8 @@
             <ContentControl Content="{Binding}" 
                             Style="{StaticResource PdStarterTemplateStyle}"
                             ContentTemplateSelector="{StaticResource DteqOCPDTemplateSelector}"
-                            Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"/>
+                            Visibility="{Binding IsMainLugsOnly, Converter={StaticResource MainLugsOnlyToVisibilityConverter}}"
+                            />
 
             <!-- BUS-->
             <ContentControl Grid.Column="1"
@@ -251,7 +252,8 @@
     <DataTemplate x:Key="TransformerTemplate" DataType="{x:Type edtDteqModels:XfrModel}">
         
             
-        <StackPanel Orientation="Vertical" Margin="14 0" >
+        <StackPanel Orientation="Vertical" Margin="14 0" 
+                    UseLayoutRounding="True">
            
             <Grid ShowGridLines="False">
                 <Grid.ColumnDefinitions>
@@ -439,15 +441,10 @@
         
     </DataTemplate>
 
-   
-    
-    
 
     <!--Distribution Panel Template-->
     <DataTemplate x:Key="PanelTemplate" DataType="{x:Type edtLoadModels:LoadModel}">
         <StackPanel Orientation="Vertical" Grid.Column="1" Margin="0 3 0 0">
-
-
 
             <!--Cable-->
             <ContentControl Content="{Binding PowerCable}"

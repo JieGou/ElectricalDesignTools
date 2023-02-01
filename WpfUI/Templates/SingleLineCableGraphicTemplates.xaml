@@ -93,9 +93,10 @@
                 
                 <!--Invalid Icon-->
                 <Image Source="..\..\ResourceFiles\ErrorIcon48.png"
+                       UseLayoutRounding="True"
                        Grid.Column="0" HorizontalAlignment="Left"
-                       Height="13"
-                       Margin="-25"
+                       Height="17"
+                       Margin="-30"
                        VerticalAlignment="Center"
                        ToolTip="{Binding InvalidCableMessage}"
                        Visibility="{Binding IsValid, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
