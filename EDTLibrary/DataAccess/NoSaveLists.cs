@@ -159,6 +159,7 @@ namespace EDTLibrary.DataAccess
             "none",
             "ParentArea",
             "EquipmentList",
+            "AreaHeatLossCalculator",
         };
 
         static public List<string> RacewayNoSaveList { get; set; } = new List<string>() {

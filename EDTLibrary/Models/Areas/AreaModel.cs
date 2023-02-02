@@ -12,7 +12,7 @@ namespace EDTLibrary.Models.Areas;
 [AddINotifyPropertyChangedInterface]
 public class AreaModel : IArea {
 
-    
+    public AreaHeatLossCalculator AreaHeatLossCalculator { get; set; }
     public int Id { get; set; }
 
     private string _tag;

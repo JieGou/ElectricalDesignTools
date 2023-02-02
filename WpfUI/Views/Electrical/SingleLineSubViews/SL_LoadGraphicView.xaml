@@ -24,7 +24,8 @@
              d:Background="LightCyan"
              
              Background="Transparent"
-             ClipToBounds="False">
+             ClipToBounds="False"
+             UseLayoutRounding="False">
 
     <UserControl.Resources>
         

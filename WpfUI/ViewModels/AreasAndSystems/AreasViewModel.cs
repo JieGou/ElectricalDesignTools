@@ -5,6 +5,8 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models;
 using EDTLibrary.Models.Areas;
+using EDTLibrary.Models.Components;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using PropertyChanged;
@@ -39,11 +41,42 @@ namespace WpfUI.ViewModels.AreasAndSystems
             get { return _listManager; }
             set { _listManager = value; }
         }
+        public DteqHeatLossCalculator DteqHeatLossCalculator { get; set; } = new DteqHeatLossCalculator();
+        
+        public IArea SelectedArea
+        {
+            get { return _selectedArea; }
+            set
+            {
+                if (value == null) return;
+                _selectedArea = value;
 
+                double heatLoss = 0;
+                _selectedArea.EquipmentList.Clear();
 
+                foreach (var eq in _listManager.CreateEquipmentList()) {
+                    eq.HeatLoss = 0;
+
+                    if (eq.Area == _selectedArea) {
+                        if (eq is DistributionEquipment) {
+                            var dteq = (DistributionEquipment)eq;
+                            var dteqHeatLossCalculator = new DteqHeatLossCalculator();
+                            dteqHeatLossCalculator.CalculateHeatLoss(dteq);
+                            eq.HeatLoss = dteqHeatLossCalculator.TotalHeatLoss;
+                        }
+                        heatLoss += eq.HeatLoss;
+                        if (eq is ProtectionDeviceModel && ((ProtectionDeviceModel)eq).IsStandAlone == false)  { 
+
+                        }
+                        else {
+                            _selectedArea.EquipmentList.Add(eq);
+                        }
+                    }
+                }
+                _selectedArea.HeatLoss = heatLoss;
+            }
+        }
         private IArea _selectedArea;
-        private ObservableCollection<IEquipment> _equipmentList;
-        private IEquipment _selectedEquipment;
 
         public IEquipment SelectedEquipment 
         { 
@@ -59,39 +92,9 @@ namespace WpfUI.ViewModels.AreasAndSystems
                 }
             } 
         }
+        private IEquipment _selectedEquipment;
 
-        public DteqHeatLossCalculator DteqHeatLossCalculator {get;set;} = new DteqHeatLossCalculator();
-        public IArea SelectedArea
-        {
-            get { return _selectedArea; }
-            set
-            {
-                if (value == null) return;
-                _selectedArea = value;
-
-
-                _selectedArea.HeatLoss = 0;
-                _selectedArea.EquipmentList.Clear();
-
-                foreach (var eq in _listManager.CreateEquipmentList()) {
-                    eq.HeatLoss = 0;
-
-                    if (eq.Area == _selectedArea) {
-                        if (eq is DistributionEquipment) {
-                            var dteq = (DistributionEquipment)eq;
-                            var dteqHeatLossCalculator = new DteqHeatLossCalculator();
-                            dteqHeatLossCalculator.CalculateHeatLoss(dteq);
-                            eq.HeatLoss = dteqHeatLossCalculator.TotalHeatLoss;
-                        }
-                        _selectedArea.HeatLoss += eq.HeatLoss;
-                        _selectedArea.EquipmentList.Add(eq);
-                    }
-
-
-                }
-
-            }
-        }
+       
 
 
         public AreaToAddValidator AreaToAddValidator { get; set; }

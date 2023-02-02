@@ -15,7 +15,9 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="750" d:DesignWidth="250"
-             d:Background="AliceBlue">
+             d:Background="AliceBlue"
+             
+             UseLayoutRounding="False">
 
     <UserControl.Resources>
         <ResourceDictionary>

@@ -33,7 +33,7 @@ public class DteqHeatLossCalculator
                 LoadDrivesHeatLoss += loadHeatLossCalculator.DriveHeatLoss;
             }
 
-            //TotalHeatLoss = EfficiencyHeatLoss + MainBreakerHeatLoss + LoadBreakersHeatLoss + LoadStartersHeatLoss + LoadDrivesHeatLoss;
+            TotalHeatLoss = EfficiencyHeatLoss + MainBreakerHeatLoss + LoadBreakersHeatLoss + LoadStartersHeatLoss + LoadDrivesHeatLoss;
         }
         catch (Exception) {
 

@@ -1,5 +1,4 @@
 MAJOR Bugs
-	- DteqHeatLoss Calculation locks up UI
 	- change MessageBoxes to ErrorDialog with error list
 
 

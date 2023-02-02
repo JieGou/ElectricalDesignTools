@@ -7,6 +7,7 @@ namespace EDTLibrary.Models.Areas;
 
 public interface IArea: INotifyPropertyChanged
 {
+    AreaHeatLossCalculator AreaHeatLossCalculator { get; set; }
     IArea ParentArea { get; set; }
     string AreaCategory { get; set; }
     string AreaClassification { get; set; }
