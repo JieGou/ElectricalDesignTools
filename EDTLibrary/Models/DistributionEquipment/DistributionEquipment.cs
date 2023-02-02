@@ -1,4 +1,5 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EDTLibrary.Calculators;
+using EDTLibrary.DataAccess;
 using EDTLibrary.DistributionControl;
 using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
@@ -352,7 +353,9 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
                 CalculateLoading();
-                SCCR = CalculateSCCR();
+
+                SCCA = CalculateSCCA();
+
                 if (PowerCable != null) {
                     PowerCable.GetRequiredAmps(this);
                 }
@@ -723,14 +726,29 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
 
-
-
-        
-
         public double HeatLoss { get; set; }
 
-        public double SCCR { get; set; }
+        public double SCCA { get; set; }
+        public double SCCR
+        {
+            get { return _sccr; }
+            set
+            {
+                var oldValue = _sccr;
+                _sccr = value;
 
+                if (DaManager.GettingRecords) return;
+                saveController.Lock(nameof(SCCR));
+                UndoManager.Lock(this, nameof(SCCR));
+
+
+
+                UndoManager.AddUndoCommand(this, nameof(SCCR), oldValue, value);
+                saveController.UnLock(nameof(SCCR));
+                OnPropertyUpdated();
+            }
+        }
+        private double _sccr;
 
         //Todo - recalculate cables when changed
         public double LoadCableDerating
@@ -850,7 +868,12 @@ namespace EDTLibrary.Models.DistributionEquipment
             ProtectionDeviceManager.SetProtectionDeviceType(this);
             ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
 
-            SCCR = CalculateSCCR();
+            SCCA = CalculateSCCA();
+            SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
+
+            ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
+
+
             IsCalculating = false;
 
             OnLoadingCalculated(propertyName);
@@ -859,7 +882,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         }
 
-        public virtual double CalculateSCCR()
+        public virtual double CalculateSCCA()
         {
             if (Tag == GlobalConfig.UtilityTag) {
                 return 0;
@@ -867,7 +890,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             else if (FedFrom == null) {
                 return 0;
             }
-            return FedFrom.SCCR;
+            return FedFrom.SCCA;
         }
 
         public void CreatePowerCable()
@@ -903,14 +926,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             PowerCable.CalculateAmpacity(this);
         }
 
-
         public override string ToString()
         {
             return Tag;
         }
-
-
-       
 
 
         public virtual void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e)

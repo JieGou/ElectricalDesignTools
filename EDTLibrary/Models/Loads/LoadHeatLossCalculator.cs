@@ -16,7 +16,6 @@ public class LoadHeatLossCalculator
         StarterHeatLoss = 0;
         DriveHeatLoss = 0;
 
-
         try {
             BreakerHeatLoss = TypeManager.GetBreaker(load.Fla).HeatLoss;
 

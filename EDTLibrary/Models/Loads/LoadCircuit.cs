@@ -127,6 +127,8 @@ public class LoadCircuit : ILoadCircuit
     public string AreaClassification { get; set; }
     public double HeatLoss { get; set; }
 
+    public double SCCA { get; set; }
+    public double SCCR { get; set; }
 
     public double LoadFactor { get; set; }
     public double Efficiency { get; set; }

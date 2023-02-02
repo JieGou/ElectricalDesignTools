@@ -145,21 +145,23 @@ public abstract class ComponentModelBase : IComponentEdt
 
    
     public double Voltage { get; set; }
-    public double FrameAmps
+
+    public double SCCA { get; set; }
+    public double SCCR { get; set; }
+
+    public double AIC
     {
-        get => _size;
-        set 
-        {
+        get { return _aic; }
+        set { 
+            _aic = value;
 
-            var oldValue = _size;
-            _size = value;
-
-            UndoManager.AddUndoCommand(this, nameof(FrameAmps), oldValue, _size);
             OnPropertyUpdated();
         }
     }
-    public double TripAmps 
-    { 
+    private double _aic;
+
+    public double TripAmps
+    {
         get => _trip;
         set
         {
@@ -178,6 +180,20 @@ public abstract class ComponentModelBase : IComponentEdt
             OnPropertyUpdated();
         }
     }
+    public double FrameAmps
+    {
+        get => _size;
+        set 
+        {
+
+            var oldValue = _size;
+            _size = value;
+
+            UndoManager.AddUndoCommand(this, nameof(FrameAmps), oldValue, _size);
+            OnPropertyUpdated();
+        }
+    }
+   
     public string StarterSize { get; set; }
 
     public int AreaId { get; set; }

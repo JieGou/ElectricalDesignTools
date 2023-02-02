@@ -27,6 +27,9 @@
     <converters:PoleQtyColumnHeightConverter_double x:Key="PoleQtyColumnHeightConverter_double"/>
 
 
+    <converters:PowerConsumerTypeVisbilityConverter x:Key="PowerConsumerTypeVisbilityConverter"/>
+
+
     <converters:SingleLineGraphicTypeToVisibilityConverter x:Key="SingleLineGraphicTypeToVisibilityConverter"/>
     <converters:TypeOfConverter x:Key="TypeOfConverter"/>
 

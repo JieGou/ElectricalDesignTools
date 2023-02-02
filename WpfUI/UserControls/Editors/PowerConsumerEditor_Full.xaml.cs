@@ -17,9 +17,9 @@ namespace WpfUI.UserControls.Editors;
 /// <summary>
 /// Interaction logic for DpnCircuitViewer.xaml
 /// </summary>
-public partial class LoadEditor : UserControl
+public partial class PowerConsumerEditor_Full : UserControl
 {
-    public LoadEditor()
+    public PowerConsumerEditor_Full()
     {
         InitializeComponent();
     }

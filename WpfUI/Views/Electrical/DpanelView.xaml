@@ -842,7 +842,7 @@
                     </Grid>
 
                     <!--Propteries-->
-                    <editors:LoadEditor Grid.Row="0" 
+                    <editors:PowerConsumerEditor_Full Grid.Row="0" 
                                                  Grid.Column="2" 
                                                  DataContext="{Binding SelectedLoad}"
                                       />

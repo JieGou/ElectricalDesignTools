@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    
+    <!--Block-->
     <Style TargetType="TextBlock" x:Key="SummaryLabel_TextBlockStyle">
         <Setter Property="TextAlignment" Value="Right"/>
         <Setter Property="Margin" Value="5 5 0 0"/>
@@ -15,6 +17,17 @@
         <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
 
+    <Style TargetType="TextBlock" x:Key="SummaryValue_TextBlockStyle_2">
+        <Setter Property="TextAlignment" Value="Left"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="MinWidth" Value="50"/>
+        <Setter Property="Margin" Value="5 5 5 0"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+
+
+    <!--BOX-->
     <Style TargetType="TextBox" x:Key="SummaryValue_TextBoxStyle">
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -33,6 +46,8 @@
         <Setter Property="Margin" Value="5 0 10 0"/>
     </Style>
 
+    
+    <!--BLock-->
     <Style TargetType="TextBlock" x:Key="StatusBarValue_TextBlockStyle">
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>

@@ -13,7 +13,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         void Create();
         void Initialize();
         void Delete();
-        double CalculateSCCR();
+        double CalculateSCCA();
 
         bool IsCalculating { get; set; }
 
@@ -28,7 +28,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         ObservableCollection<IPowerConsumer> AssignedLoads { get; set; }
 
-        double SCCR { get; set; }
+        double SCCA { get; set; }
 
         double LoadCableDerating { get; set; }
 

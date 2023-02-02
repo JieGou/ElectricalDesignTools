@@ -188,7 +188,7 @@
     <Compile Update="UserControls\Editors\ComponentEditor_Disconnect.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UserControls\Editors\LoadEditor.xaml.cs">
+    <Compile Update="UserControls\Editors\PowerConsumerEditor_Full.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UserControls\HomeControls\PreviousProjectItem.xaml.cs">
@@ -300,7 +300,7 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UserControls\Editors\LoadEditor.xaml">
+    <Page Update="UserControls\Editors\PowerConsumerEditor_Full.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

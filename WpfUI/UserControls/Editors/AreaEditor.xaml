@@ -48,10 +48,10 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <!--Area-->
+            <!--Header-->
             <StackPanel Orientation="Horizontal"
                         Grid.Row="0" 
-                       Grid.Column="0" Grid.ColumnSpan="5">
+                        Grid.Column="0" Grid.ColumnSpan="5">
                 <TextBlock Text="Enclosure Details"
                        Grid.Row="0" 
                        Grid.Column="0" Grid.ColumnSpan="5"

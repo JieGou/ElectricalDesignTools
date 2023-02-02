@@ -437,11 +437,11 @@
                         <ContentControl.Resources>
 
                             <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                <editors:LoadEditor DataContext="{Binding}"/>
+                                <editors:PowerConsumerEditor_Full DataContext="{Binding}"/>
                             </DataTemplate>
 
                             <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                <editors:LoadEditor DataContext="{Binding}"/>
+                                <editors:PowerConsumerEditor_Full DataContext="{Binding}"/>
                                 <!--<mjeqSubViews:EquipmentDetailsView/>-->
                             </DataTemplate>
 

@@ -141,17 +141,22 @@ namespace EDTLibrary.LibraryData
             new AreaCategory{CategoryName = "Category 2"}
         };
 
+        //Equipment
+
+        public static ObservableCollection<EquipmentSccrValue> EquipmentSccrValues { get; set; } = new ObservableCollection<EquipmentSccrValue>();
+
         //OCPD
         public static ObservableCollection<OcpdType> OcpdTypes { get; set; }
         public static ObservableCollection<DisconnectType> DisconnectTypes { get; set; } = new ObservableCollection<DisconnectType>();
         public static ObservableCollection<DisconnectSize> DisconnectSizes { get; set; } = new ObservableCollection<DisconnectSize>();
+        public static List<double> BreakerFrameSizes { get; set; } = new List<double>(); //to a list of unique frame sizes
+        public static ObservableCollection<BreakerAicRating> BreakerAicRatings { get; set; } = new ObservableCollection<BreakerAicRating>();
 
 
         //Components
         public static ObservableCollection<LcsTypeModel> LcsTypes { get; set; }
         public static ObservableCollection<string> DriveTypes { get; set; } = new ObservableCollection<string>() { "VSD", "RVS" };
         public static ObservableCollection<BreakerSize> BreakerTripSizes { get; set; } = new ObservableCollection<BreakerSize>();
-        public static List<double> BreakerFrameSizes { get; set; } = new List<double>();
         public static ObservableCollection<StarterSize> StarterSizes { get; set; } = new ObservableCollection<StarterSize>();
         public static ObservableCollection<VfdHeatSize> VfdHeatSizes { get; set; } = new ObservableCollection<VfdHeatSize>();
 
@@ -186,11 +191,15 @@ namespace EDTLibrary.LibraryData
             TransformerGroundingTypes = DaManager.libDb.GetRecords<GroundingSystemType>("TransformerGroundingTypes");
             TransformerWiringTypes = DaManager.libDb.GetRecords<TransformerWiringType>("TransformerWiringTypes");
 
+            EquipmentSccrValues = DaManager.libDb.GetRecords<EquipmentSccrValue>("EquipmentSccrValues");
+
             BreakerTripSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes");
             var breakerSizeList = BreakerTripSizes.OrderBy(b => b.TripAmps).ToList();
             BreakerTripSizes = new ObservableCollection<BreakerSize>(breakerSizeList);
 
-            GetBreakerFameSizes();
+
+            GetUniqueBreakerFameSizes();
+            BreakerAicRatings = DaManager.libDb.GetRecords<BreakerAicRating>("BreakerAicRatings");
 
             StarterSizes = DaManager.libDb.GetRecords<StarterSize>("Starters");
             VfdHeatSizes = DaManager.libDb.GetRecords<VfdHeatSize>("VFDHeatLoss");
@@ -198,7 +207,8 @@ namespace EDTLibrary.LibraryData
             CecCableAmpacities = DaManager.libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
         }
 
-        private static void GetBreakerFameSizes()
+       
+        private static void GetUniqueBreakerFameSizes()
         {
             var breakerSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes");
 
@@ -209,7 +219,7 @@ namespace EDTLibrary.LibraryData
             }
         }
 
-
+       
         //Local Control Station
         public static LcsTypeModel GetLcsTypeModel(string lcsType)
         {

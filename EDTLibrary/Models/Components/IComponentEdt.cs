@@ -11,6 +11,12 @@ namespace EDTLibrary.Models.Components
     {
         bool SettingTag { get; set; }
 
+
+        double SCCA { get; set; }
+        double SCCR { get; set; }
+        double AIC { get; set; }
+
+
         double FrameAmps { get; set; }
         double TripAmps { get; set; }
         string StarterSize { get; set; }

@@ -38,6 +38,10 @@ namespace EDTLibrary.Models.Loads
         string PanelSide { get; set; }
         int CircuitNumber { get; set; }
 
+
+        double SCCA { get; set; }
+        double SCCR { get; set; }
+
         void CalculateLoading(string propertyName = "");
 
         

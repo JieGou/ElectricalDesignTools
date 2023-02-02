@@ -580,15 +580,15 @@
                                 <ContentControl.Resources>
 
                                     <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                        <editors:LoadEditor/>
+                                        <editors:PowerConsumerEditor_Full/>
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                        <editors:LoadEditor/>
+                                        <editors:PowerConsumerEditor_Full/>
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                        <editors:LoadEditor/>
+                                        <editors:PowerConsumerEditor_Full/>
                                     </DataTemplate>
 
                                 </ContentControl.Resources>

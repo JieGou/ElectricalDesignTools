@@ -25,6 +25,14 @@ internal class DummyComponent : IComponentEdt
 
 
     public bool SettingTag { get; set; }
+
+
+
+    public double SCCA { get; set; }
+    public double SCCR { get; set; }
+    public double AIC { get; set; }
+
+
     public double FrameAmps { get; set; }
     public double TripAmps { get; set; }
     public string SubCategory { get; set; }

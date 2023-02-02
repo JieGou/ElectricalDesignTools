@@ -15,7 +15,8 @@
              xmlns:helpers="clr-namespace:WpfUI.Helpers"
              
              d:DesignHeight="750" d:DesignWidth="300"
-             d:Background="AliceBlue">
+             d:Background="AliceBlue"
+             UseLayoutRounding="False">
 
     <controls:EdtGroupBox Grid.Row="0"
                           x:Name="PowerConsumerGroupBox"
@@ -35,6 +36,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="auto"/>
@@ -47,29 +49,6 @@
                 <ColumnDefinition Width="85"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
-            <!--CONVERT TO LOAD-->
-            
-            <!--<Button Content="Convert &#x0a;To Load"
-                    Grid.Row="5" Grid.RowSpan="4"
-                    Grid.ColumnSpan="3"
-                    Width="60"
-                    Height="35"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Right"
-                    Command="{Binding ConvertToLoadCommand}"
-                    IsEnabled="False">
-                <Button.Style>
-                    <Style TargetType="Button" BasedOn="{StaticResource GreenButton}">
-                        <Setter Property="Visibility" Value="Hidden"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtLoadModels:LoadCircuit}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>-->
 
             <!--Tag-->
             <TextBlock Text="Tag " Style="{StaticResource SummaryLabel_TextBlockStyle}"
@@ -121,7 +100,7 @@
                        ToolTipService.InitialShowDelay="50"
                        ToolTip="Cannot change Distribution Equipment type. Delete and Create New"
                                />
-            
+
             <!--Dteq Type-->
             <ComboBox Grid.Row="3" Grid.Column="1"
                       Template="{DynamicResource ComboBoxBase}"
@@ -178,7 +157,7 @@
                                HorizontalAlignment="Right"
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"
                                />
-            
+
             <!--Dteq Fed From List-->
             <ComboBox Grid.Row="4" Grid.Column="1"
                               Template="{DynamicResource ComboBoxBase}"
@@ -223,38 +202,6 @@
                 </ComboBox.Resources>
             </ComboBox>
 
-            <!--Voltage Label-->
-            <!--<TextBlock Text="  "
-                               Grid.Row="6" Grid.Column="0" 
-                               HorizontalAlignment="Right"
-                               Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
-
-            <StackPanel Orientation="Horizontal" 
-                                Grid.Row="6" Grid.Column="1"
-                                VerticalAlignment="Top">
-
-                <TextBlock Text="{Binding VoltageType.VoltageString}" MinWidth="0"
-                                   Grid.Row="4" Grid.Column="1"
-                                   Style="{StaticResource SummaryValue_TextBlockStyle}" Height="21" Margin="5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
-
-                <TextBlock Text=", " MinWidth="0"/>
-
-                <TextBlock Text="{Binding Size}" MinWidth="0"
-                                   Grid.Row="4" Grid.Column="1" 
-                                   Style="{StaticResource SummaryValue_TextBlockStyle}" Height="21" Margin="5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
-
-                <TextBlock Text="{Binding Unit}" MinWidth="0"
-                                   Grid.Row="4" Grid.Column="1" 
-                                   Style="{StaticResource SummaryValue_TextBlockStyle}" Height="21" Margin="5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
-                <TextBlock Text=", " MinWidth="0"/>
-
-                <TextBlock Text="{Binding Type}" MinWidth="0"
-                                   Grid.Row="4" Grid.Column="1" 
-                                   Style="{StaticResource SummaryValue_TextBlockStyle}" Height="21" Margin="5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top"/>
-
-
-            </StackPanel>-->
-
 
 
             <!--Voltage-->
@@ -272,8 +219,8 @@
 
             <!--Load Size & Unit-->
             <TextBlock Text="Size "
-                               Grid.Row="7" Grid.Column="0" 
-                               Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
+                       Grid.Row="7" Grid.Column="0" 
+                       Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
             <Grid Grid.Row="7" Grid.Column="1" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -310,14 +257,14 @@
                                 <DataTrigger Binding="{Binding Path=Category}" Value="DTEQ">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
-                           
+
                             </Style.Triggers>
                         </Style>
                     </ComboBox.Resources>
                 </ComboBox>
-            
-            
-            
+
+
+
                 <!--Load Unit-->
                 <ComboBox Grid.Column="2"
                           Template="{DynamicResource ComboBoxBase}"
@@ -340,59 +287,229 @@
                 </ComboBox>
             </Grid>
 
-            <!--Loading / Power-->
-            <TextBlock Text="Power"
-                        Grid.Row="9" Grid.Column="0" 
-                        HorizontalAlignment="Right" 
-                        Style="{StaticResource SummaryLabel_TextBlockStyle}"
-                       Visibility="Visible"/>
-
-            <Grid Grid.Row="9" Grid.Column="1"
-                  Margin="10 0 0 0"
-                  ShowGridLines="False"
-                   Visibility="Visible">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Text="{Binding Fla, StringFormat={}{0} FLA,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                           Grid.Row="0" Grid.Column="0" 
-                           Style="{StaticResource SummaryValue_TextBlockStyle}"
-                           MinWidth="0"/>
-
-                <TextBlock Text="{Binding DemandKva, StringFormat={}{0} kVA,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                           Grid.Row="0" Grid.Column="2" 
-                           Style="{StaticResource SummaryValue_TextBlockStyle}"
-                           MinWidth="0"/>
-            </Grid>
+            <!--Load Factor-->
+            <TextBlock Text="Load Factor "
+                       Grid.Row="8" Grid.Column="0" 
+                       Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
 
 
-            <!--Line-->
-            <Canvas Grid.Row="10" 
-                  Grid.ColumnSpan="5"
-                    Visibility="Collapsed">
-                
-                <Line X1="0" X2="285" Y1="5" Y2="5"
-                      StrokeThickness="1" Stroke="Gray"/>
-            </Canvas>
+            <TextBox Text="{Binding LoadFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=750}"
+                     Grid.Row="8" Grid.Column="1"                                 
+                     TextAlignment="Right"
+                     >
+                <TextBox.Style>
+                    <Style TargetType="TextBox" BasedOn="{StaticResource SummaryValue_TextBoxStyle}">
+                        <Setter Property="IsEnabled" Value="True"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=Category}" Value="DTEQ">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
 
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+
+            <!--Power and Short Circuit-->
+            <Border BorderBrush="LightGray" BorderThickness="0 1 0 0"
+                    Grid.Row="10"
+                    Grid.Column="0" Grid.ColumnSpan="2"
+                    Margin="0 5 0 0">
+
+                <Grid Margin="0 5 5 10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!--Power and Demand-->
+                    <Grid 
+                      ShowGridLines="False"
+                      Visibility="Visible">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <!--Vertical Line-->
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Demand and Short Circuit Current"
+                           Grid.ColumnSpan="5"
+                           FontWeight="SemiBold"
+                           Margin="0 0 0 5"
+                           TextAlignment="Left"
+                           />
+
+                        <!--Fla and PowerFactor-->
+                        <TextBlock Text="FLA " Grid.Row="2" Grid.Column="0"
+                               Style="{StaticResource SummaryLabel_TextBlockStyle}"
+                               MinWidth="10"
+                               Visibility="visible"/>
+                        <TextBlock Text="{Binding Fla, StringFormat={}{0} FLA,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               d:Text="50 A"
+                               Grid.Row="2" Grid.Column="1" 
+                               Style="{StaticResource SummaryValue_TextBlockStyle_2}"
+                               Height="16" VerticalAlignment="Top"/>
+
+                        <TextBlock Text="PF " Grid.Row="3" Grid.Column="0"
+                               Style="{StaticResource SummaryLabel_TextBlockStyle}"
+                               Visibility="visible"/>
+                        <TextBlock Text="{Binding PowerFactor, StringFormat={}{0},  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               d:Text="0.87"
+                               Grid.Row="3" Grid.Column="1" 
+                               Style="{StaticResource SummaryValue_TextBlockStyle_2}"
+                               />
+
+                        <TextBlock Text="EFF " Grid.Row="4" Grid.Column="0"
+                               Style="{StaticResource SummaryLabel_TextBlockStyle}"
+                               Visibility="{Binding Converter={StaticResource PowerConsumerTypeVisbilityConverter},ConverterParameter=Load}"
+                               d:Visibility="Visible"/>
+                        <TextBlock Text="{Binding Efficiency, StringFormat={}{0} %,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               d:Text="50 %"
+                               Grid.Row="4" Grid.Column="1" 
+                               Style="{StaticResource SummaryValue_TextBlockStyle_2}"
+                               Visibility="{Binding Converter={StaticResource PowerConsumerTypeVisbilityConverter},ConverterParameter=Load}"
+                               d:Visibility="Visible"
+                               />
+
+                        <!--Vertical Line-->
+                        <Canvas Grid.Row="2" Grid.RowSpan="2" 
+                            Grid.Column="2"
+                            Margin="0 0 10 0"
+                            UseLayoutRounding="False" 
+                            
+                            Visibility="Hidden" >
+
+                            <Line X1="0" X2="0" Y1="5" Y2="65" StrokeThickness="1" Stroke="LightGray"/>
+                        </Canvas>
+
+
+                        <!--Demand-->
+                        <TextBlock Text="Demand"
+                               Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"
+                               Margin="0"
+                               FontSize="8"
+                               TextAlignment="Center"
+                               Foreground="Gray"
+                                   Visibility="Collapsed"/>
+
+                        <TextBlock Text="{Binding DemandKva, StringFormat={}{0} kVA,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               d:Text="50 kVA"
+                               Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
+                               Style="{StaticResource SummaryValue_TextBlockStyle}"
+                               MinWidth="0"/>
+
+                        <TextBlock Text="{Binding DemandKw, StringFormat={}{0} kW,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               d:Text="50 kW"
+                               Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2"
+                               Style="{StaticResource SummaryValue_TextBlockStyle}"
+                               MinWidth="0"/>
+
+                        <TextBlock Text="{Binding DemandKvar, StringFormat={}{0} kVar,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               d:Text="50 kVar"
+                               Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="2"
+                               Style="{StaticResource SummaryValue_TextBlockStyle}"
+                               MinWidth="0"/>
+
+
+
+                       
+                    </Grid>
+                    
+                    <!--Horizontal Line-->
+                    <Canvas Grid.Row="1" Grid.ColumnSpan="5"
+                            Margin="0 0 0 10"
+                            Visibility="Visible">
+                        <Line X1="45" X2="285" Y1="5" Y2="5" StrokeThickness="1" Stroke="LightGray"/>
+                    </Canvas>
+
+                    <!--Short Circuit -->
+                    <Grid Grid.Row="2" 
+                          Grid.Column="0"  Grid.ColumnSpan="5"
+                          ShowGridLines="False">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+
+                        <!--SCCA-->
+                        <TextBlock Text="SCCA "
+                               Grid.Row="0" Grid.Column="0" 
+                               Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
+
+                        <TextBlock Text="{Binding SCCA, StringFormat={}{0} kA,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               d:Text="53.2 kA"
+                               Grid.Row="0" Grid.Column="1" 
+                                   MinWidth="50"
+                               >
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource SummaryValue_TextBlockStyle_2}">
+                                   
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        
+                        <!--SCCR-->
+                        <TextBlock Text="SCCR "
+                                   Grid.Row="0" Grid.Column="3"
+                                   Style="{StaticResource SummaryLabel_TextBlockStyle}"
+                                   HorizontalAlignment="Left"/>
+
+                        <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                                  Grid.Row="0" Grid.Column="4" 
+                                  MinWidth="65"
+                                  HorizontalAlignment="Stretch"
+                                  ItemsSource="{Binding Path=DataContext.TypeManager.EquipmentSccrValues, 
+                                                      Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                                      RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                      AncestorType={x:Type Window}}}"
+                                  SelectedValue="{Binding SCCR}"
+                                  DisplayMemberPath="SCCR"
+                                  SelectedValuePath="SCCR"
+                                  ItemStringFormat="{}{0} kA"
+                                  IsSynchronizedWithCurrentItem="False" 
+                            />
+                       
+                    </Grid>
+
+
+                </Grid>
+            </Border>
 
             <!--Protection Device -->
-        
+
             <editors:ComponentEditor_Pd DataContext="{Binding ProtectionDevice}"
-                                        Grid.Row="10" 
+                                        Grid.Row="11" 
                                         Grid.Column="0" Grid.ColumnSpan="2"
                                         HorizontalAlignment="Stretch"/>
 
-            
+
             <!--Line-->
-            <Canvas Grid.Row="11" 
+            <Canvas Grid.Row="12" 
                   Grid.ColumnSpan="5"
                     Visibility="Collapsed">
 
@@ -418,10 +535,10 @@
             <!--<TextBlock Text="{Binding DataContext.ListManager.Id, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                        Grid.Row="13" Grid.Column="1" 
                        Style="{StaticResource SummaryValue_TextBlockStyle}"/>-->
-      
 
 
-            <editors:AreaEditor Grid.Row="14"
+
+            <editors:AreaEditor Grid.Row="15"
                                 Grid.Column="0" Grid.ColumnSpan="2"
                                 HorizontalAlignment="Stretch"/>
 

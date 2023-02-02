@@ -37,7 +37,7 @@ public class XfrModel : DistributionEquipment
             if (_impedance <= 0) {
                 _impedance = oldValue;
             }
-            SCCR = CalculateSCCR();
+            SCCA = CalculateSCCA();
             if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
                 var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Impedance), OldValue = oldValue, NewValue = _impedance };
                 UndoManager.AddUndoCommand(cmd);
@@ -166,13 +166,13 @@ public class XfrModel : DistributionEquipment
     }
 
 
-    public override double CalculateSCCR()
+    public override double CalculateSCCA()
     {
-        double sccr = 0;
+        double scca = 0;
         //sccr = 1000 / (_impedance * 0.9) * Fla;
-        sccr = Size / (1.732 * LoadVoltage * Impedance / 100);
-        sccr = Math.Round(sccr, 2);
-        return sccr;
+        scca = Size / (1.732 * LoadVoltage * Impedance / 100);
+        scca = Math.Round(scca, 2);
+        return scca;
     }
 
     public ILoad FindLargestMotor(IDteq dteq, IPowerConsumer largestMotor)

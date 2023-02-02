@@ -39,6 +39,7 @@ internal class ComponentTypeSelector
                     list.Add(StarterTypes.RVS.ToString());
                 }
                 else if (comp.Owner.Type == LoadTypes.MOTOR.ToString() && (comp.Owner as LoadModel).StandAloneStarterBool == true) {
+                    list.Add(PdTypes.BKR.ToString());
                     list.Add(DisconnectTypes.FDS.ToString());
                 }
                 else if ((comp as ProtectionDeviceModel).IsStandAlone == true){

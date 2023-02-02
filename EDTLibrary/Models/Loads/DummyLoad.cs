@@ -28,6 +28,8 @@ internal class DummyLoad : IPowerConsumer
         return isValid;
     }
 
+    public double SCCA { get; set; }
+    public double SCCR { get; set; }
 
     public int ProtectionDeviceId { get; set; }
     public IProtectionDevice ProtectionDevice { get; set; }

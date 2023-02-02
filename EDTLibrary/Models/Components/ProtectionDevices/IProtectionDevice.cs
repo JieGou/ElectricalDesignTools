@@ -9,4 +9,9 @@ public interface IProtectionDevice : IComponentEdt
         get;
         set;
     }
+
+    double SCCA { get; set; }
+    double SCCR { get; set; }
+
+    double AIC { get; set; }
 }

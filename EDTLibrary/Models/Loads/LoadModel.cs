@@ -1,4 +1,5 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EDTLibrary.Calculators;
+using EDTLibrary.DataAccess;
 using EDTLibrary.DistributionControl;
 using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
@@ -142,7 +143,9 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
-        public string Category { get; set; }
+        public string Category { 
+            get; 
+            set; }
 
         public string Type
         {
@@ -481,7 +484,8 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _loadFactor;
                 _loadFactor = value;
                 if (DaManager.GettingRecords) return;
-                saveController.Lock(nameof(LoadFactor));    
+                saveController.Lock(nameof(LoadFactor));
+                UndoManager.Lock(this, nameof(LoadFactor));
 
                     CalculateLoading();
 
@@ -754,6 +758,36 @@ namespace EDTLibrary.Models.Loads
         public bool IsCalculating { get; set; }
 
 
+        public double SCCA
+        {
+            get { return FedFrom.SCCA; }
+            set { _scca = value; }
+        }
+        private double _scca;
+
+
+        public double SCCR
+        {
+            get { return _sccr; }
+            set 
+            { 
+                var oldValue = _sccr;
+                _sccr = value;
+
+                if (DaManager.GettingRecords) return;
+                saveController.Lock(nameof(SCCR));
+                UndoManager.Lock(this, nameof(SCCR));
+
+               
+
+                UndoManager.AddUndoCommand(this, nameof(SCCR), oldValue, value);
+                saveController.UnLock(nameof(SCCR));
+                OnPropertyUpdated();
+            }
+        }
+        private double _sccr;
+
+
         //Methods
         public void CalculateLoading(string propertyName = "")
         {
@@ -874,7 +908,8 @@ namespace EDTLibrary.Models.Loads
 
             //ProtectionDeviceManager.SetProtectionDeviceType(this);
             ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
-
+            ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
+            SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
 
             PowerCable.GetRequiredAmps(this);
             UndoManager.CanAdd = true;

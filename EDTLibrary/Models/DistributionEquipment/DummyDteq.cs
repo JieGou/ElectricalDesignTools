@@ -28,6 +28,7 @@ public class DummyDteq : IDteq
     public VoltageType LoadVoltageType { get; set; }
     public double LoadVoltage { get; set; }
     public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer>();
+    public double SCCA { get; set; }
     public double SCCR { get; set; }
     public double LoadCableDerating { get; set; }
     public int ProtectionDeviceId { get; set; }
@@ -106,7 +107,7 @@ public class DummyDteq : IDteq
     {
         throw new NotImplementedException();
     }
-    public virtual double CalculateSCCR()
+    public virtual double CalculateSCCA()
     {
         if (Tag == GlobalConfig.UtilityTag) {
             return 0;
@@ -114,7 +115,7 @@ public class DummyDteq : IDteq
         else if (FedFrom == null) {
             return 0;
         }
-        return FedFrom.SCCR;
+        return FedFrom.SCCA;
     }
     public void CalculateLoading(string propertyName = "")
     {
