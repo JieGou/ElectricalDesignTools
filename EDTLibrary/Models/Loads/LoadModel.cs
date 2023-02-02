@@ -480,9 +480,9 @@ namespace EDTLibrary.Models.Loads
             get { return _loadFactor; }
             set
             {
-
                 var oldValue = _loadFactor;
                 _loadFactor = value;
+
                 if (DaManager.GettingRecords) return;
                 saveController.Lock(nameof(LoadFactor));
                 UndoManager.Lock(this, nameof(LoadFactor));
@@ -760,7 +760,11 @@ namespace EDTLibrary.Models.Loads
 
         public double SCCA
         {
-            get { return FedFrom.SCCA; }
+            get {
+                if (FedFrom == null) {
+                    return 0;
+                }
+                return FedFrom.SCCA; }
             set { _scca = value; }
         }
         private double _scca;
@@ -793,137 +797,146 @@ namespace EDTLibrary.Models.Loads
         {
             if (allowCalculations == false) return;
             UndoManager.CanAdd = false;
-            if (DaManager.GettingRecords == true) return;
-
-            //if (DaManager.Importing == true) return;
+            if (DaManager.GettingRecords) return;
 
 
-            if (LoadFactor >= 1) {
-                LoadFactor = 1;
+            try {
+                if (LoadFactor >= 1) {
+                    LoadFactor = 1;
+                }
+                else if (LoadFactor == null || LoadFactor == 0) {
+                    LoadFactor = double.Parse(EdtSettings.LoadFactorDefault);
+                }
+
+                IsCalculating = true;
+                GetEfficiencyAndPowerFactor(this);
+
+                // Ampacity Factor
+                switch (Type) {
+                    case "MOTOR":
+                        AmpacityFactor = 1.25;
+                        switch (Unit) {
+                            case "HP":
+                                ConnectedKva = Size * 0.746 / Efficiency / PowerFactor;
+                                break;
+                            case "kW":
+                                ConnectedKva = Size / Efficiency / PowerFactor;
+                                break;
+                        }
+                        break;
+
+                    case "TRANSFORMER":
+                        AmpacityFactor = 1.25;
+                        break;
+                }
+
+                //ConnectedKva
+                switch (Type) {
+                    case "MOTOR":
+                        AmpacityFactor = 1.25;
+                        switch (Unit) {
+                            case "HP":
+                                ConnectedKva = Size * 0.746 / Efficiency / PowerFactor;
+                                break;
+                            case "kW":
+                                ConnectedKva = Size / Efficiency / PowerFactor;
+                                break;
+                        }
+                        break;
+
+                    case "TRANSFORMER":
+                        AmpacityFactor = 1.25;
+                        ConnectedKva = Size;
+                        break;
+
+                    case "HEATER":
+                        ConnectedKva = Size / Efficiency / PowerFactor;
+                        break;
+
+                    case "OTHER":
+                        switch (Unit) {
+                            case "kVA":
+                                ConnectedKva = Size;
+                                break;
+
+                            case "kW":
+                                ConnectedKva = Size / Efficiency / PowerFactor;
+                                break;
+
+                            case "A":
+                                ConnectedKva = Size * VoltageType.Voltage * Math.Sqrt(VoltageType.Phase) / 1000;
+                                Fla = Size;
+                                break;
+                        }
+                        break;
+
+                    case "PANEL":
+                        switch (Unit) {
+                            case "kVA":
+                                ConnectedKva = Size;
+                                break;
+
+                            case "kW":
+                                ConnectedKva = Size / Efficiency / PowerFactor;
+                                break;
+
+                            case "A":
+                                ConnectedKva = Size * VoltageType.Voltage * Math.Sqrt(3) / 1000; //   / Efficiency / PowerFactor;
+                                Fla = Size;
+                                break;
+                        }
+                        break;
+                }
+
+                if (ConnectedKva >= 9999999) {
+                    ConnectedKva = 9999999;
+                }
+
+                //FLA
+
+                if (Unit != "A") {
+                    Fla = ConnectedKva * 1000 / VoltageType.Voltage / Math.Sqrt(3);
+                    Fla = Math.Round(Fla, GlobalConfig.SigFigs);
+                }
+
+
+                //Power
+                ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
+                DemandKva = Math.Round(ConnectedKva * LoadFactor, GlobalConfig.SigFigs);
+                DemandKw = Math.Round(DemandKva * PowerFactor, GlobalConfig.SigFigs);
+                DemandKvar = Math.Round(DemandKva * (1 - PowerFactor), GlobalConfig.SigFigs);
+
+                LoadManager.SetLoadPdType(this);
+                LoadManager.SetLoadPdFrameAndTrip(this);
+
+                //ProtectionDeviceManager.SetProtectionDeviceType(this);
+                ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
+
+                if (ProtectionDevice != null) {
+                    ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
+                }
+                SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
+
+                PowerCable.GetRequiredAmps(this);
+                UndoManager.CanAdd = true;
+
+                IsCalculating = false;
+
+                OnLoadingCalculated(propertyName);
+
+                PowerCable.Validate(PowerCable);
+                CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+
+                foreach (var item in CctComponents) {
+                    item.CalculateSize(this);
+                }
             }
-            else if (LoadFactor == null || LoadFactor == 0) {
-                LoadFactor = double.Parse(EdtSettings.LoadFactorDefault);
+
+            catch (Exception ex) {
+
+                ErrorHelper.SendExeptionMessage(ex);
             }
 
-            IsCalculating = true;
-            GetEfficiencyAndPowerFactor(this);
-
-            // Ampacity Factor
-            switch (Type) {
-                case "MOTOR":
-                    AmpacityFactor = 1.25;
-                    switch (Unit) {
-                        case "HP":
-                            ConnectedKva = Size * 0.746 / Efficiency / PowerFactor;
-                            break;
-                        case "kW":
-                            ConnectedKva = Size / Efficiency / PowerFactor;
-                            break;
-                    }
-                    break;
-
-                case "TRANSFORMER":
-                    AmpacityFactor = 1.25;
-                    break;
-            }
-
-            //ConnectedKva
-            switch (Type) {
-                case "MOTOR":
-                    AmpacityFactor = 1.25;
-                    switch (Unit) {
-                        case "HP":
-                            ConnectedKva = Size * 0.746 / Efficiency / PowerFactor;
-                            break;
-                        case "kW":
-                            ConnectedKva = Size / Efficiency / PowerFactor;
-                            break;
-                    }
-                    break;
-
-                case "TRANSFORMER":
-                    AmpacityFactor = 1.25;
-                    ConnectedKva = Size;
-                    break;
-
-                case "HEATER":
-                    ConnectedKva = Size / Efficiency / PowerFactor;
-                    break;
-
-                case "OTHER":
-                    switch (Unit) {
-                        case "kVA":
-                            ConnectedKva = Size;
-                            break;
-
-                        case "kW":
-                            ConnectedKva = Size / Efficiency / PowerFactor;
-                            break;
-
-                        case "A":
-                            ConnectedKva = Size * VoltageType.Voltage * Math.Sqrt(VoltageType.Phase) / 1000;
-                            Fla = Size;
-                            break;
-                    }
-                    break;
-
-                case "PANEL":
-                    switch (Unit) {
-                        case "kVA":
-                            ConnectedKva = Size;
-                            break;
-
-                        case "kW":
-                            ConnectedKva = Size / Efficiency / PowerFactor;
-                            break;
-
-                        case "A":
-                            ConnectedKva = Size * VoltageType.Voltage * Math.Sqrt(3) / 1000; //   / Efficiency / PowerFactor;
-                            Fla = Size;
-                            break;
-                    }
-                    break;
-            }
-
-            if (ConnectedKva >= 9999999) {
-                ConnectedKva = 9999999;
-            }
-
-            //FLA
-
-            if (Unit != "A") {
-                Fla = ConnectedKva * 1000 / VoltageType.Voltage / Math.Sqrt(3);
-                Fla = Math.Round(Fla, GlobalConfig.SigFigs);
-            }
-
-
-            //Power
-            ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
-            DemandKva = Math.Round(ConnectedKva * LoadFactor, GlobalConfig.SigFigs);
-            DemandKw = Math.Round(DemandKva * PowerFactor, GlobalConfig.SigFigs);
-            DemandKvar = Math.Round(DemandKva * (1 - PowerFactor), GlobalConfig.SigFigs);
-
-            LoadManager.SetLoadPdType(this);
-            LoadManager.SetLoadPdFrameAndTrip(this);
-
-            //ProtectionDeviceManager.SetProtectionDeviceType(this);
-            ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
-            ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
-            SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
-
-            PowerCable.GetRequiredAmps(this);
-            UndoManager.CanAdd = true;
-
-            IsCalculating = false;
-
-            OnLoadingCalculated(propertyName);
-
-            PowerCable.Validate(PowerCable);
-            CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
-
-            foreach (var item in CctComponents) {
-                item.CalculateSize(this);
-            }
             OnPropertyUpdated();
 
         }

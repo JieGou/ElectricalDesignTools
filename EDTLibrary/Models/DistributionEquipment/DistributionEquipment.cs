@@ -829,51 +829,59 @@ namespace EDTLibrary.Models.DistributionEquipment
 
             IsCalculating = true;
             Voltage = LineVoltage;
-            var dis = this;
-            //Sums values from Assinged loads
-            ConnectedKva = (from x in AssignedLoads select x.ConnectedKva).Sum();
-            ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
+            try {
 
-            DemandKva = (from x in AssignedLoads select x.DemandKva).Sum();
-            DemandKva = Math.Round(DemandKva, GlobalConfig.SigFigs);
+                //Sums values from Assinged loads
+                ConnectedKva = (from x in AssignedLoads select x.ConnectedKva).Sum();
+                ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
 
-            DemandKw = (from x in AssignedLoads select x.DemandKw).Sum();
-            DemandKw = Math.Round(DemandKw, GlobalConfig.SigFigs);
+                DemandKva = (from x in AssignedLoads select x.DemandKva).Sum();
+                DemandKva = Math.Round(DemandKva, GlobalConfig.SigFigs);
 
-            DemandKvar = (from x in AssignedLoads select x.DemandKvar).Sum();
-            DemandKvar = Math.Round(DemandKvar, GlobalConfig.SigFigs);
+                DemandKw = (from x in AssignedLoads select x.DemandKw).Sum();
+                DemandKw = Math.Round(DemandKw, GlobalConfig.SigFigs);
 
-            PowerFactor = DemandKw / DemandKva;
-            PowerFactor = Math.Round(PowerFactor, 2);
+                DemandKvar = (from x in AssignedLoads select x.DemandKvar).Sum();
+                DemandKvar = Math.Round(DemandKvar, GlobalConfig.SigFigs);
 
-            RunningAmps = DemandKva * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
-            RunningAmps = Math.Round(RunningAmps, GlobalConfig.SigFigs);
+                PowerFactor = DemandKw / DemandKva;
+                PowerFactor = Math.Round(PowerFactor, 2);
 
-            //Full Load / Max operating Amps
-            if (Unit == Units.kVA.ToString()) {
-                Fla = _size * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
-                Fla = Math.Round(Fla, GlobalConfig.SigFigs);
+                RunningAmps = DemandKva * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
+                RunningAmps = Math.Round(RunningAmps, GlobalConfig.SigFigs);
+
+                //Full Load / Max operating Amps
+                if (Unit == Units.kVA.ToString()) {
+                    Fla = _size * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
+                    Fla = Math.Round(Fla, GlobalConfig.SigFigs);
+
+                }
+                else if (Unit == Units.A.ToString()) {
+                    Fla = _size;
+                }
+                if (Fla > 99999) Fla = 99999;
+
+                PercentLoaded = RunningAmps / Fla * 100;
+                PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
+
+                DteqManager.SetDteqPd(this);
+
+                ProtectionDeviceManager.SetProtectionDeviceType(this);
+                ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
+
+                SCCA = CalculateSCCA();
+                SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
+
+                if (ProtectionDevice != null) {
+                    ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
+                }
+
 
             }
-            else if (Unit == Units.A.ToString()) {
-                Fla = _size;
+            catch (Exception ex) {
+
+                ErrorHelper.SendExeptionMessage(ex);
             }
-            if (Fla > 99999) Fla = 99999;
-
-            PercentLoaded = RunningAmps / Fla * 100;
-            PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
-
-            DteqManager.SetDteqPd(this);
-
-            ProtectionDeviceManager.SetProtectionDeviceType(this);
-            ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
-
-            SCCA = CalculateSCCA();
-            SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
-
-            ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
-
-
             IsCalculating = false;
 
             OnLoadingCalculated(propertyName);
