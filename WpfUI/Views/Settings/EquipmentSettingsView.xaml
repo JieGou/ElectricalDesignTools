@@ -22,7 +22,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Blue.xaml"/>
                 <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
-                
+
             </ResourceDictionary.MergedDictionaries>
 
             <projectSettings:EdtSettings x:Key="edtSettings"/>
@@ -251,9 +251,9 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         </ComboBox>
 
                     </Grid>
-                    
+
                 </controls:EdtGroupBox>
-              
+
                 <!--Load Settings-->
                 <controls:EdtGroupBox Header="Loads"
                                       HeaderBackground="{StaticResource Dark}"
@@ -271,11 +271,18 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         <Grid.RowDefinitions>
                             <RowDefinition Height="20"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="30"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="30"/>
-                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -286,14 +293,38 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Default Load Factor"  
-                            Grid.Row="1" Grid.Column="0" />
-                        <TextBox Grid.Row="1" Grid.Column="2"
-                            Text="{Binding LoadFactorDefault, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="Default Load Factors"  
+                                   Grid.Row="1" Grid.Column="0" 
+                                   FontWeight="SemiBold"
+                                   FontSize="16"/>
+                        <TextBlock Text="Heaters"  
+                            Grid.Row="2" Grid.Column="0" />
+                        <TextBox Grid.Row="2" Grid.Column="2"
+                            Text="{Binding LoadFactorDefault_Heater, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <TextBlock Text="Default OCPD Type for Non-Motor Loads"  
+                        <TextBlock Text="Panels"  
                             Grid.Row="3" Grid.Column="0" />
-                        <ComboBox Grid.Row="3" Grid.Column="2"
+                        <TextBox Grid.Row="3" Grid.Column="2"
+                            Text="{Binding LoadFactorDefault_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Other"  
+                            Grid.Row="4" Grid.Column="0" />
+                        <TextBox Grid.Row="4" Grid.Column="2"
+                            Text="{Binding LoadFactorDefault_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Welding"  
+                            Grid.Row="5" Grid.Column="0" />
+                        <TextBox Grid.Row="5" Grid.Column="2"
+                            Text="{Binding LoadFactorDefault_Welding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Default OCPD Type"  
+                                   Grid.Row="7" Grid.Column="0" 
+                                   FontWeight="SemiBold"
+                                   FontSize="16"/>
+
+                        <TextBlock Text="Non-Motor Loads"  
+                            Grid.Row="8" Grid.Column="0" />
+                        <ComboBox Grid.Row="8" Grid.Column="2"
                             ItemsSource="{Binding TypeManager.OcpdTypes}"
                             SelectedValuePath="Type" 
                             SelectedValue="{Binding LoadDefaultPdTypeLV_NonMotor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
@@ -319,8 +350,8 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             </ComboBox.ItemTemplateSelector>
                         </ComboBox>
 
-                        <TextBlock Text="Default OCPD Type for Motor Loads"   Grid.Row="4" Grid.Column="0" />
-                        <ComboBox Grid.Row="4" Grid.Column="2"
+                        <TextBlock Text="Motor Loads"   Grid.Row="9" Grid.Column="0" />
+                        <ComboBox Grid.Row="9" Grid.Column="2"
                             ItemsSource="{Binding TypeManager.OcpdTypes}"
                             SelectedValuePath="Type" 
                             SelectedValue="{Binding LoadDefaultPdTypeLV_Motor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
@@ -349,36 +380,50 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 
 
 
-                        <StackPanel Orientation="Vertical"  Grid.Row="6" Grid.Column="0"  >
-                            <TextBlock Text="Efficiency and Power Factor"  
-                            Grid.Row="1" Grid.Column="0" />
+                        <StackPanel Orientation="Vertical"  Grid.Row="11" 
+                                    Grid.Column="0" Grid.ColumnSpan="3">
+                            <TextBlock Text="Default Efficiency and Power Factor"  
+                                       Grid.Row="1" Grid.Column="0" 
+                                       FontWeight="SemiBold"
+                                       FontSize="16"/>
                             <TextBlock Text="Default efficiency and Power Factor values for each load type"  
-                                Grid.Row="1" Grid.Column="0"
-                                Style="{StaticResource settingDescription}" />
+                                       Style="{StaticResource settingDescription}" 
+                                       Visibility="Collapsed"/>
                         </StackPanel>
+
+                        <TextBlock Text="Heater Loads Efficiency"
+                                    Grid.Row="12" Grid.Column="0" />
+                        <TextBox Grid.Row="12" Grid.Column="2"
+                            Text="{Binding LoadDefaultEfficiency_Heater, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Text="Heater Loads PF"
+                            Grid.Row="13" Grid.Column="0" />
+                        <TextBox Grid.Row="13" Grid.Column="2"
+                            Text="{Binding LoadDefaultPowerFactor_Heater, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                       
                         <TextBlock Text="Panel Loads Efficiency"
-                            Grid.Row="7" Grid.Column="0" />
-                        <TextBox Grid.Row="7" Grid.Column="2"
+                                    Grid.Row="14" Grid.Column="0" />
+                        <TextBox Grid.Row="14" Grid.Column="2"
                             Text="{Binding LoadDefaultEfficiency_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <TextBlock Text="Panel Loads Power Factor"
-                            Grid.Row="8" Grid.Column="0" />
-                        <TextBox Grid.Row="8" Grid.Column="2"
+                        <TextBlock Text="Panel Loads PF"
+                            Grid.Row="15" Grid.Column="0" />
+                        <TextBox Grid.Row="15" Grid.Column="2"
                             Text="{Binding LoadDefaultPowerFactor_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <TextBlock Text="Other Loads Efficiency"
-                            Grid.Row="9" Grid.Column="0" />
-                        <TextBox Grid.Row="9" Grid.Column="2"
+                            Grid.Row="16" Grid.Column="0" />
+                        <TextBox Grid.Row="16" Grid.Column="2"
                             Text="{Binding LoadDefaultEfficiency_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        <TextBlock Text="Other Loads Power Factor"
-                            Grid.Row="10" Grid.Column="0" />
-                        <TextBox Grid.Row="10" Grid.Column="2"
+                        <TextBlock Text="Other Loads PF"
+                            Grid.Row="17" Grid.Column="0" />
+                        <TextBox Grid.Row="17" Grid.Column="2"
                             Text="{Binding LoadDefaultPowerFactor_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
 
                 </controls:EdtGroupBox>
-               
+
 
                 <!--Component Settings-->
                 <controls:EdtGroupBox Header="Components"
@@ -387,126 +432,126 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                       ContentBackground="{StaticResource Background}" 
                                       Margin="25 0 25 25" >
                     <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="20"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
 
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="80"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
 
-                    <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="0"  >
-                        <TextBlock Text="Local Control Station Type for DOL Motors"  
+                        <StackPanel Orientation="Vertical"  Grid.Row="1" Grid.Column="0"  >
+                            <TextBlock Text="Local Control Station Type for DOL Motors"  
                                Grid.Row="1" Grid.Column="0" />
-                        <TextBlock Text="The default LCS type when creating new DOL motors"  
+                            <TextBlock Text="The default LCS type when creating new DOL motors"  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}" />
-                    </StackPanel>
+                        </StackPanel>
 
 
-                    <ComboBox Grid.Row="1" Grid.Column="2"
+                        <ComboBox Grid.Row="1" Grid.Column="2"
                               ItemsSource="{Binding TypeManager.LcsTypes}"
                               SelectedValuePath="Id" 
                               SelectedValue="{Binding LcsTypeDolLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                               IsSynchronizedWithCurrentItem="False" >
-                        <ComboBox.ItemTemplateSelector>
-                            <templateSelectors:ComboBoxItemTemplateSelector>
-                                <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="125"/>
-                                            <TextBlock Text="{Binding Description}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
+                            <ComboBox.ItemTemplateSelector>
+                                <templateSelectors:ComboBoxItemTemplateSelector>
+                                    <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="125"/>
+                                                <TextBlock Text="{Binding Description}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                                    <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
                                                 <TextBlock Text="{Binding Type}"/>
                                             </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector>
-                        </ComboBox.ItemTemplateSelector>
-                    </ComboBox>
+                                        </DataTemplate>
+                                    </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                </templateSelectors:ComboBoxItemTemplateSelector>
+                            </ComboBox.ItemTemplateSelector>
+                        </ComboBox>
 
 
-                    <StackPanel Orientation="Vertical"  Grid.Row="2" Grid.Column="0"  >
-                        <TextBlock Text="Local Control Station Type for VSD Motors"  
+                        <StackPanel Orientation="Vertical"  Grid.Row="2" Grid.Column="0"  >
+                            <TextBlock Text="Local Control Station Type for VSD Motors"  
                                Grid.Row="1" Grid.Column="0" />
-                        <TextBlock Text="The default LCS type when creating new VSD motors"  
+                            <TextBlock Text="The default LCS type when creating new VSD motors"  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}" />
-                    </StackPanel>
-                    <ComboBox Grid.Row="2" Grid.Column="2"
+                        </StackPanel>
+                        <ComboBox Grid.Row="2" Grid.Column="2"
                               ItemsSource="{Binding TypeManager.LcsTypes}"
                               SelectedValuePath="Id" 
                               SelectedValue="{Binding LcsTypeVsdLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                               IsSynchronizedWithCurrentItem="False" >
-                        <ComboBox.ItemTemplateSelector>
-                            <templateSelectors:ComboBoxItemTemplateSelector>
-                                <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="125"/>
-                                            <TextBlock Text="{Binding Description}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector>
-                        </ComboBox.ItemTemplateSelector>
-                    </ComboBox>
+                            <ComboBox.ItemTemplateSelector>
+                                <templateSelectors:ComboBoxItemTemplateSelector>
+                                    <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="125"/>
+                                                <TextBlock Text="{Binding Description}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                                    <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Type}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                </templateSelectors:ComboBoxItemTemplateSelector>
+                            </ComboBox.ItemTemplateSelector>
+                        </ComboBox>
 
-                    <StackPanel Orientation="Vertical"  Grid.Row="3" Grid.Column="0"  >
-                        <TextBlock Text="Local Disconnect Type"  
+                        <StackPanel Orientation="Vertical"  Grid.Row="3" Grid.Column="0"  >
+                            <TextBlock Text="Local Disconnect Type"  
                                Grid.Row="1" Grid.Column="0" />
-                        <TextBlock Text="The default disconnect type when adding a local disconnect to loads."  
+                            <TextBlock Text="The default disconnect type when adding a local disconnect to loads."  
                                    Grid.Row="1" Grid.Column="0"
                                    Style="{StaticResource settingDescription}" />
-                    </StackPanel>
-                    <ComboBox Grid.Row="3" Grid.Column="2"
+                        </StackPanel>
+                        <ComboBox Grid.Row="3" Grid.Column="2"
                               ItemsSource="{Binding TypeManager.DisconnectTypes}"
                               SelectedValuePath="Type" 
                               SelectedValue="{Binding LocalDisconnectType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
                               IsSynchronizedWithCurrentItem="False" >
-                        <ComboBox.ItemTemplateSelector>
-                            <templateSelectors:ComboBoxItemTemplateSelector>
-                                <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
-                                <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="50"/>
-                                            <TextBlock Text="{Binding Description}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
-                            </templateSelectors:ComboBoxItemTemplateSelector>
-                        </ComboBox.ItemTemplateSelector>
-                    </ComboBox>
+                            <ComboBox.ItemTemplateSelector>
+                                <templateSelectors:ComboBoxItemTemplateSelector>
+                                    <templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Type}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </templateSelectors:ComboBoxItemTemplateSelector.SelectedItemTemplate>
+                                    <templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Type}" FontWeight="Bold" Width="50"/>
+                                                <TextBlock Text="{Binding Description}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </templateSelectors:ComboBoxItemTemplateSelector.ItemTemplate>
+                                </templateSelectors:ComboBoxItemTemplateSelector>
+                            </ComboBox.ItemTemplateSelector>
+                        </ComboBox>
 
-                </Grid>
+                    </Grid>
                 </controls:EdtGroupBox>
-        </WrapPanel>
-            
+            </WrapPanel>
+
         </ScrollViewer>
     </Grid>
 

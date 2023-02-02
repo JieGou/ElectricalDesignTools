@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WpfUI.Commands;
+using WpfUI.UserControls.Editors;
 using WpfUI.Views.Settings;
 
 namespace WpfUI.ViewModels.Settings;
@@ -51,7 +52,6 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
 
     #region
     // fields
-    private string loadFactorDefault;
     private string _dteqMaxPercentLoaded;
     private string _xfrImpedance;
     private string _loadDefaultPdTypeLV_NonMotor;
@@ -64,10 +64,7 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
 
     private string _defaultLcsControlCableSize;
     private string _lcsTypeVsdLoad;
-    private string _loadDefaultEfficiency_Other;
-    private string _loadDefaultPowerFactor_Other;
-    private string _loadDefaultEfficiency_Panel;
-    private string _loadDefaultPowerFactor_Panel;
+    
     private string _dteqLoadCableDerating;
     private string _xfrSubType;
     private string _xfrGrounding;
@@ -205,76 +202,154 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
         }
     }
 
+
+    //LoadFactor
     public string LoadFactorDefault
     {
-        get => loadFactorDefault;
+        get => _loadFactorDefault;
         set
         {
-            var oldValue = loadFactorDefault;
+            var oldValue = _loadFactorDefault;
             double dblOut;
-            loadFactorDefault = value;
+            _loadFactorDefault = value;
             ClearErrors(nameof(LoadFactorDefault));
 
-            if (Double.TryParse(loadFactorDefault, out dblOut) == false) {
+            if (Double.TryParse(_loadFactorDefault, out dblOut) == false) {
                 AddError(nameof(LoadFactorDefault), "Invalid Value");
             }
-            else if (Double.Parse(loadFactorDefault) > 1 || Double.Parse(loadFactorDefault) < 0) {
+            else if (Double.Parse(_loadFactorDefault) > 1 || Double.Parse(_loadFactorDefault) < 0) {
                 AddError(nameof(LoadFactorDefault), "Invalid Value");
             }
             else {
-                loadFactorDefault = value;
-                SaveVmSetting(nameof(LoadFactorDefault), loadFactorDefault);
+                _loadFactorDefault = value;
+                SaveVmSetting(nameof(LoadFactorDefault), _loadFactorDefault);
             }
         }
     }
-    public string LoadDefaultEfficiency_Other
+    private string _loadFactorDefault;
+
+
+    public string LoadFactorDefault_Heater
     {
-        get => _loadDefaultEfficiency_Other;
+        get { return _loadFactorDefault_Heater; }
         set
         {
-            var oldValue = _loadDefaultEfficiency_Other;
+            var oldValue = _loadFactorDefault_Heater;
             double dblOut;
-            _loadDefaultEfficiency_Other = value;
+            _loadFactorDefault_Heater = value;
+            ClearErrors(nameof(LoadFactorDefault_Heater));
 
-            ClearErrors(nameof(LoadDefaultEfficiency_Other));
-
-            if (Double.TryParse(_loadDefaultEfficiency_Other, out dblOut) == false) {
-                AddError(nameof(LoadDefaultEfficiency_Other), "Invalid Value");
+            if (Double.TryParse(_loadFactorDefault_Heater, out dblOut) == false) {
+                AddError(nameof(LoadFactorDefault_Heater), "Invalid Value");
             }
-            else if (Double.Parse(_loadDefaultEfficiency_Other) > 1 || Double.Parse(_loadDefaultEfficiency_Other) < 0) {
-                AddError(nameof(LoadDefaultEfficiency_Other), "Invalid Value");
+            else if (Double.Parse(_loadFactorDefault_Heater) > 1 || Double.Parse(_loadFactorDefault_Heater) < 0) {
+                AddError(nameof(LoadFactorDefault_Heater), "Invalid Value");
             }
             else {
-                _loadDefaultEfficiency_Other = value;
-                SaveVmSetting(nameof(LoadDefaultEfficiency_Other), _loadDefaultEfficiency_Other);
+                _loadFactorDefault_Heater = value;
+                SaveVmSetting(nameof(LoadFactorDefault_Heater), _loadFactorDefault_Heater);
             }
         }
     }
-    public string LoadDefaultPowerFactor_Other
+    private string _loadFactorDefault_Heater;
+    public string LoadFactorDefault_Panel
     {
-        get => _loadDefaultPowerFactor_Other;
-
+        get { return _loadFactorDefault_Panel; }
         set
         {
-            var oldValue = _loadDefaultPowerFactor_Other;
+            var oldValue = _loadFactorDefault_Panel;
             double dblOut;
-            _loadDefaultPowerFactor_Other = value;
+            _loadFactorDefault_Panel = value;
+            ClearErrors(nameof(LoadFactorDefault_Panel));
 
-            ClearErrors(nameof(LoadDefaultPowerFactor_Other));
-
-            if (Double.TryParse(_loadDefaultPowerFactor_Other, out dblOut) == false) {
-                AddError(nameof(LoadDefaultPowerFactor_Other), "Invalid Value");
+            if (Double.TryParse(_loadFactorDefault_Panel, out dblOut) == false) {
+                AddError(nameof(LoadFactorDefault_Panel), "Invalid Value");
             }
-            else if (Double.Parse(_loadDefaultPowerFactor_Other) > 1 || Double.Parse(_loadDefaultPowerFactor_Other) < 0) {
-                AddError(nameof(LoadDefaultPowerFactor_Other), "Invalid Value");
+            else if (Double.Parse(_loadFactorDefault_Panel) > 1 || Double.Parse(_loadFactorDefault_Panel) < 0) {
+                AddError(nameof(LoadFactorDefault_Panel), "Invalid Value");
             }
             else {
-                _loadDefaultPowerFactor_Other = value;
-                SaveVmSetting(nameof(LoadDefaultPowerFactor_Other), _loadDefaultPowerFactor_Other);
+                _loadFactorDefault_Panel = value;
+                SaveVmSetting(nameof(LoadFactorDefault_Panel), _loadFactorDefault_Panel);
             }
         }
     }
+    private string _loadFactorDefault_Panel;
 
+    public string LoadFactorDefault_Other
+    {
+        get { return _loadFactorDefault_Other; }
+        set
+        {
+            var oldValue = _loadFactorDefault_Other;
+            double dblOut;
+            _loadFactorDefault_Other = value;
+            ClearErrors(nameof(LoadFactorDefault_Other));
+
+            if (Double.TryParse(_loadFactorDefault_Other, out dblOut) == false) {
+                AddError(nameof(LoadFactorDefault_Other), "Invalid Value");
+            }
+            else if (Double.Parse(_loadFactorDefault_Other) > 1 || Double.Parse(_loadFactorDefault_Other) < 0) {
+                AddError(nameof(LoadFactorDefault_Other), "Invalid Value");
+            }
+            else {
+                _loadFactorDefault_Other = value;
+                SaveVmSetting(nameof(LoadFactorDefault_Other), _loadFactorDefault_Other);
+            }
+        }
+    }
+    private string _loadFactorDefault_Other;
+
+    public string LoadFactorDefault_Welding
+    {
+        get { return _loadFactorDefault_Welding; }
+        set
+        {
+            var oldValue = _loadFactorDefault_Welding;
+            double dblOut;
+            _loadFactorDefault_Welding = value;
+            ClearErrors(nameof(LoadFactorDefault_Welding));
+
+            if (Double.TryParse(_loadFactorDefault_Welding, out dblOut) == false) {
+                AddError(nameof(LoadFactorDefault_Welding), "Invalid Value");
+            }
+            else if (Double.Parse(_loadFactorDefault_Welding) > 1 || Double.Parse(_loadFactorDefault_Welding) < 0) {
+                AddError(nameof(LoadFactorDefault_Welding), "Invalid Value");
+            }
+            else {
+                _loadFactorDefault_Welding = value;
+                SaveVmSetting(nameof(LoadFactorDefault_Welding), _loadFactorDefault_Welding);
+            }
+        }
+    }
+    private string _loadFactorDefault_Welding;
+
+
+    //Efficiency
+    public string LoadDefaultEfficiency_Heater
+    {
+        get => _loadDefaultEfficiency_Heater;
+        set
+        {
+            var oldValue = _loadDefaultEfficiency_Heater;
+            double dblOut;
+            _loadDefaultEfficiency_Heater = value;
+
+            ClearErrors(nameof(LoadDefaultEfficiency_Heater));
+
+            if (Double.TryParse(_loadDefaultEfficiency_Heater, out dblOut) == false) {
+                AddError(nameof(LoadDefaultEfficiency_Heater), "Invalid Value");
+            }
+            else if (Double.Parse(_loadDefaultEfficiency_Heater) > 1 || Double.Parse(_loadDefaultEfficiency_Heater) < 0) {
+                AddError(nameof(LoadDefaultEfficiency_Heater), "Invalid Value");
+            }
+            else {
+                _loadDefaultEfficiency_Heater = value;
+                SaveVmSetting(nameof(LoadDefaultEfficiency_Heater), _loadDefaultEfficiency_Heater);
+            }
+        }
+    }
+    private string _loadDefaultEfficiency_Heater;
     public string LoadDefaultEfficiency_Panel
     {
         get => _loadDefaultEfficiency_Panel;
@@ -299,6 +374,60 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
             }
         }
     }
+    private string _loadDefaultEfficiency_Panel;
+
+    public string LoadDefaultEfficiency_Other
+    {
+        get => _loadDefaultEfficiency_Other;
+        set
+        {
+            var oldValue = _loadDefaultEfficiency_Other;
+            double dblOut;
+            _loadDefaultEfficiency_Other = value;
+
+            ClearErrors(nameof(LoadDefaultEfficiency_Other));
+
+            if (Double.TryParse(_loadDefaultEfficiency_Other, out dblOut) == false) {
+                AddError(nameof(LoadDefaultEfficiency_Other), "Invalid Value");
+            }
+            else if (Double.Parse(_loadDefaultEfficiency_Other) > 1 || Double.Parse(_loadDefaultEfficiency_Other) < 0) {
+                AddError(nameof(LoadDefaultEfficiency_Other), "Invalid Value");
+            }
+            else {
+                _loadDefaultEfficiency_Other = value;
+                SaveVmSetting(nameof(LoadDefaultEfficiency_Other), _loadDefaultEfficiency_Other);
+            }
+        }
+    }
+    private string _loadDefaultEfficiency_Other;
+
+    //Power Factor
+    public string LoadDefaultPowerFactor_Heater
+    {
+        get => _loadDefaultPowerFactor_Heater;
+
+        set
+        {
+            var oldValue = _loadDefaultPowerFactor_Heater;
+            double dblOut;
+            _loadDefaultPowerFactor_Heater = value;
+
+            ClearErrors(nameof(LoadDefaultPowerFactor_Heater));
+
+            if (Double.TryParse(_loadDefaultPowerFactor_Heater, out dblOut) == false) {
+                AddError(nameof(LoadDefaultPowerFactor_Heater), "Invalid Value");
+            }
+            else if (Double.Parse(_loadDefaultPowerFactor_Heater) > 1 || Double.Parse(_loadDefaultPowerFactor_Heater) < 0) {
+                AddError(nameof(LoadDefaultPowerFactor_Heater), "Invalid Value");
+            }
+            else {
+                _loadDefaultPowerFactor_Heater = value;
+                SaveVmSetting(nameof(LoadDefaultPowerFactor_Heater), _loadDefaultPowerFactor_Heater);
+            }
+        }
+    }
+    private string _loadDefaultPowerFactor_Heater;
+
     public string LoadDefaultPowerFactor_Panel
     {
         get => _loadDefaultPowerFactor_Panel;
@@ -323,8 +452,33 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
             }
         }
     }
+    private string _loadDefaultPowerFactor_Panel;
 
+    public string LoadDefaultPowerFactor_Other
+    {
+        get => _loadDefaultPowerFactor_Other;
 
+        set
+        {
+            var oldValue = _loadDefaultPowerFactor_Other;
+            double dblOut;
+            _loadDefaultPowerFactor_Other = value;
+
+            ClearErrors(nameof(LoadDefaultPowerFactor_Other));
+
+            if (Double.TryParse(_loadDefaultPowerFactor_Other, out dblOut) == false) {
+                AddError(nameof(LoadDefaultPowerFactor_Other), "Invalid Value");
+            }
+            else if (Double.Parse(_loadDefaultPowerFactor_Other) > 1 || Double.Parse(_loadDefaultPowerFactor_Other) < 0) {
+                AddError(nameof(LoadDefaultPowerFactor_Other), "Invalid Value");
+            }
+            else {
+                _loadDefaultPowerFactor_Other = value;
+                SaveVmSetting(nameof(LoadDefaultPowerFactor_Other), _loadDefaultPowerFactor_Other);
+            }
+        }
+    }
+    private string _loadDefaultPowerFactor_Other;
 
     //Components
     public string LcsTypeDolLoad

@@ -5,6 +5,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Selectors;
 using EDTLibrary.Services;
 using Microsoft.Diagnostics.Tracing.Parsers.MicrosoftWindowsTCPIP;
 using System;
@@ -383,7 +384,7 @@ public class DpnCircuitManager
             VoltageType = loadCircuit.VoltageType,
             Size = 5.ToString(),
             Unit = Units.A.ToString(),
-            LoadFactor = EdtSettings.LoadFactorDefault,
+            LoadFactor = LoadFactorSelector.GetLoadFactor(LoadTypes.OTHER.ToString()).ToString(),
             PanelSide = loadCircuit.PanelSide,
             CircuitNumber = loadCircuit.CircuitNumber,
             SequenceNumber = loadCircuit.SequenceNumber,

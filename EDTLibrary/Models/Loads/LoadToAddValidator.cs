@@ -4,6 +4,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Selectors;
 using EDTLibrary.Services;
 using EDTLibrary.Validators;
 using PropertyChanged;
@@ -77,9 +78,9 @@ namespace EDTLibrary.Models.Loads
             {
                 _type = value;
 
-                _loadFactor = EdtSettings.LoadFactorDefault.ToString();
+                //_loadFactor = LoadFactorSelector.GetLoadFactor(_type).ToString();
                 LoadFactor = "";
-                LoadFactor = EdtSettings.LoadFactorDefault.ToString();
+                LoadFactor = LoadFactorSelector.GetLoadFactor(_type).ToString();
                 ClearErrors(nameof(Type));
                 if (GlobalConfig.SelectingNew == true) { return; }
 

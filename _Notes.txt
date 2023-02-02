@@ -1,27 +1,48 @@
-MAJOR Bugs
+Bug Notes
+	- combobox itemsSource values chaange because ComboBox.Text is bound. Need to bind to SelectedValue only.
+	
+Major Bugs
 	- change MessageBoxes to ErrorDialog with error list
 
 
-MINOR Bugs
-	- combobox text changes of itemsSource is because ComboBox.Text is bound. Need to bind to SelectedValue only.
-	- required amps tooltip does not update while CableSizingView_Narrow is in view
-	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bogs down the app
+Minor Bugs
+	- loads aren't changing voltage on FedFrom Update
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
 	- ProtectionDeviceModel.TypeList comboBox values disappear on PowerConsumer editor when Type is changed
-	- menu Views/ViewModels are slow to load on battery
 	- LCS Analog cable Tag when VFD is in MCC
 
+	- required amps tooltip does not update while CableSizingView_Narrow is in view
+	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bogs down the app
 
+	- menu Views/ViewModels are slow to load on battery
+
+Main Lugs Only checkbox on PD
+
+Property / Calculation Override and Locks
+	- PF
+	- Efficiency
+	- LoadFactor
+
+Equipment Sequence Ordering
+	- LoadList  by Tag
+	- Assigned Loads by FedFrom
+	- Dteq standalone
+
+
+LoadGrid Context Menu
+	- Set load factor
 
 
 LoadModel 
 	- Type change Voltage-Type and calculation updates
 	- load data IsValid
 		
+
 Library 
 	- Starter sizes for other voltages
 	- StarterSizes list for dropown
+
 
 Misc.
 	- Component Move Up Command to Owner
@@ -30,19 +51,19 @@ Misc.
 	- transformer cooling type on dteq options
 
 
-
-
 Transformer Grounding
 	- Settings
 	- NGR component
 	- NGR Monitor
 	- cables
 	
+
 Calculations
 	- OCPD 80% rated calculation
 	- SCCA, SCCR
 	- required cable conductors (2C, 3C, 4C)
 		- derating calculation
+
 
 Tag Settings
 	- lcs cable TypeModel vs Type
@@ -53,12 +74,10 @@ Tag Settings
 	- bulk updates on tag setting changes
 	
 
+
 Application Settings
 	- Add Load Voltage notification
-	- Optional Auto-Calculations
-		- Component Sizing
-		- PD
-		- Cable
+	
 
 Priorities
 	- LCS Type Management - 1
@@ -71,6 +90,7 @@ Priorities
 	- Cable List
 		- Pivot Grid
 		- Bom Style Export
+
 
 Exports
 	- Areas List and equipment summary
@@ -97,30 +117,19 @@ Cables
 		- component cables are not updated when changing the load cable properties
 
 
-LoadGrid Context Menu
-	- Set load factor
 
 
 Application Settings
 	- auto-calc PD when load properties change
 	- auto-calc cable when load properties change
-	- default breaker rating (80% vs 100%)
-
-
+	- Optional Auto-Calculations
+		- Component Sizing
+		- PD
+		- Cable
 Dteq 
-	- SCCR vs SCCA
 	- validate cable when AssignedLoads changes
 	- dteq as LoadGraphicVew
 	- Supply cable sizing based on upstream breaker (what is upstream breaker)
-	
-
-Load
-	- sequence number/ordering
-
-
-Protective Devices
-	- PD model
-	- 80% vs 100% rated
 
 
 Misc. General
@@ -134,11 +143,13 @@ Library Editor
 	- Cable Types
 	- voltage Types
 	- Motor Data editor
+	- AIC
+	- SCCR
 
 
 Areas, Systems & SubSystems
 	- heatloss total by area
-		- add cable to total with note
+		- add cable length to total with note
 	- proper heatload calculation for each equipment type
 
 
@@ -155,6 +166,13 @@ Autocad
 ***************************
 ***    AFTER RELEASE	***
 ***************************
+
+Protective Devices
+	- add 100% rated option
+
+Applicaton Settings
+	- default breaker rating (80% vs 100%)
+
 
 - Move Component Up/Down into ComponentModelBase
 

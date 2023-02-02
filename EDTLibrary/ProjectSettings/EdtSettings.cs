@@ -89,6 +89,7 @@ namespace EDTLibrary.ProjectSettings
         public static string DefaultCableTypeLoad_2wire { get; set; }
         public static string DefaultCableTypeLoad_3ph300to1kV { get; set; }
         public static string DefaultCableTypeLoad_3ph5kV { get; set; }
+
         //Dteq
         public static string DefaultCableTypeLoad_4wire { get; set; }
         public static string DefaultCableTypeDteq_3ph1kVLt1200A { get; set; }
@@ -139,9 +140,7 @@ namespace EDTLibrary.ProjectSettings
         public static string DteqMaxPercentLoaded { get; set; }
         public static string DteqDefaultPdTypeLV { get; set; }
 
-        public static string LoadDefaultPdTypeLV_NonMotor { get; set; }
-        public static string LoadDefaultPdTypeLV_Motor { get; set; }
-        public static string LoadFactorDefault { get; set; } = "0.8";
+        
         public static string XfrImpedance { get; set; }
         public static string XfrSubType { get; set; }
         public static string XfrGrounding_Primary { get; set; }
@@ -154,12 +153,28 @@ namespace EDTLibrary.ProjectSettings
         //Voltage
         public static string VoltageDefault1kV { get; set; }
 
+        public static string LoadDefaultPdTypeLV_NonMotor { get; set; }
+        public static string LoadDefaultPdTypeLV_Motor { get; set; }
 
-        //Loads
-        public static string LoadDefaultEfficiency_Other { get; set; }
-        public static string LoadDefaultPowerFactor_Other { get; set; }
+
+        //Load
+        public static string LoadFactorDefault { get; set; } = "0.8";
+
+        //Load Factor
+        public static string LoadFactorDefault_Heater { get; set; }
+        public static string LoadFactorDefault_Panel { get; set; }
+        public static string LoadFactorDefault_Other { get; set; }
+        public static string LoadFactorDefault_Welding { get; set; }
+
+        //Efficiency
+        public static string LoadDefaultEfficiency_Heater { get; set; }
         public static string LoadDefaultEfficiency_Panel { get; set; }
+        public static string LoadDefaultEfficiency_Other { get; set; }
+
+        //Power Factor
+        public static string LoadDefaultPowerFactor_Heater { get; set; }
         public static string LoadDefaultPowerFactor_Panel { get; set; }
+        public static string LoadDefaultPowerFactor_Other { get; set; }
 
         //Components
         public static string LcsTypeDolLoad { get; set; }

@@ -52,8 +52,8 @@
 
             <!--Tag-->
             <TextBlock Text="Tag " Style="{StaticResource SummaryLabel_TextBlockStyle}"
-                               Grid.Row="0" Grid.Column="0" 
-                               HorizontalAlignment="Right"
+                        Grid.Row="0" Grid.Column="0" 
+                        HorizontalAlignment="Right"
                                />
             <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Text="Tag"
                             Grid.Row="0" Grid.Column="1"

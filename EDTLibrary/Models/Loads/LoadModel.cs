@@ -481,7 +481,7 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 var oldValue = _loadFactor;
-                _loadFactor = value;
+                _loadFactor = value < 1 ? value : 1;
 
                 if (DaManager.GettingRecords) return;
                 saveController.Lock(nameof(LoadFactor));
@@ -801,15 +801,8 @@ namespace EDTLibrary.Models.Loads
 
 
             try {
-                if (LoadFactor >= 1) {
-                    LoadFactor = 1;
-                }
-                else if (LoadFactor == null || LoadFactor == 0) {
-                    LoadFactor = double.Parse(EdtSettings.LoadFactorDefault);
-                }
-
+               
                 IsCalculating = true;
-                GetEfficiencyAndPowerFactor(this);
 
                 // Ampacity Factor
                 switch (Type) {
@@ -906,10 +899,7 @@ namespace EDTLibrary.Models.Loads
                 DemandKw = Math.Round(DemandKva * PowerFactor, GlobalConfig.SigFigs);
                 DemandKvar = Math.Round(DemandKva * (1 - PowerFactor), GlobalConfig.SigFigs);
 
-                LoadManager.SetLoadPdType(this);
-                LoadManager.SetLoadPdFrameAndTrip(this);
-
-                //ProtectionDeviceManager.SetProtectionDeviceType(this);
+               
                 ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
 
                 if (ProtectionDevice != null) {
@@ -939,37 +929,6 @@ namespace EDTLibrary.Models.Loads
 
             OnPropertyUpdated();
 
-        }
-
-        private void GetEfficiencyAndPowerFactor(LoadModel load)
-        {
-            //PowerFactor and Efficiency
-            if (load.Type == LoadTypes.HEATER.ToString()) {
-                load.Unit = Units.kW.ToString();
-                load.Efficiency = GlobalConfig.DefaultHeaterEfficiency;
-                load.PowerFactor = GlobalConfig.DefaultHeaterPowerFactor;
-            }
-           
-            else if (Type == LoadTypes.MOTOR.ToString()) {
-                load.Efficiency = DataTableSearcher.GetMotorEfficiency(this);
-                load.PowerFactor = DataTableSearcher.GetMotorPowerFactor(this);
-            }
-            else if (Type == LoadTypes.PANEL.ToString()) {
-                load.Efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Panel);
-                load.PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Panel);
-            }
-            else {
-                load.Efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Other);
-                load.PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Other);
-            }
-
-            if (load.Efficiency > 1)
-                load.Efficiency /= 100;
-            if (load.PowerFactor > 1)
-                load.PowerFactor /= 100;
-
-            load.Efficiency = Math.Round(load.Efficiency, 3);
-            load.PowerFactor = Math.Round(load.PowerFactor, 2);
         }
 
         public void CreatePowerCable()
