@@ -57,10 +57,12 @@ public class DteqTreeViewDagDropBehavior : TargetedTriggerAction<SfTreeView>
                         }
                     }
                 }
-                
+
                 //single item
-                else if (dataType is IPowerConsumer) {
-                    ((IPowerConsumer)dataType).FedFrom = ((DistributionEquipment)dteqDropTarget);
+                else {
+                    if (dataType is IPowerConsumer) {
+                        ((IPowerConsumer)dataType).FedFrom = ((DistributionEquipment)dteqDropTarget);
+                    }
                 }
                 
             }

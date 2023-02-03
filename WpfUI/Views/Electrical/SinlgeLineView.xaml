@@ -466,7 +466,12 @@
                                                                                    DataContext="{Binding}" 
                                                                                    EquipmentSelected="LoadGraphicView_EquipmentSelected"
                                                                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
-                                                                                   ClipToBounds="False"/>
+                                                                                 
+                                                                                   ClipToBounds="False"
+                                                                                   
+                                                                                   MouseDown="LoadGraphicViewListViewItem_MouseDown"
+                                                                                   MouseUp="LoadGraphicViewListViewItem_MouseUp"
+                                                                                   MouseMove="LoadGraphicViewListViewItem_MouseMove"/>           
                                         </Border>
 
                                     </ControlTemplate>

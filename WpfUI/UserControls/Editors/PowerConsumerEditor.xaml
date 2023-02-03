@@ -485,7 +485,6 @@
 
                         <ComboBox Template="{DynamicResource ComboBoxBase}" 
                                   Grid.Row="0" Grid.Column="4" 
-                                  MinWidth="65"
                                   HorizontalAlignment="Stretch"
                                   ItemsSource="{Binding Path=DataContext.TypeManager.EquipmentSccrValues, 
                                                       Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
@@ -509,7 +508,8 @@
             <editors:ComponentEditor_Pd DataContext="{Binding ProtectionDevice}"
                                         Grid.Row="11" 
                                         Grid.Column="0" Grid.ColumnSpan="2"
-                                        HorizontalAlignment="Stretch"/>
+                                        HorizontalAlignment="Stretch"
+                                        />
 
 
             <!--Line-->

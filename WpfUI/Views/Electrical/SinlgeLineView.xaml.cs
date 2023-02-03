@@ -1,28 +1,22 @@
-﻿using Dia2Lib;
-using EDTLibrary.Managers;
-using EDTLibrary.Models.Cables;
-using EDTLibrary.Models.Components;
+﻿using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using Syncfusion.UI.Xaml.TreeView;
-using Syncfusion.UI.Xaml.TreeView.Engine;
-using Syncfusion.Windows.Controls.Input.Resources;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using Windows.ApplicationModel.Preview.Notes;
 using WpfUI.Extension_Methods;
+using WpfUI.Helpers;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
-using WpfUI.Views.Electrical.MjeqSubviews;
-using TreeViewItem = Syncfusion.UI.Xaml.TreeView.TreeViewItem;
 
 namespace WpfUI.Views.Electrical;
 /// <summary>
@@ -140,17 +134,17 @@ public partial class SinlgeLineView : UserControl
     /// <summary>
     /// Set to 'true' when the left mouse-button is held down on a rectangle.
     /// </summary>
-    private bool isLeftMouseDownOnRectangle = false;
+    private bool isLeftMouseDownOnLoadGraphicItem = false;
 
     /// <summary>
     /// Set to 'true' when the left mouse-button and control are held down on a rectangle.
     /// </summary>
-    private bool isLeftMouseAndControlDownOnRectangle = false;
+    private bool isLeftMouseAndControlDownOnLoadGraphicItem = false;
 
     /// <summary>
     /// Set to 'true' when dragging a rectangle.
     /// </summary>
-    private bool isDraggingRectangle = false;
+    private bool isDraggingLoadGraphicItem = false;
 
     #endregion Data Members
 
@@ -159,12 +153,45 @@ public partial class SinlgeLineView : UserControl
     {
         DragEvent_MouseDown(e, grdSingleLine);
     }
-    
     private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
     {
         DragEvent_MouseUp(e, grdSingleLine);
     }
+    private void Grid_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        DragEvent_MouseMove(e, grdSingleLine);
+        string senderType = sender.GetType().ToString();
+        //drag drop
+        if (e.LeftButton == MouseButtonState.Pressed) {
 
+            var listView = sender as ListView;
+
+            if (listView == null || listView.SelectedItem == null) return;
+
+
+            //DragDrop initiation is now handled in the LoadGraphicItem_MouseMove
+            //multiple items
+            if (listView.SelectedItems.Count > 1) {
+                //var selectedItems = new List<object>();
+                //foreach (var item in listView.SelectedItems) {
+                //    if (item != null) {
+                //        selectedItems.Add(item);
+                //    }
+                //}
+                //DragDrop.DoDragDrop(listView, new DataObject(DataFormats.Serializable, selectedItems), DragDropEffects.Link);
+            }
+
+            //single item
+            else {
+                //var draggedItem = listView.SelectedItem;
+
+                //if (draggedItem != null) {
+                //    DragDrop.DoDragDrop(listView, new DataObject(DataFormats.Serializable, draggedItem), DragDropEffects.Link);
+                //}
+            }
+
+        }
+    }
     private void DragEvent_MouseDown(MouseButtonEventArgs e, UIElement uIElement)
     {
         if (e.ChangedButton == MouseButton.Left) {
@@ -244,6 +271,182 @@ public partial class SinlgeLineView : UserControl
 
                // listViewLoads.SelectedItems.Clear();
             }
+        }
+    }
+
+    private void LoadGraphicViewListViewItem_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ChangedButton != MouseButton.Left) {
+            return;
+        }
+
+        var loadGraphicItem = (FrameworkElement)sender;
+        var rectangleViewModel = (IPowerConsumer)loadGraphicItem.DataContext;
+
+        isLeftMouseDownOnLoadGraphicItem = true;
+
+        if ((Keyboard.Modifiers & ModifierKeys.Control) != 0) {
+            //
+            // Control key was held down.
+            // This means that the rectangle is being added to or removed from the existing selection.
+            // Don't do anything yet, we will act on this later in the MouseUp event handler.
+            //
+            isLeftMouseAndControlDownOnLoadGraphicItem = true;
+        }
+        else {
+            //
+            // Control key is not held down.
+            //
+            isLeftMouseAndControlDownOnLoadGraphicItem = false;
+
+            if (this.listViewLoads.SelectedItems.Count == 0) {
+                //
+                // Nothing already selected, select the item.
+                //
+                this.listViewLoads.SelectedItems.Add(rectangleViewModel);
+            }
+            else if (this.listViewLoads.SelectedItems.Contains(rectangleViewModel)) {
+                // 
+                // Item is already selected, do nothing.
+                // We will act on this in the MouseUp if there was no drag operation.
+                //
+            }
+            else {
+                //
+                // Item is not selected.
+                // Deselect all, and select the item.
+                //
+                this.listViewLoads.SelectedItems.Clear();
+                this.listViewLoads.SelectedItems.Add(rectangleViewModel);
+            }
+        }
+
+        loadGraphicItem.CaptureMouse();
+        origMouseDownPoint = e.GetPosition(this);
+
+        e.Handled = true;
+    }
+    private void LoadGraphicViewListViewItem_MouseUp(object sender, MouseButtonEventArgs e)
+    {
+        if (isLeftMouseDownOnLoadGraphicItem) {
+            var loadGraphicItem = (FrameworkElement)sender;
+            var rectangleViewModel = (IPowerConsumer)loadGraphicItem.DataContext;
+
+            if (!isDraggingLoadGraphicItem) {
+                //
+                // Execute mouse up selection logic only if there was no drag operation.
+                //
+                if (isLeftMouseAndControlDownOnLoadGraphicItem) {
+                    //
+                    // Control key was held down.
+                    // Toggle the selection.
+                    //
+                    if (this.listViewLoads.SelectedItems.Contains(rectangleViewModel)) {
+                        //
+                        // Item was already selected, control-click removes it from the selection.
+                        //
+                        this.listViewLoads.SelectedItems.Remove(rectangleViewModel);
+                    }
+                    else {
+                        // 
+                        // Item was not already selected, control-click adds it to the selection.
+                        //
+                        this.listViewLoads.SelectedItems.Add(rectangleViewModel);
+                    }
+                }
+                else {
+                    //
+                    // Control key was not held down.
+                    //
+                    if (this.listViewLoads.SelectedItems.Count == 1 &&
+                        this.listViewLoads.SelectedItem == rectangleViewModel) {
+                        //
+                        // The item that was clicked is already the only selected item.
+                        // Don't need to do anything.
+                        //
+                    }
+                    else {
+                        //
+                        // Clear the selection and select the clicked item as the only selected item.
+                        //
+                        this.listViewLoads.SelectedItems.Clear();
+                        this.listViewLoads.SelectedItems.Add(rectangleViewModel);
+                    }
+                }
+            }
+
+            loadGraphicItem.ReleaseMouseCapture();
+            isLeftMouseDownOnLoadGraphicItem = false;
+            isLeftMouseAndControlDownOnLoadGraphicItem = false;
+
+            e.Handled = true;
+        }
+
+        isDraggingLoadGraphicItem = false;
+    }
+    private void LoadGraphicViewListViewItem_MouseMove(object sender, MouseEventArgs e)
+    {
+        if (isDraggingLoadGraphicItem) {
+            //
+            // Drag-move selected rectangles.
+            //
+
+            if (listViewLoads.SelectedItems.Count > 1) {
+                var selectedItems = new List<object>();
+                foreach (var item in listViewLoads.SelectedItems) {
+                    if (item != null) {
+                        selectedItems.Add(item);
+                    }
+                }
+                try {
+                    DragDrop.DoDragDrop(listViewLoads, new DataObject(DataFormats.Serializable, selectedItems), DragDropEffects.Link);
+                }
+                catch (NullReferenceException ex) {
+                    ex.Data.Add("UserMessage", "NullReferenceException for multiple DragDrop");
+                    ErrorHelper.ShowErrorMessage(ex);
+                }
+                catch (Exception ex) {
+
+                    ErrorHelper.ShowErrorMessage(ex);
+                }
+            }
+
+            //single item
+            else {
+                var draggedItem = listViewLoads.SelectedItem;
+
+                if (draggedItem != null) {
+                    try {
+                        DragDrop.DoDragDrop(listViewLoads, new DataObject(DataFormats.Serializable, draggedItem), DragDropEffects.Link);
+                    }
+                    catch (NullReferenceException ex) {
+                        ex.Data.Add("UserMessage", "NullReferenceException for single DragDrop");
+                        ErrorHelper.ShowErrorMessage(ex);
+                    }
+                    catch (Exception ex) {
+
+                        ErrorHelper.ShowErrorMessage(ex);
+                    }
+                }
+            }
+        }
+        else if (isLeftMouseDownOnLoadGraphicItem) {
+            //
+            // The user is left-dragging the rectangle,
+            // but don't initiate the drag operation until
+            // the mouse cursor has moved more than the threshold value.
+            //
+            Point curMouseDownPoint = e.GetPosition(this);
+            var dragDelta = curMouseDownPoint - origMouseDownPoint;
+            double dragDistance = Math.Abs(dragDelta.Length);
+            if (dragDistance > DragThreshold) {
+                //
+                // When the mouse has been dragged more than the threshold value commence dragging the rectangle.
+                //
+                isDraggingLoadGraphicItem = true;
+            }
+
+            e.Handled = true;
         }
     }
 
@@ -443,39 +646,9 @@ public partial class SinlgeLineView : UserControl
             }
         }
     }
-    private void Grid_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-    {
-        DragEvent_MouseMove(e, grdSingleLine);
-        string senderType = sender.GetType().ToString();
-        //drag drop
-        if (e.LeftButton == MouseButtonState.Pressed) {
+   
 
-            var listView = sender as ListView;
 
-            if (listView == null  || listView.SelectedItem == null) return;
-
-            //multiple items
-            if (listView.SelectedItems.Count>1) {
-                var selectedItems = new List<object>();
-                foreach (var item in listView.SelectedItems) {
-                    if (item != null) {
-                        selectedItems.Add(item);
-                    }
-                }
-                DragDrop.DoDragDrop(listView, new DataObject(DataFormats.Serializable, selectedItems), DragDropEffects.Link);
-            }
-
-            //single item
-            else {
-                var draggedItem = listView.SelectedItem;
-
-                if (draggedItem != null) {
-                    DragDrop.DoDragDrop(listView, new DataObject(DataFormats.Serializable, draggedItem), DragDropEffects.Link);
-                }
-            }
-            
-        }
-    }
     private void sfTreeView_PreviewDrop(object sender, DragEventArgs e)
     {
         

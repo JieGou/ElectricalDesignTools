@@ -36,7 +36,7 @@ namespace WpfUI.Helpers
         {
             ShowErrorMessage(args.Exception);
         }
-        public static void ShowErrorMessage(Exception ex)
+        public static void ShowErrorMessage(Exception ex, string debugMessage ="")
         {
 
            

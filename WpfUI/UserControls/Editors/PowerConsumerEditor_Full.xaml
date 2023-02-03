@@ -18,7 +18,7 @@
              
              
              mc:Ignorable="d" 
-             d:DesignHeight="750" d:DesignWidth="300"
+             d:DesignHeight="1000" d:DesignWidth="300"
              d:Background="AliceBlue">
 
 
@@ -46,10 +46,21 @@
                                 DataContext="{Binding}"
                                 Margin="0 1 0 0"/>-->
 
-            <editors:ComponentListEditor Grid.Row="2"
-                                        Grid.Column="0"
-                                        DataContext="{Binding}"
-                                        Margin="0 1 0 0"/>
+        <editors:ComponentListEditor Grid.Row="2"
+                                     Grid.Column="0"
+                                     DataContext="{Binding}"
+                                     Margin="0 1 0 0">
+            <editors:ComponentListEditor.Style>
+                <Style TargetType="editors:ComponentListEditor">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Category}" Value="DTEQ">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </editors:ComponentListEditor.Style>
+        </editors:ComponentListEditor>
 
         </Grid>
 
