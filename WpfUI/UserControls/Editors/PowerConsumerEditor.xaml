@@ -56,9 +56,9 @@
                         HorizontalAlignment="Right"
                                />
             <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Text="Tag"
-                            Grid.Row="0" Grid.Column="1"
-                            MinWidth="100"
-                            Style="{StaticResource SummaryValue_TextBoxStyle}"/>
+                        Grid.Row="0" Grid.Column="1"
+                        MinWidth="100"
+                        Style="{StaticResource SummaryValue_TextBoxStyle}"/>
 
             <!--Description-->
             <TextBlock Text="Description "
@@ -229,10 +229,10 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBox Text="{Binding Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=750}"
-                                 Grid.Column="0" 
-                                 Style="{StaticResource SummaryValue_TextBoxStyle}" 
-                                 TextAlignment="Right"
-                                 />
+                            Grid.Column="0" 
+                            Style="{StaticResource SummaryValue_TextBoxStyle}" 
+                            TextAlignment="Right"
+                            />
 
                 <!--<TextBlock Text="Unit "
                                Grid.Column="1" 
@@ -357,35 +357,39 @@
 
                         <!--Fla and PowerFactor-->
                         <TextBlock Text="FLA " Grid.Row="2" Grid.Column="0"
-                               Style="{StaticResource SummaryLabel_TextBlockStyle}"
-                               MinWidth="10"
-                               Visibility="visible"/>
+                                   Style="{StaticResource SummaryLabel_TextBlockStyle}"
+                                   MinWidth="10"
+                                   Visibility="visible"/>
                         <TextBlock Text="{Binding Fla, StringFormat={}{0} FLA,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               d:Text="50 A"
-                               Grid.Row="2" Grid.Column="1" 
-                               Style="{StaticResource SummaryValue_TextBlockStyle_2}"
-                               Height="16" VerticalAlignment="Top"/>
+                                   d:Text="50 A"
+                                   Grid.Row="2" Grid.Column="1" 
+                                   Style="{StaticResource SummaryValue_TextBlockStyle}"
+                                   />
 
+                        <!--PowerFactor-->
                         <TextBlock Text="PF " Grid.Row="3" Grid.Column="0"
-                               Style="{StaticResource SummaryLabel_TextBlockStyle}"
-                               Visibility="visible"/>
-                        <TextBlock Text="{Binding PowerFactor, StringFormat={}{0},  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               d:Text="0.87"
-                               Grid.Row="3" Grid.Column="1" 
-                               Style="{StaticResource SummaryValue_TextBlockStyle_2}"
-                               />
+                                   Style="{StaticResource SummaryLabel_TextBlockStyle}"
+                                   Visibility="visible"/>
+                        <TextBox Text="{Binding PowerFactor, StringFormat={}{0},  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=750}"
+                                 d:Text="0.87"
+                                 Grid.Row="3" Grid.Column="1" 
+                                 Style="{StaticResource SummaryValue_TextBoxStyle}"
+                                 IsEnabled="{Binding Converter={StaticResource PowerConsumerTypeIsEnabledConverter},ConverterParameter=Load}"
+                                   >
+                        </TextBox>
 
+                        <!--Efficiency-->
                         <TextBlock Text="EFF " Grid.Row="4" Grid.Column="0"
-                               Style="{StaticResource SummaryLabel_TextBlockStyle}"
-                               Visibility="{Binding Converter={StaticResource PowerConsumerTypeVisbilityConverter},ConverterParameter=Load}"
-                               d:Visibility="Visible"/>
-                        <TextBlock Text="{Binding Efficiency, StringFormat={}{0} %,  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               d:Text="50 %"
-                               Grid.Row="4" Grid.Column="1" 
-                               Style="{StaticResource SummaryValue_TextBlockStyle_2}"
-                               Visibility="{Binding Converter={StaticResource PowerConsumerTypeVisbilityConverter},ConverterParameter=Load}"
-                               d:Visibility="Visible"
-                               />
+                                   Style="{StaticResource SummaryLabel_TextBlockStyle}"
+                                   Visibility="{Binding Converter={StaticResource PowerConsumerTypeVisbilityConverter},ConverterParameter=Load}"
+                                   d:Visibility="Visible"/>
+                        <TextBox Text="{Binding Efficiency, StringFormat={}{0},  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=750}"
+                                 d:Text="50 %"
+                                 Grid.Row="4" Grid.Column="1" 
+                                 Style="{StaticResource SummaryValue_TextBoxStyle}"
+                                 Visibility="{Binding Converter={StaticResource PowerConsumerTypeVisbilityConverter},ConverterParameter=Load}"
+                                 d:Visibility="Visible"
+                                 />
 
                         <!--Vertical Line-->
                         <Canvas Grid.Row="2" Grid.RowSpan="2" 

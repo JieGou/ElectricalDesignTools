@@ -631,6 +631,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         public double DemandKva { get; set; }
         public double DemandKw { get; set; }
         public double DemandKvar { get; set; }
+
         public double PowerFactor { get; set; }
         public double AmpacityFactor { get; set; }
 

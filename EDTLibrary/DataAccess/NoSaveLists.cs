@@ -86,6 +86,8 @@ namespace EDTLibrary.DataAccess
             "ProtectionDevice",
             "CalculationLock",
             "UnitList",
+
+            "ResetDefaultEfficiencyAndPowerFactorCommand",
         };
 
         static public List<string> CompNoSaveList { get; set; } = new List<string>()

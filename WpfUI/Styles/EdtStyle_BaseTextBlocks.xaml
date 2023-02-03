@@ -4,15 +4,22 @@
     
     <!--Block-->
     <Style TargetType="TextBlock" x:Key="SummaryLabel_TextBlockStyle">
+        
+        <!--<Setter Property="Height" Value="18"/>-->
+        <Setter Property="VerticalAlignment" Value="Center"/>
+
         <Setter Property="TextAlignment" Value="Right"/>
-        <Setter Property="Margin" Value="5 5 0 0"/>
+        <Setter Property="Margin" Value="5 2 0 3"/>
         <Setter Property="FontSize" Value="12"/>
     </Style>
 
     <Style TargetType="TextBlock" x:Key="SummaryValue_TextBlockStyle">
         <Setter Property="TextAlignment" Value="Left"/>
+
+        <Setter Property="VerticalAlignment" Value="Center"/>
+
         <Setter Property="MinWidth" Value="75"/>
-        <Setter Property="Margin" Value="5 5 5 0"/>
+        <Setter Property="Margin" Value="5 0 5 0"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
@@ -31,12 +38,21 @@
     <Style TargetType="TextBox" x:Key="SummaryValue_TextBoxStyle">
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <!--<Setter Property="Width" Value="110"/>-->
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+
+        <!--<Setter Property="Height" Value="18"/>-->
+        
+        <Setter Property="MinWidth" Value="50"/>
         <Setter Property="Margin" Value="5 0 5 0"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
+
+    
+
+    
+    <!--BLock StatusBar-->
 
     <Style TargetType="TextBlock" x:Key="StatusBarLabel_TextBlockStyle">
         <Setter Property="TextAlignment" Value="Left"/>
@@ -45,9 +61,7 @@
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Margin" Value="5 0 10 0"/>
     </Style>
-
     
-    <!--BLock-->
     <Style TargetType="TextBlock" x:Key="StatusBarValue_TextBlockStyle">
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>

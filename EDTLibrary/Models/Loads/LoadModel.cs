@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Calculators;
+﻿using EdtLibrary.Commands;
+using EDTLibrary.Calculators;
 using EDTLibrary.DataAccess;
 using EDTLibrary.DistributionControl;
 using EDTLibrary.ErrorManagement;
@@ -27,6 +28,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Loads
@@ -46,12 +48,27 @@ namespace EDTLibrary.Models.Loads
             PowerCable = new CableModel();
             CalculationFlags = new CalculationFlags();
 
+            //Commands
+
+            ResetDefaultEfficiencyAndPowerFactorCommand = new RelayCommand(ResetDefaultEfficiencyAndPowerFactor);
+
         }
+
+        #region Commands
+        public ICommand ResetDefaultEfficiencyAndPowerFactorCommand { get; set; }
+        private void ResetDefaultEfficiencyAndPowerFactor()
+        {
+            EfficiencyAndPowerFactorSelector.SetEfficiencyAndPowerFactor(this);
+        }
+
+
+        #endregion
+
         public CalculationFlags CalculationFlags { get; set; }
         internal SaveController saveController = new SaveController();
 
 
-        //Properties
+
 
         public int ProtectionDeviceId { get; set; }
         public IProtectionDevice ProtectionDevice
@@ -481,7 +498,7 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 var oldValue = _loadFactor;
-                _loadFactor = value < 1 ? value : 1;
+                _loadFactor = (value < 1 && value >= 0)? value : oldValue;
 
                 if (DaManager.GettingRecords) return;
                 saveController.Lock(nameof(LoadFactor));
@@ -502,8 +519,9 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 var oldValue = _efficiency;
-                _efficiency = value;
+                _efficiency = (value <= 1  && value >= 0) ? value: oldValue;
                 EfficiencyDisplay = _efficiency * 100;
+
                 if (DaManager.GettingRecords) return;
                 saveController.Lock(nameof(Efficiency));
                 UndoManager.Lock(this,nameof(Efficiency));
@@ -532,7 +550,7 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 var oldValue = _powerFactor;
-                _powerFactor = value / 100;
+                _powerFactor = (value <1 && value >= 0) ? value / 100 : oldValue;
 
                 saveController.Lock(nameof(PowerFactor));
                 UndoManager.Lock(this, nameof(PowerFactor));
