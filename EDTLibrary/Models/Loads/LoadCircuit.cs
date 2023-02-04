@@ -130,7 +130,7 @@ public class LoadCircuit : ILoadCircuit
     public double SCCA { get; set; }
     public double SCCR { get; set; }
 
-    public double LoadFactor { get; set; }
+    public double DemandFactor { get; set; }
     public double Efficiency { get; set; }
     public double PowerFactor { get; set; }
     public double ConnectedKva { get; set; }

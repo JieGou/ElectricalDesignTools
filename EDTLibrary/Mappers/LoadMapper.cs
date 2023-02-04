@@ -29,7 +29,7 @@ public class LoadMapper
         Unit = load.Unit;
         Fla = load.Fla;
         RunningAmps = load.RunningAmps;
-        LoadFactor = load.LoadFactor;
+        DemandFactor = load.DemandFactor;
         Efficiency = load.Efficiency;
         PowerFactor = load.PowerFactor;
         ConnectedKva = load.ConnectedKva;
@@ -60,7 +60,7 @@ public class LoadMapper
     public double Fla { get; set; }
     public double RunningAmps { get; set; }
 
-    public double LoadFactor { get; set; }
+    public double DemandFactor { get; set; }
     public double Efficiency { get; set; }
     public double PowerFactor { get; set; }
 

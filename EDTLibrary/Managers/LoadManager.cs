@@ -22,7 +22,7 @@ public class LoadManager
     public static async Task<LoadModel> AddLoad(object loadToAddObject, ListManager listManager, bool append = true)
     {
         LoadModel newLoad = new LoadModel();
-        LoadFactory _loadFactory = new LoadFactory(listManager);
+        DemandFactory _demandFactory = new DemandFactory(listManager);
 
         //create
         if (loadToAddObject is LoadToAddValidator) {
@@ -43,14 +43,14 @@ public class LoadManager
             if (IsValid == false) return null;
 
             //CreateLoad checks if the Dteq has enough space to add the load
-            newLoad = _loadFactory.CreateLoad(loadToAddValidator); //150ms
+            newLoad = _demandFactory.CreateLoad(loadToAddValidator); //150ms
 
         }
 
         //copy
         else if(loadToAddObject is ILoad){
             var loadToAdd = (ILoad)loadToAddObject;
-            newLoad = _loadFactory.CreateLoad_CopyFromExisting(
+            newLoad = _demandFactory.CreateLoad_CopyFromExisting(
                 loadToAdd, 
                 TagManager.AssignEqTag(new DummyLoad { Type = loadToAdd.Type }, listManager));
         }

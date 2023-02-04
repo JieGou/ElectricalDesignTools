@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Loads
 {
-    public class LoadFactory
+    public class DemandFactory
     {
 
         private ListManager _listManager;
 
-        public LoadFactory(ListManager listManager)
+        public DemandFactory(ListManager listManager)
         {
             _listManager = listManager;
         }
@@ -57,7 +57,7 @@ namespace EDTLibrary.Models.Loads
             
 
             newLoad.Unit = loadToAddValidator.Unit;
-            newLoad.LoadFactor = Double.Parse(loadToAddValidator.LoadFactor);
+            newLoad.DemandFactor = Double.Parse(loadToAddValidator.DemandFactor);
 
             //if (newLoad.Type == LoadTypes.MOTOR.ToString()) {
             //    newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;
@@ -109,7 +109,7 @@ namespace EDTLibrary.Models.Loads
 
 
             newLoad.Unit = loadToCopy.Unit;
-            newLoad.LoadFactor = loadToCopy.LoadFactor;
+            newLoad.DemandFactor = loadToCopy.DemandFactor;
 
             //if (newLoad.Type == LoadTypes.MOTOR.ToString()) {
             //    newLoad.PdType = EdtSettings.LoadDefaultPdTypeLV_Motor;

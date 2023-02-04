@@ -65,7 +65,7 @@
             <sys:Int32 x:Key="Size">7</sys:Int32>
             <sys:Int32 x:Key="Unit">8</sys:Int32>
             <sys:Int32 x:Key="Voltage">9</sys:Int32>
-            <sys:Int32 x:Key="LoadFactor">10</sys:Int32>
+            <sys:Int32 x:Key="DemandFactor">10</sys:Int32>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -244,7 +244,7 @@
 
         <TextBox Grid.Row="5" Grid.Column="11"
                  MinWidth="50" Height="23"
-                 Text="{Binding LoadToAddValidator.LoadFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding LoadToAddValidator.DemandFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  Margin="5 0 5 0">
         </TextBox>
     </Grid>

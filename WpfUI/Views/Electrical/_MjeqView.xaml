@@ -1259,7 +1259,7 @@
                                            FilterRowCondition="Contains"
                                            TextAlignment="Center"/>-->
 
-                            <sf:GridTextColumn HeaderText="Load&#x0a;Factor" MappingName="LoadFactor"
+                            <sf:GridTextColumn HeaderText="Load&#x0a;Factor" MappingName="DemandFactor"
                                            Width="60"
                                            AllowEditing="True"
                                            UseBindingValue="True"

@@ -11,7 +11,7 @@ namespace EDTLibrary.Models.Loads
     {
         //Primary
         bool IsValid { get; set; }
-        double LoadFactor { get; set; }
+        double DemandFactor { get; set; }
         double Efficiency { get; set; }
 
         //string StarterType { get; set; }

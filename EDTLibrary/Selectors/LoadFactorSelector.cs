@@ -7,46 +7,46 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.Selectors;
-internal class LoadFactorSelector
+internal class DemandFactorSelector
 {
-    public static void SetLoadFactor(ILoad load)
+    public static void SetDemandFactor(ILoad load)
     {
         
         if (load.Type == LoadTypes.HEATER.ToString()) {
-            load.LoadFactor = double.Parse(EdtSettings.LoadFactorDefault_Heater);
+            load.DemandFactor = double.Parse(EdtSettings.DemandFactorDefault_Heater);
         }
         else if (load.Type == LoadTypes.PANEL.ToString()) {
-            load.LoadFactor = double.Parse(EdtSettings.LoadFactorDefault_Panel);
+            load.DemandFactor = double.Parse(EdtSettings.DemandFactorDefault_Panel);
         }
         else if (load.Type == LoadTypes.OTHER.ToString()) {
-            load.LoadFactor = double.Parse(EdtSettings.LoadFactorDefault_Other);
+            load.DemandFactor = double.Parse(EdtSettings.DemandFactorDefault_Other);
         }
         else if (load.Type == LoadTypes.WELDING.ToString()) {
-            load.LoadFactor = double.Parse(EdtSettings.LoadFactorDefault_Welding);
+            load.DemandFactor = double.Parse(EdtSettings.DemandFactorDefault_Welding);
         }
         else {
-            load.LoadFactor = double.Parse(EdtSettings.LoadFactorDefault);
+            load.DemandFactor = double.Parse(EdtSettings.DemandFactorDefault);
 
         }
     }
 
-    public static double GetLoadFactor(string loadType)
+    public static double GetDemandFactor(string loadType)
     {
 
         if (loadType == LoadTypes.HEATER.ToString()) {
-            return double.Parse(EdtSettings.LoadFactorDefault_Heater);
+            return double.Parse(EdtSettings.DemandFactorDefault_Heater);
         }
         else if (loadType == LoadTypes.PANEL.ToString()) {
-            return double.Parse(EdtSettings.LoadFactorDefault_Panel);
+            return double.Parse(EdtSettings.DemandFactorDefault_Panel);
         }
         else if (loadType == LoadTypes.OTHER.ToString()) {
-            return double.Parse(EdtSettings.LoadFactorDefault_Other);
+            return double.Parse(EdtSettings.DemandFactorDefault_Other);
         }
         else if (loadType == LoadTypes.WELDING.ToString()) {
-            return double.Parse(EdtSettings.LoadFactorDefault_Welding);
+            return double.Parse(EdtSettings.DemandFactorDefault_Welding);
         }
         else {
-            return double.Parse(EdtSettings.LoadFactorDefault);
+            return double.Parse(EdtSettings.DemandFactorDefault);
 
         }
     }

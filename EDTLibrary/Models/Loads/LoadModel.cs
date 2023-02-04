@@ -492,26 +492,26 @@ namespace EDTLibrary.Models.Loads
         }
         private IDteq _fedFrom;
 
-        public double LoadFactor
+        public double DemandFactor
         {
-            get { return _loadFactor; }
+            get { return _demandFactor; }
             set
             {
-                var oldValue = _loadFactor;
-                _loadFactor = (value <= 1 && value >= 0)? value : oldValue;
+                var oldValue = _demandFactor;
+                _demandFactor = (value <= 1 && value >= 0)? value : oldValue;
 
                 if (DaManager.GettingRecords) return;
-                saveController.Lock(nameof(LoadFactor));
-                UndoManager.Lock(this, nameof(LoadFactor));
+                saveController.Lock(nameof(DemandFactor));
+                UndoManager.Lock(this, nameof(DemandFactor));
 
                     CalculateLoading();
 
-                UndoManager.AddUndoCommand(this, nameof(LoadFactor), oldValue, _loadFactor);
-                saveController.UnLock(nameof(LoadFactor));
+                UndoManager.AddUndoCommand(this, nameof(DemandFactor), oldValue, _demandFactor);
+                saveController.UnLock(nameof(DemandFactor));
                 OnPropertyUpdated();
             }
         }
-        private double _loadFactor;
+        private double _demandFactor;
 
         public double Efficiency
         {
@@ -917,7 +917,7 @@ namespace EDTLibrary.Models.Loads
 
                 //Power
                 ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
-                DemandKva = Math.Round(ConnectedKva * LoadFactor, GlobalConfig.SigFigs);
+                DemandKva = Math.Round(ConnectedKva * DemandFactor, GlobalConfig.SigFigs);
                 DemandKw = Math.Round(DemandKva * PowerFactor, GlobalConfig.SigFigs);
                 DemandKvar = Math.Round(DemandKva * (1 - PowerFactor), GlobalConfig.SigFigs);
 

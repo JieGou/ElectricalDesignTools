@@ -22,7 +22,7 @@ Main Lugs Only checkbox on PD
 Property / Calculation Override and Locks
 	- PF
 	- Efficiency
-	- LoadFactor
+	- DemandFactor
 
 Equipment Sequence Ordering
 	- LoadList  by Tag

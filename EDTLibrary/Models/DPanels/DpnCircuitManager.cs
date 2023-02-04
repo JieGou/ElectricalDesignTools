@@ -384,7 +384,7 @@ public class DpnCircuitManager
             VoltageType = loadCircuit.VoltageType,
             Size = 5.ToString(),
             Unit = Units.A.ToString(),
-            LoadFactor = LoadFactorSelector.GetLoadFactor(LoadTypes.OTHER.ToString()).ToString(),
+            DemandFactor = DemandFactorSelector.GetDemandFactor(LoadTypes.OTHER.ToString()).ToString(),
             PanelSide = loadCircuit.PanelSide,
             CircuitNumber = loadCircuit.CircuitNumber,
             SequenceNumber = loadCircuit.SequenceNumber,

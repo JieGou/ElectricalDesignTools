@@ -1,21 +1,8 @@
-﻿using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData;
+﻿using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
-using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Controls;
-using System.Windows.Input;
-using WpfUI.Commands;
-using WpfUI.UserControls.Editors;
-using WpfUI.Views.Settings;
 
 namespace WpfUI.ViewModels.Settings;
 
@@ -203,126 +190,126 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
     }
 
 
-    //LoadFactor
-    public string LoadFactorDefault
+    //DemandFactor
+    public string DemandFactorDefault
     {
-        get => _loadFactorDefault;
+        get => _demandFactorDefault;
         set
         {
-            var oldValue = _loadFactorDefault;
+            var oldValue = _demandFactorDefault;
             double dblOut;
-            _loadFactorDefault = value;
-            ClearErrors(nameof(LoadFactorDefault));
+            _demandFactorDefault = value;
+            ClearErrors(nameof(DemandFactorDefault));
 
-            if (Double.TryParse(_loadFactorDefault, out dblOut) == false) {
-                AddError(nameof(LoadFactorDefault), "Invalid Value");
+            if (Double.TryParse(_demandFactorDefault, out dblOut) == false) {
+                AddError(nameof(DemandFactorDefault), "Invalid Value");
             }
-            else if (Double.Parse(_loadFactorDefault) > 1 || Double.Parse(_loadFactorDefault) < 0) {
-                AddError(nameof(LoadFactorDefault), "Invalid Value");
+            else if (Double.Parse(_demandFactorDefault) > 1 || Double.Parse(_demandFactorDefault) < 0) {
+                AddError(nameof(DemandFactorDefault), "Invalid Value");
             }
             else {
-                _loadFactorDefault = value;
-                SaveVmSetting(nameof(LoadFactorDefault), _loadFactorDefault);
+                _demandFactorDefault = value;
+                SaveVmSetting(nameof(DemandFactorDefault), _demandFactorDefault);
             }
         }
     }
-    private string _loadFactorDefault;
+    private string _demandFactorDefault;
 
 
-    public string LoadFactorDefault_Heater
+    public string DemandFactorDefault_Heater
     {
-        get { return _loadFactorDefault_Heater; }
+        get { return _demandFactorDefault_Heater; }
         set
         {
-            var oldValue = _loadFactorDefault_Heater;
+            var oldValue = _demandFactorDefault_Heater;
             double dblOut;
-            _loadFactorDefault_Heater = value;
-            ClearErrors(nameof(LoadFactorDefault_Heater));
+            _demandFactorDefault_Heater = value;
+            ClearErrors(nameof(DemandFactorDefault_Heater));
 
-            if (Double.TryParse(_loadFactorDefault_Heater, out dblOut) == false) {
-                AddError(nameof(LoadFactorDefault_Heater), "Invalid Value");
+            if (Double.TryParse(_demandFactorDefault_Heater, out dblOut) == false) {
+                AddError(nameof(DemandFactorDefault_Heater), "Invalid Value");
             }
-            else if (Double.Parse(_loadFactorDefault_Heater) > 1 || Double.Parse(_loadFactorDefault_Heater) < 0) {
-                AddError(nameof(LoadFactorDefault_Heater), "Invalid Value");
+            else if (Double.Parse(_demandFactorDefault_Heater) > 1 || Double.Parse(_demandFactorDefault_Heater) < 0) {
+                AddError(nameof(DemandFactorDefault_Heater), "Invalid Value");
             }
             else {
-                _loadFactorDefault_Heater = value;
-                SaveVmSetting(nameof(LoadFactorDefault_Heater), _loadFactorDefault_Heater);
+                _demandFactorDefault_Heater = value;
+                SaveVmSetting(nameof(DemandFactorDefault_Heater), _demandFactorDefault_Heater);
             }
         }
     }
-    private string _loadFactorDefault_Heater;
-    public string LoadFactorDefault_Panel
+    private string _demandFactorDefault_Heater;
+    public string DemandFactorDefault_Panel
     {
-        get { return _loadFactorDefault_Panel; }
+        get { return _demandFactorDefault_Panel; }
         set
         {
-            var oldValue = _loadFactorDefault_Panel;
+            var oldValue = _demandFactorDefault_Panel;
             double dblOut;
-            _loadFactorDefault_Panel = value;
-            ClearErrors(nameof(LoadFactorDefault_Panel));
+            _demandFactorDefault_Panel = value;
+            ClearErrors(nameof(DemandFactorDefault_Panel));
 
-            if (Double.TryParse(_loadFactorDefault_Panel, out dblOut) == false) {
-                AddError(nameof(LoadFactorDefault_Panel), "Invalid Value");
+            if (Double.TryParse(_demandFactorDefault_Panel, out dblOut) == false) {
+                AddError(nameof(DemandFactorDefault_Panel), "Invalid Value");
             }
-            else if (Double.Parse(_loadFactorDefault_Panel) > 1 || Double.Parse(_loadFactorDefault_Panel) < 0) {
-                AddError(nameof(LoadFactorDefault_Panel), "Invalid Value");
+            else if (Double.Parse(_demandFactorDefault_Panel) > 1 || Double.Parse(_demandFactorDefault_Panel) < 0) {
+                AddError(nameof(DemandFactorDefault_Panel), "Invalid Value");
             }
             else {
-                _loadFactorDefault_Panel = value;
-                SaveVmSetting(nameof(LoadFactorDefault_Panel), _loadFactorDefault_Panel);
+                _demandFactorDefault_Panel = value;
+                SaveVmSetting(nameof(DemandFactorDefault_Panel), _demandFactorDefault_Panel);
             }
         }
     }
-    private string _loadFactorDefault_Panel;
+    private string _demandFactorDefault_Panel;
 
-    public string LoadFactorDefault_Other
+    public string DemandFactorDefault_Other
     {
-        get { return _loadFactorDefault_Other; }
+        get { return _demandFactorDefault_Other; }
         set
         {
-            var oldValue = _loadFactorDefault_Other;
+            var oldValue = _demandFactorDefault_Other;
             double dblOut;
-            _loadFactorDefault_Other = value;
-            ClearErrors(nameof(LoadFactorDefault_Other));
+            _demandFactorDefault_Other = value;
+            ClearErrors(nameof(DemandFactorDefault_Other));
 
-            if (Double.TryParse(_loadFactorDefault_Other, out dblOut) == false) {
-                AddError(nameof(LoadFactorDefault_Other), "Invalid Value");
+            if (Double.TryParse(_demandFactorDefault_Other, out dblOut) == false) {
+                AddError(nameof(DemandFactorDefault_Other), "Invalid Value");
             }
-            else if (Double.Parse(_loadFactorDefault_Other) > 1 || Double.Parse(_loadFactorDefault_Other) < 0) {
-                AddError(nameof(LoadFactorDefault_Other), "Invalid Value");
+            else if (Double.Parse(_demandFactorDefault_Other) > 1 || Double.Parse(_demandFactorDefault_Other) < 0) {
+                AddError(nameof(DemandFactorDefault_Other), "Invalid Value");
             }
             else {
-                _loadFactorDefault_Other = value;
-                SaveVmSetting(nameof(LoadFactorDefault_Other), _loadFactorDefault_Other);
+                _demandFactorDefault_Other = value;
+                SaveVmSetting(nameof(DemandFactorDefault_Other), _demandFactorDefault_Other);
             }
         }
     }
-    private string _loadFactorDefault_Other;
+    private string _demandFactorDefault_Other;
 
-    public string LoadFactorDefault_Welding
+    public string DemandFactorDefault_Welding
     {
-        get { return _loadFactorDefault_Welding; }
+        get { return _demandFactorDefault_Welding; }
         set
         {
-            var oldValue = _loadFactorDefault_Welding;
+            var oldValue = _demandFactorDefault_Welding;
             double dblOut;
-            _loadFactorDefault_Welding = value;
-            ClearErrors(nameof(LoadFactorDefault_Welding));
+            _demandFactorDefault_Welding = value;
+            ClearErrors(nameof(DemandFactorDefault_Welding));
 
-            if (Double.TryParse(_loadFactorDefault_Welding, out dblOut) == false) {
-                AddError(nameof(LoadFactorDefault_Welding), "Invalid Value");
+            if (Double.TryParse(_demandFactorDefault_Welding, out dblOut) == false) {
+                AddError(nameof(DemandFactorDefault_Welding), "Invalid Value");
             }
-            else if (Double.Parse(_loadFactorDefault_Welding) > 1 || Double.Parse(_loadFactorDefault_Welding) < 0) {
-                AddError(nameof(LoadFactorDefault_Welding), "Invalid Value");
+            else if (Double.Parse(_demandFactorDefault_Welding) > 1 || Double.Parse(_demandFactorDefault_Welding) < 0) {
+                AddError(nameof(DemandFactorDefault_Welding), "Invalid Value");
             }
             else {
-                _loadFactorDefault_Welding = value;
-                SaveVmSetting(nameof(LoadFactorDefault_Welding), _loadFactorDefault_Welding);
+                _demandFactorDefault_Welding = value;
+                SaveVmSetting(nameof(DemandFactorDefault_Welding), _demandFactorDefault_Welding);
             }
         }
     }
-    private string _loadFactorDefault_Welding;
+    private string _demandFactorDefault_Welding;
 
 
     //Efficiency

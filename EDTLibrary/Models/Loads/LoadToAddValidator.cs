@@ -78,9 +78,9 @@ namespace EDTLibrary.Models.Loads
             {
                 _type = value;
 
-                //_loadFactor = LoadFactorSelector.GetLoadFactor(_type).ToString();
-                LoadFactor = "";
-                LoadFactor = LoadFactorSelector.GetLoadFactor(_type).ToString();
+                //_demandFactor = DemandFactorSelector.GetDemandFactor(_type).ToString();
+                DemandFactor = "";
+                DemandFactor = DemandFactorSelector.GetDemandFactor(_type).ToString();
                 ClearErrors(nameof(Type));
                 if (GlobalConfig.SelectingNew == true) { return; }
 
@@ -395,30 +395,30 @@ namespace EDTLibrary.Models.Loads
         }
         private VoltageType _voltageType;
 
-        public string LoadFactor
+        public string DemandFactor
         {
-            get { return _loadFactor; }
+            get { return _demandFactor; }
             set
             {
-                ClearErrors(nameof(LoadFactor));
-                _loadFactor = value;
+                ClearErrors(nameof(DemandFactor));
+                _demandFactor = value;
                 if (GlobalConfig.SelectingNew == true) { return; }
 
-                double newLoad_LoadFactor;
-                if (double.TryParse(_loadFactor, out newLoad_LoadFactor) == false) {
-                    AddError(nameof(LoadFactor), "Value must be between 0 and 1");
+                double newLoad_DemandFactor;
+                if (double.TryParse(_demandFactor, out newLoad_DemandFactor) == false) {
+                    AddError(nameof(DemandFactor), "Value must be between 0 and 1");
                     _isValid = false;
 
                 }
-                else if (double.Parse(_loadFactor) < 0 || double.Parse(_loadFactor) > 1) {
-                    AddError(nameof(LoadFactor), "Value must be between 0 and 1");
+                else if (double.Parse(_demandFactor) < 0 || double.Parse(_demandFactor) > 1) {
+                    AddError(nameof(DemandFactor), "Value must be between 0 and 1");
                 }
                 else {
                     _isValid = true;
                 }
             }
         }
-        private string _loadFactor;
+        private string _demandFactor;
 
 
         public string PanelSide
@@ -499,9 +499,9 @@ namespace EDTLibrary.Models.Loads
             VoltageType = new VoltageType();
             VoltageType = tempVt;
 
-            temp = LoadFactor;
-            LoadFactor = fake;
-            LoadFactor = temp;
+            temp = DemandFactor;
+            DemandFactor = fake;
+            DemandFactor = temp;
 
 #if DEBUG
             //if (GlobalConfig.Testing == false) {
@@ -521,7 +521,7 @@ namespace EDTLibrary.Models.Loads
             //        Unit = "kW";
             //    if (string.IsNullOrWhiteSpace(Voltage))
             //        Voltage = "460";
-            //    LoadFactor = "0.8";
+            //    DemandFactor = "0.8";
             //}
 #endif
             if (Tag == GlobalConfig.EmptyTag) {

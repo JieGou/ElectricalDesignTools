@@ -287,13 +287,13 @@
                 </ComboBox>
             </Grid>
 
-            <!--Load Factor-->
-            <TextBlock Text="Load Factor "
+            <!--Demand Factor-->
+            <TextBlock Text="Demand Factor "
                        Grid.Row="8" Grid.Column="0" 
                        Style="{StaticResource SummaryLabel_TextBlockStyle}"/>
 
 
-            <TextBox Text="{Binding LoadFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=750}"
+            <TextBox Text="{Binding DemandFactor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=750}"
                      Grid.Row="8" Grid.Column="1"                                 
                      TextAlignment="Right"
                      >

@@ -300,22 +300,22 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                         <TextBlock Text="Heaters"  
                             Grid.Row="2" Grid.Column="0" />
                         <TextBox Grid.Row="2" Grid.Column="2"
-                            Text="{Binding LoadFactorDefault_Heater, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            Text="{Binding DemandFactorDefault_Heater, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <TextBlock Text="Panels"  
                             Grid.Row="3" Grid.Column="0" />
                         <TextBox Grid.Row="3" Grid.Column="2"
-                            Text="{Binding LoadFactorDefault_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            Text="{Binding DemandFactorDefault_Panel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <TextBlock Text="Other"  
                             Grid.Row="4" Grid.Column="0" />
                         <TextBox Grid.Row="4" Grid.Column="2"
-                            Text="{Binding LoadFactorDefault_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            Text="{Binding DemandFactorDefault_Other, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <TextBlock Text="Welding"  
                             Grid.Row="5" Grid.Column="0" />
                         <TextBox Grid.Row="5" Grid.Column="2"
-                            Text="{Binding LoadFactorDefault_Welding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            Text="{Binding DemandFactorDefault_Welding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <TextBlock Text="Default OCPD Type"  
                                    Grid.Row="7" Grid.Column="0" 

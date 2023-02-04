@@ -158,13 +158,13 @@ namespace EDTLibrary.ProjectSettings
 
 
         //Load
-        public static string LoadFactorDefault { get; set; } = "0.8";
+        public static string DemandFactorDefault { get; set; } = "0.8";
 
-        //Load Factor
-        public static string LoadFactorDefault_Heater { get; set; }
-        public static string LoadFactorDefault_Panel { get; set; }
-        public static string LoadFactorDefault_Other { get; set; }
-        public static string LoadFactorDefault_Welding { get; set; }
+        //Demand Factor
+        public static string DemandFactorDefault_Heater { get; set; }
+        public static string DemandFactorDefault_Panel { get; set; }
+        public static string DemandFactorDefault_Other { get; set; }
+        public static string DemandFactorDefault_Welding { get; set; }
 
         //Efficiency
         public static string LoadDefaultEfficiency_Heater { get; set; }

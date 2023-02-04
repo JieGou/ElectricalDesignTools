@@ -74,7 +74,7 @@ namespace EDTLibrary.DataAccess
             "Size",
             "Unit",
 
-            "LoadFactor",
+            "DemandFactor",
             "Efficiency",
             "PowerFactor",
             "ConnectedKva",

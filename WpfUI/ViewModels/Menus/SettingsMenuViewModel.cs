@@ -465,7 +465,7 @@ public class SettingsMenuViewModel : ViewModelBase
         }
     }
 
-    public string LoadFactorDefault
+    public string DemandFactorDefault
     {
         get => loadFactorDefault;
         set
@@ -473,17 +473,17 @@ public class SettingsMenuViewModel : ViewModelBase
             var oldValue = loadFactorDefault;
             double dblOut;
             loadFactorDefault = value;
-            ClearErrors(nameof(LoadFactorDefault));
+            ClearErrors(nameof(DemandFactorDefault));
 
             if (double.TryParse(loadFactorDefault, out dblOut) == false) {
-                AddError(nameof(LoadFactorDefault), "Invalid Value");
+                AddError(nameof(DemandFactorDefault), "Invalid Value");
             }
             else if (double.Parse(loadFactorDefault) > 1 || double.Parse(loadFactorDefault) < 0) {
-                AddError(nameof(LoadFactorDefault), "Invalid Value");
+                AddError(nameof(DemandFactorDefault), "Invalid Value");
             }
             else {
                 loadFactorDefault = value;
-                SaveVmSetting(nameof(LoadFactorDefault), loadFactorDefault);
+                SaveVmSetting(nameof(DemandFactorDefault), loadFactorDefault);
             }
         }
     }
