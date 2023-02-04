@@ -498,7 +498,7 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 var oldValue = _loadFactor;
-                _loadFactor = (value < 1 && value >= 0)? value : oldValue;
+                _loadFactor = (value <= 1 && value >= 0)? value : oldValue;
 
                 if (DaManager.GettingRecords) return;
                 saveController.Lock(nameof(LoadFactor));
@@ -552,7 +552,7 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 var oldValue = _powerFactor;
-                _powerFactor = (value < 1 && value >= 0) ? value / 100 : oldValue;
+                _powerFactor = (value <= 1 && value >= 0) ? value / 100 : oldValue;
 
                 saveController.Lock(nameof(PowerFactor));
                 UndoManager.Lock(this, nameof(PowerFactor));

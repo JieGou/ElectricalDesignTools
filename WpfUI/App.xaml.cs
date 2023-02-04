@@ -30,10 +30,17 @@ namespace WpfUI
         }
         static void MainHandler(object sender, UnhandledExceptionEventArgs args)
         {
+            string message = "An unhandled error has occured";
+            if (args.IsTerminating) {
+                message = "An unhandled error has occured and the application will now close";
+            }
+
             Exception e = (Exception)args.ExceptionObject;
-            MessageBox.Show($"Error: { e.Message}\n\n" +
-                        $"Application Closed? - {args.IsTerminating.ToString()}", 
-                        "Fatal Error");
+            MessageBox.Show($"{message} \n\n" +
+                            
+                            $"Error: {e.Message}",
+
+                            "Unhandled Error");
         }
 
 
