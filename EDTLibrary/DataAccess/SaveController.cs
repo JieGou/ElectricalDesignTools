@@ -20,7 +20,7 @@ internal class SaveController
         }
     }
 
-    //there is an additional unlock in the local reset function in Dteq.FedFrom setter
+    //there is an additional unlock in the local function "UpdatingFedFrom_List_Check" in Dteq.FedFrom setter
     public void UnLock(string lockProperty)
     {
         if (IsLocked && lockProperty == LockProperty) {

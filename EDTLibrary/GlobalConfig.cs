@@ -101,23 +101,16 @@ namespace EDTLibrary
 
         //Constants
         public static int SigFigs { get; set; } = 1;
-        public static string Separator { get; set; } = "-";
-        public static double NoValueDouble { get; set; } = 0.001;
-        //Default Power Factor and Efficiency
-        public static double DefaultTransformerPowerFactor { get; set; } = 0.9;
-        public static double DefaultTransformerEfficiency { get; set; } = 0.95;
+        public static double NoValueDouble { get; set; } = 0.0001 * Math.Pow(10,-308);
+       
 
-        public static double DefaultHeaterPowerFactor { get; set; } = 0.99;
-        public static double DefaultHeaterEfficiency { get; set; } = 0.98;
 
         //TODO - figure out motor RPM
         public static double DefaultMotorRpm { get; set; } = 1800;
 
-        public static double OtherPf { get; set; } = 0.85;
-        public static double OtherEff { get; set; } = 0.85;
+        
         public static string DriveTable { get; set; } = "Drives";
         public static string DisconnectTable { get; set; } = "Disconnects";
-        public static string CableResistancesTable { get; internal set; }
 
         public static string RacewayTable { get; set; } = "Raceways";
         public static string RacewayRouteSegmentsTable { get; set; } = "RacewayRouteSegments";

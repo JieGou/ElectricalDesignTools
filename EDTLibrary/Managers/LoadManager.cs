@@ -22,7 +22,7 @@ public class LoadManager
     public static async Task<LoadModel> AddLoad(object loadToAddObject, ListManager listManager, bool append = true)
     {
         LoadModel newLoad = new LoadModel();
-        DemandFactory _demandFactory = new DemandFactory(listManager);
+        LoadFactory _demandFactory = new LoadFactory(listManager);
 
         //create
         if (loadToAddObject is LoadToAddValidator) {

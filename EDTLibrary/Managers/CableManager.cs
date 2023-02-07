@@ -115,7 +115,7 @@ public class CableManager
 
     public static async Task AddAndUpdateLoadPowerComponentCablesAsync(IPowerConsumer powerComponentOwner, ListManager listManager)
     {
-
+        UndoManager.Lock(powerComponentOwner, nameof(AddAndUpdateLoadPowerComponentCablesAsync));
         //cable length to load
         double loadCableLength = powerComponentOwner.PowerCable.Length;
 
@@ -207,11 +207,17 @@ public class CableManager
                 //needs to be inside awaited method
                 IsUpdatingCables = false;
                 UndoManager.CanAdd = true;
+                UndoManager.UnLock(powerComponentOwner, nameof(AddAndUpdateLoadPowerComponentCablesAsync));
+
             }));
         }
         catch (Exception ex) {
             ex.Data.Add("UserMessage", "Adding cable for components error");
             throw;
+        }
+        finally { 
+            UndoManager.CanAdd = true;
+            UndoManager.UnLock(powerComponentOwner, nameof(AddAndUpdateLoadPowerComponentCablesAsync));
         }
     }
 

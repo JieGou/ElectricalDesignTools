@@ -117,7 +117,10 @@ namespace EDTLibrary.Models.Loads
         public int Id { get; set; }
         private string _tag;
 
-      
+        public override string ToString()
+        {
+            return Tag;
+        }
         public string Tag
         {
             get { return _tag; }
@@ -138,10 +141,11 @@ namespace EDTLibrary.Models.Loads
 
                 var oldValue = _tag;
                 _tag = value;
+
                 if (DaManager.GettingRecords == true) return;
+                saveController.Lock(nameof(Tag));
+                UndoManager.Lock(this, nameof(Tag));
 
-
-                UndoManager.CanAdd = false;
                 if (PowerCable != null) {
                     PowerCable.SetSourceAndDestinationTags(this);
                 }
@@ -151,9 +155,8 @@ namespace EDTLibrary.Models.Loads
                     }
                 }
 
-                if (Tag == GlobalConfig.LargestMotor_StartLoad) return;
 
-                UndoManager.CanAdd = true;
+                saveController.UnLock(nameof(Tag));
                 UndoManager.AddUndoCommand(this, nameof(Tag), oldValue, _tag);
                 OnPropertyUpdated();
 
@@ -178,7 +181,7 @@ namespace EDTLibrary.Models.Loads
                 if (VoltageType == null) return;
 
                 saveController.Lock(nameof(Type));
-                UndoManager.Lock(Type, nameof(Type));
+                UndoManager.Lock(this, nameof(Type));
 
                     allowCalculations = false;
                     LoadUnitSelector.SelectUnit(this);
@@ -482,10 +485,10 @@ namespace EDTLibrary.Models.Loads
                     _fedFrom = newFedFrom;
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     CableManager.UpdateLcsCableTags(this);
+                    UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
                 }
 
 
-                UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
                 saveController.UnLock(nameof(FedFrom));
                 OnPropertyUpdated();
             }

@@ -49,7 +49,7 @@ public class DriveModel : ComponentModelBase
                 }
             }
             if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
+                var cmd = new UndoCommand { Item = this, PropName = nameof(Tag), OldValue = oldValue, NewValue = _tag };
                 UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
@@ -86,7 +86,7 @@ public class DriveModel : ComponentModelBase
                 AreaManager.UpdateArea(this, _area, oldValue);
 
                 if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                    var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
+                    var cmd = new UndoCommand { Item = this, PropName = nameof(Area), OldValue = oldValue, NewValue = _area };
                     UndoManager.AddUndoCommand(cmd);
                 }
                 OnPropertyUpdated();

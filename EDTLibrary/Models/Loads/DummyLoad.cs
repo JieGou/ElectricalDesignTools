@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Loads;
-internal class DummyLoad : IPowerConsumer
+internal class DummyLoad : ILoad
 {
 
     public bool IsValid { get; set; } = true;
@@ -77,6 +77,8 @@ internal class DummyLoad : IPowerConsumer
     public string NemaRating { get; set; }
     public string AreaClassification { get; set; }
     public double HeatLoss { get; set; }
+    public double DemandFactor { get; set; }
+    public double Efficiency { get; set; }
 
     public event EventHandler<CalculateLoadingEventArgs> LoadingCalculated;
     public event EventHandler PropertyUpdated;
@@ -124,6 +126,6 @@ internal class DummyLoad : IPowerConsumer
 
     public void ValidateCableSizes()
     {
-        throw new NotImplementedException();
+
     }
 }

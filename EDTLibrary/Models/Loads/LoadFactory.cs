@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Loads
 {
-    public class DemandFactory
+    public class LoadFactory
     {
 
         private ListManager _listManager;
 
-        public DemandFactory(ListManager listManager)
+        public LoadFactory(ListManager listManager)
         {
             _listManager = listManager;
         }

@@ -15,8 +15,8 @@ public class EfficiencyAndPowerFactorSelector
         //PowerFactor and Efficiency
         if (load.Type == LoadTypes.HEATER.ToString()) {
             load.Unit = Units.kW.ToString();
-            load.Efficiency = GlobalConfig.DefaultHeaterEfficiency;
-            load.PowerFactor = GlobalConfig.DefaultHeaterPowerFactor;
+            load.Efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Heater);
+            load.PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Heater);
         }
 
         else if (load.Type == LoadTypes.MOTOR.ToString()) {

@@ -168,7 +168,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         private IProtectionDevice _protectionDevice;
 
-
+        
         public int Id { get; set; }
 
 

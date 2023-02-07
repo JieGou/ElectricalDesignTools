@@ -35,12 +35,33 @@ public class PerUnitCalculator
         set { _baseVoltage = value; }
     }
     private double _baseVoltage;
-    public double BaseCurrent
-    {
+    public double IBase
+   {
         get { return _baseCurrent; }
         set { _baseCurrent = value; }
     }
     private double _baseCurrent;
+
+    public double GetSbase(double vBase, double iBase)
+    {
+        return vBase * iBase * Math.Sqrt(3);
+    }
+    public double GetVbase(double sBase, double iBase)
+    {
+        return sBase / (Math.Sqrt(3) * iBase);
+    }
+    public double GetIBase(double sBase, double vBase)
+    {
+        return sBase  / (Math.Sqrt(3) * vBase);
+    }
+
+    public double GetZbase(double sBase, double vBase)
+    {
+        return Math.Pow(vBase, 2) / sBase;
+    }
+     
+    
+    
 
     public double Zpu
     {
@@ -67,30 +88,16 @@ public class PerUnitCalculator
     //}
     //private double _puCurrent;
 
-    public double getZpu_Mva(double actualImpedance, double baseMva, double baseKv)
+    public double getZpu_Mva(double actualZohm, double baseMva, double baseKv)
     {
-        return actualImpedance * baseMva / Math.Sqrt(baseKv);
+        return actualZohm * baseMva / Math.Pow(baseKv,2);
     }
 
-    public double getZpu_Kva(double actualImpedance, double baseKva, double baseKv)
+    public double getZpu_Kva(double actualZohm, double baseKva, double baseKv)
     {
-        return actualImpedance * baseKva / Math.Sqrt(baseKv) * 1000;
+        return actualZohm * baseKva / Math.Sqrt(baseKv) * 1000;
     }
 
-    public double GetBaseCurrent(double baseKva, double baseVoltage, VaBaseType vaBaseType = VaBaseType.kVA)
-    {
-        double baseCurrent = 0;
-
-        if (vaBaseType == VaBaseType.kVA) {
-            baseCurrent = baseKva * 1000 / (Math.Sqrt(3) * baseVoltage); 
-        }
-        else {
-            baseCurrent = baseKva * 1000000 / (Math.Sqrt(3) * baseVoltage);
-        }
-
-        return baseCurrent;
-    }
-
-
+    
 
 }

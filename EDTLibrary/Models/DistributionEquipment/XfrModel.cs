@@ -39,7 +39,7 @@ public class XfrModel : DistributionEquipment
             }
             SCCA = CalculateSCCA();
             if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(Impedance), OldValue = oldValue, NewValue = _impedance };
+                var cmd = new UndoCommand { Item = this, PropName = nameof(Impedance), OldValue = oldValue, NewValue = _impedance };
                 UndoManager.AddUndoCommand(cmd);
             }
             if (DaManager.GettingRecords) return;
@@ -56,7 +56,7 @@ public class XfrModel : DistributionEquipment
             var oldValue = _primaryGrounding;
             _primaryGrounding = value;
             if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(PrimaryGrounding), OldValue = oldValue, NewValue = _primaryGrounding };
+                var cmd = new UndoCommand { Item = this, PropName = nameof(PrimaryGrounding), OldValue = oldValue, NewValue = _primaryGrounding };
                 UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
@@ -72,7 +72,7 @@ public class XfrModel : DistributionEquipment
             var oldValue = _secondaryGrounding;
             _secondaryGrounding = value;
             if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommandDetail { Item = this, PropName = nameof(SecondaryGrounding), OldValue = oldValue, NewValue = _secondaryGrounding };
+                var cmd = new UndoCommand { Item = this, PropName = nameof(SecondaryGrounding), OldValue = oldValue, NewValue = _secondaryGrounding };
                 UndoManager.AddUndoCommand(cmd);
             }
             OnPropertyUpdated();
@@ -160,7 +160,7 @@ public class XfrModel : DistributionEquipment
         get 
         {   
             { 
-                return FindLargestMotor(this, new LoadModel { Tag = GlobalConfig.LargestMotor_StartLoad, ConnectedKva = 0 }); 
+                return FindLargestMotor(this, new DummyLoad { Tag = GlobalConfig.LargestMotor_StartLoad, ConnectedKva = 0 }); 
             }
         }
     }

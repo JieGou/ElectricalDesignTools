@@ -21,7 +21,6 @@ public class AreaManager
             }
             newArea.PropertyChanged += caller.OnAreaPropertiesChanged;
             caller.Area = newArea;
-            UndoManager.CanAdd = false;
             caller.AreaId = newArea.Id;
             caller.NemaRating = newArea.NemaRating;
             caller.AreaClassification = newArea.AreaClassification;

@@ -87,19 +87,11 @@ public partial class MainWindow : MetroWindow
         if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
 
             //reload
-            if (e.Key == Key.R) {
-                DaManager daManager = new DaManager();
-                ListManager listManager = new ListManager();
-                StartupService startupService = new StartupService(listManager, mainVm.StartupService.PreviousProjects);
-                TypeManager typeManager = new TypeManager();
-                EdtSettings edtSettings = new EdtSettings();
-
-                DataContext = new MainViewModel(startupService, typeManager, edtSettings, "NewInstance");
-            }
+           
             
             
             if (e.Key == Key.Z) {
-                UndoManager.UndoCommand(mainVm._listManager);
+                UndoManager.Undo();
             }
             
             if (e.Key == Key.D) {

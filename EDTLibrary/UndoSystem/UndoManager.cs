@@ -1,34 +1,29 @@
-﻿using EDTLibrary.A_Helpers;
-using EDTLibrary.DataAccess;
+﻿using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
-using EDTLibrary.Managers;
 using PropertyChanged;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using Utilities;
 
 namespace EDTLibrary.UndoSystem;
 
 [AddINotifyPropertyChangedInterface]
 public class UndoManager
 {
-    public static ObservableCollection<UndoCommandDetail> UndoList { get; set; } = new ObservableCollection<UndoCommandDetail>();
-    public static object LockHolder { get; set; }
+    public static ObservableCollection<UndoCommand> UndoList { get; set; } = new ObservableCollection<UndoCommand>();
+    public static object LockHolder { get ; set; }
+    public static string LockHolderName { get => LockHolder.ToString(); }
     public static string LockProperty { get; set; }
 
-    private static bool _isLocked;
+    public static bool IsLocked { get; set; }
     public static bool IsUndoing { get; set; }
 
     //default is true. Only set to false when doing bulk changes and set back to true when complete
     //to always allow user changes to be added.
-    public static bool CanAdd { get; set; } = true;
+    public static bool CanAdd { 
+        get; 
+        set; } = true;
 
-    public static void UndoCommand(ListManager listManager)
+    public static void Undo()
     {
         if (UndoList.Count > 0) {
             var undoCommand = UndoList[UndoList.Count - 1];
@@ -45,7 +40,7 @@ public class UndoManager
 
 
 
-    public static void AddUndoCommand(UndoCommandDetail command)
+    public static void AddUndoCommand(UndoCommand command)
     {
         if (CanAdd == true && 
             IsUndoing == false &&
@@ -54,13 +49,13 @@ public class UndoManager
             GlobalConfig.Testing == false &&
             command.NewValue != command.OldValue) {
 
-            if (_isLocked && command.Item == LockHolder && command.PropName == LockProperty) {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => UndoList.Add(command)));
+            if (IsLocked && command.Item == LockHolder && command.PropName == LockProperty) {
+                UndoList.Add(command);
                 ErrorHelper.Log("UndoHelper");
                 UnLock(command);
             }
-            else if (_isLocked == false) {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => UndoList.Add(command)));
+            else if (IsLocked == false) {
+                UndoList.Add(command);
                 ErrorHelper.Log("UndoHelper");
             }
             else {
@@ -77,15 +72,15 @@ public class UndoManager
             DaManager.GettingRecords == false &&
             GlobalConfig.Testing == false &&
             newValue != oldValue) {
-            var command = new UndoCommandDetail { Item = item, PropName = propName, OldValue = oldValue, NewValue = newValue };
+            var command = new UndoCommand { Item = item, PropName = propName, OldValue = oldValue, NewValue = newValue};
 
-            if (_isLocked && item == LockHolder && propName == LockProperty) {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => UndoList.Add(command)));
+            if (IsLocked && item == LockHolder && propName == LockProperty) {
+                UndoList.Add(command);
                 ErrorHelper.Log("UndoHelper");
                 UnLock(command);
             }
-            else if(_isLocked == false) {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => UndoList.Add(command)));
+            else if(IsLocked == false) {
+                UndoList.Add(command);
                 ErrorHelper.Log("UndoHelper");
             }
             else {
@@ -97,44 +92,36 @@ public class UndoManager
 
     public static void Lock(object lockHolder, string lockProperty)
     {
-        if (_isLocked == false &&
+        if (IsLocked == false &&
             IsUndoing == false &&
             DaManager.Importing == false &&
             DaManager.GettingRecords == false )
         {
             LockHolder = lockHolder;
             LockProperty = lockProperty;
-            _isLocked = true;
+            IsLocked = true;
         }
         
     }
 
-    private static void UnLock(UndoCommandDetail command)
+    private static void UnLock(UndoCommand command)
     {
         if (command.Item == LockHolder && command.PropName == LockProperty) {
-            _isLocked = false;
+            IsLocked = false;
         };
-       
+
+    }
+    public static void UnLock(object lockHolder, string lockProperty)
+    {
+        if (lockHolder == LockHolder && LockProperty == LockProperty) {
+            IsLocked = false;
+        };
+
     }
 
-    
 
     public static void ClearUndoList()
     {
         UndoList.Clear();
-    }
-}
-
-public class UndoCommandDetail
-{
-    public object Item { get; set; }
-    public string PropName { get; set; }
-    public object OldValue { get; set; }
-    public object NewValue { get; set; }
-
-    public override string ToString()
-    {
-        var output = $"Item: {Item.ToString},Prop Name {PropName}, New Value: {NewValue.ToString}, Old Value: {OldValue}";
-        return output;
     }
 }
