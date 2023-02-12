@@ -16,7 +16,7 @@ namespace WpfUI.Services;
 public class AutocadService
 {
 
-    public static AutocadHelper _acad;
+    public static AutocadHelper _acadHelper;
     private int _attempts;
     private readonly int _maxAttemps = 10;
 
@@ -94,12 +94,12 @@ public class AutocadService
     private async Task StartAutocadAsync()
     {
         try {
-            _acad = new AutocadHelper();
+            _acadHelper = new AutocadHelper();
 
             
 
             await Task.Run(() => {
-                _acad.StartAutocad();
+                _acadHelper.StartAutocad();
             });
 
         }
@@ -139,14 +139,14 @@ public class AutocadService
             StartAutocadAsync();
 
             if (newDrawing == true) {
-                _acad.AddDrawing();
+                _acadHelper.AddDrawing();
             }
 
             EdtNotificationService.ShowNotification(this, $"Creating drawing for {dteq.Tag}");
             
-            SingleLineDrawer slDrawer = new SingleLineDrawer(_acad, EdtSettings.AcadBlockFolder);
+            SingleLineDrawer slDrawer = new SingleLineDrawer(_acadHelper, EdtSettings.AcadBlockFolder);
             slDrawer.DrawMccSingleLine(dteq, 1.5);
-            _acad.AcadApp.ZoomExtents();
+            _acadHelper.AcadApp.ZoomExtents();
             
             EdtNotificationService.CloseNotification(this);
         }
@@ -161,13 +161,13 @@ public class AutocadService
                     MessageBoxIcon.Error);
             }
             else if (ex.Message.Contains("rejected")) {
-                if (_acad.AcadDoc != null) {
+                if (_acadHelper.AcadDoc != null) {
                     DeleteDrawingContents();
                 }
                 DrawSingleLineAsync(dteq, false);
             }
             else if (ex.Message.Contains("busy")) {
-                if (_acad.AcadDoc != null) {
+                if (_acadHelper.AcadDoc != null) {
                     DeleteDrawingContents();
                 }
                 DrawSingleLineAsync(dteq, false);
@@ -192,16 +192,16 @@ public class AutocadService
             await StartAutocadAsync();
             EdtNotificationService.CloseNotification(this);
 
-            if (newDrawing == true || _acad.AcadDoc == null) {
-                _acad.AddDrawing();
+            if (newDrawing == true || _acadHelper.AcadDoc == null) {
+                _acadHelper.AddDrawing();
             }
 
             EdtNotificationService.ShowNotification(this, $"Creating drawing for {dteq.Tag}");
 
             await Task.Run(() => {
-                SingleLineDrawer slDrawer = new SingleLineDrawer(_acad, EdtSettings.AcadBlockFolder);
+                SingleLineDrawer slDrawer = new SingleLineDrawer(_acadHelper, EdtSettings.AcadBlockFolder);
                 slDrawer.DrawMccSingleLine(dteq, 1.5);
-                _acad.AcadApp.ZoomExtents();
+                _acadHelper.AcadApp.ZoomExtents();
             });
 
             _isRunningTasks = false;
@@ -220,20 +220,20 @@ public class AutocadService
             }
 
             else if (ex.Message.Contains("rejected")) { //erase partial drawing and retry
-                if (_acad.AcadDoc != null) {
+                if (_acadHelper.AcadDoc != null) {
                     DeleteDrawingContents();
                 }
                 DrawSingleLineAsync(dteq, false);
             }
             else if (ex.Message.Contains("busy")) {
                 Task.Delay(500); // wait for acad to not be busy
-                if (_acad.AcadDoc != null) {
+                if (_acadHelper.AcadDoc != null) {
                     DeleteDrawingContents();
                 }
                 DrawSingleLineAsync(dteq, false);
             }
             else if (ex.Message.Contains("instance")) {
-                if (_acad.AcadDoc != null) {
+                if (_acadHelper.AcadDoc != null) {
                     DeleteDrawingContents();
                     DrawSingleLineAsync(dteq, false);
                 }
@@ -253,7 +253,7 @@ public class AutocadService
         int _maxDeleteAttempts = 10;
         int _deleteAttempts = 0;
         try {
-            AcadSelectionSet sSet = _acad.AcadDoc.SelectionSets.Add("sSetAll");
+            AcadSelectionSet sSet = _acadHelper.AcadDoc.SelectionSets.Add("sSetAll");
             sSet.Select(AcSelect.acSelectionSetAll);
             foreach (AcadEntity item in sSet) {
                 item.Delete();

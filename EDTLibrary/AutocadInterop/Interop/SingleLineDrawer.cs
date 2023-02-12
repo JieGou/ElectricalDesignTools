@@ -89,7 +89,7 @@ public class SingleLineDrawer
 
         var blockAtts = (dynamic)acadBlock.GetAttributes();
 
-        foreach (AcadAttributeReference att in blockAtts) {
+        foreach (dynamic att in blockAtts) {
             switch (att.TagString) {
                 case "BUS_DETAILS":
                     att.TextString = $"{mcc.LineVoltage} V, {mcc.Size} A, 3-PH, {mcc.SCCR} kA";
@@ -135,7 +135,7 @@ public class SingleLineDrawer
         
         var blockAtts = (dynamic)acadBlock.GetAttributes();
 
-        foreach (AcadAttributeReference att in blockAtts) {
+        foreach (dynamic att in blockAtts) {
             switch (att.TagString) {
 
                 //Starter
@@ -194,7 +194,7 @@ public class SingleLineDrawer
         }
 
         if (load.StandAloneStarterBool == true && isDriveInternal == false) {
-            blockType = "StandAloneStarter";
+            blockType = "Drive";
         }
 
         if (load.DisconnectBool == true) {
@@ -215,7 +215,7 @@ public class SingleLineDrawer
         var blockAtts = (dynamic)acadBlock.GetAttributes();
 
         //update attributes
-        foreach (AcadAttributeReference att in blockAtts) {
+        foreach (dynamic att in blockAtts) {
             switch (att.TagString) {
 
                 //Cable 1
@@ -331,7 +331,7 @@ public class SingleLineDrawer
         linePoint2[0] = blockSpacing * mcc.AssignedLoads.Count + 1;
         linePoint2[1] = 0;
 
-        AcadLine busLine = _acad.AcadDoc.ModelSpace.AddLine(linePoint1, linePoint2);
+        dynamic busLine = _acad.AcadDoc.ModelSpace.AddLine(linePoint1, linePoint2);
         busLine.Layer = "ECT_CONN_GENERAL_WIRES";
     }
     private void InsertMccBorder(IDteq mcc, double[] insertionPoint, double blockSpacing, double Xscale = 1, double Yscale = 1, double Zscale = 1)
@@ -341,7 +341,7 @@ public class SingleLineDrawer
         insertionPoint[0] = 0-2;
         insertionPoint[1] = 0;
         insertionPoint[2] = 0;
-        var border = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, borderScale, Yscale, Zscale, 0);
+        dynamic border = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, borderScale, Yscale, Zscale, 0);
 
     }
 

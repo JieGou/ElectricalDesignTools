@@ -5,6 +5,7 @@ using EDTLibrary.LibraryData.LocalControlStations;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -39,6 +40,18 @@ namespace EDTLibrary.LibraryData
 
 
         //Cables
+
+        public ObservableCollection<double> CableSpacing { get; set; } = new ObservableCollection<double> { 100, 0 };
+        public void CreateComboBoxLists()
+        {
+            
+           
+            CableSpacing.Clear();
+            CableSpacing.Add(100);
+            CableSpacing.Add(0);
+        }
+
+
         public static ObservableCollection<string> CableInstallationTypes
         {
             get

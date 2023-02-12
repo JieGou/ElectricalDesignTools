@@ -31,7 +31,12 @@ Equipment Sequence Ordering
 
 
 LoadGrid Context Menu
-	- Set load factor
+	- Set Demand
+	- Set Type
+	- Set Eff
+	- Set PF
+	- 
+
 
 
 LoadModel 
@@ -78,10 +83,11 @@ Tag Settings
 Application Settings
 	- Add Load Voltage notification
 	
-
+*******************************
 Priorities
-	- LCS Type Management - 1
-		- edit existing 
+*******************************
+
+	- LCS Type Management UI - 1
 
 	- Cable Type Management - 4 
 		- UI - 2
@@ -109,12 +115,12 @@ Validations
 
 Cables
 	- settings for auto-calculate cable on load changes, resizing/recalculation
-	- cable sizing based on next Upstream PD
 
 	Power Cables
 		- 1ph cable quantities and totals on cable list
 		- Prompt to recalculate load cables when changing settings
 		- component cables are not updated when changing the load cable properties
+			- setting for this?
 
 
 
