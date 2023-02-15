@@ -1,31 +1,35 @@
 ﻿using AutocadLibrary;
 using Autodesk.AutoCAD.Interop.Common;
 using EDTLibrary.Autocad.BlockData;
+using EDTLibrary.AutocadInterop.BlockData;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
+using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using System;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Printing;
+using System.Security.Cryptography;
 using System.Windows.Documents;
 
 namespace EDTLibrary.Autocad.Interop;
 public class PanelScheduleDrawer
 {
 
-    public PanelScheduleDrawer(AutocadHelper acadService, string blockSourceFolder)
+    public PanelScheduleDrawer(AutocadHelper acadHelper, string blockSourceFolder)
 
     {
-        _acad = acadService;
+        _acadHelper = acadHelper;
         BlockSourceFolder = blockSourceFolder;
     }
 
-    private AutocadHelper _acad;
+    private AutocadHelper _acadHelper;
     public string BlockSourceFolder { get; }
 
     public double[] _insertionPoint = new double[3];
-    int firstLoadSpacing = 1;
+    int _firstLoadSpacing = 1;
 
     public void DrawPanelSchedule(IDteq dteq, double blockSpacing = 1.5)
     {
@@ -37,8 +41,7 @@ public class PanelScheduleDrawer
             InsertCircuits(dteq, _insertionPoint);
 
 
-            InsertMccBus(dteq, _insertionPoint, blockSpacing);
-            InsertMccBorder(dteq, _insertionPoint, blockSpacing);
+           
         }
         catch (Exception ex) {
 
@@ -64,11 +67,11 @@ public class PanelScheduleDrawer
         double Zscale = 1;
 
         
-        var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
-        var blockAtts = (dynamic)acadBlock.GetAttributes();
+        dynamic acadBlock = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+        dynamic blockAtts = acadBlock.GetAttributes();
 
-        
-        foreach (AcadAttributeReference att in blockAtts) {
+        //AcadAttributeReference
+        foreach (dynamic att in blockAtts) {
             switch (att.TagString) {
                 case "PANEL_TAG":
                     att.TextString = $"{dteq.Tag}";
@@ -80,10 +83,13 @@ public class PanelScheduleDrawer
                     att.TextString = $"{dteq.Area.Tag}";
                     break;
                 case "PANEL_AMPS":
-                    att.TextString = $"{dteq.Size} AF";
+                    att.TextString = $"{dteq.Size} A";
                     break;
                 case "PANEL_VOLTAGE":
-                    att.TextString = $"{dteq.LineVoltage} V, {dteq.Size} A, 3-PH, {dteq.SCCR} kA";
+                    att.TextString = $"{dteq.LineVoltage} V, {dteq.Size} A, 3-PH";
+                    break;
+                case "PANEL_SCCR":
+                    att.TextString = $"{dteq.SCCR} kA";
                     break;
                 case "AF":
                     att.TextString = $"{dteq.ProtectionDevice.FrameAmps} AF";
@@ -109,9 +115,9 @@ public class PanelScheduleDrawer
     }
     private void InsertCircuits(IDteq dteq, double[] insertionPoint, double Xscale = 1, double Yscale = 1, double Zscale = 1)
     {
-
+        var panel = (IDpn)dteq;
         insertionPoint[0] = 0;
-        insertionPoint[1] = 0;
+        insertionPoint[1] = BlockVariables.DpanelMainBlockHeight *-1;
         insertionPoint[2] = 0;
 
         string blockType = BlockNames.DpCircuit;
@@ -119,234 +125,147 @@ public class PanelScheduleDrawer
         string blockName = blockType + ".dwg";
         string blockPath = sourcePath + blockName;
 
-        double[] linePoint1L = new double[3];
-        double[] linePoint2L = new double[3];
-        double[] linePoint1R = new double[3];
-        double[] linePoint2R = new double[3];
+        double[] leftLineStart = new double[3];
+        double[] leftLineEnd = new double[3];
+        double[] rightLineStart = new double[3];
+        double[] rightLineEnd = new double[3];
 
 
         //  FIRST INSERTION POINTS
         //  Left Circuits
         //  x
-        linePoint2L[1] = BlockVariables.DpanelCircuitRowWidth;
+        leftLineEnd[0] = BlockVariables.DpanelCircuitRowWidth;
 
 
         //y
-        linePoint1L[2] = BlockVariables.DpanelMainBlockHeight * -1;
-        linePoint2L[2] = linePoint1L[2];
+        leftLineStart[1] = BlockVariables.DpanelMainBlockHeight * -1;
+        leftLineEnd[1] = leftLineStart[1];
 
 
         //Right Circuits
         //x:
-        linePoint1R[1] = BlockVariables.DpanelCircuitRowWidth + BlockVariables.DpanelBreakSectionWidth;
-        linePoint2R[1] = 2 * BlockVariables.DpanelCircuitRowWidth + BlockVariables.DpanelBreakSectionWidth;
+        rightLineStart[0] = BlockVariables.DpanelBreakSectionWidth + BlockVariables.DpanelCircuitRowWidth;
+        rightLineEnd[0] = BlockVariables.DpanelBreakSectionWidth + BlockVariables.DpanelCircuitRowWidth * 2;
 
 
         //y:
-        linePoint1R[2] = BlockVariables.DpanelMainBlockHeight * -1;
-        linePoint2R[2] = linePoint1R[2];
+        rightLineStart[1] = BlockVariables.DpanelMainBlockHeight * -1;
+        rightLineEnd[1] = rightLineStart[1];
 
-        
-        var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
-        
-        var blockAtts = (dynamic)acadBlock.GetAttributes();
 
-        foreach (AcadAttributeReference att in blockAtts) {
-            switch (att.TagString) {
 
-                //Starter
-                case "MCP_Size":
-                    att.TextString = $"{dteq.ProtectionDevice.TripAmps} A";
-                    break;
-               
+        for (int i = 0; i < panel.CircuitCount/2; i++) {
 
-                //Breaker
-                case "AT":
-                    att.TextString = $"{dteq.ProtectionDevice.TripAmps}";
-                    break;
-                case "AF":
-                    att.TextString = $"{dteq.ProtectionDevice.FrameAmps}";
-                    break;
+            dynamic acadBlock = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
 
-                //StandAloneStarter
-                case "DRIVE_TYPE":
-                    if (dteq.StandAloneStarter != null)
-                        att.TextString = $"{dteq.StandAloneStarter.Type}";
-                    break;
-               
+            dynamic blockAtts = acadBlock.GetAttributes();
 
+            if (panel.LeftCircuits[i].PanelSide==PnlSide.Left.ToString()) {
+                foreach (dynamic att in blockAtts) {
+                    switch (att.TagString) {
+
+                        //Circuit Number
+                        case DistributionPanelAttributeNames.Dpanel_CctL:
+                            att.TextString = $"{panel.LeftCircuits[i].CircuitNumber}";
+                            break;
+
+                        //Breaker
+                        case DistributionPanelAttributeNames.Dpanel_BreakerL:
+                            if (panel.LeftCircuits[i].GetType() == typeof(LoadCircuit)) {
+                                LoadCircuit loadCircuit = (LoadCircuit)panel.LeftCircuits[i];
+                                att.TextString = $"{loadCircuit.PdSizeTrip}"; 
+                            }
+                            else   {
+                                att.TextString = $"{panel.LeftCircuits[i].ProtectionDevice.TripAmps}";
+                            }
+                            break;
+
+                        //Watt
+                        case DistributionPanelAttributeNames.Dpanel_WattL:
+                            att.TextString = $"{panel.LeftCircuits[i].DemandKw}";
+                            break;
+
+                        //Cable
+                        case DistributionPanelAttributeNames.Dpanel_CableL:
+                            if (panel.LeftCircuits[i].GetType() == typeof(LoadCircuit)) {
+                                att.TextString = "";
+                            }
+                            else {
+                                att.TextString = $"{panel.LeftCircuits[i].PowerCable.QtyParallel}x #{panel.LeftCircuits[i].PowerCable.Size}";
+                            }
+                            break;
+
+                        //Description
+                        case DistributionPanelAttributeNames.Dpanel_DescriptionL:
+                            att.TextString = $"{panel.LeftCircuits[i].Description}";
+                            break;
+
+                    }
+                } 
             }
-        }
+          
+            if (panel.RightCircuits[i].PanelSide == PnlSide.Right.ToString()) {
+                foreach (dynamic att in blockAtts) {
+                    switch (att.TagString) {
 
+                        //Circuit Number
+                        case DistributionPanelAttributeNames.Dpanel_CctR:
+                            att.TextString = $"{panel.RightCircuits[i].CircuitNumber}";
+                            break;
 
-    }
-    private void InsertLoad(LoadModel load, double[] insertionPoint, double Xscale = 1, double Yscale = 1, double Zscale = 1, bool isDriveInternal = false)
-    {
+                        //Breaker
+                        case DistributionPanelAttributeNames.Dpanel_BreakerR:
+                            if (panel.RightCircuits[i].GetType() == typeof( LoadCircuit)) {
+                                LoadCircuit loadCircuit = (LoadCircuit)panel.RightCircuits[i];
+                                att.TextString = $"{loadCircuit.PdSizeTrip}";
+                            }
+                            else {
+                                
+                                att.TextString = $"{panel.RightCircuits[i].ProtectionDevice.TripAmps}";
+                            }
+                            break;
 
-        //default Load
-        string blockType = "Load";
-        var tag = load.Tag;
+                        //Watt
+                        case DistributionPanelAttributeNames.Dpanel_WattR:
+                            att.TextString = $"{panel.RightCircuits[i].DemandKw}";
+                            break;
 
-        //select load type
-        if (load.Type == LoadTypes.MOTOR.ToString()) {
-            blockType = "Motor";
-        }
-        else if (load.Type == LoadTypes.HEATER.ToString()) {
-            blockType = "Load";
-        }
-        else if (load.Type == LoadTypes.WELDING.ToString()) {
-            blockType = "WLD";
-        }
-        else if (load.Type == LoadTypes.OTHER.ToString()) {
-            blockType = "Load";
-        }
+                        //Cable
+                        case DistributionPanelAttributeNames.Dpanel_CableR:
+                            if (panel.RightCircuits[i].GetType() == typeof(LoadCircuit)) {
+                                att.TextString = "";
+                            }
+                            else {
+                                att.TextString = $"{panel.RightCircuits[i].PowerCable.QtyParallel}x #{panel.RightCircuits[i].PowerCable.Size}";
+                            }
+                            break;
 
-        if (load.StandAloneStarterBool == true && isDriveInternal == false) {
-            blockType = "StandAloneStarter";
-        }
+                        //Description
+                        case DistributionPanelAttributeNames.Dpanel_DescriptionR:
+                            att.TextString = $"{panel.RightCircuits[i].Description}";
+                            break;
 
-        if (load.DisconnectBool == true) {
-            blockType += "_DCN";
-        }
-
-
-        string sourcePath = BlockSourceFolder + @"\Single Line\";
-        string blockName = "SL_" + blockType + ".dwg";
-        string blockPath = sourcePath + blockName;
-
-        
-        //instert block
-        var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
-
-        var blockAtts = (dynamic)acadBlock.GetAttributes();
-
-        //update attributes
-        foreach (AcadAttributeReference att in blockAtts) {
-            switch (att.TagString) {
-
-                //Cable 1
-                case "CABLE_TAG":
-                    att.TextString = $"{load.PowerCable.Tag} A";
-                    break;
-                case "CABLE_SIZE":
-                    att.TextString = $"{load.PowerCable.SizeTag} A";
-                    break;
-
-                //Breaker
-                case "LOAD_SIZE":
-                    att.TextString = load.Type == LoadTypes.MOTOR.ToString()? $"{load.Size}" : $"{load.Size} {load.Unit}";
-                    break;
-                case "LOAD_TAG":
-                    att.TextString = $"{load.Tag}";
-                    break;
-                case "LOAD_DESCRIPTION":
-                    att.TextString = $"{load.Description}";
-                    break;
-
-                //StandAloneStarter
-                case "DRIVE_TAG":
-                    if (load.StandAloneStarter != null)
-                        att.TextString = $"{load.StandAloneStarter.Tag}";
-                    break;
-                case "DRIVE_TYPE":
-                    if (load.StandAloneStarter != null)
-                        att.TextString = $"{load.StandAloneStarter.Type}";
-                    break;
+                    }
+                }
                 
-
-                //Disconnect
-                case "DCN_TAG":
-                    if (load.Disconnect != null)
-                        att.TextString = $"{load.Disconnect.Tag}";
-                    break;
-                case "DCN_SIZE":
-                    if (load.Disconnect != null)
-                        att.TextString = $"{load.Disconnect.FrameAmps}";
-                    break;
             }
 
-            //Disconnect and StandAloneStarter
-            if (load.DisconnectBool == true && load.StandAloneStarterBool == true && isDriveInternal == false) {
-                switch (att.TagString) {
-                    case "CABLE_TAG1":
-                        att.TextString = $"{load.StandAloneStarter.PowerCable.Tag}";
-                        break;
-                    case "CABLE_SIZE1":
-                        att.TextString = $"{load.StandAloneStarter.PowerCable.SizeTag}";
-                        break;
-                    case "CABLE_TAG2":
-                        att.TextString = $"{load.Disconnect.PowerCable.Tag}";
-                        break;
-                    case "CABLE_SIZE2":
-                        att.TextString = $"{load.Disconnect.PowerCable.SizeTag}";
-                        break;
-                    case "CABLE_TAG3":
-                        att.TextString = $"{load.PowerCable.Tag}";
-                        break;
-                    case "CABLE_SIZE3":
-                        att.TextString = $"{load.PowerCable.SizeTag}";
-                        break;
-                }
-            }
+            //increment insertion points
+            insertionPoint[1] -= BlockVariables.DpanelCircuitRowHeight;
 
-            //Disconnect only
-            else if (load.DisconnectBool == true && load.StandAloneStarterBool == false) {
-                switch (att.TagString) {
-                    case "CABLE_TAG1":
-                        att.TextString = $"{load.Disconnect.PowerCable.Tag}";
-                        break;
-                    case "CABLE_SIZE1":
-                        att.TextString = $"{load.Disconnect.PowerCable.SizeTag}";
-                        break;
-                    case "CABLE_TAG2":
-                        att.TextString = $"{load.PowerCable.Tag}";
-                        break;
-                    case "CABLE_SIZE2":
-                        att.TextString = $"{load.PowerCable.SizeTag}";
-                        break;
-                }
-            }
-            //StandAloneStarter only
-            else if (load.DisconnectBool == false && load.StandAloneStarterBool == true && isDriveInternal==false) {
-                switch (att.TagString) {
-                    case "CABLE_TAG1":
-                        att.TextString = $"{load.StandAloneStarter.PowerCable.Tag}";
-                        break;
-                    case "CABLE_SIZE1":
-                        att.TextString = $"{load.StandAloneStarter.PowerCable.SizeTag}";
-                        break;
-                    case "CABLE_TAG2":
-                        att.TextString = $"{load.PowerCable.Tag}";
-                        break;
-                    case "CABLE_SIZE2":
-                        att.TextString = $"{load.PowerCable.SizeTag}";
-                        break;
-                }
-            }
+            dynamic line = _acadHelper.AcadDoc.ModelSpace.AddLine(leftLineStart, leftLineEnd);
+            line.Layer = "E-ANNO-TABL";
 
+            leftLineStart[1] -= BlockVariables.DpanelCircuitRowHeight;
+            leftLineEnd[1] = leftLineStart[1];
+
+            line = _acadHelper.AcadDoc.ModelSpace.AddLine(rightLineStart, rightLineEnd);
+            line.Layer = "E-ANNO-TABL";
+
+            rightLineStart[1] -= BlockVariables.DpanelCircuitRowHeight;
+            rightLineEnd[1] = rightLineStart[1];
         }
-    }
-    
-    private void InsertMccBus(IDteq mcc, double[] insertionPoint, double blockSpacing)
-    {
-        double[] linePoint1 = new double[3];
-        linePoint1[0] = -1.5;
-        linePoint1[1] = 0;
-        double[] linePoint2 = new double[3];
-        linePoint2[0] = blockSpacing * mcc.AssignedLoads.Count + 1;
-        linePoint2[1] = 0;
 
-        AcadLine busLine = _acad.AcadDoc.ModelSpace.AddLine(linePoint1, linePoint2);
-        busLine.Layer = "ECT_CONN_GENERAL_WIRES";
-    }
-    private void InsertMccBorder(IDteq mcc, double[] insertionPoint, double blockSpacing, double Xscale = 1, double Yscale = 1, double Zscale = 1)
-    {
-        string blockPath = EdtSettings.AcadBlockFolder + @"\Single Line\MCC_BORDER.dwg";
-        double borderScale = blockSpacing * (mcc.AssignedLoads.Count + 2.5);
-        insertionPoint[0] = 0-2;
-        insertionPoint[1] = 0;
-        insertionPoint[2] = 0;
-        var border = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, borderScale, Yscale, Zscale, 0);
     }
 
 

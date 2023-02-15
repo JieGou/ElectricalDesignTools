@@ -4,10 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.UserControls.Editors"
+             
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             
+             
              mc:Ignorable="d" 
-             d:DesignHeight="175" d:DesignWidth="300"
+             d:DesignHeight="250" d:DesignWidth="300"
              d:Background="AliceBlue"
              Background="Transparent">
+
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <Border BorderBrush="LightGray" BorderThickness="0 1 0 0"
             Margin="0 5 0 0">
@@ -15,8 +28,8 @@
         <Grid Margin="0 5 5 10"
             ShowGridLines="False">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="65"/>
-                <ColumnDefinition Width="65"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="10"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -29,6 +42,7 @@
                 <RowDefinition Height="15"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
 
@@ -221,6 +235,46 @@
                     </Style>
                 </ComboBox.Style>
             </ComboBox>
+
+            <!--Starter-->
+            <TextBlock Text="Main Lugs Only"
+                       Grid.Row="8" Grid.Column="1"
+                       Margin="0 3 0 0"
+                       
+                        FontWeight="Normal"
+                        TextAlignment="Right"/>
+
+            <CheckBox Grid.Row="8" Grid.Column="3" 
+                      Margin="0 5 0 0"
+                      IsChecked="{Binding Owner.IsMainLugsOnly}"
+                      Content="">
+                <CheckBox.Style>
+                    <Style TargetType="CheckBox">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Owner.Type}" Value="SWG">
+                                <Setter Property="IsEnabled"  Value="True"/>
+
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Owner.Type}" Value="MCC">
+                                <Setter Property="IsEnabled"  Value="True"/>
+
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Owner.Type}" Value="CDP">
+                                <Setter Property="IsEnabled"  Value="True"/>
+
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Owner.Type}" Value="DPN">
+                                <Setter Property="IsEnabled"  Value="True"/>
+
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </CheckBox.Style>
+            </CheckBox>
+
+            <iconControls:InfoIcon InformationText="{StaticResource MainLugsOnly}"
+                                   Grid.Row="8" Grid.Column="0" />
 
         </Grid>
     </Border>

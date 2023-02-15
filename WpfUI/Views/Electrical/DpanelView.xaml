@@ -151,6 +151,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -196,6 +197,18 @@
                         <Button.Content>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Add Load"
+                                       VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                    
+                    <Button Grid.Row="4" 
+                            Grid.Column="0" 
+                            Command="{Binding DrawPanelScheduleAcadCommand}"
+                        >
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Create Drawing"
                                        VerticalAlignment="Center"/>
                             </StackPanel>
                         </Button.Content>

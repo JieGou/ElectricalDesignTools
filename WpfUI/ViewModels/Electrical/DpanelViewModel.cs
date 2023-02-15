@@ -65,7 +65,7 @@ internal class DpanelViewModel : ViewModelBase
         DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
 
-        DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
+        DrawPanelScheduleAcadCommand = new RelayCommand(DrawPanelScheduleRelay);
 
     }
 
@@ -285,19 +285,12 @@ internal class DpanelViewModel : ViewModelBase
 
     #region Autocad
 
-    public ICommand DrawSingleLineAcadCommand { get; }
-    public void DrawSingleLineRelay()
-    {
-        DrawSingleLineAsycn();
-    }
-
-    public void DrawSingleLineAsycn()
+    public ICommand DrawPanelScheduleAcadCommand { get; }
+    public void DrawPanelScheduleRelay()
     {
         var acadService = new AutocadService();
-        //acadService.DrawSingleLineAsync(SelectedDteq);
-        acadService.CreateSingleLine(SelectedDteq);
+        acadService.CreatePanelSchedule(SelectedDteq);
     }
-
 
     #endregion
 

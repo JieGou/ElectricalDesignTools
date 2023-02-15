@@ -15,11 +15,11 @@ public class SingleLineDrawer
     public SingleLineDrawer(AutocadHelper acadService, string blockSourceFolder)
 
     {
-        _acad = acadService;
+        _acadHelper = acadService;
         BlockSourceFolder = blockSourceFolder;
     }
 
-    private AutocadHelper _acad;
+    private AutocadHelper _acadHelper;
     public string BlockSourceFolder { get; }
 
     public double[] _insertionPoint = new double[3];
@@ -37,24 +37,7 @@ public class SingleLineDrawer
             _insertionPoint[0] += firstLoadSpacing;
 
 
-            foreach (var powerConsumer in mcc.AssignedLoads) {
-
-                if (powerConsumer.GetType() == typeof(LoadModel)) {
-                    var load = (LoadModel)powerConsumer;
-
-                    InsertLoadBucket(load, _insertionPoint);
-
-                    _insertionPoint[1] -= 1.65;
-                    InsertLoad(load, _insertionPoint);
-                    _insertionPoint[1] += 1.65;
-                    //check if graphic is wide and move next load over to make room for this wide block
-                    if (load.DisconnectBool == true && load.StandAloneStarterBool == true) {
-                        _insertionPoint[0] += .5;
-                    }
-                }
-
-                _insertionPoint[0] += blockSpacing;
-            }
+            InsertMccLoads(mcc, blockSpacing);
 
             InsertMccBus(mcc, _insertionPoint, blockSpacing);
             InsertMccBorder(mcc, _insertionPoint, blockSpacing);
@@ -64,6 +47,28 @@ public class SingleLineDrawer
             throw;
         }
    
+    }
+
+    private void InsertMccLoads(IDteq mcc, double blockSpacing)
+    {
+        foreach (var powerConsumer in mcc.AssignedLoads) {
+
+            if (powerConsumer.GetType() == typeof(LoadModel)) {
+                var load = (LoadModel)powerConsumer;
+
+                InsertLoadBucket(load, _insertionPoint);
+
+                _insertionPoint[1] -= 1.65;
+                InsertLoad(load, _insertionPoint);
+                _insertionPoint[1] += 1.65;
+                //check if graphic is wide and move next load over to make room for this wide block
+                if (load.DisconnectBool == true && load.StandAloneStarterBool == true) {
+                    _insertionPoint[0] += .5;
+                }
+            }
+
+            _insertionPoint[0] += blockSpacing;
+        }
     }
 
     private void InsertMainBlock(IDteq mcc, double[] insertionPoint, string blockType = "Default")
@@ -83,7 +88,7 @@ public class SingleLineDrawer
         double Zscale = 1;
 
         
-        var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+        var acadBlock = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
         //acadBlock.Modified += AcadEventHandler.OnAcadModified;
         AcadEventHandler.raisers.Add(acadBlock);
 
@@ -131,7 +136,7 @@ public class SingleLineDrawer
         string blockName = "MCC_" + blockType + ".dwg";
         string blockPath = sourcePath + blockName;
 
-        var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+        var acadBlock = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
         
         var blockAtts = (dynamic)acadBlock.GetAttributes();
 
@@ -208,7 +213,7 @@ public class SingleLineDrawer
 
         
         //instert block
-        var acadBlock = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+        var acadBlock = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
         //acadBlock.Modified += AcadEventHandler.OnAcadModified;
         AcadEventHandler.raisers.Add(acadBlock);
 
@@ -324,14 +329,14 @@ public class SingleLineDrawer
     }
     private void InsertMccBus(IDteq mcc, double[] insertionPoint, double blockSpacing)
     {
-        double[] linePoint1 = new double[3];
-        linePoint1[0] = -1.5;
-        linePoint1[1] = 0;
-        double[] linePoint2 = new double[3];
-        linePoint2[0] = blockSpacing * mcc.AssignedLoads.Count + 1;
-        linePoint2[1] = 0;
+        double[] lineStart = new double[3];
+        lineStart[0] = -1.5;
+        lineStart[1] = 0;
+        double[] lineEnd = new double[3];
+        lineEnd[0] = blockSpacing * mcc.AssignedLoads.Count + 1;
+        lineEnd[1] = 0;
 
-        dynamic busLine = _acad.AcadDoc.ModelSpace.AddLine(linePoint1, linePoint2);
+        dynamic busLine = _acadHelper.AcadDoc.ModelSpace.AddLine(lineStart, lineEnd);
         busLine.Layer = "ECT_CONN_GENERAL_WIRES";
     }
     private void InsertMccBorder(IDteq mcc, double[] insertionPoint, double blockSpacing, double Xscale = 1, double Yscale = 1, double Zscale = 1)
@@ -341,7 +346,7 @@ public class SingleLineDrawer
         insertionPoint[0] = 0-2;
         insertionPoint[1] = 0;
         insertionPoint[2] = 0;
-        dynamic border = _acad.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, borderScale, Yscale, Zscale, 0);
+        dynamic border = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, borderScale, Yscale, Zscale, 0);
 
     }
 

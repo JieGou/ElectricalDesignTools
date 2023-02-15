@@ -59,7 +59,7 @@ public abstract class ComponentModelBase : IComponentEdt
 
         return isValid;
     }
-
+                
 
     public bool IsSelected { get; set; } = false;
 

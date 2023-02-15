@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="WpfUI.UserControls.NotificationIcons.InfoIcon"
+             x:Name="root"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             mc:Ignorable="d" 
+             d:DesignHeight="25" d:DesignWidth="25">
+    <Grid>
+        <Image Source="..\..\ResourceFiles\InfoIconBlue.png"
+                UseLayoutRounding="True"
+                Grid.Row="2"
+                Grid.Column="0" 
+                Margin="0 0 0 0"
+                HorizontalAlignment="Center"
+                Height="17"
+                Stretch="Uniform"
+                ToolTip="{Binding InformationText, ElementName=root}"
+                ToolTipService.InitialShowDelay="150"
+                ToolTipService.BetweenShowDelay="0"/>
+    </Grid>
+</UserControl>

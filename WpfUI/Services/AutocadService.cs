@@ -57,7 +57,8 @@ public class AutocadService
 
     #endregion
 
-    #region Action
+
+    #region Actions
 
     private static List<Action> _actions = new List<Action>();
     private static bool _isRunningActions;
@@ -91,6 +92,8 @@ public class AutocadService
 
     }
     #endregion
+
+
     private async Task StartAutocadAsync()
     {
         try {
@@ -112,6 +115,8 @@ public class AutocadService
             
         }
     }
+
+
     public async Task CreateSingleLine(IDteq dteq)
     {
         if (_isRunningTasks) {
@@ -120,67 +125,9 @@ public class AutocadService
         else {
             await DrawSingleLineAsync(dteq);
 
-            //if (dteq == typeof(MccModel)) {
-
-            //}
-            //else if(dteq == typeof(DpnModel)) {
-            //    await DrawPanelScheduleAsync(dteq);
-            //}
+   
         }
     }
-
-    private void DrawSingleLine(IDteq dteq, bool newDrawing = true)
-    {
-        try {
-            if (dteq == null) return;
-
-
-            EdtNotificationService.ShowNotification(this, "Starting Autocad");
-            StartAutocadAsync();
-
-            if (newDrawing == true) {
-                _acadHelper.AddDrawing();
-            }
-
-            EdtNotificationService.ShowNotification(this, $"Creating drawing for {dteq.Tag}");
-            
-            SingleLineDrawer slDrawer = new SingleLineDrawer(_acadHelper, EdtSettings.AcadBlockFolder);
-            slDrawer.DrawMccSingleLine(dteq, 1.5);
-            _acadHelper.AcadApp.ZoomExtents();
-            
-            EdtNotificationService.CloseNotification(this);
-        }
-
-        catch (Exception ex) {
-
-            if (ex.Message.Contains("not found")) {
-                MessageBox.Show(
-                    "Check the Blocks Source Folder path and make sure that the selected blocks exist.",
-                    "Error - File Not Found",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            else if (ex.Message.Contains("rejected")) {
-                if (_acadHelper.AcadDoc != null) {
-                    DeleteDrawingContents();
-                }
-                DrawSingleLineAsync(dteq, false);
-            }
-            else if (ex.Message.Contains("busy")) {
-                if (_acadHelper.AcadDoc != null) {
-                    DeleteDrawingContents();
-                }
-                DrawSingleLineAsync(dteq, false);
-            }
-            else {
-                ErrorHelper.ShowErrorMessage(ex);
-            }
-        }
-        finally {
-            EdtNotificationService.CloseNotification(this);
-        }
-    }
-
     public async Task DrawSingleLineAsync(IDteq dteq, bool newDrawing = true)
     {
         try {
@@ -248,14 +195,83 @@ public class AutocadService
         }
     }
 
+
+    public async Task CreatePanelSchedule(IDteq dteq)
+    {
+        if (_isRunningTasks) {
+            EdtNotificationService.ShowNotification(this, $"Autocad is busy");
+        }
+        else {
+            await DrawPanelScheduleAsync(dteq);
+        }
+    }
+    public async Task DrawPanelScheduleAsync(IDteq dteq, bool newDrawing = true)
+    {
+        try {
+            _isRunningTasks = true;
+            if (dteq == null) return;
+
+
+            EdtNotificationService.ShowNotification(this, $"Starting Autocad");
+            await StartAutocadAsync();
+            EdtNotificationService.CloseNotification(this);
+
+            if (newDrawing == true || _acadHelper.AcadDoc == null) {
+                _acadHelper.AddDrawing();
+            }
+
+            EdtNotificationService.ShowNotification(this, $"Creating drawing for {dteq.Tag}");
+
+            await Task.Run(() => {
+                PanelScheduleDrawer panelScheduleDrawer = new PanelScheduleDrawer(_acadHelper, EdtSettings.AcadBlockFolder);
+                panelScheduleDrawer.DrawPanelSchedule(dteq, 1.5);
+                _acadHelper.AcadApp.ZoomExtents();
+            });
+
+            _isRunningTasks = false;
+            EdtNotificationService.CloseNotification(this);
+
+        }
+
+        catch (Exception ex) {
+
+            if (ex.Message.Contains("not found")) {
+                MessageBox.Show(
+                    "Check the Blocks Source Folder path and make sure that the selected blocks exist.",
+                    "Error - File Not Found",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+
+            if (ex.Message.Contains("rejected")|| ex.Message.Contains("busy") || ex.Message.Contains("instance")) {
+                Task.Delay(500); // wait for acad to not be busy
+                if (_acadHelper.AcadDoc != null) {
+                    DeleteDrawingContents();
+                }
+                DrawPanelScheduleAsync(dteq, false);
+            }
+
+            else {
+                ErrorHelper.ShowErrorMessage(ex);
+            }
+
+        }
+
+        finally {
+            _isRunningTasks = false;
+            EdtNotificationService.CloseNotification(this);
+        }
+    }
+
+
     private void DeleteDrawingContents()
     {
         int _maxDeleteAttempts = 10;
         int _deleteAttempts = 0;
         try {
-            AcadSelectionSet sSet = _acadHelper.AcadDoc.SelectionSets.Add("sSetAll");
+            dynamic sSet = _acadHelper.AcadDoc.SelectionSets.Add("sSetAll");
             sSet.Select(AcSelect.acSelectionSetAll);
-            foreach (AcadEntity item in sSet) {
+            foreach (dynamic item in sSet) {
                 item.Delete();
             }
             sSet.Clear(); //clear selection sets in case this error happens more than once

@@ -1,5 +1,5 @@
 Bug Notes
-	- combobox itemsSource values chaange because ComboBox.Text is bound. Need to bind to SelectedValue only.
+	- combobox itemsSource values change because ComboBox.Text is bound. Need to bind to SelectedValue only.
 	
 Major Bugs
 	- change MessageBoxes to ErrorDialog with error list
@@ -17,7 +17,6 @@ Minor Bugs
 
 	- menu Views/ViewModels are slow to load on battery
 
-Main Lugs Only checkbox on PD
 
 Property / Calculation Override and Locks
 	- PF
@@ -183,6 +182,7 @@ Applicaton Settings
 - Move Component Up/Down into ComponentModelBase
 
 Refactorings
+	- Calculations 
 	- proper IPowerCableUser members
 	- add reference to list manager inside each model object
 
