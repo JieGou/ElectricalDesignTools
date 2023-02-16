@@ -5,6 +5,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:WpfUI.Windows"
              mc:Ignorable="d"
+             
+             xmlns:settings="clr-namespace:WpfUI"
+             
+             
              xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:WpfUI.Behaviors"
         
@@ -378,14 +382,14 @@
                             <!--Dteq Graphic-->
                             <singleLineSubViews:SL_DteqGraphicView DataContext="{Binding SelectedDteq}"
                                                                    UseLayoutRounding="False"
-                                                       Width="{Binding Path=ActualWidth, ElementName=listViewLoads}"
-                                                       MinWidth="250"
-                                                       HorizontalAlignment="Left"
-                                                       EquipmentSelected="LoadGraphicView_EquipmentSelected"
-                                                       EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
-                                                       DisplayMode="SingleLine"
+                                                                   Width="{Binding Path=ActualWidth, ElementName=listViewLoads}"
+                                                                   MinWidth="250"
+                                                                   HorizontalAlignment="Left"
+                                                                   EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                   EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
+                                                                   DisplayMode="SingleLine"
                                                                    ClipToBounds="False"
-                                                       Panel.ZIndex="1"/>
+                                                                   Panel.ZIndex="1"/>
 
                             <!--Loads-->
                             <controls:ListViewEx x:Name="listViewLoads"
@@ -468,10 +472,11 @@
                                                                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
                                                                                  
                                                                                    ClipToBounds="False"
-                                                                                   
-                                                                                   MouseDown="LoadGraphicViewListViewItem_MouseDown"
+                                                                                   />
+                                            
+                                                                                   <!--MouseDown="LoadGraphicViewListViewItem_MouseDown"
                                                                                    MouseUp="LoadGraphicViewListViewItem_MouseUp"
-                                                                                   MouseMove="LoadGraphicViewListViewItem_MouseMove"/>           
+                                                                                   MouseMove="LoadGraphicViewListViewItem_MouseMove"/>-->           
                                         </Border>
 
                                     </ControlTemplate>

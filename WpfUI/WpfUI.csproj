@@ -18,13 +18,9 @@
 
   <ItemGroup>
     <Compile Remove="bin\**" />
-    <Compile Remove="Views\NewFolder\**" />
     <EmbeddedResource Remove="bin\**" />
-    <EmbeddedResource Remove="Views\NewFolder\**" />
     <None Remove="bin\**" />
-    <None Remove="Views\NewFolder\**" />
     <Page Remove="bin\**" />
-    <Page Remove="Views\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>

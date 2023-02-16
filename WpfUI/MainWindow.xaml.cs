@@ -192,6 +192,12 @@ public partial class MainWindow : MetroWindow
         }
 
     }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        var settingsWindow = new ApplicationSettingsWindow();
+        settingsWindow.ShowDialog();
+    }
 }
 
 
