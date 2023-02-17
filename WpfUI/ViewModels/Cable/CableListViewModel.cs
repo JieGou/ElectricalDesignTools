@@ -178,7 +178,7 @@ public class CableListViewModel : ViewModelBase
             RacewayModel newRaceway = await RacewayManager.AddRaceway(racewayToAddObject, _listManager);
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 
@@ -194,7 +194,7 @@ public class CableListViewModel : ViewModelBase
             int deletedRacewayId = await RacewayManager.DeleteRaceway(racewayToAddObject, _listManager);
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 
@@ -215,7 +215,7 @@ public class CableListViewModel : ViewModelBase
             }
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 
@@ -250,7 +250,7 @@ public class CableListViewModel : ViewModelBase
 
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 
@@ -283,7 +283,7 @@ public class CableListViewModel : ViewModelBase
 
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 

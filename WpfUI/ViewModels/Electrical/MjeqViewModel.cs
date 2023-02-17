@@ -398,7 +398,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             await CopySelectedDteqAsync();
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
         async Task CopySelectedDteqAsync()
         {
@@ -429,7 +429,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
                 LoadToAddValidator.VoltageType = _selectedDteq.VoltageType;
             }
             catch (Exception ex) {
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationHandler.ShowErrorMessage(ex);
             }
         }
     }
@@ -470,7 +470,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             await CopySelectedLoadAsync();
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
 
         async Task CopySelectedLoadAsync()
@@ -596,7 +596,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             RefreshDteqTagValidation();
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 
@@ -648,7 +648,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             LoadToAddValidator.ResetTag();
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 

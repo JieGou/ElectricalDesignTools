@@ -12,11 +12,8 @@ using static EDTLibrary.Services.EdtNotificationService;
 
 namespace WpfUI.Helpers
 {
-    public class ErrorHelper
+    public class NotificationHandler
     {
-
-
-        
 
         public static void ShowAlert(object sender, EdtNotificationEventArgs args)
         {

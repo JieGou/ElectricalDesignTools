@@ -90,7 +90,7 @@ namespace WpfUI.ViewModels.Library
 
             }
             catch (Exception ex) {
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationHandler.ShowErrorMessage(ex);
             }
         }
 

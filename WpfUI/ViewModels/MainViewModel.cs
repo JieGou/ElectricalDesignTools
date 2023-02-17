@@ -227,7 +227,7 @@ namespace WpfUI.ViewModels
         private void ExcelTest()
         {
             NotificationPopup = new NotificationPopup();
-            NotificationPopup.DataContext = new Notification("Exporting to Excel");
+            NotificationPopup.DataContext = new PopupNotificationModel("Exporting to Excel");
             NotificationPopup.Show();
             StartCloseTimer();
             ExcelTestAsync();

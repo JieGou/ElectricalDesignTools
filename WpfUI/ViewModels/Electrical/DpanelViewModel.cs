@@ -213,7 +213,7 @@ internal class DpanelViewModel : ViewModelBase
             LoadToAddValidator.ResetTag();
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 

@@ -320,7 +320,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
                     MessageBoxIcon.Error);
             }
             else {
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationHandler.ShowErrorMessage(ex);
             }
         }
     }

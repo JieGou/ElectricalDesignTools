@@ -185,7 +185,7 @@ namespace WpfUI.ViewModels.AreasAndSystems
                     }
                 }
                 catch (Exception ex) {
-                    ErrorHelper.ShowErrorMessage(ex);
+                    NotificationHandler.ShowErrorMessage(ex);
                 }
             }
         }
@@ -235,7 +235,7 @@ namespace WpfUI.ViewModels.AreasAndSystems
                 }
             }
             catch (Exception ex) {
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationHandler.ShowErrorMessage(ex);
             }
         }
 

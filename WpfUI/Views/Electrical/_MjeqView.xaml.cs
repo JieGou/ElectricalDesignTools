@@ -214,7 +214,7 @@ public partial class _MjeqView : UserControl
             }
             catch (Exception ex) {
                 ex.Data.Add("UserMessage", "Cannot delete Distribution Equipment from Load List");
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationHandler.ShowErrorMessage(ex);
             }
         }
     }
@@ -622,7 +622,7 @@ public partial class _MjeqView : UserControl
             }
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 

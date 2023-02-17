@@ -108,7 +108,7 @@ public class AutocadService
         }
         catch (Exception ex) {
 
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
         finally {
 
@@ -120,7 +120,7 @@ public class AutocadService
     public async Task CreateSingleLine(IDteq dteq)
     {
         if (_isRunningTasks) {
-            EdtNotificationService.ShowNotification(this, $"Autocad is busy");
+            EdtNotificationService.SendPopupNotification(this, $"Autocad is busy");
         }
         else {
             await DrawSingleLineAsync(dteq);
@@ -135,15 +135,15 @@ public class AutocadService
             if (dteq == null) return;
 
 
-            EdtNotificationService.ShowNotification(this, $"Starting Autocad");
+            EdtNotificationService.SendPopupNotification(this, $"Starting Autocad");
             await StartAutocadAsync();
-            EdtNotificationService.CloseNotification(this);
+            EdtNotificationService.CloseoPupNotification(this);
 
             if (newDrawing == true || _acadHelper.AcadDoc == null) {
                 _acadHelper.AddDrawing();
             }
 
-            EdtNotificationService.ShowNotification(this, $"Creating drawing for {dteq.Tag}");
+            EdtNotificationService.SendPopupNotification(this, $"Creating drawing for {dteq.Tag}");
 
             await Task.Run(() => {
                 SingleLineDrawer slDrawer = new SingleLineDrawer(_acadHelper, EdtSettings.AcadBlockFolder);
@@ -152,7 +152,7 @@ public class AutocadService
             });
 
             _isRunningTasks = false;
-            EdtNotificationService.CloseNotification(this);
+            EdtNotificationService.CloseoPupNotification(this);
 
         }
 
@@ -186,12 +186,12 @@ public class AutocadService
                 }
             }
             else {
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationHandler.ShowErrorMessage(ex);
             }
         }
         finally {
             _isRunningTasks = false;
-            EdtNotificationService.CloseNotification(this);
+            EdtNotificationService.CloseoPupNotification(this);
         }
     }
 
@@ -199,7 +199,7 @@ public class AutocadService
     public async Task CreatePanelSchedule(IDteq dteq)
     {
         if (_isRunningTasks) {
-            EdtNotificationService.ShowNotification(this, $"Autocad is busy");
+            EdtNotificationService.SendPopupNotification(this, $"Autocad is busy");
         }
         else {
             await DrawPanelScheduleAsync(dteq);
@@ -212,15 +212,15 @@ public class AutocadService
             if (dteq == null) return;
 
 
-            EdtNotificationService.ShowNotification(this, $"Starting Autocad");
+            EdtNotificationService.SendPopupNotification(this, $"Starting Autocad");
             await StartAutocadAsync();
-            EdtNotificationService.CloseNotification(this);
+            EdtNotificationService.CloseoPupNotification(this);
 
             if (newDrawing == true || _acadHelper.AcadDoc == null) {
                 _acadHelper.AddDrawing();
             }
 
-            EdtNotificationService.ShowNotification(this, $"Creating drawing for {dteq.Tag}");
+            EdtNotificationService.SendPopupNotification(this, $"Creating drawing for {dteq.Tag}");
 
             await Task.Run(() => {
                 PanelScheduleDrawer panelScheduleDrawer = new PanelScheduleDrawer(_acadHelper, EdtSettings.AcadBlockFolder);
@@ -229,7 +229,7 @@ public class AutocadService
             });
 
             _isRunningTasks = false;
-            EdtNotificationService.CloseNotification(this);
+            EdtNotificationService.CloseoPupNotification(this);
 
         }
 
@@ -252,14 +252,14 @@ public class AutocadService
             }
 
             else {
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationHandler.ShowErrorMessage(ex);
             }
 
         }
 
         finally {
             _isRunningTasks = false;
-            EdtNotificationService.CloseNotification(this);
+            EdtNotificationService.CloseoPupNotification(this);
         }
     }
 
@@ -286,7 +286,7 @@ public class AutocadService
             }
         }
         finally {
-            EdtNotificationService.CloseNotification(this);
+            EdtNotificationService.CloseoPupNotification(this);
             _attempts = 0;
             _deleteAttempts = 0;
         }

@@ -5,13 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace WpfUI.PopupWindows;
-internal class Notification
+internal class PopupNotificationModel
 {
-    public Notification()
-    {
-
-    }
-    public Notification(string notificationText)
+   
+    public PopupNotificationModel(string notificationText)
     {
         NotificationText = notificationText;
     }

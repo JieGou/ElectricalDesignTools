@@ -95,7 +95,7 @@ public abstract class EdtViewModelBase: ViewModelBase
             LoadToAddValidator.ResetTag();
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 
@@ -121,7 +121,7 @@ public abstract class EdtViewModelBase: ViewModelBase
             }));
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 
@@ -149,7 +149,7 @@ public abstract class EdtViewModelBase: ViewModelBase
             }));
         }
         catch (Exception ex) {
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 
@@ -395,10 +395,10 @@ public abstract class EdtViewModelBase: ViewModelBase
         catch (Exception ex) {
 
             if (ex.Message.ToLower().Contains("sql")) {
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationHandler.ShowErrorMessage(ex);
             }
             else {
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationHandler.ShowErrorMessage(ex);
             }
             throw;
         }

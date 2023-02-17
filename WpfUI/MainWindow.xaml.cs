@@ -41,10 +41,10 @@ public partial class MainWindow : MetroWindow
     {
         InitializeComponent();
 
-        EdtNotificationService.ErrorSent += ErrorHelper.ShowError;
-        EdtNotificationService.AlertSent += ErrorHelper.ShowAlert;
-        EdtNotificationService.NotificationSent += PopupService.ShowNotification;    
-        EdtNotificationService.NotificationClosed += PopupService.CloseNotification;
+        EdtNotificationService.ErrorSent += NotificationHandler.ShowError;
+        EdtNotificationService.AlertSent += NotificationHandler.ShowAlert;
+        EdtNotificationService.NotificationSent += PopupService.ShowPopupNotification;    
+        EdtNotificationService.NotificationClosed += PopupService.ClosePopupNotification;
         PopupService.MainWindow = this;
 
         btnHome.IsChecked = true;
@@ -74,7 +74,7 @@ public partial class MainWindow : MetroWindow
                 }
             }
             catch (Exception ex) {
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationHandler.ShowErrorMessage(ex);
             }
         }
     }

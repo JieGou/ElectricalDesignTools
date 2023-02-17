@@ -8,7 +8,19 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EDTLibrary.Services;
-public class EdtNotificationService
+public enum EdtNotificationCategory
+{
+    InternalError,
+    UserError,
+    Notification,
+}
+
+public enum EdtNotificationType
+{
+    VoltageChange,
+}
+
+public partial class EdtNotificationService
 {
     //Error
     public static void SendError(object sender, string message, string caption, Exception ex)
@@ -17,13 +29,12 @@ public class EdtNotificationService
         args.Messsage = message;
         args.Caption = caption;
         args.Exception = ex;
-        args.EdtNotificationType = EdtNotificationType.InternalError;
+        args.EdtNotificationType = EdtNotificationCategory.InternalError;
         OnErrorSent(sender, args);
     }
     public static EventHandler<EdtNotificationEventArgs> ErrorSent;
     private static void OnErrorSent(object sender, EdtNotificationEventArgs args)
     {
-
         if (ErrorSent != null) {
             ErrorSent(sender, args);
             
@@ -38,7 +49,7 @@ public class EdtNotificationService
         args.Messsage = message;
         args.Caption = caption;
         args.Exception = new Exception(message);
-        args.EdtNotificationType = EdtNotificationType.UserError;
+        args.EdtNotificationType = EdtNotificationCategory.UserError;
 
         OnAlertSent(sender, args);
     }
@@ -51,24 +62,18 @@ public class EdtNotificationService
 
         }
     }
-    public class EdtNotificationEventArgs : EventArgs
-    {
-        public string Messsage { get; set; }
-        public string Caption { get; set; }
-        public Exception Exception { get; set; }
-        public EdtNotificationType EdtNotificationType { get; set; }
-    }
 
 
-    public static void ShowNotification(object sender, string message)
+
+    public static void SendPopupNotification(object sender, string message)
     {
         var args = new EdtNotificationEventArgs();
         args.Messsage = message;
-        args.EdtNotificationType = EdtNotificationType.Notification;
-        OnNotificationSent(sender, args);
+        args.EdtNotificationType = EdtNotificationCategory.Notification;
+        OnPopupNotificationSent(sender, args);
     }
     public static EventHandler<EdtNotificationEventArgs> NotificationSent;
-    private static void OnNotificationSent(object sender, EdtNotificationEventArgs args)
+    private static void OnPopupNotificationSent(object sender, EdtNotificationEventArgs args)
     {
 
         if (NotificationSent != null) {
@@ -77,14 +82,14 @@ public class EdtNotificationService
         }
     }
 
-    public static void CloseNotification(object sender)
+    public static void CloseoPupNotification(object sender)
     {
         var args = new EdtNotificationEventArgs();
-        args.EdtNotificationType = EdtNotificationType.Notification;
-        OnNotificationClosed(sender, args);
+        args.EdtNotificationType = EdtNotificationCategory.Notification;
+        OnPopupNotificationClosed(sender, args);
     }
     public static EventHandler<EdtNotificationEventArgs> NotificationClosed;
-    private static void OnNotificationClosed(object sender, EdtNotificationEventArgs args)
+    private static void OnPopupNotificationClosed(object sender, EdtNotificationEventArgs args)
     {
 
         if (NotificationClosed != null) {
@@ -94,9 +99,4 @@ public class EdtNotificationService
     }
 
 }
-public enum EdtNotificationType
-{
-    InternalError, 
-    UserError,
-    Notification,
-}
+

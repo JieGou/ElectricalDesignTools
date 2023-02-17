@@ -185,7 +185,7 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
         }
         catch (Exception ex) {
 
-            ErrorHelper.ShowErrorMessage(ex);
+            NotificationHandler.ShowErrorMessage(ex);
         }
     }
 }

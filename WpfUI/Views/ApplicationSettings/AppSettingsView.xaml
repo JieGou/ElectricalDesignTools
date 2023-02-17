@@ -5,6 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.Views.ApplicationSettings"
              
+            xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+
+             
              xmlns:settings="clr-namespace:WpfUI"
              
              xmlns:settingControls="clr-namespace:WpfUI.UserControls.Settings"
@@ -33,71 +36,52 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Application settings are applied to all projects"
-                   Style="{StaticResource PageTitleStyle}"/>
 
-        <Grid Grid.Row="1" Grid.Column="0"
-              Margin="50 10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <TabControl VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    TabStripPlacement="Left">
+            
+            <!--Calculations-->
+            <TabItem Header="Calculations"
+                    >
+                <local:CalculationSettingsView>
 
-            <TextBlock Text="Automatic Sizing Calculations"
-                       Grid.Row="0" Grid.Column="0"
-                       />
+                </local:CalculationSettingsView>
+            </TabItem>
+            
 
-            <TextBlock Text="When enabled, the values are recalculated when any properties that affect the sizing is changed. 
-                       When using the Calculate All function, everything is recalculated regardless of the below settings. To 
-                       exclude specific equipment/properties from being autocalculated, the calculation options must be 
-                       for that specific piece of equimpment on the equipment properties pane.
-                       &#10;
-                       &#10;Detailed calculations settings can be selected under the project setup.
-                       &#10;
-                       &#10;Ex 1:   When changing the size of a load, the protective device, the cable and the upstream equipment's loading is affected.
-                       &#10;
-                       &#10;Ex 2:   When moving a load from one area to another, the temperature may require additional cable derating and if cable autozing is disabled the cable will not be automatically resized."
-                       
-                       
-                       Grid.Row="1" Grid.Column="0"
-                       Style="{StaticResource settingDescription}"
-                       MaxWidth="500"/>
+            <!--Notifications-->
+            <TabItem Header="Notifications">
+                <local:CalculationSettingsView>
 
-            <CheckBox Grid.Row="2" Grid.Column="0"
-                      Content="Autosize Protection Device"
-                      IsChecked="{Binding Source={x:Static settings:AppSettings.Default},
-                                          Path=AutoSize_ProtectionDevice}"
-                      />
-            <TextBlock Text="Updates the Trip Setting, Frame Size and SCCR / AIC rating."
-                       Grid.Row="3" Grid.Column="0"
-                       Style="{StaticResource settingDescription}"
-                       MaxWidth="500"
-                       Margin="25 0"
-                       />
+                </local:CalculationSettingsView>
+            </TabItem>
+            
+            
+        </TabControl>
+        
+        
+        <!--<syncfusion:TabControlExt VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch"
+                                  CloseButtonType="Hide"
+                                  TabStripPlacement="Left"
+                                  RotateTextWhenVertical="true">
+            
+            <syncfusion:TabItemExt Header="Calculation Settings">
+                <Grid>
+                    <local:CalculationSettingsView>
 
-            <CheckBox Grid.Row="5" Grid.Column="0"
-                      Content="Autosize Power Cable"
-                      IsChecked="{Binding Source={x:Static settings:AppSettings.Default},
-                                          Path=AutoSize_Cable}"
-                      />
-            <TextBlock Text="Updates the cable size, number of parallel runs, derating, voltage drop, etc. based on the cable type, installation type and other applicable factors in accordance with the selected code. "
-                       Grid.Row="6" Grid.Column="0"
-                       Style="{StaticResource settingDescription}"
-                       MaxWidth="500"
-                       Margin="25 0"
-                       />
+                    </local:CalculationSettingsView>
+                </Grid>
+            </syncfusion:TabItemExt>
 
-        </Grid>
+            <syncfusion:TabItemExt Header="Notification Settings">
+                <Grid>
+                    <local:CalculationSettingsView>
+
+                    </local:CalculationSettingsView>
+                </Grid>
+            </syncfusion:TabItemExt>
+        </syncfusion:TabControlExt>-->
     </Grid>
 </UserControl>

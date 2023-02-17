@@ -102,7 +102,7 @@ namespace WpfUI
                 }
             }
             catch (IOException ex) {
-               ErrorHelper.ShowErrorMessage(ex);
+               NotificationHandler.ShowErrorMessage(ex);
             }
         }
     }

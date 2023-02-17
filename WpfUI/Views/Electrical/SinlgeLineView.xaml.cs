@@ -403,11 +403,11 @@ public partial class SinlgeLineView : UserControl
                 }
                 catch (NullReferenceException ex) {
                     ex.Data.Add("UserMessage", "NullReferenceException for multiple DragDrop");
-                    ErrorHelper.ShowErrorMessage(ex);
+                    NotificationHandler.ShowErrorMessage(ex);
                 }
                 catch (Exception ex) {
 
-                    ErrorHelper.ShowErrorMessage(ex);
+                    NotificationHandler.ShowErrorMessage(ex);
                 }
             }
 
@@ -421,11 +421,11 @@ public partial class SinlgeLineView : UserControl
                     }
                     catch (NullReferenceException ex) {
                         ex.Data.Add("UserMessage", "NullReferenceException for single DragDrop");
-                        ErrorHelper.ShowErrorMessage(ex);
+                        NotificationHandler.ShowErrorMessage(ex);
                     }
                     catch (Exception ex) {
 
-                        ErrorHelper.ShowErrorMessage(ex);
+                        NotificationHandler.ShowErrorMessage(ex);
                     }
                 }
             }

@@ -147,7 +147,7 @@ namespace WpfUI.Services
             catch (Exception ex) {
 
                 IsProjectLoaded = true;
-                ErrorHelper.ShowErrorMessage(ex);
+                NotificationHandler.ShowErrorMessage(ex);
             }
         }
 

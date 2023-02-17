@@ -230,13 +230,13 @@
     <Compile Update="Views\Electrical\DpanelView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Settings\DeveloperSettingsView.xaml.cs">
+    <Compile Update="Views\ProjectSettings\DeveloperSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Settings\CableSettingsView.xaml.cs">
+    <Compile Update="Views\ProjectSettings\CableSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Settings\ExportSettingsView.xaml.cs">
+    <Compile Update="Views\ProjectSettings\ExportSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\SelectionWindows\AreaSelectionWindow.xaml.cs">
@@ -358,15 +358,15 @@
     <Page Update="Views\Library\LibraryManagerView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Views\Settings\DeveloperSettingsView.xaml">
+    <Page Update="Views\ProjectSettings\DeveloperSettingsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Settings\CableSettingsView.xaml">
+    <Page Update="Views\ProjectSettings\CableSettingsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Settings\ExportSettingsView.xaml">
+    <Page Update="Views\ProjectSettings\ExportSettingsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
