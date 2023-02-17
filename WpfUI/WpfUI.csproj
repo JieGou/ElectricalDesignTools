@@ -41,6 +41,7 @@
     <None Remove="ResourceFiles\ErrorIconTriangle48.png" />
     <None Remove="ResourceFiles\File Icons\Reload Teal_Light_64.ico" />
     <None Remove="ResourceFiles\File Icons\Reload White_64.ico" />
+    <None Remove="ResourceFiles\InfoIcon16.png" />
     <None Remove="ResourceFiles\InfoIconBlue.png" />
     <None Remove="ResourceFiles\MenuIcons\minus24.png" />
     <None Remove="ResourceFiles\MenuIcons\plus24.png" />
@@ -140,6 +141,9 @@
     <Resource Include="ResourceFiles\File Icons\Reload White_64.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="ResourceFiles\InfoIcon16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -188,6 +192,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UserControls\HomeControls\PreviousProjectItem.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UserControls\NotificationIcons\ErrorIcon.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UserControls\Viewers\Dpanels\DpnCctViewer_V.xaml.cs">

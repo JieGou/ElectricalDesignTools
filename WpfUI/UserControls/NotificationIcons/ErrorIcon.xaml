@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.UserControls.NotificationIcons.InfoIcon"
+﻿<UserControl x:Class="WpfUI.UserControls.NotificationIcons.ErrorIcon"
              x:Name="root"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,16 +8,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="25" d:DesignWidth="25">
     <Grid>
-        <Image Source="..\..\ResourceFiles\InfoIconBlue.png"
+        <Image Source="..\..\ResourceFiles\ErrorIcon48.png"
                UseLayoutRounding="True"
-               RenderOptions.BitmapScalingMode="HighQuality"
                Grid.Row="2"
                Grid.Column="0" 
                Margin="0 0 0 0"
                HorizontalAlignment="Center"
-               Height="17"
+               Height="14"
                Stretch="Uniform"
-               ToolTip="{Binding InformationText, ElementName=root}"
                ToolTipService.InitialShowDelay="150"
                ToolTipService.BetweenShowDelay="0"/>
     </Grid>

@@ -98,8 +98,7 @@
 
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
-            <WrapPanel Orientation="Horizontal"
-                       >
+           
                 <RadioButton Content="Home" x:Name="btnHome"
                              Width="55"
                              Style="{StaticResource MainMenuButton}" 
@@ -173,16 +172,54 @@
                             Margin="50 0 0 0"
                             FontSize="12"/>-->
 
-            </WrapPanel>
-
-
-
         </mah:WindowCommands>
     </mah:MetroWindow.LeftWindowCommands>
 
+    <mah:MetroWindow.RightWindowCommands>
+        <mah:WindowCommands>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="ResourceFiles/Button Icons/SettingsIcon.png" Width="23"
+                       UseLayoutRounding="True"
+                       Margin="0 0 50 0" 
+                       RenderTransformOrigin="0.5, 0.5"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       PreviewMouseDown="Image_PreviewMouseDown_1">
+                    <Image.RenderTransform>
+                        <RotateTransform x:Name="rotTransform" />
+                    </Image.RenderTransform>
+                    <Image.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="rotTransform"
+                                         Storyboard.TargetProperty="Angle"
+                                         From="0" To="90" Duration="0:0:0.25"
+                                                     
+                                         RepeatBehavior="1x"
+                                         />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="rotTransform"
+                                         Storyboard.TargetProperty="Angle"
+                                         From="90" To="0" Duration="0:0:0.25"
+                                                     
+                                         RepeatBehavior="1x"
+                                         />
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Image.Triggers>
+                </Image>
+            </StackPanel>
+        </mah:WindowCommands>
+    </mah:MetroWindow.RightWindowCommands>
 
 
-    <Grid>
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>

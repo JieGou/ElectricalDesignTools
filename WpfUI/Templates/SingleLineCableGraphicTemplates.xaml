@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
                     
                     xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
                     xmlns:SingleLineLoadGraphics="clr-namespace:WpfUI.Templates.SingleLineLoadGraphics"
@@ -92,14 +93,16 @@
                 </StackPanel>
                 
                 <!--Invalid Icon-->
-                <Image Source="..\..\ResourceFiles\ErrorIcon48.png"
-                       UseLayoutRounding="True"
-                       Grid.Column="0" HorizontalAlignment="Left"
-                       Height="17"
-                       Margin="-30"
-                       VerticalAlignment="Center"
-                       ToolTip="{Binding InvalidCableMessage}"
-                       Visibility="{Binding IsValid, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
+                <iconControls:ErrorIcon
+                    Grid.Column="0" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="-30"
+                    Visibility="{Binding IsValid, 
+                    Converter={StaticResource BoolToVisInvert}, 
+                    ConverterParameter=Inverted}"
+                    ToolTip="{Binding InvalidCableMessage}"/>
+                
             </Grid>
             
         </Grid>

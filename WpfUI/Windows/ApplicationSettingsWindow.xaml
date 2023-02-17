@@ -8,8 +8,8 @@
         xmlns:appSettingsViews="clr-namespace:WpfUI.Views.ApplicationSettings"
         
         mc:Ignorable="d"
-        Title="Application settings" Height="450" Width="800" 
-        WindowStartupLocation="CenterOwner"
+        Title="Application Settings" Height="650" Width="900" 
+        WindowStartupLocation="CenterScreen"
         
         
         Closed="Window_Closed"

@@ -7,6 +7,9 @@
              
              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
 
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+
+             
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
              xmlns:edtLoadModels="clr-namespace:EDTLibrary.Models.Loads;assembly=EDTLibrary"
              
@@ -363,20 +366,20 @@
 
         <!--Warning-->
         <Grid Grid.Row="4"
-                Margin="5 5 0 5" 
-                Visibility="{Binding PowerCable.IsValid, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}">
+              Margin="5 5 0 5" 
+              Visibility="{Binding PowerCable.IsValid, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}">
 
-            <Image Source="..\..\ResourceFiles\ErrorIcon48.png"
-                   Height="13"
-                   Margin="0 0 5 0"
-                   VerticalAlignment="Top"
-                   HorizontalAlignment="Left"/>
+            <iconControls:ErrorIcon 
+                Height="16"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"/>
+
             <TextBlock Text="{Binding PowerCable.InvalidCableMessage}"
                        Margin="0 20"
-                   Grid.Row="1"
-                   Foreground="#FFD40000"
-                   TextWrapping="Wrap"
-                   />
+                       Grid.Row="1"
+                       Foreground="#FFD40000"
+                       TextWrapping="Wrap"
+                       />
         </Grid>
 
     </Grid>

@@ -6,6 +6,9 @@ Major Bugs
 
 
 Minor Bugs
+	- DCN and MCP frame size defaults to 1200 A
+	- order of disconnect frame sizes
+	- order of PD frame sizes
 	- loads aren't changing voltage on FedFrom Update
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
@@ -17,16 +20,31 @@ Minor Bugs
 
 	- menu Views/ViewModels are slow to load on battery
 
+*****************************************************************************************************************************
+
+Application Settings
+	- auto-calc
+		- PD 
+		- cable 
+	- Notifications
+		- Voltage update notification
+	- Optional Auto-Calculations ??
+		- Component Sizing
+		- PD
+		- Cable
+
 
 Property / Calculation Override and Locks
 	- PF
 	- Efficiency
 	- DemandFactor
 
+
 Equipment Sequence Ordering
-	- LoadList  by Tag
+	- LoadList by Tag
 	- Assigned Loads by FedFrom
-	- Dteq standalone
+	- Dteq standalone ??
+	- Component Move Up Command to Owner
 
 
 LoadGrid Context Menu
@@ -34,29 +52,21 @@ LoadGrid Context Menu
 	- Set Type
 	- Set Eff
 	- Set PF
-	- 
-
 
 
 LoadModel 
 	- Type change Voltage-Type and calculation updates
 	- load data IsValid
-		
-
-Library 
-	- Starter sizes for other voltages
-	- StarterSizes list for dropown
 
 
-Misc.
-	- Component Move Up Command to Owner
+User Interface
 	- Main Window Toolbar Height
 	- DTEQ right click menu
-	- transformer cooling type on dteq options
 
 
 Transformer Grounding
 	- Settings
+	- transformer cooling type on dteq options
 	- NGR component
 	- NGR Monitor
 	- cables
@@ -64,7 +74,6 @@ Transformer Grounding
 
 Calculations
 	- OCPD 80% rated calculation
-	- SCCA, SCCR
 	- required cable conductors (2C, 3C, 4C)
 		- derating calculation
 
@@ -78,23 +87,13 @@ Tag Settings
 	- bulk updates on tag setting changes
 	
 
-
-Application Settings
-	- Add Load Voltage notification
-	
-*******************************
-Priorities
-*******************************
-
-	- LCS Type Management UI - 1
-
-	- Cable Type Management - 4 
-		- UI - 2
-		- functionality - 2 
-
-	- Cable List
-		- Pivot Grid
-		- Bom Style Export
+Cables
+	- Pivot Grid
+	- Bom Style Export
+	- 1ph cable quantities and totals on cable list
+	- Prompt to recalculate load cables when changing settings
+	- component cables are not updated when changing the load cable properties
+		- setting for this?
 
 
 Exports
@@ -110,38 +109,20 @@ Exports
 Validations
 	- PD	
 	- Cable
-	
-
-Cables
-	- settings for auto-calculate cable on load changes, resizing/recalculation
-
-	Power Cables
-		- 1ph cable quantities and totals on cable list
-		- Prompt to recalculate load cables when changing settings
-		- component cables are not updated when changing the load cable properties
-			- setting for this?
+	- Voltage 
 
 
-
-
-Application Settings
-	- auto-calc PD when load properties change
-	- auto-calc cable when load properties change
-	- Optional Auto-Calculations
-		- Component Sizing
-		- PD
-		- Cable
 Dteq 
 	- validate cable when AssignedLoads changes
 	- dteq as LoadGraphicVew
 	- Supply cable sizing based on upstream breaker (what is upstream breaker)
 
 
-Misc. General
-	- Voltage Validator
-
 Library
-	- add connectors
+	- add cable connectors
+	- Starter sizes for other voltages
+	- StarterSizes list for dropown
+
 
 Library Editor
 	- Control Station Types
@@ -165,9 +146,6 @@ Autocad
 	- wiring diagrams
 	- title blocks
 	- drawing list
-
-
-
 
 
 

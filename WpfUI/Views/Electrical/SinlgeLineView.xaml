@@ -19,7 +19,10 @@
              xmlns:converters="clr-namespace:WpfUI.Converters"
              
              xmlns:dteqViewers="clr-namespace:WpfUI.UserControls.Viewers.Dteq"
+             
              xmlns:editors="clr-namespace:WpfUI.UserControls.Editors"
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+
              
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
@@ -237,13 +240,11 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid>
-                                        <Image Source="..\..\..\ResourceFiles\ErrorIcon48.png"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Left"
-                                               Height="17"
-                                               Width="17"
-                                               Margin="0 0 3 0"
-                                               Visibility="{Binding IsValid, Converter={StaticResource BoolToVisInvert}, ConverterParameter=Inverted}"/>
+                                        <iconControls:ErrorIcon
+                                            Visibility="{Binding IsValid, 
+                                            Converter={StaticResource BoolToVisInvert}, 
+                                            ConverterParameter=Inverted}"/>
+                                        
                                     </Grid>
                                     <Grid Grid.Column="1">
                                         <!--<Image Source="{Binding ImageIcon}"
@@ -434,7 +435,8 @@
                                         <MenuItem Header="Set FedFrom" Command="{Binding SetFedFromCommand}"  Height="25"/>
                                         <MenuItem Header="Add" Height="25" >
                                             <MenuItem.Icon>
-                                                <Image Source="../../ResourceFiles/MenuIcons/plus24.png" Height="10"/>
+                                                <Image Source="../../ResourceFiles/MenuIcons/plus24.png" Height="10"
+                                                       UseLayoutRounding="True"/>
                                             </MenuItem.Icon>
                                             <MenuItem Header="Add Disconnect" Height="20"  Command="{Binding AddDisconnectCommand}" />
                                             <MenuItem Header="Add StandAloneStarter" Height="20"  Command="{Binding AddDriveCommand}" />
@@ -442,7 +444,8 @@
                                         </MenuItem>
                                         <MenuItem Header="Remove" Height="25">
                                             <MenuItem.Icon>
-                                                <Image Source="../../ResourceFiles/MenuIcons/minus24.png" Height="10"/>
+                                                <Image Source="../../ResourceFiles/MenuIcons/minus24.png" Height="10"
+                                                       UseLayoutRounding="True"/>
                                             </MenuItem.Icon>
                                             <MenuItem Header="Remove Disconnect" Height="25"  Command="{Binding RemoveDisconnectCommand}" />
                                             <MenuItem Header="Remove StandAloneStarter" Height="25"  Command="{Binding RemoveDriveCommand}" />

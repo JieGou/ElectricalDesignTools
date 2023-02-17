@@ -198,6 +198,17 @@ public partial class MainWindow : MetroWindow
         var settingsWindow = new ApplicationSettingsWindow();
         settingsWindow.ShowDialog();
     }
+
+    private void Image_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+
+    }
+
+    private void Image_PreviewMouseDown_1(object sender, MouseButtonEventArgs e)
+    {
+        var settingsWindow = new ApplicationSettingsWindow();
+        settingsWindow.ShowDialog();
+    }
 }
 
 
