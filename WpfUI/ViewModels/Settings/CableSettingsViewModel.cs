@@ -4,6 +4,7 @@ using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -30,8 +31,8 @@ public class CableSettingsViewModel : SettingsViewModelBase
     public SettingModel SelectedStringSetting { get; set; }
 
 
-    private EdtSettings _edtSettings;
-    public EdtSettings EdtSettings
+    private EdtProjectSettings _edtSettings;
+    public EdtProjectSettings EdtProjectSettings
     {
         get { return _edtSettings; }
         set { _edtSettings = value; }
@@ -57,7 +58,7 @@ public class CableSettingsViewModel : SettingsViewModelBase
 
     #endregion
 
-    public CableSettingsViewModel(EdtSettings edtSettings, TypeManager typeManager)
+    public CableSettingsViewModel(EdtProjectSettings edtSettings, TypeManager typeManager)
     {
         _edtSettings = edtSettings;
         _typeManager = typeManager;
@@ -72,7 +73,7 @@ public class CableSettingsViewModel : SettingsViewModelBase
         set
         {
             _selectedCableType = value;
-            var cableSizes = EdtSettings.CableSizesUsedInProject.Where(ct => ct.Type == _selectedCableType.Type).ToList();
+            var cableSizes = EdtProjectSettings.CableSizesUsedInProject.Where(ct => ct.Type == _selectedCableType.Type).ToList();
             SelectedCableSizes = new ObservableCollection<CableSizeModel>(cableSizes);
         }
     }
@@ -112,7 +113,7 @@ public class CableSettingsViewModel : SettingsViewModelBase
                 AddError(nameof(CableSpacingMaxAmps_3C1kV), "Invalid Value");
             }
             else {
-                //EdtSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
+                //EdtProjectSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
                 //SettingsManager.SaveStringSettingToDb(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
                 SaveVmSetting(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
             }

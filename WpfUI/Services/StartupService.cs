@@ -3,6 +3,7 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;

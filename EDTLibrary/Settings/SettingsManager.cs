@@ -3,6 +3,7 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Mappers;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.ProjectSettings;
 using EDTLibrary.Validators;
 using EDTLibrary.Validators.Cable;
 using System;
@@ -13,12 +14,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 
-namespace EDTLibrary.ProjectSettings
+namespace EDTLibrary.Settings
 {
     public class SettingsManager {
 
-        public EdtSettings EdtSettings { get; set; }
-        public SettingsManager(EdtSettings edtSettings)
+        public EdtProjectSettings EdtSettings { get; set; }
+        public SettingsManager(EdtProjectSettings edtSettings)
         {
             EdtSettings = edtSettings;
         }
@@ -60,7 +61,7 @@ namespace EDTLibrary.ProjectSettings
             // Load from Db into Objects
             // -Strings
             DataTable settingsDbTable = DaManager.prjDb.GetDataTable("ProjectSettings");
-            Type projectSettingsClass = typeof(EdtSettings);
+            Type projectSettingsClass = typeof(EdtProjectSettings);
             string propValue = "";
 
             foreach (var setting in SettingList) {
@@ -108,16 +109,16 @@ namespace EDTLibrary.ProjectSettings
 
         private static void GetCableSizesUsedInProject()
         {
-            EdtSettings.CableSizesUsedInProject = DaManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
+            EdtProjectSettings.CableSizesUsedInProject = DaManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
         }
         private static void GetExportMappings()
         {
-            EdtSettings.ExportMappings = DaManager.prjDb.GetRecords<ExportMappingModel>("ExportMapping");
+            EdtProjectSettings.ExportMappings = DaManager.prjDb.GetRecords<ExportMappingModel>("ExportMapping");
         }
 
         private static void AssignCodeSettings()
         {
-            if (EdtSettings.Code == "CEC") {
+            if (EdtProjectSettings.Code == "CEC") {
                 CableManager.CableSizer = new CecCableSizer();
                 CableValidator.CableLengthValidator = new CecCableLengthValidator();
             }
@@ -129,7 +130,7 @@ namespace EDTLibrary.ProjectSettings
             DaManager.prjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
 
             //SettingProperty
-            Type edtSettingsClass = typeof(EdtSettings); // MyClass is static class with static properties
+            Type edtSettingsClass = typeof(EdtProjectSettings); // MyClass is static class with static properties
             foreach (var prop in edtSettingsClass.GetProperties()) {
                 if (setting.Name == prop.Name) {
                     prop.SetValue(setting.Value, setting.Value);

@@ -7,7 +7,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:WpfUI.Views"
              xmlns:commands="clr-namespace:WpfUI.Commands"
-             xmlns:projectSettings="clr-namespace:EDTLibrary.ProjectSettings;assembly=EDTLibrary"
+             xmlns:projectSettings="clr-namespace:EDTLibrary.Settings;assembly=EDTLibrary"
              
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
              xmlns:controls="clr-namespace:WpfUI.Controls"
@@ -25,7 +25,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 
             </ResourceDictionary.MergedDictionaries>
 
-            <projectSettings:EdtSettings x:Key="edtSettings"/>
+            <projectSettings:EdtProjectSettings x:Key="edtSettings"/>
 
             <CollectionViewSource x:Key="ListBoxItems" Source="{Binding Path=StringSettings}">
                 <CollectionViewSource.GroupDescriptions>

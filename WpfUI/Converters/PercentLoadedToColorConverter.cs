@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,7 +16,7 @@ namespace WpfUI.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             double val = Double.Parse(value.ToString());
-            double percentage = Double.Parse(EdtSettings.DteqMaxPercentLoaded.ToString());
+            double percentage = Double.Parse(EdtProjectSettings.DteqMaxPercentLoaded.ToString());
             var bc = new BrushConverter();
 
             //yel

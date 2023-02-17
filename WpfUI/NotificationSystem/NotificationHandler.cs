@@ -1,35 +1,44 @@
-﻿using EDTLibrary.DataAccess;
-using EDTLibrary.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Threading;
+using WpfUI.NoificationSystem;
 using static EDTLibrary.Services.EdtNotificationService;
 
 namespace WpfUI.Helpers
 {
     public class NotificationHandler
     {
-
-        public static void ShowAlert(object sender, EdtNotificationEventArgs args)
+        static bool isAlertActive;
+        public static void AlertReceived(object sender, EdtNotificationEventArgs args)
         {
-            NotifyUserError(args.Messsage, args.Caption);
+            ShowAlert(args.Messsage, args.Caption);
         }
 
-        public static void NotifyUserError(string message, string caption = "User Error", MessageBoxImage image = MessageBoxImage.Warning)
+        static NotificationWindow notificationWindow = null;
+        static string notificationMessage;
+
+        public static void ShowAlert(string message, string caption = "User Error", MessageBoxImage image = MessageBoxImage.Warning)
         {
+
             Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
-                MessageBox.Show(message, caption, MessageBoxButton.OK, image);
+                if (notificationWindow == null || notificationWindow.IsLoaded == false) {
+                    notificationMessage = message + Environment.NewLine;
+                    notificationWindow = new NotificationWindow();
+                    notificationWindow.DataContext = new NotificationModel(caption, notificationMessage);
+                    notificationWindow.ShowDialog();
+                }
+                else {
+                    var notificationModel = (NotificationModel)notificationWindow.DataContext;
+                    notificationModel.NotificationText += (message + Environment.NewLine);
+                    notificationWindow.Focus();
+                }
+
             }));
         }
 
 
 
-        public static void ShowError(object sender, EdtNotificationEventArgs args)
+        public static void ErrorReceived(object sender, EdtNotificationEventArgs args)
         {
             ShowErrorMessage(args.Exception);
         }

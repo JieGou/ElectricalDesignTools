@@ -2,6 +2,7 @@
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ internal class StarterTypeSelector
 
         if (load.FedFrom.Type == DteqTypes.DPN.ToString() || load.FedFrom.Type == DteqTypes.CDP.ToString())
         {
-            return EdtSettings.LoadDefaultPdTypeLV_Motor;
+            return EdtProjectSettings.LoadDefaultPdTypeLV_Motor;
         }
 
         return CctComponentTypes.VFD.ToString();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,6 @@ public partial class ApplicationSettingsWindow : Window
 
     private void Window_Closed(object sender, EventArgs e)
     {
-        AppSettings.Default.Save();
+        EdtAppSettings.Default.Save();
     }
 }

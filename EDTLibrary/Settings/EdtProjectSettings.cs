@@ -1,20 +1,9 @@
-﻿using EDTLibrary.LibraryData;
-using EDTLibrary.LibraryData;
-using EDTLibrary.Mappers;
+﻿using EDTLibrary.Mappers;
 using EDTLibrary.Models.Cables;
-using Microsoft.Win32;
-using PropertyChanged;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EDTLibrary.ProjectSettings
+namespace EDTLibrary.Settings
 {
     /// <summary>
     /// Project Settings for automating sizing and selections
@@ -30,7 +19,7 @@ namespace EDTLibrary.ProjectSettings
     //   3 - the name of the setting in the Database ProjectSettings Table
     //     - the table name itself in the Database if the setting is a DataTable type Setting
 
-    public class EdtSettings
+    public class EdtProjectSettings
     {
 
         //General

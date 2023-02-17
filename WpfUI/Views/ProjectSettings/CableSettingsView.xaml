@@ -10,7 +10,7 @@
              xmlns:controls="clr-namespace:WpfUI.Controls"
              
              
-             xmlns:projectSettings="clr-namespace:EDTLibrary.ProjectSettings;assembly=EDTLibrary"
+             xmlns:projectSettings="clr-namespace:EDTLibrary.Settings;assembly=EDTLibrary"
              
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
              
@@ -27,7 +27,7 @@
 
             </ResourceDictionary.MergedDictionaries>
 
-            <projectSettings:EdtSettings x:Key="edtSettings"/>
+            <projectSettings:EdtProjectSettings x:Key="edtSettings"/>
 
             <CollectionViewSource x:Key="ListBoxItems" Source="{Binding Path=StringSettings}">
                 <CollectionViewSource.GroupDescriptions>

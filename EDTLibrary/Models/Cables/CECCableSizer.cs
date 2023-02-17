@@ -6,6 +6,7 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Services;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -35,7 +36,7 @@ namespace EDTLibrary.Models.Cables
             if (load is ILoad
                 && load.Voltage > 300
                 && load.Voltage <= 1000) {
-                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_3ph300to1kV)).Type;
+                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_3ph300to1kV)).Type;
             }
 
             else if (load is IDteq && load.Voltage <= 1000) {
@@ -43,39 +44,39 @@ namespace EDTLibrary.Models.Cables
                 //208V - 3phase panels and splitters
                 if (load.VoltageType.Voltage == 208 && load.VoltageType.Phase == 3) {
                     if (load.Type == DteqTypes.CDP.ToString() || load.Type == DteqTypes.DPN.ToString()) {
-                        return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_4wire)).Type;
+                        return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_4wire)).Type;
                     }
                 }
                 else if (load.VoltageType.Voltage == 240) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeDteq_3ph1kVLt1200A)).Type;
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeDteq_3ph1kVLt1200A)).Type;
                 }
                 else if (load.VoltageType.Voltage == 120) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_2wire)).Type;
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_2wire)).Type;
                 }
                 else if (load.Fla <= 1200) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeDteq_3ph1kVLt1200A)).Type;
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeDteq_3ph1kVLt1200A)).Type;
                 }
                 else if (load.Fla > 1200) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeDteq_3ph1kVGt1200A)).Type;
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeDteq_3ph1kVGt1200A)).Type;
                 }
             }
             
             else if (load.Voltage > 1000 
                 && load.Voltage <= 5000) {
-                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableType_3ph5kV)).Type;
+                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableType_3ph5kV)).Type;
             }
             else if (load.Voltage > 5000
                 && load.Voltage <= 15000) {
-                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableType_3ph15kV)).Type;
+                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableType_3ph15kV)).Type;
             }
-            return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_3ph300to1kV)).Type;
+            return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_3ph300to1kV)).Type;
         }
         public int GetDefaultCableTypeId(IPowerConsumer load)
         {
             if (load is ILoad
                 && load.Voltage > 300
                 && load.Voltage <= 1000) {
-                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_3ph300to1kV)).Id;
+                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_3ph300to1kV)).Id;
             }
 
             else if (load is IDteq && load.Voltage <= 1000) {
@@ -83,39 +84,39 @@ namespace EDTLibrary.Models.Cables
                 //208V - 3phase panels and splitters
                 if (load.VoltageType.Voltage == 208 && load.VoltageType.Phase == 3) {
                     if (load.Type == DteqTypes.CDP.ToString() || load.Type == DteqTypes.DPN.ToString()) {
-                        return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_4wire)).Id;
+                        return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_4wire)).Id;
                     }
                 }
                 else if (load.VoltageType.Voltage == 240) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeDteq_3ph1kVLt1200A)).Id;
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeDteq_3ph1kVLt1200A)).Id;
                 }
                 else if (load.VoltageType.Voltage == 120) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_2wire)).Id;
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_2wire)).Id;
                 }
                 else if (load.Fla <= 1200) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeDteq_3ph1kVLt1200A)).Id;
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeDteq_3ph1kVLt1200A)).Id;
                 }
                 else if (load.Fla > 1200) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeDteq_3ph1kVGt1200A)).Id;
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeDteq_3ph1kVGt1200A)).Id;
                 }
             }
 
             else if (load.Voltage > 1000
                 && load.Voltage <= 5000) {
-                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableType_3ph5kV)).Id;
+                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableType_3ph5kV)).Id;
             }
             else if (load.Voltage > 5000
                 && load.Voltage <= 15000) {
-                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableType_3ph15kV)).Id;
+                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableType_3ph15kV)).Id;
             }
-            return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_3ph300to1kV)).Id;
+            return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_3ph300to1kV)).Id;
         }
         public CableTypeModel GetDefaultCableTypeModel(IPowerConsumer load)
         {
             if (load is ILoad
                 && load.Voltage > 300
                 && load.Voltage <= 1000) {
-                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_3ph300to1kV));
+                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_3ph300to1kV));
             }
 
             else if (load is IDteq && load.Voltage <= 1000) {
@@ -123,32 +124,32 @@ namespace EDTLibrary.Models.Cables
                 //208V - 3phase panels and splitters
                 if (load.VoltageType.Voltage == 208 && load.VoltageType.Phase == 3) {
                     if (load.Type == DteqTypes.CDP.ToString() || load.Type == DteqTypes.DPN.ToString()) {
-                        return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_4wire));
+                        return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_4wire));
                     }
                 }
                 else if (load.VoltageType.Voltage == 240) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeDteq_3ph1kVLt1200A));
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeDteq_3ph1kVLt1200A));
                 }
                 else if (load.VoltageType.Voltage == 120) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_2wire));
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_2wire));
                 }
                 else if (load.Fla <= 1200) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeDteq_3ph1kVLt1200A));
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeDteq_3ph1kVLt1200A));
                 }
                 else if (load.Fla > 1200) {
-                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeDteq_3ph1kVGt1200A));
+                    return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeDteq_3ph1kVGt1200A));
                 }
             }
 
             else if (load.Voltage > 1000
                 && load.Voltage <= 5000) {
-                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableType_3ph5kV));
+                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableType_3ph5kV));
             }
             else if (load.Voltage > 5000
                 && load.Voltage <= 15000) {
-                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableType_3ph15kV));
+                return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableType_3ph15kV));
             }
-            return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtSettings.DefaultCableTypeLoad_3ph300to1kV));
+            return TypeManager.CableTypes.FirstOrDefault(ct => ct.Id == int.Parse(EdtProjectSettings.DefaultCableTypeLoad_3ph300to1kV));
         }
         public bool IsUsingStandardSizingTable(ICable cable)
         {
@@ -174,12 +175,12 @@ namespace EDTLibrary.Models.Cables
                 }
             }
             else if (cableType.VoltageRating <= 2000 &&
-                     cable.Load.Fla >= double.Parse(EdtSettings.CableSpacingMaxAmps_3C1kV)) {
+                     cable.Load.Fla >= double.Parse(EdtProjectSettings.CableSpacingMaxAmps_3C1kV)) {
                 spacing = 100;
             }
             else if (cableType.VoltageRating < 2000 &&
                      (cableType.ConductorQty == 2 || cableType.ConductorQty == 3 || cableType.ConductorQty == 4 ) &&
-                     cable.Load.Fla <= double.Parse(EdtSettings.CableSpacingMaxAmps_3C1kV)) {
+                     cable.Load.Fla <= double.Parse(EdtProjectSettings.CableSpacingMaxAmps_3C1kV)) {
                 spacing = 0;
             }
             cable.Spacing = spacing;

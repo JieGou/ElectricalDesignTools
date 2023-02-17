@@ -8,6 +8,7 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using PropertyChanged;
 using System;
 using System.Collections.ObjectModel;
@@ -47,7 +48,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     {
         get
         {
-            if (EdtSettings.AreaColumnVisible == "True") {
+            if (EdtProjectSettings.AreaColumnVisible == "True") {
                 return true;
             }
             return false;

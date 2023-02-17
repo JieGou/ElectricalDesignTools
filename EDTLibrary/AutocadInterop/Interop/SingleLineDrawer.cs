@@ -3,6 +3,7 @@ using Autodesk.AutoCAD.Interop.Common;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using System;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -341,7 +342,7 @@ public class SingleLineDrawer
     }
     private void InsertMccBorder(IDteq mcc, double[] insertionPoint, double blockSpacing, double Xscale = 1, double Yscale = 1, double Zscale = 1)
     {
-        string blockPath = EdtSettings.AcadBlockFolder + @"\Single Line\MCC_BORDER.dwg";
+        string blockPath = EdtProjectSettings.AcadBlockFolder + @"\Single Line\MCC_BORDER.dwg";
         double borderScale = blockSpacing * (mcc.AssignedLoads.Count + 2.5);
         insertionPoint[0] = 0-2;
         insertionPoint[1] = 0;

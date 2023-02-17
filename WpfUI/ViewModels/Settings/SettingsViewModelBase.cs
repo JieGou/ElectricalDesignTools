@@ -1,5 +1,6 @@
 ﻿using EDTLibrary.LibraryData;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,8 @@ using System.Threading.Tasks;
 namespace WpfUI.ViewModels.Settings;
 public class SettingsViewModelBase: ViewModelBase
 {
-    private EdtSettings _edtSettings;
-    public EdtSettings EdtSettings
+    private EdtProjectSettings _edtSettings;
+    public EdtProjectSettings EdtProjectSettings
     {
         get { return _edtSettings; }
         set { _edtSettings = value; }
@@ -25,7 +26,7 @@ public class SettingsViewModelBase: ViewModelBase
     //New Settings
     public void LoadVmSettings(SettingsViewModelBase settingsViewModel)
     {
-        Type projectSettingsClass = typeof(EdtSettings);
+        Type projectSettingsClass = typeof(EdtProjectSettings);
         Type viewModelSettings = settingsViewModel.GetType();
 
         foreach (var classProperty in projectSettingsClass.GetProperties()) {
@@ -55,7 +56,7 @@ public class SettingsViewModelBase: ViewModelBase
     /// <param name="settingValue">New value of setting</param>
     public void SaveVmSetting(string settingName, string settingValue)
     {
-        Type projectSettingsClass = typeof(EdtSettings);
+        Type projectSettingsClass = typeof(EdtProjectSettings);
 
         foreach (var classProperty in projectSettingsClass.GetProperties()) {
             if (classProperty.Name == settingName) {
@@ -74,7 +75,7 @@ public class SettingsViewModelBase: ViewModelBase
     /// <param name="settingValue">New value of setting</param>
     public void SaveVmSetting(string settingName, SettingModel settingModel)
     {
-        Type projectSettingsClass = typeof(EdtSettings);
+        Type projectSettingsClass = typeof(EdtProjectSettings);
 
         foreach (var classProperty in projectSettingsClass.GetProperties()) {
             if (classProperty.Name == settingName) {

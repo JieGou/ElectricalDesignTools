@@ -7,6 +7,7 @@ using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using EDTLibrary.TestDataFolder;
 using EDTLibrary.UndoSystem;
 using Syncfusion.PMML;
@@ -53,7 +54,7 @@ namespace EDTLibrary.Tests
                 ListManager listManager = new ListManager();
                 ScenarioManager.ListManager = listManager;
                 TypeManager typeManager = new TypeManager();
-                EdtSettings edtSettings = new EdtSettings();
+                EdtProjectSettings edtSettings = new EdtProjectSettings();
 
                 StartupService startupService = new StartupService(listManager, new ObservableCollection<PreviousProject>());
                 startupService.InitializeLibrary();

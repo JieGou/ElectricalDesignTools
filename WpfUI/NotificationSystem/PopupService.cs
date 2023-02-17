@@ -13,7 +13,7 @@ using Notification = WpfUI.PopupWindows.PopupNotificationModel;
 namespace WpfUI.Services;
 public class PopupService
 {
-    public static NotificationPopup NotificationPopup { get; set; }
+    public static PopupNotifcationWindow NotificationPopup { get; set; }
     public static MainWindow MainWindow { get; set; }
 
     public static void ShowPopupNotification(object sender, EdtNotificationEventArgs args)
@@ -21,14 +21,14 @@ public class PopupService
         ShowPopupNotification(args.Messsage);
     }
 
-    public static void ShowPopupNotification(string notification)
+    public static void ShowPopupNotification(string notificationText)
     {
         Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
             if (NotificationPopup == null) {
-                NotificationPopup = new NotificationPopup();
+                NotificationPopup = new PopupNotifcationWindow();
                 NotificationPopup.Owner = MainWindow;
             }
-            NotificationPopup.DataContext = new Notification(notification);
+            NotificationPopup.DataContext = new Notification(notificationText);
             NotificationPopup.Show();
 
         }));

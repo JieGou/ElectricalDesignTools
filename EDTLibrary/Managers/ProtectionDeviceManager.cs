@@ -13,6 +13,7 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
+using EDTLibrary.Settings;
 
 namespace EDTLibrary.Managers;
 public class ProtectionDeviceManager
@@ -99,7 +100,7 @@ public class ProtectionDeviceManager
             else {
 
                 if (load.Type == LoadTypes.MOTOR.ToString()) {
-                    load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_Motor;
+                    load.ProtectionDevice.Type = EdtProjectSettings.LoadDefaultPdTypeLV_Motor;
                 }
                 else {
                     load.ProtectionDevice.Type = PdTypes.FDS.ToString();
@@ -118,10 +119,10 @@ public class ProtectionDeviceManager
             else {
 
                 if (load.Type == LoadTypes.MOTOR.ToString()) {
-                    load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_Motor;
+                    load.ProtectionDevice.Type = EdtProjectSettings.LoadDefaultPdTypeLV_Motor;
                 }
                 else {
-                    load.ProtectionDevice.Type = EdtSettings.LoadDefaultPdTypeLV_NonMotor;
+                    load.ProtectionDevice.Type = EdtProjectSettings.LoadDefaultPdTypeLV_NonMotor;
                 }
             }
         }

@@ -26,8 +26,6 @@ Application Settings
 	- auto-calc
 		- PD 
 		- cable 
-	- Notifications
-		- Voltage update notification
 	- Optional Auto-Calculations ??
 		- Component Sizing
 		- PD

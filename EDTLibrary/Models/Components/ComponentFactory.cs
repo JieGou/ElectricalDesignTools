@@ -4,6 +4,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
@@ -215,20 +216,20 @@ public class ComponentFactory
     internal static string GetLcsType(ILoad owner)
     {
         if (owner.StandAloneStarterBool == true) {
-            return EdtSettings.LcsTypeVsdLoad;
+            return EdtProjectSettings.LcsTypeVsdLoad;
         }
  
-        return EdtSettings.LcsTypeDolLoad;
+        return EdtProjectSettings.LcsTypeDolLoad;
     
     }
 
     internal static string GetLcsTypeId(ILoad owner)
     {
         if (owner.StandAloneStarterBool == true) {
-            return EdtSettings.LcsTypeVsdLoad;
+            return EdtProjectSettings.LcsTypeVsdLoad;
         }
 
-        return EdtSettings.LcsTypeDolLoad;
+        return EdtProjectSettings.LcsTypeDolLoad;
 
     }
 }

@@ -7,6 +7,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using ExcelLibrary;
 using Portable.Licensing;
 using Portable.Licensing.Security.Cryptography;
@@ -57,14 +58,14 @@ namespace WpfUI.ViewModels
             get { return _typeManager; }
             set { _typeManager = value; }
         }
-        private EdtSettings _edtSettings;
-        public EdtSettings EdtSettings
+        private EdtProjectSettings _edtSettings;
+        public EdtProjectSettings EdtProjectSettings
         {
             get { return _edtSettings; }
             set { _edtSettings = value; }
         }
 
-        public MainViewModel(StartupService startupService, TypeManager typeManager, EdtSettings edtSettings, string type = "")
+        public MainViewModel(StartupService startupService, TypeManager typeManager, EdtProjectSettings edtSettings, string type = "")
         {
             FedFromManager.FedFromUpdated += _ViewStateManager.OnFedFromUpdated;
             LoadManager.LoadDeleted += _ViewStateManager.OnLoadDeleted;
@@ -72,7 +73,7 @@ namespace WpfUI.ViewModels
             if (type=="NewInstance") {
                 ValidateLicense(); 
             }
-            EdtSettings.ProjectNameUpdated += OnProjectNameUpdated;
+            EdtProjectSettings.ProjectNameUpdated += OnProjectNameUpdated;
 
             _listManager = startupService.ListManager;
             ScenarioManager.ListManager = _listManager;
@@ -175,11 +176,11 @@ namespace WpfUI.ViewModels
         public string ProjectName { get; set; }
         public void UpdateProjectName()
         {
-            if (string.IsNullOrWhiteSpace(EdtSettings.ProjectName)) {
+            if (string.IsNullOrWhiteSpace(EdtProjectSettings.ProjectName)) {
                 ProjectName = "Electrical Design Tools";
             }
             else {
-                ProjectName = EdtSettings.ProjectName;
+                ProjectName = EdtProjectSettings.ProjectName;
             }
         }
         public  void OnProjectNameUpdated(object source, EventArgs e)
@@ -223,10 +224,10 @@ namespace WpfUI.ViewModels
             NotificationPopup.Close();
         }
 
-        public NotificationPopup NotificationPopup { get; set; }
+        public PopupNotifcationWindow NotificationPopup { get; set; }
         private void ExcelTest()
         {
-            NotificationPopup = new NotificationPopup();
+            NotificationPopup = new PopupNotifcationWindow();
             NotificationPopup.DataContext = new PopupNotificationModel("Exporting to Excel");
             NotificationPopup.Show();
             StartCloseTimer();

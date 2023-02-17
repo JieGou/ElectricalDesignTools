@@ -5,6 +5,7 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -25,7 +26,7 @@ namespace WpfUI.ViewModels.Menus;
 
 public class SettingsMenuViewModel : ViewModelBase
 {
-    public SettingsMenuViewModel(MainViewModel mainViewModel, EdtSettings edtSettings, TypeManager typeManager, ListManager listManager = null)
+    public SettingsMenuViewModel(MainViewModel mainViewModel, EdtProjectSettings edtSettings, TypeManager typeManager, ListManager listManager = null)
     {
         _mainViewModel = mainViewModel;
         _edtSettings = edtSettings;
@@ -118,8 +119,8 @@ public class SettingsMenuViewModel : ViewModelBase
     public SettingModel SelectedStringSetting { get; set; }
 
     private readonly MainViewModel _mainViewModel;
-    private EdtSettings _edtSettings;
-    public EdtSettings EdtSettings
+    private EdtProjectSettings _edtSettings;
+    public EdtProjectSettings EdtProjectSettings
     {
         get { return _edtSettings; }
         set { _edtSettings = value; }
@@ -284,7 +285,7 @@ public class SettingsMenuViewModel : ViewModelBase
         set
         {
             _selectedCableType = value;
-            var cableSizes = EdtSettings.CableSizesUsedInProject.Where(ct => ct.Type == _selectedCableType.Type).ToList();
+            var cableSizes = EdtProjectSettings.CableSizesUsedInProject.Where(ct => ct.Type == _selectedCableType.Type).ToList();
             SelectedCableSizes = new ObservableCollection<CableSizeModel>(cableSizes);
         }
     }
@@ -315,7 +316,7 @@ public class SettingsMenuViewModel : ViewModelBase
                 AddError(nameof(CableSpacingMaxAmps_3C1kV), "Invalid Value");
             }
             else {
-                //EdtSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
+                //EdtProjectSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
                 //SettingsManager.SaveStringSettingToDb(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
                 SaveVmSetting(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
             }
@@ -399,7 +400,7 @@ public class SettingsMenuViewModel : ViewModelBase
                 AddError(nameof(DteqMaxPercentLoaded), "Invalid Value");
             }
             else {
-                //EdtSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
+                //EdtProjectSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
                 //SettingsManager.SaveStringSettingToDb(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
                 SaveVmSetting(nameof(DteqMaxPercentLoaded), _dteqMaxPercentLoaded);
             }
@@ -431,7 +432,7 @@ public class SettingsMenuViewModel : ViewModelBase
                 AddError(nameof(DefaultXfrImpedance), "Invalid Value");
             }
             else {
-                //EdtSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
+                //EdtProjectSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
                 //SettingsManager.SaveStringSettingToDb(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
                 SaveVmSetting(nameof(DefaultXfrImpedance), _defaultXfrImpedance);
             }
@@ -517,7 +518,7 @@ public class SettingsMenuViewModel : ViewModelBase
     //New Settings
     public void LoadVmSettings() // old way when SettingsMenuViewModel was just SettingsViewModel
     {
-        Type projectSettingsClass = typeof(EdtSettings);
+        Type projectSettingsClass = typeof(EdtProjectSettings);
         Type viewModelSettings = typeof(SettingsMenuViewModel);
 
         foreach (var classProperty in projectSettingsClass.GetProperties()) {
@@ -540,7 +541,7 @@ public class SettingsMenuViewModel : ViewModelBase
     }
     public void SaveVmSetting(string settingName, string settingValue)
     {
-        Type projectSettingsClass = typeof(EdtSettings);
+        Type projectSettingsClass = typeof(EdtProjectSettings);
 
         foreach (var classProperty in projectSettingsClass.GetProperties()) {
             if (classProperty.Name == settingName) {
@@ -553,7 +554,7 @@ public class SettingsMenuViewModel : ViewModelBase
 
     public void SaveVmSetting(string settingName, SettingModel settingModel)
     {
-        Type projectSettingsClass = typeof(EdtSettings);
+        Type projectSettingsClass = typeof(EdtProjectSettings);
 
         foreach (var classProperty in projectSettingsClass.GetProperties()) {
             if (classProperty.Name == settingName) {

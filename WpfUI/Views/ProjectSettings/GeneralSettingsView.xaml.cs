@@ -1,4 +1,5 @@
 ﻿using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,10 +66,10 @@ public partial class GeneralSettingsView : UserControl
 
     private void btnSaveSettings_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
-        foreach (var prop in typeof(EdtSettings).GetProperties()) {
+        foreach (var prop in typeof(EdtProjectSettings).GetProperties()) {
             foreach (var setting in SettingsManager.SettingList) {
                 if (prop.Name==setting.Name) {
-                    setting.Value = prop.GetValue(settingsVm.EdtSettings).ToString();
+                    setting.Value = prop.GetValue(settingsVm.EdtProjectSettings).ToString();
                 }
             }
         }

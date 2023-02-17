@@ -4,6 +4,7 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using PropertyChanged;
 using System;
 using System.IO;
@@ -23,8 +24,8 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
 
     #region Properties and Backing Fields
 
-    private EdtSettings _edtSettings;
-    public EdtSettings EdtSettings
+    private EdtProjectSettings _edtSettings;
+    public EdtProjectSettings EdtProjectSettings
     {
         get { return _edtSettings; }
         set { _edtSettings = value; }
@@ -40,7 +41,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
   
     #endregion
 
-    public GeneralSettingsViewModel(EdtSettings edtSettings, TypeManager typeManager, ListManager listManager = null)
+    public GeneralSettingsViewModel(EdtProjectSettings edtSettings, TypeManager typeManager, ListManager listManager = null)
     {
         _edtSettings = edtSettings;
         _typeManager = typeManager;
@@ -301,7 +302,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         }
 
         try {
-            SingleLineDrawer slDrawer = new SingleLineDrawer(Acad, EdtSettings.AcadBlockFolder);
+            SingleLineDrawer slDrawer = new SingleLineDrawer(Acad, EdtProjectSettings.AcadBlockFolder);
 
             MccModel mcc = _listManager.MccList.FirstOrDefault(m => m.Tag.Contains("MCC"));
 

@@ -5,6 +5,7 @@ using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Services;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -146,7 +147,7 @@ public class AutocadService
             EdtNotificationService.SendPopupNotification(this, $"Creating drawing for {dteq.Tag}");
 
             await Task.Run(() => {
-                SingleLineDrawer slDrawer = new SingleLineDrawer(_acadHelper, EdtSettings.AcadBlockFolder);
+                SingleLineDrawer slDrawer = new SingleLineDrawer(_acadHelper, EdtProjectSettings.AcadBlockFolder);
                 slDrawer.DrawMccSingleLine(dteq, 1.5);
                 _acadHelper.AcadApp.ZoomExtents();
             });
@@ -223,7 +224,7 @@ public class AutocadService
             EdtNotificationService.SendPopupNotification(this, $"Creating drawing for {dteq.Tag}");
 
             await Task.Run(() => {
-                PanelScheduleDrawer panelScheduleDrawer = new PanelScheduleDrawer(_acadHelper, EdtSettings.AcadBlockFolder);
+                PanelScheduleDrawer panelScheduleDrawer = new PanelScheduleDrawer(_acadHelper, EdtProjectSettings.AcadBlockFolder);
                 panelScheduleDrawer.DrawPanelSchedule(dteq, 1.5);
                 _acadHelper.AcadApp.ZoomExtents();
             });

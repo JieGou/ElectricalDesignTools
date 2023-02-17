@@ -4,6 +4,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
@@ -75,19 +76,19 @@ public class CableManager
     {
         double length = 3;
         if (category == Categories.DTEQ.ToString()) {
-            length = double.Parse(EdtSettings.CableLengthDteq);
+            length = double.Parse(EdtProjectSettings.CableLengthDteq);
         }
         else if (category == Categories.LOAD.ToString()) {
-            length = double.Parse(EdtSettings.CableLengthLoad);
+            length = double.Parse(EdtProjectSettings.CableLengthLoad);
         }
         else if (category == CctComponentSubTypes.DefaultStarter.ToString()) {
-            length = double.Parse(EdtSettings.CableLengthDrive);
+            length = double.Parse(EdtProjectSettings.CableLengthDrive);
         }
         else if (category == CctComponentSubTypes.DefaultDcn.ToString()) {
-            length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
+            length = double.Parse(EdtProjectSettings.CableLengthLocalDisconnect);
         }
         else if (category == Categories.LCS.ToString()) {
-            length = double.Parse(EdtSettings.CableLengthLocalControlStation);
+            length = double.Parse(EdtProjectSettings.CableLengthLocalControlStation);
         }
 
         return length;
@@ -158,7 +159,7 @@ public class CableManager
 
                     //Length
                     if (component.SubType == CctComponentSubTypes.DefaultStarter.ToString()) {
-                        cable.Length = double.Parse(EdtSettings.CableLengthDrive);
+                        cable.Length = double.Parse(EdtProjectSettings.CableLengthDrive);
                     }
                     else if (component.SubType == CctComponentSubTypes.DefaultDcn.ToString()) {
                         //TODO - Rename CableLenght variabls (LocalDcnToLoad)
@@ -283,7 +284,7 @@ public class CableManager
         else if (previousComponent != null) {
 
             if (previousComponent.SubType == CctComponentSubTypes.DefaultDcn.ToString()) {
-                load.PowerCable.Length = double.Parse(EdtSettings.CableLengthLocalDisconnect);
+                load.PowerCable.Length = double.Parse(EdtProjectSettings.CableLengthLocalDisconnect);
             }
 
             else { //the length of the cable
@@ -340,11 +341,11 @@ public class CableManager
         cable.OwnerType = typeof(LocalControlStationModel).ToString();
         cable.UsageType = CableUsageTypes.Control.ToString();
 
-        cable.Size = EdtSettings.LcsControlCableSize;
-        cable.Length = double.Parse(EdtSettings.CableLengthLocalControlStation);
+        cable.Size = EdtProjectSettings.LcsControlCableSize;
+        cable.Length = double.Parse(EdtProjectSettings.CableLengthLocalControlStation);
 
         cable.ConductorQty = lcs.TypeModel.DigitalConductorQty;
-        var voltageClass = TypeManager.ControlCableTypes.FirstOrDefault(c => c.Type == EdtSettings.LcsControlCableType).VoltageRating;
+        var voltageClass = TypeManager.ControlCableTypes.FirstOrDefault(c => c.Type == EdtProjectSettings.LcsControlCableType).VoltageRating;
         IsUpdatingCables = true;
         cable.TypeModel = TypeManager.GetLcsControlCableTypeModel(lcs);
         IsUpdatingCables = false;
@@ -392,11 +393,11 @@ public class CableManager
         cable.OwnerType = typeof(LocalControlStationModel).ToString();
         cable.UsageType = CableUsageTypes.Instrument.ToString();
 
-        cable.Size = EdtSettings.LcsControlCableSize;
-        cable.Length = double.Parse(EdtSettings.CableLengthLocalControlStation);
+        cable.Size = EdtProjectSettings.LcsControlCableSize;
+        cable.Length = double.Parse(EdtProjectSettings.CableLengthLocalControlStation);
 
         cable.ConductorQty = lcs.TypeModel.AnalogConductorQty;
-        var voltageClass = TypeManager.CableTypes.FirstOrDefault(c => c.Type == EdtSettings.LcsControlCableType).VoltageRating;
+        var voltageClass = TypeManager.CableTypes.FirstOrDefault(c => c.Type == EdtProjectSettings.LcsControlCableType).VoltageRating;
 
         IsUpdatingCables = true;
         cable.TypeModel = TypeManager.GetLcsAnalogCableTypeModel(lcs);
@@ -444,11 +445,11 @@ public class CableManager
         cable.OwnerType = typeof(LocalControlStationModel).ToString();
         cable.UsageType = CableUsageTypes.Instrument.ToString();
 
-        cable.Size = EdtSettings.LcsControlCableSize;
-        cable.Length = double.Parse(EdtSettings.CableLengthLocalControlStation);
+        cable.Size = EdtProjectSettings.LcsControlCableSize;
+        cable.Length = double.Parse(EdtProjectSettings.CableLengthLocalControlStation);
 
         cable.ConductorQty = lcs.TypeModel.AnalogConductorQty;
-        var voltageClass = TypeManager.CableTypes.FirstOrDefault(c => c.Type == EdtSettings.LcsControlCableType).VoltageRating;
+        var voltageClass = TypeManager.CableTypes.FirstOrDefault(c => c.Type == EdtProjectSettings.LcsControlCableType).VoltageRating;
 
         IsUpdatingCables = true;
         cable.TypeModel = TypeManager.GetLcsAnalogCableTypeModel(lcs);

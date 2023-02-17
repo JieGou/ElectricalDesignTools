@@ -6,6 +6,7 @@ using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -91,7 +92,7 @@ internal class SingleLineViewModel: EdtViewModelBase
     {
         get
         {
-            if (EdtSettings.AreaColumnVisible == "True") {
+            if (EdtProjectSettings.AreaColumnVisible == "True") {
                 return true;
             }
             return false;
@@ -291,7 +292,7 @@ internal class SingleLineViewModel: EdtViewModelBase
 
     public ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
 
-    public static NotificationPopup NotificationPopup { get; set; }
+    public static PopupNotifcationWindow NotificationPopup { get; set; }
 
 
     public ICommand DeleteLoadCommand { get; }

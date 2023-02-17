@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,8 @@ public class EfficiencyAndPowerFactorSelector
         //PowerFactor and Efficiency
         if (load.Type == LoadTypes.HEATER.ToString()) {
             load.Unit = Units.kW.ToString();
-            load.Efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Heater);
-            load.PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Heater);
+            load.Efficiency = double.Parse(EdtProjectSettings.LoadDefaultEfficiency_Heater);
+            load.PowerFactor = double.Parse(EdtProjectSettings.LoadDefaultPowerFactor_Heater);
         }
 
         else if (load.Type == LoadTypes.MOTOR.ToString()) {
@@ -24,20 +25,20 @@ public class EfficiencyAndPowerFactorSelector
             load.PowerFactor = DataTableSearcher.GetMotorPowerFactor(load);
         }
         else if (load.Type == LoadTypes.HEATER.ToString()) {
-            load.Efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Heater);
-            load.PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Heater);
+            load.Efficiency = double.Parse(EdtProjectSettings.LoadDefaultEfficiency_Heater);
+            load.PowerFactor = double.Parse(EdtProjectSettings.LoadDefaultPowerFactor_Heater);
         }
         else if (load.Type == LoadTypes.PANEL.ToString()) {
-            load.Efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Panel);
-            load.PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Panel);
+            load.Efficiency = double.Parse(EdtProjectSettings.LoadDefaultEfficiency_Panel);
+            load.PowerFactor = double.Parse(EdtProjectSettings.LoadDefaultPowerFactor_Panel);
         }
         else if (load.Type == LoadTypes.OTHER.ToString()) {
-            load.Efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Other);
-            load.PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Other);
+            load.Efficiency = double.Parse(EdtProjectSettings.LoadDefaultEfficiency_Other);
+            load.PowerFactor = double.Parse(EdtProjectSettings.LoadDefaultPowerFactor_Other);
         }
         else {
-            load.Efficiency = double.Parse(EdtSettings.LoadDefaultEfficiency_Other);
-            load.PowerFactor = double.Parse(EdtSettings.LoadDefaultPowerFactor_Other);
+            load.Efficiency = double.Parse(EdtProjectSettings.LoadDefaultEfficiency_Other);
+            load.PowerFactor = double.Parse(EdtProjectSettings.LoadDefaultPowerFactor_Other);
         }
 
         if (load.Efficiency > 1)

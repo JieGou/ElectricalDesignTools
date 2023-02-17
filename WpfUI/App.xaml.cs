@@ -2,6 +2,7 @@
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -59,7 +60,7 @@ namespace WpfUI
             ListManager listManager = new ListManager();
             _startupService = new StartupService(listManager, PreviousProjects);
             TypeManager typeManager = new TypeManager();
-            EdtSettings edtSettings = new EdtSettings();
+            EdtProjectSettings edtSettings = new EdtProjectSettings();
 
 
             DeserializeRecentProjects();

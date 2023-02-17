@@ -12,6 +12,7 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Services;
+using EDTLibrary.Settings;
 using EDTLibrary.UndoSystem;
 using EDTLibrary.Validators.Cable;
 using PropertyChanged;
@@ -528,7 +529,7 @@ public class CableModel : ICable
 
         }
     }
-    private string _installationType = EdtSettings.CableInstallationType;
+    private string _installationType = EdtProjectSettings.CableInstallationType;
 
     public string AmpacityTable { get; set; }
     public string InstallationDiagram { get; set; }
@@ -631,10 +632,10 @@ public class CableModel : ICable
     public void CreateSizeList()
     {
         SizeList.Clear();
-        if (EdtSettings.CableSizesUsedInProject == null) {
+        if (EdtProjectSettings.CableSizesUsedInProject == null) {
             return;
         }
-        foreach (var cable in EdtSettings.CableSizesUsedInProject) {
+        foreach (var cable in EdtProjectSettings.CableSizesUsedInProject) {
             if (cable.Type == this.Type && cable.UsedInProject == true) {
                 SizeList.Add(cable.Size);
             }
@@ -667,7 +668,7 @@ public class CableModel : ICable
         var cableTypeList = new ObservableCollection<CableSizeModel>();
 
         if (UsageType == CableUsageTypes.Power.ToString()) {
-            cableTypeList = EdtSettings.CableSizesUsedInProject;
+            cableTypeList = EdtProjectSettings.CableSizesUsedInProject;
             VoltageRating = TypeManager.PowerCableTypes.FirstOrDefault(ct => ct.Id == TypeId).VoltageRating;
             ConductorQty = TypeManager.PowerCableTypes.FirstOrDefault(ct => ct.Id == TypeId).ConductorQty;
             // AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
@@ -911,11 +912,11 @@ public class CableModel : ICable
 
     private void SelectValidCables_LadderTray(string ampsColumn, DataTable cableAmpacityTable, DataTable cablesWithHigherAmpsInProject)
     {
-        var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
+        var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtProjectSettings.Code
                                                                                 && x.Field<double>(ampsColumn) >= RequiredSizingAmps
                                                                                 && x.Field<string>("AmpacityTable") == AmpacityTable); // ex: Table2 (from CEC)
                                                                                                                                        // remove cable if size is not in project
-        foreach (var cableSizeInProject in EdtSettings.CableSizesUsedInProject) {
+        foreach (var cableSizeInProject in EdtProjectSettings.CableSizesUsedInProject) {
             string cableDetails = cableSizeInProject.Type.ToString() + ", " + cableSizeInProject.Size.ToString();
             //Debug.WriteLine(cableDetails);
 
@@ -991,19 +992,19 @@ public class CableModel : ICable
 
     private void SelectValidCables_DirectBuried_RaceWayConduit(string ampsColumn, DataTable cableAmpacityTable, DataTable cablesWithHigherAmpsInProject, int qtyParallel)
     {
-        var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
+        var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtProjectSettings.Code
                                                                                 && x.Field<double>(ampsColumn) >= RequiredSizingAmps
                                                                                 && x.Field<string>("AmpacityTable") == AmpacityTable
                                                                                 );
 
         if (AmpacityTable == "Table 1" || AmpacityTable == "Table 2") {
-            cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
+            cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtProjectSettings.Code
                                                                                 && x.Field<double>(ampsColumn) >= RequiredSizingAmps
                                                                                 && x.Field<string>("AmpacityTable") == AmpacityTable
                                                                                 );
         }
         else {
-            cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
+            cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtProjectSettings.Code
                                                                                 && x.Field<double>(ampsColumn) >= RequiredSizingAmps
                                                                                 && x.Field<string>("AmpacityTable") == AmpacityTable
                                                                                 && x.Field<long>("QtyParallel").ToString() == qtyParallel.ToString()
@@ -1013,7 +1014,7 @@ public class CableModel : ICable
 
 
         // remove cable if size is not in project
-        foreach (var cableSizeInProject in EdtSettings.CableSizesUsedInProject) {
+        foreach (var cableSizeInProject in EdtProjectSettings.CableSizesUsedInProject) {
             foreach (var cableWithHigherAmps in cablesWithHigherAmps) {
 
                 if (cableSizeInProject.Size == cableWithHigherAmps.Field<string>("Size") &&
@@ -1067,7 +1068,7 @@ public class CableModel : ICable
         DataTable cableAmps = DataTables.CecCableAmpacities.Copy(); //the created cable ampacity table
 
         //filter cables larger than RequiredAmps          
-        var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
+        var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtProjectSettings.Code
                                                       && x.Field<string>("AmpacityTable") == cable.AmpacityTable
                                                       && x.Field<string>("Size") == cable.Size);
         cableAmps = null;
@@ -1102,7 +1103,7 @@ public class CableModel : ICable
             return;
         }
         //filter cables larger than RequiredAmps          
-        var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtSettings.Code
+        var cables = cableAmps.AsEnumerable().Where(x => x.Field<string>("Code") == EdtProjectSettings.Code
                                                       && x.Field<string>("AmpacityTable") == cable.AmpacityTable
                                                       && x.Field<string>("Size") == cable.Size
                                                       && x.Field<long>("QtyParallel").ToString() == cable.QtyParallel.ToString());

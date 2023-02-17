@@ -3,6 +3,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.DPanels;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using System;
 using System.Linq;
 
@@ -23,12 +24,12 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (dteqToAddValidator.Type == DteqTypes.XFR.ToString()) {
                 var model = new XfrModel();
                 //XFR properties
-                model.Impedance = Double.Parse(EdtSettings.XfrImpedance);
-                model.SubType = EdtSettings.XfrSubType;
+                model.Impedance = Double.Parse(EdtProjectSettings.XfrImpedance);
+                model.SubType = EdtProjectSettings.XfrSubType;
                 model.PrimaryWiringType = TypeManager.TransformerWiringTypes.FirstOrDefault(tw => tw.WiringType == "Delta");
-                model.PrimaryGrounding = EdtSettings.XfrGrounding_Primary;
+                model.PrimaryGrounding = EdtProjectSettings.XfrGrounding_Primary;
                 model.SecondaryWiringType = TypeManager.TransformerWiringTypes.FirstOrDefault(tw => tw.WiringType == "Wye");
-                model.SecondaryGrounding = EdtSettings.XfrGrounding_Secondary;
+                model.SecondaryGrounding = EdtProjectSettings.XfrGrounding_Secondary;
 
                 if (dteqToAddValidator.LoadVoltageType.Voltage <=300) {
                     model.SecondaryGrounding = "Solidly";

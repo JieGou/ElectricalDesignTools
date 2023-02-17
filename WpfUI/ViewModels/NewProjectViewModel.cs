@@ -164,7 +164,7 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
                 _startupService.InitializeLibrary();
                 _homeViewModel.StartupService.SetSelectedProject(fullFileName);
                 _startupService.InitializeProject(fullFileName);
-                var settingVm = new SettingsMenuViewModel(_mainViewModel, new EDTLibrary.ProjectSettings.EdtSettings(), _typeManager);
+                var settingVm = new SettingsMenuViewModel(_mainViewModel, new EDTLibrary.Settings.EdtProjectSettings(), _typeManager);
                 settingVm.ProjectName = ProjectName;
               
 
@@ -174,7 +174,7 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
                 DaManager.prjDb.InsertRecord(GlobalConfig.DefaultAreaModel, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
 
                 _startupService.InitializeProject(fullFileName);
-                settingVm = new SettingsMenuViewModel(_mainViewModel, new EDTLibrary.ProjectSettings.EdtSettings(), _typeManager);
+                settingVm = new SettingsMenuViewModel(_mainViewModel, new EDTLibrary.Settings.EdtProjectSettings(), _typeManager);
                 settingVm.ProjectName = ProjectName;
                 _homeViewModel.NewProjectWindow.Close();
             }

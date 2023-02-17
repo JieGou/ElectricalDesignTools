@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using PropertyChanged;
 using System;
 
@@ -14,8 +15,8 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
     #region Properties and Backing Fields
 
 
-    private EdtSettings _edtSettings;
-    public EdtSettings EdtSettings
+    private EdtProjectSettings _edtSettings;
+    public EdtProjectSettings EdtProjectSettings
     {
         get { return _edtSettings; }
         set { _edtSettings = value; }
@@ -29,7 +30,7 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
 
     #endregion
 
-    public EquipmentSettingsViewModel(EdtSettings edtSettings, TypeManager typeManager)
+    public EquipmentSettingsViewModel(EdtProjectSettings edtSettings, TypeManager typeManager)
     {
         _edtSettings = edtSettings;
         _typeManager = typeManager;
@@ -73,7 +74,7 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
                 AddError(nameof(DteqMaxPercentLoaded), "Invalid Value");
             }
             else {
-                //EdtSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
+                //EdtProjectSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
                 //SettingsManager.SaveStringSettingToDb(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
                 SaveVmSetting(nameof(DteqMaxPercentLoaded), _dteqMaxPercentLoaded);
             }
@@ -105,7 +106,7 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
                 AddError(nameof(XfrImpedance), "Invalid Value");
             }
             else {
-                //EdtSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
+                //EdtProjectSettings.CableSpacingMaxAmps_3C1kV = _cableSpacingMaxAmps_3C1kV;
                 //SettingsManager.SaveStringSettingToDb(nameof(CableSpacingMaxAmps_3C1kV), _cableSpacingMaxAmps_3C1kV);
                 SaveVmSetting(nameof(XfrImpedance), _xfrImpedance);
             }

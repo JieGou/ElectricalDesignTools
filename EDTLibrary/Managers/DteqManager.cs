@@ -7,6 +7,7 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Services;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,7 +55,7 @@ public class DteqManager
             newDteq.FedFrom.SetLoadProtectionDevice(newDteq);
 
             //Save to Db when calculating inside DteqModel
-            newDteq.LoadCableDerating = double.Parse(EdtSettings.DteqLoadCableDerating);
+            newDteq.LoadCableDerating = double.Parse(EdtProjectSettings.DteqLoadCableDerating);
             newDteq.CalculateLoading(); //after dteq is inserted to get a new Id
             DaManager.UpsertDteq(newDteq);
             listManager.AddDteq(newDteq);

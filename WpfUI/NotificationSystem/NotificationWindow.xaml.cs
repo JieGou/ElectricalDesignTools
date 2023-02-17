@@ -23,5 +23,10 @@ namespace WpfUI.NoificationSystem
         {
             InitializeComponent();
         }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -38,6 +38,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Settings\EdtAppSettings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>EdtAppSettings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
@@ -50,5 +55,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\Cables\Validators\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Settings\EdtAppSettings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>EdtAppSettings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>

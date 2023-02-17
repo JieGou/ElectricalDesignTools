@@ -191,29 +191,5 @@ namespace WpfUI {
                 this["LicenseFileCreated"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool AutoSize_ProtectionDevice {
-            get {
-                return ((bool)(this["AutoSize_ProtectionDevice"]));
-            }
-            set {
-                this["AutoSize_ProtectionDevice"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool AutoSize_PowerCable {
-            get {
-                return ((bool)(this["AutoSize_PowerCable"]));
-            }
-            set {
-                this["AutoSize_PowerCable"] = value;
-            }
-        }
     }
 }

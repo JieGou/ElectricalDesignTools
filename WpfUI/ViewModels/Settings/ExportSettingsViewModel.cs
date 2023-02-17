@@ -3,6 +3,7 @@ using EDTLibrary.LibraryData;
 using EDTLibrary.Mappers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -25,8 +26,8 @@ public class ExportSettingsViewModel : SettingsViewModelBase
 
     #region Properties and Backing Fields
 
-    private EdtSettings _edtSettings;
-    public EdtSettings EdtSettings
+    private EdtProjectSettings _edtSettings;
+    public EdtProjectSettings EdtProjectSettings
     {
         get { return _edtSettings; }
         set { _edtSettings = value; }
@@ -40,7 +41,7 @@ public class ExportSettingsViewModel : SettingsViewModelBase
   
     #endregion
 
-    public ExportSettingsViewModel(EdtSettings edtSettings, TypeManager typeManager)
+    public ExportSettingsViewModel(EdtProjectSettings edtSettings, TypeManager typeManager)
     {
         _edtSettings = edtSettings;
         _typeManager = typeManager;
@@ -62,7 +63,7 @@ public class ExportSettingsViewModel : SettingsViewModelBase
         set
         {
             _selectedReportType = value;
-            var selectedMappings = EdtSettings.ExportMappings.Where(em => em.Type == _selectedReportType).ToList();
+            var selectedMappings = EdtProjectSettings.ExportMappings.Where(em => em.Type == _selectedReportType).ToList();
             SelectedExportMappings = new ObservableCollection<ExportMappingModel>(selectedMappings);
         }
     }
