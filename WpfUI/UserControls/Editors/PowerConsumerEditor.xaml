@@ -17,7 +17,15 @@
              d:DesignHeight="750" d:DesignWidth="300"
              d:Background="AliceBlue"
              UseLayoutRounding="False">
+    <UserControl.Resources>
 
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../Stores/ToolTips.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <controls:EdtGroupBox Grid.Row="0"
                           x:Name="PowerConsumerGroupBox"
                           Header="Load / Distribution Equipment"
@@ -324,7 +332,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     
-                    <!--Power and Demand-->
+                    <!--Power and Loading-->
                     <Grid 
                       ShowGridLines="False"
                       Visibility="Visible">
@@ -348,7 +356,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Text="Demand and Short Circuit Current"
+                        <TextBlock Text="Power and Short Circuit Current"
                            Grid.ColumnSpan="5"
                            FontWeight="SemiBold"
                            Margin="0 0 0 5"
@@ -391,6 +399,26 @@
                                  d:Visibility="Visible"
                                  />
 
+                        <Button Grid.Row="3" Grid.RowSpan="2"
+                                Grid.Column="0"
+                                Margin="10 0"
+                                Command="{Binding ResetDefaultEfficiencyAndPowerFactorCommand}"
+                                Width="25"
+                                HorizontalContentAlignment="Center"
+                                ToolTip="{StaticResource PowerFactorDefaults}"
+                                ToolTipService.InitialShowDelay="50">
+                            <Button.Content>
+                                <Image Source="..\..\ResourceFiles\File Icons\Reload White_64.ico"
+                                   UseLayoutRounding="True"
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                   Height="17"
+                                   Width="27"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                           />
+                            </Button.Content>
+                        </Button>
+
                         <!--Vertical Line-->
                         <Canvas Grid.Row="2" Grid.RowSpan="2" 
                             Grid.Column="2"
@@ -403,7 +431,7 @@
                         </Canvas>
 
 
-                        <!--Demand-->
+                        <!--Loading-->
                         <TextBlock Text="Demand"
                                Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"
                                Margin="0"

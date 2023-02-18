@@ -183,13 +183,15 @@ namespace EDTLibrary.Models.Loads
                 saveController.Lock(nameof(Type));
                 UndoManager.Lock(this, nameof(Type));
 
+                {
                     allowCalculations = false;
                     LoadUnitSelector.SelectUnit(this);
                     ProtectionDeviceManager.SetProtectionDeviceType(this);
                     allowCalculations = true;
 
                     CalculateLoading();
-
+                    PowerCable.AutoSizeAll_IfEnabled();
+                }
                 UndoManager.AddUndoCommand(this, nameof(Type),oldValue,_type);
                 saveController.UnLock(nameof(Type));
                 OnPropertyUpdated();
@@ -223,13 +225,15 @@ namespace EDTLibrary.Models.Loads
                 double oldValue = _size;
                 _size = value;
 
+                if (DaManager.Importing) return;
                 if (DaManager.GettingRecords) return;
                 saveController.Lock(nameof(Size));
                 UndoManager.Lock(this, nameof(Size));
 
-                    if (DaManager.Importing == false) {
-                        CalculateLoading();
-                    }
+                {
+                    CalculateLoading();
+                    PowerCable.AutoSizeAll_IfEnabled();
+                }
 
                 UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
                 saveController.UnLock(nameof(Size));
@@ -256,6 +260,7 @@ namespace EDTLibrary.Models.Loads
                     UndoManager.Lock(this, nameof(Unit));
 
                         CalculateLoading();
+                        PowerCable.AutoSizeAll_IfEnabled();
 
                     UndoManager.AddUndoCommand(this, nameof(Unit), oldValue, _unit);
                     saveController.UnLock(nameof(Unit));
@@ -416,22 +421,27 @@ namespace EDTLibrary.Models.Loads
                 if (value == null) return;
                 var oldValue = _voltageType;
                 _voltageType = value;
-
+               
                 if (Type == LoadTypes.MOTOR.ToString()) {
                     _voltageType = _voltageType.Voltage == 600 ? TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==575) : _voltageType;
                     _voltageType = _voltageType.Voltage == 480 ? TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==460) : _voltageType;
 
                 }
-
+                if (DaManager.Importing) return;
+                if (DaManager.GettingRecords) return;
+                saveController.Lock(nameof(VoltageType));
                 UndoManager.Lock(this, nameof(VoltageType));
-                VoltageTypeId = _voltageType.Id;
-                Voltage = _voltageType.Voltage;
+
+                {
+                    VoltageTypeId = _voltageType.Id;
+                    Voltage = _voltageType.Voltage;
+                    CalculateLoading(nameof(VoltageType));
+                    PowerCable.AutoSizeAll_IfEnabled();
+                }
 
                 UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
-
-                if (DaManager.Importing == false && DaManager.GettingRecords == false) {
-                    CalculateLoading(nameof(VoltageType));
-                }
+                saveController.UnLock(nameof(VoltageType));
+               
                 OnPropertyUpdated(nameof(VoltageType));
             }
         }
@@ -485,6 +495,8 @@ namespace EDTLibrary.Models.Loads
                     _fedFrom = newFedFrom;
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     CableManager.UpdateLcsCableTags(this);
+                    PowerCable.AutoSizeAll_IfEnabled();
+
                     UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
                 }
 
@@ -507,7 +519,10 @@ namespace EDTLibrary.Models.Loads
                 saveController.Lock(nameof(DemandFactor));
                 UndoManager.Lock(this, nameof(DemandFactor));
 
+                {
                     CalculateLoading();
+                    PowerCable.AutoSizeAll_IfEnabled();
+                }
 
                 UndoManager.AddUndoCommand(this, nameof(DemandFactor), oldValue, _demandFactor);
                 saveController.UnLock(nameof(DemandFactor));
@@ -532,6 +547,8 @@ namespace EDTLibrary.Models.Loads
                 {
                     if (IsCalculating == false) {
                         CalculateLoading();
+                        PowerCable.AutoSizeAll_IfEnabled();
+
                     }
                 }
 
@@ -556,6 +573,7 @@ namespace EDTLibrary.Models.Loads
             {
                 var oldValue = _powerFactor;
                 _powerFactor = (value <= 1 && value >= 0) ? value / 100 : oldValue;
+                if (DaManager.GettingRecords) return;
 
                 saveController.Lock(nameof(PowerFactor));
                 UndoManager.Lock(this, nameof(PowerFactor));
@@ -563,6 +581,8 @@ namespace EDTLibrary.Models.Loads
                 {
                     if (IsCalculating == false) {
                         CalculateLoading();
+                        PowerCable.AutoSizeAll_IfEnabled();
+
                     }
                 }
 
@@ -979,7 +999,7 @@ namespace EDTLibrary.Models.Loads
             CreatePowerCable();
             PowerCable.SetSizingParameters(this);
             PowerCable.CreateTypeList(this);
-            PowerCable.AutoSizeAll();
+            PowerCable.AutoSizeAll_IfEnabled();
         }
         public void CalculateCableAmps()
         {

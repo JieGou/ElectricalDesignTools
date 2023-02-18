@@ -549,7 +549,7 @@ namespace EDTLibrary.Managers
                     foreach (var load in LoadList) {
 
                         load.CalculateLoading();
-                        load.PowerCable.AutoSizeAll();
+                        load.PowerCable.AutoSizeAll_IfEnabled();
                         load.PowerCable.CalculateAmpacity(load);
 
                     }
@@ -561,7 +561,7 @@ namespace EDTLibrary.Managers
                 foreach (var dteq in IDteqList) {
 
                     dteq.CalculateLoading();
-                    dteq.PowerCable.AutoSizeAll();
+                    dteq.PowerCable.AutoSizeAll_IfEnabled();
                     dteq.PowerCable.CalculateAmpacity(dteq);
 
 

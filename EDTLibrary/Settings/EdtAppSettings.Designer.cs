@@ -46,5 +46,17 @@ namespace EDTLibrary.Settings {
                 this["AutoSize_PowerCable"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool VoltageChangeNotification {
+            get {
+                return ((bool)(this["VoltageChangeNotification"]));
+            }
+            set {
+                this["VoltageChangeNotification"] = value;
+            }
+        }
     }
 }

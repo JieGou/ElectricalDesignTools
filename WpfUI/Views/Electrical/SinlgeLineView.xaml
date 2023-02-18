@@ -196,81 +196,92 @@
                 
                 
                 <!--Tree View-->
-                <syncfusion:SfTreeView x:Name="sfTreeView" 
-                                   Grid.Row="0"
-                                   Grid.Column="0" 
-                                   HorizontalAlignment="Stretch"
-                                   VerticalAlignment="stretch"
-                                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                                   ChildPropertyName="AssignedLoads"
-                                   ItemsSource="{Binding DteqCollectionView}"
-                                   SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                   Background="White"
-                                   BorderBrush="Black"
-                                   BorderThickness="1"
-                                   ShowLines="True"
-                                   FullRowSelect="True"
-                                   Visibility="Visible"
-                                   Indentation="10"
-                                   AutoExpandMode="AllNodes"
+                
+                <controls:ClippingBorder BorderBrush="{StaticResource ControlBorder}" BorderThickness="1"
+                    Grid.Row="0"
+                    Grid.Column="0" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="stretch"
+                    CornerRadius="{StaticResource ControlCornerRadius}"
+                    >
+                    <syncfusion:SfTreeView x:Name="sfTreeView" 
+                                Grid.Row="0"
+                                Grid.Column="0" 
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="stretch"
+                                ClipToBounds="True"
+                                           
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                ChildPropertyName="AssignedLoads"
+                                ItemsSource="{Binding DteqCollectionView}"
+                                SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Background="White"
+                                BorderBrush="{StaticResource ControlBorder}"
+                                BorderThickness="0"
+                                ShowLines="True"
+                                FullRowSelect="True"
+                                Visibility="Visible"
+                                Indentation="10"
+                                AutoExpandMode="AllNodes"
                                        
-                                   AllowDrop="True"
+                                AllowDrop="True"
                                        
-                                   SelectionChanged="EqList_SelectionChanged"
-                                   PreviewMouseLeftButtonDown="sfTreeView_PreviewMouseLeftButtonDown"
-                                   PreviewDrop="sfTreeView_PreviewDrop"
-                                   >
-                    <interactivity:Interaction.Triggers>
-                        <interactivity:EventTrigger EventName="Loaded">
-                            <behaviors:DteqTreeViewDagDropBehavior TargetObject="{Binding ElementName=listViewLoads}"/>
-                        </interactivity:EventTrigger>
-                    </interactivity:Interaction.Triggers>
-                    <syncfusion:SfTreeView.Resources>
+                                SelectionChanged="EqList_SelectionChanged"
+                                PreviewMouseLeftButtonDown="sfTreeView_PreviewMouseLeftButtonDown"
+                                PreviewDrop="sfTreeView_PreviewDrop"
+                                >
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="Loaded">
+                                <behaviors:DteqTreeViewDagDropBehavior TargetObject="{Binding ElementName=listViewLoads}"/>
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:SfTreeView.Resources>
 
-                    </syncfusion:SfTreeView.Resources>
+                        </syncfusion:SfTreeView.Resources>
 
-                    <syncfusion:SfTreeView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid x:Name="grid">
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid>
-                                        <iconControls:ErrorIcon
-                                            Visibility="{Binding IsValid, 
-                                            Converter={StaticResource BoolToVisInvert}, 
-                                            ConverterParameter=Inverted}"/>
-                                        
-                                    </Grid>
-                                    <Grid Grid.Column="1">
-                                        <!--<Image Source="{Binding ImageIcon}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Left"
-                                               Height="16"
-                                               Width="16"
-                                               Visibility="Collapsed"/>-->
-                                    </Grid>
-                                    <Grid Grid.Column="2"
-                                        Margin="1,0,0,0"
-                                        VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Tag}"
-                                               Foreground="Black"
-                                               FontSize="12"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Left"
-                                               />
+                        <syncfusion:SfTreeView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid x:Name="grid">
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid>
+                                            <iconControls:ErrorIcon
+                                        Visibility="{Binding IsValid, 
+                                        Converter={StaticResource BoolToVisInvert}, 
+                                        ConverterParameter=Inverted}"/>
+
+                                        </Grid>
+                                        <Grid Grid.Column="1">
+                                            <!--<Image Source="{Binding ImageIcon}"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            Height="16"
+                                            Width="16"
+                                            Visibility="Collapsed"/>-->
+                                        </Grid>
+                                        <Grid Grid.Column="2"
+                                    Margin="1,0,0,0"
+                                    VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding Tag}"
+                                            Foreground="Black"
+                                            FontSize="12"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Left"
+                                            />
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
-                        </DataTemplate>
-                    </syncfusion:SfTreeView.ItemTemplate>
-                </syncfusion:SfTreeView>
+                            </DataTemplate>
+                        </syncfusion:SfTreeView.ItemTemplate>
+                    </syncfusion:SfTreeView>
+                </controls:ClippingBorder>
 
-               
+
 
                 <TextBlock Text="Selected Loads"
                             Grid.Row="1"
@@ -331,13 +342,13 @@
                 </Grid.RowDefinitions>
 
                 <!--Sinlge Line-->
-                <Border BorderBrush="Black" BorderThickness="1"
+                <Border BorderBrush="{StaticResource ControlBorder}" BorderThickness="1"
                         Background="White"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
                         Grid.Row="0" Grid.RowSpan="2"
                         Grid.Column="3" Grid.ColumnSpan="2"
                         DockPanel.Dock="Top"
                         VerticalAlignment="Stretch"
-                        CornerRadius="0"  
                         ClipToBounds="False">
 
                     <ScrollViewer x:Name="singleLine_ScrollViewer_H"
@@ -536,11 +547,15 @@
                 </Border>
 
                 <!--External ScrollViewer Horizontal-->
-                <Border BorderBrush="Black" BorderThickness="1 0 1 1"
+                <Border BorderBrush="{StaticResource ControlBorder}" BorderThickness="1 0 1 1"
                         Grid.Row="2" Grid.RowSpan="2"
                         Grid.Column="5"
                         VerticalAlignment="Bottom"
                         Visibility="Visible">
+                    <Border.CornerRadius>
+                        <CornerRadius BottomLeft="{StaticResource ControlCornerRadiusValue}"
+                                      BottomRight="{StaticResource ControlCornerRadiusValue}"/>
+                    </Border.CornerRadius>
 
                     <ScrollViewer x:Name="ExternalScrollViewer_Horizontal"
                                   Grid.Row="3" Grid.RowSpan="2"
@@ -548,7 +563,7 @@
                                   HorizontalScrollBarVisibility="Visible"
                                   Grid.Column="4" Grid.ColumnSpan="2"
                                   Height="18"
-                                  
+                                  BorderBrush="Red" BorderThickness="1"
                                   ScrollChanged="ExternalScrollViewer_ScrollChanged"
                                   >
 
@@ -574,7 +589,9 @@
                 </Grid.RowDefinitions>
 
                 <Border Grid.Row="1"
-                        BorderThickness="1" BorderBrush="Black" Background="{StaticResource BackgroundLight}"
+                        BorderBrush="{StaticResource ControlBorder}" BorderThickness="1"
+                        Background="{StaticResource BackgroundLight}"
+                        CornerRadius="{StaticResource ControlCornerRadius}"
                         >
                     <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                   VerticalScrollBarVisibility="Auto"

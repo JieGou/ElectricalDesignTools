@@ -283,7 +283,7 @@ public class CableModel : ICable
                 if (UsageType == CableUsageTypes.Power.ToString()) {
 
                     SetTypeProperties();
-                    AutoSize();
+                    AutoSize_IfEnabled();
                 }
             }
             CreateSizeList();
@@ -490,7 +490,7 @@ public class CableModel : ICable
             UndoManager.Lock(this,nameof(IsOutdoor));
 
             _calculatingAmpacity = true;
-            AutoSizeAll();
+            AutoSizeAll_IfEnabled();
             _calculatingAmpacity = false;
 
             UndoManager.AddUndoCommand(this, nameof(IsOutdoor), oldValue, _isOutdoor);
@@ -518,7 +518,7 @@ public class CableModel : ICable
 
                 _calculatingAmpacity = true;
                 if (UsageType == CableUsageTypes.Power.ToString()) {
-                    AutoSizeAll();
+                    AutoSizeAll_IfEnabled();
 
                     _calculatingAmpacity = false;
                 }
@@ -778,7 +778,14 @@ public class CableModel : ICable
 
 
     public ICommand AutoSizeCommand { get; }
-    public void AutoSize()
+    public void AutoSize_IfEnabled()
+    {
+        if (EdtAppSettings.Default.AutoSize_PowerCable==true) {
+            AutoSize();
+        }
+    }
+
+    private void AutoSize()
     {
         if (DaManager.GettingRecords) return;
         //if (DaManager.Importing) return;
@@ -821,7 +828,15 @@ public class CableModel : ICable
     }
 
     public ICommand AutoSizeAllCommand { get; }
-    public void AutoSizeAll()
+    public void AutoSizeAll_IfEnabled()
+    {
+        if (EdtAppSettings.Default.AutoSize_PowerCable) {
+            AutoSizeAll(); 
+        }
+
+    }
+
+    private void AutoSizeAll()
     {
         //autosize assumes all cables fed from the same Distribution Equipment are in the same raceway
         //so there is a big jump in ampacity between #1 and 1/0 when the installatio type is NOT LadderTray.
@@ -838,8 +853,8 @@ public class CableModel : ICable
         }
         var load = (IPowerConsumer)Load;
         load.PowerCable.AutoSize();
-
     }
+
     public async Task AutoSizeAllAsync()
     {
         await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {

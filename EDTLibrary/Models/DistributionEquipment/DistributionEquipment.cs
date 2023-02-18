@@ -352,13 +352,18 @@ namespace EDTLibrary.Models.DistributionEquipment
                 saveController.Lock(nameof(Size));
 
 
-                CalculateLoading();
+                {
+                    CalculateLoading();
+                    PowerCable.AutoSizeAll_IfEnabled();
 
-                SCCA = CalculateSCCA();
-
-                if (PowerCable != null) {
-                    PowerCable.GetRequiredAmps(this);
+                    SCCA = CalculateSCCA();
+                    
+                    if (PowerCable != null) {
+                        PowerCable.GetRequiredAmps(this);
+                    }
                 }
+
+               
                 
                 UndoManager.AddUndoCommand(this, nameof(Size),oldValue, _size);
                 saveController.UnLock(nameof(Size));
@@ -527,6 +532,8 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 if (DaManager.Importing == false && DaManager.GettingRecords == false) {
                     CalculateLoading(nameof(LineVoltageType));
+                    PowerCable.AutoSizeAll_IfEnabled();
+
                 }
 
                 UndoManager.AddUndoCommand(this, nameof(LineVoltageType), oldValue, _lineVoltageType);
@@ -928,7 +935,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             CreatePowerCable();
             PowerCable.SetSizingParameters(this);
             PowerCable.CreateTypeList(this);
-            PowerCable.AutoSizeAll();
+            PowerCable.AutoSizeAll_IfEnabled();
         }
         public void CalculateCableAmps()
         {

@@ -28,6 +28,8 @@ The LCS is still selected, it is just not displayd properly so you don't need to
     <clr:String x:Key="MainLugsOnly" xml:space="preserve">When selected, the protection device for this 
 equipment is shown only in the supplying equipment.</clr:String>
 
+    <clr:String x:Key="PowerFactorDefaults" xml:space="preserve">Load default Power Factor and Efficiency
+values from settings / motor table.</clr:String>
 
 
 </ResourceDictionary>

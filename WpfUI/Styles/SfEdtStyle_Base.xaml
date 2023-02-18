@@ -62,11 +62,11 @@
    
     <Style TargetType="sf:GridHeaderCellControl">
         <Setter Property="Background" Value="{DynamicResource Dark}" />
-        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorder}" />
         <Setter Property="BorderThickness" Value="0,0,1,1" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Padding" Value="5,3,5,3" />
-        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_White}" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="IsTabStop" Value="False" />
@@ -393,14 +393,14 @@
     <!--Filter Row-->
     <Style TargetType="sf:FilterRowControl">
         <Setter Property="Background" Value="{StaticResource RowSelectionBrushOpacity_Teal}" />
-        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorder}"/>
         <!--<Setter Property="ToolTip" Value="Esc. to clear filter"/>-->
     </Style>
     
 
     <!--Filter Row Cell-->
     <Style TargetType="sf:GridFilterRowCell">
-        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorder}"/>
         <Setter Property="ToolTip" Value="Filter - Esc. 2x to clear"/>
         <Setter Property="ToolTipService.InitialShowDelay" Value="50"/>
         
@@ -412,7 +412,7 @@
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
-                <Setter Property="Foreground" Value="black"/>
+                <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
                 <Setter Property="FontWeight" Value="Regular"/>
             </Trigger>
         </Style.Triggers>
@@ -426,7 +426,7 @@
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
-                <Setter Property="Foreground" Value="black"/>
+                <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
                 <Setter Property="FontWeight" Value="Regular"/>
             </Trigger>
         </Style.Triggers>
@@ -481,6 +481,7 @@
 
     <Style TargetType="sf:TreeViewItem">
         <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type sf:TreeViewItem}">
