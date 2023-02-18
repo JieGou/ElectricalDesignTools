@@ -347,6 +347,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 var oldValue = _size;
                 _size = value;
 
+                if (DaManager.Importing) return;
                 if (DaManager.GettingRecords) return;
                 UndoManager.Lock(this, nameof(Size));
                 saveController.Lock(nameof(Size));
@@ -523,14 +524,17 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (value == null) return;
                 var oldValue = _lineVoltageType;
                 _lineVoltageType = value;
-
-                saveController.Lock(nameof(LineVoltageType));
-                UndoManager.Lock(this, nameof(LineVoltageType));
-
                 LineVoltageTypeId = _lineVoltageType.Id;
                 LineVoltage = _lineVoltageType.Voltage;
 
-                if (DaManager.Importing == false && DaManager.GettingRecords == false) {
+                if (DaManager.Importing) return;
+                if (DaManager.GettingRecords) return;
+
+                saveController.Lock(nameof(LineVoltageType));
+                UndoManager.Lock(this, nameof(LineVoltageType));
+                               
+
+                {
                     CalculateLoading(nameof(LineVoltageType));
                     PowerCable.AutoSizeAll_IfEnabled();
 
@@ -935,7 +939,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             CreatePowerCable();
             PowerCable.SetSizingParameters(this);
             PowerCable.CreateTypeList(this);
-            PowerCable.AutoSizeAll_IfEnabled();
+            PowerCable.AutoSizeAll();
         }
         public void CalculateCableAmps()
         {

@@ -176,9 +176,9 @@ namespace EDTLibrary.Models.Loads
                 _type = value;
                 
 
-                if (DaManager.GettingRecords) return;
-                if (DaManager.Importing) return;
                 if (VoltageType == null) return;
+                if (DaManager.Importing) return;
+                if (DaManager.GettingRecords) return;
 
                 saveController.Lock(nameof(Type));
                 UndoManager.Lock(this, nameof(Type));
@@ -192,6 +192,7 @@ namespace EDTLibrary.Models.Loads
                     CalculateLoading();
                     PowerCable.AutoSizeAll_IfEnabled();
                 }
+
                 UndoManager.AddUndoCommand(this, nameof(Type),oldValue,_type);
                 saveController.UnLock(nameof(Type));
                 OnPropertyUpdated();
@@ -255,12 +256,15 @@ namespace EDTLibrary.Models.Loads
                     var oldValue = _unit; 
                     _unit = value;
 
+                    if (DaManager.Importing) return;
                     if (DaManager.GettingRecords) return;
                     saveController.Lock(nameof(Unit));
                     UndoManager.Lock(this, nameof(Unit));
 
+                    {
                         CalculateLoading();
                         PowerCable.AutoSizeAll_IfEnabled();
+                    }
 
                     UndoManager.AddUndoCommand(this, nameof(Unit), oldValue, _unit);
                     saveController.UnLock(nameof(Unit));
@@ -463,8 +467,6 @@ namespace EDTLibrary.Models.Loads
 
                 _fedFromTag = value;
                 if (DaManager.GettingRecords == false) {
-                    //OnFedFromChanged();
-                    //CalculateLoading();
                     CreatePowerCable();
                     PowerCable.SetSourceAndDestinationTags(this);
                 }
@@ -482,20 +484,31 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _fedFrom;
                 var newFedFrom = value;
 
+              
                 if (DaManager.GettingRecords) {
+                    //these values need to be initially set because they are only updated
                     _fedFrom = newFedFrom;
+                    
                     return;
                 }
                 if (FedFromManager.IsUpdatingFedFrom_List) return;
                 saveController.Lock(nameof(FedFrom));
                 UndoManager.Lock(this, nameof(FedFrom));
 
-
+                //This code must run while importing for the FedFromTag and FedFromType
                 if (FedFromManager.UpdateFedFrom_Single(this, newFedFrom, oldValue) == true) {
                     _fedFrom = newFedFrom;
+                    FedFromTag = _fedFrom.Tag;
+                    FedFromType = _fedFrom.GetType().ToString();
+
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     CableManager.UpdateLcsCableTags(this);
-                    PowerCable.AutoSizeAll_IfEnabled();
+
+
+                    //only this cannot run while importing.
+                    if (DaManager.Importing == false) {
+                        PowerCable.AutoSizeAll_IfEnabled(); 
+                    }
 
                     UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
                 }
@@ -515,6 +528,7 @@ namespace EDTLibrary.Models.Loads
                 var oldValue = _demandFactor;
                 _demandFactor = (value <= 1 && value >= 0)? value : oldValue;
 
+                if (DaManager.Importing) return;
                 if (DaManager.GettingRecords) return;
                 saveController.Lock(nameof(DemandFactor));
                 UndoManager.Lock(this, nameof(DemandFactor));
@@ -540,6 +554,7 @@ namespace EDTLibrary.Models.Loads
                 _efficiency = (value <= 1  && value >= 0) ? value: oldValue;
                 EfficiencyDisplay = _efficiency * 100;
 
+                if (DaManager.Importing) return;
                 if (DaManager.GettingRecords) return;
                 saveController.Lock(nameof(Efficiency));
                 UndoManager.Lock(this,nameof(Efficiency));
@@ -573,6 +588,7 @@ namespace EDTLibrary.Models.Loads
             {
                 var oldValue = _powerFactor;
                 _powerFactor = (value <= 1 && value >= 0) ? value / 100 : oldValue;
+                if (DaManager.Importing) return;
                 if (DaManager.GettingRecords) return;
 
                 saveController.Lock(nameof(PowerFactor));
@@ -999,7 +1015,7 @@ namespace EDTLibrary.Models.Loads
             CreatePowerCable();
             PowerCable.SetSizingParameters(this);
             PowerCable.CreateTypeList(this);
-            PowerCable.AutoSizeAll_IfEnabled();
+            PowerCable.AutoSizeAll();
         }
         public void CalculateCableAmps()
         {

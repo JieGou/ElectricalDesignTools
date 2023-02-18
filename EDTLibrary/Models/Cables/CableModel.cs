@@ -485,6 +485,7 @@ public class CableModel : ICable
             var oldValue = _isOutdoor;
             _isOutdoor = value;
 
+            if (DaManager.Importing) return;
             if (DaManager.GettingRecords) return;
             saveController.Lock(nameof(IsOutdoor));
             UndoManager.Lock(this,nameof(IsOutdoor));
@@ -512,6 +513,7 @@ public class CableModel : ICable
             var oldValue = _installationType;
             _installationType = value;
 
+            if (DaManager.Importing) return;
             if (DaManager.GettingRecords) return;
             saveController.Lock(nameof(InstallationType));
             UndoManager.Lock(this, nameof(InstallationType));
@@ -784,7 +786,6 @@ public class CableModel : ICable
             AutoSize();
         }
     }
-
     private void AutoSize()
     {
         if (DaManager.GettingRecords) return;
@@ -827,16 +828,24 @@ public class CableModel : ICable
         }
     }
 
+
+
+
     public ICommand AutoSizeAllCommand { get; }
+
     public void AutoSizeAll_IfEnabled()
     {
         if (EdtAppSettings.Default.AutoSize_PowerCable) {
             AutoSizeAll(); 
         }
-
     }
-
-    private void AutoSizeAll()
+    public async Task AutoSizeAllAsync()
+    {
+        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            AutoSizeAll();
+        }));
+    }
+    internal void AutoSizeAll()
     {
         //autosize assumes all cables fed from the same Distribution Equipment are in the same raceway
         //so there is a big jump in ampacity between #1 and 1/0 when the installatio type is NOT LadderTray.
@@ -855,12 +864,7 @@ public class CableModel : ICable
         load.PowerCable.AutoSize();
     }
 
-    public async Task AutoSizeAllAsync()
-    {
-        await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            AutoSizeAll();
-        }));
-    }
+    
 
 
     //Qty Size
