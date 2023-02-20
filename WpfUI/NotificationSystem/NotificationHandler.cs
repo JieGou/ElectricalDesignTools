@@ -1,6 +1,13 @@
-﻿using System;
+﻿using EDTLibrary;
+using EDTLibrary.Models.Loads;
+using EDTLibrary.Settings;
+using System;
+using System.Data.Entity.Core.Common;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Threading;
+using WpfUI.Converters;
 using WpfUI.NoificationSystem;
 using static EDTLibrary.Services.EdtNotificationService;
 
@@ -11,29 +18,61 @@ namespace WpfUI.Helpers
         static bool isAlertActive;
         public static void AlertReceived(object sender, EdtNotificationEventArgs args)
         {
-            ShowAlert(args.Messsage, args.Caption);
+            ShowAlert(args.Messsage, args.Caption, args.NotificationName);
         }
 
         static NotificationWindow notificationWindow = null;
-        static string notificationMessage;
 
-        public static void ShowAlert(string message, string caption = "User Error", MessageBoxImage image = MessageBoxImage.Warning)
+        public static void ShowAlert(string message, string caption, string notificationName)
         {
+            var prop = EdtAppSettings.Default.GetType().GetProperty(notificationName);
 
-            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
-                if (notificationWindow == null || notificationWindow.IsLoaded == false) {
-                    notificationMessage = message + Environment.NewLine;
-                    notificationWindow = new NotificationWindow();
-                    notificationWindow.DataContext = new NotificationModel(caption, notificationMessage);
-                    notificationWindow.ShowDialog();
-                }
-                else {
-                    var notificationModel = (NotificationModel)notificationWindow.DataContext;
-                    notificationModel.NotificationText += (message + Environment.NewLine);
-                    notificationWindow.Focus();
-                }
+            if (prop != null) {
+                var notificationModel = new NotificationModel(caption, message + Environment.NewLine, prop.Name);
+                var binding = new Binding();
+                binding.Source = EdtAppSettings.Default;
+                binding.Path = new PropertyPath(prop.Name);
+                binding.Converter = new BooleanInverter();
 
-            }));
+
+                if ((bool)prop.GetValue(EdtAppSettings.Default) || notificationName == "") {
+                    Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+                        if (notificationWindow == null || notificationWindow.IsLoaded == false) {
+                            notificationWindow = new NotificationWindow();
+
+                            notificationWindow.chkDisableAlert.SetBinding(CheckBox.IsCheckedProperty, binding);
+                            notificationWindow.DataContext = notificationModel;
+                            notificationWindow.ShowDialog();
+                        }
+                        else {
+                            var notificationModel = (NotificationModel)notificationWindow.DataContext;
+                            notificationModel.NotificationText += (message + Environment.NewLine);
+                            notificationWindow.Focus();
+                        }
+                        EdtAppSettings.Default.Save();
+                    }));
+                }
+            }
+
+            else {
+
+                var notificationModel = new NotificationModel(caption, message + Environment.NewLine, "");
+                    Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+                        if (notificationWindow == null || notificationWindow.IsLoaded == false) {
+                            notificationWindow = new NotificationWindow();
+
+                            notificationWindow.DataContext = notificationModel;
+                            notificationWindow.ShowDialog();
+                        }
+                        else {
+                            var notificationModel = (NotificationModel)notificationWindow.DataContext;
+                            notificationModel.NotificationText += (message + Environment.NewLine);
+                            notificationWindow.Focus();
+                        }
+                        EdtAppSettings.Default.Save();
+                    }));
+            }
+
         }
 
 

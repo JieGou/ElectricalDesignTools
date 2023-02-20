@@ -30,76 +30,71 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="25"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="25"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Application settings are applied to all projects"
-                   Style="{StaticResource PageTitleStyle}"/>
+        <ScrollViewer  Grid.Row="1" Grid.Column="1"
+                       VerticalScrollBarVisibility="Auto"
+                       HorizontalScrollBarVisibility="Auto">
+            <Grid Grid.Row="1" Grid.Column="1"
+              >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-        <Grid Grid.Row="1" Grid.Column="0"
-              Margin="50 10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Text="Automatic Sizing Calculations"
+                <TextBlock Text="Automatic Sizing Calculations"
                        Grid.Row="0" Grid.Column="0"
                        />
 
-            <TextBlock Text="When enabled, the values are recalculated when any properties that affect the sizing is changed. 
-                       When using the Calculate All function, everything is recalculated regardless of the below settings. To 
-                       exclude specific equipment/properties from being autocalculated, the calculation options must be 
-                       for that specific piece of equimpment on the equipment properties pane.
+                <TextBlock Text="Enable or disable automatic calculations for sizing equipment, cables, protective devices and components.
                        &#10;
-                       &#10;Detailed calculations settings can be selected under the project setup.
+                       &#10;Specific calculations settings can be changed under the project setup.
                        &#10;
-                       &#10;Ex 1:   When changing the size of a load, the protective device, the cable and the upstream equipment's loading is affected.
-                       &#10;
-                       &#10;Ex 2:   When moving a load from one area to another, the temperature may require additional cable derating and if cable autozing is disabled the cable will not be automatically resized."
-                       
+                       &#10;Ex :   When changing the size of a load, the protective device, the cable and the upstream equipment's loading is affected."
                        
                        Grid.Row="1" Grid.Column="0"
                        Style="{StaticResource settingDescription}"
-                       MaxWidth="500"/>
+                       MaxWidth="1800"
+                       TextWrapping="Wrap"/>
 
-            <CheckBox Grid.Row="2" Grid.Column="0"
+                <CheckBox Grid.Row="3" Grid.Column="0"
                       Content="Autosize Protection Device"
                       IsChecked="{Binding Source={x:Static edtAppSettings:EdtAppSettings.Default},
                                           Path=AutoSize_ProtectionDevice}"
                       />
-            <TextBlock Text="Updates the Trip Setting, Frame Size and SCCR / AIC rating."
-                       Grid.Row="3" Grid.Column="0"
+                <TextBlock Text="Trip Setting, Frame Size and SCCR / AIC rating are updated when the FLA of the load changes."
+                       Grid.Row="4" Grid.Column="0"
                        Style="{StaticResource settingDescription}"
                        MaxWidth="500"
                        Margin="25 0"
                        />
 
-            <CheckBox Grid.Row="5" Grid.Column="0"
+                <CheckBox Grid.Row="6" Grid.Column="0"
                       Content="Autosize Power Cable"
                       IsChecked="{Binding Source={x:Static edtAppSettings:EdtAppSettings.Default},
                                           Path=AutoSize_PowerCable}"
                       />
-            <TextBlock Text="Updates the cable size, number of parallel runs, derating, voltage drop, etc. based on the cable type, installation type and other applicable factors in accordance with the selected code. "
-                       Grid.Row="6" Grid.Column="0"
+                <TextBlock Text="Cable size, number of parallel runs, derating, voltage drop, etc. is updated per the project's cable sizing settings when the FLA of the load changes."
+                       Grid.Row="7" Grid.Column="0"
                        Style="{StaticResource settingDescription}"
                        MaxWidth="500"
                        Margin="25 0"
                        />
 
-        </Grid>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

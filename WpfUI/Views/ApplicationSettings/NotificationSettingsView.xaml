@@ -4,9 +4,97 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.Views.ApplicationSettings"
+             
+             xmlns:edtAppSettings="clr-namespace:EDTLibrary.Settings;assembly=EDTLibrary"
+             
+             
+             
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:Background="White">
+    
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Blue.xaml"/>
+                <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="25"/>
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer  Grid.Row="1" Grid.Column="1"
+                       VerticalScrollBarVisibility="Auto"
+                       HorizontalScrollBarVisibility="Auto">
+            <Grid Grid.Row="1" Grid.Column="1"
+              >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="User Notification Settings"
+                       Grid.Row="0" Grid.Column="0"
+                       />
+
+                <!--Header-->
+                <TextBlock Text="Enable or disable notifications."
+                       
+                       Grid.Row="1" Grid.Column="0"
+                       Style="{StaticResource settingDescription}"
+                       MaxWidth="1800"
+                       TextWrapping="Wrap"/>
+
+                
+                <CheckBox Grid.Row="3" Grid.Column="0"
+                      Content="Voltage Change Notification"
+                      IsChecked="{Binding Source={x:Static edtAppSettings:EdtAppSettings.Default},
+                                          Path=Notification_VoltageChange}"
+                      />
+                <TextBlock Text="Notifies the user when equipment volages are automatically changed.
+                           &#10;Ex: Moving a load from a 600V MCC to a 480V MCC."
+                       Grid.Row="4" Grid.Column="0"
+                       Style="{StaticResource settingDescription}"
+                       MaxWidth="500"
+                       Margin="25 0"
+                       />
+
+                
+                <CheckBox Grid.Row="6" Grid.Column="0"
+                      Content="Cable Already In Raceway Notification"
+                      IsChecked="{Binding Source={x:Static edtAppSettings:EdtAppSettings.Default},
+                                          Path=Notification_CableAlreadyInRaceway}"
+                      />
+                <TextBlock Text="Notifies the user when attempting to add a cable to a raceway the cable is already routed in.
+                           &#10;Ex: The selected cable is already in the selected raceway."
+                       Grid.Row="7" Grid.Column="0"
+                       Style="{StaticResource settingDescription}"
+                       MaxWidth="500"
+                       Margin="25 0"
+                       />
+
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

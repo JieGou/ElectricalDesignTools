@@ -9,9 +9,8 @@
         
         
         mc:Ignorable="d"
-        Title="Application Settings" Height="650" Width="900" 
+        Title="Application Settings" Height="650" Width="750" 
         WindowStartupLocation="CenterScreen"
-        SizeToContent="WidthAndHeight"
         
         
         Closed="Window_Closed"
@@ -28,13 +27,19 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
 
-        <TabControl VerticalAlignment="Stretch"
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5"
+                   Text="Application settings are applied to all projects"
+                   Style="{StaticResource PageTitleStyle}"
+                   Margin="100 10"/>
+                   
+
+
+        <TabControl Grid.Row="1" Grid.Column="0"
+                    VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
                     TabStripPlacement="Left">
 
@@ -48,9 +53,9 @@
 
             <!--Notifications-->
             <TabItem Header="Notifications">
-                <local:CalculationSettingsView>
+                <local:NotificationSettingsView>
 
-                </local:CalculationSettingsView>
+                </local:NotificationSettingsView>
             </TabItem>
 
 

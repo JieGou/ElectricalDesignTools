@@ -11,17 +11,45 @@ namespace EDTLibrary.Services;
 public enum EdtNotificationCategory
 {
     InternalError,
-    UserError,
+    Alert,
     Notification,
 }
 
-public enum EdtNotificationType
-{
-    VoltageChange,
-}
 
 public partial class EdtNotificationService
 {
+    //Notification
+    public static void SendAlert(object sender, string message, string caption, string notificationName)
+    {
+        var args = new EdtNotificationEventArgs();
+        args.Messsage = message;
+        args.Caption = caption;
+        args.Exception = new Exception(message);
+        args.NotificationName = notificationName;
+
+        OnAlertSent(sender, ref args);
+    }
+    public static void SendAlert(object sender, string message, string caption)
+    {
+        var args = new EdtNotificationEventArgs();
+        args.Messsage = message;
+        args.Caption = caption;
+        args.Exception = new Exception(message);
+
+        OnAlertSent(sender, ref args);
+    }
+    public static EventHandler<EdtNotificationEventArgs> AlertSent;
+    private static void OnAlertSent(object sender, ref EdtNotificationEventArgs args)
+    {
+
+        if (AlertSent != null) {
+            AlertSent(sender, args);
+
+        }
+    }
+
+
+
     //Error
     public static void SendError(object sender, string message, string caption, Exception ex)
     {
@@ -29,7 +57,6 @@ public partial class EdtNotificationService
         args.Messsage = message;
         args.Caption = caption;
         args.Exception = ex;
-        args.EdtNotificationType = EdtNotificationCategory.InternalError;
         OnErrorSent(sender, args);
     }
     public static EventHandler<EdtNotificationEventArgs> ErrorSent;
@@ -42,34 +69,12 @@ public partial class EdtNotificationService
     }
 
 
-    //Notification
-    public static void SendAlert(object sender, string message, string caption)
-    {
-        var args = new EdtNotificationEventArgs();
-        args.Messsage = message;
-        args.Caption = caption;
-        args.Exception = new Exception(message);
-        args.EdtNotificationType = EdtNotificationCategory.UserError;
-
-        OnAlertSent(sender, args);
-    }
-    public static EventHandler<EdtNotificationEventArgs> AlertSent;
-    private static void OnAlertSent(object sender, EdtNotificationEventArgs args)
-    {
-
-        if (AlertSent != null) {
-            AlertSent(sender, args);
-
-        }
-    }
-
-
+    
 
     public static void SendPopupNotification(object sender, string message)
     {
         var args = new EdtNotificationEventArgs();
         args.Messsage = message;
-        args.EdtNotificationType = EdtNotificationCategory.Notification;
         OnPopupNotificationSent(sender, args);
     }
     public static EventHandler<EdtNotificationEventArgs> NotificationSent;
@@ -85,7 +90,6 @@ public partial class EdtNotificationService
     public static void CloseoPupNotification(object sender)
     {
         var args = new EdtNotificationEventArgs();
-        args.EdtNotificationType = EdtNotificationCategory.Notification;
         OnPopupNotificationClosed(sender, args);
     }
     public static EventHandler<EdtNotificationEventArgs> NotificationClosed;

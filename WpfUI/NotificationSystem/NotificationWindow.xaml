@@ -1,9 +1,14 @@
 ﻿<Window x:Class="WpfUI.NoificationSystem.NotificationWindow"
+        x:Name="root"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfUI.NoificationSystem"
+        
+        xmlns:controls="clr-namespace:WpfUI.Controls"
+        
+        
         mc:Ignorable="d"
         Title="{Binding Caption}" Height="300" Width="450"
         WindowStartupLocation="CenterScreen"
@@ -25,17 +30,19 @@
                    Margin="25 10 0 0"/>
 
         <!--Notification Text-->
-        <Border BorderBrush="Gray" BorderThickness="1"
+        <controls:ClippingBorder BorderBrush="Gray" BorderThickness="1"
                 Background="#FFEDE9E9"
                 Grid.Row="1"
                 Margin="25"
-                ClipToBounds="True">
+                ClipToBounds="True"
+                CornerRadius="{StaticResource ControlCornerRadius}">
             <Grid>
-                <Border Background="Transparent" BorderBrush="Gray" 
+                <Border Background="Transparent" BorderBrush="LightGray" 
                         BorderThickness="1"
                         Margin="-1"
                         VerticalAlignment="Stretch"
-                        HorizontalAlignment="Stretch">
+                        HorizontalAlignment="Stretch"
+                        >
                     <Border.Effect>
                         <DropShadowEffect ShadowDepth="0" BlurRadius="5"/>
                     </Border.Effect>
@@ -43,30 +50,43 @@
 
                 <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Auto">
+                      HorizontalScrollBarVisibility="Disabled">
                     <TextBlock Text="{Binding NotificationText}"
-                   d:Text="NotificationText"
+                               d:Text="NotificationText"
                   
-                   Margin="5"
+                      Margin="5"
                    TextWrapping="Wrap"/>
                 </ScrollViewer>
 
             </Grid>
-        </Border>
+        </controls:ClippingBorder>
 
 
         <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
+                <RowDefinition Height="15"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="25"/>
             </Grid.ColumnDefinitions>
 
-            <CheckBox Grid.Row="2"
-                  Content="Don't show again"/>
-            
+            <CheckBox x:Name="chkDisableAlert"
+                      Grid.Column="1"
+                      Content="Don't show again"
+                      IsChecked="{Binding IsEnabled.Name}"
+                      VerticalAlignment="Center"/>
+
+            <Button Content="OK"
+                    Grid.Column="3"
+                    Click="Button_Click"
+                    HorizontalAlignment="Right"
+                    Margin="0"/>
+
         </Grid>
     </Grid>
 </Window>

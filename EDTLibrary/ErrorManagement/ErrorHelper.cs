@@ -68,7 +68,6 @@ namespace EDTLibrary.ErrorManagement
 
         public static void NotifyUserError(string message, string caption = "User Error", MessageBoxImage image = MessageBoxImage.Warning)
         {
-
             EdtNotificationService.SendAlert("null sender", message, caption);
         }
     }

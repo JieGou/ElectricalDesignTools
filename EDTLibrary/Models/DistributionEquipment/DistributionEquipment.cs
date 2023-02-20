@@ -13,6 +13,7 @@ using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Services;
+using EDTLibrary.Settings;
 using EDTLibrary.UndoSystem;
 using EDTLibrary.Validators;
 using PropertyChanged;
@@ -440,9 +441,9 @@ namespace EDTLibrary.Models.DistributionEquipment
                     else {
                         //Must change value back before showing message box
                         _fedFrom = oldValue;
-                        ErrorHelper.NotifyUserError("Equipment Cannot be fed from itself, directly or through other equipment.",
-                                                    "Circular Feed Error",
-                                                    MessageBoxImage.Warning);
+                        EdtNotificationService.SendAlert(this, "Equipment Cannot be fed from itself, directly or through other equipment.",
+                                                    "Invalid Selection",
+                                                    "InvalidFedFrom");
 
                         SaveAndAddUndoCommand(oldValue);
                     }
@@ -587,9 +588,11 @@ namespace EDTLibrary.Models.DistributionEquipment
                 LoadVoltage = _loadVoltageType.Voltage;
 
                 //Load voltages updates
-
                 if (DaManager.Importing == false && DaManager.GettingRecords == false) {
-                    EdtNotificationService.SendAlert(this, $"The voltage of each load fed from {Tag} has changed to {LoadVoltageType.VoltageString}", "Assigned Loads Voltage Change");
+
+                    EdtNotificationService.SendAlert(this, $"The voltage of each load fed from {Tag} has changed to {LoadVoltageType.VoltageString}", 
+                        "Assigned Loads Voltage Change",
+                        nameof(EdtAppSettings.Default.Notification_VoltageChange));
                     foreach (var load in AssignedLoads) {
                         load.VoltageType = LoadVoltageType;
                     }

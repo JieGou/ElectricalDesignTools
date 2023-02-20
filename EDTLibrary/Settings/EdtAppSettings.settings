@@ -8,7 +8,10 @@
     <Setting Name="AutoSize_PowerCable" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="VoltageChangeNotification" Type="System.Boolean" Scope="User">
+    <Setting Name="Notification_VoltageChange" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Notification_CableAlreadyInRaceway" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>

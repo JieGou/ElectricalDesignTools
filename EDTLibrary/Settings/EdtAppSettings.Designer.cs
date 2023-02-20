@@ -50,12 +50,24 @@ namespace EDTLibrary.Settings {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool VoltageChangeNotification {
+        public bool Notification_VoltageChange {
             get {
-                return ((bool)(this["VoltageChangeNotification"]));
+                return ((bool)(this["Notification_VoltageChange"]));
             }
             set {
-                this["VoltageChangeNotification"] = value;
+                this["Notification_VoltageChange"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Notification_CableAlreadyInRaceway {
+            get {
+                return ((bool)(this["Notification_CableAlreadyInRaceway"]));
+            }
+            set {
+                this["Notification_CableAlreadyInRaceway"] = value;
             }
         }
     }

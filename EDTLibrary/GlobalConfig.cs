@@ -1,6 +1,7 @@
 ﻿using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.Settings;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.ObjectModel;
@@ -9,6 +10,8 @@ using System.Collections.ObjectModel;
 namespace EDTLibrary
 {
     public static class GlobalConfig {
+
+        public static EdtSettings EdtSettings = new EdtSettings();
 
         //Flags
         public static bool Importing = false;

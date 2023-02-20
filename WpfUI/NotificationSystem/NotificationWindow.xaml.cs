@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace WpfUI.NoificationSystem
     /// </summary>
     public partial class NotificationWindow : Window
     {
+       
         public NotificationWindow()
         {
             InitializeComponent();
@@ -26,7 +28,14 @@ namespace WpfUI.NoificationSystem
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            var notificationModel = (NotificationModel)this.DataContext;
 
+            EdtAppSettings.Default.Save();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

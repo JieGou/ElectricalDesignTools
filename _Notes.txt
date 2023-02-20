@@ -57,11 +57,6 @@ LoadModel
 	- load data IsValid
 
 
-User Interface
-	- Main Window Toolbar Height
-	- DTEQ right click menu
-
-
 Transformer Grounding
 	- Settings
 	- transformer cooling type on dteq options
@@ -145,6 +140,9 @@ Autocad
 	- title blocks
 	- drawing list
 
+User Interface
+	- Main Window Toolbar Height
+	- DTEQ right click menu
 
 
 ***************************

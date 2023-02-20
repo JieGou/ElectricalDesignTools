@@ -3,6 +3,8 @@ using EDTLibrary.ErrorManagement;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.Services;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -37,7 +39,9 @@ namespace EDTLibrary.Validators
             {
                 if (showAlert == true)
                 {
-                    ErrorHelper.NotifyUserError($"{tagToCheck} - {ErrorMessages.DuplicateTagMessage}", "Duplicate Tag Error", image: MessageBoxImage.Exclamation);
+                    EdtNotificationService.SendAlert(tagToCheck,
+                                                     $"{ErrorMessages.DuplicateTagMessage}", 
+                                                    "Duplicate Tag Error");
                 }
                 return false;
             }
