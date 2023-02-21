@@ -4,12 +4,8 @@ Bug Notes
 Major Bugs
 	- change MessageBoxes to ErrorDialog with error list
 
-
 Minor Bugs
-	- DCN and MCP frame size defaults to 1200 A
-	- order of disconnect frame sizes
-	- order of PD frame sizes
-	- loads aren't changing voltage on FedFrom Update
+	- MCP frame size list in PowerConsumerEditor
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
 	- ProtectionDeviceModel.TypeList comboBox values disappear on PowerConsumer editor when Type is changed
@@ -25,17 +21,12 @@ Minor Bugs
 Application Settings
 	- auto-calc
 		- PD 
-		- cable 
-	- Optional Auto-Calculations ??
 		- Component Sizing
-		- PD
-		- Cable
+		
 
-
-Property / Calculation Override and Locks
-	- PF
-	- Efficiency
-	- DemandFactor
+Exclulde Individual items from auto calculations
+	- Protection Device
+	- Power Cables
 
 
 Equipment Sequence Ordering
@@ -65,8 +56,12 @@ Transformer Grounding
 	- cables
 	
 
+Protective Devices
+	- 80% vs 100% rated option
+	- project setting for default breaker rating 80 vs 100%
+	
+
 Calculations
-	- OCPD 80% rated calculation
 	- required cable conductors (2C, 3C, 4C)
 		- derating calculation
 
@@ -140,6 +135,7 @@ Autocad
 	- title blocks
 	- drawing list
 
+
 User Interface
 	- Main Window Toolbar Height
 	- DTEQ right click menu
@@ -149,11 +145,6 @@ User Interface
 ***    AFTER RELEASE	***
 ***************************
 
-Protective Devices
-	- add 100% rated option
-
-Applicaton Settings
-	- default breaker rating (80% vs 100%)
 
 
 - Move Component Up/Down into ComponentModelBase

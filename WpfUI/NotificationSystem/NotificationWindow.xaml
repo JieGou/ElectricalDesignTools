@@ -10,7 +10,7 @@
         
         
         mc:Ignorable="d"
-        Title="{Binding Caption}" Height="300" Width="450"
+        Title="{Binding Caption}" Height="350" Width="500"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize" Closed="Window_Closed"
         >

@@ -37,7 +37,7 @@
 
         <ScrollViewer  Grid.Row="1" Grid.Column="1"
                        VerticalScrollBarVisibility="Auto"
-                       HorizontalScrollBarVisibility="Auto">
+                       HorizontalScrollBarVisibility="Disabled">
             <Grid Grid.Row="1" Grid.Column="1"
               >
                 <Grid.RowDefinitions>

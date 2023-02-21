@@ -132,7 +132,7 @@ namespace EDTLibrary.LibraryData
                 DataTable dt = DataTables.BreakerSizes.Copy();
                 DataTable dtFiltered;
 
-                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)tripAmps);
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)tripAmps*1.25);
 
                 try {
                     dtFiltered = filteredRows.CopyToDataTable();
@@ -296,20 +296,8 @@ namespace EDTLibrary.LibraryData
                 double searchValue = Math.Max(load.Size, tripAmps);
 
                 IEnumerable<DataRow> filteredRows;
-                if (load.Type == LoadTypes.MOTOR.ToString()) {
-
-                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("HP") >= (double)searchValue);
-
-                    if (load.Unit == Units.HP.ToString()) {
-                        filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("HP") >= (double)searchValue);
-                    }
-                    else if (load.Unit == Units.kW.ToString()) {
-                        filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("kW") >= (double)searchValue);
-                    }
-                }
-                else {
-                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)searchValue);
-                }
+                
+                filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)searchValue);
 
 
                 try {

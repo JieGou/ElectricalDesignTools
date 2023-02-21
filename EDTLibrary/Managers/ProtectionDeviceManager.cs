@@ -206,6 +206,12 @@ public class ProtectionDeviceManager
             else if (component.Type == PdTypes.FDS.ToString()) {
                 return DataTableSearcher.GetDisconnectSize(load, component.TripAmps);
             }
+            else if (component.Type == CctComponentTypes.UDS.ToString()){
+                return DataTableSearcher.GetDisconnectSize(load);
+            }
+            else if (component.Type.Contains("MCP") || component.Type.Contains("DOL")) {
+                return DataTableSearcher.GetMcpFrame(load);
+            }
         }
 
         //MV

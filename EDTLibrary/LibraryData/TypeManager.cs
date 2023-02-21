@@ -223,13 +223,14 @@ namespace EDTLibrary.LibraryData
        
         private static void GetUniqueBreakerFameSizes()
         {
-            var breakerSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes");
+            var breakerSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes").OrderBy(b=>b.FrameAmps).ToList();
 
             foreach (var item in breakerSizes) {
                 if (!BreakerFrameSizes.Contains(item.FrameAmps)) {
                     BreakerFrameSizes.Add(item.FrameAmps);
                 }
             }
+            //BreakerFrameSizes = BreakerFrameSizes.OrderBy(b => b).ToList();
         }
 
        

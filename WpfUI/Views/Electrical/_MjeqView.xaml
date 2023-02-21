@@ -1047,8 +1047,15 @@
                                >
 
                         <sf:SfDataGrid.Resources>
-
-                        </sf:SfDataGrid.Resources>
+                                <Style TargetType="sf:GridFilterControl">
+                                    <Setter Property="FontSize" Value="12" />
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Setter Property="FilterPopupWidth" Value="250"/>
+                                    <Setter Property="FilterPopupHeight" Value="250"/>
+                                    <Setter Property="MinWidth" Value="150"/>
+                                    <Setter Property="MinHeight" Value="150"/>
+                                </Style>
+                            </sf:SfDataGrid.Resources>
 
                         <sf:SfDataGrid.ContextMenu>
                             <ContextMenu >

@@ -4,6 +4,7 @@ using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Services;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,8 @@ public class RacewayManager
             segmentToAdd.Id = DaManager.prjDb.InsertRecordGetId(segmentToAdd, "RacewayRouteSegments", new List<string> { "RacewayModel" });
         }
         else {
-            EdtNotificationService.SendAlert(cable, "Cable already passes through the selected raceway.", "Raceway Route Error");
+            EdtNotificationService.SendAlert(cable, $"Cable {cable.Tag} already passes through raceway {raceway.Tag}.", "Raceway Routing Conflict", 
+                nameof(EdtAppSettings.Default.Notification_CableAlreadyInRaceway));
         }
         
     }
