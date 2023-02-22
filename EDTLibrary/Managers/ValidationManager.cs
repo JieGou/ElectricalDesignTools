@@ -39,11 +39,13 @@ internal class ValidationManager
             if (load.Category == Categories.DTEQ.ToString()) {
                 continue;
             }
-            if (!load.Validate()) {
+            if (!load.IsValid) {
+                load.Validate();
                 isValid = false;
             }
             if (load.ProtectionDevice != null) {
-                if (!load.ProtectionDevice.Validate()) {
+                load.ProtectionDevice.Validate();
+                if (!load.ProtectionDevice.IsValid) {
                     isValid = false;
                 }
             }
@@ -66,7 +68,8 @@ internal class ValidationManager
     {
 
         foreach (var comp in load.CctComponents) {
-            if (!comp.Validate()) {
+            comp.Validate();
+            if (!comp.IsValid) {
                 isValid = false;
             }
             if (comp.PowerCable != null) {

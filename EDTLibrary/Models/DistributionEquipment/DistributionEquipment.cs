@@ -70,7 +70,8 @@ namespace EDTLibrary.Models.DistributionEquipment
                 isValid = PowerCable.IsValid;
             }
             if (ProtectionDevice != null) {
-                isValid = ProtectionDevice.Validate();
+                ProtectionDevice.Validate();
+                isValid = ProtectionDevice.IsValid;
             }
 
             isValid = ValidationManager.ValidateLoadList(ref isValid, AssignedLoads);
@@ -78,32 +79,30 @@ namespace EDTLibrary.Models.DistributionEquipment
             return isValid;
         }
 
-        public bool Validate()
+        public void Validate()
         {
-            if (DaManager.GettingRecords) return true;
+            if (DaManager.GettingRecords) return;
 
             var isValid = true;
+
             //Dteq
-            if (PowerCable != null) {
-                isValid = PowerCable.IsValid == false ? false : isValid;
-                //if (!PowerCable.IsValid) {
-                //    isValid = false;
-                //}
-            }
             if (ProtectionDevice != null) {
                 isValid = ProtectionDevice.IsValid == false ? false : isValid;
-
-                //if (!ProtectionDevice.IsValid) {
-                //    isValid = false;
-                //}
             }
 
+            if (PowerCable != null) {
+                isValid = PowerCable.IsValid == false ? false : isValid;
+            }
             //Loads Components and Cables
             isValid = CheckValidationOfAllLoadsComponentsAndCAbles(isValid);
 
+            if (SCCR < SCCA) {
+                isValid = false;
+            }
+
             IsValid = isValid;
             OnPropertyUpdated();
-            return isValid;
+            return;
         }
 
         private bool CheckValidationOfAllLoadsComponentsAndCAbles(bool isValid)
@@ -116,10 +115,6 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 isValid = load.IsValid == false ? false : isValid;
 
-                //if (!load.IsValid) {
-                //    isValid = false;
-                //}
-
                 if (load.ProtectionDevice != null) {
 
                     if (!load.ProtectionDevice.IsValid) {
@@ -128,26 +123,15 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
                 if (load.PowerCable != null) {
                     isValid = load.PowerCable.IsValid == false ? false : isValid;
-
-                    //if (!load.PowerCable.IsValid) {
-                    //    isValid = false;
-                    //}
                 }
 
                 foreach (var comp in load.CctComponents) {
                     isValid = comp.IsValid == false ? false : isValid;
 
-                    //if (!comp.IsValid) {
-                    //    isValid = false;
-                    //}
-
                     if (comp.PowerCable != null) {
 
                         isValid = comp.PowerCable.IsValid == false ? false : isValid;
 
-                        //if (!comp.PowerCable.IsValid) {
-                        //    isValid = false;
-                        //}
                     }
                 }
             }
@@ -743,7 +727,19 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         public double HeatLoss { get; set; }
 
-        public double SCCA { get; set; }
+        public double SCCA
+        {
+            get { return _scca; }
+            set
+            {
+                _scca = value;
+                SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
+
+                Validate();
+                OnPropertyUpdated();
+            }
+        }
+        private double _scca;
         public double SCCR
         {
             get { return _sccr; }
@@ -879,17 +875,28 @@ namespace EDTLibrary.Models.DistributionEquipment
                 PercentLoaded = RunningAmps / Fla * 100;
                 PercentLoaded = Math.Round(PercentLoaded, GlobalConfig.SigFigs);
 
-                DteqManager.SetDteqPd(this);
 
                 ProtectionDeviceManager.SetProtectionDeviceType(this);
-                ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
-
-                SCCA = CalculateSCCA();
-                SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
-
-                if (ProtectionDevice != null) {
-                    ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
+                if (EdtAppSettings.Default.AutoSize_ProtectionDevice) {
+                    ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
+                    if (ProtectionDevice != null) {
+                        ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
+                    }
                 }
+                ProtectionDevice.Validate();
+                SCCA = CalculateSCCA();
+
+
+                //SCCR
+                if (EdtAppSettings.Default.AutoSize_SCCR) {
+                    SCCR = EquipmentSccrCalculator.GetMinimumSccr(this); 
+                    foreach (var comp in CctComponents) 
+                    { 
+                        comp.SCCR= EquipmentSccrCalculator.GetMinimumSccr(comp);
+                    }
+                }
+
+                
 
 
             }

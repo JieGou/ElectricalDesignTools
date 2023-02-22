@@ -70,8 +70,8 @@ public class CableModel : ICable
     #region Validations
     public void Validate(ICable cable)
     {
-        if (DaManager.GettingRecords) return;
         if (DaManager.Importing) return;
+        if (DaManager.GettingRecords) return;
 
         cable.IsValid = true;
         ClearValidationMessages();

@@ -5,6 +5,7 @@ Major Bugs
 	- change MessageBoxes to ErrorDialog with error list
 
 Minor Bugs
+	- 80% rated breakers only for LV equipment
 	- MCP frame size list in PowerConsumerEditor
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
@@ -96,6 +97,7 @@ Exports
 
 Validations
 	- PD	
+	- Starter
 	- Cable
 	- Voltage 
 

@@ -49,6 +49,12 @@
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -59,11 +65,18 @@
                        Grid.Row="0" Grid.Column="0"
                        />
 
-                <TextBlock Text="Enable or disable automatic calculations for sizing equipment, cables, protective devices and components.
-                       &#10;
-                       &#10;Specific calculations settings can be changed under the project setup.
-                       &#10;
-                       &#10;Ex :   When changing the size of a load, the protective device, the cable and the upstream equipment's loading is affected."
+                <TextBlock 
+Text="Enable or disable automatic calculations for sizing equipment, 
+cables, protective devices and components. Autosizing selects the minimum 
+valid size per the current project setup options. Disabling
+autosizing will prevent selected values from being overriden to the minimum 
+allowable value. This is useful when oversizing components.
+&#10;
+&#10;Ex :   When changing the size of a load, the protective device, 
+the cable and the upstream equipment's loading is affected.
+&#10;
+&#10;Individual components or cables can be excluded from automatic
+sizing. This option can be selected on the equipment properties."
                        
                        Grid.Row="1" Grid.Column="0"
                        Style="{StaticResource settingDescription}"
@@ -82,6 +95,8 @@
                        Margin="25 0"
                        />
 
+                
+                
                 <CheckBox Grid.Row="6" Grid.Column="0"
                       Content="Autosize Power Cable"
                       IsChecked="{Binding Source={x:Static edtAppSettings:EdtAppSettings.Default},
@@ -89,6 +104,38 @@
                       />
                 <TextBlock Text="Cable size, number of parallel runs, derating, voltage drop, etc. is updated per the project's cable sizing settings when the FLA of the load changes."
                        Grid.Row="7" Grid.Column="0"
+                       Style="{StaticResource settingDescription}"
+                       MaxWidth="500"
+                       Margin="25 0"
+                       />
+
+                
+                
+                <CheckBox Grid.Row="9" Grid.Column="0"
+                      Content="Autosize Circuit Components"
+                      IsChecked="{Binding Source={x:Static edtAppSettings:EdtAppSettings.Default},
+                                          Path=AutoSize_CircuitComponents}"
+                      />
+                <TextBlock 
+Text="Local disconnect frame and fuse size, VFD frame size and
+combination starters are autosized when the FLA of the load changes."
+                       Grid.Row="10" Grid.Column="0"
+                       Style="{StaticResource settingDescription}"
+                       MaxWidth="500"
+                       Margin="25 0"
+                       />
+
+                
+                
+                <CheckBox Grid.Row="12" Grid.Column="0"
+                      Content="Autosize Equipment SCCR"
+                      IsChecked="{Binding Source={x:Static edtAppSettings:EdtAppSettings.Default},
+                                          Path=AutoSize_SCCR}"
+                      />
+                <TextBlock 
+Text="Select the minimum standard short circuit rating (SCCR) 
+value when the available short circuit current (SCCA) changes."
+                       Grid.Row="13" Grid.Column="0"
                        Style="{StaticResource settingDescription}"
                        MaxWidth="500"
                        Margin="25 0"

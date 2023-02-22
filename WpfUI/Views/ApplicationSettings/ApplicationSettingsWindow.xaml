@@ -25,6 +25,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -61,28 +62,9 @@
 
         </TabControl>
 
-
-        <!--<syncfusion:TabControlExt VerticalAlignment="Stretch"
-                                  HorizontalAlignment="Stretch"
-                                  CloseButtonType="Hide"
-                                  TabStripPlacement="Left"
-                                  RotateTextWhenVertical="true">
-            
-            <syncfusion:TabItemExt Header="Calculation Settings">
-                <Grid>
-                    <local:CalculationSettingsView>
-
-                    </local:CalculationSettingsView>
-                </Grid>
-            </syncfusion:TabItemExt>
-
-            <syncfusion:TabItemExt Header="Notification Settings">
-                <Grid>
-                    <local:CalculationSettingsView>
-
-                    </local:CalculationSettingsView>
-                </Grid>
-            </syncfusion:TabItemExt>
-        </syncfusion:TabControlExt>-->
+        <Button Content="OK"
+                Grid.Row="2"
+                HorizontalAlignment="Right"
+                Margin="35 10" Click="Button_Click"/>
     </Grid>
 </Window>

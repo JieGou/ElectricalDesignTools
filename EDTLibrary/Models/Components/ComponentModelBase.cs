@@ -1,4 +1,5 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EDTLibrary.Calculators;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
@@ -36,31 +37,59 @@ public abstract class ComponentModelBase : IComponentEdt
     }
 
     public bool IsValid { get; set; } = true;
-    public bool Validate()
+    public void Validate()
     {
-        if (DaManager.GettingRecords) return false;
-        var isValid = true;
+        if (DaManager.Importing) return;
+        if (DaManager.GettingRecords) return;
+        
+        IsValid = true;
+
+        ValidateTrip();
+        ValidateFrame();
+        ValidateAIC();
 
         if (PowerCable != null) {
             PowerCable.Validate(PowerCable); 
         }
 
-        IsValid = isValid;
 
         if (Owner is IDteq) {
             var dteq = (IDteq)Owner;
             dteq.Validate();
         }
+
+        //this would be useful for indication in the load list
         if(Owner is ILoad) {
             var load = (ILoad)Owner;
             load.FedFrom.Validate();
         }
+
+
         OnPropertyUpdated();
 
-        return isValid;
+        return;
     }
-                
-
+    private void ValidateTrip()
+    {
+        if (TripAmps < ((IPowerConsumer)Owner).Fla) {
+            IsValid = false;
+        }
+    }
+    private void ValidateFrame()
+    {
+        if (FrameAmps < ((IPowerConsumer)Owner).Fla*1.25) {
+            IsValid = false;
+        }
+        if (FrameAmps < TripAmps) {
+            IsValid = false;
+        }
+    }
+    private void ValidateAIC()
+    {
+        if (AIC < SCCA) {
+            IsValid = false;
+        }
+    }
     public bool IsSelected { get; set; } = false;
 
     public int Id { get; set; }
@@ -146,8 +175,38 @@ public abstract class ComponentModelBase : IComponentEdt
    
     public double Voltage { get; set; }
 
-    public double SCCA { get; set; }
-    public double SCCR { get; set; }
+    public double SCCA 
+    {
+        get { return _scca; } 
+        set
+        { 
+            _scca = value;
+
+            SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
+            AIC = EquipmentSccrCalculator.GetMinimumAicRating(this);
+            Validate();
+            OnPropertyUpdated();
+        }
+    }
+    private double _scca;
+    public double SCCR
+    {
+        get { return _sccr; }
+        set
+        {
+            var oldValue = _sccr;
+            _sccr = value;
+
+            if (DaManager.GettingRecords) return;
+            UndoManager.Lock(this, nameof(SCCR));
+
+
+
+            UndoManager.AddUndoCommand(this, nameof(SCCR), oldValue, value);
+            OnPropertyUpdated();
+        }
+    }
+    private double _sccr;
 
     public double AIC
     {
@@ -173,7 +232,7 @@ public abstract class ComponentModelBase : IComponentEdt
 
             FrameAmps = ProtectionDeviceManager.GetPdFrameAmps(this, (IPowerConsumer)Owner);
             var pdLoad = (IPowerConsumer)Owner;
-
+            Validate();
             pdLoad.ValidateCableSizes();
 
             UndoManager.AddUndoCommand(this, nameof(TripAmps), oldValue, _trip);
@@ -188,6 +247,7 @@ public abstract class ComponentModelBase : IComponentEdt
 
             var oldValue = _size;
             _size = value;
+            Validate();
 
             UndoManager.AddUndoCommand(this, nameof(FrameAmps), oldValue, _size);
             OnPropertyUpdated();
@@ -278,7 +338,6 @@ public abstract class ComponentModelBase : IComponentEdt
         }
         if (Type == CctComponentTypes.UDS.ToString() || Type == CctComponentTypes.FDS.ToString()) {
             FrameAmps = DataTableSearcher.GetDisconnectSize(load);
-
         }
         
         OnPropertyUpdated();

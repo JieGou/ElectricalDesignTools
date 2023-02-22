@@ -168,10 +168,27 @@ public class XfrModel : DistributionEquipment
 
     public override double CalculateSCCA()
     {
+        
         double scca = 0;
-        //sccr = 1000 / (_impedance * 0.9) * Fla;
         scca = Size / (1.732 * LoadVoltage * Impedance / 100);
         scca = Math.Round(scca, 2);
+
+        if (ProtectionDevice != null) {
+            ProtectionDevice.SCCA = scca;
+        }
+
+        foreach (var load in AssignedLoads) {
+
+            load.SCCA = scca;
+            load.ProtectionDevice.SCCA = scca;
+
+            foreach (var comp in load.CctComponents) {
+                if (comp!= null) {
+                    comp.SCCA = scca;
+                }
+            }
+        }
+
         return scca;
     }
 

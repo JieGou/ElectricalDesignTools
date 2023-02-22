@@ -10,7 +10,7 @@ namespace EDTLibrary.Models.Equipment
     public interface IEquipment
     {
         bool IsValid { get; set; }
-        public bool Validate();
+        void Validate();
 
         bool IsSelected { get; set; }
         int Id { get; set; }

@@ -28,4 +28,9 @@ public partial class ApplicationSettingsWindow : Window
     {
         EdtAppSettings.Default.Save();
     }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
 }

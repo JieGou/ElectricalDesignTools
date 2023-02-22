@@ -38,14 +38,12 @@ public class LoadCircuit : ILoadCircuit
     public CalculationFlags CalculationFlags { get; set; }
 
     public bool IsValid { get; set; } = true;
-    public bool Validate()
+    public void Validate()
     {
-        var isValid = true;
-
-        IsValid = isValid;
+        IsValid = true;
         OnPropertyUpdated();
 
-        return isValid;
+        return;
     }
 
 

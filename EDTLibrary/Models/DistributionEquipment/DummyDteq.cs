@@ -168,9 +168,9 @@ public class DummyDteq : IDteq
         return true;
     }
 
-    public bool Validate()
+    public void Validate()
     {
-        return true;
+        return;
     }
 
     public void Create()

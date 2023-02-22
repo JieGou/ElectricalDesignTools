@@ -31,14 +31,12 @@ public class LocalControlStationModel : ILocalControlStation
     }
 
     public bool IsValid { get; set; } = true;
-    public bool Validate() 
+    public void Validate() 
     {
-        var isValid = true;
-
-        IsValid = isValid;
+        IsValid = true;
         OnPropertyUpdated();
 
-        return isValid;
+        return;
     }
 
     public bool IsSelected { get; set; } = false;

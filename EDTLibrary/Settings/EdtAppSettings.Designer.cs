@@ -70,5 +70,29 @@ namespace EDTLibrary.Settings {
                 this["Notification_CableAlreadyInRaceway"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoSize_CircuitComponents {
+            get {
+                return ((bool)(this["AutoSize_CircuitComponents"]));
+            }
+            set {
+                this["AutoSize_CircuitComponents"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoSize_SCCR {
+            get {
+                return ((bool)(this["AutoSize_SCCR"]));
+            }
+            set {
+                this["AutoSize_SCCR"] = value;
+            }
+        }
     }
 }

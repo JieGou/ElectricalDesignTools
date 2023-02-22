@@ -18,15 +18,6 @@ using System.Windows;
 namespace EDTLibrary.Managers;
 public class DteqManager
 { 
-    public static void SetDteqPd(IDteq dteq)
-    {
-
-        //dteq.PdType = EdtSettings.DteqDefaultPdTypeLV;
-        //dteq.PdSizeFrame = DataTableSearcher.GetBreakerFrame(dteq);
-        //dteq.PdSizeTrip = DataTableSearcher.GetBreakerTrip(dteq);
-
-    }
-
     public static async Task<DistributionEquipment> AddDteq(object dteqToAddObject, ListManager listManager)
     {
         //Move AddDteq to DteqManager

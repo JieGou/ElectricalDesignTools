@@ -14,6 +14,7 @@ using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Selectors;
+using EDTLibrary.Settings;
 using EDTLibrary.UndoSystem;
 using EDTLibrary.Validators;
 using PropertyChanged;
@@ -86,32 +87,37 @@ namespace EDTLibrary.Models.Loads
 
         public bool IsValid { get; set; } = true;
 
-        public bool Validate()
+        public void Validate()
         {
-            if (DaManager.GettingRecords) return false;
+            if (DaManager.GettingRecords) return;
             var isValid = true;
 
             if (ProtectionDevice != null) {
-                isValid = ProtectionDevice.Validate();
+                ProtectionDevice.Validate(); 
+                isValid = ProtectionDevice.IsValid == false ? false : isValid;
             }
 
             if (PowerCable != null) {
                 PowerCable.Validate(PowerCable);
+                isValid = PowerCable.IsValid == false ? false : isValid;
             }
-
+            
             foreach (var comp in CctComponents) {
                 comp.Validate();
-            }
+                isValid = comp.IsValid == false ? false : isValid;
 
+            }
+            if (SCCR < SCCA) {
+                isValid = false;
+            }
 
             IsValid = isValid;
             FedFrom.Validate();
             OnPropertyUpdated();
 
-            return isValid;
+            return;
         }
-
-
+        
         public bool IsSelected { get; set; } = false;
         private bool allowCalculations = true;
         public int Id { get; set; }
@@ -611,7 +617,15 @@ namespace EDTLibrary.Models.Loads
 
         public double AmpacityFactor { get; set; }
 
-        public double Fla { get; set; }
+        public double Fla {
+            get { return _fla; }
+            set 
+            { 
+                _fla = value;
+                
+            }
+        }
+        private double _fla;
 
         public double ConnectedKva { get; set; }
 
@@ -825,11 +839,19 @@ namespace EDTLibrary.Models.Loads
                 if (FedFrom == null) {
                     return 0;
                 }
-                return FedFrom.SCCA; }
-            set { _scca = value; }
+                return FedFrom.SCCA; 
+            }
+            set
+            {
+                _scca = value;
+                SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
+
+                Validate();
+
+                OnPropertyUpdated();
+            }
         }
         private double _scca;
-
 
         public double SCCR
         {
@@ -857,15 +879,70 @@ namespace EDTLibrary.Models.Loads
         public void CalculateLoading(string propertyName = "")
         {
             if (allowCalculations == false) return;
-            UndoManager.CanAdd = false;
             if (DaManager.GettingRecords) return;
 
+            UndoManager.Lock(this, nameof(CalculateLoading));
 
             try {
-               
+
                 IsCalculating = true;
 
-                // Ampacity Factor
+                SetAmpacityFactor();
+
+                CalculateAndSetConnectedKva();
+
+                //FLA
+                if (Unit != "A") {
+                    Fla = ConnectedKva * 1000 / VoltageType.Voltage / Math.Sqrt(3);
+                    Fla = Math.Round(Fla, GlobalConfig.SigFigs);
+                }
+
+
+                //Power
+                ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
+                DemandKva = Math.Round(ConnectedKva * DemandFactor, GlobalConfig.SigFigs);
+                DemandKw = Math.Round(DemandKva * PowerFactor, GlobalConfig.SigFigs);
+                DemandKvar = Math.Round(DemandKva * (1 - PowerFactor), GlobalConfig.SigFigs);
+
+
+                Size_ProtectionDevice();
+
+
+                if (EdtAppSettings.Default.AutoSize_CircuitComponents) {
+                    foreach (var comp in CctComponents) {
+                        ProtectionDeviceManager.SetPdTripAndStarterSize(comp);
+                    }
+                }
+
+                if (EdtAppSettings.Default.AutoSize_SCCR) {
+                    SCCR = EquipmentSccrCalculator.GetMinimumSccr(this); 
+                }
+
+                PowerCable.GetRequiredAmps(this);
+
+                IsCalculating = false;
+
+                OnLoadingCalculated(propertyName);
+
+                PowerCable.Validate(PowerCable);
+                CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+
+                foreach (var item in CctComponents) {
+                    item.CalculateSize(this);
+                }
+            }
+
+            catch (Exception ex) {
+
+                ErrorHelper.SendExeptionMessage(ex);
+            }
+
+            UndoManager.UnLock(this, nameof(CalculateLoading));
+
+            OnPropertyUpdated();
+
+            void SetAmpacityFactor()
+            {
                 switch (Type) {
                     case "MOTOR":
                         AmpacityFactor = 1.25;
@@ -883,8 +960,9 @@ namespace EDTLibrary.Models.Loads
                         AmpacityFactor = 1.25;
                         break;
                 }
-
-                //ConnectedKva
+            }
+            void CalculateAndSetConnectedKva()
+            {
                 switch (Type) {
                     case "MOTOR":
                         AmpacityFactor = 1.25;
@@ -945,52 +1023,21 @@ namespace EDTLibrary.Models.Loads
                 if (ConnectedKva >= 9999999) {
                     ConnectedKva = 9999999;
                 }
+            }
 
-                //FLA
-
-                if (Unit != "A") {
-                    Fla = ConnectedKva * 1000 / VoltageType.Voltage / Math.Sqrt(3);
-                    Fla = Math.Round(Fla, GlobalConfig.SigFigs);
-                }
-
-
-                //Power
-                ConnectedKva = Math.Round(ConnectedKva, GlobalConfig.SigFigs);
-                DemandKva = Math.Round(ConnectedKva * DemandFactor, GlobalConfig.SigFigs);
-                DemandKw = Math.Round(DemandKva * PowerFactor, GlobalConfig.SigFigs);
-                DemandKvar = Math.Round(DemandKva * (1 - PowerFactor), GlobalConfig.SigFigs);
-
-               
-                ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
-
+            void Size_ProtectionDevice()
+            {
                 if (ProtectionDevice != null) {
-                    ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
-                }
-                SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
-
-                PowerCable.GetRequiredAmps(this);
-                UndoManager.CanAdd = true;
-
-                IsCalculating = false;
-
-                OnLoadingCalculated(propertyName);
-
-                PowerCable.Validate(PowerCable);
-                CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
-
-                foreach (var item in CctComponents) {
-                    item.CalculateSize(this);
+                    if (EdtAppSettings.Default.AutoSize_ProtectionDevice) {
+                        ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
+                        ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
+                    }
                 }
             }
-
-            catch (Exception ex) {
-
-                ErrorHelper.SendExeptionMessage(ex);
-            }
-
-            OnPropertyUpdated();
-
         }
+       
+
+        
 
         public void CreatePowerCable()
         {
