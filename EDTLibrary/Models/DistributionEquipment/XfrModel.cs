@@ -137,10 +137,10 @@ public class XfrModel : DistributionEquipment
         get { return _reactance; }
         set 
         { 
-            var oldImpX = _reactance;
+            var oldValue = _reactance;
             _reactance = value; 
             if (_reactance <= 0) {
-                _reactance = oldImpX;
+                _reactance = oldValue;
             }
         }
     }
@@ -165,9 +165,10 @@ public class XfrModel : DistributionEquipment
         }
     }
 
-
+   
     public override double CalculateSCCA()
     {
+        
         
         double scca = 0;
         scca = Size / (1.732 * LoadVoltage * Impedance / 100);

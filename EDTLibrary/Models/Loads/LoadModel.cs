@@ -85,30 +85,55 @@ namespace EDTLibrary.Models.Loads
         }
         private IProtectionDevice _protectionDevice;
 
+
+        public string IsInvalidMessage
+        {
+            get { return _isInvalidMessage; }
+            set { _isInvalidMessage = value; }
+        }
+        private string _isInvalidMessage;
+
         public bool IsValid { get; set; } = true;
 
         public void Validate()
         {
+            if (DaManager.Importing) return;
             if (DaManager.GettingRecords) return;
+
+            IsInvalidMessage = string.Empty;
             var isValid = true;
 
             if (ProtectionDevice != null) {
-                ProtectionDevice.Validate(); 
-                isValid = ProtectionDevice.IsValid == false ? false : isValid;
+                //ProtectionDevice.Validate(); 
+                if (ProtectionDevice.IsValid == false) {
+                    isValid = false;
+                    IsInvalidMessage += "Protection device" + Environment.NewLine;
+                }
             }
 
             if (PowerCable != null) {
-                PowerCable.Validate(PowerCable);
-                isValid = PowerCable.IsValid == false ? false : isValid;
+                //PowerCable.Validate(PowerCable);
+                if (PowerCable.IsValid == false) {
+                    isValid = false;
+                    IsInvalidMessage += "Load supply cable" + Environment.NewLine;
+                }
+
             }
-            
+
             foreach (var comp in CctComponents) {
-                comp.Validate();
-                isValid = comp.IsValid == false ? false : isValid;
+                //comp.Validate();
+                if (comp.IsValid == false) {
+                    isValid = false; 
+                    IsInvalidMessage += "Circuit component or circuit component cable" + Environment.NewLine;
+                }
+                 
+                
 
             }
             if (SCCR < SCCA) {
                 isValid = false;
+                IsInvalidMessage += "SCCR" + Environment.NewLine;
+
             }
 
             IsValid = isValid;
@@ -197,6 +222,7 @@ namespace EDTLibrary.Models.Loads
 
                     CalculateLoading();
                     PowerCable.AutoSizeAll_IfEnabled();
+                    Validate();
                 }
 
                 UndoManager.AddUndoCommand(this, nameof(Type),oldValue,_type);
@@ -240,6 +266,8 @@ namespace EDTLibrary.Models.Loads
                 {
                     CalculateLoading();
                     PowerCable.AutoSizeAll_IfEnabled();
+                    Validate();
+
                 }
 
                 UndoManager.AddUndoCommand(this, nameof(Size), oldValue, _size);
@@ -399,15 +427,19 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 if (value == null) return;
+                if (DaManager.GettingRecords) return; 
+                
 
                 var oldValue = _voltage;
                 _voltage = value;
 
                 UndoManager.AddUndoCommand(this, nameof(Voltage), oldValue, _voltage);
 
-                if (DaManager.GettingRecords == false) {
+           
                     PowerCable.CreateTypeList(this);
-                }
+                    Validate();
+
+                
                 OnPropertyUpdated();
 
             }
@@ -922,14 +954,18 @@ namespace EDTLibrary.Models.Loads
 
                 IsCalculating = false;
 
-                OnLoadingCalculated(propertyName);
 
                 PowerCable.Validate(PowerCable);
                 CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
 
-                foreach (var item in CctComponents) {
-                    item.CalculateSize(this);
+                if (EdtAppSettings.Default.AutoSize_CircuitComponents) {
+                    foreach (var item in CctComponents) {
+                        item.CalculateSize(this);
+                    } 
                 }
+                Validate();
+                OnLoadingCalculated(propertyName);
+
             }
 
             catch (Exception ex) {
@@ -938,9 +974,11 @@ namespace EDTLibrary.Models.Loads
             }
 
             UndoManager.UnLock(this, nameof(CalculateLoading));
-
+            Validate();
             OnPropertyUpdated();
 
+
+            //local methods
             void SetAmpacityFactor()
             {
                 switch (Type) {
@@ -1024,7 +1062,6 @@ namespace EDTLibrary.Models.Loads
                     ConnectedKva = 9999999;
                 }
             }
-
             void Size_ProtectionDevice()
             {
                 if (ProtectionDevice != null) {

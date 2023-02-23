@@ -4,7 +4,8 @@ Bug Notes
 Major Bugs
 	- change MessageBoxes to ErrorDialog with error list
 
-Minor Bugs
+Minor Bugs	
+	- XFR override calculateSCCA() not overriding dteq virtual calculateSCCA()
 	- 80% rated breakers only for LV equipment
 	- MCP frame size list in PowerConsumerEditor
 	- SCCA/R calculation on DTEQ size change

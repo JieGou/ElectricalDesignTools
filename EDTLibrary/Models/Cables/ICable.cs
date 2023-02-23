@@ -33,7 +33,7 @@ public interface ICable
     bool Is1C { get; set; }
     bool IsOutdoor { get; set; }
     bool IsValid { get; set; }
-    string InvalidCableMessage { get; set; }
+    string IsInvalidMessage { get; set; }
     public string InvalidAmpacityMessage { get; set; }
     public string InvalidLengthMessage { get; set; }
 

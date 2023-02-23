@@ -121,7 +121,8 @@ namespace EDTLibrary.DataAccess
             "HeatLoss",
             "Voltage",
             "Default",
-
+            "Default",
+            "IsInvalidMessage",
         };
         static public List<string> LcsNoSaveList { get; set; } = new List<string>()
         {
@@ -162,7 +163,7 @@ namespace EDTLibrary.DataAccess
             "InstallationType",
             "InsulationPercentage",
             "InvalidAmpacityMessage",
-            "InvalidCableMessage",
+            "IsInvalidMessage",
             "InvalidLengthMessage",
             "Is1C",
             "IsOutdoor",

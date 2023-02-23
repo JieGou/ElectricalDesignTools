@@ -37,12 +37,28 @@ public abstract class ComponentModelBase : IComponentEdt
     }
 
     public bool IsValid { get; set; } = true;
+
+
+    public string IsInvalidMessage
+    {
+        get { 
+            return _invalidProtectionDeviceMessage; 
+        }
+        set
+        { 
+            _invalidProtectionDeviceMessage = value; 
+        }
+    }
+    private string _invalidProtectionDeviceMessage;
+
     public void Validate()
     {
+
         if (DaManager.Importing) return;
         if (DaManager.GettingRecords) return;
         
         IsValid = true;
+        IsInvalidMessage = string.Empty;
 
         ValidateTrip();
         ValidateFrame();
@@ -61,6 +77,9 @@ public abstract class ComponentModelBase : IComponentEdt
         //this would be useful for indication in the load list
         if(Owner is ILoad) {
             var load = (ILoad)Owner;
+
+            load.Validate();   //causes stack overflow because when load is updated all components are validated
+
             load.FedFrom.Validate();
         }
 
@@ -71,23 +90,36 @@ public abstract class ComponentModelBase : IComponentEdt
     }
     private void ValidateTrip()
     {
+        if (this.Type.Contains("VSD") || this.Type.Contains("VFD") || this.Type.Contains("RVS")) return;
+
         if (TripAmps < ((IPowerConsumer)Owner).Fla) {
             IsValid = false;
+            IsInvalidMessage += "Trip is less than load FLA" + Environment.NewLine;
         }
     }
     private void ValidateFrame()
     {
+        if (this.Type.Contains("VSD") || this.Type.Contains("VFD") || this.Type.Contains("RVS")) return;
+
         if (FrameAmps < ((IPowerConsumer)Owner).Fla*1.25) {
             IsValid = false;
+            IsInvalidMessage += "Frame is less than 125% of FLA" + Environment.NewLine;
+
         }
-        if (FrameAmps < TripAmps) {
-            IsValid = false;
+        if (this.Type.Contains("FDS")) {
+            if (FrameAmps < TripAmps) {
+                IsValid = false;
+                IsInvalidMessage += $"Frame is less than Trip" + Environment.NewLine;
+            } 
         }
     }
     private void ValidateAIC()
     {
+        if (this.Type.Contains("VSD") || this.Type.Contains("VFD") || this.Type.Contains("RVS")) return;
+
         if (AIC < SCCA) {
             IsValid = false;
+            IsInvalidMessage += $"Device AIC rating is less than SCCA" + Environment.NewLine;
         }
     }
     public bool IsSelected { get; set; } = false;
@@ -144,15 +176,18 @@ public abstract class ComponentModelBase : IComponentEdt
 
             UndoManager.Lock(this, nameof(Type));
 
+            {
                 if (_type == DisconnectTypes.FDS.ToString() || _type == DisconnectTypes.FWDS.ToString()) {
                     var owner = (IPowerConsumer)Owner;
-                    if (owner!= null) {
+                    if (owner != null) {
                         TripAmps = TypeManager.BreakerTripSizes.FirstOrDefault(f => f.TripAmps >= owner.Fla).TripAmps;
                     }
                 }
+            }
 
             TypeList = ComponentTypeSelector.GetComponentTypeList(this);
             UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _type);
+            Validate();
             OnPropertyUpdated();
         }
     }
@@ -200,9 +235,12 @@ public abstract class ComponentModelBase : IComponentEdt
             if (DaManager.GettingRecords) return;
             UndoManager.Lock(this, nameof(SCCR));
 
+         
 
 
             UndoManager.AddUndoCommand(this, nameof(SCCR), oldValue, value);
+            Validate();
+
             OnPropertyUpdated();
         }
     }
@@ -232,10 +270,10 @@ public abstract class ComponentModelBase : IComponentEdt
 
             FrameAmps = ProtectionDeviceManager.GetPdFrameAmps(this, (IPowerConsumer)Owner);
             var pdLoad = (IPowerConsumer)Owner;
-            Validate();
             pdLoad.ValidateCableSizes();
 
             UndoManager.AddUndoCommand(this, nameof(TripAmps), oldValue, _trip);
+            Validate();
             OnPropertyUpdated();
         }
     }
@@ -247,9 +285,9 @@ public abstract class ComponentModelBase : IComponentEdt
 
             var oldValue = _size;
             _size = value;
-            Validate();
 
             UndoManager.AddUndoCommand(this, nameof(FrameAmps), oldValue, _size);
+            Validate();
             OnPropertyUpdated();
         }
     }
@@ -340,6 +378,7 @@ public abstract class ComponentModelBase : IComponentEdt
             FrameAmps = DataTableSearcher.GetDisconnectSize(load);
         }
         
+        Validate();
         OnPropertyUpdated();
     }
 

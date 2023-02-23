@@ -101,7 +101,8 @@
                     Visibility="{Binding IsValid, 
                     Converter={StaticResource BoolToVisInvert}, 
                     ConverterParameter=Inverted}"
-                    ToolTip="{Binding InvalidCableMessage}"/>
+                    ToolTip="{Binding IsInvalidMessage}"
+                    ToolTipService.InitialShowDelay="250"/>
                 
             </Grid>
             

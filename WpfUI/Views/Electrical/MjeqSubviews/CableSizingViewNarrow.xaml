@@ -374,7 +374,7 @@
                 VerticalAlignment="Top"
                 HorizontalAlignment="Left"/>
 
-            <TextBlock Text="{Binding PowerCable.InvalidCableMessage}"
+            <TextBlock Text="{Binding PowerCable.IsInvalidMessage}"
                        Margin="0 20"
                        Grid.Row="1"
                        Foreground="#FFD40000"

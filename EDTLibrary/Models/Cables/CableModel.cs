@@ -80,7 +80,7 @@ public class CableModel : ICable
         ValidateCableConductorQty(cable);
 
         if (cable.Load != null && cable.Load.FedFrom != null) {
-            InvalidCableMessage = $"Ampacity:\n{InvalidAmpacityMessage}" +
+            IsInvalidMessage = $"Ampacity:\n{InvalidAmpacityMessage}" +
                                   $"{Environment.NewLine}{Environment.NewLine}" +
                                   $"Length:\n{InvalidLengthMessage}";
         }
@@ -549,7 +549,7 @@ public class CableModel : ICable
     public string InvalidAmpacityMessage { get; set; }
     public string InvalidLengthMessage { get; set; }
 
-    public string InvalidCableMessage { get; set; }
+    public string IsInvalidMessage { get; set; }
     public bool IsValid { get; set; } = true;
     #endregion
 

@@ -733,6 +733,9 @@ namespace EDTLibrary.Models.DistributionEquipment
             set
             {
                 _scca = value;
+                foreach (var load in AssignedLoads) {
+                    load.SCCA = _scca;
+                }
                 SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
 
                 Validate();
@@ -863,12 +866,12 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 //Full Load / Max operating Amps
                 if (Unit == Units.kVA.ToString()) {
-                    Fla = _size * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
+                    Fla = Size * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
                     Fla = Math.Round(Fla, GlobalConfig.SigFigs);
 
                 }
                 else if (Unit == Units.A.ToString()) {
-                    Fla = _size;
+                    Fla = Size;
                 }
                 if (Fla > 99999) Fla = 99999;
 
