@@ -12,6 +12,9 @@ internal class ProtectionDeviceAicCalculator
     internal static double GetMinimumBreakerAicRating(IPowerConsumer load)
     {
         var validBreakerAicRatings = TypeManager.BreakerAicRatings.Where(b => b.kAicRating >= load.SCCA);
-        return validBreakerAicRatings.Min(b => b.kAicRating);
+        if (validBreakerAicRatings.Any()) {
+            return validBreakerAicRatings.Min(b => b.kAicRating);
+        }
+        return TypeManager.BreakerAicRatings.Min(b => b.kAicRating);
     }
 }

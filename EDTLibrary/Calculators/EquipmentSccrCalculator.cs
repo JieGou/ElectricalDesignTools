@@ -15,8 +15,11 @@ internal class EquipmentSccrCalculator
     internal static double GetMinimumAicRating(IComponentEdt pd)
     {
         if (true) {
-            var validSccrValues = TypeManager.BreakerAicRatings.Where(b => b.kAicRating >= pd.SCCA);
-            return validSccrValues.Min(b => b.kAicRating);
+            var validBreakerAicRatings = TypeManager.BreakerAicRatings.Where(b => b.kAicRating >= pd.SCCA);
+            if (validBreakerAicRatings.Any()) {
+                return validBreakerAicRatings.Min(b => b.kAicRating);
+            }
+            return TypeManager.BreakerAicRatings.Min(b => b.kAicRating);
         }
     }
 
@@ -24,7 +27,10 @@ internal class EquipmentSccrCalculator
     {
         if (EdtAppSettings.Default.AutoSize_SCCR) {
             var validSccrValues = TypeManager.EquipmentSccrValues.Where(b => b.SCCR >= load.SCCA);
-            return validSccrValues.Min(b => b.SCCR); 
+            if (validSccrValues.Any()) {
+                return validSccrValues.Min(b => b.SCCR);
+            }
+            return TypeManager.EquipmentSccrValues.Min(b => b.SCCR);
         }
         return load.SCCR;
     }
@@ -33,7 +39,10 @@ internal class EquipmentSccrCalculator
     {
         if (EdtAppSettings.Default.AutoSize_SCCR) {
             var validSccrValues = TypeManager.EquipmentSccrValues.Where(b => b.SCCR >= comp.SCCA);
-            return validSccrValues.Min(b => b.SCCR); 
+            if (validSccrValues.Any()) {
+                return validSccrValues.Min(b => b.SCCR);
+            }
+            return TypeManager.EquipmentSccrValues.Min(b => b.SCCR);
         }
         return comp.SCCR;
 
