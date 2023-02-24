@@ -107,7 +107,7 @@ namespace EDTLibrary.Models.Loads
                 //ProtectionDevice.Validate(); 
                 if (ProtectionDevice.IsValid == false) {
                     isValid = false;
-                    IsInvalidMessage += "Protection device" + Environment.NewLine;
+                    IsInvalidMessage += Environment.NewLine + "Protection device";
                 }
             }
 
@@ -115,16 +115,22 @@ namespace EDTLibrary.Models.Loads
                 //PowerCable.Validate(PowerCable);
                 if (PowerCable.IsValid == false) {
                     isValid = false;
-                    IsInvalidMessage += "Load supply cable" + Environment.NewLine;
+                    IsInvalidMessage += Environment.NewLine + "Load supply cable";
                 }
 
             }
 
             foreach (var comp in CctComponents) {
                 //comp.Validate();
-                if (comp.IsValid == false) {
-                    isValid = false; 
-                    IsInvalidMessage += "Circuit component or circuit component cable" + Environment.NewLine;
+                if (comp != null && comp.PowerCable != null) {
+                    if (comp.IsValid == false || comp.PowerCable.IsValid == false) {
+                        isValid = false;
+                        IsInvalidMessage += Environment.NewLine + "Circuit component";
+                    }
+                    if (comp.PowerCable.IsValid == false) {
+                        isValid = false;
+                        IsInvalidMessage += Environment.NewLine + "Circuit component cable";
+                    }
                 }
                  
                 
@@ -132,8 +138,13 @@ namespace EDTLibrary.Models.Loads
             }
             if (SCCR < SCCA) {
                 isValid = false;
-                IsInvalidMessage += "SCCR" + Environment.NewLine;
+                IsInvalidMessage += Environment.NewLine + "SCCR is less than SCCA";
 
+            }
+
+            //Final message
+            if (isValid == false) {
+                IsInvalidMessage = "Validation Failures:" + Environment.NewLine + IsInvalidMessage;
             }
 
             IsValid = isValid;
@@ -427,18 +438,18 @@ namespace EDTLibrary.Models.Loads
             set
             {
                 if (value == null) return;
-                if (DaManager.GettingRecords) return; 
-                
+                if (DaManager.GettingRecords) return;
 
+                var pd = ProtectionDevice;
                 var oldValue = _voltage;
                 _voltage = value;
 
                 UndoManager.AddUndoCommand(this, nameof(Voltage), oldValue, _voltage);
 
-           
+                {
                     PowerCable.CreateTypeList(this);
                     Validate();
-
+                }
                 
                 OnPropertyUpdated();
 
@@ -962,6 +973,10 @@ namespace EDTLibrary.Models.Loads
                     foreach (var item in CctComponents) {
                         item.CalculateSize(this);
                     } 
+                }
+                ProtectionDevice.Validate();
+                foreach (var comp in CctComponents) {
+                    comp.Validate();
                 }
                 Validate();
                 OnLoadingCalculated(propertyName);

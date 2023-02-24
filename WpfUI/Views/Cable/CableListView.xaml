@@ -15,6 +15,8 @@
               
              xmlns:converters="clr-namespace:WpfUI.Converters"
              xmlns:controls="clr-namespace:WpfUI.Controls"
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             
              
              
              xmlns:cableViewModels="clr-namespace:WpfUI.ViewModels.Cable"
@@ -188,6 +190,7 @@
                                    AllowSorting="True" 
                                    AllowFiltering="True"
                                    AllowResizingColumns="True"
+                                       AllowTriStateSorting="False"
                                    
                                    FilterRowPosition="FixedTop"
                                    ShowGroupDropArea="True"
@@ -219,6 +222,41 @@
 
                     <syncfusion:SfDataGrid.Columns>
 
+
+                        <!--Validation Icon-->
+                        <syncfusion:GridTemplateColumn HeaderText="" MappingName="IsValid"
+                                        Width="25"
+                                        TextAlignment="Center"
+                                        AllowSorting="True" 
+                                        AllowEditing="False"
+                                        AllowDragging="False"
+                                        AllowFiltering="False"
+                                        UseBindingValue="True"
+                                        ImmediateUpdateColumnFilter="True"
+                                        FilterRowOptionsVisibility="Collapsed"
+                                        HorizontalHeaderContentAlignment="Center" 
+                                         >
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <iconControls:ErrorIcon
+                                                Visibility="{Binding IsValid, 
+                                                Converter={StaticResource BoolToVisInvert}, 
+                                                ConverterParameter=Inverted}"
+                                                ToolTipService.InitialShowDelay="250">
+                                        <iconControls:ErrorIcon.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel Orientation="Vertical">
+                                                    <!--<TextBlock Text="Validation Failures:"/>-->
+                                                    <TextBlock Text="{Binding IsInvalidMessage}"
+                                                                       TextAlignment="Left"/>
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </iconControls:ErrorIcon.ToolTip>
+                                    </iconControls:ErrorIcon>
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+                        
                         <syncfusion:GridTextColumn MappingName="Tag"
                                                MaximumWidth="200"
                                                UseBindingValue="True" 

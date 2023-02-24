@@ -64,8 +64,6 @@ public class ProtectionDeviceModel : ComponentModelBase, IProtectionDevice
 
     
     private string _type;
-    public string StarterSize { get; set; }
-
 
     private void AddOrDeleteLcsAnalogCable()
     {

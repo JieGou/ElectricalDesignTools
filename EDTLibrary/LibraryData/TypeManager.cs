@@ -323,6 +323,7 @@ namespace EDTLibrary.LibraryData
 
             return starter;
         }
+
         public static VfdHeatSize GetVfdHeatSize(double motorSize, double voltage)
         {
             var vfdSize = new VfdHeatSize();

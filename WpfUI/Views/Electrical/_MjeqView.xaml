@@ -151,6 +151,32 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
+            <!--Busy Indicator Border-->
+            <controls:ClippingBorder BorderBrush="Black" BorderThickness="2"
+                                     Grid.RowSpan="10"
+                                     Grid.ColumnSpan="10"
+                                     Width="350"
+                                     Height="350"
+                                     CornerRadius="{StaticResource ControlCornerRadius}"
+                                     Panel.ZIndex="1"
+                                     Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <controls:ClippingBorder.Background>
+                    <SolidColorBrush Color="White" Opacity=".85"/>
+                </controls:ClippingBorder.Background>
+
+                <!--BusyIndicator-->
+                <syncfusion:SfBusyIndicator x:Name="busyIndicator"
+                                                Grid.Row="0" Grid.Column="0"
+                                                IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
+                                                Foreground="{StaticResource Darkest}"
+                                                ViewboxHeight="50"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                Header="Calculating..."
+                                                AnimationType="SingleCircle"
+                                                Panel.ZIndex="5"/>
+            </controls:ClippingBorder>
+
             <!--Page Title-->
             <TextBlock Text="Major Equipment"
                        Grid.Row="0"
@@ -403,10 +429,42 @@
                                 <!--Basic-->
                                 <!--Textblock cell padding style in this.resources Move to ResDict-->
 
-                                <!--LOADING-->
+                                <!--Area-->
+                                <DataGridTemplateColumn Width="25"
+                                                    HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}"
+                                                    >
+                                    <DataGridTemplateColumn.Header>
 
+                                        <Grid>
+                                          
+                                        </Grid>
+                                    </DataGridTemplateColumn.Header>
 
-                                <!--POWER-->
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <iconControls:ErrorIcon
+                                                Visibility="{Binding IsValid, 
+                                                Converter={StaticResource BoolToVisInvert}, 
+                                                ConverterParameter=Inverted}"
+                                                ToolTipService.InitialShowDelay="250">
+                                                <iconControls:ErrorIcon.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel Orientation="Vertical">
+                                                            <!--<TextBlock Text="Validation Failures:"/>-->
+                                                            <TextBlock Text="{Binding IsInvalidMessage}"
+                                                                       TextAlignment="Left"/>
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </iconControls:ErrorIcon.ToolTip>
+                                            </iconControls:ErrorIcon>
+                                                
+
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    
+                                </DataGridTemplateColumn>
+                                
+                                
                                 <!--Tag-->
                                 <DataGridTextColumn x:Name="dteqTag"
                                                 MinWidth="75"
@@ -1002,7 +1060,7 @@
                     <!--LOAD DATA GRID-->
                     <controls:ClippingBorder BorderBrush="{StaticResource ControlBorder}" BorderThickness="1"
                                              Grid.Row="1"  Grid.Column="0"
-                                             >
+                                             Margin="5">
                         
                         <syncfusion:SfDataGrid x:Name="dgdAssignedLoads"  
                                Grid.Row="1"  Grid.Column="0"
@@ -1103,21 +1161,27 @@
                                         AllowDragging="False"
                                         AllowFiltering="False"
                                         UseBindingValue="True"
-                                        FilterRowCondition="Contains"
                                         ImmediateUpdateColumnFilter="True"
-                                        HorizontalHeaderContentAlignment="Center" >
+                                        FilterRowOptionsVisibility="Collapsed"
+                                        HorizontalHeaderContentAlignment="Center" 
+                                         >
                                     <syncfusion:GridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <iconControls:ErrorIcon
-                                            Grid.Column="0" 
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            Margin="0"
-                                            Visibility="{Binding IsValid, 
-                                            Converter={StaticResource BoolToVisInvert}, 
-                                            ConverterParameter=Inverted}"
-                                            ToolTip="{Binding IsInvalidMessage}"
-                                            ToolTipService.InitialShowDelay="250"/>
+                                                Visibility="{Binding IsValid, 
+                                                Converter={StaticResource BoolToVisInvert}, 
+                                                ConverterParameter=Inverted}"
+                                                ToolTipService.InitialShowDelay="250">
+                                                <iconControls:ErrorIcon.ToolTip>
+                                                    <ToolTip>
+                                                        <StackPanel Orientation="Vertical">
+                                                            <!--<TextBlock Text="Validation Failures:"/>-->
+                                                            <TextBlock Text="{Binding IsInvalidMessage}"
+                                                                       TextAlignment="Left"/>
+                                                        </StackPanel>
+                                                    </ToolTip>
+                                                </iconControls:ErrorIcon.ToolTip>
+                                            </iconControls:ErrorIcon>
                                         </DataTemplate>
                                     </syncfusion:GridTemplateColumn.CellTemplate>
                                 </syncfusion:GridTemplateColumn>

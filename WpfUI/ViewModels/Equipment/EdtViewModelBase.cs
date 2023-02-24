@@ -4,6 +4,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
+using PropertyChanged;
 using Syncfusion.XlsIO.Parser.Biff_Records.Formula;
 using System;
 using System.Collections;
@@ -22,6 +23,8 @@ using WpfUI.Windows.SelectionWindows;
 using static System.Windows.Forms.MonthCalendar;
 
 namespace WpfUI.ViewModels.Equipment;
+
+[AddINotifyPropertyChangedInterface]
 public abstract class EdtViewModelBase: ViewModelBase
 {
     protected EdtViewModelBase(ListManager listManager)
@@ -72,6 +75,14 @@ public abstract class EdtViewModelBase: ViewModelBase
     public virtual ObservableCollection<IPowerConsumer> AssignedLoads { get; set; } = new ObservableCollection<IPowerConsumer> { };
 
 
+    public bool IsBusy
+    {
+        get { return _isBusy; }
+        set { _isBusy = value; }
+    }
+    private bool _isBusy;
+
+    public string TestText { get; set; } = "ASDFASDF";
 
     public Window SelectionWindow { get; set; }
     public ICommand CloseWindowCommand { get; }
@@ -102,11 +113,17 @@ public abstract class EdtViewModelBase: ViewModelBase
     public ICommand CalculateAllCommand { get; }
     public void CalculateAll()
     {
-            CalculateAllAsync();
+        IsBusy = true;
+
+        CalculateAllAsync();
     }
     public async Task CalculateAllAsync()
     {
         try {
+            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() => {
+                IsBusy = true;
+            }));
+
             await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
 
                 foreach (var item in _listManager.LoadList) {
@@ -116,24 +133,38 @@ public abstract class EdtViewModelBase: ViewModelBase
                 foreach (var item in _listManager.DteqList) {
                     item.CalculateLoading();
                 }
-
+                IsBusy = false;
 
             }));
+
         }
         catch (Exception ex) {
-            NotificationHandler.ShowErrorMessage(ex);
+            //NotificationHandler.ShowErrorMessage(ex);
+            IsBusy = false;
+
+        }
+        finally {
+            IsBusy = false;
+
         }
     }
 
     public ICommand AutoSizeAllCablesCommand { get; }
     private void AutoSizeAllCables()
     {
+        IsBusy = true;
+
         AutoSizeAllCablesAsync();
     }
     private async Task AutoSizeAllCablesAsync()
     {
         try {
+            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() => {
+                IsBusy = true;
+            }));
             await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+
+
                 foreach (var item in _listManager.IDteqList) {
                     CableManager.IsAutosizing = true;
                     item.SizePowerCable();
@@ -146,10 +177,18 @@ public abstract class EdtViewModelBase: ViewModelBase
                     CableManager.IsAutosizing = false;
                     item.PowerCable.OnPropertyUpdated();
                 }
+                IsBusy = false;
             }));
+
         }
         catch (Exception ex) {
-            NotificationHandler.ShowErrorMessage(ex);
+            //NotificationHandler.ShowErrorMessage(ex);
+            IsBusy = false;
+
+        }
+        finally {
+            IsBusy = false;
+
         }
     }
 

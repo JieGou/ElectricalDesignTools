@@ -90,9 +90,8 @@ public class CableModel : ICable
             Load.FedFrom.Validate();
 
         }
-        if (Load != null && Load is IDteq) {
-            (Load as IDteq).Validate();
-
+        if (Load != null) {
+            Load.Validate();
         }
         return;
     }
@@ -886,6 +885,7 @@ public class CableModel : ICable
 
 
         // 1 - filter cables larger than RequiredAmps first iteration
+        GetRequiredSizingAmps();
         SelectValidCables_LadderTray(ampsColumn, cableAmpacityTable, cablesWithHigherAmpsInProject);
 
         // increase quantity until a valid cable is found
@@ -921,7 +921,6 @@ public class CableModel : ICable
                         row[ampsColumn] = amps75;
                     }
                     SelectValidCables_LadderTray(ampsColumn, cableAmpacityTable, cablesWithHigherAmpsInProject);
-
                     GetCableQty(cableQty);
                 }
             }
@@ -932,7 +931,7 @@ public class CableModel : ICable
     private void SelectValidCables_LadderTray(string ampsColumn, DataTable cableAmpacityTable, DataTable cablesWithHigherAmpsInProject)
     {
         var cablesWithHigherAmps = cableAmpacityTable.AsEnumerable().Where(x => x.Field<string>("Code") == EdtProjectSettings.Code
-                                                                                && x.Field<double>(ampsColumn) >= RequiredSizingAmps
+                                                                                && x.Field<double>(ampsColumn) >= RequiredSizingAmps 
                                                                                 && x.Field<string>("AmpacityTable") == AmpacityTable); // ex: Table2 (from CEC)
                                                                                                                                        // remove cable if size is not in project
         foreach (var cableSizeInProject in EdtProjectSettings.CableSizesUsedInProject) {
@@ -944,7 +943,7 @@ public class CableModel : ICable
                 if (cableSizeInProject.Size == cableWithHigherAmps.Field<string>("Size") &&
                     cableSizeInProject.Type == Type &&
                     cableSizeInProject.UsedInProject == true) {
-                    //var cableRow = cableWithHigherAmps;
+                    var cableRow = cableWithHigherAmps;
                     cablesWithHigherAmpsInProject.Rows.Add(cableWithHigherAmps.ItemArray);
                     var count = cablesWithHigherAmpsInProject.Rows.Count;
                 }

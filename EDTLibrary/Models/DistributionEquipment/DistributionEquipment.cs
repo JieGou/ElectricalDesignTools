@@ -60,6 +60,14 @@ namespace EDTLibrary.Models.DistributionEquipment
         }
         private bool _isValid;
 
+
+        public string IsInvalidMessage
+        {
+            get { return _isInvalidMessage; }
+            set { _isInvalidMessage = value; }
+        }
+        private string _isInvalidMessage;
+
         public bool CheckValidationOfAllChildren()
         {
             if (DaManager.GettingRecords) return false;
@@ -84,22 +92,36 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (DaManager.GettingRecords) return;
 
             var isValid = true;
+            IsInvalidMessage = string.Empty;
 
             //Dteq
             if (ProtectionDevice != null) {
-                isValid = ProtectionDevice.IsValid == false ? false : isValid;
+                //ProtectionDevice.Validate(); 
+                if (ProtectionDevice.IsValid == false) {
+                    isValid = false;
+                    IsInvalidMessage += Environment.NewLine + "Protection device is invalid";
+                }
             }
 
             if (PowerCable != null) {
-                isValid = PowerCable.IsValid == false ? false : isValid;
+                //PowerCable.Validate(PowerCable);
+                if (PowerCable.IsValid == false) {
+                    isValid = false;
+                    IsInvalidMessage += Environment.NewLine + "Supply cable is invalid";
+                }
             }
             //Loads Components and Cables
             isValid = CheckValidationOfAllLoadsComponentsAndCAbles(isValid);
 
             if (SCCR < SCCA) {
                 isValid = false;
+                IsInvalidMessage += Environment.NewLine + "SCCR is less than SCCA";
             }
 
+            //Final message
+            if (isValid == false) {
+                IsInvalidMessage = "Validation Failures:" + Environment.NewLine + IsInvalidMessage;
+            }
             IsValid = isValid;
             OnPropertyUpdated();
             return;
@@ -107,35 +129,59 @@ namespace EDTLibrary.Models.DistributionEquipment
 
         private bool CheckValidationOfAllLoadsComponentsAndCAbles(bool isValid)
         {
+            var isValid_Load = true;
+            var isValid_LoadProtectionDevice = true;
+            var isValid_LoadPowerCable = true;
+            var isValid_Comp = true;
+            var isValid_CompPowerCable = true;
             foreach (var load in AssignedLoads) {
 
                 if (load.Category == Categories.DTEQ.ToString()) {
                     continue;
                 }
 
-                isValid = load.IsValid == false ? false : isValid;
+                if (load.IsValid == false) {
+                    isValid = false;
+                    isValid_Load = false;
+
+                }
 
                 if (load.ProtectionDevice != null) {
 
                     if (!load.ProtectionDevice.IsValid) {
-                        isValid = false;
+                        isValid = false;                    
+                        isValid_LoadProtectionDevice = false;
+
                     }
                 }
                 if (load.PowerCable != null) {
-                    isValid = load.PowerCable.IsValid == false ? false : isValid;
+                    if (!load.PowerCable.IsValid) {
+                        isValid = false;
+                        isValid_LoadPowerCable = false;
+                    }
                 }
 
                 foreach (var comp in load.CctComponents) {
-                    isValid = comp.IsValid == false ? false : isValid;
+                    if (comp.IsValid == false) {
+                        isValid = false;
+                        isValid_Comp = false;
+                    }
 
                     if (comp.PowerCable != null) {
 
-                        isValid = comp.PowerCable.IsValid == false ? false : isValid;
-
+                        if (comp.PowerCable.IsValid == false) {
+                            isValid = false;
+                            isValid_CompPowerCable = false;
+                        }
                     }
                 }
             }
 
+            if (!isValid_Load) { IsInvalidMessage += Environment.NewLine + "A load is invalid"; }
+            if (!isValid_LoadProtectionDevice) { IsInvalidMessage += Environment.NewLine + "A loads' protection device is invalid."; }
+            if (!isValid_LoadPowerCable) { IsInvalidMessage += Environment.NewLine + "A loads' power cable is invalid."; }
+            if (!isValid_Comp) { IsInvalidMessage += Environment.NewLine + "A load's component is invalid."; }
+            if (!isValid_CompPowerCable) { IsInvalidMessage += Environment.NewLine + "A load's component's power cable is invalid."; }
             return isValid;
         }
         #endregion

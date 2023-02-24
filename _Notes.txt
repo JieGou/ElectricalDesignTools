@@ -5,7 +5,7 @@ Major Bugs
 	- change MessageBoxes to ErrorDialog with error list
 
 Minor Bugs	
-	- XFR override calculateSCCA() not overriding dteq virtual calculateSCCA()
+	- cable validation message headers
 	- 80% rated breakers only for LV equipment
 	- MCP frame size list in PowerConsumerEditor
 	- SCCA/R calculation on DTEQ size change
@@ -20,11 +20,12 @@ Minor Bugs
 
 *****************************************************************************************************************************
 
-Application Settings
-	- auto-calc
-		- PD 
-		- Component Sizing
-		
+
+Validations
+	- Starter size
+	- Cable
+	- Voltage 
+
 
 Exclulde Individual items from auto calculations
 	- Protection Device
@@ -96,13 +97,6 @@ Exports
 	- add Export buttons to Views
 
 
-Validations
-	- PD	
-	- Starter
-	- Cable
-	- Voltage 
-
-
 Dteq 
 	- validate cable when AssignedLoads changes
 	- dteq as LoadGraphicVew
@@ -149,6 +143,8 @@ User Interface
 ***************************
 
 
+- Model for each component
+- Propertie sview for each equipment
 
 - Move Component Up/Down into ComponentModelBase
 

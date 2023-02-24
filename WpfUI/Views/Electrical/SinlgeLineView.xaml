@@ -251,9 +251,11 @@
                                         </Grid.ColumnDefinitions>
                                         <Grid>
                                             <iconControls:ErrorIcon
-                                        Visibility="{Binding IsValid, 
-                                        Converter={StaticResource BoolToVisInvert}, 
-                                        ConverterParameter=Inverted}"/>
+                                                Visibility="{Binding IsValid, 
+                                                Converter={StaticResource BoolToVisInvert}, 
+                                                ConverterParameter=Inverted}"
+                                                ToolTip="{Binding IsInvalidMessage}"
+                                                ToolTipService.InitialShowDelay="250"/>
 
                                         </Grid>
                                         <Grid Grid.Column="1">
