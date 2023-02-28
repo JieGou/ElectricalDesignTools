@@ -51,6 +51,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="D:\My Drive\Programming\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
     <ProjectReference Include="D:\My Drive\Work\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>

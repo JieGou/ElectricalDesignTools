@@ -1,14 +1,12 @@
 ﻿using AutocadLibrary;
-using Autodesk.AutoCAD.Interop;
 using Autodesk.AutoCAD.Interop.Common;
 using EDTLibrary.Autocad.Interop;
 using EDTLibrary.Models.DistributionEquipment;
-using EDTLibrary.ProjectSettings;
 using EDTLibrary.Services;
 using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using System.Windows.Forms;
 using WpfUI.Helpers;
 using Task = System.Threading.Tasks.Task;
@@ -98,9 +96,15 @@ public class AutocadService
     private async Task StartAutocadAsync()
     {
         try {
+
+            //for persisting the Document Name
+
+            //if (_acadHelper == null) {
+            //    _acadHelper = new AutocadHelper();
+            //}
+
             _acadHelper = new AutocadHelper();
 
-            
 
             await Task.Run(() => {
                 _acadHelper.StartAutocad();
@@ -117,7 +121,6 @@ public class AutocadService
         }
     }
 
-
     public async Task CreateSingleLine(IDteq dteq)
     {
         if (_isRunningTasks) {
@@ -125,8 +128,6 @@ public class AutocadService
         }
         else {
             await DrawSingleLineAsync(dteq);
-
-   
         }
     }
     public async Task DrawSingleLineAsync(IDteq dteq, bool newDrawing = true)
@@ -140,7 +141,11 @@ public class AutocadService
             await StartAutocadAsync();
             EdtNotificationService.CloseoPupNotification(this);
 
-            if (newDrawing == true || _acadHelper.AcadDoc == null) {
+            //if (newDrawing == true || _acadHelper.AcadDoc == null) {
+            //    _acadHelper.AddDrawing();
+            //}
+
+            if (newDrawing == true ) {
                 _acadHelper.AddDrawing();
             }
 
@@ -181,6 +186,12 @@ public class AutocadService
                 DrawSingleLineAsync(dteq, false);
             }
             else if (ex.Message.Contains("instance")) {
+                if (_acadHelper.AcadDoc != null) {
+                    DeleteDrawingContents();
+                    DrawSingleLineAsync(dteq, false);
+                }
+            }
+            else if (ex.Message.Contains("dispatch")) {
                 if (_acadHelper.AcadDoc != null) {
                     DeleteDrawingContents();
                     DrawSingleLineAsync(dteq, false);

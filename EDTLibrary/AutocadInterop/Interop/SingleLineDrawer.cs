@@ -1,5 +1,4 @@
 ﻿using AutocadLibrary;
-using Autodesk.AutoCAD.Interop.Common;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
@@ -8,6 +7,7 @@ using System;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Printing;
+using System.Threading;
 
 namespace EDTLibrary.Autocad.Interop;
 public class SingleLineDrawer
@@ -30,9 +30,7 @@ public class SingleLineDrawer
     {
 
         try {
-            //if (_acad.AcadDoc == null) {
-            //    _acad.AddDrawing();
-            //}
+            
             InsertMainBlock(mcc, _insertionPoint, "BKR");
 
             _insertionPoint[0] += firstLoadSpacing;
@@ -88,7 +86,9 @@ public class SingleLineDrawer
         double Yscale = 1;
         double Zscale = 1;
 
-        
+        Thread.Sleep(1000);
+
+
         var acadBlock = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
         //acadBlock.Modified += AcadEventHandler.OnAcadModified;
         AcadEventHandler.raisers.Add(acadBlock);
@@ -209,7 +209,8 @@ public class SingleLineDrawer
 
 
         string sourcePath = BlockSourceFolder + @"\Single Line\";
-        string blockName = "SL_" + blockType + ".dwg";
+        //string blockName = "SL_" + blockType + ".dwg";
+        string blockName = "SL" + "_DCN" + ".dwg";
         string blockPath = sourcePath + blockName;
 
         
@@ -224,6 +225,34 @@ public class SingleLineDrawer
         foreach (dynamic att in blockAtts) {
             switch (att.TagString) {
 
+                //Edt Cable
+                case "CableTag":
+                    att.TextString = $"{load.PowerCable.Tag}";
+                    break;
+                case "CableSize":
+                    att.TextString = $"{load.PowerCable.SizeTag}";
+                    break;
+
+                //Edt Disconnect
+                case "DisconnectTag":
+                    if (load.Disconnect != null)
+                        att.TextString = $"{load.Disconnect.Tag}";
+                    break;
+                case "FrameAmps":
+                    if (load.Disconnect != null)
+                        att.TextString = $"{load.Disconnect.FrameAmps}";
+                    break;
+
+                case "TripAmps":
+                    if (load.Disconnect != null)
+                        att.TextString = $"{load.Disconnect.TripAmps}";
+                    break;
+
+                case "FrameAmps2":
+                    if (load.Disconnect != null)
+                        att.TextString = $"{load.Disconnect.FrameAmps}";
+                    break;
+
                 //Cable 1
                 case "CABLE_TAG":
                     att.TextString = $"{load.PowerCable.Tag}";
@@ -232,7 +261,7 @@ public class SingleLineDrawer
                     att.TextString = $"{load.PowerCable.SizeTag}";
                     break;
 
-                //Breaker
+                //Breaker V1
                 case "LOAD_SIZE":
                     att.TextString = load.Type == LoadTypes.MOTOR.ToString()? $"{load.Size}" : $"{load.Size} {load.Unit}";
                     break;
@@ -243,7 +272,7 @@ public class SingleLineDrawer
                     att.TextString = $"{load.Description}";
                     break;
 
-                //StandAloneStarter
+                //StandAloneStarter V1
                 case "DRIVE_TAG":
                     if (load.StandAloneStarter != null)
                         att.TextString = $"{load.StandAloneStarter.Tag}";
@@ -254,7 +283,7 @@ public class SingleLineDrawer
                     break;
                 
 
-                //Disconnect
+                //Disconnect V1
                 case "DCN_TAG":
                     if (load.Disconnect != null)
                         att.TextString = $"{load.Disconnect.Tag}";

@@ -1,5 +1,4 @@
-﻿using Autodesk.AutoCAD.Interop.Common;
-using EDTLibrary.DataAccess;
+﻿using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
@@ -16,32 +15,32 @@ public static class AcadEventHandler
 {
     public static List<object> raisers = new List<object>();
     public static List<string> entities = new List<string>();
-    public static void OnAcadModified(AcadObject acadObject)
+    public static void OnAcadModified(dynamic acadObject)
     {
         try {
             ErrorHelper.Log("Event fired", "AcadEventHandler");
 
             string objName = acadObject.ObjectName;
-            AcadBlockReference block;
-            object[] atts = new AcadAttribute[0];
+            dynamic block;
+            object[] atts = new dynamic[0];
 
             var doc = (dynamic)acadObject.Document;
-            foreach (AcadEntity item in doc.ModelSpace) {
+            foreach (dynamic item in doc.ModelSpace) {
                 if (item == null) continue;
                 entities.Add(item.EntityName);
             }
-            foreach (AcadEntity item in doc.ModelSpace) {
+            foreach (dynamic item in doc.ModelSpace) {
                 if (item == null) continue;
 
                 if (acadObject.ObjectID == item.ObjectID) {
                     if (acadObject.ObjectName.Contains("Block")) {
-                        block = (AcadBlockReference)item;
+                        block = (dynamic)item;
                         atts = (dynamic)block.GetAttributes();
                         break;
                     }
 
                     if (acadObject.ObjectName.Contains("Attribute")) {
-                        block = (AcadBlockReference)item;
+                        block = (dynamic)item;
                         atts = (dynamic)block.GetAttributes();
                         break;
                     }
@@ -52,7 +51,7 @@ public static class AcadEventHandler
             string desc = "";
 
             if (atts.Count() > 0) {
-                foreach (AcadAttributeReference att in atts) {
+                foreach (dynamic att in atts) {
                     if (att.TagString == "LOAD_TAG") {
                         tag = att.TextString;
                     }
@@ -67,7 +66,7 @@ public static class AcadEventHandler
                 load.Description = desc;
             }
 
-            foreach (AcadAttributeReference item in atts) {
+            foreach (dynamic item in atts) {
                 Debug.Print(item.TagString);
             }
         }

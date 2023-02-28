@@ -143,13 +143,29 @@ public abstract class ComponentModelBase : IComponentEdt
         if (this.Type.Contains("DOL") || this.Type.Contains("MCP") ) {
             var validStarter = TypeManager.GetStarter( ((LoadModel)this.Owner).Size, ((LoadModel)Owner).Unit);
             var selectedStarter = TypeManager.StarterSizes.FirstOrDefault(ss => ss.Size == StarterSize && ss.Unit == ((LoadModel)Owner).Unit);
-            if (validStarter != null && selectedStarter.SizeNumeric<validStarter.SizeNumeric) {
+            if (validStarter != null && selectedStarter.SizeNumeric < validStarter.SizeNumeric) {
+                IsValid = false;
                 IsInvalidMessage += Environment.NewLine + "Starter is undersized";
             }
         }
 
     }
-    public string StarterSize { get; set; }
+    private string _starterSize;
+
+    public string StarterSize
+    {
+        get { return _starterSize; }
+        set 
+        {
+
+            _starterSize = value;
+
+            if (DaManager.GettingRecords) return;
+
+            Validate();
+            OnPropertyUpdated();
+        }
+    }
 
     public bool IsSelected { get; set; } = false;
 

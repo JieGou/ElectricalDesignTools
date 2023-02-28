@@ -70,6 +70,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoCAD2023.Interop.Base" Version="1.0.0" />
     <PackageReference Include="CefSharp.Wpf.NETCore" Version="105.3.390" />
     <PackageReference Include="CoreCompat.Portable.Licensing" Version="1.2.14" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
@@ -96,6 +97,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EDTLibrary\EDTLibrary.csproj" />
     <ProjectReference Include="..\ExcelLibraryCore\ExcelLibraryCore.csproj" />
+    <ProjectReference Include="D:\My Drive\Programming\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>

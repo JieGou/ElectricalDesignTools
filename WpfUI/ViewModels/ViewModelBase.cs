@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PropertyChanged;
+using WpfUI.Services;
 
 namespace WpfUI.ViewModels {
 
     public class ViewModelBase : INotifyPropertyChanged, INotifyDataErrorInfo
     {
+        public AutocadService AutocadService { get; set; } = new AutocadService();
         public MainViewModel MainViewModel { get; set; }
         public ViewModelBase CurrentViewModel { get; set; }
         public event PropertyChangedEventHandler? PropertyChanged;

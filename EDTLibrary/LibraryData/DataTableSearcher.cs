@@ -269,7 +269,7 @@ namespace EDTLibrary.LibraryData
                     }
                 }
                 else {
-                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)load.Fla);
+                    filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)load.Fla * 1.25);
                 }
                 
 

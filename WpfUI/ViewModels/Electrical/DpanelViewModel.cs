@@ -288,8 +288,7 @@ internal class DpanelViewModel : ViewModelBase
     public ICommand DrawPanelScheduleAcadCommand { get; }
     public void DrawPanelScheduleRelay()
     {
-        var acadService = new AutocadService();
-        acadService.CreatePanelSchedule(SelectedDteq);
+        AutocadService.CreatePanelSchedule(SelectedDteq);
     }
 
     #endregion

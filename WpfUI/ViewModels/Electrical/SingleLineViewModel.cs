@@ -308,9 +308,7 @@ internal class SingleLineViewModel: EdtViewModelBase
     
     public void DrawSingleLineAsycn()
     {
-        var acadService = new AutocadService();
-        //acadService.DrawSingleLineAsync(SelectedDteq);
-        acadService.CreateSingleLine(SelectedDteq);
+        AutocadService.CreateSingleLine(SelectedDteq);
     }
     #endregion
 
