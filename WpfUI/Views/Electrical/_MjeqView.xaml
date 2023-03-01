@@ -50,6 +50,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
+                <ResourceDictionary Source="../../Styles/ContextMenus/ContextMenus.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
             <styleSelectors:NonMotorLoadVisibilityStyleSelector x:Key="NonMotorLoadVisibilityStyleSelector"/>
@@ -67,7 +69,6 @@
             <Style x:Key="ColumnElementStyle" TargetType="{x:Type TextBlock}">
                 <Setter Property="Margin" Value="10,0,10,0" />
             </Style>
-
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -1065,10 +1066,13 @@
                                              Margin="5">
                         
                         <syncfusion:SfDataGrid x:Name="dgdAssignedLoads"  
+                                               
+                                ContextMenu="{StaticResource LoadContextMenu}"
+                                               
                                Grid.Row="1"  Grid.Column="0"
                                ShowBusyIndicator="True"
                                BorderThickness="0"
-                                   
+                     
                                GridPasteOption="None"
                                GridPasteContent="LoadGridPaste"
                                ColumnSizer="Star"
@@ -1120,11 +1124,11 @@
                                 </Style>
                             </syncfusion:SfDataGrid.Resources>
 
-                            <syncfusion:SfDataGrid.ContextMenu>
+                            <!--<syncfusion:SfDataGrid.ContextMenu>
                                 <ContextMenu>
-                                    
+                                 
                                 </ContextMenu>
-                            </syncfusion:SfDataGrid.ContextMenu>
+                            </syncfusion:SfDataGrid.ContextMenu>-->
 
                             <syncfusion:SfDataGrid.Columns>
 
@@ -1347,8 +1351,8 @@
                                            FilterRowCondition="Contains"
                                            TextAlignment="Center"
                                            ImmediateUpdateColumnFilter="True"
-                                           FilterRowOptionsVisibility="Collapsed"
-                                           />
+                                           FilterRowOptionsVisibility="Collapsed"/>
+
 
                                 <!--<syncfusion:GridTextColumn HeaderText="Running&#x0a;Amps" MappingName="RunningAmps"
                                            Width="60"
