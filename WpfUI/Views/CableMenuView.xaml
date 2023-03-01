@@ -63,17 +63,21 @@
                        Margin="0 0 0 0"/>
 
                 <!--//MENU BUTTONS-->
-                <Button Content="CABLE LIST"
+                <Button Content="Cable List"
                         Style="{StaticResource ToolBarButtonBase}"
                         Command="{Binding NavigateCableListCommand}"/>
                 
-                <!--<Button Content="USER CABLES"
+                <!--<Button Content="User Added Cables"
                         Style="{StaticResource ToolBarButtonBase}"
                         Command="{Binding NavigateTraySizerCommand}"/>-->
-                
-                <Button Content="TRAY"
+
+                <Button Content="Raceway Routing"
                         Style="{StaticResource ToolBarButtonBase}"
                         Command="{Binding NavigateTraySizerCommand}"/>
+
+                <!--<Button Content="Conduit Sizing"
+                        Style="{StaticResource ToolBarButtonBase}"
+                        Command="{Binding NavigateCableListCommand}"/>-->
 
             </StackPanel>
         </Border>

@@ -148,7 +148,9 @@ namespace EDTLibrary.Models.Loads
             }
 
             IsValid = isValid;
-            FedFrom.Validate();
+            if (FedFrom != null) {
+                FedFrom.Validate();
+            }
             OnPropertyUpdated();
 
             return;
@@ -974,7 +976,10 @@ namespace EDTLibrary.Models.Loads
                         item.CalculateSize(this);
                     } 
                 }
-                ProtectionDevice.Validate();
+                if (ProtectionDevice != null) {
+                    ProtectionDevice.Validate();
+
+                }
                 foreach (var comp in CctComponents) {
                     comp.Validate();
                 }

@@ -6,6 +6,7 @@ using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
+using EDTLibrary.Settings;
 using System;
 using System.Linq;
 using System.Net.Http.Headers;
@@ -14,18 +15,19 @@ using System.Security.Cryptography;
 using System.Windows.Documents;
 
 namespace EDTLibrary.Autocad.Interop;
-public class PanelScheduleDrawer
+public class PanelScheduleDrawer_V1 : IPanelScheduleDrawer
 {
 
-    public PanelScheduleDrawer(AutocadHelper acadHelper, string blockSourceFolder)
+    public PanelScheduleDrawer_V1(AutocadHelper acadHelper)
 
     {
-        _acadHelper = acadHelper;
-        BlockSourceFolder = blockSourceFolder;
+        AcadHelper = acadHelper;
     }
 
+    public AutocadHelper AcadHelper { get => _acadHelper; set => _acadHelper = value; }
     private AutocadHelper _acadHelper;
-    public string BlockSourceFolder { get; }
+    public string BlockSourceFolder { get { return EdtProjectSettings.AcadBlockFolder; } }
+
 
     public double[] _insertionPoint = new double[3];
     int _firstLoadSpacing = 1;
@@ -34,13 +36,13 @@ public class PanelScheduleDrawer
     {
 
         try {
- 
+
             InsertMainBlock(dteq, _insertionPoint);
 
             InsertCircuits(dteq, _insertionPoint);
 
 
-           
+
         }
         catch (Exception ex) {
 
@@ -58,15 +60,15 @@ public class PanelScheduleDrawer
         blockType = dteq.VoltageType.Phase == 3 ? BlockNames.Dp3PhMain : BlockNames.Dp1PhMain;
         string sourcePath = BlockSourceFolder + FolderNames.DistributionPanelsFolder;
         string blockName = blockType + ".dwg";
-        string blockPath = sourcePath + blockName; 
-     
+        string blockPath = sourcePath + blockName;
+
 
         double Xscale = 1;
         double Yscale = 1;
         double Zscale = 1;
 
-        
-        dynamic acadBlock = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+
+        dynamic acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
         dynamic blockAtts = acadBlock.GetAttributes();
 
         //AcadAttributeReference
@@ -108,7 +110,7 @@ public class PanelScheduleDrawer
             }
         }
 
-        
+
 
 
     }
@@ -116,7 +118,7 @@ public class PanelScheduleDrawer
     {
         var panel = (IDpn)dteq;
         insertionPoint[0] = 0;
-        insertionPoint[1] = BlockVariables.DpanelMainBlockHeight *-1;
+        insertionPoint[1] = BlockVariables.DpanelMainBlockHeight * -1;
         insertionPoint[2] = 0;
 
         string blockType = BlockNames.DpCircuit;
@@ -153,13 +155,13 @@ public class PanelScheduleDrawer
 
 
 
-        for (int i = 0; i < panel.CircuitCount/2; i++) {
+        for (int i = 0; i < panel.CircuitCount / 2; i++) {
 
-            dynamic acadBlock = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+            dynamic acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
 
             dynamic blockAtts = acadBlock.GetAttributes();
 
-            if (panel.LeftCircuits[i].PanelSide==PnlSide.Left.ToString()) {
+            if (panel.LeftCircuits[i].PanelSide == PnlSide.Left.ToString()) {
                 foreach (dynamic att in blockAtts) {
                     switch (att.TagString) {
 
@@ -172,9 +174,9 @@ public class PanelScheduleDrawer
                         case DistributionPanelAttributeNames.Dpanel_BreakerL:
                             if (panel.LeftCircuits[i].GetType() == typeof(LoadCircuit)) {
                                 LoadCircuit loadCircuit = (LoadCircuit)panel.LeftCircuits[i];
-                                att.TextString = $"{loadCircuit.PdSizeTrip}"; 
+                                att.TextString = $"{loadCircuit.PdSizeTrip}";
                             }
-                            else   {
+                            else {
                                 att.TextString = $"{panel.LeftCircuits[i].ProtectionDevice.TripAmps}";
                             }
                             break;
@@ -200,9 +202,9 @@ public class PanelScheduleDrawer
                             break;
 
                     }
-                } 
+                }
             }
-          
+
             if (panel.RightCircuits[i].PanelSide == PnlSide.Right.ToString()) {
                 foreach (dynamic att in blockAtts) {
                     switch (att.TagString) {
@@ -214,12 +216,12 @@ public class PanelScheduleDrawer
 
                         //Breaker
                         case DistributionPanelAttributeNames.Dpanel_BreakerR:
-                            if (panel.RightCircuits[i].GetType() == typeof( LoadCircuit)) {
+                            if (panel.RightCircuits[i].GetType() == typeof(LoadCircuit)) {
                                 LoadCircuit loadCircuit = (LoadCircuit)panel.RightCircuits[i];
                                 att.TextString = $"{loadCircuit.PdSizeTrip}";
                             }
                             else {
-                                
+
                                 att.TextString = $"{panel.RightCircuits[i].ProtectionDevice.TripAmps}";
                             }
                             break;
@@ -246,19 +248,19 @@ public class PanelScheduleDrawer
 
                     }
                 }
-                
+
             }
 
             //increment insertion points
             insertionPoint[1] -= BlockVariables.DpanelCircuitRowHeight;
 
-            dynamic line = _acadHelper.AcadDoc.ModelSpace.AddLine(leftLineStart, leftLineEnd);
+            dynamic line = AcadHelper.AcadDoc.ModelSpace.AddLine(leftLineStart, leftLineEnd);
             line.Layer = "E-ANNO-TABL";
 
             leftLineStart[1] -= BlockVariables.DpanelCircuitRowHeight;
             leftLineEnd[1] = leftLineStart[1];
 
-            line = _acadHelper.AcadDoc.ModelSpace.AddLine(rightLineStart, rightLineEnd);
+            line = AcadHelper.AcadDoc.ModelSpace.AddLine(rightLineStart, rightLineEnd);
             line.Layer = "E-ANNO-TABL";
 
             rightLineStart[1] -= BlockVariables.DpanelCircuitRowHeight;

@@ -46,6 +46,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         _edtSettings = edtSettings;
         _typeManager = typeManager;
         _listManager = listManager;
+
         SelectAcadSaveFolderCommand = new RelayCommand(SelectAcadSaveFolder);
         SelectAcadBlockFolderCommand = new RelayCommand(SelectAcadBlockFolder);
         TestAcadCommand = new RelayCommand(StartAutocad);
@@ -286,7 +287,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
             MessageBox.Show("Connect to Autocad First");
             return;
         }
-        Acad.AddDrawing();
+        Acad.AddDrawing("New Drawing");
     }
 
 
@@ -302,7 +303,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
         }
 
         try {
-            SingleLineDrawer slDrawer = new SingleLineDrawer(Acad, EdtProjectSettings.AcadBlockFolder);
+            ISingleLineDrawer slDrawer = new SingleLineDrawer_V1(Acad);
 
             MccModel mcc = _listManager.MccList.FirstOrDefault(m => m.Tag.Contains("MCC"));
 

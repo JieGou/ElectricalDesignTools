@@ -51,7 +51,7 @@
                            Margin="0 0 0 0"/>
                
                 <!--//MENU BUTTONS-->
-                    <Button Content="GENERAL" x:Name="btnGeneral"
+                    <Button Content="General" x:Name="btnGeneral"
                             Style="{StaticResource ToolBarButtonBase}"
                             Command="{Binding NavigateGeneralSettingsCommand}"
                             ToolTip="Project details and general setup" 
@@ -86,7 +86,7 @@
                         </Button.Triggers>-->
                     </Button>
 
-                    <Button Content="EQUIPMENT" x:Name="btnEquipment"
+                    <Button Content="Equipment" x:Name="btnEquipment"
                             Style="{StaticResource ToolBarButtonBase}"
                             Command="{Binding NavigateEquipmentSettingsCommand}"
                             
@@ -122,15 +122,19 @@
                         </Button.Triggers>-->
                     </Button>
 
-                    <Button Content="CABLE"
+                    <Button Content="Cable"
                             Style="{StaticResource ToolBarButtonBase}" 
                             Command="{Binding NavigateCableSettingsCommand}"/>
 
-                    <Button Content="TAGGING"
+                    <Button Content="Tagging"
                             Style="{StaticResource ToolBarButtonBase}" 
                             Command="{Binding NavigateTagSettingsCommand}" />
 
-                    <Button Content="REPORTS"
+                    <Button Content="Excel Export"
+                            Style="{StaticResource ToolBarButtonBase}" 
+                            Command="{Binding NavigateExportSettingsCommand}" />
+
+                    <Button Content="Autocad Export"
                             Style="{StaticResource ToolBarButtonBase}" 
                             Command="{Binding NavigateExportSettingsCommand}" />
                 </StackPanel>

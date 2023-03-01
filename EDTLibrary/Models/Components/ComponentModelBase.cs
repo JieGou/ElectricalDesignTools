@@ -109,7 +109,7 @@ public abstract class ComponentModelBase : IComponentEdt
 
         if (FrameAmps < ((IPowerConsumer)Owner).Fla*1.25) {
             IsValid = false;
-            IsInvalidMessage += Environment.NewLine + "Frame is less than 125% of FLA";
+            IsInvalidMessage += Environment.NewLine + "Frame is less than 125% of FLA, or not rated for the motor HP";
 
         }
         if (this.Type.Contains("FDS")) {
@@ -140,6 +140,7 @@ public abstract class ComponentModelBase : IComponentEdt
 
     private void ValidateStarter()
     {
+        if (StarterSize == null) return;
         if (this.Type.Contains("DOL") || this.Type.Contains("MCP") ) {
             var validStarter = TypeManager.GetStarter( ((LoadModel)this.Owner).Size, ((LoadModel)Owner).Unit);
             var selectedStarter = TypeManager.StarterSizes.FirstOrDefault(ss => ss.Size == StarterSize && ss.Unit == ((LoadModel)Owner).Unit);

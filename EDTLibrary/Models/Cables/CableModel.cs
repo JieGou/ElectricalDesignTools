@@ -851,16 +851,21 @@ public class CableModel : ICable
 
         //need to check raceway routing path for total conductors that are in the same raceway
         var compUser = (IComponentUser)Load;
-        foreach (var comp in compUser.CctComponents) {
-            if (comp.PowerCable != null) {
-                comp.PowerCable.AutoSize();
-            }
-            else {
-                CableManager.AddAndUpdateLoadPowerComponentCablesAsync((LoadModel)comp.Owner, ScenarioManager.ListManager);
+        if (compUser != null) {
+            foreach (var comp in compUser.CctComponents) {
+                if (comp.PowerCable != null) {
+                    comp.PowerCable.AutoSize();
+                }
+                else {
+                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync((LoadModel)comp.Owner, ScenarioManager.ListManager);
+                }
             }
         }
+        
         var load = (IPowerConsumer)Load;
-        load.PowerCable.AutoSize();
+        if (load != null) {
+            load.PowerCable.AutoSize();
+        }
     }
 
     

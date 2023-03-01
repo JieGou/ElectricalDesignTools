@@ -1070,6 +1070,7 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             return true;
         }
+
         /// <summary>
         /// Returns true if the load was added successfully. Return faslse if the load is already assigned to this Dteq.
         /// </summary>

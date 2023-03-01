@@ -67,6 +67,9 @@ namespace WpfUI.ViewModels
 
         public MainViewModel(StartupService startupService, TypeManager typeManager, EdtProjectSettings edtSettings, string type = "")
         {
+
+
+
             FedFromManager.FedFromUpdated += _ViewStateManager.OnFedFromUpdated;
             LoadManager.LoadDeleted += _ViewStateManager.OnLoadDeleted;
 

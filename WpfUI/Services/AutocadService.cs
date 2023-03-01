@@ -1,6 +1,8 @@
 ﻿using AutocadLibrary;
+using Autodesk.AutoCAD.Interop;
 using Autodesk.AutoCAD.Interop.Common;
 using EDTLibrary.Autocad.Interop;
+using EDTLibrary.AutocadInterop.Interop;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Services;
 using EDTLibrary.Settings;
@@ -12,13 +14,20 @@ using WpfUI.Helpers;
 using Task = System.Threading.Tasks.Task;
 
 namespace WpfUI.Services;
+
+public delegate Task DrawCommandDelegate(IDteq dteq, bool newDrawing);
 public class AutocadService
 {
 
     public static AutocadHelper _acadHelper;
+    public static string drawingName;
     private int _attempts;
     private readonly int _maxAttemps = 10;
 
+    public ISingleLineDrawer SingleLineDrawer { get; set; } = new SingleLineDrawer_EdtV1(_acadHelper);
+    public IPanelScheduleDrawer PanelScheduleDrawer { get; set; } = new PanelScheduleDrawer_EdtV1(_acadHelper);
+
+    DrawCommandDelegate drawCommand;
 
     #region Tasks
     private static List<Task> _tasks = new List<Task>();
@@ -105,7 +114,6 @@ public class AutocadService
 
             _acadHelper = new AutocadHelper();
 
-
             await Task.Run(() => {
                 _acadHelper.StartAutocad();
             });
@@ -120,9 +128,13 @@ public class AutocadService
             
         }
     }
+   
+
 
     public async Task CreateSingleLine(IDteq dteq)
     {
+        drawCommand = new DrawCommandDelegate(DrawSingleLineAsync);
+
         if (_isRunningTasks) {
             EdtNotificationService.SendPopupNotification(this, $"Autocad is busy");
         }
@@ -141,65 +153,25 @@ public class AutocadService
             await StartAutocadAsync();
             EdtNotificationService.CloseoPupNotification(this);
 
-            //if (newDrawing == true || _acadHelper.AcadDoc == null) {
-            //    _acadHelper.AddDrawing();
-            //}
 
-            if (newDrawing == true ) {
-                _acadHelper.AddDrawing();
-            }
-
+            _acadHelper.AddDrawing(drawingName);
+            drawingName = _acadHelper.DocName;
             EdtNotificationService.SendPopupNotification(this, $"Creating drawing for {dteq.Tag}");
 
             await Task.Run(() => {
-                SingleLineDrawer slDrawer = new SingleLineDrawer(_acadHelper, EdtProjectSettings.AcadBlockFolder);
-                slDrawer.DrawMccSingleLine(dteq, 1.5);
+                SingleLineDrawer.AcadHelper = _acadHelper;
+                SingleLineDrawer.DrawMccSingleLine(dteq, 1.5);
                 _acadHelper.AcadApp.ZoomExtents();
             });
 
+            drawingName = "";
             _isRunningTasks = false;
             EdtNotificationService.CloseoPupNotification(this);
 
         }
 
         catch (Exception ex) {
-
-            if (ex.Message.Contains("not found")) {
-                MessageBox.Show(
-                    "Check the Blocks Source Folder path and make sure that the selected blocks exist.",
-                    "Error - File Not Found",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-
-            else if (ex.Message.Contains("rejected")) { //erase partial drawing and retry
-                if (_acadHelper.AcadDoc != null) {
-                    DeleteDrawingContents();
-                }
-                DrawSingleLineAsync(dteq, false);
-            }
-            else if (ex.Message.Contains("busy")) {
-                Task.Delay(500); // wait for acad to not be busy
-                if (_acadHelper.AcadDoc != null) {
-                    DeleteDrawingContents();
-                }
-                DrawSingleLineAsync(dteq, false);
-            }
-            else if (ex.Message.Contains("instance")) {
-                if (_acadHelper.AcadDoc != null) {
-                    DeleteDrawingContents();
-                    DrawSingleLineAsync(dteq, false);
-                }
-            }
-            else if (ex.Message.Contains("dispatch")) {
-                if (_acadHelper.AcadDoc != null) {
-                    DeleteDrawingContents();
-                    DrawSingleLineAsync(dteq, false);
-                }
-            }
-            else {
-                NotificationHandler.ShowErrorMessage(ex);
-            }
+            Retry(dteq, ex);
         }
         finally {
             _isRunningTasks = false;
@@ -210,6 +182,8 @@ public class AutocadService
 
     public async Task CreatePanelSchedule(IDteq dteq)
     {
+        drawCommand = new DrawCommandDelegate(DrawPanelScheduleAsync);
+
         if (_isRunningTasks) {
             EdtNotificationService.SendPopupNotification(this, $"Autocad is busy");
         }
@@ -228,18 +202,17 @@ public class AutocadService
             await StartAutocadAsync();
             EdtNotificationService.CloseoPupNotification(this);
 
-            if (newDrawing == true || _acadHelper.AcadDoc == null) {
-                _acadHelper.AddDrawing();
-            }
-
+            _acadHelper.AddDrawing(drawingName);
+            drawingName = _acadHelper.DocName;
             EdtNotificationService.SendPopupNotification(this, $"Creating drawing for {dteq.Tag}");
 
             await Task.Run(() => {
-                PanelScheduleDrawer panelScheduleDrawer = new PanelScheduleDrawer(_acadHelper, EdtProjectSettings.AcadBlockFolder);
-                panelScheduleDrawer.DrawPanelSchedule(dteq, 1.5);
+                PanelScheduleDrawer.AcadHelper = _acadHelper;
+                PanelScheduleDrawer.DrawPanelSchedule(dteq, 1.5);
                 _acadHelper.AcadApp.ZoomExtents();
             });
 
+            drawingName = "";
             _isRunningTasks = false;
             EdtNotificationService.CloseoPupNotification(this);
 
@@ -247,25 +220,7 @@ public class AutocadService
 
         catch (Exception ex) {
 
-            if (ex.Message.Contains("not found")) {
-                MessageBox.Show(
-                    "Check the Blocks Source Folder path and make sure that the selected blocks exist.",
-                    "Error - File Not Found",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-
-            if (ex.Message.Contains("rejected")|| ex.Message.Contains("busy") || ex.Message.Contains("instance")) {
-                Task.Delay(500); // wait for acad to not be busy
-                if (_acadHelper.AcadDoc != null) {
-                    DeleteDrawingContents();
-                }
-                DrawPanelScheduleAsync(dteq, false);
-            }
-
-            else {
-                NotificationHandler.ShowErrorMessage(ex);
-            }
+            Retry(dteq, ex);
 
         }
 
@@ -276,6 +231,50 @@ public class AutocadService
     }
 
 
+
+    private void Retry(IDteq dteq, Exception ex)
+    {
+        if (ex.Message.Contains("not found")) {
+            MessageBox.Show(
+                "Check the Blocks Source Folder path and make sure that the selected blocks exist.",
+                "Error - File Not Found",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
+
+        else if (ex.Message.Contains("rejected")) { //erase partial drawing and retry
+            if (_acadHelper.AcadDoc != null) {
+                DeleteDrawingContents();
+            }
+            drawCommand(dteq, false);
+        }
+
+        else if (ex.Message.Contains("busy")) {
+            Task.Delay(500); // wait for acad to not be busy
+            if (_acadHelper.AcadDoc != null) {
+                DeleteDrawingContents();
+            }
+            drawCommand(dteq, false);
+        }
+
+        else if (ex.Message.Contains("instance")) {
+            if (_acadHelper.AcadDoc != null) {
+                DeleteDrawingContents();
+            }
+            drawCommand(dteq, false);
+        }
+
+        else if (ex.Message.Contains("dispatch")) {
+            //NotificationHandler.ShowErrorMessage(ex);
+            if (_acadHelper.AcadDoc != null) {
+                DeleteDrawingContents();
+            }
+            drawCommand(dteq, false);
+        }
+        else {
+            NotificationHandler.ShowErrorMessage(ex);
+        }
+    }
     private void DeleteDrawingContents()
     {
         int _maxDeleteAttempts = 10;

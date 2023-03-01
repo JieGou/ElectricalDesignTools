@@ -206,6 +206,10 @@ public class ProtectionDeviceManager
                 return DataTableSearcher.GetBreakerFrame(load.ProtectionDevice.TripAmps);
             }
             else if (component.Type == PdTypes.FDS.ToString()) {
+                // needs to select motor rated frame
+                if (((IPowerConsumer)component.Owner).Type == LoadTypes.MOTOR.ToString()) {
+                    return DataTableSearcher.GetDisconnectSize(load);
+                }
                 return DataTableSearcher.GetDisconnectSize(load, component.TripAmps);
             }
             else if (component.Type == CctComponentTypes.UDS.ToString()){

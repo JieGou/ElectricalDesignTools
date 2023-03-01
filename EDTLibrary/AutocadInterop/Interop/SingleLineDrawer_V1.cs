@@ -10,18 +10,19 @@ using System.Printing;
 using System.Threading;
 
 namespace EDTLibrary.Autocad.Interop;
-public class SingleLineDrawer
+public class SingleLineDrawer_V1 : ISingleLineDrawer
 {
 
-    public SingleLineDrawer(AutocadHelper acadService, string blockSourceFolder)
+    public SingleLineDrawer_V1(AutocadHelper acadService)
 
     {
-        _acadHelper = acadService;
-        BlockSourceFolder = blockSourceFolder;
+        AcadHelper = acadService;
     }
 
+    public AutocadHelper AcadHelper { get => _acadHelper; set => _acadHelper = value; }
     private AutocadHelper _acadHelper;
-    public string BlockSourceFolder { get; }
+    public string BlockSourceFolder { get { return EdtProjectSettings.AcadBlockFolder; } }
+
 
     public double[] _insertionPoint = new double[3];
     int firstLoadSpacing = 1;
@@ -30,7 +31,7 @@ public class SingleLineDrawer
     {
 
         try {
-            
+
             InsertMainBlock(mcc, _insertionPoint, "BKR");
 
             _insertionPoint[0] += firstLoadSpacing;
@@ -45,7 +46,7 @@ public class SingleLineDrawer
 
             throw;
         }
-   
+
     }
 
     private void InsertMccLoads(IDteq mcc, double blockSpacing)
@@ -89,7 +90,7 @@ public class SingleLineDrawer
         Thread.Sleep(1000);
 
 
-        var acadBlock = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+        var acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
         //acadBlock.Modified += AcadEventHandler.OnAcadModified;
         AcadEventHandler.raisers.Add(acadBlock);
 
@@ -137,8 +138,8 @@ public class SingleLineDrawer
         string blockName = "MCC_" + blockType + ".dwg";
         string blockPath = sourcePath + blockName;
 
-        var acadBlock = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
-        
+        var acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+
         var blockAtts = (dynamic)acadBlock.GetAttributes();
 
         foreach (dynamic att in blockAtts) {
@@ -169,8 +170,8 @@ public class SingleLineDrawer
                         att.TextString = $"{load.StandAloneStarter.Type}";
                     break;
                 case "DRIVE_TAG":
-                    if (load.StandAloneStarter != null && isDriveInternal == false) 
-                        att.TextString = $""; 
+                    if (load.StandAloneStarter != null && isDriveInternal == false)
+                        att.TextString = $"";
                     break;
 
             }
@@ -213,47 +214,62 @@ public class SingleLineDrawer
         string blockName = "SL" + "_DCN" + ".dwg";
         string blockPath = sourcePath + blockName;
 
-        
+
         //instert block
-        var acadBlock = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
+        var acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
         //acadBlock.Modified += AcadEventHandler.OnAcadModified;
         AcadEventHandler.raisers.Add(acadBlock);
 
-        var blockAtts = (dynamic)acadBlock.GetAttributes();
 
-        //update attributes
+        //Set Dynamic Block Propterties
+        dynamic blockProps = acadBlock.GetDynamicBlockProperties();
+
+        if (load.DisconnectBool && load.Disconnect.Type.Contains("FDS")) {
+            foreach (dynamic blockProp in blockProps) {
+                if (blockProp.PropertyName == "Disconnect Type") {
+                    blockProp.Value = "Fused";
+                }
+            }
+        }
+
+        dynamic blockAtts = acadBlock.GetAttributes();
+
+        //Set Text Attributes
         foreach (dynamic att in blockAtts) {
             switch (att.TagString) {
 
                 //Edt Cable
-                case "CableTag":
+                case "Cable_Tag":
                     att.TextString = $"{load.PowerCable.Tag}";
                     break;
-                case "CableSize":
+                case "Cable_Size":
                     att.TextString = $"{load.PowerCable.SizeTag}";
                     break;
 
+
                 //Edt Disconnect
-                case "DisconnectTag":
+                case "Disconnect_Tag":
                     if (load.Disconnect != null)
                         att.TextString = $"{load.Disconnect.Tag}";
                     break;
                 case "FrameAmps":
                     if (load.Disconnect != null)
-                        att.TextString = $"{load.Disconnect.FrameAmps}";
+                        att.TextString = $"{load.Disconnect.FrameAmps} AF";
                     break;
 
                 case "TripAmps":
                     if (load.Disconnect != null)
-                        att.TextString = $"{load.Disconnect.TripAmps}";
+                        att.TextString = $"{load.Disconnect.TripAmps} AT";
                     break;
 
                 case "FrameAmps2":
                     if (load.Disconnect != null)
-                        att.TextString = $"{load.Disconnect.FrameAmps}";
+                        att.TextString = $"{load.Disconnect.FrameAmps} AF";
                     break;
 
-                //Cable 1
+
+
+                //Cable 1 V1
                 case "CABLE_TAG":
                     att.TextString = $"{load.PowerCable.Tag}";
                     break;
@@ -263,7 +279,7 @@ public class SingleLineDrawer
 
                 //Breaker V1
                 case "LOAD_SIZE":
-                    att.TextString = load.Type == LoadTypes.MOTOR.ToString()? $"{load.Size}" : $"{load.Size} {load.Unit}";
+                    att.TextString = load.Type == LoadTypes.MOTOR.ToString() ? $"{load.Size}" : $"{load.Size} {load.Unit}";
                     break;
                 case "LOAD_TAG":
                     att.TextString = $"{load.Tag}";
@@ -281,7 +297,7 @@ public class SingleLineDrawer
                     if (load.StandAloneStarter != null)
                         att.TextString = $"{load.StandAloneStarter.Type}";
                     break;
-                
+
 
                 //Disconnect V1
                 case "DCN_TAG":
@@ -336,7 +352,7 @@ public class SingleLineDrawer
                 }
             }
             //StandAloneStarter only
-            else if (load.DisconnectBool == false && load.StandAloneStarterBool == true && isDriveInternal==false) {
+            else if (load.DisconnectBool == false && load.StandAloneStarterBool == true && isDriveInternal == false) {
                 switch (att.TagString) {
                     case "CABLE_TAG1":
                         att.TextString = $"{load.StandAloneStarter.PowerCable.Tag}";
@@ -366,17 +382,17 @@ public class SingleLineDrawer
         lineEnd[0] = blockSpacing * mcc.AssignedLoads.Count + 1;
         lineEnd[1] = 0;
 
-        dynamic busLine = _acadHelper.AcadDoc.ModelSpace.AddLine(lineStart, lineEnd);
+        dynamic busLine = AcadHelper.AcadDoc.ModelSpace.AddLine(lineStart, lineEnd);
         busLine.Layer = "ECT_CONN_GENERAL_WIRES";
     }
     private void InsertMccBorder(IDteq mcc, double[] insertionPoint, double blockSpacing, double Xscale = 1, double Yscale = 1, double Zscale = 1)
     {
         string blockPath = EdtProjectSettings.AcadBlockFolder + @"\Single Line\MCC_BORDER.dwg";
         double borderScale = blockSpacing * (mcc.AssignedLoads.Count + 2.5);
-        insertionPoint[0] = 0-2;
+        insertionPoint[0] = 0 - 2;
         insertionPoint[1] = 0;
         insertionPoint[2] = 0;
-        dynamic border = _acadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, borderScale, Yscale, Zscale, 0);
+        dynamic border = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, borderScale, Yscale, Zscale, 0);
 
     }
 
