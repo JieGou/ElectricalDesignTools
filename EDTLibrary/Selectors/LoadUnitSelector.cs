@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Selectors;
 internal class LoadUnitSelector
 {
-    internal static void SelectUnit(ILoad load)
+    internal static void SetUnit(ILoad load)
     {
         if (load.Type == LoadTypes.HEATER.ToString())
         {

@@ -117,7 +117,7 @@ public class DaManager {
     public static void UpsertDteq(IDteq iDteq)
     {
         try {
-            if (GlobalConfig.Importing == true) return;
+            if (Importing == true) return;
             if (iDteq == GlobalConfig.DteqDeleted) { return; }
 
             if (iDteq.GetType() == typeof(DteqModel)) {
@@ -166,7 +166,7 @@ public class DaManager {
 
         try {
             await Task.Run(() => {
-                if (GlobalConfig.Importing == true) return;
+                if (Importing == true) return;
                 prjDb.UpsertRecord(load, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
             });
 
@@ -188,7 +188,7 @@ public class DaManager {
 
         try {
             await Task.Run(() => {
-                if (GlobalConfig.Importing == true) return;
+                if (Importing == true) return;
                 prjDb.UpsertRecord(load, GlobalConfig.LoadCircuitTable, NoSaveLists.LoadNoSaveList);
             });
 
@@ -217,7 +217,7 @@ public class DaManager {
     private static void UpsertDrive(DriveModel drive)
     {
         try {
-            if (GlobalConfig.Importing == true) return;
+            if (Importing == true) return;
 
             prjDb.UpsertRecord(drive, GlobalConfig.DriveTable, NoSaveLists.CompNoSaveList);
         }
@@ -298,7 +298,7 @@ public class DaManager {
     private static void UpsertDisconnect(DisconnectModel disconnect)
     {
         try {
-            if (GlobalConfig.Importing == true) return;
+            if (Importing == true) return;
 
             prjDb.UpsertRecord(disconnect, GlobalConfig.DisconnectTable, NoSaveLists.CompNoSaveList);
         }
@@ -360,7 +360,7 @@ public class DaManager {
         try {
             // removed await to test speed
             await Task.Run(() => {
-                if (GlobalConfig.Importing == true) return;
+                if (Importing == true) return;
              
 
                 if (component.GetType() == typeof(ComponentModel)) {
@@ -405,7 +405,7 @@ public class DaManager {
     public static void UpsertLcs(LocalControlStationModel lcs)
     {
         try {
-            if (GlobalConfig.Importing == true) return;
+            if (Importing == true) return;
 
             prjDb.UpsertRecord(lcs, GlobalConfig.LcsTable, NoSaveLists.LcsNoSaveList);
         }

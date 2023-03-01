@@ -21,12 +21,6 @@ Minor Bugs
 *****************************************************************************************************************************
 
 
-Validations
-	- Starter size
-	- Cable
-	- Voltage 
-
-
 Exclulde Individual items from auto calculations
 	- Protection Device
 	- Power Cables
@@ -47,7 +41,6 @@ LoadGrid Context Menu
 
 
 LoadModel 
-	- Type change Voltage-Type and calculation updates
 	- load data IsValid
 
 
@@ -127,6 +120,7 @@ Areas, Systems & SubSystems
 Autocad
 	- single line(s)
 	- splitters
+	- distribution Panel
 	- schematics
 	- wiring diagrams
 	- title blocks

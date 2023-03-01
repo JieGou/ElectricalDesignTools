@@ -12,6 +12,7 @@ using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.Selectors;
 using EDTLibrary.Services;
 using EDTLibrary.Settings;
 using EDTLibrary.UndoSystem;
@@ -99,7 +100,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 //ProtectionDevice.Validate(); 
                 if (ProtectionDevice.IsValid == false) {
                     isValid = false;
-                    IsInvalidMessage += Environment.NewLine + "Protection device is invalid";
+                    IsInvalidMessage += Environment.NewLine + "Protection device is invalid.";
                 }
             }
 
@@ -107,15 +108,21 @@ namespace EDTLibrary.Models.DistributionEquipment
                 //PowerCable.Validate(PowerCable);
                 if (PowerCable.IsValid == false) {
                     isValid = false;
-                    IsInvalidMessage += Environment.NewLine + "Supply cable is invalid";
+                    IsInvalidMessage += Environment.NewLine + "Supply cable is invalid.";
                 }
             }
             //Loads Components and Cables
             isValid = CheckValidationOfAllLoadsComponentsAndCAbles(isValid);
 
+
+            if (VoltageValidator.IsValid(this) == false) {
+                isValid = false;
+                IsInvalidMessage += Environment.NewLine + "Voltage does not match supply equipment.";
+            }
+
             if (SCCR < SCCA) {
                 isValid = false;
-                IsInvalidMessage += Environment.NewLine + "SCCR is less than SCCA";
+                IsInvalidMessage += Environment.NewLine + "SCCR is less than SCCA.";
             }
 
             //Final message
@@ -177,7 +184,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }
             }
 
-            if (!isValid_Load) { IsInvalidMessage += Environment.NewLine + "A load is invalid"; }
+            if (!isValid_Load) { IsInvalidMessage += Environment.NewLine + "A load is invalid."; }
             if (!isValid_LoadProtectionDevice) { IsInvalidMessage += Environment.NewLine + "A loads' protection device is invalid."; }
             if (!isValid_LoadPowerCable) { IsInvalidMessage += Environment.NewLine + "A loads' power cable is invalid."; }
             if (!isValid_Comp) { IsInvalidMessage += Environment.NewLine + "A load's component is invalid."; }

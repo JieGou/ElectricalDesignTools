@@ -11,6 +11,7 @@
              xmlns:controls="clr-namespace:WpfUI.Controls"
              xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
              
+             
              xmlns:converters="clr-namespace:WpfUI.Converters"
              
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -159,7 +160,8 @@
                                      Height="350"
                                      CornerRadius="{StaticResource ControlCornerRadius}"
                                      Panel.ZIndex="1"
-                                     Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                     Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                     d:Visibility="Collapsed">
                 <controls:ClippingBorder.Background>
                     <SolidColorBrush Color="White" Opacity=".85"/>
                 </controls:ClippingBorder.Background>
@@ -429,7 +431,7 @@
                                 <!--Basic-->
                                 <!--Textblock cell padding style in this.resources Move to ResDict-->
 
-                                <!--Area-->
+                                <!--Validation Icon-->
                                 <DataGridTemplateColumn Width="25"
                                                     HeaderStyle="{StaticResource DataGridColumnHeaderWithFilterBase}"
                                                     >
@@ -1107,7 +1109,6 @@
                                SelectionChanged="dgdAssignedLoads_SelectionChanged_1"  
                                PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1"
                                >
-
                             <syncfusion:SfDataGrid.Resources>
                                 <Style TargetType="syncfusion:GridFilterControl">
                                     <Setter Property="FontSize" Value="12" />
@@ -1119,40 +1120,17 @@
                                 </Style>
                             </syncfusion:SfDataGrid.Resources>
 
-                        <syncfusion:SfDataGrid.ContextMenu>
-                            <ContextMenu >
-                                <MenuItem Header="Move to Area" Command="{Binding SetAreaCommand}"  Height="25"/>
-                                <MenuItem Header="Set FedFrom" Command="{Binding SetFedFromCommand}"  Height="25"/>
-                                <MenuItem Header="Add" Height="25" >
-                                    <MenuItem.Icon>
-                                        <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
-                                           Height="10"/>
-                                    </MenuItem.Icon>
-                                    <MenuItem Header="Add Disconnect" Height="20"  Command="{Binding AddDisconnectCommand}" />
-                                    <MenuItem Header="Add Drive" Height="20"  Command="{Binding AddDriveCommand}" />
-                                    <MenuItem Header="Add LCS" Height="20"  Command="{Binding AddLcsCommand}"/>
-                                </MenuItem>
-                                <MenuItem Header="Remove" Height="25">
-                                    <MenuItem.Icon>
-                                        <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
-                                           Height="10"/>
-                                    </MenuItem.Icon>
-                                    <MenuItem Header="Remove Disconnect" Height="25"  Command="{Binding RemoveDisconnectCommand}" />
-                                    <MenuItem Header="Remove Drive" Height="25"  Command="{Binding RemoveDriveCommand}" />
-                                    <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
-                                </MenuItem>
-                                <Separator/>
-                                <MenuItem Header="Delete" Height="25" 
-                                                  Command="{Binding DeleteLoadCommand}" 
-                                                  CommandParameter="{Binding SelectedLoad}"/>
-                            </ContextMenu>
-                        </syncfusion:SfDataGrid.ContextMenu>
+                            <syncfusion:SfDataGrid.ContextMenu>
+                                <ContextMenu>
+                                    
+                                </ContextMenu>
+                            </syncfusion:SfDataGrid.ContextMenu>
 
-                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:SfDataGrid.Columns>
 
-                            <!--Line Break code:     &#xA;    -->
+                                <!--Line Break code:     &#xA;    -->
 
-                            <!--Validation Icon-->
+                                <!--Validation Icon-->
                                 <syncfusion:GridTemplateColumn HeaderText="" MappingName="IsValid"
                                         Width="25"
                                         TextAlignment="Center"
@@ -1187,7 +1165,7 @@
                                 </syncfusion:GridTemplateColumn>
 
                                 <!--Tag-->
-                            <syncfusion:GridTextColumn HeaderText="Tag" MappingName="Tag"
+                                <syncfusion:GridTextColumn HeaderText="Tag" MappingName="Tag"
                                            Width="75"
                                            TextAlignment="Center"
                                            AllowSorting="True" 
@@ -1207,10 +1185,10 @@
                                                FontWeight="SemiBold"/>
                                     </DataTemplate>
                                 </syncfusion:GridTextColumn.CellTemplate>
-                            </syncfusion:GridTextColumn>
+                                </syncfusion:GridTextColumn>
 
-                            <!--Description-->
-                            <syncfusion:GridTextColumn HeaderText="Description" MappingName="Description" 
+                                <!--Description-->
+                                <syncfusion:GridTextColumn HeaderText="Description" MappingName="Description" 
                                            Width="150"
                                            AllowEditing="True"
                                            AllowSorting="True"
@@ -1229,8 +1207,8 @@
                                 </syncfusion:GridTextColumn.CellTemplate>
                             </syncfusion:GridTextColumn>
 
-                            <!--Area-->
-                            <syncfusion:GridComboBoxColumn HeaderText="Area" MappingName="Area"
+                                <!--Area-->
+                                <syncfusion:GridComboBoxColumn HeaderText="Area" MappingName="Area"
                                                Width="75"
                                                AllowEditing="True"
                                                AllowDragging="True"
@@ -1253,10 +1231,10 @@
                                                />
                                     </DataTemplate>
                                 </syncfusion:GridComboBoxColumn.CellTemplate>
-                            </syncfusion:GridComboBoxColumn>
+                                </syncfusion:GridComboBoxColumn>
 
-                            <!--FedFrom-->
-                            <syncfusion:GridComboBoxColumn HeaderText="Fed From" MappingName="FedFrom"
+                                <!--FedFrom-->
+                                <syncfusion:GridComboBoxColumn HeaderText="Fed From" MappingName="FedFrom"
                                                Width="85"
                                                AllowEditing="True"
                                                AllowFiltering="True"
@@ -1280,11 +1258,11 @@
                                                Padding="5 0 0 0"/>
                                     </DataTemplate>
                                 </syncfusion:GridComboBoxColumn.CellTemplate>
-                            </syncfusion:GridComboBoxColumn>
+                                </syncfusion:GridComboBoxColumn>
 
                            
-                            <!--VoltageType-->
-                            <syncfusion:GridComboBoxColumn HeaderText="Voltage" MappingName="VoltageType"
+                                <!--VoltageType-->
+                                <syncfusion:GridComboBoxColumn HeaderText="Voltage" MappingName="VoltageType"
                                                Width="75"
                                                AllowEditing="True"
                                                AllowFiltering="True"
@@ -1301,20 +1279,20 @@
                                                CellStyle="{StaticResource comboBoxCellStyle}"
                                               
                                                >
-                                <syncfusion:GridComboBoxColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding VoltageType.VoltageString,
-                                                              Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
-                                               TextAlignment="Left"
-                                               Padding="5 0 0 0"
-                                               Background="{Binding Converter={StaticResource VoltageToColorConverter}}"/>
-                                    </DataTemplate>
-                                </syncfusion:GridComboBoxColumn.CellTemplate>
-                            </syncfusion:GridComboBoxColumn>
+                                    <syncfusion:GridComboBoxColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding VoltageType.VoltageString,
+                                                                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }"
+                                                   TextAlignment="Left"
+                                                   Padding="5 0 0 0"
+                                                   Background="{Binding Converter={StaticResource VoltageToColorConverter}}"/>
+                                        </DataTemplate>
+                                    </syncfusion:GridComboBoxColumn.CellTemplate>
+                                </syncfusion:GridComboBoxColumn>
 
 
-                            <!--Size-->
-                            <syncfusion:GridTextColumn HeaderText="Size" MappingName="Size"
+                                <!--Size-->
+                                <syncfusion:GridTextColumn HeaderText="Size" MappingName="Size"
                                            Width="50"
                                            AllowEditing="True"
                                            AllowFiltering="True"
@@ -1325,8 +1303,8 @@
                                            TextAlignment="Right"
                                            />
 
-                            <!--Unit-->
-                            <syncfusion:GridTextColumn HeaderText="Unit" MappingName="Unit"
+                                <!--Unit-->
+                                <syncfusion:GridTextColumn HeaderText="Unit" MappingName="Unit"
                                            Width="50"
                                            AllowEditing="False"
                                            AllowFiltering="True"
@@ -1336,8 +1314,8 @@
                                            FilterRowOptionsVisibility="Collapsed"
                                            />
 
-                            <!--Type-->
-                            <syncfusion:GridComboBoxColumn HeaderText="Load&#x0a;Type" MappingName="Type"
+                                <!--Type-->
+                                <syncfusion:GridComboBoxColumn HeaderText="Load&#x0a;Type" MappingName="Type"
                                                Width="75"
                                                AllowEditing="False"
                                                AllowFiltering="True"
@@ -1351,18 +1329,18 @@
                                               
                                                CellStyle="{StaticResource comboBoxCellStyle}"
                                                >
-                                <syncfusion:GridComboBoxColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               TextAlignment="Left"
-                                               Padding="5 0 0 0"/>
-                                    </DataTemplate>
-                                </syncfusion:GridComboBoxColumn.CellTemplate>
-                            </syncfusion:GridComboBoxColumn>
-                            
+                                    <syncfusion:GridComboBoxColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   TextAlignment="Left"
+                                                   Padding="5 0 0 0"/>
+                                        </DataTemplate>
+                                    </syncfusion:GridComboBoxColumn.CellTemplate>
+                                </syncfusion:GridComboBoxColumn>
 
-                            <!--Fla-->
-                            <syncfusion:GridTextColumn HeaderText="FLA" MappingName="Fla"
+
+                                <!--Fla-->
+                                <syncfusion:GridTextColumn HeaderText="FLA" MappingName="Fla"
                                            Width="50"
                                            AllowEditing="False"
                                            UseBindingValue="True"
@@ -1372,14 +1350,15 @@
                                            FilterRowOptionsVisibility="Collapsed"
                                            />
 
-                            <!--<syncfusion:GridTextColumn HeaderText="Running&#x0a;Amps" MappingName="RunningAmps"
+                                <!--<syncfusion:GridTextColumn HeaderText="Running&#x0a;Amps" MappingName="RunningAmps"
                                            Width="60"
                                            AllowEditing="False"
                                            UseBindingValue="True"
                                            FilterRowCondition="Contains"
                                            TextAlignment="Center"/>-->
 
-                            <syncfusion:GridTextColumn HeaderText="Load&#x0a;Factor" MappingName="DemandFactor"
+                                <!--Demand Factor-->
+                                <syncfusion:GridTextColumn HeaderText="Demand&#x0a;Factor" MappingName="DemandFactor"
                                            Width="60"
                                            AllowEditing="True"
                                            UseBindingValue="True"
@@ -1390,7 +1369,7 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                            <syncfusion:GridTextColumn HeaderText="Efficiency" MappingName="Efficiency"
+                                <syncfusion:GridTextColumn HeaderText="Efficiency" MappingName="Efficiency"
                                            Width="60"
                                            UseBindingValue="True"
                                            FilterRowCondition="LessThanOrEqual"
@@ -1400,7 +1379,7 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                            <syncfusion:GridTextColumn HeaderText="PF  " MappingName="PowerFactor"
+                                <syncfusion:GridTextColumn HeaderText="PF  " MappingName="PowerFactor"
                                            Width="60"
                                            UseBindingValue="True"
                                            FilterRowCondition="LessThanOrEqual"
@@ -1412,10 +1391,10 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                            <!--POWER-->
+                                <!--POWER-->
 
-                            <!--Width="40"-->
-                            <syncfusion:GridTextColumn HeaderText="Conn&#x0a;kVA" MappingName="ConnectedKva"
+                                <!--Width="40"-->
+                                <syncfusion:GridTextColumn HeaderText="Conn&#x0a;kVA" MappingName="ConnectedKva"
                                            MinimumWidth="40"
                                            AllowEditing="False"
                                            UseBindingValue="True"
@@ -1425,8 +1404,8 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                            <!--Width="40"-->
-                            <syncfusion:GridTextColumn HeaderText="Dem&#x0a;kVA" MappingName="DemandKva"
+                                <!--Width="40"-->
+                                <syncfusion:GridTextColumn HeaderText="Dem&#x0a;kVA" MappingName="DemandKva"
                                            MinimumWidth="40"
                                            AllowEditing="False"
                                            UseBindingValue="True"
@@ -1439,8 +1418,8 @@
                                                                 AncestorType={x:Type UserControl}}}"
                                            />
 
-                            <!--Width="40"-->
-                            <syncfusion:GridTextColumn HeaderText="Dem&#x0a;kW" MappingName="DemandKw"
+                                <!--Width="40"-->
+                                <syncfusion:GridTextColumn HeaderText="Dem&#x0a;kW" MappingName="DemandKw"
                                            MinimumWidth="40"
                                            AllowEditing="False"
                                            UseBindingValue="True"
@@ -1451,8 +1430,8 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                            <!--Width="40"-->
-                            <syncfusion:GridTextColumn HeaderText="Dem&#x0a;kVAR" MappingName="DemandKvar"
+                                <!--Width="40"-->
+                                <syncfusion:GridTextColumn HeaderText="Dem&#x0a;kVAR" MappingName="DemandKvar"
                                            MinimumWidth="40"
                                            AllowEditing="False"
                                            UseBindingValue="True"
@@ -1463,8 +1442,8 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                            <!--PdType-->
-                            <syncfusion:GridComboBoxColumn HeaderText="OCPD&#x0a;Type" MappingName="ProtectionDevice.Type"
+                                <!--PdType-->
+                                <syncfusion:GridComboBoxColumn HeaderText="OCPD&#x0a;Type" MappingName="ProtectionDevice.Type"
                                                Width="100"
                                                AllowEditing="True"
                                                AllowFiltering="True"
@@ -1483,17 +1462,17 @@
                                                                 AncestorType={x:Type UserControl}}}"
                                                CellStyle="{StaticResource comboBoxCellStyle}"
                                                >
-                                <syncfusion:GridComboBoxColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               TextAlignment="Left"
-                                               Padding="5 0 0 0"/>
-                                    </DataTemplate>
-                                </syncfusion:GridComboBoxColumn.CellTemplate>
-                            </syncfusion:GridComboBoxColumn>
+                                    <syncfusion:GridComboBoxColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding PdType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   TextAlignment="Left"
+                                                   Padding="5 0 0 0"/>
+                                        </DataTemplate>
+                                    </syncfusion:GridComboBoxColumn.CellTemplate>
+                                </syncfusion:GridComboBoxColumn>
 
-                            <!--Width="60"-->
-                            <syncfusion:GridTextColumn HeaderText="PD / MCP&#x0a;Trip" MappingName="ProtectionDevice.TripAmps"
+                                <!--Width="60"-->
+                                <syncfusion:GridTextColumn HeaderText="PD / MCP&#x0a;Trip" MappingName="ProtectionDevice.TripAmps"
                                            MinimumWidth="60"
                                            AllowEditing="False"
                                            UseBindingValue="True"
@@ -1504,8 +1483,8 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.OcpdInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                            <!--Width="60"-->
-                            <syncfusion:GridTextColumn HeaderText="PD / MCP&#x0a;Frame" MappingName="ProtectionDevice.FrameAmps"
+                                <!--Width="60"-->
+                                <syncfusion:GridTextColumn HeaderText="PD / MCP&#x0a;Frame" MappingName="ProtectionDevice.FrameAmps"
                                            MinimumWidth="60"
                                            AllowEditing="False"
                                            UseBindingValue="True"
@@ -1516,8 +1495,8 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.OcpdInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                            <!--Width="60"-->
-                            <syncfusion:GridTextColumn HeaderText="Starter&#x0a;Size" MappingName="ProtectionDevice.StarterSize"
+                                <!--Width="60"-->
+                                <syncfusion:GridTextColumn HeaderText="Starter&#x0a;Size" MappingName="ProtectionDevice.StarterSize"
                                            MinimumWidth="60"
                                            AllowEditing="False"
                                            UseBindingValue="True"
@@ -1530,11 +1509,11 @@
                                                                 AncestorType={x:Type UserControl}}}"
                                            />
 
-                            <!--COMPONENTS-->
+                                <!--COMPONENTS-->
 
-                            <!--Comp CheckBoxes-->
-                            <!--These checkboxes are single click but have had some rendering issues-->
-                            <syncfusion:GridCheckBoxColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool" 
+                                <!--Comp CheckBoxes-->
+                                <!--These checkboxes are single click but have had some rendering issues-->
+                                <syncfusion:GridCheckBoxColumn HeaderText="Local&#x0a;Disc." MappingName="DisconnectBool" 
                                                Width="45"
                                                UseBindingValue="True"
                                                AllowEditing="True"
@@ -1545,7 +1524,7 @@
                                                
                                                />
 
-                            <syncfusion:GridCheckBoxColumn HeaderText="Drive" MappingName="StandAloneStarterBool" 
+                                <syncfusion:GridCheckBoxColumn HeaderText="Drive" MappingName="StandAloneStarterBool" 
                                                Width="45"
                                                AllowEditing="True"
                                                UseBindingValue="True"
@@ -1557,7 +1536,7 @@
                                                />
 
 
-                            <syncfusion:GridCheckBoxColumn HeaderText="LCS" MappingName="LcsBool" 
+                               <syncfusion:GridCheckBoxColumn HeaderText="LCS" MappingName="LcsBool" 
                                                Width="45"
                                                AllowEditing="True"
                                                UseBindingValue="True"
@@ -1567,9 +1546,9 @@
                                                FilterRowEditorType="MultiSelectComboBox"
                                                />
 
-                            <!--Comp Tags-->
-                            <!--Width="100"-->
-                            <syncfusion:GridTextColumn HeaderText="Local&#x0a;Disc. Tag" MappingName="Disconnect.Tag"
+                                <!--Comp Tags-->
+                                <!--Width="100"-->
+                                <syncfusion:GridTextColumn HeaderText="Local&#x0a;Disc. Tag" MappingName="Disconnect.Tag"
                                            MinimumWidth="100"
                                            AllowEditing="True"
                                            AllowFiltering="True"
@@ -1579,8 +1558,8 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                            <!--Width="100"-->
-                            <syncfusion:GridTextColumn HeaderText="Drive/Starter&#x0a;Tag" MappingName="StandAloneStarter.Tag"
+                                <!--Width="100"-->
+                                <syncfusion:GridTextColumn HeaderText="Drive/Starter&#x0a;Tag" MappingName="StandAloneStarter.Tag"
                                            MinimumWidth="100"
                                            AllowEditing="True"
                                            AllowFiltering="True"
@@ -1590,8 +1569,8 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.CompInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                            <!--Width="100"-->
-                            <syncfusion:GridTextColumn HeaderText="Lcs&#x0a;Tag" MappingName="Lcs.Tag"
+                                <!--Width="100"-->
+                                <syncfusion:GridTextColumn HeaderText="Lcs&#x0a;Tag" MappingName="Lcs.Tag"
                                            MinimumWidth="100"
                                            AllowEditing="True"
                                            AllowFiltering="True"
@@ -1603,9 +1582,9 @@
 
 
 
-                        </syncfusion:SfDataGrid.Columns>
+                            </syncfusion:SfDataGrid.Columns>
 
-                    </syncfusion:SfDataGrid>
+                        </syncfusion:SfDataGrid>
                     </controls:ClippingBorder>
                 </Grid>
 

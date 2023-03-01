@@ -107,7 +107,7 @@ namespace EDTLibrary.Models.Loads
                 //ProtectionDevice.Validate(); 
                 if (ProtectionDevice.IsValid == false) {
                     isValid = false;
-                    IsInvalidMessage += Environment.NewLine + "Protection device";
+                    IsInvalidMessage += Environment.NewLine + "Protection device.";
                 }
             }
 
@@ -115,7 +115,7 @@ namespace EDTLibrary.Models.Loads
                 //PowerCable.Validate(PowerCable);
                 if (PowerCable.IsValid == false) {
                     isValid = false;
-                    IsInvalidMessage += Environment.NewLine + "Load supply cable";
+                    IsInvalidMessage += Environment.NewLine + "Load supply cable.";
                 }
 
             }
@@ -125,20 +125,24 @@ namespace EDTLibrary.Models.Loads
                 if (comp != null && comp.PowerCable != null) {
                     if (comp.IsValid == false || comp.PowerCable.IsValid == false) {
                         isValid = false;
-                        IsInvalidMessage += Environment.NewLine + "Circuit component";
+                        IsInvalidMessage += Environment.NewLine + "Circuit component.";
                     }
                     if (comp.PowerCable.IsValid == false) {
                         isValid = false;
-                        IsInvalidMessage += Environment.NewLine + "Circuit component cable";
+                        IsInvalidMessage += Environment.NewLine + "Circuit component cable.";
                     }
                 }
-                 
-                
 
             }
+
+            if (VoltageValidator.IsValid(this) == false) {
+                isValid = false;
+                IsInvalidMessage += Environment.NewLine + "Voltage does not match supply equipment.";
+            }
+
             if (SCCR < SCCA) {
                 isValid = false;
-                IsInvalidMessage += Environment.NewLine + "SCCR is less than SCCA";
+                IsInvalidMessage += Environment.NewLine + "SCCR is less than SCCA.";
 
             }
 
@@ -229,7 +233,10 @@ namespace EDTLibrary.Models.Loads
 
                 {
                     allowCalculations = false;
-                    LoadUnitSelector.SelectUnit(this);
+                    LoadUnitSelector.SetUnit(this);
+                    VoltageType = new VoltageType();
+                    VoltageType = FedFrom.LoadVoltageType;
+                    //VoltageSelector.SetVoltage(this);
                     ProtectionDeviceManager.SetProtectionDeviceType(this);
                     allowCalculations = true;
 
