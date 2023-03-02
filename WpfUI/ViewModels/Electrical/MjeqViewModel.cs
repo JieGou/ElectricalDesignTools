@@ -186,6 +186,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
     public void RefreshLoadList()
     {
+        //SelectedLoad is set to null in _MjeqView.OnElectricalViewUpdated
         if (SelectedLoad == null) {
             return;
         }
@@ -646,6 +647,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     private async Task GetLoadListAsync()
     {
         AssignedLoads.Clear(); //Must be named AssignedLoads  to match DTEQ.AssignedLoads
+        ListManager adf;
         foreach (var load in _listManager.LoadList) {
             AssignedLoads.Add(load);
         }

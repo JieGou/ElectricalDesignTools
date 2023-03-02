@@ -1244,8 +1244,7 @@
                                                AllowFiltering="True"
                                                ItemsSource="{Binding Path=DataContext.ListManager.IDteqList, 
                                                             RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                            AncestorType={x:Type Window}}, Mode=TwoWay, 
-                                                            UpdateSourceTrigger=PropertyChanged}"
+                                                            AncestorType={x:Type Window}}}"
                                                DisplayMemberPath="Tag"
                                                UseBindingValue="True"
                                                FilterRowCondition="Contains"
@@ -1257,14 +1256,15 @@
                                                >
                                 <syncfusion:GridComboBoxColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding FedFrom.Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        <!--Needs to be FedFromTag because the column display value doesn't update on multichange whent the binding is FedFrom.Tag-->
+                                        <TextBlock Text="{Binding FedFromTag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                TextAlignment="Left"
                                                Padding="5 0 0 0"/>
                                     </DataTemplate>
                                 </syncfusion:GridComboBoxColumn.CellTemplate>
                                 </syncfusion:GridComboBoxColumn>
 
-                           
+
                                 <!--VoltageType-->
                                 <syncfusion:GridComboBoxColumn HeaderText="Voltage" MappingName="VoltageType"
                                                Width="75"
@@ -1319,7 +1319,15 @@
                                            />
 
                                 <!--Type-->
-                                <syncfusion:GridComboBoxColumn HeaderText="Load&#x0a;Type" MappingName="Type"
+                                <syncfusion:GridTextColumn HeaderText="Type" MappingName="Type"
+                                           Width="75"
+                                           AllowEditing="False"
+                                           AllowFiltering="True"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="Contains"
+                                           ImmediateUpdateColumnFilter="True"
+                                           FilterRowOptionsVisibility="Collapsed"/>
+                                <!--<syncfusion:GridComboBoxColumn HeaderText="Load&#x0a;Type" MappingName="Type"
                                                Width="75"
                                                AllowEditing="False"
                                                AllowFiltering="True"
@@ -1340,7 +1348,7 @@
                                                    Padding="5 0 0 0"/>
                                         </DataTemplate>
                                     </syncfusion:GridComboBoxColumn.CellTemplate>
-                                </syncfusion:GridComboBoxColumn>
+                                </syncfusion:GridComboBoxColumn>-->
 
 
                                 <!--Fla-->
