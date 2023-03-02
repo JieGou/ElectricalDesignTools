@@ -1098,7 +1098,9 @@ namespace EDTLibrary.Models.DistributionEquipment
                     load.CctComponents.Remove(load.ProtectionDevice);
                 }
 
-                PowerCable.AutoSizeAll_IfEnabled();
+                if (PowerCable!=null) {
+                    PowerCable.AutoSizeAll_IfEnabled(); 
+                }
                 Validate();
                 return true;
             }

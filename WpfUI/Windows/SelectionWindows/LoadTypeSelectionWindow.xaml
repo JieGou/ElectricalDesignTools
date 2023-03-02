@@ -1,4 +1,4 @@
-﻿<Window x:Class="WpfUI.Windows.SelectionWindows.AreaSelectionWindow"
+﻿<Window x:Class="WpfUI.Windows.SelectionWindows.LoadTypeSelectionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,8 +6,14 @@
         xmlns:local="clr-namespace:WpfUI.Windows.SelectionWindows"
         mc:Ignorable="d"
         
+             xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
+        
+        
+             xmlns:helpers="clr-namespace:WpfUI.Helpers"
+        
+        
         WindowStyle="SingleBorderWindow"
-        Title="Select New Supplier" Height="200" Width="350"
+        Title="Change Load Type" Height="200" Width="350"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize" Closed="Window_Closed">
 
@@ -19,23 +25,20 @@
                 <ResourceDictionary Source="../../Styles/EdtStyle_Base.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!--For FedFrom Comboboxes-->
-            <CollectionViewSource x:Key="AreaList" Source="{Binding ListManager.AreaList}"/>
 
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="Select new Area for equipment:"
+            <TextBlock Text="Choose new load type for selected loads:"
                        Margin="30 15"/>
             <ComboBox Grid.Row="2" Grid.Column="6"
                       Template="{DynamicResource ComboBoxBase}"
                       Width="150"
-                      ItemsSource="{Binding Source={StaticResource AreaList}}"
+                      ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:LoadTypes}}}"
                       HorizontalContentAlignment="Center"
                       IsSynchronizedWithCurrentItem="False"
-                      Text="{Binding LoadToAddValidator.AreaTag}"
-                      DisplayMemberPath="Tag"
+                      Text="{Binding LoadType}"
                       IsEditable="False" IsTextSearchEnabled="True"
                       Margin="10">
             </ComboBox>
@@ -45,7 +48,7 @@
                     Command="{Binding CloseWindowCommand}"/>
                 
                 <Button Content="OK" Margin="20 15" 
-                    Command="{Binding ChangeAreaCommand}"/>
+                    Command="{Binding ChangeLoadTypeCommand}"/>
             </StackPanel>
             
         </StackPanel>

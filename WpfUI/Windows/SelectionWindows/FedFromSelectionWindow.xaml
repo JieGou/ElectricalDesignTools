@@ -9,7 +9,7 @@
         WindowStyle="SingleBorderWindow"
         Title="Select New Supplier" Height="200" Width="350"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" Closed="Window_Closed">
 
     <Window.Resources>
         <!--Background="#FFBDCCCA">-->
@@ -43,8 +43,8 @@
                 <Button Content="Cancel" Margin="20 15" 
                     Command="{Binding CloseWindowCommand}"/>
                 
-                <Button Content="Ok" Margin="20 15" 
-                    Command="{Binding SetFedFromCommand}"/>
+                <Button Content="OK" Margin="20 15" 
+                    Command="{Binding ChangeFedFromCommand}"/>
             </StackPanel>
             
         </StackPanel>

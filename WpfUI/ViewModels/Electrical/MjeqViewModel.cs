@@ -174,30 +174,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     public ICommand DeleteComponentCommand { get; }
 
 
-    //public Window SelectionWindow { get; set; }
-    //public ICommand CloseWindowCommand { get; }
-    //public ICommand SetFedFromCommand { get; }
-
-
-    //public void CloseSelectionWindow()
-    //{
-    //    SelectionWindow.Close();
-    //    SelectionWindow = null;
-    //}
-
-    //public ICommand SetAreaCommand { get; }
-
-    //public void SetArea()
-    //{
-
-
-    //    EquipmentCommands.SetAreaOfEquipmentList(LoadToAddValidator.AreaTag, SelectedLoads, ListManager, this);
-
-    //    if (SelectionWindow != null) {
-    //        CloseSelectionWindow();
-    //    }
-    //}
-
+    
 
 
     #endregion
@@ -208,11 +185,18 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     {
         RefreshLoadList();
     }
+
+    string loadTag = "";
+
     public void RefreshLoadList()
     {
-        if (SelectedDteq == null) return;
-
-        if (LoadListLoaded == false) {
+        if (SelectedLoad == null) {
+            return;
+        }
+        if (SelectedLoad != null) {
+            loadTag = SelectedLoad.Tag;
+        }
+        if (LoadListLoaded == false && SelectedDteq != null) {
             AssignedLoads.Clear();
             foreach (var load in SelectedDteq.AssignedLoads) {
                 AssignedLoads.Add(load);
@@ -221,7 +205,10 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         else {
             GetLoadList();
         }
-    }
+        if (loadTag !="") {
+            SelectedLoad = ListManager.LoadList.FirstOrDefault(l => l.Tag == loadTag); 
+        }
+    }   
 
     //Dteq
     public string? ToggleRowDetailViewProp { get; set; } = "Collapsed";

@@ -7,7 +7,7 @@
                   SnapsToDevicePixels="True">
 
         <!--Area-->
-        <MenuItem Header="Change Area" Command="{Binding SetAreaCommand}" >
+        <MenuItem Header="Change Area" Command="{Binding ShowChangeAreaCommand}" >
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/changeAreaBlue.png"
                        Height="17"
@@ -18,7 +18,7 @@
         </MenuItem>
         
         <!--FedFrom-->
-        <MenuItem Header="Change FedFrom" Command="{Binding SetFedFromCommand}"  >
+        <MenuItem Header="Change FedFrom" Command="{Binding ShowChangeFedFromCommand}"  >
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/changeFedFrom.ico"
                        Height="17"
@@ -29,7 +29,7 @@
         </MenuItem>
 
         <!--Load Type-->
-        <MenuItem Header="Change Load Type" Command="{Binding SetAreaCommand}">
+        <MenuItem Header="Change Load Type" Command="{Binding ShowChangeLoadTypeCommand}">
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/changeLoadTypeIcon.png"
                        Height="17"
@@ -48,7 +48,7 @@
         
         
         <!--Demand Factor-->
-        <MenuItem Header="Set Demand Factor" Command="{Binding SetAreaCommand}">
+        <MenuItem Header="Set Demand Factor" Command="{Binding ShowChangeDemandFactorCommand}">
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/decimal2.png"
                        Height="17"
@@ -59,7 +59,7 @@
         </MenuItem>
         
         <!--Power Factor-->
-        <MenuItem Header="Set Power Factor" Command="{Binding SetAreaCommand}" >
+        <MenuItem Header="Set Power Factor" Command="{Binding ShowChangeAreaCommand}" >
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/powerFactor.png"
                        Height="17"
@@ -70,7 +70,7 @@
         </MenuItem>
         
         <!--Efficiency-->
-        <MenuItem Header="Set Efficiency" Command="{Binding SetAreaCommand}" >
+        <MenuItem Header="Set Efficiency" Command="{Binding ShowChangeAreaCommand}" >
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/percentThin.png"
                        Height="15"

@@ -1311,7 +1311,7 @@
 
                     <sf:SfDataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="Set FedFrom" PreviewMouseDown="LoadGridContextMenu_SetFedFrom" Height="20"/>
+                            <MenuItem Header="Set FedFrom" PreviewMouseDown="LoadGridContextMenu_ChangeFedFrom" Height="20"/>
                             <MenuItem Header="Delete" Height="20" PreviewMouseDown="LoadGridContextMenu_Delete"/>
                         </ContextMenu>
                     </sf:SfDataGrid.ContextMenu>

@@ -533,7 +533,10 @@ namespace EDTLibrary.Models.Loads
 
         public IDteq FedFrom
         {
-            get { return _fedFrom; }
+            get 
+            { 
+                return _fedFrom; 
+            }
             set
             {
                 if (value == null) return;
@@ -549,31 +552,42 @@ namespace EDTLibrary.Models.Loads
                     
                     return;
                 }
-                if (FedFromManager.IsUpdatingFedFrom_List) return;
-                saveController.Lock(nameof(FedFrom));
-                UndoManager.Lock(this, nameof(FedFrom));
+                if (FedFromManager.IsUpdatingFedFrom_List) {
+                    //locks are in the UpdateFedFrom local function
+                    UpdateFedFrom(oldValue, newFedFrom);
+                }
+                
 
                 //This code must run while importing for the FedFromTag and FedFromType
                 if (FedFromManager.UpdateFedFrom_Single(this, newFedFrom, oldValue) == true) {
+                    //locks are in the UpdateFedFrom local function
+                    UpdateFedFrom(oldValue, newFedFrom);
+                }
+
+
+                saveController.UnLock(nameof(FedFrom));
+                OnPropertyUpdated();
+
+                void UpdateFedFrom(IDteq oldValue, IDteq newFedFrom)
+                {
+                    saveController.Lock(nameof(FedFrom));
+                    UndoManager.Lock(this, nameof(FedFrom));
+
                     _fedFrom = newFedFrom;
                     FedFromTag = _fedFrom.Tag;
                     FedFromType = _fedFrom.GetType().ToString();
-
+                    CalculateLoading();
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     CableManager.UpdateLcsCableTags(this);
 
 
                     //only this cannot run while importing.
                     if (DaManager.Importing == false) {
-                        PowerCable.AutoSizeAll_IfEnabled(); 
+                        PowerCable.AutoSizeAll_IfEnabled();
                     }
 
                     UndoManager.AddUndoCommand(this, nameof(FedFrom), oldValue, _fedFrom);
                 }
-
-
-                saveController.UnLock(nameof(FedFrom));
-                OnPropertyUpdated();
             }
         }
         private IDteq _fedFrom;

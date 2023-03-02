@@ -54,6 +54,7 @@ namespace WpfUI.ViewModels {
 
         public IEnumerable GetErrors(string propertyName)
         {
+            if(propertyName== null) { return null; }
             return _errorDict.GetValueOrDefault(propertyName, null);
         }
 

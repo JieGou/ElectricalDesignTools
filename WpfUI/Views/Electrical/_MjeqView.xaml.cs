@@ -487,7 +487,7 @@ public partial class _MjeqView : UserControl
 
     private void eqView_Unloaded(object sender, RoutedEventArgs e)
     {
-        _ViewStateManager.ElectricalViewUpdate += OnElectricalViewUpdated;
+        _ViewStateManager.ElectricalViewUpdate -= OnElectricalViewUpdated;
 
     }
     private void eqView_MouseLeave(object sender, MouseEventArgs e)

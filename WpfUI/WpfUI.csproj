@@ -329,6 +329,12 @@
     <Compile Update="Views\ProjectSettings\ExportSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Windows\SelectionWindows\LoadTypeSelectionWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\SelectionWindows\DemandFactorSelectionWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\SelectionWindows\AreaSelectionWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -459,6 +465,12 @@
     <Page Update="Views\ProjectSettings\ExportSettingsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\SelectionWindows\LoadTypeSelectionWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Windows\SelectionWindows\DemandFactorSelectionWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Windows\SelectionWindows\AreaSelectionWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

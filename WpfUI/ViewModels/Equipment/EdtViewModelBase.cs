@@ -4,6 +4,7 @@ using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
+using EDTLibrary.Settings;
 using PropertyChanged;
 using Syncfusion.XlsIO.Parser.Biff_Records.Formula;
 using System;
@@ -38,12 +39,24 @@ public abstract class EdtViewModelBase: ViewModelBase
         //Sub-Menu
         CalculateAllCommand = new RelayCommand(CalculateAll);
         AutoSizeAllCablesCommand = new RelayCommand(AutoSizeAllCables);
+
         //Window Commands
         CloseWindowCommand = new RelayCommand(CloseSelectionWindow);
 
         //ContextMenu
-        SetAreaCommand = new RelayCommand(SetArea);
-        SetFedFromCommand = new RelayCommand(SetFedFrom);
+        ShowChangeAreaCommand = new RelayCommand(ShowChangeArea);
+        ChangeAreaCommand = new RelayCommand(ChangeArea);
+
+        ShowChangeFedFromCommand = new RelayCommand(ShowChangeFedFrom);
+        ChangeFedFromCommand = new RelayCommand(ChangeFedFrom);
+
+
+        ShowChangeLoadTypeCommand = new RelayCommand(ShowChangeLoadType);
+        ChangeLoadTypeCommand = new RelayCommand(ChangeLoadType);
+
+        ShowChangeDemandFactorCommand = new RelayCommand(ShowChangeDemandFactor);
+        ChangeDemandFactorCommand = new RelayCommand(ChangeDemandFactor);
+
 
         AddDisconnectCommand = new RelayCommand(AddDisconnect);
         AddDriveCommand = new RelayCommand(AddDrive);
@@ -57,12 +70,12 @@ public abstract class EdtViewModelBase: ViewModelBase
         DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
     }
-    private ListManager _listManager;
     public ListManager ListManager
     {
         get { return _listManager; }
         set { _listManager = value; }
     }
+    private ListManager _listManager;
 
 
     public virtual IPowerConsumer SelectedLoad { get; set; }
@@ -82,7 +95,6 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
     private bool _isBusy;
 
-    public string TestText { get; set; } = "ASDFASDF";
 
     public Window SelectionWindow { get; set; }
     public ICommand CloseWindowCommand { get; }
@@ -91,7 +103,7 @@ public abstract class EdtViewModelBase: ViewModelBase
         SelectionWindow.Close();
         SelectionWindow = null;
     }
-
+   
 
     public void AddLoad(object loadToAddObject)
     {
@@ -194,17 +206,21 @@ public abstract class EdtViewModelBase: ViewModelBase
 
 
 
-    #region oad List Context Menu 
-    public ICommand SetAreaCommand { get; }
-    public void SetArea()
+    #region Load List Context Menu 
+    public ICommand ShowChangeAreaCommand { get; }
+    public void ShowChangeArea()
     {
         if (SelectionWindow == null) {
-        
+
             AreaSelectionWindow areaSelectionWindow = new AreaSelectionWindow();
             areaSelectionWindow.DataContext = this;
             SelectionWindow = areaSelectionWindow;
             areaSelectionWindow.ShowDialog();
         }
+    }
+    public ICommand ChangeAreaCommand { get; }
+    public void ChangeArea()
+    {
 
         if (SelectedLoads == null) return;
         IEquipment load;
@@ -220,8 +236,9 @@ public abstract class EdtViewModelBase: ViewModelBase
         }
     }
 
-    public ICommand SetFedFromCommand { get; }
-    public void SetFedFrom()
+
+    public ICommand ShowChangeFedFromCommand { get; }
+    public void ShowChangeFedFrom()
     {
         if (SelectionWindow == null) {
             FedFromSelectionWindow fedFromSelectionWindow = new FedFromSelectionWindow();
@@ -229,7 +246,11 @@ public abstract class EdtViewModelBase: ViewModelBase
             SelectionWindow = fedFromSelectionWindow;
             fedFromSelectionWindow.ShowDialog();
         }
-
+    }
+    public ICommand ChangeFedFromCommand { get; }
+    public void ChangeFedFrom()
+    {
+        
         if (SelectedLoads == null) return;
         IPowerConsumer load;
 
@@ -260,6 +281,106 @@ public abstract class EdtViewModelBase: ViewModelBase
         }
     }
 
+
+    public ICommand ShowChangeLoadTypeCommand { get; }
+    public void ShowChangeLoadType()
+    {
+        if (SelectionWindow == null) {
+            var selectionWindow = new LoadTypeSelectionWindow();
+            selectionWindow.DataContext = this;
+            SelectionWindow = selectionWindow;
+            selectionWindow.ShowDialog();
+        }
+    }
+
+    public ICommand ChangeLoadTypeCommand { get; }
+    public void ChangeLoadType()
+    {
+        
+        if (SelectedLoads == null) return;
+
+        ILoad load;
+        double outVal;
+
+        foreach (var loadItem in SelectedLoads) {
+            if (loadItem is ILoad) {
+                load = (ILoad)loadItem;
+                load.Type =  LoadToAddValidator.Type;
+            }
+        }
+
+        if (SelectionWindow != null) {
+            CloseSelectionWindow();
+        }
+    }
+    public string LoadType { get; set; }
+
+
+
+
+
+    public ICommand ShowChangeDemandFactorCommand { get; }
+    public void ShowChangeDemandFactor()
+    {
+        DemandFactor = EdtProjectSettings.DemandFactorDefault;
+        if (SelectionWindow == null) {
+            DemandFactorSelectionWindow selectionWindow = new DemandFactorSelectionWindow();
+            selectionWindow.DataContext = this;
+            SelectionWindow = selectionWindow;
+            selectionWindow.ShowDialog();
+        }
+    }
+
+
+    public ICommand ChangeDemandFactorCommand { get; }
+    public void ChangeDemandFactor()
+    {
+        
+        if (SelectedLoads == null) return;
+
+        ILoad load;
+        double outVal;
+
+        if (double.TryParse(DemandFactor, out outVal)) {
+
+            if (outVal > 0 || outVal <= 1) {
+                foreach (var loadItem in SelectedLoads) {
+                    if (loadItem is ILoad) {
+                        load = (ILoad)loadItem;
+                        load.DemandFactor = outVal;
+                    }
+                }
+            }
+        }
+
+        if (SelectionWindow != null) {
+            CloseSelectionWindow();
+        }
+    }
+    public string DemandFactor
+    {
+        get { return _demandFactor; }
+        set
+        {
+            _demandFactor = value;
+            double outVal;
+            ClearErrors();
+            if (double.TryParse(value, out outVal) == false) {
+                AddError(nameof(DemandFactor), "Invalid Value");
+            }
+            else {
+                if (outVal <= 0 || outVal > 1) {
+                    AddError(nameof(DemandFactor), "Invalid Value");
+                }
+            }
+        }
+    }
+    private string _demandFactor;
+
+
+
+
+
     public ICommand AddDisconnectCommand { get; }
     private void AddDisconnect()
     {
@@ -280,6 +401,7 @@ public abstract class EdtViewModelBase: ViewModelBase
         }));
 
     }
+
 
     public ICommand AddDriveCommand { get; }
     private void AddDrive()

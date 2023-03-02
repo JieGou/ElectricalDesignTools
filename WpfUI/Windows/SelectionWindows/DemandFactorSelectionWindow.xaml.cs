@@ -17,9 +17,9 @@ namespace WpfUI.Windows.SelectionWindows;
 /// <summary>
 /// Interaction logic for FedFromSelectionWindow.xaml
 /// </summary>
-public partial class FedFromSelectionWindow : Window
+public partial class DemandFactorSelectionWindow : Window
 {
-    public FedFromSelectionWindow()
+    public DemandFactorSelectionWindow()
     {
         InitializeComponent();
     }
@@ -29,4 +29,5 @@ public partial class FedFromSelectionWindow : Window
         var dataContext = (EdtViewModelBase)this.DataContext;
         dataContext.CloseSelectionWindow();
     }
+
 }

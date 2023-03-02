@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfUI.ViewModels.Equipment;
 
 namespace WpfUI.Windows.SelectionWindows;
 /// <summary>
@@ -21,5 +22,11 @@ public partial class AreaSelectionWindow : Window
     public AreaSelectionWindow()
     {
         InitializeComponent();
+    }
+
+    private void Window_Closed(object sender, EventArgs e)
+    {
+        var dataContext = (EdtViewModelBase)this.DataContext;
+        dataContext.CloseSelectionWindow();
     }
 }

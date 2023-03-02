@@ -1,4 +1,4 @@
-﻿<Window x:Class="WpfUI.Windows.SelectionWindows.AreaSelectionWindow"
+﻿<Window x:Class="WpfUI.Windows.SelectionWindows.DemandFactorSelectionWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         
         WindowStyle="SingleBorderWindow"
-        Title="Select New Supplier" Height="200" Width="350"
+        Title="Change Demand Factor" Height="200" Width="350"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize" Closed="Window_Closed">
 
@@ -26,26 +26,22 @@
     </Window.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBlock Text="Select new Area for equipment:"
+            <TextBlock Text="Enter new Demand Fator for selected loads:"
                        Margin="30 15"/>
-            <ComboBox Grid.Row="2" Grid.Column="6"
-                      Template="{DynamicResource ComboBoxBase}"
+            <TextBox x:Name="txtDemandFactor" 
+                     Text="{Binding DemandFactor, UpdateSourceTrigger=PropertyChanged}"
+                     Grid.Row="2" Grid.Column="6"
                       Width="150"
-                      ItemsSource="{Binding Source={StaticResource AreaList}}"
-                      HorizontalContentAlignment="Center"
-                      IsSynchronizedWithCurrentItem="False"
-                      Text="{Binding LoadToAddValidator.AreaTag}"
-                      DisplayMemberPath="Tag"
-                      IsEditable="False" IsTextSearchEnabled="True"
+                      Height="23"
                       Margin="10">
-            </ComboBox>
+            </TextBox>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Cancel" Margin="20 15" 
                     Command="{Binding CloseWindowCommand}"/>
                 
                 <Button Content="OK" Margin="20 15" 
-                    Command="{Binding ChangeAreaCommand}"/>
+                    Command="{Binding ChangeDemandFactorCommand}"/>
             </StackPanel>
             
         </StackPanel>

@@ -49,6 +49,9 @@ internal class VoltageValidator
         if (load == GlobalConfig.UtilityModel || load.FedFrom == GlobalConfig.UtilityModel) return true;
         
         var dteq = (DistributionEquipment)load;
+        if (load.FedFrom == null || load.FedFrom.VoltageType==null) {
+            return true;
+        }
         var fedFromVoltage = load.FedFrom.LoadVoltageType;
         
         if (dteq.LineVoltageType == fedFromVoltage) {

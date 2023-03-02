@@ -23,6 +23,7 @@ namespace EDTLibrary.DistributionControl
         }
 
         public static bool IsUpdatingFedFrom_List { get; set; } = false;
+        public static IDteq NewFedFrom { get; set; }
 
         public static bool UpdateFedFrom_Single(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
@@ -47,6 +48,7 @@ namespace EDTLibrary.DistributionControl
             {
                 UpdateFedFrom(item.Caller, item.NewSupplier, item.OldSupplier);
                 item.Caller.FedFrom = item.NewSupplier;
+                NewFedFrom = item.NewSupplier;
             }
 
             if (DaManager.Importing == false) {
