@@ -2,88 +2,153 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     
-    <ContextMenu  x:Key="LoadContextMenu">
-        
-        <MenuItem Header="Move to Area" Command="{Binding SetAreaCommand}"  />
-        
-        <MenuItem Header="Set FedFrom" Command="{Binding SetFedFromCommand}"  >
+    <ContextMenu  x:Key="LoadContextMenu"
+                  UseLayoutRounding="True"
+                  SnapsToDevicePixels="True">
+
+        <!--Area-->
+        <MenuItem Header="Change Area" Command="{Binding SetAreaCommand}" >
             <MenuItem.Icon>
-                <Image Source="../../ResourceFiles/MenuIcons/set48.png"
-                       Height="10"
-                       RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image Source="../../ResourceFiles/MenuIcons/changeAreaBlue.png"
+                       Height="17"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       SnapsToDevicePixels="True"
+                       />
             </MenuItem.Icon>
         </MenuItem>
         
+        <!--FedFrom-->
+        <MenuItem Header="Change FedFrom" Command="{Binding SetFedFromCommand}"  >
+            <MenuItem.Icon>
+                <Image Source="../../ResourceFiles/MenuIcons/changeFedFrom.ico"
+                       Height="17"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       SnapsToDevicePixels="True"
+                       />
+            </MenuItem.Icon>
+        </MenuItem>
+
+        <!--Load Type-->
+        <MenuItem Header="Change Load Type" Command="{Binding SetAreaCommand}">
+            <MenuItem.Icon>
+                <Image Source="../../ResourceFiles/MenuIcons/changeLoadTypeIcon.png"
+                       Height="17"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       SnapsToDevicePixels="True"
+                       />
+            </MenuItem.Icon>
+        </MenuItem>
+
+        
+        
+        <Separator Background="DarkGray"
+                   Grid.Column="0"
+                   Margin="-23 3 5 3"/>
+
+        
+        
+        <!--Demand Factor-->
+        <MenuItem Header="Set Demand Factor" Command="{Binding SetAreaCommand}">
+            <MenuItem.Icon>
+                <Image Source="../../ResourceFiles/MenuIcons/decimal2.png"
+                       Height="17"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       SnapsToDevicePixels="True"
+                       />
+            </MenuItem.Icon>
+        </MenuItem>
+        
+        <!--Power Factor-->
+        <MenuItem Header="Set Power Factor" Command="{Binding SetAreaCommand}" >
+            <MenuItem.Icon>
+                <Image Source="../../ResourceFiles/MenuIcons/powerFactor.png"
+                       Height="17"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       SnapsToDevicePixels="True"
+                       />
+            </MenuItem.Icon>
+        </MenuItem>
+        
+        <!--Efficiency-->
+        <MenuItem Header="Set Efficiency" Command="{Binding SetAreaCommand}" >
+            <MenuItem.Icon>
+                <Image Source="../../ResourceFiles/MenuIcons/percentThin.png"
+                       Height="15"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       SnapsToDevicePixels="True"
+                       />
+            </MenuItem.Icon>
+        </MenuItem>
+
+        
+        <Separator Background="DarkGray"
+                   Grid.Column="0"
+                   Margin="-23 3 5 3"/>
+
+
+        <!--Add-->
         <MenuItem Header="Add"  >
             <MenuItem.Icon>
-                <Image Source="../../ResourceFiles/MenuIcons/plus24.png"
-                       Height="10"
-                       RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image Source="../../ResourceFiles/MenuIcons/addCircle.png"
+                       Height="15"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       SnapsToDevicePixels="True"
+                       />
             </MenuItem.Icon>
             <MenuItem Header="Add Disconnect"   Command="{Binding AddDisconnectCommand}" />
             <MenuItem Header="Add Drive"  Command="{Binding AddDriveCommand}" />
             <MenuItem Header="Add LCS"   Command="{Binding AddLcsCommand}"/>
         </MenuItem>
         
+        <!--Remove-->
         <MenuItem Header="Remove">
             <MenuItem.Icon>
-                <Image Source="../../ResourceFiles/MenuIcons/minus24.png"
-                                                       Height="10"
-                                                       RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image Source="../../ResourceFiles/MenuIcons/removeCircleBorder.png"
+                       Height="15"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       SnapsToDevicePixels="True"
+                       />
             </MenuItem.Icon>
             <MenuItem Header="Remove Disconnect" Command="{Binding RemoveDisconnectCommand}" />
             <MenuItem Header="Remove Drive" Command="{Binding RemoveDriveCommand}" />
             <MenuItem Header="Remove LCS"  Command="{Binding RemoveLcsCommand}" />
         </MenuItem>
-        
-        <Separator/>
-        
+
+
+        <Separator Background="DarkGray"
+                   Grid.Column="0"
+                   Margin="-23 3 5 3"/>
+
+
         <MenuItem Header="Delete"  Command="{Binding DeleteLoadCommand}"  CommandParameter="{Binding SelectedLoad}"/>
     </ContextMenu>
 
-    
-    
 
-    <!-- Separator -->
-    <Style TargetType="{x:Type Separator}" x:Key="SeparatorStyle">
-        <Setter Property="Height" Value="1" />
-        <Setter Property="Background" Value="{DynamicResource Dark}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Separator}">
-                    <Rectangle Height="{TemplateBinding Height}"
-                               Fill="White" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    
-    
     <!-- Main Menu -->
     <Style TargetType="{x:Type ContextMenu}">
-        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="False" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="HasDropShadow" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
 
                     <Border x:Name="Border"
+                            MinWidth="200"
                             BorderThickness="1" BorderBrush="Black"
                             Background="{DynamicResource Background}"
                             CornerRadius="{StaticResource ControlCornerRadius}">
-                        
-                        <StackPanel ClipToBounds="True"
-                                    Orientation="Vertical"
-                                    IsItemsHost="True" />
+
+                        <StackPanel ClipToBounds="True" Orientation="Vertical" IsItemsHost="True" />
+
                     </Border>
-                    
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="Border" Property="Background" Value="{DynamicResource Background}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
-                    
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -92,9 +157,10 @@
     
     <!--Menu items-->
     <Style TargetType="{x:Type MenuItem}">
-        <Setter Property="Height" Value="27"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Background" Value="{StaticResource Background}"></Setter>
+        <Setter Property="Height" Value="25"></Setter>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Background" Value="{DynamicResource Background}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"></Setter>
 
         <Style.Triggers>
@@ -119,15 +185,15 @@
     <!-- Submenu Item -->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuItemTemplateKey}" TargetType="{x:Type MenuItem}">
         <Border Name="Border" CornerRadius="{StaticResource ControlCornerRadius}"
-                >
+                Background="Transparent">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"  />
+                    <ColumnDefinition Width="Auto"  SharedSizeGroup="Icon" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto"  />
+                    <ColumnDefinition Width="Auto"  SharedSizeGroup="Shortcut"/>
                     <ColumnDefinition Width="13" />
                 </Grid.ColumnDefinitions>
-                
+
                 <ContentPresenter Name="Icon"
                                   Margin="10,0,20,0"
                                   VerticalAlignment="Center"
@@ -150,55 +216,61 @@
                           StrokeThickness="2"
                           Data="M 0 0 L 7 7 M 0 7 L 7 0" />
                 </Border>
-                
+
                 <ContentPresenter Name="HeaderHost"
                                   Grid.Column="1"
                                   ContentSource="Header"
-                                  RecognizesAccessKey="True" 
-                                  Width="150"
-                                  VerticalAlignment="Center"/>
-                
+                                  RecognizesAccessKey="True"
+                                  VerticalAlignment="Center"
+                                  />
+
                 <TextBlock x:Name="InputGestureText"
                            Grid.Column="2"
                            Text="{TemplateBinding InputGestureText}"
-                           Margin="5,2,0,2"
+                           Margin="5,0"
                            DockPanel.Dock="Right" />
             </Grid>
         </Border>
+
+        <!--Triggers-->
         <ControlTemplate.Triggers>
-            
+
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon"  Property="Visibility" Value="Hidden" />
             </Trigger>
-            
+
             <Trigger Property="IsChecked" Value="true">
                 <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
             </Trigger>
-            
+
             <Trigger Property="IsCheckable" Value="true">
                 <Setter TargetName="Check" Property="Visibility" Value="Visible" />
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
-            
+
             <Trigger Property="IsHighlighted" Value="true">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource Medium}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Dark}" />
             </Trigger>
-            
+
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Medium}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Dark}" />
+            </Trigger>
+
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Foreground" Value="#0f3c5a" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    
-    
+
+
+
     <!-- Submenu Header -->
-    
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border Name="Border"
-                CornerRadius="{StaticResource ControlCornerRadius}"
-                >
+        <Border Name="Border" CornerRadius="{StaticResource ControlCornerRadius}" 
+                Background="Transparent">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Icon" />
@@ -206,29 +278,34 @@
                     <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
                     <ColumnDefinition Width="13" />
                 </Grid.ColumnDefinitions>
-                
+                <!--<Grid.RowDefinitions>
+                    <RowDefinition Height="27"/>
+                </Grid.RowDefinitions>-->
+
                 <ContentPresenter Name="Icon"
-                                  Margin="10,0,20,0"
+                                  Margin="6,0,17,0"
                                   VerticalAlignment="Center"
                                   ContentSource="Icon" />
-                
+
                 <ContentPresenter Name="HeaderHost"
                                   Grid.Column="1"
                                   ContentSource="Header"
-                                  RecognizesAccessKey="True"  
-                                  VerticalAlignment="Center"/>
-                
+                                  RecognizesAccessKey="True"
+                                  VerticalAlignment="Center"
+                                  />
+
                 <TextBlock x:Name="InputGestureText"
                            Grid.Column="2"
                            Text="{TemplateBinding InputGestureText}"
-                           Margin="5"
+                           Margin="5 0"
                            DockPanel.Dock="Right" />
-                
+
                 <Path Grid.Column="3"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       Data="M 0 0 L 0 7 L 4 3.5 Z"
                       Fill="Black" />
+
                 <Popup Name="Popup"
                        Placement="Right"
                        HorizontalOffset="-4"
@@ -236,6 +313,7 @@
                        AllowsTransparency="True"
                        Focusable="False"
                        PopupAnimation="Fade">
+
                     <Border Name="SubmenuBorder"
                             SnapsToDevicePixels="True"
                             Background="{DynamicResource Background}"
@@ -243,34 +321,51 @@
                             BorderThickness="1">
                         <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                     </Border>
+
                 </Popup>
             </Grid>
         </Border>
 
+        <!--Triggers-->
         <ControlTemplate.Triggers>
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
             </Trigger>
-            
+
             <Trigger Property="IsHighlighted" Value="true">
                 <Setter TargetName="Border" Property="Background" Value="{DynamicResource Medium}" />
                 <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Dark}" />
             </Trigger>
-            
+
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Medium}" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource Dark}" />
+            </Trigger>
+
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0,0,0,0" />
             </Trigger>
-            
+
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}" />
             </Trigger>
-            
+
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-
-
+    <!-- Separator -->
+    <Style TargetType="{x:Type Separator}" x:Key="SeparatorStyle">
+        <Setter Property="Height" Value="1" />
+        <Setter Property="Background" Value="{DynamicResource Dark}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Separator}">
+                    <Rectangle Height="{TemplateBinding Height}" Fill="White" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
 

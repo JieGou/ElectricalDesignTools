@@ -45,6 +45,8 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
+                <ResourceDictionary Source="../../Styles/ContextMenus/ContextMenus.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
 
@@ -331,12 +333,24 @@
                                         Header="Loading..."
                                         AnimationType="SingleCircle"
                                         Panel.ZIndex="1"/>
+            
 
             <!--Sinlge Line Grid-->
             <Grid Grid.Row="2" Grid.RowSpan="2"
                   Grid.Column="3" Grid.ColumnSpan="2"
                   ClipToBounds="False"
                   >
+                
+
+                <Grid.ContextMenu>
+                    <ContextMenu>
+
+                    </ContextMenu>
+                </Grid.ContextMenu>
+                
+                
+                
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
@@ -353,7 +367,7 @@
                         VerticalAlignment="Stretch"
                         ClipToBounds="False">
 
-                    <ScrollViewer x:Name="singleLine_ScrollViewer_H"
+                    <ScrollViewer Template="{DynamicResource ScrollViewerTemplate1}" x:Name="singleLine_ScrollViewer_H"
                                   VerticalScrollBarVisibility="Auto"
                                   HorizontalScrollBarVisibility="Disabled"
                                   VerticalAlignment="Stretch" 
@@ -409,6 +423,8 @@
                             <controls:ListViewEx x:Name="listViewLoads"
                                   Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
                                                  UseLayoutRounding="False"
+                                                 
+                                                 ContextMenu="{StaticResource LoadContextMenu}"
                                   Grid.Row="1"
                                   BorderThickness="0"
                                   HorizontalAlignment="Stretch"
@@ -442,35 +458,6 @@
                                       
                                   >
 
-                                <ListView.ContextMenu>
-                                    <ContextMenu >
-                                        <MenuItem Header="Move to Area" Command="{Binding SetAreaCommand}"  Height="25"/>
-                                        <MenuItem Header="Set FedFrom" Command="{Binding SetFedFromCommand}"  Height="25"/>
-                                        <MenuItem Header="Add" Height="25" >
-                                            <MenuItem.Icon>
-                                                <Image Source="../../ResourceFiles/MenuIcons/plus24.png" Height="10"
-                                                       UseLayoutRounding="True"/>
-                                            </MenuItem.Icon>
-                                            <MenuItem Header="Add Disconnect" Height="20"  Command="{Binding AddDisconnectCommand}" />
-                                            <MenuItem Header="Add StandAloneStarter" Height="20"  Command="{Binding AddDriveCommand}" />
-                                            <MenuItem Header="Add LCS" Height="20"  Command="{Binding AddLcsCommand}"/>
-                                        </MenuItem>
-                                        <MenuItem Header="Remove" Height="25">
-                                            <MenuItem.Icon>
-                                                <Image Source="../../ResourceFiles/MenuIcons/minus24.png" Height="10"
-                                                       UseLayoutRounding="True"/>
-                                            </MenuItem.Icon>
-                                            <MenuItem Header="Remove Disconnect" Height="25"  Command="{Binding RemoveDisconnectCommand}" />
-                                            <MenuItem Header="Remove StandAloneStarter" Height="25"  Command="{Binding RemoveDriveCommand}" />
-                                            <MenuItem Header="Remove LCS" Height="25"  Command="{Binding RemoveLcsCommand}" />
-                                        </MenuItem>
-                                        <Separator/>
-                                        <MenuItem Header="Delete" Height="25" 
-                                                  Command="{Binding DeleteLoadCommand}" 
-                                                  CommandParameter="{Binding SelectedLoad}"/>
-                                    </ContextMenu>
-                                </ListView.ContextMenu>
-                                
                                 <ListView.Resources>
 
                                     <!--Selected Template-->

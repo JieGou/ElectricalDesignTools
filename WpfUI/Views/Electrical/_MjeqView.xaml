@@ -1373,6 +1373,17 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
+                                <syncfusion:GridTextColumn HeaderText="Power&#x0a;Factor" MappingName="PowerFactor"
+                                           Width="60"
+                                           UseBindingValue="True"
+                                           FilterRowCondition="LessThanOrEqual"
+                                           TextAlignment="Left"
+                                           FilterRowOptionsVisibility="Collapsed"
+                                           FilterRowEditorType="MultiSelectComboBox"
+                                           IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                AncestorType={x:Type UserControl}}}"/>
+
+                                
                                 <syncfusion:GridTextColumn HeaderText="Efficiency" MappingName="Efficiency"
                                            Width="60"
                                            UseBindingValue="True"
@@ -1383,18 +1394,7 @@
                                            IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
                                                                 AncestorType={x:Type UserControl}}}"/>
 
-                                <syncfusion:GridTextColumn HeaderText="PF  " MappingName="PowerFactor"
-                                           Width="60"
-                                           UseBindingValue="True"
-                                           FilterRowCondition="LessThanOrEqual"
-                                           TextAlignment="Center"
-                                           HorizontalHeaderContentAlignment="Center"
-                                           FilterRowOptionsVisibility="Collapsed"
-                                           FilterRowEditorType="MultiSelectComboBox"
-
-                                           IsHidden="{Binding DataContext.LoadGridViewModifier.PowerInv, RelativeSource={RelativeSource Mode=FindAncestor, 
-                                                                AncestorType={x:Type UserControl}}}"/>
-
+                               
                                 <!--POWER-->
 
                                 <!--Width="40"-->

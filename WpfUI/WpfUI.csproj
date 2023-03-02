@@ -43,9 +43,30 @@
     <None Remove="ResourceFiles\File Icons\Reload White_64.ico" />
     <None Remove="ResourceFiles\InfoIcon16.png" />
     <None Remove="ResourceFiles\InfoIconBlue.png" />
-    <None Remove="ResourceFiles\MenuIcons\minus24.png" />
-    <None Remove="ResourceFiles\MenuIcons\plus24.png" />
-    <None Remove="ResourceFiles\MenuIcons\set48.png" />
+    <None Remove="ResourceFiles\MenuIcons\addBasic.png" />
+    <None Remove="ResourceFiles\MenuIcons\addCircle.png" />
+    <None Remove="ResourceFiles\MenuIcons\angleIcon.png" />
+    <None Remove="ResourceFiles\MenuIcons\changeAreaBlue.png" />
+    <None Remove="ResourceFiles\MenuIcons\changeAreaColor.png" />
+    <None Remove="ResourceFiles\MenuIcons\changeAreaIcon.png" />
+    <None Remove="ResourceFiles\MenuIcons\changeFedFrom.ico" />
+    <None Remove="ResourceFiles\MenuIcons\changeFedFrom.png" />
+    <None Remove="ResourceFiles\MenuIcons\changeFedFromThin.ico" />
+    <None Remove="ResourceFiles\MenuIcons\changeLoadTypeIcon.png" />
+    <None Remove="ResourceFiles\MenuIcons\changeYellowBlue.png" />
+    <None Remove="ResourceFiles\MenuIcons\decimal.png" />
+    <None Remove="ResourceFiles\MenuIcons\decimal1.png" />
+    <None Remove="ResourceFiles\MenuIcons\decimal2.png" />
+    <None Remove="ResourceFiles\MenuIcons\menuBars.png" />
+    <None Remove="ResourceFiles\MenuIcons\move.png" />
+    <None Remove="ResourceFiles\MenuIcons\percentBlue.png" />
+    <None Remove="ResourceFiles\MenuIcons\percentBlueThin.png" />
+    <None Remove="ResourceFiles\MenuIcons\percentIcon.png" />
+    <None Remove="ResourceFiles\MenuIcons\percentThin.png" />
+    <None Remove="ResourceFiles\MenuIcons\powerFactor.png" />
+    <None Remove="ResourceFiles\MenuIcons\powerFactorIcon.png" />
+    <None Remove="ResourceFiles\MenuIcons\removeBasic.png" />
+    <None Remove="ResourceFiles\MenuIcons\removeCircleBorder.png" />
     <None Remove="ResourceFiles\WarningIcon.png" />
     <None Remove="ResourceFiles\WarningIcon16.png" />
     <None Remove="ResourceFiles\WarningIcon48.png" />
@@ -153,13 +174,76 @@
     <Resource Include="ResourceFiles\InfoIconBlue.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="ResourceFiles\MenuIcons\minus24.png">
+    <Resource Include="ResourceFiles\MenuIcons\addCircle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="ResourceFiles\MenuIcons\plus24.png">
+    <Resource Include="ResourceFiles\MenuIcons\angleIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="ResourceFiles\MenuIcons\set48.png">
+    <Resource Include="ResourceFiles\MenuIcons\changeAreaColor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\changeAreaIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\changeAreaBlue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\changeFedFrom.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\changeFedFrom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\changeFedFromThin.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\changeLoadTypeIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\changeYellowBlue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\decimal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\decimal1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\decimal2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\removeBasic.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\move.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\percentThin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\percentBlue.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\percentBlueThin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\percentIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\addBasic.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\powerFactor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\powerFactorIcon.png">
+      <CopyToOutputDirectory>2</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\removeCircleBorder.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\MenuIcons\menuBars.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="ResourceFiles\WarningIcon.png">

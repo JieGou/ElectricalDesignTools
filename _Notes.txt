@@ -4,10 +4,11 @@ Bug Notes
 Major Bugs
 	- change MessageBoxes to ErrorDialog with error list
 
-Minor Bugs	
-	- cable validation message headers
-	- 80% rated breakers only for LV equipment
-	- MCP frame size list in PowerConsumerEditor
+Minor Bugs
+	- DCN and MCP frame size defaults to 1200 A
+	- order of disconnect frame sizes
+	- order of PD frame sizes
+	- loads aren't changing voltage on FedFrom Update
 	- SCCA/R calculation on DTEQ size change
 	- transformer grounding
 	- ProtectionDeviceModel.TypeList comboBox values disappear on PowerConsumer editor when Type is changed
@@ -21,10 +22,11 @@ Minor Bugs
 *****************************************************************************************************************************
 
 
-Exclulde Individual items from auto calculations
-	- Protection Device
-	- Power Cables
 
+Property / Calculation Override and Locks
+	- DemandFactor
+	- Protection Device
+	- Power Cable Sizing
 
 Equipment Sequence Ordering
 	- LoadList by Tag
@@ -41,8 +43,7 @@ LoadGrid Context Menu
 
 
 LoadModel 
-	- load data IsValid
-
+	- Type change Voltage-Type and calculation updates
 
 Transformer Grounding
 	- Settings
@@ -51,16 +52,13 @@ Transformer Grounding
 	- NGR Monitor
 	- cables
 	
-
 Protective Devices
 	- 80% vs 100% rated option
 	- project setting for default breaker rating 80 vs 100%
 	
-
 Calculations
 	- required cable conductors (2C, 3C, 4C)
 		- derating calculation
-
 
 Tag Settings
 	- lcs cable TypeModel vs Type
@@ -70,7 +68,7 @@ Tag Settings
 		- finish load settings page
 	- bulk updates on tag setting changes
 	
-
+	
 Cables
 	- Pivot Grid
 	- Bom Style Export
@@ -78,16 +76,6 @@ Cables
 	- Prompt to recalculate load cables when changing settings
 	- component cables are not updated when changing the load cable properties
 		- setting for this?
-
-
-Exports
-	- Areas List and equipment summary
-	- Area Equipment summary
-	- Dteq loading summary (panel loading for Dpanels)
-	- Cable BOM
-	- Component BOM
-	- include / exclude all and multi-select
-	- add Export buttons to Views
 
 
 Dteq 
@@ -116,11 +104,18 @@ Areas, Systems & SubSystems
 		- add cable length to total with note
 	- proper heatload calculation for each equipment type
 
-
+Exports
+	- Areas List and equipment summary
+	- Area Equipment summary
+	- Dteq loading summary (panel loading for Dpanels)
+	- Cable BOM
+	- Component BOM
+	- include / exclude all and multi-select
+	- add Export buttons to Views
+	
 Autocad
 	- single line(s)
 	- splitters
-	- distribution Panel
 	- schematics
 	- wiring diagrams
 	- title blocks
@@ -137,8 +132,6 @@ User Interface
 ***************************
 
 
-- Model for each component
-- Propertie sview for each equipment
 
 - Move Component Up/Down into ComponentModelBase
 
