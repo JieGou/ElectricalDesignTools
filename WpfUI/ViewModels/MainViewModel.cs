@@ -85,7 +85,6 @@ namespace WpfUI.ViewModels
             _startupService = startupService;
             _edtSettings = edtSettings;
 
-            InitializeViewModels();
 
             CurrentViewModel = _homeViewModel;
 
@@ -138,16 +137,13 @@ namespace WpfUI.ViewModels
 
             //Electrical
             _electricalMenuViewModel = new ElectricalMenuViewModel(this, _startupService.ListManager);
-            _mjeqViewModel = new MjeqViewModel(_startupService.ListManager);
 
 
             //Cables
             _cableMenuViewModel = new CableMenuViewModel(this, _startupService.ListManager);
-            _cableListViewModel = new CableListViewModel(_startupService.ListManager);
 
             //Library
             _libraryMenuViewModel = new LibraryMenuViewModel(this);
-            _dataTablesViewModel = new DataTablesViewModel();
         }
 
         private ViewModelBase _menuViewModel;

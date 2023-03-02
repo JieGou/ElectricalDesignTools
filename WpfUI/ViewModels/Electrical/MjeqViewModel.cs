@@ -173,10 +173,6 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     public ICommand ComponentMoveDownCommand { get; }
     public ICommand DeleteComponentCommand { get; }
 
-
-    
-
-
     #endregion
 
 
