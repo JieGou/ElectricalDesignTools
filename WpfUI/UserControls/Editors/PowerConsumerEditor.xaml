@@ -21,7 +21,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../../Stores/ToolTips.xaml"/>
+                <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

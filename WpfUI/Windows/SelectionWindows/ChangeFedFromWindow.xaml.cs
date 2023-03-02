@@ -17,9 +17,9 @@ namespace WpfUI.Windows.SelectionWindows;
 /// <summary>
 /// Interaction logic for FedFromSelectionWindow.xaml
 /// </summary>
-public partial class AreaSelectionWindow : Window
+public partial class ChangeFedFromWindow : Window
 {
-    public AreaSelectionWindow()
+    public ChangeFedFromWindow()
     {
         InitializeComponent();
     }

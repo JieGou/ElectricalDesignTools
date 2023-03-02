@@ -220,6 +220,8 @@ namespace EDTLibrary.Models.Loads
             get  { return _type; }
             set
             {
+                if (value == "") return;
+                
                 var oldValue = _type; 
                 _type = value;
                 
@@ -239,7 +241,7 @@ namespace EDTLibrary.Models.Loads
                     //VoltageSelector.SetVoltage(this);
                     ProtectionDeviceManager.SetProtectionDeviceType(this);
                     allowCalculations = true;
-
+                    EfficiencyAndPowerFactorSelector.SetEfficiencyAndPowerFactor(this);
                     CalculateLoading();
                     PowerCable.AutoSizeAll_IfEnabled();
                     Validate();

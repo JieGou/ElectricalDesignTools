@@ -54,8 +54,16 @@ public abstract class EdtViewModelBase: ViewModelBase
         ShowChangeLoadTypeCommand = new RelayCommand(ShowChangeLoadType);
         ChangeLoadTypeCommand = new RelayCommand(ChangeLoadType);
 
-        ShowChangeDemandFactorCommand = new RelayCommand(ShowChangeDemandFactor);
-        ChangeDemandFactorCommand = new RelayCommand(ChangeDemandFactor);
+
+
+        ShowSetDemandFactorCommand = new RelayCommand(ShowSetDemandFactor);
+        SetDemandFactorCommand = new RelayCommand(SetDemandFactor);
+
+        ShowSetPowerFactorCommand = new RelayCommand(ShowSetPowerFactor);
+        SetPowerFactorCommand = new RelayCommand(SetPowerFactor);
+
+        ShowSetEfficiencyCommand = new RelayCommand(ShowSetEfficiency);
+        SetEfficiencyCommand = new RelayCommand(SetEfficiency);
 
 
         AddDisconnectCommand = new RelayCommand(AddDisconnect);
@@ -207,12 +215,14 @@ public abstract class EdtViewModelBase: ViewModelBase
 
 
     #region Load List Context Menu 
+
+    //Area
     public ICommand ShowChangeAreaCommand { get; }
     public void ShowChangeArea()
     {
         if (SelectionWindow == null) {
 
-            AreaSelectionWindow areaSelectionWindow = new AreaSelectionWindow();
+            ChangeAreaWindow areaSelectionWindow = new ChangeAreaWindow();
             areaSelectionWindow.DataContext = this;
             SelectionWindow = areaSelectionWindow;
             areaSelectionWindow.ShowDialog();
@@ -236,12 +246,12 @@ public abstract class EdtViewModelBase: ViewModelBase
         }
     }
 
-
+    //Fed From
     public ICommand ShowChangeFedFromCommand { get; }
     public void ShowChangeFedFrom()
     {
         if (SelectionWindow == null) {
-            FedFromSelectionWindow fedFromSelectionWindow = new FedFromSelectionWindow();
+            ChangeFedFromWindow fedFromSelectionWindow = new ChangeFedFromWindow();
             fedFromSelectionWindow.DataContext = this;
             SelectionWindow = fedFromSelectionWindow;
             fedFromSelectionWindow.ShowDialog();
@@ -282,11 +292,12 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
 
 
+    //Change Load Type
     public ICommand ShowChangeLoadTypeCommand { get; }
     public void ShowChangeLoadType()
     {
         if (SelectionWindow == null) {
-            var selectionWindow = new LoadTypeSelectionWindow();
+            var selectionWindow = new ChangeLoadTypeWindow();
             selectionWindow.DataContext = this;
             SelectionWindow = selectionWindow;
             selectionWindow.ShowDialog();
@@ -300,12 +311,10 @@ public abstract class EdtViewModelBase: ViewModelBase
         if (SelectedLoads == null) return;
 
         ILoad load;
-        double outVal;
-
         foreach (var loadItem in SelectedLoads) {
             if (loadItem is ILoad) {
                 load = (ILoad)loadItem;
-                load.Type =  LoadToAddValidator.Type;
+                load.Type =  LoadType;
             }
         }
 
@@ -313,27 +322,27 @@ public abstract class EdtViewModelBase: ViewModelBase
             CloseSelectionWindow();
         }
     }
-    public string LoadType { get; set; }
+    public string LoadType { get; set; } = "MOTOR";
 
 
+    
 
+    //Demand Factor
 
-
-    public ICommand ShowChangeDemandFactorCommand { get; }
-    public void ShowChangeDemandFactor()
+    public ICommand ShowSetDemandFactorCommand { get; }
+    public void ShowSetDemandFactor()
     {
         DemandFactor = EdtProjectSettings.DemandFactorDefault;
         if (SelectionWindow == null) {
-            DemandFactorSelectionWindow selectionWindow = new DemandFactorSelectionWindow();
+            SetDemandFactorWindow selectionWindow = new SetDemandFactorWindow();
             selectionWindow.DataContext = this;
             SelectionWindow = selectionWindow;
             selectionWindow.ShowDialog();
         }
     }
 
-
-    public ICommand ChangeDemandFactorCommand { get; }
-    public void ChangeDemandFactor()
+    public ICommand SetDemandFactorCommand { get; }
+    public void SetDemandFactor()
     {
         
         if (SelectedLoads == null) return;
@@ -343,7 +352,7 @@ public abstract class EdtViewModelBase: ViewModelBase
 
         if (double.TryParse(DemandFactor, out outVal)) {
 
-            if (outVal > 0 || outVal <= 1) {
+            if (outVal >= 0 || outVal <= 1) {
                 foreach (var loadItem in SelectedLoads) {
                     if (loadItem is ILoad) {
                         load = (ILoad)loadItem;
@@ -369,7 +378,7 @@ public abstract class EdtViewModelBase: ViewModelBase
                 AddError(nameof(DemandFactor), "Invalid Value");
             }
             else {
-                if (outVal <= 0 || outVal > 1) {
+                if (outVal < 0 || outVal > 1) {
                     AddError(nameof(DemandFactor), "Invalid Value");
                 }
             }
@@ -378,6 +387,122 @@ public abstract class EdtViewModelBase: ViewModelBase
     private string _demandFactor;
 
 
+    //Power Factor
+    public ICommand ShowSetPowerFactorCommand { get; }
+    public void ShowSetPowerFactor()
+    {
+        PowerFactor = EdtProjectSettings.LoadDefaultPowerFactor_Other;
+        if (SelectionWindow == null) {
+            var selectionWindow = new SetPowerFactorWindow();
+            selectionWindow.DataContext = this;
+            SelectionWindow = selectionWindow;
+            selectionWindow.ShowDialog();
+        }
+    }
+
+    public ICommand SetPowerFactorCommand { get; }
+    public void SetPowerFactor()
+    {
+        if (SelectedLoads == null) return;
+
+        ILoad load;
+        double outVal;
+
+        if (double.TryParse(PowerFactor, out outVal)) {
+
+            if (outVal > 0 || outVal <= 1) {
+                foreach (var loadItem in SelectedLoads) {
+                    if (loadItem is ILoad) {
+                        load = (ILoad)loadItem;
+                        load.PowerFactor = outVal;
+                    }
+                }
+            }
+        }
+
+        if (SelectionWindow != null) {
+            CloseSelectionWindow();
+        }
+    }
+    public string PowerFactor
+    {
+        get { return _powerFactor; }
+        set
+        {
+            _powerFactor = value;
+            double outVal;
+            ClearErrors();
+            if (double.TryParse(value, out outVal) == false) {
+                AddError(nameof(PowerFactor), "Invalid Value");
+            }
+            else {
+                if (outVal <= 0 || outVal > 1) {
+                    AddError(nameof(PowerFactor), "Invalid Value");
+                }
+            }
+        }
+    }
+    private string _powerFactor;
+
+
+    //Efficiency
+    public ICommand ShowSetEfficiencyCommand { get; }
+    public void ShowSetEfficiency()
+    {
+        Efficiency = EdtProjectSettings.LoadDefaultEfficiency_Other;
+        if (SelectionWindow == null) {
+            var selectionWindow = new SetEfficiencyWindow();
+            selectionWindow.DataContext = this;
+            SelectionWindow = selectionWindow;
+            selectionWindow.ShowDialog();
+        }
+    }
+
+
+    public ICommand SetEfficiencyCommand { get; }
+    public void SetEfficiency()
+    {
+
+        if (SelectedLoads == null) return;
+
+        ILoad load;
+        double outVal;
+
+        if (double.TryParse(Efficiency, out outVal)) {
+
+            if (outVal > 0 || outVal <= 1) {
+                foreach (var loadItem in SelectedLoads) {
+                    if (loadItem is ILoad) {
+                        load = (ILoad)loadItem;
+                        load.Efficiency = outVal;
+                    }
+                }
+            }
+        }
+
+        if (SelectionWindow != null) {
+            CloseSelectionWindow();
+        }
+    }
+    public string Efficiency
+    {
+        get { return _efficiency; }
+        set
+        {
+            _efficiency = value;
+            double outVal;
+            ClearErrors();
+            if (double.TryParse(value, out outVal) == false) {
+                AddError(nameof(Efficiency), "Invalid Value");
+            }
+            else {
+                if (outVal <= 0 || outVal > 1) {
+                    AddError(nameof(Efficiency), "Invalid Value");
+                }
+            }
+        }
+    }
+    private string _efficiency;
 
 
 

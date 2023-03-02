@@ -329,13 +329,19 @@
     <Compile Update="Views\ProjectSettings\ExportSettingsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\SelectionWindows\LoadTypeSelectionWindow.xaml.cs">
+    <Compile Update="Windows\SelectionWindows\ChangeLoadTypeWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\SelectionWindows\DemandFactorSelectionWindow.xaml.cs">
+    <Compile Update="Windows\SelectionWindows\SetEfficiencyWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\SelectionWindows\AreaSelectionWindow.xaml.cs">
+    <Compile Update="Windows\SelectionWindows\SetDemandFactorWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\SelectionWindows\SetPowerFactorWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Windows\SelectionWindows\ChangeAreaWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -466,13 +472,19 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\SelectionWindows\LoadTypeSelectionWindow.xaml">
+    <Page Update="Windows\SelectionWindows\ChangeLoadTypeWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Windows\SelectionWindows\DemandFactorSelectionWindow.xaml">
+    <Page Update="Windows\SelectionWindows\SetEfficiencyWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-    <Page Update="Windows\SelectionWindows\AreaSelectionWindow.xaml">
+    <Page Update="Windows\SelectionWindows\SetDemandFactorWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Windows\SelectionWindows\SetPowerFactorWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Windows\SelectionWindows\ChangeAreaWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

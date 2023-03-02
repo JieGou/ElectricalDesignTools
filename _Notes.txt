@@ -22,11 +22,11 @@ Minor Bugs
 *****************************************************************************************************************************
 
 
-
 Property / Calculation Override and Locks
 	- DemandFactor
 	- Protection Device
 	- Power Cable Sizing
+
 
 Equipment Sequence Ordering
 	- LoadList by Tag
@@ -35,15 +35,9 @@ Equipment Sequence Ordering
 	- Component Move Up Command to Owner
 
 
-LoadGrid Context Menu
-	- Set Demand
-	- Set Type
-	- Set Eff
-	- Set PF
-
-
 LoadModel 
 	- Type change Voltage-Type and calculation updates
+
 
 Transformer Grounding
 	- Settings
@@ -51,14 +45,17 @@ Transformer Grounding
 	- NGR component
 	- NGR Monitor
 	- cables
+
 	
 Protective Devices
 	- 80% vs 100% rated option
 	- project setting for default breaker rating 80 vs 100%
 	
+
 Calculations
 	- required cable conductors (2C, 3C, 4C)
 		- derating calculation
+
 
 Tag Settings
 	- lcs cable TypeModel vs Type
@@ -79,7 +76,6 @@ Cables
 
 
 Dteq 
-	- validate cable when AssignedLoads changes
 	- dteq as LoadGraphicVew
 	- Supply cable sizing based on upstream breaker (what is upstream breaker)
 

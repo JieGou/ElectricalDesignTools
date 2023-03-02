@@ -16,8 +16,13 @@
     <converters:WarningIdentifierConverter x:Key="WarningIdentifierConverter"/>
     <converters:WarningStringConverter x:Key="WarningStringConverter"/>
 
-    
-    
+
+    <!--Tooltip-->
+    <Style TargetType="ToolTip">
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="Background" Value="{StaticResource VeryDarkGray}"/>
+        <Setter Property="Foreground" Value="LightGray"/>
+    </Style>
 
     <!--ALL CONTROLS DEFAULT-->
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
@@ -123,7 +128,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
 
-   
+    
 
     <!--TEXTBOX - DataGrid Header Filter -->
     <Style x:Key="FilterTextBoxBase" TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">

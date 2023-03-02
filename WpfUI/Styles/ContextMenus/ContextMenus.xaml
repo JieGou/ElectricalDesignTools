@@ -48,7 +48,7 @@
         
         
         <!--Demand Factor-->
-        <MenuItem Header="Set Demand Factor" Command="{Binding ShowChangeDemandFactorCommand}">
+        <MenuItem Header="Set Demand Factor" Command="{Binding ShowSetDemandFactorCommand}">
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/decimal2.png"
                        Height="17"
@@ -59,7 +59,7 @@
         </MenuItem>
         
         <!--Power Factor-->
-        <MenuItem Header="Set Power Factor" Command="{Binding ShowChangeAreaCommand}" >
+        <MenuItem Header="Set Power Factor" Command="{Binding ShowSetPowerFactorCommand}" >
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/powerFactor.png"
                        Height="17"
@@ -70,7 +70,7 @@
         </MenuItem>
         
         <!--Efficiency-->
-        <MenuItem Header="Set Efficiency" Command="{Binding ShowChangeAreaCommand}" >
+        <MenuItem Header="Set Efficiency" Command="{Binding ShowSetEfficiencyCommand}" >
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/percentThin.png"
                        Height="15"

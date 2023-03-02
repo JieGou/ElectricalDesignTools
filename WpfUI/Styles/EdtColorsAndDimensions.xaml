@@ -11,6 +11,7 @@
 
     <SolidColorBrush x:Key="ControlBorder" Color="#FF6C6C6C"/>
     <SolidColorBrush x:Key="ControlBackground" Color="#FF6C6C6C"/>
+    <SolidColorBrush x:Key="VeryDarkGray" Color="#FF545454"/>
 
     <sys:Double x:Key="ControlCornerRadiusValue">3</sys:Double>
     <CornerRadius x:Key="ControlCornerRadius" 

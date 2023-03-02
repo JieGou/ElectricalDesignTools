@@ -17,9 +17,9 @@ namespace WpfUI.Windows.SelectionWindows;
 /// <summary>
 /// Interaction logic for FedFromSelectionWindow.xaml
 /// </summary>
-public partial class LoadTypeSelectionWindow : Window
+public partial class SetEfficiencyWindow : Window
 {
-    public LoadTypeSelectionWindow()
+    public SetEfficiencyWindow()
     {
         InitializeComponent();
     }
@@ -30,5 +30,4 @@ public partial class LoadTypeSelectionWindow : Window
         dataContext.CloseSelectionWindow();
     }
 
-   
 }
