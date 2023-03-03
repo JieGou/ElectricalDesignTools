@@ -5,6 +5,8 @@ Major Bugs
 	- change MessageBoxes to ErrorDialog with error list
 
 Minor Bugs
+	- add load is slow
+	- added load needs to shown / selected in views
 	- DCN and MCP frame size defaults to 1200 A
 	- order of disconnect frame sizes
 	- order of PD frame sizes

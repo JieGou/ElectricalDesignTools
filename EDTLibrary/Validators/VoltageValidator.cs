@@ -25,6 +25,9 @@ internal class VoltageValidator
 
     private static bool ValidateLoadVoltage(IPowerConsumer load)
     {
+        if (load.FedFrom == null ) {
+            return false;
+        }
         var fedFromVoltage = load.FedFrom.LoadVoltageType;
         if (load.Type == LoadTypes.MOTOR.ToString()) {
             if (fedFromVoltage.Voltage == 480 && load.VoltageType.Voltage == 460) {
