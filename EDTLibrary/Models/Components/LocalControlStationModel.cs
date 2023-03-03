@@ -25,6 +25,17 @@ namespace EDTLibrary.Models.Components;
 [AddINotifyPropertyChangedInterface]
 public class LocalControlStationModel : ILocalControlStation
 {
+
+    public bool IsCalculationLocked
+    {
+        get { return _isCalculationLocked; }
+        set
+        {
+            _isCalculationLocked = value;
+            OnPropertyUpdated();
+        }
+    }
+    private bool _isCalculationLocked;
     public LocalControlStationModel()
     {
         Type = "LCS";

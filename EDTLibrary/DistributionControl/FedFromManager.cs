@@ -89,18 +89,8 @@ namespace EDTLibrary.DistributionControl
                     }
                 }
 
-                if (caller.CalculationFlags != null)
-                {
-                    if (caller.CalculationFlags.CanUpdateFedFrom)
-                    {
-                        newSupplier.AddNewLoad(caller);
-                    }
-                }
-
-                else
-                {
-                    newSupplier.AddNewLoad(caller);
-                }
+                newSupplier.AddNewLoad(caller);
+               
 
                 caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
 

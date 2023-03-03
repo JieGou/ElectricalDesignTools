@@ -65,6 +65,17 @@ public class CableModel : ICable
 
     }
 
+    public bool IsCalculationLocked
+    {
+        get { return _isCalculationLocked; }
+        set
+        {
+            _isCalculationLocked = value;
+            OnPropertyUpdated();
+        }
+    }
+    private bool _isCalculationLocked;
+
     internal SaveController saveController = new SaveController();
 
     #region Validations
@@ -782,8 +793,10 @@ public class CableModel : ICable
     public void AutoSize_IfEnabled()
     {
         if (EdtAppSettings.Default.AutoSize_PowerCable==true) {
-            AutoSize();
-        }
+            if (IsCalculationLocked == false) {
+                AutoSize();
+
+            }        }
     }
     private void AutoSize()
     {

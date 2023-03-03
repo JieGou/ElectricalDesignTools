@@ -47,7 +47,6 @@ namespace EDTLibrary.Models.Loads
             Description = "";
             Category = Categories.LOAD.ToString();
             PowerCable = new CableModel();
-            CalculationFlags = new CalculationFlags();
 
             //Commands
 
@@ -65,10 +64,19 @@ namespace EDTLibrary.Models.Loads
 
         #endregion
 
-        public CalculationFlags CalculationFlags { get; set; }
+        public bool IsCalculationLocked
+        {
+            get { return _isCalculationLocked; }
+            set
+            {
+                _isCalculationLocked = value;
+                OnPropertyUpdated();
+            }
+        }
+        private bool _isCalculationLocked; 
+        
+
         internal SaveController saveController = new SaveController();
-
-
 
 
         public int ProtectionDeviceId { get; set; }
@@ -179,10 +187,8 @@ namespace EDTLibrary.Models.Loads
                 if (string.IsNullOrEmpty(value.ToString())) return;
                 if (Tag == GlobalConfig.LargestMotor_StartLoad) return;
 
-                if (CalculationFlags.EnforceUniqueTags == true) {
-                    if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
-                        return;
-                    }
+                if (TagAndNameValidator.IsTagAvailable(value, ScenarioManager.ListManager) == false) {
+                    return;
                 }
                 
                 
@@ -974,16 +980,21 @@ namespace EDTLibrary.Models.Loads
 
 
                 Size_ProtectionDevice();
-
+                ProtectionDevice.Validate();
 
                 if (EdtAppSettings.Default.AutoSize_CircuitComponents) {
                     foreach (var comp in CctComponents) {
-                        ProtectionDeviceManager.SetPdTripAndStarterSize(comp);
+                        if (comp.IsCalculationLocked == false) {
+                            ProtectionDeviceManager.SetPdTripAndStarterSize(comp);
+                            comp.Validate();
+                        }
                     }
                 }
 
                 if (EdtAppSettings.Default.AutoSize_SCCR) {
-                    SCCR = EquipmentSccrCalculator.GetMinimumSccr(this); 
+                    if (IsCalculationLocked == false) {
+                        SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);  
+                    }
                 }
 
                 PowerCable.GetRequiredAmps(this);
@@ -996,13 +1007,17 @@ namespace EDTLibrary.Models.Loads
 
                 if (EdtAppSettings.Default.AutoSize_CircuitComponents) {
                     foreach (var item in CctComponents) {
-                        item.CalculateSize(this);
+                        if (item.IsCalculationLocked == false) {
+                            item.CalculateSize(this); 
+                        }
                     } 
                 }
                 if (ProtectionDevice != null) {
-                    ProtectionDevice.Validate();
-
+                    if (ProtectionDevice.IsCalculationLocked == false) {
+                        ProtectionDevice.Validate();
+                    }
                 }
+
                 foreach (var comp in CctComponents) {
                     comp.Validate();
                 }
@@ -1109,8 +1124,10 @@ namespace EDTLibrary.Models.Loads
             {
                 if (ProtectionDevice != null) {
                     if (EdtAppSettings.Default.AutoSize_ProtectionDevice) {
-                        ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
-                        ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
+                        if (IsCalculationLocked == false) {
+                            ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
+                            ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this); 
+                        }
                     }
                 }
             }

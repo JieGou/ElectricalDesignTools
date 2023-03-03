@@ -6,6 +6,18 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Equipment;
 public class EquipmentModel : IEquipment
 {
+
+    public bool IsCalculationLocked
+    {
+        get { return _isCalculationLocked; }
+        set
+        {
+            _isCalculationLocked = value;
+            OnPropertyUpdated();
+        }
+    }
+    private bool _isCalculationLocked;
+
     public bool IsValid { get; set; } = true;
     public void Validate()
     {

@@ -16,7 +16,16 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Loads;
 internal class DummyLoad : ILoad
 {
-
+    public bool IsCalculationLocked
+    {
+        get { return _isCalculationLocked; }
+        set
+        {
+            _isCalculationLocked = value;
+            OnPropertyUpdated();
+        }
+    }
+    private bool _isCalculationLocked;
     public bool IsValid { get; set; } = true;
     public void Validate()
     {
@@ -32,7 +41,6 @@ internal class DummyLoad : ILoad
 
     public int ProtectionDeviceId { get; set; }
     public IProtectionDevice ProtectionDevice { get; set; }
-    public CalculationFlags CalculationFlags { get; set; }
     public int VoltageTypeId { get; set; }
     public VoltageType VoltageType { get; set; }
     public double PowerFactor { get; set; }

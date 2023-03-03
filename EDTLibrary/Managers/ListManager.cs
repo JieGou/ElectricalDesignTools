@@ -4,6 +4,7 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
+using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
@@ -59,6 +60,7 @@ namespace EDTLibrary.Managers
         public ObservableCollection<CableModel> CableList { get; set; } = new ObservableCollection<CableModel>();
         public ObservableCollection<RacewayModel> RacewayList { get; set; } = new ObservableCollection<RacewayModel>();
         public ObservableCollection<RacewayRouteSegment> RacewaySegmentList { get; set; } = new ObservableCollection<RacewayRouteSegment>();
+        public ObservableCollection<CalculationLock> CalculationLockList { get; set; } = new ObservableCollection<CalculationLock>();
 
 
         public void GetProjectTablesAndAssigments()
@@ -97,6 +99,8 @@ namespace EDTLibrary.Managers
                 GetRacewayRouting();
 
                 ValidateAll();
+
+
                 DaManager.GettingRecords = false;
 
             }
@@ -110,6 +114,8 @@ namespace EDTLibrary.Managers
             finally { DaManager.GettingRecords = false;}
 
         }
+
+        
 
         private void ValidateAll()
         {

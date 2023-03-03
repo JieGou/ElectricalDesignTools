@@ -9,6 +9,9 @@ namespace EDTLibrary.Models.Equipment
 {
     public interface IEquipment
     {
+
+        bool IsCalculationLocked { get; set; }
+
         bool IsValid { get; set; }
         void Validate();
 

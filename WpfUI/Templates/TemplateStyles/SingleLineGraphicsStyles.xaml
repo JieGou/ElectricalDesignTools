@@ -35,6 +35,7 @@
     
     
     <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
         <Setter Property="Margin" Value="0"/>
     </Style>
 
@@ -50,7 +51,7 @@
 
             <Style TargetType="TextBlock">
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Foreground" Value="{StaticResource TextColorSingleLineGraphics_Black}"/>
 
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=IsMouseOver}" Value="True" >

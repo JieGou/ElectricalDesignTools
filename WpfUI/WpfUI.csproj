@@ -30,6 +30,10 @@
     <None Remove="ContentFiles\InAppIcons\infoIcon.png" />
     <None Remove="ContentFiles\InAppIcons\InfoIcon2.png" />
     <None Remove="ContentFiles\InAppIcons\SettingsIcon.png" />
+    <None Remove="ResourceFiles\ApplicationIcons\calculateFilled.png" />
+    <None Remove="ResourceFiles\ApplicationIcons\calculateMedium.png" />
+    <None Remove="ResourceFiles\ApplicationIcons\calculateThin.png" />
+    <None Remove="ResourceFiles\ApplicationIcons\rubik.png" />
     <None Remove="ResourceFiles\Button Icons\ArrowRightBlack32.png" />
     <None Remove="ResourceFiles\Button Icons\DeleteLeftBlack32.png" />
     <None Remove="ResourceFiles\CableIcons\CableIcon.jpg" />
@@ -80,6 +84,18 @@
     <Content Include="ContentFiles\Edt Data Library.edl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="ResourceFiles\ApplicationIcons\calculateFilled.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\ApplicationIcons\calculateMedium.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\ApplicationIcons\calculateThin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ResourceFiles\ApplicationIcons\rubik.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="ResourceFiles\Button Icons\SettingsIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -285,6 +301,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UserControls\NotificationIcons\ErrorIcon.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UserControls\NotificationIcons\CalculateIcon.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UserControls\Viewers\Dpanels\DpnCctViewer_V.xaml.cs">

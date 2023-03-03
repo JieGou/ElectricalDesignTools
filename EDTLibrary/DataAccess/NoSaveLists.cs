@@ -102,6 +102,7 @@ namespace EDTLibrary.DataAccess
 
             "IsSelected",
             "SettingTag",
+            "AutoCalculateCommand",
 
         };
 
@@ -116,6 +117,8 @@ namespace EDTLibrary.DataAccess
 
             "IsSelected",
             "SettingTag",
+            "AutoCalculateCommand",
+
         };
 
         static public List<string> LcsNoSaveList { get; set; } = new List<string>()

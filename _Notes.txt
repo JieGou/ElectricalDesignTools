@@ -23,8 +23,8 @@ Minor Bugs
 
 
 Property / Calculation Override and Locks
-	- DemandFactor
 	- Protection Device
+	- Component Sizing
 	- Power Cable Sizing
 
 

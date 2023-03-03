@@ -1,4 +1,5 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EdtLibrary.Commands;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
@@ -25,6 +26,9 @@ namespace EDTLibrary.Models.Components.ProtectionDevices;
 //	- SubType = DefaultDcn,, Diconnect,
 public class ProtectionDeviceModel : ComponentModelBase, IProtectionDevice
 {
+    public ProtectionDeviceModel()
+    {
+    }
     private bool _isStandAlone;
     public bool IsStandAlone {
         get => _isStandAlone;

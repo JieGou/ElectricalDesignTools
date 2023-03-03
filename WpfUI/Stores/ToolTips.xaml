@@ -31,5 +31,10 @@ equipment is shown only in the supplying equipment.</clr:String>
     <clr:String x:Key="PowerFactorDefaults" xml:space="preserve">Reset power factor and efficiency to the default values
 per the project settings and library motor table.</clr:String>
 
+    <clr:String x:Key="CalulationLock" xml:space="preserve">Exclude this item from autosizing calculations and stops the 
+sizes from being recalculated to their minimum values.
+        
+Useful when oversizing components. </clr:String>
+
 
 </ResourceDictionary>

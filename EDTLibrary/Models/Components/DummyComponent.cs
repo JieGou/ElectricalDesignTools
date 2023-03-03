@@ -12,6 +12,17 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Components;
 internal class DummyComponent : IComponentEdt
 {
+
+    public bool IsCalculationLocked
+    {
+        get { return _isCalculationLocked; }
+        set
+        {
+            _isCalculationLocked = value;
+            OnPropertyUpdated();
+        }
+    }
+    private bool _isCalculationLocked;
     public bool IsValid { get; set; } = true;
     public void Validate()
     {

@@ -454,7 +454,7 @@
                                   HorizontalAlignment="Left">
 
                                 <TextBlock Text="{Binding ElementName=lstAreaClassification, Path=SelectedItem.ZoneDescription}" d:Text="" 
-                                           Background="{StaticResource TextBlockBackground}"
+                                           Background="{StaticResource TransparentTextBlockBrush}"
                                            TextWrapping="Wrap"
                                            HorizontalAlignment="Left"
                                            Margin="10 0 10 10"/>

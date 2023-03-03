@@ -10,12 +10,16 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Models\Cables\Validators\**" />
     <Compile Remove="Models\Ocpds\**" />
     <Compile Remove="Models\ProtectiveDevices\**" />
+    <EmbeddedResource Remove="Models\Cables\Validators\**" />
     <EmbeddedResource Remove="Models\Ocpds\**" />
     <EmbeddedResource Remove="Models\ProtectiveDevices\**" />
+    <None Remove="Models\Cables\Validators\**" />
     <None Remove="Models\Ocpds\**" />
     <None Remove="Models\ProtectiveDevices\**" />
+    <Page Remove="Models\Cables\Validators\**" />
     <Page Remove="Models\Ocpds\**" />
     <Page Remove="Models\ProtectiveDevices\**" />
   </ItemGroup>
@@ -52,9 +56,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\My Drive\Programming\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Cables\Validators\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Settings\EdtAppSettings.settings">

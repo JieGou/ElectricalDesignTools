@@ -12,6 +12,7 @@ namespace EDTLibrary.Models.Cables;
 
 public interface ICable
 {
+    bool IsCalculationLocked { get; set; }
     string AmpacityTable { get; set; }
     ICommand AutoSizeCommand { get; }
     double BaseAmps { get; set; }

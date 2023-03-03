@@ -15,7 +15,9 @@
         WindowStyle="SingleBorderWindow"
         Title="Change Load Type" Height="200" Width="350"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize" Closed="Window_Closed">
+        ResizeMode="NoResize" Closed="Window_Closed"
+        Background="{StaticResource WindowBackgroundLightTheme_White}"
+        >
 
     <Window.Resources>
         <!--Background="#FFBDCCCA">-->

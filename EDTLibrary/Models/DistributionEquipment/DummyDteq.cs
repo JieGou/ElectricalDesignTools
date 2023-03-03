@@ -18,6 +18,16 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.DistributionEquipment;
 public class DummyDteq : IDteq
 {
+    public bool IsCalculationLocked
+    {
+        get { return _isCalculationLocked; }
+        set
+        {
+            _isCalculationLocked = value;
+            OnPropertyUpdated();
+        }
+    }
+    private bool _isCalculationLocked;
     bool IsCalculating { get; set; }
 
     public bool IsMainLugsOnly { get; set; }
@@ -33,7 +43,6 @@ public class DummyDteq : IDteq
     public double LoadCableDerating { get; set; }
     public int ProtectionDeviceId { get; set; }
     public IProtectionDevice ProtectionDevice { get; set; }
-    public CalculationFlags CalculationFlags { get; set; }
     public int VoltageTypeId { get; set; }
     public VoltageType VoltageType { get; set; }
     public double PowerFactor { get; set; }

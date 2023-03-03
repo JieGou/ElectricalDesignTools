@@ -132,7 +132,7 @@ public class ProtectionDeviceManager
     public static void SetPdTripAndStarterSize(IComponentEdt component)
     {
         if (component == null) return;
-        
+        if (component.IsCalculationLocked) return;
 
         IPowerConsumer load = (IPowerConsumer)component.Owner;
         var LvCutoff = 750;

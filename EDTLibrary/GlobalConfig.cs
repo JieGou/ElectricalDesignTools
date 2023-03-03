@@ -75,6 +75,7 @@ namespace EDTLibrary
         public static string AreaTable { get; set; } = "Areas";
         public static string CableTable { get; set; } = "Cables";
         public static string ProtectionDeviceTable { get; set; } = "ProtectionDevices";
+        public static string CalculationLockTable { get; set; } = "CalculationLocks";
 
 
 

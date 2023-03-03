@@ -4,14 +4,45 @@
                     >
 
 
-    
-     
-    
-<!--WINDOW LAYOUT ***********************-->
 
+    <!--Colors-->
     <SolidColorBrush x:Key="ControlBorder" Color="#FF6C6C6C"/>
     <SolidColorBrush x:Key="ControlBackground" Color="#FF6C6C6C"/>
     <SolidColorBrush x:Key="VeryDarkGray" Color="#FF545454"/>
+    
+    
+    <!--WINDOW LAYOUT ***********************-->
+
+    <!--White window background for Light Theme-->
+    <SolidColorBrush x:Key="WindowBackgroundLightTheme_White" Color="WhiteSmoke"/>
+    
+    <SolidColorBrush x:Key="WindowGridBorderBrush" Color="Black"/>
+    
+    <!--Nema Types and Area Classification descriptions-->
+    <SolidColorBrush x:Key="TransparentTextBlockBrush" Color="LightGray" Opacity=".3"/> 
+    
+    
+    <!--TEXT colors-->
+    
+    <!--Black Text for Light Theme-->
+    <SolidColorBrush x:Key="TextColorLightTheme_Black" Color="Black"/>
+    
+    <!--White Text for Light Theme-->
+    <SolidColorBrush x:Key="TextColorLightTheme_White" Color="White"/>
+    
+    
+    
+    <SolidColorBrush x:Key="ToolTipTextBrush" Color="LightGray"/>
+    <SolidColorBrush x:Key="ToolTipBackgroundBrush" Color="#FF545454"/>
+    <SolidColorBrush x:Key="ToolTipBorderBrush" Color="Black"/>
+    
+    
+    
+    
+    <!--SINGLE LINE TEXT COLORS-->
+    <!--Black Text for Light Theme-->
+    <SolidColorBrush x:Key="TextColorSingleLineGraphics_Black" Color="Black"/>
+    
 
     <sys:Double x:Key="ControlCornerRadiusValue">3</sys:Double>
     <CornerRadius x:Key="ControlCornerRadius" 
@@ -20,15 +51,10 @@
                   TopRight="{StaticResource ControlCornerRadiusValue}" 
                   BottomRight="{StaticResource ControlCornerRadiusValue}"/>
     
+ 
     
-    <SolidColorBrush x:Key="WindowGridBorderBrush" Color="Black"/>
-    <SolidColorBrush x:Key="TextBlockBackground" Color="LightGray" Opacity=".3"/>
-    
-    
-    <SolidColorBrush x:Key="TextColorLightTheme_Black" Color="Black"/>
-    <SolidColorBrush x:Key="TextColorLightTheme_White" Color="White"/>
-
     <!--DIMENSIONS **********************-->
+    
 
     <!--Sub Menu-->
     <sys:Double x:Key="SubMenuHeight">30</sys:Double>

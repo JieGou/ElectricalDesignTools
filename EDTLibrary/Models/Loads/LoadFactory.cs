@@ -23,7 +23,6 @@ namespace EDTLibrary.Models.Loads
         public LoadModel CreateLoad(LoadToAddValidator loadToAddValidator)
         {
             LoadModel newLoad = new LoadModel();
-            newLoad.CalculationFlags.CanUpdateFedFrom = false;
 
             newLoad.Voltage = Double.Parse(loadToAddValidator.Voltage);
             newLoad.VoltageType = loadToAddValidator.VoltageType;
@@ -69,14 +68,12 @@ namespace EDTLibrary.Models.Loads
             newLoad.SequenceNumber = loadToAddValidator.SequenceNumber;
             newLoad.PanelSide = loadToAddValidator.PanelSide;
             newLoad.CircuitNumber = loadToAddValidator.CircuitNumber;
-            newLoad.CalculationFlags = new CalculationFlags();
             return newLoad;
         }
 
         public LoadModel CreateLoad_CopyFromExisting(ILoad loadToCopy, string newTag)
         {
             LoadModel newLoad = new LoadModel();
-            newLoad.CalculationFlags.CanUpdateFedFrom = false;
 
             newLoad.Voltage = loadToCopy.Voltage;
             newLoad.VoltageType = loadToCopy.VoltageType;
@@ -121,7 +118,6 @@ namespace EDTLibrary.Models.Loads
             newLoad.SequenceNumber = loadToCopy.SequenceNumber;
             newLoad.PanelSide = loadToCopy.PanelSide;
             newLoad.CircuitNumber = loadToCopy.CircuitNumber;
-            newLoad.CalculationFlags = new CalculationFlags();
 
             newLoad.DisconnectBool = loadToCopy.DisconnectBool;
             //newLoad.StandAloneStarterBool = loadToCopy.StandAloneStarterBool;

@@ -38,6 +38,19 @@ namespace EDTLibrary.Models.DistributionEquipment
     public abstract class DistributionEquipment : IDteq, IComponentUser //, INotifyDataErrorInfo 
     {
 
+
+        public bool IsCalculationLocked
+        {
+            get { return _isCalculationLocked; }
+            set 
+            { 
+                _isCalculationLocked = value;
+                OnPropertyUpdated();
+            }
+        }
+        private bool _isCalculationLocked;
+
+
         public DistributionEquipment()
         {
             Description = "";
@@ -812,6 +825,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 UndoManager.AddUndoCommand(this, nameof(SCCR), oldValue, value);
                 saveController.UnLock(nameof(SCCR));
+                Validate();
                 OnPropertyUpdated();
             }
         }
@@ -862,7 +876,6 @@ namespace EDTLibrary.Models.DistributionEquipment
         public bool IsMainLugsOnly { get; set; }
 
 
-        public CalculationFlags CalculationFlags { get; set; }
 
 
         public bool IsSelected
@@ -934,9 +947,11 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 ProtectionDeviceManager.SetProtectionDeviceType(this);
                 if (EdtAppSettings.Default.AutoSize_ProtectionDevice) {
-                    ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
-                    if (ProtectionDevice != null) {
-                        ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
+                    if (IsCalculationLocked == false) {
+                        ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
+                        if (ProtectionDevice != null) {
+                            ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this);
+                        } 
                     }
                 }
                 ProtectionDevice.Validate();

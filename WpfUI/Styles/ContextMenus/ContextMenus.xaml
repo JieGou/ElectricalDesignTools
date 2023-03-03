@@ -10,7 +10,7 @@
         <MenuItem Header="Change Area" Command="{Binding ShowChangeAreaCommand}" >
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/changeAreaBlue.png"
-                       Height="17"
+                       Height="19"
                        RenderOptions.BitmapScalingMode="HighQuality"
                        SnapsToDevicePixels="True"
                        />
@@ -21,8 +21,7 @@
         <MenuItem Header="Change FedFrom" Command="{Binding ShowChangeFedFromCommand}"  >
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/changeFedFrom.ico"
-                       Height="17"
-                       RenderOptions.BitmapScalingMode="HighQuality"
+                       Height="20"
                        SnapsToDevicePixels="True"
                        />
             </MenuItem.Icon>
@@ -51,7 +50,7 @@
         <MenuItem Header="Set Demand Factor" Command="{Binding ShowSetDemandFactorCommand}">
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/decimal2.png"
-                       Height="17"
+                       Height="19"
                        RenderOptions.BitmapScalingMode="HighQuality"
                        SnapsToDevicePixels="True"
                        />
@@ -73,7 +72,7 @@
         <MenuItem Header="Set Efficiency" Command="{Binding ShowSetEfficiencyCommand}" >
             <MenuItem.Icon>
                 <Image Source="../../ResourceFiles/MenuIcons/percentThin.png"
-                       Height="15"
+                       Height="13"
                        RenderOptions.BitmapScalingMode="HighQuality"
                        SnapsToDevicePixels="True"
                        />

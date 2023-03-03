@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Calculators;
+﻿using EdtLibrary.Commands;
+using EDTLibrary.Calculators;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
@@ -17,6 +18,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace EDTLibrary.Models.Components;
@@ -34,8 +36,29 @@ public abstract class ComponentModelBase : IComponentEdt
 
     public ComponentModelBase()
     {
+        AutoCalculateCommand = new RelayCommand(AutoCalculate);
+
     }
 
+    public ICommand AutoCalculateCommand { get; set; }
+    private void AutoCalculate()
+    {
+        var calcLock = IsCalculationLocked;
+        IsCalculationLocked= false;
+        CalculateSize((IPowerConsumer)Owner);
+        IsCalculationLocked = calcLock;
+    }
+
+    public bool IsCalculationLocked
+    {
+        get { return _isCalculationLocked; }
+        set
+        {
+            _isCalculationLocked = value;
+            OnPropertyUpdated();
+        }
+    }
+    private bool _isCalculationLocked;
     public bool IsValid { get; set; } = true;
 
 
@@ -314,8 +337,10 @@ public abstract class ComponentModelBase : IComponentEdt
 
             if (DaManager.GettingRecords) return;
 
-            FrameAmps = ProtectionDeviceManager.GetPdFrameAmps(this, (IPowerConsumer)Owner);
-            var pdLoad = (IPowerConsumer)Owner;
+            if (IsCalculationLocked == false) {
+                FrameAmps = ProtectionDeviceManager.GetPdFrameAmps(this, (IPowerConsumer)Owner);
+
+            }            var pdLoad = (IPowerConsumer)Owner;
             pdLoad.ValidateCableSizes();
 
             UndoManager.AddUndoCommand(this, nameof(TripAmps), oldValue, _trip);
@@ -419,10 +444,18 @@ public abstract class ComponentModelBase : IComponentEdt
         if (Type == CctComponentTypes.UDS.ToString()) {
             TripAmps = DataTableSearcher.GetDisconnectFuse(load);
         }
+        else {
+            ProtectionDeviceManager.SetPdTripAndStarterSize(this);
+        }
+
         if (Type == CctComponentTypes.UDS.ToString() || Type == CctComponentTypes.FDS.ToString()) {
             FrameAmps = DataTableSearcher.GetDisconnectSize(load);
         }
-        
+
+
+
+        AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(load);
+        SCCR = EquipmentSccrCalculator.GetMinimumSccr(this);
         Validate();
         OnPropertyUpdated();
     }

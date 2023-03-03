@@ -30,12 +30,21 @@ namespace EDTLibrary.Models.Loads;
 public class LoadCircuit : ILoadCircuit
 {
 
+    public bool IsCalculationLocked
+    {
+        get { return _isCalculationLocked; }
+        set
+        {
+            _isCalculationLocked = value;
+            OnPropertyUpdated();
+        }
+    }
+    private bool _isCalculationLocked;
 
     public LoadCircuit()
     {
         ConvertToLoadCommand = new RelayCommand(ConvertToLoad);
     }
-    public CalculationFlags CalculationFlags { get; set; }
 
     public bool IsValid { get; set; } = true;
     public void Validate()

@@ -26,7 +26,7 @@
             Margin="0 5 0 0">
 
         <Grid Margin="0 5 5 10"
-            ShowGridLines="False">
+            ShowGridLines="false">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30"/>
                 <ColumnDefinition Width="100"/>
@@ -52,25 +52,42 @@
                        FontWeight="SemiBold"
                        Margin="0 0 0 5"
                        TextAlignment="Left"/>
+            
+            <CheckBox  Grid.Row="2" Grid.RowSpan="2"
+                       Grid.Column="0"
+                       Width="25"
+                       HorizontalAlignment="Left"
+                       Panel.ZIndex="1"
+                       Template="{DynamicResource CheckBoxTemplate_LockIcon}"
+                       IsChecked="{Binding IsCalculationLocked}"
+                       Visibility="Visible"
+                       ToolTipService.InitialShowDelay="250">
+                <CheckBox.Content>
+                    <StackPanel Orientation="Vertical" Background="Transparent" Visibility="Collapsed">
+                        <TextBlock Text="Calculation" />
+                        <TextBlock Text="Lock"/>
+                    </StackPanel>
+                </CheckBox.Content>
+                <CheckBox.ToolTip>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Calculation Lock" FontWeight="SemiBold" Foreground="{StaticResource ToolTipTextBrush}"/>
+                        <TextBlock Text="{StaticResource CalulationLock}" Foreground="{StaticResource ToolTipTextBrush}"/>
+                    </StackPanel>
+                </CheckBox.ToolTip>
+            </CheckBox>
 
-            <Viewbox Width="17" Height="17"
-                     Grid.Row="1" Grid.RowSpan="3"
-                     Grid.Column="0" Grid.ColumnSpan="2"
-                     Margin="20 0 0 30"
-                     VerticalAlignment="Top"
-                     HorizontalAlignment="Left">
-                <Grid>
-                    <!--Locked-->
-                    <Canvas Width="24" Height="24"
-                            Visibility="Collapsed">
-                        <Path Fill="{StaticResource TextColorLightTheme_Black}" Data="M12,17C10.89,17 10,16.1 10,15C10,13.89 10.89,13 12,13A2,2 0 0,1 14,15A2,2 0 0,1 12,17M18,20V10H6V20H18M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6C4.89,22 4,21.1 4,20V10C4,8.89 4.89,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />
-                    </Canvas>
-                    <!--Unlocked-->
-                    <Canvas Width="24" Height="24">
-                        <Path Fill="{StaticResource TextColorLightTheme_Black}" Data="M10 13C11.1 13 12 13.89 12 15C12 16.11 11.11 17 10 17S8 16.11 8 15 8.9 13 10 13M18 1C15.24 1 13 3.24 13 6V8H4C2.9 8 2 8.9 2 10V20C2 21.1 2.9 22 4 22H16C17.1 22 18 21.1 18 20V10C18 8.9 17.1 8 16 8H15V6C15 4.34 16.34 3 18 3S21 4.34 21 6V8H23V6C23 3.24 20.76 1 18 1M16 10V20H4V10H16Z" />
-                    </Canvas>
-                </Grid>
-            </Viewbox>
+            
+
+            <Button Style="{StaticResource IconButton}"
+                    Command="{Binding AutoCalculateCommand}"
+                    Grid.Row="2" Grid.RowSpan="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Left"                    
+                    Panel.ZIndex="11"
+                    >
+                <iconControls:CalculateIcon
+                    Margin="1 1 0 0"/>
+            </Button>
 
             <!--Trip-->
             <TextBlock Text="Trip"
@@ -257,7 +274,6 @@
 
             <iconControls:InfoIcon InformationText="{StaticResource MainLugsOnly}"
                                    Grid.Row="8" Grid.Column="1"
-                                   
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Bottom"/>
             
