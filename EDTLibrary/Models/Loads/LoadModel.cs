@@ -980,13 +980,21 @@ namespace EDTLibrary.Models.Loads
 
 
                 Size_ProtectionDevice();
-                ProtectionDevice.Validate();
 
+                //Size Circuit Components with Manager
                 if (EdtAppSettings.Default.AutoSize_CircuitComponents) {
                     foreach (var comp in CctComponents) {
                         if (comp.IsCalculationLocked == false) {
                             ProtectionDeviceManager.SetPdTripAndStarterSize(comp);
-                            comp.Validate();
+                        }
+                    }
+                }
+
+                //Size components internally
+                if (EdtAppSettings.Default.AutoSize_CircuitComponents) {
+                    foreach (var comp in CctComponents) {
+                        if (comp.IsCalculationLocked == false) {
+                            comp.CalculateSize(this);
                         }
                     }
                 }
@@ -1002,16 +1010,11 @@ namespace EDTLibrary.Models.Loads
                 IsCalculating = false;
 
 
+                //Validations
                 PowerCable.Validate(PowerCable);
                 CableManager.ValidateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
 
-                if (EdtAppSettings.Default.AutoSize_CircuitComponents) {
-                    foreach (var item in CctComponents) {
-                        if (item.IsCalculationLocked == false) {
-                            item.CalculateSize(this); 
-                        }
-                    } 
-                }
+
                 if (ProtectionDevice != null) {
                     if (ProtectionDevice.IsCalculationLocked == false) {
                         ProtectionDevice.Validate();
