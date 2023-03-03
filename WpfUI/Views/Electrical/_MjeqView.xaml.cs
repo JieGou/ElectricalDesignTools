@@ -2,7 +2,9 @@
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
+using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.TestDataFolder;
 using System;
@@ -121,7 +123,7 @@ public partial class _MjeqView : UserControl
         if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) {
 
             if (e.Key == Key.V) {
-                vm.AddLoad(vm.SelectedLoad);
+                //vm.AddLoad(vm.SelectedLoad);
             }
 
 #if DEBUG
@@ -687,9 +689,12 @@ public partial class _MjeqView : UserControl
     #region View Update Events
     public void OnElectricalViewUpdated(object source, EventArgs e)
     {
+        var tag = ((IEquipment)vm.SelectedEquipment).Tag;
         if (vm != null) {
             vm.SelectedEquipment = null;
         }
+        vm.ListManager.CreateEquipmentList();
+        vm.SelectedEquipment = vm.ListManager.EqList.FirstOrDefault(e => e.Tag == tag);
     }
     #endregion
     private void eqView_Loaded(object sender, RoutedEventArgs e)
@@ -699,7 +704,24 @@ public partial class _MjeqView : UserControl
 
     private void LoadGridPaste(object sender, Syncfusion.UI.Xaml.Grid.GridCopyPasteEventArgs e)
     {
-        e.Handled = true;
+        //e.Handled = true;
+    }
+
+    private void dgdAssignedLoads_PasteGridCellContent(object sender, Syncfusion.UI.Xaml.Grid.GridCopyPasteCellEventArgs e)
+    {
+        if (e.Column.MappingName == "Id") e.Handled = true;
+        if (e.Column.MappingName == "Tag") e.Handled = true;
+        if (e.Column.MappingName == "IsValid") e.Handled = true;
+
+        if (e.Column.MappingName == "ProtectionDevice.TripAmps") e.Handled = true;
+        if (e.Column.MappingName == "ProtectionDevice.FrameAmps") e.Handled = true;
+        if (e.Column.MappingName == "ProtectionDevice.StarterSize") e.Handled = true;
+
+
+        //Components
+        if (e.Column.MappingName == "Disconnect.Tag") e.Handled = true;
+        if (e.Column.MappingName == "StandAloneStarter.Tag") e.Handled = true;
+        if (e.Column.MappingName == "Lcs.Tag") e.Handled = true;
     }
 }
 

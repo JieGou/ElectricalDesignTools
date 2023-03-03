@@ -122,6 +122,14 @@
                                                 Value="{x:Type edtLoadModels:LoadModel}">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding SelectedEquipment, Converter={StaticResource TypeOfConverter}}" 
+                                                Value="{x:Type edtComponents:ComponentModel}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding SelectedEquipment, Converter={StaticResource TypeOfConverter}}" 
+                                                Value="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Border.Resources>
@@ -413,7 +421,20 @@
                                                                     EquipmentSelected="LoadGraphicView_EquipmentSelected"
                                                                     EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
                         </DataTemplate>
-                        
+
+                        <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
+                            <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                                                    DataContext="{Binding Path=Owner}" 
+                                                                    EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
+                            <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
+                                                                    DataContext="{Binding Path=Owner}" 
+                                                                    EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
+                        </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>
             </DockPanel>
@@ -446,11 +467,11 @@
                             </DataTemplate>
 
                             <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                <mjeqSubViews:ComponentDetailsView/>
+                                <editors:ComponentEditor/>
                             </DataTemplate>
 
                             <DataTemplate DataType="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
-                                <mjeqSubViews:ComponentDetailsView/>
+                                <editors:ComponentEditor_Pd/>
                             </DataTemplate>
 
                         </ContentControl.Resources>

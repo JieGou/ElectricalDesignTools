@@ -16,13 +16,17 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="TemplateStyles/SingleLineGraphicsStyles.xaml"/>
+        <ResourceDictionary Source="../Styles/ContextMenus/ContextMenus.xaml"/>
+
     </ResourceDictionary.MergedDictionaries>
 
 
     <!--CABLES-->
     <!--Cable Template-->
     <DataTemplate x:Key="CableTemplate">
-        <Grid ShowGridLines="False">
+        
+        <Grid ShowGridLines="False"
+              ContextMenu="{StaticResource CableContextMenu}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{StaticResource LcsColumnWidth}"/>
                 <ColumnDefinition/>

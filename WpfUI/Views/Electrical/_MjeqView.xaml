@@ -1073,8 +1073,11 @@
                                ShowBusyIndicator="True"
                                BorderThickness="0"
                      
-                               GridPasteOption="None"
+                               GridCopyOption="CopyData,IncludeHiddenColumn, IncludeHeaders"
+                               GridPasteOption="PasteData, IncludeHiddenColumn, ExcludeFirstLine"
+                                               
                                GridPasteContent="LoadGridPaste"
+                                               
                                ColumnSizer="Star"
                                
                                ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
@@ -1111,7 +1114,7 @@
                                FilterRowPosition="FixedTop"
                                
                                SelectionChanged="dgdAssignedLoads_SelectionChanged_1"  
-                               PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1"
+                               PreviewKeyDown="dgdAssignedLoads_PreviewKeyDown_1" PasteGridCellContent="dgdAssignedLoads_PasteGridCellContent"
                                >
                             <syncfusion:SfDataGrid.Resources>
                                 <Style TargetType="syncfusion:GridFilterControl">
@@ -1613,7 +1616,6 @@
                           HorizontalAlignment="Right"
                           ExpandDirection="Left"
                           />
-
                 <Grid Grid.Row="2" Grid.RowSpan="3"
                       Grid.Column="5"
                       Visibility="{Binding ElementName=propertyGridExpander, Path=IsExpanded, 

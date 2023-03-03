@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ContextMenu_StyleBase.xaml"/>
+
+    </ResourceDictionary.MergedDictionaries>
+
+    <ContextMenu  x:Key="CableContextMenu"
+                  UseLayoutRounding="True"
+                  SnapsToDevicePixels="True">
+
+        <!--Area-->
+        <MenuItem Header="Autosize" Command="{Binding AutoSizeCommand}" >
+            <MenuItem.Icon>
+                <Image Source="../../ResourceFiles/ApplicationIcons/calculateFilled.png"
+                       Height="19"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       SnapsToDevicePixels="True"
+                       />
+            </MenuItem.Icon>
+        </MenuItem>
+
+    </ContextMenu>
+
+</ResourceDictionary>

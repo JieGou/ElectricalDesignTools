@@ -813,7 +813,10 @@ namespace EDTLibrary.Models.Loads
             {
                 var oldValue = _lcsBool;
                 _lcsBool = value;
-
+                if (Type != LoadTypes.MOTOR.ToString()) {
+                    _lcsBool = false;
+                    return;
+                }
                 if (DaManager.GettingRecords) return;
                 saveController.Lock(nameof(LcsBool));
 
@@ -857,7 +860,10 @@ namespace EDTLibrary.Models.Loads
             {
                 var oldValue = _standAloneStarterBool;
                 _standAloneStarterBool = value;
-
+                if (Type != LoadTypes.MOTOR.ToString() ) {
+                    _standAloneStarterBool = false;
+                    return;
+                }
                 if (DaManager.GettingRecords) return;
                 saveController.Lock(nameof(StandAloneStarterBool));
                 UndoManager.Lock(this, nameof(StandAloneStarterBool));

@@ -263,7 +263,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             _selectedLoadEquipment = value;
             if (_selectedLoadEquipment is IComponentEdt) {
                 // commented out because xaml doesn't know how to show the graphic when SelectedEquipment is a component
-                //SelectedEquipment = _selectedLoadEquipment;
+                SelectedEquipment = _selectedLoadEquipment;
 
             }
             else {
