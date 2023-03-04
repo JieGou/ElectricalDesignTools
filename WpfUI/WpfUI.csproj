@@ -285,13 +285,13 @@
     <Compile Update="Templates\SingleLineLoadGraphics\SingleLineDashedBorder_Bound.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UserControls\Editors\ComponentEditor_Pd.xaml.cs">
+    <Compile Update="UserControls\Editors\CompEditor_Pd_Compact.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UserControls\Editors\ComponentEditor_Starter.xaml.cs">
+    <Compile Update="UserControls\Editors\CompEditor_Starter_Compact.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UserControls\Editors\ComponentEditor_Disconnect.xaml.cs">
+    <Compile Update="UserControls\Editors\CompEditor_Dcn_Compact.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UserControls\Editors\PowerConsumerEditor_Full.xaml.cs">
@@ -412,15 +412,15 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UserControls\Editors\ComponentEditor_Pd.xaml">
+    <Page Update="UserControls\Editors\CompEditor_Pd_Compact.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UserControls\Editors\ComponentEditor_Starter.xaml">
+    <Page Update="UserControls\Editors\CompEditor_Starter_Compact.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UserControls\Editors\ComponentEditor_Disconnect.xaml">
+    <Page Update="UserControls\Editors\CompEditor_Dcn_Compact.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

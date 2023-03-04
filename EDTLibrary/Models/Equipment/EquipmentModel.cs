@@ -7,6 +7,18 @@ namespace EDTLibrary.Models.Equipment;
 public class EquipmentModel : IEquipment
 {
 
+    public bool IsAreaLocked
+    {
+        get { return _isAreaLocked; }
+        set
+        {
+            _isAreaLocked = value;
+            OnPropertyUpdated();
+
+        }
+    }
+    private bool _isAreaLocked;
+
     public bool IsCalculationLocked
     {
         get { return _isCalculationLocked; }

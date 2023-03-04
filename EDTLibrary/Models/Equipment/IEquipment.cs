@@ -10,6 +10,7 @@ namespace EDTLibrary.Models.Equipment
     public interface IEquipment
     {
 
+        bool IsAreaLocked { get; set; }
         bool IsCalculationLocked { get; set; }
 
         bool IsValid { get; set; }

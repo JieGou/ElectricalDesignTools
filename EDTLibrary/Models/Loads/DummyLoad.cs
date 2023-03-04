@@ -16,6 +16,18 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.Loads;
 internal class DummyLoad : ILoad
 {
+    public bool IsAreaLocked
+    {
+        get { return _isAreaLocked; }
+        set
+        {
+            _isAreaLocked = value;
+            OnPropertyUpdated();
+
+        }
+    }
+    private bool _isAreaLocked;
+
     public bool IsCalculationLocked
     {
         get { return _isCalculationLocked; }

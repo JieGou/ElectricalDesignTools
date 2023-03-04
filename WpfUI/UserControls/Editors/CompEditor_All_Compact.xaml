@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.UserControls.Editors.ComponentEditor"
+﻿<UserControl x:Class="WpfUI.UserControls.Editors.CompEditor_All_Compact"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -40,12 +40,12 @@
 
 
         <!--Disconnect /  Breaker -->
-        <editors:ComponentEditor_Disconnect Grid.Row="3" 
+        <editors:CompEditor_Dcn_Compact Grid.Row="3" 
                                           Grid.Column="0" Grid.ColumnSpan="2"
                                           DataContext="{Binding}"
                                           HorizontalAlignment="Left">
-            <editors:ComponentEditor_Disconnect.Style>
-                <Style TargetType="editors:ComponentEditor_Disconnect">
+            <editors:CompEditor_Dcn_Compact.Style>
+                <Style TargetType="editors:CompEditor_Dcn_Compact">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Type}" Value="BKR">
@@ -60,16 +60,16 @@
                     </Style.Triggers>
                 </Style>
                 
-            </editors:ComponentEditor_Disconnect.Style>
-        </editors:ComponentEditor_Disconnect>
+            </editors:CompEditor_Dcn_Compact.Style>
+        </editors:CompEditor_Dcn_Compact>
 
         <!--Starter-->
-        <editors:ComponentEditor_Starter Grid.Row="3" 
+        <editors:CompEditor_Starter_Compact Grid.Row="3" 
                                           Grid.Column="0" Grid.ColumnSpan="2"
                                           DataContext="{Binding}"
                                           HorizontalAlignment="Left">
-            <editors:ComponentEditor_Starter.Style>
-                <Style TargetType="editors:ComponentEditor_Starter">
+            <editors:CompEditor_Starter_Compact.Style>
+                <Style TargetType="editors:CompEditor_Starter_Compact">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Type}" Value="VSD">
@@ -98,8 +98,8 @@
                     </Style.Triggers>
                 </Style>
 
-            </editors:ComponentEditor_Starter.Style>
-        </editors:ComponentEditor_Starter>
+            </editors:CompEditor_Starter_Compact.Style>
+        </editors:CompEditor_Starter_Compact>
 
         <!--OCPD Category and Type Details-->
         <StackPanel Grid.Row="4" 

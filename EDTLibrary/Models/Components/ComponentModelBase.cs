@@ -37,7 +37,6 @@ public abstract class ComponentModelBase : IComponentEdt
     public ComponentModelBase()
     {
         AutoCalculateCommand = new RelayCommand(AutoCalculate);
-
     }
 
     public ICommand AutoCalculateCommand { get; set; }
@@ -48,6 +47,18 @@ public abstract class ComponentModelBase : IComponentEdt
         CalculateSize((IPowerConsumer)Owner);
         IsCalculationLocked = calcLock;
     }
+
+    public bool IsAreaLocked
+    {
+        get { return _isAreaLocked; }
+        set
+        {
+            _isAreaLocked = value;
+            OnPropertyUpdated();
+
+        }
+    }
+    private bool _isAreaLocked;
 
     public bool IsCalculationLocked
     {

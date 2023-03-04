@@ -38,6 +38,16 @@ namespace EDTLibrary.Models.DistributionEquipment
     public abstract class DistributionEquipment : IDteq, IComponentUser //, INotifyDataErrorInfo 
     {
 
+        public bool IsAreaLocked
+        {
+            get { return _isAreaLocked; }
+            set
+            {
+                _isAreaLocked = value;
+                OnPropertyUpdated();
+            }
+        }
+        private bool _isAreaLocked;
 
         public bool IsCalculationLocked
         {

@@ -204,13 +204,13 @@
                          VerticalAlignment="Top"/>
             </Grid>
 
-            <editors:ComponentEditor Grid.Row="3" 
+            <editors:CompEditor_All_Compact Grid.Row="3" 
                                      Grid.Column="0" Grid.ColumnSpan="5" 
                                      HorizontalAlignment="Left"
                                      DataContext="{Binding SelectedComponent}"
                                      Margin="0">
               
-            </editors:ComponentEditor >
+            </editors:CompEditor_All_Compact >
 
             <editors:AreaEditor DataContext="{Binding SelectedComponent}" Grid.Row="4"
                                 Grid.Column="0" Grid.ColumnSpan="5"

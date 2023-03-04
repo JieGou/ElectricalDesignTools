@@ -13,14 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.UserControls.Editors;
-/// <summary>
-/// Interaction logic for ComponentEditor.xaml
-/// </summary>
-public partial class ComponentEditor_Disconnect : UserControl
+namespace WpfUI.UserControls.Editors
 {
-    public ComponentEditor_Disconnect()
+    /// <summary>
+    /// Interaction logic for DisconnectPropteries.xaml
+    /// </summary>
+    public partial class DisconnectPropterties : UserControl
     {
-        InitializeComponent();
+        public DisconnectPropterties()
+        {
+            InitializeComponent();
+        }
     }
 }

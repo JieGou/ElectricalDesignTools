@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 
 namespace WpfUI.UserControls.Editors;
 /// <summary>
-/// Interaction logic for ComponentEditor.xaml
+/// Interaction logic for CompEditor_All_Compact.xaml
 /// </summary>
-public partial class ComponentEditor_Pd : UserControl
+public partial class CompEditor_Pd_Compact : UserControl
 {
-    public ComponentEditor_Pd()
+    public CompEditor_Pd_Compact()
     {
         InitializeComponent();
     }

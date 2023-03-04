@@ -467,11 +467,11 @@
                             </DataTemplate>
 
                             <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                <editors:ComponentEditor/>
+                                <editors:CompEditor_Pd_Compact/>
                             </DataTemplate>
 
                             <DataTemplate DataType="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
-                                <editors:ComponentEditor_Pd/>
+                                <editors:CompEditor_Pd_Compact/>
                             </DataTemplate>
 
                         </ContentControl.Resources>

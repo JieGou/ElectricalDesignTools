@@ -534,6 +534,12 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="{x:Type controls:EdtGroupBox}">
+        <Setter Property="HeaderForeGround" Value="WhiteSmoke"/>
+        <Setter Property="HeaderBackground" Value="Gray"/>
+    </Style>
+    
     
     <!--GroupBox Modified Default Style-->
     <Style TargetType="{x:Type GroupBox}">

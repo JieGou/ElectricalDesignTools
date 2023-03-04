@@ -30,6 +30,25 @@ namespace EDTLibrary.Models.Loads;
 public class LoadCircuit : ILoadCircuit
 {
 
+    
+
+    public LoadCircuit()
+    {
+        ConvertToLoadCommand = new RelayCommand(ConvertToLoad);
+    }
+
+    public bool IsAreaLocked
+    {
+        get { return _isAreaLocked; }
+        set
+        {
+            _isAreaLocked = value;
+            OnPropertyUpdated();
+
+        }
+    }
+    private bool _isAreaLocked;
+    
     public bool IsCalculationLocked
     {
         get { return _isCalculationLocked; }
@@ -39,13 +58,10 @@ public class LoadCircuit : ILoadCircuit
             OnPropertyUpdated();
         }
     }
+
+
+
     private bool _isCalculationLocked;
-
-    public LoadCircuit()
-    {
-        ConvertToLoadCommand = new RelayCommand(ConvertToLoad);
-    }
-
     public bool IsValid { get; set; } = true;
     public void Validate()
     {

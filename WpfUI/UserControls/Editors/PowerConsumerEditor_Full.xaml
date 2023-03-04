@@ -41,10 +41,11 @@
                                 DataContext="{Binding}"
                                 Margin="0 1 0 0"/>
 
-            <!--<editors:AreaEditor Grid.Row="1"
-                                Grid.Column="0"
-                                DataContext="{Binding}"
-                                Margin="0 1 0 0"/>-->
+        <editors:CompEditor_Pd_Compact DataContext="{Binding ProtectionDevice}"
+                                        Grid.Row="1" 
+                                        Grid.Column="0" Grid.ColumnSpan="2"
+                                        HorizontalAlignment="Stretch"
+                                        Visibility="Visible"/>
 
         <editors:ComponentListEditor Grid.Row="2"
                                      Grid.Column="0"

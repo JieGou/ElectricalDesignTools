@@ -28,6 +28,7 @@ Property / Calculation Override and Locks
 	- Protection Device
 	- Component Sizing
 	- Power Cable Sizing
+	- Area
 
 
 Equipment Sequence Ordering

@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="WpfUI.UserControls.Editors.DisconnectPropterties"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfUI.UserControls.Editors"
+             
+             
+             xmlns:controls="clr-namespace:WpfUI.Controls"
+             
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="300"
+             d:Background="AliceBlue"
+             Background="Transparent">
+    
+    
+    <Grid Margin="0"
+        ShowGridLines="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="100" SharedSizeGroup="Label"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border BorderBrush="Black" BorderThickness="0 1 0 1"
+                Grid.Row="1" 
+                Grid.Column="0" Grid.ColumnSpan="5"
+                HorizontalAlignment="Stretch"
+                Margin="-5 0 -5 10"
+                Visibility="Visible">
+            <TextBlock Text="Additional Properties"
+                           Grid.Row="0" 
+                           Grid.Column="0" Grid.ColumnSpan="5"
+                           FontWeight="SemiBold"
+                           Margin="10 0 0 3"
+                           TextAlignment="Left"
+                           Visibility="Visible"/>
+        </Border>
+
+        <!--Fuse Type-->
+        <TextBlock Text="Fuse Type"
+                        Grid.Row="2" Grid.Column="1"
+                                              Margin="0 3 0 0"
+
+                        FontWeight="Normal"
+                        TextAlignment="Right"/>
+
+
+        <!--Type - Enabled if Motor-->
+        <ComboBox Grid.Row="2" Grid.Column="3" 
+                      Template="{DynamicResource ComboBoxBase}"
+                      HorizontalAlignment="Stretch"
+                      Margin="0"
+                      ItemsSource="{Binding TypeList, UpdateSourceTrigger=PropertyChanged}"
+                  
+                      SelectedValue="{Binding FuseType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      IsSynchronizedWithCurrentItem="False"
+                      >
+            <ComboBox.Style>
+                <Style TargetType="ComboBox">
+                    <Setter Property="IsEnabled" Value="false"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Owner.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Value="Fused">
+                            <Setter Property="IsEnabled"  Value="True"/>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </ComboBox.Style>
+        </ComboBox>
+
+    </Grid>
+</UserControl>

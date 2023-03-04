@@ -34,10 +34,11 @@
                               IsChecked="True"/>
                     
                     
-                    <TextBlock Grid.Column="1" 
+                    <TextBlock x:Name="HeaderText"
+                                Grid.Column="1" 
                                Text="{Binding Header, ElementName = root}"
                                Foreground="{Binding HeaderForeGround, ElementName = root}"
-                               FontWeight="SemiBold"
+                               FontWeight="Normal"
                                Margin="5 0 0 0"
                                Padding="0"
                                VerticalAlignment="Center"/>
