@@ -28,12 +28,17 @@ public class AreaManager
             if (caller is LoadModel) {
                 var load = (LoadModel)caller;
                 foreach (var component in load.CctComponents) {
-                    if (component.SubType != CctComponentSubTypes.DefaultStarter.ToString()) {
-                        component.Area = newArea;
+                    if (component.SubType == CctComponentSubTypes.DefaultStarter.ToString() ||
+                        component.SubCategory == Categories.ProtectionDevice.ToString()) {
                     }
-                    if (load.LcsBool == true) {
-                        load.Lcs.Area = newArea;
+                    else {
+                        if (component.IsAreaLocked == false) {
+                            component.Area = newArea; 
+                        }
                     }
+                }
+                if (load.LcsBool == true) {
+                    load.Lcs.Area = newArea;
                 }
             }
 

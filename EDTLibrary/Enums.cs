@@ -47,6 +47,7 @@ namespace EDTLibrary {
     }
     public enum CctComponentTypes
     {
+        Disconnect,
         UDS,
         FDS,
         VFD,
@@ -59,8 +60,8 @@ namespace EDTLibrary {
 
     public enum PdTypes
     {
-        BKR,
         Breaker,
+        BKR,
         FDS,
         MCP_FVNR,
         MCP_FVR,

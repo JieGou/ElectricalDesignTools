@@ -122,7 +122,8 @@ public class CableModel : ICable
     private void ValidateCableAmpacity(ICable cable)
     {
         CableManager.CableSizer.SetDerating(this);
-        GetRequiredAmps(Load);
+        RequiredAmps =  GetRequiredAmps(Load);
+
         if (cable.RequiredAmps > cable.DeratedAmps) {
             cable.SetCableInvalid(this);
             cable.InvalidAmpacityMessage = "Cable ampacity rating exceeded. Confirm, size, derating, installation type.";
@@ -465,24 +466,40 @@ public class CableModel : ICable
         get { return BaseAmps + " A x " + Derating; }
 
     }
-    public double RequiredAmps { get; set; }
+    private double _requiredAmps;
+
+    public double RequiredAmps
+    {
+        get { return _requiredAmps; }
+        set 
+        {
+            _requiredAmps = value;
+
+            if (Load != null) {
+                if (Load.ProtectionDevice != null) {
+                    RequiredAmpsToolTip = $"OCDP Trip: {Load.ProtectionDevice.TripAmps} A" + Environment.NewLine +
+                           $"Load FLA: {Load.Fla} A";
+                    return;
+                }
+                RequiredAmpsToolTip = $"OCDP Trip = n/a " + Environment.NewLine +
+                       $"Load FLA: {Load.Fla} A";
+                return;
+            }
+
+            RequiredAmpsToolTip = $"OCDP Trip = n/a " + Environment.NewLine +
+                                   $"Load FLA: n/a";
+            return;
+        }
+    }
+
+    private string _requiredAmpsToolTip;
 
     public string RequiredAmpsToolTip
     {
-        get
-        {
-            if (Load != null) {
-                if (Load.ProtectionDevice != null) {
-                    return $"OCDP Trip = {Load.ProtectionDevice.TripAmps} A";
-                }
-                return "OCDP Trip = xx A";
-            }
-
-            return "OCDP Trip = xx A";
-
-        }
-
+        get { return _requiredAmpsToolTip; }
+        set { _requiredAmpsToolTip = value; }
     }
+
 
     public double RequiredSizingAmps { get; set; }
 
@@ -794,50 +811,53 @@ public class CableModel : ICable
     {
         if (EdtAppSettings.Default.AutoSize_PowerCable==true) {
             if (IsCalculationLocked == false) {
-                AutoSize();
-
-            }        }
+                    AutoSize();
+            }
+        }
     }
     private void AutoSize()
     {
         if (DaManager.GettingRecords) return;
         //if (DaManager.Importing) return;
-        try {
-
-            _isAutoSizing = true;
-            UndoManager.CanAdd = false;
-            SetTypeProperties();
-            RequiredAmps = RequiredAmps;
-            Derating = CableManager.CableSizer.SetDerating(this);
-            RequiredSizingAmps = GetRequiredSizingAmps();
-            AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
-            Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
-            InstallationDiagram = "";
+        SetTypeProperties();
+        RequiredAmps = GetRequiredAmps(this.Load);
+        RequiredSizingAmps = GetRequiredSizingAmps();
+        Derating = CableManager.CableSizer.SetDerating(this);
 
 
-            if (InstallationType == GlobalConfig.CableInstallationType_LadderTray) {
-                GetCableQtySize_LadderTray(this, ampsColumn);
+            try {
+
+                _isAutoSizing = true;
+                UndoManager.CanAdd = false;
+                AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
+                Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
+                InstallationDiagram = "";
+
+
+                if (InstallationType == GlobalConfig.CableInstallationType_LadderTray) {
+                    GetCableQtySize_LadderTray(this, ampsColumn);
+                }
+
+                else if (InstallationType == GlobalConfig.CableInstallationType_DirectBuried
+                      || InstallationType == GlobalConfig.CableInstallationType_RacewayConduit) {
+
+                    CableQtySize_DirectBuried_RaceWayConduit(this, ampsColumn);
+                }
+
+                CalculateAmpacity(Load);
+                _isAutoSizing = false;
+
+                OnPropertyUpdated();
+                UndoManager.CanAdd = true;
+            }
+            catch (Exception) {
+
+                throw;
+            }
+            finally {
+                _isAutoSizing = false;
             }
 
-            else if (InstallationType == GlobalConfig.CableInstallationType_DirectBuried
-                  || InstallationType == GlobalConfig.CableInstallationType_RacewayConduit) {
-
-                CableQtySize_DirectBuried_RaceWayConduit(this, ampsColumn);
-            }
-
-            CalculateAmpacity(Load);
-            _isAutoSizing = false;
-
-            OnPropertyUpdated();
-            UndoManager.CanAdd = true;
-        }
-        catch (Exception) {
-
-            throw;
-        }
-        finally {
-            _isAutoSizing = false;
-        }
     }
 
 
@@ -867,7 +887,7 @@ public class CableModel : ICable
         if (compUser != null) {
             foreach (var comp in compUser.CctComponents) {
                 if (comp.PowerCable != null) {
-                    comp.PowerCable.AutoSize();
+                    comp.PowerCable.AutoSize_IfEnabled();
                 }
                 else {
                     CableManager.AddAndUpdateLoadPowerComponentCablesAsync((LoadModel)comp.Owner, ScenarioManager.ListManager);
@@ -877,7 +897,7 @@ public class CableModel : ICable
         
         var load = (IPowerConsumer)Load;
         if (load != null) {
-            load.PowerCable.AutoSize();
+            load.PowerCable.AutoSize_IfEnabled();
         }
     }
 

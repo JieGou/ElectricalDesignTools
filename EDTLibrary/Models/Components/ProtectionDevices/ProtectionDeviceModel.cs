@@ -18,12 +18,12 @@ using System.Threading.Tasks;
 
 namespace EDTLibrary.Models.Components.ProtectionDevices;
 
-[AddINotifyPropertyChangedInterface]
-
 //  - Category = CctComponent
 //	- Sub-Category = ProtectionDevice, Starter, Disconnect
-//	- Type = BKR, FDS, UDS, DOL, VSD, 
+//	- Type = Breaker, FDS, UDS, DOL, VSD, 
 //	- SubType = DefaultDcn,, Diconnect,
+
+[AddINotifyPropertyChangedInterface]
 public class ProtectionDeviceModel : ComponentModelBase, IProtectionDevice
 {
     public ProtectionDeviceModel()
@@ -58,9 +58,15 @@ public class ProtectionDeviceModel : ComponentModelBase, IProtectionDevice
                     TripAmps = TypeManager.BreakerTripSizes.FirstOrDefault(f => f.TripAmps >= owner.Fla).TripAmps;
                 }
             }
-            AddOrDeleteLcsAnalogCable();
+            PropertyModelManager.DeletePropModel(PropertyModel);
+            PropertyModel = PropertyModelManager.CreateNewPropModel(_type);
+            PropertyModel.Owner = this;
+            PropertyModelId = PropertyModel.Id;
 
+            AddOrDeleteLcsAnalogCable();
+            FrameAmps = ProtectionDeviceManager.GetPdFrameAmps(this, (IPowerConsumer)Owner);
             TypeList = ComponentTypeSelector.GetComponentTypeList(this);
+
             UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _type);
             OnPropertyUpdated();
         }

@@ -7,9 +7,11 @@
              mc:Ignorable="d" 
              
              xmlns:controls="clr-namespace:WpfUI.Controls"
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
              
-             d:DesignHeight="115" d:DesignWidth="250"
+             d:DesignHeight="150" d:DesignWidth="250"
              d:Background="AliceBlue"
              Background="Transparent">
 
@@ -18,12 +20,14 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Base.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
 
-    <Border BorderBrush="LightGray" BorderThickness="0 1 0 0"
+    <Border BorderBrush="LightGray" BorderThickness="0 0 0 0"
             Margin="0 5 0 0">
         <!--<controls:EdtGroupBox Grid.Row="0"
                             Header="Area Properties"
@@ -33,7 +37,7 @@
                                   >
         </controls:EdtGroupBox>-->
 
-        <Grid Margin="0 5 5 10"
+        <Grid Margin="0"
             ShowGridLines="False">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="65"/>
@@ -49,37 +53,81 @@
             </Grid.RowDefinitions>
 
             <!--Header-->
-            <StackPanel Orientation="Horizontal"
-                        Grid.Row="0" 
-                        Grid.Column="0" Grid.ColumnSpan="5">
-                <TextBlock Text="Enclosure Details"
-                       Grid.Row="0" 
-                       Grid.Column="0" Grid.ColumnSpan="5"
-                       FontWeight="SemiBold"
-                       Margin="0 0 0 5"
-                       TextAlignment="Left"
-                       />
-                <TextBlock Text="{Binding Tag}"
-                       Grid.Row="0" 
-                       Grid.Column="0" Grid.ColumnSpan="5"
-                       FontWeight="SemiBold"
-                       Margin="50 0 0 5"
-                       TextAlignment="Left"
-                       />
-            </StackPanel>
+            <Border BorderBrush="Black" BorderThickness="0 1 0 1"
+                Background="LightGray"
+                Grid.Row="0" 
+                Grid.Column="0" Grid.ColumnSpan="6"
+                HorizontalAlignment="Stretch"
+                Margin="-5 0 -5 10"
+                Visibility="Visible">
 
-            <Image Source="..\..\ResourceFiles\InfoIconBlue.png"
-                   UseLayoutRounding="True"
-                   Grid.Row="2"
-                   Grid.Column="0" 
-                   Margin="0 5 0 0"
-                   HorizontalAlignment="Center"
-                   Height="17"
-                   Stretch="Uniform"
-                   ToolTip="{StaticResource AreaChangeInfoMessage}"
-                   ToolTipService.InitialShowDelay="150"
-                   ToolTipService.BetweenShowDelay="0"/>
+                <Grid Margin="0"
+                      ShowGridLines="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="Area Properties"
+                           Grid.Row="0" 
+                           Grid.Column="0" Grid.ColumnSpan="5"
+                           FontWeight="Normal"
+                           Margin="10 0 0 3"
+                           TextAlignment="Left"
+                           Visibility="Visible"/>
+                    <Image Source="..\..\ResourceFiles\InfoIconBlue.png"
+                           UseLayoutRounding="True"
+                           Grid.Column="1" 
+                           Margin="0 0 0 0"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right"
+                           Height="17"
+                           Stretch="Uniform"
+                           ToolTip="{StaticResource AreaChangeInfoMessage}"
+                           ToolTipService.InitialShowDelay="150"
+                           ToolTipService.BetweenShowDelay="0"/>
+                </Grid>
+            </Border>
 
+            <!--Lock-->
+            <CheckBox  Grid.Row="1" Grid.RowSpan="2"
+                       Grid.Column="0"
+                       Width="25"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       Panel.ZIndex="1"
+                       Template="{DynamicResource CheckBoxTemplate_LockIcon}"
+                       IsChecked="{Binding IsAreaLocked}"
+                       ToolTipService.InitialShowDelay="250">
+                <CheckBox.Content>
+                    <StackPanel Orientation="Vertical" Background="Transparent" Visibility="Collapsed">
+                        <TextBlock Text="Calculation" />
+                        <TextBlock Text="Lock"/>
+                    </StackPanel>
+                </CheckBox.Content>
+                <CheckBox.ToolTip>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Area Properties Lock" FontWeight="SemiBold" Foreground="{StaticResource ToolTipTextBrush}"/>
+                        <TextBlock Text="{StaticResource AreaLock}" Foreground="{StaticResource ToolTipTextBrush}"/>
+                    </StackPanel>
+                </CheckBox.ToolTip>
+
+                <CheckBox.Style>
+                    <Style TargetType="CheckBox">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsStandAlone}" Value="false">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </CheckBox.Style>
+            </CheckBox>
+
+
+
+            <!--Content-->
             <TextBlock Text="Area"
                            Grid.Row="1" Grid.Column="1"
                            FontWeight="Normal"

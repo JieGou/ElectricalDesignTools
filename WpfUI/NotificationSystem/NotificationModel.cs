@@ -22,5 +22,6 @@ namespace WpfUI.NoificationSystem
         public string Caption { get; }
         public string NotificationText { get; set; }
         public string NotificationName { get; set; }
+        public bool CanDisableNotification { get; set; }
     }
 }

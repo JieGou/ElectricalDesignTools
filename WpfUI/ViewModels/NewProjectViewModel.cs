@@ -168,7 +168,7 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
                 settingVm.ProjectName = ProjectName;
               
 
-                DaManager.DeleteAllEquipmentRecords();
+                DaManager.DeleteAllModelRecords();
                 DaManager.prjDb.DeleteAllRecords(GlobalConfig.AreaTable);
                
                 DaManager.prjDb.InsertRecord(GlobalConfig.DefaultAreaModel, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);

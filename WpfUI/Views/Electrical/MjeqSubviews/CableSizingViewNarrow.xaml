@@ -28,6 +28,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../Stores/ToolTips.xaml"/>
                 <!--<ResourceDictionary Source="../../../Styles/EdtStyle_Teal.xaml"/>-->
 
             </ResourceDictionary.MergedDictionaries>
@@ -121,7 +122,9 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Canvas>
+                <Canvas Grid.Row="0" Grid.RowSpan="2"
+                       Grid.Column="1"
+                        HorizontalAlignment="Right">
                     <Image Source="../../../ResourceFiles/CableIcons/CableIcon.jpg"
                        Canvas.Top="-25"
                        UseLayoutRounding="True"
@@ -136,6 +139,31 @@
 
                     </Image>
                 </Canvas>
+
+                <!--Lock-->
+                <CheckBox  Grid.Row="0" Grid.RowSpan="2"
+                       Grid.Column="0"
+                       Width="25"
+                           VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       Panel.ZIndex="1"
+                       Template="{DynamicResource CheckBoxTemplate_LockIcon}"
+                       IsChecked="{Binding PowerCable.IsCalculationLocked}"
+                       Visibility="Visible"
+                       ToolTipService.InitialShowDelay="250">
+                    <CheckBox.Content>
+                        <StackPanel Orientation="Vertical" Background="Transparent" Visibility="Collapsed">
+                            <TextBlock Text="Calculation" />
+                            <TextBlock Text="Lock"/>
+                        </StackPanel>
+                    </CheckBox.Content>
+                    <CheckBox.ToolTip>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Calculation Lock" FontWeight="SemiBold" Foreground="{StaticResource ToolTipTextBrush}"/>
+                            <TextBlock Text="{StaticResource CalulationLock}" Foreground="{StaticResource ToolTipTextBrush}"/>
+                        </StackPanel>
+                    </CheckBox.ToolTip>
+                </CheckBox>
 
                 <TextBlock Grid.Row="1" Grid.ColumnSpan="3" 
                        Text="{Binding PowerCable.Tag}"

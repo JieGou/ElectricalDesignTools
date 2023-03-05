@@ -1050,7 +1050,7 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=Type}" Value="BKR" />
+                    <Condition Binding="{Binding Path=Type}" Value="Breaker" />
                     <Condition Binding="{Binding FedFrom}" Value="{x:Type edtDteqModels:XfrModel}" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
@@ -1077,7 +1077,7 @@
 
             <MultiDataTrigger>
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=Type}" Value="BKR" />
+                    <Condition Binding="{Binding Path=Type}" Value="Breaker" />
                     <Condition Binding="{Binding Owner.FedFrom}" Value="{x:Type edtDteqModels:XfrModel}" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>

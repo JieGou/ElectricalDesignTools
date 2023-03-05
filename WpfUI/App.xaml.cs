@@ -39,7 +39,7 @@ namespace WpfUI
             Exception e = (Exception)args.ExceptionObject;
             MessageBox.Show($"{message} \n\n" +
                             
-                            $"Error: {e.Message}",
+                            //$"Error: {e.Message}",
 
                             "Unhandled Error");
         }

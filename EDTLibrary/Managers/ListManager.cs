@@ -52,7 +52,6 @@ namespace EDTLibrary.Managers
         public ObservableCollection<ILoad> LoadList { get; set; } = new ObservableCollection<ILoad>();
         public ObservableCollection<IComponentEdt> CompList { get; set; } = new ObservableCollection<IComponentEdt>();
         public ObservableCollection<DriveModel> DriveList { get; set; } = new ObservableCollection<DriveModel>();
-        public ObservableCollection<DisconnectModel> DisconnectList { get; set; } = new ObservableCollection<DisconnectModel>();
         public ObservableCollection<ILocalControlStation> LcsList { get; set; } = new ObservableCollection<ILocalControlStation>();
 
         public ObservableCollection<ProtectionDeviceModel> PdList { get; set; } = new ObservableCollection<ProtectionDeviceModel>();
@@ -61,6 +60,8 @@ namespace EDTLibrary.Managers
         public ObservableCollection<RacewayModel> RacewayList { get; set; } = new ObservableCollection<RacewayModel>();
         public ObservableCollection<RacewayRouteSegment> RacewaySegmentList { get; set; } = new ObservableCollection<RacewayRouteSegment>();
         public ObservableCollection<CalculationLock> CalculationLockList { get; set; } = new ObservableCollection<CalculationLock>();
+        public ObservableCollection<BreakerPropModel> BreakerPropModels { get; set; } = new ObservableCollection<BreakerPropModel>();
+        public ObservableCollection<DisconnectPropModel> DisconnectPropModels { get; set; } = new ObservableCollection<DisconnectPropModel>();
 
 
         public void GetProjectTablesAndAssigments()
@@ -78,7 +79,6 @@ namespace EDTLibrary.Managers
 
                 //TODO - Get Components for each type and create a master component list
                 GetDrives();
-                GetDisconnects();
                 GetComponents();
                 GetProtectionDevices();
                 AssignComponents();
@@ -98,6 +98,9 @@ namespace EDTLibrary.Managers
                 GetRaceways();
                 GetRacewayRouting();
 
+                GetPropertyModels();
+                AssignPropertyModels();
+
                 ValidateAll();
 
 
@@ -115,7 +118,64 @@ namespace EDTLibrary.Managers
 
         }
 
-        
+        private void GetPropertyModels()
+        {
+            
+            BreakerPropModels.Clear();
+            var breakersProps = DaManager.prjDb.GetRecords<BreakerPropModel>(GlobalConfig.BreakerPropsTable) ;
+
+            foreach (var propModel in breakersProps) {
+                BreakerPropModels.Add(propModel);
+                propModel.PropertyUpdated += DaManager.OnTypeModelPropertyUpdated;                
+            }
+
+            DisconnectPropModels.Clear();
+            var disconnectProps = DaManager.prjDb.GetRecords<DisconnectPropModel>(GlobalConfig.DisconnectPropsTable);
+            foreach (var item in disconnectProps) {
+                DisconnectPropModels.Add(item);
+                item.PropertyUpdated += DaManager.OnTypeModelPropertyUpdated;
+            }
+        }
+
+        void AssignPropertyModels()
+        {
+            var propModelList = new List<PropertyModelBase>();
+            propModelList.AddRange(BreakerPropModels);
+            propModelList.AddRange(DisconnectPropModels);
+
+            foreach (var propModel in propModelList) {
+
+                //assign to Protection Devices
+                foreach (var item in PdList) {
+                    if (item.Type == PdTypes.Breaker.ToString() 
+                        && item.PropertyModelId == propModel.Id) {
+                        item.PropertyModel = propModel;
+                    }
+                    else if ( item.Type == PdTypes.FDS.ToString()
+                        && item.PropertyModelId == propModel.Id) {
+                        item.PropertyModel = propModel;
+                    }
+                }
+
+                //assign to Components
+                foreach (var item in CompList) {
+                    if (item.PropertyModel != propModel) continue;
+
+                    if (item.Type == PdTypes.Breaker.ToString()) {
+                        item.PropertyModel = propModel;
+                    }
+
+                    else if (item.Type == CctComponentTypes.UDS.ToString() 
+                        || item.Type == CctComponentTypes.FDS.ToString() 
+                        || item.Type == CctComponentTypes.Disconnect.ToString()) {
+
+                        item.PropertyModel = propModel;
+
+                    }
+                }
+            }
+        }
+
 
         private void ValidateAll()
         {
@@ -183,13 +243,13 @@ namespace EDTLibrary.Managers
         }
         private void GetDisconnects()
         {
-            DisconnectList.Clear();
-            var list = DaManager.prjDb.GetRecords<DisconnectModel>(GlobalConfig.DisconnectTable);
-            foreach (var item in list) {
-                DisconnectList.Add(item);
-                item.PropertyUpdated += DaManager.OnDisconnectPropertyUpdated;
+            //DisconnectList.Clear();
+            //var list = DaManager.prjDb.GetRecords<DisconnectModel>(GlobalConfig.DisconnectTable);
+            //foreach (var item in list) {
+            //    DisconnectList.Add(item);
+            //    item.PropertyUpdated += DaManager.OnDisconnectPropertyUpdated;
 
-            }
+            //}
         }
 
         private void GetDrives()
@@ -555,7 +615,7 @@ namespace EDTLibrary.Managers
                     foreach (var load in LoadList) {
 
                         load.CalculateLoading();
-                        load.PowerCable.AutoSizeAll();
+                        load.PowerCable.AutoSizeAll_IfEnabled();
                         load.PowerCable.CalculateAmpacity(load);
 
                     }
@@ -567,7 +627,7 @@ namespace EDTLibrary.Managers
                 foreach (var dteq in IDteqList) {
 
                     dteq.CalculateLoading();
-                    dteq.PowerCable.AutoSizeAll();
+                    dteq.PowerCable.AutoSizeAll_IfEnabled();
                     dteq.PowerCable.CalculateAmpacity(dteq);
 
 

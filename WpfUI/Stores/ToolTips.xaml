@@ -3,17 +3,21 @@
                     xmlns:clr="clr-namespace:System;assembly=mscorlib"
                     >
 
-    <clr:String x:Key="AreaChangeInfoMessage" xml:space="preserve">Changing the area of this equipment will update all the properties
-related to area (NEMA rating, Area Classification, Temperatures, etc.)  
-and its and components as applicable.
+    <clr:String x:Key="AreaChangeInfoMessage" xml:space="preserve">Changing the Area of this equipment will update all the properties related to an 
+Area (NEMA rating, Area Classification, Min / Max Temperatures, etc.) 
         
-Ex: a VFD will match the supplier's area, 
-a local disconnect will match the load's area.
+The area of related equipment will also be updated automatically. 
+        
+For Example:
+   - a Protection Device will match/change when the area of the supplying equipment changes. 
+   - a VFD/starter will match/change when the area of the supplying equipment changes. 
+   - a local disconnect will match/change when the area of the load changes.
     
-Changing only the NEMA and Area Classification proprties makes them 
-different from the Area's values for NEMA and Area Classification.
-It will not change the Area's values. To update an area's 
-properties, go to the Areas section.</clr:String>
+Changing the NEMA and Area Classification properties makes them different from the
+the Area it is part of. It will not change these values for the entire Area. 
+       
+To update the properties of an Area, go to the Areas and Systems section.
+</clr:String>
     
     <clr:String x:Key="AreaChangeMessage" xml:space="preserve">Updates this equipment and all its components and sub-components. 
 Changing this will override the below values.</clr:String>
@@ -31,10 +35,14 @@ equipment is shown only in the supplying equipment.</clr:String>
     <clr:String x:Key="PowerFactorDefaults" xml:space="preserve">Reset power factor and efficiency to the default values
 per the project settings and library motor table.</clr:String>
 
-    <clr:String x:Key="CalulationLock" xml:space="preserve">Exclude this item from autosizing calculations and stops the 
+    <clr:String x:Key="CalulationLock" xml:space="preserve">Excludes this item from autosizing calculations and stops the 
 sizes from being recalculated to their minimum values.
         
 Useful when oversizing components. </clr:String>
 
+    <clr:String x:Key="AreaLock" xml:space="preserve">Excludes this item from automatic Area property updates.
+Ex: - Changing the area will not update the NEMA Rating, Area Class, or Temp properties.        
+        
+Useful if a component has specific NEMA or Area Class requirements different than the area it is in. </clr:String>
 
 </ResourceDictionary>

@@ -48,7 +48,7 @@
                 <Style TargetType="editors:CompEditor_Dcn_Compact">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Type}" Value="BKR">
+                        <DataTrigger Binding="{Binding Type}" Value="Breaker">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Type}" Value="UDS">

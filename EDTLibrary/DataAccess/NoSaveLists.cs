@@ -103,6 +103,7 @@ namespace EDTLibrary.DataAccess
             "IsSelected",
             "SettingTag",
             "AutoCalculateCommand",
+            "PropertyModel",
 
         };
 
@@ -118,6 +119,8 @@ namespace EDTLibrary.DataAccess
             "IsSelected",
             "SettingTag",
             "AutoCalculateCommand",
+            "PropertyModel",
+
 
         };
 
@@ -173,6 +176,10 @@ namespace EDTLibrary.DataAccess
             "CableList",
         };
 
-        
+        static public List<string> PropModelNoSaveList { get; set; } = new List<string>() {
+
+            "Owner",
+
+        };
     }
 }

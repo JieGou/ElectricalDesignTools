@@ -36,12 +36,12 @@ public class ProtectionDeviceManager
         }
         else if (load.Category == Categories.DTEQ.ToString()) {
 
-            type = PdTypes.BKR.ToString();
-            subType = PdTypes.BKR.ToString();
+            type = PdTypes.Breaker.ToString();
+            subType = PdTypes.Breaker.ToString();
         }
         else {
-            type = PdTypes.BKR.ToString();
-            subType = PdTypes.BKR.ToString();
+            type = PdTypes.Breaker.ToString();
+            subType = PdTypes.Breaker.ToString();
         }
 
 
@@ -113,7 +113,7 @@ public class ProtectionDeviceManager
 
 
             if (load.StandAloneStarterBool) {
-                load.ProtectionDevice.Type = PdTypes.BKR.ToString();
+                load.ProtectionDevice.Type = PdTypes.Breaker.ToString();
             }
 
             else {
@@ -163,7 +163,7 @@ public class ProtectionDeviceManager
             comp.StarterSize = DataTableSearcher.GetStarterSize(load);
 
         }
-        else if (comp.Type == "BKR") {
+        else if (comp.Type == "Breaker") {
             comp.TripAmps = DataTableSearcher.GetBreakerTrip(load);
         }
         else if (comp.Type == "FDS") {
@@ -202,7 +202,7 @@ public class ProtectionDeviceManager
         //LV
         if (load.VoltageType.Voltage <= LvCutoff) {
 
-            if (component.Type == PdTypes.BKR.ToString()) {
+            if (component.Type == PdTypes.Breaker.ToString()) {
                 return DataTableSearcher.GetBreakerFrame(load.ProtectionDevice.TripAmps);
             }
             else if (component.Type == PdTypes.FDS.ToString()) {

@@ -345,6 +345,8 @@ namespace EDTLibrary.DataAccess
                 }
 
                 sb.Replace("Id = @Id,", "");
+                sb.Replace("  ", " ");
+
                 sb.Replace(", ", "", sb.Length - 2, 2);
                 sb.Append(" WHERE Id = @Id");
 

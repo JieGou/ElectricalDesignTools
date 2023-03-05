@@ -197,7 +197,7 @@ namespace EDTLibrary.DataAccess
             "ParentArea",
             "EquipmentList",
         };
-
+        
 
     }
 }

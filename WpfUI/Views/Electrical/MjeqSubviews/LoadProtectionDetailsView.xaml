@@ -36,7 +36,7 @@
                    Grid.Row="0" Grid.Column="0"
                    Margin="5 5 0 0"/>
         <ComboBox Grid.Row="0" Grid.Column="2" Margin="0 5 7 0 "
-                  d:SelectedValue="BKR"
+                  d:SelectedValue="Breaker"
                   Template="{DynamicResource ComboBoxBase}"
                   MinWidth="115" HorizontalAlignment="Left"
                   ItemsSource="{Binding Path=DataContext.TypeManager.OcpdTypes, 
@@ -71,7 +71,7 @@
                    Grid.Row="1" Grid.Column="0"
                    Margin="5 5 0 0"/>
         <ComboBox Grid.Row="1" Grid.Column="2" Margin="0 5 7 0 "
-                  d:SelectedValue="BKR"
+                  d:SelectedValue="Breaker"
                   Template="{DynamicResource ComboBoxBase}"
                   MinWidth="115" HorizontalAlignment="Left"
                   ItemsSource="{Binding Path=DataContext.TypeManager.OcpdTypes, 

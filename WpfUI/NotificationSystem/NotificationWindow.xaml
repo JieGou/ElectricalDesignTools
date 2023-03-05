@@ -79,7 +79,18 @@
                       Grid.Column="1"
                       Content="Don't show again"
                       IsChecked="{Binding IsEnabled.Name}"
-                      VerticalAlignment="Center"/>
+                      VerticalAlignment="Center">
+                <CheckBox.Style>
+                    <Style TargetType="CheckBox">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CanDisableNotification}" Value="true">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </CheckBox.Style>
+            </CheckBox>
 
             <Button Content="OK"
                     Grid.Column="3"

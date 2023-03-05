@@ -84,7 +84,7 @@ namespace WpfUI.ViewModels
             _typeManager = typeManager;
             _startupService = startupService;
             _edtSettings = edtSettings;
-
+            InitializeViewModels();
 
             CurrentViewModel = _homeViewModel;
 

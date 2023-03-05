@@ -1096,8 +1096,8 @@
                                                
                                EditTrigger="OnDoubleTap"
                                Background="White"
-                               CurrentCellBorderBrush="Black"
-                               CurrentCellBorderThickness="0"
+                               CurrentCellBorderBrush="{StaticResource Dark}"
+                               CurrentCellBorderThickness="1"
                              
                                NavigationMode="Cell"
                                SelectionMode="Extended"
@@ -1174,7 +1174,7 @@
                                 <!--Tag-->
                                 <syncfusion:GridTextColumn HeaderText="Tag" MappingName="Tag"
                                            Width="75"
-                                           TextAlignment="Center"
+                                           TextAlignment="Left"
                                            AllowSorting="True" 
                                            AllowEditing="True"
                                            AllowDragging="True"
@@ -1185,13 +1185,13 @@
                                            HorizontalHeaderContentAlignment="Center"
                                            
                                            >
-                                <syncfusion:GridTextColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                               Padding="5 0 0 0"
-                                               FontWeight="SemiBold"/>
-                                    </DataTemplate>
-                                </syncfusion:GridTextColumn.CellTemplate>
+                                    <syncfusion:GridTextColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                   Padding="5 0 0 0"
+                                                   FontWeight="SemiBold"/>
+                                        </DataTemplate>
+                                    </syncfusion:GridTextColumn.CellTemplate>
                                 </syncfusion:GridTextColumn>
 
                                 <!--Description-->
@@ -1226,8 +1226,8 @@
                                                FilterRowCondition="Contains"
                                                SortMode="Display"
                                                TextAlignment="Left"
-                                           ImmediateUpdateColumnFilter="True"
-                                           FilterRowOptionsVisibility="Collapsed" IsReadOnly="False"
+                                               ImmediateUpdateColumnFilter="True"
+                                               FilterRowOptionsVisibility="Collapsed" IsReadOnly="False"
                                                CellStyle="{StaticResource comboBoxCellStyle}"
                                                >
                                 <syncfusion:GridComboBoxColumn.CellTemplate>

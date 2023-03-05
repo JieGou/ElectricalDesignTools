@@ -29,7 +29,7 @@ namespace EDTLibrary.Models.Components;
 
 //  - Category = CctComponent
 //	- Sub-Category = ProtectionDevice, Starter, Disconnect
-//	- Type = BKR, FDS, UDS, DOL, VSD, 
+//	- Type = Breaker, FDS, UDS, DOL, VSD, 
 //	- SubType = DefaultDcn,, Diconnect,
 public abstract class ComponentModelBase : IComponentEdt
 {
@@ -47,6 +47,59 @@ public abstract class ComponentModelBase : IComponentEdt
         CalculateSize((IPowerConsumer)Owner);
         IsCalculationLocked = calcLock;
     }
+
+
+    public int PropertyModelId { get; set; }
+    public PropertyModelBase PropertyModel
+    {
+        get { return _propertyModel; }
+        set 
+        {
+            _propertyModel = value; 
+        }
+    }
+    private PropertyModelBase _propertyModel;
+
+    public virtual string Type
+    {
+        get => _type;
+        set
+        {
+            if (value == null) return;
+            if (value == _type) return;
+            var oldValue = _type;
+            _type = value;
+
+            if (DaManager.GettingRecords) return;
+
+            UndoManager.Lock(this, nameof(Type));
+
+            {
+                if (_type == DisconnectTypes.FDS.ToString() || _type == DisconnectTypes.FWDS.ToString()) {
+                    var owner = (IPowerConsumer)Owner;
+                    if (owner != null) {
+                        TripAmps = TypeManager.BreakerTripSizes.FirstOrDefault(f => f.TripAmps >= owner.Fla).TripAmps;
+                    }
+                }
+                PropertyModelManager.DeletePropModel(PropertyModel);
+                PropertyModel = PropertyModelManager.CreateNewPropModel(_type);
+                PropertyModel.Owner = this;
+                PropertyModelId = PropertyModel.Id;
+
+            }
+
+            TypeList = ComponentTypeSelector.GetComponentTypeList(this);
+            UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _type);
+            Validate();
+            OnPropertyUpdated();
+        }
+    }
+    private string _type;
+
+
+
+
+
 
     public bool IsAreaLocked
     {
@@ -141,10 +194,15 @@ public abstract class ComponentModelBase : IComponentEdt
     {
         if (this.Type.Contains("VSD") || this.Type.Contains("VFD") || this.Type.Contains("RVS")) return;
 
-        if (FrameAmps < ((IPowerConsumer)Owner).Fla*1.25) {
-            IsValid = false;
-            IsInvalidMessage += Environment.NewLine + "Frame is less than 125% of FLA, or not rated for the motor HP";
-
+        if (this.Type == "Disconnect" || this.Type == "UDS" || this.Type == "FDS") {
+            if (FrameAmps < ((IPowerConsumer)Owner).Fla) {
+                IsValid = false;
+                IsInvalidMessage += Environment.NewLine + "Frame is less than load FLA, or not rated for the motor HP";
+            }
+            else if(FrameAmps < ((IPowerConsumer)Owner).Fla*1.25) {
+                IsValid = false;
+                IsInvalidMessage += Environment.NewLine + "Frame is less than 125% of load FLA, or not rated for the motor HP";
+            }
         }
         if (this.Type.Contains("FDS")) {
             if (FrameAmps < TripAmps) {
@@ -242,36 +300,7 @@ public abstract class ComponentModelBase : IComponentEdt
     public string SubCategory { get; set; }
     
 
-    public virtual string Type
-    {
-        get => _type;
-        set
-        {
-            if (value == null) return; 
-            if (value == _type) return;
-            var oldValue = _type;
-            _type = value;
-
-            if (DaManager.GettingRecords) return;
-
-            UndoManager.Lock(this, nameof(Type));
-
-            {
-                if (_type == DisconnectTypes.FDS.ToString() || _type == DisconnectTypes.FWDS.ToString()) {
-                    var owner = (IPowerConsumer)Owner;
-                    if (owner != null) {
-                        TripAmps = TypeManager.BreakerTripSizes.FirstOrDefault(f => f.TripAmps >= owner.Fla).TripAmps;
-                    }
-                }
-            }
-
-            TypeList = ComponentTypeSelector.GetComponentTypeList(this);
-            UndoManager.AddUndoCommand(this, nameof(Type), oldValue, _type);
-            Validate();
-            OnPropertyUpdated();
-        }
-    }
-    private string _type;
+    
     public List<string> TypeList
     {
         get
@@ -478,6 +507,7 @@ public abstract class ComponentModelBase : IComponentEdt
 
     public async Task UpdateAreaProperties()
     {
+        if (IsAreaLocked) return; 
         await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
             NemaRating = Area.NemaRating;
             AreaClassification = Area.AreaClassification;
@@ -499,6 +529,7 @@ public abstract class ComponentModelBase : IComponentEdt
 
     public void MatchOwnerArea(object source, EventArgs e)
     {
+        if (IsAreaLocked) return;
         IEquipment owner = (IEquipment)source;
         UndoManager.CanAdd = false;
         AreaManager.UpdateArea(this, owner.Area, Area);

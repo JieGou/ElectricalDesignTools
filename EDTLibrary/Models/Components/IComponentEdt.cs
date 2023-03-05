@@ -9,6 +9,9 @@ namespace EDTLibrary.Models.Components
 {
     public interface IComponentEdt :  IEquipment
     {
+
+        public int PropertyModelId { get; set; }
+        public PropertyModelBase PropertyModel { get; set; }
         bool SettingTag { get; set; }
 
 

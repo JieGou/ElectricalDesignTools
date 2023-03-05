@@ -78,6 +78,10 @@ namespace EDTLibrary
         public static string CalculationLockTable { get; set; } = "CalculationLocks";
 
 
+        public static string BreakerPropsTable { get; set; } = "Properties_Breaker";
+        public static string DisconnectPropsTable { get; set; } = "Properties_Disconnect";
+
+
 
         public static string ExportMappingTable { get; set; } = "ExportMapping";
 

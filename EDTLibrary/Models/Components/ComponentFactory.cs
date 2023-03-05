@@ -26,6 +26,8 @@ public class ComponentFactory
         else {
             ProtectionDevice.Id = listManager.PdList.Select(c => c.Id).Max() + 1;
         }
+
+
         ProtectionDevice.Category = Categories.CctComponent.ToString();
         ProtectionDevice.SubCategory = subCategory;
         ProtectionDevice.Owner = componentUser;
@@ -43,6 +45,7 @@ public class ComponentFactory
             ProtectionDevice.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
             ProtectionDevice.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
             ProtectionDevice.SequenceNumber = 0;
+            ProtectionDevice.PropertyModel = PropertyModelManager.CreateNewPropModel(subType);
 
         }
 
@@ -57,7 +60,7 @@ public class ComponentFactory
         }
 
         // breaker
-        else if (subType == PdTypes.BKR.ToString()) {
+        else if (subType == PdTypes.Breaker.ToString()) {
             ProtectionDevice.Tag = componentUser.Tag + ".PD";
             var load = (IPowerConsumer)componentUser;
             ProtectionDevice.Area = load.FedFrom.Area;

@@ -25,9 +25,10 @@ namespace WpfUI.Helpers
 
         public static void ShowAlert(string message, string caption, string notificationName="none")
         {
-            var prop = EdtAppSettings.Default.GetType().GetProperty(notificationName);
 
-            if (prop != null) {
+
+            if (notificationName != null) {
+                var prop = EdtAppSettings.Default.GetType().GetProperty(notificationName);
                 var notificationModel = new NotificationModel(caption, message + Environment.NewLine, prop.Name);
                 var binding = new Binding();
                 binding.Source = EdtAppSettings.Default;
@@ -43,6 +44,7 @@ namespace WpfUI.Helpers
                                 notificationWindow.chkDisableAlert.Visibility = Visibility.Collapsed;
                             }
 
+                            notificationModel.CanDisableNotification = true;
                             notificationWindow.chkDisableAlert.SetBinding(CheckBox.IsCheckedProperty, binding);
                             notificationWindow.DataContext = notificationModel;
                             notificationWindow.ShowDialog();

@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
+using EDTLibrary.Services;
 
 namespace EDTLibrary.LibraryData
 {
@@ -27,7 +29,7 @@ namespace EDTLibrary.LibraryData
                                                              && x.Field<double>("Size") == (double)load.Size
                                                              && x.Field<string>("Unit") == load.Unit
                                                              && x.Field<double>("RPM") == GlobalConfig.DefaultMotorRpm);
-
+                
                 try {
                     dtFiltered = filteredRows.CopyToDataTable();
                     result = Double.Parse(dtFiltered.Rows[0]["Efficiency"].ToString());
@@ -271,7 +273,14 @@ namespace EDTLibrary.LibraryData
                 else {
                     filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)load.Fla * 1.25);
                 }
-                
+
+                if (filteredRows.Any() == false ) {
+                    EdtNotificationService.SendAlert("DataTableSearcher.GetDisconnectSize", 
+                        "Disconnect size must be manually verified because a valid disconnect size is not available in the library. " +
+                        "This is likely caused by selecting a low voltage motor above 200HP or of a non-stadard HP rating, or a load FLA above 1200 Amps." + Environment.NewLine + Environment.NewLine, 
+                        "Unverified Component Selection");
+                    return 30;                
+                }
 
                 try {
                     dtFiltered = filteredRows.CopyToDataTable();
@@ -293,11 +302,11 @@ namespace EDTLibrary.LibraryData
                 DataTable dt = DataTables.DisconnectSizes.Copy();
                 DataTable dtFiltered = new DataTable();
 
-                double searchValue = Math.Max(load.Size, tripAmps);
+                double requiredFrameAmps = Math.Max(load.Size, tripAmps);
 
                 IEnumerable<DataRow> filteredRows;
                 
-                filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)searchValue);
+                filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)requiredFrameAmps);
 
 
                 try {

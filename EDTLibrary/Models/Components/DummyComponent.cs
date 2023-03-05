@@ -79,6 +79,8 @@ internal class DummyComponent : IComponentEdt
     public double Voltage { get; set; }
     public double HeatLoss { get; set; }
     public string StarterSize { get; set; }
+    public int PropertyModelId { get; set; }
+    public PropertyModelBase PropertyModel { get; set; }
 
     public event EventHandler PropertyUpdated;
     public event EventHandler AreaChanged;

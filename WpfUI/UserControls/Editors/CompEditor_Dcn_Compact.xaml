@@ -71,7 +71,7 @@
                     <Style TargetType="ComboBox">
                         <Setter Property="Visibility" Value="Visible"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Type}" Value="BKR">
+                            <DataTrigger Binding="{Binding Type}" Value="Breaker">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -98,7 +98,7 @@
                     <Style TargetType="ComboBox">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Type}" Value="BKR">
+                            <DataTrigger Binding="{Binding Type}" Value="Breaker">
                                 <Setter Property="Visibility" Value="Visible"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -116,7 +116,7 @@
                     <Setter Property="IsEnabled" Value="false"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                         Value="BKR">
+                                         Value="Breaker">
                             <Setter Property="IsEnabled"  Value="True"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 

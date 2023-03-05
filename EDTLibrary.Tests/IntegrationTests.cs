@@ -43,7 +43,7 @@ namespace EDTLibrary.Tests
 
                 //Clear Database
                 DaManager.prjDb.DeleteAllRecords(GlobalConfig.AreaTable);
-                DaManager.DeleteAllEquipmentRecords();
+                DaManager.DeleteAllModelRecords();
 
                 #region INITIALIZATIONS
 

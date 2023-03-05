@@ -58,7 +58,7 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
             return EmptyTemplate;
         }
 
-        if (pd.Type == "BKR" && pdOnwer.FedFrom.GetType() == typeof(XfrModel)) {
+        if (pd.Type == "Breaker" && pdOnwer.FedFrom.GetType() == typeof(XfrModel)) {
             return EmptyTemplate;
         }
 
@@ -66,7 +66,7 @@ public class PdStarterGraphicTemplateSelector : DataTemplateSelector
             return EmptyTemplate;
         }
 
-        if (pd.Type == "BKR") return BreakerTemplate;
+        if (pd.Type == "Breaker") return BreakerTemplate;
 
         if (pd.Type == "FDS") return FdsTemplate;
         if (pd.Type.Contains("MCP")) return DolTemplate;

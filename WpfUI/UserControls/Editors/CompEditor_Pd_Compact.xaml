@@ -25,7 +25,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <controls:EdtGroupBox  Margin="1">
+    <controls:EdtGroupBox  Margin="0 1 0 0">
         <controls:EdtGroupBox.Style>
             <Style TargetType="controls:EdtGroupBox" BasedOn="{StaticResource {x:Type controls:EdtGroupBox}}">
                 <Setter Property="Header" Value="Protection Device / Starter"/>
@@ -79,9 +79,13 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="10"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
 
+                <!--Sub HEader-->
                 <Border BorderBrush="Black" BorderThickness="0 1 0 1"
                         Grid.Row="0" 
                         Grid.Column="0" Grid.ColumnSpan="5"
@@ -101,6 +105,7 @@
                 <CheckBox  Grid.Row="2" Grid.RowSpan="2"
                        Grid.Column="0"
                        Width="25"
+                           VerticalAlignment="Top"
                        HorizontalAlignment="Left"
                        Panel.ZIndex="1"
                        Template="{DynamicResource CheckBoxTemplate_LockIcon}"
@@ -126,6 +131,7 @@
                     Command="{Binding AutoCalculateCommand}"
                     Grid.Row="2" Grid.RowSpan="2"
                     Grid.Column="1"
+                        VerticalAlignment="Top"
                     HorizontalAlignment="Left"                    
                     Panel.ZIndex="11"
                     >
@@ -154,7 +160,7 @@
                       >
                     <ComboBox.Style>
                         <Style TargetType="ComboBox">
-                            <Setter Property="IsEnabled" Value="false"/>
+                            <Setter Property="IsEnabled" Value="True"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Owner.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                          Value="MOTOR">
@@ -198,7 +204,7 @@
 
                             <Style.Triggers>
 
-                                <DataTrigger Binding="{Binding Type}" Value="BKR">
+                                <DataTrigger Binding="{Binding Type}" Value="Breaker">
                                     <Setter Property="IsEnabled" Value="True"/>
                                 </DataTrigger>
 
@@ -329,18 +335,43 @@
                         FontWeight="Normal"
                         TextAlignment="Right"/>
 
-                <!--FDS - Frame -->
+                <!--Breaker - FRAME-->
                 <ComboBox Template="{DynamicResource ComboBoxBase}" 
                   Grid.Row="5" Grid.Column="3" 
                   Margin="0"
-                  ItemsSource="{Binding Path=DataContext.TypeManager.DisconnectSizes, 
+                  ItemsSource="{Binding Path=DataContext.TypeManager.BreakerFrameSizes, 
                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                         RelativeSource={RelativeSource Mode=FindAncestor, 
                                         AncestorType={x:Type Window}}}"
                   ItemStringFormat="{}{0} A"
                   SelectedValue="{Binding FrameAmps}"
-                      DisplayMemberPath="Amps"
-                      SelectedValuePath="Amps"
+                  Text="{Binding FrameAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  d:Text="100"
+                  IsSynchronizedWithCurrentItem="False"  >
+                    <ComboBox.Style>
+                        <Style TargetType="ComboBox">
+                            <Setter Property="IsEnabled" Value="False"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Type}" Value="Breaker">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ComboBox.Style>
+                </ComboBox> 
+                
+                <!--Disconnect - Frame -->
+                <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                  Grid.Row="5" Grid.Column="3"
+                  Margin="0"
+                  ItemsSource="{Binding Path=DataContext.TypeManager.DisconnectSizes, 
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, 
+                                        AncestorType={x:Type Window}}}"
+                    ItemStringFormat="{}{0} A"
+                    SelectedValue="{Binding FrameAmps}"
+                    DisplayMemberPath="Amps"
+                    SelectedValuePath="Amps"
                   Text="{Binding FrameAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   d:Text="100"
                   IsSynchronizedWithCurrentItem="False" >
@@ -362,34 +393,7 @@
                 <!--DOL / MCP FRAME -->
                 <ComboBox Template="{DynamicResource ComboBoxBase}" 
                   Grid.Row="5" Grid.Column="3" 
-                  Margin="0"
-                  ItemsSource="{Binding Path=DataContext.TypeManager.BreakerFrameSizes, 
-                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
-                                        RelativeSource={RelativeSource Mode=FindAncestor, 
-                                        AncestorType={x:Type Window}}}"
-                  ItemStringFormat="{}{0} A"
-                  SelectedValue="{Binding FrameAmps}"
-                  Text="{Binding FrameAmps, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  d:Text="100"
-                  IsSynchronizedWithCurrentItem="False"  >
-                    <ComboBox.Style>
-                        <Style TargetType="ComboBox">
-                            <Setter Property="Visibility" Value="Visible"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Type}" Value="UDS">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Type}" Value="FDS">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ComboBox.Style>
-                </ComboBox>
-
-                <!--Breaker - FRAME-->
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
-                  Grid.Row="5" Grid.Column="3" 
+                          
                   Margin="0"
                   ItemsSource="{Binding Path=DataContext.TypeManager.BreakerFrameSizes, 
                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
@@ -404,13 +408,18 @@
                         <Style TargetType="ComboBox">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Type}" Value="BKR">
+                                <DataTrigger Binding="{Binding Type}" Value="MCP_FVNR">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Type}" Value="MCP_FVR">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </ComboBox.Style>
                 </ComboBox>
+
+               
 
 
                 <!--AIC-->
@@ -487,45 +496,112 @@
 
                 <!--MLO-->
                 <!--*********************************-->
-                <iconControls:InfoIcon InformationText="{StaticResource MainLugsOnly}"
-                                   Grid.Row="9" Grid.Column="1"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Bottom"/>
-
-                <CheckBox Content="Main Lugs Only"
-                      Grid.Row="9" Grid.Column="2"  Grid.ColumnSpan="3"
-                      Margin="0 10 0 0"
-                      IsChecked="{Binding Owner.IsMainLugsOnly}"
-                      >
-                    <CheckBox.Style>
-                        <Style TargetType="CheckBox">
-                            <Setter Property="IsEnabled" Value="False"/>
+                <StackPanel Orientation="Horizontal"
+                            Grid.Row="9" Grid.Column="1"  Grid.ColumnSpan="3">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Hidden"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Owner.Type}" Value="SWG">
-                                    <Setter Property="IsEnabled"  Value="True"/>
+                                    <Setter Property="Visibility"  Value="Visible"/>
 
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Owner.Type}" Value="MCC">
-                                    <Setter Property="IsEnabled"  Value="True"/>
+                                    <Setter Property="Visibility"  Value="Visible"/>
 
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Owner.Type}" Value="CDP">
-                                    <Setter Property="IsEnabled"  Value="True"/>
+                                    <Setter Property="Visibility"  Value="Visible"/>
 
                                 </DataTrigger>
                                 <DataTrigger Binding="{Binding Owner.Type}" Value="DPN">
-                                    <Setter Property="IsEnabled"  Value="True"/>
+                                    <Setter Property="Visibility"  Value="Visible"/>
 
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </CheckBox.Style>
-                </CheckBox>
+                    </StackPanel.Style>
+
+                    
+                    
+                    <!--MLO Checkbox-->
+                    <CheckBox Margin="20 10 0 0"
+                              IsChecked="{Binding Owner.IsMainLugsOnly}"
+                              FlowDirection="RightToLeft">
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox">
+                                <Style.Resources>
+                                    <Style TargetType="Path">
+                                        <Setter Property="FlowDirection" Value="LeftToRight" />
+                                    </Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FlowDirection" Value="LeftToRight" />
+                                    </Style>
+                                </Style.Resources>
+
+                                <Setter Property="FlowDirection" Value="RightToLeft" />
+                            </Style>
+                        </CheckBox.Style>
+                        <CheckBox.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text=" Main Lugs Only"/>
+                            </StackPanel>
+                        </CheckBox.Content>
+                    </CheckBox>
+
+                    <!--MLO Icon-->
+                    <iconControls:InfoIcon InformationText="{StaticResource MainLugsOnly}"
+                                   Margin="15 0 0 0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"/>
+                </StackPanel>
 
 
+                <!--Additional Properties-->
                 <local:DisconnectPropterties Grid.Row="11"
-                                             Grid.Column="0" Grid.ColumnSpan="4"/>
+                                             Grid.Column="0" Grid.ColumnSpan="4"
+                                             DataContext="{Binding}"
+                                             Visibility="Collapsed"/>
 
+
+                <StackPanel Orientation="Vertical"
+                            Grid.Row="12" 
+                            Grid.ColumnSpan="2"
+                            MaxWidth="100"
+                            HorizontalAlignment="Left"
+                            Margin="0 40 0 0"
+                            Panel.ZIndex="1" >
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="IsEnabled" Value="False"/>
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsStandAlone}" Value="false">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    
+                    <TextBlock Text="Cannot edit"/>
+                    <TextBlock Text="Part of "/>
+                    <TextBlock Text="{Binding Owner.FedFrom.Tag}"/>
+                </StackPanel>
+                
+                <local:AreaEditor Grid.Row="12"
+                                  Grid.Column="0" Grid.ColumnSpan="4"
+                                  DataContext="{Binding}">
+                    <local:AreaEditor.Style>
+                        <Style TargetType="{x:Type local:AreaEditor}">
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsStandAlone}" Value="false">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </local:AreaEditor.Style>
+                </local:AreaEditor>
 
             </Grid>
         </Border>

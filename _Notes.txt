@@ -2,21 +2,17 @@ Bug Notes
 	- combobox itemsSource values change because ComboBox.Text is bound. Need to bind to SelectedValue only.
 	
 Major Bugs
-	- change MessageBoxes to ErrorDialog with error list
 
 Minor Bugs
 	- add load is slow
-	- added load needs to shown / selected in views
-	- DCN and MCP frame size defaults to 1200 A
-	- order of disconnect frame sizes
-	- order of PD frame sizes
+	- added load needs to be shown / selected in views
+	- MCP frame size list for PD Editor
+
 	- loads aren't changing voltage on FedFrom Update
-	- SCCA/R calculation on DTEQ size change
+
 	- transformer grounding
-	- ProtectionDeviceModel.TypeList comboBox values disappear on PowerConsumer editor when Type is changed
 	- LCS Analog cable Tag when VFD is in MCC
 
-	- required amps tooltip does not update while CableSizingView_Narrow is in view
 	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bogs down the app
 
 	- menu Views/ViewModels are slow to load on battery
@@ -25,17 +21,14 @@ Minor Bugs
 
 
 Property / Calculation Override and Locks
-	- Protection Device
-	- Component Sizing
-	- Power Cable Sizing
-	- Area
+	- 80% vs 100% rated option
 
 
 Equipment Sequence Ordering
 	- LoadList by Tag
 	- Assigned Loads by FedFrom
-	- Dteq standalone ??
 	- Component Move Up Command to Owner
+	- Dteq standalone ??
 
 
 LoadModel 
@@ -49,11 +42,6 @@ Transformer Grounding
 	- NGR Monitor
 	- cables
 
-	
-Protective Devices
-	- 80% vs 100% rated option
-	- project setting for default breaker rating 80 vs 100%
-	
 
 Calculations
 	- required cable conductors (2C, 3C, 4C)
@@ -115,6 +103,7 @@ Exports
 Autocad
 	- single line(s)
 	- splitters
+	- panel schedules
 	- schematics
 	- wiring diagrams
 	- title blocks

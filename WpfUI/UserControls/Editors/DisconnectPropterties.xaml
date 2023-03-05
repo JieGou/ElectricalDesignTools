@@ -40,6 +40,7 @@
         </Grid.RowDefinitions>
 
         <Border BorderBrush="Black" BorderThickness="0 1 0 1"
+                Background="LightGray"
                 Grid.Row="1" 
                 Grid.Column="0" Grid.ColumnSpan="5"
                 HorizontalAlignment="Stretch"
@@ -48,7 +49,7 @@
             <TextBlock Text="Additional Properties"
                            Grid.Row="0" 
                            Grid.Column="0" Grid.ColumnSpan="5"
-                           FontWeight="SemiBold"
+                           FontWeight="Normal"
                            Margin="10 0 0 3"
                            TextAlignment="Left"
                            Visibility="Visible"/>
@@ -56,29 +57,32 @@
 
         <!--Fuse Type-->
         <TextBlock Text="Fuse Type"
-                        Grid.Row="2" Grid.Column="1"
-                                              Margin="0 3 0 0"
+                    Grid.Row="2" Grid.Column="1"
+                    Margin="0 3 0 0"
 
-                        FontWeight="Normal"
-                        TextAlignment="Right"/>
+                    FontWeight="Normal"
+                    TextAlignment="Right"/>
 
 
-        <!--Type - Enabled if Motor-->
+        <!--Sub Type - -->
         <ComboBox Grid.Row="2" Grid.Column="3" 
                       Template="{DynamicResource ComboBoxBase}"
                       HorizontalAlignment="Stretch"
                       Margin="0"
-                      ItemsSource="{Binding TypeList, UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding Path=DataContext.TypeManager.FuseTypes, 
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, 
+                                        AncestorType={x:Type Window}}}"
                   
-                      SelectedValue="{Binding FuseType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedValue="{Binding PropertyModel.FuseType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       IsSynchronizedWithCurrentItem="False"
                       >
             <ComboBox.Style>
                 <Style TargetType="ComboBox">
-                    <Setter Property="IsEnabled" Value="false"/>
+                    <Setter Property="IsEnabled" Value="False"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Owner.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                         Value="Fused">
+                        <DataTrigger Binding="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                         Value="FDS">
                             <Setter Property="IsEnabled"  Value="True"/>
                         </DataTrigger>
 
@@ -87,5 +91,6 @@
             </ComboBox.Style>
         </ComboBox>
 
+        
     </Grid>
 </UserControl>

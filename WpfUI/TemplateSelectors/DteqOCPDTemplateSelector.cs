@@ -23,7 +23,7 @@ public class DteqOCPDTemplateSelector : DataTemplateSelector
 
         if (pd == null) return selectedTemplate;
 
-        if (pd.Type == "BKR") {
+        if (pd.Type == "Breaker") {
 
             selectedTemplate = BreakerTemplate;
         }

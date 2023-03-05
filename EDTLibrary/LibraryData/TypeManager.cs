@@ -50,8 +50,6 @@ namespace EDTLibrary.LibraryData
             CableSpacing.Add(100);
             CableSpacing.Add(0);
         }
-
-
         public static ObservableCollection<string> CableInstallationTypes
         {
             get
@@ -158,7 +156,7 @@ namespace EDTLibrary.LibraryData
 
         public static ObservableCollection<EquipmentSccrValue> EquipmentSccrValues { get; set; } = new ObservableCollection<EquipmentSccrValue>();
 
-        //OCPD
+        //OCPD and Components
         public static ObservableCollection<OcpdType> OcpdTypes { get; set; }
         public static ObservableCollection<DisconnectType> DisconnectTypes { get; set; } = new ObservableCollection<DisconnectType>();
         public static ObservableCollection<DisconnectSize> DisconnectSizes { get; set; } = new ObservableCollection<DisconnectSize>();
@@ -166,12 +164,15 @@ namespace EDTLibrary.LibraryData
         public static ObservableCollection<BreakerAicRating> BreakerAicRatings { get; set; } = new ObservableCollection<BreakerAicRating>();
 
 
-        //Components
         public static ObservableCollection<LcsTypeModel> LcsTypes { get; set; }
         public static ObservableCollection<string> DriveTypes { get; set; } = new ObservableCollection<string>() { "VSD", "RVS" };
         public static ObservableCollection<BreakerSize> BreakerTripSizes { get; set; } = new ObservableCollection<BreakerSize>();
+
         public static ObservableCollection<StarterSize> StarterSizes { get; set; } = new ObservableCollection<StarterSize>();
         public static ObservableCollection<VfdHeatSize> VfdHeatSizes { get; set; } = new ObservableCollection<VfdHeatSize>();
+        public static ObservableCollection<string> FuseTypes { get; set; } = new ObservableCollection<string> { "Class RK5", "Class J", "Class K" };
+
+
 
 
         //LOAD DATA

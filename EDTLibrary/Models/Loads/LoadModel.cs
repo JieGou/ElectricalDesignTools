@@ -122,6 +122,14 @@ namespace EDTLibrary.Models.Loads
             IsInvalidMessage = string.Empty;
             var isValid = true;
 
+            if (Type == LoadTypes.MOTOR.ToString()) {
+                if (PowerFactor == 0 || Efficiency == 0) {
+                    isValid = false;
+                    IsInvalidMessage += Environment.NewLine + "Motor is not a standard size. To override this error manually change the Power Factor and Efficiency.";
+                }
+            }
+
+
             if (ProtectionDevice != null) {
                 //ProtectionDevice.Validate(); 
                 if (ProtectionDevice.IsValid == false) {
@@ -303,6 +311,9 @@ namespace EDTLibrary.Models.Loads
                 UndoManager.Lock(this, nameof(Size));
 
                 {
+                    if (Type == LoadTypes.MOTOR.ToString()) {
+                        EfficiencyAndPowerFactorSelector.SetEfficiencyAndPowerFactor(this);
+                    }
                     CalculateLoading();
                     PowerCable.AutoSizeAll_IfEnabled();
                     Validate();
@@ -888,7 +899,7 @@ namespace EDTLibrary.Models.Loads
                     }
 
                     if (_standAloneStarterBool == true) {
-                        //PdType = "BKR";
+                        //PdType = "Breaker";
                         ComponentManager.AddStandAloneStarter(this, ScenarioManager.ListManager);
                         CableManager.CreateLcsAnalogCable(this, ScenarioManager.ListManager);
 
@@ -1137,17 +1148,17 @@ namespace EDTLibrary.Models.Loads
                 }
 
                 if (ConnectedKva >= 9999999) {
+                    //cannot parse infinity into a double when loading from the database
                     ConnectedKva = 9999999;
                 }
             }
             void Size_ProtectionDevice()
             {
+                var tag = Tag;
                 if (ProtectionDevice != null) {
                     if (EdtAppSettings.Default.AutoSize_ProtectionDevice) {
-                        if (IsCalculationLocked == false) {
-                            ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
-                            ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this); 
-                        }
+                        ProtectionDeviceManager.SetPdTripAndStarterSize(ProtectionDevice);
+                        ProtectionDevice.AIC = ProtectionDeviceAicCalculator.GetMinimumBreakerAicRating(this); 
                     }
                 }
             }
@@ -1219,13 +1230,16 @@ namespace EDTLibrary.Models.Loads
             }
         }
 
+
         public async Task UpdateAreaProperties()
         {
+            if (IsAreaLocked) return;
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                 NemaRating = Area.NemaRating;
                 AreaClassification = Area.AreaClassification;
                 PowerCable.Derating = CableManager.CableSizer.SetDerating(PowerCable);
                 PowerCable.CalculateAmpacity(this);
+
                 if (StandAloneStarter != null) {
                     StandAloneStarter.Area = FedFrom.Area;
                 }

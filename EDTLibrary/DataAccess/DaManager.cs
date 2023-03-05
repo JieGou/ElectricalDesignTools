@@ -8,9 +8,11 @@ using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.DPanels;
+using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -56,7 +58,7 @@ public class DaManager {
     }
 
     #region General
-    public static void DeleteAllEquipmentRecords()
+    public static void DeleteAllModelRecords()
     {
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
@@ -71,6 +73,9 @@ public class DaManager {
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.LcsTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.RacewayTable);
         DaManager.prjDb.DeleteAllRecords(GlobalConfig.RacewayRouteSegmentsTable);
+
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.BreakerPropsTable);
+        DaManager.prjDb.DeleteAllRecords(GlobalConfig.DisconnectPropsTable);
     }
     #endregion
 
@@ -263,13 +268,6 @@ public class DaManager {
         }
     }
 
-    internal static void OnDisconnectPropertyUpdated(object source, EventArgs e)
-    {
-        if (DaManager.GettingRecords == false) {
-            DaManager.UpsertDisconnect((DisconnectModel)source);
-        }
-    }
-
     //Save Dteq Get Id
     public static int SaveDteqGetId(IDteq iDteq)
     {
@@ -295,18 +293,7 @@ public class DaManager {
 
     
 
-    private static void UpsertDisconnect(DisconnectModel disconnect)
-    {
-        try {
-            if (GlobalConfig.Importing == true) return;
-
-            prjDb.UpsertRecord(disconnect, GlobalConfig.DisconnectTable, NoSaveLists.CompNoSaveList);
-        }
-        catch (Exception ex) {
-            Debug.Print(ex.ToString());
-            throw;
-        }
-    }
+    
 
     public static int SaveLoadGetId(LoadModel load)
     {
@@ -445,4 +432,100 @@ public class DaManager {
     {
         DaManager.prjDb.DeleteRecord(GlobalConfig.RacewayRouteSegmentsTable, racewayRouteSegment.Id);
     }
+
+
+
+
+    public static void OnTypeModelPropertyUpdated(object source, EventArgs e)
+    {
+
+        try {
+            if (DaManager.GettingRecords == false) {
+                var propModel = (PropertyModelBase)source;
+                DaManager.UpsertTypePropModelAsync(propModel);
+            }
+        }
+        catch (Exception) {
+            throw;
+        }
+    }
+    public static async Task UpsertTypePropModelAsync(PropertyModelBase propModel)
+    {
+        try {
+            await Task.Run(() => {
+                UpsertTypePropModel(propModel);
+            });
+        }
+
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw;
+        }
+    }
+    public static void UpsertTypePropModel(PropertyModelBase propModel)
+    {
+        try {
+            if (GlobalConfig.Importing == true) return;
+            if (propModel == GlobalConfig.DteqDeleted) { return; }
+
+            if (propModel.GetType() == typeof(BreakerPropModel)) {
+                var model = (BreakerPropModel)propModel;
+                prjDb.UpsertRecord(model, GlobalConfig.BreakerPropsTable, NoSaveLists.PropModelNoSaveList);
+            }
+            else if (propModel.GetType() == typeof(DisconnectPropModel)) {
+                var model = (DisconnectPropModel)propModel;
+                prjDb.UpsertRecord(model, GlobalConfig.DisconnectPropsTable, NoSaveLists.PropModelNoSaveList);
+            }
+        }
+
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw;
+        }
+    }
+
+    public static async Task DeleteTypePropModelAsync(PropertyModelBase propModel)
+    {
+        try {
+            await Task.Run(() => {
+                DeleteTypePropModel(propModel);
+            });
+        }
+
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw;
+        }
+    }
+    public static void DeleteTypePropModel(PropertyModelBase propModel)
+    {
+        try {
+            if (GlobalConfig.Importing == true) return;
+            if (propModel == GlobalConfig.DteqDeleted) { return; }
+
+            if (propModel.GetType() == typeof(BreakerPropModel)) {
+                var model = (BreakerPropModel)propModel;
+                prjDb.DeleteRecord(GlobalConfig.BreakerPropsTable, propModel.Id);
+            }
+            else if (propModel.GetType() == typeof(DisconnectPropModel)) {
+                var model = (DisconnectPropModel)propModel;
+                prjDb.DeleteRecord(GlobalConfig.DisconnectPropsTable, propModel.Id);
+            }
+        }
+
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw;
+        }
+    }
+
+
+
+
+
+
+
+
+
 }
+

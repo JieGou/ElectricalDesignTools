@@ -42,7 +42,7 @@ public class SingleLineDrawer_EdtV1 : ISingleLineDrawer
 
         try {
 
-            InsertMainBlock(mcc, _insertionPoint, "BKR");
+            InsertMainBlock(mcc, _insertionPoint, "Breaker");
 
             _insertionPoint[0] += firstLoadSpacing;
 
@@ -89,7 +89,7 @@ public class SingleLineDrawer_EdtV1 : ISingleLineDrawer
     {
         //Instert Main Block
 
-        blockType = blockType == "Default" ? "BKR" : blockType;
+        blockType = blockType == "Default" ? "Breaker" : blockType;
         string sourcePath = BlockSourceFolder + @"\Single Line\";
         string blockName = "MCC_MAIN_" + blockType + ".dwg";
         string blockPath = sourcePath + blockName;

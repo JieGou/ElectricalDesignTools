@@ -647,7 +647,7 @@ public partial class _MjeqView : UserControl
     public void DeleteEquipmentFromDatabase()
     {
         //Delete records
-        DaManager.DeleteAllEquipmentRecords();
+        DaManager.DeleteAllModelRecords();
 
         vm.DbGetAll();
     }
@@ -689,13 +689,18 @@ public partial class _MjeqView : UserControl
     #region View Update Events
     public void OnElectricalViewUpdated(object source, EventArgs e)
     {
-        var tag = ((IEquipment)vm.SelectedEquipment).Tag;
+        string tag = "";
+        if (vm.SelectedEquipment != null) {
+            tag = ((IEquipment)vm.SelectedEquipment).Tag; 
+        }
         if (vm != null) {
             vm.SelectedEquipment = null;
         }
         vm.ListManager.CreateEquipmentList();
-        vm.SelectedEquipment = vm.ListManager.EqList.FirstOrDefault(e => e.Tag == tag);
-    }
+        if (tag != "") {
+            vm.SelectedEquipment = vm.ListManager.EqList.FirstOrDefault(e => e.Tag == tag);
+
+        }    }
     #endregion
     private void eqView_Loaded(object sender, RoutedEventArgs e)
     {
