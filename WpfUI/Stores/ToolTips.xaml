@@ -45,4 +45,13 @@ Ex: - Changing the area will not update the NEMA Rating, Area Class, or Temp pro
         
 Useful if a component has specific NEMA or Area Class requirements different than the area it is in. </clr:String>
 
+    <clr:String x:Key="LoadListOrdering" xml:space="preserve">To reorder the loads as they appear on the single line drawing,
+a distribution equipment must be selected. 
+        
+Ordering is not applicable when the load list is selected
+Ordering loads for a distribution panel must be done on the Panel View page.
+    
+Sorting / Filtering the list does not affect the order on the single line. 
+Single line ordering must be done manually using the Up / Down controls</clr:String>
+
 </ResourceDictionary>

@@ -28,6 +28,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace EDTLibrary.Models.DistributionEquipment
@@ -38,6 +39,35 @@ namespace EDTLibrary.Models.DistributionEquipment
     public abstract class DistributionEquipment : IDteq, IComponentUser //, INotifyDataErrorInfo 
     {
 
+        public void MoveLoadUp(IPowerConsumer load)
+        {
+            int loadIndex;
+            for (int i = 0; i < AssignedLoads.Count; i++) {
+                if (load == AssignedLoads[i]) {
+                    loadIndex = Math.Max(0, i - 1);
+                    AssignedLoads.Move(i, loadIndex);
+                    break;
+                }
+            }
+            for (int i = 0; i < AssignedLoads.Count; i++) {
+                AssignedLoads[i].SequenceNumber = i;
+            }
+        }
+
+        public void MoveLoadDown(IPowerConsumer load)
+        {
+            int loadIndex;
+            for (int i = 0; i < AssignedLoads.Count; i++) {
+                if (load == AssignedLoads[i]) {
+                    loadIndex = Math.Min(i + 1, AssignedLoads.Count - 1);
+                    AssignedLoads.Move(i, loadIndex);
+                    break;
+                }
+            }
+            for (int i = 0; i < AssignedLoads.Count; i++) {
+                AssignedLoads[i].SequenceNumber = i;
+            }
+        }
         public bool IsAreaLocked
         {
             get { return _isAreaLocked; }

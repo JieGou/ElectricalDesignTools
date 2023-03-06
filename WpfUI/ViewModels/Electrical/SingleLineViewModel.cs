@@ -32,6 +32,9 @@ internal class SingleLineViewModel: EdtViewModelBase
         DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
         DrawSingleLineAcadCommand = new RelayCommand(DrawSingleLineRelay);
+
+        MoveLoadUpCommand = new RelayCommand(MoveLoadUp);
+        MoveLoadDownCommand = new RelayCommand(MoveLoadDown);
     }
 
 
@@ -296,6 +299,27 @@ internal class SingleLineViewModel: EdtViewModelBase
 
 
     public ICommand DeleteLoadCommand { get; }
+
+
+    public ICommand MoveLoadUpCommand { get; }
+    public void MoveLoadUp()
+    {
+        SelectedDteq.MoveLoadUp(SelectedLoad);
+        AssignedLoads.Clear();
+        foreach (var load in SelectedDteq.AssignedLoads) {
+            AssignedLoads.Add(load);
+        }
+    }
+
+    public ICommand MoveLoadDownCommand { get; }
+    public void MoveLoadDown()
+    {
+        SelectedDteq.MoveLoadDown(SelectedLoad);
+        AssignedLoads.Clear();
+        foreach (var load in SelectedDteq.AssignedLoads) {
+            AssignedLoads.Add(load);
+        }
+    }
 
 
     #region Autocad

@@ -104,6 +104,8 @@ public abstract class EdtViewModelBase: ViewModelBase
     private bool _isBusy;
 
 
+
+
     public Window SelectionWindow { get; set; }
     public ICommand CloseWindowCommand { get; }
     public void CloseSelectionWindow()

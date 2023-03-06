@@ -10,6 +10,7 @@
              xmlns:rules="clr-namespace:WpfUI.ValidationRules"
              xmlns:controls="clr-namespace:WpfUI.Controls"
              xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             xmlns:orderControls="clr-namespace:WpfUI.UserControls.OrderingControls"
              
              
              xmlns:converters="clr-namespace:WpfUI.Converters"
@@ -49,6 +50,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
                 <ResourceDictionary Source="../../Styles/ContextMenus/ContextMenus.xaml"/>
 
@@ -275,31 +277,24 @@
                               VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Auto">
 
-                    <DockPanel  x:Name="loadButtonsStackPanel"
+                    <DockPanel  
                             Grid.Column="1" Grid.Row="4"
-                            Margin="0,75,0,50">
+                            Margin="0,75,0,0">
 
 
 
-                        <Button x:Name ="btnLoadList" Content="Load List" Height="25" Width="100"
-                            Command="{Binding GetLoadListCommand}"
-                            DockPanel.Dock="Top"/>
+                        <Button Content="Load List" Height="25" Width="100"
+                                Command="{Binding GetLoadListCommand}"
+                                DockPanel.Dock="Top"/>
 
-                        <!--<Button x:Name ="btnSaveLoadList" Content="Save Load List" Height="25" Width="100"
-                            Command="{Binding SaveLoadListCommand}"/>-->
+                        <!--Ordering-->
+                        <orderControls:LoadOrderingControl DockPanel.Dock="Top"/>
 
-                        <Button x:Name ="btnDeleteLoad" Content="Delete Selected" Height="25" Width="100"
-                            Style="{StaticResource RedButton}"
-                            Command="{Binding DeleteLoadCommand}" 
-                            CommandParameter="{Binding SelectedLoad}" 
-                            DockPanel.Dock="Top"/>
-
-
-                        <!--<Button x:Name ="btnCalculate" Content="Calculate All"  Height="25" Width="100"
-                            Command="{Binding CalculateAllCommand}"
-                            FontWeight="Bold"
-                            Margin="0 50 0 0"
-                            DockPanel.Dock="Top"/>-->
+                        <Button Content="Delete Selected" Height="25" Width="100"
+                                Style="{StaticResource RedButton}"
+                                Command="{Binding DeleteLoadCommand}" 
+                                CommandParameter="{Binding SelectedLoad}" 
+                                DockPanel.Dock="Top"/>
 
 
                     </DockPanel>

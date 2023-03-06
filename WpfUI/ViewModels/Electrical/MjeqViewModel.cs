@@ -5,6 +5,7 @@ using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
@@ -117,9 +118,8 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         DeleteComponentCommand = new RelayCommand(DeleteComponent);
 
 
-       
-
-
+        MoveLoadUpCommand = new RelayCommand(MoveLoadUp);
+        MoveLoadDownCommand = new RelayCommand(MoveLoadDown);
     }
 
     
@@ -161,7 +161,30 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
     public ICommand DeleteLoadCommand { get; }
 
 
+    public ICommand MoveLoadUpCommand { get; }
+    public void MoveLoadUp()
+    {
+        if (LoadListLoaded == false) {
+            SelectedDteq.MoveLoadUp(SelectedLoad);
+            AssignedLoads.Clear();
+            foreach (var load in SelectedDteq.AssignedLoads) {
+                AssignedLoads.Add(load);
+            }
+        }
+    }
 
+    public ICommand MoveLoadDownCommand { get; }
+    public void MoveLoadDown()
+    {
+        if (LoadListLoaded == false) {
+            SelectedDteq.MoveLoadDown(SelectedLoad);
+            AssignedLoads.Clear();
+            foreach (var load in SelectedDteq.AssignedLoads) {
+                AssignedLoads.Add(load);
+            }
+
+        }
+    }
 
 
 
@@ -327,8 +350,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
             
 
             if (_selectedDteq != null) {
-                AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads);
-
+                AssignedLoads = new ObservableCollection<IPowerConsumer>(_selectedDteq.AssignedLoads.OrderBy(l => l.SequenceNumber).ToList());
                 //UpdateAssignedLoadsAsync();
 
                 GlobalConfig.SelectingNew = true;
@@ -649,7 +671,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
         AssignedLoads.Clear(); //Must be named AssignedLoads  to match DTEQ.AssignedLoads
         ListManager adf;
         foreach (var load in _listManager.LoadList) {
-            AssignedLoads.Add(load);
+            AssignedLoads.Add(load);            
         }
         LoadListLoaded = true;
     }

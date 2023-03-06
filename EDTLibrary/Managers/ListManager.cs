@@ -658,6 +658,7 @@ namespace EDTLibrary.Managers
                 dteq.AssignedLoads.Clear();
 
                 AssignLoadsAndSubscribeToEvents(dteq);
+                dteq.AssignedLoads = new ObservableCollection<IPowerConsumer>(dteq.AssignedLoads.OrderBy(x => x.SequenceNumber).ToList());
                 dteq.CalculateLoading();
             }
         }

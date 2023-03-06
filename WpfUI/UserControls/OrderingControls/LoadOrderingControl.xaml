@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="WpfUI.UserControls.OrderingControls.LoadOrderingControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfUI.UserControls.OrderingControls"
+             
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="150"
+             d:Background="AliceBlue">
+
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
+                <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
+                <ResourceDictionary Source="../../Styles/ContextMenus/ContextMenus.xaml"/>
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        
+        <!--Ordering-->
+        <Border BorderBrush="black" BorderThickness="1 0 1 1"
+                Background="{DynamicResource Background}"
+                DockPanel.Dock="Top"
+                Margin="0 10">
+            <Grid DockPanel.Dock="Top"
+                                Margin="0"
+                                ShowGridLines="False" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!--Header-->
+                <Border BorderBrush="Black" BorderThickness="0 1 0 1"
+                        Background="Gray"
+                        Grid.Column="0" Grid.ColumnSpan="2">
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Order of Loads"
+                                   Foreground="{StaticResource TextColorLightTheme_White}"
+                                   Margin="1 3 0 3"
+                                   HorizontalAlignment="Left"/>
+                        <iconControls:InfoIcon Margin="10 0 0 0"
+                                               VerticalAlignment="Center"
+                                               InformationText="{StaticResource LoadListOrdering}"/>
+                    </StackPanel>
+                </Border>
+                
+                <!--Content-->
+                <StackPanel Orientation="Vertical"
+                            Grid.Row="1"
+                            Grid.Column="0">
+                    <TextBlock Text="Ordering for:"
+                               Margin="1 3 0 3"
+                               HorizontalAlignment="Left"
+                                               />
+                    <TextBlock FontWeight="SemiBold"
+                               MaxWidth="75"
+                               Margin="1 3 0 3"
+                               HorizontalAlignment="Center"
+                                           >
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Text" Value="{Binding SelectedDteq.Tag}"/>
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding LoadListLoaded}" Value="true">
+                                        <Setter Property="Text" Value="n/a"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical"
+                            Grid.Row="1"
+                            Grid.Column="1" 
+                            Margin="0 0 7 0"
+                            HorizontalAlignment="Right">
+                    <!--Up-->
+                    <Button Content="5" 
+                            Grid.Row="0" Grid.Column="1"
+                            FontFamily="Marlett" FontSize="12" 
+                            Width="20" Height="20"
+                            Margin="3"
+                            Command="{Binding MoveLoadUpCommand}"/>
+
+                    <!--Down-->
+                    <Button Content="6" 
+                            Grid.Row="2" Grid.Column="1"
+                            FontFamily="Marlett" FontSize="12" 
+                            Width="20" Height="20"
+                            Margin="3"
+                            Command="{Binding MoveLoadDownCommand}"/>
+                </StackPanel>
+
+
+
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

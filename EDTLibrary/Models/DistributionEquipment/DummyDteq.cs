@@ -18,6 +18,8 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Models.DistributionEquipment;
 public class DummyDteq : IDteq
 {
+    public void MoveLoadUp(IPowerConsumer load) { }
+    public void MoveLoadDown(IPowerConsumer load) { }
 
     public bool IsAreaLocked
     {
