@@ -610,8 +610,12 @@
                                         <editors:PowerConsumerEditor_Full/>
                                     </DataTemplate>
 
+                                    <DataTemplate DataType="{x:Type edtProtection:ProtectionDeviceModel}">
+                                        <editors:CompEditor_Pd_Compact/>
+                                    </DataTemplate>
+
                                     <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                        <editors:PowerConsumerEditor_Full/>
+                                        <editors:CompEditor_Pd_Compact/>
                                     </DataTemplate>
 
                                 </ContentControl.Resources>

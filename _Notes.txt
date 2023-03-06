@@ -31,24 +31,14 @@ Transformer Grounding
 
 Calculations
 	- required cable conductors (2C, 3C, 4C)
-
-
-Tag Settings
-	- lcs cable TypeModel vs Type
-	- basic default auto-tagging system and logic
-		- add autotagging to DTEQ
-		- finish cable settings page
-		- finish load settings page
-	- bulk updates on tag setting changes
 	
-	
+
 Cables
 	- Pivot Grid
 	- Bom Style Export
 	- 1ph cable quantities and totals on cable list
 	- Prompt to recalculate load cables when changing settings
-	- component cables are not updated when changing the load cable properties
-		- setting for this?
+	- Copy cable properties to all branch circuit cables
 
 
 Dteq 
@@ -70,7 +60,15 @@ Library Editor
 	- AIC
 	- SCCR
 
-	
+
+Tag Settings
+	- lcs cable TypeModel vs Type
+	- add autotagging to DTEQ
+	- finish cable tag settings page
+	- finish load tag settings page
+	- bulk updates on tag setting changes
+
+
 Autocad
 	- single line(s)
 	- splitters

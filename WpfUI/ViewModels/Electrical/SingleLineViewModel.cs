@@ -171,10 +171,21 @@ internal class SingleLineViewModel: EdtViewModelBase
                 var comp = (ComponentModelBase)_selectedLoadEquipment;
                 var compOwner = (IPowerConsumer)comp.Owner;
                 compOwner.SelectedComponent = comp;
-                _selectedLoadEquipment = compOwner;
+                //_selectedLoadEquipment = compOwner;
+                _selectedLoadEquipment = comp;
             }
             if (SelectedLoadEquipment is ILoad) {
                 SelectedLoad = (ILoad)_selectedLoadEquipment; 
+            }
+
+            if (_selectedLoadEquipment is IPowerConsumer) {
+                var selectedMovableEquipment = (IPowerConsumer)_selectedLoadEquipment;
+                if (selectedMovableEquipment.FedFrom == SelectedDteq) {
+                    SelectedMoveableEquipment = selectedMovableEquipment;
+                }
+                else if (selectedMovableEquipment.FedFrom.FedFrom == SelectedDteq){
+                    SelectedMoveableEquipment = selectedMovableEquipment.FedFrom;
+                }
             }
         }
     }
@@ -263,6 +274,14 @@ internal class SingleLineViewModel: EdtViewModelBase
 
     public bool IsBusy { get; set; }
 
+
+    public IPowerConsumer SelectedMoveableEquipment
+    {
+        get { return _selectedMoveableEquipment; }
+        set { _selectedMoveableEquipment = value; }
+    }
+    private IPowerConsumer _selectedMoveableEquipment;
+
     public IPowerConsumer SelectedLoad
     {
         get { return _selectedLoad; }
@@ -304,7 +323,7 @@ internal class SingleLineViewModel: EdtViewModelBase
     public ICommand MoveLoadUpCommand { get; }
     public void MoveLoadUp()
     {
-        SelectedDteq.MoveLoadUp(SelectedLoad);
+        SelectedDteq.MoveLoadUp(SelectedMoveableEquipment);
         AssignedLoads.Clear();
         foreach (var load in SelectedDteq.AssignedLoads) {
             AssignedLoads.Add(load);
@@ -314,7 +333,7 @@ internal class SingleLineViewModel: EdtViewModelBase
     public ICommand MoveLoadDownCommand { get; }
     public void MoveLoadDown()
     {
-        SelectedDteq.MoveLoadDown(SelectedLoad);
+        SelectedDteq.MoveLoadDown(SelectedMoveableEquipment);
         AssignedLoads.Clear();
         foreach (var load in SelectedDteq.AssignedLoads) {
             AssignedLoads.Add(load);
