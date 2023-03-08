@@ -1,4 +1,5 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EDTLibrary;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
@@ -11,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.DistributionControl
+namespace EdtLibrary.Managers
 {
     public class FedFromManager
     {
@@ -27,10 +28,12 @@ namespace EDTLibrary.DistributionControl
 
         public static bool UpdateFedFrom_Single(IPowerConsumer caller, IDteq newSupplier, IDteq oldSupplier)
         {
-            if (DaManager.GettingRecords == false) {
+            if (DaManager.GettingRecords == false)
+            {
                 var wasFedFromUpdated = UpdateFedFrom(caller, newSupplier, oldSupplier);
-                if (DaManager.Importing == false) {
-                    OnFedFromUpdated(); 
+                if (DaManager.Importing == false)
+                {
+                    OnFedFromUpdated();
                 }
                 return wasFedFromUpdated;
             }
@@ -51,14 +54,15 @@ namespace EDTLibrary.DistributionControl
                 NewFedFrom = item.NewSupplier;
             }
 
-            if (DaManager.Importing == false) {
+            if (DaManager.Importing == false)
+            {
                 OnFedFromUpdated();
             }
             IsUpdatingFedFrom_List = false;
 
         }
 
-       
+
         /// <summary>
         /// Transfers the load from the old to the new supplier. (Id, Tag, Type, events, load calculation, cable tag , etc.
         /// </summary>
@@ -90,7 +94,7 @@ namespace EDTLibrary.DistributionControl
                 }
 
                 newSupplier.AddNewLoad(caller);
-               
+
 
                 caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
 

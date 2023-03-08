@@ -1,8 +1,8 @@
 ﻿using EdtLibrary.Commands;
+using EdtLibrary.Managers;
 using EdtLibrary.Settings;
 using EDTLibrary.Calculators;
 using EDTLibrary.DataAccess;
-using EDTLibrary.DistributionControl;
 using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;

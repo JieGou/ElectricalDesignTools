@@ -32,6 +32,10 @@ namespace EDTLibrary.Models.DistributionEquipment
             return newLoadAdded;
         }
 
+        /// <summary>
+        /// changes the load protection device to a standalone and adds it to the Cct Componnents List
+        /// </summary>
+        /// <param name="load"></param>
         public override void SetLoadProtectionDevice(IPowerConsumer load)
         {
             if (DaManager.GettingRecords) return;

@@ -1,13 +1,9 @@
 using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
-using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Validators;
 using System.Collections.ObjectModel;
-using WpfUI.ViewModels;
-using WpfUI.ViewModels.Electrical;
 using Xunit;
 
 namespace WpfUI.Tests.ViewModels

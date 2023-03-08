@@ -1,5 +1,5 @@
-﻿using EDTLibrary.DataAccess;
-using EDTLibrary.DistributionControl;
+﻿using EdtLibrary.Managers;
+using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Models.DistributionEquipment;

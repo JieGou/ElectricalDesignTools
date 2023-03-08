@@ -208,9 +208,9 @@ public class DaManager {
 
     public static void OnComponentPropertyUpdated(object source, EventArgs e)
     {
-        if (DaManager.GettingRecords == false) {
-            DaManager.UpsertComponentAsync((ComponentModel)source);
-        }
+        if (DaManager.GettingRecords) return;
+        DaManager.UpsertComponentAsync((ComponentModel)source);
+        
     }
     public static void OnDrivePropertyUpdated(object source, EventArgs e)
     {
@@ -343,12 +343,12 @@ public class DaManager {
    
     public static async Task UpsertComponentAsync(ComponentModelBase component)
     {
-
+     
+        //commented out too allow inserting new PD's
+        //if (GlobalConfig.Importing == true) return;
         try {
             // removed await to test speed
             await Task.Run(() => {
-                if (GlobalConfig.Importing == true) return;
-             
 
                 if (component.GetType() == typeof(ComponentModel)) {
                     var model = (ComponentModel)component;

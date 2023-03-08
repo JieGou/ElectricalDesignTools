@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.DistributionControl;
+namespace EdtLibrary.Managers;
 
 /// <summary>
 /// Used to send a list of loads to update their fedfrom

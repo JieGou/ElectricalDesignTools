@@ -690,17 +690,18 @@ public partial class _MjeqView : UserControl
     public void OnElectricalViewUpdated(object source, EventArgs e)
     {
         string tag = "";
+        if (vm == null) return;
+
         if (vm.SelectedEquipment != null) {
-            tag = ((IEquipment)vm.SelectedEquipment).Tag; 
+            tag = ((IEquipment)vm.SelectedEquipment).Tag;
         }
-        if (vm != null) {
-            vm.SelectedEquipment = null;
-        }
+        
         vm.ListManager.CreateEquipmentList();
         if (tag != "") {
             vm.SelectedEquipment = vm.ListManager.EqList.FirstOrDefault(e => e.Tag == tag);
-
-        }    }
+        }
+        
+    }
     #endregion
     private void eqView_Loaded(object sender, RoutedEventArgs e)
     {

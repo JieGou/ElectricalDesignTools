@@ -1,5 +1,5 @@
-﻿using EDTLibrary.A_Helpers;
-using EDTLibrary.DistributionControl;
+﻿using EdtLibrary.Managers;
+using EDTLibrary.A_Helpers;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Mappers;

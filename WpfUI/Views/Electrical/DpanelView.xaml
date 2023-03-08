@@ -404,6 +404,7 @@
                                                    TextAlignment="Center"
                                                    TextWrapping="Wrap"/>
 
+                                <!--Left Breaker-->
                                 <sf:GridComboBoxColumn HeaderText="Beaker" MappingName="PdSizeTrip"
                                                        Width="{StaticResource BreakerColumnWidth}"
                                                        AllowEditing="True"
@@ -430,7 +431,7 @@
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtLoadModels:LoadCircuit}">
                                                                 <Setter Property="Text" Value="{Binding PdSizeTrip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                                <Setter Property="Visibility" Value="{Binding PdSizeTrip, Converter={StaticResource BreakerSizeToVisibilityConverter}}"/>
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
@@ -596,6 +597,7 @@
 
                             <sf:SfDataGrid.Columns>
 
+                                <!--Right Breaker-->
                                 <sf:GridComboBoxColumn HeaderText="Beaker" MappingName="PdSizeTrip"
                                                        Width="{StaticResource BreakerColumnWidth}"
                                                        AllowEditing="True"
@@ -621,10 +623,8 @@
                                                         <Setter Property="Visibility" Value="{Binding ProtectionDevice.TripAmps, Converter={StaticResource BreakerSizeToVisibilityConverter}}"/>
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Converter={StaticResource TypeOfConverter}}" Value="{x:Type edtLoadModels:LoadCircuit}">
-                                                                <DataTrigger.Setters>
-                                                                    <Setter Property="Text" Value="{Binding PdSizeTrip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                                                    <Setter Property="Visibility" Value="{Binding PdSizeTrip, Converter={StaticResource BreakerSizeToVisibilityConverter}}"/>
-                                                                </DataTrigger.Setters>
+                                                                <Setter Property="Text" Value="{Binding PdSizeTrip, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                                                <Setter Property="Visibility" Value="{Binding PdSizeTrip, Converter={StaticResource BreakerSizeToVisibilityConverter}}"/>
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>

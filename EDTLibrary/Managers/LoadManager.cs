@@ -1,5 +1,5 @@
-﻿using EDTLibrary.DataAccess;
-using EDTLibrary.DistributionControl;
+﻿using EdtLibrary.Managers;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
@@ -25,7 +25,7 @@ public class LoadManager
         DaManager.Importing = true;
 
         LoadModel newLoad = new LoadModel();
-        LoadFactory _demandFactory = new LoadFactory(listManager);
+        LoadFactory _loadFactory = new LoadFactory(listManager);
 
         //create
         if (loadToAddObject is LoadToAddValidator) {
@@ -46,14 +46,14 @@ public class LoadManager
             if (IsValid == false) return null;
 
             //CreateLoad checks if the Dteq has enough space to add the load
-            newLoad = _demandFactory.CreateLoad(loadToAddValidator); //150ms
+            newLoad = _loadFactory.CreateLoad(loadToAddValidator); //150ms
 
         }
 
         //copy
         else if(loadToAddObject is ILoad){
             var loadToAdd = (ILoad)loadToAddObject;
-            newLoad = _demandFactory.CreateLoad_CopyFromExisting(
+            newLoad = _loadFactory.CreateLoad_CopyFromExisting(
                 loadToAdd, 
                 TagManager.AssignEqTag(new DummyLoad { Type = loadToAdd.Type }, listManager));
         }
@@ -125,6 +125,7 @@ public class LoadManager
         
         DaManager.Importing = false;
         GlobalConfig.Importing = false;
+
         return newLoad;
     }
 

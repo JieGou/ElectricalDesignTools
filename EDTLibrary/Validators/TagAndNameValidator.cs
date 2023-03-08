@@ -40,7 +40,8 @@ namespace EDTLibrary.Validators
                 if (showAlert == true)
                 {
                     EdtNotificationService.SendAlert(tagToCheck,
-                                                     $"{ErrorMessages.DuplicateTagMessage}", 
+                                                     $"Error assigning tag {tagToCheck} {Environment.NewLine}" +
+                                                     $"{ErrorMessages.DuplicateTagMessage} ", 
                                                     "Duplicate Tag Error");
                 }
                 return false;

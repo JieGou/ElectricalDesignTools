@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EDTLibrary.DistributionControl;
 using WpfUI.Views.Electrical;
+using EdtLibrary.Managers;
 
 namespace WpfUI.ViewModels;
 public class _ViewStateManager

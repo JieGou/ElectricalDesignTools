@@ -1,5 +1,5 @@
-﻿using EDTLibrary;
-using EDTLibrary.DistributionControl;
+﻿using EdtLibrary.Managers;
+using EDTLibrary;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
