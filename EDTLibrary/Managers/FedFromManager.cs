@@ -4,6 +4,7 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
+using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;
@@ -93,7 +94,14 @@ namespace EdtLibrary.Managers
                     }
                 }
 
-                newSupplier.AddNewLoad(caller);
+                if (newSupplier is DpnModel) {
+                    if (DpnCircuitManager.IsConverting == false) {
+                        newSupplier.AddNewLoad(caller);
+                    }
+                }
+                else {
+                    newSupplier.AddNewLoad(caller);
+                }
 
 
                 caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;

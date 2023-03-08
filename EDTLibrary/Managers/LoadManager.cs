@@ -54,8 +54,9 @@ public class LoadManager
         else if(loadToAddObject is ILoad){
             var loadToAdd = (ILoad)loadToAddObject;
             newLoad = _loadFactory.CreateLoad_CopyFromExisting(
-                loadToAdd, 
-                TagManager.AssignEqTag(new DummyLoad { Type = loadToAdd.Type }, listManager));
+                        loadToAdd, 
+                        TagManager.AssignEqTag(new DummyLoad { Type = loadToAdd.Type }, listManager)
+                        );
         }
 
         if (newLoad == null) return null; 

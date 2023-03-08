@@ -621,7 +621,9 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 {
                     CalculateLoading(nameof(LineVoltageType));
-                    PowerCable.AutoSizeAll_IfEnabled();
+                    if (PowerCable!= null) {
+                        PowerCable.AutoSizeAll_IfEnabled();
+                    }
 
                 }
 

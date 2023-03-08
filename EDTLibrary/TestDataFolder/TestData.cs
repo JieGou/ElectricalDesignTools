@@ -216,9 +216,9 @@ namespace EDTLibrary.TestDataFolder
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), LoadVoltage=208,
                 LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), Size=200, Unit= Units.A.ToString() },
 
-            new DteqModel {Tag = "LDP-02", Type = DteqTypes.DPN.ToString(), FedFromTag = "LDP-01",
-                LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), LineVoltage=208,
-                LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), LoadVoltage=208, Size=125, Unit= Units.A.ToString() },
+            //new DteqModel {Tag = "LDP-02", Type = DteqTypes.DPN.ToString(), FedFromTag = "LDP-01",
+            //    LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), LineVoltage=208,
+            //    LoadVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==208), LoadVoltage=208, Size=125, Unit= Units.A.ToString() },
 
             new DteqModel {Tag = "Splitter-01", Type = DteqTypes.SPL.ToString(), FedFromTag = "SWG-02",
                 LineVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage==600), LineVoltage=600,

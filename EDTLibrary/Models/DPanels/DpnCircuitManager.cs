@@ -64,7 +64,6 @@ public class DpnCircuitManager
 
             dpn.AssignedLoads.Add(load);
             sideCircuitList.Add(load);
-
             return true;
         }
         return false;
@@ -238,26 +237,11 @@ public class DpnCircuitManager
         }
         AssignSequenceNumbers(sideCircuitList);
         AssignCircuitNumbers(sideCircuitList);
-        RetagCircuits(sideCircuitList);
+
         sideCircuitList.OrderBy(c => c.CircuitNumber);
         dpn.CalculateLoading(); //to calculate the phase loading
     }
 
-    internal static void RetagCircuits(ObservableCollection<IPowerConsumer> sideCircuitList)
-    {
-
-        //foreach (var item in sideCircuitList) {
-        //    if (item.Tag.Contains(item.FedFrom.Tag)) {
-        //        item.Tag = $"{item.FedFrom.Tag}-{Guid.NewGuid().ToString()}";
-        //    }
-        //}
-        //Thread.Sleep(75);
-        //foreach (var item in sideCircuitList) {
-        //    if (item.Tag.Contains(item.FedFrom.Tag)) {
-        //        item.Tag = $"{item.FedFrom.Tag}-{item.CircuitNumber}";
-        //    }
-        //}
-    }
 
     public static void MoveCircuitDown(IDpn dpn, IPowerConsumer load)
     {
@@ -280,7 +264,6 @@ public class DpnCircuitManager
         AssignSequenceNumbers(sideCircuitList);
         AssignCircuitNumbers(sideCircuitList);
 
-        RetagCircuits(sideCircuitList);
 
         sideCircuitList.OrderBy(c => c.CircuitNumber);
         dpn.CalculateLoading();
@@ -365,9 +348,11 @@ public class DpnCircuitManager
 
     }
 
+    public static bool IsConverting { get; set; }
     public static async Task ConvertToLoad(LoadCircuit loadCircuit)
     {
-        
+        IsConverting = true;
+
         var listManager = ScenarioManager.ListManager;
         var dpn = listManager.DpnList.FirstOrDefault(dpn => dpn.Id == loadCircuit.FedFromId);
 
@@ -390,17 +375,23 @@ public class DpnCircuitManager
             SequenceNumber = loadCircuit.SequenceNumber,
 
         };
-        loadToAdd.Tag = $"{dpn.Tag}-{loadCircuit.CircuitNumber}";
-        //loadToAdd.Tag = TagManager.AssignEqTag(loadToAdd.Type, listManager);
+        //loadToAdd.Tag = $"{dpn.Tag}-{loadCircuit.CircuitNumber}";
+        loadToAdd.Tag = TagManager.AssignEqTag(loadToAdd.Type, listManager);
         loadCircuit = null;
 
         try {
             LoadModel newLoad = await LoadManager.AddLoad(loadToAdd, listManager, false);
-            newLoad.Tag= TagManager.AssignEqTag(newLoad,listManager);
+            //newLoad.Tag= TagManager.AssignEqTag(newLoad,listManager);
             dpn.InsertLoad(newLoad);
+            IsConverting = false;
+            AssignCircuitNumbers(circuitList);
+
         }
         catch (Exception ex) {
             EdtNotificationService.SendError(loadCircuit, "", "ConvertToLoad", ex);
+        }
+        finally { 
+            IsConverting = false; 
         }
 
     }

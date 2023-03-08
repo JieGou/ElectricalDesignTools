@@ -36,7 +36,6 @@ namespace EDTLibrary.Managers
         public ObservableCollection<SwgModel> SwgList { get; set; } = new ObservableCollection<SwgModel>();
         public ObservableCollection<MccModel> MccList { get; set; } = new ObservableCollection<MccModel>();
         public ObservableCollection<DpnModel> DpnList { get; set; } = new ObservableCollection<DpnModel>();
-        public ObservableCollection<DpnCircuit> DpnCircuitList { get; set; } = new ObservableCollection<DpnCircuit>();
 
         public ObservableCollection<SplitterModel> SplitterList { get; set; } = new ObservableCollection<SplitterModel>();
 
@@ -66,7 +65,6 @@ namespace EDTLibrary.Managers
                 GetDteq();
                 GetLoadsAndAssignPropertyUpdatedEvent();
                 GetLoadCircuitsAndAddToAssignedCircuits();
-                GetDpnCircuits();
                 GetVoltages();
 
                 //TODO - Get Components for each type and create a master component list
@@ -404,14 +402,7 @@ namespace EDTLibrary.Managers
             }
         }
 
-        private void GetDpnCircuits()
-        {
-            DpnCircuitList.Clear();
-            var list = DaManager.prjDb.GetRecords<DpnCircuit>(GlobalConfig.DpnCircuitTable);
-            foreach (var item in list) {
-                DpnCircuitList.Add(item);
-            }
-        }
+    
         private void AssignDpnCircuits()
         {
             var dPanels = IDteqList.Where(d => d.GetType() == typeof(DpnModel)).ToList();

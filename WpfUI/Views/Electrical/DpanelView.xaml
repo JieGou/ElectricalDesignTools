@@ -394,7 +394,7 @@
                                                    Width="{StaticResource TagColumnWidth}" AllowEditing="True"
                                                    TextAlignment="Center"/>
 
-                                <sf:GridTextColumn HeaderText="Description" MappingName="Description"
+                                <sf:GridTextColumn HeaderText="Description" MappingName="CircuitNumber"
                                                    Width="{StaticResource DescriptionColumnWidth}" AllowEditing="True"
                                                    Padding="5 0"/>
 
@@ -640,7 +640,7 @@
                                                    TextWrapping="Wrap"
                                                    TextAlignment="Center"/>
 
-                                <sf:GridTextColumn HeaderText="Description" MappingName="Description" 
+                                <sf:GridTextColumn HeaderText="Description" MappingName="CircuitNumber" 
                                                    Width="{StaticResource DescriptionColumnWidth}" AllowEditing="True"
                                                    Padding="5 0"/>
 

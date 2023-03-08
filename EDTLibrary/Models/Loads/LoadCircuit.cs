@@ -97,7 +97,7 @@ public class LoadCircuit : ILoadCircuit
         set
         {
             _description = value;
-            if (_description == "" || _description.Contains(DpnCircuitConfig.AddedCircuitDescription)  ) {
+            if (_description == "") {
                 PdSizeTrip = 0;
             }
             //else if(_description != "SPARE") {

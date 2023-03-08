@@ -19,7 +19,7 @@ namespace EDTLibrary.Models.DPanels
     {
 
         int _minCircuitCount = 12;
-        private int _circuitCount = 24;
+        private int _circuitCount = 12;
         public DpnModel()
         {
         }
@@ -40,7 +40,7 @@ namespace EDTLibrary.Models.DPanels
             int cctNo = 0;
             for (int i = 0; i < CircuitCount; i++) {
                 newLoadCircuit = new LoadCircuit {
-                    Tag = DpnCircuitConfig.UnassignedCircuitTag,
+                    Tag = "",
 
                     Description = "",
                     VoltageType = voltageType,
@@ -191,10 +191,6 @@ namespace EDTLibrary.Models.DPanels
             {
                 return SetCircuitNumbersRight();
             }
-            //set
-            //{
-            //    _circuitNumbersRight = value;
-            //}
         }
         private ObservableCollection<DpnCircuit> _circuitNumbersRight;
 
@@ -257,14 +253,18 @@ namespace EDTLibrary.Models.DPanels
 
             //assign circuit numbers
 
-            //DpnCircuitManager.AssignCircuitNumbers(sideCircuitList);
             PoleCountLeft = poleCount;
             LeftCircuits = sideCircuitList;
+            
+            //DpnCircuitManager.AssignSequenceNumbers(LeftCircuits);
+            //DpnCircuitManager.AssignCircuitNumbers(LeftCircuits);
+
             OrderCircuitsByCircuitNumber(LeftCircuits);
             SetLeftCircuitNumbers();
         }
 
 
+        //Right Circuits
         public int PoleCountRight
         {
             get { return _poleCountRight; }
@@ -312,10 +312,13 @@ namespace EDTLibrary.Models.DPanels
             CreateAdditionalCircuitsToFillPanelSide(sideCircuitList, poleCount, PnlSide.Right);
 
             //assign circuit numbers
-            //DpnCircuitManager.AssignCircuitNumbers(sideCircuitList); 
 
             PoleCountRight = poleCount;
             RightCircuits = sideCircuitList;
+
+            //DpnCircuitManager.AssignSequenceNumbers(RightCircuits);
+            //DpnCircuitManager.AssignCircuitNumbers(RightCircuits);
+
             OrderCircuitsByCircuitNumber(RightCircuits);
             SetCircuitNumbersRight();
         }
@@ -459,6 +462,7 @@ namespace EDTLibrary.Models.DPanels
 
             if (DpnCircuitManager.AddNewLoad(this, load)) {
 
+                
                 OrderCircuitsByCircuitNumber(LeftCircuits);
                 OrderCircuitsByCircuitNumber(RightCircuits);
                 return true;
@@ -476,16 +480,16 @@ namespace EDTLibrary.Models.DPanels
             ObservableCollection<IPowerConsumer> sideCircuitList;
             sideCircuitList = load.PanelSide == DPanels.PnlSide.Left.ToString() ? LeftCircuits : RightCircuits;
 
-            var loadCircuitToRemove = sideCircuitList.FirstOrDefault(lc => lc.CircuitNumber == load.CircuitNumber);
+            var loadCircuitToRemove = sideCircuitList.FirstOrDefault(lc => lc.CircuitNumber == load.CircuitNumber && lc.GetType() == typeof(LoadCircuit));
             sideCircuitList.Remove(loadCircuitToRemove);
+            AssignedCircuits.Remove((LoadCircuit)loadCircuitToRemove);
             loadCircuitToRemove.PropertyUpdated -= DaManager.OnLoadCircuitPropertyUpdated;
 
             DpnCircuitManager.DeleteLoadCircuit((DpnModel)load.FedFrom, loadCircuitToRemove, ScenarioManager.ListManager);
-
             sideCircuitList.Insert(load.SequenceNumber, load);
-            AssignedLoads.Add(load);
             OrderCircuitsByCircuitNumber(sideCircuitList);
-          
+            AssignedLoads.Add(load);
+
         }
 
         public override void RemoveAssignedLoad(IPowerConsumer load)
@@ -497,7 +501,7 @@ namespace EDTLibrary.Models.DPanels
             //insert LoadCircuits in place of the
             for (int i = 0; i < load.VoltageType.Poles; i++) {
                 var newLoadCircuit = new LoadCircuit {
-                    Tag = DpnCircuitConfig.UnassignedCircuitTag,
+                    Tag = "",
 
                     Description = "",
                     VoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == 120),
@@ -758,8 +762,7 @@ namespace EDTLibrary.Models.DPanels
                 SetCircuits();
                 DpnCircuitManager.AssignCircuitNumbers(LeftCircuits);
                 DpnCircuitManager.AssignCircuitNumbers(RightCircuits);
-                DpnCircuitManager.RetagCircuits(LeftCircuits);
-                DpnCircuitManager.RetagCircuits(RightCircuits);
+      
             }
         }
 
