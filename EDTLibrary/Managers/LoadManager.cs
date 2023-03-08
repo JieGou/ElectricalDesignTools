@@ -22,6 +22,7 @@ public class LoadManager
     public static async Task<LoadModel> AddLoad(object loadToAddObject, ListManager listManager, bool append = true)
     {
         GlobalConfig.Importing = true;
+        DaManager.Importing = true;
 
         LoadModel newLoad = new LoadModel();
         LoadFactory _demandFactory = new LoadFactory(listManager);
@@ -121,7 +122,8 @@ public class LoadManager
         listManager.LoadList.Add(newLoad);
 
         Debug.Print("Load List COUNT: " + listManager.LoadList.Count.ToString() + " - " + newLoad.Tag);
-
+        
+        DaManager.Importing = false;
         GlobalConfig.Importing = false;
         return newLoad;
     }

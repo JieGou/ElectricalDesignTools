@@ -1,10 +1,7 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
-using EDTLibrary.LibraryData.TypeModels;
-using EDTLibrary.Models;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
-using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
@@ -13,15 +10,11 @@ using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
-using EDTLibrary.ProjectSettings;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EDTLibrary.Managers
 {
@@ -59,7 +52,6 @@ namespace EDTLibrary.Managers
         public ObservableCollection<CableModel> CableList { get; set; } = new ObservableCollection<CableModel>();
         public ObservableCollection<RacewayModel> RacewayList { get; set; } = new ObservableCollection<RacewayModel>();
         public ObservableCollection<RacewayRouteSegment> RacewaySegmentList { get; set; } = new ObservableCollection<RacewayRouteSegment>();
-        public ObservableCollection<CalculationLock> CalculationLockList { get; set; } = new ObservableCollection<CalculationLock>();
         public ObservableCollection<BreakerPropModel> BreakerPropModels { get; set; } = new ObservableCollection<BreakerPropModel>();
         public ObservableCollection<DisconnectPropModel> DisconnectPropModels { get; set; } = new ObservableCollection<DisconnectPropModel>();
 

@@ -22,7 +22,7 @@ public class XfrModel : DistributionEquipment
 
     public double PrimaryFla
     {
-        get { return Fla * LoadVoltage / LineVoltage; }
+        get { return Math.Round(Fla * LoadVoltage / LineVoltage,0); }
     }
 
 

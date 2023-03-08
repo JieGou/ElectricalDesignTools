@@ -11,7 +11,6 @@ namespace EDTLibrary
 {
     public static class GlobalConfig {
 
-        public static EdtSettings EdtSettings = new EdtSettings();
 
         //Flags
         public static bool Importing = false;

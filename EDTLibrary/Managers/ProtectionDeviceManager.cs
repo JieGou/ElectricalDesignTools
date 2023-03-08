@@ -203,7 +203,7 @@ public class ProtectionDeviceManager
         if (load.VoltageType.Voltage <= LvCutoff) {
 
             if (component.Type == PdTypes.Breaker.ToString()) {
-                return DataTableSearcher.GetBreakerFrame(load.ProtectionDevice.TripAmps);
+                return DataTableSearcher.GetBreakerFrame(load.ProtectionDevice.TripAmps*component.AmpacityFactor);
             }
             else if (component.Type == PdTypes.FDS.ToString()) {
                 // needs to select motor rated frame

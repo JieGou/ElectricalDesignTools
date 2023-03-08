@@ -81,6 +81,7 @@ internal class DummyComponent : IComponentEdt
     public string StarterSize { get; set; }
     public int PropertyModelId { get; set; }
     public PropertyModelBase PropertyModel { get; set; }
+    public double AmpacityFactor { get; set; }
 
     public event EventHandler PropertyUpdated;
     public event EventHandler AreaChanged;

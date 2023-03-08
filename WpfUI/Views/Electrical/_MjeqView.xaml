@@ -1077,7 +1077,6 @@
                                
                                ItemsSource="{Binding Path=AssignedLoads, Mode=OneWay, UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
 
-                               CurrentItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                SelectedItem="{Binding SelectedLoad, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                AutoGenerateColumns="False"
                                HorizontalAlignment="Stretch" 

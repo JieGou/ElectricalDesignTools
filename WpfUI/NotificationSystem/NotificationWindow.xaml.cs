@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Settings;
+﻿using EdtLibrary.Settings;
+using EDTLibrary.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,6 @@
 ﻿
 using EdtLibrary.Commands;
+using EdtLibrary.Settings;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.Cables;
@@ -326,7 +327,7 @@ public class CableModel : ICable
         {
             var oldValue = _qtyParallel;
             _qtyParallel = value;
-
+            if (DaManager.Importing) return;
             UndoManager.Lock(this, nameof(QtyParallel));
             saveController.Lock(nameof(QtyParallel));
 
@@ -398,6 +399,8 @@ public class CableModel : ICable
 
             var oldValue = _spacing;
             _spacing = value;
+
+            if (DaManager.Importing) return;
 
             saveController.Lock(nameof(Spacing));
             UndoManager.Lock(this, nameof(Spacing));

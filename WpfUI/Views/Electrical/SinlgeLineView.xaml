@@ -602,8 +602,13 @@
                                             Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
                                 <ContentControl.Resources>
 
+
                                     <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
                                         <editors:PowerConsumerEditor_Full/>
+                                    </DataTemplate>
+
+                                    <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
+                                        <editors:TransformerEditor/>
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">

@@ -1,20 +1,26 @@
 ﻿using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
-using EDTLibrary.ProjectSettings;
 using EDTLibrary.Settings;
+using Firebase.Auth;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using MVVMEssentials.Services;
+using MVVMEssentials.Stores;
+using MVVMEssentials.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Net.Mail;
-using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
+using WpfUI._Authentication;
+using WpfUI._Authentication.ViewModels;
 using WpfUI.Helpers;
 using WpfUI.Services;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.Home;
+using MainViewModel = WpfUI.ViewModels.MainViewModel;
 
 namespace WpfUI
 {
@@ -24,10 +30,53 @@ namespace WpfUI
     public partial class App : Application {
 
         StartupService _startupService;
+        private IHost _host;
+
         ObservableCollection<PreviousProject> PreviousProjects { get; set; } = new ObservableCollection<PreviousProject>();
         public App()
         {
             Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Njk5OTgxQDMyMzAyZTMyMmUzMGJCSWJsOE44RWhRcWhXSmFwdS96NlBvRlBqREtOcHZKU0xNMGtiemNCVWM9");
+
+
+            _host = Host
+           .CreateDefaultBuilder()
+           .ConfigureServices((context, service) => {
+
+               string firebaseApiKey = context.Configuration.GetValue<string>("FIREBASE_API_KEY");
+
+               service.AddSingleton(new FirebaseAuthProvider(new FirebaseConfig(firebaseApiKey)));
+
+               service.AddSingleton<NavigationStore>();
+
+               service.AddSingleton<ModalNavigationStore>();
+
+               service.AddSingleton<MVVMEssentials.ViewModels.MainViewModel>();
+
+
+               service.AddSingleton<NavigationService<RegisterViewModel>>(
+                   (services) => new NavigationService<RegisterViewModel>(
+                       services.GetRequiredService<NavigationStore>(),
+                       () => new RegisterViewModel(
+                           services.GetRequiredService<FirebaseAuthProvider>(),
+                           services.GetRequiredService<NavigationService<LoginViewModel>>())));
+
+
+               service.AddSingleton<NavigationService<LoginViewModel>>(
+                   (services) => new NavigationService<LoginViewModel>(
+                       services.GetRequiredService<NavigationStore>(),
+                       () => new LoginViewModel(
+                           services.GetRequiredService<FirebaseAuthProvider>(),
+                           services.GetRequiredService<NavigationService<RegisterViewModel>>(),
+                           services.GetRequiredService<AuthenticationMainWindow>())));
+
+
+               service.AddSingleton<AuthenticationMainWindow>((services) => new AuthenticationMainWindow() {
+                   DataContext = services.GetRequiredService<MVVMEssentials.ViewModels.MainViewModel>()
+
+               });
+           })
+           .Build();
+
         }
         static void MainHandler(object sender, UnhandledExceptionEventArgs args)
         {
@@ -77,6 +126,28 @@ namespace WpfUI
             // TimeSpan Values:     days, hours, minutes, seconds, milliseconds.
             TimeSpan FadeTimeout = new TimeSpan(0, 0, 0, 0, 500);
             splashScreen.Close(TimeSpan.FromMilliseconds(150));
+
+
+
+
+            //***************************************************
+            // Authentication
+
+#if !DEBUG
+            INavigationService navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
+            navigationService.Navigate();
+
+            var authWindow = _host.Services.GetRequiredService<AuthenticationMainWindow>();
+            authWindow.ShowDialog();
+
+#endif
+            var firebaseAuthProvider = _host.Services.GetRequiredService<FirebaseAuthProvider>();
+
+
+
+            //***************************************************
+
+
 
             base.OnStartup(e);
 

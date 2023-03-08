@@ -79,13 +79,13 @@ namespace EDTLibrary.Settings
                     }
                     if (setting.Name + "_Model" == property.Name) {
 
-                        try {
-                            property.SetValue(propValue, setting);
+                        //try {
+                        //    property.SetValue(propValue, setting);
 
-                        }
-                        catch (Exception ex) {
-                            ex.Data.Add("UserMessage", "Error loading project setting from project database file.");
-                        }
+                        //}
+                        //catch (Exception ex) {
+                        //    ex.Data.Add("UserMessage", "Error loading project setting from project database file.");
+                        //}
                     }
                 }
             }

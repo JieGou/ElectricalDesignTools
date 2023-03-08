@@ -1,4 +1,5 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EdtLibrary.Settings;
+using EDTLibrary.DataAccess;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.DistributionEquipment;

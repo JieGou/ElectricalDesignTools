@@ -111,7 +111,11 @@
     <PackageReference Include="AutoCAD2023.Interop.Base" Version="1.0.0" />
     <PackageReference Include="CefSharp.Wpf.NETCore" Version="105.3.390" />
     <PackageReference Include="CoreCompat.Portable.Licensing" Version="1.2.14" />
+    <PackageReference Include="FirebaseAuthentication.net" Version="3.7.2" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="MVVMEssentials.WPF" Version="1.0.3" />
+    <PackageReference Include="PasswordBoxMVVM" Version="1.0.5" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
     <PackageReference Include="Syncfusion.Licensing" Version="20.2.0.44" />
     <PackageReference Include="Syncfusion.SfSkinManager.WPF" Version="20.1.0.58" />
@@ -133,7 +137,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EDTLibrary\EDTLibrary.csproj" />
+    <ProjectReference Include="..\EDTLibrary\EdtLibrary.csproj" />
     <ProjectReference Include="..\ExcelLibraryCore\ExcelLibraryCore.csproj" />
     <ProjectReference Include="D:\My Drive\Programming\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
   </ItemGroup>
@@ -369,6 +373,9 @@
     <None Update="AppSettings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>AppSettings.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

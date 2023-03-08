@@ -1,26 +1,22 @@
-﻿using EDTLibrary.Calculators;
+﻿using EdtLibrary.Settings;
+using EDTLibrary.Calculators;
 using EDTLibrary.DataAccess;
 using EDTLibrary.DistributionControl;
 using EDTLibrary.ErrorManagement;
-using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
-using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Selectors;
 using EDTLibrary.Services;
-using EDTLibrary.Settings;
 using EDTLibrary.UndoSystem;
 using EDTLibrary.Validators;
 using PropertyChanged;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 //using System.ComponentModel;
@@ -28,7 +24,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace EDTLibrary.Models.DistributionEquipment
@@ -315,9 +310,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _subType;
                 _subType = value;
-                if (DaManager.GettingRecords == false) {
+                if (DaManager.GettingRecords) return;
 
-                }
                 UndoManager.AddUndoCommand(this, nameof(SubType), oldValue, _subType);
             }
         }

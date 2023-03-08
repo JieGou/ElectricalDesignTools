@@ -1,4 +1,5 @@
-﻿using EDTLibrary.LibraryData;
+﻿using EdtLibrary.Settings;
+using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.Loads;

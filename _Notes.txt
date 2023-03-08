@@ -5,7 +5,6 @@ Major Bugs
 	
 
 Minor Bugs
-	- add load is slow
 	- added load needs to be shown / selected in views
 	- MCP frame size list for PD Editor
 	- loads aren't changing voltage on FedFrom Update

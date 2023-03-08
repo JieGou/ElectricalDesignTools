@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EDTLibrary\EDTLibrary.csproj" />
+    <ProjectReference Include="..\EDTLibrary\EdtLibrary.csproj" />
     <ProjectReference Include="..\WpfUI\WpfUI.csproj" />
   </ItemGroup>
 

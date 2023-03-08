@@ -163,7 +163,6 @@
                                    Grid.Row="1" Grid.RowSpan="2"
                                        Grid.Column="3" 
                                    ItemsSource="{Binding ListManager.CableList, Mode=TwoWay, IsAsync=True}"
-                                   CurrentItem="{Binding SelectedCable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    SelectedItem="{Binding SelectedCable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                    SelectedItems="{Binding SelectedCables, UpdateSourceTrigger=PropertyChanged}"
                                    AutoGenerateColumns="False"

@@ -10,8 +10,13 @@ namespace EDTLibrary.Models.Components
     public interface IComponentEdt :  IEquipment
     {
 
-        public int PropertyModelId { get; set; }
-        public PropertyModelBase PropertyModel { get; set; }
+
+        double AmpacityFactor { get; set; }
+
+        int PropertyModelId { get; set; }
+        PropertyModelBase PropertyModel { get; set; }
+
+
         bool SettingTag { get; set; }
 
 

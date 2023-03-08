@@ -202,7 +202,8 @@
                                             Grid.ColumnSpan="5"
                                             HorizontalAlignment="Right">
                                     <TextBlock Text="Primary" Width="65"/>
-                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
+                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
+                                              Width="100"
                                               ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                               SelectedValue="{Binding PrimaryWiringType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               DisplayMemberPath="WiringType"
@@ -217,7 +218,8 @@
                                             Grid.ColumnSpan="5"
                                             HorizontalAlignment="Right">
                                     <TextBlock Text="Grounding" Width="65"/>
-                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
+                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
+                                              Width="100"
                                               ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                               SelectedValue="{Binding PrimaryGrounding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               DisplayMemberPath="Type"
@@ -233,7 +235,8 @@
                                             Grid.ColumnSpan="5"
                                             HorizontalAlignment="Right">
                                     <TextBlock Text="Secondary" Width="65"/>
-                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
+                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
+                                              Width="100"
                                               ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                               SelectedValue="{Binding SecondaryWiringType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               DisplayMemberPath="WiringType"
@@ -249,7 +252,8 @@
                                             Grid.ColumnSpan="5"
                                             HorizontalAlignment="Right">
                                     <TextBlock Text="Grounding" Width="65"/>
-                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}" Width="100"
+                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
+                                              Width="100"
                                               ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                               SelectedValue="{Binding SecondaryGrounding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                               DisplayMemberPath="Type"
@@ -461,6 +465,10 @@
                                 <editors:PowerConsumerEditor_Full DataContext="{Binding}"/>
                             </DataTemplate>
 
+                            <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
+                                <editors:TransformerEditor DataContext="{Binding}"/>
+                            </DataTemplate>
+                            
                             <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
                                 <editors:PowerConsumerEditor_Full DataContext="{Binding}"/>
                                 <!--<mjeqSubViews:EquipmentDetailsView/>-->

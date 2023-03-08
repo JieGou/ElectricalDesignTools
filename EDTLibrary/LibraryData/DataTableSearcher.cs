@@ -134,7 +134,7 @@ namespace EDTLibrary.LibraryData
                 DataTable dt = DataTables.BreakerSizes.Copy();
                 DataTable dtFiltered;
 
-                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)tripAmps*1.25);
+                var filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("FrameAmps") >= (int)tripAmps);
 
                 try {
                     dtFiltered = filteredRows.CopyToDataTable();

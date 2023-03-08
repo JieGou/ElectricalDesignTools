@@ -1,12 +1,10 @@
 ﻿using EdtLibrary.Commands;
-using EDTLibrary.A_Helpers;
 using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
-using EDTLibrary.Models.Calculations;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
@@ -16,11 +14,9 @@ using EDTLibrary.Services;
 using EDTLibrary.UndoSystem;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 

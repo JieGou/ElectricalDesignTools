@@ -34,6 +34,18 @@ namespace EDTLibrary.Models.Components;
 public abstract class ComponentModelBase : IComponentEdt
 {
 
+    public double AmpacityFactor
+    {
+        get { return _ampacityFactor; }
+        set 
+        { 
+            _ampacityFactor = value;
+            CalculateSize((IPowerConsumer)Owner);
+            OnPropertyUpdated();
+        }
+    }
+    private double _ampacityFactor = 1.25;
+
     public ComponentModelBase()
     {
         AutoCalculateCommand = new RelayCommand(AutoCalculate);
