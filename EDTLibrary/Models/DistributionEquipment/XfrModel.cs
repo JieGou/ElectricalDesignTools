@@ -18,15 +18,16 @@ public class XfrModel : DistributionEquipment
         Voltage = LineVoltage;
     }
 
-    private double _primaryFla;
+    
 
+    private string _subType;
     public double PrimaryFla
     {
         get { return Math.Round(Fla * LoadVoltage / LineVoltage,0); }
     }
+    private double _primaryFla;
 
 
-    private double _impedance;
     public double Impedance
     {
         get { return _impedance; }
@@ -46,7 +47,34 @@ public class XfrModel : DistributionEquipment
             OnPropertyUpdated();
         }
     }
+    private double _impedance;
 
+
+    //Primary
+    public string PrimaryWiring
+    {
+        get { return _primaryWiring; }
+        set
+        {
+            _primaryWiring = value;
+            OnPropertyUpdated();
+        }
+    }
+    private string _primaryWiring;
+
+    public TransformerWiringType PrimaryWiringType
+    {
+        get { return _primaryWiringType; }
+        set
+        {
+            _primaryWiringType = value;
+
+            if (!DaManager.GettingRecords) {
+                PrimaryWiring = _primaryWiringType.WiringType;
+            }
+        }
+    }
+    private TransformerWiringType _primaryWiringType;
 
     public string PrimaryGrounding
     {
@@ -64,49 +92,8 @@ public class XfrModel : DistributionEquipment
     }
     private string _primaryGrounding;
 
-    public string SecondaryGrounding
-    {
-        get { return _secondaryGrounding; }
-        set
-        {
-            var oldValue = _secondaryGrounding;
-            _secondaryGrounding = value;
-            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
-                var cmd = new UndoCommand { Item = this, PropName = nameof(SecondaryGrounding), OldValue = oldValue, NewValue = _secondaryGrounding };
-                UndoManager.AddUndoCommand(cmd);
-            }
-            OnPropertyUpdated();
-        }
-    }
-    private string _secondaryGrounding;
-
-
-    public string PrimaryWiring
-    {
-        get { return _primaryWiring; }
-        set { 
-            _primaryWiring = value; 
-            OnPropertyUpdated();
-        }
-    }
-    private string _primaryWiring;
-
-    public TransformerWiringType PrimaryWiringType
-    {
-        get { return _primaryWiringType; }
-        set 
-        { 
-            _primaryWiringType = value;
-
-            if (!DaManager.GettingRecords) {
-                PrimaryWiring = _primaryWiringType.WiringType;
-            }
-        }
-    }
-    private TransformerWiringType _primaryWiringType;
-
-
-   
+  
+   //Secondary
     public string SecondaryWiring
     {
         get { return _secondaryWiring; }
@@ -128,6 +115,23 @@ public class XfrModel : DistributionEquipment
         }
     }
     private TransformerWiringType _secondaryWiringType;
+
+    public string SecondaryGrounding
+    {
+        get { return _secondaryGrounding; }
+        set
+        {
+            var oldValue = _secondaryGrounding;
+            _secondaryGrounding = value;
+            if (UndoManager.IsUndoing == false && DaManager.GettingRecords == false) {
+                var cmd = new UndoCommand { Item = this, PropName = nameof(SecondaryGrounding), OldValue = oldValue, NewValue = _secondaryGrounding };
+                UndoManager.AddUndoCommand(cmd);
+            }
+            OnPropertyUpdated();
+        }
+    }
+    private string _secondaryGrounding;
+
 
 
 

@@ -313,6 +313,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                 if (DaManager.GettingRecords) return;
 
                 UndoManager.AddUndoCommand(this, nameof(SubType), oldValue, _subType);
+                OnPropertyUpdated();
             }
         }
         private string _subType;
@@ -440,13 +441,13 @@ namespace EDTLibrary.Models.DistributionEquipment
 
                 {
                     CalculateLoading();
-                    PowerCable.AutoSizeAll_IfEnabled();
 
-                    SCCA = CalculateSCCA();
-                    
                     if (PowerCable != null) {
+                        PowerCable.AutoSizeAll_IfEnabled();
                         PowerCable.GetRequiredAmps(this);
                     }
+
+                    SCCA = CalculateSCCA();
                 }
 
                
@@ -990,7 +991,11 @@ namespace EDTLibrary.Models.DistributionEquipment
                         } 
                     }
                 }
-                ProtectionDevice.Validate();
+
+                if (ProtectionDevice != null) {
+                    ProtectionDevice.Validate();
+                }
+
                 SCCA = CalculateSCCA();
 
 

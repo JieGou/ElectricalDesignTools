@@ -17,7 +17,7 @@ namespace WpfUI.UserControls.Settings;
 /// <summary>
 /// Interaction logic for SettingDescription.xaml
 /// </summary>
-public partial class SettingDescriptionControl : UserControl
+public partial class SettingHeaderControl : UserControl
 {
 
 
@@ -29,7 +29,7 @@ public partial class SettingDescriptionControl : UserControl
 
     // Using a DependencyProperty as the backing store for SettingName.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty SettingNameProperty =
-        DependencyProperty.Register("SettingName", typeof(string), typeof(SettingDescriptionControl), new PropertyMetadata("Setting Name"));
+        DependencyProperty.Register("SettingName", typeof(string), typeof(SettingHeaderControl), new PropertyMetadata("Setting Name"));
 
 
 
@@ -41,7 +41,7 @@ public partial class SettingDescriptionControl : UserControl
 
     // Using a DependencyProperty as the backing store for SettingDescription.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty SettingDescriptionProperty =
-        DependencyProperty.Register("SettingDescription", typeof(string), typeof(SettingDescriptionControl), new PropertyMetadata("Setting Description"));
+        DependencyProperty.Register("SettingDescription", typeof(string), typeof(SettingHeaderControl), new PropertyMetadata("Setting Description"));
 
 
 
@@ -53,11 +53,11 @@ public partial class SettingDescriptionControl : UserControl
 
     // Using a DependencyProperty as the backing store for DescriptionWidth.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty DescriptionWidthProperty =
-        DependencyProperty.Register("DescriptionWidth", typeof(double), typeof(SettingDescriptionControl), new PropertyMetadata(350.0));
+        DependencyProperty.Register("DescriptionWidth", typeof(double), typeof(SettingHeaderControl), new PropertyMetadata(350.0));
 
 
 
-    public SettingDescriptionControl()
+    public SettingHeaderControl()
     {
         InitializeComponent();
     }

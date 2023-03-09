@@ -21,9 +21,9 @@ namespace EDTLibrary.Models.DistributionEquipment
         {
             IDteq newDteq;
 
+            //XFR properties
             if (dteqToAddValidator.Type == DteqTypes.XFR.ToString()) {
                 var model = new XfrModel();
-                //XFR properties
                 model.Impedance = Double.Parse(EdtProjectSettings.XfrImpedance);
                 model.SubType = EdtProjectSettings.XfrSubType;
                 model.PrimaryWiringType = TypeManager.TransformerWiringTypes.FirstOrDefault(tw => tw.WiringType == "Delta");
@@ -37,28 +37,32 @@ namespace EDTLibrary.Models.DistributionEquipment
                 }                //Todo - Add default Type and NGR
                 newDteq = model;
             }
+
+            //SWG properties
             else if (dteqToAddValidator.Type == DteqTypes.SWG.ToString()) {
                 var model = new SwgModel();
-                //SWG properties
                 newDteq = model;
-            }
-            else if (dteqToAddValidator.Type == DteqTypes.MCC.ToString()) {
-                var model = new MccModel();
-                //MCC properties
-                newDteq = model;
-            }
-            else if (dteqToAddValidator.Type == DteqTypes.DPN.ToString()) {
-                var model = new DpnModel();
-                
-               
-                newDteq = model;
-                
             }
 
+            //MCC properties
+            else if (dteqToAddValidator.Type == DteqTypes.MCC.ToString()) {
+                var model = new MccModel();
+                newDteq = model;
+            }
+
+            //Distribution Panel
+            else if (dteqToAddValidator.Type == DteqTypes.DPN.ToString()) {
+                var model = new DpnModel();
+                newDteq = model;
+            }
+
+            //CDP
             else if (dteqToAddValidator.Type == DteqTypes.CDP.ToString()) {
                 var model = new DpnModel();
                 newDteq = model;
             }
+
+            //Splitter
             else if (dteqToAddValidator.Type == DteqTypes.SPL.ToString()) {
                 var model = new SplitterModel();
                 newDteq = model;

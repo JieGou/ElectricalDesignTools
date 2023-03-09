@@ -2,12 +2,10 @@ Bug Notes
 	- combobox itemsSource values change because ComboBox.Text is bound. Need to bind to SelectedValue only.
 	
 Major Bugs
-	- cannot convert loadCircuit to load
-		- load gets added before and gets selcted, casing a cast error
 	
 
 Minor Bugs
-	- 
+	- spare breaker volage # of poles update on DPanel
 	- added load needs to be shown / selected in views
 	- MCP frame size list for PD Editor
 	- loads aren't changing voltage on FedFrom Update
@@ -24,8 +22,6 @@ Property / Calculation Override and Locks
 
 
 Transformer Grounding
-	- Settings
-	- transformer cooling type on dteq options
 	- NGR component
 	- NGR Monitor
 	- cables

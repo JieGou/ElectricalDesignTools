@@ -6,6 +6,8 @@
              
              xmlns:local="clr-namespace:WpfUI.Views.Cable"
              
+             xmlns:settingsControls="clr-namespace:WpfUI.UserControls.Settings"
+             
              xmlns:cableViewModels="clr-namespace:WpfUI.ViewModels.Cable"
              
              
@@ -21,6 +23,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>

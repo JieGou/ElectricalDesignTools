@@ -19,7 +19,7 @@ namespace EDTLibrary.Models.DPanels
     {
 
         int _minCircuitCount = 12;
-        private int _circuitCount = 12;
+        private int _circuitCount = 24;
         public DpnModel()
         {
         }

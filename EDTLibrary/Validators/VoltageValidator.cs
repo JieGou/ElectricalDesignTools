@@ -28,7 +28,10 @@ internal class VoltageValidator
         if (load.FedFrom == null ) {
             return false;
         }
+
         var fedFromVoltage = load.FedFrom.LoadVoltageType;
+
+        //motors
         if (load.Type == LoadTypes.MOTOR.ToString()) {
             if (fedFromVoltage.Voltage == 480 && load.VoltageType.Voltage == 460) {
                 return true;
@@ -40,6 +43,28 @@ internal class VoltageValidator
                 return true;
             }
         }
+
+        //208V panel
+        if (load.FedFrom.Type == DteqTypes.DPN.ToString() && load.FedFrom.LoadVoltageType.Voltage == 208) {
+            if (load.VoltageType.Voltage == 208) {
+                return true;
+            }
+            if (load.VoltageType.Voltage == 120) {
+                return true;
+            }
+        }
+
+        //240V panel
+        if (load.FedFrom.Type == DteqTypes.DPN.ToString() && load.FedFrom.LoadVoltageType.Voltage == 240) {
+            if (load.VoltageType.Voltage == 240) {
+                return true;
+            }
+            if (load.VoltageType.Voltage == 120) {
+                return true;
+            }
+        }
+
+
         if (load.VoltageType == fedFromVoltage) {
             return true;
         }

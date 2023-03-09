@@ -55,7 +55,6 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
     
     private string _dteqLoadCableDerating;
     private string _xfrSubType;
-    private string _xfrGrounding;
 
 
     //Dteq
@@ -125,17 +124,62 @@ public class EquipmentSettingsViewModel : SettingsViewModelBase
         }
     }
 
-    public string XfrGrounding
+
+    //Primary
+    public string XfrConnection_Primary
     {
-        get { return _xfrGrounding; }
+        get { return _xfrConnection_Primary; }
         set
         {
-            var oldValue = _xfrGrounding;
-            _xfrGrounding = value;
-            SaveVmSetting(nameof(XfrGrounding), _xfrGrounding);
+            var oldValue = _xfrConnection_Primary;
+            _xfrConnection_Primary = value;
+            SaveVmSetting(nameof(XfrConnection_Primary), _xfrConnection_Primary);
 
         }
     }
+    private string _xfrConnection_Primary;
+     public string XfrGrounding_Primary
+    {
+        get { return _xfrGrounding_Primary; }
+        set
+        {
+            var oldValue = _xfrGrounding_Primary;
+            _xfrGrounding_Primary = value;
+            SaveVmSetting(nameof(XfrGrounding_Primary), _xfrGrounding_Primary);
+
+        }
+    }
+    private string _xfrGrounding_Primary;
+
+
+    //Secondary
+    public string XfrConnection_Secondary
+    {
+        get { return _xfrConnection_Secondary; }
+        set
+        {
+            var oldValue = _xfrConnection_Secondary;
+            _xfrConnection_Secondary = value;
+            SaveVmSetting(nameof(XfrConnection_Secondary), _xfrConnection_Secondary);
+
+        }
+    }
+    private string _xfrConnection_Secondary;
+
+    public string XfrGrounding_Secondary
+    {
+        get { return _xfrGrounding_Secondary; }
+        set
+        {
+            var oldValue = _xfrGrounding_Secondary;
+            _xfrGrounding_Secondary = value;
+            SaveVmSetting(nameof(XfrGrounding_Secondary), _xfrGrounding_Secondary);
+
+        }
+    }
+    private string _xfrGrounding_Secondary;
+
+
 
     public string DteqLoadCableDerating { get => _dteqLoadCableDerating; set 
         { 

@@ -137,10 +137,10 @@
 
                 <ComboBox Grid.Row="5" Grid.Column="1"
                           Template="{DynamicResource ComboBoxBase}"
-                          ItemsSource="{Binding DataContext.TypeManger.TransformerTypes, 
+                          ItemsSource="{Binding DataContext.TypeManager.TransformerTypes, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType={x:Type Window}}}"
-                          SelectedValue="{Binding SubType}"
+                          SelectedValue="{Binding SubType,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           SelectedValuePath="Type"
                           DisplayMemberPath="Type"
                           Text="{Binding SubType}"

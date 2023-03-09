@@ -310,6 +310,9 @@
     <Compile Update="UserControls\NotificationIcons\CalculateIcon.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UserControls\Settings\SettingHeaderControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UserControls\Viewers\Dpanels\DpnCctViewer_V.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
