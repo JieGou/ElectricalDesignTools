@@ -133,12 +133,25 @@ namespace WpfUI
             //***************************************************
             // Authentication
 
-#if !DEBUG
+
             INavigationService navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
             navigationService.Navigate();
 
             var authWindow = _host.Services.GetRequiredService<AuthenticationMainWindow>();
             authWindow.ShowDialog();
+
+
+
+
+#if !DEBUG
+
+
+            INavigationService navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
+            navigationService.Navigate();
+
+            var authWindow = _host.Services.GetRequiredService<AuthenticationMainWindow>();
+            authWindow.ShowDialog();
+
 
 #endif
             var firebaseAuthProvider = _host.Services.GetRequiredService<FirebaseAuthProvider>();

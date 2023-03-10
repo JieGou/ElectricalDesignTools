@@ -1,6 +1,7 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EdtLibrary.Models.AdditionalProperties;
+using EdtLibrary.Models.TypeProperties;
+using EDTLibrary.DataAccess;
 using EDTLibrary.Models.Components;
-using EDTLibrary.Models.Equipment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace EDTLibrary.Managers;
 internal class PropertyModelManager
 {
-    public static PropertyModelBase CreateNewPropModel(string type)
+    public static PropertyModelBase CreateNewPropModel(string type, ComponentModelBase owner)
     {
         PropertyModelBase propModel = new BreakerPropModel();
 
@@ -39,7 +40,9 @@ internal class PropertyModelManager
         }
 
         propModel.PropertyUpdated += DaManager.OnTypeModelPropertyUpdated;
+        propModel.Owner = owner;
         propModel.OnPropertyUpdated();
+
         return propModel;
     }
 

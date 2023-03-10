@@ -308,6 +308,13 @@ namespace EDTLibrary.LibraryData
                 
                 filteredRows = dt.AsEnumerable().Where(x => x.Field<double>("Amps") >= (double)requiredFrameAmps);
 
+                if (filteredRows.Any() == false) {
+                    EdtNotificationService.SendAlert("DataTableSearcher.GetDisconnectSize",
+                        "Disconnect size must be manually verified because a valid disconnect size is not available in the library. " +
+                        "This is likely caused by selecting a low voltage motor above 200HP or of a non-stadard HP rating, or a load FLA above 1200 Amps." + Environment.NewLine + Environment.NewLine,
+                        "Unverified Component Selection");
+                    return 30;
+                }
 
                 try {
                     dtFiltered = filteredRows.CopyToDataTable();

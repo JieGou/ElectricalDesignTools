@@ -558,10 +558,41 @@
 
 
                 <!--Additional Properties-->
+                
+                
+                <!--Breaker-->
+                <local:BreakerProperties Grid.Row="11"
+                                             Grid.Column="0" Grid.ColumnSpan="4"
+                                             DataContext="{Binding }"
+                                             >
+                    <local:BreakerProperties.Style>
+                        <Style TargetType="local:BreakerProperties">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Type}" Value="Breaker">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </local:BreakerProperties.Style>
+                </local:BreakerProperties>
+
+                <!--Disconnect-->
                 <local:DisconnectPropterties Grid.Row="11"
                                              Grid.Column="0" Grid.ColumnSpan="4"
-                                             DataContext="{Binding}"
-                                             Visibility="Collapsed"/>
+                                             DataContext="{Binding }"
+                                             >
+                    <local:DisconnectPropterties.Style>
+                        <Style TargetType="local:DisconnectPropterties">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Type}" Value="FDS">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </local:DisconnectPropterties.Style>
+                </local:DisconnectPropterties>
 
 
                 <StackPanel Orientation="Vertical"

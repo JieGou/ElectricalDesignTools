@@ -1,4 +1,5 @@
-﻿using EDTLibrary.LibraryData.TypeModels;
+﻿using EdtLibrary.Models.AdditionalProperties;
+using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;

@@ -8,8 +8,7 @@ namespace EDTLibrary.LibraryData.TypeModels;
 public class FuseType
 {
     public int Id { get; set; }
-    public double Type { get; set; }
-    public double Description { get; set; }
-
+    public string Type { get; set; }
+    public string Description { get; set; }
     public double MaxCurrentRating { get; set; }
 }

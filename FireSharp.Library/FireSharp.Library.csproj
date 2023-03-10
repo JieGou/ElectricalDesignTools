@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <UserSecretsId>7aadda7f-8787-4ba1-8001-5a18baebd946</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FireSharp" Version="2.0.4" />
+    <PackageReference Include="FireSharp.Serialization.JsonNet" Version="1.1.0" />
+  </ItemGroup>
+
+</Project>

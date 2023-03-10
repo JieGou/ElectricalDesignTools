@@ -1,5 +1,5 @@
-﻿using EDTLibrary.LibraryData.TypeModels;
-using EDTLibrary.Models.Equipment;
+﻿using EdtLibrary.Models.AdditionalProperties;
+using EDTLibrary.LibraryData.TypeModels;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models.Components;
+namespace EdtLibrary.Models.TypeProperties;
 
 [AddINotifyPropertyChangedInterface]
 public class DisconnectPropModel : PropertyModelBase

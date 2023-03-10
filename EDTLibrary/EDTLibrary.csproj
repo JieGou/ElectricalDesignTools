@@ -63,7 +63,4 @@
       <LastGenOutput>EdtAppSettings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\TypeProperties\" />
-  </ItemGroup>
 </Project>

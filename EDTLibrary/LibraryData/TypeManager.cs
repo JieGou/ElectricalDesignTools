@@ -160,17 +160,20 @@ namespace EDTLibrary.LibraryData
         public static ObservableCollection<OcpdType> OcpdTypes { get; set; }
         public static ObservableCollection<DisconnectType> DisconnectTypes { get; set; } = new ObservableCollection<DisconnectType>();
         public static ObservableCollection<DisconnectSize> DisconnectSizes { get; set; } = new ObservableCollection<DisconnectSize>();
+        public static ObservableCollection<FuseType> FuseTypes { get; set; } = new ObservableCollection<FuseType>();
+
+
+        public static ObservableCollection<BreakerSize> BreakerTripSizes { get; set; } = new ObservableCollection<BreakerSize>();
         public static List<double> BreakerFrameSizes { get; set; } = new List<double>(); //to a list of unique frame sizes
         public static ObservableCollection<BreakerAicRating> BreakerAicRatings { get; set; } = new ObservableCollection<BreakerAicRating>();
+        public static ObservableCollection<BreakerType> BreakerTypes { get; set; } = new ObservableCollection<BreakerType>();
 
 
         public static ObservableCollection<LcsTypeModel> LcsTypes { get; set; }
         public static ObservableCollection<string> DriveTypes { get; set; } = new ObservableCollection<string>() { "VSD", "RVS" };
-        public static ObservableCollection<BreakerSize> BreakerTripSizes { get; set; } = new ObservableCollection<BreakerSize>();
 
         public static ObservableCollection<StarterSize> StarterSizes { get; set; } = new ObservableCollection<StarterSize>();
         public static ObservableCollection<VfdHeatSize> VfdHeatSizes { get; set; } = new ObservableCollection<VfdHeatSize>();
-        public static ObservableCollection<string> FuseTypes { get; set; } = new ObservableCollection<string> { "Class RK5", "Class J", "Class K" };
 
 
 
@@ -211,6 +214,8 @@ namespace EDTLibrary.LibraryData
             var breakerSizeList = BreakerTripSizes.OrderBy(b => b.TripAmps).ToList();
             BreakerTripSizes = new ObservableCollection<BreakerSize>(breakerSizeList);
 
+            BreakerTypes = DaManager.libDb.GetRecords<BreakerType>("BreakerTypes");
+            FuseTypes = DaManager.libDb.GetRecords<FuseType>("FuseTypes");
 
             GetUniqueBreakerFameSizes();
             BreakerAicRatings = DaManager.libDb.GetRecords<BreakerAicRating>("BreakerAicRatings");

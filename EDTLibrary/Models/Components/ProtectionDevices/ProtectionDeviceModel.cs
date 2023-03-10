@@ -59,7 +59,7 @@ public class ProtectionDeviceModel : ComponentModelBase, IProtectionDevice
                 }
             }
             PropertyModelManager.DeletePropModel(PropertyModel);
-            PropertyModel = PropertyModelManager.CreateNewPropModel(_type);
+            PropertyModel = PropertyModelManager.CreateNewPropModel(_type, this);
             PropertyModel.Owner = this;
             PropertyModelId = PropertyModel.Id;
 

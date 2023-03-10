@@ -139,6 +139,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EDTLibrary\EdtLibrary.csproj" />
     <ProjectReference Include="..\ExcelLibraryCore\ExcelLibraryCore.csproj" />
+    <ProjectReference Include="..\FireSharp.Library\FireSharp.Library.csproj" />
     <ProjectReference Include="D:\My Drive\Programming\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
   </ItemGroup>
 
@@ -296,6 +297,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UserControls\Editors\CompEditor_Dcn_Compact.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UserControls\Editors\BreakerProperties.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UserControls\Editors\PowerConsumerEditor_Full.xaml.cs">

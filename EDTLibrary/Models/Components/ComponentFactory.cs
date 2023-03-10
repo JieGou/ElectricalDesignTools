@@ -45,7 +45,7 @@ public class ComponentFactory
             ProtectionDevice.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
             ProtectionDevice.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
             ProtectionDevice.SequenceNumber = 0;
-            ProtectionDevice.PropertyModel = PropertyModelManager.CreateNewPropModel(subType);
+            ProtectionDevice.PropertyModel = PropertyModelManager.CreateNewPropModel(subType, ProtectionDevice);
 
         }
 
@@ -67,6 +67,7 @@ public class ComponentFactory
             ProtectionDevice.FrameAmps = DataTableSearcher.GetDisconnectSize(load);
             ProtectionDevice.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
             ProtectionDevice.SequenceNumber = 0;
+            ProtectionDevice.PropertyModel = PropertyModelManager.CreateNewPropModel(subType, ProtectionDevice);
         }
 
 

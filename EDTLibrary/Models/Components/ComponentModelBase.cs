@@ -1,4 +1,5 @@
 ﻿using EdtLibrary.Commands;
+using EdtLibrary.Models.AdditionalProperties;
 using EDTLibrary.Calculators;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
@@ -38,8 +39,11 @@ public abstract class ComponentModelBase : IComponentEdt
     {
         get { return _ampacityFactor; }
         set 
-        { 
+        {
+
             _ampacityFactor = value;
+            if (DaManager.GettingRecords) return;
+
             CalculateSize((IPowerConsumer)Owner);
             OnPropertyUpdated();
         }
@@ -94,7 +98,7 @@ public abstract class ComponentModelBase : IComponentEdt
                     }
                 }
                 PropertyModelManager.DeletePropModel(PropertyModel);
-                PropertyModel = PropertyModelManager.CreateNewPropModel(_type);
+                PropertyModel = PropertyModelManager.CreateNewPropModel(_type, this);
                 PropertyModel.Owner = this;
                 PropertyModelId = PropertyModel.Id;
 

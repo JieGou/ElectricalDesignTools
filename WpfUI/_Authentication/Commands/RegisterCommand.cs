@@ -1,4 +1,5 @@
 ﻿using Firebase.Auth;
+using FireSharp.Library;
 using MVVMEssentials.Commands;
 using MVVMEssentials.Services;
 using System;
@@ -20,6 +21,8 @@ public class RegisterCommand : AsyncCommandBase
         _loginNavigationService = loginNavigationService;
     }
 
+
+    EdtAuthorization edtAuth = new EdtAuthorization();
     protected override async Task ExecuteAsync(object parameter)
     {
         string password = _registerViewModel.Password;
@@ -36,6 +39,14 @@ public class RegisterCommand : AsyncCommandBase
                 password,
                 _registerViewModel.Username);
 
+
+            {
+                var userAccount = new UserAccount { Email = _registerViewModel.Email };
+
+                edtAuth.Initialize();
+                edtAuth.Push(userAccount);
+            }
+
             _loginNavigationService.Navigate();
         }
         catch (Exception ex) {
@@ -50,6 +61,7 @@ public class RegisterCommand : AsyncCommandBase
             if (ex.Message.Contains("EMAIL_EXISTS")) {
                 MessageBox.Show("An account with this email is already registered.", "Registration Failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            
             else {
                 MessageBox.Show("Missing registration details.", "Registration Failed", MessageBoxButton.OK, MessageBoxImage.Error);
 

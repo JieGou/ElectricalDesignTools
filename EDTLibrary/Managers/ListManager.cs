@@ -1,4 +1,6 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EdtLibrary.Models.AdditionalProperties;
+using EdtLibrary.Models.TypeProperties;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
@@ -135,34 +137,44 @@ namespace EDTLibrary.Managers
 
             foreach (var propModel in propModelList) {
 
+
                 //assign to Protection Devices
                 foreach (var item in PdList) {
-                    if (item.Type == PdTypes.Breaker.ToString() 
-                        && item.PropertyModelId == propModel.Id) {
+
+                    if (item.PropertyModelId != propModel.Id) continue;
+
+                    if (item.Type == PdTypes.Breaker.ToString()) {
                         item.PropertyModel = propModel;
+                        propModel.Owner = item;
                     }
-                    else if ( item.Type == PdTypes.FDS.ToString()
+
+                    else if (item.Type == PdTypes.FDS.ToString()
                         && item.PropertyModelId == propModel.Id) {
                         item.PropertyModel = propModel;
+                        propModel.Owner = item;
                     }
                 }
 
                 //assign to Components
                 foreach (var item in CompList) {
-                    if (item.PropertyModel != propModel) continue;
+
+                    if (item.PropertyModelId != propModel.Id) continue;
 
                     if (item.Type == PdTypes.Breaker.ToString()) {
                         item.PropertyModel = propModel;
+                        propModel.Owner = (ComponentModelBase)item;
                     }
 
-                    else if (item.Type == CctComponentTypes.UDS.ToString() 
-                        || item.Type == CctComponentTypes.FDS.ToString() 
-                        || item.Type == CctComponentTypes.Disconnect.ToString()) {
+                    else if (item.Type == CctComponentTypes.UDS.ToString() ||
+                             item.Type == CctComponentTypes.FDS.ToString() ||
+                             item.Type == CctComponentTypes.Disconnect.ToString()) {
 
                         item.PropertyModel = propModel;
+                        propModel.Owner = (ComponentModelBase)item;
 
                     }
-                }
+
+                } 
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using Firebase.Auth;
+using FireSharp.Library;
 using MVVMEssentials.Commands;
 using System;
 using System.Threading.Tasks;
@@ -19,13 +20,38 @@ public class LoginCommand : AsyncCommandBase
         _authWindow = authWindow;
     }
 
+    EdtAuthorization edtAuth = new EdtAuthorization();
+
+    public UserAccount _userAccount { get; set; }
     protected override async Task ExecuteAsync(object parameter)
     {
         try {
             await _firebaseAuthProvider.SignInWithEmailAndPasswordAsync(
                 _loginViewModel.Email,
                 _loginViewModel.Password);
-            MessageBox.Show("Successfully Logged in.", "Login Successful", MessageBoxButton.OK);
+
+            //MessageBox.Show("Successfully Logged in.", "Login Successful", MessageBoxButton.OK);
+
+            {
+                edtAuth.Initialize();
+                var accounts = edtAuth.GetAllAccounts().Result;
+               
+                foreach (var account in accounts) {
+                    //MessageBox.Show($"" +
+                    //    $"{account.Key} \n " +
+                    //    $"{account.Value.Email.ToString()}" +
+                    //    $"{account.Value.Subscription_Start}" +
+                    //    $"{account.Value.Subscription_End}");
+
+                    if (account.Value.Email == _loginViewModel.Email) {
+                        MessageBox.Show($"User: {account.Value.Email} is subscribed until {account.Value.Subscription_End}");
+                    }
+                }
+
+            }
+
+
+            _loginViewModel.SerializUserInfo();
             _authWindow._isLoggedIn = true;
             _authWindow.Close();
 
@@ -35,12 +61,12 @@ public class LoginCommand : AsyncCommandBase
                 MessageBox.Show("This email is not registered. Confirm email and try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
 
             }
-            if (ex.Message.Contains("INVALID_PASSWORD")) {
+            else if (ex.Message.Contains("INVALID_PASSWORD")) {
                 MessageBox.Show("Invalid Password. Confirm password and try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
 
             }
             else {
-                MessageBox.Show("Could not login. Confirm eamil and password and try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Could not login. Confirm email and password and try again.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
         }

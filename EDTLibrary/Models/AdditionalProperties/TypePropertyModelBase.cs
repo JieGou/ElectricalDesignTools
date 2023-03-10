@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EDTLibrary.Models.Equipment;
+namespace EdtLibrary.Models.AdditionalProperties;
 public abstract class PropertyModelBase
 {
     public int Id { get; set; }
@@ -17,10 +17,11 @@ public abstract class PropertyModelBase
     public async Task OnPropertyUpdated(string property = "default", [CallerMemberName] string callerMethod = "")
     {
         if (DaManager.GettingRecords == true) return;
-        if (DaManager.Importing == true) return;
 
-        await Task.Run(() => {
-            if (PropertyUpdated != null) {
+        await Task.Run(() =>
+        {
+            if (PropertyUpdated != null)
+            {
                 PropertyUpdated(this, EventArgs.Empty);
             }
         });

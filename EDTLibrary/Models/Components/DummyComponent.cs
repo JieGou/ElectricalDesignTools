@@ -1,4 +1,5 @@
-﻿using EDTLibrary.Models.Areas;
+﻿using EdtLibrary.Models.AdditionalProperties;
+using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;

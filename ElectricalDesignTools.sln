@@ -22,6 +22,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Edt_Installer", "EdtInstall
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutocadLibrary", "D:\My Drive\Programming\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj", "{DCF42A65-EAF9-4C03-B922-561D64AADB22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireSharp.Library", "FireSharp.Library\FireSharp.Library.csproj", "{7E7ED96C-05D8-446F-865E-283AD614BEFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		All|Any CPU = All|Any CPU
@@ -160,6 +162,24 @@ Global
 		{DCF42A65-EAF9-4C03-B922-561D64AADB22}.Release|x64.Build.0 = Release|Any CPU
 		{DCF42A65-EAF9-4C03-B922-561D64AADB22}.Release|x86.ActiveCfg = Release|Any CPU
 		{DCF42A65-EAF9-4C03-B922-561D64AADB22}.Release|x86.Build.0 = Release|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.All|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.All|Any CPU.Build.0 = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.All|x64.ActiveCfg = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.All|x64.Build.0 = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.All|x86.ActiveCfg = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.All|x86.Build.0 = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Debug|x64.Build.0 = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Debug|x86.Build.0 = Debug|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Release|x64.ActiveCfg = Release|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Release|x64.Build.0 = Release|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Release|x86.ActiveCfg = Release|Any CPU
+		{7E7ED96C-05D8-446F-865E-283AD614BEFE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

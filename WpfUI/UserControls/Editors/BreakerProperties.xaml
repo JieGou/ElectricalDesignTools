@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.UserControls.Editors.DisconnectPropterties"
+﻿<UserControl x:Class="WpfUI.UserControls.Editors.BreakerProperties"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,8 +15,8 @@
              d:DesignHeight="250" d:DesignWidth="300"
              d:Background="AliceBlue"
              Background="Transparent">
-    
-    
+
+
     <Grid Margin="0"
         ShowGridLines="False">
         <Grid.ColumnDefinitions>
@@ -29,13 +29,12 @@
             <RowDefinition Height="10"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="15"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="Auto"/>
+
         </Grid.RowDefinitions>
 
         <Border BorderBrush="Black" BorderThickness="0 1 0 1"
@@ -55,37 +54,35 @@
         </Border>
 
 
-      
-        <!--Fuse Type-->
-        <TextBlock Text="Fuse Type"
+
+        <!--Type-->
+        <TextBlock Text="Breaker Type"
                     Grid.Row="3" Grid.Column="1"
                     Margin="0 3 0 0"
 
                     FontWeight="Normal"
                     TextAlignment="Right"/>
 
-
-        <!--Fuse Type -->
         <ComboBox Grid.Row="3" Grid.Column="3" 
                       Template="{DynamicResource ComboBoxBase}"
                       HorizontalAlignment="Stretch"
                       Margin="0"
-                      ItemsSource="{Binding Path=DataContext.TypeManager.FuseTypes, 
+                      ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTypes, 
                                         Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
                                         RelativeSource={RelativeSource Mode=FindAncestor, 
                                         AncestorType={x:Type Window}}}"
                   
-                  SelectedValue="{Binding PropertyModel.FuseType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedValue="{Binding PropertyModel.BreakerType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                   SelectedValuePath="Type"
                   DisplayMemberPath="Type"
                   IsSynchronizedWithCurrentItem="False"
-                  >
+                      >
             <ComboBox.Style>
                 <Style TargetType="ComboBox">
                     <Setter Property="IsEnabled" Value="False"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                         Value="FDS">
+                                         Value="Breaker">
                             <Setter Property="IsEnabled"  Value="True"/>
                         </DataTrigger>
 
@@ -94,6 +91,19 @@
             </ComboBox.Style>
         </ComboBox>
 
-        
+
+        <!--Breaker Rating-->
+        <TextBlock Text="Breaker Rating"
+                    Grid.Row="4" Grid.Column="1"
+                    Margin="0 3 0 0"
+
+                    FontWeight="Normal"
+                    TextAlignment="Right"/>
+
+        <CheckBox Grid.Row="4" Grid.Column="3"
+                  Content="100% rated"
+                  Margin="0 4"
+                  IsChecked="{Binding PropertyModel.Is100PercentRated}"/>
+
     </Grid>
 </UserControl>

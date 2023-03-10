@@ -1,4 +1,6 @@
-﻿using EDTLibrary.LibraryData;
+﻿using EdtLibrary.Models.AdditionalProperties;
+using EdtLibrary.Models.TypeProperties;
+using EDTLibrary.LibraryData;
 using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Areas;
@@ -8,7 +10,6 @@ using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
 using EDTLibrary.Models.DPanels;
-using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Models.Raceways;
 using System;
