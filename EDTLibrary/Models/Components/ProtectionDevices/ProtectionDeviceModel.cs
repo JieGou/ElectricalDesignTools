@@ -50,6 +50,7 @@ public class ProtectionDeviceModel : ComponentModelBase, IProtectionDevice
             var oldValue = _type;
             _type = value;
 
+            if (DaManager.Importing) return;
             if (DaManager.GettingRecords) return;
 
             if (_type == DisconnectTypes.FDS.ToString() || _type == DisconnectTypes.FWDS.ToString()) {

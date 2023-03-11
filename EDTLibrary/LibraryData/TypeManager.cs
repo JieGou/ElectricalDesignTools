@@ -1,4 +1,5 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EdtLibrary.LibraryData.Voltage;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.Cables;
 using EDTLibrary.LibraryData.Disconnects;
 using EDTLibrary.LibraryData.LocalControlStations;

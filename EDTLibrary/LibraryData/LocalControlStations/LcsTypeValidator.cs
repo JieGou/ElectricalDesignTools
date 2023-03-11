@@ -14,17 +14,17 @@ using System.Linq;
 namespace EDTLibrary.Models.Loads
 {
     [AddINotifyPropertyChangedInterface]
-    public class LcsToAddValidator : INotifyDataErrorInfo
+    public class LcsTypeValidator : INotifyDataErrorInfo
     {
         private ListManager _listManager;
         private IArea _areaModel;
         private IDteq _feedingDteq;
 
-        public LcsToAddValidator()
+        public LcsTypeValidator()
         {
 
         }
-        public LcsToAddValidator(LcsTypeModel lcsToAdd)
+        public LcsTypeValidator(LcsTypeModel lcsToAdd)
         {
 
             Type = lcsToAdd.Type;

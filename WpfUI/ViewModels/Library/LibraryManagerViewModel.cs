@@ -24,7 +24,7 @@ namespace WpfUI.ViewModels.Library
 
         public LibraryManagerViewModel()
         {
-            LcsToAddValidator = new LcsToAddValidator();
+            LcsToAddValidator = new LcsTypeValidator();
 
 
             //Commands
@@ -34,7 +34,7 @@ namespace WpfUI.ViewModels.Library
 
 
         private ArrayList _dataTableList = new ArrayList();
-        public LcsToAddValidator LcsToAddValidator { get; set; }
+        public TypeValidatorBase LcsToAddValidator { get; set; }
 
         public ArrayList DataTableList
         {

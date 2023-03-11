@@ -1,5 +1,5 @@
-﻿using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData.TypeModels;
+﻿using EdtLibrary.LibraryData.Voltage;
+using EDTLibrary.DataAccess;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;

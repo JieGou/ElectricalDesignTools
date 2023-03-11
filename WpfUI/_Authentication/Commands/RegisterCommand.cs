@@ -37,7 +37,8 @@ public class RegisterCommand : AsyncCommandBase
             await _firebaseAuthProvider.CreateUserWithEmailAndPasswordAsync(
                 _registerViewModel.Email,
                 password,
-                _registerViewModel.Username);
+                _registerViewModel.Username,
+                sendVerificationEmail:true);
 
 
             {

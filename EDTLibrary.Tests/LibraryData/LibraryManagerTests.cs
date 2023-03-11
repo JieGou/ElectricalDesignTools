@@ -1,6 +1,6 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EdtLibrary.LibraryData.Voltage;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
-using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Loads;
 using System;
 using System.Collections.Generic;

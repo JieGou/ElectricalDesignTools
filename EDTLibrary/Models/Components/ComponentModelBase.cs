@@ -72,6 +72,7 @@ public abstract class ComponentModelBase : IComponentEdt
         set 
         {
             _propertyModel = value; 
+            PropertyModelId = _propertyModel.Id;
         }
     }
     private PropertyModelBase _propertyModel;
@@ -86,6 +87,7 @@ public abstract class ComponentModelBase : IComponentEdt
             var oldValue = _type;
             _type = value;
 
+            if (DaManager.Importing) return;
             if (DaManager.GettingRecords) return;
 
             UndoManager.Lock(this, nameof(Type));

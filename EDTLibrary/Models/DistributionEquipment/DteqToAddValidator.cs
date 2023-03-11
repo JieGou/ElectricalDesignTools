@@ -1,5 +1,5 @@
-﻿using EDTLibrary.A_Helpers;
-using EDTLibrary.LibraryData.TypeModels;
+﻿using EdtLibrary.LibraryData.Voltage;
+using EDTLibrary.A_Helpers;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Loads;

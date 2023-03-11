@@ -1,9 +1,9 @@
-﻿using EdtLibrary.Managers;
+﻿using EdtLibrary.LibraryData.Voltage;
+using EdtLibrary.Managers;
 using EdtLibrary.Settings;
 using EDTLibrary.Calculators;
 using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
-using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
