@@ -166,19 +166,19 @@ namespace EDTLibrary.DataAccess
                 sb.Append(")");
                 sb.Replace("( ", "(");
 
-                cnn.Execute(sb.ToString() + ";", classObject);
-                return new Tuple<bool, string>(true, "");
+                //cnn.Execute(sb.ToString() + ";", classObject);
+                //return new Tuple<bool, string>(true, "");
 
-                //try {
-                //    cnn.Execute(sb.ToString() + ";", classObject);
-                //    return new Tuple<bool, string>(true, "");
-                //}
-                //catch (Exception ex) {
-                //    //throw new Exception("Could not add record");
-                //    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
-                //        $"Query: \n{sb}\n\n" +
-                //        $"Details: \n\n {ex}"); ;
-                //}
+                try {
+                    cnn.Execute(sb.ToString() + ";", classObject);
+                    return new Tuple<bool, string>(true, "");
+                }
+                catch (Exception ex) {
+                    //throw new Exception("Could not add record");
+                    return new Tuple<bool, string>(false, $"Error: \n{ex.Message}\n\n" +
+                        $"Query: \n{sb}\n\n" +
+                        $"Details: \n\n {ex}"); ;
+                }
             }
         }
         public int InsertRecordGetId<T>(T classObject, string tableName, List<string> propertiesToIgnore) where T : class, new()

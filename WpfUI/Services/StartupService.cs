@@ -1,6 +1,4 @@
-﻿using EdtLibrary.LibraryData.Voltage;
-using EDTLibrary.DataAccess;
-using EDTLibrary.LibraryData;
+﻿using EDTLibrary.DataAccess;
 using EDTLibrary.Managers;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Settings;
@@ -46,6 +44,8 @@ namespace WpfUI.Services
             //AppSettings.Default.Save();
 
             _libraryFile = Path.Combine(Environment.CurrentDirectory, @"ContentFiles\", _libraryFile);
+
+
             _projectFile = Path.Combine(Environment.CurrentDirectory, @"ContentFiles\", _projectFile);
 
             if (AppSettings.Default.FirstStartup == true) {
@@ -72,13 +72,16 @@ namespace WpfUI.Services
         public void InitializeLibrary()
         {
             _libraryFile = AppSettings.Default.LibraryDb;
+#if DEBUG
+            _libraryFile = Path.Combine(@"C:\C - Visual Studio Projects\Electrical Design Tools\WpfUI\ContentFiles\Edt Data Library.edl");
+#endif
 
             if (File.Exists(_libraryFile)) {
                 libDb = new SQLiteConnector(_libraryFile);
                 DaManager.SetLibraryDb(new SQLiteConnector(_libraryFile));
 
                 LoadLibraryDb();
-                TypeManager.VoltageTypes = libDb.GetRecords<VoltageType>("VoltageTypes");
+                //TypeManager.VoltageTypes = libDb.GetRecords<VoltageType>("VoltageTypes");
                 LibraryFile = _libraryFile;
                 
             }

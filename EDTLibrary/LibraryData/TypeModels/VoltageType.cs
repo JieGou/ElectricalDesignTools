@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
-namespace EdtLibrary.LibraryData.Voltage
+namespace EdtLibrary.LibraryData.TypeModels
 {
-    public class VoltageType
+    public class VoltageType : UserEditableTypeBase
     {
-        public int Id { get; set; }
         public double Voltage
         {
             get;
             set;
         }
         public double Phase { get; set; }
+        public double Frequency { get; set; }
+
+        [DisplayName("Display Text")]
+        [Description("Display Text")]
         public string VoltageString
         {
             get;
@@ -20,9 +24,8 @@ namespace EdtLibrary.LibraryData.Voltage
         }
         public int Poles { get; set; }
 
-        public override string ToString()
-        {
-            return VoltageString;
-        }
+
+
+
     }
 }

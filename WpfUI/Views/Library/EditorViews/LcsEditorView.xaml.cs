@@ -13,13 +13,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.Library.AdderViews;
+namespace WpfUI.Views.Library.EditorViews;
 /// <summary>
 /// Interaction logic for AddLcsView.xaml
 /// </summary>
-public partial class AddLcsView : UserControl
+public partial class LcsEditorView : UserControl
 {
-    public AddLcsView()
+    public LcsEditorView()
     {
         InitializeComponent();
     }

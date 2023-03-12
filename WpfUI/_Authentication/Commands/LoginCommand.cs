@@ -20,7 +20,7 @@ public class LoginCommand : AsyncCommandBase
         _authWindow = authWindow;
     }
 
-    EdtAuthorization edtAuth = new EdtAuthorization();
+    EdtAuthorization _edtAuth = new EdtAuthorization();
 
     public UserAccount _userAccount { get; set; }
     protected override async Task ExecuteAsync(object parameter)
@@ -33,8 +33,8 @@ public class LoginCommand : AsyncCommandBase
             //MessageBox.Show("Successfully Logged in.", "Login Successful", MessageBoxButton.OK);
 
             {
-                edtAuth.Initialize();
-                var accounts = edtAuth.GetAllAccounts().Result;
+                _edtAuth.Initialize();
+                var accounts = _edtAuth.GetAllAccounts().Result;
                
                 foreach (var account in accounts) {
                     //MessageBox.Show($"" +

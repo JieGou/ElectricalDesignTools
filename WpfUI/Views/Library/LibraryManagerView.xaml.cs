@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -38,6 +40,9 @@ namespace WpfUI.Views.Library
             if (e.PropertyName == "Id") {
                 e.Cancel = true;
             }
+
+            e.Column.Header = ((PropertyDescriptor)e.PropertyDescriptor).DisplayName;
+
 
         }
 

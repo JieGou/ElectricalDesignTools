@@ -1,15 +1,15 @@
-﻿using FireSharp.Core;
-using FireSharp.Core.Config;
-using FireSharp.Core.Interfaces;
-using FireSharp.Core.Response;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
+using FireSharp.Config;
+using FireSharp.Interfaces;
+using FireSharp.Response;
+using Newtonsoft.Json;
 
 namespace FireSharp.Library
 {
-
+   
 
     public class EdtAuthorization
     {
@@ -29,7 +29,7 @@ namespace FireSharp.Library
         {
             try {
 
-                _client = new FirebaseClient(_config);
+                _client = new FireSharp.FirebaseClient(_config);
                 if (_client != null) {
                 }
             }

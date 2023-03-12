@@ -47,10 +47,12 @@ Library
 
 
 Library Editor
+	- Deletable
+
 	- Control Station Types
-	- Cable Types
-	- voltage Types
+	- Voltage Types
 	- Motor Data editor
+	- Cable Types
 	- AIC
 	- SCCR
 

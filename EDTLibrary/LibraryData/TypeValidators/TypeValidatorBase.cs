@@ -1,8 +1,4 @@
-﻿using EDTLibrary.LibraryData;
-using EDTLibrary.LibraryData.LocalControlStations;
-using EDTLibrary.Managers;
-using EDTLibrary.Models.Areas;
-using EDTLibrary.Models.DistributionEquipment;
+﻿using EdtLibrary.LibraryData.TypeModels;
 using PropertyChanged;
 using System;
 using System.Collections;
@@ -11,22 +7,50 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
-namespace EDTLibrary.Models.Loads
+namespace EdtLibrary.LibraryData.TypeValidators
 {
     [AddINotifyPropertyChangedInterface]
     public class TypeValidatorBase : INotifyDataErrorInfo
     {
 
 
+        public int Id { get; set; }
 
-        private bool _isValid;
+        private bool _isValid { get; set; }
         public virtual bool IsValid()
         {
-          
-            if (_isValid && HasErrors == false) {
+
+            if (_isValid && HasErrors == false)
+            {
                 return true;
             }
             return false;
+        }
+
+        public UserEditableTypeBase CreateType(UserEditableTypeBase typeObject)
+        {
+
+            var objectProperties = typeObject.GetType().GetProperties();
+            var validatorProperties = GetType().GetProperties();
+
+
+            foreach (var objectProp in objectProperties)
+            {
+
+                foreach (var validatorProp in validatorProperties)
+                {
+                    if (objectProp.Name == validatorProp.Name)
+                    {
+                        objectProp.SetValue(typeObject, Convert.ChangeType(validatorProp.GetValue(this), objectProp.PropertyType));
+                        var value = validatorProp.GetValue(this);
+                        value = new string("asdf");
+                    }
+
+                }
+            }
+            typeObject.AddedByUser = true;
+            typeObject.LastEdited = DateTime.UtcNow;
+            return typeObject;
         }
 
 
@@ -38,7 +62,8 @@ namespace EDTLibrary.Models.Loads
 
         public void ClearErrors()
         {
-            foreach (var item in _errorDict) {
+            foreach (var item in _errorDict)
+            {
                 string errorType = item.Key;
                 ClearErrors(errorType);
                 OnErrorsChanged(errorType);
@@ -52,7 +77,8 @@ namespace EDTLibrary.Models.Loads
 
         public void AddError(string propertyName, string errorMessage)
         {
-            if (!_errorDict.ContainsKey(propertyName)) { // check if error Key exists
+            if (!_errorDict.ContainsKey(propertyName))
+            { // check if error Key exists
                 _errorDict.Add(propertyName, new ObservableCollection<string>()); // create if not
             }
             _errorDict[propertyName].Add(errorMessage); //add error message to list of error messages

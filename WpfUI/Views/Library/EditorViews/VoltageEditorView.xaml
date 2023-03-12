@@ -1,0 +1,162 @@
+﻿<UserControl x:Class="WpfUI.Views.Library.EditorViews.VoltageEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"             
+             
+             xmlns:local="clr-namespace:WpfUI.Views.Library.EditorViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="775"
+             d:Background="AliceBlue"
+             >
+
+    <UserControl.Resources>
+
+        <sys:Double x:Key="ControlCornerRadiusValue">3</sys:Double>
+
+        <x:Array x:Key="Phases" Type="{x:Type sys:Double}">
+            <sys:Double>1</sys:Double>
+            <sys:Double>3</sys:Double>
+        </x:Array>
+
+        <x:Array x:Key="Frequencies" Type="{x:Type sys:Double}">
+            <sys:Double>60</sys:Double>
+            <sys:Double>50</sys:Double>
+        </x:Array>
+
+        <x:Array x:Key="Poles" Type="{x:Type sys:Int32}">
+            <sys:Int32>1</sys:Int32>
+            <sys:Int32>2</sys:Int32>
+            <sys:Int32>3</sys:Int32>
+            <sys:Int32>4</sys:Int32>
+        </x:Array>
+
+    </UserControl.Resources>
+
+
+    <!--ADD EQUIPMENT-->
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="150"/>
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Add / Edit Voltages in Library"
+                   Grid.ColumnSpan="10" 
+                   Margin="5"
+                   />
+
+        <!--ADD LOAD-->
+        <!--Tags-->
+        <TextBlock Text="Voltage Value"
+                   Grid.Row="1" Grid.Column="2" 
+                   Margin="5"
+                   FontSize="10" />
+
+        <TextBlock Text="Phases"
+                   Grid.Row="1" Grid.Column="3" 
+                   Margin="5"
+                   FontSize="10" />
+
+
+        <TextBlock Text="Frequency"
+                   Grid.Row="1" Grid.Column="4" 
+                   Margin="5"
+                   FontSize="10" />
+
+        <TextBlock Text="Poles"
+                   Grid.Row="1" Grid.Column="5"
+                   Margin="5"
+                   FontSize="10"/>
+
+        <TextBlock Text="Display Text"
+                   Grid.Row="1" Grid.Column="6" 
+                   Margin="5"
+                   FontSize="10" />
+
+
+
+        <!--ADD DTEQ-->
+        <!--Text/Combo Boxes-->
+        <TextBox Grid.Row="2" Grid.Column="2"
+                 Height="23"
+                 Text="{Binding Voltage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="5,0,5,0" VerticalAlignment="Top">
+        </TextBox>
+
+
+        <ComboBox Grid.Row="2" Grid.Column="3"
+                  Height="23"
+                  ItemsSource="{StaticResource Phases}"
+                  SelectedValue="{Binding Phase}"
+                  Text="{Binding Phases, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Margin="5,0,5,0" VerticalAlignment="Top">
+        </ComboBox>
+
+
+        <ComboBox Grid.Row="2" Grid.Column="4"
+                  Height="23"
+                  ItemsSource="{StaticResource Frequencies}"
+                  SelectedValue="{Binding Frequency, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Margin="5,0,5,0" VerticalAlignment="Top">
+        </ComboBox>
+
+
+        <ComboBox Grid.Row="2" Grid.Column="5"
+                  Height="23"
+                  ItemsSource="{StaticResource Poles}"
+                  SelectedValue="{Binding Poles}"
+                  Text="{Binding Poles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Margin="5,0,5,0" VerticalAlignment="Top">
+        </ComboBox>
+
+
+        <TextBox Grid.Row="2" Grid.Column="6"
+                 Height="23"
+                 Text="{Binding VoltageString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="5,0,5,0" VerticalAlignment="Top"
+                 />
+
+
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3"
+                    Margin="0 15">
+            <Button Content="Add New" Height="23" Width="100"
+                    DataContext="{Binding DataContext, RelativeSource={RelativeSource  AncestorType=UserControl, AncestorLevel=2}}"
+                    Command="{Binding AddVoltageCommand}"
+                    CommandParameter="Add"
+                    Visibility="Visible"
+                    Margin="5 25 0 0"/>
+
+            <Button Content="Update Existing" Height="23" Width="100"
+                    DataContext="{Binding DataContext, RelativeSource={RelativeSource  AncestorType=UserControl, AncestorLevel=2}}"
+                    Command="{Binding AddVoltageCommand}"
+                    CommandParameter="Edit"
+                    Visibility="Visible"
+                    Margin="25 25 0 0"/>
+
+            <Button Content="Delete" Height="23" Width="100"
+                    DataContext="{Binding DataContext, RelativeSource={RelativeSource  AncestorType=UserControl, AncestorLevel=2}}"
+                    Command="{Binding AddVoltageCommand}"
+                    CommandParameter="Delete"
+                    Visibility="Visible"
+                    Margin="25 25 0 0"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

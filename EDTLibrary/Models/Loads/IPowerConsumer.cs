@@ -1,4 +1,4 @@
-﻿using EdtLibrary.LibraryData.Voltage;
+﻿using EdtLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Components.ProtectionDevices;

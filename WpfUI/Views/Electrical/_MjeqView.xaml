@@ -579,7 +579,9 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                     <DataGridTemplateColumn.CellEditingTemplate>
                                         <DataTemplate>
-                                            <ComboBox ItemsSource="{Binding DataContext.ListManager.AreaList, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+                                            <ComboBox ItemsSource="{Binding DataContext.ListManager.AreaList, Mode=TwoWay, 
+                                                                            RelativeSource={RelativeSource AncestorType={x:Type 
+                                                                            UserControl}, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
                                                   SelectedItem="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                   DisplayMemberPath="Tag"
                                                   Text="{Binding Area.Tag}"

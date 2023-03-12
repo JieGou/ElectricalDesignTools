@@ -1,5 +1,5 @@
 ﻿using EdtLibrary.Commands;
-using EdtLibrary.LibraryData.Voltage;
+using EdtLibrary.LibraryData.TypeModels;
 using EdtLibrary.Managers;
 using EdtLibrary.Settings;
 using EDTLibrary.Calculators;

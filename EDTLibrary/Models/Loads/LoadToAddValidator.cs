@@ -1,4 +1,4 @@
-﻿using EdtLibrary.LibraryData.Voltage;
+﻿using EdtLibrary.LibraryData.TypeModels;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.Areas;

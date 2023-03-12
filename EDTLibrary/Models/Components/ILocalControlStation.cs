@@ -1,4 +1,4 @@
-﻿using EDTLibrary.LibraryData.LocalControlStations;
+﻿using EdtLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Areas;
 using EDTLibrary.Models.Cables;
 using EDTLibrary.Models.Equipment;

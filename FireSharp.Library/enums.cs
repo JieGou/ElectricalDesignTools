@@ -1,6 +1,6 @@
 ﻿namespace FireSharp.Library
 {
-    public partial class EdtAuthorization
+    public class enums
     {
         public enum AccessLevel
         {

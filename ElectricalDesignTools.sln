@@ -22,7 +22,7 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Edt_Installer", "EdtInstall
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutocadLibrary", "D:\My Drive\Programming\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj", "{DCF42A65-EAF9-4C03-B922-561D64AADB22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FireSharp.Library", "FireSharp.Library\FireSharp.Library.csproj", "{7E7ED96C-05D8-446F-865E-283AD614BEFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireSharp.Library", "FireSharp.Library\FireSharp.Library.csproj", "{7E7ED96C-05D8-446F-865E-283AD614BEFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
