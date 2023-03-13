@@ -71,20 +71,21 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3"
                     Margin="0 15">
-            <Button Content="Add Lcs" Height="23" Width="100"
+            <Button Content="Add New" Height="23" Width="100"
                     DataContext="{Binding DataContext, RelativeSource={RelativeSource  AncestorType=UserControl, AncestorLevel=2}}"
-                    Command="{Binding AddLcsCommand}"
-                   CommandParameter="Add"
-                    Visibility="Visible"
+                    Command="{Binding AddCommand}"
                     Margin="5 25 0 0"/>
 
             <Button Content="Update Existing" Height="23" Width="100"
                     DataContext="{Binding DataContext, RelativeSource={RelativeSource  AncestorType=UserControl, AncestorLevel=2}}"
-                    Command="{Binding AddLcsCommand}"
-                    CommandParameter="Edit"
-                    Visibility="Visible"
+                    Command="{Binding EditCommand}"
                     Margin="25 25 0 0"/>
-            
+
+            <Button Content="Delete" Height="23" Width="100"
+                    DataContext="{Binding DataContext, RelativeSource={RelativeSource  AncestorType=UserControl, AncestorLevel=2}}"
+                    Command="{Binding DeleteCommand}"
+                    Margin="25 25 0 0"/>
+
         </StackPanel>
 
     </Grid>

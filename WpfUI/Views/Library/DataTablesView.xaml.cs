@@ -11,7 +11,7 @@ namespace WpfUI.Views.Library
     /// </summary>
     public partial class DataTablesView : UserControl
     {
-        private DataTablesViewModel dataTableVm { get { return DataContext as DataTablesViewModel; } }
+        private DataTablesViewModel vm { get { return DataContext as DataTablesViewModel; } }
 
         public DataTablesView()
         {
@@ -43,8 +43,8 @@ namespace WpfUI.Views.Library
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            if (dataTableVm != null) {
-                dataTableVm.GetDataTables();
+            if (vm != null) {
+                vm.GetDataTables();
             }
         }
     }

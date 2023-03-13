@@ -100,7 +100,7 @@
             </MenuItem.Icon>
             <MenuItem Header="Add Disconnect"   Command="{Binding AddDisconnectCommand}" />
             <MenuItem Header="Add Drive"  Command="{Binding AddDriveCommand}" />
-            <MenuItem Header="Add LCS"   Command="{Binding AddLcsCommand}"/>
+            <MenuItem Header="Add LCS"   Command="{Binding AddCommand}"/>
         </MenuItem>
         
         <!--Remove-->

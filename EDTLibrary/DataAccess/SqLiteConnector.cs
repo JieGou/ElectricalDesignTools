@@ -561,6 +561,7 @@ namespace EDTLibrary.DataAccess
                 try {
 
                     SQLiteDataAdapter dataAdapter = new SQLiteDataAdapter($"SELECT * FROM {tableName}", ConString);
+                    if (dataAdapter == null) return dt;
                     dataAdapter.Fill(dt);
                     dt.TableName = tableName;
                     return dt;

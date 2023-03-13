@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EDTLibrary.LibraryData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,15 +25,19 @@ public class VoltageTypeValidator : TypeValidatorBase
         {
             _voltage = value;
             _isValid = true;
+
             ClearErrors(nameof(Voltage));
-            if (_voltage <= 0)
+            if (value <= 0)
             {
                 AddError(nameof(Voltage), "Invalid value.");
                 _isValid = false;
             }
-
+            BuildVoltageString();
+            ValidateValues();
         }
     }
+    
+    
     private double _voltage;
 
     public double Phase
@@ -41,6 +46,15 @@ public class VoltageTypeValidator : TypeValidatorBase
         set
         {
             _phase = value;
+            _isValid = true;
+
+            ClearErrors(nameof(Phase));
+            if (value == null || value == 0) {
+                AddError(nameof(Phase), "Invalid value.");
+                _isValid = false;
+            }
+            BuildVoltageString();
+            ValidateValues();
         }
     }
     private double _phase;
@@ -50,7 +64,20 @@ public class VoltageTypeValidator : TypeValidatorBase
     public double Frequency
     {
         get { return _frequency; }
-        set { _frequency = value; }
+        set
+        { 
+            _frequency = value;
+
+            _isValid = true;
+
+            ClearErrors(nameof(Frequency));
+            if (value == null || value == 0) {
+                AddError(nameof(Frequency), "Invalid value.");
+                _isValid = false;
+            }
+            BuildVoltageString();
+            ValidateValues();
+        }
     }
     private double _frequency;
 
@@ -61,26 +88,51 @@ public class VoltageTypeValidator : TypeValidatorBase
         set
         {
             _poles = value;
+
+            _isValid = true;
+
+            ClearErrors(nameof(Poles));
+            if (value == null || value == 0) {
+                AddError(nameof(Poles), "Invalid value.");
+                _isValid = false;
+            }
+            BuildVoltageString();
+            ValidateValues();
+
         }
     }
     private int _poles;
 
 
-    private bool _isValid { get; set; }
+    private bool _isValid;
 
     public override bool IsValid()
     {
+        ValidateValues();
 
-        string temp;
-        string fake = "fake";
-
-
-
-
-        if (_isValid && HasErrors == false)
-        {
+        if (_isValid && HasErrors == false) {
             return true;
         }
         return false;
+    }
+
+    private void BuildVoltageString()
+    {
+        VoltageString = $"{Voltage}-{Phase}-{Frequency}";
+    }
+
+    private void ValidateValues()
+    {
+        //var _voltageTypeValidationString = $"{Voltage}-{Phase}-{Frequency}-{Poles}";
+        //var existingVoltageType = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Voltage == Voltage &&
+        //                                                                        vt.Phase == Phase &&
+        //                                                                        vt.Frequency == Frequency &&
+        //                                                                        vt.Poles == Poles);
+        //ClearErrors(nameof(Voltage));
+
+        //if (existingVoltageType != null) {
+        //    _isValid = false;
+        //    AddError(nameof(Voltage), "This voltage type is already in the library.");
+        //}
     }
 }

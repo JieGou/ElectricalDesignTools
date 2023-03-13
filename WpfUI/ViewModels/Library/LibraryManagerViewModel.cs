@@ -3,13 +3,20 @@ using EdtLibrary.LibraryData.TypeModels;
 using EdtLibrary.LibraryData.TypeValidators;
 using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData;
+using Syncfusion.UI.Xaml.Diagram;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Windows.Data;
+using System.Windows.Forms.Integration;
 using System.Windows.Input;
+using Windows.Data.Xml.Dom;
 using WpfUI.Commands;
+using WpfUI.Converters;
 using WpfUI.Helpers;
 
 namespace WpfUI.ViewModels.Library
@@ -20,20 +27,47 @@ namespace WpfUI.ViewModels.Library
         public LibraryManagerViewModel()
         {
 
+
             //Commands
-            GetDataTablesCommand = new RelayCommand(GetDataTables);
-            AddLcsCommand = new RelayCommand(AddLcs);
-            AddVoltageCommand = new RelayCommand(AddVoltage);
+            AddCommand = new RelayCommand(Add);
+            EditCommand = new RelayCommand(Edit);
+            DeleteCommand = new RelayCommand(Delete);
+
         }
 
 
-        private ArrayList _dataTableList = new ArrayList();
+        private ObservableCollection<string> _dataTableList = new ObservableCollection<string>();
 
         public TypeValidatorBase TypeValidator { get; set; }
-        public ArrayList DataTableList
+        public ObservableCollection<string> DataTableList 
         {
             get { return _dataTableList; }
             set { _dataTableList = value; }
+        }
+        public void GetDataTables()
+        {
+            var dataTablesList = DaManager.libDb.GetListOfTablesNamesInDb();
+            foreach (var dataTable in dataTablesList) {
+                DataTableList.Add(dataTable.ToString());
+            }
+
+        }
+        private ListCollectionView _filteredOptions;
+        public ListCollectionView FilteredOptions
+        {
+            get 
+            { 
+                if (_filteredOptions == null) {
+                    _filteredOptions = new ListCollectionView(DataTableList);
+                }
+                return _filteredOptions;
+
+            }
+            set
+            {
+                _filteredOptions = value;
+                
+            }
         }
 
         public DataTable DataTableToLoad
@@ -51,9 +85,14 @@ namespace WpfUI.ViewModels.Library
                 DataTableToLoad = DaManager.libDb.GetDataTable(_selectedDataTable);
                 if (_selectedDataTable == "LocalControlStationTypes") {
                     TypeValidator = new LcsTypeValidator();
+                    ModelType = typeof(LcsTypeModel);
+                    TypeList = TypeManager.LcsTypes;
                 }
                 else if (_selectedDataTable == "VoltageTypes") {
                     TypeValidator = new VoltageTypeValidator();
+                    ModelType = typeof(VoltageType);
+                    TypeList = TypeManager.VoltageTypes;
+
                 }
                 else 
                 {
@@ -63,7 +102,8 @@ namespace WpfUI.ViewModels.Library
         }
         string _selectedDataTable;
 
-
+        public Type ModelType { get; set; }
+        public dynamic TypeList { get; set; }
         public object SelectedTypeDataRow
         {
             get { return _selectedTypeDataRow; }
@@ -112,11 +152,7 @@ namespace WpfUI.ViewModels.Library
             }
         }
 
-        public ICommand GetDataTablesCommand { get; }
-        public void GetDataTables()
-        {
-            DataTableList = DaManager.libDb.GetListOfTablesNamesInDb();
-        }
+        
 
 
         private void ReloadDataTable()
@@ -145,8 +181,8 @@ namespace WpfUI.ViewModels.Library
         }
 
 
-        public ICommand AddLcsCommand { get; }
-        public void AddLcs(object addOrEdit)
+        public ICommand AddCommand { get; }
+        public void Add(object addOrEdit)
         {
             try {
                 var IsValid = TypeValidator.IsValid(); //to help debug
@@ -154,19 +190,11 @@ namespace WpfUI.ViewModels.Library
 
                 if (IsValid) {
 
-                    if (addOrEdit.ToString() == "Add") {
-                        var typeToAdd = TypeValidator.CreateType(new LcsTypeModel());
-                        TypeManager.LcsTypes.Add((LcsTypeModel)typeToAdd);
-                        typeToAdd.Id = DaManager.libDb.InsertRecordGetId((LcsTypeModel)typeToAdd, SelectedDataTable, new List<string>());
-                    }
-                    else if (addOrEdit.ToString() == "Edit") {
-                        var typeToUpdate = TypeManager.LcsTypes.FirstOrDefault(t => t.Id == TypeValidator.Id);
-                        CloneAndAddTimeStamp(TypeValidator, typeToUpdate);
-                        DaManager.libDb.UpsertRecord(typeToUpdate, SelectedDataTable, new List<string>());
-                    }
-                    else if (addOrEdit.ToString() == "Delete") {
-                        
-                    }
+                    dynamic instanceToAdd = Activator.CreateInstance(ModelType);
+                    instanceToAdd = TypeValidator.CreateType(instanceToAdd);
+                    TypeList.Add(instanceToAdd);
+                    instanceToAdd.Id = DaManager.libDb.InsertRecordGetId(instanceToAdd, SelectedDataTable, new List<string>());
+
                     ReloadDataTable();
                 }
             }
@@ -175,43 +203,65 @@ namespace WpfUI.ViewModels.Library
             }
         }
 
-        public ICommand AddVoltageCommand { get; }
+        public ICommand EditCommand { get; }
 
-
-
-        public void AddVoltage(object addOrEdit)
+        public void Edit(object addOrEdit)
         {
             try {
                 var IsValid = TypeValidator.IsValid(); //to help debug
                 var errors = TypeValidator._errorDict; //to help debug
 
-                if (IsValid) {                                        
+                if (IsValid) {
 
-                    if (addOrEdit.ToString() == "Add") {
-                        var typeToAdd = TypeValidator.CreateType(new VoltageType());
-                        TypeManager.VoltageTypes.Add((VoltageType)typeToAdd);
-                        typeToAdd.Id =  DaManager.libDb.InsertRecordGetId((VoltageType)typeToAdd, SelectedDataTable, new List<string>());
+                    dynamic instanceToUpdate = null;
+                    foreach (dynamic item in TypeList) {
+                        if (item.Id == TypeValidator.Id) {
+                            instanceToUpdate = item; 
+                            break;
+                        }
                     }
-                    else if (addOrEdit.ToString() == "Edit") {
-                        var typeToUpdate = TypeManager.VoltageTypes.FirstOrDefault(vt => vt.Id == TypeValidator.Id);
-                        CloneAndAddTimeStamp(TypeValidator, typeToUpdate);
-                        DaManager.libDb.UpsertRecord(typeToUpdate, SelectedDataTable, new List<string>());
 
-                    }
-                    else if (addOrEdit.ToString() == "Delete") {
+                    if (instanceToUpdate == null) return;
 
-                    }
+                    CloneAndAddTimeStamp(TypeValidator, instanceToUpdate);
+                    DaManager.libDb.UpsertRecord(instanceToUpdate, SelectedDataTable, new List<string>());
+                
+
                     ReloadDataTable();
-
                 }
-
             }
             catch (Exception ex) {
                 NotificationHandler.ShowErrorMessage(ex);
             }
         }
 
+        public ICommand DeleteCommand { get; }
+        public void Delete()
+        {
+            try {
+                var IsValid = TypeValidator.IsValid(); //to help debug
+                var errors = TypeValidator._errorDict; //to help debug
 
-        
+                dynamic instanceToDelete = null;
+                foreach (dynamic instance in TypeList) {
+                    if (instance.Id == TypeValidator.Id) {
+                        instanceToDelete = instance;
+                        break;
+                    }
+                }
+                if (instanceToDelete == null) return;
+
+                if (instanceToDelete.AddedByUser == true) { 
+                    TypeList.Remove(instanceToDelete);
+                    DaManager.libDb.DeleteRecord(SelectedDataTable, instanceToDelete.Id);
+                }
+                
+                ReloadDataTable();
+                }
+            
+            catch (Exception ex) {
+                NotificationHandler.ShowErrorMessage(ex);
+            }
+        }
     }
 }

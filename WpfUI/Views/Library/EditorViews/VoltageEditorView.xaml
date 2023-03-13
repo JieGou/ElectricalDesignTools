@@ -41,7 +41,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="100"/>
             <ColumnDefinition Width="100"/>
@@ -125,36 +125,33 @@
         </ComboBox>
 
 
-        <TextBox Grid.Row="2" Grid.Column="6"
-                 Height="23"
-                 Text="{Binding VoltageString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="5,0,5,0" VerticalAlignment="Top"
+        <Border Grid.Row="2" Grid.Column="6" >
+            <TextBox Grid.Row="2" Grid.Column="6"
+                       Text="{Binding VoltageString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Height="23"
+                       FontSize="12"
+                       Margin="5,0,5,0" VerticalAlignment="Top"
                  />
+        </Border>
 
 
 
         <StackPanel Orientation="Horizontal"
-                    Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3"
+                    Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="5"
                     Margin="0 15">
             <Button Content="Add New" Height="23" Width="100"
                     DataContext="{Binding DataContext, RelativeSource={RelativeSource  AncestorType=UserControl, AncestorLevel=2}}"
-                    Command="{Binding AddVoltageCommand}"
-                    CommandParameter="Add"
-                    Visibility="Visible"
+                    Command="{Binding AddCommand}"
                     Margin="5 25 0 0"/>
 
             <Button Content="Update Existing" Height="23" Width="100"
                     DataContext="{Binding DataContext, RelativeSource={RelativeSource  AncestorType=UserControl, AncestorLevel=2}}"
-                    Command="{Binding AddVoltageCommand}"
-                    CommandParameter="Edit"
-                    Visibility="Visible"
+                    Command="{Binding EditCommand}"
                     Margin="25 25 0 0"/>
 
             <Button Content="Delete" Height="23" Width="100"
                     DataContext="{Binding DataContext, RelativeSource={RelativeSource  AncestorType=UserControl, AncestorLevel=2}}"
-                    Command="{Binding AddVoltageCommand}"
-                    CommandParameter="Delete"
-                    Visibility="Visible"
+                    Command="{Binding DeleteCommand}"
                     Margin="25 25 0 0"/>
         </StackPanel>
 

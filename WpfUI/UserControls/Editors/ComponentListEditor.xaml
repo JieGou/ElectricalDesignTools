@@ -218,9 +218,10 @@
     
             <!--Local Control Station-->
             <Grid Grid.Row="6"  Grid.RowSpan="2"
-                      Grid.Column="0" Grid.ColumnSpan="3"
-                      HorizontalAlignment="Left"
-                      Visibility="{Binding LcsBool, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}">
+                  Grid.Column="0" Grid.ColumnSpan="3"
+                  HorizontalAlignment="Left"
+                  IsEnabled="{Binding LcsBool}"
+                  >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
@@ -256,7 +257,8 @@
 
                 <!--Lcs Types-->
                 <StackPanel Orientation="Horizontal" 
-                            Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" >
+                            Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" 
+                            >
                     <TextBlock Text="Type"
                                Grid.Row="1" Grid.Column="0" 
                                Width="40"/>

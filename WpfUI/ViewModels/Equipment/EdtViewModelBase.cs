@@ -68,7 +68,7 @@ public abstract class EdtViewModelBase: ViewModelBase
 
         AddDisconnectCommand = new RelayCommand(AddDisconnect);
         AddDriveCommand = new RelayCommand(AddDrive);
-        AddLcsCommand = new RelayCommand(AddLcs);
+        AddCommand = new RelayCommand(AddLcs);
 
         RemoveDisconnectCommand = new RelayCommand(RemoveDisconnect);
         RemoveDriveCommand = new RelayCommand(RemoveDrive);
@@ -549,7 +549,7 @@ public abstract class EdtViewModelBase: ViewModelBase
         }));
     }
 
-    public ICommand AddLcsCommand { get; }
+    public ICommand AddCommand { get; }
     private void AddLcs()
     {
         AddLcsAsync();
