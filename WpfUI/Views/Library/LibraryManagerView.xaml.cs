@@ -53,28 +53,6 @@ namespace WpfUI.Views.Library
             }
         }
 
-        private void txtFilter_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            vm.FilteredOptions.Filter = (dt) => {
-                if (dt != null)
-                // If filter is turned on, filter completed items.
-                {
-                    if (dt == null) {
-                        return true;
-                    }
-                    else if (dt.ToString().ToLower().Contains(txtFilter.Text.ToLower())
-                            
-                            ) {
-                        return true;
-
-                    }
-                    else {
-                        return false;
-                    }
-                }
-                return false;
-            };
-
-        }
+        
     }
 }

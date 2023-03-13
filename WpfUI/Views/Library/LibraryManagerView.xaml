@@ -59,10 +59,9 @@
                 <TextBlock Text="Filter Tables by Name"
                            Margin="0 5"/>
                 
-                <TextBox Text="{Binding TableFilter}"
-                         x:Name="txtFilter"
+                <TextBox Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Height="25"
-                         TextAlignment="Left" TextChanged="txtFilter_TextChanged"
+                         TextAlignment="Left" 
                          Margin="0 0 0 25"/>
 
                 <ListBox x:Name="lstDataTables"
@@ -71,7 +70,7 @@
                      MinHeight="100" Height="auto" 
                      HorizontalAlignment="Stretch"
                      Margin="0"
-                     ItemsSource="{Binding FilteredOptions}"
+                     ItemsSource="{Binding FilteredList}"
                      SelectedItem="{Binding SelectedDataTable}"/>
             </StackPanel>
 

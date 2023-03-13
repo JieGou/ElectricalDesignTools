@@ -47,14 +47,10 @@ Library
 
 
 Library Editor
-	- Deletable
-
-	- Control Station Types
-	- Voltage Types
 	- Motor Data editor
-	- Cable Types
 	- AIC
 	- SCCR
+	- Cables
 
 
 Tag Settings

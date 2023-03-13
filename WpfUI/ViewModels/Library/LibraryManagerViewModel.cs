@@ -44,31 +44,69 @@ namespace WpfUI.ViewModels.Library
             get { return _dataTableList; }
             set { _dataTableList = value; }
         }
+
         public void GetDataTables()
         {
+            DataTableList.Clear();
             var dataTablesList = DaManager.libDb.GetListOfTablesNamesInDb();
             foreach (var dataTable in dataTablesList) {
                 DataTableList.Add(dataTable.ToString());
             }
 
         }
-        private ListCollectionView _filteredOptions;
-        public ListCollectionView FilteredOptions
+
+        private string _filterText;
+
+        public string FilterText
+        {
+            get { return _filterText; }
+            set 
+            { 
+                _filterText = value;
+
+                try {
+                    FilteredList.Filter = (dt) => {
+                        if (dt != null)
+                        // If filter is turned on, filter completed items.
+                        {
+                            if (dt == null) {
+                                return true;
+                            }
+                            else if (dt.ToString().ToLower().Contains(_filterText.ToLower())) {
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
+                        }
+                        return false;
+                    };
+                }
+                catch (System.Exception) {
+
+                }
+            
+            }
+        }
+
+
+        public ListCollectionView FilteredList
         {
             get 
             { 
-                if (_filteredOptions == null) {
-                    _filteredOptions = new ListCollectionView(DataTableList);
+                if (_filteredList == null) {
+                    _filteredList = new ListCollectionView(DataTableList);
                 }
-                return _filteredOptions;
+                return _filteredList;
 
             }
             set
             {
-                _filteredOptions = value;
+                _filteredList = value;
                 
             }
         }
+        private ListCollectionView _filteredList;
 
         public DataTable DataTableToLoad
         {
@@ -76,6 +114,10 @@ namespace WpfUI.ViewModels.Library
             set { _dataTableToLoad = value; }
         }
         DataTable _dataTableToLoad;
+
+
+        //*************************************************
+
         public string SelectedDataTable
         {
             get { return _selectedDataTable; }
@@ -83,27 +125,35 @@ namespace WpfUI.ViewModels.Library
             {
                 _selectedDataTable = value;
                 DataTableToLoad = DaManager.libDb.GetDataTable(_selectedDataTable);
+
                 if (_selectedDataTable == "LocalControlStationTypes") {
                     TypeValidator = new LcsTypeValidator();
                     ModelType = typeof(LcsTypeModel);
                     TypeList = TypeManager.LcsTypes;
                 }
+
                 else if (_selectedDataTable == "VoltageTypes") {
                     TypeValidator = new VoltageTypeValidator();
                     ModelType = typeof(VoltageType);
                     TypeList = TypeManager.VoltageTypes;
-
                 }
+
                 else 
                 {
                     TypeValidator = null;
+                    //TypeValidator = null;
                 }
             }
         }
         string _selectedDataTable;
 
+        //*************************************************
+
+
+
         public Type ModelType { get; set; }
         public dynamic TypeList { get; set; }
+
         public object SelectedTypeDataRow
         {
             get { return _selectedTypeDataRow; }
@@ -117,11 +167,6 @@ namespace WpfUI.ViewModels.Library
             }
         }
         private object _selectedTypeDataRow;
-
-
-
-
-
 
         private void PopulateValidator(object selectedRow)
         {
@@ -152,9 +197,6 @@ namespace WpfUI.ViewModels.Library
             }
         }
 
-        
-
-
         private void ReloadDataTable()
         {
             var selectedDataTable = SelectedDataTable;
@@ -184,84 +226,87 @@ namespace WpfUI.ViewModels.Library
         public ICommand AddCommand { get; }
         public void Add(object addOrEdit)
         {
-            try {
-                var IsValid = TypeValidator.IsValid(); //to help debug
-                var errors = TypeValidator._errorDict; //to help debug
+            //try {
+            //    var IsValid = TypeValidator.IsValid(); //to help debug
+            //    var errors = TypeValidator._errorDict; //to help debug
 
-                if (IsValid) {
+            //    if (IsValid) {
 
-                    dynamic instanceToAdd = Activator.CreateInstance(ModelType);
-                    instanceToAdd = TypeValidator.CreateType(instanceToAdd);
-                    TypeList.Add(instanceToAdd);
-                    instanceToAdd.Id = DaManager.libDb.InsertRecordGetId(instanceToAdd, SelectedDataTable, new List<string>());
+            //        dynamic instanceToAdd = Activator.CreateInstance(ModelType);
+            //        instanceToAdd = TypeValidator.CreateType(instanceToAdd);
+            //        TypeList.Add(instanceToAdd);
+            //        instanceToAdd.Id = DaManager.libDb.InsertRecordGetId(instanceToAdd, SelectedDataTable, new List<string>());
 
-                    ReloadDataTable();
-                }
-            }
-            catch (Exception ex) {
-                NotificationHandler.ShowErrorMessage(ex);
-            }
+            //        ReloadDataTable();
+            //    }
+            //}
+            //catch (Exception ex) {
+            //    NotificationHandler.ShowErrorMessage(ex);
+            //}
         }
 
         public ICommand EditCommand { get; }
 
         public void Edit(object addOrEdit)
         {
-            try {
-                var IsValid = TypeValidator.IsValid(); //to help debug
-                var errors = TypeValidator._errorDict; //to help debug
+            //try {
+            //    var IsValid = TypeValidator.IsValid(); //to help debug
+            //    var errors = TypeValidator._errorDict; //to help debug
 
-                if (IsValid) {
+            //    if (IsValid) {
 
-                    dynamic instanceToUpdate = null;
-                    foreach (dynamic item in TypeList) {
-                        if (item.Id == TypeValidator.Id) {
-                            instanceToUpdate = item; 
-                            break;
-                        }
-                    }
+            //        dynamic instanceToUpdate = null;
+            //        foreach (dynamic item in TypeList) {
+            //            if (item.Id == TypeValidator.Id) {
+            //                instanceToUpdate = item; 
+            //                break;
+            //            }
+            //        }
 
-                    if (instanceToUpdate == null) return;
+            //        if (instanceToUpdate == null) return;
 
-                    CloneAndAddTimeStamp(TypeValidator, instanceToUpdate);
-                    DaManager.libDb.UpsertRecord(instanceToUpdate, SelectedDataTable, new List<string>());
+            //        CloneAndAddTimeStamp(TypeValidator, instanceToUpdate);
+            //        DaManager.libDb.UpsertRecord(instanceToUpdate, SelectedDataTable, new List<string>());
                 
 
-                    ReloadDataTable();
-                }
-            }
-            catch (Exception ex) {
-                NotificationHandler.ShowErrorMessage(ex);
-            }
+            //        ReloadDataTable();
+            //    }
+            //}
+            //catch (Exception ex) {
+            //    NotificationHandler.ShowErrorMessage(ex);
+            //}
         }
 
         public ICommand DeleteCommand { get; }
         public void Delete()
         {
-            try {
-                var IsValid = TypeValidator.IsValid(); //to help debug
-                var errors = TypeValidator._errorDict; //to help debug
+            //try {
+            //    var IsValid = TypeValidator.IsValid(); //to help debug
+            //    var errors = TypeValidator._errorDict; //to help debug
 
-                dynamic instanceToDelete = null;
-                foreach (dynamic instance in TypeList) {
-                    if (instance.Id == TypeValidator.Id) {
-                        instanceToDelete = instance;
-                        break;
-                    }
-                }
-                if (instanceToDelete == null) return;
+            //    dynamic instanceToDelete = null;
+            //    foreach (dynamic instance in TypeList) {
+            //        if (instance.Id == TypeValidator.Id) {
+            //            instanceToDelete = instance;
+            //            break;
+            //        }
+            //    }
+            //    if (instanceToDelete == null) return;
 
-                if (instanceToDelete.AddedByUser == true) { 
-                    TypeList.Remove(instanceToDelete);
-                    DaManager.libDb.DeleteRecord(SelectedDataTable, instanceToDelete.Id);
-                }
-                
-                ReloadDataTable();
-                }
-            
-            catch (Exception ex) {
-                NotificationHandler.ShowErrorMessage(ex);
-            }
+            //    if (instanceToDelete.AddedByUser == true) {
+            //        TypeList.Remove(instanceToDelete);
+            //        DaManager.libDb.DeleteRecord(SelectedDataTable, instanceToDelete.Id);
+            //    }
+            //    else {
+            //        NotificationHandler.ShowAlert("Cannot delete non user added items from the library.", "Library Error");
+            //    }
+
+            //    ReloadDataTable();
+            //}
+
+            //catch (Exception ex) {
+            //    NotificationHandler.ShowErrorMessage(ex);
+            //}
         }
     }
 }
