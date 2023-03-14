@@ -23,6 +23,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using WpfUI._Authentication.Stores;
 using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.PopupWindows;
@@ -65,7 +66,7 @@ namespace WpfUI.ViewModels
             set { _edtSettings = value; }
         }
 
-        public MainViewModel(StartupService startupService, TypeManager typeManager, EdtProjectSettings edtSettings, string type = "")
+        public MainViewModel(AuthenticationStore authenticationStore, StartupService startupService, TypeManager typeManager, EdtProjectSettings edtSettings, string type = "")
         {
 
 
@@ -80,8 +81,10 @@ namespace WpfUI.ViewModels
 
             _listManager = startupService.ListManager;
             ScenarioManager.ListManager = _listManager;
-
+            
+            AuthenticationStore = authenticationStore;
             _typeManager = typeManager;
+            
             _startupService = startupService;
             _edtSettings = edtSettings;
             InitializeViewModels();
@@ -304,6 +307,7 @@ namespace WpfUI.ViewModels
         public ICommand ExportCommand { get; }
 
         public ICommand ScenarioCommand { get; }
+        public AuthenticationStore AuthenticationStore { get; }
 
         //HOME
         private void NavigateHome()
@@ -387,7 +391,7 @@ namespace WpfUI.ViewModels
 
             Window newWindow = new MainWindow() {
                 //DataContext = new MainViewModel(startupService, listManager)
-                DataContext = new MainViewModel(_startupService, typeManager, _edtSettings, "ExtraWindow")
+                DataContext = new MainViewModel(AuthenticationStore, _startupService, typeManager, _edtSettings, "ExtraWindow")
                 
             };
 
@@ -415,7 +419,7 @@ namespace WpfUI.ViewModels
             Window newWindow = new MainWindow() {
 
                 //DataContext = new MainViewModel(startupService, listManager)
-                DataContext = new MainViewModel(_startupService, typeManager, _edtSettings, "ExtraWindow")
+                DataContext = new MainViewModel(AuthenticationStore, _startupService, typeManager, _edtSettings, "ExtraWindow")
 
             };
 

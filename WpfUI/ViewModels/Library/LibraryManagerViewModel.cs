@@ -141,7 +141,6 @@ namespace WpfUI.ViewModels.Library
                 else 
                 {
                     TypeValidator = null;
-                    //TypeValidator = null;
                 }
             }
         }
@@ -226,87 +225,88 @@ namespace WpfUI.ViewModels.Library
         public ICommand AddCommand { get; }
         public void Add(object addOrEdit)
         {
-            //try {
-            //    var IsValid = TypeValidator.IsValid(); //to help debug
-            //    var errors = TypeValidator._errorDict; //to help debug
+            try {
+                var IsValid = TypeValidator.IsValid(); //to help debug
+                var errors = TypeValidator._errorDict; //to help debug
 
-            //    if (IsValid) {
+                if (IsValid) {
 
-            //        dynamic instanceToAdd = Activator.CreateInstance(ModelType);
-            //        instanceToAdd = TypeValidator.CreateType(instanceToAdd);
-            //        TypeList.Add(instanceToAdd);
-            //        instanceToAdd.Id = DaManager.libDb.InsertRecordGetId(instanceToAdd, SelectedDataTable, new List<string>());
+                    dynamic instanceToAdd = Activator.CreateInstance(ModelType);
+                    instanceToAdd = TypeValidator.CreateType(instanceToAdd);
+                    TypeList.Add(instanceToAdd);
+                    instanceToAdd.Id = DaManager.libDb.InsertRecordGetId(instanceToAdd, SelectedDataTable, new List<string>());
 
-            //        ReloadDataTable();
-            //    }
-            //}
-            //catch (Exception ex) {
-            //    NotificationHandler.ShowErrorMessage(ex);
-            //}
+                    ReloadDataTable();
+                }
+            }
+            catch (Exception ex) {
+                NotificationHandler.ShowErrorMessage(ex);
+            }
         }
 
         public ICommand EditCommand { get; }
 
         public void Edit(object addOrEdit)
         {
-            //try {
-            //    var IsValid = TypeValidator.IsValid(); //to help debug
-            //    var errors = TypeValidator._errorDict; //to help debug
+            try {
+                var IsValid = TypeValidator.IsValid(); //to help debug
+                var errors = TypeValidator._errorDict; //to help debug
 
-            //    if (IsValid) {
+                if (IsValid) {
 
-            //        dynamic instanceToUpdate = null;
-            //        foreach (dynamic item in TypeList) {
-            //            if (item.Id == TypeValidator.Id) {
-            //                instanceToUpdate = item; 
-            //                break;
-            //            }
-            //        }
+                    dynamic instanceToUpdate = null;
+                    foreach (dynamic item in TypeList) {
+                        if (item.Id == TypeValidator.Id) {
+                            instanceToUpdate = item;
+                            break;
+                        }
+                    }
 
-            //        if (instanceToUpdate == null) return;
+                    if (instanceToUpdate == null) return;
 
-            //        CloneAndAddTimeStamp(TypeValidator, instanceToUpdate);
-            //        DaManager.libDb.UpsertRecord(instanceToUpdate, SelectedDataTable, new List<string>());
-                
+                    CloneAndAddTimeStamp(TypeValidator, instanceToUpdate);
+                    DaManager.libDb.UpsertRecord(instanceToUpdate, SelectedDataTable, new List<string>());
 
-            //        ReloadDataTable();
-            //    }
-            //}
-            //catch (Exception ex) {
-            //    NotificationHandler.ShowErrorMessage(ex);
-            //}
+
+                    ReloadDataTable();
+                }
+            }
+            catch (Exception ex) {
+                NotificationHandler.ShowErrorMessage(ex);
+            }
         }
 
         public ICommand DeleteCommand { get; }
         public void Delete()
         {
-            //try {
-            //    var IsValid = TypeValidator.IsValid(); //to help debug
-            //    var errors = TypeValidator._errorDict; //to help debug
+            try {
+                var IsValid = TypeValidator.IsValid(); //to help debug
+                var errors = TypeValidator._errorDict; //to help debug
 
-            //    dynamic instanceToDelete = null;
-            //    foreach (dynamic instance in TypeList) {
-            //        if (instance.Id == TypeValidator.Id) {
-            //            instanceToDelete = instance;
-            //            break;
-            //        }
-            //    }
-            //    if (instanceToDelete == null) return;
+                dynamic instanceToDelete = null;
+                foreach (dynamic instance in TypeList) {
+                    if (instance.Id == TypeValidator.Id) {
+                        instanceToDelete = instance;
+                        break;
+                    }
+                }
+                if (instanceToDelete == null) return;
 
-            //    if (instanceToDelete.AddedByUser == true) {
-            //        TypeList.Remove(instanceToDelete);
-            //        DaManager.libDb.DeleteRecord(SelectedDataTable, instanceToDelete.Id);
-            //    }
-            //    else {
-            //        NotificationHandler.ShowAlert("Cannot delete non user added items from the library.", "Library Error");
-            //    }
+                if (instanceToDelete.AddedByUser == true) {
+                    TypeList.Remove(instanceToDelete);
+                    DaManager.libDb.DeleteRecord(SelectedDataTable, instanceToDelete.Id);
+                }
+                else {
+                    NotificationHandler.ShowAlert("Cannot delete non user added items from the library.", "Library Error");
+                }
 
-            //    ReloadDataTable();
-            //}
+                ReloadDataTable();
+                ReloadDataTable();
+            }
 
-            //catch (Exception ex) {
-            //    NotificationHandler.ShowErrorMessage(ex);
-            //}
+            catch (Exception ex) {
+                NotificationHandler.ShowErrorMessage(ex);
+            }
         }
     }
 }

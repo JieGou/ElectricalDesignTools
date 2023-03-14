@@ -177,10 +177,17 @@
 
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
-            <StackPanel Orientation="Horizontal">
+
+            
+            
+            
+            <StackPanel Orientation="Horizontal"
+                        Margin="0 0 25 0" >
+                <!--Settings Icon-->
+
                 <Image Source="ResourceFiles/Button Icons/SettingsIcon.png" Width="23"
                        UseLayoutRounding="True"
-                       Margin="0 0 50 0" 
+                       
                        RenderTransformOrigin="0.5, 0.5"
                        RenderOptions.BitmapScalingMode="HighQuality"
                        PreviewMouseDown="Image_PreviewMouseDown_1">
@@ -214,7 +221,21 @@
                         </EventTrigger>
                     </Image.Triggers>
                 </Image>
+
+                <!--Username and Icon-->
+                <StackPanel Orientation="Horizontal" Margin="25 0 0 0">
+                    <Image Source="ResourceFiles/ApplicationIcons/user.png" Width="23"
+                       UseLayoutRounding="True"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                      />
+
+                    <TextBlock Text="{Binding AuthenticationStore.Username}"
+                           Foreground="{StaticResource TextColorLightTheme_White}"
+                           VerticalAlignment="Center"/>
+                </StackPanel>
             </StackPanel>
+
+            
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
 

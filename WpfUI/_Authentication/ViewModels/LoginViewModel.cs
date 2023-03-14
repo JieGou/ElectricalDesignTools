@@ -9,6 +9,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Input;
 using WpfUI._Authentication.Commands;
+using WpfUI._Authentication.Stores;
 using WpfUI.Helpers;
 using WpfUI.Services;
 using WpfUI.ViewModels.Home;
@@ -16,9 +17,9 @@ using WpfUI.ViewModels.Home;
 namespace WpfUI._Authentication.ViewModels;
 public class LoginViewModel : ViewModelBase
 {
-    public LoginViewModel(Firebase.Auth.FirebaseAuthProvider firebaseAuthProvider, INavigationService registerNavigationService, AuthenticationMainWindow authWindow)
+    public LoginViewModel(AuthenticationStore authenticationStore, INavigationService registerNavigationService, AuthenticationMainWindow authWindow)
     {
-        LoginCommand = new LoginCommand(this, firebaseAuthProvider, authWindow);
+        LoginCommand = new LoginCommand(this, authenticationStore, authWindow);
         NavigateRegisterCommand = new NavigateCommand((registerNavigationService));
         DeserializeUserInfo();
     }

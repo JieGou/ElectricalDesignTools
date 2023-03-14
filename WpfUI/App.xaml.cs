@@ -8,13 +8,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVVMEssentials.Services;
 using MVVMEssentials.Stores;
-using MVVMEssentials.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using WpfUI._Authentication;
+using WpfUI._Authentication.Stores;
 using WpfUI._Authentication.ViewModels;
 using WpfUI.Helpers;
 using WpfUI.Services;
@@ -50,7 +50,10 @@ namespace WpfUI
 
                service.AddSingleton<ModalNavigationStore>();
 
+               service.AddSingleton<AuthenticationStore>();
+
                service.AddSingleton<MVVMEssentials.ViewModels.MainViewModel>();
+
 
 
                service.AddSingleton<NavigationService<RegisterViewModel>>(
@@ -65,7 +68,7 @@ namespace WpfUI
                    (services) => new NavigationService<LoginViewModel>(
                        services.GetRequiredService<NavigationStore>(),
                        () => new LoginViewModel(
-                           services.GetRequiredService<FirebaseAuthProvider>(),
+                           services.GetRequiredService<AuthenticationStore>(),
                            services.GetRequiredService<NavigationService<RegisterViewModel>>(),
                            services.GetRequiredService<AuthenticationMainWindow>())));
 
@@ -74,8 +77,22 @@ namespace WpfUI
                    DataContext = services.GetRequiredService<MVVMEssentials.ViewModels.MainViewModel>()
 
                });
+
+
+
+
+               service.AddSingleton<StartupService>();
+               service.AddSingleton<TypeManager>();
+               service.AddSingleton<EdtProjectSettings>();
+
+               service.AddSingleton<MainViewModel>((services) => new MainViewModel(
+                   services.GetRequiredService<AuthenticationStore>(),
+                   services.GetRequiredService<StartupService>(),
+                   services.GetRequiredService<TypeManager>(),
+                   services.GetRequiredService<EdtProjectSettings>()));
+
            })
-           .Build();
+               .Build();
 
         }
         static void MainHandler(object sender, UnhandledExceptionEventArgs args)
@@ -113,8 +130,9 @@ namespace WpfUI
 
 
             DeserializeRecentProjects();
+            var _authenticationStore = _host.Services.GetService<AuthenticationStore>();
 
-            _startupService.MainVm = new MainViewModel(_startupService, typeManager, edtSettings, "NewInstance");
+            _startupService.MainVm = new MainViewModel(_authenticationStore, _startupService, typeManager, edtSettings, "NewInstance");
 
             MainWindow = new MainWindow() {
                 DataContext = _startupService.MainVm
@@ -131,30 +149,32 @@ namespace WpfUI
 
 
             //***************************************************
-            // Authentication
-
-
-            //INavigationService navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
-            //navigationService.Navigate();
-
-            //var authWindow = _host.Services.GetRequiredService<AuthenticationMainWindow>();
-            //authWindow.ShowDialog();
+            //authentication
+            //***************************************************
 
 
 
 
-//#if !DEBUG
+            INavigationService navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
+            navigationService.Navigate();
+
+            var authWindow = _host.Services.GetRequiredService<AuthenticationMainWindow>();
+            authWindow.ShowDialog();
 
 
-//            INavigationService navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
-//            navigationService.Navigate();
-
-//            var authWindow = _host.Services.GetRequiredService<AuthenticationMainWindow>();
-//            authWindow.ShowDialog();
 
 
-//#endif
-            var firebaseAuthProvider = _host.Services.GetRequiredService<FirebaseAuthProvider>();
+#if !DEBUG
+
+
+            INavigationService navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
+            navigationService.Navigate();
+
+            var authWindow = _host.Services.GetRequiredService<AuthenticationMainWindow>();
+            authWindow.ShowDialog();
+
+
+#endif
 
 
 

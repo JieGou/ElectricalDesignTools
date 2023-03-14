@@ -114,21 +114,21 @@ public partial class MainWindow : MetroWindow
     private void AreaMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
-            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService, mainVm.TypeManager, mainVm.EdtProjectSettings, "ExtraWindow");
+            MainViewModel newMainVm = new MainViewModel(mainVm.AuthenticationStore, mainVm.StartupService, mainVm.TypeManager, mainVm.EdtProjectSettings, "ExtraWindow");
             mainVm.NewWindow(new AreasMenuViewModel(newMainVm, mainVm._listManager), new AreasViewModel(mainVm._listManager));
         }
     }
     private void ElectricalMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
-            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService, mainVm.TypeManager, mainVm.EdtProjectSettings,"ExtraWindow");
+            MainViewModel newMainVm = new MainViewModel(mainVm.AuthenticationStore, mainVm.StartupService, mainVm.TypeManager, mainVm.EdtProjectSettings,"ExtraWindow");
             mainVm.NewWindow(new ElectricalMenuViewModel(newMainVm, mainVm._listManager), new MjeqViewModel(mainVm._listManager));
         }
     }
     private void CableMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
-            MainViewModel newMainVm = new MainViewModel(mainVm.StartupService, mainVm.TypeManager, mainVm.EdtProjectSettings, "ExtraWindow");
+            MainViewModel newMainVm = new MainViewModel(mainVm.AuthenticationStore, mainVm.StartupService, mainVm.TypeManager, mainVm.EdtProjectSettings, "ExtraWindow");
             mainVm.NewWindow(new CableMenuViewModel(newMainVm, mainVm._listManager), new CableListViewModel(mainVm._listManager));
         }
     }

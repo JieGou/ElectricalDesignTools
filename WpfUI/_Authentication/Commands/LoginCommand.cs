@@ -4,33 +4,32 @@ using MVVMEssentials.Commands;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using WpfUI._Authentication.Stores;
 using WpfUI._Authentication.ViewModels;
 
 namespace WpfUI._Authentication.Commands;
 public class LoginCommand : AsyncCommandBase
 {
     private readonly LoginViewModel _loginViewModel;
-    private readonly FirebaseAuthProvider _firebaseAuthProvider;
+    private readonly AuthenticationStore _authenticationStore;
     private readonly AuthenticationMainWindow _authWindow;
 
-    public LoginCommand(LoginViewModel loginViewModel, FirebaseAuthProvider firebaseAuthProvider, AuthenticationMainWindow authWindow)
+   
+
+
+    public LoginCommand(LoginViewModel loginViewModel, AuthenticationStore authenticationStore, AuthenticationMainWindow authWindow)
     {
         _loginViewModel = loginViewModel;
-        _firebaseAuthProvider = firebaseAuthProvider;
+        _authenticationStore = authenticationStore;
         _authWindow = authWindow;
     }
 
     EdtAuthorization _edtAuth = new EdtAuthorization();
 
-    public UserAccount _userAccount { get; set; }
     protected override async Task ExecuteAsync(object parameter)
     {
         try {
-            await _firebaseAuthProvider.SignInWithEmailAndPasswordAsync(
-                _loginViewModel.Email,
-                _loginViewModel.Password);
-
-            //MessageBox.Show("Successfully Logged in.", "Login Successful", MessageBoxButton.OK);
+            await _authenticationStore.Login(_loginViewModel.Email, _loginViewModel.Password);
 
             {
                 _edtAuth.Initialize();
