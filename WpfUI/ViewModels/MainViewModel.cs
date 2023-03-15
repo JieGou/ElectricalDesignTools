@@ -12,6 +12,7 @@ using ExcelLibrary;
 using Portable.Licensing;
 using Portable.Licensing.Security.Cryptography;
 using Portable.Licensing.Validation;
+using Syncfusion.UI.Xaml.Spreadsheet.Commands;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using WpfUI._Authentication;
 using WpfUI._Authentication.Stores;
 using WpfUI.Commands;
 using WpfUI.Helpers;
@@ -115,6 +117,10 @@ namespace WpfUI.ViewModels
 
             ScenarioCommand = new RelayCommand(NewWindow);
 
+            ShowUserInfoCommand = new RelayCommand(ShowUserInfo);
+
+
+
             startupService.InitializeLibrary();
 
 
@@ -123,6 +129,8 @@ namespace WpfUI.ViewModels
             //    _startupService.InitializeProject(AppSettings.Default.ProjectDb);
             //}
         }
+
+        
 
         private void LoadManager_LoadDeleted(object? sender, EventArgs e)
         {
@@ -308,7 +316,13 @@ namespace WpfUI.ViewModels
 
         public ICommand ScenarioCommand { get; }
         public AuthenticationStore AuthenticationStore { get; }
-
+        public ICommand ShowUserInfoCommand { get; }
+        private void ShowUserInfo()
+        {
+            var userInfoWindow = new UserInfoWindow();
+            userInfoWindow.DataContext = AuthenticationStore;
+            userInfoWindow.ShowDialog();
+        }
         //HOME
         private void NavigateHome()
         {

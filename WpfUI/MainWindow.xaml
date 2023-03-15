@@ -178,19 +178,17 @@
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
 
-            
-            
-            
-            <StackPanel Orientation="Horizontal"
-                        Margin="0 0 25 0" >
-                <!--Settings Icon-->
 
-                <Image Source="ResourceFiles/Button Icons/SettingsIcon.png" Width="23"
+            <!--Settings Icon-->
+            <Button Background="Transparent"
+                    Margin="10 0 10 0">
+                <Image Source="ResourceFiles/ApplicationIcons/settingsCog1.png" Width="23"
                        UseLayoutRounding="True"
                        
                        RenderTransformOrigin="0.5, 0.5"
                        RenderOptions.BitmapScalingMode="HighQuality"
-                       PreviewMouseDown="Image_PreviewMouseDown_1">
+                       PreviewMouseDown="Image_PreviewMouseDown_1"
+                       >
                     <Image.RenderTransform>
                         <RotateTransform x:Name="rotTransform" />
                     </Image.RenderTransform>
@@ -221,18 +219,36 @@
                         </EventTrigger>
                     </Image.Triggers>
                 </Image>
+            </Button>
 
+
+            <StackPanel Orientation="Horizontal"
+                        Margin="0 0 0 0" >
+                
+              
                 <!--Username and Icon-->
-                <StackPanel Orientation="Horizontal" Margin="25 0 0 0">
-                    <Image Source="ResourceFiles/ApplicationIcons/user.png" Width="23"
-                       UseLayoutRounding="True"
-                       RenderOptions.BitmapScalingMode="HighQuality"
-                      />
+                <Button Background="Transparent"
+                        Command="{Binding ShowUserInfoCommand}"
+                        Margin="10 0 10 0"
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Left"
+                        HorizontalAlignment="Stretch"
+                        >
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Source="ResourceFiles/ApplicationIcons/user.png" Width="23"
+                                   UseLayoutRounding="True"
+                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                  />
 
-                    <TextBlock Text="{Binding AuthenticationStore.Username}"
-                           Foreground="{StaticResource TextColorLightTheme_White}"
-                           VerticalAlignment="Center"/>
-                </StackPanel>
+                            <TextBlock Text="{Binding AuthenticationStore.UserName}"
+                                       Foreground="{StaticResource TextColorLightTheme_White}"
+                                       VerticalAlignment="Center"
+                                       Visibility="Collapsed"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+
             </StackPanel>
 
             

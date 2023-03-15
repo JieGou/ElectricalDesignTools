@@ -163,6 +163,8 @@ namespace EDTLibrary.Models.DistributionEquipment
             isValid = CheckValidationOfAllLoadsComponentsAndCAbles(isValid);
 
 
+
+            
             if (VoltageValidator.IsValid(this) == false) {
                 isValid = false;
                 IsInvalidMessage += Environment.NewLine + "Voltage does not match supply equipment.";
@@ -172,6 +174,28 @@ namespace EDTLibrary.Models.DistributionEquipment
                 isValid = false;
                 IsInvalidMessage += Environment.NewLine + "SCCR is less than SCCA.";
             }
+
+
+            if (PercentLoaded >= 100) {
+                isValid = false;
+                if (PowerCable != null) { }
+                IsInvalidMessage += Environment.NewLine + "Equipment is overloaded.";
+
+            }
+            else if (PercentLoaded > 90) {
+                isValid = false;
+                if (PowerCable != null) { }
+                IsInvalidMessage += Environment.NewLine + "Equipment is over 90 % loaded.";
+
+            }
+            else if (PercentLoaded > 80) {
+                isValid = false;
+                if (PowerCable != null) { }
+                IsInvalidMessage += Environment.NewLine + "Equipment is over 80 % loaded.";
+
+            }
+
+
 
             //Final message
             if (isValid == false) {
