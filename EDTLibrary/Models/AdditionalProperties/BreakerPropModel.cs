@@ -1,5 +1,6 @@
 ﻿using EdtLibrary.Models.AdditionalProperties;
 using EDTLibrary.DataAccess;
+using EDTLibrary.Models.Components;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -36,11 +37,11 @@ public class BreakerPropModel : PropertyModelBase
 
             if (_is100PercentRated)
             {
-                Owner.AmpacityFactor = 1;
+                ((ComponentModelBase)Owner).AmpacityFactor = 1;
             }
             else
             {
-                Owner.AmpacityFactor = 1.25;
+                ((ComponentModelBase)Owner).AmpacityFactor = 1.25;
             }
 
             OnPropertyUpdated(nameof(Is100PercentRated));

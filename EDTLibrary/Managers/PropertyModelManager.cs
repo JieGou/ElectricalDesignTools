@@ -50,6 +50,6 @@ internal class PropertyModelManager
     {
         if (propModel == null) return;
         propModel.PropertyUpdated -= DaManager.OnTypeModelPropertyUpdated;
-        DaManager.DeleteTypePropModelAsync(propModel);
+        DaManager.DeletePropModelAsync(propModel);
     }
 }

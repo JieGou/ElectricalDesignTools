@@ -1,11 +1,8 @@
 ﻿using Firebase.Auth;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Windows;
 
 namespace WpfUI._Authentication.Stores;
 [AddINotifyPropertyChangedInterface]
@@ -20,34 +17,28 @@ public class AuthenticationStore
         _firebaseAuthProvider = firebaseAuthProvider;
     }
 
-    public User? CurrentUser
-    {
-        get
-        {
-            return _currentUser;
-        }
-        set
-        {
-            _currentUser = value;
-            Username = _currentUser.Email;
-        }
-    }
-    private User? _currentUser;
-
-
-    public string Username
-    {
-        get { return _username; }
-        set { _username = value; }
-    }
-    private string _username = "Anonymous";
-
-
+   
+   
+    private EdtAuthorization _edtAuth = new EdtAuthorization();
+    public EdtUserAccount EdtUser { get; set; } = new EdtUserAccount();
+    
 
     public async Task Login(string email, string password)
     {
         _currentFirebaseAuthLink = await _firebaseAuthProvider.SignInWithEmailAndPasswordAsync(email, password);
-        CurrentUser = _currentFirebaseAuthLink?.User;
+        EdtUser.CurrentUser = _currentFirebaseAuthLink?.User;
 
+        {
+            _edtAuth.Initialize();
+            var accounts = _edtAuth.GetAllAccounts().Result;
+
+            foreach (var account in accounts) {
+               
+                if (account.Value.Email == EdtUser.CurrentUser.Email) {
+                    MessageBox.Show($"User: {account.Value.Email} is subscribed until {account.Value.Subscription_End}");
+                }
+            }
+
+        }
     }
 }

@@ -441,20 +441,22 @@ public class DaManager {
     {
 
         try {
-            if (DaManager.GettingRecords == false) {
-                var propModel = (PropertyModelBase)source;
-                DaManager.UpsertTypePropModelAsync(propModel);
-            }
+
+            if (DaManager.GettingRecords) return;
+
+            var propModel = (PropertyModelBase)source;
+            DaManager.UpsertPropModelAsync(propModel);
+            
         }
         catch (Exception) {
             throw;
         }
     }
-    public static async Task UpsertTypePropModelAsync(PropertyModelBase propModel)
+    public static async Task UpsertPropModelAsync(PropertyModelBase propModel)
     {
         try {
             await Task.Run(() => {
-                UpsertTypePropModel(propModel);
+                UpsertPropModel(propModel);
             });
         }
 
@@ -463,11 +465,10 @@ public class DaManager {
             throw;
         }
     }
-    public static void UpsertTypePropModel(PropertyModelBase propModel)
+    public static void UpsertPropModel(PropertyModelBase propModel)
     {
         try {
-            if (GlobalConfig.Importing == true) return;
-            if (propModel == GlobalConfig.DteqDeleted) { return; }
+            //if (GlobalConfig.Importing == true) return;
 
             if (propModel.GetType() == typeof(BreakerPropModel)) {
                 var model = (BreakerPropModel)propModel;
@@ -485,11 +486,11 @@ public class DaManager {
         }
     }
 
-    public static async Task DeleteTypePropModelAsync(PropertyModelBase propModel)
+    public static async Task DeletePropModelAsync(PropertyModelBase propModel)
     {
         try {
             await Task.Run(() => {
-                DeleteTypePropModel(propModel);
+                DeletePropModel(propModel);
             });
         }
 
@@ -498,7 +499,7 @@ public class DaManager {
             throw;
         }
     }
-    public static void DeleteTypePropModel(PropertyModelBase propModel)
+    public static void DeletePropModel(PropertyModelBase propModel)
     {
         try {
             if (GlobalConfig.Importing == true) return;

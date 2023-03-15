@@ -120,6 +120,7 @@
     <PackageReference Include="CefSharp.Wpf.NETCore" Version="105.3.390" />
     <PackageReference Include="CoreCompat.Portable.Licensing" Version="1.2.14" />
     <PackageReference Include="FirebaseAuthentication.net" Version="3.7.2" />
+    <PackageReference Include="FireSharp" Version="2.0.4" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     <PackageReference Include="PasswordBoxMVVM" Version="1.0.5" />
@@ -146,7 +147,6 @@
   <ItemGroup>
     <ProjectReference Include="..\EDTLibrary\EdtLibrary.csproj" />
     <ProjectReference Include="..\ExcelLibraryCore\ExcelLibraryCore.csproj" />
-    <ProjectReference Include="..\FireSharp.Library\FireSharp.Library.csproj" />
     <ProjectReference Include="D:\My Drive\Programming\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj" />
   </ItemGroup>
 

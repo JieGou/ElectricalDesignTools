@@ -1,6 +1,4 @@
-﻿using Firebase.Auth;
-using FireSharp.Library;
-using MVVMEssentials.Commands;
+﻿using MVVMEssentials.Commands;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,23 +29,7 @@ public class LoginCommand : AsyncCommandBase
         try {
             await _authenticationStore.Login(_loginViewModel.Email, _loginViewModel.Password);
 
-            {
-                _edtAuth.Initialize();
-                var accounts = _edtAuth.GetAllAccounts().Result;
-               
-                foreach (var account in accounts) {
-                    //MessageBox.Show($"" +
-                    //    $"{account.Key} \n " +
-                    //    $"{account.Value.Email.ToString()}" +
-                    //    $"{account.Value.Subscription_Start}" +
-                    //    $"{account.Value.Subscription_End}");
-
-                    if (account.Value.Email == _loginViewModel.Email) {
-                        MessageBox.Show($"User: {account.Value.Email} is subscribed until {account.Value.Subscription_End}");
-                    }
-                }
-
-            }
+           
 
 
             _loginViewModel.SerializUserInfo();

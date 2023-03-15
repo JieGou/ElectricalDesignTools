@@ -1,5 +1,4 @@
 ﻿using Firebase.Auth;
-using FireSharp.Library;
 using MVVMEssentials.Commands;
 using MVVMEssentials.Services;
 using System;
@@ -34,18 +33,19 @@ public class RegisterCommand : AsyncCommandBase
         }
 
         try {
-            await _firebaseAuthProvider.CreateUserWithEmailAndPasswordAsync(
-                _registerViewModel.Email,
-                password,
-                _registerViewModel.Username,
-                sendVerificationEmail:true);
+            var firebaseAuthLink = await _firebaseAuthProvider.CreateUserWithEmailAndPasswordAsync(
+                                        _registerViewModel.Email,
+                                        password,
+                                        _registerViewModel.Username,
+                                        sendVerificationEmail:true);
 
 
             {
-                var userAccount = new UserAccount { Email = _registerViewModel.Email };
+                var userAccount = new EdtUserAccount { CurrentUser=firebaseAuthLink.User, Email = _registerViewModel.Email };
 
                 edtAuth.Initialize();
-                edtAuth.Push(userAccount);
+                edtAuth.Insert(userAccount);
+                //edtAuth.Push(userAccount);
             }
 
             _loginNavigationService.Navigate();
