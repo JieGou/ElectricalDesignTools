@@ -188,10 +188,9 @@
                     ToolTipService.InitialShowDelay="50">
                 <Button.Content>
                     <Image Source="ResourceFiles\File Icons\Reload White_64.ico"
-                               UseLayoutRounding="True"
-                               RenderOptions.BitmapScalingMode="HighQuality"
+                           UseLayoutRounding="True"
+                           RenderOptions.BitmapScalingMode="HighQuality"
                            Height="20"
-                           Width="27"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
                            />
@@ -202,7 +201,8 @@
             <!--Settings Icon-->
             <Button Background="Transparent"
                     Margin="10 0 10 0">
-                <Image Source="ResourceFiles/ApplicationIcons/settingsCog1.png" Width="23"
+                <Image Source="ResourceFiles/ApplicationIcons/settingsCog1.png"
+                       Width="20"
                        UseLayoutRounding="True"
                        
                        RenderTransformOrigin="0.5, 0.5"
@@ -256,7 +256,8 @@
                         >
                     <Button.Content>
                         <StackPanel Orientation="Horizontal" >
-                            <Image Source="ResourceFiles/ApplicationIcons/user.png" Width="23"
+                            <Image Source="ResourceFiles/ApplicationIcons/user.png"
+                                   Width="20"
                                    UseLayoutRounding="True"
                                    RenderOptions.BitmapScalingMode="HighQuality"
                                   />

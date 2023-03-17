@@ -53,13 +53,22 @@
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Vertical"
-                        Grid.Row="0" Grid.RowSpan="5"
-                        Grid.Column="1" Margin="0 10">
+            <Grid Grid.Row="0" Grid.RowSpan="4"
+                  Grid.Column="1" 
+                  Margin="0 10 0 0"
+                  ShowGridLines="False">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
                 <TextBlock Text="Filter Tables by Name"
                            Margin="0 5"/>
                 
                 <TextBox Text="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Grid.Row="1" 
                          Height="25"
                          TextAlignment="Left" 
                          Margin="0 0 0 25"/>
@@ -72,7 +81,7 @@
                      Margin="0"
                      ItemsSource="{Binding FilteredList}"
                      SelectedItem="{Binding SelectedDataTable}"/>
-            </StackPanel>
+            </Grid>
 
             
 

@@ -5,14 +5,13 @@ Major Bugs
 	
 
 Minor Bugs
+	- splitter PD cable length
 	- spare breaker volage # of poles update on DPanel
 	- added load needs to be shown / selected in views
 	- MCP frame size list for PD Editor
-	- loads aren't changing voltage on FedFrom Update
 	- transformer grounding
 	- LCS Analog cable Tag when VFD is in MCC
 	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bogs down the app
-	- menu Views/ViewModels are slow to load on battery
 
 *****************************************************************************************************************************
 
@@ -56,9 +55,6 @@ Library Editor
 Tag Settings
 	- lcs cable TypeModel vs Type
 	- add autotagging to DTEQ
-	- finish cable tag settings page
-	- finish load tag settings page
-	- bulk updates on tag setting changes
 
 
 Autocad
@@ -122,6 +118,8 @@ Modularize Calculations Better
 
 	- Dteq
 
+Tag Settings
+	- bulk updates on tag setting changes
 
 Double/Decimal TextBoxes and values
 	- standardize input/commit

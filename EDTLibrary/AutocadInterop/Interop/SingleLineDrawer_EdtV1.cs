@@ -41,7 +41,7 @@ public class SingleLineDrawer_EdtV1 : ISingleLineDrawer
         _insertionPoint[1] = startY;
         _insertionPoint[2] = 0;
         
-        if (dteq.Type == DteqTypes.SPL.ToString() || dteq.Type == DteqTypes.CDP.ToString() || dteq.Type == DteqTypes.DPN.ToString()) {
+        if (dteq.Type == DteqTypes.SPL.ToString() ) {
             _isSplitterStyle = true ;
         }
         else {

@@ -10,12 +10,11 @@ public  class TagSettings
 
     #region MyRegion
     public static string AutoTagEquipment { get; set; }
+    public static string EqNumberDigitCount { get; set; } = "3";
+    public static string EqIdentifierSeparator { get; set; } = "-";
     #endregion
 
     #region Equipment
-
-    public static string EqNumberDigitCount { get; set; } = "3";
-    public static string EqIdentifierSeparator { get; set; } = "-";
     public static string TransformerIdentifier { get; set; } = "XFR";
     public static string LvTransformerIdentifier { get; set; } = "TX";
     public static string SwgIdentifier { get; set; } = "SWG";
@@ -27,8 +26,8 @@ public  class TagSettings
     //Loads
     public static string MotorLoadIdentifier { get; set; } = "MTR";
     public static string HeaterLoadIdentifier { get; set; } = "HTR";
-    public static string WeldingLoadIdentifier { get; set; } = "WLD";
     public static string PanelLoadIdentifier { get; set; } = "PNL";
+    public static string WeldingLoadIdentifier { get; set; } = "WLD";
     public static string OtherLoadIdentifier { get; set; } = "LD";
 
 
@@ -49,6 +48,7 @@ public  class TagSettings
     #region Components
     public static string ComponentSuffixSeparator { get; set; } = ".";
 
+    public static string ProtectionDeviceSuffix { get; set; } = "PD";
     public static string DisconnectSuffix { get; set; } = "DCN";
     public static string StarterSuffix { get; set; } = "STR";
     public static string DriveSuffix { get; set; } = "VFD";
