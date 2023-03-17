@@ -27,7 +27,7 @@ public class SingleLineDrawer_V1 : ISingleLineDrawer
     public double[] _insertionPoint = new double[3];
     int firstLoadSpacing = 1;
 
-    public void DrawMccSingleLine(IDteq mcc, double blockSpacing = 1.5)
+    public void DrawSingleLine(IDteq mcc, double blockSpacing = 1.5)
     {
 
         try {

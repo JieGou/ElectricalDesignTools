@@ -321,10 +321,10 @@
     <Compile Update="UserControls\HomeControls\PreviousProjectItem.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UserControls\NotificationIcons\ErrorIcon.xaml.cs">
+    <Compile Update="UserControls\IconControls\ErrorIcon.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UserControls\NotificationIcons\CalculateIcon.xaml.cs">
+    <Compile Update="UserControls\IconControls\CalculateIcon.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="UserControls\Settings\SettingHeaderControl.xaml.cs">

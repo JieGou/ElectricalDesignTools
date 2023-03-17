@@ -10,7 +10,8 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="650"
-             d:Background="White">
+             d:Background="white"
+             Background="Transparent">
 
 
     <Grid Margin="50 25 50 25"
@@ -28,10 +29,13 @@
                 Content="Register"
                 Command="{Binding NavigateRegisterCommand}"
                 Style="{DynamicResource LoginButtonStyle}"
-                />
+                d:Width="100"
+                d:Height="25"
+                d:HorizontalAlignment="Right"/>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -50,6 +54,7 @@
                 <components:BindablePasswordBox Password="{Binding Password, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
             </StackPanel>
 
+
             <Button Grid.Row="4" 
                     Content="Submit"
                     Command="{Binding LoginCommand}"
@@ -57,8 +62,63 @@
                     Width="250"
                     Height="25"
                     Padding="0 -10 0 0"
-                    Margin="0 25 0 0"/>
+                    Margin="0 35 0 15"/>
 
+            
+            
+            <!--Send Email-->
+            <StackPanel Orientation="Horizontal"
+                        Grid.Row="5"
+                        HorizontalAlignment="Center">
+                <TextBlock Text="Email not verified?" 
+                           Margin="10"/>
+                
+                
+                <Button Content="Send Email"
+                        Command="{Binding SendVerificationEmailCommand}"
+                        Width="100"
+                        Height="23"
+                        Foreground="blue"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        BorderThickness="0">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border CornerRadius="{StaticResource ControlCornerRadius}" 
+                                                Background="{TemplateBinding Background}" 
+                                                BorderBrush="Black" 
+                                                BorderThickness="0">
+                                            <ContentPresenter  VerticalAlignment="Center"
+                                                               HorizontalAlignment="Center" 
+                                                             />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                </Trigger>
+                                
+                            </Style.Triggers>
+                            
+                            
+                        </Style>
+                        
+                    </Button.Style>
+                </Button>
+                
+            </StackPanel>
+            
+            
+            
 
 
         </Grid>

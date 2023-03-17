@@ -190,6 +190,10 @@ public partial class MainWindow : MetroWindow
 
         catch (IOException) {
         }
+        finally  
+        {
+            Application.Current.Shutdown();
+        } 
 
     }
 

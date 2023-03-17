@@ -90,12 +90,12 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
     }
 
-   
+
 
 
 
     #endregion
-
+    public ICommand NavigateMjeqCommand { get; }
     private void NavigateMjeq()
     {
         _mjeqViewModel.CreateValidators();
@@ -108,6 +108,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
     }
 
+    public ICommand NavigateSingleLineCommand { get; }
     private void NavigateSingleLine()
     {
         CurrentViewModel = _singleLineViewModel;
@@ -116,19 +117,17 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
     }
 
+    public ICommand NavigateDistributionPanelsCommand { get; }
     private void NavigateDistributionPanels()
     {
         CurrentViewModel = _dpanelViewModel;
         _mainViewModel.CurrentViewModel = CurrentViewModel;
     }
+
     #region Public Commands
 
     // Equipment Commands
-    public ICommand NavigateMjeqCommand { get; }
-    public ICommand NavigateSingleLineCommand { get; }
-    public ICommand NavigateDistributionPanelsCommand { get; }
     public ICommand LoadAllCommand { get; }
-
     private void LoadAll()
     {
 

@@ -21,7 +21,7 @@
              xmlns:dteqViewers="clr-namespace:WpfUI.UserControls.Viewers.Dteq"
              
              xmlns:editors="clr-namespace:WpfUI.UserControls.Editors"
-             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.IconControls"
              xmlns:orderControls="clr-namespace:WpfUI.UserControls.OrderingControls"
 
              

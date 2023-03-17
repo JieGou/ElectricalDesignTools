@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     
-             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.IconControls"
                     
                     xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
                     xmlns:SingleLineLoadGraphics="clr-namespace:WpfUI.Templates.SingleLineLoadGraphics"

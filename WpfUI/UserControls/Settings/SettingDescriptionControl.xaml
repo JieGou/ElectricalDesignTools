@@ -7,7 +7,8 @@
              xmlns:local="clr-namespace:WpfUI.UserControls.Settings"
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="350"
-             d:Background="White">
+             d:Background="White"
+             >
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -38,6 +39,7 @@
         <TextBlock Text="{Binding SettingDescription, ElementName=settingName}"
                    Grid.Row="1" Grid.Column="0"
                    Style="{StaticResource settingDescription}"
-                   MaxWidth="{Binding DescriptionWidth, ElementName=settingHeaderControl}"/>
+                   MaxWidth="{Binding DescriptionWidth, ElementName=settingName}"
+                   TextWrapping="Wrap"/>
     </Grid>
 </UserControl>

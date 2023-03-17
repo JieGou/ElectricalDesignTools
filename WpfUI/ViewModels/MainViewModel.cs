@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
@@ -117,7 +118,10 @@ namespace WpfUI.ViewModels
 
             ScenarioCommand = new RelayCommand(NewWindow);
 
+
+
             ShowUserInfoCommand = new RelayCommand(ShowUserInfo);
+            ReloadDbCommand = new RelayCommand(ReloadDb);
 
 
 
@@ -235,6 +239,81 @@ namespace WpfUI.ViewModels
         }
 
         public PopupNotifcationWindow NotificationPopup { get; set; }
+       
+
+        #region Navigation
+        public ICommand NavigateStartupCommand { get; }
+        private void NavigateHome()
+        {
+            MenuViewModel = null;
+            CurrentViewModel = _homeViewModel;
+        }
+
+        //Settings
+        public ICommand NavigateSettingsCommand { get; }
+        private void NavigateSettings()
+        {
+            _settingsMenuViewModel.LoadVmSettings();
+            MenuViewModel = _settingsMenuViewModel;
+            //CurrentViewModel = _settingsViewModel;
+        }
+
+        public ICommand NavigateGeneralSettingsCommand { get; }
+        private void NavigateGeneralSettings()
+        {
+            CurrentViewModel = _settingsMenuViewModel;
+            _settingsMenuViewModel.SelectedSettingView = new GeneralSettingsView();
+        }
+       
+        public ICommand NavigateCableSettingsCommand { get; }
+        private void NavigateCableSettings()
+        {
+            CurrentViewModel = _settingsMenuViewModel;
+            _settingsMenuViewModel.SelectedSettingView = new CableSettingsView();
+        }
+
+
+
+        public ICommand NavigateAreasCommand { get; }
+        private void NavigateAreasSystems()
+        {
+            MenuViewModel = _areasMenuViewModel;
+        }
+
+
+        public ICommand NavigateElectricalCommand { get; }
+        private void NavigateElectical()
+        {
+            MenuViewModel = _electricalMenuViewModel;
+
+
+            //Below is For Ribbon Window
+
+            //CurrentViewModel = MenuViewModel.CurrentViewModel;
+            //    _mjeqViewModel.CreateValidators();
+            //    _mjeqViewModel.CreateComboBoxLists();
+            //    _mjeqViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
+            //    _mjeqViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
+
+        }
+
+
+
+        public ICommand NavigateCablesCommand { get; }
+        private void NavigateCables()
+        {
+            MenuViewModel = _cableMenuViewModel;
+        }
+
+     
+        public ICommand NavigateLibraryCommand { get; }
+        private void NavigateLibrary()
+        {
+            MenuViewModel = _libraryMenuViewModel;
+        }
+
+
+        public ICommand ExportCommand { get; }
         private void ExcelTest()
         {
             NotificationPopup = new PopupNotifcationWindow();
@@ -260,7 +339,7 @@ namespace WpfUI.ViewModels
                     }
 
                     var exportManager = new ExportPropertyManager();
-                   
+
                     excel.ExportListOfObjects<LoadMapper>(loadList, exportManager.GetPropertyList("Load List"));
 
 
@@ -293,28 +372,32 @@ namespace WpfUI.ViewModels
             });
         }
 
-        #region Navigation
-        public ICommand NavigateStartupCommand { get; }
-
-        //Settings
-        public ICommand NavigateSettingsCommand { get; }
-        public ICommand NavigateGeneralSettingsCommand { get; }
-        public ICommand NavigateCableSettingsCommand { get; }
-
-        //Area & Systems
-        public ICommand NavigateAreasCommand { get; }
-
-        //Electrical
-        public ICommand NavigateElectricalCommand { get; }
-
-        //Cables
-        public ICommand NavigateCablesCommand { get; }
-
-        public ICommand NavigateLibraryCommand { get; }
-
-        public ICommand ExportCommand { get; }
-
         public ICommand ScenarioCommand { get; }
+        public void NewWindow()
+        {
+            IntPtr active = GetActiveWindow();
+            Window activeWindow = System.Windows.Application.Current.Windows.OfType<Window>()
+                .SingleOrDefault(window => new WindowInteropHelper(window).Handle == active);
+
+            WindowController.SnapWindow(activeWindow, true);
+
+            TypeManager typeManager = new TypeManager();
+
+            Window newWindow = new MainWindow() {
+                //DataContext = new MainViewModel(startupService, listManager)
+                DataContext = new MainViewModel(AuthenticationStore, _startupService, typeManager, _edtSettings, "ExtraWindow")
+
+            };
+
+            var newMainVm = (MainViewModel)newWindow.DataContext;
+            newMainVm.MenuViewModel = MenuViewModel;
+            newMainVm.CurrentViewModel = null;
+            newWindow.Show();
+            WindowController.SnapWindow(newWindow, false);
+
+        }
+
+
         public AuthenticationStore AuthenticationStore { get; }
         public ICommand ShowUserInfoCommand { get; }
         private void ShowUserInfo()
@@ -323,61 +406,39 @@ namespace WpfUI.ViewModels
             userInfoWindow.DataContext = AuthenticationStore;
             userInfoWindow.ShowDialog();
         }
-        //HOME
-        private void NavigateHome()
+
+        public ICommand ReloadDbCommand { get; }
+        private void ReloadDb()
         {
-            MenuViewModel = null;
-            CurrentViewModel = _homeViewModel;
+
+            _listManager.GetProjectTablesAndAssigments();
+
+
+            //if (_mjeqViewModel.AssignedLoads != null) {
+            //    _mjeqViewModel.AssignedLoads.Clear();
+            //    _mjeqViewModel.DteqToAddValidator.ClearErrors();
+            //    _mjeqViewModel.LoadToAddValidator.ClearErrors();
+            //}
+
+            //if (_singleLineViewModel.AssignedLoads != null) {
+            //    _singleLineViewModel.AssignedLoads.Clear();
+            //    _singleLineViewModel.RefreshSingleLine();
+            //    _singleLineViewModel.ClearSelections();
+            //    _singleLineViewModel.DteqCollectionView = new ListCollectionView(_singleLineViewModel.ViewableDteqList);
+            //}
+
+            //if (_dpanelViewModel.SelectedDteq != null) {
+            //    _dpanelViewModel.UpdatePanelList();
+            //}
+
+
+            _ViewStateManager.OnElectricalViewUpdated();
         }
+       
 
-
-        //SETTINGS
-        private void NavigateSettings()
-        {
-            _settingsMenuViewModel.LoadVmSettings();
-            MenuViewModel = _settingsMenuViewModel;
-            //CurrentViewModel = _settingsViewModel;
-        }
-        private void NavigateGeneralSettings()
-        {
-            CurrentViewModel = _settingsMenuViewModel;
-            _settingsMenuViewModel.SelectedSettingView = new GeneralSettingsView();
-        }
-        private void NavigateCableSettings()
-        {
-            CurrentViewModel = _settingsMenuViewModel;
-            _settingsMenuViewModel.SelectedSettingView = new CableSettingsView();
-        }
-
-        private void NavigateAreasSystems()
-        {
-            MenuViewModel = _areasMenuViewModel;
-        }
-        private void NavigateElectical()
-        {
-            MenuViewModel = _electricalMenuViewModel;
-            
-
-            //Below is For Ribbon Window
-
-            //CurrentViewModel = MenuViewModel.CurrentViewModel;
-        //    _mjeqViewModel.CreateValidators();
-        //    _mjeqViewModel.CreateComboBoxLists();
-        //    _mjeqViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
-        //    _mjeqViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
-
-        }
-
-        private void NavigateCables()
-        {
-            MenuViewModel = _cableMenuViewModel;
-        }
-
-        private void NavigateLibrary()
-        {
-            MenuViewModel = _libraryMenuViewModel;
-        }
-
+       
+      
+      
         private bool CanExecute_IsProjectLoaded()
         {
             return _startupService.IsProjectLoaded;
@@ -393,30 +454,7 @@ namespace WpfUI.ViewModels
 
         [DllImport("user32.dll")]
         static extern IntPtr GetActiveWindow();
-        public void NewWindow()
-        {
-            IntPtr active = GetActiveWindow();
-            Window activeWindow = System.Windows.Application.Current.Windows.OfType<Window>()
-                .SingleOrDefault(window => new WindowInteropHelper(window).Handle == active);
-
-            WindowController.SnapWindow(activeWindow, true);
-
-            TypeManager typeManager = new TypeManager();
-
-            Window newWindow = new MainWindow() {
-                //DataContext = new MainViewModel(startupService, listManager)
-                DataContext = new MainViewModel(AuthenticationStore, _startupService, typeManager, _edtSettings, "ExtraWindow")
-                
-            };
-
-            var newMainVm = (MainViewModel)newWindow.DataContext;
-            newMainVm.MenuViewModel = MenuViewModel;
-            newMainVm.CurrentViewModel = null;
-            newWindow.Show();
-            WindowController.SnapWindow(newWindow, false);
-
-        }
-
+       
 
 
 

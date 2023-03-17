@@ -15,7 +15,7 @@
               
              xmlns:converters="clr-namespace:WpfUI.Converters"
              xmlns:controls="clr-namespace:WpfUI.Controls"
-             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.IconControls"
              
              
              

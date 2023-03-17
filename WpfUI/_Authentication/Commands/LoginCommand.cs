@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using WpfUI._Authentication.Stores;
 using WpfUI._Authentication.ViewModels;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace WpfUI._Authentication.Commands;
 public class LoginCommand : AsyncCommandBase
@@ -21,20 +22,13 @@ public class LoginCommand : AsyncCommandBase
         _authenticationStore = authenticationStore;
         _authWindow = authWindow;
     }
-
+    
     EdtAuthorization _edtAuth = new EdtAuthorization();
 
     protected override async Task ExecuteAsync(object parameter)
     {
         try {
-            await _authenticationStore.Login(_loginViewModel.Email, _loginViewModel.Password);
-
-           
-
-
-            _loginViewModel.SerializUserInfo();
-            _authWindow._isLoggedIn = true;
-            _authWindow.Close();
+            var firebaseAuthLink = await _authenticationStore.Login(_loginViewModel, _loginViewModel.Email, _loginViewModel.Password);
 
         }
         catch (Exception ex) {

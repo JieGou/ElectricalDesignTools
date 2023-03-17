@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfUI.UserControls.OrderingControls"
              
-             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.IconControls"
              
              
              mc:Ignorable="d" 

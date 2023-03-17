@@ -10,6 +10,7 @@ using System.Text;
 using System.Windows.Input;
 using WpfUI._Authentication.Commands;
 using WpfUI._Authentication.Stores;
+using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Services;
 using WpfUI.ViewModels.Home;
@@ -20,11 +21,22 @@ public class LoginViewModel : ViewModelBase
     public LoginViewModel(AuthenticationStore authenticationStore, INavigationService registerNavigationService, AuthenticationMainWindow authWindow)
     {
         LoginCommand = new LoginCommand(this, authenticationStore, authWindow);
-        NavigateRegisterCommand = new NavigateCommand((registerNavigationService));
+        NavigateRegisterCommand = new NavigateCommand(registerNavigationService);
+        SendVerificationEmailCommand = new RelayCommand(SendVerificationEmail);
         DeserializeUserInfo();
+        _authenticationStore = authenticationStore;
     }
 
-    private string _email;
+    
+
+    public ICommand LoginCommand { get; }
+    public ICommand NavigateRegisterCommand { get; }
+    public ICommand SendVerificationEmailCommand { get; }
+    private void SendVerificationEmail()
+    {
+        _authenticationStore.SendVerificationEmail();
+    }
+
 	public string Email
 	{
 		get
@@ -37,9 +49,9 @@ public class LoginViewModel : ViewModelBase
 			OnPropertyChanged(nameof(Email));
 		}
 	}
+    private string _email;
 
-	
-	private string _password;
+
 	public string Password
 	{
 		get
@@ -54,8 +66,12 @@ public class LoginViewModel : ViewModelBase
             OnPropertyChanged(nameof(Password));
 		}
 	}
+    private string _password;
 
+   
     private UserInfo _userInfo;
+
+
 
     [Serializable]
     private class UserInfo
@@ -73,6 +89,8 @@ public class LoginViewModel : ViewModelBase
     }
 
     private byte[] _plainTextPassword;
+    private readonly AuthenticationStore _authenticationStore;
+
     public void SaveLoginInfo()
     {
         byte[] _plainTextPassword = Encoding.UTF8.GetBytes(_password);
@@ -122,8 +140,7 @@ public class LoginViewModel : ViewModelBase
         }
     }
 
-    public ICommand LoginCommand { get; }
-	public ICommand NavigateRegisterCommand { get; }
+    
 
     
 }

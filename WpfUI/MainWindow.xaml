@@ -178,6 +178,26 @@
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands>
 
+            <!--Reload Db Icon-->
+            <Button Background="Transparent"
+                    Margin="10 0"
+                    Command="{Binding ReloadDbCommand}"
+                    Width="45"
+                    HorizontalContentAlignment="Center"
+                    ToolTip="Reload project from database"
+                    ToolTipService.InitialShowDelay="50">
+                <Button.Content>
+                    <Image Source="ResourceFiles\File Icons\Reload White_64.ico"
+                               UseLayoutRounding="True"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                           Height="20"
+                           Width="27"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Center"
+                           />
+                </Button.Content>
+            </Button>
+            
 
             <!--Settings Icon-->
             <Button Background="Transparent"

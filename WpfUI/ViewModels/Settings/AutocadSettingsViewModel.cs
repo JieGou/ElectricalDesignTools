@@ -19,7 +19,7 @@ namespace WpfUI.ViewModels.Settings;
 
 [AddINotifyPropertyChangedInterface]
 
-public class GeneralSettingsViewModel : SettingsViewModelBase
+public class AutocadSettingsViewModel : SettingsViewModelBase
 {
 
     #region Properties and Backing Fields
@@ -41,7 +41,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
   
     #endregion
 
-    public GeneralSettingsViewModel(EdtProjectSettings edtSettings, TypeManager typeManager, ListManager listManager = null)
+    public AutocadSettingsViewModel(EdtProjectSettings edtSettings, TypeManager typeManager, ListManager listManager = null)
     {
         _edtSettings = edtSettings;
         _typeManager = typeManager;
@@ -49,9 +49,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
 
         SelectAcadSaveFolderCommand = new RelayCommand(SelectAcadSaveFolder);
         SelectAcadBlockFolderCommand = new RelayCommand(SelectAcadBlockFolder);
-        TestAcadCommand = new RelayCommand(StartAutocad);
-        AddAcadDrawingCommand = new RelayCommand(AddDrawing);
-        AddBlockCommand = new RelayCommand(AddBlock);
+        StartAutocadCommand = new RelayCommand(StartAutocad);
     }
 
     //General
@@ -269,7 +267,7 @@ public class GeneralSettingsViewModel : SettingsViewModelBase
     }
 
 
-    public ICommand TestAcadCommand { get; }
+    public ICommand StartAutocadCommand { get; }
     public AutocadHelper Acad { get; set; }
 
     #region Autocad

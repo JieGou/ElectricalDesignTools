@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              
              xmlns:controls="clr-namespace:WpfUI.Controls"
-             xmlns:iconControls="clr-namespace:WpfUI.UserControls.NotificationIcons"
+             xmlns:iconControls="clr-namespace:WpfUI.UserControls.IconControls"
              
              xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
              

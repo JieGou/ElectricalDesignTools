@@ -1,5 +1,6 @@
 ﻿using Firebase.Auth;
 using System;
+using System.Security.Permissions;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace WpfUI._Authentication
@@ -26,6 +27,6 @@ namespace WpfUI._Authentication
         public bool IsSubscribed { get; set; }
         public DateTime Subscription_Start { get; set; } = DateTime.Now;
         public DateTime Subscription_End { get; set; } = DateTime.Now;
-
+            
     }
 }

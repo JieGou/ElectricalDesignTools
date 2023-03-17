@@ -45,6 +45,9 @@ public class RegisterCommand : AsyncCommandBase
 
                 edtAuth.Initialize();
                 edtAuth.Insert(userAccount);
+
+                MessageBox.Show($"Verification email has been sent to {_registerViewModel.Email}. Please click the link in the email to very this account.", "Email Verification", MessageBoxButton.OK, MessageBoxImage.Information);
+
                 //edtAuth.Push(userAccount);
             }
 

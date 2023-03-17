@@ -12,7 +12,10 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using WpfUI._Authentication;
 using WpfUI._Authentication.Stores;
 using WpfUI._Authentication.ViewModels;
@@ -111,7 +114,7 @@ namespace WpfUI
         }
 
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MainHandler);
@@ -146,45 +149,33 @@ namespace WpfUI
             splashScreen.Close(TimeSpan.FromMilliseconds(150));
 
 
-
-
-            //***************************************************
-            //authentication
-            //***************************************************
-
-
-
-
-            INavigationService navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
-            navigationService.Navigate();
-
-            var authWindow = _host.Services.GetRequiredService<AuthenticationMainWindow>();
-            authWindow.ShowDialog();
-
-
+            //ShowAuthenticationWindowAsync();
 
 
 #if !DEBUG
 
-
-            INavigationService navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
-            navigationService.Navigate();
-
-            var authWindow = _host.Services.GetRequiredService<AuthenticationMainWindow>();
-            authWindow.ShowDialog();
-
+            ShowAuthenticationWindow();
 
 #endif
-
-
-
-            //***************************************************
-
-
 
             base.OnStartup(e);
 
         }
+
+        private async void ShowAuthenticationWindowAsync()
+        {
+            await Task.Run(() => {
+                Thread.Sleep(500);
+                INavigationService navigationService = _host.Services.GetRequiredService<NavigationService<LoginViewModel>>();
+                navigationService.Navigate();
+                var authWindow = _host.Services.GetRequiredService<AuthenticationMainWindow>();
+                Application.Current.Dispatcher.Invoke(() => {
+                    authWindow.ShowDialog();
+
+                });
+            });
+        }
+
 
         private void DeserializeRecentProjects()
         {

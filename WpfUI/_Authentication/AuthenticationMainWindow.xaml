@@ -13,14 +13,32 @@
         Title="Edt Authentication" 
         
         WindowStyle="SingleBorderWindow"
-        WindowStartupLocation="CenterScreen"
         
+        
+        WindowStartupLocation="CenterScreen"
         Topmost="True"
         ResizeMode="NoResize"
         Height="450" Width="500" 
         
-        
         Closing="OnClosing">
+ 
+    
+    <!--<Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation
+                    Storyboard.TargetProperty="Opacity"
+                    From="0.0" To=".7" Duration="0:0:0.5"
+                    AutoReverse="False" RepeatBehavior="1x"/>
+                    <ColorAnimation
+                        Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)"
+                        From="Transparent" To="White"
+                        AutoReverse="False" RepeatBehavior="1x"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>-->
 
     <Window.Resources>
         
@@ -70,4 +88,13 @@
             </ContentControl.Resources>
         </ContentControl>
     </Grid>
+    
+    <!--<Border CornerRadius="15"
+            BorderBrush="Blue"
+            BorderThickness="1">
+        <Border.Background>
+            <SolidColorBrush Color="White" Opacity="0.7"/>
+        </Border.Background>
+        
+    </Border>-->
 </Window>
