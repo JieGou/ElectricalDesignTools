@@ -15,11 +15,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using WpfUI.Helpers;
 using WpfUI.Services;
+using WpfUI.ViewModels.Equipment;
 
 namespace WpfUI.ViewModels.Electrical;
 
 [AddINotifyPropertyChangedInterface]
-internal class DpanelViewModel : ViewModelBase
+internal class DpanelViewModel : EdtViewModelBase
 {
 
     private DteqFactory _dteqFactory;
@@ -38,7 +39,7 @@ internal class DpanelViewModel : ViewModelBase
 
 
     //CTOR
-    public DpanelViewModel(ListManager listManager)
+    public DpanelViewModel(ListManager listManager) : base(listManager)
     {
         ListManager = listManager;
         LoadToAddValidator = new LoadToAddValidator(listManager);
@@ -62,7 +63,7 @@ internal class DpanelViewModel : ViewModelBase
         MoveRightCommand = new RelayCommand(MoveRight);
 
         ConvertToLoadCommand = new RelayCommand(ConvertToLoad);
-        DeleteLoadCommand = new RelayCommand(DeleteLoad);
+        //DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
 
         DrawPanelScheduleAcadCommand = new RelayCommand(DrawPanelScheduleRelay);
@@ -75,7 +76,18 @@ internal class DpanelViewModel : ViewModelBase
         UpdatePanelList();
         RefreshSelectedPanel();
     }
+    public void UpdatePanelList()
+    {
 
+        List<IDpn> subList = new List<IDpn>();
+        var dteqSubList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.DPN.ToString() || d.Type == DteqTypes.CDP.ToString()).ToList();
+
+        foreach (var dteq in dteqSubList) {
+            subList.Add((IDpn)dteq);
+        }
+        ViewableDteqList = new ObservableCollection<IDpn>(subList);
+
+    }
     public void RefreshSelectedPanel()
     {
         if (SelectedDteq == null) return;
@@ -128,17 +140,7 @@ internal class DpanelViewModel : ViewModelBase
         
     }
 
-    public void UpdatePanelList() {
-
-        List<IDpn> subList = new List<IDpn>();
-        var dteqSubList = _listManager.IDteqList.Where(d => d.Type == DteqTypes.DPN.ToString() || d.Type == DteqTypes.CDP.ToString()).ToList();
-
-        foreach (var dteq in dteqSubList) {
-            subList.Add((IDpn)dteq);
-        }
-        ViewableDteqList = new ObservableCollection<IDpn>(subList);
-
-    }
+   
     private ObservableCollection<IDpn> _viewableDteqList;
 
     public IPowerConsumer SelectedLoad
@@ -148,6 +150,7 @@ internal class DpanelViewModel : ViewModelBase
         {
             if (value == null) return;
             _selectedLoad = value;
+            SelectedEquipment = _selectedLoad;
         }
     }
     private IPowerConsumer _selectedLoad;

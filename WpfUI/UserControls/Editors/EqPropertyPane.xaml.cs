@@ -1,5 +1,4 @@
-﻿using EDTLibrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,26 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfUI.Helpers;
-using WpfUI.PopupWindows;
-using WpfUI.ViewModels;
-using WpfUI.Views.Electrical.LoadListSubViews;
 
-namespace WpfUI.Views;
-
+namespace WpfUI.UserControls.Editors;
 /// <summary>
-/// Interaction logic for AreasView.xaml
+/// Interaction logic for EqPropertyPane.xaml
 /// </summary>
-public partial class AreasMenuView : UserControl
+public partial class EqPropertyPane : UserControl
 {
-
-
-    public AreasMenuView()
+    public EqPropertyPane()
     {
         InitializeComponent();
     }
-    
-
 }
-
-

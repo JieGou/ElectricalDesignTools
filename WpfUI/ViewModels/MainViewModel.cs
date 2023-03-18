@@ -76,6 +76,7 @@ namespace WpfUI.ViewModels
 
             FedFromManager.FedFromUpdated += _ViewStateManager.OnFedFromUpdated;
             LoadManager.LoadDeleted += _ViewStateManager.OnLoadDeleted;
+            LoadCircuit.LoadCircuitVoltageChanged += _ViewStateManager.OnLoadCircuitVoltageChanged;
 
             if (type=="NewInstance") {
                 ValidateLicense(); 
@@ -211,7 +212,7 @@ namespace WpfUI.ViewModels
 
         //Electrical
         public  ElectricalMenuViewModel _electricalMenuViewModel;
-        public  MjeqViewModel _mjeqViewModel;
+        public  LoadListViewModel _mjeqViewModel;
 
         //Cables
         public  CableMenuViewModel _cableMenuViewModel;
@@ -476,7 +477,7 @@ namespace WpfUI.ViewModels
             };
 
             if (viewModelToSet.GetType().ToString().Contains("Mjeq")) {
-                viewModelToSet = new MjeqViewModel(_listManager);
+                viewModelToSet = new LoadListViewModel(_listManager);
             }
             var newMainVm = (MainViewModel)newWindow.DataContext;
             menuToSet.MainViewModel = newMainVm;

@@ -512,8 +512,8 @@
 
 
                 <!--Electrical-->
-                <DataTemplate DataType="{x:Type electricalViewModels:MjeqViewModel}">
-                    <electricalViews:_MjeqView/>
+                <DataTemplate DataType="{x:Type electricalViewModels:LoadListViewModel}">
+                    <electricalViews:LoadListView/>
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type electricalViewModels:SingleLineViewModel}">

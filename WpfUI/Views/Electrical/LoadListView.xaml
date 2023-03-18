@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.Views.Electrical._MjeqView"
+﻿<UserControl x:Class="WpfUI.Views.Electrical.LoadListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -23,7 +23,7 @@
              xmlns:views="clr-namespace:WpfUI.Views"
              xmlns:electricalViewModels="clr-namespace:WpfUI.ViewModels.Electrical"
              xmlns:subViews="clr-namespace:WpfUI.Views.EquipmentSubViews"
-             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
+             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.LoadListSubViews"
              
              xmlns:edt="clr-namespace:EDTLibrary;assembly=EDTLibrary"
              xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
@@ -1635,8 +1635,8 @@
                         <ContentControl x:Name="LoadDetailsContent" 
                                         Content="{Binding}">
                             <ContentControl.Resources>
-                                <DataTemplate DataType="{x:Type electricalViewModels:MjeqViewModel}">
-                                    <mjeqSubViews:LoadTabsView DataContext="{Binding}"/>
+                                <DataTemplate DataType="{x:Type electricalViewModels:LoadListViewModel}">
+                                    <mjeqSubViews:ListViewPropertyPane DataContext="{Binding}"/>
                                 </DataTemplate>
                             </ContentControl.Resources>
                         </ContentControl>

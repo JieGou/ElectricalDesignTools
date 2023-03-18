@@ -106,7 +106,15 @@ namespace EdtLibrary.Managers
 
                 caller.LoadingCalculated += newSupplier.OnAssignedLoadReCalculated;
 
-                caller.VoltageType = newSupplier.LoadVoltageType;
+                if (oldSupplier is DpnModel && newSupplier is DpnModel){
+                   
+                }
+                else if ((caller.VoltageType.Voltage == 120 || caller.VoltageType.Voltage == 208 || caller.VoltageType.Voltage == 240) && 
+                           newSupplier is DpnModel) {
+                }
+                else {
+                    caller.VoltageType = newSupplier.LoadVoltageType;
+                }
 
                 newSupplier.CalculateLoading();
 

@@ -167,7 +167,11 @@ public class CableManager
                     }
                     else if (component.SubType == PdTypes.FDS.ToString()) {
                         //Todo - Default Splitter Disconnect Cable Length
-                        cable.Length = 5; // temporary default cable length
+                        cable.Length = 3; // temporary default cable length
+                    }
+                    else if (component.SubCategory == Categories.ProtectionDevice.ToString()) {
+                        //Todo - Default Splitter Disconnect Cable Length
+                        cable.Length = 3; // temporary default cable length
                     }
 
 

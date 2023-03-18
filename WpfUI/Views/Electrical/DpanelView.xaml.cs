@@ -84,7 +84,7 @@ public partial class DpanelView : UserControl
     double rowHeight = 22;
 
     // The list contains the column names that will excluded from the height calculation in GetAutoRowHeight method.
-    List<string> excludeColumns = new List<string>() { "CustomerID", "Country" }; 
+    List<string> excludeColumns = new List<string>() { "Id", "Cable", "PowerCable.Size", "Description", "FLA", "Fla", "Tag", "Breaker", "PdSizeTrip", "Size", "DemandKw", "kW" }; 
 
 
     private void LeftGrid_QueryRowHeight(object sender, Syncfusion.UI.Xaml.Grid.QueryRowHeightEventArgs e)
@@ -104,6 +104,7 @@ public partial class DpanelView : UserControl
                 e.Handled = true;
             }
             if (e.RowIndex==0) {
+                //hides the header row
                 //e.Height = 0;
             }
         }
@@ -111,7 +112,6 @@ public partial class DpanelView : UserControl
 
     private void RightGrid_QueryRowHeight(object sender, Syncfusion.UI.Xaml.Grid.QueryRowHeightEventArgs e)
     {
-
         if (RightGrid.GridColumnSizer.GetAutoRowHeight(e.RowIndex, gridRowResizingOptions, out autoHeight)) {
 
             if (autoHeight > 50) {

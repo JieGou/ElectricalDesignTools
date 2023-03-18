@@ -13,13 +13,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.Electrical.MjeqSubviews;
+namespace WpfUI.Views.Electrical.LoadListSubViews;
 /// <summary>
 /// Interaction logic for CableSizingView.xaml
 /// </summary>
-public partial class CableSizingViewNarrow : UserControl
+public partial class CableSizingView : UserControl
 {
-    public CableSizingViewNarrow()
+    public CableSizingView()
     {
         InitializeComponent();
     }
@@ -62,14 +62,4 @@ public partial class CableSizingViewNarrow : UserControl
         //viewer.Focus();
     }
 
-    private void TextBox_KeyEnterUpdate(object sender, KeyEventArgs e)
-    {
-        if (e.Key == Key.Enter) {
-            TextBox tBox = (TextBox)sender;
-            DependencyProperty prop = TextBox.TextProperty;
-
-            BindingExpression binding = BindingOperations.GetBindingExpression(tBox, prop);
-            if (binding != null) { binding.UpdateSource(); }
-        }
-    }
 }

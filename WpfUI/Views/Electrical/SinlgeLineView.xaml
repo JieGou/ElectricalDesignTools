@@ -25,7 +25,7 @@
              xmlns:orderControls="clr-namespace:WpfUI.UserControls.OrderingControls"
 
              
-             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
+             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.LoadListSubViews"
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
              
              xmlns:edtEqModels="clr-namespace:EDTLibrary.Models.Equipment;assembly=EDTLibrary"
@@ -570,96 +570,17 @@
             </Grid>
 
             <!--Property Editor-->
-            <Grid  x:Name="PropertyPane"
-                   Grid.Row="2" Grid.RowSpan="2"
-                   Grid.Column="6"
-                   Margin="0 0 0 0"
-                   HorizontalAlignment="Stretch"
-                   >
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <Border Grid.Row="1"
-                        BorderBrush="{StaticResource ControlBorder}" BorderThickness="1"
-                        Background="{StaticResource BackgroundLight}"
-                        CornerRadius="{StaticResource ControlCornerRadius}"
-                        >
-                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                                  VerticalScrollBarVisibility="Auto"
-                                  >
-
-                        <Grid Margin="5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
-                            <!--Equipment-->
-                            <ContentControl Content="{Binding SelectedLoadEquipment}"
-                                            Grid.Row="0"
-                                            Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
-                                <ContentControl.Resources>
-
-
-                                    <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                        <editors:PowerConsumerEditor_Full/>
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
-                                        <editors:TransformerEditor/>
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                        <editors:PowerConsumerEditor_Full/>
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtProtection:ProtectionDeviceModel}">
-                                        <editors:CompEditor_Pd_Compact/>
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                        <editors:CompEditor_Pd_Compact/>
-                                    </DataTemplate>
-
-                                </ContentControl.Resources>
-                            </ContentControl>
-
-                            <!--Cable-->
-                            <ContentControl Content="{Binding SelectedLoadCable}"
-                                        Grid.Row="0"
-                                        Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}">
-                                <ContentControl.Resources>
-
-                                    <DataTemplate DataType="{x:Type edtCables:CableModel}">
-                                        <mjeqSubViews:CableSizingViewNarrow/>
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                        <mjeqSubViews:CableSizingViewNarrow/>
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                        <mjeqSubViews:CableSizingViewNarrow/>
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                        <mjeqSubViews:CableSizingViewNarrow/>
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type edtProtection:ProtectionDeviceModel}">
-                                        <mjeqSubViews:CableSizingViewNarrow/>
-                                    </DataTemplate>
-
-                                </ContentControl.Resources>
-                            </ContentControl>
-
-                        </Grid>
-                    </ScrollViewer>
-
-                </Border>
-            </Grid>
+            <Border BorderBrush="Black" BorderThickness="1"
+                    Background="{StaticResource BackgroundLight}"  
+                    Grid.Row="2" Grid.RowSpan="2"
+                    Grid.Column="6"
+                    Padding="1 0 0 0">
+          
+                <editors:EqPropertyPane  
+                    Grid.Row="2" Grid.RowSpan="2"
+                   
+                    Grid.Column="6"/>
+            </Border>
 
         </Grid>
     </DockPanel>

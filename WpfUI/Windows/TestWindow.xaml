@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfUI.Windows"
         mc:Ignorable="d"
         
-        xmlns:subViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
+        xmlns:subViews="clr-namespace:WpfUI.Views.Electrical.LoadListSubViews"
         
         Title="TestWindow"  
         

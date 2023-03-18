@@ -4,7 +4,7 @@ using System.Windows.Threading;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
 using WpfUI.ViewModels.Menus;
-using WpfUI.Views.Electrical.MjeqSubviews;
+using WpfUI.Views.Electrical.LoadListSubViews;
 using WpfUI.Windows;
 
 namespace WpfUI.Views;
@@ -26,7 +26,7 @@ public partial class ElectricalMenuView : UserControl
     {
         //FlushWindowMEssageQueue();
         //var loadingWindow = LoadingWindow.CreateAsync(eqView);
-        //vm.MainViewModel.CurrentViewModel = new MjeqViewModel(vm.ListManager);
+        //vm.MainViewModel.CurrentViewModel = new LoadListViewModel(vm.ListManager);
         //FlushWindowMEssageQueue();
         //if (loadingWindow != null) {
         //    loadingWindow.Dispatcher.InvokeShutdown();

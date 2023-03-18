@@ -33,7 +33,7 @@
                               Header="Transformer"
                               HeaderForeGround="White"
                               HeaderBackground="Gray"
-                              >
+                              Margin="0 1 0 1">
 
             <Grid Grid.Row="0"
                   ShowGridLines="False">

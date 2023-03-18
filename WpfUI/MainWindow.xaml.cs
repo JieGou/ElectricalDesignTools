@@ -122,7 +122,7 @@ public partial class MainWindow : MetroWindow
     {
         if (e.MiddleButton == MouseButtonState.Pressed) {
             MainViewModel newMainVm = new MainViewModel(mainVm.AuthenticationStore, mainVm.StartupService, mainVm.TypeManager, mainVm.EdtProjectSettings,"ExtraWindow");
-            mainVm.NewWindow(new ElectricalMenuViewModel(newMainVm, mainVm._listManager), new MjeqViewModel(mainVm._listManager));
+            mainVm.NewWindow(new ElectricalMenuViewModel(newMainVm, mainVm._listManager), new LoadListViewModel(mainVm._listManager));
         }
     }
     private void CableMenuButton_PreviewMouseDown(object sender, MouseButtonEventArgs e)

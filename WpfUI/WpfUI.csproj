@@ -348,10 +348,10 @@
     <Compile Update="Views\Electrical\DistributionPanelSubViews\DPanelCircuitLeft.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Electrical\MjeqSubviews\CableSizingViewNarrow.xaml.cs">
+    <Compile Update="Views\Electrical\LoadListSubViews\CableSizingViewNarrow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Electrical\MjeqSubviews\ComponentDetailsView.xaml.cs">
+    <Compile Update="Views\Electrical\LoadListSubViews\ComponentDetailsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Electrical\SingleLineSubViews\SL_LoadGraphicView.xaml.cs">
@@ -483,11 +483,11 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Electrical\MjeqSubviews\CableSizingViewNarrow.xaml">
+    <Page Update="Views\Electrical\LoadListSubViews\CableSizingViewNarrow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\Electrical\MjeqSubviews\ComponentDetailsView.xaml">
+    <Page Update="Views\Electrical\LoadListSubViews\ComponentDetailsView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

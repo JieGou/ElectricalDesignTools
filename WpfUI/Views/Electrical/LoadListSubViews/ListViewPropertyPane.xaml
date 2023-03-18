@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WpfUI.Views.Electrical.MjeqSubviews.LoadTabsView"
+﻿<UserControl x:Class="WpfUI.Views.Electrical.LoadListSubViews.ListViewPropertyPane"
                           x:Name="loadTabs"
 
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -26,7 +26,7 @@
              
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
              
-             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
+             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.LoadListSubViews"
 
              Background="{DynamicResource BackgroundLight}"
              d:Background="AliceBlue"
@@ -64,7 +64,6 @@
     </UserControl.Triggers>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -156,7 +155,8 @@
                                 MaxWidth="220"
                                 >
 
-                    <!--<ContentControl.Style>
+                    <!--Fade in animation-->
+                    <ContentControl.Style>
                         <Style TargetType="ContentControl">
                             <Style.Triggers>
                                 <EventTrigger RoutedEvent="Binding.TargetUpdated">
@@ -170,7 +170,7 @@
                                 </EventTrigger>
                             </Style.Triggers>
                         </Style>
-                    </ContentControl.Style>-->
+                    </ContentControl.Style>
                     <ContentControl.Resources>
 
                         <!--Transformer-->
@@ -195,79 +195,12 @@
                                 <singleLineSubViews:SL_DteqGraphicView Grid.ColumnSpan="5"
                                     EquipmentSelected="LoadGraphicView_EquipmentSelected"
                                     EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
-                                
-                                <!--PrimaryWiring-->
-                                <StackPanel Orientation="Horizontal" 
-                                            Grid.Row="2" 
-                                            Grid.ColumnSpan="5"
-                                            HorizontalAlignment="Right">
-                                    <TextBlock Text="Primary" Width="65"/>
-                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
-                                              Width="100"
-                                              ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                              SelectedValue="{Binding PrimaryWiringType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DisplayMemberPath="WiringType"
-                                              Text="{Binding PrimaryWiringType.WiringType}"
-                                              IsEditable="False" IsTextSearchEnabled="True"
-                                              Margin="5 0 5 0"/>
-                                </StackPanel>
-                                
-                                <!--Grounding-->
-                                <StackPanel Orientation="Horizontal"
-                                            Grid.Row="3"
-                                            Grid.ColumnSpan="5"
-                                            HorizontalAlignment="Right">
-                                    <TextBlock Text="Grounding" Width="65"/>
-                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
-                                              Width="100"
-                                              ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                              SelectedValue="{Binding PrimaryGrounding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DisplayMemberPath="Type"
-                                              SelectedValuePath="Type"
-                                              Text="{Binding PrimaryGrounding}"
-                                              IsEditable="False" IsTextSearchEnabled="True"
-                                              Margin="5 0 5 0"/>
-                                </StackPanel>
-                                
-                                <!--SecondaryWiring-->
-                                <StackPanel Orientation="Horizontal" 
-                                            Grid.Row="5" 
-                                            Grid.ColumnSpan="5"
-                                            HorizontalAlignment="Right">
-                                    <TextBlock Text="Secondary" Width="65"/>
-                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
-                                              Width="100"
-                                              ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                              SelectedValue="{Binding SecondaryWiringType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DisplayMemberPath="WiringType"
-                                              Text="{Binding SecondaryWiringType.WiringType}"
-                                              IsEditable="False" IsTextSearchEnabled="True"
-                                              Margin="5 0 5 0"/>
-                                </StackPanel>
-
-
-                                <!--Grounding-->
-                                <StackPanel Orientation="Horizontal" 
-                                            Grid.Row="6" 
-                                            Grid.ColumnSpan="5"
-                                            HorizontalAlignment="Right">
-                                    <TextBlock Text="Grounding" Width="65"/>
-                                    <ComboBox Grid.Row="7" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
-                                              Width="100"
-                                              ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                                              SelectedValue="{Binding SecondaryGrounding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                              DisplayMemberPath="Type"
-                                              SelectedValuePath="Type"
-                                              Text="{Binding SecondaryGrounding}"
-                                              IsEditable="False" IsTextSearchEnabled="True"
-                                              Margin="5 0 5 0"/>
-                                </StackPanel>
-
-
+                            
                             </Grid>
                         </DataTemplate>
                         
 
+                        <!--SWG-->
                         <DataTemplate DataType="{x:Type edtDteqModels:SwgModel}">
                             <singleLineSubViews:SL_DteqGraphicView EquipmentSelected="LoadGraphicView_EquipmentSelected"
                                                                    EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"/>
@@ -444,77 +377,9 @@
             </DockPanel>
 
             <!--Properties Editor-->
-            <ScrollViewer Grid.Column="1" 
-                          HorizontalScrollBarVisibility="Disabled"
-                          VerticalScrollBarVisibility="Visible"
-                          Visibility="Visible">
-
-            <Grid Grid.Column="1" >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <!--Equipment-->
-                    <ContentControl Content="{Binding SelectedEquipment}"
-                                            Grid.Row="0"
-                                            Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
-                        <ContentControl.Resources>
-
-                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                <editors:PowerConsumerEditor_Full DataContext="{Binding}"/>
-                            </DataTemplate>
-
-                            <DataTemplate DataType="{x:Type edtDteqModels:XfrModel}">
-                                <editors:TransformerEditor DataContext="{Binding}"/>
-                            </DataTemplate>
-                            
-                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                <editors:PowerConsumerEditor_Full DataContext="{Binding}"/>
-                                <!--<mjeqSubViews:EquipmentDetailsView/>-->
-                            </DataTemplate>
-
-                            <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                <editors:CompEditor_Pd_Compact/>
-                            </DataTemplate>
-
-                            <DataTemplate DataType="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
-                                <editors:CompEditor_Pd_Compact/>
-                            </DataTemplate>
-
-                        </ContentControl.Resources>
-                    </ContentControl>
-
-                    <!--Cable-->
-                    <ContentControl Content="{Binding SelectedLoadCable}"
-                                    Grid.Row="0"
-                                    Visibility="{Binding IsSelectedLoadCable, Converter={StaticResource BoolToVis}, ConverterParameter=Normal}"
-                                    HorizontalAlignment="Right">
-                        <ContentControl.Resources>
-
-                            <DataTemplate DataType="{x:Type edtDteqModels:DistributionEquipment}">
-                                <mjeqSubViews:CableSizingViewNarrow/>
-                            </DataTemplate>
-
-                            <DataTemplate DataType="{x:Type edtLoadModels:LoadModel}">
-                                <mjeqSubViews:CableSizingViewNarrow/>
-                            </DataTemplate>
-
-                            <DataTemplate DataType="{x:Type edtComponents:ComponentModel}">
-                                <mjeqSubViews:CableSizingViewNarrow/>
-                            </DataTemplate>
-
-                            <DataTemplate DataType="{x:Type edtProtectionDevices:ProtectionDeviceModel}">
-                                <mjeqSubViews:CableSizingViewNarrow/>
-                            </DataTemplate>
-
-                        </ContentControl.Resources>
-                    </ContentControl>
-
-                </Grid>
-
-            </ScrollViewer>
-
+            <editors:EqPropertyPane Grid.Column="1" DataContext="{Binding}"
+                                    Margin="0 0 0 0"/>
+       
         </Grid>
     </Grid>
 </UserControl>

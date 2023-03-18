@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfUI.Views.Electrical.MjeqSubviews;
+namespace WpfUI.Views.Electrical.LoadListSubViews;
 /// <summary>
 /// Interaction logic for LoadCompListDetailsView.xaml
 /// </summary>

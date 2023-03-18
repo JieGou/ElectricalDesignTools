@@ -22,6 +22,11 @@ public class _ViewStateManager
         OnElectricalViewUpdated();
     }
 
+    public static void OnLoadCircuitVoltageChanged(object source, EventArgs e)
+    {
+        OnElectricalViewUpdated();
+    }
+
     public static event EventHandler ElectricalViewUpdate;
     public static void OnElectricalViewUpdated()
     {

@@ -17,13 +17,13 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfUI.ViewModels.Electrical;
 
-namespace WpfUI.Views.Electrical.MjeqSubviews;
+namespace WpfUI.Views.Electrical.LoadListSubViews;
 /// <summary>
 /// Interaction logic for LoadDetailsView.xaml
 /// </summary>
-public partial class LoadTabsView : UserControl
+public partial class ListViewPropertyPane : UserControl
 {
-    public LoadTabsView()
+    public ListViewPropertyPane()
     {
         InitializeComponent();
     }
@@ -31,7 +31,7 @@ public partial class LoadTabsView : UserControl
     private void LoadGraphicView_EquipmentSelected(object sender, RoutedEventArgs e)
     {
         if (e.OriginalSource is IEquipment) {
-            MjeqViewModel mjeqVm = (MjeqViewModel)DataContext;
+            LoadListViewModel mjeqVm = (LoadListViewModel)DataContext;
             mjeqVm.SelectedLoadEquipment = (IEquipment)e.OriginalSource;
             mjeqVm.IsSelectedLoadCable = false;
         }
@@ -42,7 +42,7 @@ public partial class LoadTabsView : UserControl
     private void LoadGraphicView_EquipmentCableSelected(object sender, RoutedEventArgs e)
     {
         if (e.OriginalSource is IEquipment) {
-            MjeqViewModel mjeqVm = (MjeqViewModel)DataContext;
+            LoadListViewModel mjeqVm = (LoadListViewModel)DataContext;
             mjeqVm.SelectedLoadCable = (IEquipment)e.OriginalSource;
             mjeqVm.IsSelectedLoadCable = true;
         }

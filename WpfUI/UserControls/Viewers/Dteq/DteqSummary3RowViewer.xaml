@@ -8,7 +8,8 @@
              d:DesignHeight="450" d:DesignWidth="800"
              d:Background="AliceBlue">
     <!--Top Data-->
-    <Grid Grid.Column="3" Grid.ColumnSpan="2">
+    <Grid Grid.Column="3" Grid.ColumnSpan="2"
+          ShowGridLines="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="auto"/>
@@ -17,7 +18,9 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
@@ -146,5 +149,34 @@
         <TextBlock Text="{Binding PercentLoaded, StringFormat=\{0:N0\} %}"  d:Text="575 V"
                        Grid.Row="4" Grid.Column="6"
                        Style="{StaticResource SummaryValue_TextBlockStyle}"  />
+
+        <!--Phase loading Grid-->
+        <Grid Grid.Row="2" Grid.RowSpan="5"
+              Grid.Column="8"
+                ShowGridLines="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="Phase A" Grid.Row="0" Grid.Column="0"/>
+            <TextBlock Text="{Binding PhaseA}" Grid.Row="0" Grid.Column="2"/>
+            <TextBlock Text="Phase B" Grid.Row="1" Grid.Column="0"/>
+            <TextBlock Text="{Binding PhaseB}" Grid.Row="1" Grid.Column="2"/>
+            <TextBlock Text="Phase C" Grid.Row="2" Grid.Column="0"/>
+            <TextBlock Text="{Binding PhaseC}" Grid.Row="2" Grid.Column="2"/>
+
+            <TextBlock Text="Total" Grid.Row="4" Grid.Column="0"/>
+            <TextBlock Text="{Binding DemandKva}" Grid.Row="4" Grid.Column="2"/>
+
+
+        </Grid>
     </Grid>
 </UserControl>

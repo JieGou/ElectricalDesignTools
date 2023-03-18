@@ -16,7 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.AreasAndSystems;
-using WpfUI.Views.Electrical.MjeqSubviews;
+using WpfUI.Views.Electrical.LoadListSubViews;
 
 namespace WpfUI.Views.AreasAndSystems;
 /// <summary>

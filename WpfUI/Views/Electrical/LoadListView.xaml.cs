@@ -20,21 +20,21 @@ using WpfUI.Helpers;
 using WpfUI.SyncFusion.Renderers;
 using WpfUI.ViewModels;
 using WpfUI.ViewModels.Electrical;
-using WpfUI.Views.Electrical.MjeqSubviews;
+using WpfUI.Views.Electrical.LoadListSubViews;
 using WpfUI.Windows;
 
 namespace WpfUI.Views.Electrical;
 /// <summary>
 /// Interaction logic for MjeqView.xaml
 /// </summary>
-public partial class _MjeqView : UserControl
+public partial class LoadListView : UserControl
 {
-    private MjeqViewModel vm { get { return DataContext as MjeqViewModel; } }
+    private LoadListViewModel vm { get { return DataContext as LoadListViewModel; } }
 
 
     private bool _isEditingLoadGrids;
 
-    public _MjeqView()
+    public LoadListView()
     {
         InitializeComponent();
         if (AppSettings.Default.AddEquipmentPanelView == 0) {
@@ -101,7 +101,7 @@ public partial class _MjeqView : UserControl
         if (be != null) { be.UpdateSource(); }
     }
 
-    LoadTabsView _loadTabsView = new LoadTabsView();
+    ListViewPropertyPane _loadTabsView = new ListViewPropertyPane();
 
     //Sets the datacontext for the details view panel on the right
     private void dgdDteq_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -171,7 +171,7 @@ public partial class _MjeqView : UserControl
         CopySelectedLoads(vm);
 
 
-        async Task CopySelectedLoads(MjeqViewModel vm)
+        async Task CopySelectedLoads(LoadListViewModel vm)
         {
             vm.SelectedLoads.Clear();
             foreach (var item in dgdAssignedLoads.SelectedItems) {

@@ -67,7 +67,7 @@ namespace EDTLibrary.Tests
 
                 //ViewModels
                 AreasViewModel areaVm = new AreasViewModel(listManager);
-                MjeqViewModel eqVm = new MjeqViewModel(listManager);
+                LoadListViewModel eqVm = new LoadListViewModel(listManager);
 
                 #endregion
 
@@ -204,7 +204,7 @@ namespace EDTLibrary.Tests
 
         }
 
-        private static void SelectAllDteqAndLoads(ListManager listManager, MjeqViewModel eqVm)
+        private static void SelectAllDteqAndLoads(ListManager listManager, LoadListViewModel eqVm)
         {
             foreach (var dteq in listManager.IDteqList) {
                 Debug.WriteLine(dteq.Tag.ToString());

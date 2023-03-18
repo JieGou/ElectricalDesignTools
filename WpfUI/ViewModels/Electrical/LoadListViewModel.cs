@@ -32,7 +32,7 @@ using IComponentEdt = EDTLibrary.Models.Components.IComponentEdt;
 namespace WpfUI.ViewModels.Electrical;
 
 [AddINotifyPropertyChangedInterface]
-public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
+public class LoadListViewModel : EdtViewModelBase, INotifyDataErrorInfo
 {
 
     #region Constructor
@@ -60,7 +60,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
 
     //CONSTRUCTOR
-    public MjeqViewModel(ListManager listManager) : base(listManager)
+    public LoadListViewModel(ListManager listManager) : base(listManager)
     {
 
         _ViewStateManager.ElectricalViewUpdate += OnElectricalViewUpdated;
@@ -209,7 +209,7 @@ public class MjeqViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
     public void RefreshLoadList()
     {
-        //SelectedLoad is set to null in _MjeqView.OnElectricalViewUpdated
+        //SelectedLoad is set to null in LoadListView.OnElectricalViewUpdated
         if (SelectedLoad == null) {
             return;
         }

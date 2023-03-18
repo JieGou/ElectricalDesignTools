@@ -473,7 +473,6 @@ namespace EDTLibrary.Models.Loads
                 if (value == null) return;
                 if (DaManager.GettingRecords) return;
 
-                var pd = ProtectionDevice;
                 var oldValue = _voltage;
                 _voltage = value;
 
@@ -515,6 +514,7 @@ namespace EDTLibrary.Models.Loads
                 }
                 if (DaManager.Importing) return;
                 if (DaManager.GettingRecords) return;
+
                 saveController.Lock(nameof(VoltageType));
                 UndoManager.Lock(this, nameof(VoltageType));
 

@@ -25,7 +25,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <controls:EdtGroupBox  Margin="0 1 0 0">
+    <controls:EdtGroupBox  Margin="0 1 0 1">
         <controls:EdtGroupBox.Style>
             <Style TargetType="controls:EdtGroupBox" BasedOn="{StaticResource {x:Type controls:EdtGroupBox}}">
                 <Setter Property="Header" Value="Protection Device / Starter"/>

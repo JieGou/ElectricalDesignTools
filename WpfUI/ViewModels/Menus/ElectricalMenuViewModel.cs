@@ -61,7 +61,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
             }
         }
     }
-    private MjeqViewModel _mjeqViewModel;
+    private LoadListViewModel _mjeqViewModel;
     private SingleLineViewModel _singleLineViewModel;
     private DpanelViewModel _dpanelViewModel;
 
@@ -75,7 +75,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
 
         _dteqFactory = new DteqFactory(_listManager);
 
-        _mjeqViewModel = new MjeqViewModel(_listManager);
+        _mjeqViewModel = new LoadListViewModel(_listManager);
 
         _singleLineViewModel = new SingleLineViewModel(_listManager);
         _dpanelViewModel = new DpanelViewModel(_listManager);

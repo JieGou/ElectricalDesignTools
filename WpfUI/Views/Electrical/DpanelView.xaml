@@ -15,7 +15,7 @@
              xmlns:dpanelViewers="clr-namespace:WpfUI.UserControls.Viewers.Dpanels"
              xmlns:dteqViewers="clr-namespace:WpfUI.UserControls.Viewers.Dteq"
              
-             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.MjeqSubviews"
+             xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.LoadListSubViews"
              xmlns:ElectricalViews="clr-namespace:WpfUI.Views.Electrical"
              xmlns:AddEquipmentViews="clr-namespace:WpfUI.Views.EquipmentSubViews"
              xmlns:singleLineSubViews="clr-namespace:WpfUI.Views.Electrical.SingleLineSubViews"
@@ -269,34 +269,7 @@
                                                DataContext="{Binding SelectedDteq}"
                                                VerticalAlignment="Bottom"/>
 
-                    <!--Phase loading Grid-->
-                    <Grid Grid.Row="1" 
-                      Grid.Column="0" Grid.ColumnSpan="2"
-                      ShowGridLines="False">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="Phase A" Grid.Row="0" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedDteq.PhaseA}" Grid.Row="0" Grid.Column="2"/>
-                        <TextBlock Text="Phase B" Grid.Row="1" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedDteq.PhaseB}" Grid.Row="1" Grid.Column="2"/>
-                        <TextBlock Text="Phase C" Grid.Row="2" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedDteq.PhaseC}" Grid.Row="2" Grid.Column="2"/>
-
-                        <TextBlock Text="Total" Grid.Row="4" Grid.Column="0"/>
-                        <TextBlock Text="{Binding SelectedDteq.DemandKva}" Grid.Row="4" Grid.Column="2"/>
-
-                       
-                    </Grid>
+                    
 
                 </Grid>
             </Border>
@@ -400,12 +373,12 @@
 
                                 <sf:GridTextColumn HeaderText="Poles" MappingName="VoltageType.Poles"
                                                    DisplayBinding="{Binding VoltageType.Poles, Converter={StaticResource PoleQtyColumnHeightConverter}}"
-                                                   Width="{StaticResource PolesColumn}" AllowEditing="True"
+                                                   Width="{StaticResource PolesColumn}" AllowEditing="False"
                                                    TextAlignment="Center"
                                                    TextWrapping="Wrap"/>
 
                                 <!--Left Breaker-->
-                                <sf:GridComboBoxColumn HeaderText="Beaker" MappingName="PdSizeTrip"
+                                <sf:GridComboBoxColumn HeaderText="Breaker" MappingName="PdSizeTrip"
                                                        Width="{StaticResource BreakerColumnWidth}"
                                                        AllowEditing="True"
                                                        ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 
@@ -438,7 +411,6 @@
                                                 </TextBlock.Style>
                                             </TextBlock>
                                         </DataTemplate>
-                                        
                                     </sf:GridComboBoxColumn.CellTemplate>
                                 </sf:GridComboBoxColumn>
 
@@ -635,7 +607,7 @@
                                 </sf:GridComboBoxColumn>
 
                                 <sf:GridTextColumn HeaderText="Poles" MappingName="VoltageType.Poles"
-                                                   Width="{StaticResource PolesColumn}" AllowEditing="True"
+                                                   Width="{StaticResource PolesColumn}" AllowEditing="False"
                                                    DisplayBinding="{Binding VoltageType.Poles, Converter={StaticResource PoleQtyColumnHeightConverter}}"
                                                    TextWrapping="Wrap"
                                                    TextAlignment="Center"/>
@@ -752,15 +724,15 @@
                     Grid.Column="5" >
 
                 <!--Move Load BUTTONS and PROPTERTIES Grid-->
-                <Grid Margin="5"
+                <Grid Margin="0"
                       ShowGridLines="False">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
 
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="5"/>
+                        <ColumnDefinition Width="0"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -861,10 +833,9 @@
                     </Grid>
 
                     <!--Propteries-->
-                    <editors:PowerConsumerEditor_Full Grid.Row="0" 
-                                                 Grid.Column="2" 
-                                                 DataContext="{Binding SelectedLoad}"
-                                      />
+                    <editors:EqPropertyPane DataContext="{Binding}"
+                        Grid.Row="0" 
+                        Grid.Column="2" />
 
                 </Grid>
                 <!--Right Load-->

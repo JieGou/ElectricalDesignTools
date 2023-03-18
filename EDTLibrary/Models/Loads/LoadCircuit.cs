@@ -1,5 +1,6 @@
 ﻿using EdtLibrary.Commands;
 using EdtLibrary.LibraryData.TypeModels;
+using EdtLibrary.Managers;
 using EDTLibrary.DataAccess;
 using EDTLibrary.ErrorManagement;
 using EDTLibrary.LibraryData;
@@ -18,6 +19,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace EDTLibrary.Models.Loads;
@@ -122,15 +124,32 @@ public class LoadCircuit : ILoadCircuit
         {
             var oldValue = _voltageType;
             _voltageType = value;
+            if (DaManager.GettingRecords) return;
+
 
             UndoManager.Lock(this, nameof(VoltageType));
-            VoltageTypeId = _voltageType.Id;
-            Voltage = _voltageType.Voltage;
+            { 
+                VoltageTypeId = _voltageType.Id;
+                Voltage = _voltageType.Voltage;
+            }
             UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
-
+               
+            if (FedFrom != null) {
+                FedFrom.OnAssignedLoadReCalculated(this, new CalculateLoadingEventArgs { PropertyName = nameof(VoltageType) });
+            }
             OnPropertyUpdated();
         }
     }
+
+    //tried to get load circuit dPanel Poles display to update but it didn't work
+    public static event EventHandler LoadCircuitVoltageChanged;
+    private static void OnLoadCircuitVoltageChanged()
+    {
+        if (LoadCircuitVoltageChanged != null) {
+            LoadCircuitVoltageChanged(nameof(FedFromManager), EventArgs.Empty);
+        }
+    }
+
     private VoltageType _voltageType;
     private double _pdSizeTrip;
     private string _description = "";
@@ -312,7 +331,10 @@ public class LoadCircuit : ILoadCircuit
     }
     public void OnLoadingCalculated(string propertyName = "")
     {
-        throw new NotImplementedException();
+        if (LoadingCalculated != null) {
+            var calcEventArgs = new CalculateLoadingEventArgs() { PropertyName = propertyName };
+            LoadingCalculated(this, calcEventArgs);
+        }
     }
     public Task UpdateAreaProperties()
     {
