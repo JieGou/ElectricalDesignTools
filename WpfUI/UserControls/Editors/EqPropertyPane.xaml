@@ -48,7 +48,6 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{Binding SelectedEquipment}"/>
 
                 <!--Equipment-->
                 <ContentControl Content="{Binding SelectedEquipment}"

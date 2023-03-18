@@ -215,5 +215,17 @@ namespace WpfUI {
                 this["CypherText"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("550")]
+        public double LoadListPropertyPaneWidth {
+            get {
+                return ((double)(this["LoadListPropertyPaneWidth"]));
+            }
+            set {
+                this["LoadListPropertyPaneWidth"] = value;
+            }
+        }
     }
 }

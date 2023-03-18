@@ -105,6 +105,9 @@ public class CableModel : ICable
         if (Load != null) {
             Load.Validate();
         }
+        if (Load.FedFrom == GlobalConfig.UtilityModel) {
+            SourceModel = GlobalConfig.UtilityModel;
+        }
         return;
     }
 
@@ -607,7 +610,7 @@ public class CableModel : ICable
             SourceModel = load.FedFrom;
             Destination = load.Tag;
             DestinationModel = load;
-            CreateTag();
+            //CreateTag();
         }
     }
 

@@ -25,13 +25,25 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <controls:EdtGroupBox Grid.Row="0"
                           x:Name="PowerConsumerGroupBox"
-                          Header="Load / Distribution Equipment"
                           HeaderForeGround="White"
                           HeaderBackground="Gray"
                           >
+        <controls:EdtGroupBox.Style>
+            <Style TargetType="controls:EdtGroupBox">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Category}" Value="DTEQ">
+                        <Setter Property="Header" Value="Distribution Equipment"/>
+                    </DataTrigger>
+
+                    <DataTrigger Binding="{Binding Category}" Value="LOAD3P">
+                        <Setter Property="Header" Value="Load"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </controls:EdtGroupBox.Style>
         <Grid Grid.Row="0"
               ShowGridLines="False">
             <Grid.RowDefinitions>

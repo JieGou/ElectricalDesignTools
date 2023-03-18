@@ -120,6 +120,7 @@ internal class DpanelViewModel : EdtViewModelBase
                 dpn.SetCircuits();
 
             }
+            SelectedEquipment = _selectedDpnl;
         }
     }
     private IDpn _selectedDpnl;

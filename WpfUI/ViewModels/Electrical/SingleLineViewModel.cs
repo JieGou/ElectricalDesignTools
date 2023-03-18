@@ -187,6 +187,7 @@ internal class SingleLineViewModel: EdtViewModelBase
                     SelectedMoveableEquipment = selectedMovableEquipment.FedFrom;
                 }
             }
+            SelectedEquipment = _selectedLoadEquipment;
         }
     }
 

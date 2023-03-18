@@ -5,7 +5,6 @@ Major Bugs
 	
 
 Minor Bugs
-	- spare breaker volage # of poles update on DPanel
 	- added load needs to be shown / selected in views
 	- MCP frame size list for PD Editor
 	- transformer grounding
@@ -57,9 +56,11 @@ Tag Settings
 
 
 Autocad
-	- single line(s)
-	- splitters
+	- single line
+		- main block
 	- panel schedules
+		- add right circuits
+		- add breakers
 	- schematics
 	- wiring diagrams
 	- title blocks

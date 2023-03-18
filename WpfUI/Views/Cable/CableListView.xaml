@@ -270,28 +270,28 @@
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"   />
 
-                        <syncfusion:GridTextColumn MappingName="Source"
+                        <!--<syncfusion:GridTextColumn MappingName="Source"
+                                               MaximumWidth="200"
+                                               UseBindingValue="True" 
+                                               FilterRowCondition="Contains"
+                                               ImmediateUpdateColumnFilter="True"
+                                               />-->
+
+                        <syncfusion:GridTextColumn HeaderText="Source" MappingName="SourceModel.Tag"
                                                MaximumWidth="200"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"
                                                />
 
-                        <syncfusion:GridTextColumn MappingName="SourceModel.Tag"
-                                               MaximumWidth="200"
-                                               UseBindingValue="True" 
-                                               FilterRowCondition="Contains"
-                                               ImmediateUpdateColumnFilter="True"
-                                               />
-
-                        <syncfusion:GridTextColumn MappingName="Destination"
+                        <!--<syncfusion:GridTextColumn MappingName="Destination"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"
                                                MaximumWidth="200"
-                                               />
+                                               />-->
 
-                        <syncfusion:GridTextColumn MappingName="DestinationModel.Tag"
+                        <syncfusion:GridTextColumn HeaderText="Destination" MappingName="DestinationModel.Tag"
                                                UseBindingValue="True" 
                                                FilterRowCondition="Contains"
                                                ImmediateUpdateColumnFilter="True"
@@ -325,7 +325,6 @@
                                                ImmediateUpdateColumnFilter="True"/>
 
                         <syncfusion:GridTextColumn MappingName="UsageType"
-                                               HeaderText="Usage&#x0a;Type"
                                                MinimumWidth="75"
                                                MaximumWidth="125"
                                                UseBindingValue="True" 
@@ -394,9 +393,8 @@
                         Grid.Column="5"
                         HorizontalAlignment="Right"
                         >
-                    <StackPanel>
                         
-                        <Grid Visibility="{Binding ElementName=propertyGridExpander, Path=IsExpanded, 
+                    <Grid Visibility="{Binding ElementName=propertyGridExpander, Path=IsExpanded, 
                                                Converter={StaticResource BoolToVisInvert},
                                                ConverterParameter=Normal}"
                           ShowGridLines="False">
@@ -415,7 +413,6 @@
 
 
 
-
                             <TextBlock Text="Selected Cable:" 
                                Grid.Row="1" Grid.Column="0" 
                                Style="{DynamicResource SummaryLabel_TextBlockStyle}"/>
@@ -424,21 +421,22 @@
                                d:Text="MCC01-MTR05-P" Style="{DynamicResource SummaryValue_TextBlockStyle}"/>
 
 
-                            <controls:EdtGroupBox Grid.Row="3"
-                                          Grid.Column="0" Grid.ColumnSpan="4"
-                                          Header="Raceway Routing"
-                                          HeaderBackground="{StaticResource Medium}"
-                                          HeaderForeGround="{StaticResource ForeGround_Light1}"
-                                          Background="{StaticResource BackgroundLight}"
-                                          HorizontalAlignment="Stretch"
-                                          Margin="10">
+                            <controls:EdtGroupBox 
+                                Grid.Row="3"
+                                Grid.Column="0" Grid.ColumnSpan="4"
+                                Header="Raceway Routing"
+                                HeaderBackground="{StaticResource Medium}"
+                                HeaderForeGround="{StaticResource ForeGround_Light1}"
+                                Background="{StaticResource BackgroundLight}"
+                                HorizontalAlignment="Stretch"
+                                Margin="10">
 
                                 <Grid ShowGridLines="False">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
@@ -512,27 +510,31 @@
                                     </syncfusion:SfDataGrid>
 
 
-                                    <StackPanel Grid.Row="1" Grid.Column="1"
+                                    <StackPanel 
+                                        Grid.Row="1" Grid.Column="1"
                                         VerticalAlignment="Center">
-                                        <Button Command="{Binding AddRacewayRouteSegmentCommand}"
-                                        Width="40"
-                                        RenderOptions.BitmapScalingMode="NearestNeighbor"
-                                        RenderOptions.EdgeMode="Aliased">
+                                        <Button 
+                                            Command="{Binding AddRacewayRouteSegmentCommand}"
+                                            Width="40"
+                                            RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                            RenderOptions.EdgeMode="Aliased">
                                             <Button.Content>
                                                 <Image Source="..\..\ResourceFiles\Button Icons\ArrowRightBlack32.png"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Command="{Binding RemoveRacewayRouteSegmentCommand}"
-                                        Width="40"
-                                        RenderOptions.BitmapScalingMode="NearestNeighbor"
-                                        RenderOptions.EdgeMode="Aliased">
+                                        <Button 
+                                            Command="{Binding RemoveRacewayRouteSegmentCommand}"
+                                            Width="40"
+                                            RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                            RenderOptions.EdgeMode="Aliased">
                                             <Button.Content>
                                                 <Image Source="..\..\ResourceFiles\Button Icons\DeleteLeftBlack32.png"/>
                                             </Button.Content>
                                         </Button>
                                     </StackPanel>
 
-                                    <StackPanel Orientation="Horizontal"
+                                    <StackPanel 
+                                        Orientation="Horizontal"
                                         Grid.Row="2" 
                                         Grid.Column="0"
                                         HorizontalAlignment="Center">
@@ -546,162 +548,183 @@
 
 
                                     <!--Project Raceway List-->
-                                    <TextBlock Text="{Binding SelectedCable.Tag, Converter={StaticResource NullToStringConverter}}"
-                                       Grid.Column="4" 
-                                       HorizontalAlignment="Left"
-                                       Style="{DynamicResource SummaryLabel_TextBlockStyle}"
-                                       Margin="0 5"
-                                       FontSize="14"
-                                       FontWeight="Bold"/>
+                                    <TextBlock 
+                                        Text="{Binding SelectedCable.Tag, Converter={StaticResource NullToStringConverter}}"
+                                        Grid.Column="4" 
+                                        HorizontalAlignment="Left"
+                                        Style="{DynamicResource SummaryLabel_TextBlockStyle}"
+                                        Margin="0 5"
+                                        FontSize="14"
+                                        FontWeight="Bold"/>
 
-                                    <syncfusion:SfDataGrid Grid.Row="1" Grid.Column="4" 
-                                                   Height="250"
-                                                   ItemsSource="{Binding SelectedCable.RacewaySegmentList}"
-                                                   SelectedItem="{Binding SelectedRacewaySegment}"
-                                                   AutoGenerateColumns="False"
+                                    <syncfusion:SfDataGrid 
+                                        Grid.Row="1" Grid.Column="4" 
+                                        Height="250"
+                                        ItemsSource="{Binding SelectedCable.RacewaySegmentList}"
+                                        SelectedItem="{Binding SelectedRacewaySegment}"
+                                        AutoGenerateColumns="False"
                                                    
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Stretch"
-                                                   HeaderRowHeight="25"
-                                                   RowHeight="20"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Stretch"
+                                        HeaderRowHeight="25"
+                                        RowHeight="20"
                                                    
-                                                   EnableDataVirtualization="False"
+                                        EnableDataVirtualization="False"
                                                    
-                                                   Background="White"
-                                                   CurrentCellBorderBrush="Black"
-                                                   CurrentCellBorderThickness="0"
-                                                   FilterRowPosition="FixedTop"
+                                        Background="White"
+                                        CurrentCellBorderBrush="Black"
+                                        CurrentCellBorderThickness="0"
+                                        FilterRowPosition="FixedTop"
                                                    
-                                                   NavigationMode="Cell"
-                                                   SelectionMode="Single"
-                                                   AllowEditing="False"
-                                                   AllowSorting="True" 
-                                                   AllowFiltering="True" 
-                                                   ShowGroupDropArea="False"
-                                                   AllowResizingColumns="False"
-                                                   ColumnSizer="None"
-                                                   >
+                                        NavigationMode="Cell"
+                                        SelectionMode="Single"
+                                        AllowEditing="False"
+                                        AllowSorting="True" 
+                                        AllowFiltering="True" 
+                                        ShowGroupDropArea="False"
+                                        AllowResizingColumns="False"
+                                        ColumnSizer="None"
+                                        >
                                         <syncfusion:SfDataGrid.Columns>
-                                            <syncfusion:GridTextColumn HeaderText="Tag"
-                                                               MappingName="RacewayModel.Tag"
-                                                               Width="100"
-                                                               UseBindingValue="True" 
-                                                               FilterBehavior="StringTyped"
-                                                               FilterRowCondition="Contains"
-                                                               ImmediateUpdateColumnFilter="True"/>
+                                            <syncfusion:GridTextColumn 
+                                                HeaderText="Tag"
+                                                MappingName="RacewayModel.Tag"
+                                                Width="100"
+                                                UseBindingValue="True" 
+                                                FilterBehavior="StringTyped"
+                                                FilterRowCondition="Contains"
+                                                ImmediateUpdateColumnFilter="True"/>
 
-                                            <syncfusion:GridTextColumn HeaderText="Width"
-                                                               MappingName="RacewayModel.Width"
-                                                               Width="65"
-                                                               UseBindingValue="True" 
-                                                               FilterBehavior="StringTyped"
-                                                               ImmediateUpdateColumnFilter="True"/>
+                                            <syncfusion:GridTextColumn 
+                                                HeaderText="Width"
+                                                MappingName="RacewayModel.Width"
+                                                Width="65"
+                                                UseBindingValue="True" 
+                                                FilterBehavior="StringTyped"
+                                                ImmediateUpdateColumnFilter="True"/>
 
-                                            <syncfusion:GridTextColumn HeaderText="Height"
-                                                               MappingName="RacewayModel.Height"
-                                                               Width="65"
-                                                               UseBindingValue="True" 
-                                                               FilterBehavior="StringTyped"
-                                                               ImmediateUpdateColumnFilter="True"/>
+                                            <syncfusion:GridTextColumn 
+                                                HeaderText="Height"
+                                                MappingName="RacewayModel.Height"
+                                                Width="65"
+                                                UseBindingValue="True" 
+                                                FilterBehavior="StringTyped"
+                                                ImmediateUpdateColumnFilter="True"/>
 
-                                            <syncfusion:GridTextColumn HeaderText="Type"
-                                                               MappingName="RacewayModel.Type"
-                                                               Width="100"
-                                                               UseBindingValue="True" 
-                                                               FilterBehavior="StringTyped"
-                                                               FilterRowCondition="Contains"
-                                                               ImmediateUpdateColumnFilter="True"/>
+                                            <syncfusion:GridTextColumn 
+                                                HeaderText="Type"
+                                                MappingName="RacewayModel.Type"
+                                                Width="100"
+                                                UseBindingValue="True" 
+                                                FilterBehavior="StringTyped"
+                                                FilterRowCondition="Contains"
+                                                ImmediateUpdateColumnFilter="True"/>
 
                                         </syncfusion:SfDataGrid.Columns>
                                     </syncfusion:SfDataGrid>
 
 
-                                    <StackPanel Orientation="Horizontal"
+                                    <StackPanel 
+                                        Orientation="Horizontal"
                                         Grid.Row="2"
                                         Grid.Column="4"
                                         HorizontalAlignment="Center">
 
-                                        <Button Content="Add New" Style="{StaticResource GreenButton}" Width="75"
-                                        Command="{Binding AddRacewayCommand}"
-                                        CommandParameter="{Binding RacewayToAddValidator}"/>
-                                        <Button Content="Delete" Style="{StaticResource RedButton}" Width="75"
-                                        Command="{Binding DeleteRacewayCommand}"
-                                        CommandParameter="{Binding SelectedProjectRaceway}"/>
+                                        <Button 
+                                            Content="Add New" Style="{StaticResource GreenButton}" Width="75"
+                                            Command="{Binding AddRacewayCommand}"
+                                            CommandParameter="{Binding RacewayToAddValidator}"/>
+                                        <Button 
+                                            Content="Delete" Style="{StaticResource RedButton}" Width="75"
+                                            Command="{Binding DeleteRacewayCommand}"
+                                            CommandParameter="{Binding SelectedProjectRaceway}"/>
 
                                     </StackPanel>
 
-                                    <local:AddRacewayView Grid.Row="5" 
-                                                  Grid.Column="0" Grid.ColumnSpan="3"
-                                                  Margin="10"/>
+                                    <local:AddRacewayView 
+                                        Grid.Row="5" 
+                                        Grid.Column="0" Grid.ColumnSpan="3"
+                                        Margin="10"/>
 
                                 </Grid>
                             </controls:EdtGroupBox>
 
 
-                            <TextBlock Grid.Row="4" 
-                               Grid.Column="0"
-                               Text="Cables in Raceway"
-                               Margin="10 0"/>
+                            <TextBlock 
+                                Grid.Row="4" 
+                                Grid.Column="0"
+                                Text="Cables in Raceway"
+                                Margin="10 0"/>
 
-                            <ListBox Grid.Row="5" 
-                             Grid.Column="0"
-                             HorizontalAlignment="Stretch"
-                             ItemsSource="{Binding SelectedRaceway.CableList}"
-                             DisplayMemberPath="Tag"
-                             />
+                            <ListBox 
+                                Grid.Row="5" 
+                                Grid.Column="0"
+                                HorizontalAlignment="Stretch"
+                                ItemsSource="{Binding SelectedRaceway.CableList}"
+                                DisplayMemberPath="Tag"
+                                />
 
 
-                            <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1"
+                            <StackPanel 
+                                Orientation="Horizontal" Grid.Row="4" Grid.Column="1"
                                 HorizontalAlignment="Left" >
-                                <TextBlock Text="Selected Raceway:"
-                                   Margin="10 0"/>
+                                <TextBlock 
+                                    Text="Selected Raceway:"
+                                    Margin="10 0"/>
 
-                                <TextBlock Text="{Binding SelectedRaceway.Tag}" d:Text="RCWY-01"
-                                   FontWeight="Bold"/>
+                                <TextBlock 
+                                    Text="{Binding SelectedRaceway.Tag}" d:Text="RCWY-01"
+                                    FontWeight="Bold"/>
 
-                                <CheckBox Content="Random Fill" IsChecked="{Binding IsRandomFill}"
-                                  Margin="50 0"/>
+                                <CheckBox 
+                                    Content="Random Fill" IsChecked="{Binding IsRandomFill}"
+                                    Margin="50 0"/>
                             </StackPanel>
 
 
-                            <syncfusion:SfBusyIndicator x:Name="busyIndicator"
-                                                Grid.Row="5" Grid.Column="1"
-                                                IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
-                                                Foreground="{StaticResource Darkest}"
-                                                ViewboxHeight="50"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Center"
-                                                Header="Busy..."
-                                                AnimationType="SingleCircle"
-                                                Panel.ZIndex="1"/>
+                            <syncfusion:SfBusyIndicator 
+                                x:Name="busyIndicator"
+                                Grid.Row="5" Grid.Column="1"
+                                IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
+                                Foreground="{StaticResource Darkest}"
+                                ViewboxHeight="50"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Header="Busy..."
+                                AnimationType="SingleCircle"
+                                Panel.ZIndex="1"/>
 
-                            <Border Grid.Row="5" 
-                            Grid.Column="1" 
-                            Margin="10"
-                            BorderBrush="Black"
-                            BorderThickness="1"
-                            Background="White">
-                                <ScrollViewer Grid.Row="5" 
-                                  Grid.Column="1" 
-                                  VerticalScrollBarVisibility="Auto"
-                                   >
+                            <Border 
+                                Grid.Row="5" 
+                                Grid.Column="1" 
+                                Margin="10"
+                                BorderBrush="Black"
+                                BorderThickness="1"
+                                Background="White"
+                                >
+                                
+                                <ScrollViewer 
+                                    Grid.Row="5" 
+                                    Grid.Column="1" 
+                                    VerticalScrollBarVisibility="Visible"
+                                    
+                                    >
                                     <ScrollViewer.Resources>
 
 
                                     </ScrollViewer.Resources>
 
-                                    <ItemsControl ItemsSource="{Binding TraySizerViewModel.RacewayGraphics, UpdateSourceTrigger=PropertyChanged}"
-                                  Grid.Row="5" 
-                                  Grid.Column="1" 
-                                          Height="1000"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  d:Width="400"
-                                  d:Height="250"
-                                  
-                                  Background="White"
-                                  
-                                  >
+                                    <ItemsControl 
+                                        ItemsSource="{Binding TraySizerViewModel.RacewayGraphics, UpdateSourceTrigger=PropertyChanged}"
+                                        Grid.Row="5" 
+                                        Grid.Column="1" 
+                                        Height="1000"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        d:Width="400"
+                                        d:Height="250"
+                                        Background="White"
+                                        >
 
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -769,7 +792,6 @@
                                 </ScrollViewer>
                             </Border>
                         </Grid>
-                    </StackPanel>
                 </Border>
 
             </Grid>

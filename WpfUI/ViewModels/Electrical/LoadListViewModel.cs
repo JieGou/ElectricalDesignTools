@@ -69,6 +69,7 @@ public class LoadListViewModel : EdtViewModelBase, INotifyDataErrorInfo
         _listManager = listManager;
         _dteqFactory = new DteqFactory(listManager);
 
+        IsPropertyPaneExpanded = AppSettings.Default.LoadListPropertyPaneWidth > 0 ? true:false;
 
         //members
         DteqGridViewModifier = new DataGridColumnViewToggle();
@@ -906,7 +907,34 @@ public class LoadListViewModel : EdtViewModelBase, INotifyDataErrorInfo
         }
     }
 
-
+  
+    //Property Pane
+    public bool IsPropertyPaneExpanded
+    {
+        get { return _isPropertyPaneExpanded; }
+        set 
+        { 
+            _isPropertyPaneExpanded = value; 
+            if (_isPropertyPaneExpanded) {
+                PropertyPaneWidth = new System.Windows.GridLength(550, GridUnitType.Pixel);
+            }
+            else {
+                PropertyPaneWidth = new System.Windows.GridLength(0, GridUnitType.Pixel);
+            }
+        }
+    }
+    private bool _isPropertyPaneExpanded;
+    private System.Windows.GridLength _propertyPaneWidth = new System.Windows.GridLength(AppSettings.Default.LoadListPropertyPaneWidth, GridUnitType.Star);
+    public System.Windows.GridLength PropertyPaneWidth
+    {
+        get { return _propertyPaneWidth; }
+        set
+        {
+            _propertyPaneWidth = value;
+            AppSettings.Default.LoadListPropertyPaneWidth = _propertyPaneWidth.Value;
+            AppSettings.Default.Save();
+        }
+    }
 
     #endregion
 

@@ -9,7 +9,7 @@
              d:Background="AliceBlue">
     <!--Top Data-->
     <Grid Grid.Column="3" Grid.ColumnSpan="2"
-          ShowGridLines="True">
+          ShowGridLines="false">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="auto"/>
