@@ -362,7 +362,7 @@ public class DpnCircuitManager
         var loadToAdd = new LoadToAddValidator(listManager) {
 
             Type = LoadTypes.OTHER.ToString(),
-            Description = loadCircuit.Description,
+            Description = loadCircuit.Description == "SPARE" ? "" : loadCircuit.Description,
             AreaTag = dpn.Area.Tag,
             FedFromTag = dpn.Tag,
 

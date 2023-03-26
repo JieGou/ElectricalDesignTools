@@ -11,7 +11,13 @@ public class UndoManager
 {
     public static ObservableCollection<UndoCommand> UndoList { get; set; } = new ObservableCollection<UndoCommand>();
     public static object LockHolder { get ; set; }
-    public static string LockHolderName { get => LockHolder.ToString(); }
+    public static string LockHolderName 
+    {
+        get
+        {
+            return LockHolder == null ? "none" : LockHolder.ToString();
+        }
+    }
     public static string LockProperty { get; set; }
 
     public static bool IsLocked { get; set; }

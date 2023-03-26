@@ -605,6 +605,9 @@ namespace EDTLibrary.Models.DPanels
             if (LineVoltageType.Phase==3) {
                 Calculate3PhaseLoading();
             }
+            else if (LineVoltageType.Phase == 1) {
+
+            }
             PhaseA = Math.Round(PhaseA, 2);
             PhaseB = Math.Round(PhaseB, 2);
             PhaseC = Math.Round(PhaseC, 2);

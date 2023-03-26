@@ -10,24 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WpfUI.ViewModels.Electrical;
 
-namespace WpfUI.Windows.SelectionWindows;
+namespace WpfUI.UserControls.Editors;
 /// <summary>
-/// Interaction logic for FedFromSelectionWindow.xaml
+/// Interaction logic for BasicPropertyEditor_Equipment.xaml
 /// </summary>
-public partial class SetEfficiencyWindow : Window
+public partial class LoadCircuitEditor : UserControl
 {
-    public SetEfficiencyWindow()
+    public LoadCircuitEditor()
     {
         InitializeComponent();
     }
-
-    private void Window_Closed(object sender, EventArgs e)
-    {
-        var dataContext = (EdtViewModelBase)this.DataContext;
-        dataContext.CloseSelectionWindow();
-    }
-
 }

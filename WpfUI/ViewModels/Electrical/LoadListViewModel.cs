@@ -25,7 +25,6 @@ using System.Windows.Threading;
 using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Stores;
-using WpfUI.ViewModels.Equipment;
 using WpfUI.ViewModifiers;
 using IComponentEdt = EDTLibrary.Models.Components.IComponentEdt;
 

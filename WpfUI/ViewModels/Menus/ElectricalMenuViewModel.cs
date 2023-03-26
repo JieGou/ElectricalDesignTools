@@ -21,7 +21,6 @@ using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Stores;
 using WpfUI.ViewModels.Electrical;
-using WpfUI.ViewModels.Equipment;
 using WpfUI.ViewModifiers;
 using WpfUI.Windows;
 

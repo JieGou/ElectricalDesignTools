@@ -1,29 +1,35 @@
 ﻿using AutocadLibrary;
 using Autodesk.AutoCAD.Interop;
 using Autodesk.AutoCAD.Interop.Common;
+using EdtLibrary.AutocadInterop.TitleBlocks;
 using EDTLibrary.Autocad.Interop;
 using EDTLibrary.AutocadInterop.Interop;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Services;
 using EDTLibrary.Settings;
+using Syncfusion.CompoundFile.XlsIO.Native;
+using Syncfusion.ProjIO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using WpfUI.Helpers;
 using Task = System.Threading.Tasks.Task;
 
 namespace WpfUI.Services;
 
-public delegate Task DrawCommandDelegate(IDteq dteq, bool newDrawing);
-public class AutocadService
+public delegate Task DrawCommandDelegate(IDteq dteq, bool addNewDrawing);
+public partial class AutocadService
 {
 
     public static AutocadHelper _acadHelper;
     public static string drawingName;
     private int _attempts;
-    private readonly int _maxAttemps = 10;
+    private readonly int _maxAttemps = 50;
 
+    public TitleBlockImporter TitleBlockImporter { get; set; } = new TitleBlockImporter(_acadHelper);
     public ISingleLineDrawer SingleLineDrawer { get; set; } = new SingleLineDrawer_EdtV1(_acadHelper);
     public IPanelScheduleDrawer PanelScheduleDrawer { get; set; } = new PanelScheduleDrawer_EdtV1(_acadHelper);
 
@@ -128,7 +134,79 @@ public class AutocadService
             
         }
     }
-   
+
+
+    public async Task<List<CadAttribute>> ImportTitleBlockAsync(string blockPath) 
+    {
+        var attributeList = new List<CadAttribute>();
+
+        try {
+            EdtNotificationService.SendPopupNotification(this, $"Starting Autocad");
+            await StartAutocadAsync();
+            EdtNotificationService.CloseoPupNotification(this);
+
+            _acadHelper.AddDrawing(drawingName);
+            drawingName = _acadHelper.DocName;
+           
+            await Task.Run(() => {
+                TitleBlockImporter.AcadHelper = _acadHelper;
+                attributeList = TitleBlockImporter.ImportTitleBlock(blockPath);
+                _acadHelper.AcadApp.ZoomExtents();
+            });
+
+            drawingName = "";
+            _isRunningTasks = false;
+            EdtNotificationService.CloseoPupNotification(this);
+
+            return attributeList;
+        }
+        catch (Exception ex) {
+
+            return await RetryTitleBlock(ex, ImportTitleBlockAsync, blockPath);
+        }
+        finally {
+            _isRunningTasks = false;
+            EdtNotificationService.CloseoPupNotification(this);
+        }
+    }
+
+    private async Task<List<CadAttribute>> RetryTitleBlock(Exception ex, Func<string, Task<List<CadAttribute>>> action, string blockPath)
+    {
+        if (ex.Message.Contains("rejected")) { //erase partial drawing and retry
+            if (_acadHelper.AcadDoc != null) {
+                DeleteDrawingContents();
+            }
+            return await action(blockPath);
+        }
+
+        else if (ex.Message.Contains("busy")) {
+            Task.Delay(500); // wait for acad to not be busy
+            if (_acadHelper.AcadDoc != null) {
+                DeleteDrawingContents();
+            }
+            return await action(blockPath);
+        }
+
+        else if (ex.Message.Contains("instance")) {
+            if (_acadHelper.AcadDoc != null) {
+                DeleteDrawingContents();
+            }
+            return await action(blockPath);
+        }
+
+        else if (ex.Message.Contains("dispatch")) {
+            //NotificationHandler.ShowErrorMessage(ex);
+            if (_acadHelper.AcadDoc != null) {
+                DeleteDrawingContents();
+            }
+            return await action(blockPath);
+        }
+        else {
+            NotificationHandler.ShowErrorMessage(ex);
+            return null;
+
+        }
+    }
 
 
     public async Task CreateSingleLine(IDteq dteq)
@@ -232,11 +310,12 @@ public class AutocadService
 
 
 
+    
     private void Retry(IDteq dteq, Exception ex)
     {
         if (ex.Message.Contains("not found")) {
             MessageBox.Show(
-                "Check the Blocks Source Folder path and make sure that the selected blocks exist.",
+                "Check the Blocks Source Folder path and make sure that the selected blocks exist." + ex.Message,
                 "Error - File Not Found",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
@@ -277,9 +356,10 @@ public class AutocadService
     }
     private void DeleteDrawingContents()
     {
-        int _maxDeleteAttempts = 10;
+        int _maxDeleteAttempts = _maxAttemps;
         int _deleteAttempts = 0;
         try {
+            Task.Delay(500);
             dynamic sSet = _acadHelper.AcadDoc.SelectionSets.Add("sSetAll");
             sSet.Select(AcSelect.acSelectionSetAll);
             foreach (dynamic item in sSet) {

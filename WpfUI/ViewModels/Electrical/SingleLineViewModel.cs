@@ -17,7 +17,6 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using WpfUI.PopupWindows;
 using WpfUI.Services;
-using WpfUI.ViewModels.Equipment;
 
 namespace WpfUI.ViewModels.Electrical;
 internal class SingleLineViewModel: EdtViewModelBase
@@ -219,7 +218,7 @@ internal class SingleLineViewModel: EdtViewModelBase
                 var component = (ComponentModelBase)_selectedLoadCable;
                 if (component.PowerCable != null) {
                     component.PowerCable.Validate(component.PowerCable);
-                    component.PowerCable.CreateTypeList((LoadModel)component.Owner); 
+                    component.PowerCable.CreateTypeList((IPowerConsumer)component.Owner); 
                 }
             }
 

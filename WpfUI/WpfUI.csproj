@@ -536,5 +536,9 @@
     </Page>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Equipment\" />
+  </ItemGroup>
+
 
 </Project>

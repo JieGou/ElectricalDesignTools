@@ -1065,7 +1065,7 @@
                         
                         <syncfusion:SfDataGrid x:Name="dgdAssignedLoads"  
                                                
-                                ContextMenu="{StaticResource LoadContextMenu}"
+                               ContextMenu="{StaticResource LoadContextMenu}"
                                                
                                Grid.Row="1"  Grid.Column="0"
                                ShowBusyIndicator="True"

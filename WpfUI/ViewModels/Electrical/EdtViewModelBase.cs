@@ -2,6 +2,8 @@
 using EDTLibrary;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
+using EDTLibrary.Models.DistributionEquipment.DPanels;
+using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Settings;
@@ -21,12 +23,11 @@ using System.Windows.Threading;
 using WpfUI.Commands;
 using WpfUI.Helpers;
 using WpfUI.Windows.SelectionWindows;
-using static System.Windows.Forms.MonthCalendar;
 
-namespace WpfUI.ViewModels.Equipment;
+namespace WpfUI.ViewModels.Electrical;
 
 [AddINotifyPropertyChangedInterface]
-public abstract class EdtViewModelBase: ViewModelBase
+public abstract class EdtViewModelBase : ViewModelBase
 {
     protected EdtViewModelBase(ListManager listManager)
     {
@@ -113,7 +114,7 @@ public abstract class EdtViewModelBase: ViewModelBase
         SelectionWindow.Close();
         SelectionWindow = null;
     }
-   
+
 
     public void AddLoad(object loadToAddObject)
     {
@@ -122,12 +123,14 @@ public abstract class EdtViewModelBase: ViewModelBase
 
     public async Task AddLoadAsync(object loadToAddObject)
     {
-        try {
+        try
+        {
             LoadModel newLoad = await LoadManager.AddLoad(loadToAddObject, _listManager);
             if (newLoad != null) AssignedLoads.Add(newLoad);
             LoadToAddValidator.ResetTag();
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             NotificationHandler.ShowErrorMessage(ex);
         }
     }
@@ -141,18 +144,23 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
     public async Task CalculateAllAsync()
     {
-        try {
-            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() => {
+        try
+        {
+            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
+            {
                 IsBusy = true;
             }));
 
-            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
 
-                foreach (var item in _listManager.LoadList) {
+                foreach (var item in _listManager.LoadList)
+                {
                     item.CalculateLoading();
                 }
 
-                foreach (var item in _listManager.DteqList) {
+                foreach (var item in _listManager.DteqList)
+                {
                     item.CalculateLoading();
                 }
                 IsBusy = false;
@@ -160,12 +168,14 @@ public abstract class EdtViewModelBase: ViewModelBase
             }));
 
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             //NotificationHandler.ShowErrorMessage(ex);
             IsBusy = false;
 
         }
-        finally {
+        finally
+        {
             IsBusy = false;
 
         }
@@ -180,20 +190,25 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
     private async Task AutoSizeAllCablesAsync()
     {
-        try {
-            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() => {
+        try
+        {
+            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
+            {
                 IsBusy = true;
             }));
-            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
 
 
-                foreach (var item in _listManager.IDteqList) {
+                foreach (var item in _listManager.IDteqList)
+                {
                     CableManager.IsAutosizing = true;
                     item.SizePowerCable();
                     CableManager.IsAutosizing = false;
                     item.PowerCable.OnPropertyUpdated();
                 }
-                foreach (var item in _listManager.LoadList) {
+                foreach (var item in _listManager.LoadList)
+                {
                     CableManager.IsAutosizing = true;
                     item.SizePowerCable();
                     CableManager.IsAutosizing = false;
@@ -203,12 +218,14 @@ public abstract class EdtViewModelBase: ViewModelBase
             }));
 
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             //NotificationHandler.ShowErrorMessage(ex);
             IsBusy = false;
 
         }
-        finally {
+        finally
+        {
             IsBusy = false;
 
         }
@@ -222,7 +239,8 @@ public abstract class EdtViewModelBase: ViewModelBase
     public ICommand ShowChangeAreaCommand { get; }
     public void ShowChangeArea()
     {
-        if (SelectionWindow == null) {
+        if (SelectionWindow == null)
+        {
 
             ChangeAreaWindow areaSelectionWindow = new ChangeAreaWindow();
             areaSelectionWindow.DataContext = this;
@@ -237,13 +255,15 @@ public abstract class EdtViewModelBase: ViewModelBase
         if (SelectedLoads == null) return;
         IEquipment load;
 
-        foreach (var item in SelectedLoads) {
-            load = (IEquipment)item;
+        foreach (var item in SelectedLoads)
+        {
+            load = item;
             //dteq.Tag = "New Tag";
             load.Area = ListManager.AreaList.FirstOrDefault(d => d.Tag == LoadToAddValidator.AreaTag);
         }
 
-        if (SelectionWindow != null) {
+        if (SelectionWindow != null)
+        {
             CloseSelectionWindow();
         }
     }
@@ -252,7 +272,8 @@ public abstract class EdtViewModelBase: ViewModelBase
     public ICommand ShowChangeFedFromCommand { get; }
     public void ShowChangeFedFrom()
     {
-        if (SelectionWindow == null) {
+        if (SelectionWindow == null)
+        {
             ChangeFedFromWindow fedFromSelectionWindow = new ChangeFedFromWindow();
             fedFromSelectionWindow.DataContext = this;
             SelectionWindow = fedFromSelectionWindow;
@@ -262,33 +283,37 @@ public abstract class EdtViewModelBase: ViewModelBase
     public ICommand ChangeFedFromCommand { get; }
     public void ChangeFedFrom()
     {
-        
+
         if (SelectedLoads == null) return;
         IPowerConsumer load;
 
 
         var list = new List<UpdateFedFromItem>();
-        
 
-        foreach (var loadItem in SelectedLoads) {
-            load = (IPowerConsumer)loadItem;
+
+        foreach (var loadItem in SelectedLoads)
+        {
+            load = loadItem;
             //load.FedFrom = ListManager.IDteqList.FirstOrDefault(d => d.Tag == LoadToAddValidator.FedFromTag);
             var newSupplier = ListManager.IDteqList.FirstOrDefault(d => d.Tag == LoadToAddValidator.FedFromTag);
 
 
-            if (newSupplier!=null) {
-                list.Add(new UpdateFedFromItem {
+            if (newSupplier != null)
+            {
+                list.Add(new UpdateFedFromItem
+                {
                     Caller = load,
                     NewSupplier = newSupplier,
                     OldSupplier = load.FedFrom
-                }); ;  
+                }); ;
             }
 
         }
 
         FedFromManager.UpdateFedFrom_List(list);
 
-        if (SelectionWindow != null) {
+        if (SelectionWindow != null)
+        {
             CloseSelectionWindow();
         }
     }
@@ -298,7 +323,8 @@ public abstract class EdtViewModelBase: ViewModelBase
     public ICommand ShowChangeLoadTypeCommand { get; }
     public void ShowChangeLoadType()
     {
-        if (SelectionWindow == null) {
+        if (SelectionWindow == null)
+        {
             var selectionWindow = new ChangeLoadTypeWindow();
             selectionWindow.DataContext = this;
             SelectionWindow = selectionWindow;
@@ -309,25 +335,28 @@ public abstract class EdtViewModelBase: ViewModelBase
     public ICommand ChangeLoadTypeCommand { get; }
     public void ChangeLoadType()
     {
-        
+
         if (SelectedLoads == null) return;
 
         ILoad load;
-        foreach (var loadItem in SelectedLoads) {
-            if (loadItem is ILoad) {
+        foreach (var loadItem in SelectedLoads)
+        {
+            if (loadItem is ILoad)
+            {
                 load = (ILoad)loadItem;
-                load.Type =  LoadType;
+                load.Type = LoadType;
             }
         }
 
-        if (SelectionWindow != null) {
+        if (SelectionWindow != null)
+        {
             CloseSelectionWindow();
         }
     }
     public string LoadType { get; set; } = "MOTOR";
 
 
-    
+
 
     //Demand Factor
 
@@ -335,7 +364,8 @@ public abstract class EdtViewModelBase: ViewModelBase
     public void ShowSetDemandFactor()
     {
         DemandFactor = EdtProjectSettings.DemandFactorDefault;
-        if (SelectionWindow == null) {
+        if (SelectionWindow == null)
+        {
             SetDemandFactorWindow selectionWindow = new SetDemandFactorWindow();
             selectionWindow.DataContext = this;
             SelectionWindow = selectionWindow;
@@ -346,17 +376,21 @@ public abstract class EdtViewModelBase: ViewModelBase
     public ICommand SetDemandFactorCommand { get; }
     public void SetDemandFactor()
     {
-        
+
         if (SelectedLoads == null) return;
 
         ILoad load;
         double outVal;
 
-        if (double.TryParse(DemandFactor, out outVal)) {
+        if (double.TryParse(DemandFactor, out outVal))
+        {
 
-            if (outVal >= 0 || outVal <= 1) {
-                foreach (var loadItem in SelectedLoads) {
-                    if (loadItem is ILoad) {
+            if (outVal >= 0 || outVal <= 1)
+            {
+                foreach (var loadItem in SelectedLoads)
+                {
+                    if (loadItem is ILoad)
+                    {
                         load = (ILoad)loadItem;
                         load.DemandFactor = outVal;
                     }
@@ -364,7 +398,8 @@ public abstract class EdtViewModelBase: ViewModelBase
             }
         }
 
-        if (SelectionWindow != null) {
+        if (SelectionWindow != null)
+        {
             CloseSelectionWindow();
         }
     }
@@ -376,11 +411,14 @@ public abstract class EdtViewModelBase: ViewModelBase
             _demandFactor = value;
             double outVal;
             ClearErrors();
-            if (double.TryParse(value, out outVal) == false) {
+            if (double.TryParse(value, out outVal) == false)
+            {
                 AddError(nameof(DemandFactor), "Invalid Value");
             }
-            else {
-                if (outVal < 0 || outVal > 1) {
+            else
+            {
+                if (outVal < 0 || outVal > 1)
+                {
                     AddError(nameof(DemandFactor), "Invalid Value");
                 }
             }
@@ -394,7 +432,8 @@ public abstract class EdtViewModelBase: ViewModelBase
     public void ShowSetPowerFactor()
     {
         PowerFactor = EdtProjectSettings.LoadDefaultPowerFactor_Other;
-        if (SelectionWindow == null) {
+        if (SelectionWindow == null)
+        {
             var selectionWindow = new SetPowerFactorWindow();
             selectionWindow.DataContext = this;
             SelectionWindow = selectionWindow;
@@ -410,11 +449,15 @@ public abstract class EdtViewModelBase: ViewModelBase
         ILoad load;
         double outVal;
 
-        if (double.TryParse(PowerFactor, out outVal)) {
+        if (double.TryParse(PowerFactor, out outVal))
+        {
 
-            if (outVal > 0 || outVal <= 1) {
-                foreach (var loadItem in SelectedLoads) {
-                    if (loadItem is ILoad) {
+            if (outVal > 0 || outVal <= 1)
+            {
+                foreach (var loadItem in SelectedLoads)
+                {
+                    if (loadItem is ILoad)
+                    {
                         load = (ILoad)loadItem;
                         load.PowerFactor = outVal;
                     }
@@ -422,7 +465,8 @@ public abstract class EdtViewModelBase: ViewModelBase
             }
         }
 
-        if (SelectionWindow != null) {
+        if (SelectionWindow != null)
+        {
             CloseSelectionWindow();
         }
     }
@@ -434,11 +478,14 @@ public abstract class EdtViewModelBase: ViewModelBase
             _powerFactor = value;
             double outVal;
             ClearErrors();
-            if (double.TryParse(value, out outVal) == false) {
+            if (double.TryParse(value, out outVal) == false)
+            {
                 AddError(nameof(PowerFactor), "Invalid Value");
             }
-            else {
-                if (outVal <= 0 || outVal > 1) {
+            else
+            {
+                if (outVal <= 0 || outVal > 1)
+                {
                     AddError(nameof(PowerFactor), "Invalid Value");
                 }
             }
@@ -452,7 +499,8 @@ public abstract class EdtViewModelBase: ViewModelBase
     public void ShowSetEfficiency()
     {
         Efficiency = EdtProjectSettings.LoadDefaultEfficiency_Other;
-        if (SelectionWindow == null) {
+        if (SelectionWindow == null)
+        {
             var selectionWindow = new SetEfficiencyWindow();
             selectionWindow.DataContext = this;
             SelectionWindow = selectionWindow;
@@ -470,11 +518,15 @@ public abstract class EdtViewModelBase: ViewModelBase
         ILoad load;
         double outVal;
 
-        if (double.TryParse(Efficiency, out outVal)) {
+        if (double.TryParse(Efficiency, out outVal))
+        {
 
-            if (outVal > 0 || outVal <= 1) {
-                foreach (var loadItem in SelectedLoads) {
-                    if (loadItem is ILoad) {
+            if (outVal > 0 || outVal <= 1)
+            {
+                foreach (var loadItem in SelectedLoads)
+                {
+                    if (loadItem is ILoad)
+                    {
                         load = (ILoad)loadItem;
                         load.Efficiency = outVal;
                     }
@@ -482,7 +534,8 @@ public abstract class EdtViewModelBase: ViewModelBase
             }
         }
 
-        if (SelectionWindow != null) {
+        if (SelectionWindow != null)
+        {
             CloseSelectionWindow();
         }
     }
@@ -494,11 +547,14 @@ public abstract class EdtViewModelBase: ViewModelBase
             _efficiency = value;
             double outVal;
             ClearErrors();
-            if (double.TryParse(value, out outVal) == false) {
+            if (double.TryParse(value, out outVal) == false)
+            {
                 AddError(nameof(Efficiency), "Invalid Value");
             }
-            else {
-                if (outVal <= 0 || outVal > 1) {
+            else
+            {
+                if (outVal <= 0 || outVal > 1)
+                {
                     AddError(nameof(Efficiency), "Invalid Value");
                 }
             }
@@ -516,11 +572,14 @@ public abstract class EdtViewModelBase: ViewModelBase
     private async Task AddDisconnectAsync()
     {
 
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
 
-            foreach (var loadObject in SelectedLoads) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    IPowerConsumer load = (IPowerConsumer)loadObject;
+            foreach (var loadObject in SelectedLoads)
+            {
+                if (loadObject.GetType() == typeof(LoadModel))
+                {
+                    IPowerConsumer load = loadObject;
                     load.DisconnectBool = true;
                 }
             }
@@ -537,11 +596,15 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
     private async Task AddDriveAsync()
     {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in SelectedLoads) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    IPowerConsumer load = (IPowerConsumer)loadObject;
-                    if (load.Type == LoadTypes.MOTOR.ToString()) {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
+            foreach (var loadObject in SelectedLoads)
+            {
+                if (loadObject.GetType() == typeof(LoadModel))
+                {
+                    IPowerConsumer load = loadObject;
+                    if (load.Type == LoadTypes.MOTOR.ToString())
+                    {
                         load.StandAloneStarterBool = true;
                     }
                 }
@@ -556,11 +619,15 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
     private async Task AddLcsAsync()
     {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in SelectedLoads) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    IPowerConsumer load = (IPowerConsumer)loadObject;
-                    if (load.Type == LoadTypes.MOTOR.ToString()) {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
+            foreach (var loadObject in SelectedLoads)
+            {
+                if (loadObject.GetType() == typeof(LoadModel))
+                {
+                    IPowerConsumer load = loadObject;
+                    if (load.Type == LoadTypes.MOTOR.ToString())
+                    {
                         load.LcsBool = true;
                     }
                 }
@@ -576,10 +643,12 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
     private async Task RemoveDisconnectAsync()
     {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in SelectedLoads) {
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
+            foreach (var loadObject in SelectedLoads)
+            {
 
-                IPowerConsumer load = (IPowerConsumer)loadObject;
+                IPowerConsumer load = loadObject;
                 load.DisconnectBool = false;
             }
         }));
@@ -592,10 +661,13 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
     private async Task RemoveDriveAsync()
     {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in SelectedLoads) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    IPowerConsumer load = (IPowerConsumer)loadObject;
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
+            foreach (var loadObject in SelectedLoads)
+            {
+                if (loadObject.GetType() == typeof(LoadModel))
+                {
+                    IPowerConsumer load = loadObject;
                     load.StandAloneStarterBool = false;
                 }
 
@@ -610,10 +682,13 @@ public abstract class EdtViewModelBase: ViewModelBase
     }
     private async Task RemoveLcsAsync()
     {
-        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-            foreach (var loadObject in SelectedLoads) {
-                if (loadObject.GetType() == typeof(LoadModel)) {
-                    IPowerConsumer load = (IPowerConsumer)loadObject;
+        await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+        {
+            foreach (var loadObject in SelectedLoads)
+            {
+                if (loadObject.GetType() == typeof(LoadModel))
+                {
+                    IPowerConsumer load = loadObject;
                     load.LcsBool = false;
                 }
             }
@@ -631,32 +706,85 @@ public abstract class EdtViewModelBase: ViewModelBase
 
         var message = $"Delete load {SelectedLoad.Tag}? \n\nThis cannot be undone.";
 
-        if (SelectedLoads.Count > 1) {
+        if (SelectedLoads.Count > 1)
+        {
             message = $"Delete {SelectedLoads.Count} loads? \n\nThis cannot be undone.";
         }
 
-        if (ConfirmationHelper.Confirm(message)) {
-            if (SelectedLoads.Count == 1) {
-                DeleteLoadAsync(selectedLoadObject);
+        if (ConfirmationHelper.Confirm(message))
+        {
+            if (SelectedLoads.Count <= 1)
+            {
+                DeleteSingleLoadAsync(selectedLoadObject);
             }
-            else {
-                DeleteLoadsAsync();
+            else
+            {
+                DeleteManyLoadsAsync();
             }
         }
     }
 
-    private async Task DeleteLoadsAsync()
+   
+
+    public async Task DeleteSingleLoadAsync(object selectedLoadObject)
     {
-        LoadModel load;
+        if (selectedLoadObject == null) return;
+
+        try
+        {
+            if (selectedLoadObject is LoadModel) {
+                LoadModel load = (LoadModel)selectedLoadObject;
+
+                if (load.FedFrom.Type == DteqTypes.CDP.ToString() || load.FedFrom.Type == DteqTypes.DPN.ToString()) {
+                    DpnCircuitManager.DeleteLoad((IDpn)load.FedFrom, load, ListManager);
+                }
+                await LoadManager.DeleteLoadAsync(selectedLoadObject, _listManager);
+                //var loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
+                //var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
+                AssignedLoads.Remove(load);
+
+                LoadToAddValidator.ResetTag();
+            }
+            else if (selectedLoadObject is LoadCircuit) {
+                LoadCircuit load = (LoadCircuit)selectedLoadObject;
+                DeleteLoadCircuit(load);
+            }
+        }
+        catch (Exception ex)
+        {
+
+            if (ex.Message.ToLower().Contains("sql"))
+            {
+                NotificationHandler.ShowErrorMessage(ex);
+            }
+            else
+            {
+                NotificationHandler.ShowErrorMessage(ex);
+            }
+            throw;
+        }
+    }
+
+    
+
+    private async Task DeleteManyLoadsAsync()
+    {
+
 
         var selectedLoads = new ObservableCollection<LoadModel>();
         foreach (var item in SelectedLoads) {
-            load = (LoadModel)item;
-            selectedLoads.Add(load);
+            if (item is LoadModel) {
+                var load = (LoadModel)item;
+                selectedLoads.Add(load);
+            }
+            else if (item is LoadCircuit) {
+                var loadCircuit = (LoadCircuit)item;
+                DeleteLoadCircuit(loadCircuit);
+            }
         }
         foreach (var load2 in selectedLoads) {
             await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
-                DeleteLoadAsync(load2);
+                DeleteSingleLoadAsync(load2);
             }));
         }
 
@@ -665,32 +793,10 @@ public abstract class EdtViewModelBase: ViewModelBase
         }
     }
 
-    public async Task DeleteLoadAsync(object selectedLoadObject)
+    private static void DeleteLoadCircuit(LoadCircuit load)
     {
-        if (selectedLoadObject == null) return;
-
-        try {
-
-            LoadModel load = (LoadModel)selectedLoadObject;
-            await LoadManager.DeleteLoadAsync(selectedLoadObject, _listManager);
-            //var loadId = await LoadManager.DeleteLoad(selectedLoadObject, _listManager);
-            //var loadToRemove = AssignedLoads.FirstOrDefault(load => load.Id == loadId);
-            AssignedLoads.Remove(load);
-
-            LoadToAddValidator.ResetTag();
-
-        }
-        catch (Exception ex) {
-
-            if (ex.Message.ToLower().Contains("sql")) {
-                NotificationHandler.ShowErrorMessage(ex);
-            }
-            else {
-                NotificationHandler.ShowErrorMessage(ex);
-            }
-            throw;
-        }
+        load.PdSizeTrip = 0;
+        load.Description = "";
     }
-
     #endregion
 }

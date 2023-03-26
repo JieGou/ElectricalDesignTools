@@ -15,7 +15,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using WpfUI.Helpers;
 using WpfUI.Services;
-using WpfUI.ViewModels.Equipment;
 
 namespace WpfUI.ViewModels.Electrical;
 
@@ -32,9 +31,6 @@ internal class DpanelViewModel : EdtViewModelBase
         set { _listManager = value; }
     }
     public LoadToAddValidator LoadToAddValidator { get; set; }
-
-
-    public SolidColorBrush SingleLineViewBackground { get; set; } = new SolidColorBrush(Colors.LightCyan);
 
 
 
@@ -63,7 +59,7 @@ internal class DpanelViewModel : EdtViewModelBase
         MoveRightCommand = new RelayCommand(MoveRight);
 
         ConvertToLoadCommand = new RelayCommand(ConvertToLoad);
-        //DeleteLoadCommand = new RelayCommand(DeleteLoad);
+        DeleteLoadCommand = new RelayCommand(DeleteLoad);
 
 
         DrawPanelScheduleAcadCommand = new RelayCommand(DrawPanelScheduleRelay);
@@ -144,7 +140,7 @@ internal class DpanelViewModel : EdtViewModelBase
    
     private ObservableCollection<IDpn> _viewableDteqList;
 
-    public IPowerConsumer SelectedLoad
+    public override IPowerConsumer SelectedLoad
     {
         get { return _selectedLoad; }
         set
@@ -282,10 +278,11 @@ internal class DpanelViewModel : EdtViewModelBase
     }
 
     public ICommand DeleteLoadCommand { get; }
-    public void DeleteLoad()
-    {
-        DpnCircuitManager.DeleteLoad(SelectedDteq, SelectedLoad, ScenarioManager.ListManager);
-    }
+
+    //public void DeleteLoad()
+    //{
+    //    DpnCircuitManager.DeleteLoad(SelectedDteq, SelectedLoad, ScenarioManager.ListManager);
+    //}
 
     #region Autocad
 

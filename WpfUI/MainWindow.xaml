@@ -502,6 +502,9 @@
                     <settingsViews:ExportSettingsView/>
                 </DataTemplate>
 
+                <DataTemplate DataType="{x:Type settingsViewModels:AutocadSettingsViewModel}">
+                    <settingsViews:AutocadSettingsView/>
+                </DataTemplate>
 
 
                 <!--Areas & Systems-->

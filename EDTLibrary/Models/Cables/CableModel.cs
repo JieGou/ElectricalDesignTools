@@ -87,27 +87,36 @@ public class CableModel : ICable
 
         cable.IsValid = true;
         ClearValidationMessages();
-        ValidateCableAmpacity(cable);
-        ValidateCableLength(cable);
-        ValidateCableConductorQty(cable);
 
-        if (cable.Load != null && cable.Load.FedFrom != null) {
-            IsInvalidMessage = $"Ampacity:\n{InvalidAmpacityMessage}" +
-                                  $"{Environment.NewLine}{Environment.NewLine}" +
-                                  $"Length:\n{InvalidLengthMessage}";
+        if (cable.UsageType == CableUsageTypes.Control.ToString()) return;
+
+        else if (cable.UsageType == CableUsageTypes.Instrument.ToString()) return;
+
+        else if (cable.UsageType == CableUsageTypes.Power.ToString()) {
+
+            ValidateCableAmpacity(cable);
+            ValidateCableLength(cable);
+            ValidateCableConductorQty(cable);
+
+            if (cable.Load != null && cable.Load.FedFrom != null) {
+                IsInvalidMessage = $"Ampacity:\n{InvalidAmpacityMessage}" +
+                                        $"{Environment.NewLine}{Environment.NewLine}" +
+                                        $"Length:\n{InvalidLengthMessage}";
+            }
+
+            //OnPropertyUpdated();
+            if (Load != null && Load.FedFrom != null) {
+                Load.FedFrom.Validate();
+
+            }
+            if (Load != null) {
+                Load.Validate();
+                if (Load.FedFrom == GlobalConfig.UtilityModel) {
+                    SourceModel = GlobalConfig.UtilityModel;
+                }
+            } 
         }
         
-        //OnPropertyUpdated();
-        if (Load != null && Load.FedFrom != null) {
-            Load.FedFrom.Validate();
-
-        }
-        if (Load != null) {
-            Load.Validate();
-        }
-        if (Load.FedFrom == GlobalConfig.UtilityModel) {
-            SourceModel = GlobalConfig.UtilityModel;
-        }
         return;
     }
 
@@ -163,8 +172,21 @@ public class CableModel : ICable
     public int Id { 
         get; 
         set; }
-    
-    public string Tag { get; set; }
+
+    private string _tag;
+
+    public string Tag
+    {
+        get { return _tag; }
+        set 
+        {
+            var oldValue = _tag;
+            _tag = value; 
+            UndoManager.AddUndoCommand(this, nameof(Tag),oldValue, value);
+            OnPropertyUpdated();
+        
+        }
+    }
 
     public string SizeTag
     {

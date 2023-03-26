@@ -136,7 +136,7 @@
 
                     <Button Content="Autocad Export"
                             Style="{StaticResource ToolBarButtonBase}" 
-                            Command="{Binding NavigateExportSettingsCommand}" />
+                            Command="{Binding NavigateAutocadSettingsCommand}" />
                 </StackPanel>
                    
             </Grid>

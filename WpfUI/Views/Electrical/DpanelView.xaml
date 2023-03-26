@@ -322,6 +322,9 @@
                                        AutoGenerateColumns="False"
                                        ItemsSource="{Binding SelectedDteq.LeftCircuits, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, IsAsync=False}"
                                        SelectedItem="{Binding SelectedLoadLeft, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                       SelectionMode="Extended"
+
+                                       
                                        RowHeight="{StaticResource RowHeight}"
                                        EditTrigger="OnDoubleTap"
                                        RowSelectionBrush="{StaticResource DatagridSelection}"
@@ -542,6 +545,8 @@
                                        ItemsSource="{Binding SelectedDteq.RightCircuits, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, IsAsync=False}"
                                        SelectedItem="{Binding SelectedLoadRight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                        RowHeight="{StaticResource RowHeight}"
+                                       SelectionMode="Extended"
+                                       
                                    
                                        EnableDataVirtualization="True"
                                        
@@ -799,6 +804,7 @@
                             Style="{StaticResource RedButton}"
                             Margin="3 20 3 3"
                             Command="{Binding DeleteLoadCommand}"
+                                CommandParameter="{Binding SelectedLoad}"
                             ToolTip="Delete selected load"/>
 
                         <!--Convert-->
@@ -838,7 +844,6 @@
                         Grid.Column="2" />
 
                 </Grid>
-                <!--Right Load-->
 
             </Border>
             

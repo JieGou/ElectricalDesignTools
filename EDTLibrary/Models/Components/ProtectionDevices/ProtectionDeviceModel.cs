@@ -78,28 +78,21 @@ public class ProtectionDeviceModel : ComponentModelBase, IProtectionDevice
 
     private void AddOrDeleteLcsAnalogCable()
     {
-        if (_type == StarterTypes.VSD.ToString()
-                     || _type == StarterTypes.VFD.ToString()
-                     || _type == StarterTypes.RVS.ToString()) {
+        if (Owner is ILoad) {
+            if ((Owner as ILoad).Lcs != null && (Owner as ILoad).Lcs.AnalogCable != null) {
+                CableManager.DeleteLcsAnalogCable((Owner as ILoad).Lcs, ScenarioManager.ListManager);
+            }
+        }
+
+        if (_type == StarterTypes.VSD.ToString() ||
+            _type == StarterTypes.VFD.ToString() ||
+            _type == StarterTypes.RVS.ToString()) {
 
             if (Owner is ILoad) {
                 CableManager.CreateLcsAnalogCableForProtectionDevice((ILoad)Owner, ScenarioManager.ListManager);
             }
         }
 
-        if (_type != StarterTypes.VSD.ToString()
-         && _type != StarterTypes.VFD.ToString()
-         && _type != StarterTypes.RVS.ToString()) {
-
-            if (Owner is ILoad) {
-                if ((Owner as ILoad).Lcs != null && (Owner as ILoad).Lcs.AnalogCable != null) {
-                    CableManager.DeleteLcsAnalogCable((Owner as ILoad).Lcs, ScenarioManager.ListManager);
-                }
-                else {
-
-                }
-            }
-        }
     }
 
 }

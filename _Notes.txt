@@ -5,6 +5,8 @@ Major Bugs
 	
 
 Minor Bugs
+	- dteq to splitter PD cable bugs
+	- delete load on Panel View isn't wired up
 	- added load needs to be shown / selected in views
 	- MCP frame size list for PD Editor
 	- transformer grounding
@@ -59,7 +61,6 @@ Autocad
 	- single line
 		- main block
 	- panel schedules
-		- add right circuits
 		- add breakers
 	- schematics
 	- wiring diagrams

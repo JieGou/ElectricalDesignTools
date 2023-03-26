@@ -28,7 +28,7 @@ namespace WpfUI.Helpers
         {
 
 
-            if (notificationName != "none") {
+            if (notificationName != "none" && notificationName != null) {
                 var prop = EdtAppSettings.Default.GetType().GetProperty(notificationName);
                 var notificationModel = new NotificationModel(caption, message + Environment.NewLine, prop.Name);
                 var binding = new Binding();

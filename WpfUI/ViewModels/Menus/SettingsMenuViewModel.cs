@@ -49,6 +49,9 @@ public class SettingsMenuViewModel : ViewModelBase
 
         _exportSettingsViewModel = new ExportSettingsViewModel(edtSettings, _typeManager);
         NavigateExportSettingsCommand = new RelayCommand(NavigateExportSettings);
+
+        _autocadSettingsViewModel = new AutocadSettingsViewModel(edtSettings, typeManager);
+        NavigateAutocadSettingsCommand = new RelayCommand(NavigateAutocadSettings);
     }
 
 
@@ -58,7 +61,6 @@ public class SettingsMenuViewModel : ViewModelBase
     public ICommand NavigateEquipmentSettingsCommand { get; }
     public ICommand NavigateCableSettingsCommand { get; }
     public ICommand NavigateTagSettingsCommand { get; }
-    public ICommand NavigateExportSettingsCommand { get; }
 
 
     #endregion
@@ -97,6 +99,7 @@ public class SettingsMenuViewModel : ViewModelBase
         _mainViewModel.CurrentViewModel = CurrentViewModel;
     }
 
+    public ICommand NavigateExportSettingsCommand { get; }
     private ExportSettingsViewModel _exportSettingsViewModel;
     private void NavigateExportSettings()
     {
@@ -111,6 +114,21 @@ public class SettingsMenuViewModel : ViewModelBase
 
         }
     }
+
+
+
+    public ICommand NavigateAutocadSettingsCommand { get; }
+    private AutocadSettingsViewModel _autocadSettingsViewModel;
+    private void NavigateAutocadSettings()
+    {
+        _autocadSettingsViewModel.LoadVmSettings(_autocadSettingsViewModel);
+        CurrentViewModel = _autocadSettingsViewModel;
+        _mainViewModel.CurrentViewModel = CurrentViewModel;
+
+      
+    }
+
+
 
 
     #region Properties and Backing Fields

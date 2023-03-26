@@ -174,6 +174,20 @@ namespace EDTLibrary.Settings
 
         public static ObservableCollection<ExportMappingModel> ExportMappings { get; set; }
         public static string AreaColumnVisible { get; set; }
+
+
+
+
+
+
+
+
+
+        //AutoCad
+
+        private string AutocadTitleBlock { get; set; }
+
+
     }
 }
 

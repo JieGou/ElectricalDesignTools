@@ -1,12 +1,15 @@
 ﻿using AutocadLibrary;
+using EdtLibrary.AutocadInterop.TitleBlocks;
 using EDTLibrary.Autocad.Interop;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Settings;
+using Microsoft.VisualBasic.FileIO;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -14,6 +17,7 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using WpfUI.Commands;
 using WpfUI.Helpers;
+using WpfUI.Services;
 
 namespace WpfUI.ViewModels.Settings;
 
@@ -50,6 +54,7 @@ public class AutocadSettingsViewModel : SettingsViewModelBase
         SelectAcadSaveFolderCommand = new RelayCommand(SelectAcadSaveFolder);
         SelectAcadBlockFolderCommand = new RelayCommand(SelectAcadBlockFolder);
         StartAutocadCommand = new RelayCommand(StartAutocad);
+        ImportTitleBlockCommand = new RelayCommand(ImportTitleBlock);
     }
 
     //General
@@ -235,6 +240,7 @@ public class AutocadSettingsViewModel : SettingsViewModelBase
     public ICommand SelectAcadSaveFolderCommand { get; }
 
     private string _acadSaveFolder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
     public string AcadSaveFolder
     {
         get => _acadSaveFolder;
@@ -267,10 +273,11 @@ public class AutocadSettingsViewModel : SettingsViewModelBase
     }
 
 
-    public ICommand StartAutocadCommand { get; }
-    public AutocadHelper Acad { get; set; }
+    
 
     #region Autocad
+    public AutocadHelper Acad { get; set; }
+    public ICommand StartAutocadCommand { get; }
     public void StartAutocad()
     {
         Acad = new AutocadHelper();
@@ -278,50 +285,36 @@ public class AutocadSettingsViewModel : SettingsViewModelBase
     }
 
 
-    public ICommand AddAcadDrawingCommand { get; }
-    public void AddDrawing()
+
+    public List<CadAttribute> TitleBlockAttributes
     {
-        if (Acad == null) {
-            MessageBox.Show("Connect to Autocad First");
-            return;
-        }
-        Acad.AddDrawing("New Drawing");
+        get { return _titleBlockAttributes; }
+        set { _titleBlockAttributes = value; }
     }
+    private List<CadAttribute> _titleBlockAttributes = new List<CadAttribute>();
 
 
-    public ICommand AddBlockCommand { get; }
-    public void AddBlock()
+
+
+    public string AutocadTitleBlock
     {
-        if (Acad == null ) {
-            MessageBox.Show("Connect to Autocad First");
-            return;
+        get { return Path.GetFileNameWithoutExtension(_autocadTitleBlock); }
+        set { _autocadTitleBlock = value;
+            SaveVmSetting(nameof(AutocadTitleBlock), value);
         }
-        if (Acad.AcadDoc==null) {
-            Acad.AcadDoc = Acad.AcadApp.ActiveDocument;
-        }
+    }
+    private string _autocadTitleBlock;
 
-        try {
-            ISingleLineDrawer slDrawer = new SingleLineDrawer_V1(Acad);
 
-            MccModel mcc = _listManager.MccList.FirstOrDefault(m => m.Tag.Contains("MCC"));
+    private string _titleBlockFile;
+    public ICommand ImportTitleBlockCommand { get; }
+    public async void ImportTitleBlock()
+    {
+        AutocadTitleBlock = FileSystemHelper.SelectFilePath(AcadSaveFolder, "Autocad Files (*.dwg)|*.dwg");
+        //AutocadTitleBlock = Path.GetFileName(AutocadTitleBlock);
 
-            if (mcc == null) return;
-            slDrawer.DrawSingleLine(mcc, 1.5);
-            Acad.AcadApp.ZoomExtents();
-        }
-   
-        catch (Exception ex) {
-
-            if (ex.Message.Contains("not found")) {
-                MessageBox.Show(
-                    "Check the Blocks Source Folder path and make sure that the selected blocks exist.", 
-                    "Error - File Not Found", 
-                    MessageBoxButtons.OK, 
-                    MessageBoxIcon.Error);
-            }
-            else {
-                NotificationHandler.ShowErrorMessage(ex);
-            }
+        if(_autocadTitleBlock!= null && _autocadTitleBlock!= string.Empty) {
+            TitleBlockAttributes = await AutocadService.ImportTitleBlockAsync(_autocadTitleBlock);
         }
     }
     #endregion

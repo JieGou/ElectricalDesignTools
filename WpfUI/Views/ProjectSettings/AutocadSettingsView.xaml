@@ -221,7 +221,7 @@
                       Margin="25 0 25 25"
                       Style="{StaticResource EdtGroupBoxTemplate}"
                       Background="{StaticResource Dark}"
-                          Visibility="Collapsed">
+                          Visibility="Visible">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -256,15 +256,18 @@
                                                Margin="0 -25 0 0"/>
 
 
-                        <ComboBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5"
-                                    ItemsSource="{Binding TitleBlocks}"
-                                    SelectedValue="{Binding SelectedTitleBlock}"
-                                    SelectedValuePath="Name"
-                                    DisplayMemberPath="Name"
-                                    Width="300">
+                        <ComboBox 
+                            Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5"
+                            ItemsSource="{Binding TitleBlocks}"
+                            SelectedValue="{Binding SelectedTitleBlock}"
+                            SelectedValuePath="Name"
+                            DisplayMemberPath="Name"
+                            Width="300"
+                            Text="{Binding AutocadTitleBlock}">
 
                         </ComboBox>
 
+                        <TextBlock Text="{Binding AutocadTitleBlock}"/>
 
                         <Button Content="Import Title Block"
                             Command="{Binding ImportTitleBlockCommand}"
@@ -280,6 +283,52 @@
 
                         <!--Acad Tests-->
 
+
+                    </Grid>
+                </GroupBox>
+
+                <!--Attributes-->
+                <GroupBox Header="Title Block Attributes"
+                          Style="{StaticResource EdtGroupBoxTemplate}"
+                          Background="{StaticResource Dark}"
+                          >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+
+                        <TextBlock Text="The attributes in the selected title block and their default values are listed below. When a new drawing is created the title block will be populated with the below information."
+                                   MaxWidth="600"
+                                   TextWrapping="Wrap"/>
+
+                        <DataGrid 
+                            Grid.Row="1" ItemsSource="{Binding TitleBlockAttributes}"
+                                  AutoGenerateColumns="False"
+                                  RowHeaderWidth="0">
+                            
+                            <DataGrid.Columns>
+                                <DataGridTextColumn 
+                                    Header="Attribute" Binding="{Binding TagString}"
+                                    Width="250"
+                                    IsReadOnly="True"/>
+                                
+                                <DataGridTextColumn 
+                                    Header="Value" Binding="{Binding TextString}"
+                                    Width="400"/>
+                            </DataGrid.Columns>
+                            
+                        </DataGrid>
 
                     </Grid>
                 </GroupBox>

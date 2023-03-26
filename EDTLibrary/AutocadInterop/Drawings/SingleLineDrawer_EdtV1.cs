@@ -86,7 +86,7 @@ public class SingleLineDrawer_EdtV1 : ISingleLineDrawer
         double Yscale = 1;
         double Zscale = 1;
 
-        Thread.Sleep(1000);
+        Thread.Sleep(1000); //to prevent the connection to Autocad from faulting
 
 
         var acadBlock = AcadHelper.AcadDoc.ModelSpace.InsertBlock(insertionPoint, blockPath, Xscale, Yscale, Zscale, 0);
@@ -272,7 +272,12 @@ public class SingleLineDrawer_EdtV1 : ISingleLineDrawer
         else if (load.Type == LoadTypes.OTHER.ToString()) {
             blockType = "Load";
         }
-
+        else if (load.Type == DteqTypes.XFR.ToString()) {
+            blockType = "LvTransformer";
+        }
+        else if (load.Type == DteqTypes.CDP.ToString() || load.Type == DteqTypes.DPN.ToString()) {
+            blockType = "DPanel";
+        }
 
         string sourcePath = BlockSourceFolder + @"\Single Line\";
         string blockName = "SL_" + blockType + ".dwg";

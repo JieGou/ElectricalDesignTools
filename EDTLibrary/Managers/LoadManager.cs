@@ -99,7 +99,7 @@ public class LoadManager
         newLoad.PowerCable.LoadType = newLoad.GetType().ToString();
 
         newLoad.PowerCable.SetTypeProperties();
-
+        newLoad.PowerCable.CreateTag();
 
         //Get Id
         //newLoad.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newLoad.PowerCable, GlobalConfig.PowerCableTable, SaveLists.PowerCableSaveList);

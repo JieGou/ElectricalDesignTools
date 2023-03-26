@@ -152,9 +152,22 @@ public partial class DpanelView : UserControl
     //left
     private void LeftGrid_SelectionChanged(object sender, GridSelectionChangedEventArgs e)
     {
+        if (_clearingGrid) return;
+
         if (vm == null) return;
         vm.SelectedLoad = (IPowerConsumer)LeftGrid.SelectedItem;
         vm.SelectedLoadRight = null;
+
+        vm.SelectedLoads.Clear();
+        foreach (var item in LeftGrid.SelectedItems) {
+            vm.SelectedLoads.Add((IPowerConsumer)item);
+        }
+
+        _clearingGrid = true;
+            RightGrid.ClearSelections(true);
+            RightGrid.SelectedIndex = -1; 
+        _clearingGrid = false;
+
     }
     private void LeftGrid_MouseUp(object sender, MouseEventArgs e)
     {
@@ -162,13 +175,26 @@ public partial class DpanelView : UserControl
         vm.SelectedLoad = (IPowerConsumer)LeftGrid.SelectedItem;
         vm.SelectedLoadRight = null;
     }
-
+    private bool _clearingGrid;
     //right
     private void RightGrid_SelectionChanged(object sender, GridSelectionChangedEventArgs e)
     {
+        if (_clearingGrid) return;
+
+
         if (vm == null) return;
         vm.SelectedLoad = (IPowerConsumer)RightGrid.SelectedItem;
         vm.SelectedLoadLeft = null;
+
+        vm.SelectedLoads.Clear();
+        foreach (var item in RightGrid.SelectedItems) {
+            vm.SelectedLoads.Add((IPowerConsumer)item);
+        }        
+
+        _clearingGrid = true;
+        LeftGrid.ClearSelections(true);
+        LeftGrid.SelectedIndex = -1;
+        _clearingGrid = false;
     }
 
     private void RightGrid_MouseUp(object sender, MouseEventArgs e)

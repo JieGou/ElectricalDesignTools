@@ -209,7 +209,7 @@ public partial class LoadListView : UserControl
                 while (dgdAssignedLoads.SelectedItems.Count > 0) {
                     await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                         load = (LoadModel)dgdAssignedLoads.SelectedItems[0];
-                        vm.DeleteLoadAsync(load);
+                        vm.DeleteSingleLoadAsync(load);
                         dgdAssignedLoads.SelectedItems.Remove(load);
                     }));
                 }
@@ -579,7 +579,7 @@ public partial class LoadListView : UserControl
                 Unit = Units.HP.ToString()
             };
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 250; i++) {
                 await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => {
                     load.Tag = "M-" + count.ToString();
                     load.Area = listManager.AreaList[3];
