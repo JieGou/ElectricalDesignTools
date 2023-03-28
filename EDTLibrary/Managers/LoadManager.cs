@@ -114,11 +114,11 @@ public class LoadManager
         //ProtectionDeviceManager.AddProtectionDevice(newLoad, listManager);
 
         //Save to Db
-        DaManager.prjDb.UpsertRecord(newLoad.PowerCable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
+        DaManager.PrjDb.UpsertRecord(newLoad.PowerCable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
 
         newLoad.CalculateCableAmps();
         listManager.CableList.Add(newLoad.PowerCable);
-        DaManager.prjDb.UpsertRecord(newLoad, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
+        DaManager.PrjDb.UpsertRecord(newLoad, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
 
         listManager.LoadList.Add(newLoad);
 
@@ -150,7 +150,7 @@ public class LoadManager
             int loadId = loadToDelete.Id;
             await CableManager.DeletePowerCableAsync(loadToDelete, listManager); //await
             await CableManager.DeleteLoadComponentsCablesAsync(loadToDelete, listManager); //await
-            await DaManager.prjDb.DeleteRecordAsync(GlobalConfig.LoadTable, loadId); //await
+            await DaManager.PrjDb.DeleteRecordAsync(GlobalConfig.LoadTable, loadId); //await
 
             var loadToRemove = listManager.LoadList.FirstOrDefault(load => load.Id == loadId);
             listManager.LoadList.Remove(loadToRemove);

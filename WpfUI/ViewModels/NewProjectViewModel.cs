@@ -169,9 +169,9 @@ public class NewProjectViewModel : ViewModelBase, INotifyDataErrorInfo
               
 
                 DaManager.DeleteAllModelRecords();
-                DaManager.prjDb.DeleteAllRecords(GlobalConfig.AreaTable);
+                DaManager.PrjDb.DeleteAllRecords(GlobalConfig.AreaTable);
                
-                DaManager.prjDb.InsertRecord(GlobalConfig.DefaultAreaModel, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
+                DaManager.PrjDb.InsertRecord(GlobalConfig.DefaultAreaModel, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
 
                 _startupService.InitializeProject(fullFileName);
                 settingVm = new SettingsMenuViewModel(_mainViewModel, new EDTLibrary.Settings.EdtProjectSettings(), _typeManager);

@@ -30,7 +30,7 @@ public class AreaFactory
                 newArea.NemaRating = areaToAdd.NemaRating;
 
 
-                newArea.Id = DaManager.prjDb.InsertRecordGetId(newArea, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
+                newArea.Id = DaManager.PrjDb.InsertRecordGetId(newArea, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
 
                 listManager.AreaList.Add(newArea);
                 

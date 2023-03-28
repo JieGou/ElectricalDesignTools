@@ -18,7 +18,7 @@ public class TagManager
     public static ObservableCollection<TagModel> TagSettingList { get; set; } = new ObservableCollection<TagModel>();
     public static void LoadTagSettings()
     {
-        TagSettingList = DaManager.prjDb.GetRecords<TagModel>("TagSettings");
+        TagSettingList = DaManager.PrjDb.GetRecords<TagModel>("TagSettings");
 
         var tagSettingsClass = typeof(TagSettings);
         foreach (var tagSetting in TagSettingList) {
@@ -37,7 +37,7 @@ public class TagManager
         TagModel setting = new TagModel();
         setting = TagSettingList.FirstOrDefault(s => s.Name == settingName);
         setting.Value = settingValue;
-        DaManager.prjDb.UpdateRecord<TagModel>(setting, "TagSettings");
+        DaManager.PrjDb.UpdateRecord<TagModel>(setting, "TagSettings");
     }
 
 

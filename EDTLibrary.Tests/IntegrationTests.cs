@@ -39,10 +39,10 @@ namespace EDTLibrary.Tests
                 GlobalConfig.Testing = true;
                 CopyDb();
 
-                DaManager.prjDb = new SQLiteConnector(GlobalConfig.TestDb);
+                DaManager.PrjDb = new SQLiteConnector(GlobalConfig.TestDb);
 
                 //Clear Database
-                DaManager.prjDb.DeleteAllRecords(GlobalConfig.AreaTable);
+                DaManager.PrjDb.DeleteAllRecords(GlobalConfig.AreaTable);
                 DaManager.DeleteAllModelRecords();
 
                 #region INITIALIZATIONS
@@ -187,7 +187,7 @@ namespace EDTLibrary.Tests
 
 
                 //TODO - Clean up DteqModel vs abstract Dteq
-                var list = DaManager.prjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
+                var list = DaManager.PrjDb.GetRecords<DteqModel>(GlobalConfig.DteqTable);
                 foreach (var item in list) {
                     listManager.DteqList.Add(item);
                 }

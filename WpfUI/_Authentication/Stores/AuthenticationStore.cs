@@ -80,6 +80,23 @@ public class AuthenticationStore
 
     }
 
+    public async Task ResetPassword(string email)
+    {
+
+        var result = 
+            MessageBox.Show($"A password reset link will be sent to {email}.", 
+            "Reset Password", 
+            MessageBoxButton.OKCancel, 
+            MessageBoxImage.Information);
+   
+
+        if (result == MessageBoxResult.OK) {
+            await _firebaseAuthProvider.SendPasswordResetEmailAsync(email);
+        }
+
+
+    }
+
     public async Task GetFreshAuthAsync()
     {
         await _currentFirebaseAuthLink.GetFreshAuthAsync();

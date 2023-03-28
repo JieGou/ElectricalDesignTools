@@ -23,7 +23,7 @@ public class XfrModel : DistributionEquipment
     private string _subType;
     public double PrimaryFla
     {
-        get { return Math.Round(Fla * LoadVoltage / LineVoltage,0); }
+        get { return Math.Round(Size * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase)); }
     }
     private double _primaryFla;
 

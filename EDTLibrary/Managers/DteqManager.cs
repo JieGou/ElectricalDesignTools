@@ -48,7 +48,7 @@ public class DteqManager
             //Save to Db when calculating inside DteqModel
             newDteq.LoadCableDerating = double.Parse(EdtProjectSettings.DteqLoadCableDerating);
             newDteq.CalculateLoading(); //after dteq is inserted to get a new Id
-            DaManager.UpsertDteq(newDteq);
+            DaManager.UpsertDteqAsync(newDteq);
             listManager.AddDteq(newDteq);
 
             //Cable
@@ -58,7 +58,7 @@ public class DteqManager
             newDteq.PowerCable.CreateTag();
             newDteq.PowerCable.SetTypeProperties();
 
-            newDteq.PowerCable.Id = DaManager.prjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
+            newDteq.PowerCable.Id = DaManager.PrjDb.InsertRecordGetId(newDteq.PowerCable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
             newDteq.PowerCable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
             listManager.CableList.Add(newDteq.PowerCable); // newCable is already getting added
 

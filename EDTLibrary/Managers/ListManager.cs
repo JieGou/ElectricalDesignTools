@@ -114,7 +114,7 @@ namespace EDTLibrary.Managers
         {
             
             BreakerPropModels.Clear();
-            var breakersProps = DaManager.prjDb.GetRecords<BreakerPropModel>(GlobalConfig.BreakerPropsTable) ;
+            var breakersProps = DaManager.PrjDb.GetRecords<BreakerPropModel>(GlobalConfig.BreakerPropsTable) ;
 
             foreach (var propModel in breakersProps) {
                 BreakerPropModels.Add(propModel);
@@ -122,7 +122,7 @@ namespace EDTLibrary.Managers
             }
 
             DisconnectPropModels.Clear();
-            var disconnectProps = DaManager.prjDb.GetRecords<DisconnectPropModel>(GlobalConfig.DisconnectPropsTable);
+            var disconnectProps = DaManager.PrjDb.GetRecords<DisconnectPropModel>(GlobalConfig.DisconnectPropsTable);
             foreach (var item in disconnectProps) {
                 DisconnectPropModels.Add(item);
                 item.PropertyUpdated += DaManager.OnTypeModelPropertyUpdated;
@@ -257,7 +257,7 @@ namespace EDTLibrary.Managers
         private void GetDrives()
         {
             DriveList.Clear();
-            var list = DaManager.prjDb.GetRecords<DriveModel>(GlobalConfig.DriveTable);
+            var list = DaManager.PrjDb.GetRecords<DriveModel>(GlobalConfig.DriveTable);
             foreach (var item in list) {
                 DriveList.Add(item);
                 item.PropertyUpdated += DaManager.OnDrivePropertyUpdated;
@@ -268,7 +268,7 @@ namespace EDTLibrary.Managers
         public ObservableCollection<IArea> GetAreas()
         {
             AreaList.Clear();
-            var list = DaManager.prjDb.GetRecords<AreaModel>(GlobalConfig.AreaTable);
+            var list = DaManager.PrjDb.GetRecords<AreaModel>(GlobalConfig.AreaTable);
             foreach (var item in list) {
                 AreaList.Add(item);
                 item.PropertyUpdated += DaManager.OnAreaPropertyUpdated;
@@ -305,7 +305,7 @@ namespace EDTLibrary.Managers
 
 
             //XFR
-            XfrList = DaManager.prjDb.GetRecords<XfrModel>(GlobalConfig.XfrTable);
+            XfrList = DaManager.PrjDb.GetRecords<XfrModel>(GlobalConfig.XfrTable);
             foreach (var model in XfrList) {
                 IDteqList.Add(model);
                 DteqList.Add(model);
@@ -313,20 +313,20 @@ namespace EDTLibrary.Managers
                 model.SecondaryWiringType = TypeManager.TransformerWiringTypes.FirstOrDefault(tw => tw.WiringType == model.SecondaryWiring);
             }
             //Swg
-            SwgList = DaManager.prjDb.GetRecords<SwgModel>(GlobalConfig.SwgTable);
+            SwgList = DaManager.PrjDb.GetRecords<SwgModel>(GlobalConfig.SwgTable);
             foreach (var model in SwgList) {
                 IDteqList.Add(model);
                 DteqList.Add(model);
             }
             //Mcc
-            MccList = DaManager.prjDb.GetRecords<MccModel>(GlobalConfig.MccTable);
+            MccList = DaManager.PrjDb.GetRecords<MccModel>(GlobalConfig.MccTable);
             foreach (var model in MccList) {
                 IDteqList.Add(model);
                 DteqList.Add(model);
             }
 
             //Dpn
-            DpnList = DaManager.prjDb.GetRecords<DpnModel>(GlobalConfig.DpnTable);
+            DpnList = DaManager.PrjDb.GetRecords<DpnModel>(GlobalConfig.DpnTable);
             foreach (var model in DpnList) {
                 IDteqList.Add(model);
                 DteqList.Add(model);
@@ -334,7 +334,7 @@ namespace EDTLibrary.Managers
 
 
             //Splitters
-            SplitterList = DaManager.prjDb.GetRecords<SplitterModel>(GlobalConfig.SplitterTable);
+            SplitterList = DaManager.PrjDb.GetRecords<SplitterModel>(GlobalConfig.SplitterTable);
             foreach (var model in SplitterList) {
                 IDteqList.Add(model);
                 DteqList.Add(model);
@@ -362,7 +362,7 @@ namespace EDTLibrary.Managers
         private void GetLoadsAndAssignPropertyUpdatedEvent()
         {
 
-            var list = DaManager.prjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable);
+            var list = DaManager.PrjDb.GetRecords<LoadModel>(GlobalConfig.LoadTable);
             LoadList.Clear();
             foreach (var item in list) {
                 LoadList.Add(item);
@@ -392,7 +392,7 @@ namespace EDTLibrary.Managers
         private void GetLoadCircuitsAndAddToAssignedCircuits()
         {
             LoadCircuitList.Clear();
-            var list = DaManager.prjDb.GetRecords<LoadCircuit>(GlobalConfig.LoadCircuitTable);
+            var list = DaManager.PrjDb.GetRecords<LoadCircuit>(GlobalConfig.LoadCircuitTable);
             foreach (var item in list) {
                 LoadCircuitList.Add(item);
                 item.PropertyUpdated += DaManager.OnLoadCircuitPropertyUpdated;
@@ -430,7 +430,7 @@ namespace EDTLibrary.Managers
         private void GetComponents()
         {
             CompList.Clear();
-            var list = DaManager.prjDb.GetRecords<ComponentModel>(GlobalConfig.ComponentTable);
+            var list = DaManager.PrjDb.GetRecords<ComponentModel>(GlobalConfig.ComponentTable);
             foreach (var item in list) {
                 CompList.Add(item);
             }
@@ -470,7 +470,7 @@ namespace EDTLibrary.Managers
         private void GetProtectionDevices()
         {
             PdList.Clear();
-            var pdList = DaManager.prjDb.GetRecords<ProtectionDeviceModel>(GlobalConfig.ProtectionDeviceTable);
+            var pdList = DaManager.PrjDb.GetRecords<ProtectionDeviceModel>(GlobalConfig.ProtectionDeviceTable);
 
             foreach (var pd in pdList) {
 
@@ -527,7 +527,7 @@ namespace EDTLibrary.Managers
         private void GetLocalControlStations()
         {
             LcsList.Clear();
-            var list = DaManager.prjDb.GetRecords<LocalControlStationModel>(GlobalConfig.LcsTable);
+            var list = DaManager.PrjDb.GetRecords<LocalControlStationModel>(GlobalConfig.LcsTable);
             foreach (var item in list) {
                 LcsList.Add(item);
             }
@@ -552,7 +552,7 @@ namespace EDTLibrary.Managers
         private void GetCables()
         {
             CableList.Clear();
-            CableList = DaManager.prjDb.GetRecords<CableModel>(GlobalConfig.CableTable);
+            CableList = DaManager.PrjDb.GetRecords<CableModel>(GlobalConfig.CableTable);
             AssignCableTypesAndSizes();
         }
         private void AssignCableTypesAndSizes()
@@ -570,7 +570,7 @@ namespace EDTLibrary.Managers
         private void GetRaceways()
         {
             RacewayList.Clear();
-            var list = DaManager.prjDb.GetRecords<RacewayModel>(GlobalConfig.RacewayTable);
+            var list = DaManager.PrjDb.GetRecords<RacewayModel>(GlobalConfig.RacewayTable);
             foreach (var item in list) {
                 RacewayList.Add(item);
                 item.PropertyUpdated += DaManager.OnRacewayPropertyUpdated;
@@ -582,7 +582,7 @@ namespace EDTLibrary.Managers
             ObservableCollection<RacewayRouteSegment> segmentList;
             foreach (var cable in CableList) {
                 RacewaySegmentList.Clear();
-                segmentList = DaManager.prjDb.GetRecords<RacewayRouteSegment>(GlobalConfig.RacewayRouteSegmentsTable);
+                segmentList = DaManager.PrjDb.GetRecords<RacewayRouteSegment>(GlobalConfig.RacewayRouteSegmentsTable);
 
                 foreach (var segment in segmentList) {
                     RacewaySegmentList.Add(segment);
@@ -740,7 +740,7 @@ namespace EDTLibrary.Managers
             //Area
             foreach (var area in AreaList) {
                 if (area.Tag != GlobalConfig.UtilityTag) {
-                    DaManager.UpsertArea((AreaModel)area);
+                    DaManager.UpsertAreaAsync((AreaModel)area);
                 }
             }
             //Dteq
@@ -766,7 +766,7 @@ namespace EDTLibrary.Managers
 
             //Cables
             foreach (var cable in CableList) {
-                DaManager.UpsertCable(cable);
+                DaManager.UpsertCableAsync(cable);
             }
         }
 

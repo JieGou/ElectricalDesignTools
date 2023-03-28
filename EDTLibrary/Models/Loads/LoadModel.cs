@@ -112,6 +112,7 @@ namespace EDTLibrary.Models.Loads
         {
             if (DaManager.Importing) return;
             if (DaManager.GettingRecords) return;
+            saveController.Lock(nameof(Validate));
 
             IsInvalidMessage = string.Empty;
             var isValid = true;
@@ -176,6 +177,9 @@ namespace EDTLibrary.Models.Loads
             if (FedFrom != null) {
                 FedFrom.Validate();
             }
+
+            saveController.UnLock(nameof(Validate));
+
             OnPropertyUpdated();
 
             return;
@@ -576,6 +580,8 @@ namespace EDTLibrary.Models.Loads
                     
                     return;
                 }
+
+
                 if (FedFromManager.IsUpdatingFedFrom_List) {
                     //locks are in the UpdateFedFrom local function
                     UpdateFedFrom(oldValue, newFedFrom);
@@ -976,7 +982,7 @@ namespace EDTLibrary.Models.Loads
         {
             if (allowCalculations == false) return;
             if (DaManager.GettingRecords) return;
-
+            saveController.Lock(nameof(CalculateLoading));
             UndoManager.Lock(this, nameof(CalculateLoading));
 
             try {
@@ -1146,6 +1152,9 @@ namespace EDTLibrary.Models.Loads
                     ConnectedKva = 9999999;
                 }
             }
+            saveController.UnLock(nameof(CalculateLoading));
+
+
             void Size_ProtectionDevice()
             {
                 var tag = Tag;
@@ -1261,7 +1270,14 @@ namespace EDTLibrary.Models.Loads
                 if (IsCalculating) return;
                 if (CanSave == false) return;
 
+                var propLock = saveController.LockProperty;
+                if (saveController.IsLocked) return;
+
                 var tag = Tag;
+
+                //if (PropertyUpdated != null) {
+                //    PropertyUpdated(this, EventArgs.Empty);
+                //}
 
                 await Task.Run(() => {
                     if (PropertyUpdated != null) {

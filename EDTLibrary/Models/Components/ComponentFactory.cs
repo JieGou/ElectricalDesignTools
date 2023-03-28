@@ -210,7 +210,7 @@ public class ComponentFactory
         UndoManager.CanAdd = false;
 
         listManager.LcsList.Add(newLcs);
-        DaManager.UpsertLcs(newLcs);
+        DaManager.UpsertLcsAsync(newLcs);
         newLcs.PropertyUpdated += DaManager.OnLcsPropertyUpdated;
         UndoManager.CanAdd = true;
 

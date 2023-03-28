@@ -855,7 +855,9 @@ public class CableModel : ICable
 
             try {
 
-                _isAutoSizing = true;
+            saveController.Lock(nameof(AutoSize));
+
+            _isAutoSizing = true;
                 UndoManager.CanAdd = false;
                 AmpacityTable = CableManager.CableSizer.GetAmpacityTable(this);
                 Spacing = CableManager.CableSizer.GetDefaultCableSpacing(this);
@@ -873,6 +875,7 @@ public class CableModel : ICable
                 }
 
                 CalculateAmpacity(Load);
+            saveController.UnLock(nameof(AutoSize));
                 _isAutoSizing = false;
 
                 OnPropertyUpdated();
@@ -1239,7 +1242,6 @@ public class CableModel : ICable
 
         await Task.Run(() => {
             if (PropertyUpdated != null) {
-                PropertyUpdated(this, EventArgs.Empty);
             }
         });
     }

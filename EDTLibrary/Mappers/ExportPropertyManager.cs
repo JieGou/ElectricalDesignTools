@@ -13,7 +13,7 @@ public class ExportPropertyManager
         var propertyList = new List<string>();
         var mapperList = new List<ExportMappingModel>();
 
-        mapperList = DaManager.prjDb.GetRecords<ExportMappingModel>("ExportMapping").ToList();
+        mapperList = DaManager.PrjDb.GetRecords<ExportMappingModel>("ExportMapping").ToList();
         propertyList = mapperList.Where(m => m.Type == listName && m.IncludeInReport == true).Select(m => m.PropertyName).ToList();
 
         return propertyList;

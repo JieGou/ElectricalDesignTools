@@ -48,7 +48,7 @@ namespace WpfUI.ViewModels.Library
         public void GetDataTables()
         {
             DataTableList.Clear();
-            var dataTablesList = DaManager.libDb.GetListOfTablesNamesInDb();
+            var dataTablesList = DaManager.LibDb.GetListOfTablesNamesInDb();
             foreach (var dataTable in dataTablesList) {
                 DataTableList.Add(dataTable.ToString());
             }
@@ -124,7 +124,7 @@ namespace WpfUI.ViewModels.Library
             set
             {
                 _selectedDataTable = value;
-                DataTableToLoad = DaManager.libDb.GetDataTable(_selectedDataTable);
+                DataTableToLoad = DaManager.LibDb.GetDataTable(_selectedDataTable);
 
                 if (_selectedDataTable == "LocalControlStationTypes") {
                     TypeValidator = new LcsTypeValidator();
@@ -234,7 +234,7 @@ namespace WpfUI.ViewModels.Library
                     dynamic instanceToAdd = Activator.CreateInstance(ModelType);
                     instanceToAdd = TypeValidator.CreateType(instanceToAdd);
                     TypeList.Add(instanceToAdd);
-                    instanceToAdd.Id = DaManager.libDb.InsertRecordGetId(instanceToAdd, SelectedDataTable, new List<string>());
+                    instanceToAdd.Id = DaManager.LibDb.InsertRecordGetId(instanceToAdd, SelectedDataTable, new List<string>());
 
                     ReloadDataTable();
                 }
@@ -265,7 +265,7 @@ namespace WpfUI.ViewModels.Library
                     if (instanceToUpdate == null) return;
 
                     CloneAndAddTimeStamp(TypeValidator, instanceToUpdate);
-                    DaManager.libDb.UpsertRecord(instanceToUpdate, SelectedDataTable, new List<string>());
+                    DaManager.LibDb.UpsertRecord(instanceToUpdate, SelectedDataTable, new List<string>());
 
 
                     ReloadDataTable();
@@ -294,7 +294,7 @@ namespace WpfUI.ViewModels.Library
 
                 if (instanceToDelete.AddedByUser == true) {
                     TypeList.Remove(instanceToDelete);
-                    DaManager.libDb.DeleteRecord(SelectedDataTable, instanceToDelete.Id);
+                    DaManager.LibDb.DeleteRecord(SelectedDataTable, instanceToDelete.Id);
                 }
                 else {
                     NotificationHandler.ShowAlert("Cannot delete non user added items from the library.", "Library Error");

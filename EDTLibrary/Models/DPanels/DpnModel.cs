@@ -96,7 +96,7 @@ namespace EDTLibrary.Models.DPanels
         {
             foreach (var loadCircuit in AssignedCircuits) {
                 loadCircuit.PropertyUpdated += DaManager.OnLoadCircuitPropertyUpdated;
-                DaManager.prjDb.DeleteRecord(GlobalConfig.LoadCircuitTable, loadCircuit.Id);
+                DaManager.PrjDb.DeleteRecord(GlobalConfig.LoadCircuitTable, loadCircuit.Id);
             }
         }
 

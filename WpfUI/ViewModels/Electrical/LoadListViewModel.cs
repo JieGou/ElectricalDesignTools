@@ -636,7 +636,7 @@ public class LoadListViewModel : EdtViewModelBase, INotifyDataErrorInfo
 
         if (powerCableUser.PowerCable != null) {
             int cableId = powerCableUser.PowerCable.Id;
-            DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
+            DaManager.PrjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
             _listManager.CableList.Remove(powerCableUser.PowerCable);
         }
         return;

@@ -33,7 +33,7 @@ namespace EDTLibrary.Settings
         public static void LoadProjectSettings()
         {
             SettingList.Clear();
-            SettingList = DaManager.prjDb.GetRecords<SettingModel>("ProjectSettings");
+            SettingList = DaManager.PrjDb.GetRecords<SettingModel>("ProjectSettings");
 
             // LISTS
             // -Strings
@@ -45,13 +45,13 @@ namespace EDTLibrary.Settings
             }
 
             // -Tables
-            ArrayList listOfTablesInDb = DaManager.prjDb.GetListOfTablesNamesInDb();
+            ArrayList listOfTablesInDb = DaManager.PrjDb.GetListOfTablesNamesInDb();
             TableSettingList.Clear();
             foreach (var setting in SettingList) {
                 if (setting.Type == "DataTable") {
                     //if in Db get DataTable
                     if (listOfTablesInDb.Contains(setting.Name)) {
-                        setting.TableValue = DaManager.prjDb.GetDataTable(setting.Name);
+                        setting.TableValue = DaManager.PrjDb.GetDataTable(setting.Name);
                     }
                     TableSettingList.Add(setting);
                 }
@@ -60,7 +60,7 @@ namespace EDTLibrary.Settings
 
             // Load from Db into Objects
             // -Strings
-            DataTable settingsDbTable = DaManager.prjDb.GetDataTable("ProjectSettings");
+            DataTable settingsDbTable = DaManager.PrjDb.GetDataTable("ProjectSettings");
             Type projectSettingsClass = typeof(EdtProjectSettings);
             string propValue = "";
 
@@ -97,7 +97,7 @@ namespace EDTLibrary.Settings
                         && setting.Type == "DataTable"
                         && listOfTablesInDb.Contains(prop.Name))
                     {
-                        prop.SetValue(propValue, DaManager.prjDb.GetDataTable(prop.Name));
+                        prop.SetValue(propValue, DaManager.PrjDb.GetDataTable(prop.Name));
                     }
                 }
             }
@@ -109,11 +109,11 @@ namespace EDTLibrary.Settings
 
         private static void GetCableSizesUsedInProject()
         {
-            EdtProjectSettings.CableSizesUsedInProject = DaManager.prjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
+            EdtProjectSettings.CableSizesUsedInProject = DaManager.PrjDb.GetRecords<CableSizeModel>("CableSizesUsedInProject");
         }
         private static void GetExportMappings()
         {
-            EdtProjectSettings.ExportMappings = DaManager.prjDb.GetRecords<ExportMappingModel>("ExportMapping");
+            EdtProjectSettings.ExportMappings = DaManager.PrjDb.GetRecords<ExportMappingModel>("ExportMapping");
         }
 
         private static void AssignCodeSettings()
@@ -127,7 +127,7 @@ namespace EDTLibrary.Settings
         public static void SaveStringSetting(SettingModel setting)
         {
             //SettingsModel
-            DaManager.prjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
+            DaManager.PrjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
 
             //SettingProperty
             Type edtSettingsClass = typeof(EdtProjectSettings); // MyClass is static class with static properties
@@ -143,18 +143,18 @@ namespace EDTLibrary.Settings
             SettingModel setting = new SettingModel();
             setting = SettingList.FirstOrDefault(s => s.Name == settingName);
             setting.Value = settingValue;
-            DaManager.prjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
+            DaManager.PrjDb.UpdateRecord<SettingModel>(setting, "ProjectSettings");
         }
 
 
         public static void SaveSettingTableValueToDb(SettingModel tableSetting)
         {
-            DaManager.prjDb.SaveDataTable(tableSetting.TableValue, tableSetting.Name);
+            DaManager.PrjDb.SaveDataTable(tableSetting.TableValue, tableSetting.Name);
         }
 
         public static void SaveExportMappingToDb(ExportMappingModel mapping)
         {
-            DaManager.prjDb.UpdateRecord(mapping, GlobalConfig.ExportMappingTable);
+            DaManager.PrjDb.UpdateRecord(mapping, GlobalConfig.ExportMappingTable);
         }
     }
 }

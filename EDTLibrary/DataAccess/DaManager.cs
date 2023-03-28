@@ -33,16 +33,16 @@ public class DaManager {
     public static bool GettingRecords { get; set; } = true;
     public static bool DeletingLoad { get; set; } = false;
 
-    public static IDaConnector prjDb { get; set; }
-    public static IDaConnector libDb { get; set; }
+    public static IDaConnector PrjDb { get; set; }
+    public static IDaConnector LibDb { get; set; }
 
     public static void SetProjectDb(IDaConnector daConnector) {
-        prjDb = daConnector;
+        PrjDb = daConnector;
         _projectFile = daConnector.ConString;
     }
 
     public static void SetLibraryDb( IDaConnector daConnector) {
-        libDb = daConnector;
+        LibDb = daConnector;
         _libraryFile = daConnector.ConString;
     }
 
@@ -51,7 +51,7 @@ public class DaManager {
         Type libraryTablesClass = typeof(DataTables); // MyClass is static class with static properties
         DataTable dt = new DataTable();
         foreach (var prop in libraryTablesClass.GetProperties()) {
-            prop.SetValue(dt, libDb.GetDataTable(prop.Name));
+            prop.SetValue(dt, LibDb.GetDataTable(prop.Name));
         }
         IsLibraryLoaded = true;
         TypeManager.GetTypeTables();
@@ -61,29 +61,29 @@ public class DaManager {
     #region General
     public static void DeleteAllModelRecords()
     {
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.XfrTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.SwgTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.MccTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.DpnTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.SplitterTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.LoadCircuitTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.CableTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.ProtectionDeviceTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.LcsTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.RacewayTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.RacewayRouteSegmentsTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.XfrTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.SwgTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.MccTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.DpnTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.SplitterTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.LoadTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.LoadCircuitTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.CableTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.ProtectionDeviceTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.LcsTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.RacewayTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.RacewayRouteSegmentsTable);
 
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.BreakerPropsTable);
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.DisconnectPropsTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.BreakerPropsTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.DisconnectPropsTable);
     }
     #endregion
 
     public static AreaModel GetArea(int locationId)
     {
         try {
-            return prjDb.GetRecordById<AreaModel>(GlobalConfig.AreaTable, locationId);
+            return PrjDb.GetRecordById<AreaModel>(GlobalConfig.AreaTable, locationId);
 
         }
         catch (Exception) {
@@ -128,30 +128,30 @@ public class DaManager {
 
             if (iDteq.GetType() == typeof(DteqModel)) {
                 var model = (DteqModel)iDteq;
-                prjDb.UpsertRecord(model, GlobalConfig.DteqTable, NoSaveLists.DteqNoSaveList);
+                PrjDb.UpsertRecord(model, GlobalConfig.DteqTable, NoSaveLists.DteqNoSaveList);
             }
             else if (iDteq.GetType() == typeof(XfrModel)) {
                 var model = (XfrModel)iDteq;
-                prjDb.UpsertRecord(model, GlobalConfig.XfrTable, NoSaveLists.DteqNoSaveList);
+                PrjDb.UpsertRecord(model, GlobalConfig.XfrTable, NoSaveLists.DteqNoSaveList);
             }
             else if (iDteq.GetType() == typeof(SwgModel)) {
                 var model = (SwgModel)iDteq;
-                prjDb.UpsertRecord(model, GlobalConfig.SwgTable, NoSaveLists.DteqNoSaveList);
+                PrjDb.UpsertRecord(model, GlobalConfig.SwgTable, NoSaveLists.DteqNoSaveList);
             }
             else if (iDteq.GetType() == typeof(MccModel)) {
                 var model = (MccModel)iDteq;
-                prjDb.UpsertRecord(model, GlobalConfig.MccTable, NoSaveLists.DteqNoSaveList);
+                PrjDb.UpsertRecord(model, GlobalConfig.MccTable, NoSaveLists.DteqNoSaveList);
             }
 
 
             else if (iDteq.GetType() == typeof(DpnModel)) {
                 var model = (DpnModel)iDteq;
-                prjDb.UpsertRecord(model, GlobalConfig.DpnTable, NoSaveLists.DteqNoSaveList);
+                PrjDb.UpsertRecord(model, GlobalConfig.DpnTable, NoSaveLists.DteqNoSaveList);
             }
 
             else if (iDteq.GetType() == typeof(SplitterModel)) {
                 var model = (SplitterModel)iDteq;
-                prjDb.UpsertRecord(model, GlobalConfig.SplitterTable, NoSaveLists.DteqNoSaveList);
+                PrjDb.UpsertRecord(model, GlobalConfig.SplitterTable, NoSaveLists.DteqNoSaveList);
             }
         }
 
@@ -171,9 +171,9 @@ public class DaManager {
     {
 
         try {
+            if (GlobalConfig.Importing == true) return;
             await Task.Run(() => {
-                if (GlobalConfig.Importing == true) return;
-                prjDb.UpsertRecord(load, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
+                PrjDb.UpsertRecord(load, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
             });
 
         }
@@ -195,7 +195,7 @@ public class DaManager {
         try {
             await Task.Run(() => {
                 if (GlobalConfig.Importing == true) return;
-                prjDb.UpsertRecord(load, GlobalConfig.LoadCircuitTable, NoSaveLists.LoadNoSaveList);
+                PrjDb.UpsertRecord(load, GlobalConfig.LoadCircuitTable, NoSaveLists.LoadNoSaveList);
             });
 
         }
@@ -225,7 +225,7 @@ public class DaManager {
         try {
             if (GlobalConfig.Importing == true) return;
 
-            prjDb.UpsertRecord(drive, GlobalConfig.DriveTable, NoSaveLists.CompNoSaveList);
+            PrjDb.UpsertRecord(drive, GlobalConfig.DriveTable, NoSaveLists.CompNoSaveList);
         }
         catch (Exception ex) {
             Debug.Print(ex.ToString());
@@ -236,14 +236,14 @@ public class DaManager {
     public static void OnLcsPropertyUpdated(object source, EventArgs e)
     {
         if (DaManager.GettingRecords == false) {
-            DaManager.UpsertLcs((LocalControlStationModel)source);
+            DaManager.UpsertLcsAsync((LocalControlStationModel)source);
         }
     }
 
     public static void OnAreaPropertyUpdated(object source, EventArgs e)
     {
         if (DaManager.GettingRecords == false) {
-            prjDb.UpsertRecord<AreaModel>((AreaModel)source, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
+            PrjDb.UpsertRecord<AreaModel>((AreaModel)source, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
         }
     }
 
@@ -251,21 +251,21 @@ public class DaManager {
     {
         if (DaManager.GettingRecords == false) {
             //prjDb.UpsertRecord<CableModel>((CableModel)source, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
-            prjDb.UpdateRecordSaveList<CableModel>((CableModel)source, GlobalConfig.CableTable, SaveLists.CableSaveList);
+            PrjDb.UpdateRecordSaveList<CableModel>((CableModel)source, GlobalConfig.CableTable, SaveLists.CableSaveList);
         }
     }
 
     public static void OnRacewayPropertyUpdated(object source, EventArgs e)
     {
         if (DaManager.GettingRecords == false) {
-            prjDb.UpsertRecord<RacewayModel>((RacewayModel)source, GlobalConfig.RacewayTable, NoSaveLists.RacewayNoSaveList);
+            PrjDb.UpsertRecord<RacewayModel>((RacewayModel)source, GlobalConfig.RacewayTable, NoSaveLists.RacewayNoSaveList);
         }
     }
 
     public static void OnProtectioneDevicePropertyUpdated(object source, EventArgs e)
     {
         if (DaManager.GettingRecords == false) {
-            prjDb.UpsertRecord<ProtectionDeviceModel>((ProtectionDeviceModel)source, GlobalConfig.ProtectionDeviceTable, NoSaveLists.ProtectionDeviceNoSaveList);
+            PrjDb.UpsertRecord<ProtectionDeviceModel>((ProtectionDeviceModel)source, GlobalConfig.ProtectionDeviceTable, NoSaveLists.ProtectionDeviceNoSaveList);
         }
     }
 
@@ -275,19 +275,19 @@ public class DaManager {
         int id = 0;
         if (iDteq.GetType() == typeof(DteqModel)) {
            var model = (DteqModel)iDteq;
-           id = prjDb.InsertRecordGetId(model, GlobalConfig.DteqTable, NoSaveLists.DteqNoSaveList);
+           id = PrjDb.InsertRecordGetId(model, GlobalConfig.DteqTable, NoSaveLists.DteqNoSaveList);
         }
         else if (iDteq.GetType() == typeof(XfrModel)) {
             var model = (XfrModel)iDteq;
-            id = prjDb.InsertRecordGetId(model, GlobalConfig.XfrTable, NoSaveLists.DteqNoSaveList);
+            id = PrjDb.InsertRecordGetId(model, GlobalConfig.XfrTable, NoSaveLists.DteqNoSaveList);
         }
         else if (iDteq.GetType() == typeof(SwgModel)) {
             var model = (SwgModel)iDteq;
-            id = prjDb.InsertRecordGetId(model, GlobalConfig.SwgTable, NoSaveLists.DteqNoSaveList);
+            id = PrjDb.InsertRecordGetId(model, GlobalConfig.SwgTable, NoSaveLists.DteqNoSaveList);
         }
         else if (iDteq.GetType() == typeof(MccModel)) {
             var model = (MccModel)iDteq;
-            id = prjDb.InsertRecordGetId(model, GlobalConfig.MccTable, NoSaveLists.DteqNoSaveList);
+            id = PrjDb.InsertRecordGetId(model, GlobalConfig.MccTable, NoSaveLists.DteqNoSaveList);
         }
         return id;
     }
@@ -298,7 +298,7 @@ public class DaManager {
 
     public static int SaveLoadGetId(LoadModel load)
     {
-        int id = prjDb.InsertRecordGetId(load, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
+        int id = PrjDb.InsertRecordGetId(load, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
         return id;
     }
     public static int SavePowerCableGetId(ICable cable)
@@ -306,7 +306,7 @@ public class DaManager {
         int id = 0;
         if (cable.GetType() == typeof(CableModel)) {
             var cableModel = (CableModel)cable;
-            id= prjDb.InsertRecordGetId(cableModel, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
+            id= PrjDb.InsertRecordGetId(cableModel, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
         }
         return id;
     }
@@ -316,27 +316,27 @@ public class DaManager {
     {
         if (iDteq.GetType() == typeof(DteqModel)) {
             var model = (DteqModel)iDteq;
-            prjDb.DeleteRecord(GlobalConfig.DteqTable, model.Id);
+            PrjDb.DeleteRecord(GlobalConfig.DteqTable, model.Id);
         }
         else if (iDteq.GetType() == typeof(XfrModel)) {
             var model = (XfrModel)iDteq;
-            prjDb.DeleteRecord(GlobalConfig.XfrTable, model.Id);
+            PrjDb.DeleteRecord(GlobalConfig.XfrTable, model.Id);
         }
         else if (iDteq.GetType() == typeof(SwgModel)) {
             var model = (SwgModel)iDteq;
-            prjDb.DeleteRecord(GlobalConfig.SwgTable, model.Id);
+            PrjDb.DeleteRecord(GlobalConfig.SwgTable, model.Id);
         }
         else if (iDteq.GetType() == typeof(MccModel)) {
             var model = (MccModel)iDteq;
-            prjDb.DeleteRecord(GlobalConfig.MccTable, model.Id);
+            PrjDb.DeleteRecord(GlobalConfig.MccTable, model.Id);
         }
         else if (iDteq.GetType() == typeof(DpnModel)) {
             var model = (DpnModel)iDteq;
-            prjDb.DeleteRecord(GlobalConfig.DpnTable, model.Id);
+            PrjDb.DeleteRecord(GlobalConfig.DpnTable, model.Id);
         }
         else if (iDteq.GetType() == typeof(SplitterModel)) {
             var model = (SplitterModel)iDteq;
-            prjDb.DeleteRecord(GlobalConfig.SplitterTable, model.Id);
+            PrjDb.DeleteRecord(GlobalConfig.SplitterTable, model.Id);
         }
     }
 
@@ -353,11 +353,11 @@ public class DaManager {
 
                 if (component.GetType() == typeof(ComponentModel)) {
                     var model = (ComponentModel)component;
-                    prjDb.UpsertRecord(model, GlobalConfig.ComponentTable, NoSaveLists.CompNoSaveList);
+                    PrjDb.UpsertRecord(model, GlobalConfig.ComponentTable, NoSaveLists.CompNoSaveList);
                 }
                 else if (component.GetType() == typeof(ProtectionDeviceModel)) {
                     var model = (ProtectionDeviceModel)component;
-                    prjDb.UpsertRecord(model, GlobalConfig.ProtectionDeviceTable, NoSaveLists.ProtectionDeviceNoSaveList);
+                    PrjDb.UpsertRecord(model, GlobalConfig.ProtectionDeviceTable, NoSaveLists.ProtectionDeviceNoSaveList);
                 }
             });
         }
@@ -375,11 +375,11 @@ public class DaManager {
         
         if (component.GetType() == typeof(ComponentModel)) {
             var model = (ComponentModel)component;
-            prjDb.DeleteRecord(GlobalConfig.ComponentTable, model.Id);
+            PrjDb.DeleteRecord(GlobalConfig.ComponentTable, model.Id);
         }
         else if (component.GetType() == typeof(ProtectionDeviceModel)) {
             var model = (ProtectionDeviceModel)component;
-            prjDb.DeleteRecord(GlobalConfig.ProtectionDeviceTable, model.Id);
+            PrjDb.DeleteRecord(GlobalConfig.ProtectionDeviceTable, model.Id);
         }
     }
     public static void DeleteProtectionDevice(ProtectionDeviceModel pd)
@@ -387,15 +387,16 @@ public class DaManager {
         if (pd == null) {
             return;
         }
-        prjDb.DeleteRecord(GlobalConfig.ProtectionDeviceTable, pd.Id);
+        PrjDb.DeleteRecord(GlobalConfig.ProtectionDeviceTable, pd.Id);
     }
 
-    public static void UpsertLcs(LocalControlStationModel lcs)
+    public static async Task UpsertLcsAsync(LocalControlStationModel lcs)
     {
         try {
             if (GlobalConfig.Importing == true) return;
-
-            prjDb.UpsertRecord(lcs, GlobalConfig.LcsTable, NoSaveLists.LcsNoSaveList);
+            await Task.Run(() => {
+                PrjDb.UpsertRecord(lcs, GlobalConfig.LcsTable, NoSaveLists.LcsNoSaveList);
+            });
         }
         catch (Exception ex) {
             Debug.Print(ex.ToString());
@@ -407,31 +408,50 @@ public class DaManager {
         if (lcs == null) {
             return;
         }
-        prjDb.DeleteRecord(GlobalConfig.LcsTable, lcs.Id);
+        PrjDb.DeleteRecord(GlobalConfig.LcsTable, lcs.Id);
     }
 
-    public static void UpsertCable(CableModel cable)
+    public static async Task UpsertCableAsync(CableModel cable)
     {
-        prjDb.UpsertRecord(cable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
+
+        try {
+            if (GlobalConfig.Importing == true) return;
+            await Task.Run(() => {
+                PrjDb.UpsertRecord(cable, GlobalConfig.CableTable, NoSaveLists.PowerCableNoSaveList);
+            });
+        }
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw;
+        }
     }
 
-    public static void UpsertArea(AreaModel area)
+    public static async Task UpsertAreaAsync(AreaModel area)
     {
-        DaManager.prjDb.UpsertRecord<AreaModel>(area, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
+        try {
+            if (GlobalConfig.Importing == true) return;
+            await Task.Run(() => {
+                PrjDb.UpsertRecord<AreaModel>(area, GlobalConfig.AreaTable, NoSaveLists.AreaNoSaveList);
+            });
+        }
+        catch (Exception ex) {
+            Debug.Print(ex.ToString());
+            throw;
+        }
     }
 
     internal static void DeleteLoadCircuit(LoadCircuit loadCircuit)
     {
-        DaManager.prjDb.DeleteRecord(GlobalConfig.LoadCircuitTable, loadCircuit.Id);
+        DaManager.PrjDb.DeleteRecord(GlobalConfig.LoadCircuitTable, loadCircuit.Id);
     }
     internal static void DeleteRaceway(RacewayModel raceway)
     {
-        DaManager.prjDb.DeleteRecord(GlobalConfig.RacewayTable, raceway.Id);
+        DaManager.PrjDb.DeleteRecord(GlobalConfig.RacewayTable, raceway.Id);
     }
 
     internal static void DeleteRacewaySegment(RacewayRouteSegment racewayRouteSegment)
     {
-        DaManager.prjDb.DeleteRecord(GlobalConfig.RacewayRouteSegmentsTable, racewayRouteSegment.Id);
+        DaManager.PrjDb.DeleteRecord(GlobalConfig.RacewayRouteSegmentsTable, racewayRouteSegment.Id);
     }
 
 
@@ -472,11 +492,11 @@ public class DaManager {
 
             if (propModel.GetType() == typeof(BreakerPropModel)) {
                 var model = (BreakerPropModel)propModel;
-                prjDb.UpsertRecord(model, GlobalConfig.BreakerPropsTable, NoSaveLists.PropModelNoSaveList);
+                PrjDb.UpsertRecord(model, GlobalConfig.BreakerPropsTable, NoSaveLists.PropModelNoSaveList);
             }
             else if (propModel.GetType() == typeof(DisconnectPropModel)) {
                 var model = (DisconnectPropModel)propModel;
-                prjDb.UpsertRecord(model, GlobalConfig.DisconnectPropsTable, NoSaveLists.PropModelNoSaveList);
+                PrjDb.UpsertRecord(model, GlobalConfig.DisconnectPropsTable, NoSaveLists.PropModelNoSaveList);
             }
         }
 
@@ -507,11 +527,11 @@ public class DaManager {
 
             if (propModel.GetType() == typeof(BreakerPropModel)) {
                 var model = (BreakerPropModel)propModel;
-                prjDb.DeleteRecord(GlobalConfig.BreakerPropsTable, propModel.Id);
+                PrjDb.DeleteRecord(GlobalConfig.BreakerPropsTable, propModel.Id);
             }
             else if (propModel.GetType() == typeof(DisconnectPropModel)) {
                 var model = (DisconnectPropModel)propModel;
-                prjDb.DeleteRecord(GlobalConfig.DisconnectPropsTable, propModel.Id);
+                PrjDb.DeleteRecord(GlobalConfig.DisconnectPropsTable, propModel.Id);
             }
         }
 

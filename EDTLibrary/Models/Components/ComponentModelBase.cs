@@ -563,6 +563,10 @@ public abstract class ComponentModelBase : IComponentEdt
         if (DaManager.GettingRecords == true) return;
         if (DaManager.Importing == true) return;
 
+        //if (PropertyUpdated != null) {
+        //    PropertyUpdated(this, EventArgs.Empty);
+        //}
+
         await Task.Run(() => {
             if (PropertyUpdated != null) {
                 PropertyUpdated(this, EventArgs.Empty);

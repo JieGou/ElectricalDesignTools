@@ -47,7 +47,7 @@
             </StackPanel>
 
             <StackPanel Grid.Row="1">
-                <TextBlock Text="Username"/>
+                <TextBlock Text="Full Name"/>
                 <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
             </StackPanel>
 
@@ -62,10 +62,9 @@
             </StackPanel>
 
             <Button Grid.Row="4" 
-                    Content="Submit"
+                    Content="Register"
                     Command="{Binding RegisterCommand}"
                     VerticalContentAlignment="Center"
-                    Width="250"
                     Height="25"
                     Padding="0 -10 0 0"
                     Margin="0 25 0 0"/>

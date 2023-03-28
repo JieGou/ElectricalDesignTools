@@ -29,7 +29,7 @@ public class CableManager
 
         if (powerCableUser.PowerCable != null) {
             int cableId = powerCableUser.PowerCable.Id;
-            DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
+            DaManager.PrjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
             listManager.CableList.Remove(powerCableUser.PowerCable);
         }
         return;
@@ -45,7 +45,7 @@ public class CableManager
 
         if (loadModel.PowerCable != null) {
             int cableId = loadModel.PowerCable.Id;
-            DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
+            DaManager.PrjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
             listManager.CableList.Remove(loadModel.PowerCable);
 
             var cablesToRemove = new List<CableModel>();
@@ -59,12 +59,12 @@ public class CableManager
 
             foreach (var item in cablesToRemove) {
                 listManager.CableList.Remove(item);
-                DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, item.Id);
+                DaManager.PrjDb.DeleteRecord(GlobalConfig.CableTable, item.Id);
             }
 
             if (loadModel.Lcs != null) {
                 listManager.CableList.Remove((CableModel)loadModel.Lcs.ControlCable);
-                DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, loadModel.Lcs.ControlCable.Id);
+                DaManager.PrjDb.DeleteRecord(GlobalConfig.CableTable, loadModel.Lcs.ControlCable.Id);
             }
 
 
@@ -133,7 +133,7 @@ public class CableManager
 
                 foreach (var cable in cablesToRemove) {
                     listManager.CableList.Remove(cable);
-                    DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cable.Id);
+                    DaManager.PrjDb.DeleteRecord(GlobalConfig.CableTable, cable.Id);
                 }
 
                 //Add Cables
@@ -196,7 +196,7 @@ public class CableManager
                     component.PowerCable = cable;
 
                     listManager.CableList.Add(cable);
-                    DaManager.UpsertCable(cable);
+                    DaManager.UpsertCableAsync(cable);
                     previousComponent = component;
                 }
                 UpdateLoadCable(powerComponentOwner, previousComponent, loadCableLength, listManager);
@@ -300,7 +300,7 @@ public class CableManager
         load.PowerCable.Tag = GetCableTag(load.PowerCable);
         load.PowerCable.Id = listManager.CableList.Max(l => l.Id) + 1;  //DaManager.SavePowerCableGetId(cable);
         listManager.CableList.Add(load.PowerCable);
-        DaManager.UpsertCable(load.PowerCable);
+        DaManager.UpsertCableAsync(load.PowerCable);
     }
 
     public static string GetCableTag(ICable cable, [CallerMemberName] string callerMethod = "")
@@ -378,7 +378,7 @@ public class CableManager
         cable.Tag = GetCableTag(cable);
 
         listManager.CableList.Add(cable);
-        DaManager.UpsertCable((CableModel)cable);
+        DaManager.UpsertCableAsync((CableModel)cable);
         cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
 
     }
@@ -430,7 +430,7 @@ public class CableManager
         cable.DestinationModel = lcs;
         cable.Tag = GetCableTag(cable);
         listManager.CableList.Add(cable);
-        DaManager.UpsertCable((CableModel)cable);
+        DaManager.UpsertCableAsync((CableModel)cable);
         cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
     }
 
@@ -482,7 +482,7 @@ public class CableManager
         cable.DestinationModel = lcs;
         cable.Tag = GetCableTag(cable);
         listManager.CableList.Add(cable);
-        DaManager.UpsertCable(cable);
+        DaManager.UpsertCableAsync(cable);
         cable.PropertyUpdated += DaManager.OnPowerCablePropertyUpdated;
     }
     internal static void UpdateLcsCableTags(ILoad lcsOwner)
@@ -553,7 +553,7 @@ public class CableManager
     {
         if (lcsToRemove != null && lcsToRemove.ControlCable != null) {
             int cableId = lcsToRemove.ControlCable.Id;
-            DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
+            DaManager.PrjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
             listManager.CableList.Remove((CableModel)lcsToRemove.ControlCable);
             lcsToRemove.ControlCable.PropertyUpdated -= DaManager.OnPowerCablePropertyUpdated;
 
@@ -564,7 +564,7 @@ public class CableManager
     {
         if (lcsToRemove != null && lcsToRemove.AnalogCable != null) {
             int cableId = lcsToRemove.AnalogCable.Id;
-            DaManager.prjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
+            DaManager.PrjDb.DeleteRecord(GlobalConfig.CableTable, cableId); //await
             listManager.CableList.Remove((CableModel)lcsToRemove.AnalogCable);
             lcsToRemove.AnalogCable.PropertyUpdated -= DaManager.OnPowerCablePropertyUpdated;
 

@@ -5,16 +5,15 @@ Major Bugs
 	
 
 Minor Bugs
-	- dteq to splitter PD cable bugs
-	- delete load on Panel View isn't wired up
+	- spelling error on Cad Settings tooltip
 	- added load needs to be shown / selected in views
 	- MCP frame size list for PD Editor
-	- transformer grounding
 	- LCS Analog cable Tag when VFD is in MCC
 	- Cable SourceModel updates everywhere there is a Cable Source(tag) update bogs down the app
 
 *****************************************************************************************************************************
 
+- Empty Panel note / watermark
 
 Transformer Grounding
 	- NGR component

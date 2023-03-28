@@ -181,55 +181,55 @@ namespace EDTLibrary.LibraryData
         //LOAD DATA
         public static void GetTypeTables()
         {
-            NemaTypes = DaManager.libDb.GetRecords<NemaType>("NemaTypes");
-            AreaClassifications = DaManager.libDb.GetRecords<AreaClassificationType>("AreaClassifications");
+            NemaTypes = DaManager.LibDb.GetRecords<NemaType>("NemaTypes");
+            AreaClassifications = DaManager.LibDb.GetRecords<AreaClassificationType>("AreaClassifications");
 
-            OcpdTypes = DaManager.libDb.GetRecords<OcpdType>("OcpdTypes");
-            VoltageTypes = DaManager.libDb.GetRecords<VoltageType>("VoltageTypes");
-
-
-            LcsTypes = DaManager.libDb.GetRecords<LcsTypeModel>(GlobalConfig.LcsTypesTable);
-
-            DisconnectTypes = DaManager.libDb.GetRecords<DisconnectType>("DisconnectTypes");
-            DisconnectSizes = DaManager.libDb.GetRecords<DisconnectSize>("DisconnectSizes");
-
-            CecCableSizingRules = DaManager.libDb.GetRecords<CecCableSizingRule>("CecCableSizingRules");
-            CableTypes = DaManager.libDb.GetRecords<CableTypeModel>(GlobalConfig.CableTypes);
-            ControlCableSizes = DaManager.libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
-            InstrumentCableSizes = DaManager.libDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
-            ConductorProperties = DaManager.libDb.GetRecords<ConductorPropertyType>("ConductorProperties");
-            CableSizeIds = DaManager.libDb.GetRecords<CableSizeIdModel>("CableSizes_Power");
-            Cables_Control = DaManager.libDb.GetRecords<CableSizeModel>("Cables_Control");
-            Cables_Instrument = DaManager.libDb.GetRecords<CableSizeModel>("Cables_Instrument");
+            OcpdTypes = DaManager.LibDb.GetRecords<OcpdType>("OcpdTypes");
+            VoltageTypes = DaManager.LibDb.GetRecords<VoltageType>("VoltageTypes");
 
 
-            TransformerSizes = DaManager.libDb.GetRecords<TransformerSize>("TransformerSizes");
-            TransformerTypes = DaManager.libDb.GetRecords<TransformerType>("TransformerTypes");
-            TransformerGroundingTypes = DaManager.libDb.GetRecords<GroundingSystemType>("TransformerGroundingTypes");
-            TransformerWiringTypes = DaManager.libDb.GetRecords<TransformerWiringType>("TransformerWiringTypes");
+            LcsTypes = DaManager.LibDb.GetRecords<LcsTypeModel>(GlobalConfig.LcsTypesTable);
 
-            EquipmentSccrValues = DaManager.libDb.GetRecords<EquipmentSccrValue>("EquipmentSccrValues");
+            DisconnectTypes = DaManager.LibDb.GetRecords<DisconnectType>("DisconnectTypes");
+            DisconnectSizes = DaManager.LibDb.GetRecords<DisconnectSize>("DisconnectSizes");
 
-            BreakerTripSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes");
+            CecCableSizingRules = DaManager.LibDb.GetRecords<CecCableSizingRule>("CecCableSizingRules");
+            CableTypes = DaManager.LibDb.GetRecords<CableTypeModel>(GlobalConfig.CableTypes);
+            ControlCableSizes = DaManager.LibDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
+            InstrumentCableSizes = DaManager.LibDb.GetRecords<ControlCableSizeModel>(GlobalConfig.ControlCableSizeTable);
+            ConductorProperties = DaManager.LibDb.GetRecords<ConductorPropertyType>("ConductorProperties");
+            CableSizeIds = DaManager.LibDb.GetRecords<CableSizeIdModel>("CableSizes_Power");
+            Cables_Control = DaManager.LibDb.GetRecords<CableSizeModel>("Cables_Control");
+            Cables_Instrument = DaManager.LibDb.GetRecords<CableSizeModel>("Cables_Instrument");
+
+
+            TransformerSizes = DaManager.LibDb.GetRecords<TransformerSize>("TransformerSizes");
+            TransformerTypes = DaManager.LibDb.GetRecords<TransformerType>("TransformerTypes");
+            TransformerGroundingTypes = DaManager.LibDb.GetRecords<GroundingSystemType>("TransformerGroundingTypes");
+            TransformerWiringTypes = DaManager.LibDb.GetRecords<TransformerWiringType>("TransformerWiringTypes");
+
+            EquipmentSccrValues = DaManager.LibDb.GetRecords<EquipmentSccrValue>("EquipmentSccrValues");
+
+            BreakerTripSizes = DaManager.LibDb.GetRecords<BreakerSize>("BreakerSizes");
             var breakerSizeList = BreakerTripSizes.OrderBy(b => b.TripAmps).ToList();
             BreakerTripSizes = new ObservableCollection<BreakerSize>(breakerSizeList);
 
-            BreakerTypes = DaManager.libDb.GetRecords<BreakerType>("BreakerTypes");
-            FuseTypes = DaManager.libDb.GetRecords<FuseType>("FuseTypes");
+            BreakerTypes = DaManager.LibDb.GetRecords<BreakerType>("BreakerTypes");
+            FuseTypes = DaManager.LibDb.GetRecords<FuseType>("FuseTypes");
 
             GetUniqueBreakerFameSizes();
-            BreakerAicRatings = DaManager.libDb.GetRecords<BreakerAicRating>("BreakerAicRatings");
+            BreakerAicRatings = DaManager.LibDb.GetRecords<BreakerAicRating>("BreakerAicRatings");
 
-            StarterSizes = DaManager.libDb.GetRecords<StarterSize>("Starters");
-            VfdHeatSizes = DaManager.libDb.GetRecords<VfdHeatSize>("VFDHeatLoss");
+            StarterSizes = DaManager.LibDb.GetRecords<StarterSize>("Starters");
+            VfdHeatSizes = DaManager.LibDb.GetRecords<VfdHeatSize>("VFDHeatLoss");
 
-            CecCableAmpacities = DaManager.libDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
+            CecCableAmpacities = DaManager.LibDb.GetRecords<CecCableAmpacityModel>("CecCableAmpacities");
         }
 
        
         private static void GetUniqueBreakerFameSizes()
         {
-            var breakerSizes = DaManager.libDb.GetRecords<BreakerSize>("BreakerSizes").OrderBy(b=>b.FrameAmps).ToList();
+            var breakerSizes = DaManager.LibDb.GetRecords<BreakerSize>("BreakerSizes").OrderBy(b=>b.FrameAmps).ToList();
 
             foreach (var item in breakerSizes) {
                 if (!BreakerFrameSizes.Contains(item.FrameAmps)) {

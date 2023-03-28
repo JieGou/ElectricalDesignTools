@@ -988,12 +988,12 @@ namespace EDTLibrary.Models.DistributionEquipment
                 PowerFactor = DemandKw / DemandKva;
                 PowerFactor = Math.Round(PowerFactor, 2);
 
-                RunningAmps = DemandKva * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
+                RunningAmps = DemandKva * 1000 / LoadVoltageType.Voltage / Math.Sqrt(LoadVoltageType.Phase);
                 RunningAmps = Math.Round(RunningAmps, GlobalConfig.SigFigs);
 
                 //Full Load / Max operating Amps
                 if (Unit == Units.kVA.ToString()) {
-                    Fla = Size * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
+                    Fla = Size * 1000 / LoadVoltageType.Voltage / Math.Sqrt(LoadVoltageType.Phase);
                     Fla = Math.Round(Fla, GlobalConfig.SigFigs);
 
                 }
@@ -1208,15 +1208,22 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (DaManager.DeletingLoad == true) return;
             if (IsCalculating) return;
 
+            var propLock = saveController.LockProperty;
             if (saveController.IsLocked) return;
 
             var tag = Tag;
+
+            //if (PropertyUpdated != null) {
+            //    PropertyUpdated(this, EventArgs.Empty);
+            //}
+
 
             await Task.Run(() => {
                 if (PropertyUpdated != null) {
                     PropertyUpdated(this, EventArgs.Empty);
                 }
             });
+
             ErrorHelper.Log($"Tag: {Tag}, {callerMethod}");
 
             if (GlobalConfig.Testing == true) {

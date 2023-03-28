@@ -58,7 +58,7 @@ public class DpnCircuitManager
                 dpn.AssignedCircuits.Remove(loadCircuitToRemove);
                 sideCircuitList.Remove(loadCircuitToRemove);
                 if (loadCircuitToRemove!= null) {
-                    DaManager.prjDb.DeleteRecord(GlobalConfig.LoadCircuitTable, loadCircuitToRemove.Id);
+                    DaManager.PrjDb.DeleteRecord(GlobalConfig.LoadCircuitTable, loadCircuitToRemove.Id);
                 }
             }
 
@@ -212,7 +212,7 @@ public class DpnCircuitManager
 
     public static void GetAssignedCircuits(IDpn dpn, ListManager listManager)
     {
-        var loadCircuitList = DaManager.prjDb.GetRecords<LoadCircuit>(GlobalConfig.LoadCircuitTable);
+        var loadCircuitList = DaManager.PrjDb.GetRecords<LoadCircuit>(GlobalConfig.LoadCircuitTable);
         var list = loadCircuitList.Where(cct => cct.FedFromId == dpn.Id && cct.FedFromType == dpn.GetType().ToString()).ToList();
         loadCircuitList = new ObservableCollection<LoadCircuit>(list);
     }

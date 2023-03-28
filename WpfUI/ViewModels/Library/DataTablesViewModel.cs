@@ -28,8 +28,8 @@ namespace WpfUI.ViewModels.Library
             set
             {
                 _selectedDataTable = value;
-                _dataTableToLoad = DaManager.libDb.GetDataTable(_selectedDataTable);
-                DataTableToLoad = DaManager.libDb.GetDataTable(_selectedDataTable);
+                _dataTableToLoad = DaManager.LibDb.GetDataTable(_selectedDataTable);
+                DataTableToLoad = DaManager.LibDb.GetDataTable(_selectedDataTable);
             }
         }
 
@@ -51,7 +51,7 @@ namespace WpfUI.ViewModels.Library
 
         public void GetDataTables()
         {
-            DataTableList = DaManager.libDb.GetListOfTablesNamesInDb();
+            DataTableList = DaManager.LibDb.GetListOfTablesNamesInDb();
         }
 
     }

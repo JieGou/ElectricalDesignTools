@@ -27,7 +27,7 @@ public class RacewayManager
         if (segmentAlreadyAdded == null) {
             cable.RacewaySegmentList.Add(segmentToAdd);
             listManager.RacewaySegmentList.Add(segmentToAdd);
-            segmentToAdd.Id = DaManager.prjDb.InsertRecordGetId(segmentToAdd, "RacewayRouteSegments", new List<string> { "RacewayModel" });
+            segmentToAdd.Id = DaManager.PrjDb.InsertRecordGetId(segmentToAdd, "RacewayRouteSegments", new List<string> { "RacewayModel" });
         }
         else {
             EdtNotificationService.SendAlert(cable, $"Cable {cable.Tag} already passes through raceway {raceway.Tag}.", "Raceway Routing Conflict", 
@@ -42,7 +42,7 @@ public class RacewayManager
         var segmentToRemove = listManager.RacewaySegmentList.FirstOrDefault(s => s.Id ==segment.Id); 
         cable.RacewaySegmentList.Remove(cable.RacewaySegmentList.FirstOrDefault(s => s.Id == segmentToRemove.Id));
         listManager.RacewaySegmentList.Remove(segmentToRemove);
-        DaManager.prjDb.DeleteRecord("RacewayRouteSegments", segment.Id);
+        DaManager.PrjDb.DeleteRecord("RacewayRouteSegments", segment.Id);
     }
 
     public static async Task<RacewayModel> AddRaceway(object racewayToAddObject, ListManager listManager)
@@ -61,7 +61,7 @@ public class RacewayManager
         if (racewayToAddValidator.Width != null) newRaceway.Width = double.Parse(racewayToAddValidator.Width);
         if (racewayToAddValidator.Diameter != null) newRaceway.Diameter = double.Parse(racewayToAddValidator.Diameter);
         
-        newRaceway.Id = DaManager.prjDb.InsertRecordGetId(newRaceway, GlobalConfig.RacewayTable, NoSaveLists.RacewayNoSaveList);
+        newRaceway.Id = DaManager.PrjDb.InsertRecordGetId(newRaceway, GlobalConfig.RacewayTable, NoSaveLists.RacewayNoSaveList);
         newRaceway.PropertyUpdated += DaManager.OnRacewayPropertyUpdated;
         listManager.RacewayList.Add(newRaceway);
         return newRaceway;
@@ -97,7 +97,7 @@ public class RacewayManager
 
             foreach (var segment in segmentsToDelete) {
                 listManager.RacewaySegmentList.Remove(segment);
-                DaManager.prjDb.DeleteRecord(GlobalConfig.RacewayRouteSegmentsTable, segment.Id);
+                DaManager.PrjDb.DeleteRecord(GlobalConfig.RacewayRouteSegmentsTable, segment.Id);
             }
            
             return racewayToDelete.Id;

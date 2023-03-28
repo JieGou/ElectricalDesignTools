@@ -23,6 +23,9 @@ public class LoginViewModel : ViewModelBase
         LoginCommand = new LoginCommand(this, authenticationStore, authWindow);
         NavigateRegisterCommand = new NavigateCommand(registerNavigationService);
         SendVerificationEmailCommand = new RelayCommand(SendVerificationEmail);
+        ResetPasswordCommand = new RelayCommand(ResetPassword);
+
+
         DeserializeUserInfo();
         _authenticationStore = authenticationStore;
     }
@@ -37,7 +40,14 @@ public class LoginViewModel : ViewModelBase
         _authenticationStore.SendVerificationEmail();
     }
 
-	public string Email
+    public ICommand ResetPasswordCommand { get; }
+    private void ResetPassword()
+    {
+        _authenticationStore.ResetPassword(Email);
+    }
+    
+
+    public string Email
 	{
 		get
 		{

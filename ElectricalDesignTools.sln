@@ -22,8 +22,6 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Edt_Installer", "EdtInstall
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutocadLibrary", "D:\My Drive\Programming\Visual Studio Projects\AutoCadInterop\Marshal2\AutocadLibrary.csproj", "{DCF42A65-EAF9-4C03-B922-561D64AADB22}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EdtFirebaseAuthentication.API", "EdtFirebaseAuthentication.API\EdtFirebaseAuthentication.API.csproj", "{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		All|Any CPU = All|Any CPU
@@ -162,24 +160,6 @@ Global
 		{DCF42A65-EAF9-4C03-B922-561D64AADB22}.Release|x64.Build.0 = Release|Any CPU
 		{DCF42A65-EAF9-4C03-B922-561D64AADB22}.Release|x86.ActiveCfg = Release|Any CPU
 		{DCF42A65-EAF9-4C03-B922-561D64AADB22}.Release|x86.Build.0 = Release|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.All|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.All|Any CPU.Build.0 = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.All|x64.ActiveCfg = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.All|x64.Build.0 = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.All|x86.ActiveCfg = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.All|x86.Build.0 = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Debug|x64.Build.0 = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Debug|x86.Build.0 = Debug|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Release|x64.ActiveCfg = Release|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Release|x64.Build.0 = Release|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Release|x86.ActiveCfg = Release|Any CPU
-		{5C3F3B8E-C226-45BC-92BE-7AC751944B1B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

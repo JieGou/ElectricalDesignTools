@@ -640,7 +640,7 @@ public partial class LoadListView : UserControl
             vm.DeleteLoad(vm.ListManager.LoadList[0]);
         }
 
-        DaManager.prjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
+        DaManager.PrjDb.DeleteAllRecords(GlobalConfig.ComponentTable);
 
     }
 
