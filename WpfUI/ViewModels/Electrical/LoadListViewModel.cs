@@ -31,7 +31,7 @@ using IComponentEdt = EDTLibrary.Models.Components.IComponentEdt;
 namespace WpfUI.ViewModels.Electrical;
 
 [AddINotifyPropertyChangedInterface]
-public class LoadListViewModel : EdtViewModelBase, INotifyDataErrorInfo
+public class LoadListViewModel : ElectricalViewModelBase, INotifyDataErrorInfo
 {
 
     #region Constructor

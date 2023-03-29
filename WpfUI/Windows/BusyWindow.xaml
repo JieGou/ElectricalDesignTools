@@ -1,0 +1,58 @@
+﻿<Window x:Class="WpfUI.Windows.BusyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfUI.Windows"
+        mc:Ignorable="d"
+        
+        xmlns:controls="clr-namespace:WpfUI.Controls"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        
+        
+        Title="BusyWindow" 
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen"
+        d:Height="400" d:Width="400">
+    <Grid>
+        <!--Busy Indicator Border-->
+        <controls:ClippingBorder BorderBrush="Black" BorderThickness="2"
+                                     Grid.RowSpan="10"
+                                     Grid.ColumnSpan="10"
+                                     Width="350"
+                                     Height="350"
+                                     CornerRadius="{StaticResource ControlCornerRadius}"
+                                     Panel.ZIndex="1"
+                                     d:Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                     Visibility="Visible">
+            <controls:ClippingBorder.Background>
+                <SolidColorBrush Color="White" Opacity=".85"/>
+            </controls:ClippingBorder.Background>
+
+            <!--BusyIndicator-->
+            <StackPanel Orientation="Vertical"
+                            VerticalAlignment="Center"
+                                                HorizontalAlignment="Center">
+                <syncfusion:SfBusyIndicator x:Name="busyIndicator"
+                                                Grid.Row="0" Grid.Column="0"
+                                                IsBusy="True"
+                                                Foreground="{DynamicResource Darkest}"
+                                                ViewboxHeight="50"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                Header="Calculating..."
+                                                AnimationType="SingleCircle"
+                                                Panel.ZIndex="5"/>
+
+                <ProgressBar IsIndeterminate="True"
+                                 Value="{Binding Progress}"
+                                 Height="25"
+                                 Width="250"
+                                 Margin="0 50"
+                                 Foreground="{DynamicResource Medium}"/>
+            </StackPanel>
+        </controls:ClippingBorder>
+    </Grid>
+</Window>

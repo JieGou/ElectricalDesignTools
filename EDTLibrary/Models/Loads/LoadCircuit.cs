@@ -123,7 +123,9 @@ public class LoadCircuit : ILoadCircuit
         set
         {
             var oldValue = _voltageType;
+            if (oldValue == null) oldValue = value;
             _voltageType = value;
+
             if (DaManager.GettingRecords) return;
 
 
@@ -132,6 +134,7 @@ public class LoadCircuit : ILoadCircuit
                 VoltageTypeId = _voltageType.Id;
                 Voltage = _voltageType.Voltage;
             }
+            
             UndoManager.AddUndoCommand(this, nameof(VoltageType), oldValue, _voltageType);
                
             if (FedFrom != null) {

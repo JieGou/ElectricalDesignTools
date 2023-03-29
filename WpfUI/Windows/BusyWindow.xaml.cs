@@ -11,23 +11,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfUI.ViewModels.Electrical;
 
-namespace WpfUI.Windows.SelectionWindows;
+namespace WpfUI.Windows;
 /// <summary>
-/// Interaction logic for FedFromSelectionWindow.xaml
+/// Interaction logic for BusyWindow.xaml
 /// </summary>
-public partial class SetDemandFactorWindow : Window
+public partial class BusyWindow : Window
 {
-    public SetDemandFactorWindow()
+    public BusyWindow()
     {
         InitializeComponent();
     }
-
-    private void Window_Closed(object sender, EventArgs e)
-    {
-        var dataContext = (ElectricalViewModelBase)this.DataContext;
-        dataContext.CloseSelectionWindow();
-    }
-
 }

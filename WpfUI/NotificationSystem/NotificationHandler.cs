@@ -2,8 +2,10 @@
 using EDTLibrary;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Settings;
+using Syncfusion.Windows.PropertyGrid;
 using System;
 using System.Data.Entity.Core.Common;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -30,7 +32,9 @@ namespace WpfUI.Helpers
 
             if (notificationName != "none" && notificationName != null) {
                 var prop = EdtAppSettings.Default.GetType().GetProperty(notificationName);
-                var notificationModel = new NotificationModel(caption, message + Environment.NewLine, prop.Name);
+                string propName = "";
+                if (prop == null) propName = "none";
+                var notificationModel = new NotificationModel(caption, message + Environment.NewLine, propName);
                 var binding = new Binding();
                 binding.Source = EdtAppSettings.Default;
                 binding.Path = new PropertyPath(prop.Name);

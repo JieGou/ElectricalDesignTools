@@ -155,32 +155,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <!--Busy Indicator Border-->
-            <controls:ClippingBorder BorderBrush="Black" BorderThickness="2"
-                                     Grid.RowSpan="10"
-                                     Grid.ColumnSpan="10"
-                                     Width="350"
-                                     Height="350"
-                                     CornerRadius="{StaticResource ControlCornerRadius}"
-                                     Panel.ZIndex="1"
-                                     Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                     d:Visibility="Collapsed">
-                <controls:ClippingBorder.Background>
-                    <SolidColorBrush Color="White" Opacity=".85"/>
-                </controls:ClippingBorder.Background>
-
-                <!--BusyIndicator-->
-                <syncfusion:SfBusyIndicator x:Name="busyIndicator"
-                                                Grid.Row="0" Grid.Column="0"
-                                                IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
-                                                Foreground="{StaticResource Darkest}"
-                                                ViewboxHeight="50"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Center"
-                                                Header="Calculating..."
-                                                AnimationType="SingleCircle"
-                                                Panel.ZIndex="5"/>
-            </controls:ClippingBorder>
+           
 
             <!--Page Title-->
             <TextBlock Text="Major Equipment"

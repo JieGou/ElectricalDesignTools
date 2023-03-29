@@ -13,6 +13,8 @@ Minor Bugs
 
 *****************************************************************************************************************************
 
+- login without internet
+- 30 day offline license 
 - Empty Panel note / watermark
 
 Transformer Grounding

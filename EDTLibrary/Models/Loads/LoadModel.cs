@@ -1269,6 +1269,7 @@ namespace EDTLibrary.Models.Loads
                 if (DaManager.Importing == true) return;
                 if (IsCalculating) return;
                 if (CanSave == false) return;
+                if (CalculationManager.IsCalculating) return;
 
                 var propLock = saveController.LockProperty;
                 if (saveController.IsLocked) return;

@@ -552,7 +552,7 @@ namespace EDTLibrary.Models.DistributionEquipment
                         _fedFrom = oldValue;
                         EdtNotificationService.SendAlert(this, "Equipment Cannot be fed from itself, directly or through other equipment.",
                                                     "Invalid Selection",
-                                                    "InvalidFedFrom");
+                                                    "none");
 
                         SaveAndAddUndoCommand(oldValue);
                     }
@@ -1207,7 +1207,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (DaManager.Importing == true) return;
             if (DaManager.DeletingLoad == true) return;
             if (IsCalculating) return;
-
+            if (CalculationManager.IsCalculating) return;
             var propLock = saveController.LockProperty;
             if (saveController.IsLocked) return;
 

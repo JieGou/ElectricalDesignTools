@@ -26,7 +26,7 @@ public partial class SetPowerFactorWindow : Window
 
     private void Window_Closed(object sender, EventArgs e)
     {
-        var dataContext = (EdtViewModelBase)this.DataContext;
+        var dataContext = (ElectricalViewModelBase)this.DataContext;
         dataContext.CloseSelectionWindow();
     }
 

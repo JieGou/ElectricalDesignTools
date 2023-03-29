@@ -186,6 +186,9 @@ namespace WpfUI
                 //Deserialize RecentProject to DTO's
                 if (File.Exists(recentProjets)) {
                     using (Stream stream = File.Open(recentProjets, FileMode.Open)) {
+
+                        if (stream.Length <= 0) return;
+
                         BinaryFormatter bin = new BinaryFormatter();
 
                         previousProjectDtoList = (ObservableCollection<PreviousProjectDto>)bin.Deserialize(stream);

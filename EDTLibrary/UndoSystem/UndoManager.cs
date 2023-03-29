@@ -52,21 +52,19 @@ public class UndoManager
             IsUndoing == false &&
             DaManager.Importing == false &&
             DaManager.GettingRecords == false &&
-            GlobalConfig.Testing == false &&
-            command.NewValue != command.OldValue) {
+            GlobalConfig.Testing == false
+            ) {
 
-            if (IsLocked && command.Item == LockHolder && command.PropName == LockProperty) {
+            if (IsLocked && command.Item == LockHolder && command.PropName == LockProperty && command.NewValue != command.OldValue) {
                 UndoList.Add(command);
                 ErrorHelper.Log("UndoHelper");
-                UnLock(command);
             }
             else if (IsLocked == false) {
                 UndoList.Add(command);
                 ErrorHelper.Log("UndoHelper");
             }
-            else {
-                return;
-            }
+                UnLock(command);
+
         }
     }
 
@@ -76,22 +74,20 @@ public class UndoManager
             IsUndoing == false &&
             DaManager.Importing == false &&
             DaManager.GettingRecords == false &&
-            GlobalConfig.Testing == false &&
-            newValue != oldValue) {
+            GlobalConfig.Testing == false
+            ) {
             var command = new UndoCommand { Item = item, PropName = propName, OldValue = oldValue, NewValue = newValue};
 
-            if (IsLocked && item == LockHolder && propName == LockProperty) {
+            if (IsLocked && item == LockHolder && propName == LockProperty && oldValue != newValue) {
                 UndoList.Add(command);
                 ErrorHelper.Log("UndoHelper");
-                UnLock(command);
             }
             else if(IsLocked == false) {
                 UndoList.Add(command);
                 ErrorHelper.Log("UndoHelper");
             }
-            else {
-                return;
-            }
+            
+            UnLock(command);
 
         }
     }

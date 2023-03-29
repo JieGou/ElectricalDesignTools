@@ -16,7 +16,7 @@
         
         
         WindowStartupLocation="CenterScreen"
-        Topmost="True"
+        Topmost="False"
         ResizeMode="NoResize"
         Height="450" Width="500" 
         

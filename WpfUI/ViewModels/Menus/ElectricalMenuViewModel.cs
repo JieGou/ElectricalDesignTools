@@ -53,9 +53,9 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
         set
         {
             _currentViewModel = value;
-            if (_currentViewModel is EdtViewModelBase)
+            if (_currentViewModel is ElectricalViewModelBase)
             {
-                EdtViewModel = (EdtViewModelBase)_currentViewModel;
+                EdtViewModel = (ElectricalViewModelBase)_currentViewModel;
 
             }
         }
@@ -64,7 +64,7 @@ public class ElectricalMenuViewModel : ViewModelBase, INotifyDataErrorInfo
     private SingleLineViewModel _singleLineViewModel;
     private DpanelViewModel _dpanelViewModel;
 
-    public EdtViewModelBase EdtViewModel { get; set; }
+    public ElectricalViewModelBase EdtViewModel { get; set; }
 
     public ElectricalMenuViewModel(MainViewModel mainViewModel, ListManager listManager)
     {

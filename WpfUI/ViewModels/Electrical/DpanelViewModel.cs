@@ -19,7 +19,7 @@ using WpfUI.Services;
 namespace WpfUI.ViewModels.Electrical;
 
 [AddINotifyPropertyChangedInterface]
-internal class DpanelViewModel : EdtViewModelBase
+internal class DpanelViewModel : ElectricalViewModelBase
 {
 
     private DteqFactory _dteqFactory;

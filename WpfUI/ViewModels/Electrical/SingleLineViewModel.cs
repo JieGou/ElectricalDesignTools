@@ -19,7 +19,7 @@ using WpfUI.PopupWindows;
 using WpfUI.Services;
 
 namespace WpfUI.ViewModels.Electrical;
-internal class SingleLineViewModel: EdtViewModelBase
+internal class SingleLineViewModel: ElectricalViewModelBase
 {
     public SingleLineViewModel(ListManager listManager) : base(listManager)
     {

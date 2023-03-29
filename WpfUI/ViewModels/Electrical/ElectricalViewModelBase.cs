@@ -1,35 +1,33 @@
 ﻿using EdtLibrary.Managers;
 using EDTLibrary;
+using EDTLibrary.DataAccess;
 using EDTLibrary.Managers;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.DistributionEquipment.DPanels;
-using EDTLibrary.Models.DPanels;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.Settings;
 using PropertyChanged;
-using Syncfusion.XlsIO.Parser.Biff_Records.Formula;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Entity.Migrations.Model;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using WpfUI.Commands;
 using WpfUI.Helpers;
+using WpfUI.Windows;
 using WpfUI.Windows.SelectionWindows;
 
 namespace WpfUI.ViewModels.Electrical;
 
 [AddINotifyPropertyChangedInterface]
-public abstract class EdtViewModelBase : ViewModelBase
+public abstract class ElectricalViewModelBase : ViewModelBase
 {
-    protected EdtViewModelBase(ListManager listManager)
+    protected ElectricalViewModelBase(ListManager listManager)
     {
         _listManager = listManager;
 
@@ -105,6 +103,13 @@ public abstract class EdtViewModelBase : ViewModelBase
     private bool _isBusy;
 
 
+    private int _progress;
+
+    public int Progress
+    {
+        get { return _progress; }
+        set { _progress = value; }
+    }
 
 
     public Window SelectionWindow { get; set; }
@@ -135,48 +140,70 @@ public abstract class EdtViewModelBase : ViewModelBase
         }
     }
 
+
+    private ResourceDictionary _rd = new System.Windows.ResourceDictionary {
+        Source = new Uri("pack://application:,,,/Styles/EdtStyle_Teal.xaml", UriKind.RelativeOrAbsolute)
+    };
     public ICommand CalculateAllCommand { get; }
     public void CalculateAll()
     {
-        IsBusy = true;
 
         CalculateAllAsync();
     }
     public async Task CalculateAllAsync()
     {
-        try
-        {
-            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
-            {
+
+        try {
+            CalculationManager.IsCalculating = true;
+            var busyWindow = new BusyWindow();
+            busyWindow.Resources.MergedDictionaries.Add(_rd);
+            busyWindow.Show();
+
+            await Task.Run(() => {
                 IsBusy = true;
-            }));
 
-            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
+                Thread.Sleep(500);
 
-                foreach (var item in _listManager.LoadList)
-                {
-                    item.CalculateLoading();
+                Application.Current.Dispatcher.Invoke(() => {
+                    foreach (var item in _listManager.LoadList) {
+                        item.CalculateLoading();
+                        DaManager.UpsertLoadAsync((LoadModel)item);
+                    }
+
+                    foreach (var item in _listManager.IDteqList) {
+                        item.CalculateLoading();
+                        DaManager.UpsertDteqAsync(item);
+                    }
+                    IsBusy = false;
+                    busyWindow.Close();
+                });
+            });
+            CalculationManager.IsCalculating = false;
+
+            await Task.Run(() => {
+                
+                foreach (var load in _listManager.LoadList) {
+                    DaManager.PrjDb.UpsertRecord((LoadModel)load, GlobalConfig.LoadTable, NoSaveLists.LoadNoSaveList);
                 }
 
-                foreach (var item in _listManager.DteqList)
-                {
-                    item.CalculateLoading();
+                foreach (var dteq in _listManager.IDteqList) {
+                    DaManager.UpsertDteq(dteq);
                 }
-                IsBusy = false;
-
-            }));
+       
+            });
 
         }
         catch (Exception ex)
         {
             //NotificationHandler.ShowErrorMessage(ex);
             IsBusy = false;
+            CalculationManager.IsCalculating = false;
 
         }
         finally
         {
             IsBusy = false;
+            CalculationManager.IsCalculating = false;
 
         }
     }
@@ -192,41 +219,59 @@ public abstract class EdtViewModelBase : ViewModelBase
     {
         try
         {
-            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Send, new Action(() =>
-            {
+            CalculationManager.IsCalculating = true;
+            var busyWindow = new BusyWindow();
+
+            busyWindow.Resources.MergedDictionaries.Add(_rd);
+            busyWindow.Show();
+
+            await Task.Run(() => {
                 IsBusy = true;
-            }));
-            await Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-            {
+                              
+                Thread.Sleep(500);
 
+                Application.Current.Dispatcher.Invoke(() => {
+                    foreach (var item in _listManager.IDteqList) {
+                        CableManager.IsAutosizing = true;
+                        item.SizePowerCable();
+                        CableManager.IsAutosizing = false;
+                    }
+                    foreach (var item in _listManager.LoadList) {
+                        CableManager.IsAutosizing = true;
+                        item.SizePowerCable();
+                        CableManager.IsAutosizing = false;
+                    }
+                    IsBusy = false;
+                    busyWindow.Close();
+                });
+            });
 
-                foreach (var item in _listManager.IDteqList)
-                {
-                    CableManager.IsAutosizing = true;
-                    item.SizePowerCable();
-                    CableManager.IsAutosizing = false;
-                    item.PowerCable.OnPropertyUpdated();
+            CalculationManager.IsCalculating = false;
+
+            await Task.Run(() => {
+
+                foreach (var load in _listManager.LoadList) {
+                    load.PowerCable.OnPropertyUpdated();
                 }
-                foreach (var item in _listManager.LoadList)
-                {
-                    CableManager.IsAutosizing = true;
-                    item.SizePowerCable();
-                    CableManager.IsAutosizing = false;
-                    item.PowerCable.OnPropertyUpdated();
+
+                foreach (var dteq in _listManager.IDteqList) {
+                    dteq.PowerCable.OnPropertyUpdated();
                 }
-                IsBusy = false;
-            }));
+
+            });
 
         }
         catch (Exception ex)
         {
             //NotificationHandler.ShowErrorMessage(ex);
             IsBusy = false;
+            CalculationManager.IsCalculating = false;
 
         }
         finally
         {
             IsBusy = false;
+            CalculationManager.IsCalculating = false;
 
         }
     }
