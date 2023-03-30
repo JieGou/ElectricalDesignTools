@@ -1,10 +1,12 @@
 ﻿using Firebase.Auth;
+using Portable.Licensing;
 using PropertyChanged;
 using System;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
 using Windows.Media.Protection.PlayReady;
+using WpfUI._Authentication.OfflineLicense;
 using WpfUI._Authentication.ViewModels;
 
 namespace WpfUI._Authentication.Stores;
@@ -23,33 +25,52 @@ public class AuthenticationStore
 
    
    
-    private EdtAuthorization _edtAuth = new EdtAuthorization();
-    public EdtUserAccount EdtUser { get; set; } = new EdtUserAccount();
+    private EdtAuthDbManager _edtDbAuthManager = new EdtAuthDbManager();
+    public EdtUserAccount EdtUserAccount { get; set; } = new EdtUserAccount();
     
 
     public async Task<FirebaseAuthLink> Login(LoginViewModel loginViewModel, string email, string password)
     {
         _currentFirebaseAuthLink = await _firebaseAuthProvider.SignInWithEmailAndPasswordAsync(email, password);
         if (_currentFirebaseAuthLink.User.IsEmailVerified == true) {
-            EdtUser.CurrentUser = _currentFirebaseAuthLink?.User;
-            _edtAuth.Initialize();
-            var accounts = _edtAuth.GetAllAccounts().Result;
+            
 
-            foreach (var account in accounts) {
+            _edtDbAuthManager.Initialize();
 
-                if (account.Value.Email == EdtUser.CurrentUser.Email) {
-                    MessageBox.Show($"User: {account.Value.Email} is subscribed until {account.Value.Subscription_End}");
-                }
-            }
+            EdtUserAccount = await _edtDbAuthManager.GetAccount(_currentFirebaseAuthLink?.User.LocalId);
+
+            MessageBox.Show($"{EdtUserAccount.Email} is subscribed until {EdtUserAccount.Subscription_End} " +
+                $"under a {EdtUserAccount.SubscriptionStatus} subscription",
+                "Online Login Successful",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+
+            OfflineLicenseManager.GenerateLicense(EdtUserAccount, password);
+
             loginViewModel.SerializUserInfo();
             _authWindow._isLoggedIn = true;
             _authWindow.Close();
+
         }
         else {
             MessageBox.Show($"The email {email} has not been verified. Check your inbox for a verification email and click the link.");
            
         }
         return _currentFirebaseAuthLink;
+    }
+
+    public void LoginOffline(EdtUserAccount edtUserAccount)
+    {
+        EdtUserAccount = edtUserAccount;
+
+        MessageBox.Show($"A temporary offline license has been used to login. \n\n" +
+            $"The offline license for {EdtUserAccount.Email} is valid until {EdtUserAccount.Subscription_End}",
+            "Offline Login Successful",
+            MessageBoxButton.OK,
+            MessageBoxImage.Information); 
+        
+        _authWindow._isLoggedIn = true;
+        _authWindow.Close();
     }
 
     public void Logout()
@@ -100,6 +121,6 @@ public class AuthenticationStore
     public async Task GetFreshAuthAsync()
     {
         await _currentFirebaseAuthLink.GetFreshAuthAsync();
-        EdtUser.CurrentUser = _currentFirebaseAuthLink?.User;
+        EdtUserAccount.CurrentUser = _currentFirebaseAuthLink?.User;
     }
 }

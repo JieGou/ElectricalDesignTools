@@ -99,9 +99,9 @@
 
 
 
-        <TextBlock Text="Username" 
+        <TextBlock Text="Name" 
                    Grid.Row="2"/>
-        <TextBox Text="{Binding EdtUser.CurrentUser.DisplayName}"
+        <TextBox Text="{Binding EdtUserAccount.FullName}"
                    Grid.Row="2"
                    Grid.Column="2"/>
 
@@ -109,19 +109,19 @@
         <TextBlock Text="Email"
                    Grid.Row="3"
                    />
-        <TextBox Text="{Binding EdtUser.CurrentUser.Email}"
+        <TextBox Text="{Binding EdtUserAccount.Email}"
                    Grid.Row="3"
                    Grid.Column="2"/>
 
         
         <TextBlock Text="User Id" 
                    Grid.Row="4"/>
-        <TextBox Text="{Binding EdtUser.CurrentUser.LocalId}"
+        <TextBox Text="{Binding EdtUserAccount.UserId}"
                    Grid.Row="4"
                    Grid.Column="2"/>
 
 
-        <TextBlock Text="Registration Details" 
+        <TextBlock Text="Subscription Details" 
                    Grid.Row="6" Grid.ColumnSpan="4"
                    FontSize="16"
                    FontWeight="SemiBold"/>
@@ -129,20 +129,20 @@
 
         <TextBlock Text="Status" 
                    Grid.Row="7"/>
-        <TextBox Text="{Binding EdtUser.IsSubscribed}"
+        <TextBox Text="{Binding EdtUserAccount.SubscriptionStatus}"
                    Grid.Row="7"
                    Grid.Column="2"/>
 
         <TextBlock Text="Start" 
                    Grid.Row="8"/>
-        <TextBox Text="{Binding EdtUser.Subscription_Start}"
+        <TextBox Text="{Binding EdtUserAccount.Subscription_Start}"
                    Grid.Row="8"
                    Grid.Column="2"/>
 
 
         <TextBlock Text="Valid Till" 
                    Grid.Row="9"/>
-        <TextBox Text="{Binding EdtUser.Subscription_End}"
+        <TextBox Text="{Binding EdtUserAccount.Subscription_End}"
                    Grid.Row="9"
                    Grid.Column="2"/>
 

@@ -23,7 +23,7 @@ public class LoginCommand : AsyncCommandBase
         _authWindow = authWindow;
     }
     
-    EdtAuthorization _edtAuth = new EdtAuthorization();
+    EdtAuthDbManager _edtAuth = new EdtAuthDbManager();
 
     protected override async Task ExecuteAsync(object parameter)
     {

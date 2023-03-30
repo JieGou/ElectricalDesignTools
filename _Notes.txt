@@ -5,7 +5,10 @@ Major Bugs
 	
 
 Minor Bugs
-	- spelling error on Cad Settings tooltip
+	- 1C cables
+	- VFD trip/frame sizes
+	- remove VSD / RVS
+	- component AIC/SCCR calculation
 	- added load needs to be shown / selected in views
 	- MCP frame size list for PD Editor
 	- LCS Analog cable Tag when VFD is in MCC
@@ -13,9 +16,10 @@ Minor Bugs
 
 *****************************************************************************************************************************
 
-- login without internet
-- 30 day offline license 
-- Empty Panel note / watermark
+- default local disconnect type wire up
+- Empty D.Panel note / watermark
+- components and stand alone protection device list
+- move calculate all into calculation manager
 
 Transformer Grounding
 	- NGR component
@@ -23,16 +27,13 @@ Transformer Grounding
 	- cables
 
 
-Calculations
-	- required cable conductors (2C, 3C, 4C)
-	
-
 Cables
 	- Pivot Grid
 	- Bom Style Export
 	- 1ph cable quantities and totals on cable list
 	- Prompt to recalculate load cables when changing settings
 	- Copy cable properties to all branch circuit cables
+	- calculation based on required cable conductors (2C, 3C, 4C)
 
 
 Dteq 

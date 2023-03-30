@@ -23,6 +23,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/EdtStyle_Blue.xaml"/>
                 <ResourceDictionary Source="../../Styles/SettingsStyle_Base.xaml"/>
+                <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>
 
@@ -124,7 +125,7 @@
                         Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"/>
 
                         <iconControls:InfoIcon Grid.Row="2" Grid.Column="3"
-                                               InformationText="Defferent sets of block templates can be used for different projects to meet client drawing requirements."
+                                               InformationText="{StaticResource CadProjectBlocks}"
                                                Margin="0 -25 0 0"/>
 
                         <Button Content="Select Folder"
@@ -252,7 +253,7 @@
                         Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"/>
 
                         <iconControls:InfoIcon Grid.Row="2" Grid.Column="3"
-                                               InformationText="Defferent sets of block templates can be used for different projects to meet client drawing requirements."
+                                               InformationText="{StaticResource CadProjectBlocks}"
                                                Margin="0 -25 0 0"/>
 
 

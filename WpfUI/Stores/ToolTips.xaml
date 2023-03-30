@@ -54,4 +54,7 @@ Ordering loads for a distribution panel must be done on the Panel View page.
 Sorting / Filtering the list does not affect the order on the single line. 
 Single line ordering must be done manually using the Up / Down controls</clr:String>
 
+    <clr:String x:Key="CadProjectBlocks" xml:space="preserve">Different sets of block templates can be used for 
+different projects to meet client drawing requirements.</clr:String>
+
 </ResourceDictionary>

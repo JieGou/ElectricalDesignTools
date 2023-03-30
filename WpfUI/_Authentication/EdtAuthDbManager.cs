@@ -7,12 +7,13 @@ using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace WpfUI._Authentication
 {
 
     [AddINotifyPropertyChangedInterface]
-    public class EdtAuthorization
+    public class EdtAuthDbManager
     {
 
         IFirebaseConfig _config = new FirebaseConfig {
@@ -21,9 +22,6 @@ namespace WpfUI._Authentication
         };
 
         IFirebaseClient _client;
-
-        public EdtUserAccount User { get; set; }
-
 
 
         public void Initialize()
@@ -46,8 +44,8 @@ namespace WpfUI._Authentication
                 var response = await _client.SetAsync("UserAccounts/" + account.CurrentUser.LocalId, account);
                 EdtUserAccount setResult = response.ResultAs<EdtUserAccount>();
             }
-            catch (Exception) {
-
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -57,21 +55,21 @@ namespace WpfUI._Authentication
                 var response = await _client.PushAsync("UserAccounts", account);
                 EdtUserAccount setResult = response.ResultAs<EdtUserAccount>();
             }
-            catch (Exception) {
-
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
             }
         }
 
 
-        public async Task<EdtUserAccount> GetAccount()
+        public async Task<EdtUserAccount> GetAccount(string userId)
         {
             try {
-                var response = await _client.GetAsync("UserAccounts/Test1");
+                var response = await _client.GetAsync($"UserAccounts/{userId}");
                 var result = response.ResultAs<EdtUserAccount>(); //The response will contain the data being retreived
                 return result;
             }
-            catch (Exception) {
-
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
                 throw;
             }
 
@@ -85,8 +83,8 @@ namespace WpfUI._Authentication
                 Dictionary<string, EdtUserAccount> accounts = JsonConvert.DeserializeObject<Dictionary<string, EdtUserAccount>>(response.Body.ToString());
                 return accounts;
             }
-            catch (Exception) {
-
+            catch (Exception ex) {
+                MessageBox.Show(ex.Message);
                 throw;
             }
 

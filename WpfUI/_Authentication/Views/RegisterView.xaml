@@ -48,7 +48,7 @@
 
             <StackPanel Grid.Row="1">
                 <TextBlock Text="Full Name"/>
-                <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                <TextBox Text="{Binding FullName, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
             </StackPanel>
 
             <StackPanel Grid.Row="2">

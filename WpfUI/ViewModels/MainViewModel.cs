@@ -1,5 +1,4 @@
 ﻿using EdtLibrary.Managers;
-using EDTLibrary.A_Helpers;
 using EDTLibrary.LibraryData;
 using EDTLibrary.Managers;
 using EDTLibrary.Mappers;
@@ -9,23 +8,17 @@ using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Settings;
 using ExcelLibrary;
-using Portable.Licensing;
-using Portable.Licensing.Security.Cryptography;
-using Portable.Licensing.Validation;
-using Syncfusion.UI.Xaml.Spreadsheet.Commands;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Threading;
 using WpfUI._Authentication;
+using WpfUI._Authentication.OfflineLicense;
 using WpfUI._Authentication.Stores;
 using WpfUI.Commands;
 using WpfUI.Helpers;
@@ -78,17 +71,15 @@ namespace WpfUI.ViewModels
             LoadManager.LoadDeleted += _ViewStateManager.OnLoadDeleted;
             LoadCircuit.LoadCircuitVoltageChanged += _ViewStateManager.OnLoadCircuitVoltageChanged;
 
-            if (type=="NewInstance") {
-                ValidateLicense(); 
-            }
+           
             EdtProjectSettings.ProjectNameUpdated += OnProjectNameUpdated;
 
             _listManager = startupService.ListManager;
             ScenarioManager.ListManager = _listManager;
-            
+
             AuthenticationStore = authenticationStore;
             _typeManager = typeManager;
-            
+
             _startupService = startupService;
             _edtSettings = edtSettings;
             InitializeViewModels();
@@ -135,7 +126,7 @@ namespace WpfUI.ViewModels
             //}
         }
 
-        
+
 
         private void LoadManager_LoadDeleted(object? sender, EventArgs e)
         {
@@ -163,7 +154,7 @@ namespace WpfUI.ViewModels
         }
 
         private ViewModelBase _menuViewModel;
-        public ViewModelBase MenuViewModel 
+        public ViewModelBase MenuViewModel
         {
             get { return _menuViewModel; }
             set { _menuViewModel = value; }
@@ -173,7 +164,7 @@ namespace WpfUI.ViewModels
         public ViewModelBase CurrentViewModel
         {
             get { return _currentViewModel; }
-            set 
+            set
             {
                 _currentViewModel = value;
             }
@@ -198,30 +189,30 @@ namespace WpfUI.ViewModels
                 ProjectName = EdtProjectSettings.ProjectName;
             }
         }
-        public  void OnProjectNameUpdated(object source, EventArgs e)
+        public void OnProjectNameUpdated(object source, EventArgs e)
         {
             UpdateProjectName();
         }
-      
 
 
 
-        public  HomeViewModel _homeViewModel;
-        public  SettingsMenuViewModel _settingsMenuViewModel;
-        public  AreasMenuViewModel _areasMenuViewModel;
+
+        public HomeViewModel _homeViewModel;
+        public SettingsMenuViewModel _settingsMenuViewModel;
+        public AreasMenuViewModel _areasMenuViewModel;
 
         //Electrical
-        public  ElectricalMenuViewModel _electricalMenuViewModel;
-        public  LoadListViewModel _mjeqViewModel;
+        public ElectricalMenuViewModel _electricalMenuViewModel;
+        public LoadListViewModel _mjeqViewModel;
 
         //Cables
-        public  CableMenuViewModel _cableMenuViewModel;
-        public  CableListViewModel _cableListViewModel;
+        public CableMenuViewModel _cableMenuViewModel;
+        public CableListViewModel _cableListViewModel;
 
-        public  LibraryMenuViewModel _libraryMenuViewModel;
-        public  DataTablesViewModel _dataTablesViewModel;
+        public LibraryMenuViewModel _libraryMenuViewModel;
+        public DataTablesViewModel _dataTablesViewModel;
 
-    
+
 
         private void StartCloseTimer()
         {
@@ -240,7 +231,7 @@ namespace WpfUI.ViewModels
         }
 
         public PopupNotifcationWindow NotificationPopup { get; set; }
-       
+
 
         #region Navigation
         public ICommand NavigateStartupCommand { get; }
@@ -265,7 +256,7 @@ namespace WpfUI.ViewModels
             CurrentViewModel = _settingsMenuViewModel;
             _settingsMenuViewModel.SelectedSettingView = new GeneralSettingsView();
         }
-       
+
         public ICommand NavigateCableSettingsCommand { get; }
         private void NavigateCableSettings()
         {
@@ -306,7 +297,7 @@ namespace WpfUI.ViewModels
             MenuViewModel = _cableMenuViewModel;
         }
 
-     
+
         public ICommand NavigateLibraryCommand { get; }
         private void NavigateLibrary()
         {
@@ -435,11 +426,11 @@ namespace WpfUI.ViewModels
 
             _ViewStateManager.OnElectricalViewUpdated();
         }
-       
 
-       
-      
-      
+
+
+
+
         private bool CanExecute_IsProjectLoaded()
         {
             return _startupService.IsProjectLoaded;
@@ -455,7 +446,7 @@ namespace WpfUI.ViewModels
 
         [DllImport("user32.dll")]
         static extern IntPtr GetActiveWindow();
-       
+
 
 
 
@@ -491,133 +482,13 @@ namespace WpfUI.ViewModels
         #endregion
 
 
-        private void OnCurrentViewModelChanged() {
+        private void OnCurrentViewModelChanged()
+        {
             OnPropertyChanged(nameof(CurrentViewModel));
         }
 
-
-        private static void ValidateLicense()
-        {
-            string licenseFilePath = $"{Environment.CurrentDirectory}//License.lic";
-            FileInfo licenseFile = new FileInfo(licenseFilePath);
-
-            string privateKeyFilePath = $"{Environment.CurrentDirectory}//PrivateKey.text";
-            FileInfo privateKeyFile = new FileInfo(privateKeyFilePath);
-
-            string publicKeyFilePath = $"{Environment.CurrentDirectory}//PublicKey.text";
-            FileInfo publicKeyFile = new FileInfo(publicKeyFilePath);
-
-
-
-            KeyGenerator keyGenerator;
-            KeyPair keyPair;
-            string passPhrase = "1048Mandrake!@#";
-            string privateKey = "";
-            string publicKey = "";
-
-            License license = null;
-
-            try {
-
-                if (licenseFile.Exists) {
-                    license = License.Load(File.OpenText(licenseFilePath));
-                }
-                if (privateKeyFile.Exists) {
-                    privateKey = File.ReadAllText(privateKeyFilePath);
-                }
-                if (publicKeyFile.Exists) {
-                    publicKey = File.ReadAllText(publicKeyFilePath);
-                }
-
-
-                keyGenerator = KeyGenerator.Create();
-                keyPair = keyGenerator.GenerateKeyPair();
-
-                if (File.Exists(privateKeyFilePath) == false) {
-                    privateKey = keyPair.ToEncryptedPrivateKeyString(passPhrase);
-                    File.WriteAllText(privateKeyFilePath, privateKey.ToString(), Encoding.UTF8);
-                }
-
-                if (File.Exists(publicKeyFilePath) == false) {
-                    publicKey = keyPair.ToPublicKeyString();
-                    File.WriteAllText(publicKeyFilePath, publicKey.ToString(), Encoding.UTF8);
-                }
-
-                if (licenseFile.Exists == false && AppSettings.Default.LicenseFileCreated == false) {
-                    string ComputerGuid = ComputerInfo.GetComputerGuid();
-
-
-
-                    license = License.New().WithUniqueIdentifier(Guid.NewGuid())
-                                            .As(LicenseType.Trial)
-                                            .ExpiresAt(DateTime.Now.AddDays(30))
-                                            .WithMaximumUtilization(30)
-                                            .WithProductFeatures(new Dictionary<string, string>
-                                                                          {
-                                                                          {"All Modules", "yes"},
-                                                                          {"Duration", "30 Days"},
-                                                                          })
-                                            .WithAdditionalAttributes(new Dictionary<string, string> {
-                                                                          {"ComputerName", Environment.MachineName.ToString()},
-                                                                          {"ComputerGuid", ComputerGuid},
-                                                                          })
-                                            .LicensedTo("John Doe", "john.doe@yourmail.here")
-                                            .CreateAndSignWithPrivateKey(File.ReadAllText(privateKeyFilePath), passPhrase);
-                    licenseFile.Directory.Create();
-                    File.WriteAllText(licenseFilePath, license.ToString(), Encoding.UTF8);
-                    AppSettings.Default.LicenseFileCreated = true;
-                    AppSettings.Default.Save();
-                }
-                else {
-#if !DEBUG
-                    System.Windows.Forms.MessageBox.Show("The Encryption Key and/or License files are corrupt or have been modified. If the files have not been modified and you still have a valid registration, contact DCS Inc. to resolve.", "EDT - License Validation Failure");
-                    Application.Current.Shutdown(); 
-#endif
-
-                }
-                license = License.Load(File.OpenText(licenseFilePath));
-                var validationFailures = license.Validate()
-                                                .ExpirationDate()
-                                                .When(lic => lic.Type == LicenseType.Trial)
-                                                .And()
-                                                .Signature(publicKey)
-                                                .And()
-                                                .AssertThat(lic => lic.AdditionalAttributes.Get("ComputerName") == Environment.MachineName.ToString(),
-                                                                                                    new GeneralValidationFailure() {
-                                                                                                        Message = "The license file is not registered for this machine. This can be caused If you changed your computer name or re-install Windows.",
-                                                                                                        HowToResolve = "Contact administrator"
-                                                                                                    })
-                                                .And()
-                                                .AssertThat(lic => lic.AdditionalAttributes.Get("ComputerGuid") == ComputerInfo.GetComputerGuid(),
-                                                                                                    new GeneralValidationFailure() {
-                                                                                                        Message = "The license file is not registered to this machine.",
-                                                                                                        HowToResolve = "Contact administrator"
-                                                                                                    })
-                                                .AssertValidLicense();
-#if !DEBUG
-                var shutdown = false;
-                foreach (var failure in validationFailures) {
-                    if (failure.Message.Contains("error")) {
-                        System.Windows.Forms.MessageBox.Show(failure.Message + " \n\n" + "The Encryption Key and/or License files are corrupt or have been modified. If the files have not been modified and you still have a valid registration, contact DCS Inc. to resolve.", "EDT - License Validation Failure");
-                    }
-                    if (failure.Message.Contains("expired")) {
-                        System.Windows.Forms.MessageBox.Show(failure.Message + " \n\n" + "Contact DCS Inc. to renew or extend product registration and get a new license", "EDT - License Validation Failure");
-                    }
-                    shutdown = true;
-
-                }
-                if (shutdown) {
-                    Application.Current.Shutdown();
-                }
-#endif
-            }
-            catch (Exception ex) {
-#if !DEBUG
-                System.Windows.Forms.MessageBox.Show("Public Key or License file is corrupt or has been modified." + "\n\n" + ex.Message, "EDT - License Validation Failure");
-#endif
-            }
-        }
-
     }
+
+        
 }
  

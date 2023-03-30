@@ -21,7 +21,7 @@ public class RegisterCommand : AsyncCommandBase
     }
 
 
-    EdtAuthorization edtAuth = new EdtAuthorization();
+    EdtAuthDbManager _edtAuthDbManager = new EdtAuthDbManager();
     protected override async Task ExecuteAsync(object parameter)
     {
         string password = _registerViewModel.Password;
@@ -36,15 +36,19 @@ public class RegisterCommand : AsyncCommandBase
             var firebaseAuthLink = await _firebaseAuthProvider.CreateUserWithEmailAndPasswordAsync(
                                         _registerViewModel.Email,
                                         password,
-                                        _registerViewModel.Username,
+                                        _registerViewModel.FullName,
                                         sendVerificationEmail:true);
 
 
             {
-                var userAccount = new EdtUserAccount { CurrentUser=firebaseAuthLink.User, Email = _registerViewModel.Email };
+                var userAccount = new EdtUserAccount { 
+                    CurrentUser=firebaseAuthLink.User, 
+                    Email = _registerViewModel.Email,
+                    UserId = firebaseAuthLink.User.LocalId,
+                };
 
-                edtAuth.Initialize();
-                edtAuth.Insert(userAccount);
+                _edtAuthDbManager.Initialize();
+                _edtAuthDbManager.Insert(userAccount);
 
                 MessageBox.Show($"Verification email has been sent to {_registerViewModel.Email}. Please click the link in the email to very this account.", "Email Verification", MessageBoxButton.OK, MessageBoxImage.Information);
 

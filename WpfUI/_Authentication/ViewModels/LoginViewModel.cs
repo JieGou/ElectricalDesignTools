@@ -21,6 +21,7 @@ public class LoginViewModel : ViewModelBase
     public LoginViewModel(AuthenticationStore authenticationStore, INavigationService registerNavigationService, AuthenticationMainWindow authWindow)
     {
         LoginCommand = new LoginCommand(this, authenticationStore, authWindow);
+        LoginOfflineCommand = new LoginOfflineCommand(this, authenticationStore, authWindow);
         NavigateRegisterCommand = new NavigateCommand(registerNavigationService);
         SendVerificationEmailCommand = new RelayCommand(SendVerificationEmail);
         ResetPasswordCommand = new RelayCommand(ResetPassword);
@@ -33,6 +34,7 @@ public class LoginViewModel : ViewModelBase
     
 
     public ICommand LoginCommand { get; }
+    public ICommand LoginOfflineCommand { get; }
     public ICommand NavigateRegisterCommand { get; }
     public ICommand SendVerificationEmailCommand { get; }
     private void SendVerificationEmail()

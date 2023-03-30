@@ -5,6 +5,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace WpfUI._Authentication
 {
+    
     public class EdtUserAccount
     {
         public User? CurrentUser
@@ -16,17 +17,18 @@ namespace WpfUI._Authentication
             set
             {
                 _currentUser = value;
-                Username = _currentUser.DisplayName;
+                FullName = _currentUser.DisplayName;
                 Email = _currentUser.Email;
             }
         }
         private User? _currentUser;
 
         public string Email { get; set; } = "n/a";
-        public string Username { get; set; } = "Anonymous";
-        public bool IsSubscribed { get; set; }
-        public DateTime Subscription_Start { get; set; } = DateTime.Now;
-        public DateTime Subscription_End { get; set; } = DateTime.Now;
+        public string FullName { get; set; } = "Anonymous";
+        public string UserId { get; set; } = "n/a";
+        public string SubscriptionStatus { get; set; } = "Beta Trial";
+        public DateTime Subscription_Start { get; set; } = DateTime.UtcNow;
+        public DateTime Subscription_End { get; set; } = new DateTime(2023,09,30);
             
     }
 }

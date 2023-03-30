@@ -28,7 +28,7 @@ public class RegisterViewModel: ViewModelBase
 	}
 
 	private string _username;
-	public string Username
+	public string FullName
 	{
 		get
 		{
@@ -37,7 +37,7 @@ public class RegisterViewModel: ViewModelBase
 		set
 		{
 			_username = value;
-			OnPropertyChanged(nameof(Username));
+			OnPropertyChanged(nameof(FullName));
 		}
 	}
 
