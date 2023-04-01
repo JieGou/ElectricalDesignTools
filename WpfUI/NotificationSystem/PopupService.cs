@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
@@ -18,35 +19,41 @@ public class PopupService
 
     public static void ShowPopupNotification(object sender, EdtNotificationEventArgs args)
     {
-        ShowPopupNotification(args.Messsage);
+        ShowPopupNotificationAsync(args.Messsage);
     }
 
-    public static void ShowPopupNotification(string notificationText)
+    public static async Task ShowPopupNotificationAsync(string notificationText)
     {
-        Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
-            if (NotificationPopup == null) {
-                NotificationPopup = new PopupNotifcationWindow();
-                NotificationPopup.Owner = MainWindow;
-            }
-            NotificationPopup.DataContext = new Notification(notificationText);
-            NotificationPopup.Show();
-
-        }));
+        await Task.Run(() => {
+            App.Current.Dispatcher.Invoke(() => {
+                if (NotificationPopup == null) {
+                    NotificationPopup = new PopupNotifcationWindow();
+                    NotificationPopup.Owner = MainWindow;
+                }
+                NotificationPopup.DataContext = new Notification(notificationText);
+                NotificationPopup.Show();
+            });
+        });
        
     }
 
     public static void ClosePopupNotification(object sender, EdtNotificationEventArgs args)
     {
-        ClosePopupNotification();
+        ClosePopupNotificationAsync();
     }
-    public static void ClosePopupNotification()
+    public static async Task ClosePopupNotificationAsync(int popupDuration = 0)
     {
-        Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+        await Task.Delay(popupDuration);
+
+        App.Current.Dispatcher.Invoke(() => 
+        {
             if (NotificationPopup != null) {
                 NotificationPopup.Close();
                 NotificationPopup = null;
             }
-        }));
+        });
+        
+       
         
     }
 

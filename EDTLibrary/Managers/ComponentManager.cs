@@ -6,6 +6,7 @@ using EDTLibrary.Models.Equipment;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.ProjectSettings;
 using EDTLibrary.Selectors;
+using EDTLibrary.Settings;
 using EDTLibrary.UndoSystem;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ public class ComponentManager
         if (listManager == null) return;
 
         string subCategory = CctCompSubCategories.Disconnect.ToString();
-        string type = CctComponentTypes.UDS.ToString();
+        string type = EdtProjectSettings.LocalDisconnectType;
         string subType = CctComponentSubTypes.DefaultDcn.ToString();
 
         ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);

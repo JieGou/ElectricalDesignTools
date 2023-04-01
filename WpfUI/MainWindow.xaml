@@ -182,7 +182,8 @@
             <Button Background="Transparent"
                     Margin="10 0"
                     Command="{Binding ReloadDbCommand}"
-                    Width="45"
+                    Width="40"
+                    HorizontalAlignment="Right"
                     HorizontalContentAlignment="Center"
                     ToolTip="Reload project from database"
                     ToolTipService.InitialShowDelay="50">

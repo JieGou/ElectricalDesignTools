@@ -254,12 +254,8 @@ internal class SingleLineViewModel: ElectricalViewModelBase
                         AssignedLoads.Add(item);
                     }
 
-                    GlobalConfig.SelectingNew = true;
-                    GlobalConfig.SelectingNew = false;
-                    if (AssignedLoads.Count > 0) {
-                        SelectedLoad = AssignedLoads[0];
-
-                    }
+                    //GlobalConfig.SelectingNew = true;
+                    //GlobalConfig.SelectingNew = false;
                 }
 
             }, DispatcherPriority.Background,null);

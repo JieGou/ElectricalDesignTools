@@ -179,7 +179,7 @@ namespace EDTLibrary.Models.DPanels
             var cctList = new ObservableCollection<DpnCircuit>();
 
             for (int i = 1; i <= _circuitCount; i += 2) {
-                cctList.Add(new DpnCircuit { CircuitNumber = i });
+                cctList.Add(new DpnCircuit { CircuitNumber = i, VoltageType = VoltageType });
             }
             //CircuitNumbersLeft = cctList;
             return cctList;

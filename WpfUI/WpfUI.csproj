@@ -312,6 +312,9 @@
     <Compile Update="UserControls\HomeControls\PreviousProjectItem.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UserControls\IconControls\LogoIcon.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UserControls\IconControls\ErrorIcon.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

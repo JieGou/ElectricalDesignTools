@@ -35,12 +35,13 @@ internal class OfflineLicenseManager
     {
         KeyGenerator keyGenerator = KeyGenerator.Create();
         KeyPair keyPair = keyGenerator.GenerateKeyPair();
+        if (_privateKeyFile.Exists == false || _publicKeyFile.Exists == false) {
+            _privateKey = keyPair.ToEncryptedPrivateKeyString(licenseEncryptionPassword);
+            File.WriteAllText(_privateKeyFilePath, _privateKey.ToString(), Encoding.UTF8);
 
-        _privateKey = keyPair.ToEncryptedPrivateKeyString(licenseEncryptionPassword);
-        File.WriteAllText(_privateKeyFilePath, _privateKey.ToString(), Encoding.UTF8);
-
-        _publicKey = keyPair.ToPublicKeyString();
-        File.WriteAllText(_publicKeyFilePath, _publicKey.ToString(), Encoding.UTF8);
+            _publicKey = keyPair.ToPublicKeyString();
+            File.WriteAllText(_publicKeyFilePath, _publicKey.ToString(), Encoding.UTF8);
+        }
     }
     internal static void GenerateLicense(EdtUserAccount edtUserAccount, string edtUserAccountPassword, string licenseEncryptionPassword = _offlineLicenseDefaultPassword)
     {

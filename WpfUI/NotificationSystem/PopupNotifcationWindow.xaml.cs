@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -8,6 +11,7 @@ namespace WpfUI.PopupWindows;
 /// </summary>
 public partial class PopupNotifcationWindow : Window
 {
+    private int popupDuration = 3000;
     public static MainWindow MainWindow { get; set; }
 
     public PopupNotifcationWindow()
@@ -18,8 +22,19 @@ public partial class PopupNotifcationWindow : Window
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
         SetWindowScreen(this, GetWindowScreen(App.Current.MainWindow));
+    }
+
+    private async Task StartCloseSequenceAsync()
+    {
+        await Task.Run(() => {
+
+            Thread.Sleep(popupDuration);
+
+            App.Current.Dispatcher.Invoke( () => this.Close()  );
+        });
 
     }
+
     public void SetWindowScreen(Window window, Screen screen)
     {
         if (screen != null) {

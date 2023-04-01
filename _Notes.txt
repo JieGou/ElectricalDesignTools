@@ -7,7 +7,7 @@ Major Bugs
 Minor Bugs
 	- 1C cables
 	- VFD trip/frame sizes
-	- remove VSD / RVS
+	- remove VSD
 	- component AIC/SCCR calculation
 	- added load needs to be shown / selected in views
 	- MCP frame size list for PD Editor
@@ -16,10 +16,14 @@ Minor Bugs
 
 *****************************************************************************************************************************
 
-- default local disconnect type wire up
-- Empty D.Panel note / watermark
-- components and stand alone protection device list
-- move calculate all into calculation manager
+D.Panels
+	- add breaker connection node logic
+	- add loading calc for split and single phase panels
+
+Misc.
+	- encrypt Db Auth Secret
+	- components and stand alone protection device list
+	- move calculate all into calculation manager
 
 Transformer Grounding
 	- NGR component
@@ -62,8 +66,6 @@ Tag Settings
 Autocad
 	- single line
 		- main block
-	- panel schedules
-		- add breakers
 	- schematics
 	- wiring diagrams
 	- title blocks

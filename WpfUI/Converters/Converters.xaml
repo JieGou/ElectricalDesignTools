@@ -5,7 +5,8 @@
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
     <converters:BooleanInverter x:Key="BooleanInverter"/>
-    
+
+    <converters:BreakerConnectionNodeToVisibilityConverter x:Key="BreakerConnectionNodeToVisibilityConverter"/>
     <converters:BreakerSizeToVisibilityConverter x:Key="BreakerSizeToVisibilityConverter"/>
     <converters:CableModelToColorConverter x:Key="CableModelToColorConverter"/>
     

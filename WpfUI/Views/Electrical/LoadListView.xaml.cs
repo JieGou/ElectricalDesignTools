@@ -148,11 +148,11 @@ public partial class LoadListView : UserControl
             }
 
             if (e.Key == Key.S) {
-                if (testWindow == null || testWindow.IsLoaded == false) {
-                    testWindow = new TestWindow();
-                    testWindow.DataContext = vm;
-                    testWindow.Show();
-                }
+                //if (testWindow == null || testWindow.IsLoaded == false) {
+                //    testWindow = new TestWindow();
+                //    testWindow.DataContext = vm;
+                //    testWindow.Show();
+                //}
             }
 #endif
         }

@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:WpfUI.PopupWindows"
         mc:Ignorable="d"
         
-        Title="NotificationPopup" Height="85" Width="250"
+        xmlns:iconControls="clr-namespace:WpfUI.UserControls.IconControls"
+
+        
+        Title="NotificationPopup" Height="115" Width="275"
         WindowStartupLocation="Manual"
         
         WindowStyle="None"
@@ -16,12 +19,13 @@
         Background="Transparent" Loaded="Window_Loaded"
         Topmost="True">
 
-    <Border Background="White" 
-            BorderBrush="DarkBlue" BorderThickness="1" 
-            CornerRadius="1">
+    <Border Background="{StaticResource ControlBackgroundDark}" 
+            BorderBrush="#FF41A5EE" BorderThickness="1" 
+            CornerRadius="{StaticResource ControlCornerRadius}"
+            >
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
@@ -30,14 +34,18 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
+            <iconControls:LogoIcon
+                Margin="5"/>
+            
             <TextBlock Text="Electrical Design Tools"
-                       Grid.Row="0" Grid.Column="0"
-                       Grid.ColumnSpan="2"
+                       Grid.Row="0" Grid.Column="1"
+                       Grid.ColumnSpan="1"
                        FontSize="12" FontWeight="SemiBold"
                        d:Text="Electrical Design Tools"
                        VerticalAlignment="Top"
-                       HorizontalAlignment="Left"
-                       Margin="5"/>
+                       HorizontalAlignment="Center"
+                       Margin="5"
+                       Foreground="{StaticResource TextColorLightTheme_White}"/>
 
             <Button Grid.Row="0" Grid.RowSpan="2"
                     Grid.Column="2"
@@ -59,11 +67,13 @@
 
             <TextBlock Text="{Binding NotificationText}"
                        Grid.Row="2" Grid.Column="1"
-                       Margin="0 0 0 0"
+                       Margin="0 -15 0 0"
+                       Foreground="{StaticResource TextColorLightTheme_White}"
                        TextWrapping="Wrap"
                        d:Text="Notification text"
                        VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
+                       HorizontalAlignment="Center"
+                       />
         </Grid>
     </Border>
 </Window>

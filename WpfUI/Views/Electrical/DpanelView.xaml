@@ -712,7 +712,19 @@
                     Panel.ZIndex="0"
                     BorderBrush="Black" BorderThickness="1"
                     Background="LightGray"
-                    VerticalAlignment="Stretch"/>
+                    VerticalAlignment="Stretch">
+
+                <StackPanel 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Margin="0 -150 0 0">
+                    <TextBlock 
+                        Text="No Panel Selected"
+                        FontSize="24"
+                           />
+                    
+                </StackPanel>
+            </Border>
 
 
 

@@ -212,27 +212,7 @@ namespace WpfUI.ViewModels
         public LibraryMenuViewModel _libraryMenuViewModel;
         public DataTablesViewModel _dataTablesViewModel;
 
-
-
-        private void StartCloseTimer()
-        {
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(10d);
-            timer.Tick += TimerTick;
-            timer.Start();
-        }
-
-        private void TimerTick(object sender, EventArgs e)
-        {
-            DispatcherTimer timer = (DispatcherTimer)sender;
-            timer.Stop();
-            timer.Tick -= TimerTick;
-            NotificationPopup.Close();
-        }
-
-        public PopupNotifcationWindow NotificationPopup { get; set; }
-
-
+       
         #region Navigation
         public ICommand NavigateStartupCommand { get; }
         private void NavigateHome()
@@ -277,16 +257,6 @@ namespace WpfUI.ViewModels
         private void NavigateElectical()
         {
             MenuViewModel = _electricalMenuViewModel;
-
-
-            //Below is For Ribbon Window
-
-            //CurrentViewModel = MenuViewModel.CurrentViewModel;
-            //    _mjeqViewModel.CreateValidators();
-            //    _mjeqViewModel.CreateComboBoxLists();
-            //    _mjeqViewModel.DteqGridHeight = AppSettings.Default.DteqGridHeight;
-            //    _mjeqViewModel.LoadGridHeight = AppSettings.Default.LoadGridHeight;
-
         }
 
 
@@ -306,13 +276,21 @@ namespace WpfUI.ViewModels
 
 
         public ICommand ExportCommand { get; }
-        private void ExcelTest()
+        private async void ExcelTest()
         {
-            NotificationPopup = new PopupNotifcationWindow();
-            NotificationPopup.DataContext = new PopupNotificationModel("Exporting to Excel");
-            NotificationPopup.Show();
-            StartCloseTimer();
-            ExcelTestAsync();
+            try {
+                PopupService.ShowPopupNotificationAsync("Exporting to Excel");
+                await ExcelTestAsync();
+                PopupService.ClosePopupNotificationAsync();
+            }
+            catch (Exception ex) {
+                PopupService.ClosePopupNotificationAsync();
+                NotificationHandler.ShowErrorMessage(ex);
+            }
+            finally {
+                PopupService.ClosePopupNotificationAsync();
+
+            }
         }
 
         private async Task ExcelTestAsync()
@@ -355,7 +333,7 @@ namespace WpfUI.ViewModels
                     excel.SaveWorkbook();
                     excel.SetVisibility(true);
                     excel.Release();
-                    System.Windows.Application.Current.Dispatcher.Invoke(NotificationPopup.Close);
+
                 }
                 catch (Exception) {
 
@@ -402,28 +380,7 @@ namespace WpfUI.ViewModels
         public ICommand ReloadDbCommand { get; }
         private void ReloadDb()
         {
-
             _listManager.GetProjectTablesAndAssigments();
-
-
-            //if (_mjeqViewModel.AssignedLoads != null) {
-            //    _mjeqViewModel.AssignedLoads.Clear();
-            //    _mjeqViewModel.DteqToAddValidator.ClearErrors();
-            //    _mjeqViewModel.LoadToAddValidator.ClearErrors();
-            //}
-
-            //if (_singleLineViewModel.AssignedLoads != null) {
-            //    _singleLineViewModel.AssignedLoads.Clear();
-            //    _singleLineViewModel.RefreshSingleLine();
-            //    _singleLineViewModel.ClearSelections();
-            //    _singleLineViewModel.DteqCollectionView = new ListCollectionView(_singleLineViewModel.ViewableDteqList);
-            //}
-
-            //if (_dpanelViewModel.SelectedDteq != null) {
-            //    _dpanelViewModel.UpdatePanelList();
-            //}
-
-
             _ViewStateManager.OnElectricalViewUpdated();
         }
 

@@ -57,22 +57,28 @@
             
             <!--A-->
             <Line X1="60" Y1="0" X2="60" Y2="25" Stroke="Black" />
-                <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
+            <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
                          Canvas.Top="12.5" Canvas.Left="57.5"
-                         Visibility="Visible"/>
-            
+                         Visibility="{Binding 
+                Converter={StaticResource BreakerConnectionNodeToVisibilityConverter},
+                ConverterParameter=A}"/>
+
             <!--B-->
             <Line X1="75" Y1="0" X2="75" Y2="25" Stroke="Black" 
                   Visibility="Visible"/>
                 <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
                          Canvas.Top="12.5" Canvas.Left="72.5"
-                         Visibility="Visible"/>
+                          Visibility="{Binding 
+                Converter={StaticResource BreakerConnectionNodeToVisibilityConverter},
+                ConverterParameter=B}"/>
             
             <!--C-->
             <Line X1="90" Y1="0" X2="90" Y2="25" Stroke="Black" />
                 <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
                          Canvas.Top="12.5" Canvas.Left="87.5"
-                         Visibility="Visible"/>
+                          Visibility="{Binding 
+                Converter={StaticResource BreakerConnectionNodeToVisibilityConverter},
+                ConverterParameter=C}"/>
 
 
             <!--Breaker Right-->

@@ -8,6 +8,8 @@ using System.Windows;
 using Windows.Media.Protection.PlayReady;
 using WpfUI._Authentication.OfflineLicense;
 using WpfUI._Authentication.ViewModels;
+using WpfUI.PopupWindows;
+using WpfUI.Services;
 
 namespace WpfUI._Authentication.Stores;
 [AddINotifyPropertyChangedInterface]
@@ -38,18 +40,19 @@ public class AuthenticationStore
             _edtDbAuthManager.Initialize();
 
             EdtUserAccount = await _edtDbAuthManager.GetAccount(_currentFirebaseAuthLink?.User.LocalId);
-
-            MessageBox.Show($"{EdtUserAccount.Email} is subscribed until {EdtUserAccount.Subscription_End} " +
-                $"under a {EdtUserAccount.SubscriptionStatus} subscription",
-                "Online Login Successful",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
-
+            
+            
             OfflineLicenseManager.GenerateLicense(EdtUserAccount, password);
 
             loginViewModel.SerializUserInfo();
             _authWindow._isLoggedIn = true;
             _authWindow.Close();
+
+            PopupService.ShowPopupNotificationAsync(
+                $"{EdtUserAccount.Email} is subscribed until {EdtUserAccount.Subscription_End} " +
+                $"under a {EdtUserAccount.SubscriptionStatus} subscription");
+
+            await PopupService.ClosePopupNotificationAsync(3000);
 
         }
         else {

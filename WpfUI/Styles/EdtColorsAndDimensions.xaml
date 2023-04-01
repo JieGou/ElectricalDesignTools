@@ -8,6 +8,7 @@
     <!--Colors-->
     <SolidColorBrush x:Key="ControlBorder" Color="#FF6C6C6C"/>
     <SolidColorBrush x:Key="ControlBackground" Color="#FF6C6C6C"/>
+    <SolidColorBrush x:Key="ControlBackgroundDark" Color="#FF1A1A1A"/>
     <SolidColorBrush x:Key="VeryDarkGray" Color="#FF545454"/>
     
     
