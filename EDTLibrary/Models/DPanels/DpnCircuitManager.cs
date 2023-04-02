@@ -385,6 +385,7 @@ public class DpnCircuitManager
             dpn.InsertLoad(newLoad);
             IsConverting = false;
             AssignCircuitNumbers(circuitList);
+            dpn.CalculateLoading();
 
         }
         catch (Exception ex) {

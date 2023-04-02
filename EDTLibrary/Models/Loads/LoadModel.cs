@@ -120,7 +120,9 @@ namespace EDTLibrary.Models.Loads
             if (Type == LoadTypes.MOTOR.ToString()) {
                 if (PowerFactor == 0 || Efficiency == 0) {
                     isValid = false;
-                    IsInvalidMessage += Environment.NewLine + "Motor is not a standard size. To override this error manually change the Power Factor and Efficiency.";
+                    IsInvalidMessage += Environment.NewLine + "- " +
+                        "Selected motor is not a standard size or is not in the Library. To override this error, manually change " + Environment.NewLine +
+                        "the Power Factor and Efficiency or add a new motor to the library.";
                 }
             }
 
@@ -129,7 +131,7 @@ namespace EDTLibrary.Models.Loads
                 //ProtectionDevice.Validate(); 
                 if (ProtectionDevice.IsValid == false) {
                     isValid = false;
-                    IsInvalidMessage += Environment.NewLine + "Protection device.";
+                    IsInvalidMessage += Environment.NewLine + "- " + "Protection device.";
                 }
             }
 
@@ -137,7 +139,7 @@ namespace EDTLibrary.Models.Loads
                 //PowerCable.Validate(PowerCable);
                 if (PowerCable.IsValid == false) {
                     isValid = false;
-                    IsInvalidMessage += Environment.NewLine + "Load supply cable.";
+                    IsInvalidMessage += Environment.NewLine + "- " + "Load supply cable.";
                 }
 
             }
@@ -147,11 +149,11 @@ namespace EDTLibrary.Models.Loads
                 if (comp != null && comp.PowerCable != null) {
                     if (comp.IsValid == false || comp.PowerCable.IsValid == false) {
                         isValid = false;
-                        IsInvalidMessage += Environment.NewLine + "Circuit component.";
+                        IsInvalidMessage += Environment.NewLine + "- " + "Circuit component.";
                     }
                     if (comp.PowerCable.IsValid == false) {
                         isValid = false;
-                        IsInvalidMessage += Environment.NewLine + "Circuit component cable.";
+                        IsInvalidMessage += Environment.NewLine + "- " + "Circuit component cable.";
                     }
                 }
 
@@ -159,12 +161,12 @@ namespace EDTLibrary.Models.Loads
 
             if (VoltageValidator.IsValid(this) == false) {
                 isValid = false;
-                IsInvalidMessage += Environment.NewLine + "Voltage does not match supply equipment.";
+                IsInvalidMessage += Environment.NewLine + "- " + "Voltage does not match supply equipment.";
             }
 
             if (SCCR < SCCA) {
                 isValid = false;
-                IsInvalidMessage += Environment.NewLine + "SCCR is less than SCCA.";
+                IsInvalidMessage += Environment.NewLine + "- " + "SCCR is less than SCCA.";
 
             }
 
@@ -222,7 +224,7 @@ namespace EDTLibrary.Models.Loads
                 }
                 if (PowerCable != null && FedFrom != null) {
                     if (CableManager.IsUpdatingCables == false) {
-                        CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                        CableManager.AddAndUpdateEqPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     }
                 }
 
@@ -607,7 +609,7 @@ namespace EDTLibrary.Models.Loads
                     FedFromTag = _fedFrom.Tag;
                     FedFromType = _fedFrom.GetType().ToString();
                     CalculateLoading();
-                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                    CableManager.AddAndUpdateEqPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     CableManager.UpdateLcsCableTags(this);
 
 
@@ -809,7 +811,7 @@ namespace EDTLibrary.Models.Loads
                     else if (_disconnectBool == false) {
                         ComponentManager.RemoveDefaultDisconnect(this, ScenarioManager.ListManager);
                     }
-                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                    CableManager.AddAndUpdateEqPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                 
                 UndoManager.AddUndoCommand(this, nameof(DisconnectBool), oldValue, _disconnectBool);
                 saveController.UnLock(nameof(DisconnectBool));
@@ -911,7 +913,7 @@ namespace EDTLibrary.Models.Loads
                         ComponentManager.RemoveStandAloneStarter(this, ScenarioManager.ListManager);
                         CableManager.DeleteLcsAnalogCable(Lcs, ScenarioManager.ListManager);
                     }
-                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+                    CableManager.AddAndUpdateEqPowerComponentCablesAsync(this, ScenarioManager.ListManager);
                     CableManager.UpdateLcsCableTags(this);
 
                 if (LcsBool) {
@@ -1044,9 +1046,7 @@ namespace EDTLibrary.Models.Loads
 
 
                 if (ProtectionDevice != null) {
-                    if (ProtectionDevice.IsCalculationLocked == false) {
-                        ProtectionDevice.Validate();
-                    }
+                    ProtectionDevice.Validate();
                 }
 
                 foreach (var comp in CctComponents) {

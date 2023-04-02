@@ -6,6 +6,8 @@
                     
                     xmlns:converters="clr-namespace:WpfUI.Converters"
                     
+    xmlns:iconControls="clr-namespace:WpfUI.UserControls.IconControls"
+    
                     xmlns:templateSelectors="clr-namespace:WpfUI.TemplateSelectors"
                     xmlns:SingleLineLoadGraphics="clr-namespace:WpfUI.Templates.SingleLineLoadGraphics"
                     xmlns:edtDteqModels="clr-namespace:EDTLibrary.Models.DistributionEquipment;assembly=EDTLibrary"
@@ -39,8 +41,8 @@
 
             <!--LCs-->
             <Grid Style="{StaticResource GraphicHighlightStyle}"
-                  Grid.Column="0"
-                  Margin="0">
+                  Grid.Column="1"
+                  Margin="60 0 0 0">
                 <Border BorderThickness="1" 
                         BorderBrush="Black"
                         Width="20"
@@ -94,6 +96,18 @@
                 </StackPanel>
 
             </Grid>
+
+            <!--Invalid Icon-->
+            <iconControls:ErrorIcon
+                    Grid.Column="0" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="-0 -40 0 0"
+                    Visibility="{Binding IsValid, 
+                    Converter={StaticResource BoolToVisInvert}, 
+                    ConverterParameter=Inverted}"
+                    ToolTip="{Binding IsInvalidMessage}"
+                    ToolTipService.InitialShowDelay="250"/>
         </Grid>
 
     </DataTemplate>
@@ -107,8 +121,7 @@
             </Grid.ColumnDefinitions>
             <Grid Style="{StaticResource GraphicHighlightStyle}"
                   Grid.Column="1">
-
-            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical">
 
                 <!--Graphic-->
                 <Border BorderThickness="2" 
@@ -152,8 +165,20 @@
 
                 </Border>-->
             </StackPanel>
-
             </Grid>
+
+            <!--Invalid Icon-->
+            <iconControls:ErrorIcon
+                    Grid.Column="0" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="-0 -40 0 0"
+                    Visibility="{Binding IsValid, 
+                    Converter={StaticResource BoolToVisInvert}, 
+                    ConverterParameter=Inverted}"
+                    ToolTip="{Binding IsInvalidMessage}"
+                    ToolTipService.InitialShowDelay="250"/>
+
         </Grid>
     </DataTemplate>
     
@@ -293,6 +318,19 @@
                 </Border>
 
             </Grid>
+
+            <!--Invalid Icon-->
+            <iconControls:ErrorIcon
+                    Grid.Column="0" Grid.ColumnSpan="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="-0 -50 0 0"
+                    Visibility="{Binding IsValid, 
+                    Converter={StaticResource BoolToVisInvert}, 
+                    ConverterParameter=Inverted}"
+                    ToolTip="{Binding IsInvalidMessage}"
+                    ToolTipService.InitialShowDelay="250"/>
+            
         </Grid>
 
 
@@ -336,6 +374,19 @@
                     </Border>
                 </Border>
             </Grid>
+
+            <!--Invalid Icon-->
+            <iconControls:ErrorIcon
+                    Grid.Column="0" Grid.ColumnSpan="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="-0 -100 0 0"
+                    Visibility="{Binding IsValid, 
+                    Converter={StaticResource BoolToVisInvert}, 
+                    ConverterParameter=Inverted}"
+                    ToolTip="{Binding IsInvalidMessage}"
+                    ToolTipService.InitialShowDelay="250"/>
+            
         </Grid>
 
     </DataTemplate>
@@ -462,6 +513,19 @@
             </StackPanel>
 
             </Grid>
+
+            <!--Invalid Icon-->
+            <iconControls:ErrorIcon
+                    Grid.Column="0" 
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="-0 -100 0 0"
+                    Visibility="{Binding IsValid, 
+                    Converter={StaticResource BoolToVisInvert}, 
+                    ConverterParameter=Inverted}"
+                    ToolTip="{Binding IsInvalidMessage}"
+                    ToolTipService.InitialShowDelay="250"/>
+            
         </Grid>
     </DataTemplate>
     <!--#endregion-->

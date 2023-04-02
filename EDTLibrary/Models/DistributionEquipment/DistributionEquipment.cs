@@ -833,6 +833,21 @@ namespace EDTLibrary.Models.DistributionEquipment
             {
                 var oldValue = _disconnectBool;
                 _disconnectBool = value;
+                if (DaManager.GettingRecords) return;
+                saveController.Lock(nameof(DisconnectBool));
+                UndoManager.Lock(this, nameof(DisconnectBool));
+
+                if (_disconnectBool == true) {
+                    ComponentManager.AddDefaultDisconnect(this, ScenarioManager.ListManager);
+                }
+                else if (_disconnectBool == false) {
+                    ComponentManager.RemoveDefaultDisconnect(this, ScenarioManager.ListManager);
+                }
+                CableManager.AddAndUpdateEqPowerComponentCablesAsync(this, ScenarioManager.ListManager);
+
+                UndoManager.AddUndoCommand(this, nameof(DisconnectBool), oldValue, _disconnectBool);
+                saveController.UnLock(nameof(DisconnectBool));
+                OnPropertyUpdated();
 
             }
         }
@@ -1031,8 +1046,11 @@ namespace EDTLibrary.Models.DistributionEquipment
                         comp.SCCR= EquipmentSccrCalculator.GetMinimumSccr(comp);
                     }
                 }
+                //Components
+                foreach (var comp in CctComponents) {
+                    comp.Validate();
+                }
 
-                
 
 
             }

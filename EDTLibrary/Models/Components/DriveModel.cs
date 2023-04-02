@@ -44,7 +44,7 @@ public class DriveModel : ComponentModelBase
             if (DaManager.GettingRecords == false) {
                 if (Owner != null) {
                     if (CableManager.IsUpdatingCables == false) {
-                        CableManager.AddAndUpdateLoadPowerComponentCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
+                        CableManager.AddAndUpdateEqPowerComponentCablesAsync((IPowerConsumer)Owner, ScenarioManager.ListManager);
                     }
                 }
             }

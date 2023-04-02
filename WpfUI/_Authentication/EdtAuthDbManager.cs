@@ -6,8 +6,11 @@ using Newtonsoft.Json;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Windows;
+using WpfUI.Helpers;
 
 namespace WpfUI._Authentication
 {
@@ -15,9 +18,55 @@ namespace WpfUI._Authentication
     [AddINotifyPropertyChangedInterface]
     public class EdtAuthDbManager
     {
+        private static string _filePath = $@"{Environment.CurrentDirectory}/ContentFiles/EdtDbCon.sec";
+        private static string DecryptSecret()
+        {
+
+            try {
+                using (FileStream fileStream = new(_filePath, FileMode.Open)) {
+                    using (Aes aes = Aes.Create()) {
+                        byte[] iv = new byte[aes.IV.Length];
+                        int numBytesToRead = aes.IV.Length;
+                        int numBytesRead = 0;
+                        while (numBytesToRead > 0) {
+                            int n = fileStream.Read(iv, numBytesRead, numBytesToRead);
+                            if (n == 0) break;
+
+                            numBytesRead += n;
+                            numBytesToRead -= n;
+                        }
+
+                        byte[] key =
+                        {
+                            0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+                            0x09, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16
+                        };
+
+                        using (CryptoStream cryptoStream = new(
+                           fileStream,
+                           aes.CreateDecryptor(key, iv),
+                           CryptoStreamMode.Read)) {
+                            // By default, the StreamReader uses UTF-8 encoding.
+                            // To change the text encoding, pass the desired encoding as the second parameter.
+                            // For example, new StreamReader(cryptoStream, Encoding.Unicode).
+                            using (StreamReader decryptReader = new(cryptoStream)) {
+                                string decryptedMessage = decryptReader.ReadToEnd();
+                                decryptedMessage= decryptedMessage.Substring(0,decryptedMessage.Length-2);
+                                return decryptedMessage;
+                                // sHh8QNpsRu3IadlZYiUYCNNZ8ZOHfudL6lV26r0w
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) {
+                NotificationHandler.ShowErrorMessage(ex);
+                return null;
+            }
+        }
 
         IFirebaseConfig _config = new FirebaseConfig {
-            AuthSecret = "sHh8QNpsRu3IadlZYiUYCNNZ8ZOHfudL6lV26r0w",
+            AuthSecret = DecryptSecret(),
             BasePath = "https://electrical-design-tools-default-rtdb.firebaseio.com/",
         };
 
@@ -27,7 +76,6 @@ namespace WpfUI._Authentication
         public void Initialize()
         {
             try {
-
                 _client = new FirebaseClient(_config);
                 if (_client != null) {
                 }

@@ -20,14 +20,17 @@ namespace EDTLibrary.DataAccess
             "FedFrom",
             "Area",
             "LargestMotor",
+
             "StandAloneStarterBool",
             "StandAloneStarterId",
-            "DisconnectBool",
+            "StandAloneStarter",
+
             "DisconnectId",
+            "Disconnect",
+
             "LcsBool",
             "Lcs",
-            "StandAloneStarter",
-            "Disconnect",
+
             "IsCalculating",
 
             "VoltageType",

@@ -74,8 +74,8 @@ public class ComponentManager
 
         ComponentModel newComponent = ComponentFactory.CreateCircuitComponent(componentUser, subCategory, type, subType, listManager);
 
-        if (componentUser.GetType() == typeof(LoadModel)) {
-            var load = (LoadModel)componentUser;
+        if (componentUser is IPowerConsumer) {
+            var load = (IPowerConsumer)componentUser;
             load.Disconnect = newComponent;
             load.AreaChanged += newComponent.MatchOwnerArea;
         }
@@ -84,8 +84,8 @@ public class ComponentManager
     public static void RemoveDefaultDisconnect(IComponentUser componentUser, ListManager listManager)
     {
         if (componentUser.Disconnect == null) return;
-        if (componentUser.GetType() == typeof(LoadModel)) {
-            var load = (LoadModel)componentUser;
+        if (componentUser is IPowerConsumer) {
+            var load = (IPowerConsumer)componentUser;
             IComponentEdt componentToRemove = new ComponentModel();
             foreach (var component in componentUser.CctComponents) {
                 if (component.SubType == CctComponentSubTypes.DefaultDcn.ToString()) {

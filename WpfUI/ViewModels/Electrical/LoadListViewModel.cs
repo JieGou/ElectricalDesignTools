@@ -710,7 +710,7 @@ public class LoadListViewModel : ElectricalViewModelBase, INotifyDataErrorInfo
         }
         SelectedLoad.CctComponents = new ObservableCollection<IComponentEdt>(SelectedLoad.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
 
-        CableManager.AddAndUpdateLoadPowerComponentCablesAsync(SelectedLoad, _listManager);
+        CableManager.AddAndUpdateEqPowerComponentCablesAsync(SelectedLoad, _listManager);
 
     }
 
@@ -731,7 +731,7 @@ public class LoadListViewModel : ElectricalViewModelBase, INotifyDataErrorInfo
             SelectedLoad.CctComponents[i].SequenceNumber = i;
         }
         SelectedLoad.CctComponents.OrderBy(x => x.SequenceNumber);
-        CableManager.AddAndUpdateLoadPowerComponentCablesAsync(SelectedLoad, _listManager);
+        CableManager.AddAndUpdateEqPowerComponentCablesAsync(SelectedLoad, _listManager);
 
     }
 

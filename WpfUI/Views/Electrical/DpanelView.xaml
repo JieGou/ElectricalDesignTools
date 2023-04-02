@@ -170,7 +170,7 @@
                              SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              DisplayMemberPath="Tag"
                              Height="85"
-                             Margin="0 0 0 20"/>
+                             Margin="0 0 0 20" PreviewMouseLeftButtonDown="ListBox_PreviewMouseLeftButtonDown"/>
 
                     <TextBlock Text="Circuit Count "
                                Grid.Row="2"
@@ -718,6 +718,16 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Margin="0 -150 0 0">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ViewableDteqList.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
                     <TextBlock 
                         Text="No Panel Selected"
                         FontSize="24"

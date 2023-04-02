@@ -269,10 +269,27 @@
         </controls:EdtGroupBox>
         <!--Protection Device -->
         <editors:CompEditor_Pd_Compact DataContext="{Binding ProtectionDevice}"
-                                               Grid.Row="10" 
-                                            Grid.Column="0" Grid.ColumnSpan="2"
-                                            HorizontalAlignment="Stretch"
-                                            Visibility="Visible"/>
+                                       Grid.Row="10" 
+                                        Grid.Column="0" Grid.ColumnSpan="2"
+                                        HorizontalAlignment="Stretch"
+                                        Visibility="Visible"/>
+
+        <editors:ComponentListEditor 
+            Grid.Row="11"
+            Grid.Column="0" Grid.ColumnSpan="2"
+            DataContext="{Binding}"
+            Margin="0 1 0 0">
+            <editors:ComponentListEditor.Style>
+                <Style TargetType="editors:ComponentListEditor">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=Category}" Value="DTEQ">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </editors:ComponentListEditor.Style>
+        </editors:ComponentListEditor>
 
     </StackPanel>
 

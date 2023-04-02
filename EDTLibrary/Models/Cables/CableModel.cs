@@ -875,7 +875,7 @@ public class CableModel : ICable
                 }
 
                 CalculateAmpacity(Load);
-            saveController.UnLock(nameof(AutoSize));
+                saveController.UnLock(nameof(AutoSize));
                 _isAutoSizing = false;
 
                 OnPropertyUpdated();
@@ -921,7 +921,7 @@ public class CableModel : ICable
                     comp.PowerCable.AutoSize_IfEnabled();
                 }
                 else {
-                    CableManager.AddAndUpdateLoadPowerComponentCablesAsync((LoadModel)comp.Owner, ScenarioManager.ListManager);
+                    CableManager.AddAndUpdateEqPowerComponentCablesAsync((LoadModel)comp.Owner, ScenarioManager.ListManager);
                 }
             }
         }
@@ -1242,6 +1242,7 @@ public class CableModel : ICable
 
         await Task.Run(() => {
             if (PropertyUpdated != null) {
+                PropertyUpdated(this, EventArgs.Empty);
             }
         });
     }

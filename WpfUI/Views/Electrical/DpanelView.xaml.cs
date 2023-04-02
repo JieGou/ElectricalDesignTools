@@ -222,5 +222,10 @@ public partial class DpanelView : UserControl
         //    DpnCircuitManager.ConvertToLoad(loadCircuit);
         //}
     }
+
+    private void ListBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        vm.SelectedEquipment = vm.SelectedDteq;
+    }
 }
 

@@ -166,12 +166,117 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Phase A" Grid.Row="0" Grid.Column="0"/>
+            <!--Phase A / Line 1-->
+            <TextBlock Grid.Row="0" Grid.Column="0">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding VoltageType.Phase}" Value="3">
+                                <Setter Property="Text" Value="Phase A"/>
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding VoltageType.Phase}" Value="1"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="Line 1"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
             <TextBlock Text="{Binding PhaseA}" Grid.Row="0" Grid.Column="2"/>
-            <TextBlock Text="Phase B" Grid.Row="1" Grid.Column="0"/>
-            <TextBlock Text="{Binding PhaseB}" Grid.Row="1" Grid.Column="2"/>
-            <TextBlock Text="Phase C" Grid.Row="2" Grid.Column="0"/>
-            <TextBlock Text="{Binding PhaseC}" Grid.Row="2" Grid.Column="2"/>
+
+            <!--Phase B / Line 2-->
+            <TextBlock Grid.Row="1" Grid.Column="0">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding VoltageType.Phase}" Value="3">
+                                <Setter Property="Text" Value="Phase B"/>
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding VoltageType.Phase}" Value="1"/>
+                                    <Condition Binding="{Binding VoltageType.Voltage}" Value="240"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="Line 2"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding VoltageType.Phase}" Value="1"/>
+                                    <Condition Binding="{Binding VoltageType.Voltage}" Value="120"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value=""/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <TextBlock Text="{Binding PhaseB}" Grid.Row="1" Grid.Column="2">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding VoltageType.Phase}" Value="3">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding VoltageType.Phase}" Value="1"/>
+                                    <Condition Binding="{Binding VoltageType.Voltage}" Value="240"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding VoltageType.Phase}" Value="1"/>
+                                    <Condition Binding="{Binding VoltageType.Voltage}" Value="120"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <!--Phase C / Neutral-->
+            <TextBlock Grid.Row="2" Grid.Column="0">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding VoltageType.Phase}" Value="3">
+                                <Setter Property="Text" Value="Phase C"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding VoltageType.Phase}" Value="1">
+                                <Setter Property="Text" Value=""/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <TextBlock Text="{Binding PhaseC}" Grid.Row="2" Grid.Column="2">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding VoltageType.Phase}" Value="3">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding VoltageType.Phase}" Value="1">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
 
             <TextBlock Text="Total" Grid.Row="4" Grid.Column="0"/>
             <TextBlock Text="{Binding DemandKva}" Grid.Row="4" Grid.Column="2"/>

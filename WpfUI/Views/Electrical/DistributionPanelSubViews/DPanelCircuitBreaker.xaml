@@ -64,8 +64,18 @@
                 ConverterParameter=A}"/>
 
             <!--B-->
-            <Line X1="75" Y1="0" X2="75" Y2="25" Stroke="Black" 
-                  Visibility="Visible"/>
+            <Line X1="75" Y1="0" X2="75" Y2="25" Stroke="Black">
+                <Line.Style>
+                    <Style TargetType="Line">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding VoltageType.Voltage}" Value="120">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Line.Style>
+            </Line>
                 <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
                          Canvas.Top="12.5" Canvas.Left="72.5"
                           Visibility="{Binding 

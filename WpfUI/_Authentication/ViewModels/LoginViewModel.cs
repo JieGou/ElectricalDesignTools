@@ -102,8 +102,16 @@ public class LoginViewModel : ViewModelBase
 
     private byte[] _plainTextPassword;
     private readonly AuthenticationStore _authenticationStore;
+    public void SerializUserInfo()
+    {
+        EncryptLoginInfo();
+        using (Stream stream = File.Open("UserLogin.bin", FileMode.Create)) {
+            BinaryFormatter bin = new BinaryFormatter();
+            bin.Serialize(stream, _userInfo);
+        }
+    }
 
-    public void SaveLoginInfo()
+    public void EncryptLoginInfo()
     {
         byte[] _plainTextPassword = Encoding.UTF8.GetBytes(_password);
         byte[] entropy = new byte[20];
@@ -118,15 +126,7 @@ public class LoginViewModel : ViewModelBase
         _userInfo = new UserInfo(_email, entropy, cypherText);
     }
 
-    public void SerializUserInfo()
-    {
-        SaveLoginInfo();
-        using (Stream stream = File.Open("UserLogin.bin", FileMode.Create)) {
-            BinaryFormatter bin = new BinaryFormatter();
-            bin.Serialize(stream, _userInfo);
-        }
-    }
-
+   
     private void DeserializeUserInfo()
     {
         try {

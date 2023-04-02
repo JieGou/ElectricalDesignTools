@@ -622,7 +622,7 @@ public abstract class ElectricalViewModelBase : ViewModelBase
 
             foreach (var loadObject in SelectedLoads)
             {
-                if (loadObject.GetType() == typeof(LoadModel))
+                if (loadObject is IPowerConsumer)
                 {
                     IPowerConsumer load = loadObject;
                     load.DisconnectBool = true;

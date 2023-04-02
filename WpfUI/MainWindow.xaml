@@ -562,7 +562,8 @@
               HorizontalAlignment="Left"
               VerticalAlignment="top"
               Margin="-115 25 0 25"
-              UseLayoutRounding="True">
+              UseLayoutRounding="True"
+              Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>

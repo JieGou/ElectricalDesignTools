@@ -601,29 +601,75 @@ namespace EDTLibrary.Models.DPanels
             PhaseA = 0;
             PhaseB = 0;
             PhaseC = 0;
-            if (LineVoltageType == null) return;
-            if (LineVoltageType.Phase==3) {
-                Calculate3PhaseLoading();
-            }
-            else if (LineVoltageType.Phase == 1) {
 
+            if (LineVoltageType == null) return;
+
+            if (LineVoltageType.Phase==3) {
+                Calculate3PhaseLoading(LeftCircuits);
+                Calculate3PhaseLoading(RightCircuits);
             }
+
+            else if (LineVoltageType.Phase == 1 && LineVoltageType.Voltage == 240 ) {
+                CalculateSplitPhaseLoading(LeftCircuits);
+                CalculateSplitPhaseLoading(RightCircuits);
+            }
+
+            else if (LineVoltageType.Phase == 1) {
+                PhaseA = DemandKva;
+            }
+
             PhaseA = Math.Round(PhaseA, 2);
             PhaseB = Math.Round(PhaseB, 2);
             PhaseC = Math.Round(PhaseC, 2);
 
+        }
 
-        }
-        public void Calculate3PhaseLoading()
-        {
-            CalculateLeftCircuits3PhaseLoading();
-            CalculateRightCircuits3PhaseLoading();
-        }
-        private void CalculateLeftCircuits3PhaseLoading()
+        
+        private void CalculateSplitPhaseLoading(ObservableCollection<IPowerConsumer> sideCircuitList)
         {
             int cctNo = 1;
 
-            foreach (var load in LeftCircuits) {
+            foreach (var load in sideCircuitList) {
+                if (load.VoltageType == null) {
+                    cctNo += 2;
+                    continue;
+                }
+                // Line 1
+                if (cctNo == 1 || (cctNo - 1) % 4 == 0) {
+                    switch (load.VoltageType.Poles) {
+                        case 1:
+                            PhaseA += load.DemandKva;
+                            break;
+                        case 2:
+                            PhaseA += load.DemandKva / 2;
+                            PhaseB += load.DemandKva / 2;
+                            break;
+                    }
+          
+                }
+                // Line 2
+                else if ((cctNo + 1) % 4 == 0) {
+                    switch (load.VoltageType.Poles) {
+                        case 1:
+                            PhaseB += load.DemandKva;
+                            break;
+                        case 2:
+                            PhaseA += load.DemandKva / 2;
+                            PhaseB += load.DemandKva / 2;
+                            break;
+                      
+                    }
+                }
+                
+                cctNo += (load.VoltageType.Poles * 2);
+            }
+        }
+      
+        private void Calculate3PhaseLoading(ObservableCollection<IPowerConsumer> sideCircuitList)
+        {
+            int cctNo = 1;
+
+            foreach (var load in sideCircuitList) {
                 if (load.VoltageType == null) {
                     cctNo += 2;
                     continue;
@@ -683,72 +729,6 @@ namespace EDTLibrary.Models.DPanels
                 cctNo += (load.VoltageType.Poles * 2);
             }
 
-        }
-        private void CalculateRightCircuits3PhaseLoading()
-        {
-            int cctNo = 2;
-
-            foreach (var load in RightCircuits) {
-                if (load.VoltageType == null) {
-                    cctNo += 2;
-                    continue;
-                }
-                
-                //Phase C
-                else if (cctNo % 6 == 0) {
-                    switch (load.VoltageType.Poles) {
-                        case 1:
-                            PhaseC += load.DemandKva;
-                            break;
-                        case 2:
-                            PhaseC += load.DemandKva / 2;
-                            PhaseA += load.DemandKva / 2;
-                            break;
-                        case 3:
-                            PhaseA += load.DemandKva / 3;
-                            PhaseB += load.DemandKva / 3;
-                            PhaseC += load.DemandKva / 3;
-                            break;
-                    }
-                }
-
-                //Phase B
-                else if (cctNo % 4 == 0) {
-                    switch (load.VoltageType.Poles) {
-                        case 1:
-                            PhaseB += load.DemandKva;
-                            break;
-                        case 2:
-                            PhaseB += load.DemandKva / 2;
-                            PhaseC += load.DemandKva / 2;
-                            break;
-                        case 3:
-                            PhaseA += load.DemandKva / 3;
-                            PhaseB += load.DemandKva / 3;
-                            PhaseC += load.DemandKva / 3;
-                            break;
-                    }
-                }
-
-                // Phase A
-                else if (cctNo == 2 || cctNo % 2 == 0) {
-                    switch (load.VoltageType.Poles) {
-                        case 1:
-                            PhaseA += load.DemandKva;
-                            break;
-                        case 2:
-                            PhaseA += load.DemandKva;
-                            PhaseB += load.DemandKva;
-                            break;
-                        case 3:
-                            PhaseA += load.DemandKva / 3;
-                            PhaseB += load.DemandKva / 3;
-                            PhaseC += load.DemandKva / 3;
-                            break;
-                    }
-                }
-                cctNo += (load.VoltageType.Poles * 2);
-            }
         }
 
         public override void OnAssignedLoadReCalculated(object source, CalculateLoadingEventArgs e)

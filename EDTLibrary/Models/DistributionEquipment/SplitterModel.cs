@@ -27,7 +27,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             if (load == null) return false;
             SetLoadProtectionDevice(load);
 
-            CableManager.AddAndUpdateLoadPowerComponentCablesAsync(load, ScenarioManager.ListManager);
+            CableManager.AddAndUpdateEqPowerComponentCablesAsync(load, ScenarioManager.ListManager);
 
             return newLoadAdded;
         }
@@ -58,7 +58,7 @@ namespace EDTLibrary.Models.DistributionEquipment
             load.CctComponents.Remove(load.ProtectionDevice);
             ProtectionDeviceManager.SetProtectionDeviceType(load);
 
-            CableManager.AddAndUpdateLoadPowerComponentCablesAsync(load, ScenarioManager.ListManager);
+            CableManager.AddAndUpdateEqPowerComponentCablesAsync(load, ScenarioManager.ListManager);
 
             base.RemoveAssignedLoad(load);
         }

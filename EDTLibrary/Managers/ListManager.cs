@@ -439,32 +439,40 @@ namespace EDTLibrary.Managers
         private void AssignComponents()
         {
 
-            // Loads
+            foreach (var dteq in IDteqList) {
+                AssignComponent(dteq);
+            }
+
             foreach (var load in LoadList) {
+                AssignComponent(load);
+            }
+
+            void AssignComponent(IPowerConsumer eq)
+            {
                 foreach (var comp in CompList) {
-                    if (comp.OwnerId == load.Id && comp.OwnerType == typeof(LoadModel).ToString()) {
-                        comp.Owner = load;
+                    if (comp.OwnerId == eq.Id && comp.OwnerType == eq.GetType().ToString()) {
+                        comp.Owner = eq;
                         comp.PropertyUpdated += DaManager.OnComponentPropertyUpdated;
 
                         //Cct Components
                         if (comp.Category == Categories.CctComponent.ToString()) {
-                            load.CctComponents.Add(comp);
-                            load.CctComponents.OrderBy(c => comp.SequenceNumber);
+                            eq.CctComponents.Add(comp);
+                            eq.CctComponents.OrderBy(c => comp.SequenceNumber);
 
                             if (comp.SubType == CctComponentSubTypes.DefaultStarter.ToString()) {
-                                load.StandAloneStarter = (ComponentModel)comp;
-                                if (load.FedFrom != null) {
-                                    load.FedFrom.AreaChanged += comp.MatchOwnerArea;
+                                eq.StandAloneStarter = (ComponentModel)comp;
+                                if (eq.FedFrom != null) {
+                                    eq.FedFrom.AreaChanged += comp.MatchOwnerArea;
                                 }
                             }
                             if (comp.SubType == CctComponentSubTypes.DefaultDcn.ToString()) {
-                                load.Disconnect = (ComponentModel)comp;
-                                load.AreaChanged += comp.MatchOwnerArea;
+                                eq.Disconnect = (ComponentModel)comp;
+                                eq.AreaChanged += comp.MatchOwnerArea;
                             }
                         }
                     }
                 }
-                load.CctComponents = new ObservableCollection<IComponentEdt>(load.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
+                eq.CctComponents = new ObservableCollection<IComponentEdt>(eq.CctComponents.OrderBy(c => c.SequenceNumber).ToList());
             }
         }
         private void GetProtectionDevices()
@@ -775,7 +783,7 @@ namespace EDTLibrary.Managers
             foreach (var dteq in IDteqList) {
                 foreach (var cable in CableList) {
                     //if (dteq.Id == cable.OwnerId && dteq.GetType().ToString() == cable.OwnerType) {
-                    if (dteq.Id == cable.LoadId && cable.LoadType == dteq.GetType().ToString()) {
+                    if (dteq.Id == cable.LoadId && cable.OwnerType == dteq.GetType().ToString()) {
                         dteq.PowerCable = cable;
                         cable.Load = dteq;
                         cable.DestinationModel = dteq;
@@ -788,7 +796,7 @@ namespace EDTLibrary.Managers
             foreach (var load in LoadList) {
                 foreach (var cable in CableList) {
                     //if (load.Id == cable.OwnerId && load.GetType().ToString() == cable.OwnerType) {
-                    if (load.Id == cable.LoadId && cable.LoadType == load.GetType().ToString()) {
+                    if (load.Id == cable.LoadId && cable.OwnerType == load.GetType().ToString()) {
                         load.PowerCable = cable;
                         cable.Load = load;
                         cable.DestinationModel = load;
@@ -802,6 +810,9 @@ namespace EDTLibrary.Managers
                     if (pd.IsStandAlone == true && pd.Id == cable.OwnerId && pd.GetType().ToString() == cable.OwnerType) {
                         pd.PowerCable = cable;
                         cable.DestinationModel = pd;
+                        if (pd.Owner is IPowerConsumer) {
+                            cable.Load = (IPowerConsumer)pd.Owner;
+                        }
                         break;
                     }
                 }
@@ -813,6 +824,9 @@ namespace EDTLibrary.Managers
                     if (comp.Id == cable.OwnerId && comp.GetType().ToString() == cable.OwnerType) {
                         comp.PowerCable = cable;
                         cable.DestinationModel = comp;
+                        if (comp.Owner is IPowerConsumer) {
+                            cable.Load = (IPowerConsumer)comp.Owner;
+                        }
                         break;
                     }
                 }
