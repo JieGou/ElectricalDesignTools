@@ -103,7 +103,7 @@
                                Style="{StaticResource SummaryLabel_TextBlockStyle}"
                                />
             <ComboBox  Grid.Row="2" Grid.Column="1"
-                       Template="{DynamicResource ComboBoxBase}"
+                       
                        ItemsSource="{Binding DataContext.ListManager.AreaList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                        SelectedValue="{Binding Area, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                        DisplayMemberPath="Tag"
@@ -123,7 +123,7 @@
 
             <!--Dteq Type-->
             <ComboBox Grid.Row="3" Grid.Column="1"
-                      Template="{DynamicResource ComboBoxBase}"
+                      
                       ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:DteqTypes}}}"
                       SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Text="{Binding Type}"
@@ -133,7 +133,7 @@
                       ToolTip="Cannot change Distribution Equipment type. Delete and Create New"
                       d:Visibility="Visible">
                 <ComboBox.Resources>
-                    <Style TargetType="ComboBox">
+                                            <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                         <Setter Property="IsEnabled" Value="False"/>
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
@@ -151,7 +151,7 @@
 
             <!--Load Type-->
             <ComboBox Grid.Row="3" Grid.Column="1"
-                      Template="{DynamicResource ComboBoxBase}"
+                      
                       ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:LoadTypes}}}"
                       SelectedValue="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Text="{Binding Type}"
@@ -159,7 +159,7 @@
                       Margin="5 0 5 0"
                       d:Visibility="Visible">
                 <ComboBox.Resources>
-                    <Style TargetType="ComboBox">
+                                            <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=Category}" Value="LOAD3P">
@@ -180,7 +180,7 @@
 
             <!--Dteq Fed From List-->
             <ComboBox Grid.Row="4" Grid.Column="1"
-                              Template="{DynamicResource ComboBoxBase}"
+                              
                               ItemsSource="{Binding DataContext.ListManager.DteqList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                               SelectedValue="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               DisplayMemberPath="Tag"
@@ -189,7 +189,7 @@
                               IsEditable="False" IsTextSearchEnabled="True"
                               >
                 <ComboBox.Resources>
-                    <Style TargetType="ComboBox">
+                                            <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=Category}" Value="DTEQ">
@@ -202,7 +202,7 @@
 
             <!--Load Fed From List-->
             <ComboBox Grid.Row="4" Grid.Column="1"
-                      Template="{DynamicResource ComboBoxBase}"
+                      
                       ItemsSource="{Binding DataContext.ListManager.IDteqList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                       SelectedValue="{Binding FedFrom, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       DisplayMemberPath="Tag"
@@ -211,7 +211,7 @@
                       IsEditable="False" IsTextSearchEnabled="True"
                       d:Visibility="Visible">
                 <ComboBox.Resources>
-                    <Style TargetType="ComboBox">
+                                            <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Path=Category}" Value="LOAD3P">
@@ -228,7 +228,7 @@
             <TextBlock Text="Voltage " Style="{StaticResource SummaryLabel_TextBlockStyle}"
                        Grid.Row="6"
                        Grid.Column="0"  />
-            <ComboBox Grid.Row="6" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
+            <ComboBox Grid.Row="6" Grid.Column="2" 
                       ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, Mode=OneWay,
                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                       SelectedValue="{Binding VoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -262,7 +262,7 @@
 
                 <!--Load Unit-->
                 <ComboBox Grid.Column="2"
-                          Template="{DynamicResource ComboBoxBase}"
+                          
                           ItemsSource="{Binding Source={helpers:EnumBindingSource {x:Type edt:Units}}}"
                           SelectedValue="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Text="{Binding Unit}"
@@ -270,7 +270,7 @@
                           Margin="5 0 5 0"
                           d:Visibility="Visible">
                     <ComboBox.Resources>
-                        <Style TargetType="ComboBox">
+                                                <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Setter Property="IsEnabled" Value="False"/>
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
@@ -287,7 +287,7 @@
 
                 <!--Load Unit-->
                 <ComboBox Grid.Column="2"
-                          Template="{DynamicResource ComboBoxBase}"
+                          
                           ItemsSource="{Binding UnitList}"
                           SelectedValue="{Binding Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                           Text="{Binding Unit}"
@@ -295,7 +295,7 @@
                           Margin="5 0 5 0"
                           d:Visibility="Visible">
                     <ComboBox.Resources>
-                        <Style TargetType="ComboBox">
+                                                <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Path=Category}" Value="LOAD3P">
@@ -524,7 +524,7 @@
                                    Style="{StaticResource SummaryLabel_TextBlockStyle}"
                                    HorizontalAlignment="Left"/>
 
-                        <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                        <ComboBox  
                                   Grid.Row="0" Grid.Column="4" 
                                   HorizontalAlignment="Stretch"
                                   ItemsSource="{Binding Path=DataContext.TypeManager.EquipmentSccrValues, 
@@ -544,15 +544,7 @@
                 </Grid>
             </Border>
 
-            <!--Protection Device -->
-
-            <editors:CompEditor_Pd_Compact DataContext="{Binding ProtectionDevice}"
-                                        Grid.Row="11" 
-                                        Grid.Column="0" Grid.ColumnSpan="2"
-                                        HorizontalAlignment="Stretch"
-                                        Visibility="Collapsed"/>
-
-
+          
             <!--Line-->
             <Canvas Grid.Row="12" 
                   Grid.ColumnSpan="5"

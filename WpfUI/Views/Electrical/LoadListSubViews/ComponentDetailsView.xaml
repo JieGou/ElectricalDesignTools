@@ -37,7 +37,7 @@
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
 
-            <Style TargetType="ComboBox">
+                                    <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                 <Setter Property="Padding" Value="3 1"/>
                 <Setter Property="Height" Value="20"/>
                 <Setter Property="Margin" Value="0 3"/>
@@ -128,7 +128,7 @@
                             Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" >
                     <TextBlock Text="Type"
                                Grid.Row="1" Grid.Column="0"  />
-                    <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                    <ComboBox  
                           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                           Height="20" Width="83"
                           Margin="0"
@@ -148,7 +148,7 @@
                 <StackPanel Orientation="Horizontal" 
                             Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" >
                     <TextBlock Text="Frame" />
-                    <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                    <ComboBox  
                               Height="20" Width="83"
                               Margin="0 3 0 0"
                               ItemsSource="{Binding Path=DataContext.TypeManager.DisconnectSizes, 
@@ -189,7 +189,7 @@
                     </StackPanel.Style>
                     
                     <TextBlock Text="Fuse"  />
-                    <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                    <ComboBox  
                           Height="20" Width="83"
                           Margin="0 3 0 0"
                           ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 

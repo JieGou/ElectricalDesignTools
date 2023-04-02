@@ -30,7 +30,7 @@
             <TextBlock Text="Select where to feed equipment from:"
                        Margin="30 15"/>
             <ComboBox Grid.Row="2" Grid.Column="6"
-                        Template="{DynamicResource ComboBoxBase}"
+                        
                         Width="150"
                         ItemsSource="{Binding ListManager.DteqList}"
                         DisplayMemberPath="Tag"

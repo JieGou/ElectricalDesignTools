@@ -41,7 +41,7 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
 
-            <Style TargetType="ComboBox">
+                                    <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                 <Setter Property="Padding" Value="3 1"/>
                 <Setter Property="Height" Value="20"/>
                 <Setter Property="Margin" Value="0 3"/>
@@ -262,7 +262,7 @@
                     <TextBlock Text="Type"
                                Grid.Row="1" Grid.Column="0" 
                                Width="40"/>
-                    <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                    <ComboBox  
                                   Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                                   Height="20" Width="125"
                                   Margin="0"

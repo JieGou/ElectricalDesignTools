@@ -64,7 +64,7 @@
                     TextAlignment="Right"/>
 
         <ComboBox Grid.Row="3" Grid.Column="3" 
-                      Template="{DynamicResource ComboBoxBase}"
+                      
                       HorizontalAlignment="Stretch"
                       Margin="0"
                       ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTypes, 
@@ -78,7 +78,7 @@
                   IsSynchronizedWithCurrentItem="False"
                       >
             <ComboBox.Style>
-                <Style TargetType="ComboBox">
+                <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                     <Setter Property="IsEnabled" Value="False"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 

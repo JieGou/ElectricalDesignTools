@@ -29,13 +29,6 @@
 
     <Border BorderBrush="LightGray" BorderThickness="0 0 0 0"
             Margin="0 5 0 0">
-        <!--<controls:EdtGroupBox Grid.Row="0"
-                            Header="Area Properties"
-                            HeaderForeGround="White"
-                            HeaderBackground="Gray"
-                            Visibility="Visible"
-                                  >
-        </controls:EdtGroupBox>-->
 
         <Grid Margin="0"
             ShowGridLines="False">
@@ -135,7 +128,7 @@
                            TextAlignment="Right"/>
 
             <ComboBox Grid.Row="1" Grid.Column="3" 
-                          Template="{DynamicResource ComboBoxBase}"
+                          
                            HorizontalAlignment="Stretch"
                           ItemsSource="{Binding Path=DataContext.ListManager.AreaList, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
@@ -174,7 +167,7 @@
                            MinWidth="0"
                            TextAlignment="Right"/>
 
-            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+            <ComboBox  
                           Grid.Row="2" Grid.Column="3"
                           
                           HorizontalAlignment="Stretch"
@@ -195,7 +188,7 @@
                            TextAlignment="Right"
                            Margin="0 5 0 0"/>
 
-            <ComboBox Template="{DynamicResource ComboBoxBase}" 
+            <ComboBox  
                           Grid.Row="3" Grid.Column="3"
                           HorizontalAlignment="Stretch"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications, 

@@ -99,7 +99,7 @@
             <TextBlock Text="Voltage " Style="{StaticResource SummaryLabel_TextBlockStyle}"
                        Grid.Row="2"
                        Grid.Column="0"  />
-            <ComboBox Grid.Row="2" Grid.Column="2" Template="{DynamicResource ComboBoxBase}"
+            <ComboBox Grid.Row="2" Grid.Column="2" 
                       ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, Mode=OneWay,
                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                       SelectedValue="{Binding VoltageType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -117,7 +117,7 @@
 
             <!--Trip - BREAKER-->
             <ComboBox 
-                Template="{DynamicResource ComboBoxBase}" 
+                 
                 Grid.Row="1" Grid.Column="3"
                 Margin="5 0"
                 ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 

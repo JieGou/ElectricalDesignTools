@@ -9,6 +9,7 @@
         <ResourceDictionary Source="EdtColorsAndDimensions.xaml"/>
         <ResourceDictionary Source="EdtStyle_BaseTextBlocks.xaml"/>
         <ResourceDictionary Source="EdtStyle_BaseButtons.xaml"/>
+        <ResourceDictionary Source="EdtStyle_ComboBoxes.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     
@@ -149,8 +150,10 @@
     </Style>
 
     
+    
+    
     <!--COMBOBOX with Error-->
-    <Style TargetType="ComboBox">
+    <Style TargetType="ComboBox" x:Key="EdtCombobxWithError">
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>

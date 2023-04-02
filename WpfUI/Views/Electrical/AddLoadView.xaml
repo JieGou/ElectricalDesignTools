@@ -156,7 +156,7 @@
         </TextBox>
 
         <ComboBox Grid.Row="5" Grid.Column="3" 
-                  Template="{DynamicResource ComboBoxBase}"
+                  
                   d:Text="MOTOR"
                   MinWidth="100"
                   ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
@@ -172,7 +172,7 @@
         </TextBox>
 
         <ComboBox Grid.Row="5" Grid.Column="5" 
-                  Template="{DynamicResource ComboBoxBase}"
+                  
                   Width="75"
                   ItemsSource="{Binding Path=DataContext.ListManager.AreaList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedValuePath="Tag"
@@ -186,7 +186,7 @@
 
         <!--Fed From-->
         <ComboBox Grid.Row="5" Grid.Column="6" 
-                  Template="{DynamicResource ComboBoxBase}"
+                  
                   Width="75"
                   ItemsSource="{Binding Path=DataContext.ListManager.IDteqList, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   SelectedValuePath="Tag"
@@ -211,7 +211,7 @@
         </TextBox>
 
         <ComboBox Grid.Row="5" Grid.Column="8"
-                  Template="{DynamicResource ComboBoxBase}"
+                  
                   Width="50"
                   ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
                   SelectedValue="{Binding LoadToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
@@ -232,7 +232,7 @@
 
 
         <ComboBox Grid.Row="5" Grid.Column="10"
-                  Template="{DynamicResource ComboBoxBase}"
+                  
                   MinWidth="60"
                   d:Text="600-3"
                   ItemsSource="{Binding DataContext.TypeManager.VoltageTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}"

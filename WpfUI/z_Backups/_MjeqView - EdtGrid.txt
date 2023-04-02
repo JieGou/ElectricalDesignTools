@@ -520,7 +520,7 @@
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"                                             
                                               BorderThickness="0"
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               >
                                         <!--IsDropDownOpen="True"-->
 
@@ -597,7 +597,7 @@
                                               IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               />
                                     <!--IsDropDownOpen="True"-->
                                 </DataTemplate>
@@ -625,7 +625,7 @@
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"
                                               
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               
                                               />
                                     <!--IsDropDownOpen="True"-->
@@ -653,7 +653,7 @@
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               />
                                     <!--IsDropDownOpen="True"-->
                                 </DataTemplate>
@@ -948,7 +948,7 @@
                         Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="3"
-                          Template="{DynamicResource ComboBoxBase}"
+                          
                         d:Text="MCC"
                         ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:DteqTypes}}}"
                         Text="{Binding DteqToAddValidator.Type}"                       
@@ -962,7 +962,7 @@
                         Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="5"
-                          Template="{DynamicResource ComboBoxBase}"
+                          
                           Width="75"
                           ItemsSource="{Binding ListManager.AreaList}"
                           SelectedValuePath="Tag"
@@ -974,7 +974,7 @@
                           Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="6"
-                          Template="{DynamicResource ComboBoxBase}"
+                          
                           Width="75"
                           ItemsSource="{Binding Source={StaticResource dteqList}}"
                           DisplayMemberPath="Tag"
@@ -992,7 +992,7 @@
                             Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="8"
-                          Template="{DynamicResource ComboBoxBase}"
+                          
                           Width="50"
                           d:Text="13800"
                           ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
@@ -1062,7 +1062,7 @@
                     Margin="5,0,5,0" VerticalAlignment="Bottom"/>
 
                 <ComboBox Grid.Row="5" Grid.Column="3" 
-                          Template="{DynamicResource ComboBoxBase}"
+                          
                             d:Text="MOTOR"
                             MinWidth="100"
                             ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:LoadTypes}}}"
@@ -1077,7 +1077,7 @@
                     Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="5" Grid.Column="5" 
-                          Template="{DynamicResource ComboBoxBase}"
+                          
                           
                           Width="75"
                           ItemsSource="{Binding ListManager.AreaList}"
@@ -1091,7 +1091,7 @@
 
                 <!--Fed From-->
                 <ComboBox Grid.Row="5" Grid.Column="6" 
-                          Template="{DynamicResource ComboBoxBase}"
+                          
                           
                           Width="75"
                           ItemsSource="{Binding Source={StaticResource dteqList}}"
@@ -1112,7 +1112,7 @@
                     Margin="5 0 5 0"/>
 
                 <ComboBox Grid.Row="5" Grid.Column="8"
-                          Template="{DynamicResource ComboBoxBase}"
+                          
                           Width="50"
                           ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:Units}}}"
                           SelectedValue="{Binding LoadToAddValidator.Unit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnNotifyDataErrors=False}"
@@ -1430,7 +1430,7 @@
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"                                             
                                               BorderThickness="0"
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               >
                                         <!--IsDropDownOpen="True"-->
 
@@ -1508,7 +1508,7 @@
                                               IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0" 
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               
                                               />
                                     <!--IsDropDownOpen="True"-->
@@ -1562,7 +1562,7 @@
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"
                                               Width="50"
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               
                                               />
                                     <!--IsDropDownOpen="True"-->
@@ -1780,7 +1780,7 @@
                                               IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               Padding="0 3 0 3">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>

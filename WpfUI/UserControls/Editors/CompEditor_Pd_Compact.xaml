@@ -151,7 +151,7 @@
 
                 <!--Type - Enabled if Motor-->
                 <ComboBox Grid.Row="2" Grid.Column="3" 
-                      Template="{DynamicResource ComboBoxBase}"
+                      
                       HorizontalAlignment="Stretch"
                       Margin="0"
                       ItemsSource="{Binding TypeList, UpdateSourceTrigger=PropertyChanged}"
@@ -159,7 +159,7 @@
                       IsSynchronizedWithCurrentItem="False"
                       >
                     <ComboBox.Style>
-                        <Style TargetType="ComboBox">
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Setter Property="IsEnabled" Value="True"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Owner.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -183,7 +183,7 @@
                         TextAlignment="Right"/>
 
                 <!--Trip - BREAKER-->
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                <ComboBox  
                       Grid.Row="4" Grid.Column="3"
                       ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
@@ -199,7 +199,7 @@
                       IsSynchronizedWithCurrentItem="False" 
                         >
                     <ComboBox.Style>
-                        <Style TargetType="ComboBox">
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Setter Property="IsEnabled" Value="True"/>
 
                             <Style.Triggers>
@@ -214,7 +214,7 @@
                 </ComboBox>
 
                 <!--Trip - DOL-->
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                <ComboBox  
                       Grid.Row="4" Grid.Column="3"
                       ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
@@ -230,7 +230,7 @@
                       IsSynchronizedWithCurrentItem="False" 
                         >
                     <ComboBox.Style>
-                        <Style TargetType="ComboBox">
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Setter Property="Visibility" Value="Collapsed"/>
 
                             <Style.Triggers>
@@ -249,7 +249,7 @@
                 </ComboBox>
 
                 <!--Trip - Disconnect-->
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                <ComboBox  
                       Grid.Row="4" Grid.Column="3"
                       ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
@@ -265,7 +265,7 @@
                       IsSynchronizedWithCurrentItem="False" 
                         >
                     <ComboBox.Style>
-                        <Style TargetType="ComboBox">
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Setter Property="IsEnabled" Value="false"/>
                             <Setter Property="Visibility" Value="Collapsed"/>
 
@@ -282,7 +282,7 @@
                 </ComboBox>
 
                 <!--Trip - DRIVE-->
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                <ComboBox  
                       Grid.Row="4" Grid.Column="3"
                       ItemsSource="{Binding Path=DataContext.TypeManager.BreakerTripSizes, 
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
@@ -298,7 +298,7 @@
                       IsSynchronizedWithCurrentItem="False" 
                         >
                     <ComboBox.Style>
-                        <Style TargetType="ComboBox">
+                                                <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Setter Property="IsEnabled" Value="false"/>
                             <Setter Property="Visibility" Value="Collapsed"/>
 
@@ -336,7 +336,7 @@
                         TextAlignment="Right"/>
 
                 <!--Breaker - FRAME-->
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                <ComboBox  
                   Grid.Row="5" Grid.Column="3" 
                   Margin="0"
                   ItemsSource="{Binding Path=DataContext.TypeManager.BreakerFrameSizes, 
@@ -349,7 +349,7 @@
                   d:Text="100"
                   IsSynchronizedWithCurrentItem="False"  >
                     <ComboBox.Style>
-                        <Style TargetType="ComboBox">
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Setter Property="IsEnabled" Value="False"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Type}" Value="Breaker">
@@ -361,7 +361,7 @@
                 </ComboBox> 
                 
                 <!--Disconnect - Frame -->
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                <ComboBox  
                   Grid.Row="5" Grid.Column="3"
                   Margin="0"
                   ItemsSource="{Binding Path=DataContext.TypeManager.DisconnectSizes, 
@@ -376,7 +376,7 @@
                   d:Text="100"
                   IsSynchronizedWithCurrentItem="False" >
                     <ComboBox.Style>
-                        <Style TargetType="ComboBox">
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Type}" Value="UDS">
@@ -391,7 +391,7 @@
                 </ComboBox>
 
                 <!--DOL / MCP FRAME -->
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                <ComboBox  
                   Grid.Row="5" Grid.Column="3" 
                           
                   Margin="0"
@@ -405,7 +405,7 @@
                   d:Text="100"
                   IsSynchronizedWithCurrentItem="False"  >
                     <ComboBox.Style>
-                        <Style TargetType="ComboBox">
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Type}" Value="MCP_FVNR">
@@ -429,7 +429,7 @@
                        Margin="0 3 0 0"
                        FontWeight="Normal"
                        TextAlignment="Right"/>
-                <ComboBox Template="{DynamicResource ComboBoxBase}" 
+                <ComboBox  
                       Grid.Row="6" Grid.Column="3"
                       ItemsSource="{Binding Path=DataContext.TypeManager.BreakerAicRatings, 
                                           Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, 
@@ -454,7 +454,7 @@
                         FontWeight="Normal"
                         TextAlignment="Right"/>
                 <ComboBox Grid.Row="8" Grid.Column="3" 
-                      Template="{DynamicResource ComboBoxBase}" 
+                       
                       Margin="0"
                       ItemsSource="{Binding Path=DataContext.TypeManager.StarterSizes, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
@@ -464,7 +464,7 @@
                       IsSynchronizedWithCurrentItem="False" >
 
                     <ComboBox.Style>
-                        <Style TargetType="ComboBox">
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                             <Setter Property="IsEnabled" Value="False"/>
                             <Setter Property="Text" Value="n/a"/>
                             <Style.Triggers>

@@ -565,7 +565,7 @@
                                                   IsEditable="False" IsTextSearchEnabled="True"
                                                   IsSynchronizedWithCurrentItem="False"                                             
                                                   BorderThickness="0"
-                                                  Template="{DynamicResource ComboBoxBase}"
+                                                  
                                                   >
                                                 <!--IsDropDownOpen="True"-->
 
@@ -642,7 +642,7 @@
                                                   IsEditable="False" IsTextSearchEnabled="False" IsReadOnly="True" TextSearch.Text=""
                                                   IsSynchronizedWithCurrentItem="False"
                                                   BorderThickness="0"
-                                                  Template="{DynamicResource ComboBoxBase}"
+                                                  
                                                   />
                                             <!--IsDropDownOpen="True"-->
                                         </DataTemplate>
@@ -671,7 +671,7 @@
                                                   IsSynchronizedWithCurrentItem="False"
                                                   BorderThickness="0"
                                                   Padding="5 0 0 0"
-                                                  Template="{DynamicResource ComboBoxBase}"
+                                                  
                                               
                                                   />
                                             <!--IsDropDownOpen="True"-->
@@ -702,7 +702,7 @@
                                                   IsSynchronizedWithCurrentItem="False"
                                                   BorderThickness="0"
                                                   Padding="5 0 0 0"
-                                                  Template="{DynamicResource ComboBoxBase}"
+                                                  
                                                   />
                                             <!--IsDropDownOpen="True"-->
                                         </DataTemplate>

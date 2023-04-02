@@ -104,7 +104,7 @@
                            TextAlignment="Right"/>
 
 
-            <ComboBox Grid.Row="1" Grid.Column="3" Template="{DynamicResource ComboBoxBase}"
+            <ComboBox Grid.Row="1" Grid.Column="3" 
                       ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                       SelectedValue="{Binding PrimaryWiringType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       DisplayMemberPath="WiringType"
@@ -122,7 +122,7 @@
                            MinWidth="0"
                            TextAlignment="Right"/>
 
-            <ComboBox Grid.Row="2" Grid.Column="3" Template="{DynamicResource ComboBoxBase}"
+            <ComboBox Grid.Row="2" Grid.Column="3" 
                       ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                       SelectedValue="{Binding PrimaryGrounding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       DisplayMemberPath="Type"
@@ -137,7 +137,7 @@
                            TextAlignment="Right"
                            Margin="0 5 0 0"/>
 
-            <ComboBox Grid.Row="4" Grid.Column="3" Template="{DynamicResource ComboBoxBase}"
+            <ComboBox Grid.Row="4" Grid.Column="3" 
                       ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                       SelectedValue="{Binding SecondaryWiringType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       DisplayMemberPath="WiringType"
@@ -151,7 +151,7 @@
                        TextAlignment="Right"
                        Margin="0 5 0 0"/>
 
-            <ComboBox Grid.Row="5" Grid.Column="3" Template="{DynamicResource ComboBoxBase}"
+            <ComboBox Grid.Row="5" Grid.Column="3" 
                       ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                       SelectedValue="{Binding SecondaryGrounding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       DisplayMemberPath="Type"

@@ -124,7 +124,7 @@
         </TextBox>
 
         <ComboBox Grid.Row="5" Grid.Column="3" 
-                  Template="{DynamicResource ComboBoxBase}"
+                  
                   d:Text="MOTOR"
                   MinWidth="100"
                   ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:RacewayTypes}}}"
@@ -134,7 +134,7 @@
                   Margin="5 0 5 0"/>
         
         <ComboBox Grid.Row="5" Grid.Column="4" 
-                  Template="{DynamicResource ComboBoxBase}"
+                  
                   d:Text="MOTOR"
                   MinWidth="100"
                   ItemsSource="{Binding Source={h:EnumBindingSource {x:Type edt:RacewayMaterials}}}"

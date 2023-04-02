@@ -170,7 +170,7 @@
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
@@ -196,7 +196,7 @@
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               >
                                     </ComboBox>
                                 </DataTemplate>
@@ -244,7 +244,7 @@
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellEditingTemplate>
@@ -271,7 +271,7 @@
                                               IsEditable="False" IsTextSearchEnabled="True"
                                               IsSynchronizedWithCurrentItem="False"
                                               BorderThickness="0"
-                                              Template="{DynamicResource ComboBoxBase}"
+                                              
                                               >
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
@@ -520,7 +520,7 @@
                          HorizontalContentAlignment="Left"/>-->
 
                     <ComboBox Grid.Row="2" Grid.Column="5"
-                          Template="{DynamicResource ComboBoxBase}" 
+                           
                           Width="110"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaCategories,
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
@@ -533,7 +533,7 @@
                           Margin="5 0 5 0"/>
 
                     <ComboBox Grid.Row="2" Grid.Column="6"
-                          Template="{DynamicResource ComboBoxBase}" 
+                           
                           Width="110"
                           ItemsSource="{Binding Path=DataContext.TypeManager.AreaClassifications,
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
@@ -559,7 +559,7 @@
 
                     <ComboBox Grid.Row="2" Grid.Column="9"
                           HorizontalAlignment="Left"
-                          Template="{DynamicResource ComboBoxBase}" 
+                           
                           Width="90"
                           ItemsSource="{Binding Path=DataContext.TypeManager.NemaTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 

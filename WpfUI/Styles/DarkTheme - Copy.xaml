@@ -257,7 +257,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
+    <Style TargetType="{x:Type ComboBox}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource ComboBoxFocusVisual}" />
         <Setter Property="Foreground" Value="#f0f0f0" />
         <Setter Property="Background" Value="#3f3f3f" />
@@ -277,6 +277,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" MinWidth="18" />
                         </Grid.ColumnDefinitions>
+                        
                         <Popup
                             x:Name="PART_Popup"
                             Grid.ColumnSpan="2"
@@ -343,16 +344,39 @@
                             <Setter TargetName="Shadow" Property="Background" Value="#71000000" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="Gray" />
-                            <Setter Property="Background" Value="#2c2c2c" />
+                            <Setter Property="Foreground" Value="DarkGray" />
+                            <Setter Property="Background" Value="Black" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <!-- Align text box and error list vertically -->
+                    <StackPanel Orientation="Vertical">
+                        <AdornedElementPlaceholder x:Name="textBox"/>
+                        <ItemsControl ItemsSource="{Binding}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ErrorContent}" Foreground="#FFD40000"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)/ErrorContent}"/>
+                <Setter Property="ToolTipService.InitialShowDelay" Value="25"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
-    <Style BasedOn="{StaticResource ComboBoxStyle}" TargetType="{x:Type ComboBox}" />
+
 
     <!--#endregion-->
 
@@ -786,7 +810,7 @@
     <!--#region TextBox-->
 
     <Style TargetType="{x:Type TextBox}">
-        <Setter Property="Background" Value="#333333" />
+        <Setter Property="Background" Value="#3c3c3c" />
         <Setter Property="BorderBrush" Value="#707070" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="AllowDrop" Value="True" />
