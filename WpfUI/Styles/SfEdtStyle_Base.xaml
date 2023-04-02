@@ -66,7 +66,7 @@
         <Setter Property="BorderThickness" Value="0,0,1,1" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="Padding" Value="5,3,5,3" />
-        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_White}" />
+        <Setter Property="Foreground" Value="{StaticResource TextColor_Inverse_HighContrast}" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="IsTabStop" Value="False" />
@@ -392,7 +392,7 @@
     </Style>
     <!--Filter Row-->
     <Style TargetType="sf:FilterRowControl">
-        <Setter Property="Background" Value="{StaticResource RowSelectionBrushOpacity_Teal}" />
+        <Setter Property="Background" Value="{StaticResource RowSelectionBrushOpacity}" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlBorder}"/>
         <!--<Setter Property="ToolTip" Value="Esc. to clear filter"/>-->
     </Style>
@@ -408,11 +408,11 @@
 
     <!--Cell-->
     <Style TargetType="sfgrid:GridCell">
-        <Setter Property="BorderBrush" Value="LightGray" />
+        <Setter Property="BorderBrush" Value="{StaticResource DataGrid_Cell_BorderBrush}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
-                <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
+                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
                 <Setter Property="FontWeight" Value="Regular"/>
             </Trigger>
         </Style.Triggers>
@@ -420,19 +420,15 @@
     
     <!--Row-->
     <Style TargetType="sfgrid:VirtualizingCellsControl" >
-        <Setter Property="Background" Value="White"/>
-        <!--<Setter Property="Height" Value="{Binding VoltageType.Poles, Converter={StaticResource PoleQtyColumnHeightConverter_double}}"/>-->
-      
+        <Setter Property="Background" Value="{StaticResource DataGrid_Cell_BackgroundBrush}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
-                <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
+                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
                 <Setter Property="FontWeight" Value="Regular"/>
             </Trigger>
         </Style.Triggers>
     </Style>
-
-   
   
 
     
@@ -471,7 +467,7 @@
                         
                         <!--Cell--> 
                         <Border Background="{TemplateBinding Background}"
-                                BorderBrush="LightGray"
+                                BorderBrush="{StaticResource DataGrid_Cell_BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 SnapsToDevicePixels="True">
                             <Grid>

@@ -35,7 +35,7 @@
     
     
     <Style TargetType="TextBlock">
-        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="Margin" Value="0"/>
     </Style>
 

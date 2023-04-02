@@ -271,14 +271,16 @@
                                             Width="16"
                                             Visibility="Collapsed"/>-->
                                         </Grid>
-                                        <Grid Grid.Column="2"
-                                    Margin="1,0,0,0"
-                                    VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Tag}"
-                                            Foreground="Black"
-                                            FontSize="12"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
+                                        <Grid 
+                                            Grid.Column="2"
+                                            Margin="1,0,0,0"
+                                            VerticalAlignment="Center">
+                                            <TextBlock 
+                                                Text="{Binding Tag}"
+                                                Foreground="Black"
+                                                FontSize="12"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
                                             />
                                         </Grid>
                                     </Grid>
@@ -405,69 +407,73 @@
                                         BorderBrush="Blue"
                                         BorderThickness="1"
                                         Background="LightBlue"
-                                        CornerRadius="1"
+                                        CornerRadius="2"
                                         Opacity="0.5"
                                         ClipToBounds="False"
                                 />
                             </Canvas>
 
                             <!--Dteq Graphic-->
-                            <singleLineSubViews:SL_DteqGraphicView DataContext="{Binding SelectedDteq}"
-                                                                   UseLayoutRounding="False"
-                                                                   Width="{Binding Path=ActualWidth, ElementName=listViewLoads}"
-                                                                   MinWidth="250"
-                                                                   HorizontalAlignment="Left"
-                                                                   EquipmentSelected="LoadGraphicView_EquipmentSelected"
-                                                                   EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
-                                                                   DisplayMode="SingleLine"
-                                                                   ClipToBounds="False"
-                                                                   Panel.ZIndex="1"/>
+                            <singleLineSubViews:SL_DteqGraphicView 
+                                DataContext="{Binding SelectedDteq}"
+                                Background="{StaticResource ControlBackground}"
+                                UseLayoutRounding="False"
+                                Width="{Binding Path=ActualWidth, ElementName=listViewLoads}"
+                                MinWidth="250"
+                                HorizontalAlignment="Left"
+                                EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
+                                DisplayMode="SingleLine"
+                                ClipToBounds="False"
+                                Panel.ZIndex="1"/>
 
                             <!--Loads-->
-                            <controls:ListViewEx x:Name="listViewLoads"
-                                  Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
-                                                 UseLayoutRounding="False"
+                            <controls:ListViewEx 
+                                x:Name="listViewLoads"
+                                Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
+                                Background="{StaticResource ControlBackground}"
+                                UseLayoutRounding="False"
                                                  
-                                                 ContextMenu="{StaticResource LoadContextMenu}"
-                                  Grid.Row="1"
-                                  BorderThickness="0"
-                                  HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch"
-                                  VerticalContentAlignment="Top"
-                                  Width="{Binding ElementName=singleLine_ScrollViewer_H, Path=ActualWidth}"
+                                ContextMenu="{StaticResource LoadContextMenu}"
+                                Grid.Row="1"
+                                BorderThickness="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                VerticalContentAlignment="Top"
+                                Width="{Binding ElementName=singleLine_ScrollViewer_H, Path=ActualWidth}"
                                       
-                                  Panel.ZIndex="5"
-                                  ClipToBounds="False"
+                                Panel.ZIndex="5"
+                                ClipToBounds="False"
                                       
-                                  ItemsSource="{Binding AssignedLoads, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
-                                  SelectionMode="Extended"
+                                ItemsSource="{Binding AssignedLoads, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}"
+                                SelectionMode="Extended"
                                       
-                                  ScrollViewer.CanContentScroll="True"
-                                  ScrollViewer.HorizontalScrollBarVisibility="Visible"
-                                  Visibility="Visible"
+                                ScrollViewer.CanContentScroll="True"
+                                ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                                Visibility="Visible"
                               
-                                  VirtualizingPanel.IsContainerVirtualizable="True"
-                                  VirtualizingPanel.IsVirtualizing="True"
-                                  VirtualizingPanel.ScrollUnit="Pixel"
-                                  VirtualizingPanel.VirtualizationMode="Recycling"
-                                  VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                VirtualizingPanel.IsContainerVirtualizable="True"
+                                VirtualizingPanel.IsVirtualizing="True"
+                                VirtualizingPanel.ScrollUnit="Pixel"
+                                VirtualizingPanel.VirtualizationMode="Recycling"
+                                VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                                   
-                                  SelectionChanged="listViewLoads_SelectionChanged"
+                                SelectionChanged="listViewLoads_SelectionChanged"
                                   
-                                  MouseDown="Grid_MouseDown" 
-                                  MouseMove="Grid_MouseMove" 
-                                  MouseUp="Grid_MouseUp" 
-                                  LayoutUpdated="listViewLoads_LayoutUpdated" 
-                                  PreviewKeyDown="listViewLoads_PreviewKeyDown"
+                                MouseDown="Grid_MouseDown" 
+                                MouseMove="Grid_MouseMove" 
+                                MouseUp="Grid_MouseUp" 
+                                LayoutUpdated="listViewLoads_LayoutUpdated" 
+                                PreviewKeyDown="listViewLoads_PreviewKeyDown"
                                       
-                                  >
+                                >
 
                                 <ListView.Resources>
 
                                     <!--Selected Template-->
                                     <ControlTemplate x:Key="SelectedTemplate" TargetType="controls:ListViewItemEx"
                                                      >
-                                        <Border BorderThickness="0" Background="WhiteSmoke" 
+                                        <Border BorderThickness="0" Background="{StaticResource SingleLineSelectionBackground}" 
                                                 VerticalAlignment="Top"
                                                 HorizontalAlignment="Left" 
                                                 CornerRadius="7" 
@@ -497,12 +503,13 @@
                                                     <Border BorderThickness="0" Background="Transparent" HorizontalAlignment="Left"  
                                                             ClipToBounds="False">
 
-                                                        <singleLineSubViews:SL_LoadGraphicView x:Name="ItemTemplate"
-                                                                       DataContext="{Binding}" 
-                                                                       EquipmentSelected="LoadGraphicView_EquipmentSelected"
-                                                                       EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
-                                                                       ClipToBounds="False"                 
-                                                                                               />
+                                                        <singleLineSubViews:SL_LoadGraphicView 
+                                                            x:Name="ItemTemplate"
+                                                            DataContext="{Binding}" 
+                                                            EquipmentSelected="LoadGraphicView_EquipmentSelected"
+                                                            EquipmentCableSelected="LoadGraphicView_EquipmentCableSelected"
+                                                            ClipToBounds="False"                 
+                                                                                    />
                                                     </Border>
                                                 </ControlTemplate>
 

@@ -15,7 +15,7 @@
 
     <SolidColorBrush x:Key="Background" Color="#FFDAEEF3"/>
     <SolidColorBrush x:Key="BackgroundLight" Color="#FFF0FAFB"/>
-    <!--<SolidColorBrush x:Key="BackgroundLight" Color="#1c1c1c"/>-->
+    <!--<SolidColorBrush x:Key="BackgroundLight" Color="#4c4c4c"/>-->
     
     <SolidColorBrush x:Key="PageBackground" Color="LightGray"/>
     <SolidColorBrush x:Key="PageBackground2" Color="#FFDAEEF3"/>

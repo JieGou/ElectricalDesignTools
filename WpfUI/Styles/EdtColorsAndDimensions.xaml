@@ -7,11 +7,12 @@
 
     <!--Colors-->
     <SolidColorBrush x:Key="ControlBorder" Color="#FF6C6C6C"/>
-    <SolidColorBrush x:Key="ControlBackground" Color="#FF6C6C6C"/>
+    <SolidColorBrush x:Key="ControlBackground" Color="White"/>
     <SolidColorBrush x:Key="ControlBackgroundDark" Color="#FF1A1A1A"/>
     <SolidColorBrush x:Key="VeryDarkGray" Color="#FF545454"/>
-    
-    
+
+    <SolidColorBrush x:Key="SingleLineSelectionBackground" Color="WhiteSmoke"/>
+
     <!--WINDOW LAYOUT ***********************-->
 
     <!--White window background for Light Theme-->
@@ -26,10 +27,11 @@
     <!--TEXT colors-->
     
     <!--Black Text for Light Theme-->
-    <SolidColorBrush x:Key="TextColorLightTheme_Black" Color="Black"/>
+    <SolidColorBrush x:Key="TextColor_CommonControls" Color="Black"/>
     
     <!--White Text for Light Theme-->
-    <SolidColorBrush x:Key="TextColorLightTheme_White" Color="White"/>
+    <SolidColorBrush x:Key="TextColor_Inverse_HighContrast" Color="White"/>
+    <SolidColorBrush x:Key="TextColor_Inverse_Normal" Color="LightGray"/>
     
     
     
@@ -74,7 +76,12 @@
     <SolidColorBrush x:Key="StatusBarBackroundColor" Color="DarkGray"/>
     
    
-    
+    <!--Datagrid-->
+    <SolidColorBrush x:Key="DataGridRow_Selected_BackgroundBrush" Color="red"/>
+    <SolidColorBrush x:Key="DataGrid_Cell_BackgroundBrush" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="DataGrid_Cell_BorderBrush" Color="LightGray"/>
+
+
 
     <!--Text Color-->
     <SolidColorBrush x:Key="ForeGround_Light1" Color="White"/>
@@ -95,13 +102,13 @@
     
     
     <!--Accent Colors-->
-    <SolidColorBrush x:Key="ButtonColor_Teal" Color="#FFA7DAE8"/>
+    <SolidColorBrush x:Key="ButtonColor" Color="#FFA7DAE8"/>
 
-    <SolidColorBrush x:Key="RowSelectionBrush_Teal" Color="#FFB7DEE8"/>
-    <SolidColorBrush x:Key="RowSelectionBrushOpacity_Teal" Color="#FFB7DEE8" Opacity="0.3"/>
+    <SolidColorBrush x:Key="RowSelectionBrush" Color="#FFB7DEE8"/>
+    <SolidColorBrush x:Key="RowSelectionBrushOpacity" Color="#FFB7DEE8" Opacity="0.3"/>
 
-    <SolidColorBrush x:Key="RowHighlightBrush_Teal" Color="AliceBlue"/>
-    <SolidColorBrush x:Key="CellHighlightBrush_Teal" Color="#FFD6EDF3"/>
+    <SolidColorBrush x:Key="RowHighlightBrush" Color="AliceBlue"/>
+    <SolidColorBrush x:Key="CellHighlightBrush" Color="#FFD6EDF3"/>
 
     
     <SolidColorBrush x:Key="Medium_Blue" Color="#FF1962A4"/>
@@ -111,8 +118,8 @@
     
     
     <!--Warning Color-->
-    <SolidColorBrush x:Key="LightRed">#FFFFBABA</SolidColorBrush>
-    <SolidColorBrush x:Key="LightOrange">#FFFFB193</SolidColorBrush>
-    <SolidColorBrush x:Key="LightYellow">#FFFFEDA1</SolidColorBrush>
+    <SolidColorBrush x:Key="WarningColor_Red">#FFFFBABA</SolidColorBrush>
+    <SolidColorBrush x:Key="WarningColor_Orange">#FFFFB193</SolidColorBrush>
+    <SolidColorBrush x:Key="WarningColor_Yellow">#FFFFEDA1</SolidColorBrush>
 
 </ResourceDictionary>

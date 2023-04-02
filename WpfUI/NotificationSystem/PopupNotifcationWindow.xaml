@@ -45,7 +45,7 @@
                        VerticalAlignment="Top"
                        HorizontalAlignment="Center"
                        Margin="5"
-                       Foreground="{StaticResource TextColorLightTheme_White}"/>
+                       Foreground="{StaticResource TextColor_Inverse_HighContrast}"/>
 
             <Button Grid.Row="0" Grid.RowSpan="2"
                     Grid.Column="2"
@@ -68,7 +68,7 @@
             <TextBlock Text="{Binding NotificationText}"
                        Grid.Row="2" Grid.Column="1"
                        Margin="0 -15 0 0"
-                       Foreground="{StaticResource TextColorLightTheme_White}"
+                       Foreground="{StaticResource TextColor_Inverse_HighContrast}"
                        TextWrapping="Wrap"
                        d:Text="Notification text"
                        VerticalAlignment="Center"

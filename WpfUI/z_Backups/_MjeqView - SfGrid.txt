@@ -1287,7 +1287,7 @@
                                CurrentCellBorderBrush="Black"
                                CurrentCellBorderThickness="0"
                              
-                               RowSelectionBrush="{StaticResource RowSelectionBrush_Teal}"
+                               RowSelectionBrush="{StaticResource RowSelectionBrush}"
                                
                                NavigationMode="Cell"
                                SelectionMode="Extended"

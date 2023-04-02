@@ -264,7 +264,7 @@
                                   />
 
                             <TextBlock Text="{Binding AuthenticationStore.UserName}"
-                                       Foreground="{StaticResource TextColorLightTheme_White}"
+                                       Foreground="{StaticResource TextColor_Inverse_HighContrast}"
                                        VerticalAlignment="Center"
                                        Visibility="Collapsed"/>
                         </StackPanel>

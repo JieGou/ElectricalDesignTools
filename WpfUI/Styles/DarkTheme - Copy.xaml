@@ -4,9 +4,9 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     >
 
-    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#2a2a2a" />
-    <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="#f0f0f0" />
-    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="#f0f0f0" />
+    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#1c1c1c" />
+    <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="LightGray" />
+    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="LightGray" />
 
     <!--#region Button-->
 

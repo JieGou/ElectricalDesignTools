@@ -50,7 +50,7 @@
                     
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Order of Loads"
-                                   Foreground="{StaticResource TextColorLightTheme_White}"
+                                   Foreground="{StaticResource TextColor_Inverse_HighContrast}"
                                    Margin="1 3 0 3"
                                    HorizontalAlignment="Left"/>
                         <iconControls:InfoIcon Margin="10 0 0 0"

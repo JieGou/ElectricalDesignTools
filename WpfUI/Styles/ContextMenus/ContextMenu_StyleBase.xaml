@@ -39,7 +39,7 @@
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Background" Value="{DynamicResource Background}"></Setter>
-        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"></Setter>
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"></Setter>
 
         <Style.Triggers>
             <Trigger Property="IsHighlighted" Value="true">
@@ -226,7 +226,7 @@
             </Trigger>
 
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}" />
+                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}" />
             </Trigger>
 
         </ControlTemplate.Triggers>
