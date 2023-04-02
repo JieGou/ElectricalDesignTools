@@ -555,9 +555,9 @@
                               >
 
                         <Grid Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="4"
-                      VerticalAlignment="Center"
-                      Visibility="Visible" Height="75" 
-                      Margin="0,0,0,20">
+                              VerticalAlignment="Center"
+                              Visibility="Visible" Height="75" 
+                              Margin="0,0,0,20">
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="10"/>
@@ -582,17 +582,17 @@
 
                             <!--Tags-->
                             <TextBlock Text="Tag" Margin="10 5 0 5"
-                               Grid.Row="1" Grid.Column="1" FontSize="10"
-                               VerticalAlignment="Bottom" 
+                                       Grid.Row="1" Grid.Column="1" FontSize="10"
+                                       VerticalAlignment="Bottom" 
                                        SnapsToDevicePixels="True"/>
 
                             <TextBlock Text="Display Tag" Margin="10 5 0 5"
-                               Grid.Row="1" Grid.Column="2" FontSize="10"
-                               VerticalAlignment="Bottom" />
+                                       Grid.Row="1" Grid.Column="2" FontSize="10"
+                                       VerticalAlignment="Bottom" />    
 
                             <TextBlock Text="Area Name" Margin="10 5 0 5"
-                               Grid.Row="1" Grid.Column="3" FontSize="10"
-                               VerticalAlignment="Bottom" />
+                                       Grid.Row="1" Grid.Column="3" FontSize="10"
+                                       VerticalAlignment="Bottom" />
 
 
                             <TextBlock Text="Area&#x0a;Category" Margin="10 5 0 5"

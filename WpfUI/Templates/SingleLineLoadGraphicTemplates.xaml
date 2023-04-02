@@ -569,9 +569,6 @@
                 TransformerTemplate="{StaticResource TransformerTemplate}" 
                 MccTemplate="{StaticResource MccTemplate_AsLoad}"
                 DistributionPanelTemplate="{StaticResource DistributionPanelTemplate}" 
-       
         />
-
-
 
 </ResourceDictionary>

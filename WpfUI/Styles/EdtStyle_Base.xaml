@@ -74,9 +74,6 @@
         
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
-                
-                
-                
                 <ControlTemplate>
                     <DockPanel LastChildFill="True">
                         
@@ -126,7 +123,7 @@
 
     <!--TEXTBOX Style with Error -->
     <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
-        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
+        <!--<Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>-->
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -250,8 +247,8 @@
         <Setter Property="SelectionUnit" Value="FullRow"/>
         <Setter Property="MinRowHeight" Value="18"/>
         <Setter Property="GridLinesVisibility" Value="All"/>
-        <Setter Property="HorizontalGridLinesBrush" Value="LightGray" />
-        <Setter Property="VerticalGridLinesBrush" Value="LightGray" />
+        <!--<Setter Property="HorizontalGridLinesBrush" Value="LightGray" />
+        <Setter Property="VerticalGridLinesBrush" Value="LightGray" />-->
         <Setter Property="RowHeight" Value="20"/>
         <Setter Property="CanUserResizeRows" Value="True"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>

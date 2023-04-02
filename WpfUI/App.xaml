@@ -22,6 +22,13 @@
                 <ResourceDictionary Source="Styles/EdtColorsAndDimensions.xaml"/>
                 <ResourceDictionary Source="Styles/EdtStyle_Base.xaml"/>
                 <ResourceDictionary Source="Styles/SfEdtStyle_Base.xaml"/>
+                
+                <!--****************************************************************-->
+                
+                <ResourceDictionary Source="Styles/DarkTheme - Copy.xaml"/>
+                
+                <!--****************************************************************-->
+                
                 <ResourceDictionary Source="Converters/Converters.xaml"/>
 
 

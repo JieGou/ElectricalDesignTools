@@ -5,13 +5,13 @@
     <!--Block-->
 
     <Style TargetType="TextBlock" >
-        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
+        <!--<Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>-->
     </Style>
     
     
     <Style TargetType="TextBlock" x:Key="SummaryLabel_TextBlockStyle">
 
-        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
+        <!--<Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>-->
         <Setter Property="VerticalAlignment" Value="Center"/>
 
         <Setter Property="TextAlignment" Value="Right"/>
@@ -20,7 +20,7 @@
     </Style>
 
     <Style TargetType="TextBlock" x:Key="SummaryValue_TextBlockStyle">
-        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
+        <!--<Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>-->
         <Setter Property="TextAlignment" Value="Left"/>
 
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -32,7 +32,7 @@
     </Style>
 
     <Style TargetType="TextBlock" x:Key="SummaryValue_TextBlockStyle_2">
-        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
+        <!--<Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>-->
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="MinWidth" Value="50"/>
@@ -44,7 +44,7 @@
 
     <!--BOX-->
     <Style TargetType="TextBox" x:Key="SummaryValue_TextBoxStyle">
-        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
+        <!--<Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>-->
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
@@ -62,7 +62,7 @@
     <!--BLock StatusBar-->
 
     <Style TargetType="TextBlock" x:Key="StatusBarLabel_TextBlockStyle">
-        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
+        <!--<Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>-->
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="12"/>
@@ -71,7 +71,7 @@
     </Style>
     
     <Style TargetType="TextBlock" x:Key="StatusBarValue_TextBlockStyle">
-        <Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>
+        <!--<Setter Property="Foreground" Value="{StaticResource TextColorLightTheme_Black}"/>-->
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="MinWidth" Value="25"/>
