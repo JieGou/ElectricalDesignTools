@@ -23,17 +23,22 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="TextBlock" >
+                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+            </Style>
+
         </ResourceDictionary>
     </UserControl.Resources>
 
 
     <StackPanel Orientation="Vertical">
         <controls:EdtGroupBox Grid.Row="0"
-                              x:Name="PowerConsumerGroupBox"
-                              Header="Transformer"
-                              HeaderForeGround="White"
-                              HeaderBackground="Gray"
-                              Margin="0 1 0 1">
+            x:Name="PowerConsumerGroupBox"
+            Header="Transformer"
+            HeaderForeGround="White"
+            HeaderBackground="Gray"
+            Margin="0 1 0 1">
 
             <Grid Grid.Row="0"
                   ShowGridLines="False">
@@ -250,16 +255,18 @@
 
 
                 <!--Power and Short Circuit-->
-                <editors:TransformerGroundingEditor Grid.Row="9"
-                                                    Grid.Column="0" Grid.ColumnSpan="2"
-                                                    HorizontalAlignment="Stretch"
-                                                    Margin="0 15 0 0"/>
+                <editors:TransformerGroundingEditor 
+                    Grid.Row="9"
+                    Grid.Column="0" Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch"
+                    Margin="0 15 0 0"/>
 
 
-                <editors:AreaEditor Grid.Row="11"
-                                    Grid.Column="0" Grid.ColumnSpan="2"
-                                    HorizontalAlignment="Stretch"
-                                    Margin="0 15 0 0"/>
+                <editors:AreaEditor 
+                    Grid.Row="11"
+                    Grid.Column="0" Grid.ColumnSpan="2"
+                    HorizontalAlignment="Stretch"
+                    Margin="0 15 0 0"/>
 
 
             </Grid>

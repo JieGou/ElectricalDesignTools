@@ -4,54 +4,91 @@
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
     >
 
-    <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#1c1c1c" />
-    <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="LightGray" />
-    <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="LightGray" />
+    <!--Colors-->
+    <SolidColorBrush x:Key="ControlBorder" Color="#FF6C6C6C"/>
+    <SolidColorBrush x:Key="ControlBackground" Color="#3c3c3c"/>
+    <SolidColorBrush x:Key="ControlBackgroundDark" Color="#FF1A1A1A"/>
 
-    <!--#region Button-->
 
-    <Style TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="#3f3f3f" />
-        <Setter Property="Foreground" Value="#f0f0f0" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
-                        x:Name="ButtonBorder"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="True">
-                        <ContentPresenter
-                            Margin="{TemplateBinding Padding}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            RecognizesAccessKey="True" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#515151" />
-                            <Setter Property="Foreground" Value="#f0f0f0" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Background" Value="#616161" />
-                            <Setter Property="Foreground" Value="#f0f0f0" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Background" Value="#2c2c2c" />
-                            <Setter Property="Foreground" Value="Gray" />
-                        </Trigger>
-                        <Trigger Property="IsDefault" Value="True">
-                            <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#0078d7" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <SolidColorBrush x:Key="SingleLineBackground" Color="Gray"/>
+    <SolidColorBrush x:Key="SingleLineSelectionBackground" Color="DarkGray"/>
+    <SolidColorBrush x:Key="EqGraphicColorBrush" Color="WhiteSmoke"/>
 
-    <!--#endregion-->
 
+    <!--WINDOW LAYOUT ***********************-->
+
+    <!--White window background for Light Theme-->
+    <SolidColorBrush x:Key="WindowBackgroundLightTheme_White" Color="WhiteSmoke"/>
+
+    <SolidColorBrush x:Key="WindowGridBorderBrush" Color="Black"/>
+
+    <!--Nema Types and Area Classification descriptions-->
+    <SolidColorBrush x:Key="TransparentTextBlockBrush" Color="LightGray" Opacity=".3"/>
+
+
+    <!--TEXT colors-->
+
+
+    <!--Text Color-->
+    <SolidColorBrush x:Key="ForeGround_Light1" Color="White"/>
+    <SolidColorBrush x:Key="ForeGround_Dark1" Color="Black"/>
+    
+    <SolidColorBrush x:Key="TextColor_CommonControls" Color="WhiteSmoke"/>
+    
+    <SolidColorBrush x:Key="TextColor_Inverse_HighContrast" Color="White"/>
+    <SolidColorBrush x:Key="TextColor_Inverse_Normal" Color="Black"/>
+
+
+    <SolidColorBrush x:Key="ToolTipTextBrush" Color="LightGray"/>
+    <SolidColorBrush x:Key="ToolTipBackgroundBrush" Color="#FF545454"/>
+    <SolidColorBrush x:Key="ToolTipBorderBrush" Color="Black"/>
+
+
+
+
+    <!--SINGLE LINE TEXT COLORS-->
+    <!--Black Text for Light Theme-->
+    <SolidColorBrush x:Key="TextColorSingleLineGraphics_Black" Color="Black"/>
+
+    <SolidColorBrush x:Key="ErrorColor_Base" Color="#FFD40000"/>
+
+    <SolidColorBrush x:Key="Background" Color="AliceBlue"/>
+    <SolidColorBrush x:Key="GridSplitterColor" Color="DarkGray" Opacity=".5"/>
+    <SolidColorBrush x:Key="StatusBarBackroundColor" Color="DarkGray"/>
+
+
+    <!--Datagrid-->
+    <SolidColorBrush x:Key="DataGridRow_Selected_BackgroundBrush" Color="red"/>
+    <SolidColorBrush x:Key="DataGrid_Cell_BackgroundBrush" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="DataGrid_Cell_BorderBrush" Color="LightGray"/>
+
+
+
+   
+
+
+    <!--Accent Colors-->
+    <SolidColorBrush x:Key="ButtonColor" Color="#FFA7DAE8"/>
+
+    <SolidColorBrush x:Key="RowSelectionBrush" Color="#FFB7DEE8"/>
+    <SolidColorBrush x:Key="RowSelectionBrushOpacity" Color="#FFB7DEE8" Opacity="0.3"/>
+
+    <SolidColorBrush x:Key="RowHighlightBrush" Color="AliceBlue"/>
+    <SolidColorBrush x:Key="CellHighlightBrush" Color="#FFD6EDF3"/>
+
+
+    <SolidColorBrush x:Key="Medium_Blue" Color="#FF1962A4"/>
+    <SolidColorBrush x:Key="Medium_Purple" Color="#FF7A6BE2"/>
+    <SolidColorBrush x:Key="Medium_Orange" Color="#FFE09E4D"/>
+
+
+
+    <!--Warning Colors-->
+    <SolidColorBrush x:Key="WarningColor_Red">#FFFFBABA</SolidColorBrush>
+    <SolidColorBrush x:Key="WarningColor_Orange">#FFFFB193</SolidColorBrush>
+    <SolidColorBrush x:Key="WarningColor_Yellow">#FFFFEDA1</SolidColorBrush>
+
+   
     <!--#region CheckBox-->
 
     <Geometry x:Key="CheckBoxCheckmark">M7.2,5 L5.5,7.16 4.16,6.3 3.5,6.7 5.5,8.4 8.6,5.25 C8.6,5.25 8,4.7 7.22,5</Geometry>
@@ -145,8 +182,6 @@
     <!--#endregion-->
 
     <!--#region ComboBox-->
-    <!--  https://www.eidias.com/Blog/2012/2/20/customizing-wpf-combo-box-style  -->
-
     <Geometry x:Key="ComboBoxArrow">M-0,6 L-0,8 8,8 8,-0 6,-0 6,6 z</Geometry>
 
     <Style x:Key="ComboBoxFocusVisual">
@@ -376,34 +411,19 @@
         </Style.Triggers>
     </Style>
 
-
-
     <!--#endregion-->
 
-    <!--#region Hyperlink-->
-
-    <Style TargetType="{x:Type Hyperlink}">
-        <Setter Property="Foreground" Value="DeepSkyBlue" />
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="DarkOrange" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <!--#endregion-->
-
+  
     <!--#region ListBox-->
 
     <Style TargetType="{x:Type ListBox}">
-        <Setter Property="Background" Value="#333333" />
         <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Border
                         Padding="1"
-                        Background="{TemplateBinding Background}"
+                        Background="{StaticResource ControlBackground}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         SnapsToDevicePixels="True">
@@ -417,13 +437,14 @@
     </Style>
 
     <Style TargetType="{x:Type ListBoxItem}">
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="Template">
-            <Setter.Value>
+                <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border
                         x:Name="ListBoxItemBorder"
                         Padding="{TemplateBinding Padding}"
-                        Background="{TemplateBinding Background}"
+                        Background="Transparent"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         SnapsToDevicePixels="True">
@@ -463,54 +484,7 @@
 
     <!--#region ProgressBar-->
 
-    <Style TargetType="{x:Type ProgressBar}">
-        <Setter Property="Background" Value="#515151" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ProgressBar}">
-                    <Grid Background="{TemplateBinding Background}">
-                        <Border
-                            x:Name="PART_Track"
-                            BorderBrush="#707070"
-                            BorderThickness="1" />
-                        <Border
-                            x:Name="PART_Indicator"
-                            HorizontalAlignment="Left"
-                            Background="{TemplateBinding Foreground}">
-                            <Grid x:Name="Animation" ClipToBounds="True">
-                                <Border
-                                    Name="PART_GlowRect"
-                                    Width="195"
-                                    Margin="-195,0,0,0"
-                                    HorizontalAlignment="Left"
-                                    Background="{TemplateBinding Foreground}" />
-                            </Grid>
-                        </Border>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Determinate" />
-                                <VisualState x:Name="Indeterminate">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames
-                                            Storyboard.TargetName="PART_Indicator"
-                                            Storyboard.TargetProperty="Background"
-                                            Duration="00:00:00">
-                                            <DiscreteObjectKeyFrame KeyTime="00:00:00">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <SolidColorBrush>Transparent</SolidColorBrush>
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
+   
     <!--#endregion-->
 
     <!--#region RadioButton-->
@@ -809,9 +783,9 @@
 
     <!--#region TextBox-->
 
-    <Style TargetType="{x:Type TextBox}">
-        <Setter Property="Background" Value="#3c3c3c" />
-        <Setter Property="BorderBrush" Value="#707070" />
+    <Style TargetType="{x:Type TextBox}" x:Key="DarkModeTextBox">
+        <Setter Property="Background" Value="{StaticResource ControlBackground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorder}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="AllowDrop" Value="True" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -833,7 +807,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}" />
                             <Setter TargetName="PART_ContentHost" Property="Background" Value="#2c2c2c" />
                             <Setter TargetName="Border" Property="Background" Value="#2c2c2c" />
                         </Trigger>
@@ -859,29 +833,5 @@
 
     <!--#endregion-->
 
-    <!--#region ToolTip-->
-
-    <Style TargetType="ToolTip">
-        <Setter Property="Foreground" Value="LightGray" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ToolTip">
-                    <Border
-                        Name="Border"
-                        Width="{TemplateBinding Width}"
-                        Height="{TemplateBinding Height}"
-                        Background="#3f3f3f"
-                        BorderBrush="#707070"
-                        BorderThickness="1">
-                        <ContentPresenter
-                            Margin="4"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!--#endregion-->
+   
 </ResourceDictionary>

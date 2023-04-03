@@ -5,34 +5,32 @@
     <!--Block-->
 
     <Style TargetType="TextBlock" >
-        <!--<Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>-->
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+        <Setter Property="Background" Value="Transparent"/>
     </Style>
-    
-    
-    <Style TargetType="TextBlock" x:Key="SummaryLabel_TextBlockStyle">
 
-        <!--<Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>-->
+
+    <Style TargetType="TextBlock" x:Key="SummaryLabel_TextBlockStyle" BasedOn="{StaticResource {x:Type TextBlock}}">
+
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-
         <Setter Property="TextAlignment" Value="Right"/>
         <Setter Property="Margin" Value="5 2 0 3"/>
         <Setter Property="FontSize" Value="12"/>
     </Style>
 
-    <Style TargetType="TextBlock" x:Key="SummaryValue_TextBlockStyle">
-        <!--<Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>-->
+    <Style TargetType="TextBlock" x:Key="SummaryValue_TextBlockStyle" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="TextAlignment" Value="Left"/>
-
         <Setter Property="VerticalAlignment" Value="Center"/>
-
         <Setter Property="MinWidth" Value="75"/>
         <Setter Property="Margin" Value="5 0 5 0"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
     </Style>
 
-    <Style TargetType="TextBlock" x:Key="SummaryValue_TextBlockStyle_2">
-        <!--<Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>-->
+    <Style TargetType="TextBlock" x:Key="SummaryValue_TextBlockStyle_2" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="MinWidth" Value="50"/>
@@ -42,13 +40,20 @@
     </Style>
 
 
+    
     <!--BOX-->
-    <Style TargetType="TextBox" x:Key="SummaryValue_TextBoxStyle">
-        <!--<Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>-->
+
+    <Style TargetType="TextBox" >
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+        <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ControlBorder}" />
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="SummaryValue_TextBoxStyle" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="TextAlignment" Value="Left"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
-        
         <Setter Property="MinWidth" Value="50"/>
         <Setter Property="Margin" Value="5 0 5 0"/>
         <Setter Property="FontSize" Value="12"/>

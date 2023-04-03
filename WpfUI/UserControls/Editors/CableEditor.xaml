@@ -16,8 +16,8 @@
              xmlns:controls="clr-namespace:WpfUI.Controls"
              xmlns:Converters="clr-namespace:WpfUI.Converters"
 
-             d:DesignHeight="750
-             " d:DesignWidth="315"
+             d:DesignHeight="750" 
+             d:DesignWidth="315"
              d:Padding="10"
              d:Background="AliceBlue"
              
@@ -29,8 +29,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
-                <!--<ResourceDictionary Source="../../../Styles/EdtStyle_Teal.xaml"/>-->
-
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -43,7 +41,8 @@
                 <s:Int32>4</s:Int32>
             </x:Array>
 
-            <Style TargetType="TextBlock">
+            <Style TargetType="TextBlock" >
+                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
                 <Setter Property="Margin" Value="0 3"/>
                 <Setter Property="FontSize" Value="12"/>
             </Style>
@@ -61,7 +60,7 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
 
-                                    <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                 <Setter Property="Padding" Value="3 1"/>
                 <Setter Property="Height" Value="20"/>
                 <Setter Property="Margin" Value="0 3"/>
@@ -100,10 +99,11 @@
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="10"/>
                     <ColumnDefinition Width="auto"/>
-                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="15"/>
@@ -171,17 +171,20 @@
                     </CheckBox.ToolTip>
                 </CheckBox>
 
-                <TextBox Grid.Row="1" Grid.ColumnSpan="3" 
-                       Text="{Binding PowerCable.Tag}"
-                       d:Text="Cable Tag"
-                       FontSize="15"
-                       FontWeight="Bold"
-                       Margin="5"/>
+                <TextBlock Text="Tag " Grid.Row="1" Grid.Column="0"/>
+                <TextBox 
+                    Grid.Row="2" Grid.ColumnSpan="4" 
+                    Text="{Binding PowerCable.Tag, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    d:Text="Cable Tag"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    TextAlignment="Center"
+                    Margin="0 5 0 20"/>
 
                 <!--Cable Type-->
-                <TextBlock Text="Cable Type: " Grid.Row="2" Grid.Column="0"/>
+                <TextBlock Text="Cable Type: " Grid.Row="3" Grid.Column="0"/>
                 <ComboBox 
-                      Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" 
+                      Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" 
                       Width="175" HorizontalAlignment="Left"
                       FontWeight="Bold" FontSize="12"
                       ItemsSource="{Binding Path=PowerCable.TypeList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"   
@@ -192,9 +195,9 @@
                       IsEditable="False" VerticalAlignment="Center"/>
 
                 <!--Installation Type-->
-                <TextBlock Text="Installation Type" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left"/>
+                <TextBlock Text="Installation Type" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Left"/>
                 <ComboBox  
-                      Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Left"
+                      Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Left"
                       Margin="0 3" Width="135"
                       FontWeight="Bold" FontSize="12"
                       ItemsSource="{Binding Path=DataContext.TypeManager.CableInstallationTypes ,
@@ -206,9 +209,9 @@
 
 
                 <!--Size-->
-                <TextBlock Text="Cable Size: " Grid.Row="8" Grid.Column="0"/>
+                <TextBlock Text="Cable Size: " Grid.Row="9" Grid.Column="0"/>
                 <ComboBox 
-                      Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="3" 
+                      Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="3" 
                       Width="50" HorizontalAlignment="Left"
                       VerticalAlignment="Center"
                       FontWeight="Bold" FontSize="12"
@@ -219,8 +222,8 @@
 
 
                 <!--Qty-->
-                <TextBlock Text="Cable Qty: " Grid.Row="7" Grid.Column="0"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="2" >
+                <TextBlock Text="Cable Qty: " Grid.Row="8" Grid.Column="0"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="2" >
                     <!--Qty Parallel-->
                     <TextBox Text="{Binding PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
                          Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1" 
@@ -250,9 +253,9 @@
                 </StackPanel>
 
                 <!--Derated Amps-->
-                <TextBlock Text="Derated Amps: " Grid.Row="12" Grid.Column="0"/>
+                <TextBlock Text="Derated Amps: " Grid.Row="13" Grid.Column="0"/>
                 <TextBlock Text="{Binding PowerCable.DeratedAmps, StringFormat={}{0:N0}  A, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                       Grid.Row="12" Grid.Column="2" FontWeight="Bold"
+                       Grid.Row="13" Grid.Column="2" FontWeight="Bold"
                        Margin="0 3"
                        d:Text="400" 
                        ToolTip="{Binding PowerCable.DeratedAmpsToolTip}"
@@ -270,17 +273,17 @@
                 </TextBlock>
 
 
-                <TextBlock Text="Required Amps: " Grid.Row="13" Grid.Column="0"/>
+                <TextBlock Text="Required Amps: " Grid.Row="14" Grid.Column="0"/>
                 <TextBlock Text="{Binding PowerCable.RequiredAmps, StringFormat={}{0:N0}  A}" 
-                       Grid.Row="13" Grid.Column="2" FontWeight="Bold"
+                       Grid.Row="14" Grid.Column="2" FontWeight="Bold"
                        d:Text="300"
                        ToolTip="{Binding PowerCable.RequiredAmpsToolTip}"
                        ToolTipService.InitialShowDelay="50"/>
 
                 <!--Voltage Drop-->
-                <TextBlock Text="Voltage Drop: " Grid.Row="15" Grid.Column="0"/>
+                <TextBlock Text="Voltage Drop: " Grid.Row="16" Grid.Column="0"/>
                 <StackPanel Orientation="Horizontal"
-                        Grid.Row="15" Grid.Column="2" Grid.ColumnSpan="2">
+                        Grid.Row="16" Grid.Column="2" Grid.ColumnSpan="2">
                     <TextBlock Text="{Binding PowerCable.VoltageDrop, StringFormat={}{0:N1} V /}" 
                        Grid.Row="8" Grid.Column="2" FontWeight="Bold"
                        d:Text="5.2 V  / "
@@ -298,9 +301,9 @@
 
 
                 <!--Spacing-->
-                <TextBlock Text="Spacing" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Left"/>
+                <TextBlock Text="Spacing" Grid.Row="10" Grid.Column="0" HorizontalAlignment="Left"/>
                 <ComboBox 
-                      Grid.Row="9" Grid.Column="2" Width="50" HorizontalAlignment="Left"
+                      Grid.Row="10" Grid.Column="2" Width="50" HorizontalAlignment="Left"
                       FontWeight="Bold" FontSize="12" Padding="3 -1"
                       ItemsSource="{Binding Path=DataContext.TypeManager.CableSpacing, 
                                             RelativeSource={RelativeSource Mode=FindAncestor, 
@@ -310,27 +313,27 @@
                       IsEditable="False" VerticalAlignment="Center"/>
 
                 <!--Indoor Outdoor-->
-                <TextBlock Text="Outdoor" Grid.Row="10" Grid.Column="0" />
+                <TextBlock Text="Outdoor" Grid.Row="11" Grid.Column="0" />
                 <CheckBox IsChecked="{Binding PowerCable.IsOutdoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                              Grid.Row="10" Grid.Column="2" FontWeight="Bold" HorizontalAlignment="Left"
+                              Grid.Row="11" Grid.Column="2" FontWeight="Bold" HorizontalAlignment="Left"
                               Margin="0 5"/>
-                <TextBlock Text="(exposed to sunlight)" Grid.Row="10" Grid.Column="2" 
+                <TextBlock Text="(exposed to sunlight)" Grid.Row="11" Grid.Column="2" 
                                 Grid.ColumnSpan="2"
                                 Margin="25 3"
                                 FontStyle="Italic"/>
                 <!--Derating-->
-                <TextBlock Text="Derating" Grid.Row="11" Grid.Column="0"/>
+                <TextBlock Text="Derating" Grid.Row="12" Grid.Column="0"/>
                 <TextBlock Text="{Binding PowerCable.Derating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                       Grid.Row="11" Grid.Column="2" FontWeight="Bold"
+                       Grid.Row="12" Grid.Column="2" FontWeight="Bold"
                        d:Text="0.8"
                        ToolTip="{Binding PowerCable.DeratingToolTip}"
                        ToolTipService.InitialShowDelay="50"/>
 
                 <!--Length-->
-                <TextBlock Text="Length" Grid.Row="14" Grid.Column="0" />
+                <TextBlock Text="Length" Grid.Row="15" Grid.Column="0" />
 
                 <StackPanel Orientation="Horizontal"
-                        Grid.Row="14" Grid.Column="2"
+                        Grid.Row="15" Grid.Column="2"
                         Grid.ColumnSpan="2">
 
                     <syncfusion:DoubleTextBox Value="{Binding PowerCable.Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -356,9 +359,9 @@
 
 
                 <!--Sized Via-->
-                <TextBlock Text="Sized via: " Grid.Row="16" Grid.Column="0"/>
+                <TextBlock Text="Sized via: " Grid.Row="17" Grid.Column="0"/>
                 <StackPanel Orientation="Vertical" 
-                        Grid.Row="16" Grid.Column="2"
+                        Grid.Row="17" Grid.Column="2"
                         HorizontalAlignment="Left"
                         Margin="0">
                     <TextBlock Text="{Binding PowerCable.AmpacityTable}" Grid.Row="4" Grid.Column="6" HorizontalAlignment="Left"

@@ -10,6 +10,7 @@
         <ResourceDictionary Source="EdtStyle_BaseTextBlocks.xaml"/>
         <ResourceDictionary Source="EdtStyle_BaseButtons.xaml"/>
         <ResourceDictionary Source="EdtStyle_ComboBoxes.xaml"/>
+        <ResourceDictionary Source="EdtStyle_ScrollBars.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     
@@ -24,9 +25,9 @@
 
     <!--Tooltip-->
     <Style TargetType="ToolTip">
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="Background" Value="{StaticResource VeryDarkGray}"/>
-        <Setter Property="Foreground" Value="LightGray"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ToolTipBorderBrush}"/>
+        <Setter Property="Background" Value="{StaticResource ToolTipBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ToolTipTextBrush}"/>
     </Style>
 
     <!--ALL CONTROLS DEFAULT-->
@@ -124,7 +125,8 @@
 
     <!--TEXTBOX Style with Error -->
     <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
-        <!--<Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>-->
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+        <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>

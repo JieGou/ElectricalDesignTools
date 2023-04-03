@@ -73,7 +73,7 @@
 
                         <Canvas Grid.Column="1"
                             Width="35" Height="90">
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
                             <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
                             <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
                             <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>

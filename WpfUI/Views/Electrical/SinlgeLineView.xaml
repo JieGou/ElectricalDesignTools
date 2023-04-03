@@ -299,12 +299,13 @@
                             FontWeight="SemiBold"
                             />
 
-                <ListView ItemsSource="{Binding SelectedLoads}"
-                        Grid.Row="3" Grid.Column="0"
-                        DisplayMemberPath="Tag"
-                        MinWidth="100" MinHeight="100"
-                        Margin="0 10" 
-                        />
+                <ListBox 
+                    ItemsSource="{Binding SelectedLoads}"
+                    Grid.Row="3" Grid.Column="0"
+                    DisplayMemberPath="Tag"
+                    MinWidth="100" MinHeight="100"
+                    Margin="0 10" 
+                    />
 
                 <TextBlock x:Name="txtMousePos" Text="Mouse Pos"
                            Grid.Row="4"
@@ -332,7 +333,7 @@
                                         Grid.Column="3" Grid.ColumnSpan="2"
                                         IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
                                         Foreground="{StaticResource Darkest}"
-                                        Background="White"
+                                        Background="{StaticResource SingleLineBackground}"
                                         ViewboxHeight="50"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
@@ -416,7 +417,7 @@
                             <!--Dteq Graphic-->
                             <singleLineSubViews:SL_DteqGraphicView 
                                 DataContext="{Binding SelectedDteq}"
-                                Background="{StaticResource ControlBackground}"
+                                Background="{StaticResource SingleLineBackground}"
                                 UseLayoutRounding="False"
                                 Width="{Binding Path=ActualWidth, ElementName=listViewLoads}"
                                 MinWidth="250"
@@ -431,7 +432,7 @@
                             <controls:ListViewEx 
                                 x:Name="listViewLoads"
                                 Style="{DynamicResource ListViewStyle_SingleLineLoadTemplate}"
-                                Background="{StaticResource ControlBackground}"
+                                Background="{StaticResource SingleLineBackground}"
                                 UseLayoutRounding="False"
                                                  
                                 ContextMenu="{StaticResource LoadContextMenu}"

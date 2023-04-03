@@ -20,22 +20,18 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
-                <ResourceDictionary Source="../../Styles/EdtStyle_Base.xaml"/>
-
             </ResourceDictionary.MergedDictionaries>
+            
+            <Style TargetType="TextBlock" >
+                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+            </Style>
+            
         </ResourceDictionary>
     </UserControl.Resources>
 
 
     <Border BorderBrush="LightGray" BorderThickness="0 0 0 0"
             Margin="0 5 0 0">
-        <!--<controls:EdtGroupBox Grid.Row="0"
-                            Header="Area Properties"
-                            HeaderForeGround="White"
-                            HeaderBackground="Gray"
-                            Visibility="Visible"
-                                  >
-        </controls:EdtGroupBox>-->
 
         <Grid Margin="0"
             ShowGridLines="False">
@@ -73,6 +69,7 @@
 
 
                     <TextBlock Text="Grounding"
+                               Foreground="{StaticResource TextColor_Inverse_Normal}"
                            Grid.Row="0" 
                            Grid.Column="0" Grid.ColumnSpan="5"
                            FontWeight="Normal"
@@ -98,38 +95,38 @@
 
             <!--Primary Connection-->
             <TextBlock Text="Primary Connection"
-                           Grid.Row="1" Grid.Column="1"
-                           FontWeight="Normal"
-                           Margin="0 4 0 0"
-                           TextAlignment="Right"/>
+                Grid.Row="1" Grid.Column="1"
+                FontWeight="Normal"
+                Margin="0 4 0 0"
+                TextAlignment="Right"/>
 
 
             <ComboBox Grid.Row="1" Grid.Column="3" 
-                      ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                      SelectedValue="{Binding PrimaryWiringType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      DisplayMemberPath="WiringType"
-                      Text="{Binding PrimaryWiringType.WiringType}"
-                      IsEditable="False" IsTextSearchEnabled="True"
-                      />
+                ItemsSource="{Binding DataContext.TypeManager.TransformerWiringTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                SelectedValue="{Binding PrimaryWiringType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                DisplayMemberPath="WiringType"
+                Text="{Binding PrimaryWiringType.WiringType}"
+                IsEditable="False" IsTextSearchEnabled="True"
+                />
 
 
 
             <!--Primary Grounding -->
             <TextBlock Text="Grounding"
-                           Grid.Row="2" Grid.Column="1" 
-                           FontWeight="Normal"
-                           Margin="0 5 0 0"
-                           MinWidth="0"
-                           TextAlignment="Right"/>
+                Grid.Row="2" Grid.Column="1" 
+                FontWeight="Normal"
+                Margin="0 5 0 0"
+                MinWidth="0"
+                TextAlignment="Right"/>
 
             <ComboBox Grid.Row="2" Grid.Column="3" 
-                      ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                      SelectedValue="{Binding PrimaryGrounding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                      DisplayMemberPath="Type"
-                      SelectedValuePath="Type"
-                      Text="{Binding PrimaryGrounding}"
-                      IsEditable="False" IsTextSearchEnabled="True"
-                      />
+                ItemsSource="{Binding DataContext.TypeManager.TransformerGroundingTypes, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                SelectedValue="{Binding PrimaryGrounding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                DisplayMemberPath="Type"
+                SelectedValuePath="Type"
+                Text="{Binding PrimaryGrounding}"
+                IsEditable="False" IsTextSearchEnabled="True"
+                />
 
             <!--Secondary Connection-->
             <TextBlock Text="Secondary Connection"

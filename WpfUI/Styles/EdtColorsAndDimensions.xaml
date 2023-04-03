@@ -9,9 +9,11 @@
     <SolidColorBrush x:Key="ControlBorder" Color="#FF6C6C6C"/>
     <SolidColorBrush x:Key="ControlBackground" Color="White"/>
     <SolidColorBrush x:Key="ControlBackgroundDark" Color="#FF1A1A1A"/>
-    <SolidColorBrush x:Key="VeryDarkGray" Color="#FF545454"/>
 
+
+    <SolidColorBrush x:Key="SingleLineBackground" Color="White"/>
     <SolidColorBrush x:Key="SingleLineSelectionBackground" Color="WhiteSmoke"/>
+
 
     <!--WINDOW LAYOUT ***********************-->
 
@@ -24,12 +26,11 @@
     <SolidColorBrush x:Key="TransparentTextBlockBrush" Color="LightGray" Opacity=".3"/> 
     
     
-    <!--TEXT colors-->
     
-    <!--Black Text for Light Theme-->
+    <!--Text Color-->
+    <SolidColorBrush x:Key="ForeGround_Light1" Color="White"/>
+    <SolidColorBrush x:Key="ForeGround_Dark1" Color="Black"/>
     <SolidColorBrush x:Key="TextColor_CommonControls" Color="Black"/>
-    
-    <!--White Text for Light Theme-->
     <SolidColorBrush x:Key="TextColor_Inverse_HighContrast" Color="White"/>
     <SolidColorBrush x:Key="TextColor_Inverse_Normal" Color="LightGray"/>
     
@@ -46,29 +47,6 @@
     <!--Black Text for Light Theme-->
     <SolidColorBrush x:Key="TextColorSingleLineGraphics_Black" Color="Black"/>
     
-
-    <sys:Double x:Key="ControlCornerRadiusValue">3</sys:Double>
-    <CornerRadius x:Key="ControlCornerRadius" 
-                  BottomLeft="{StaticResource ControlCornerRadiusValue}"
-                  TopLeft="{StaticResource ControlCornerRadiusValue}" 
-                  TopRight="{StaticResource ControlCornerRadiusValue}" 
-                  BottomRight="{StaticResource ControlCornerRadiusValue}"/>
-    
- 
-    
-    <!--DIMENSIONS **********************-->
-    
-
-    <!--Sub Menu-->
-    <sys:Double x:Key="SubMenuHeight">30</sys:Double>
-    <sys:Double x:Key="SubMenuButtonHeight">29</sys:Double>
-    <sys:Double x:Key="GridSplitterWidth">5</sys:Double>
-
-    <!--Misc-->
-    <sys:Double x:Key="RoundButtonHeight">27</sys:Double>
-
-    
-<!--COLORS *******************************-->
     <SolidColorBrush x:Key="ErrorColor_Base" Color="#FFD40000"/>
 
     <SolidColorBrush x:Key="Background" Color="AliceBlue"/>
@@ -83,22 +61,7 @@
 
 
 
-    <!--Text Color-->
-    <SolidColorBrush x:Key="ForeGround_Light1" Color="White"/>
-    <SolidColorBrush x:Key="ForeGround_Dark1" Color="Black"/>
     
-    <!--GREEN-->
-    <SolidColorBrush x:Key="WindowBackGround_Green" Color="#FFB7D4C8"/>
-
-
-
-    <!--TEAL-->
-    <SolidColorBrush x:Key="Darkest_Teal" Color="#FF215967"/>
-    <SolidColorBrush x:Key="Dark_Teal" Color="#FF31869B"/>
-    <SolidColorBrush x:Key="Medium_Teal" Color="#FF94CDDB"/>
-    <SolidColorBrush x:Key="Light_Teal" Color="#FFDBEEF3"/>
-    <SolidColorBrush x:Key="Background_Teal" Color="#FFDAEEF3"/>
-
     
     
     <!--Accent Colors-->
@@ -117,9 +80,32 @@
 
     
     
-    <!--Warning Color-->
+    <!--Warning Colors-->
     <SolidColorBrush x:Key="WarningColor_Red">#FFFFBABA</SolidColorBrush>
     <SolidColorBrush x:Key="WarningColor_Orange">#FFFFB193</SolidColorBrush>
     <SolidColorBrush x:Key="WarningColor_Yellow">#FFFFEDA1</SolidColorBrush>
+    
+    
+ 
+    
+    <!--#region DIMENSIONS -->
+    <sys:Double x:Key="ControlCornerRadiusValue">3</sys:Double>
+    <CornerRadius x:Key="ControlCornerRadius" 
+                  BottomLeft="{StaticResource ControlCornerRadiusValue}"
+                  TopLeft="{StaticResource ControlCornerRadiusValue}" 
+                  TopRight="{StaticResource ControlCornerRadiusValue}" 
+                  BottomRight="{StaticResource ControlCornerRadiusValue}"/>
+
+    <!--Sub Menu-->
+    <sys:Double x:Key="SubMenuHeight">30</sys:Double>
+    <sys:Double x:Key="SubMenuButtonHeight">29</sys:Double>
+    <sys:Double x:Key="GridSplitterWidth">5</sys:Double>
+
+    <!--Misc-->
+    <sys:Double x:Key="RoundButtonHeight">27</sys:Double>
+    <!--#endregion-->
+
+
+    
 
 </ResourceDictionary>

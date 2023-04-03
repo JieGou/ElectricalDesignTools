@@ -17,12 +17,17 @@
 
     <UserControl.Resources>
 
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
-                <ResourceDictionary Source="../../Styles/EdtStyle_Base.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+
+                <Style TargetType="TextBlock" >
+                    <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+                </Style>
+
+            </ResourceDictionary>
+                
     </UserControl.Resources>
 
     <controls:EdtGroupBox  Margin="0 1 0 1">

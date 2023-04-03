@@ -64,7 +64,6 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/MahStyles.xaml"/>
-                <!--<ResourceDictionary Source="Styles/EdtStyle_Base.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
 

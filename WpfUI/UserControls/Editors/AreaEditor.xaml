@@ -20,9 +20,12 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
-                <ResourceDictionary Source="../../Styles/EdtStyle_Base.xaml"/>
-
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="TextBlock" >
+                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+            </Style>
+
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -63,6 +66,7 @@
                     </Grid.ColumnDefinitions>
                     
                     <TextBlock Text="Area Properties"
+                               Foreground="{StaticResource TextColor_Inverse_Normal}"
                            Grid.Row="0" 
                            Grid.Column="0" Grid.ColumnSpan="5"
                            FontWeight="Normal"

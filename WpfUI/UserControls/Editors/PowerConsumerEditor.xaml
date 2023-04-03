@@ -72,20 +72,20 @@
 
             <!--Tag-->
             <TextBlock Text="Tag " Style="{StaticResource SummaryLabel_TextBlockStyle}"
-                        Grid.Row="0" Grid.Column="0" 
-                        HorizontalAlignment="Right"
+                    Grid.Row="0" Grid.Column="0" 
+                    HorizontalAlignment="Right"
                                />
             <TextBox Text="{Binding Tag, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Text="Tag"
-                        Grid.Row="0" Grid.Column="1"
-                        MinWidth="100"
-                        Style="{StaticResource SummaryValue_TextBoxStyle}"/>
+                    Grid.Row="0" Grid.Column="1"
+                    MinWidth="100"
+                    Style="{StaticResource SummaryValue_TextBoxStyle}"/>
 
             <!--Description-->
             <TextBlock Text="Description "
-                               Grid.Row="1" Grid.Column="0" 
-                               HorizontalAlignment="Right"
-                               Style="{StaticResource SummaryLabel_TextBlockStyle}"
-                               />
+                Grid.Row="1" Grid.Column="0" 
+                HorizontalAlignment="Right"
+                Style="{StaticResource SummaryLabel_TextBlockStyle}"
+                />
 
             <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:Text="Description"
                      Grid.Row="1" Grid.Column="1"

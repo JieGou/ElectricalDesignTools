@@ -20,20 +20,6 @@
         d:Width="900" d:Height="75"
             Background="Transparent" d:Background="#FFDAEEF1">
 
-    <!--d:Opacity="1"
-             Opacity="0.5">
-    <UserControl.Triggers>
-        <EventTrigger RoutedEvent="DataGrid.Loaded">
-            <BeginStoryboard>
-                <Storyboard>
-                    <DoubleAnimation Storyboard.TargetName="eqView"
-                                Storyboard.TargetProperty="Opacity"
-                                From="0.5" To="1" Duration="0:0:0.75"
-                                AutoReverse="False" RepeatBehavior="1x"/>
-                </Storyboard>
-            </BeginStoryboard>
-        </EventTrigger>
-    </UserControl.Triggers>-->
 
     <UserControl.Resources>
         <!--Background="#FFBDCCCA">-->
@@ -49,10 +35,14 @@
             <CollectionViewSource x:Key="dteqList"
                                   Source="{Binding ListManager.DteqList}"/>
 
-            <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
-                <Setter Property="Margin" Value="10,0,10,0" />
+            <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
+                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+                <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
-
 
         </ResourceDictionary>
     </UserControl.Resources>

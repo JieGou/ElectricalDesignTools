@@ -60,17 +60,11 @@
 
 
             <viewModifiers:BindingProxy x:Key="AreaViewProxy" Data="{Binding AreaColumnVisible}" />
-
-
             <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
             <!--For FedFrom Comboboxes-->
             <CollectionViewSource x:Key="dteqList" Source="{Binding ListManager.DteqList}"/>
 
-
-            <Style x:Key="ColumnElementStyle" TargetType="{x:Type TextBlock}">
-                <Setter Property="Margin" Value="10,0,10,0" />
-            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 

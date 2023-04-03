@@ -14,8 +14,7 @@
     <SolidColorBrush x:Key="Light" Color="#FFDBEEF3"/>
 
     <SolidColorBrush x:Key="Background" Color="#FFDAEEF3"/>
-    <SolidColorBrush x:Key="BackgroundLight" Color="#FFF0FAFB"/>
-    <!--<SolidColorBrush x:Key="BackgroundLight" Color="#4c4c4c"/>-->
+    <SolidColorBrush x:Key="BackgroundLight" Color="#2b2b2b"/>
     
     <SolidColorBrush x:Key="PageBackground" Color="LightGray"/>
     <SolidColorBrush x:Key="PageBackground2" Color="#FFDAEEF3"/>
@@ -31,10 +30,6 @@
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
         <Setter Property="Margin" Value="10 10 10 10 "/>
     </Style>
-
-    <Style TargetType="ListBox" BasedOn="{StaticResource DefaultStyle}"/>
-
-
 
     <!--TITLE Label Style-->
     <Style TargetType="Label" x:Key="TitleLabelStyle" BasedOn="{StaticResource TitleLabelStyleBase}">
@@ -112,10 +107,7 @@
         </Setter>
     </Style>
 
-    <!--Textblock Base Style-->
-    <Style TargetType="TextBlock">
-        <!--<Setter Property ="FontSize" Value="25"/>-->
-    </Style>
+   
 
     <!--Textblock Label Style-->
     <Style TargetType="TextBlock" x:Key="txtDteqLabelStyle">

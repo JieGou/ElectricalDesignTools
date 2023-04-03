@@ -45,7 +45,9 @@
                 HorizontalAlignment="Stretch"
                 Margin="-5 0 -5 10"
                 Visibility="Visible">
+            
             <TextBlock Text="Additional Properties"
+                       Foreground="{StaticResource TextColor_Inverse_Normal}"
                            Grid.Row="0" 
                            Grid.Column="0" Grid.ColumnSpan="5"
                            FontWeight="Normal"

@@ -147,7 +147,7 @@
 
     <!-- Submenu Header -->
     <ControlTemplate x:Key="{x:Static MenuItem.SubmenuHeaderTemplateKey}" TargetType="{x:Type MenuItem}">
-        <Border Name="Border" CornerRadius="{StaticResource ControlCornerRadius}" 
+        <Border Name="Border" CornerRadius="{DynamicResource ControlCornerRadius}" 
                 Background="Transparent">
             <Grid>
                 <Grid.ColumnDefinitions>
