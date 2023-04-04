@@ -11,13 +11,22 @@
         mc:Ignorable="d"
         Title="Application Settings" Height="650" Width="750" 
         WindowStartupLocation="CenterScreen"
-        
+
         
         Closed="Window_Closed"
         >
     <Window.Resources>
         <Style TargetType="TabItem">
             <Setter Property="Height" Value="25"/>
+            <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+            <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+                    <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
     
@@ -40,6 +49,9 @@
 
 
         <TabControl Grid.Row="1" Grid.Column="0"
+                    Foreground="{StaticResource TextColor_CommonControls}"
+                    Background="{StaticResource ControlBackground}"
+
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
                     TabStripPlacement="Left">

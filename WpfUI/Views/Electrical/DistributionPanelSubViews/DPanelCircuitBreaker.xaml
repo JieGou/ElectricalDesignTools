@@ -45,26 +45,26 @@
             
             <!--Breaker Left-->
             <!--H Bus-->
-            <Line X1="0" Y1="15" X2="10" Y2="15" Stroke="Black" />
-            <Ellipse Width="6" Height="6" Stroke="Black"
+            <Line X1="0" Y1="15" X2="10" Y2="15" Stroke="{StaticResource EqGraphicColorBrush}" />
+            <Ellipse Width="6" Height="6" Stroke="{StaticResource EqGraphicColorBrush}"
                          Canvas.Top="12" Canvas.Left="10"/>
-            <Path Stroke="Black" StrokeThickness="1" Data="M 15,10  A 8, 5 0 0 1 40, 10" />
-            <Ellipse Width="6" Height="6" Stroke="Black"
+            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 15,10  A 8, 5 0 0 1 40, 10" />
+            <Ellipse Width="6" Height="6" Stroke="{StaticResource EqGraphicColorBrush}"
                          Canvas.Top="12" Canvas.Left="39"/>
             
             <!--H Bus-->
-            <Line X1="45" Y1="15" X2="105" Y2="15" Stroke="Black" />
+            <Line X1="45" Y1="15" X2="105" Y2="15" Stroke="{StaticResource EqGraphicColorBrush}" />
             
             <!--A-->
-            <Line X1="60" Y1="0" X2="60" Y2="25" Stroke="Black" />
-            <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
+            <Line X1="60" Y1="0" X2="60" Y2="25" Stroke="{StaticResource EqGraphicColorBrush}" />
+            <Ellipse Width="5" Height="5" Stroke="{StaticResource EqGraphicColorBrush}" Fill="Black"
                          Canvas.Top="12.5" Canvas.Left="57.5"
                          Visibility="{Binding 
                 Converter={StaticResource BreakerConnectionNodeToVisibilityConverter},
                 ConverterParameter=A}"/>
 
             <!--B-->
-            <Line X1="75" Y1="0" X2="75" Y2="25" Stroke="Black">
+            <Line X1="75" Y1="0" X2="75" Y2="25" Stroke="{StaticResource EqGraphicColorBrush}">
                 <Line.Style>
                     <Style TargetType="Line">
                         <Setter Property="Visibility" Value="Visible"/>
@@ -76,15 +76,15 @@
                     </Style>
                 </Line.Style>
             </Line>
-                <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
+                <Ellipse Width="5" Height="5" Stroke="{StaticResource EqGraphicColorBrush}" Fill="Black"
                          Canvas.Top="12.5" Canvas.Left="72.5"
                           Visibility="{Binding 
                 Converter={StaticResource BreakerConnectionNodeToVisibilityConverter},
                 ConverterParameter=B}"/>
             
             <!--C-->
-            <Line X1="90" Y1="0" X2="90" Y2="25" Stroke="Black" />
-                <Ellipse Width="5" Height="5" Stroke="Black" Fill="Black"
+            <Line X1="90" Y1="0" X2="90" Y2="25" Stroke="{StaticResource EqGraphicColorBrush}" />
+                <Ellipse Width="5" Height="5" Stroke="{StaticResource EqGraphicColorBrush}" Fill="Black"
                          Canvas.Top="12.5" Canvas.Left="87.5"
                           Visibility="{Binding 
                 Converter={StaticResource BreakerConnectionNodeToVisibilityConverter},
@@ -92,12 +92,12 @@
 
 
             <!--Breaker Right-->
-            <Ellipse Width="6" Height="6" Stroke="Black"
+            <Ellipse Width="6" Height="6" Stroke="{StaticResource EqGraphicColorBrush}"
                          Canvas.Top="12" Canvas.Left="105"/>
-            <Path Stroke="Black" StrokeThickness="1" Data="M 110,10  A 8, 5 0 0 1 135, 10" />
-            <Ellipse Width="6" Height="6" Stroke="Black"
+            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 110,10  A 8, 5 0 0 1 135, 10" />
+            <Ellipse Width="6" Height="6" Stroke="{StaticResource EqGraphicColorBrush}"
                          Canvas.Top="12" Canvas.Left="133"/>
-            <Line X1="138" Y1="15" X2="150" Y2="15" Stroke="Black" />
+            <Line X1="138" Y1="15" X2="150" Y2="15" Stroke="{StaticResource EqGraphicColorBrush}" />
         </Canvas>
         
         

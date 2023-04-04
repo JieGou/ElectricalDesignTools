@@ -32,12 +32,11 @@
     </UserControl.Resources>
 
 
-    <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical"
+                Background="{StaticResource BackgroundLight}">
         <controls:EdtGroupBox Grid.Row="0"
-            x:Name="PowerConsumerGroupBox"
             Header="Transformer"
             HeaderForeGround="White"
-            HeaderBackground="Gray"
             Margin="0 1 0 1">
 
             <Grid Grid.Row="0"
@@ -214,7 +213,7 @@
 
                     <!--PrimaryFla-->
                     <TextBlock Grid.Row="0" Grid.Column="2"
-                               Text="{Binding PrimaryFla, StringFormat={}{0} A}"
+                               Text="{Binding Fla, StringFormat={}{0} A}"
                                d:Text="167 A"
                                VerticalAlignment="Center"/>
                 </Grid>
@@ -245,7 +244,7 @@
 
                     <!--Secondary Fla-->
                     <TextBlock Grid.Row="0" Grid.Column="2"
-                               Text="{Binding Fla, StringFormat={}{0} A}"
+                               Text="{Binding SecondaryFla, StringFormat={}{0} A}"
                                d:Text="572 A"
                                VerticalAlignment="Center"/>
 

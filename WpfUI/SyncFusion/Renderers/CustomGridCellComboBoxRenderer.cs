@@ -18,7 +18,7 @@ public class CustomGridCellComboBoxRenderer : GridCellComboBoxRenderer
     public override void OnInitializeEditElement(DataColumnBase dataColumn, ComboBox uiElement, object dataContext)
     {
         base.OnInitializeEditElement(dataColumn, uiElement, dataContext);
-        uiElement.Template = App.Current.Resources["ComboBoxBase"] as ControlTemplate;
+        //uiElement.Template = App.Current.Resources["ComboBoxBase"] as ControlTemplate;
     }
     protected override void OnEditElementLoaded(object sender, System.Windows.RoutedEventArgs e)
     {

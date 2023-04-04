@@ -19,14 +19,19 @@
             
             
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Styles/EdtColorsAndDimensions.xaml"/>
                 
+                <ResourceDictionary Source="Styles/EdtColorsAndDimensions.xaml"/>
+                <ResourceDictionary Source="Styles/EdtColorsAndDimensions_Dark.xaml"/>
                 <!--****************************************************************-->
+                <ResourceDictionary Source="Styles/EdtDimensions.xaml"/>
                 <ResourceDictionary Source="Styles/EdtStyle_Base.xaml"/>
                 <ResourceDictionary Source="Styles/SfEdtStyle_Base.xaml"/>
                 <ResourceDictionary Source="Styles/DPanels/DPanels_Style.xaml"/>
 
-                <ResourceDictionary Source="Styles/EdtColorsAndDimensions_Dark.xaml"/>
+
+                <ResourceDictionary Source="Styles/EdtStyle_BlueDark.xaml"/>
+                <!--****************************************************************-->
+
 
                 <ResourceDictionary Source="Converters/Converters.xaml"/>
                 <ResourceDictionary Source="Stores/ToolTips.xaml"/>
@@ -260,10 +265,6 @@
                 </ControlTemplate.Triggers>
             </ControlTemplate>
 
-
-
-            
-
             <!--EXpander Styler-->
             <Style x:Key="ExpandCollapseToggleStyle" TargetType="ToggleButton">
                 <Setter Property="Focusable" Value="False"/>
@@ -273,7 +274,7 @@
                             <Grid Width="14" Height="14">
                                 <Rectangle Fill="White" />
                                 <Border Name="ExpandBorder" RenderOptions.EdgeMode="Aliased" BorderBrush="Black" BorderThickness="1">
-                                    <Path RenderOptions.EdgeMode="Aliased" Name="ExpandPath" Stroke="Black" Margin="0" StrokeThickness="1" Data="M 6 1 L 5 10 M 1 6 L 10 6" />
+                                    <Path RenderOptions.EdgeMode="Aliased" Name="ExpandPath" Stroke="{StaticResource EqGraphicColorBrush}" Margin="0" StrokeThickness="1" Data="M 6 1 L 5 10 M 1 6 L 10 6" />
                                 </Border>
                             </Grid>
                             <ControlTemplate.Triggers>
@@ -295,6 +296,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            
 
         </ResourceDictionary>
     </Application.Resources>

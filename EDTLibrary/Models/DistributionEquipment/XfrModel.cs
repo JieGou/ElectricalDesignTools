@@ -1,4 +1,5 @@
-﻿using EDTLibrary.DataAccess;
+﻿using EdtLibrary.LibraryData.TypeModels;
+using EDTLibrary.DataAccess;
 using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.Loads;
 using EDTLibrary.UndoSystem;
@@ -18,14 +19,22 @@ public class XfrModel : DistributionEquipment
         Voltage = LineVoltage;
     }
 
-    
+
+
+    public override void CalculateLoading(string propertyName = "")
+    {
+        SecondaryFla = Math.Round(Size * 1000 / LoadVoltageType.Voltage / Math.Sqrt(LoadVoltageType.Phase));
+        base.CalculateLoading();
+    }
+
 
     private string _subType;
-    public double PrimaryFla
+    public double SecondaryFla
     {
-        get { return Math.Round(Size * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase)); }
+        get { return _secondaryFla; }
+        set { _secondaryFla = value;}
     }
-    private double _primaryFla;
+    private double _secondaryFla;
 
 
     public double Impedance

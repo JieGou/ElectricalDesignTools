@@ -626,7 +626,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
         public int LineVoltageTypeId { get; set; }
-        public VoltageType LineVoltageType
+        public virtual VoltageType LineVoltageType
         {
             get { return _lineVoltageType; }
             set
@@ -681,7 +681,7 @@ namespace EDTLibrary.Models.DistributionEquipment
 
 
         public int LoadVoltageTypeId { get; set; }
-        public VoltageType LoadVoltageType
+        public virtual VoltageType LoadVoltageType
         {
             get { return _loadVoltageType; }
             set
@@ -1003,18 +1003,21 @@ namespace EDTLibrary.Models.DistributionEquipment
                 PowerFactor = DemandKw / DemandKva;
                 PowerFactor = Math.Round(PowerFactor, 2);
 
-                RunningAmps = DemandKva * 1000 / LoadVoltageType.Voltage / Math.Sqrt(LoadVoltageType.Phase);
-                RunningAmps = Math.Round(RunningAmps, GlobalConfig.SigFigs);
+                
 
                 //Full Load / Max operating Amps
                 if (Unit == Units.kVA.ToString()) {
-                    Fla = Size * 1000 / LoadVoltageType.Voltage / Math.Sqrt(LoadVoltageType.Phase);
+                    Fla = Size * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
                     Fla = Math.Round(Fla, GlobalConfig.SigFigs);
-
+                    RunningAmps = DemandKva * 1000 / LineVoltageType.Voltage / Math.Sqrt(LineVoltageType.Phase);
+                    RunningAmps = Math.Round(RunningAmps, GlobalConfig.SigFigs);
                 }
                 else if (Unit == Units.A.ToString()) {
                     Fla = Size;
+                    RunningAmps = DemandKva * 1000 / LoadVoltageType.Voltage / Math.Sqrt(LoadVoltageType.Phase);
+                    RunningAmps = Math.Round(RunningAmps, GlobalConfig.SigFigs);
                 }
+                
                 if (Fla > 99999) Fla = 99999;
 
                 PercentLoaded = RunningAmps / Fla * 100;

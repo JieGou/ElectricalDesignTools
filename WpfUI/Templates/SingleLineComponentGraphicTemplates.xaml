@@ -74,10 +74,10 @@
                         <Canvas Grid.Column="1"
                             Width="35" Height="90">
                             <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="90"/>
+                            <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                            <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="90"/>
                         </Canvas>
 
                     </Border>
@@ -162,11 +162,11 @@
 
                     <Canvas Grid.Column="1"
                             Width="35" Height="90">
-                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
-                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
-                        <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
-                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
-                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="90"/>
+                        <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                        <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                        <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                        <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                        <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="90"/>
                     </Canvas>
 
                 </Border>
@@ -254,11 +254,11 @@
                             Width="35" Height="90">
                             
                             <!--Breaker-->
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                            <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                            <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
 
                             <!--Overload-->
                             <Border BorderThickness="1" Background="Transparent"
@@ -267,14 +267,14 @@
                                 <TextBlock Text="O/L" HorizontalAlignment="Center" VerticalAlignment="Center"
                                        Margin="0 0 0 1"/>
                             </Border>
-                            <!--<Path Stroke="Black" StrokeThickness="1" Data="M 13,45 A 5,5 0 0 1 13.5, 55" />
-                        <Path Stroke="Black" StrokeThickness="1" Data="M 13.5,55 A 5,5 0 0 0 14, 65" /> -->
+                            <!--<Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 13,45 A 5,5 0 0 1 13.5, 55" />
+                        <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 13.5,55 A 5,5 0 0 0 14, 65" /> -->
 
                             <!--Contactor-->
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
 
                             <!--Reversing Contactor-->
                             <Canvas Canvas.Left="30" >
@@ -290,12 +290,12 @@
 
                                     </Style>
                                 </Canvas.Style>
-                                <Line Stroke="Black" StrokeThickness="1" X1="-17" Y1="65" X2="14" Y2="65"/>
-                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="65" X2="13.5" Y2="70"/>
-                                <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
-                                <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
-                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="85"/>
-                                <Line Stroke="Black" StrokeThickness="1" X1="-17" Y1="85" X2="14" Y2="85"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-17" Y1="65" X2="14" Y2="65"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="65" X2="13.5" Y2="70"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="85"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-17" Y1="85" X2="14" Y2="85"/>
 
                             </Canvas>
                         </Canvas>
@@ -391,11 +391,11 @@
                         <Canvas Grid.Column="1"
                             Width="35" Height="90">
                             <!--Breaker-->
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
-                            <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                            <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                            <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
 
                             <!--Overload-->
                             <Border BorderThickness="1" Background="Transparent"
@@ -404,14 +404,14 @@
                                 <TextBlock Text="O/L" HorizontalAlignment="Center" VerticalAlignment="Center"
                                        Margin="0 0 0 1"/>
                             </Border>
-                            <!--<Path Stroke="Black" StrokeThickness="1" Data="M 13,45 A 5,5 0 0 1 13.5, 55" />
-                        <Path Stroke="Black" StrokeThickness="1" Data="M 13.5,55 A 5,5 0 0 0 14, 65" /> -->
+                            <!--<Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 13,45 A 5,5 0 0 1 13.5, 55" />
+                        <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 13.5,55 A 5,5 0 0 0 14, 65" /> -->
 
                             <!--Contactor-->
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
-                            <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="60" X2="13.5" Y2="70"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="90"/>
 
                             <!--Reversing Contactor-->
                             <Canvas Canvas.Left="30" >
@@ -427,12 +427,12 @@
 
                                     </Style>
                                 </Canvas.Style>
-                                <Line Stroke="Black" StrokeThickness="1" X1="-17" Y1="65" X2="14" Y2="65"/>
-                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="65" X2="13.5" Y2="70"/>
-                                <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
-                                <Line Stroke="Black" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
-                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="85"/>
-                                <Line Stroke="Black" StrokeThickness="1" X1="-17" Y1="85" X2="14" Y2="85"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-17" Y1="65" X2="14" Y2="65"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="65" X2="13.5" Y2="70"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="4" Y1="70" X2="23" Y2="70"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="4" Y1="78" X2="23" Y2="78"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="78" X2="13.5" Y2="85"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-17" Y1="85" X2="14" Y2="85"/>
 
                             </Canvas>
                         </Canvas>
@@ -624,12 +624,12 @@
                             Panel.ZIndex="1">
 
                                 <!--Breaker-->
-                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
-                                <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
-                                <Path Stroke="Black" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
-                                <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="6"/>
+                                <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="6" Height="7" Width="7"/>
+                                <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 20,10 A 4,5 0 0 1 20, 35" />
+                                <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="32" Height="7" Width="7"/>
                                 
-                                <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
+                                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="39" X2="13.5" Y2="45"/>
 
                                 <!--VSD-->
                                 <Border BorderThickness="1" HorizontalAlignment="Center"
@@ -641,7 +641,7 @@
                                            VerticalAlignment="Center"/>
                                 </Border>
                         
-                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="80" X2="13.5" Y2="90"/>
+                        <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="80" X2="13.5" Y2="90"/>
                             </Canvas>
 
 
@@ -714,11 +714,11 @@
                     >
                     <Canvas Grid.Column="1" Width="50" Height="55">
                         <Line X1="20" X2="20" Y1="0" Y2="15"
-                                  Stroke="Black" StrokeThickness="1"/>
+                                  Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                         <Line X1="10" X2="20" Y1="15" Y2="35"
-                                  Stroke="Black" StrokeThickness="1"/>
+                                  Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                         <Line X1="20" X2="20" Y1="35" Y2="55"
-                                  Stroke="Black" StrokeThickness="1"/>
+                                  Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                     </Canvas>
                 </Border>
 
@@ -815,16 +815,16 @@
                     <Canvas Grid.Column="1" Width="50" Height="55"
                             Margin="1 10 0 0">
                         <Line X1="20" X2="20" Y1="-25" Y2="5"
-                          Stroke="Black" StrokeThickness="1"/>
+                          Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                         <Line X1="10" X2="20" Y1="7.5" Y2="18"
-                          Stroke="Black" StrokeThickness="1"/>
+                          Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                         <Line X1="20" X2="20" Y1="18" Y2="25"
-                          Stroke="Black" StrokeThickness="1"/>
+                          Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                         <Rectangle Width="10.5" Height="20"
                                 Canvas.Left="14.5" Canvas.Top="25"
-                                Stroke="Black" StrokeThickness="1"/>
+                                Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                         <Line X1="20" X2="20" Y1="45" Y2="90"
-                          Stroke="Black" StrokeThickness="1"/>
+                          Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                     </Canvas>
                 </Border>
 
@@ -931,7 +931,7 @@
 
                     <Line Grid.Row="0" Grid.Column="1"
                       X1="21.5" X2="21.5" Y1="0" Y2="11"
-                      Stroke="Black" StrokeThickness="1"
+                      Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"
                           UseLayoutRounding="True"/>
 
                     <!--Graphic-->
@@ -942,16 +942,16 @@
                         <Canvas Grid.Column="1" Width="50" Height="60">
 
                             <Line X1="20" X2="20" Y1="0" Y2="12.5"
-                              Stroke="Black" StrokeThickness="1"/>
+                              Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                             <Line X1="10" X2="20" Y1="12.5" Y2="23"
-                              Stroke="Black" StrokeThickness="1"/>
+                              Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                             <Line X1="20" X2="20" Y1="23" Y2="30"
-                              Stroke="Black" StrokeThickness="1"/>
+                              Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                             <Rectangle Width="10.5" Height="20"
                                     Canvas.Left="14.5" Canvas.Top="30"
-                                    Stroke="Black" StrokeThickness="1"/>
+                                    Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                             <Line X1="20" X2="20" Y1="50" Y2="75"
-                              Stroke="Black" StrokeThickness="1"/>
+                              Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
                         </Canvas>
                     </Border>
 
@@ -1023,7 +1023,7 @@
 
                 <Line Grid.Row="0" Grid.Column="1"
                       X1="39.5" X2="39.5" Y1="75" Y2="91"
-                      Stroke="Black" StrokeThickness="1"/>
+                      Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1"/>
 
                 <!--Dashed Border-->
 

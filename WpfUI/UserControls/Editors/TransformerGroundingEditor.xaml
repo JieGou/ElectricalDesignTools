@@ -52,7 +52,7 @@
 
             <!--Header-->
             <Border BorderBrush="Black" BorderThickness="0 1 0 1"
-                Background="LightGray"
+                Background="{StaticResource EditorSubHeaderColorBrush}"
                 Grid.Row="0" 
                 Grid.Column="0" Grid.ColumnSpan="6"
                 HorizontalAlignment="Stretch"

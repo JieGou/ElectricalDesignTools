@@ -27,10 +27,8 @@
     </UserControl.Resources>
     
     <controls:EdtGroupBox Grid.Row="0"
-                          x:Name="PowerConsumerGroupBox"
                           Header="Load / Distribution Equipment"
                           HeaderForeGround="White"
-                          HeaderBackground="Gray"
                           >
         <Grid Grid.Row="0"
               ShowGridLines="False">

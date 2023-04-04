@@ -90,7 +90,7 @@
                                               Height="7"
                                               Visibility="Hidden"
                                               SnapsToDevicePixels="False"
-                                              Stroke="Black"
+                                              Stroke="{StaticResource EqGraphicColorBrush}"
                                               StrokeThickness="2"
                                               Data="M 0 0 L 7 7 M 0 7 L 7 0" />
                 </Border>

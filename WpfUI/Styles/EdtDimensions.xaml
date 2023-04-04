@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    >
+ 
+    
+    <!--#region DIMENSIONS -->
+    <sys:Double x:Key="ControlCornerRadiusValue">3</sys:Double>
+    <CornerRadius x:Key="ControlCornerRadius" 
+                  BottomLeft="{StaticResource ControlCornerRadiusValue}"
+                  TopLeft="{StaticResource ControlCornerRadiusValue}" 
+                  TopRight="{StaticResource ControlCornerRadiusValue}" 
+                  BottomRight="{StaticResource ControlCornerRadiusValue}"/>
+
+    <!--Sub Menu-->
+    <sys:Double x:Key="SubMenuHeight">30</sys:Double>
+    <sys:Double x:Key="SubMenuButtonHeight">29</sys:Double>
+    <sys:Double x:Key="GridSplitterWidth">5</sys:Double>
+
+    <!--Misc-->
+    <sys:Double x:Key="RoundButtonHeight">27</sys:Double>
+    <!--#endregion-->
+
+
+    
+
+</ResourceDictionary>

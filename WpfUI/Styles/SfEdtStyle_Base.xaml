@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:Syncfusion.UI.Xaml.TreeView;assembly=Syncfusion.SfTreeView.WPF">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="EdtColorsAndDimensions.xaml"/>
         <ResourceDictionary Source="../Converters/Converters.xaml"/>
 
     </ResourceDictionary.MergedDictionaries>
@@ -17,15 +16,23 @@
 
     <sf:SortDirectionToVisibilityConverter x:Key="sortDirectionToVisibilityConverter" />
     <sf:SortDirectionToWidthConverter x:Key="sortDirectionToWidthConverter" />
-    <!--<sf:PoleQtyColumnHeightConverter x:Key="PoleQtyColumnHeightConverter" />-->
 
-    
+
     <Style TargetType="sf:SfDataGrid">
         <Setter Property="BorderBrush" Value="{StaticResource ControlBorder}"/>
+        <Setter Property="Background" Value="{StaticResource DataGrid_BackgroundBrush}"/>
         <Setter Property="RowSelectionBrush" Value="{DynamicResource DatagridSelection}"/>
     </Style>
     
-    
+    <Style TargetType="sf:Container">
+        <Setter Property="Background" Value="{StaticResource DataGrid_BackgroundBrush}"/>
+    </Style>
+
+    <Style TargetType="sf:GroupDropArea">
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}" />
+        <Setter Property="Background" Value="{DynamicResource Darkest}" />
+    </Style>
+
     <!--Header Cell with sort Arrow in upper center-->
     <DataTemplate x:Key="startExpanderTemplate">
         <Grid x:Name="grid" Background="Transparent" Width="{TemplateBinding Width}">
@@ -408,24 +415,24 @@
 
     <!--Cell-->
     <Style TargetType="sfgrid:GridCell">
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="BorderBrush" Value="{StaticResource DataGrid_Cell_BorderBrush}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
-                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
-                <Setter Property="FontWeight" Value="Regular"/>
+                <Setter Property="Foreground" Value="{StaticResource TextColor_Inverse_Normal}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
     
     <!--Row-->
     <Style TargetType="sfgrid:VirtualizingCellsControl" >
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="Background" Value="{StaticResource DataGrid_Cell_BackgroundBrush}"/>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource TextColor_Inverse_Normal}"/>
                 <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
-                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
-                <Setter Property="FontWeight" Value="Regular"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -435,6 +442,10 @@
     <!--ComboBox GridCell with drop down arrow-->
     <Style x:Key="comboBoxCellStyle" TargetType="sfgrid:GridCell">
         <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource TextColor_Inverse_Normal}"/>
+                <Setter Property="Background" Value="{DynamicResource DatagridMouseOver}"/>
+            </Trigger>
             <DataTrigger Binding="{Binding IsSelected}" Value="True">
                 <Setter Property="BorderBrush" Value="Black"/>
                 <Setter Property="BorderThickness" Value="1"/>
@@ -490,8 +501,7 @@
 
     </Style>
 
-
-
+    
     <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
     
     <DataTemplate x:Key="busyIndicatorTemplate">
@@ -505,8 +515,8 @@
     </DataTemplate>
 
     <Style TargetType="sf:TreeViewItem">
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="Foreground" Value="{StaticResource TextColor}"/>
+        <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type sf:TreeViewItem}">

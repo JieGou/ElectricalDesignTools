@@ -2,23 +2,60 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:lex="http://wpflocalizeextension.codeplex.com"
+     xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    
     >
 
-    <!--Colors-->
-    <SolidColorBrush x:Key="ControlBorder" Color="#FF6C6C6C"/>
+    <!--Controls-->
+    <SolidColorBrush x:Key="ControlBorder" Color="#6C6C6C"/>
     <SolidColorBrush x:Key="ControlBackground" Color="#3c3c3c"/>
     <SolidColorBrush x:Key="ControlBackgroundDark" Color="#FF1A1A1A"/>
 
+    <SolidColorBrush x:Key="ControlBorder_MouseOver" Color="#FF7EB4EA"/>
+    <SolidColorBrush x:Key="ControlBackground_MouseOver" Color="#3c3c3c"/>
 
+    <SolidColorBrush x:Key="ControlBorder_Disabled" Color="#FF2F2E2E"/>
+    <SolidColorBrush x:Key="ControlForeground_Disabled" Color="#FF353535"/>
+    <SolidColorBrush x:Key="ControlBackground_Disabled" Color="#FF1A1A1A"/>
+    
+    <!--Single Line and Graphics-->
+    <SolidColorBrush x:Key="TextColorSingleLineGraphics_Black" Color="Black"/>
+    
     <SolidColorBrush x:Key="SingleLineBackground" Color="Gray"/>
     <SolidColorBrush x:Key="SingleLineSelectionBackground" Color="DarkGray"/>
-    <SolidColorBrush x:Key="EqGraphicColorBrush" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="EqGraphicColorBrush" Color="Black"/>
+
+    
+    <!--Editors-->
+    <SolidColorBrush x:Key="EditorHeaderColorBrush" Color="#6c6c6c"/>
+    <SolidColorBrush x:Key="EditorSubHeaderColorBrush" Color="#7c7c7c"/>
 
 
-    <!--WINDOW LAYOUT ***********************-->
+    <!--Datagrid-->
+    <SolidColorBrush x:Key="DataGrid_BackgroundBrush" Color="#3c3c3c"/>
+    <SolidColorBrush x:Key="DataGrid_Cell_BorderBrush" Color="#555"/>
+    <SolidColorBrush x:Key="DataGrid_Cell_BackgroundBrush" Color="#3c3c3c"/>
+
+
+    <!--ScrollViewers-->
+    <SolidColorBrush x:Key="ScrollBar_StandardBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="ScrollBar_NormalBrush" Color="#555"/>
+    <SolidColorBrush x:Key="ScrollBar_StandardBackgroundBrush" Color="#333" />
+    <SolidColorBrush x:Key="ScrollBar_PressedBrush" Color="#555"/>
+    <SolidColorBrush x:Key="ScrollBar_MouseOverBrush" Color="#777" />
+    <SolidColorBrush x:Key="ScrollBar_NormalBorderBrush" Color="#777" />
+    <SolidColorBrush x:Key="ScrollBar_GlyphBrush" Color="#888" />
+    <SolidColorBrush x:Key="ScrollBar_GlyphMouseOverBrush" Color="Black" />
+
+    <SolidColorBrush x:Key="ScrollBar_SelectedBackgroundBrush" Color="Gray" />
+    <SolidColorBrush x:Key="ScrollBar_SelectedForegroundBrush" Color="#333" />
+    <SolidColorBrush x:Key="ScrollBar_DisabledForegroundBrush" Color="#888" />
+
+    <SolidColorBrush x:Key="ScrollBar_ListBoxBackgroundBrush" Color="White"/>
+    
 
     <!--White window background for Light Theme-->
-    <SolidColorBrush x:Key="WindowBackgroundLightTheme_White" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="WindowBackground" Color="#FF1A1A1A"/>
 
     <SolidColorBrush x:Key="WindowGridBorderBrush" Color="Black"/>
 
@@ -28,8 +65,6 @@
 
     <!--TEXT colors-->
 
-
-    <!--Text Color-->
     <SolidColorBrush x:Key="ForeGround_Light1" Color="White"/>
     <SolidColorBrush x:Key="ForeGround_Dark1" Color="Black"/>
     
@@ -38,33 +73,20 @@
     <SolidColorBrush x:Key="TextColor_Inverse_HighContrast" Color="White"/>
     <SolidColorBrush x:Key="TextColor_Inverse_Normal" Color="Black"/>
 
-
+    <!--Tooltip-->
     <SolidColorBrush x:Key="ToolTipTextBrush" Color="LightGray"/>
     <SolidColorBrush x:Key="ToolTipBackgroundBrush" Color="#FF545454"/>
     <SolidColorBrush x:Key="ToolTipBorderBrush" Color="Black"/>
 
 
-
-
     <!--SINGLE LINE TEXT COLORS-->
-    <!--Black Text for Light Theme-->
-    <SolidColorBrush x:Key="TextColorSingleLineGraphics_Black" Color="Black"/>
+   
 
     <SolidColorBrush x:Key="ErrorColor_Base" Color="#FFD40000"/>
 
     <SolidColorBrush x:Key="Background" Color="AliceBlue"/>
     <SolidColorBrush x:Key="GridSplitterColor" Color="DarkGray" Opacity=".5"/>
     <SolidColorBrush x:Key="StatusBarBackroundColor" Color="DarkGray"/>
-
-
-    <!--Datagrid-->
-    <SolidColorBrush x:Key="DataGridRow_Selected_BackgroundBrush" Color="red"/>
-    <SolidColorBrush x:Key="DataGrid_Cell_BackgroundBrush" Color="WhiteSmoke"/>
-    <SolidColorBrush x:Key="DataGrid_Cell_BorderBrush" Color="LightGray"/>
-
-
-
-   
 
 
     <!--Accent Colors-->
@@ -88,7 +110,11 @@
     <SolidColorBrush x:Key="WarningColor_Orange">#FFFFB193</SolidColorBrush>
     <SolidColorBrush x:Key="WarningColor_Yellow">#FFFFEDA1</SolidColorBrush>
 
-   
+
+
+
+
+
     <!--#region CheckBox-->
 
     <Geometry x:Key="CheckBoxCheckmark">M7.2,5 L5.5,7.16 4.16,6.3 3.5,6.7 5.5,8.4 8.6,5.25 C8.6,5.25 8,4.7 7.22,5</Geometry>
@@ -414,73 +440,7 @@
     <!--#endregion-->
 
   
-    <!--#region ListBox-->
-
-    <Style TargetType="{x:Type ListBox}">
-        <Setter Property="BorderBrush" Value="Gray" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBox}">
-                    <Border
-                        Padding="1"
-                        Background="{StaticResource ControlBackground}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="True">
-                        <ScrollViewer Padding="{TemplateBinding Padding}" Focusable="False">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                        </ScrollViewer>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style TargetType="{x:Type ListBoxItem}">
-        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
-        <Setter Property="Template">
-                <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border
-                        x:Name="ListBoxItemBorder"
-                        Padding="{TemplateBinding Padding}"
-                        Background="Transparent"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        SnapsToDevicePixels="True">
-                        <ContentPresenter
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="ListBoxItemBorder" Property="Background" Value="#0078d7" />
-                            <Setter TargetName="ListBoxItemBorder" Property="BorderBrush" Value="#008eff" />
-                        </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="IsSelected" Value="False" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="ListBoxItemBorder" Property="Background" Value="#005aa1" />
-                            <Setter TargetName="ListBoxItemBorder" Property="BorderBrush" Value="#0078d7" />
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="True" />
-                                <Condition Property="Selector.IsSelectionActive" Value="False" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="ListBoxItemBorder" Property="Background" Value="#595959" />
-                            <Setter TargetName="ListBoxItemBorder" Property="BorderBrush" Value="Gray" />
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!--#endregion-->
+    
 
     <!--#region ProgressBar-->
 

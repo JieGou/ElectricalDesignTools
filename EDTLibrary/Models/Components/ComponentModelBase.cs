@@ -205,7 +205,7 @@ public abstract class ComponentModelBase : IComponentEdt
 
         if (TripAmps < ((IPowerConsumer)Owner).Fla) {
             IsValid = false;
-            IsInvalidMessage += Environment.NewLine + "Trip is less than load FLA";
+            IsInvalidMessage += Environment.NewLine + " - Trip is less than load FLA";
         }
     }
     private void ValidateFrame()
@@ -215,18 +215,24 @@ public abstract class ComponentModelBase : IComponentEdt
         if (this.Type == "Disconnect" || this.Type == "UDS" || this.Type == "FDS") {
             if (FrameAmps < ((IPowerConsumer)Owner).Fla) {
                 IsValid = false;
-                IsInvalidMessage += Environment.NewLine + "Frame is less than load FLA, or not rated for the motor HP";
+                IsInvalidMessage += Environment.NewLine + " - Frame is less than load FLA, or not rated for the motor HP";
             }
             else if(FrameAmps < ((IPowerConsumer)Owner).Fla*1.25) {
                 IsValid = false;
-                IsInvalidMessage += Environment.NewLine + "Frame is less than 125% of load FLA, or not rated for the motor HP";
+                IsInvalidMessage += Environment.NewLine + " - Frame is less than 125% of load FLA, or not rated for the motor HP";
             }
         }
         if (this.Type.Contains("FDS")) {
             if (FrameAmps < TripAmps) {
                 IsValid = false;
-                IsInvalidMessage += Environment.NewLine + "Frame is less than Trip";
+                IsInvalidMessage += Environment.NewLine + " - Frame is less than Trip";
             } 
+        }
+        if (this.Type.Contains("Breaker")) {
+            if (FrameAmps < TripAmps) {
+                IsValid = false;
+                IsInvalidMessage += Environment.NewLine + " - Frame is less than Trip";
+            }
         }
     }
     private void ValidateAIC()
@@ -235,7 +241,7 @@ public abstract class ComponentModelBase : IComponentEdt
 
         if (AIC < SCCA) {
             IsValid = false;
-            IsInvalidMessage += Environment.NewLine + "Device AIC rating is less than SCCA";
+            IsInvalidMessage += Environment.NewLine + " - Device AIC rating is less than SCCA";
         }
     }
     private void ValidateSCCR()
@@ -244,7 +250,7 @@ public abstract class ComponentModelBase : IComponentEdt
 
         if (SCCR < SCCA) {
             IsValid = false;
-            IsInvalidMessage += Environment.NewLine + "SCCR is less than SCCA";
+            IsInvalidMessage += Environment.NewLine + " - SCCR is less than SCCA";
         }
     }
 
@@ -256,7 +262,7 @@ public abstract class ComponentModelBase : IComponentEdt
             var selectedStarter = TypeManager.StarterSizes.FirstOrDefault(ss => ss.Size == StarterSize && ss.Unit == ((LoadModel)Owner).Unit);
             if (validStarter != null && selectedStarter.SizeNumeric < validStarter.SizeNumeric) {
                 IsValid = false;
-                IsInvalidMessage += Environment.NewLine + "Starter is undersized";
+                IsInvalidMessage += Environment.NewLine + " - Starter is undersized";
             }
         }
 
@@ -378,7 +384,7 @@ public abstract class ComponentModelBase : IComponentEdt
         get { return _aic; }
         set { 
             _aic = value;
-
+            Validate();
             OnPropertyUpdated();
         }
     }

@@ -5,20 +5,54 @@
 
 
 
-    <!--Colors-->
-    <SolidColorBrush x:Key="ControlBorder" Color="#FF6C6C6C"/>
+    <!--Controls-->
+    <SolidColorBrush x:Key="ControlBorder" Color="#FFBEBFC2"/>
     <SolidColorBrush x:Key="ControlBackground" Color="White"/>
     <SolidColorBrush x:Key="ControlBackgroundDark" Color="#FF1A1A1A"/>
 
+    <SolidColorBrush x:Key="ControlBorder_MouseOver" Color="#FF7EB4EA"/>
+    <SolidColorBrush x:Key="ControlBackground_MouseOver" Color="#FFE5F0FF"/>
+    
+    <SolidColorBrush x:Key="ControlBorder_Disabled" Color="#FFBEBFC2"/>
+    <SolidColorBrush x:Key="ControlForeground_Disabled" Color="Gray"/>
+    <SolidColorBrush x:Key="ControlBackground_Disabled" Color="#FFF0F0F0"/>
 
+    <!--Single Line and Graphics-->
+    <SolidColorBrush x:Key="TextColorSingleLineGraphics_Black" Color="Black"/>
+    
     <SolidColorBrush x:Key="SingleLineBackground" Color="White"/>
     <SolidColorBrush x:Key="SingleLineSelectionBackground" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="EqGraphicColorBrush" Color="Black"/>
 
 
-    <!--WINDOW LAYOUT ***********************-->
+    <!--Editors-->
+    <SolidColorBrush x:Key="EditorHeaderColorBrush" Color="#6c6c6c"/>
+    <SolidColorBrush x:Key="EditorSubHeaderColorBrush" Color="LightGray"/>
 
+    <!--Datagrid-->
+    <SolidColorBrush x:Key="DataGrid_BackgroundBrush" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="DataGrid_Cell_BorderBrush" Color="LightGray"/>
+    <SolidColorBrush x:Key="DataGrid_Cell_BackgroundBrush" Color="White"/>
+
+    <!--ScrollViewers-->
+    <SolidColorBrush x:Key="ScrollBar_StandardBorderBrush" Color="Black" />
+    <SolidColorBrush x:Key="ScrollBar_StandardBackgroundBrush" Color="White" />
+    <SolidColorBrush x:Key="ScrollBar_PressedBrush" Color="White"/>
+    <SolidColorBrush x:Key="ScrollBar_NormalBrush" Color="White"/>
+    <SolidColorBrush x:Key="ScrollBar_NormalBorderBrush" Color="#888" />
+    <SolidColorBrush x:Key="ScrollBar_GlyphBrush" Color="#444" />
+    <SolidColorBrush x:Key="ScrollBar_GlyphMouseOverBrush" Color="Black" />
+
+    <SolidColorBrush x:Key="ScrollBar_MouseOverBrush" Color="#DDD" />
+    <SolidColorBrush x:Key="ScrollBar_SelectedBackgroundBrush" Color="Gray" />
+    <SolidColorBrush x:Key="ScrollBar_SelectedForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="ScrollBar_DisabledForegroundBrush" Color="#888" />
+
+    <SolidColorBrush x:Key="ScrollBar_ListBoxBackgroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="ScrollBar_StandardBrush" Color="White"/>
+    
     <!--White window background for Light Theme-->
-    <SolidColorBrush x:Key="WindowBackgroundLightTheme_White" Color="WhiteSmoke"/>
+    <SolidColorBrush x:Key="WindowBackground" Color="WhiteSmoke"/>
     
     <SolidColorBrush x:Key="WindowGridBorderBrush" Color="Black"/>
     
@@ -32,7 +66,7 @@
     <SolidColorBrush x:Key="ForeGround_Dark1" Color="Black"/>
     <SolidColorBrush x:Key="TextColor_CommonControls" Color="Black"/>
     <SolidColorBrush x:Key="TextColor_Inverse_HighContrast" Color="White"/>
-    <SolidColorBrush x:Key="TextColor_Inverse_Normal" Color="LightGray"/>
+    <SolidColorBrush x:Key="TextColor_Inverse_Normal" Color="Black"/>
     
     
     
@@ -45,7 +79,6 @@
     
     <!--SINGLE LINE TEXT COLORS-->
     <!--Black Text for Light Theme-->
-    <SolidColorBrush x:Key="TextColorSingleLineGraphics_Black" Color="Black"/>
     
     <SolidColorBrush x:Key="ErrorColor_Base" Color="#FFD40000"/>
 
@@ -54,13 +87,9 @@
     <SolidColorBrush x:Key="StatusBarBackroundColor" Color="DarkGray"/>
     
    
-    <!--Datagrid-->
-    <SolidColorBrush x:Key="DataGridRow_Selected_BackgroundBrush" Color="red"/>
-    <SolidColorBrush x:Key="DataGrid_Cell_BackgroundBrush" Color="WhiteSmoke"/>
-    <SolidColorBrush x:Key="DataGrid_Cell_BorderBrush" Color="LightGray"/>
+  
 
-
-
+    <!--Theme Colors-->
     
     
     

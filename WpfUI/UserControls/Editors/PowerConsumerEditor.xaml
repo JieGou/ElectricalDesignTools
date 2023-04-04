@@ -27,11 +27,9 @@
     </UserControl.Resources>
 
     <controls:EdtGroupBox Grid.Row="0"
-                          x:Name="PowerConsumerGroupBox"
-                          HeaderForeGround="White"
-                          HeaderBackground="Gray"
+                          HeaderBackground="{StaticResource EditorHeaderColorBrush}"
                           >
-        <controls:EdtGroupBox.Style>
+        <controls:EdtGroupBox.Style >
             <Style TargetType="controls:EdtGroupBox">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Category}" Value="DTEQ">

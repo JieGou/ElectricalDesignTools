@@ -20,7 +20,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/EdtStyle_Green.xaml"/>
+                <!--<ResourceDictionary Source="../../Styles/EdtStyle_Green.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
             <CollectionViewSource x:Key="areaList" Source="{Binding ListManager.AreaList}"/>

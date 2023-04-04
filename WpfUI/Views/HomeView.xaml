@@ -14,8 +14,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Styles/SettingsStyle_Base.xaml"/>
-                <ResourceDictionary Source="../Styles/EdtStyle_Base.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -64,7 +62,6 @@
 
                 <TextBlock Text="Open Recent"
                        Background="Transparent"
-                       Foreground="Black"
                        Padding="0 10"
                        FontSize="20"
                        FontWeight="SemiBold"
@@ -111,11 +108,11 @@
                     <EventTrigger RoutedEvent="Image.Loaded">
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                <!--<DoubleAnimation Storyboard.TargetProperty="Opacity"
                                                  Storyboard.TargetName="logo"                                
                                                  From="1.0" To="0.75" Duration="0:0:0.35"
                                                  AccelerationRatio="1"
-                                                 AutoReverse="False" RepeatBehavior="1x"/>
+                                                 AutoReverse="False" RepeatBehavior="1x"/>-->
 
                                 <DoubleAnimation Storyboard.TargetProperty="Width"
                                                  Storyboard.TargetName="logo"                                 

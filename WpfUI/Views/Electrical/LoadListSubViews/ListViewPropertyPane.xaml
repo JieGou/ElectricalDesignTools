@@ -28,7 +28,7 @@
              
              xmlns:mjeqSubViews="clr-namespace:WpfUI.Views.Electrical.LoadListSubViews"
 
-             Background="{DynamicResource BackgroundLight}"
+             Background="{DynamicResource SingleLineBackground}"
              d:Background="AliceBlue"
              d:DesignHeight="400" d:DesignWidth="550"
              d:Opacity="1"
@@ -240,11 +240,11 @@
                                         Grid.Column="0"
                                         Margin="35 0">
                                     <Canvas Grid.Column="1" Width="35" Height="90">
-                                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="15"/>
-                                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="15" Height="7" Width="7"/>
-                                        <Path Stroke="Black" StrokeThickness="1" Data="M 20,19 A 4,5 0 0 1 20, 44" />
-                                        <Ellipse Stroke="Black" StrokeThickness="1" Canvas.Left="10" Canvas.Top="41" Height="7" Width="7"/>
-                                        <Line Stroke="Black" StrokeThickness="1" X1="13.5" Y1="47" X2="13.5" Y2="150"/>
+                                        <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="0" X2="13.5" Y2="15"/>
+                                        <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="15" Height="7" Width="7"/>
+                                        <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 20,19 A 4,5 0 0 1 20, 44" />
+                                        <Ellipse Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="10" Canvas.Top="41" Height="7" Width="7"/>
+                                        <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="13.5" Y1="47" X2="13.5" Y2="150"/>
                                     </Canvas>
                                 </Border>
                                 

@@ -22,7 +22,7 @@
              d:Background="AliceBlue">
 
 
-    <Grid>
+    <Grid Background="{StaticResource BackgroundLight}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>

@@ -12,77 +12,76 @@ using System.Reflection.Metadata.Ecma335;
 namespace EDTLibrary.Selectors;
 internal class VoltageValidator
 {
-    internal static bool IsValid(IPowerConsumer load)
+    internal static bool IsValid(IPowerConsumer equipment)
     {
-        if (load is LoadModel) {
-            return ValidateLoadVoltage(load);
+        if (equipment is LoadModel) {
+            return ValidateLoadVoltage(equipment);
         }
-        else if (load is DistributionEquipment) {
-            return ValidateDteqVoltage(load);
+        else if (equipment is DistributionEquipment) {
+            return ValidateDteqVoltage(equipment);
         }
         return false;
     }
 
-    private static bool ValidateLoadVoltage(IPowerConsumer load)
+    private static bool ValidateLoadVoltage(IPowerConsumer equipment)
     {
-        if (load.FedFrom == null ) {
+        if (equipment.FedFrom == null ) {
             return false;
         }
 
-        var fedFromVoltage = load.FedFrom.LoadVoltageType;
+        var fedFromVoltage = equipment.FedFrom.LoadVoltageType;
 
         //motors
-        if (load.Type == LoadTypes.MOTOR.ToString()) {
-            if (fedFromVoltage.Voltage == 480 && load.VoltageType.Voltage == 460) {
+        if (equipment.Type == LoadTypes.MOTOR.ToString()) {
+            if (fedFromVoltage.Voltage == 480 && equipment.VoltageType.Voltage == 460) {
                 return true;
             }
-            if (fedFromVoltage.Voltage == 600 && load.VoltageType.Voltage == 575) {
+            if (fedFromVoltage.Voltage == 600 && equipment.VoltageType.Voltage == 575) {
                 return true;
             }
-            if (fedFromVoltage.Voltage == 4160 && load.VoltageType.Voltage == 4000) {
+            if (fedFromVoltage.Voltage == 4160 && equipment.VoltageType.Voltage == 4000) {
                 return true;
             }
         }
 
         //208V panel
-        if (load.FedFrom.Type == DteqTypes.DPN.ToString() && load.FedFrom.LoadVoltageType.Voltage == 208) {
-            if (load.VoltageType.Voltage == 208) {
+        if (equipment.FedFrom.Type == DteqTypes.DPN.ToString() && equipment.FedFrom.LoadVoltageType.Voltage == 208) {
+            if (equipment.VoltageType.Voltage == 208) {
                 return true;
             }
-            if (load.VoltageType.Voltage == 120) {
+            if (equipment.VoltageType.Voltage == 120) {
                 return true;
             }
         }
 
         //240V panel
-        if (load.FedFrom.Type == DteqTypes.DPN.ToString() && load.FedFrom.LoadVoltageType.Voltage == 240) {
-            if (load.VoltageType.Voltage == 240) {
+        if (equipment.FedFrom.Type == DteqTypes.DPN.ToString() && equipment.FedFrom.LoadVoltageType.Voltage == 240) {
+            if (equipment.VoltageType.Voltage == 240) {
                 return true;
             }
-            if (load.VoltageType.Voltage == 120) {
+            if (equipment.VoltageType.Voltage == 120) {
                 return true;
             }
         }
 
 
-        if (load.VoltageType == fedFromVoltage) {
+        if (equipment.VoltageType == fedFromVoltage) {
             return true;
         }
 
         return false;
     }
 
-    private static bool ValidateDteqVoltage(IPowerConsumer load)
+    private static bool ValidateDteqVoltage(IPowerConsumer equipment)
     {
-        if (load == GlobalConfig.UtilityModel || load.FedFrom == GlobalConfig.UtilityModel) return true;
+        if (equipment == GlobalConfig.UtilityModel || equipment.FedFrom == GlobalConfig.UtilityModel) return true;
         
-        var dteq = (DistributionEquipment)load;
-        if (load.FedFrom == null || load.FedFrom.VoltageType==null) {
+        if (equipment.FedFrom == null || equipment.FedFrom.VoltageType==null) {
             return true;
         }
-        var fedFromVoltage = load.FedFrom.LoadVoltageType;
-        
-        if (dteq.LineVoltageType == fedFromVoltage) {
+
+        var dteq = (DistributionEquipment)equipment;
+        if (dteq.LineVoltageType == dteq.FedFrom.LoadVoltageType) {
             return true;
         }
 

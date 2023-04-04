@@ -96,9 +96,9 @@
     <!--Delta Grounding Type-->
     <DataTemplate x:Key="DeltaTemplate" DataType="{x:Type edtDteqModels:XfrModel}">
         <Canvas Grid.Row="0" Grid.Column="0" Background="Transparent">
-            <Line Stroke="Black" StrokeThickness="1" X1="8" Y1="0" X2="16" Y2="12"/>
-            <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="12" X2="16" Y2="12"/>
-            <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="12" X2="8" Y2="0"/>
+            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="8" Y1="0" X2="16" Y2="12"/>
+            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="0" Y1="12" X2="16" Y2="12"/>
+            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="0" Y1="12" X2="8" Y2="0"/>
 
         </Canvas>
     </DataTemplate>
@@ -109,9 +109,9 @@
         <Canvas Grid.Row="2" Grid.Column="0" Background="Transparent">
 
             <!--Wye-->
-            <Line Stroke="Black" StrokeThickness="1" X1="8" Y1="8" X2="0" Y2="0"/>
-            <Line Stroke="Black" StrokeThickness="1" X1="8" Y1="8" X2="16" Y2="0"/>
-            <Line Stroke="Black" StrokeThickness="1" X1="7.5" Y1="8" X2="7.5" Y2="16"/>
+            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="8" Y1="8" X2="0" Y2="0"/>
+            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="8" Y1="8" X2="16" Y2="0"/>
+            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="7.5" Y1="8" X2="7.5" Y2="16"/>
 
             <!--Grounding-->
             <Canvas>
@@ -132,17 +132,17 @@
                 </Canvas.Style>
                 
                 <!--Ground Wire-->
-                <Line Stroke="Black" StrokeThickness="1" X1="8" Y1="8" X2="-20.5" Y2="8"/>
-                <Line Stroke="Black" StrokeThickness="1" X1="-20.5" Y1="8" X2="-20.5" Y2="35"/>
-                <!--<Line Stroke="Black" StrokeThickness="1" X1="-15.5" Y1="8" X2="-15.5" Y2="13"/>-->
+                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="8" Y1="8" X2="-20.5" Y2="8"/>
+                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-20.5" Y1="8" X2="-20.5" Y2="35"/>
+                <!--<Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-15.5" Y1="8" X2="-15.5" Y2="13"/>-->
 
                 <!--Ground Triange-->
-                <!--<Line Stroke="Black" StrokeThickness="1" X1="-20.5" Y1="13" X2="-10.5" Y2="13"/>
-                <Line Stroke="Black" StrokeThickness="1" X1="-18.5" Y1="15" X2="-13.5" Y2="15"/>
-                <Line Stroke="Black" StrokeThickness="1" X1="-16.5" Y1="17" X2="-14.5" Y2="17"/>-->
-                <Line Stroke="Black" StrokeThickness="1" X1="-25.5" Y1="35" X2="-15.5" Y2="35"/>
-                <Line Stroke="Black" StrokeThickness="1" X1="-23.5" Y1="38" X2="-17" Y2="38"/>
-                <Line Stroke="Black" StrokeThickness="1" X1="-21.5" Y1="41" X2="-19" Y2="41"/>
+                <!--<Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-20.5" Y1="13" X2="-10.5" Y2="13"/>
+                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-18.5" Y1="15" X2="-13.5" Y2="15"/>
+                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-16.5" Y1="17" X2="-14.5" Y2="17"/>-->
+                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-25.5" Y1="35" X2="-15.5" Y2="35"/>
+                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-23.5" Y1="38" X2="-17" Y2="38"/>
+                <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="-21.5" Y1="41" X2="-19" Y2="41"/>
 
                 <!--Resistor-->
                 <Canvas>
@@ -161,8 +161,8 @@
                             </Style.Triggers>
                         </Style>
                     </Canvas.Style>
-                    <!--<Rectangle Stroke="Black" StrokeThickness="1" Canvas.Left="-10" Width="10" Canvas.Top="4" Height="7.5">-->
-                    <Rectangle Stroke="Black" StrokeThickness="1" Fill="Black" Canvas.Left="-24" Width="7" Canvas.Top="15" Height="13"/>
+                    <!--<Rectangle Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Canvas.Left="-10" Width="10" Canvas.Top="4" Height="7.5">-->
+                    <Rectangle Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Fill="Black" Canvas.Left="-24" Width="7" Canvas.Top="15" Height="13"/>
                     <TextBlock Text="5 A" Canvas.Left="-13" Canvas.Top="17" 
                                Visibility="Hidden"/>
                     <TextBlock Text="69.4 Ω" Canvas.Left="-13" Canvas.Top="30"
@@ -292,22 +292,22 @@
                                 Width="50" Height="65"
                                 Margin="0 0 0 0">
 
-                            <Line Stroke="Black" StrokeThickness="1" X1="30" Y1="0" X2="30" Y2="17"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="30" Y1="0" X2="30" Y2="17"/>
 
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 0,17 A 5, 5 0 0 0 15, 17" />
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 15,17 A 4, 4 0 0 0 30, 17" />
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 30,17 A 4, 4 0 0 0 45, 17" />
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 45,17 A 4, 4 0 0 0 60, 17" />
+                            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 0,17 A 5, 5 0 0 0 15, 17" />
+                            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 15,17 A 4, 4 0 0 0 30, 17" />
+                            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 30,17 A 4, 4 0 0 0 45, 17" />
+                            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 45,17 A 4, 4 0 0 0 60, 17" />
 
-                            <Line Stroke="Black" StrokeThickness="1.5" X1="0" Y1="30" X2="60" Y2="30"/>
-                            <Line Stroke="Black" StrokeThickness="1.5" X1="0" Y1="37" X2="60" Y2="37"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1.5" X1="0" Y1="30" X2="60" Y2="30"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1.5" X1="0" Y1="37" X2="60" Y2="37"/>
 
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 0,50 A 4, 4 0 0 1 15, 50" />
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 15,50 A 4, 4 0 0 1 30, 50" />
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 30,50 A 4, 4 0 0 1 45, 50" />
-                            <Path Stroke="Black" StrokeThickness="1" Data="M 45,50 A 4, 4 0 0 1 60, 50" />
+                            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 0,50 A 4, 4 0 0 1 15, 50" />
+                            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 15,50 A 4, 4 0 0 1 30, 50" />
+                            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 30,50 A 4, 4 0 0 1 45, 50" />
+                            <Path Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" Data="M 45,50 A 4, 4 0 0 1 60, 50" />
 
-                            <Line Stroke="Black" StrokeThickness="1" X1="30" Y1="50" X2="30" Y2="65"/>
+                            <Line Stroke="{StaticResource EqGraphicColorBrush}" StrokeThickness="1" X1="30" Y1="50" X2="30" Y2="65"/>
                         </Canvas>
                     </Border>
                     

@@ -30,9 +30,12 @@
                 
     </UserControl.Resources>
 
-    <controls:EdtGroupBox  Margin="0 1 0 1">
+    <controls:EdtGroupBox  Margin="0 1 0 1"
+                           HeaderBackground="{StaticResource EditorHeaderColorBrush}"
+                  Background="{StaticResource BackgroundLight}"
+                           >
         <controls:EdtGroupBox.Style>
-            <Style TargetType="controls:EdtGroupBox" BasedOn="{StaticResource {x:Type controls:EdtGroupBox}}">
+            <Style TargetType="controls:EdtGroupBox" >
                 <Setter Property="Header" Value="Protection Device / Starter"/>
 
                 <Style.Triggers>
@@ -60,8 +63,9 @@
         </controls:EdtGroupBox.Style>
 
 
-        <Border BorderBrush="LightGray" BorderThickness="0 0 0 0"
-            Margin="0 5 0 0">
+        <Border BorderBrush="LightGray"
+                BorderThickness="0 0 0 0"
+                Margin="0 5 0 0">
 
             <Grid Margin="0"
             ShowGridLines="false">

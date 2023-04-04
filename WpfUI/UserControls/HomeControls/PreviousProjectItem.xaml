@@ -8,7 +8,7 @@
              d:DesignHeight="65" d:DesignWidth="400"
              
              d:Background="AliceBlue">
-    <Grid>
+    <Grid Background="{StaticResource ControlBackground}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20*"/>
             <ColumnDefinition Width="*"/>
@@ -34,7 +34,7 @@
                 <Style TargetType="DockPanel">
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="AliceBlue"/>
+                            <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
@@ -52,7 +52,7 @@
                        TextTrimming="CharacterEllipsis"
                        x:Name="FilePath"
                        Margin="10 5"
-                       Foreground="Black"/>
+                       />
 
         </DockPanel>
 

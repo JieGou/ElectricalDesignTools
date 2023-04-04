@@ -19,12 +19,11 @@
         ResizeMode="NoResize"
         Height="450" Width="500" 
         
-        
         Closing="OnClosing">
 
     <Window.Resources>
-        
-        <Style TargetType="TextBlock">
+
+        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
             <Setter Property="Margin" Value="0 10 0 0"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -32,7 +31,7 @@
 
         </Style>
 
-        <Style TargetType="TextBox">
+        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
             <Setter Property="Padding" Value="0 0 0 0"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="Margin" Value="0 15 0 0" />

@@ -51,7 +51,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
-                <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
+                <!--<ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>-->
                 <ResourceDictionary Source="../../Styles/ContextMenus/ContextMenus.xaml"/>
 
             </ResourceDictionary.MergedDictionaries>

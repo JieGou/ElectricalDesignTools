@@ -83,8 +83,9 @@
 
 
     <controls:EdtGroupBox Header="Power Cable Properties"
-                          Margin="1">
-        <Grid >
+                          Margin="1"
+                          Background="{StaticResource BackgroundLight}">
+        <Grid Background="{StaticResource BackgroundLight}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>

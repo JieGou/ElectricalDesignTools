@@ -399,6 +399,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Styles\EdtStyle_BlueDark.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Styles\EdtStyle_Blue.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

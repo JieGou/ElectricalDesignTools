@@ -156,7 +156,7 @@ public abstract class ElectricalViewModelBase : ViewModelBase
         try {
             CalculationManager.IsCalculating = true;
             var busyWindow = new BusyWindow();
-            busyWindow.Resources.MergedDictionaries.Add(_rd);
+            //busyWindow.Resources.MergedDictionaries.Add(_rd);
             busyWindow.Show();
 
             await Task.Run(() => {
@@ -222,7 +222,7 @@ public abstract class ElectricalViewModelBase : ViewModelBase
             CalculationManager.IsCalculating = true;
             var busyWindow = new BusyWindow();
 
-            busyWindow.Resources.MergedDictionaries.Add(_rd);
+            //busyWindow.Resources.MergedDictionaries.Add(_rd);
             busyWindow.Show();
 
             await Task.Run(() => {

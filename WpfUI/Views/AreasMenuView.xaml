@@ -17,7 +17,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Styles/EdtColorsAndDimensions.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
             <CollectionViewSource x:Key="areaList" Source="{Binding ListManager.AreaList}"/>

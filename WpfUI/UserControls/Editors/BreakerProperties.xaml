@@ -38,7 +38,7 @@
         </Grid.RowDefinitions>
 
         <Border BorderBrush="Black" BorderThickness="0 1 0 1"
-                Background="LightGray"
+                Background="{StaticResource EditorSubHeaderColorBrush}"
                 Grid.Row="1" 
                 Grid.Column="0" Grid.ColumnSpan="5"
                 HorizontalAlignment="Stretch"

@@ -8,23 +8,32 @@
     
     
 <!--MAIN COLORS-->
-    <SolidColorBrush x:Key="Darkest">#FF144D80</SolidColorBrush>
-    <SolidColorBrush x:Key="Dark" Color="#FF206DB1"/>
+    <SolidColorBrush x:Key="Darkest">#FF134D80</SolidColorBrush>
+    <SolidColorBrush x:Key="Dark" Color="#FF134D80"/>
     <SolidColorBrush x:Key="Medium" Color="#FF2991ED"/>
     <SolidColorBrush x:Key="Light" Color="#FF67B1F3"/>
     
-    <SolidColorBrush x:Key="Background" Color="AliceBlue"/>
-    <SolidColorBrush x:Key="BackgroundLight" Color="AliceBlue"/>
+    <SolidColorBrush x:Key="Background" Color="#FF373E44"/>
+    <SolidColorBrush x:Key="BackgroundLight" Color="#2c2c2c"/>
     
     <!--<SolidColorBrush x:Key="PageBackground" Color="AliceBlue"/>-->
-    <SolidColorBrush x:Key="PageBackground" Color="LightGray"/>
+    <SolidColorBrush x:Key="PageBackground" Color="#333"/>
 
     <!--Accent Colors-->
-    <SolidColorBrush x:Key="ButtonColor" Color="#FFB5C7EA"/>
-    <SolidColorBrush x:Key="DatagridMouseOver" Color="AliceBlue"/>
-    <SolidColorBrush x:Key="DatagridSelection" Color="#FFB7DEE8" Opacity="0.3"/>
-    <SolidColorBrush x:Key="DatagridSelection2" Color="LightGray" Opacity="0.1"/>
+    <SolidColorBrush x:Key="ButtonColor" Color="#FF586B90"/>
+    <SolidColorBrush x:Key="DatagridMouseOver" Color="#FF386D9A"/>
+    <SolidColorBrush x:Key="DatagridSelection" Color="#FF1C4469" Opacity="0.3"/>
+    <SolidColorBrush x:Key="DatagridSelection2" Color="#FF2A3A7D" Opacity="0.1"/>
 
+    
+     <!--Tooltip-->
+    <Style TargetType="ToolTip">
+        <Setter Property="BorderBrush" Value="{StaticResource Medium}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Background" Value="{StaticResource ToolTipBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ToolTipTextBrush}"/>
+    </Style>
+    
     <!--ALL CONTROLS DEFAULT-->
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
         <Setter Property="Margin" Value="10 10 10 10 "/>
@@ -56,19 +65,9 @@
         <Setter Property="Background" Value="{StaticResource ButtonColor}"/>
     </Style>
 
-    <!--BUTTON Main Menu Animation-->
-    <Style x:Key="MainMenu_Buttons" TargetType="{x:Type Button}">
-
-        <Setter Property="Background" >
-            <Setter.Value>
-                <SolidColorBrush Opacity="1" Color="LightGray" />
-                <!--<SolidColorBrush Opacity="1" Color="#FF0A669B" />-->
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-  
-
+   
+    
+    
     <!--DATA GRID Style-->
     <Style TargetType="DataGrid" BasedOn="{StaticResource DataGridStyleBase}">
         
@@ -78,7 +77,6 @@
     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}">
         <Setter Property="Background" Value="{StaticResource Dark}"/>
         <Setter Property="Foreground" Value="{StaticResource ForeGround_Light1}"/>
-
 
     </Style>
 
@@ -103,7 +101,7 @@
            x:Key="CableHeaderColumn">
         <Setter Property="Background" Value="#FF675AC1"/>
         <Setter Property="Foreground" Value="{StaticResource ForeGround_Light1}"/>
-
+        
     </Style>
 
 

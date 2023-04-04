@@ -921,7 +921,7 @@ public class CableModel : ICable
                     comp.PowerCable.AutoSize_IfEnabled();
                 }
                 else {
-                    CableManager.AddAndUpdateEqPowerComponentCablesAsync((LoadModel)comp.Owner, ScenarioManager.ListManager);
+                    CableManager.AddAndUpdateEqPowerComponentCablesAsync((IPowerConsumer)comp.Owner, ScenarioManager.ListManager);
                 }
             }
         }

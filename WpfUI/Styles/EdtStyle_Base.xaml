@@ -6,10 +6,10 @@
                     xmlns:controls="clr-namespace:WpfUI.Controls">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="EdtColorsAndDimensions.xaml"/>
         <ResourceDictionary Source="EdtStyle_BaseTextBlocks.xaml"/>
         <ResourceDictionary Source="EdtStyle_BaseButtons.xaml"/>
         <ResourceDictionary Source="EdtStyle_ComboBoxes.xaml"/>
+        <ResourceDictionary Source="EdtStyle_ListBoxes.xaml"/>
         <ResourceDictionary Source="EdtStyle_ScrollBars.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
@@ -20,7 +20,7 @@
     <converters:WarningStringConverter x:Key="WarningStringConverter"/>
 
     <Style TargetType="Window">
-        <Setter Property="Background" Value="{StaticResource WindowBackgroundLightTheme_White}"/>
+        <Setter Property="Background" Value="{StaticResource WindowBackground}"/>
     </Style>
 
     <!--Tooltip-->
@@ -57,7 +57,7 @@
     <!--PAGE TITLE Style-->
     <Style TargetType="TextBlock" x:Key="PageTitleStyle">
         <Setter Property ="FontSize" Value="15"/>
-        <Setter Property ="Foreground" Value="Black"/>
+        <Setter Property ="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property= "Margin" Value="20,0,0,0"/>
@@ -128,7 +128,6 @@
         <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
         <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
         <Setter Property="FontSize" Value="12"/>
-        <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
     </Style>
@@ -138,7 +137,6 @@
     <!--TEXTBOX - DataGrid Header Filter -->
     <Style x:Key="FilterTextBoxBase" TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
         <Setter Property="FontSize" Value="12"/>
-        <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Grid.Row" Value="1"/>
@@ -190,11 +188,6 @@
         <Setter Property="ToolTipService.BetweenShowDelay" Value="0"/>
     </Style>
 
-   
-
-    <!--Nice Teal Style Color    "#FFB7DEE8"-->
-
-
     <!--Textblock Base Style-->
     <Style TargetType="TextBlock">
         <!--<Setter Property ="FontSize" Value="25"/>-->
@@ -243,7 +236,7 @@
 
     <!--DATA GRID Style-->
     <Style TargetType="DataGrid" x:Key="DataGridStyleBase" BasedOn="{StaticResource DefaultStyle}">
-        <Setter Property="Background" Value="DarkGray"/>
+        <Setter Property="Background" Value="{StaticResource DataGrid_BackgroundBrush}"/>
         <Setter Property="BorderBrush" Value="black" />
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="RowHeaderWidth" Value="20"/>
@@ -416,6 +409,8 @@
     <!--DataGrid Cell Style-->
     <Style TargetType="{x:Type DataGridCell}" x:Key="DataGridCellBase">
         <Setter Property="FontSize" Value="11.5"/>
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+        <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
         <Setter Property="TextBlock.TextAlignment" Value="Center"/>
         <Setter Property="TextBlock.Padding" Value="10,10,10,10"/>
         <Setter Property="Padding" Value="50"/>
@@ -466,6 +461,8 @@
 
     <!--x:Key="DataGridRowBase"-->
     <Style TargetType="{x:Type DataGridRow}" x:Key="DataGridRowBase">
+        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+        <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="AliceBlue"/>
@@ -537,9 +534,9 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type controls:EdtGroupBox}">
+    <Style TargetType="{x:Type controls:EdtGroupBox}" x:Key="EditorStyle">
         <Setter Property="HeaderForeGround" Value="WhiteSmoke"/>
-        <Setter Property="HeaderBackground" Value="Gray"/>
+        <Setter Property="HeaderBackground" Value="{StaticResource EditorHeaderColorBrush}"/>
     </Style>
     
     
