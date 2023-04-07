@@ -52,11 +52,11 @@ public partial class AreasView : UserControl
     private void lstAreaClassification_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
 
-        if (lstAreaClassification.SelectedItem == null) return;
+        //if (lstAreaClassification.SelectedItem == null) return;
 
-        areaVm.AreaClassificationsInfoTableItems.Clear();
-        var areaClass = lstAreaClassification.SelectedItem as AreaClassificationType;
-        areaVm.AreaClassificationsInfoTableItems.Add(areaClass);
+        //areaVm.AreaClassificationsInfoTableItems.Clear();
+        //var areaClass = lstAreaClassification.SelectedItem as AreaClassificationType;
+        //areaVm.AreaClassificationsInfoTableItems.Add(areaClass);
 
     }
 

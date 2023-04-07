@@ -18,12 +18,14 @@
         Topmost="True"
         ResizeMode="NoResize"
         Height="450" Width="500" 
+        Background="{StaticResource WindowBackground}"
         
         Closing="OnClosing">
 
     <Window.Resources>
 
         <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+            <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
             <Setter Property="Margin" Value="0 10 0 0"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -32,6 +34,7 @@
         </Style>
 
         <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
             <Setter Property="Padding" Value="0 0 0 0"/>
             <Setter Property="Height" Value="25"/>
             <Setter Property="Margin" Value="0 15 0 0" />
@@ -45,6 +48,7 @@
         </Style>
 
         <Style TargetType="PasswordBox">
+            <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
             <Setter Property="Padding" Value="5 0 0 0"/>
             <Setter Property="Height" Value="25"/>
         </Style>

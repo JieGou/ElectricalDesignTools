@@ -29,7 +29,6 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>-->
             </ResourceDictionary.MergedDictionaries>
 
             <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>

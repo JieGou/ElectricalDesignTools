@@ -51,7 +51,6 @@
 
     <!--TEXT BLock DpanelHeaderRow -->
     <Style TargetType="TextBlock" x:Key="DPanelHeaderRow_TextBlockStyle" >
-        <Setter Property="Background" Value="LightGray"/>
         <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="SemiBold"/>
         <Setter Property="Height" Value="{StaticResource RowHeight}"/>
@@ -81,7 +80,6 @@
 
     <!--Text Block-->
     <Style TargetType="TextBlock" x:Key="DPanelDataRow_TextBlockStyle" >
-        <Setter Property="Background" Value="White"/>
         <Setter Property="Height" Value="{StaticResource RowHeight}"/>
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>

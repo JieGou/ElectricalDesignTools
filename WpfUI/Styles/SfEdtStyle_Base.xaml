@@ -3,7 +3,8 @@
                     xmlns:sf="http://schemas.syncfusion.com/wpf"
                     xmlns:sfgrid="clr-namespace:Syncfusion.UI.Xaml.Grid;assembly=Syncfusion.SfGrid.WPF"
 
-    xmlns:local="clr-namespace:Syncfusion.UI.Xaml.TreeView;assembly=Syncfusion.SfTreeView.WPF">
+    xmlns:local="clr-namespace:Syncfusion.UI.Xaml.TreeView;assembly=Syncfusion.SfTreeView.WPF"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Converters/Converters.xaml"/>
@@ -17,17 +18,14 @@
     <sf:SortDirectionToVisibilityConverter x:Key="sortDirectionToVisibilityConverter" />
     <sf:SortDirectionToWidthConverter x:Key="sortDirectionToWidthConverter" />
 
-
+    
+    
     <Style TargetType="sf:SfDataGrid">
         <Setter Property="BorderBrush" Value="{StaticResource ControlBorder}"/>
         <Setter Property="Background" Value="{StaticResource DataGrid_BackgroundBrush}"/>
         <Setter Property="RowSelectionBrush" Value="{DynamicResource DatagridSelection}"/>
     </Style>
     
-    <Style TargetType="sf:Container">
-        <Setter Property="Background" Value="{StaticResource DataGrid_BackgroundBrush}"/>
-    </Style>
-
     <Style TargetType="sf:GroupDropArea">
         <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}" />
         <Setter Property="Background" Value="{DynamicResource Darkest}" />
@@ -67,8 +65,11 @@
         </DataTemplate.Triggers>
     </DataTemplate>
    
+    <sfgrid:BoolToVisiblityConverter x:Key="VisiblityConverter"/>
+    
+    
     <Style TargetType="sf:GridHeaderCellControl">
-        <Setter Property="Background" Value="{DynamicResource Dark}" />
+        <Setter Property="Background" Value="{DynamicResource Darkest}" />
         <Setter Property="BorderBrush" Value="{StaticResource ControlBorder}" />
         <Setter Property="BorderThickness" Value="0,0,1,1" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -520,7 +521,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type sf:TreeViewItem}">
-                    <Grid x:Name="ROOT" Background="{TemplateBinding Background}">
+                    <Grid x:Name="ROOT" Background="{StaticResource ControlBackground}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="DropStates">
                                 <VisualState x:Name="Normal"/>
@@ -578,7 +579,8 @@
                         </Grid.ColumnDefinitions>
                         <Border x:Name="BorderContent"  
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            BorderBrush="{TemplateBinding BorderBrush}"/>
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                                />
 
                         <Border x:Name="PART_HoverBorder" 
                             Visibility="Collapsed" 

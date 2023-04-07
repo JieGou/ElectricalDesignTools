@@ -41,42 +41,16 @@
                 <s:Int32>4</s:Int32>
             </x:Array>
 
-            <Style TargetType="TextBlock" >
-                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                 <Setter Property="Margin" Value="0 3"/>
-                <Setter Property="FontSize" Value="12"/>
             </Style>
 
-            <Style TargetType="TextBox">
+            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                 <Setter Property="Margin" Value="0 3"/>
                 <Setter Property="Height" Value="20"/>
-                <Setter Property="Padding" Value="0"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
             </Style>
 
-
-            <Style TargetType="CheckBox">
-                <!--<Setter Property="Margin" Value="10 0 0 0"/>-->
-                <Setter Property="VerticalAlignment" Value="Center"/>
-            </Style>
-
-            <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
-                <Setter Property="Padding" Value="3 1"/>
-                <Setter Property="Height" Value="20"/>
-                <Setter Property="Margin" Value="0 3"/>
-            </Style>
-
-
-            <Style TargetType="TextBlock" x:Key="textBoxMouseOver">
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Cursor" Value="Hand"/>
-                        <Setter Property="Margin" Value="0 3"/>
-                        <Setter Property="FontSize" Value="12"/>
-                        <Setter Property="Height" Value="20"/>
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
 
         </ResourceDictionary>
     </UserControl.Resources>
@@ -176,6 +150,7 @@
                 <TextBox 
                     Grid.Row="2" Grid.ColumnSpan="4" 
                     Text="{Binding PowerCable.Tag, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    Height="25"
                     d:Text="Cable Tag"
                     FontSize="12"
                     FontWeight="Bold"
@@ -228,7 +203,7 @@
                     <!--Qty Parallel-->
                     <TextBox Text="{Binding PowerCable.QtyParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=False}"
                          Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1" 
-                         FontWeight="Bold" Width="50" Background="White" 
+                         FontWeight="Bold" Width="50"
                          TextAlignment="Center" HorizontalAlignment="Left"
                          BorderThickness="0.5"
                          d:Text="2"/>
@@ -239,14 +214,12 @@
                             Text=" /ph" Grid.Row="4" Grid.Column="1"
                             FontWeight="SemiBold">
                         <TextBlock.Style>
-                            <Style TargetType="TextBlock">
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding PowerCable.Is1C}" Value="False">
                                         <Setter Property="Foreground" Value="Transparent"/>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding PowerCable.Is1C}" Value="True">
-                                        <Setter Property="Foreground" Value="Black"/>
-                                    </DataTrigger>
+                                    
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
@@ -263,7 +236,7 @@
                        ToolTipService.InitialShowDelay="50">
 
                     <TextBlock.Style>
-                        <Style TargetType="TextBlock">
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding PowerCable.IsValid}" Value="False">
                                     <Setter Property="Foreground" Value="#FFD40000"/>
@@ -317,11 +290,16 @@
                 <TextBlock Text="Outdoor" Grid.Row="11" Grid.Column="0" />
                 <CheckBox IsChecked="{Binding PowerCable.IsOutdoor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                               Grid.Row="11" Grid.Column="2" FontWeight="Bold" HorizontalAlignment="Left"
-                              Margin="0 5"/>
-                <TextBlock Text="(exposed to sunlight)" Grid.Row="11" Grid.Column="2" 
+                              Margin="0 7">
+                    <CheckBox.Content>
+                        <TextBlock Text="(exposed to sunlight)" Grid.Row="11" Grid.Column="2" 
                                 Grid.ColumnSpan="2"
-                                Margin="25 3"
+                                   VerticalAlignment="Top"
+                                Margin="0 -1 0 0"
                                 FontStyle="Italic"/>
+                    </CheckBox.Content>
+                </CheckBox>
+               
                 <!--Derating-->
                 <TextBlock Text="Derating" Grid.Row="12" Grid.Column="0"/>
                 <TextBlock Text="{Binding PowerCable.Derating, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -337,24 +315,26 @@
                         Grid.Row="15" Grid.Column="2"
                         Grid.ColumnSpan="2">
 
-                    <syncfusion:DoubleTextBox Value="{Binding PowerCable.Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                     Grid.Row="8" Grid.Column="6" FontWeight="Bold"
-                     Width="50"
-                     HorizontalContentAlignment="Center"
-                     Culture="en-US"
-                     MinimumNumberDecimalDigits ="0"
-                     MaximumNumberDecimalDigits ="1"
-                     d:Text="0.8"
-                     Visibility="Collapsed"/>
+                    <syncfusion:DoubleTextBox 
+                        Value="{Binding PowerCable.Length, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Foreground="{StaticResource TextColor_CommonControls}"
+                         Grid.Row="8" Grid.Column="6" FontWeight="Bold"
+                         Width="50"
+                         HorizontalContentAlignment="Center"
+                         Culture="en-US"
+                         MinimumNumberDecimalDigits ="0"
+                         MaximumNumberDecimalDigits ="1"
+                         d:Text="0.8"
+                         Visibility="Collapsed"/>
 
-                    <TextBox Text="{Binding PowerCable.Length, Mode=TwoWay, UpdateSourceTrigger=Default}"
-                     Grid.Row="8" Grid.Column="6" FontWeight="Bold"
-                     Width="50"
-                     HorizontalContentAlignment="Center"
-                     d:Text="0.8" 
-                     Visibility="Visible"
-                     KeyUp="TextBox_KeyEnterUpdate"
-                         />
+                    <TextBox 
+                        Text="{Binding PowerCable.Length, Mode=TwoWay, UpdateSourceTrigger=Default}"
+                         Grid.Row="8" Grid.Column="6" FontWeight="Bold"
+                         Width="50"
+                         HorizontalContentAlignment="Center"
+                         d:Text="0.8" 
+                         Visibility="Visible"
+                         KeyUp="TextBox_KeyEnterUpdate" />
                     <TextBlock Text="  meters"/>
                 </StackPanel>
 
@@ -368,7 +348,6 @@
                     <TextBlock Text="{Binding PowerCable.AmpacityTable}" Grid.Row="4" Grid.Column="6" HorizontalAlignment="Left"
                            Height="20"
                            d:Text="TableD17N15Out" FontWeight="Bold" 
-                           Style="{StaticResource textBoxMouseOver}"
                            Margin="0 3 0 -3"/>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Diagram " FontWeight="Bold"

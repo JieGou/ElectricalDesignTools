@@ -11,6 +11,7 @@
         mc:Ignorable="d"
         Title="Application Settings" Height="650" Width="750" 
         WindowStartupLocation="CenterScreen"
+        Background="{StaticResource WindowBackground}"
 
         
         Closed="Window_Closed"

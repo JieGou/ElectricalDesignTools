@@ -130,9 +130,7 @@
     <sys:Double x:Key="SubMenuButtonHeight">29</sys:Double>
     <sys:Double x:Key="GridSplitterWidth">5</sys:Double>
 
-    <!--Misc-->
-    <sys:Double x:Key="RoundButtonHeight">27</sys:Double>
-    <!--#endregion-->
+    
 
 
     

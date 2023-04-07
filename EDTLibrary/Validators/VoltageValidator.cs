@@ -25,11 +25,11 @@ internal class VoltageValidator
 
     private static bool ValidateLoadVoltage(IPowerConsumer equipment)
     {
-        if (equipment.FedFrom == null ) {
-            return false;
-        }
+        if (equipment.FedFrom == null ) return false;
+        
 
         var fedFromVoltage = equipment.FedFrom.LoadVoltageType;
+        if (fedFromVoltage == null) return false;
 
         //motors
         if (equipment.Type == LoadTypes.MOTOR.ToString()) {

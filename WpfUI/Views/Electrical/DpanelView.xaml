@@ -278,7 +278,7 @@
                     Grid.Column="3"
                     x:Name="PanelGraphicBorder"
                     BorderBrush="Black" BorderThickness="1"
-                    Background="LightGray"
+                    Background="{StaticResource SingleLineBackground}"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Center"
                     Panel.ZIndex="1"
@@ -428,6 +428,8 @@
                                   ItemsSource="{Binding SelectedDteq.CircuitNumbersLeft}"
                                   RowHeight="22"
                                   
+                                  IsEnabled="False"
+                                  
                                   EnableColumnVirtualization="True"
                                   EnableRowVirtualization="True"
                                   VirtualizingPanel.IsVirtualizing="True"
@@ -443,23 +445,12 @@
                             <DataGrid.Resources>
                                 <ResourceDictionary>
                                     <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Background" Value="White" />
-                                                <Setter Property="Foreground" Value="Black" />
-                                                <Setter Property="BorderThickness" Value="1" />
-                                                <Setter Property="BorderBrush" Value="Transparent" />
-                                            </Trigger>
-                                        </Style.Triggers>
+                                        <Setter Property="Background" Value="{StaticResource ControlBackground}" />
+                                        <Setter Property="Foreground" Value="DarkGray" />
                                     </Style>
                                     <Style TargetType="{x:Type DataGridRow}">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Background" Value="White" />
-                                                <Setter Property="Foreground" Value="Black" />
-                                                <Setter Property="BorderThickness" Value="0" />
-                                            </Trigger>
-                                        </Style.Triggers>
+                                        <Setter Property="Background" Value="{StaticResource ControlBackground}" />
+                                        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}" />
                                     </Style>
                                 </ResourceDictionary>
                             </DataGrid.Resources>
@@ -481,13 +472,13 @@
                         <!--**************-->
 
                         <!--Panel Tag Center Column between grid sides-->
-                        <Border BorderBrush="Black" BorderThickness="0 0 1 1"
+                        <Border BorderBrush="{StaticResource ControlBorder}" BorderThickness="0 0 1 1"
+                                Background="{StaticResource Darkest}"
                                 Grid.Row="0" Grid.Column="2"
                                 Panel.ZIndex="1"
                                 Height="{StaticResource TwoRowHeight}"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
-                                Background="{StaticResource Dark}"
                                 Visibility="Visible">
                             <StackPanel Orientation="Vertical">
                                 <TextBlock Text="{Binding SelectedDteq.Tag}" TextAlignment="Center" FontWeight="SemiBold" FontSize="14"
@@ -499,8 +490,7 @@
                         </Border>
 
                         <!--Graphic-->
-                        <Border BorderBrush="LightGray" BorderThickness="0 0 1 0"
-                                Background="White"
+                        <Border BorderBrush="red" BorderThickness="0 0 0 0"
                                 Grid.Row="2"
                                 Grid.Column="2"
                                 HorizontalAlignment="Stretch">
@@ -538,7 +528,7 @@
                                        Grid.Column="4"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Top"
-                                       BorderBrush="DarkGray"
+                                       BorderBrush="{StaticResource ControlBorder}"
                                        BorderThickness="0 0 0 0"
                                        AutoGenerateColumns="False"
                                        ItemsSource="{Binding SelectedDteq.RightCircuits, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, IsAsync=False}"
@@ -646,11 +636,12 @@
                         <DataGrid Grid.Row="0" Grid.RowSpan="2"
                                   Grid.Column="3"
                                   Background="Transparent"
-                                 IsReadOnly="True"
+                                  IsReadOnly="True"
                                   BorderThickness="0"
                                   ItemsSource="{Binding SelectedDteq.CircuitNumbersRight}"
                                   RowHeight="22"
                                   
+                                  IsEnabled="False"
                                   
                                   EnableColumnVirtualization="True"
                                   EnableRowVirtualization="True"
@@ -666,23 +657,12 @@
                             <DataGrid.Resources>
                                 <ResourceDictionary>
                                     <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Background" Value="White" />
-                                                <Setter Property="Foreground" Value="Black" />
-                                                <Setter Property="BorderThickness" Value="1" />
-                                                <Setter Property="BorderBrush" Value="Transparent" />
-                                            </Trigger>
-                                        </Style.Triggers>
+                                        <Setter Property="Background" Value="{StaticResource ControlBackground}" />
+                                        <Setter Property="Foreground" Value="DarkGray" />
                                     </Style>
                                     <Style TargetType="{x:Type DataGridRow}">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter Property="Background" Value="White" />
-                                                <Setter Property="Foreground" Value="Black" />
-                                                <Setter Property="BorderThickness" Value="0" />
-                                            </Trigger>
-                                        </Style.Triggers>
+                                        <Setter Property="Background" Value="{StaticResource ControlBackground}" />
+                                        <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}" />
                                     </Style>
                                 </ResourceDictionary>
                             </DataGrid.Resources>
@@ -710,7 +690,7 @@
                     Width="{Binding ElementName=PanelGraphicBorder, Path=ActualWidth}"
                     Panel.ZIndex="0"
                     BorderBrush="Black" BorderThickness="1"
-                    Background="LightGray"
+                    Background="{StaticResource ControlBackground}"
                     VerticalAlignment="Stretch">
 
                 <StackPanel 

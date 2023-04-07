@@ -30,7 +30,9 @@
     </UserControl.Resources>
 
 
-    <Grid ShowGridLines="False" >
+    <Grid Background="{StaticResource SingleLineBackground}"
+          ShowGridLines="False"
+          >
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="150"/>

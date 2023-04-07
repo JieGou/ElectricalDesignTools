@@ -2,8 +2,7 @@ Bug Notes
 	- combobox itemsSource values change because ComboBox.Text is bound. Need to bind to SelectedValue only.
 	
 Major Bugs
-	
-
+ 
 Minor Bugs
 	- 1C cables
 	- VFD trip/frame sizes
@@ -28,6 +27,7 @@ Transformer Grounding
 
 
 Cables
+	- minimum bend radius, does this go on cable type table?
 	- Pivot Grid
 	- Bom Style Export
 	- 1ph cable quantities and totals on cable list

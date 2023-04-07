@@ -175,7 +175,6 @@
                                    EnableDataVirtualization="False"
                                    
                                    EditTrigger="OnDoubleTap"
-                                   Background="White"
                                    CurrentCellBorderBrush="Black"
                                    CurrentCellBorderThickness="0"
                                    
@@ -464,7 +463,6 @@
                                                    
                                                    EnableDataVirtualization="False"
                                                    
-                                                   Background="White"
                                                    CurrentCellBorderBrush="Black"
                                                    CurrentCellBorderThickness="0"
                                                    FilterRowPosition="FixedTop"
@@ -570,7 +568,6 @@
                                                    
                                         EnableDataVirtualization="False"
                                                    
-                                        Background="White"
                                         CurrentCellBorderBrush="Black"
                                         CurrentCellBorderThickness="0"
                                         FilterRowPosition="FixedTop"
@@ -655,7 +652,7 @@
                                 Text="Cables in Raceway"
                                 Margin="10 0"/>
 
-                            <ListBox 
+                            <ListBox  
                                 Grid.Row="5" 
                                 Grid.Column="0"
                                 HorizontalAlignment="Stretch"
@@ -699,7 +696,7 @@
                                 Margin="10"
                                 BorderBrush="Black"
                                 BorderThickness="1"
-                                Background="White"
+                                Background="{StaticResource SingleLineBackground}"
                                 >
                                 
                                 <ScrollViewer 
@@ -722,7 +719,6 @@
                                         VerticalAlignment="Stretch"
                                         d:Width="400"
                                         d:Height="250"
-                                        Background="White"
                                         >
 
                                         <ItemsControl.ItemsPanel>

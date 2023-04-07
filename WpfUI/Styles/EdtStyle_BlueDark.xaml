@@ -8,8 +8,8 @@
     
     
 <!--MAIN COLORS-->
-    <SolidColorBrush x:Key="Darkest">#FF134D80</SolidColorBrush>
-    <SolidColorBrush x:Key="Dark" Color="#FF134D80"/>
+    <SolidColorBrush x:Key="Darkest" Color="#FF134D80"/>
+    <SolidColorBrush x:Key="Dark" Color="#FF206DB1"/>
     <SolidColorBrush x:Key="Medium" Color="#FF2991ED"/>
     <SolidColorBrush x:Key="Light" Color="#FF67B1F3"/>
     
@@ -39,7 +39,6 @@
         <Setter Property="Margin" Value="10 10 10 10 "/>
     </Style>
 
-    <Style TargetType="ListBox" BasedOn="{StaticResource DefaultStyle}"/>
 
 
 
@@ -75,7 +74,7 @@
 
     <!--Column Header-->
     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource DataGridColumnHeaderBase}">
-        <Setter Property="Background" Value="{StaticResource Dark}"/>
+        <Setter Property="Background" Value="{StaticResource Darkest}"/>
         <Setter Property="Foreground" Value="{StaticResource ForeGround_Light1}"/>
 
     </Style>

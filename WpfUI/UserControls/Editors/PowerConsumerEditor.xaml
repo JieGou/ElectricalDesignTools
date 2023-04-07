@@ -26,11 +26,9 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <controls:EdtGroupBox Grid.Row="0"
-                          HeaderBackground="{StaticResource EditorHeaderColorBrush}"
-                          >
+    <controls:EdtGroupBox Grid.Row="0">
         <controls:EdtGroupBox.Style >
-            <Style TargetType="controls:EdtGroupBox">
+            <Style TargetType="controls:EdtGroupBox" BasedOn="{StaticResource {x:Type controls:EdtGroupBox}}">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Category}" Value="DTEQ">
                         <Setter Property="Header" Value="Distribution Equipment"/>

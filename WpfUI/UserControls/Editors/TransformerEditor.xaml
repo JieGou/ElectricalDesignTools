@@ -24,10 +24,7 @@
                 <ResourceDictionary Source="../../Stores/ToolTips.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <Style TargetType="TextBlock" >
-                <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
-            </Style>
-
+           
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -36,7 +33,6 @@
                 Background="{StaticResource BackgroundLight}">
         <controls:EdtGroupBox Grid.Row="0"
             Header="Transformer"
-            HeaderForeGround="White"
             Margin="0 1 0 1">
 
             <Grid Grid.Row="0"

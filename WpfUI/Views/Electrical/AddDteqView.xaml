@@ -22,11 +22,9 @@
 
 
     <UserControl.Resources>
-        <!--Background="#FFBDCCCA">-->
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/EdtStyle_Teal.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <converters:PercentLoadedToColorConverter x:Key="PercentLoadedToColor"/>
@@ -35,6 +33,7 @@
             <CollectionViewSource x:Key="dteqList"
                                   Source="{Binding ListManager.DteqList}"/>
 
+          
             <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBaseErrorTemplate}">
                 <Setter Property="Foreground" Value="{StaticResource TextColor_CommonControls}"/>
                 <Setter Property="Background" Value="{StaticResource ControlBackground}"/>
@@ -79,7 +78,7 @@
         <!--ADD LOAD-->
         <!--Tags-->
         <TextBlock Text="Tag" Margin="5 5 0 5"
-                   Grid.Row="0" Grid.Column="2" FontSize="10" />
+                   Grid.Row="0" Grid.Column="2" FontSize="10"/>
         <TextBlock Text="Type" Margin="5 5 0 5"
                    Grid.Row="0" Grid.Column="3" FontSize="10" />
 

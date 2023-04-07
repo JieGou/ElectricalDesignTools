@@ -1030,7 +1030,7 @@
                     <!--LOAD DATA GRID-->
                     <controls:ClippingBorder BorderBrush="{StaticResource ControlBorder}" BorderThickness="1"
                                              Grid.Row="1"  Grid.Column="0"
-                                             Margin="5">
+                                             Margin="5 5 0 5">
                         
                         <syncfusion:SfDataGrid x:Name="dgdAssignedLoads"  
                                                
@@ -1061,7 +1061,6 @@
                                              
                                                
                                EditTrigger="OnDoubleTap"
-                               Background="White"
                                CurrentCellBorderBrush="{StaticResource Dark}"
                                CurrentCellBorderThickness="1"
                              

@@ -8,7 +8,7 @@
     
     
 <!--MAIN COLORS-->
-    <SolidColorBrush x:Key="Darkest">#FF144D80</SolidColorBrush>
+    <SolidColorBrush x:Key="Darkest" Color="#FF134D80"/>
     <SolidColorBrush x:Key="Dark" Color="#FF206DB1"/>
     <SolidColorBrush x:Key="Medium" Color="#FF2991ED"/>
     <SolidColorBrush x:Key="Light" Color="#FF67B1F3"/>
@@ -29,9 +29,6 @@
     <Style x:Key="DefaultStyle" TargetType="{x:Type Control}">
         <Setter Property="Margin" Value="10 10 10 10 "/>
     </Style>
-
-    <Style TargetType="ListBox" BasedOn="{StaticResource DefaultStyle}"/>
-
 
 
     <!--TITLE Label Style-->

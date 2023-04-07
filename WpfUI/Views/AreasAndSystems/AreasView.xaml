@@ -432,7 +432,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <ListBox x:Name="lstAreaClassification"
+                            <ListBox 
                                 Grid.Row="1" Grid.RowSpan="2"
                                 d:MinWidth="100" 
                                 VerticalAlignment="Top"
@@ -490,7 +490,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <ListBox x:Name="lstNemaRatings"
+                            <ListBox
                                 Grid.Row="1" Grid.RowSpan="2"
                                 Width="{Binding ActualWidth, ElementName=lstAreaClassification}"
                                 
@@ -778,7 +778,8 @@
                                        FontSize="12"
                                        FontWeight="SemiBold"/>
 
-                            <ListBox Grid.Row="2" Grid.Column="0"
+                            <ListBox  
+                                     Grid.Row="2" Grid.Column="0"
                                      VerticalAlignment="Top"
                                      ItemsSource="{Binding SelectedArea.EquipmentList}"
                                      SelectedItem="{Binding SelectedEquipment, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"

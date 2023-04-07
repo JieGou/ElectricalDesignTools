@@ -13,8 +13,12 @@
         <ResourceDictionary Source="EdtStyle_ScrollBars.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    
-    
+    <!--Misc-->
+    <sys:Double x:Key="RoundButtonHeight">27</sys:Double>
+
+
+
+
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
     <converters:WarningIdentifierConverter x:Key="WarningIdentifierConverter"/>
     <converters:WarningStringConverter x:Key="WarningStringConverter"/>
@@ -35,7 +39,6 @@
         <!--<Setter Property="Margin" Value="10 10 10 10 "/>-->
     </Style>
 
-    <Style TargetType="ListBox" BasedOn="{StaticResource DefaultStyle}"/>
 
     <!--SUB-MENU TITLE Style-->
     <Style TargetType="Label" x:Key="TitleLabelStyleBase">
@@ -72,7 +75,7 @@
     </Style>
 
     <!--TEXTBOX Style with Error -->
-    <Style x:Key="TextBoxBaseErrorTemplate" TargetType="TextBox" BasedOn="{StaticResource DefaultStyle}">
+    <Style x:Key="TextBoxBaseErrorTemplate" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
         
         <Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
@@ -188,10 +191,7 @@
         <Setter Property="ToolTipService.BetweenShowDelay" Value="0"/>
     </Style>
 
-    <!--Textblock Base Style-->
-    <Style TargetType="TextBlock">
-        <!--<Setter Property ="FontSize" Value="25"/>-->
-    </Style>
+   
 
     <!--Textblock Label Style-->
     <Style TargetType="TextBlock" x:Key="txtDteqLabelStyle">
@@ -228,9 +228,6 @@
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
     </Style>
-
-
-
 
 
 
@@ -343,19 +340,6 @@
         </Setter>
     </Style>
 
-
-    <!--Column Header Base OLD-->
-    <Style TargetType="DataGridColumnHeader">
-        <Setter Property="BorderBrush" Value="black" />
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="MinWidth" Value="0"/>
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="FontWeight" Value="SemiBold"/>
-    </Style>
 
     <!--Column Header with Filter-->
     <Style TargetType="DataGridColumnHeader" x:Key="DataGridColumnHeaderWithFilterBase" BasedOn="{StaticResource DataGridColumnHeaderBase}">
@@ -487,8 +471,9 @@
     
     <!--GROUP BOX-->
     <!--EdtGroupBox Template, Custom Control-->
-    <Style x:Key="EdtGroupBoxTemplate2" TargetType="controls:EdtGroupBox">
-        <Setter Property="HeaderBackground" Value="black"/>
+    <Style TargetType="controls:EdtGroupBox">
+        <Setter Property="HeaderForeGround" Value="{StaticResource TextColor_CommonControls}"/>
+        <Setter Property="HeaderBackground" Value="{DynamicResource Darkest}"/>
     </Style>
 
     <!--GroupBox Edt Template-->
@@ -534,11 +519,6 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type controls:EdtGroupBox}" x:Key="EditorStyle">
-        <Setter Property="HeaderForeGround" Value="WhiteSmoke"/>
-        <Setter Property="HeaderBackground" Value="{StaticResource EditorHeaderColorBrush}"/>
-    </Style>
-    
     
     <!--GroupBox Modified Default Style-->
     <Style TargetType="{x:Type GroupBox}">

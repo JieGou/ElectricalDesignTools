@@ -221,7 +221,6 @@
                                 ChildPropertyName="AssignedLoads"
                                 ItemsSource="{Binding DteqCollectionView}"
                                 SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Background="White"
                                 BorderBrush="{StaticResource ControlBorder}"
                                 BorderThickness="0"
                                 ShowLines="True"
@@ -300,6 +299,7 @@
                             />
 
                 <ListBox 
+                     
                     ItemsSource="{Binding SelectedLoads}"
                     Grid.Row="3" Grid.Column="0"
                     DisplayMemberPath="Tag"
