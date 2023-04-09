@@ -37,7 +37,7 @@
                 ClipToBounds="True"
                 CornerRadius="{StaticResource ControlCornerRadius}">
             <Grid>
-                <Border Background="Transparent" BorderBrush="LightGray" 
+                <Border Background="Transparent" BorderBrush="{StaticResource ControlBorder}" 
                         BorderThickness="1"
                         Margin="-1"
                         VerticalAlignment="Stretch"
@@ -49,6 +49,7 @@
                 </Border>
 
                 <ScrollViewer Grid.Row="1"
+                              Background="{StaticResource ControlBackground}"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
                     <TextBlock Text="{Binding NotificationText}"

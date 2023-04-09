@@ -19,16 +19,20 @@
             
             
             <ResourceDictionary.MergedDictionaries>
+
                 
                 <ResourceDictionary Source="Styles/EdtColorsAndDimensions.xaml"/>
                 <ResourceDictionary Source="Styles/EdtColorsAndDimensions_Dark.xaml"/>
                 <!--****************************************************************-->
+
+
                 <ResourceDictionary Source="Styles/EdtDimensions.xaml"/>
                 <ResourceDictionary Source="Styles/EdtStyle_Base.xaml"/>
                 <ResourceDictionary Source="Styles/SfEdtStyle_Base.xaml"/>
                 <ResourceDictionary Source="Styles/DPanels/DPanels_Style.xaml"/>
 
 
+                <ResourceDictionary Source="Styles/EdtStyle_Blue.xaml"/>
                 <ResourceDictionary Source="Styles/EdtStyle_BlueDark.xaml"/>
                 <!--****************************************************************-->
 

@@ -216,9 +216,12 @@
                                 VerticalAlignment="stretch"
                                 ClipToBounds="True"
                                            
+                                Foreground="{StaticResource TextColor_CommonControls}"
+                                           
                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                                 ChildPropertyName="AssignedLoads"
+                                           
                                 ItemsSource="{Binding DteqCollectionView}"
                                 SelectedItem="{Binding SelectedDteq, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 BorderBrush="{StaticResource ControlBorder}"
@@ -276,7 +279,6 @@
                                             VerticalAlignment="Center">
                                             <TextBlock 
                                                 Text="{Binding Tag}"
-                                                Foreground="Black"
                                                 FontSize="12"
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"

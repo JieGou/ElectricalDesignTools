@@ -36,7 +36,7 @@
     </UserControl.Resources>
 
     <!--TOP-->
-    <Grid x:Name="menuGrid" Background="{StaticResource Dark}">
+    <Grid x:Name="menuGrid" Background="{StaticResource Darkest}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -95,7 +95,7 @@
 
                 <Button Content="Single Line View"
                         Style="{StaticResource ToolBarButtonBase}" 
-                        Command="{Binding NavigateSingleLineCommand}" Click="Button_Click"/>
+                        Command="{Binding NavigateSingleLineCommand}"/>
 
                 <Button Content="Panel View"
                         Style="{StaticResource ToolBarButtonBase}" 
@@ -114,14 +114,12 @@
 
                 <Button x:Name ="btnCalculate" Content="Calculate All" MinHeight="10" VerticalAlignment="Stretch"
                         Command="{Binding EdtViewModel.CalculateAllCommand}"
-                        Style="{StaticResource ToolBarButtonBase}"
-                        Foreground="Black"
+                        Style="{StaticResource SubToolBarButtonBase}"
                         Margin="350 0 2 0"/>
 
                 <Button Content="AutoSize Cables" MinHeight="10" VerticalAlignment="Stretch"
                         Command="{Binding EdtViewModel.AutoSizeAllCablesCommand}"
-                        Style="{StaticResource ToolBarButtonBase}" 
-                        Foreground="Black"
+                        Style="{StaticResource SubToolBarButtonBase}" 
                         Margin="2 0"/>
             </StackPanel>
 

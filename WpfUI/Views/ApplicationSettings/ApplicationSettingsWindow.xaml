@@ -58,7 +58,8 @@
                     TabStripPlacement="Left">
 
             <!--Calculations-->
-            <TabItem Header="Calculations" >
+            <TabItem Template="{DynamicResource TabItemTemplate1}" 
+                     Header="Calculations" >
                 <local:CalculationSettingsView>
 
                 </local:CalculationSettingsView>
@@ -66,7 +67,17 @@
 
 
             <!--Notifications-->
-            <TabItem Header="Notifications">
+            <TabItem Template="{DynamicResource TabItemTemplate1}" 
+                     Header="Notifications">
+                <TabItem.Style>
+                    <Style TargetType="TabItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{StaticResource SingleLineBackground}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TabItem.Style>
                 <local:NotificationSettingsView>
 
                 </local:NotificationSettingsView>

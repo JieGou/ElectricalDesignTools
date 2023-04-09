@@ -10,7 +10,7 @@
              
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="650"
-             d:Background="white"
+             d:Background="{StaticResource WindowBackground}"
              Background="Transparent">
 
 
@@ -27,6 +27,7 @@
 
         <Button Grid.Row="0" 
                 Content="Register"
+                Foreground="Blue"
                 Command="{Binding NavigateRegisterCommand}"
                 Style="{DynamicResource LoginButtonStyle}"
                 d:Width="100"
@@ -53,7 +54,8 @@
 
             <StackPanel Grid.Row="2">
                 <TextBlock Text="Password"/>
-                <components:BindablePasswordBox Password="{Binding Password, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"/>
+                <components:BindablePasswordBox Password="{Binding Password, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                                Foreground="{StaticResource TextColor_CommonControls}"/>
             </StackPanel>
 
 
@@ -83,128 +85,123 @@
                 <TextBlock Text="No Internet?" 
                                Margin="10"
                                Grid.Column="0"/>
-                <Button Content="Login Offline"
-                            Command="{Binding LoginOfflineCommand}"
-                               Grid.Column="1"
-                            Width="100"
-                            Height="23"
-                            Foreground="blue"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="0">
+
+                <Button Command="{Binding LoginOfflineCommand}"
+                        Grid.Column="1"
+                        Width="100"
+                        >
+                    <Button.Content>
+                        <TextBlock Text="Login Offline"
+                                   Foreground="{StaticResource Medium}"
+                                   />
+                    </Button.Content>
                     <Button.Style>
                         <Style TargetType="Button">
+                            <Setter Property="Foreground" Value="{StaticResource Medium}"/>
                             <Setter Property="Background" Value="Transparent"/>
                             <Setter Property="BorderBrush" Value="Transparent"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Border CornerRadius="{StaticResource ControlCornerRadius}" 
-                                                    Background="{TemplateBinding Background}" 
-                                                    BorderBrush="Black" 
-                                                    BorderThickness="0">
+                                                Background="{TemplateBinding Background}" 
+                                                BorderThickness="1"
+                                                VerticalAlignment="Top">
                                             <ContentPresenter  VerticalAlignment="Center"
-                                                                   HorizontalAlignment="Center" 
-                                                                 />
+                                                               HorizontalAlignment="Center" 
+                                                               />
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
                             <Style.Triggers>
-
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="Transparent"/>
                                     <Setter Property="Cursor" Value="Hand"/>
                                 </Trigger>
 
                             </Style.Triggers>
-
-
                         </Style>
-
                     </Button.Style>
                 </Button>
-                
 
                 <!--Password Reset-->
                 <TextBlock Text="Forgot Password?" 
                                Margin="10"
                                Grid.Row="1"
                                Grid.Column="0"/>
-                <Button Content="Reset Password"
-                            Command="{Binding ResetPasswordCommand}"
-                            Grid.Row="1"
-                               Grid.Column="1"
-                            Width="100"
-                            Height="23"
-                            Foreground="blue"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="0">
+                <Button  
+                    Command="{Binding ResetPasswordCommand}"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="100"
+                    >
+                    <Button.Content>
+                        <TextBlock Text="Reset Password"
+                                   Foreground="{StaticResource Medium}"
+                                   />
+                    </Button.Content>
                     <Button.Style>
                         <Style TargetType="Button">
+                            <Setter Property="Foreground" Value="{StaticResource Medium}"/>
                             <Setter Property="Background" Value="Transparent"/>
                             <Setter Property="BorderBrush" Value="Transparent"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Border CornerRadius="{StaticResource ControlCornerRadius}" 
-                                                    Background="{TemplateBinding Background}" 
-                                                    BorderBrush="Black" 
-                                                    BorderThickness="0">
+                                                Background="{TemplateBinding Background}" 
+                                                BorderThickness="1"
+                                                VerticalAlignment="Top">
                                             <ContentPresenter  VerticalAlignment="Center"
-                                                                   HorizontalAlignment="Center" 
-                                                                 />
+                                                               HorizontalAlignment="Center" 
+                                                               />
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
                             <Style.Triggers>
-
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="Transparent"/>
                                     <Setter Property="Cursor" Value="Hand"/>
                                 </Trigger>
 
                             </Style.Triggers>
-
-
                         </Style>
-
                     </Button.Style>
                 </Button>
 
- 
+
                 <!--Send Verification Email-->
                 <TextBlock Text="Email not verified?" 
                                Grid.Row="2"
                                Grid.Column="0"
                                Margin="10"/>
-                <Button Content="Send Email"
-                            Command="{Binding SendVerificationEmailCommand}"
-                             Grid.Row="2"
-                               Grid.Column="1"
-                            
-                            Width="100"
-                            Height="23"
-                            Foreground="blue"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="0">
+                <Button 
+                    Command="{Binding SendVerificationEmailCommand}"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    >
+                    <Button.Content>
+                        <TextBlock Text="Send Email"
+                                   Foreground="{StaticResource Medium}"
+                                   />
+                    </Button.Content>
                     <Button.Style>
                         <Style TargetType="Button">
+                            <Setter Property="Foreground" Value="{StaticResource Medium}"/>
                             <Setter Property="Background" Value="Transparent"/>
                             <Setter Property="BorderBrush" Value="Transparent"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="{x:Type Button}">
                                         <Border CornerRadius="{StaticResource ControlCornerRadius}" 
-                                                    Background="{TemplateBinding Background}" 
-                                                    BorderBrush="Black" 
-                                                    BorderThickness="0">
+                                                Background="{TemplateBinding Background}" 
+                                                BorderThickness="1"
+                                                VerticalAlignment="Top">
                                             <ContentPresenter  VerticalAlignment="Center"
-                                                                   HorizontalAlignment="Center" 
-                                                                 />
+                                                               HorizontalAlignment="Center" 
+                                                               />
                                         </Border>
                                     </ControlTemplate>
                                 </Setter.Value>

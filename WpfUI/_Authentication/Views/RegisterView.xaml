@@ -10,7 +10,7 @@
 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="650"
-             d:Background="White">
+             Background="{StaticResource WindowBackground}">
 
 
     <Grid Margin="50 25 50 25"
@@ -25,10 +25,12 @@
             FontSize="32"/>
 
         <Button Grid.Row="0" 
-                    Content="Login"
-                    Command="{Binding NavigateLoginCommand}"
-                    Style="{DynamicResource LoginButtonStyle}"
-                    />
+                Content="Login"
+                Command="{Binding NavigateLoginCommand}"
+                Style="{DynamicResource LoginButtonStyle}"
+                d:Foreground="Black"
+                d:Width="100"
+                d:Height="25"/>
 
 
         <Grid Grid.Row="1">

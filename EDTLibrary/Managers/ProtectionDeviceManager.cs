@@ -1,5 +1,4 @@
 ﻿using EDTLibrary.DataAccess;
-using EDTLibrary.Models.Components.ProtectionDevices;
 using EDTLibrary.Models.Components;
 using EDTLibrary.Models.Loads;
 using System;
@@ -14,10 +13,14 @@ using EDTLibrary.LibraryData.TypeModels;
 using EDTLibrary.Models.DistributionEquipment;
 using EDTLibrary.Models.Equipment;
 using EDTLibrary.Settings;
+using EdtLibrary.Calculators.TransformerPd;
+using EdtLibrary.Models.Components.ProtectionDevices;
 
 namespace EDTLibrary.Managers;
 public class ProtectionDeviceManager
 {
+
+    //public static IProtectionDeviceSizer CableSizer { get; set; }
     internal static void AddProtectionDevice(IPowerConsumer load, ListManager listManager)
     {
 
@@ -129,65 +132,112 @@ public class ProtectionDeviceManager
     }
 
 
-    public static void SetPdTripAndStarterSize(IComponentEdt component)
+    public static void SetProtectionDevice(IComponentEdt component)
     {
         if (component == null) return;
         if (component.IsCalculationLocked) return;
 
-        IPowerConsumer load = (IPowerConsumer)component.Owner;
+        IPowerConsumer eq = (IPowerConsumer)component.Owner;
+        
+        // transformers
+        if (eq.Type == DteqTypes.XFR.ToString()) {
+            
+            var xfr = (XfrModel)eq;
+            SetProtectionDevice_Transformer(component, xfr);
+        }
+
+        //all other loads
+        else {
+            SetProtectionDevice_Load(component, eq);
+        }
+    }
+
+    private static void SetProtectionDevice_Transformer(IComponentEdt component, XfrModel xfr)
+    {
+        var LvCutoff = 750;
+        //LV
+        if (xfr.VoltageType.Voltage <= LvCutoff) {
+            SetPdSize_Transformer_Lv(component, xfr);
+        }
+        //MV
+        else {
+            SetPdSize_Transformer_Mv(component, xfr);
+        }
+        component.FrameAmps = GetPdFrameAmps(component, xfr);
+    }
+
+    private static void SetPdSize_Transformer_Lv(IComponentEdt component, XfrModel xfr)
+    {
+
+        var xfrPdCalc = new TransformerPdCalculator_Over750();
+        component.TripAmps = DataTableSearcher.GetBreakerTrip(xfrPdCalc.CalculateOvercurrentProtectionSize(xfr));
+
+        component.TripAmps = DataTableSearcher.GetBreakerTrip(xfr);
+    }
+
+    private static void SetPdSize_Transformer_Mv(IComponentEdt component, XfrModel xfr)
+    {
+
+        component.TripAmps = DataTableSearcher.GetBreakerTrip(xfr);
+    }
+
+    
+
+    private static void SetProtectionDevice_Load(IComponentEdt component, IPowerConsumer load)
+    {
         var LvCutoff = 750;
 
         //LV
         if (load.VoltageType.Voltage <= LvCutoff) {
-            SetPdTripAndStarterSize_Lv(component);
+            SetPdTripAndStarterSize_Load_Lv(component, load);
         }
         //MV
         else {
-            SetPdTripAndStarterSize_Mv(component);
+            SetPdTripAndStarterSize_Load_Mv(component, load);
         }
         component.FrameAmps = GetPdFrameAmps(component, load);
     }
 
-    private static void SetPdTripAndStarterSize_Lv( IComponentEdt comp)
+    private static void SetPdTripAndStarterSize_Load_Lv(IComponentEdt component, IPowerConsumer load)
     {
-        if (comp == null) return;
-        if (comp.Type == null) return;
+       
+        if (component == null) return;
+        if (component.Type == null) return;
 
-        IPowerConsumer load = (IPowerConsumer)comp.Owner;
 
-        if (comp.Type.Contains("DOL") ||
-            comp.Type.Contains("MCP") ||
-            comp.Type.Contains("FVNR") ||
-            comp.Type.Contains("FVR")) {
-            comp.TripAmps = DataTableSearcher.GetBreakerTrip(load);
-            comp.StarterSize = DataTableSearcher.GetStarterSize(load);
+        if (component.Type.Contains("DOL") ||
+            component.Type.Contains("MCP") ||
+            component.Type.Contains("FVNR") ||
+            component.Type.Contains("FVR")) {
+            component.TripAmps = DataTableSearcher.GetBreakerTrip(load);
+            component.StarterSize = DataTableSearcher.GetStarterSize(load);
 
         }
-        else if (comp.Type == "Breaker") {
-            comp.TripAmps = DataTableSearcher.GetBreakerTrip(load);
+        else if (component.Type == "Breaker") {
+            component.TripAmps = DataTableSearcher.GetBreakerTrip(load);
         }
-        else if (comp.Type == "FDS") {
-            comp.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
+        else if (component.Type == "FDS") {
+            component.TripAmps = DataTableSearcher.GetDisconnectFuse(load);
         }
     }
 
-    private static void SetPdTripAndStarterSize_Mv(IComponentEdt comp)
+    private static void SetPdTripAndStarterSize_Load_Mv(IComponentEdt component, IPowerConsumer load)
     {
         double MvContactorSize = 400;
 
-        IPowerConsumer load = (IPowerConsumer)comp.Owner;
-        if (comp.Type == null) return;
+        if (component.Type == null) return;
+
 
         //Contactor
-        if (comp.Type.Contains("MCP") || comp.Type.Contains("DOL")) {
+        if (component.Type.Contains("MCP") || component.Type.Contains("DOL")) {
 
-            comp.TripAmps = DataTableSearcher.GetBreakerTrip(load);
+            component.TripAmps = DataTableSearcher.GetBreakerTrip(load);
             var minContactorSize = Math.Max(load.Fla * load.AmpacityFactor, MvContactorSize);
-            comp.StarterSize = DataTableSearcher.GetMvContactorSize(minContactorSize).ToString();
+            component.StarterSize = DataTableSearcher.GetMvContactorSize(minContactorSize).ToString();
 
         }
         else {
-            comp.TripAmps = DataTableSearcher.GetBreakerTrip(load);
+            component.TripAmps = DataTableSearcher.GetBreakerTrip(load);
         }
 
     }

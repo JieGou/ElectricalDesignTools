@@ -4,10 +4,18 @@
                     >
 
 
+    <!--Text Color-->
+    <SolidColorBrush x:Key="ForeGround_Light1" Color="White"/>
+    <SolidColorBrush x:Key="ForeGround_Dark1" Color="Black"/>
+    <SolidColorBrush x:Key="TextColor_CommonControls" Color="Black"/>
+    <SolidColorBrush x:Key="TextColor_Inverse_HighContrast" Color="White"/>
+    <SolidColorBrush x:Key="TextColor_Inverse_Normal" Color="Black"/>
+
 
     <!--Controls-->
     <SolidColorBrush x:Key="ControlBorder" Color="#FFBEBFC2"/>
     <SolidColorBrush x:Key="ControlBackground" Color="White"/>
+    <SolidColorBrush x:Key="ControlBackground_Selected" Color="AliceBlue"/>
     <SolidColorBrush x:Key="ControlBackgroundDark" Color="#FF1A1A1A"/>
 
     <SolidColorBrush x:Key="ControlBorder_MouseOver" Color="#FF7EB4EA"/>
@@ -16,6 +24,8 @@
     <SolidColorBrush x:Key="ControlBorder_Disabled" Color="#FFBEBFC2"/>
     <SolidColorBrush x:Key="ControlForeground_Disabled" Color="Gray"/>
     <SolidColorBrush x:Key="ControlBackground_Disabled" Color="#FFF0F0F0"/>
+
+    <SolidColorBrush x:Key="ButtonTextColor" Color="Black"/>
 
     <!--Single Line and Graphics-->
     <SolidColorBrush x:Key="TextColorSingleLineGraphics_Black" Color="Black"/>
@@ -60,14 +70,7 @@
     <SolidColorBrush x:Key="TransparentTextBlockBrush" Color="LightGray" Opacity=".3"/> 
     
     
-    
-    <!--Text Color-->
-    <SolidColorBrush x:Key="ForeGround_Light1" Color="White"/>
-    <SolidColorBrush x:Key="ForeGround_Dark1" Color="Black"/>
-    <SolidColorBrush x:Key="TextColor_CommonControls" Color="Black"/>
-    <SolidColorBrush x:Key="TextColor_Inverse_HighContrast" Color="White"/>
-    <SolidColorBrush x:Key="TextColor_Inverse_Normal" Color="Black"/>
-    
+   
     
     
     <SolidColorBrush x:Key="ToolTipTextBrush" Color="LightGray"/>
